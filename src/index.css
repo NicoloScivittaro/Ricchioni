@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #030712;
+    color: #f3f4f6;
+  }
+}
+
+.font-marker {
+  font-family: 'Permanent Marker', cursive;
+}
+
+.font-arcade {
+  font-family: 'Bungee', cursive;
+}
+
+/* Custom glow animations */
+@keyframes neon-pulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.6), inset 0 0 10px rgba(244, 63, 94, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(244, 63, 94, 0.9), inset 0 0 16px rgba(244, 63, 94, 0.6);
+  }
+}
+
+.animate-neon {
+  animation: neon-pulse 2s infinite ease-in-out;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
