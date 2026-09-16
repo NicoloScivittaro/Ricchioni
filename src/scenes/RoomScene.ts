@@ -33,23 +33,6 @@ export class RoomScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    const url = await this.controllerUrl(code);
-    this.add
-      .text(640, 155, url, {
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '18px',
-        color: '#9ca3af'
-      })
-      .setOrigin(0.5);
-
-    try {
-      const dataUrl = await QRCode.toDataURL(url, { width: 220, margin: 1, color: { dark: '#0b0b14', light: '#ffffff' } });
-      this.textures.addBase64('qr', dataUrl);
-      this.add.image(640, 330, 'qr');
-    } catch (e) {
-      console.warn('Generazione QR fallita', e);
-    }
-
     this.playersText = this.add
       .text(640, 520, '', {
         fontFamily: 'Arial, sans-serif',
@@ -70,6 +53,23 @@ export class RoomScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter') this.tryStart();
     });
+
+    const url = await this.controllerUrl(code);
+    this.add
+      .text(640, 155, url, {
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '18px',
+        color: '#9ca3af'
+      })
+      .setOrigin(0.5);
+
+    try {
+      const dataUrl = await QRCode.toDataURL(url, { width: 220, margin: 1, color: { dark: '#0b0b14', light: '#ffffff' } });
+      this.textures.addBase64('qr', dataUrl);
+      this.add.image(640, 330, 'qr');
+    } catch (e) {
+      console.warn('Generazione QR fallita', e);
+    }
   }
 
   private async controllerUrl(code: string): Promise<string> {
