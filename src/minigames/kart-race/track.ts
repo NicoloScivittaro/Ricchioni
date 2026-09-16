@@ -18,24 +18,30 @@ import {
 // Nota: l'elevazione (Y) resta SEMPRE >= 0 e ben sopra il piano del terreno
 // (vedi buildEnvironment) — un punto sotto il livello del terreno fa sparire
 // la strada dietro di esso (il terreno, opaco, la occlude).
+//
+// I punti sono generati ad angoli crescenti e regolari (18/giro) attorno a un
+// centro, con raggio variabile: garantisce per costruzione che il tracciato
+// non si autointersechi mai (un tracciato precedente aveva due tratti che si
+// incrociavano vicino al traguardo — vedi PR precedente). Verificato anche
+// numericamente campionando la curva risultante.
 const CONTROL_POINTS: [number, number, number][] = [
-  [0, 0, 0], // 0: START/FINISH
-  [0, 0, 130], // 1: fine rettilineo
-  [55, 0.4, 175], // 2: ingresso curva larga
-  [125, 1.4, 168], // 3: curva larga
-  [172, 2.2, 110], // 4: uscita curva larga
-  [205, 2.2, 45], // 5: esse - primo bordo
-  [172, 1.3, -25], // 6: esse - secondo bordo
-  [118, 0.7, -68], // 7: ingresso tornante
-  [55, 0.3, -96], // 8: apice tornante
-  [-15, 0.3, -78], // 9: uscita tornante
-  [-85, 0.2, -42], // 10: inizio rettilineo veloce
-  [-158, 0.2, 18], // 11: rettilineo veloce (boost)
-  [-168, 1.4, 92], // 12: ingresso curva ampia
-  [-125, 2.8, 152], // 13: apice curva ampia
-  [-62, 1.8, 164], // 14: uscita curva ampia
-  [-30, 0.7, 122], // 15: chicane sx
-  [-10, 0.2, 78] // 16: chicane dx -> rientro al finish
+  [95, 0, 0], // 0: START/FINISH
+  [91.4, 0, 35.4], // 1: fine rettilineo
+  [90.2, 0.4, 82.2], // 2: ingresso curva larga
+  [64.6, 1.4, 129.8], // 3: curva larga
+  [12.9, 2.1, 139.4], // 4: uscita curva larga
+  [-39.7, 2.1, 139.5], // 5: esse - primo bordo
+  [-72.3, 1.1, 95.8], // 6: esse - secondo bordo
+  [-112.2, 0.5, 69.5], // 7: ingresso tornante
+  [-135.7, 0.2, 25.4], // 8: apice tornante
+  [-108.1, 0.2, -20.2], // 9: uscita tornante
+  [-85, 0.2, -52.6], // 10: inizio rettilineo veloce
+  [-62.7, 0.2, -83], // 11: rettilineo veloce (boost)
+  [-26.8, 1.2, -94.3], // 12: ingresso curva ampia
+  [8.5, 2.6, -91.6], // 13: apice curva ampia
+  [39.2, 1.5, -78.8], // 14: uscita curva ampia
+  [66.5, 0.6, -60.6], // 15: chicane sx
+  [85.8, 0.2, -33.2] // 16: chicane dx -> rientro al finish
 ];
 
 const CONTROL_WIDTHS = [18, 18, 20, 20, 18, 15, 15, 14, 13, 14, 16, 18, 18, 19, 16, 10, 12];
