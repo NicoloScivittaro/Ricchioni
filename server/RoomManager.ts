@@ -9,6 +9,7 @@ import type {
   JoinPayload,
   MinigameFinishedPayload,
   MinigameSelectedPayload,
+  PrivateDataPayload,
   ReadyPayload,
   RoomCreatedAck,
   SelectCharacterPayload,
@@ -76,6 +77,7 @@ export class RoomManager {
     socket.on(EVT.hostSelectMinigame, (p: SelectMinigamePayload) =>
       this.onSelectMinigame(socket, p.minigameId)
     );
+    socket.on(EVT.hostPrivateData, (p: PrivateDataPayload) => this.onPrivateData(socket, p));
     socket.on(EVT.hostBackToLobby, () => this.onBackToLobby(socket));
     socket.on('disconnect', () => this.onDisconnect(socket));
   }
@@ -90,6 +92,7 @@ export class RoomManager {
         room.hostConnectionId = socket.id;
         this.hostSockets.set(socket.id, room.roomCode);
         cb?.({ ok: true, roomCode: room.roomCode, hostToken: room.hostToken, playerCount: room.playerCount, targetScore: room.targetScore });
+        room.resendSelected(); // se a metà partita, re-invia il minigioco per la ripresa
         this.broadcast(room.roomCode);
         return;
       }
@@ -222,6 +225,13 @@ export class RoomManager {
     this.broadcast(room.roomCode);
   }
 
+  private onPrivateData(socket: Socket, p: PrivateDataPayload): void {
+    const room = this.roomOfHost(socket);
+    if (!room) return;
+    const player = room.getPlayer(p.playerId);
+    if (player?.connectionId) this.io.to(player.connectionId).emit(EVT.privateData, p.data);
+  }
+
   private onBackToLobby(socket: Socket): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
@@ -242,6 +252,11 @@ export class RoomManager {
   private wireRoom(room: GameSession): void {
     room.events.on('pick', (payload) => this.emitMinigameSelected(room, payload as MinigameSelectedPayload));
     room.events.on('changed', () => this.broadcast(room.roomCode));
+    room.events.on('vibrate', () => {
+      for (const p of room.players) {
+        if (p.connectionId) this.io.to(p.connectionId).emit(EVT.vibrate);
+      }
+    });
   }
 
   private onDisconnect(socket: Socket): void {

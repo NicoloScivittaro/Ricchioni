@@ -53,6 +53,8 @@ export class GameSession {
   suddenDeath = false;
   /** null = rullo casuale; altrimenti il minigioco scelto manualmente dall'host. */
   manualMinigameId: string | null = null;
+  /** Ultimo payload "minigame:selected" (per la ripresa dell'host dopo una riconnessione). */
+  lastSelectedPayload: MinigameSelectedPayload | null = null;
 
   private suddenDeathCandidates: PlayerId[] = [];
   private rng = new Rng();
@@ -251,6 +253,7 @@ export class GameSession {
       activeModifiers: modMap
     };
 
+    this.lastSelectedPayload = payload;
     this.events.emit('pick', payload);
     this.setPhase('MINIGAME_ROULETTE');
   }
@@ -267,7 +270,25 @@ export class GameSession {
   private setPhase(next: GamePhase): void {
     this.phase = next;
     this.events.emit('changed');
+    if (next === 'MINIGAME_PLAYING' || next === 'MINIGAME_FINISHED' || next === 'GAME_FINISHED') {
+      this.events.emit('vibrate');
+    }
     this.schedule(next);
+  }
+
+  /** Re-invia il minigioco selezionato all'host (dopo una riconnessione a metà partita). */
+  resendSelected(): void {
+    if (this.lastSelectedPayload && this.isMinigamePhase()) {
+      this.events.emit('pick', this.lastSelectedPayload);
+    }
+  }
+
+  private isMinigamePhase(): boolean {
+    return (
+      this.phase === 'MINIGAME_ROULETTE' ||
+      this.phase === 'MINIGAME_INTRO' ||
+      this.phase === 'MINIGAME_PLAYING'
+    );
   }
 
   private schedule(phase: GamePhase): void {

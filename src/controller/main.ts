@@ -69,6 +69,16 @@ socket.on(EVT.vibrate, () => {
   }
 });
 
+socket.on(EVT.privateData, (data) => {
+  // Dati privati (es. carta segreta, ruolo). Mostrati come schermata temporanea.
+  app.innerHTML = `
+    <div class="screen">
+      <h1>🔒 Segreto</h1>
+      <p class="big-num">${String(data)}</p>
+      <p class="sub">Guarda lo schermo principale</p>
+    </div>`;
+});
+
 // ---- rendering ----
 
 function render(): void {
@@ -182,8 +192,18 @@ function renderCharacterSelect(state: RoomState, me: PlayerPublic): void {
     const mine = myChar === cid;
     const b = document.createElement('button');
     b.className = 'char' + (mine ? ' mine' : '') + (locked ? ' locked' : '');
-    b.textContent = `${c.avatar} ${c.name}`;
     b.disabled = locked;
+
+    const img = document.createElement('img');
+    img.className = 'char-img';
+    img.src = c.image;
+    img.alt = c.name;
+
+    const label = document.createElement('span');
+    label.className = 'char-label';
+    label.textContent = `${c.avatar} ${c.name}`;
+
+    b.append(img, label);
     b.addEventListener('click', () => socket.emit(EVT.playerSelectCharacter, { characterId: cid }));
     grid.appendChild(b);
   }

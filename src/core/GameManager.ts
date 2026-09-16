@@ -38,6 +38,7 @@ export class GameManager {
   roomCode = '';
   hostToken: string | null = null;
   connectionError: string | null = null;
+  private reconnecting = false;
 
   pendingMinigame: MinigameSelectedPayload | null = null;
   minigameContext: MinigameContext | null = null;
@@ -67,6 +68,15 @@ export class GameManager {
     s.on(EVT.roomState, (payload) => this.onRoomState(payload as RoomState));
     s.on(EVT.minigameSelected, (payload) => this.onMinigameSelected(payload as MinigameSelectedPayload));
     s.on(EVT.inputRelay, (payload) => this.onInputRelay(payload as InputRelayEvent));
+
+    // Riconnessione automatica dell'host con token salvato
+    const saved = this.loadHostToken();
+    if (saved) {
+      this.reconnecting = true;
+      const doReconnect = (): void => this.attemptHostReconnect(saved);
+      if (this.socket.socket.connected) doReconnect();
+      else this.socket.socket.once('connect', doReconnect);
+    }
   }
 
   get connected(): boolean {
@@ -83,6 +93,7 @@ export class GameManager {
     if (ack.ok && ack.roomCode) {
       this.roomCode = ack.roomCode;
       this.hostToken = (ack as { hostToken?: string }).hostToken ?? null;
+      if (this.hostToken) this.saveHostToken(this.hostToken);
     }
     return ack;
   }
@@ -99,6 +110,11 @@ export class GameManager {
   /** L'host sceglie manualmente il minigioco (null = rullo). */
   selectMinigame(minigameId: string | null): void {
     this.socket?.emit(EVT.hostSelectMinigame, { minigameId });
+  }
+
+  /** Invia dati privati a un singolo telefono (es. carte segrete, ruoli, obiettivi). */
+  sendPrivate(playerId: string, data: unknown): void {
+    this.socket?.emit(EVT.hostPrivateData, { playerId, data });
   }
 
   backToLobby(): void {
@@ -143,6 +159,7 @@ export class GameManager {
       modifiers,
       input: this.input,
       consume: (playerId, hook) => this.consume(modifiers, playerId, hook),
+      sendPrivate: (playerId, data) => this.sendPrivate(playerId, data),
       finish: (result) => this.finishMinigame(result)
     };
   }
@@ -173,11 +190,57 @@ export class GameManager {
 
   // ---- Handler eventi server ----
 
+  private attemptHostReconnect(token: string): void {
+    this.socket!.emit(EVT.hostCreate, { hostToken: token }, (res: unknown) => {
+      const ack = res as AckResponse & { roomCode?: string; hostToken?: string };
+      if (ack.ok && ack.roomCode) {
+        this.roomCode = ack.roomCode;
+        this.hostToken = ack.hostToken ?? token;
+        this.saveHostToken(this.hostToken);
+      } else {
+        this.clearHostToken();
+        this.reconnecting = false;
+      }
+    });
+  }
+
+  private saveHostToken(t: string): void {
+    try {
+      localStorage.setItem('ricchioni.hostToken', t);
+    } catch {
+      /* ignore */
+    }
+  }
+
+  private loadHostToken(): string | null {
+    try {
+      return localStorage.getItem('ricchioni.hostToken');
+    } catch {
+      return null;
+    }
+  }
+
+  private clearHostToken(): void {
+    try {
+      localStorage.removeItem('ricchioni.hostToken');
+    } catch {
+      /* ignore */
+    }
+  }
+
   private onRoomState(state: RoomState): void {
     const prev = this.lastPhase;
     this.lastPhase = state.phase;
     this.state = state;
     this.events.emit('state', state);
+
+    if (this.reconnecting) {
+      this.reconnecting = false;
+      if (state.phase === 'LOBBY') {
+        this.game?.scene.start('RoomScene');
+        return;
+      }
+    }
 
     if (state.phase === prev) return;
 

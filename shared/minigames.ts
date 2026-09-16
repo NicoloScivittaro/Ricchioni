@@ -136,7 +136,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     minPlayers: 2,
     maxPlayers: 5,
     durationSec: 40,
-    compatibleModifiers: ['punti_doppi'],
+    compatibleModifiers: ['gravita_bassa', 'punti_doppi'],
     sceneKey: 'volleyball',
     controllerLayout: {
       type: 'dpad',

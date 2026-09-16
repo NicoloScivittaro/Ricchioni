@@ -33,6 +33,7 @@ export class VolleyballScene extends Phaser.Scene {
   private hits = new Map<PlayerId, number>();
   private finished = false;
   private statusText!: Phaser.GameObjects.Text;
+  private lowGravity = false;
 
   constructor() {
     super('volleyball');
@@ -41,6 +42,7 @@ export class VolleyballScene extends Phaser.Scene {
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
     audio.unlock();
+    this.lowGravity = this.ctx.modifier?.id === 'gravita_bassa';
     this.cameras.main.setBackgroundColor('#0b1220');
 
     this.add.rectangle(640, 330, 1240, 520, 0x111c2e).setStrokeStyle(4, 0xffffff);
@@ -91,7 +93,7 @@ export class VolleyballScene extends Phaser.Scene {
       b.y = Phaser.Math.Clamp(b.y, MIN_Y, MAX_Y);
     }
 
-    this.ball.vy += GRAVITY * dt;
+    this.ball.vy += (this.lowGravity ? GRAVITY * 0.45 : GRAVITY) * dt;
     this.ball.x += this.ball.vx * dt;
     this.ball.y += this.ball.vy * dt;
 

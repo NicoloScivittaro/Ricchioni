@@ -23,6 +23,8 @@ export interface MinigameContext {
   modifiers: Map<PlayerId, ActiveModifier[]>;
   input: InputManager;
   consume(playerId: PlayerId, hook: string): boolean;
+  /** Invia dati privati a un singolo telefono (host → server → telefono). */
+  sendPrivate(playerId: PlayerId, data: unknown): void;
   finish(result: MinigameResult): void;
 }
 

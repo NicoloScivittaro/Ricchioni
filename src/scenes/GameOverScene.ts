@@ -30,7 +30,10 @@ export class GameOverScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setShadow(0, 4, '#000000', 8);
 
-    if (c) this.add.image(640, 200, c.id).setDisplaySize(120, 120);
+    if (c) {
+      const portrait = this.add.image(640, 205, c.id);
+      portrait.setScale(150 / portrait.height);
+    }
     this.add
       .text(640, 285, `${c?.avatar ?? '🎮'} ${winnerPlayer.displayName}`, {
         fontFamily: '"Arial Black", Arial, sans-serif',

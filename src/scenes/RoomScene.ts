@@ -2,14 +2,17 @@ import Phaser from 'phaser';
 import QRCode from 'qrcode';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
-import { getCharacter } from '../../shared/characters';
+import { CHARACTER_ORDER, getCharacter } from '../../shared/characters';
 import { MINIGAME_DEFINITIONS, getMinigame } from '../../shared/minigames';
+import type { PlayerPublic } from '../../shared/types';
 
-/** Mostra room code + QR + lista giocatori + selettore minigioco; l'host avvia la partita. */
+/** Stanza: QR + codice, ritratti dei personaggi scelti, selettore minigioco, avvio. */
 export class RoomScene extends Phaser.Scene {
-  private playersText!: Phaser.GameObjects.Text;
+  private portraits: Phaser.GameObjects.Image[] = [];
+  private labels: Phaser.GameObjects.Text[] = [];
   private startText!: Phaser.GameObjects.Text;
   private mgText!: Phaser.GameObjects.Text;
+  private countText!: Phaser.GameObjects.Text;
 
   constructor() {
     super('RoomScene');
@@ -20,32 +23,72 @@ export class RoomScene extends Phaser.Scene {
     const code = gm.roomCode || '?????';
 
     this.add
-      .text(640, 40, 'ENTRA NELLA PARTITA', {
+      .text(640, 26, 'ENTRA NELLA PARTITA', {
         fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '38px',
+        fontSize: '34px',
         color: '#ffffff'
       })
       .setOrigin(0.5);
 
     this.add
-      .text(640, 96, `CODICE: ${code}`, {
+      .text(640, 70, `CODICE: ${code}`, {
         fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '56px',
+        fontSize: '46px',
         color: '#fbbf24'
       })
       .setOrigin(0.5);
 
-    this.playersText = this.add
-      .text(640, 545, '', {
+    const url = await this.controllerUrl(code);
+    this.add
+      .text(300, 128, url, {
         fontFamily: 'Arial, sans-serif',
-        fontSize: '21px',
-        color: '#e5e7eb',
-        align: 'center'
+        fontSize: '14px',
+        color: '#9ca3af',
+        align: 'center',
+        wordWrap: { width: 340 }
+      })
+      .setOrigin(0.5, 0);
+
+    try {
+      const dataUrl = await QRCode.toDataURL(url, {
+        width: 190,
+        margin: 1,
+        color: { dark: '#0b0b14', light: '#ffffff' }
+      });
+      this.textures.addBase64('qr', dataUrl);
+      this.add.image(300, 320, 'qr');
+    } catch (e) {
+      console.warn('Generazione QR fallita', e);
+    }
+
+    this.add
+      .text(920, 196, 'SQUADRA', {
+        fontFamily: '"Arial Black", Arial, sans-serif',
+        fontSize: '20px',
+        color: '#93c5fd'
       })
       .setOrigin(0.5);
 
+    CHARACTER_ORDER.forEach((cid, i) => {
+      const x = 700 + i * 115;
+      const img = this.add.image(x, 320, cid);
+      img.setScale(112 / img.height);
+      this.portraits.push(img);
+
+      const label = this.add
+        .text(x, 386, '', {
+          fontFamily: 'Arial, sans-serif',
+          fontSize: '13px',
+          color: '#e5e7eb',
+          align: 'center',
+          wordWrap: { width: 108 }
+        })
+        .setOrigin(0.5, 0);
+      this.labels.push(label);
+    });
+
     this.mgText = this.add
-      .text(640, 480, '', {
+      .text(640, 500, '', {
         fontFamily: '"Arial Black", Arial, sans-serif',
         fontSize: '22px',
         color: '#93c5fd'
@@ -53,15 +96,23 @@ export class RoomScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(640, 508, '← → scegli il minigioco', {
+      .text(640, 530, '← → scegli il minigioco', {
         fontFamily: 'Arial, sans-serif',
-        fontSize: '15px',
+        fontSize: '14px',
         color: '#6b7280'
       })
       .setOrigin(0.5);
 
+    this.countText = this.add
+      .text(640, 580, '', {
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '18px',
+        color: '#9ca3af'
+      })
+      .setOrigin(0.5);
+
     this.startText = this.add
-      .text(640, 690, '', {
+      .text(640, 680, '', {
         fontFamily: '"Arial Black", Arial, sans-serif',
         fontSize: '22px',
         color: '#4ade80'
@@ -73,23 +124,6 @@ export class RoomScene extends Phaser.Scene {
       else if (e.key === 'ArrowRight') this.cycleMinigame(1);
       else if (e.key === 'Enter') this.tryStart();
     });
-
-    const url = await this.controllerUrl(code);
-    this.add
-      .text(640, 150, url, {
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '17px',
-        color: '#9ca3af'
-      })
-      .setOrigin(0.5);
-
-    try {
-      const dataUrl = await QRCode.toDataURL(url, { width: 200, margin: 1, color: { dark: '#0b0b14', light: '#ffffff' } });
-      this.textures.addBase64('qr', dataUrl);
-      this.add.image(640, 320, 'qr');
-    } catch (e) {
-      console.warn('Generazione QR fallita', e);
-    }
   }
 
   private async controllerUrl(code: string): Promise<string> {
@@ -144,16 +178,30 @@ export class RoomScene extends Phaser.Scene {
     );
     this.mgText.setColor(sel ? '#fbbf24' : '#93c5fd');
 
-    const lines = st.players.map((p) => {
-      const c = p.characterId ? getCharacter(p.characterId) : null;
-      const status = !p.connected ? '⚠ DISCONNESSO' : p.ready ? 'PRONTO ✅' : 'NON PRONTO';
-      return `${c?.avatar ?? '❓'} ${p.displayName} — ${c?.name ?? 'scegli personaggio'}  ${status}`;
+    const byChar = new Map<string, PlayerPublic>();
+    for (const p of st.players) {
+      if (p.characterId) byChar.set(p.characterId, p);
+    }
+
+    CHARACTER_ORDER.forEach((cid, i) => {
+      const p = byChar.get(cid);
+      const c = getCharacter(cid);
+      this.portraits[i].setAlpha(p ? 1 : 0.26);
+      if (p) {
+        const status = !p.connected ? '⚠' : p.ready ? '✅' : '…';
+        this.labels[i].setText(`${c.avatar} ${p.displayName}\n${status}`).setColor(c.color);
+      } else {
+        this.labels[i].setText(c.name).setColor('#6b7280');
+      }
     });
-    this.playersText.setText(`${st.players.length}/${st.playerCount} giocatori\n\n${lines.join('\n')}`);
+
+    this.countText.setText(`${st.players.length} / ${st.playerCount} giocatori connessi`);
 
     const canStart = st.players.length >= 2 && st.players.every((p) => p.ready && p.characterId);
     this.startText.setText(
-      canStart ? 'Premi INVIO per INIZIARE LA PARTITA' : 'In attesa che tutti scelgano il personaggio e siano pronti...'
+      canStart
+        ? 'Premi INVIO per INIZIARE LA PARTITA'
+        : 'In attesa che tutti scelgano il personaggio e siano pronti...'
     );
     this.startText.setColor(canStart ? '#4ade80' : '#9ca3af');
   }

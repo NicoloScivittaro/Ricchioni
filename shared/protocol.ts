@@ -26,6 +26,7 @@ export const EVT = {
   hostMinigameFinished: 'host:minigameFinished',
   hostSkip: 'host:skip',
   hostSelectMinigame: 'host:selectMinigame',
+  hostPrivateData: 'host:privateData',
   hostBackToLobby: 'host:backToLobby',
 
   // ---- Server → Client ----
@@ -79,6 +80,11 @@ export interface MinigameFinishedPayload {
 export interface SelectMinigamePayload {
   /** null = torna al rullo casuale. */
   minigameId: string | null;
+}
+
+export interface PrivateDataPayload {
+  playerId: PlayerId;
+  data: unknown;
 }
 
 export interface InputRelayEvent {
