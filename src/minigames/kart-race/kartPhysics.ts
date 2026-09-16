@@ -16,9 +16,9 @@ const REVERSE_ACCEL = 22;
 const MAX_REVERSE = -18;
 const COAST_DRAG = 20; // decelerazione naturale (unità/s²) quando non si accelera né frena
 
-const BASE_TURN = 2.6;
-const GRIP_ONROAD = 6;
-const GRIP_OFFROAD = 2;
+const MAX_STEER_ANGLE = 0.42; // angolo bersaglio (rad) in guida normale, a piena velocità
+const GRIP_ONROAD = 1;
+const GRIP_OFFROAD = 0.45;
 const OFFROAD_SPEED_FACTOR = 0.42;
 const WALL_MARGIN = 1.6;
 
@@ -121,16 +121,16 @@ export function stepKartPhysics(
   }
 
   // --- Sterzata / imbardata (dipendente dalla velocità) ---
-  const speedFactor = clamp(Math.abs(k.speed) / MAX_SPEED, 0.25, 1);
-  const turnRate = BASE_TURN * speedFactor * (k.drifting ? 1.35 : 1);
-  const targetHeading = k.drifting ? k.driftDir * DRIFT_HEADING_EXTRA : 0;
+  // Modello a "angolo target": l'imbardata insegue un angolo bersaglio invece di
+  // accumularsi liberamente. Risultato: risposta immediata e prevedibile, e un
+  // rilascio dello sterzo che ricentra rapidamente invece di continuare a scivolare.
+  const speedFactor = clamp(Math.abs(k.speed) / MAX_SPEED, 0.3, 1);
+  const targetHeading = k.drifting ? k.driftDir * DRIFT_HEADING_EXTRA : steerDir * MAX_STEER_ANGLE * speedFactor;
+  const responsiveness = (k.drifting ? 3.4 : 9) * grip;
 
-  if (!stunned) k.heading += steerDir * turnRate * dt;
-  // auto-centratura verso l'imbardata target (0 in guida normale, angolo fisso in drift)
-  k.heading += (targetHeading - k.heading) * Math.min(1, grip * 0.18 * dt);
+  if (!stunned) k.heading += (targetHeading - k.heading) * Math.min(1, responsiveness * dt);
+  else k.heading += (0 - k.heading) * Math.min(1, 3 * dt);
   k.heading = clamp(k.heading, -1.15, 1.15);
-
-  if (stunned) k.heading *= 1 - Math.min(1, dt * 3);
 
   // La componente laterale della velocità nasce dall'imbardata (modello bicicletta semplificato).
   const lateralSpeed = Math.sin(k.heading) * k.speed;

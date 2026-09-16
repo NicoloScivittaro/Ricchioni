@@ -16,24 +16,27 @@ import {
  * partenza, curva larga, esse, tornante, rettilineo veloce, curva sopraelevata
  * (ampia e rapida), chicane stretta, curva finale. Nessun asset/nome Nintendo.
  */
+// Nota: l'elevazione (Y) resta SEMPRE >= 0 e ben sopra il piano del terreno
+// (vedi buildEnvironment) — un punto sotto il livello del terreno fa sparire
+// la strada dietro di esso (il terreno, opaco, la occlude).
 const CONTROL_POINTS: [number, number, number][] = [
   [0, 0, 0], // 0: START/FINISH
   [0, 0, 130], // 1: fine rettilineo
-  [55, 0, 175], // 2: ingresso curva larga
-  [125, 1, 168], // 3: curva larga
-  [172, 2, 110], // 4: uscita curva larga
-  [205, 2, 45], // 5: esse - primo bordo
-  [172, 1, -25], // 6: esse - secondo bordo
-  [118, 0, -68], // 7: ingresso tornante
-  [55, -1, -96], // 8: apice tornante
-  [-15, -1, -78], // 9: uscita tornante
-  [-85, -2, -42], // 10: inizio rettilineo veloce
-  [-158, -2, 18], // 11: rettilineo veloce (boost)
-  [-168, 3, 92], // 12: ingresso curva ampia
-  [-125, 5, 152], // 13: apice curva ampia
-  [-62, 3, 164], // 14: uscita curva ampia
-  [-30, 1, 122], // 15: chicane sx
-  [-10, 0, 78] // 16: chicane dx -> rientro al finish
+  [55, 0.4, 175], // 2: ingresso curva larga
+  [125, 1.4, 168], // 3: curva larga
+  [172, 2.2, 110], // 4: uscita curva larga
+  [205, 2.2, 45], // 5: esse - primo bordo
+  [172, 1.3, -25], // 6: esse - secondo bordo
+  [118, 0.7, -68], // 7: ingresso tornante
+  [55, 0.3, -96], // 8: apice tornante
+  [-15, 0.3, -78], // 9: uscita tornante
+  [-85, 0.2, -42], // 10: inizio rettilineo veloce
+  [-158, 0.2, 18], // 11: rettilineo veloce (boost)
+  [-168, 1.4, 92], // 12: ingresso curva ampia
+  [-125, 2.8, 152], // 13: apice curva ampia
+  [-62, 1.8, 164], // 14: uscita curva ampia
+  [-30, 0.7, 122], // 15: chicane sx
+  [-10, 0.2, 78] // 16: chicane dx -> rientro al finish
 ];
 
 const CONTROL_WIDTHS = [18, 18, 20, 20, 18, 15, 15, 14, 13, 14, 16, 18, 18, 19, 16, 10, 12];
@@ -274,6 +277,7 @@ function buildRibbon(scene: Scene, spline: TrackSpline, parent: TransformNode): 
 
   const mat = new StandardMaterial('roadMat', scene);
   mat.specularColor = new Color3(0.05, 0.05, 0.06);
+  mat.backFaceCulling = false;
   mesh.material = mat;
 
   // Striscia centrale tratteggiata gialla, leggermente sollevata per evitare z-fighting.
@@ -308,6 +312,7 @@ function buildRibbon(scene: Scene, spline: TrackSpline, parent: TransformNode): 
     const laneMat = new StandardMaterial('laneMat', scene);
     laneMat.disableLighting = true;
     laneMat.emissiveColor = new Color3(laneYellow[0], laneYellow[1], laneYellow[2]);
+    laneMat.backFaceCulling = false;
     laneMesh.material = laneMat;
   }
 
@@ -351,6 +356,7 @@ function buildBarriers(scene: Scene, spline: TrackSpline, parent: TransformNode)
     mesh.parent = parent;
     const mat = new StandardMaterial(`barrierMat${side}`, scene);
     mat.specularColor = new Color3(0, 0, 0);
+    mat.backFaceCulling = false;
     mesh.material = mat;
   }
 }
@@ -378,14 +384,14 @@ function palmTree(scene: Scene, pos: Vector3, parent: TransformNode, scale: numb
 
 function buildEnvironment(scene: Scene, spline: TrackSpline, parent: TransformNode): void {
   const ground = MeshBuilder.CreateGround('ground', { width: 900, height: 900, subdivisions: 2 }, scene);
-  ground.position.y = -0.3;
+  ground.position.y = -1.8;
   const groundMat = new StandardMaterial('groundMat', scene);
   groundMat.diffuseColor = new Color3(0.75, 0.68, 0.42);
   ground.material = groundMat;
   ground.receiveShadows = true;
 
   const sea = MeshBuilder.CreateGround('sea', { width: 1400, height: 1400 }, scene);
-  sea.position.set(-450, -0.5, 40);
+  sea.position.set(-450, -2, 40);
   const seaMat = new StandardMaterial('seaMat', scene);
   seaMat.diffuseColor = new Color3(0.14, 0.45, 0.62);
   seaMat.specularColor = new Color3(0.3, 0.4, 0.45);
