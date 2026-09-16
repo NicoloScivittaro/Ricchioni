@@ -123,6 +123,10 @@ export class GameManager {
     this.pendingMinigame = null;
     this.minigameContext = null;
     this.lastPhase = 'LOBBY';
+    // Abbandona la stanza corrente: il prossimo avvio parte pulito (niente auto-riconnessione).
+    this.roomCode = '';
+    this.hostToken = null;
+    this.clearHostToken();
   }
 
   finishMinigame(result: MinigameResult): void {

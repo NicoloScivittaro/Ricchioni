@@ -96,7 +96,7 @@ export class RoomScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(640, 530, '← → scegli il minigioco', {
+      .text(640, 530, '← → scegli il minigioco · ESC = nuova partita', {
         fontFamily: 'Arial, sans-serif',
         fontSize: '14px',
         color: '#6b7280'
@@ -122,6 +122,7 @@ export class RoomScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown', (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') this.cycleMinigame(-1);
       else if (e.key === 'ArrowRight') this.cycleMinigame(1);
+      else if (e.key === 'Backspace' || e.key === 'Escape') this.abandon();
       else if (e.key === 'Enter') this.tryStart();
     });
   }
@@ -166,6 +167,13 @@ export class RoomScene extends Phaser.Scene {
       audio.select();
       gm.startGame();
     }
+  }
+
+  /** Abbandona la stanza e torna alla configurazione (pulisce il token host). */
+  private abandon(): void {
+    audio.select();
+    gm.backToLobby();
+    this.scene.start('LobbyScene');
   }
 
   update(): void {
