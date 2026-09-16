@@ -17,6 +17,8 @@ import {
 } from '@babylonjs/core';
 import type { KartState } from './raceTypes';
 import type { TrackSpline } from './track';
+import { audio, EngineSound } from '../../core/AudioManager';
+import { MAX_SPEED } from './kartPhysics';
 
 let dotTexture: Texture | null = null;
 function getDotTexture(scene: Scene): Texture {
@@ -32,18 +34,25 @@ function getDotTexture(scene: Scene): Texture {
   return dt;
 }
 
+const MAX_VISUAL_STEER_ANGLE = 0.42; // rad, angolo massimo di sterzata delle ruote anteriori (solo estetico)
+
 export class KartEntity {
   readonly root: TransformNode;
   readonly body: Mesh;
   private readonly driftSmoke: ParticleSystem;
   private readonly boostFx: ParticleSystem;
+  private readonly dustFx: ParticleSystem;
+  private readonly frontPivots: TransformNode[];
+  private readonly wheels: Mesh[];
+  private readonly engine: EngineSound;
+  private readonly bobSeed: number;
 
   constructor(scene: Scene, colorHex: string) {
     this.root = new TransformNode('kartRoot', scene);
     this.root.rotationQuaternion = Quaternion.Identity();
+    this.bobSeed = Math.random() * 1000;
 
     const color = Color3.FromHexString(colorHex);
-    const dark = color.scale(0.55);
 
     const bodyMat = new StandardMaterial('kartBodyMat', scene);
     bodyMat.diffuseColor = color;
@@ -51,6 +60,8 @@ export class KartEntity {
     darkMat.diffuseColor = new Color3(0.1, 0.11, 0.14);
     const wheelMat = new StandardMaterial('kartWheelMat', scene);
     wheelMat.diffuseColor = new Color3(0.07, 0.07, 0.08);
+    const rimMat = new StandardMaterial('kartRimMat', scene);
+    rimMat.diffuseColor = new Color3(0.55, 0.56, 0.6);
 
     const body = MeshBuilder.CreateBox('kartBody', { width: 1.3, height: 0.5, depth: 2.1 }, scene);
     body.position.y = 0.42;
@@ -79,18 +90,47 @@ export class KartEntity {
       strut.parent = this.root;
     }
 
-    const wheelPositions: [number, number, number][] = [
-      [-0.72, 0.32, 0.75],
-      [0.72, 0.32, 0.75],
-      [-0.72, 0.32, -0.85],
-      [0.72, 0.32, -0.85]
+    // Ruote: le anteriori hanno un pivot che sterza (rotazione Y), tutte
+    // rotolano (rotazione X) in base alla velocità. La forma "a disco" è
+    // cotta nei vertici così la rotazione di rotolamento resta pulita.
+    this.frontPivots = [];
+    this.wheels = [];
+    const mountFront: [number, number][] = [
+      [-0.72, 0.75],
+      [0.72, 0.75]
     ];
-    for (const [x, y, z] of wheelPositions) {
-      const wheel = MeshBuilder.CreateCylinder('kartWheel', { diameter: 0.62, height: 0.36, tessellation: 12 }, scene);
-      wheel.rotation.z = Math.PI / 2;
-      wheel.position = new Vector3(x, y, z);
-      wheel.material = wheelMat;
-      wheel.parent = this.root;
+    const mountRear: [number, number][] = [
+      [-0.72, -0.85],
+      [0.72, -0.85]
+    ];
+
+    const makeWheelMesh = (): Mesh => {
+      const w = MeshBuilder.CreateCylinder('kartWheel', { diameter: 0.62, height: 0.34, tessellation: 14 }, scene);
+      w.rotation.z = Math.PI / 2;
+      w.bakeCurrentTransformIntoVertices();
+      w.material = wheelMat;
+      const hub = MeshBuilder.CreateCylinder('kartHub', { diameter: 0.24, height: 0.36, tessellation: 8 }, scene);
+      hub.rotation.z = Math.PI / 2;
+      hub.bakeCurrentTransformIntoVertices();
+      hub.material = rimMat;
+      hub.parent = w;
+      return w;
+    };
+
+    for (const [x, z] of mountFront) {
+      const pivot = new TransformNode('wheelPivot', scene);
+      pivot.parent = this.root;
+      pivot.position = new Vector3(x, 0.32, z);
+      const w = makeWheelMesh();
+      w.parent = pivot;
+      this.frontPivots.push(pivot);
+      this.wheels.push(w);
+    }
+    for (const [x, z] of mountRear) {
+      const w = makeWheelMesh();
+      w.parent = this.root;
+      w.position = new Vector3(x, 0.32, z);
+      this.wheels.push(w);
     }
 
     const fxAnchor = MeshBuilder.CreateBox('kartFxAnchor', { size: 0.05 }, scene);
@@ -100,6 +140,10 @@ export class KartEntity {
 
     this.driftSmoke = this.makeParticles(scene, fxAnchor, new Color4(0.75, 0.75, 0.78, 0.55), 0.18, 45);
     this.boostFx = this.makeParticles(scene, fxAnchor, new Color4(1, 0.55, 0.15, 0.85), 0.14, 60);
+    this.dustFx = this.makeParticles(scene, fxAnchor, new Color4(0.78, 0.68, 0.42, 0.5), 0.16, 35);
+
+    this.engine = audio.createEngine();
+    this.engine.start();
   }
 
   private makeParticles(scene: Scene, emitter: Mesh, color: Color4, size: number, capacity: number): ParticleSystem {
@@ -128,6 +172,9 @@ export class KartEntity {
   /** Sincronizza mesh + effetti con lo stato fisico del kart. */
   updateVisual(state: KartState, spline: TrackSpline): void {
     const pos = spline.worldPoint(state.distance, state.lateral, 0.05);
+    const speedFrac = Math.min(1, Math.abs(state.speed) / MAX_SPEED);
+    const bob = Math.sin(performance.now() * 0.018 + this.bobSeed) * 0.01 * (0.3 + speedFrac);
+    pos.y += bob;
     this.root.position.copyFrom(pos);
 
     const tangent = spline.tangentAt(state.distance);
@@ -148,13 +195,23 @@ export class KartEntity {
     const squash = state.stunTimer > 0 ? 0.82 : 1;
     this.root.scaling.set(squash, squash, squash);
 
+    // Ruote anteriori: sterzano visivamente seguendo l'input smussato.
+    for (const pivot of this.frontPivots) pivot.rotation.y = state.steerVisual * MAX_VISUAL_STEER_ANGLE;
+    // Tutte le ruote rotolano in base alla velocità percorsa.
+    for (const w of this.wheels) w.rotation.x = state.wheelSpin;
+
     this.driftSmoke.emitRate = state.drifting && state.driftCharge > 0.15 ? 40 : 0;
     this.boostFx.emitRate = state.boostTimer > 0 ? 70 : 0;
+    this.dustFx.emitRate = state.offRoad && Math.abs(state.speed) > 8 ? 30 : 0;
+
+    this.engine.update(speedFrac, state.boostTimer > 0);
   }
 
   dispose(): void {
     this.driftSmoke.dispose();
     this.boostFx.dispose();
+    this.dustFx.dispose();
+    this.engine.stop();
     this.root.dispose();
   }
 }

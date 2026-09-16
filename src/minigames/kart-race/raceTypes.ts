@@ -39,10 +39,8 @@ export interface KartState {
   respawnTimer: number; // countdown prima del respawn effettivo
   lastValidCheckpointS: number; // posizione s dell'ultimo checkpoint valido (per respawn)
 
-  camYaw: number; // stato smussato camera (per il follow)
-  camPos: { x: number; y: number; z: number };
-
-  finishedRoundGrace: boolean;
+  steerVisual: number; // sterzo smussato per la rotazione visiva delle ruote anteriori (-1..1)
+  wheelSpin: number; // angolo accumulato di rotolamento ruote (rad)
 }
 
 export function createKartState(playerId: PlayerId, characterId: string | null, colorHex: string, avatar: string): KartState {
@@ -75,8 +73,7 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     offTrackTimer: 0,
     respawnTimer: 0,
     lastValidCheckpointS: 0,
-    camYaw: 0,
-    camPos: { x: 0, y: 0, z: 0 },
-    finishedRoundGrace: false
+    steerVisual: 0,
+    wheelSpin: 0
   };
 }

@@ -4,6 +4,7 @@ import type { PlayerId } from '../../../shared/types';
 import type { KartState } from './raceTypes';
 import type { TrackSpline } from './track';
 import { itemLabel } from './items';
+import { MAX_SPEED } from './kartPhysics';
 
 export interface ViewportRect {
   x: number;
@@ -95,7 +96,10 @@ export class CameraManager {
     const forward = tangent.scale(Math.cos(state.heading)).add(right.scale(Math.sin(state.heading))).normalize();
     const kartPos = spline.worldPoint(state.distance, state.lateral, 0.1);
 
-    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK)).add(new Vector3(0, CAM_UP, 0));
+    const speedFrac = Math.max(0, Math.min(1, state.speed / MAX_SPEED));
+    const boosting = state.boostTimer > 0;
+
+    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1)).add(new Vector3(0, CAM_UP, 0));
     const anticipate = right.scale(state.heading * 2.2);
     const desiredLook = kartPos.add(forward.scale(CAM_LOOK_AHEAD)).add(anticipate).add(new Vector3(0, 0.8, 0));
 
@@ -103,8 +107,7 @@ export class CameraManager {
     rig.smoothPos = Vector3.Lerp(rig.smoothPos, desiredPos, alpha);
     rig.smoothLook = Vector3.Lerp(rig.smoothLook, desiredLook, alpha);
 
-    const speedFrac = Math.max(0, Math.min(1, state.speed / 62));
-    const targetFov = CAM_BASE_FOV + speedFrac * 0.16 + (state.boostTimer > 0 ? 0.14 : 0);
+    const targetFov = CAM_BASE_FOV + speedFrac * 0.22 + (boosting ? 0.18 : 0);
     rig.smoothFov = rig.smoothFov + (targetFov - rig.smoothFov) * Math.min(1, dt * 5);
 
     const stunned = state.stunTimer > 0;

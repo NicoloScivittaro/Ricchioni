@@ -10,11 +10,12 @@ export interface KartInputSnapshot {
 }
 
 export const MAX_SPEED = 62;
-const ACCEL = 34;
+const ACCEL = 36;
 const BRAKE = 55;
 const REVERSE_ACCEL = 22;
 const MAX_REVERSE = -18;
-const COAST_DRAG = 20; // decelerazione naturale (unità/s²) quando non si accelera né frena
+const COAST_DRAG = 24; // decelerazione naturale (unità/s²) quando non si accelera né frena
+const WHEEL_RADIUS = 0.31;
 
 const MAX_TURN_RATE = 2.4; // rad/s di sterzata attiva (angolo ASSOLUTO, non relativo alla pista)
 const DRIFT_EXTRA_RATE = 1.15; // rotazione extra durante la derapata
@@ -94,7 +95,10 @@ export function stepKartPhysics(
   const down = !stunned && input.down;
 
   if (up) {
-    k.speed += ACCEL * dt;
+    // Curva di accelerazione arcade: parte pronta, si assottiglia avvicinandosi
+    // al fondo scala, così il massimo si sente come un vero tetto da raggiungere.
+    const speedFrac = Math.max(0, k.speed) / MAX_SPEED;
+    k.speed += ACCEL * (1.35 - 0.55 * Math.min(1, speedFrac)) * dt;
   } else if (down) {
     if (k.speed > 0.5) k.speed -= BRAKE * dt;
     else k.speed = Math.max(MAX_REVERSE, k.speed - REVERSE_ACCEL * dt);
@@ -190,6 +194,11 @@ export function stepKartPhysics(
   } else {
     k.offTrackTimer = Math.max(0, k.offTrackTimer - dt * 2);
   }
+
+  // --- Feedback puramente visivo (ruote anteriori che sterzano, rotolamento) ---
+  const steerTarget = stunned ? 0 : steerDir;
+  k.steerVisual += (steerTarget - k.steerVisual) * Math.min(1, 10 * dt);
+  k.wheelSpin += (k.speed / WHEEL_RADIUS) * dt;
 }
 
 export function respawnKart(k: KartState, trackAngleAt: (distance: number) => number): void {

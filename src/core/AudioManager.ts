@@ -26,6 +26,15 @@ export class AudioManager {
     this.ensure();
   }
 
+  /** Accesso al contesto condiviso (per suoni continui gestiti altrove, es. motore kart). */
+  getContext(): AudioContext | null {
+    return this.ensure();
+  }
+
+  createEngine(): EngineSound {
+    return new EngineSound(this);
+  }
+
   private tone(freq: number, dur: number, type: OscillatorType, gain: number, when = 0): void {
     const ctx = this.ensure();
     if (!ctx) return;
@@ -77,3 +86,67 @@ export class AudioManager {
 }
 
 export const audio = new AudioManager();
+
+/**
+ * Motore continuo con pitch legato alla velocità (0..1). Un'istanza per kart:
+ * più giocatori guidano insieme in split-screen, ognuno col proprio motore.
+ */
+export class EngineSound {
+  private osc: OscillatorNode | null = null;
+  private osc2: OscillatorNode | null = null;
+  private gain: GainNode | null = null;
+
+  constructor(private manager: AudioManager) {}
+
+  start(): void {
+    const ctx = this.manager.getContext();
+    if (!ctx || this.osc) return;
+    try {
+      const osc = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc2.type = 'triangle';
+      osc.frequency.value = 55;
+      osc2.frequency.value = 82;
+      gain.gain.value = 0.0001;
+      osc.connect(gain);
+      osc2.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc2.start();
+      this.osc = osc;
+      this.osc2 = osc2;
+      this.gain = gain;
+    } catch {
+      /* ignora errori audio */
+    }
+  }
+
+  /** speedFrac 0..1 (rispetto alla velocità massima); boosting per un timbro più aggressivo. */
+  update(speedFrac: number, boosting: boolean): void {
+    const ctx = this.manager.getContext();
+    if (!ctx || !this.osc || !this.osc2 || !this.gain) return;
+    const t = ctx.currentTime;
+    const clamped = Math.max(0, Math.min(1, speedFrac));
+    const f = 50 + clamped * 190 + (boosting ? 35 : 0);
+    this.osc.frequency.setTargetAtTime(f, t, 0.06);
+    this.osc2.frequency.setTargetAtTime(f * 1.5, t, 0.06);
+    this.gain.gain.setTargetAtTime(0.018 + clamped * 0.045, t, 0.1);
+  }
+
+  stop(): void {
+    const ctx = this.manager.getContext();
+    const t = ctx?.currentTime ?? 0;
+    try {
+      this.gain?.gain.setTargetAtTime(0, t, 0.05);
+      this.osc?.stop(t + 0.3);
+      this.osc2?.stop(t + 0.3);
+    } catch {
+      /* ignora errori audio */
+    }
+    this.osc = null;
+    this.osc2 = null;
+    this.gain = null;
+  }
+}
