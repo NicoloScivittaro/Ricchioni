@@ -166,6 +166,8 @@ export type ControllerLayout =
   | { type: 'buttons'; grid: number; controls: ControlDef[] }
   | { type: 'dpad'; controls: ControlDef[] }
   | { type: 'joystick'; controls: ControlDef[] }
+  /** Layout da guida: accelera (barra grande in basso), freno/sterzo, azioni extra in alto. */
+  | { type: 'racing'; controls: ControlDef[] }
   | { type: 'custom'; id: string };
 
 export interface MinigameDefinition {

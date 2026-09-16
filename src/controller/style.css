@@ -182,3 +182,105 @@ button.char:disabled {
   font-size: 40px;
   border-radius: 20px;
 }
+
+/* Layout "racing": pulsanti circolari sfumati + barra ACCELERA grande. */
+.racing-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.racing-extras {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.ctl-btn.racing-circle {
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: transform 0.06s ease;
+}
+
+.ctl-btn.racing-circle:active {
+  transform: scale(0.93);
+}
+
+.ctl-btn.racing-extra {
+  width: 82px;
+  height: 82px;
+  font-size: 12px;
+  line-height: 1.15;
+  background: radial-gradient(circle at 35% 30%, #38bdf8, #0369a1);
+  box-shadow:
+    0 0 0 4px rgba(56, 189, 248, 0.25),
+    0 8px 18px rgba(0, 0, 0, 0.45);
+}
+
+.racing-mid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.ctl-btn.racing-left,
+.ctl-btn.racing-right {
+  width: 94px;
+  height: 94px;
+  font-size: 38px;
+}
+
+.ctl-btn.racing-left {
+  background: radial-gradient(circle at 35% 30%, #a78bfa, #6d28d9);
+  box-shadow:
+    0 0 0 4px rgba(167, 139, 250, 0.25),
+    0 8px 18px rgba(0, 0, 0, 0.45);
+}
+
+.ctl-btn.racing-right {
+  background: radial-gradient(circle at 35% 30%, #60a5fa, #1d4ed8);
+  box-shadow:
+    0 0 0 4px rgba(96, 165, 250, 0.25),
+    0 8px 18px rgba(0, 0, 0, 0.45);
+}
+
+.ctl-btn.racing-brake {
+  width: 70px;
+  height: 70px;
+  font-size: 11px;
+  background: radial-gradient(circle at 35% 30%, #475569, #1e293b);
+  box-shadow:
+    0 0 0 3px rgba(148, 163, 184, 0.2),
+    0 6px 14px rgba(0, 0, 0, 0.4);
+}
+
+.ctl-btn.racing-accel {
+  width: 100%;
+  padding: 24px 0;
+  border-radius: 40px 40px 22px 22px;
+  background: linear-gradient(180deg, #4ade80, #16a34a);
+  color: #06230f;
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  box-shadow:
+    0 0 0 4px rgba(74, 222, 128, 0.25),
+    0 10px 24px rgba(0, 0, 0, 0.5);
+  transition:
+    transform 0.06s ease,
+    filter 0.06s ease;
+}
+
+.ctl-btn.racing-accel:active {
+  transform: scale(0.97);
+  filter: brightness(0.94);
+}

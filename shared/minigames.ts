@@ -221,14 +221,14 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     compatibleModifiers: ['controlli_invertiti', 'punti_doppi'],
     sceneKey: 'kart3d',
     controllerLayout: {
-      type: 'dpad',
+      type: 'racing',
       controls: [
-        { id: 'up', label: '▲', kind: 'hold' },
-        { id: 'down', label: '▼', kind: 'hold' },
+        { id: 'up', label: 'ACCELERA', kind: 'hold' },
+        { id: 'down', label: 'FRENO', kind: 'hold' },
         { id: 'left', label: '◀', kind: 'hold' },
         { id: 'right', label: '▶', kind: 'hold' },
         { id: 'drift', label: 'DRIFT', kind: 'hold', icon: '💨' },
-        { id: 'item', label: 'USA', kind: 'button', icon: '🎁' }
+        { id: 'item', label: 'ITEM', kind: 'button', icon: '🎁' }
       ]
     }
   }

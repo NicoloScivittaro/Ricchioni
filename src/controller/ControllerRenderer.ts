@@ -19,6 +19,8 @@ export function renderController(root: HTMLElement, layout: ControllerLayout, se
     wrap.appendChild(grid);
   } else if (layout.type === 'dpad') {
     wrap.appendChild(makeDpad(layout.controls, send));
+  } else if (layout.type === 'racing') {
+    wrap.appendChild(makeRacing(layout.controls, send));
   } else {
     const msg = document.createElement('p');
     msg.className = 'sub';
@@ -61,6 +63,59 @@ function makeDpad(controls: ControlDef[], send: SendInput): HTMLElement {
   wrap.appendChild(grid);
 
   for (const def of extra) wrap.appendChild(makeControl(def, send));
+
+  return wrap;
+}
+
+/**
+ * Layout da guida: pulsanti azione extra (drift/item) in alto, sterzo +
+ * freno in una riga centrale, accelerazione come grande barra in basso.
+ */
+function makeRacing(controls: ControlDef[], send: SendInput): HTMLElement {
+  const byId = new Map(controls.map((c) => [c.id, c]));
+  const wrap = document.createElement('div');
+  wrap.className = 'racing-wrap';
+
+  const extras = controls.filter((c) => !['up', 'down', 'left', 'right'].includes(c.id));
+  if (extras.length > 0) {
+    const extraRow = document.createElement('div');
+    extraRow.className = 'racing-extras';
+    for (const def of extras) {
+      const btn = makeControl(def, send);
+      btn.classList.add('racing-circle', 'racing-extra');
+      extraRow.appendChild(btn);
+    }
+    wrap.appendChild(extraRow);
+  }
+
+  const midRow = document.createElement('div');
+  midRow.className = 'racing-mid';
+  const left = byId.get('left');
+  const down = byId.get('down');
+  const right = byId.get('right');
+  if (left) {
+    const b = makeControl(left, send);
+    b.classList.add('racing-circle', 'racing-left');
+    midRow.appendChild(b);
+  }
+  if (down) {
+    const b = makeControl(down, send);
+    b.classList.add('racing-circle', 'racing-brake');
+    midRow.appendChild(b);
+  }
+  if (right) {
+    const b = makeControl(right, send);
+    b.classList.add('racing-circle', 'racing-right');
+    midRow.appendChild(b);
+  }
+  wrap.appendChild(midRow);
+
+  const up = byId.get('up');
+  if (up) {
+    const b = makeControl(up, send);
+    b.classList.add('racing-accel');
+    wrap.appendChild(b);
+  }
 
   return wrap;
 }
