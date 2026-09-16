@@ -30,6 +30,63 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'answerD', label: 'D', kind: 'button', icon: '🟡' }
       ]
     }
+  },
+  {
+    id: 'reaction',
+    name: 'BOTTA AL VOLO',
+    category: 'RIFLESSI',
+    rarity: 'common',
+    minPlayers: 2,
+    maxPlayers: 5,
+    durationSec: 20,
+    compatibleModifiers: ['punti_doppi'],
+    sceneKey: 'reaction',
+    controllerLayout: {
+      type: 'buttons',
+      grid: 1,
+      controls: [{ id: 'action', label: 'PREMI!', kind: 'button', icon: '⚡' }]
+    }
+  },
+  {
+    id: 'memory',
+    name: 'MEMORIA DA UBRIACO',
+    category: 'MEMORIA',
+    rarity: 'uncommon',
+    minPlayers: 2,
+    maxPlayers: 5,
+    durationSec: 60,
+    compatibleModifiers: ['tempo_dimezzato', 'punti_doppi'],
+    sceneKey: 'memory',
+    controllerLayout: {
+      type: 'buttons',
+      grid: 2,
+      controls: [
+        { id: 'c0', label: '🔴', kind: 'button', color: '#ef4444' },
+        { id: 'c1', label: '🔵', kind: 'button', color: '#3b82f6' },
+        { id: 'c2', label: '🟢', kind: 'button', color: '#22c55e' },
+        { id: 'c3', label: '🟡', kind: 'button', color: '#eab308' }
+      ]
+    }
+  },
+  {
+    id: 'arena',
+    name: 'ARENA DEL DISAGIO',
+    category: 'ARENA',
+    rarity: 'uncommon',
+    minPlayers: 2,
+    maxPlayers: 5,
+    durationSec: 30,
+    compatibleModifiers: ['controlli_invertiti', 'punti_doppi'],
+    sceneKey: 'arena',
+    controllerLayout: {
+      type: 'dpad',
+      controls: [
+        { id: 'up', label: '▲', kind: 'hold' },
+        { id: 'down', label: '▼', kind: 'hold' },
+        { id: 'left', label: '◀', kind: 'hold' },
+        { id: 'right', label: '▶', kind: 'hold' }
+      ]
+    }
   }
 ];
 

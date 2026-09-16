@@ -1,0 +1,16 @@
+{
+  "name": "retro-arcade-collection-phaser",
+  "version": "1.0.0",
+  "description": "Retro Arcade Collection - 9 giochi arcade classici portati in Phaser 4",
+  "author": "Alfredo De Donno (Sir Alfry)",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve . --cors -p 3000",
+    "start": "npx serve . --cors -p 3000",
+    "dev:py": "python -m http.server 3000"
+  },
+  "devDependencies": {
+    "serve": "^14.0.0"
+  }
+}

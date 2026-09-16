@@ -4,8 +4,7 @@ export type SendInput = (ev: InputEvent) => void;
 
 /**
  * Controller renderer schema-driven: riceve il layout dichiarato dal minigioco
- * e genera i controlli sul telefono. Nessun controller custom per ogni gioco:
- * solo questo renderer + eventuali renderer 'custom' per casi speciali.
+ * e genera i controlli sul telefono. Nessun controller custom per ogni gioco.
  */
 export function renderController(root: HTMLElement, layout: ControllerLayout, send: SendInput): void {
   root.innerHTML = '';
@@ -16,18 +15,10 @@ export function renderController(root: HTMLElement, layout: ControllerLayout, se
     const grid = document.createElement('div');
     grid.className = 'btn-grid';
     grid.style.gridTemplateColumns = `repeat(${layout.grid}, 1fr)`;
-    for (const def of layout.controls) {
-      grid.appendChild(makeControl(def, send));
-    }
+    for (const def of layout.controls) grid.appendChild(makeControl(def, send));
     wrap.appendChild(grid);
   } else if (layout.type === 'dpad') {
-    const grid = document.createElement('div');
-    grid.className = 'btn-grid';
-    grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-    for (const def of layout.controls) {
-      grid.appendChild(makeControl(def, send));
-    }
-    wrap.appendChild(grid);
+    wrap.appendChild(makeDpad(layout.controls, send));
   } else {
     const msg = document.createElement('p');
     msg.className = 'sub';
@@ -36,6 +27,42 @@ export function renderController(root: HTMLElement, layout: ControllerLayout, se
   }
 
   root.appendChild(wrap);
+}
+
+/** Costruisce una croce direzionale 3×3 + eventuali tasti extra sotto. */
+function makeDpad(controls: ControlDef[], send: SendInput): HTMLElement {
+  const dirPos: Record<string, [number, number]> = {
+    up: [0, 1],
+    down: [2, 1],
+    left: [1, 0],
+    right: [1, 2]
+  };
+  const cells: (ControlDef | null)[] = new Array(9).fill(null);
+  const extra: ControlDef[] = [];
+
+  for (const def of controls) {
+    const pos = dirPos[def.id];
+    if (pos) cells[pos[0] * 3 + pos[1]] = def;
+    else extra.push(def);
+  }
+
+  const wrap = document.createElement('div');
+  wrap.className = 'dpad-wrap';
+
+  const grid = document.createElement('div');
+  grid.className = 'dpad-grid';
+  for (let i = 0; i < 9; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'dpad-slot';
+    const def = cells[i];
+    if (def) slot.appendChild(makeControl(def, send));
+    grid.appendChild(slot);
+  }
+  wrap.appendChild(grid);
+
+  for (const def of extra) wrap.appendChild(makeControl(def, send));
+
+  return wrap;
 }
 
 function makeControl(def: ControlDef, send: SendInput): HTMLButtonElement {

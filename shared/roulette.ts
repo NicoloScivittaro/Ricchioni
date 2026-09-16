@@ -1,7 +1,7 @@
 import { MINIGAME_DEFINITIONS } from './minigames';
 import { getModifier } from './modifiers';
 import { RARITY_WEIGHT } from './types';
-import type { Category } from './types';
+import type { Category, MinigameDefinition } from './types';
 import type { Rng } from './rng';
 
 export interface RouletteHistoryEntry {
@@ -38,15 +38,26 @@ export class RouletteEngine {
 
     const lastId = history[history.length - 1]?.minigameId;
     const recentIds = new Set(history.slice(-3).map((h) => h.minigameId));
-    const pool = all
+    const weightOf = (d: MinigameDefinition): number => {
+      let w = RARITY_WEIGHT[d.rarity];
+      if (d.id === lastId) w = 0;
+      else if (recentIds.has(d.id)) w *= 0.3;
+      return w;
+    };
+
+    // Minigiochi della categoria, escludendo quelli a peso 0.
+    let pool = all
       .filter((d) => d.category === category)
-      .map((d) => {
-        let w = RARITY_WEIGHT[d.rarity];
-        if (d.id === lastId) w = 0;
-        else if (recentIds.has(d.id)) w *= 0.3;
-        return { item: d, weight: w };
-      });
-    const minigame = rng.weighted(pool);
+      .map((d) => ({ item: d, weight: weightOf(d) }))
+      .filter((x) => x.weight > 0);
+
+    // Se la categoria aveva solo il gioco appena uscito, ripiega su TUTTI i giochi (mai l'ultimo).
+    if (pool.length === 0) {
+      pool = all
+        .map((d) => ({ item: d, weight: weightOf(d) }))
+        .filter((x) => x.weight > 0);
+    }
+    const minigame = pool.length > 0 ? rng.weighted(pool) : rng.pick(all);
 
     let modifierId: string | null = null;
     if (minigame.compatibleModifiers.length > 0 && rng.chance(0.25)) {
@@ -58,6 +69,6 @@ export class RouletteEngine {
       }
     }
 
-    return { category, minigameId: minigame.id, modifierId };
+    return { category: minigame.category, minigameId: minigame.id, modifierId };
   }
 }

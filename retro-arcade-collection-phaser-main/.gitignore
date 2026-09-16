@@ -1,0 +1,38 @@
+# =============================================================================
+# Retro Arcade Collection (Phaser 4) — .gitignore
+# =============================================================================
+
+# --- Node.js / npm ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+package-lock.json
+
+# --- Build output ---
+dist/
+build/
+.cache/
+
+# --- Runtime / generati ---
+*.log
+*.bak
+*.bak_*
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- OS-specific ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Configurazione locale ---
+.env
+.env.local
+config.local.*
