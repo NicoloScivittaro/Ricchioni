@@ -73,7 +73,7 @@ export const SCORE_PRESETS: ScorePreset[] = [
 
 export const TARGET_SCORE_MIN = 10;
 export const TARGET_SCORE_MAX = 200;
-export const MIN_PLAYERS = 2;
+export const MIN_PLAYERS = 1;
 export const MAX_PLAYERS = 5;
 
 // ---- Personaggio ----

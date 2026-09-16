@@ -87,7 +87,7 @@ export class GameSession {
   }
 
   allReady(): boolean {
-    return this.players.length >= 2 && this.players.every((p) => p.ready && p.characterId);
+    return this.players.length >= 1 && this.players.every((p) => p.ready && p.characterId);
   }
 
   selectCharacter(playerId: PlayerId, characterId: string): void {

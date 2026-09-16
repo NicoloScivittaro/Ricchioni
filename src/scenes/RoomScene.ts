@@ -172,7 +172,7 @@ export class RoomScene extends Phaser.Scene {
   private tryStart(): void {
     const st = gm.state;
     if (!st) return;
-    if (st.players.length >= 2 && st.players.every((p) => p.ready && p.characterId)) {
+    if (st.players.length >= 1 && st.players.every((p) => p.ready && p.characterId)) {
       audio.select();
       gm.startGame();
     }
@@ -214,7 +214,7 @@ export class RoomScene extends Phaser.Scene {
 
     this.countText.setText(`${st.players.length} / ${st.playerCount} giocatori connessi`);
 
-    const canStart = st.players.length >= 2 && st.players.every((p) => p.ready && p.characterId);
+    const canStart = st.players.length >= 1 && st.players.every((p) => p.ready && p.characterId);
     this.startText.setText(
       canStart
         ? 'Premi INVIO per INIZIARE LA PARTITA'
