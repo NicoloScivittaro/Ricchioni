@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
 import { game as gm } from '../core/GameManager';
+import { audio } from '../core/AudioManager';
+import { MINIGAME_DEFINITIONS } from '../../shared/minigames';
+import { FLOW_TIMING } from '../../shared/types';
 
 /** Il rullo è la cosmesi di un minigioco già scelto dal server (authoritativo). */
 export class RouletteScene extends Phaser.Scene {
@@ -15,6 +18,11 @@ export class RouletteScene extends Phaser.Scene {
       return;
     }
 
+    const categories = [...new Set(MINIGAME_DEFINITIONS.map((d) => d.category))];
+    const mgPool = MINIGAME_DEFINITIONS.filter((d) => d.category === pick.category).map((d) => d.name);
+    const pool = mgPool.length > 0 ? mgPool : [pick.name];
+    let stopped = false;
+
     this.add
       .text(640, 60, `ROUND ${gm.state?.round ?? 1}`, {
         fontFamily: '"Arial Black", Arial, sans-serif',
@@ -24,47 +32,73 @@ export class RouletteScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(640, 190, '🎰 IL RULLO DECIDE...', {
+      .text(640, 180, '🎰 IL RULLO DECIDE...', {
         fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '46px',
+        fontSize: '40px',
         color: '#ffffff'
       })
       .setOrigin(0.5);
 
-    const catText = this.add
-      .text(640, 320, pick.category, {
+    const big = this.add
+      .text(640, 300, '?', {
         fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '84px',
-        color: '#fbbf24'
-      })
-      .setOrigin(0.5)
-      .setAlpha(0);
-
-    const gameText = this.add
-      .text(640, 440, pick.name, {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '60px',
+        fontSize: '100px',
         color: '#ffffff'
       })
-      .setOrigin(0.5)
-      .setAlpha(0);
+      .setOrigin(0.5);
 
-    const modText = this.add
-      .text(640, 520, '', {
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '26px',
-        color: '#f87171'
-      })
-      .setOrigin(0.5)
-      .setAlpha(0);
-
-    this.time.delayedCall(700, () => catText.setAlpha(1));
-    this.time.delayedCall(1750, () => {
-      gameText.setAlpha(1);
-      if (pick.modifierId) {
-        modText.setText(`MODIFICATORE: ${pick.modifierName} — ${pick.modifierDescription}`).setAlpha(1);
+    // Fase 1: categorie veloci
+    let catIdx = 0;
+    const catEvt = this.time.addEvent({
+      delay: 80,
+      loop: true,
+      callback: () => {
+        if (stopped) return;
+        catIdx += 1;
+        big.setText(categories[catIdx % categories.length]);
       }
     });
-    this.time.delayedCall(3400, () => gm.launchMinigame());
+
+    this.time.delayedCall(FLOW_TIMING.rouletteMs * 0.4, () => {
+      catEvt.remove();
+      big.setText(pick.category).setColor('#fbbf24');
+      audio.select();
+      // Fase 2: nomi minigioco che rallentano
+      let mgIdx = 0;
+      let mgDelay = 120;
+      const cycle = (): void => {
+        if (stopped) return;
+        mgIdx += 1;
+        big.setText(pool[mgIdx % pool.length]).setColor('#ffffff');
+        mgDelay = Math.min(mgDelay + 45, 320);
+        this.time.delayedCall(mgDelay, cycle);
+      };
+      cycle();
+    });
+
+    // Fase 3: stop ("TAC")
+    this.time.delayedCall(FLOW_TIMING.rouletteMs - 700, () => {
+      stopped = true;
+      big.setText(pick.name).setColor('#ffffff');
+      audio.fanfare();
+
+      this.add
+        .text(640, 430, `TIPO: ${pick.category}`, {
+          fontFamily: '"Arial Black", Arial, sans-serif',
+          fontSize: '30px',
+          color: '#fbbf24'
+        })
+        .setOrigin(0.5);
+
+      if (pick.modifierId) {
+        this.add
+          .text(640, 480, `MODIFICATORE: ${pick.modifierName} — ${pick.modifierDescription}`, {
+            fontFamily: 'Arial, sans-serif',
+            fontSize: '22px',
+            color: '#f87171'
+          })
+          .setOrigin(0.5);
+      }
+    });
   }
 }

@@ -6,7 +6,11 @@ import { BootScene } from '../scenes/BootScene';
 import { LobbyScene } from '../scenes/LobbyScene';
 import { RoomScene } from '../scenes/RoomScene';
 import { RouletteScene } from '../scenes/RouletteScene';
+import { IntroScene } from '../scenes/IntroScene';
+import { FinishedScene } from '../scenes/FinishedScene';
 import { ResultsScene } from '../scenes/ResultsScene';
+import { LeaderboardScene } from '../scenes/LeaderboardScene';
+import { NextRoundScene } from '../scenes/NextRoundScene';
 import { GameOverScene } from '../scenes/GameOverScene';
 
 const config: Phaser.Types.Core.GameConfig = {
@@ -24,7 +28,11 @@ const config: Phaser.Types.Core.GameConfig = {
     LobbyScene,
     RoomScene,
     RouletteScene,
+    IntroScene,
+    FinishedScene,
     ResultsScene,
+    LeaderboardScene,
+    NextRoundScene,
     GameOverScene,
     ...MINIGAME_SCENES
   ]

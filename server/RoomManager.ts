@@ -71,7 +71,7 @@ export class RoomManager {
     socket.on(EVT.hostMinigameFinished, (p: MinigameFinishedPayload) =>
       this.onMinigameFinished(socket, p)
     );
-    socket.on(EVT.hostContinue, () => this.onHostContinue(socket));
+    socket.on(EVT.hostSkip, () => this.onSkip(socket));
     socket.on(EVT.hostBackToLobby, () => this.onBackToLobby(socket));
     socket.on('disconnect', () => this.onDisconnect(socket));
   }
@@ -99,6 +99,7 @@ export class RoomManager {
     session.hostConnectionId = socket.id;
     this.rooms.set(code, session);
     this.hostSockets.set(socket.id, code);
+    this.wireRoom(session);
 
     const ack: RoomCreatedAck & AckResponse = { ok: true, roomCode: code, hostToken, playerCount, targetScore };
     cb?.(ack);
@@ -178,7 +179,7 @@ export class RoomManager {
   private onInput(socket: Socket, input: InputEvent): void {
     const loc = this.socketToPlayer.get(socket.id);
     const room = loc ? this.rooms.get(loc.roomCode) : undefined;
-    if (!loc || !room || room.phase !== 'MINIGAME' || !room.hostConnectionId) return;
+    if (!loc || !room || room.phase !== 'MINIGAME_PLAYING' || !room.hostConnectionId) return;
 
     // rate-limit grossolano anti-flood (max ~1 evento / 4ms per giocatore)
     const now = Date.now();
@@ -195,29 +196,25 @@ export class RoomManager {
   private onHostStart(socket: Socket): void {
     const room = this.roomOfHost(socket);
     if (!room || !room.allReady()) return;
-    const payload = room.startGame();
-    this.emitMinigameSelected(room, payload);
+    room.startGame(); // gli eventi 'pick' e 'changed' gestiscono emit + broadcast
   }
 
   private onMinigameFinished(socket: Socket, p: MinigameFinishedPayload): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
-    room.finishMinigame(p.ranking, p.stats);
-    this.broadcast(room.roomCode);
+    room.finishMinigame(p.results);
   }
 
-  private onHostContinue(socket: Socket): void {
+  private onSkip(socket: Socket): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
-    const payload = room.continueRound();
-    this.emitMinigameSelected(room, payload);
+    room.skip();
   }
 
   private onBackToLobby(socket: Socket): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
-    room.resetToLobby();
-    this.broadcast(room.roomCode);
+    room.resetToLobby(); // emette 'changed' → broadcast
   }
 
   private emitMinigameSelected(room: GameSession, payload: MinigameSelectedPayload): void {
@@ -228,7 +225,12 @@ export class RoomManager {
         this.io.to(p.connectionId).emit(EVT.controllerLayout, payload.controllerLayout);
       }
     }
-    this.broadcast(room.roomCode);
+  }
+
+  /** Collega gli eventi interni della stanza al socket. */
+  private wireRoom(room: GameSession): void {
+    room.events.on('pick', (payload) => this.emitMinigameSelected(room, payload as MinigameSelectedPayload));
+    room.events.on('changed', () => this.broadcast(room.roomCode));
   }
 
   private onDisconnect(socket: Socket): void {

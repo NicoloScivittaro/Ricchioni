@@ -1,7 +1,7 @@
 import { io, Socket } from 'socket.io-client';
 import { EVT } from '../shared/protocol';
-import type { AckResponse, JoinAck, MinigameSelectedPayload } from '../shared/protocol';
-import type { InputRelayEvent, RoomState } from '../shared/types';
+import type { AckResponse, JoinAck } from '../shared/protocol';
+import type { RoomState } from '../shared/types';
 
 const URL = 'http://localhost:3001';
 
@@ -19,7 +19,7 @@ function emitAck<T>(socket: Socket, event: string, payload: unknown): Promise<T>
 
 function waitPhase(socket: Socket, phase: string, timeout = 12000): Promise<RoomState> {
   return new Promise((resolve, reject) => {
-    const t = setTimeout(() => reject(new Error(`timeout su fase ${phase}`)), timeout);
+    const t = setTimeout(() => reject(new Error(`timeout su ${phase}`)), timeout);
     const h = (s: RoomState): void => {
       if (s.phase === phase) {
         clearTimeout(t);
@@ -31,36 +31,10 @@ function waitPhase(socket: Socket, phase: string, timeout = 12000): Promise<Room
   });
 }
 
-function waitFor(fn: () => boolean, timeout = 20000): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const t0 = Date.now();
-    const iv = setInterval(() => {
-      if (fn()) {
-        clearInterval(iv);
-        resolve();
-      } else if (Date.now() - t0 > timeout) {
-        clearInterval(iv);
-        reject(new Error('timeout'));
-      }
-    }, 100);
-  });
-}
-
 async function main(): Promise<void> {
   const host = connect();
   await new Promise((r) => host.on('connect', r));
-
-  const created = await emitAck<AckResponse>(host, EVT.hostCreate, { playerCount: 2, targetScore: 20 });
-  console.log('✔ room:', created.roomCode);
-
-  const phases: string[] = [];
-  const picked: string[] = [];
-  let lastState: RoomState | null = null;
-  host.on(EVT.roomState, (s: RoomState) => {
-    lastState = s;
-    if (phases[phases.length - 1] !== s.phase) phases.push(s.phase);
-  });
-  host.on(EVT.minigameSelected, (p: MinigameSelectedPayload) => picked.push(p.name));
+  const created = await emitAck<AckResponse>(host, EVT.hostCreate, { playerCount: 2, targetScore: 10 });
 
   const p1 = connect();
   await new Promise((r) => p1.on('connect', r));
@@ -72,20 +46,23 @@ async function main(): Promise<void> {
 
   p1.emit(EVT.playerSelectCharacter, { characterId: 'goblin' });
   p2.emit(EVT.playerSelectCharacter, { characterId: 'buttafuori' });
-  await sleep(150);
+  await sleep(120);
   p1.emit(EVT.playerReady, { ready: true });
   p2.emit(EVT.playerReady, { ready: true });
-  await sleep(150);
+  await sleep(120);
+
+  const finishP = new Promise<RoomState>((resolve, reject) => {
+    const t = setTimeout(() => reject(new Error('timeout GAME_FINISHED')), 30000);
+    host.on(EVT.roomState, (s: RoomState) => {
+      if (s.phase === 'GAME_FINISHED') {
+        clearTimeout(t);
+        resolve(s);
+      }
+    });
+  });
 
   host.emit(EVT.hostStart);
   await waitPhase(host, 'MINIGAME_PLAYING');
-  console.log('✔ raggiunto MINIGAME_PLAYING');
-
-  const relayP = new Promise<InputRelayEvent>((r) => host.once(EVT.inputRelay, r));
-  p1.emit(EVT.inputAction, { controlId: 'answerA' });
-  const relay = await relayP;
-  console.log('✔ input relay:', relay.input.kind, relay.input.controlId);
-
   host.emit(EVT.hostMinigameFinished, {
     results: [
       { playerId: j1.playerId, placement: 1, score: 3 },
@@ -93,12 +70,13 @@ async function main(): Promise<void> {
     ]
   });
 
-  await waitFor(() => picked.length >= 2);
-  console.log('✔ secondo minigioco selezionato automaticamente:', picked[1]);
-  console.log('✔ fasi attraversate:', phases.join(' → '));
-  console.log('✔ punteggi:', lastState?.players.map((p) => `${p.displayName}:${p.score}`).join(', '));
+  const fin = await finishP;
+  console.log('✔ GAME_FINISHED raggiunto');
+  console.log('✔ vincitore =', fin.winner === j1.playerId ? 'Nicolò (corretto)' : `ERRORE: ${fin.winner}`);
+  console.log('✔ punteggi:', fin.players.map((p) => `${p.displayName}:${p.score}`).join(', '));
+  if (fin.winner !== j1.playerId) throw new Error('Vincitore errato');
 
-  console.log('\n✅ SMOKE TEST OK');
+  console.log('✅ VICTORY TEST OK');
   process.exit(0);
 }
 

@@ -210,15 +210,16 @@ export class QuizScene extends Phaser.Scene {
   private endGame(): void {
     if (this.finished) return;
     this.finished = true;
-    const ranking = [...this.ctx.playerIds].sort((a, b) => {
+    const sorted = [...this.ctx.playerIds].sort((a, b) => {
       const d = (this.correctCount.get(b) ?? 0) - (this.correctCount.get(a) ?? 0);
       return d !== 0 ? d : this.ctx.playerIds.indexOf(a) - this.ctx.playerIds.indexOf(b);
     });
-    const stats: Record<PlayerId, Record<string, number>> = {};
-    for (const pid of this.ctx.playerIds) {
-      stats[pid] = { risposteCorrette: this.correctCount.get(pid) ?? 0 };
-    }
-    this.ctx.finish({ ranking, stats });
+    const results = sorted.map((pid, i) => ({
+      playerId: pid,
+      placement: i + 1,
+      score: this.correctCount.get(pid) ?? 0
+    }));
+    this.ctx.finish({ results });
   }
 
   update(): void {

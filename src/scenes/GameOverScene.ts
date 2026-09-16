@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
 import { getCharacter } from '../../shared/characters';
+import { confetti } from './confetti';
 
 export class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -18,47 +19,65 @@ export class GameOverScene extends Phaser.Scene {
     }
     const c = winnerPlayer.characterId ? getCharacter(winnerPlayer.characterId) : null;
     audio.fanfare();
+    confetti(this, 640, -30);
 
     this.add
-      .text(640, 110, '🏆 IL VINCITORE 🏆', {
+      .text(640, 70, '🏆 VINCITORE DELLA PARTITA 🏆', {
         fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '60px',
+        fontSize: '48px',
         color: '#fbbf24'
       })
       .setOrigin(0.5)
       .setShadow(0, 4, '#000000', 8);
 
-    if (c) {
-      this.add.image(640, 300, c.id).setDisplaySize(200, 200);
-    }
+    if (c) this.add.image(640, 200, c.id).setDisplaySize(120, 120);
     this.add
-      .text(640, 430, `${c?.avatar ?? '🎮'} ${winnerPlayer.displayName}`, {
+      .text(640, 285, `${c?.avatar ?? '🎮'} ${winnerPlayer.displayName}`, {
         fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '52px',
+        fontSize: '44px',
         color: c?.color ?? '#ffffff'
       })
       .setOrigin(0.5);
-    if (c) {
-      this.add
-        .text(640, 490, c.roleTitle, {
-          fontFamily: 'Arial, sans-serif',
-          fontSize: '26px',
-          color: '#e5e7eb'
-        })
-        .setOrigin(0.5);
-    }
     this.add
-      .text(640, 530, `${winnerPlayer.score} punti (obiettivo ${st.targetScore})`, {
+      .text(640, 330, `${winnerPlayer.score} punti`, {
         fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '30px',
+        fontSize: '28px',
         color: '#ffffff'
       })
       .setOrigin(0.5);
 
+    // Classifica finale completa (primo in cima).
+    const standings = [...st.players].sort((a, b) => b.score - a.score);
+    standings.forEach((p, i) => {
+      const y = 390 + i * 44;
+      const pc = p.characterId ? getCharacter(p.characterId) : null;
+      this.add
+        .text(300, y, `${i + 1}.`, {
+          fontFamily: '"Arial Black", Arial, sans-serif',
+          fontSize: '20px',
+          color: '#9ca3af'
+        })
+        .setOrigin(0, 0.5);
+      this.add
+        .text(380, y, `${pc?.avatar ?? '🎮'} ${p.displayName}`, {
+          fontFamily: 'Arial, sans-serif',
+          fontSize: '20px',
+          color: pc?.color ?? '#ffffff'
+        })
+        .setOrigin(0, 0.5);
+      this.add
+        .text(940, y, `${p.score} PT`, {
+          fontFamily: '"Arial Black", Arial, sans-serif',
+          fontSize: '20px',
+          color: '#ffffff'
+        })
+        .setOrigin(0, 0.5);
+    });
+
     this.add
-      .text(640, 640, 'Premi INVIO per tornare alla lobby', {
+      .text(640, 690, 'Premi INVIO per tornare alla lobby', {
         fontFamily: 'Arial, sans-serif',
-        fontSize: '24px',
+        fontSize: '20px',
         color: '#4ade80'
       })
       .setOrigin(0.5);

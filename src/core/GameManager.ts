@@ -91,8 +91,9 @@ export class GameManager {
     this.socket?.emit(EVT.hostStart);
   }
 
-  continueRound(): void {
-    this.socket?.emit(EVT.hostContinue);
+  /** L'host salta le animazioni (non il calcolo punti né il controllo vittoria). */
+  skip(): void {
+    this.socket?.emit(EVT.hostSkip);
   }
 
   backToLobby(): void {
@@ -104,7 +105,7 @@ export class GameManager {
   }
 
   finishMinigame(result: MinigameResult): void {
-    this.socket?.emit(EVT.hostMinigameFinished, { ranking: result.ranking, stats: result.stats });
+    this.socket?.emit(EVT.hostMinigameFinished, { results: result.results });
   }
 
   /** Avvia la scena del minigioco (chiamato dalla RouletteScene a fine animazione). */
@@ -173,9 +174,45 @@ export class GameManager {
     this.state = state;
     this.events.emit('state', state);
 
-    if (prev === 'MINIGAME' && (state.phase === 'RESULTS' || state.phase === 'GAME_OVER')) {
-      if (state.phase === 'GAME_OVER') this.game?.scene.start('GameOverScene');
-      else this.game?.scene.start('ResultsScene');
+    if (state.phase === prev) return;
+
+    // Uscendo dal minigioco: azzera gli input per non ereditare tasti premuti.
+    if (prev === 'MINIGAME_PLAYING') {
+      this.input.reset();
+    }
+
+    this.transitionTo(state.phase);
+  }
+
+  private transitionTo(phase: GamePhase): void {
+    if (!this.game) return;
+    switch (phase) {
+      case 'MINIGAME_ROULETTE':
+        this.game.scene.start('RouletteScene');
+        break;
+      case 'MINIGAME_INTRO':
+        this.game.scene.start('IntroScene');
+        break;
+      case 'MINIGAME_PLAYING':
+        this.launchMinigame();
+        break;
+      case 'MINIGAME_FINISHED':
+        this.game.scene.start('FinishedScene');
+        break;
+      case 'ROUND_RESULTS':
+        this.game.scene.start('ResultsScene');
+        break;
+      case 'GLOBAL_LEADERBOARD':
+        this.game.scene.start('LeaderboardScene');
+        break;
+      case 'NEXT_ROUND':
+        this.game.scene.start('NextRoundScene');
+        break;
+      case 'GAME_FINISHED':
+        this.game.scene.start('GameOverScene');
+        break;
+      default:
+        break;
     }
   }
 
@@ -183,7 +220,6 @@ export class GameManager {
     this.pendingMinigame = payload;
     this.minigameContext = this.buildContext(payload);
     this.events.emit('minigame', payload);
-    this.game?.scene.start('RouletteScene');
   }
 
   private onInputRelay(relay: InputRelayEvent): void {

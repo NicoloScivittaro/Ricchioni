@@ -32,7 +32,29 @@ export const RARITY_WEIGHT: Record<Rarity, number> = {
 
 export type HookId = string;
 
-export type GamePhase = 'LOBBY' | 'ROULETTE' | 'MINIGAME' | 'RESULTS' | 'GAME_OVER';
+export type GamePhase =
+  | 'LOBBY'
+  | 'MINIGAME_ROULETTE'
+  | 'MINIGAME_INTRO'
+  | 'MINIGAME_PLAYING'
+  | 'MINIGAME_FINISHED'
+  | 'ROUND_RESULTS'
+  | 'GLOBAL_LEADERBOARD'
+  | 'CHECK_WINNER'
+  | 'NEXT_ROUND'
+  | 'GAME_FINISHED';
+
+/** Durate configurabili del flusso (condivise tra server e host per restare in sync). */
+export const FLOW_TIMING = {
+  revealStepMs: 900,
+  revealWinnerDelayMs: 1300,
+  revealFinalHoldMs: 2400,
+  rouletteMs: 3800,
+  introMs: 4200,
+  finishedMs: 1200,
+  leaderboardMs: 3600,
+  nextRoundMs: 3000
+} as const;
 
 // ---- Configurazione partita ----
 
@@ -115,9 +137,19 @@ export interface PlayerSnapshot {
 
 // ---- Minigioco ----
 
+/** Risultato di un singolo giocatore in un minigioco. */
+export interface PlayerResult {
+  playerId: PlayerId;
+  /** Posizione: 1 = primo. */
+  placement: number;
+  /** Punteggio interno del minigioco (es. risposte corrette). NON i punti partita. */
+  score: number;
+}
+
+/** Risultato standardizzato che ogni minigioco restituisce al sistema centrale. */
 export interface MinigameResult {
-  ranking: PlayerId[];
-  stats?: Record<PlayerId, Record<string, number>>;
+  /** Ordinati dal 1° all'ultimo. */
+  results: PlayerResult[];
 }
 
 export type ControlKind = 'button' | 'hold' | 'axis';
@@ -176,7 +208,11 @@ export interface CurrentMinigame {
 }
 
 export interface RoundResults {
+  /** Risultati del round (placement + punteggio interno). */
+  results: PlayerResult[];
+  /** Id dei giocatori ordinati dal 1° all'ultimo. */
   ranking: PlayerId[];
+  /** Punti partita assegnati a ciascun giocatore. */
   deltas: Record<PlayerId, number>;
   double: boolean;
 }

@@ -2,9 +2,9 @@ import type {
   ActiveModifier,
   Category,
   ControllerLayout,
-  MinigameResult,
   PlayerId,
-  PlayerPublic
+  PlayerPublic,
+  PlayerResult
 } from './types';
 
 /**
@@ -24,7 +24,7 @@ export const EVT = {
   inputAxis: 'input:axis',
   hostStart: 'host:start',
   hostMinigameFinished: 'host:minigameFinished',
-  hostContinue: 'host:continue',
+  hostSkip: 'host:skip',
   hostBackToLobby: 'host:backToLobby',
 
   // ---- Server → Client ----
@@ -72,8 +72,7 @@ export interface ReadyPayload {
 }
 
 export interface MinigameFinishedPayload {
-  ranking: PlayerId[];
-  stats?: MinigameResult['stats'];
+  results: PlayerResult[];
 }
 
 export interface InputRelayEvent {

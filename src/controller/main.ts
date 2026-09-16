@@ -83,15 +83,30 @@ function render(): void {
 
   switch (state.phase) {
     case 'LOBBY':
+      lastMinigameId = null;
       renderCharacterSelect(state, me);
       break;
-    case 'MINIGAME':
+    case 'MINIGAME_PLAYING':
       renderPlaying(state);
       break;
-    case 'RESULTS':
-      renderResults(state, me);
+    case 'MINIGAME_ROULETTE':
+    case 'MINIGAME_INTRO':
+      lastMinigameId = null;
+      renderPreGame(state);
       break;
-    case 'GAME_OVER':
+    case 'MINIGAME_FINISHED':
+    case 'ROUND_RESULTS':
+    case 'GLOBAL_LEADERBOARD':
+    case 'CHECK_WINNER':
+      lastMinigameId = null;
+      renderRoundEnded();
+      break;
+    case 'NEXT_ROUND':
+      lastMinigameId = null;
+      renderNextRound();
+      break;
+    case 'GAME_FINISHED':
+      lastMinigameId = null;
       renderGameOver(state);
       break;
     default:
@@ -209,15 +224,28 @@ function sendInput(ev: InputEvent): void {
   }
 }
 
-function renderResults(state: RoomState, me: PlayerPublic): void {
-  const res = state.lastResults;
-  const myRank = res ? res.ranking.indexOf(me.id) + 1 : -1;
-  const myDelta = res ? (res.deltas[me.id] ?? 0) : 0;
+function renderPreGame(state: RoomState): void {
+  const mg = state.currentMinigame;
   app.innerHTML = `
     <div class="screen">
-      <h1>Risultati round</h1>
-      <p class="big-num">${myRank > 0 ? `${myRank}° posto` : '—'}</p>
-      <p class="sub">+${myDelta} punti · totale ${me.score} / ${state.targetScore}</p>
+      <h1>${mg?.name ?? 'Preparati...'}</h1>
+      <p class="sub">Il rullo sta scegliendo il minigioco</p>
+    </div>`;
+}
+
+function renderRoundEnded(): void {
+  app.innerHTML = `
+    <div class="screen">
+      <h1>ROUND TERMINATO</h1>
+      <p class="sub">Guarda lo schermo principale</p>
+    </div>`;
+}
+
+function renderNextRound(): void {
+  app.innerHTML = `
+    <div class="screen">
+      <h1>PROSSIMO MINIGIOCO...</h1>
+      <p class="sub">Guarda lo schermo principale</p>
     </div>`;
 }
 
