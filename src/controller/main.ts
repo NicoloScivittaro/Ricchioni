@@ -6,7 +6,12 @@ import { CHARACTERS, CHARACTER_ORDER } from '../../shared/characters';
 import { renderController } from './ControllerRenderer';
 import './style.css';
 
-const socket: Socket = import.meta.env.DEV ? io(`http://${location.hostname}:3001`) : io();
+const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
+const socket: Socket = serverUrl
+  ? io(serverUrl)
+  : import.meta.env.DEV
+    ? io(`http://${location.hostname}:3001`)
+    : io();
 const app = document.getElementById('app')!;
 
 let playerId: string | null = null;

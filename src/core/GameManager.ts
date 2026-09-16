@@ -37,6 +37,7 @@ export class GameManager {
   state: RoomState | null = null;
   roomCode = '';
   hostToken: string | null = null;
+  connectionError: string | null = null;
 
   pendingMinigame: MinigameSelectedPayload | null = null;
   minigameContext: MinigameContext | null = null;
@@ -53,6 +54,15 @@ export class GameManager {
     if (this.socket) this.socket.socket.disconnect();
     this.socket = new SocketClient(url);
     const s = this.socket;
+
+    this.socket.socket.on('connect_error', (err: Error) => {
+      this.connectionError = err.message;
+      this.events.emit('connection', 'error');
+    });
+    this.socket.socket.on('connect', () => {
+      this.connectionError = null;
+      this.events.emit('connection', 'ok');
+    });
 
     s.on(EVT.roomState, (payload) => this.onRoomState(payload as RoomState));
     s.on(EVT.minigameSelected, (payload) => this.onMinigameSelected(payload as MinigameSelectedPayload));

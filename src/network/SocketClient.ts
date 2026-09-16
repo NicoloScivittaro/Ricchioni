@@ -26,9 +26,22 @@ export class SocketClient {
   }
 
   /** Emette con callback-ack e restituisce una Promise (per i flussi join/create). */
-  emitAck<T = unknown>(event: string, payload?: unknown): Promise<T> {
+  emitAck<T = unknown>(event: string, payload?: unknown, timeoutMs = 8000): Promise<T> {
     return new Promise((resolve) => {
-      this.socket.emit(event, payload, (res: T) => resolve(res));
+      let done = false;
+      const timer = setTimeout(() => {
+        if (!done) {
+          done = true;
+          resolve({ ok: false, error: 'Server non raggiungibile (timeout)' } as unknown as T);
+        }
+      }, timeoutMs);
+      this.socket.emit(event, payload, (res: T) => {
+        if (!done) {
+          done = true;
+          clearTimeout(timer);
+          resolve(res);
+        }
+      });
     });
   }
 }

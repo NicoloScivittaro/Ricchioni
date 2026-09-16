@@ -13,6 +13,7 @@ export class LobbyScene extends Phaser.Scene {
   private countText!: Phaser.GameObjects.Text;
   private targetText!: Phaser.GameObjects.Text;
   private statusText!: Phaser.GameObjects.Text;
+  private connText!: Phaser.GameObjects.Text;
 
   constructor() {
     super('LobbyScene');
@@ -68,6 +69,24 @@ export class LobbyScene extends Phaser.Scene {
         color: '#4ade80'
       })
       .setOrigin(0.5);
+
+    this.connText = this.add
+      .text(640, 615, '', {
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '18px',
+        color: '#9ca3af'
+      })
+      .setOrigin(0.5);
+
+    const updateConn = (status: unknown): void => {
+      if (status === 'error') {
+        this.connText.setText('⚠️ Server non raggiungibile — verifica VITE_SERVER_URL').setColor('#f87171');
+      } else {
+        this.connText.setText('● Server connesso').setColor('#4ade80');
+      }
+    };
+    updateConn(gm.connected ? 'ok' : 'error');
+    gm.events.on('connection', updateConn);
 
     this.render();
 
@@ -128,7 +147,7 @@ export class LobbyScene extends Phaser.Scene {
     if (ack.ok && ack.roomCode) {
       this.scene.start('RoomScene');
     } else {
-      this.statusText.setText('Errore durante la creazione della stanza').setColor('#f87171');
+      this.statusText.setText(ack.error ?? 'Errore durante la creazione della stanza').setColor('#f87171');
     }
   }
 }

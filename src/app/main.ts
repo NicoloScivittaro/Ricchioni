@@ -33,5 +33,6 @@ const config: Phaser.Types.Core.GameConfig = {
 const phaserGame = new Phaser.Game(config);
 gm.attach(phaserGame);
 
-// In dev l'host parla col server locale; in prod same-origin (il server serve anche la build).
-gm.connect(import.meta.env.DEV ? `http://${location.hostname}:3001` : undefined);
+// URL del server WebSocket: da VITE_SERVER_URL in prod (es. Render/Railway), locale in dev.
+const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
+gm.connect(serverUrl || (import.meta.env.DEV ? `http://${location.hostname}:3001` : undefined));
