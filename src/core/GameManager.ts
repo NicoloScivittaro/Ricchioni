@@ -117,6 +117,11 @@ export class GameManager {
     this.socket?.emit(EVT.hostPrivateData, { playerId, data });
   }
 
+  /** Riavvia la partita mantenendo gli stessi giocatori (azzera i punteggi). */
+  restartMatch(): void {
+    this.socket?.emit(EVT.hostRestartMatch);
+  }
+
   backToLobby(): void {
     this.socket?.emit(EVT.hostBackToLobby);
     this.state = null;
@@ -247,6 +252,12 @@ export class GameManager {
     }
 
     if (state.phase === prev) return;
+
+    // Transizione verso LOBBY: restart (giocatori mantenuti) o back-to-lobby (vuoto)
+    if (state.phase === 'LOBBY') {
+      this.game?.scene.start(state.players.length > 0 ? 'RoomScene' : 'LobbyScene');
+      return;
+    }
 
     // Uscendo dal minigioco: azzera gli input per non ereditare tasti premuti.
     if (prev === 'MINIGAME_PLAYING') {

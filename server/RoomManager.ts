@@ -78,6 +78,7 @@ export class RoomManager {
       this.onSelectMinigame(socket, p.minigameId)
     );
     socket.on(EVT.hostPrivateData, (p: PrivateDataPayload) => this.onPrivateData(socket, p));
+    socket.on(EVT.hostRestartMatch, () => this.onRestartMatch(socket));
     socket.on(EVT.hostBackToLobby, () => this.onBackToLobby(socket));
     socket.on('disconnect', () => this.onDisconnect(socket));
   }
@@ -236,6 +237,12 @@ export class RoomManager {
     const room = this.roomOfHost(socket);
     if (!room) return;
     room.resetToLobby(); // emette 'changed' → broadcast
+  }
+
+  private onRestartMatch(socket: Socket): void {
+    const room = this.roomOfHost(socket);
+    if (!room) return;
+    room.restartMatch(); // emette 'changed' → broadcast
   }
 
   private emitMinigameSelected(room: GameSession, payload: MinigameSelectedPayload): void {

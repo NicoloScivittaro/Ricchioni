@@ -27,6 +27,7 @@ export const EVT = {
   hostSkip: 'host:skip',
   hostSelectMinigame: 'host:selectMinigame',
   hostPrivateData: 'host:privateData',
+  hostRestartMatch: 'host:restartMatch',
   hostBackToLobby: 'host:backToLobby',
 
   // ---- Server → Client ----

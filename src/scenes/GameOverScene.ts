@@ -78,7 +78,7 @@ export class GameOverScene extends Phaser.Scene {
     });
 
     this.add
-      .text(640, 690, 'Premi INVIO per tornare alla lobby', {
+      .text(640, 690, 'R = RIGIOCA (stessa squadra) · INVIO = nuova configurazione', {
         fontFamily: 'Arial, sans-serif',
         fontSize: '20px',
         color: '#4ade80'
@@ -86,7 +86,10 @@ export class GameOverScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.input.keyboard?.on('keydown', (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'r' || e.key === 'R') {
+        audio.select();
+        gm.restartMatch();
+      } else if (e.key === 'Enter' || e.key === 'Escape') {
         audio.select();
         gm.backToLobby();
         this.scene.start('LobbyScene');

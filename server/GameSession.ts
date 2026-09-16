@@ -190,6 +190,24 @@ export class GameSession {
     this.setPhase('LOBBY');
   }
 
+  /** Riavvia la partita mantenendo gli stessi giocatori (azzera punteggi e stato). */
+  restartMatch(): void {
+    this.clearTimer();
+    for (const p of this.players) {
+      p.score = 0;
+      p.ready = false;
+    }
+    this.currentMinigame = null;
+    this.lastResults = null;
+    this.winner = null;
+    this.suddenDeath = false;
+    this.suddenDeathCandidates = [];
+    this.history = [];
+    this.lastSelectedPayload = null;
+    this.round = 1;
+    this.setPhase('LOBBY');
+  }
+
   // ---- FSM ----
 
   private pickAndEnterRoulette(): void {
