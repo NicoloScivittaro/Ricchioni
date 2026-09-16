@@ -19,6 +19,8 @@ export class RoomScene extends Phaser.Scene {
   }
 
   create(): void {
+    this.portraits = [];
+    this.labels = [];
     this.cameras.main.setBackgroundColor('#0b0b14');
     const code = gm.roomCode || '?????';
 
