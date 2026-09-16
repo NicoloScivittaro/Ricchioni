@@ -16,14 +16,13 @@ const REVERSE_ACCEL = 22;
 const MAX_REVERSE = -18;
 const COAST_DRAG = 20; // decelerazione naturale (unità/s²) quando non si accelera né frena
 
-const MAX_STEER_ANGLE = 0.42; // angolo bersaglio (rad) in guida normale, a piena velocità
-const GRIP_ONROAD = 1;
-const GRIP_OFFROAD = 0.45;
-const OFFROAD_SPEED_FACTOR = 0.42;
-const WALL_MARGIN = 1.6;
+const MAX_TURN_RATE = 2.4; // rad/s di sterzata attiva (angolo ASSOLUTO, non relativo alla pista)
+const DRIFT_EXTRA_RATE = 1.15; // rotazione extra durante la derapata
+const CENTER_RATE_ONROAD = 0.6; // rad/s: quanto velocemente il kart si "auto-allinea" senza input
+const CENTER_RATE_OFFROAD = 0.22;
+const WALL_MARGIN = 0.55;
 
 export const DRIFT_MIN_SPEED = 20;
-const DRIFT_HEADING_EXTRA = 0.5;
 export const DRIFT_THRESHOLDS: [number, number, number] = [0.55, 1.2, 2.1];
 const DRIFT_T = DRIFT_THRESHOLDS;
 const DRIFT_BOOST = [
@@ -32,9 +31,11 @@ const DRIFT_BOOST = [
   { power: 26, dur: 1.5 }
 ];
 
+const OFFROAD_SPEED_FACTOR = 0.42;
 const STUCK_SPEED = 4;
 const OFFTRACK_STUCK_TIME = 2.2;
 const RESPAWN_DELAY = 1;
+const WALL_HIT_STUN = 0.18;
 
 export function applyBoost(k: KartState, power: number, dur: number): void {
   if (power > k.boostPower) k.boostPower = power;
@@ -50,18 +51,28 @@ function releaseDrift(k: KartState): void {
   k.driftDir = 0;
 }
 
+function wrapAngle(a: number): number {
+  let r = a % (Math.PI * 2);
+  if (r > Math.PI) r -= Math.PI * 2;
+  if (r < -Math.PI) r += Math.PI * 2;
+  return r;
+}
+
 /**
- * Avanza la fisica arcade di un kart di un frame. Il modello è "ribbon-relative":
- * la posizione è (distanza percorsa lungo la spline, offset laterale, imbardata
- * relativa alla tangente) invece di una rigid-body 3D piena — economico, robusto
- * per split-screen multiplo, ed elimina strutturalmente le scorciatoie (non si
- * può avanzare lungo il percorso se non guidando in avanti).
+ * Avanza la fisica arcade di un kart di un frame. Modello "ribbon-relative"
+ * ma con imbardata ASSOLUTA persistente (k.absHeading), non relativa alla
+ * tangente locale: se non sterzi, la direzione di marcia resta fissa e la
+ * pista "gira sotto di te" in curva, spingendoti verso l'esterno — serve
+ * sterzare attivamente per seguire una curva, niente pilota automatico.
+ * k.heading (derivato ogni frame = absHeading - angolo tangente) resta il
+ * valore che rendering/telecamera consumano, invariato per loro.
  */
 export function stepKartPhysics(
   k: KartState,
   input: KartInputSnapshot,
   dt: number,
   halfWidthAt: (distance: number) => number,
+  trackAngleAt: (distance: number) => number,
   invertSteer: boolean
 ): void {
   if (k.respawnTimer > 0) {
@@ -102,7 +113,7 @@ export function stepKartPhysics(
 
   const half = halfWidthAt(k.distance);
   k.offRoad = Math.abs(k.lateral) > half;
-  const grip = k.offRoad ? GRIP_OFFROAD : GRIP_ONROAD;
+  const centerRate = k.offRoad ? CENTER_RATE_OFFROAD : CENTER_RATE_ONROAD;
   const maxSpeed = k.offRoad ? MAX_SPEED * OFFROAD_SPEED_FACTOR : MAX_SPEED;
   if (k.offRoad && k.speed > maxSpeed) k.speed -= (k.speed - maxSpeed) * Math.min(1, dt * 2);
   k.speed = clamp(k.speed, MAX_REVERSE, maxSpeed);
@@ -120,32 +131,56 @@ export function stepKartPhysics(
     else k.driftCharge += dt;
   }
 
-  // --- Sterzata / imbardata (dipendente dalla velocità) ---
-  // Modello a "angolo target": l'imbardata insegue un angolo bersaglio invece di
-  // accumularsi liberamente. Risultato: risposta immediata e prevedibile, e un
-  // rilascio dello sterzo che ricentra rapidamente invece di continuare a scivolare.
-  const speedFactor = clamp(Math.abs(k.speed) / MAX_SPEED, 0.3, 1);
-  const targetHeading = k.drifting ? k.driftDir * DRIFT_HEADING_EXTRA : steerDir * MAX_STEER_ANGLE * speedFactor;
-  const responsiveness = (k.drifting ? 3.4 : 9) * grip;
+  // --- Sterzata: velocità angolare ASSOLUTA (vedi commento sopra la funzione) ---
+  if (!stunned) {
+    k.absHeading += steerDir * MAX_TURN_RATE * dt;
+    if (k.drifting) k.absHeading += k.driftDir * DRIFT_EXTRA_RATE * dt;
+  }
 
-  if (!stunned) k.heading += (targetHeading - k.heading) * Math.min(1, responsiveness * dt);
-  else k.heading += (0 - k.heading) * Math.min(1, 3 * dt);
-  k.heading = clamp(k.heading, -1.15, 1.15);
+  let relHeading = wrapAngle(k.absHeading - trackAngleAt(k.distance));
 
-  // La componente laterale della velocità nasce dall'imbardata (modello bicicletta semplificato).
-  const lateralSpeed = Math.sin(k.heading) * k.speed;
-  k.lateral += lateralSpeed * dt;
+  // Auto-allineamento naturale (grip) SOLO quando non si sterza attivamente:
+  // previene una deriva laterale infinita su un rettilineo, restando comunque
+  // molto più lento della curvatura di una curva vera (serve sterzare per
+  // seguirla, non basta aspettare che il kart si raddrizzi da solo).
+  if (!k.drifting && steerDir === 0) {
+    const correction = relHeading * Math.min(1, centerRate * dt);
+    k.absHeading -= correction;
+    relHeading -= correction;
+  }
+  if (stunned) {
+    const correction = relHeading * Math.min(1, 2 * dt);
+    k.absHeading -= correction;
+    relHeading -= correction;
+  }
 
-  // Collisione con i muri esterni: clamp + perdita di velocità.
-  const wallLimit = half + WALL_MARGIN * 4;
+  relHeading = clamp(relHeading, -1.25, 1.25);
+  k.heading = relHeading;
+
+  // Avanzamento lungo il percorso e deriva laterale, scomposti rispetto alla
+  // tangente locale della pista: se non sei allineato (curva non seguita),
+  // avanzi di meno e scivoli di più verso il bordo — esattamente l'effetto
+  // "serve sterzare in curva" richiesto.
+  k.distance += k.speed * Math.cos(relHeading) * dt;
+  k.lateral += k.speed * Math.sin(relHeading) * dt;
+  if (k.distance < 0) k.distance = 0;
+
+  // Collisione con le barriere: al bordo del cordolo, non 6 unità più in là.
+  const wallLimit = half + WALL_MARGIN;
   if (Math.abs(k.lateral) > wallLimit) {
+    const overshoot = Math.abs(k.lateral) - wallLimit;
     k.lateral = Math.sign(k.lateral) * wallLimit;
-    k.speed *= 0.55;
-    k.heading *= 0.3;
+    k.speed *= 0.5;
+    const straighten = relHeading * 0.6;
+    k.absHeading -= straighten;
+    k.heading -= straighten;
+    if (overshoot > 0.15 && k.invulnTimer <= 0) {
+      k.stunTimer = Math.max(k.stunTimer, WALL_HIT_STUN);
+    }
   }
 
   // Fuori pista / bloccato troppo a lungo → richiedi respawn.
-  const farOff = Math.abs(k.lateral) > half + WALL_MARGIN * 2.2;
+  const farOff = Math.abs(k.lateral) > half + 4;
   if (farOff && Math.abs(k.speed) < STUCK_SPEED) {
     k.offTrackTimer += dt;
     if (k.offTrackTimer > OFFTRACK_STUCK_TIME) {
@@ -155,14 +190,12 @@ export function stepKartPhysics(
   } else {
     k.offTrackTimer = Math.max(0, k.offTrackTimer - dt * 2);
   }
-
-  k.distance += k.speed * dt;
-  if (k.distance < 0) k.distance = 0;
 }
 
-export function respawnKart(k: KartState): void {
+export function respawnKart(k: KartState, trackAngleAt: (distance: number) => number): void {
   k.distance = k.lastValidCheckpointS;
   k.lateral = 0;
+  k.absHeading = trackAngleAt(k.distance);
   k.heading = 0;
   k.speed = 0;
   k.driftCharge = 0;

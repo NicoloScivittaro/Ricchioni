@@ -44,6 +44,7 @@ export class BabylonKartGame {
   private resultsSent = false;
   private disposed = false;
   private onResize = (): void => this.engine.resize();
+  private trackAngleAt = (d: number): number => this.spline.tangentAngleAt(d);
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -72,7 +73,7 @@ export class BabylonKartGame {
     this.items = new ItemManager(this.scene, boxPlacements, this.spline, ctx.rng, this.abilities);
     this.cameraManager = new CameraManager(this.scene);
     this.hud = new KartHud(this.scene, this.engine);
-    this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), (ev) => this.onRaceEvent(ev));
+    this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), this.trackAngleAt, (ev) => this.onRaceEvent(ev));
 
     this.order = [...ctx.playerIds];
     ctx.players.forEach((p, i) => {
@@ -81,6 +82,7 @@ export class BabylonKartGame {
       const row = Math.floor(i / 2);
       state.lateral = col * (2.3 + row * 0.15);
       state.distance = -row * 3.6 - 1;
+      state.absHeading = this.trackAngleAt(state.distance);
       this.karts.set(p.id, state);
 
       const entity = new KartEntity(this.scene, p.color);
@@ -133,7 +135,7 @@ export class BabylonKartGame {
 
         const wasDrifting = state.drifting;
         const wasCharge = state.driftCharge;
-        stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, invertModifier);
+        stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier);
         this.abilities.updateCornerAssist(state);
         if (wasDrifting && !state.drifting && wasCharge >= DRIFT_THRESHOLDS[0]) audio.boost();
       }

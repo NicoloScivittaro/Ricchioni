@@ -6,8 +6,8 @@ import type { ItemBoxPlacement, TrackSpline } from './track';
 import { applyBoost, hitKart } from './kartPhysics';
 import type { AbilityHooks } from './abilities';
 
-const BOX_PICKUP_RADIUS_LAT = 2.4;
-const BOX_PICKUP_RADIUS_S = 2.2;
+const BOX_PICKUP_RADIUS_LAT = 4.2;
+const BOX_PICKUP_RADIUS_S = 3.4;
 const BOX_RESPAWN_TIME = 6;
 const ROULETTE_TIME = 0.55;
 
@@ -82,13 +82,15 @@ export class ItemManager {
   ) {
     this.root = new TransformNode('itemsRoot', scene);
     const mat = new StandardMaterial('itemBoxMat', scene);
-    mat.diffuseColor = new Color3(0.15, 0.75, 0.7);
-    mat.emissiveColor = new Color3(0.1, 0.5, 0.48);
+    mat.diffuseColor = new Color3(0.15, 0.8, 0.75);
+    mat.emissiveColor = new Color3(0.2, 0.7, 0.65);
+    mat.specularColor = new Color3(0.5, 0.7, 0.7);
 
     for (const p of placements) {
-      const mesh = MeshBuilder.CreatePolyhedron('itemBox', { type: 1, size: 0.55 }, scene);
+      const mesh = MeshBuilder.CreatePolyhedron('itemBox', { type: 1, size: 1.15 }, scene);
       mesh.material = mat;
       mesh.parent = this.root;
+      mesh.position.copyFrom(this.spline.worldPoint(p.s, p.lateral, 0.9));
       this.boxes.push({ s: p.s, lateral: p.lateral, taken: false, respawnTimer: 0, mesh });
     }
   }
@@ -104,9 +106,11 @@ export class ItemManager {
         }
         continue;
       }
-      const worldPos = this.spline.worldPoint(box.s, box.lateral, 0.9);
+      const bob = Math.sin(performance.now() * 0.003 + box.s) * 0.25;
+      const worldPos = this.spline.worldPoint(box.s, box.lateral, 1.1 + bob);
       box.mesh.position.copyFrom(worldPos);
       box.mesh.rotation.y += dt * 2.2;
+      box.mesh.rotation.x += dt * 0.6;
 
       for (const k of karts) {
         if (k.heldItem || k.finished) continue;

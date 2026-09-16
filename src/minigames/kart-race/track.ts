@@ -1,6 +1,5 @@
 import {
   Vector3,
-  Color4,
   Color3,
   Mesh,
   MeshBuilder,
@@ -145,6 +144,12 @@ export class TrackSpline {
     return Vector3.Lerp(this.samples[i0].tangent, this.samples[i1].tangent, t).normalize();
   }
 
+  /** Angolo (rad, piano X-Z) della tangente — usato per l'imbardata assoluta dei kart. */
+  tangentAngleAt(s: number): number {
+    const t = this.tangentAt(s);
+    return Math.atan2(t.x, t.z);
+  }
+
   rightAt(s: number): Vector3 {
     const { i0, i1, t } = this.indexAt(s);
     return Vector3.Lerp(this.samples[i0].right, this.samples[i1].right, t).normalize();
@@ -186,18 +191,11 @@ export interface ItemBoxPlacement {
   lateral: number;
 }
 
-/** Coppie di box bonus sui rettilinei (partenza e boost). */
+/** Box bonus distribuiti lungo tutto il giro, al centro carreggiata (facili da prendere). */
 export function buildItemBoxes(spline: TrackSpline): ItemBoxPlacement[] {
   const L = spline.totalLength;
-  const spots = [0.06, 0.1, 0.56, 0.6, 0.64];
-  const out: ItemBoxPlacement[] = [];
-  for (const f of spots) {
-    const s = f * L;
-    const w = spline.widthAt(s);
-    out.push({ s, lateral: -w * 0.22 });
-    out.push({ s, lateral: w * 0.22 });
-  }
-  return out;
+  const spots = [0.04, 0.09, 0.22, 0.34, 0.46, 0.52, 0.58, 0.66, 0.78, 0.9, 0.97];
+  return spots.map((f) => ({ s: f * L, lateral: 0 }));
 }
 
 export interface TrackVisuals {
@@ -453,9 +451,3 @@ function buildStartGate(scene: Scene, spline: TrackSpline, parent: TransformNode
   banner.parent = parent;
 }
 
-export function itemBoxSpin(mesh: Mesh, dt: number): void {
-  mesh.rotation.y += dt * 2.4;
-  mesh.position.y += Math.sin(performance.now() * 0.003 + mesh.uniqueId) * 0.002;
-}
-
-export { Color4 };

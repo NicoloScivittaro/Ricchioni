@@ -31,6 +31,7 @@ export class RaceManager {
     private checkpoints: number[],
     private totalLength: number,
     private durationCap: number,
+    private trackAngleAt: (distance: number) => number,
     private onEvent: (ev: RaceHudEvent) => void
   ) {}
 
@@ -68,7 +69,7 @@ export class RaceManager {
       if (k.finished) continue;
       this.checkCheckpoints(k);
       if (k.respawnTimer > 0.001 && k.respawnTimer - dt <= 0) {
-        respawnKart(k);
+        respawnKart(k, this.trackAngleAt);
       }
     }
 

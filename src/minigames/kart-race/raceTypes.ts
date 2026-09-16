@@ -11,7 +11,8 @@ export interface KartState {
 
   distance: number; // progresso totale non wrappato (per giri + classifica)
   lateral: number; // offset laterale dal centro pista (m)
-  heading: number; // imbardata relativa alla tangente pista (rad)
+  absHeading: number; // imbardata assoluta persistente (rad) — NON si resetta con la tangente locale
+  heading: number; // derivato ogni frame: absHeading - angolo tangente pista (per rendering/telecamera)
   speed: number; // velocità lungo il percorso (unità/s)
 
   lap: number;
@@ -52,6 +53,7 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     avatar,
     distance: 0,
     lateral: 0,
+    absHeading: 0,
     heading: 0,
     speed: 0,
     lap: 0,
