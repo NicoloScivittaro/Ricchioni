@@ -1,5 +1,16 @@
 # Third-Party Notices
 
+## Mario-Kart-html
+
+- **Fonte**: cartella `Mario-Kart-html-main` (racer pseudo-3D in HTML/CSS/JS, di Spishous)
+- **Licenza**: NESSUNA licenza esplicita nel repository (all rights reserved di default).
+
+Nota di conformità: il codice originale NON è stato copiato né riutilizzato.
+È stata reimplementata SOLO la *tecnica* di rendering (strada in prospettiva
+pseudo-3D "mode 7") in Phaser, da zero. Gli asset originali (Mario, Luigi,
+Bowser, Yoshi, ecc.) sono proprietà di Nintendo e NON sono stati usati: i
+personaggi sono i 5 del gruppo Ricchioni. Vedi `src/minigames/kart3d`.
+
 ## Hot Wheels
 
 - **Fonte**: cartella `hotwheels-main` (racer top-down Phaser 3, ispirato a GTA)

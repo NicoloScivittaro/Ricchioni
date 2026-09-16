@@ -209,6 +209,26 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'action', label: 'POTERE', kind: 'button', icon: '🎁' }
       ]
     }
+  },
+  {
+    id: 'kart3d',
+    name: 'KART 3D',
+    category: 'GUIDA',
+    rarity: 'rare',
+    minPlayers: 2,
+    maxPlayers: 5,
+    durationSec: 75,
+    compatibleModifiers: ['punti_doppi'],
+    sceneKey: 'kart3d',
+    controllerLayout: {
+      type: 'dpad',
+      controls: [
+        { id: 'up', label: '▲', kind: 'hold' },
+        { id: 'down', label: '▼', kind: 'hold' },
+        { id: 'left', label: '◀', kind: 'hold' },
+        { id: 'right', label: '▶', kind: 'hold' }
+      ]
+    }
   }
 ];
 
