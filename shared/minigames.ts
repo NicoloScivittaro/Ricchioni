@@ -168,6 +168,26 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'right', label: '▶', kind: 'hold' }
       ]
     }
+  },
+  {
+    id: 'pixelrush',
+    name: 'PIXEL RUSH',
+    category: 'GUIDA',
+    rarity: 'uncommon',
+    minPlayers: 2,
+    maxPlayers: 5,
+    durationSec: 60,
+    compatibleModifiers: ['punti_doppi'],
+    sceneKey: 'pixelrush',
+    controllerLayout: {
+      type: 'buttons',
+      grid: 2,
+      controls: [
+        { id: 'left', label: '◀', kind: 'button' },
+        { id: 'right', label: '▶', kind: 'button' },
+        { id: 'action', label: 'OGGETTO', kind: 'button', icon: '🎁' }
+      ]
+    }
   }
 ];
 

@@ -1,0 +1,68 @@
+---
+title: "Clone & Bootstrap"
+weight: 23
+---
+
+## 1. Get the code
+
+{{% notice info %}}
+**AWS event (dev machine):** skip this — the repo is already cloned at
+`~/gamelift-workshop` and all dependencies are installed. Just open a terminal
+and `cd ~/gamelift-workshop`, then jump to step 3.
+{{% /notice %}}
+
+**Own account only** — clone and install dependencies:
+
+```bash
+# clone into a directory named gamelift-workshop (matches the rest of the guide)
+git clone https://github.com/aws-samples/sample-gamelift-workshop-pixelrush.git gamelift-workshop
+cd gamelift-workshop
+# the workshop/ dir is the tutorial's own source — not needed for the labs;
+# remove it for a cleaner tree (optional)
+rm -rf workshop
+(cd infra && npm install)
+(cd backend && npm install)
+(cd frontend && npm install)
+```
+
+## 2. Verify your toolchain
+
+Both paths — confirm the tools are ready:
+
+```bash
+node --version && cdk --version && aws sts get-caller-identity
+```
+
+## 3. Bootstrap CDK
+
+**Everyone does this** — bootstrapping provisions resources *in your AWS
+account* (an S3 bucket and the roles CDK deploys through), so it is required
+even on the pre-built dev machine. One time per account/region.
+
+Run this from the repository root — the `gamelift-workshop` directory from
+step 1 (on the dev machine, `cd ~/gamelift-workshop` first):
+
+```bash
+cd infra
+npx cdk bootstrap
+```
+
+Expected output ends with:
+
+```
+ ✅  Environment aws://123456789012/us-east-1 bootstrapped.
+```
+
+Confirm the bootstrap stack is in place before deploying:
+
+```bash
+aws cloudformation describe-stacks --stack-name CDKToolkit \
+  --query "Stacks[0].StackStatus" --output text
+```
+
+Expected: `CREATE_COMPLETE` (or `UPDATE_COMPLETE` if it already existed).
+
+{{% notice info %}}
+Already bootstrapped this account/region before? The command is idempotent —
+it prints `(no changes)` and exits.
+{{% /notice %}}

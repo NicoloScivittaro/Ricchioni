@@ -1,0 +1,42 @@
+# --- dependencies ---
+node_modules/
+docs/
+# --- build outputs ---
+frontend/dist/
+server/dist/
+infra/cdk.out/
+workshop/public/
+workshop/themes/
+workshop/.hugo_build.lock
+*.tsbuildinfo
+workshop-studio/
+workshop-studio-v2/
+
+# --- CDK / AWS local state ---
+infra/cdk.context.json
+.cdk.staging/
+
+# --- deployment-specific config (each deployment writes its own; see README Part 1) ---
+frontend/public/config.json
+
+# --- test artifacts & screenshots ---
+scripts/shots/
+
+# --- logs, dumps & scratch ---
+*.log
+*.gz
+test.py
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# --- reference repo (vendored separately, not part of this project) ---
+guidance-for-custom-game-backend-hosting-on-aws/
+
+# --- local env/secrets ---
+.env
+.env.*
