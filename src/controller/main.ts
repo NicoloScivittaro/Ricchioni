@@ -61,9 +61,9 @@ socket.on(EVT.roomState, (payload) => {
   render();
 });
 
-socket.on(EVT.vibrate, () => {
+socket.on(EVT.vibrate, (ms?: number) => {
   try {
-    navigator.vibrate?.(120);
+    navigator.vibrate?.(typeof ms === 'number' && ms > 0 ? ms : 120);
   } catch {
     /* ignore */
   }

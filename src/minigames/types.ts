@@ -25,6 +25,8 @@ export interface MinigameContext {
   consume(playerId: PlayerId, hook: string): boolean;
   /** Invia dati privati a un singolo telefono (host → server → telefono). */
   sendPrivate(playerId: PlayerId, data: unknown): void;
+  /** Fa vibrare il telefono di un giocatore, se il device lo supporta (nessun effetto altrimenti). */
+  vibrate(playerId: PlayerId, ms?: number): void;
   finish(result: MinigameResult): void;
 }
 

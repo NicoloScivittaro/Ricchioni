@@ -9,6 +9,7 @@ import type {
   AckResponse,
   InputRelayEvent,
   MinigameSelectedPayload,
+  PlayerDisconnectedEvent,
   RoomCreatedAck
 } from '../../shared/protocol';
 import type {
@@ -68,6 +69,9 @@ export class GameManager {
     s.on(EVT.roomState, (payload) => this.onRoomState(payload as RoomState));
     s.on(EVT.minigameSelected, (payload) => this.onMinigameSelected(payload as MinigameSelectedPayload));
     s.on(EVT.inputRelay, (payload) => this.onInputRelay(payload as InputRelayEvent));
+    s.on(EVT.playerDisconnected, (payload) => {
+      this.input.releasePlayer((payload as PlayerDisconnectedEvent).playerId);
+    });
 
     // Riconnessione automatica dell'host con token salvato
     const saved = this.loadHostToken();
@@ -115,6 +119,11 @@ export class GameManager {
   /** Invia dati privati a un singolo telefono (es. carte segrete, ruoli, obiettivi). */
   sendPrivate(playerId: string, data: unknown): void {
     this.socket?.emit(EVT.hostPrivateData, { playerId, data });
+  }
+
+  /** Fa vibrare il telefono di un singolo giocatore (se il device lo supporta). */
+  vibrate(playerId: string, ms = 120): void {
+    this.socket?.emit(EVT.hostVibratePlayer, { playerId, ms });
   }
 
   /** Riavvia la partita mantenendo gli stessi giocatori (azzera i punteggi). */
@@ -169,6 +178,7 @@ export class GameManager {
       input: this.input,
       consume: (playerId, hook) => this.consume(modifiers, playerId, hook),
       sendPrivate: (playerId, data) => this.sendPrivate(playerId, data),
+      vibrate: (playerId, ms) => this.vibrate(playerId, ms),
       finish: (result) => this.finishMinigame(result)
     };
   }

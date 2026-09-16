@@ -71,6 +71,17 @@ export class PlayerInput {
     }
   }
 
+  /** Rilascia forzatamente tutti i tasti (es. il telefono si è disconnesso a metà pressione). */
+  releaseAll(): void {
+    for (const b of this.buttons.values()) {
+      if (b.pressed) {
+        b.pressed = false;
+        b.justReleased = true;
+      }
+    }
+    this.axes.clear();
+  }
+
   private ensure(id: string): ButtonState {
     let b = this.buttons.get(id);
     if (!b) {

@@ -131,13 +131,27 @@ export class BabylonKartGame {
         if (snapshot.item && state.heldItem) {
           this.items.useItem(state, kartsList, (id) => this.race.rankOf(kartsList, id));
           audio.select();
+          this.ctx.vibrate(pid, 45);
         }
 
         const wasDrifting = state.drifting;
         const wasCharge = state.driftCharge;
+        const wasStunned = state.stunTimer > 0;
+        const hadItem = state.heldItem !== null;
         stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier);
         this.abilities.updateCornerAssist(state);
-        if (wasDrifting && !state.drifting && wasCharge >= DRIFT_THRESHOLDS[0]) audio.boost();
+
+        if (wasDrifting && !state.drifting && wasCharge >= DRIFT_THRESHOLDS[0]) {
+          audio.boost();
+          this.ctx.vibrate(pid, 65);
+        }
+        if (!wasStunned && state.stunTimer > 0) {
+          audio.hit();
+          this.ctx.vibrate(pid, 90);
+        }
+        if (!hadItem && state.heldItem !== null) {
+          this.ctx.vibrate(pid, 40);
+        }
       }
       this.resolveKartCollisions();
       this.items.update(dt, kartsList, (pid) => this.race.rankOf(kartsList, pid), this.karts.size);
@@ -187,9 +201,11 @@ export class BabylonKartGame {
       if (ev.value && ev.value > 0) {
         this.hud.setCountdown(String(ev.value));
         audio.tick();
+        for (const pid of this.order) this.ctx.vibrate(pid, 35);
       } else {
         this.hud.setCountdown('VIA!');
         audio.boost();
+        for (const pid of this.order) this.ctx.vibrate(pid, 110);
         setTimeout(() => {
           if (!this.disposed) this.hud.setCountdown('');
         }, 700);
@@ -197,6 +213,7 @@ export class BabylonKartGame {
     } else if (ev.type === 'lap') {
       audio.select();
     } else if (ev.type === 'finish') {
+      if (ev.playerId) this.ctx.vibrate(ev.playerId, 160);
       if (!this.firstFinishPlayed) {
         this.firstFinishPlayed = true;
         audio.fanfare();

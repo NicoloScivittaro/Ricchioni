@@ -13,7 +13,8 @@ import type {
   ReadyPayload,
   RoomCreatedAck,
   SelectCharacterPayload,
-  SelectMinigamePayload
+  SelectMinigamePayload,
+  VibratePlayerPayload
 } from '../shared/protocol';
 import { MAX_PLAYERS, MIN_PLAYERS, TARGET_SCORE_MAX, TARGET_SCORE_MIN } from '../shared/types';
 import type { InputEvent, RoomCode } from '../shared/types';
@@ -80,6 +81,7 @@ export class RoomManager {
     socket.on(EVT.hostPrivateData, (p: PrivateDataPayload) => this.onPrivateData(socket, p));
     socket.on(EVT.hostRestartMatch, () => this.onRestartMatch(socket));
     socket.on(EVT.hostBackToLobby, () => this.onBackToLobby(socket));
+    socket.on(EVT.hostVibratePlayer, (p: VibratePlayerPayload) => this.onHostVibratePlayer(socket, p));
     socket.on('disconnect', () => this.onDisconnect(socket));
   }
 
@@ -233,6 +235,13 @@ export class RoomManager {
     if (player?.connectionId) this.io.to(player.connectionId).emit(EVT.privateData, p.data);
   }
 
+  private onHostVibratePlayer(socket: Socket, p: VibratePlayerPayload): void {
+    const room = this.roomOfHost(socket);
+    if (!room) return;
+    const player = room.getPlayer(p.playerId);
+    if (player?.connectionId) this.io.to(player.connectionId).emit(EVT.vibrate, p.ms);
+  }
+
   private onBackToLobby(socket: Socket): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
@@ -286,6 +295,11 @@ export class RoomManager {
         this.reconn.scheduleExpiry(player.reconnectToken, () => {
           /* scaduto: il token non è più valido, il giocatore resta in partita senza controllo */
         });
+        // Evita kart/personaggi che restano "premuti" per sempre se il telefono
+        // sparisce mentre un tasto hold (es. accelera) è ancora giù.
+        if (room.hostConnectionId) {
+          this.io.to(room.hostConnectionId).emit(EVT.playerDisconnected, { playerId: player.id });
+        }
         this.broadcast(room.roomCode);
       }
       this.socketToPlayer.delete(socket.id);

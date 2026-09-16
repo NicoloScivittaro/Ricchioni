@@ -29,6 +29,8 @@ export const EVT = {
   hostPrivateData: 'host:privateData',
   hostRestartMatch: 'host:restartMatch',
   hostBackToLobby: 'host:backToLobby',
+  /** L'host chiede di far vibrare il telefono di UN giocatore specifico. */
+  hostVibratePlayer: 'host:vibratePlayer',
 
   // ---- Server → Client ----
   roomState: 'room:state',
@@ -41,7 +43,9 @@ export const EVT = {
   vibrate: 'controller:vibrate',
 
   // ---- Server → Host (relay input) ----
-  inputRelay: 'input:relay'
+  inputRelay: 'input:relay',
+  /** Un giocatore si è disconnesso: l'host deve rilasciare i suoi input tenuti premuti. */
+  playerDisconnected: 'player:disconnected'
 } as const;
 
 export interface CreateRoomPayload {
@@ -91,6 +95,15 @@ export interface PrivateDataPayload {
 export interface InputRelayEvent {
   playerId: PlayerId;
   input: import('./types').InputEvent;
+}
+
+export interface PlayerDisconnectedEvent {
+  playerId: PlayerId;
+}
+
+export interface VibratePlayerPayload {
+  playerId: PlayerId;
+  ms?: number;
 }
 
 /** Payload inviato al solo HOST quando parte un minigioco. */

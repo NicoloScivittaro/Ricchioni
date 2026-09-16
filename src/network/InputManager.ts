@@ -45,6 +45,11 @@ export class InputManager {
     for (const p of this.inputs.values()) p.clearFrame();
   }
 
+  /** Rilascia tutti i tasti di un giocatore (es. disconnessione a metà pressione). */
+  releasePlayer(playerId: PlayerId): void {
+    this.inputs.get(playerId)?.releaseAll();
+  }
+
   reset(): void {
     this.inputs.clear();
   }
