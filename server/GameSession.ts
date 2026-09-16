@@ -11,6 +11,7 @@ import type {
   ActiveModifier,
   CurrentMinigame,
   GamePhase,
+  MinigameDefinition,
   PlayerId,
   PlayerPublic,
   PlayerResult,
@@ -50,6 +51,8 @@ export class GameSession {
   lastResults: RoundResults | null = null;
   winner: PlayerId | null = null;
   suddenDeath = false;
+  /** null = rullo casuale; altrimenti il minigioco scelto manualmente dall'host. */
+  manualMinigameId: string | null = null;
 
   private suddenDeathCandidates: PlayerId[] = [];
   private rng = new Rng();
@@ -113,7 +116,8 @@ export class GameSession {
       currentMinigame: this.currentMinigame,
       lastResults: this.lastResults,
       winner: this.winner,
-      suddenDeath: this.suddenDeath
+      suddenDeath: this.suddenDeath,
+      selectedMinigameId: this.manualMinigameId
     };
   }
 
@@ -149,6 +153,13 @@ export class GameSession {
     this.setPhase('MINIGAME_FINISHED');
   }
 
+  /** L'host sceglie manualmente il prossimo minigioco (null = torna al rullo). */
+  selectMinigame(minigameId: string | null): void {
+    if (this.phase !== 'LOBBY') return;
+    if (minigameId && !getMinigame(minigameId)) return;
+    this.manualMinigameId = minigameId;
+  }
+
   /** L'host salta le animazioni (non il calcolo punti né il controllo vittoria). */
   skip(): void {
     if (
@@ -180,11 +191,29 @@ export class GameSession {
   // ---- FSM ----
 
   private pickAndEnterRoulette(): void {
-    const pick = RouletteEngine.pick(this.playerCount, this.history, this.rng);
-    const def = getMinigame(pick.minigameId);
-    if (!def) throw new Error(`Minigioco non trovato: ${pick.minigameId}`);
+    let minigameId: string;
+    let modifierId: string | null;
 
-    const modifier = pick.modifierId ? (getModifier(pick.modifierId) ?? null) : null;
+    if (this.manualMinigameId) {
+      const forced = getMinigame(this.manualMinigameId);
+      if (forced && this.playerCount >= forced.minPlayers && this.playerCount <= forced.maxPlayers) {
+        minigameId = forced.id;
+        modifierId = this.pickModifier(forced);
+      } else {
+        const pick = RouletteEngine.pick(this.playerCount, this.history, this.rng);
+        minigameId = pick.minigameId;
+        modifierId = pick.modifierId;
+      }
+    } else {
+      const pick = RouletteEngine.pick(this.playerCount, this.history, this.rng);
+      minigameId = pick.minigameId;
+      modifierId = pick.modifierId;
+    }
+
+    const def = getMinigame(minigameId);
+    if (!def) throw new Error(`Minigioco non trovato: ${minigameId}`);
+
+    const modifier = modifierId ? (getModifier(modifierId) ?? null) : null;
     let duration = def.durationSec;
     if (modifier?.id === 'tempo_dimezzato') duration = Math.max(5, Math.round(duration / 2));
 
@@ -199,7 +228,7 @@ export class GameSession {
       minigameId: def.id,
       name: def.name,
       category: def.category,
-      modifierId: pick.modifierId,
+      modifierId,
       durationSec: duration,
       controllerLayout: def.controllerLayout
     };
@@ -213,7 +242,7 @@ export class GameSession {
       minigameId: def.id,
       name: def.name,
       category: def.category,
-      modifierId: pick.modifierId ?? null,
+      modifierId: modifierId ?? null,
       modifierName: modifier?.name ?? null,
       modifierDescription: modifier?.description ?? null,
       durationSec: duration,
@@ -224,6 +253,15 @@ export class GameSession {
 
     this.events.emit('pick', payload);
     this.setPhase('MINIGAME_ROULETTE');
+  }
+
+  private pickModifier(def: MinigameDefinition): string | null {
+    if (def.compatibleModifiers.length === 0 || !this.rng.chance(0.25)) return null;
+    const mods = def.compatibleModifiers
+      .map((id) => getModifier(id))
+      .filter((m): m is NonNullable<typeof m> => Boolean(m));
+    if (mods.length === 0) return null;
+    return this.rng.weighted(mods.map((m) => ({ item: m.id, weight: m.weight })));
   }
 
   private setPhase(next: GamePhase): void {

@@ -87,6 +87,67 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'right', label: '▶', kind: 'hold' }
       ]
     }
+  },
+  {
+    id: 'dodgeball',
+    name: 'DODGEBALL DEI COGLIONI',
+    category: 'ARENA',
+    rarity: 'uncommon',
+    minPlayers: 2,
+    maxPlayers: 5,
+    durationSec: 45,
+    compatibleModifiers: ['punti_doppi'],
+    sceneKey: 'dodgeball',
+    controllerLayout: {
+      type: 'dpad',
+      controls: [
+        { id: 'up', label: '▲', kind: 'hold' },
+        { id: 'down', label: '▼', kind: 'hold' },
+        { id: 'left', label: '◀', kind: 'hold' },
+        { id: 'right', label: '▶', kind: 'hold' }
+      ]
+    }
+  },
+  {
+    id: 'soccer',
+    name: 'CALCIO DEI DISAGIATI',
+    category: 'SPORT',
+    rarity: 'uncommon',
+    minPlayers: 2,
+    maxPlayers: 5,
+    durationSec: 45,
+    compatibleModifiers: ['punti_doppi'],
+    sceneKey: 'soccer',
+    controllerLayout: {
+      type: 'dpad',
+      controls: [
+        { id: 'up', label: '▲', kind: 'hold' },
+        { id: 'down', label: '▼', kind: 'hold' },
+        { id: 'left', label: '◀', kind: 'hold' },
+        { id: 'right', label: '▶', kind: 'hold' }
+      ]
+    }
+  },
+  {
+    id: 'volleyball',
+    name: 'PALLAVOLO DEI DISAGIATI',
+    category: 'SPORT',
+    rarity: 'uncommon',
+    minPlayers: 2,
+    maxPlayers: 5,
+    durationSec: 40,
+    compatibleModifiers: ['punti_doppi'],
+    sceneKey: 'volleyball',
+    controllerLayout: {
+      type: 'dpad',
+      controls: [
+        { id: 'up', label: '▲', kind: 'hold' },
+        { id: 'down', label: '▼', kind: 'hold' },
+        { id: 'left', label: '◀', kind: 'hold' },
+        { id: 'right', label: '▶', kind: 'hold' },
+        { id: 'action', label: 'COLPO', kind: 'button', icon: '👊' }
+      ]
+    }
   }
 ];
 

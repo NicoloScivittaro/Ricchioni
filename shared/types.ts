@@ -229,6 +229,8 @@ export interface RoomState {
   lastResults: RoundResults | null;
   winner: PlayerId | null;
   suddenDeath: boolean;
+  /** null = rullo (casuale); altrimenti il minigioco scelto manualmente dall'host. */
+  selectedMinigameId: string | null;
 }
 
 /** Evento di input (telefono → server → host). */

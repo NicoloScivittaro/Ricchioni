@@ -11,7 +11,8 @@ import type {
   MinigameSelectedPayload,
   ReadyPayload,
   RoomCreatedAck,
-  SelectCharacterPayload
+  SelectCharacterPayload,
+  SelectMinigamePayload
 } from '../shared/protocol';
 import { MAX_PLAYERS, MIN_PLAYERS, TARGET_SCORE_MAX, TARGET_SCORE_MIN } from '../shared/types';
 import type { InputEvent, RoomCode } from '../shared/types';
@@ -72,6 +73,9 @@ export class RoomManager {
       this.onMinigameFinished(socket, p)
     );
     socket.on(EVT.hostSkip, () => this.onSkip(socket));
+    socket.on(EVT.hostSelectMinigame, (p: SelectMinigamePayload) =>
+      this.onSelectMinigame(socket, p.minigameId)
+    );
     socket.on(EVT.hostBackToLobby, () => this.onBackToLobby(socket));
     socket.on('disconnect', () => this.onDisconnect(socket));
   }
@@ -209,6 +213,13 @@ export class RoomManager {
     const room = this.roomOfHost(socket);
     if (!room) return;
     room.skip();
+  }
+
+  private onSelectMinigame(socket: Socket, minigameId: string | null): void {
+    const room = this.roomOfHost(socket);
+    if (!room) return;
+    room.selectMinigame(minigameId);
+    this.broadcast(room.roomCode);
   }
 
   private onBackToLobby(socket: Socket): void {

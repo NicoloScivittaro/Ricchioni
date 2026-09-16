@@ -96,6 +96,11 @@ export class GameManager {
     this.socket?.emit(EVT.hostSkip);
   }
 
+  /** L'host sceglie manualmente il minigioco (null = rullo). */
+  selectMinigame(minigameId: string | null): void {
+    this.socket?.emit(EVT.hostSelectMinigame, { minigameId });
+  }
+
   backToLobby(): void {
     this.socket?.emit(EVT.hostBackToLobby);
     this.state = null;
