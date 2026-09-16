@@ -188,6 +188,27 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'action', label: 'OGGETTO', kind: 'button', icon: '🎁' }
       ]
     }
+  },
+  {
+    id: 'hotwheels',
+    name: 'HOT WHEELS',
+    category: 'GUIDA',
+    rarity: 'rare',
+    minPlayers: 2,
+    maxPlayers: 5,
+    durationSec: 90,
+    compatibleModifiers: ['punti_doppi'],
+    sceneKey: 'hotwheels',
+    controllerLayout: {
+      type: 'dpad',
+      controls: [
+        { id: 'up', label: '▲', kind: 'hold' },
+        { id: 'down', label: '▼', kind: 'hold' },
+        { id: 'left', label: '◀', kind: 'hold' },
+        { id: 'right', label: '▶', kind: 'hold' },
+        { id: 'action', label: 'POTERE', kind: 'button', icon: '🎁' }
+      ]
+    }
   }
 ];
 
