@@ -65,6 +65,15 @@ export class AudioManager {
   fanfare(): void {
     [523, 659, 784, 1046].forEach((f, i) => this.tone(f, 0.2, 'triangle', 0.09, i * 0.13));
   }
+
+  boost(): void {
+    this.tone(220, 0.05, 'sawtooth', 0.08);
+    this.tone(660, 0.18, 'sawtooth', 0.08, 0.04);
+  }
+
+  hit(): void {
+    this.tone(140, 0.16, 'square', 0.09);
+  }
 }
 
 export const audio = new AudioManager();
