@@ -228,7 +228,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'left', label: '◀', kind: 'hold' },
         { id: 'right', label: '▶', kind: 'hold' },
         { id: 'drift', label: 'DRIFT', kind: 'hold', icon: '💨' },
-        { id: 'item', label: 'ITEM', kind: 'button', icon: '🎁' }
+        { id: 'item', label: 'ITEM', kind: 'button', icon: '🎁' },
+        { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
       ]
     }
   }

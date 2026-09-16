@@ -1,26 +1,34 @@
 import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, TransformNode } from '@babylonjs/core';
 import type { Rng } from '../../../shared/rng';
 import type { PlayerId } from '../../../shared/types';
+import type { MinigameContext } from '../types';
 import type { KartState, ItemId } from './raceTypes';
 import type { ItemBoxPlacement, TrackSpline } from './track';
 import { applyBoost, hitKart } from './kartPhysics';
-import type { AbilityHooks } from './abilities';
+import { ChoiceManager, CharacterAbilities } from './abilities';
+import type { AbilityFeedback } from './abilities';
 
 const BOX_PICKUP_RADIUS_LAT = 4.2;
 const BOX_PICKUP_RADIUS_S = 3.4;
 const BOX_RESPAWN_TIME = 6;
 const ROULETTE_TIME = 0.55;
+const EXPLOIT_CHOICE_TIME = 3.5;
 
 const PROJECTILE_SPEED = 46;
 const PROJECTILE_LIFE = 3.5;
 const PROJECTILE_HIT_S = 1.8;
 const PROJECTILE_HIT_LAT = 2.2;
+const PROJECTILE_NEARMISS_S = 3.2;
+const PROJECTILE_NEARMISS_LAT = 3.6;
 const PROJECTILE_STUN = 1.1;
+const NEARMISS_METER = 0.15;
 
 const TRAP_LIFE = 18;
 const TRAP_HIT_S = 1.4;
 const TRAP_HIT_LAT = 1.9;
 const TRAP_STUN = 0.55;
+
+const ALL_ITEMS: ItemId[] = ['turbo', 'sfera', 'olio', 'scudo', 'super_turbo', 'disturbo'];
 
 const ITEM_COLORS: Record<ItemId, Color3> = {
   turbo: new Color3(1, 0.55, 0.1),
@@ -46,6 +54,7 @@ interface Projectile {
   speed: number;
   life: number;
   mesh: Mesh;
+  nearMissed: Set<PlayerId>;
 }
 
 interface Trap {
@@ -78,7 +87,10 @@ export class ItemManager {
     placements: ItemBoxPlacement[],
     private spline: TrackSpline,
     private rng: Rng,
-    private abilities: AbilityHooks
+    private abilities: CharacterAbilities,
+    private choices: ChoiceManager,
+    private ctx: MinigameContext,
+    private onFeedback: (playerId: PlayerId, f: AbilityFeedback) => void
   ) {
     this.root = new TransformNode('itemsRoot', scene);
     const mat = new StandardMaterial('itemBoxMat', scene);
@@ -113,7 +125,7 @@ export class ItemManager {
       box.mesh.rotation.x += dt * 0.6;
 
       for (const k of karts) {
-        if (k.heldItem || k.finished) continue;
+        if (k.heldItem || k.finished || k.itemImmune) continue;
         const ds = Math.abs(this.spline.wrap(k.distance - box.s));
         const dsAlt = this.spline.totalLength - ds;
         const dist = Math.min(ds, dsAlt);
@@ -121,8 +133,7 @@ export class ItemManager {
           box.taken = true;
           box.respawnTimer = BOX_RESPAWN_TIME;
           box.mesh.setEnabled(false);
-          const result = this.pickWeighted(placement(k.playerId), totalPlayers);
-          this.roulettes.set(k.playerId, { playerId: k.playerId, timer: ROULETTE_TIME, result });
+          this.grantItem(k, placement(k.playerId), totalPlayers);
         }
       }
     }
@@ -142,6 +153,38 @@ export class ItemManager {
 
   isRouletteSpinning(playerId: PlayerId): boolean {
     return this.roulettes.has(playerId);
+  }
+
+  /** GOBLIN — EXPLOIT: durante la finestra attiva, la box mostra 2 scelte invece di 1. */
+  private grantItem(k: KartState, placement: number, totalPlayers: number): void {
+    if (this.abilities.isExploitActive(k)) {
+      let a = this.pickWeighted(placement, totalPlayers);
+      let b = this.pickWeighted(placement, totalPlayers);
+      // Molto indietro: piccola chance che uno dei due sia un raro esplicito.
+      if (placement >= totalPlayers && this.rng.chance(0.35) && b !== 'super_turbo') b = 'super_turbo';
+      let guard = 0;
+      while (b === a && guard < 4) {
+        b = this.pickWeighted(placement, totalPlayers);
+        guard++;
+      }
+      this.choices.ask(
+        this.ctx,
+        k.playerId,
+        'EXPLOIT — SCEGLI',
+        [
+          { id: `exploit_${a}`, label: itemLabel(a) },
+          { id: `exploit_${b}`, label: itemLabel(b) }
+        ],
+        EXPLOIT_CHOICE_TIME,
+        (chosenId) => {
+          const id = chosenId.replace('exploit_', '') as ItemId;
+          k.heldItem = ALL_ITEMS.includes(id) ? id : a;
+        }
+      );
+      return;
+    }
+    const result = this.pickWeighted(placement, totalPlayers);
+    this.roulettes.set(k.playerId, { playerId: k.playerId, timer: ROULETTE_TIME, result });
   }
 
   private pickWeighted(placement: number, totalPlayers: number): ItemId {
@@ -234,7 +277,8 @@ export class ItemManager {
       lateral: k.lateral,
       speed: k.speed + PROJECTILE_SPEED,
       life: PROJECTILE_LIFE,
-      mesh
+      mesh,
+      nearMissed: new Set()
     });
   }
 
@@ -260,10 +304,16 @@ export class ItemManager {
       if (p.life > 0) {
         for (const k of karts) {
           if (k.playerId === p.firedBy || k.finished) continue;
-          if (Math.abs(k.distance - p.distance) < PROJECTILE_HIT_S && Math.abs(k.lateral - p.lateral) < PROJECTILE_HIT_LAT) {
+          const ds = Math.abs(k.distance - p.distance);
+          const dl = Math.abs(k.lateral - p.lateral);
+          if (ds < PROJECTILE_HIT_S && dl < PROJECTILE_HIT_LAT) {
             this.applyHit(k, PROJECTILE_STUN);
             hit = true;
             break;
+          }
+          if (!p.nearMissed.has(k.playerId) && ds < PROJECTILE_NEARMISS_S && dl < PROJECTILE_NEARMISS_LAT) {
+            p.nearMissed.add(k.playerId);
+            this.abilities.addMeter(k, NEARMISS_METER);
           }
         }
       }
@@ -294,10 +344,10 @@ export class ItemManager {
     }
   }
 
-  /** Applica un colpo passando prima dal sistema abilità (annullo/recupero rapido). */
+  /** Applica un colpo passando prima dal sistema abilità (Napoletano può annullarlo). */
   private applyHit(k: KartState, baseStun: number): void {
-    if (this.abilities.tryCancelHit(k.playerId)) return;
-    hitKart(k, this.abilities.quickRecoverStun(k.playerId, baseStun));
+    if (this.abilities.tryCancelHit(k, (f) => this.onFeedback(k.playerId, f))) return;
+    hitKart(k, baseStun);
   }
 
   dispose(): void {

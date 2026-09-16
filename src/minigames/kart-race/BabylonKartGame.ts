@@ -21,7 +21,8 @@ import { ItemManager } from './items';
 import { RaceManager } from './race';
 import type { RaceHudEvent } from './race';
 import { CameraManager, KartHud } from './cameraHud';
-import { AbilityHooks } from './abilities';
+import { CharacterAbilities, ChoiceManager } from './abilities';
+import type { AbilityFeedback } from './abilities';
 
 const KART_S_RADIUS = 2.6;
 const KART_LAT_RADIUS = 1.7;
@@ -38,7 +39,8 @@ export class BabylonKartGame {
   private race: RaceManager;
   private cameraManager: CameraManager;
   private hud: KartHud;
-  private abilities: AbilityHooks;
+  private abilities: CharacterAbilities;
+  private choices: ChoiceManager;
   private order: PlayerId[];
   private firstFinishPlayed = false;
   private resultsSent = false;
@@ -69,8 +71,11 @@ export class BabylonKartGame {
     this.checkpoints = buildCheckpoints(this.spline);
     const boxPlacements = buildItemBoxes(this.spline);
 
-    this.abilities = new AbilityHooks(ctx, this.spline.totalLength);
-    this.items = new ItemManager(this.scene, boxPlacements, this.spline, ctx.rng, this.abilities);
+    this.choices = new ChoiceManager();
+    this.abilities = new CharacterAbilities(this.choices);
+    this.items = new ItemManager(this.scene, boxPlacements, this.spline, ctx.rng, this.abilities, this.choices, ctx, (pid, f) =>
+      this.onAbilityFeedback(pid, f)
+    );
     this.cameraManager = new CameraManager(this.scene);
     this.hud = new KartHud(this.scene, this.engine);
     this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), this.trackAngleAt, (ev) => this.onRaceEvent(ev));
@@ -111,6 +116,8 @@ export class BabylonKartGame {
   private step(dt: number): void {
     const kartsList = [...this.karts.values()];
     const invertModifier = this.ctx.modifier?.id === 'controlli_invertiti';
+    this.abilities.setRaceTime(this.race.raceTime);
+    this.choices.update(dt, this.ctx);
 
     if (this.race.phase !== 'ended') {
       this.race.update(dt, kartsList, (pid) => this.ctx.input.get(pid).pressed('up'));
@@ -133,17 +140,22 @@ export class BabylonKartGame {
           audio.select();
           this.ctx.vibrate(pid, 45);
         }
+        if (pin.justPressed('ability')) {
+          this.abilities.onAbilityPress(this.ctx, state, kartsList, (f) => this.onAbilityFeedback(pid, f));
+        }
 
         const wasDrifting = state.drifting;
         const wasCharge = state.driftCharge;
         const wasStunned = state.stunTimer > 0;
         const hadItem = state.heldItem !== null;
+        const prevIpponWindow = state.ipponWindow;
         stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier);
-        this.abilities.updateCornerAssist(state);
+        this.abilities.update(dt, state, kartsList, (f) => this.onAbilityFeedback(pid, f));
 
         if (wasDrifting && !state.drifting && wasCharge >= DRIFT_THRESHOLDS[0]) {
           audio.boost();
           this.ctx.vibrate(pid, 65);
+          if (wasCharge >= DRIFT_THRESHOLDS[1]) this.abilities.addMeter(state, 0.22);
         }
         if (!wasStunned && state.stunTimer > 0) {
           audio.hit();
@@ -151,6 +163,9 @@ export class BabylonKartGame {
         }
         if (!hadItem && state.heldItem !== null) {
           this.ctx.vibrate(pid, 40);
+        }
+        if (!prevIpponWindow && state.ipponWindow) {
+          this.ctx.vibrate(pid, 55);
         }
       }
       this.resolveKartCollisions();
@@ -160,7 +175,7 @@ export class BabylonKartGame {
     for (const [pid, state] of this.karts) {
       this.entities.get(pid)?.updateVisual(state, this.spline);
       this.cameraManager.update(dt, pid, state, this.spline);
-      this.hud.update(pid, state, this.karts.size, LAPS, DRIFT_THRESHOLDS);
+      this.hud.update(pid, state, this.karts.size, LAPS, DRIFT_THRESHOLDS, dt);
     }
     this.hud.layout(this.order);
 
@@ -186,12 +201,53 @@ export class BabylonKartGame {
         if (Math.abs(ds) < KART_S_RADIUS && Math.abs(dl) < KART_LAT_RADIUS * 2) {
           const overlap = KART_LAT_RADIUS * 2 - Math.abs(dl);
           const dir = dl === 0 ? (Math.random() < 0.5 ? -1 : 1) : Math.sign(dl);
-          a.lateral += dir * overlap * 0.5;
-          b.lateral -= dir * overlap * 0.5;
-          a.speed *= 0.93;
-          b.speed *= 0.93;
+          // Buttafuori in "MO M'IMPEGNO": quasi immobile, spinge l'altro molto di più.
+          const aShare = a.tankMode && !b.tankMode ? 0.12 : b.tankMode && !a.tankMode ? 0.88 : 0.5;
+          a.lateral += dir * overlap * aShare;
+          b.lateral -= dir * overlap * (1 - aShare);
+          a.speed *= a.tankMode ? 0.99 : 0.93;
+          b.speed *= b.tankMode ? 0.99 : 0.93;
         }
       }
+    }
+  }
+
+  private onAbilityFeedback(playerId: PlayerId, f: AbilityFeedback): void {
+    switch (f.type) {
+      case 'exploit_start':
+        this.hud.flash(playerId, 'EXPLOIT!', '#4ade80');
+        audio.boost();
+        this.ctx.vibrate(playerId, 100);
+        break;
+      case 'tank_start':
+        this.hud.flash(playerId, "MO M'IMPEGNO!", '#f97316');
+        audio.hit();
+        this.ctx.vibrate(playerId, 140);
+        break;
+      case 'tank_end':
+        break;
+      case 'dottore_effect':
+        this.hud.flash(playerId, 'TRATTAMENTO SPERIMENTALE!', '#22d3ee');
+        audio.select();
+        this.ctx.vibrate(playerId, 90);
+        break;
+      case 'ippon_window':
+        break;
+      case 'ippon_hit':
+        this.hud.flash(playerId, 'IPPON!', '#facc15');
+        audio.hit();
+        this.ctx.vibrate(playerId, 110);
+        break;
+      case 'ippon_miss':
+        this.hud.flash(playerId, 'IPPON MANCATO...', '#9ca3af');
+        audio.wrong();
+        this.ctx.vibrate(playerId, 50);
+        break;
+      case 'ciro_pelato':
+        this.hud.flash(playerId, "CIRO È UFFICIALMENTE PELATO", '#f472b6', 2.2);
+        audio.fanfare();
+        this.ctx.vibrate(playerId, 180);
+        break;
     }
   }
 
@@ -220,6 +276,12 @@ export class BabylonKartGame {
       } else {
         audio.select();
       }
+    } else if (ev.type === 'checkpoint_clean' && ev.playerId) {
+      const k = this.karts.get(ev.playerId);
+      if (k) this.abilities.addMeter(k, 0.08);
+    } else if (ev.type === 'overtake' && ev.playerId) {
+      const k = this.karts.get(ev.playerId);
+      if (k) this.abilities.addMeter(k, 0.18);
     }
   }
 

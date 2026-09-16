@@ -117,8 +117,8 @@ export function stepKartPhysics(
 
   const half = halfWidthAt(k.distance);
   k.offRoad = Math.abs(k.lateral) > half;
-  const centerRate = k.offRoad ? CENTER_RATE_OFFROAD : CENTER_RATE_ONROAD;
-  const maxSpeed = k.offRoad ? MAX_SPEED * OFFROAD_SPEED_FACTOR : MAX_SPEED;
+  const centerRate = (k.offRoad ? CENTER_RATE_OFFROAD : CENTER_RATE_ONROAD) * k.gripMultiplier;
+  const maxSpeed = (k.offRoad ? MAX_SPEED * OFFROAD_SPEED_FACTOR : MAX_SPEED) * k.speedCapMultiplier;
   if (k.offRoad && k.speed > maxSpeed) k.speed -= (k.speed - maxSpeed) * Math.min(1, dt * 2);
   k.speed = clamp(k.speed, MAX_REVERSE, maxSpeed);
 
@@ -136,8 +136,11 @@ export function stepKartPhysics(
   }
 
   // --- Sterzata: velocità angolare ASSOLUTA (vedi commento sopra la funzione) ---
+  // turnRateMultiplier/tankMode sono effetti delle abilità personaggio (Dottore/Buttafuori):
+  // la fisica li applica senza sapere "perché" sono attivi.
+  const turnRate = MAX_TURN_RATE * k.turnRateMultiplier * (k.tankMode ? 0.55 : 1);
   if (!stunned) {
-    k.absHeading += steerDir * MAX_TURN_RATE * dt;
+    k.absHeading += steerDir * turnRate * dt;
     if (k.drifting) k.absHeading += k.driftDir * DRIFT_EXTRA_RATE * dt;
   }
 
@@ -174,11 +177,11 @@ export function stepKartPhysics(
   if (Math.abs(k.lateral) > wallLimit) {
     const overshoot = Math.abs(k.lateral) - wallLimit;
     k.lateral = Math.sign(k.lateral) * wallLimit;
-    k.speed *= 0.5;
+    k.speed *= k.tankMode ? 0.85 : 0.5;
     const straighten = relHeading * 0.6;
     k.absHeading -= straighten;
     k.heading -= straighten;
-    if (overshoot > 0.15 && k.invulnTimer <= 0) {
+    if (overshoot > 0.15 && k.invulnTimer <= 0 && !k.tankMode) {
       k.stunTimer = Math.max(k.stunTimer, WALL_HIT_STUN);
     }
   }
@@ -216,13 +219,14 @@ export function respawnKart(k: KartState, trackAngleAt: (distance: number) => nu
 }
 
 export function hitKart(k: KartState, stunDur: number): boolean {
+  if (k.itemImmune) return false;
   if (k.shielded) {
     k.shielded = false;
     return false;
   }
   if (k.invulnTimer > 0) return false;
-  k.stunTimer = Math.max(k.stunTimer, stunDur);
-  k.speed *= 0.35;
+  k.stunTimer = Math.max(k.stunTimer, k.tankMode ? stunDur * 0.15 : stunDur);
+  k.speed *= k.tankMode ? 0.85 : 0.35;
   if (k.drifting) {
     k.drifting = false;
     k.driftCharge = 0;

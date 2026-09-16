@@ -139,6 +139,11 @@ interface HudEntry {
   itemText: TextBlock;
   driftBar: Rectangle;
   driftFill: Rectangle;
+  abilityBar: Rectangle;
+  abilityFill: Rectangle;
+  abilityLabel: TextBlock;
+  flashText: TextBlock;
+  flashTimer: number;
 }
 
 /** HUD essenziale per viewport (Babylon GUI, un solo AdvancedDynamicTexture condiviso). */
@@ -170,7 +175,7 @@ export class KartHud {
 
     const panel = new Rectangle(`hudPanel_${playerId}`);
     panel.width = '150px';
-    panel.height = '86px';
+    panel.height = '150px';
     panel.thickness = 0;
     panel.background = 'rgba(8,10,18,0.55)';
     panel.cornerRadius = 10;
@@ -220,9 +225,57 @@ export class KartHud {
     driftFill.left = '1px';
     driftBar.addControl(driftFill);
 
-    e = { panel, posText, lapText, itemText, driftBar, driftFill };
+    const abilityLabel = new TextBlock('abilityLabel', '');
+    abilityLabel.color = '#c4b5fd';
+    abilityLabel.fontSize = 11;
+    abilityLabel.top = '48px';
+    abilityLabel.height = '14px';
+    panel.addControl(abilityLabel);
+
+    const abilityBar = new Rectangle('abilityBar');
+    abilityBar.width = '120px';
+    abilityBar.height = '7px';
+    abilityBar.top = '62px';
+    abilityBar.thickness = 1;
+    abilityBar.color = '#00000055';
+    abilityBar.background = '#1f2430';
+    abilityBar.cornerRadius = 4;
+    panel.addControl(abilityBar);
+
+    const abilityFill = new Rectangle('abilityFill');
+    abilityFill.width = '0px';
+    abilityFill.height = '5px';
+    abilityFill.thickness = 0;
+    abilityFill.background = '#a78bfa';
+    abilityFill.cornerRadius = 3;
+    abilityFill.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    abilityFill.left = '1px';
+    abilityBar.addControl(abilityFill);
+
+    const flashText = new TextBlock(`flash_${playerId}`, '');
+    flashText.fontFamily = '"Arial Black", Arial, sans-serif';
+    flashText.fontSize = 30;
+    flashText.color = '#fbbf24';
+    flashText.outlineColor = '#000000';
+    flashText.outlineWidth = 6;
+    flashText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
+    flashText.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
+    flashText.textWrapping = true;
+    this.adt.addControl(flashText);
+
+    e = { panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, flashText, flashTimer: 0 };
     this.entries.set(playerId, e);
     return e;
+  }
+
+  /** Messaggio grande e temporaneo nel viewport del giocatore (es. "EXPLOIT!"). */
+  flash(playerId: PlayerId, text: string, color = '#fbbf24', durationSec = 1.4): void {
+    const e = this.entries.get(playerId);
+    if (!e) return;
+    e.flashText.text = text;
+    e.flashText.color = color;
+    e.flashText.alpha = 1;
+    e.flashTimer = durationSec;
   }
 
   layout(order: PlayerId[]): void {
@@ -237,10 +290,13 @@ export class KartHud {
       const py = (1 - r.y - r.h) * h;
       e.panel.left = `${px + 10}px`;
       e.panel.top = `${py + 10}px`;
+      e.flashText.left = `${px + r.w * w * 0.5 - w * 0.5}px`;
+      e.flashText.top = `${py + r.h * h * 0.32 - h * 0.5}px`;
+      e.flashText.width = `${Math.max(120, r.w * w - 20)}px`;
     });
   }
 
-  update(playerId: PlayerId, state: KartState, total: number, laps: number, driftT: [number, number, number]): void {
+  update(playerId: PlayerId, state: KartState, total: number, laps: number, driftT: [number, number, number], dt: number): void {
     const e = this.entries.get(playerId);
     if (!e) return;
     e.posText.text = ordinal(state.placement || 1) + `/${total}`;
@@ -252,6 +308,27 @@ export class KartHud {
     e.driftFill.width = `${Math.round(frac * 118)}px`;
     e.driftFill.background = state.driftCharge >= driftT[2] ? '#f97316' : state.driftCharge >= driftT[1] ? '#facc15' : '#4ade80';
     e.driftBar.isVisible = state.drifting;
+
+    const hasMeter = state.characterId === 'goblin' || state.characterId === 'buttafuori' || state.characterId === 'dottore' || state.characterId === 'judoka';
+    const isCiro = state.characterId === 'ciro';
+    e.abilityBar.isVisible = hasMeter;
+    e.abilityLabel.isVisible = hasMeter || isCiro;
+    if (hasMeter) {
+      const ready = state.abilityMeter >= 1 || state.ipponArmed;
+      e.abilityFill.width = `${Math.round(Math.min(1, state.abilityMeter) * 118)}px`;
+      e.abilityFill.background = ready ? '#facc15' : '#a78bfa';
+      e.abilityLabel.text = ready ? '⭐ ABILITÀ PRONTA' : 'ABILITÀ';
+      e.abilityLabel.color = ready ? '#facc15' : '#c4b5fd';
+    } else if (isCiro) {
+      e.abilityLabel.text = `🍀 CAPELLI: ${state.abilityCharges}`;
+      e.abilityLabel.color = state.abilityCharges > 0 ? '#4ade80' : '#6b7280';
+    }
+
+    if (e.flashTimer > 0) {
+      e.flashTimer -= dt;
+      e.flashText.alpha = Math.min(1, e.flashTimer * 3);
+      if (e.flashTimer <= 0) e.flashText.text = '';
+    }
   }
 
   dispose(): void {

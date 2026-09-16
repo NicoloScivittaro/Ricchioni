@@ -13,7 +13,7 @@ const GRACE_AFTER_FIRST_FINISH = 12;
 export type RacePhase = 'countdown' | 'racing' | 'ended';
 
 export interface RaceHudEvent {
-  type: 'lap' | 'finish' | 'countdown';
+  type: 'lap' | 'finish' | 'countdown' | 'checkpoint_clean' | 'overtake';
   playerId?: PlayerId;
   value?: number;
 }
@@ -26,6 +26,7 @@ export class RaceManager {
   private graceActive = false;
   private graceTimer = 0;
   private earlyPress = new Map<PlayerId, boolean>();
+  private prevPlacement = new Map<PlayerId, number>();
 
   constructor(
     private checkpoints: number[],
@@ -97,6 +98,7 @@ export class RaceManager {
     let guard = 0;
     while (k.distance >= threshold && guard < this.checkpoints.length + 1) {
       k.lastValidCheckpointS = threshold;
+      if (!k.offRoad) this.onEvent({ type: 'checkpoint_clean', playerId: k.playerId });
       if (k.nextCheckpoint >= this.checkpoints.length) {
         k.lap += 1;
         k.nextCheckpoint = 1;
@@ -125,6 +127,11 @@ export class RaceManager {
     const ordered = [...finishedSorted, ...activeSorted];
     ordered.forEach((k, i) => {
       k.placement = i + 1;
+      const prev = this.prevPlacement.get(k.playerId);
+      if (prev !== undefined && k.placement < prev && !k.finished) {
+        this.onEvent({ type: 'overtake', playerId: k.playerId });
+      }
+      this.prevPlacement.set(k.playerId, k.placement);
     });
   }
 

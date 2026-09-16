@@ -69,7 +69,24 @@ socket.on(EVT.vibrate, (ms?: number) => {
   }
 });
 
+interface ChoicePromptData {
+  type: 'choice';
+  title: string;
+  options: { id: string; label: string; icon?: string }[];
+  timeoutMs?: number;
+}
+
+function isChoicePrompt(data: unknown): data is ChoicePromptData {
+  return typeof data === 'object' && data !== null && (data as { type?: unknown }).type === 'choice';
+}
+
+let choiceRestoreTimer: ReturnType<typeof setTimeout> | null = null;
+
 socket.on(EVT.privateData, (data) => {
+  if (isChoicePrompt(data)) {
+    renderAbilityChoice(data);
+    return;
+  }
   // Dati privati (es. carta segreta, ruolo). Mostrati come schermata temporanea.
   app.innerHTML = `
     <div class="screen">
@@ -78,6 +95,49 @@ socket.on(EVT.privateData, (data) => {
       <p class="sub">Guarda lo schermo principale</p>
     </div>`;
 });
+
+/** Scelta temporanea da un'abilità (es. Goblin: 2 item; Dottore: 3 siringhe). */
+function renderAbilityChoice(data: ChoicePromptData): void {
+  if (choiceRestoreTimer) clearTimeout(choiceRestoreTimer);
+
+  app.innerHTML = `
+    <div class="screen">
+      <h1>${data.title}</h1>
+      <div id="choice-grid" class="btn-grid"></div>
+    </div>`;
+  const grid = app.querySelector<HTMLDivElement>('#choice-grid')!;
+  grid.style.gridTemplateColumns = `repeat(${data.options.length}, 1fr)`;
+
+  let answered = false;
+  const answer = (controlId: string): void => {
+    if (answered) return;
+    answered = true;
+    sendInput({ kind: 'action', controlId });
+    restoreControls();
+  };
+
+  for (const opt of data.options) {
+    const b = document.createElement('button');
+    b.className = 'ctl-btn';
+    b.textContent = `${opt.icon ? opt.icon + ' ' : ''}${opt.label}`;
+    b.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      answer(opt.id);
+    });
+    grid.appendChild(b);
+  }
+
+  choiceRestoreTimer = setTimeout(() => answer(data.options[0].id), data.timeoutMs ?? 3500);
+}
+
+function restoreControls(): void {
+  if (choiceRestoreTimer) {
+    clearTimeout(choiceRestoreTimer);
+    choiceRestoreTimer = null;
+  }
+  if (!state || state.phase !== 'MINIGAME_PLAYING' || !state.currentMinigame) return;
+  showControls(state.currentMinigame);
+}
 
 // ---- rendering ----
 
@@ -218,7 +278,10 @@ function renderPlaying(state: RoomState): void {
   if (!mg) return;
   if (lastMinigameId === mg.minigameId) return; // evita re-render durante il gioco
   lastMinigameId = mg.minigameId;
+  showControls(mg);
+}
 
+function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   app.innerHTML = `
     <div class="screen">
       <h1>${mg.name}</h1>
