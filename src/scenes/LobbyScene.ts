@@ -141,12 +141,17 @@ export class LobbyScene extends Phaser.Scene {
     }
   }
 
+  private creating = false;
+
   private async start(): Promise<void> {
+    if (this.creating) return; // evita doppie stanze con doppio click
+    this.creating = true;
     this.statusText.setText('Creo la stanza...').setColor('#fbbf24');
     const ack = await gm.createRoom(this.count, this.currentTarget());
     if (ack.ok && ack.roomCode) {
       this.scene.start('RoomScene');
     } else {
+      this.creating = false;
       this.statusText.setText(ack.error ?? 'Errore durante la creazione della stanza').setColor('#f87171');
     }
   }

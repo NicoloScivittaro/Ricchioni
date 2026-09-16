@@ -18,7 +18,7 @@ export class RoomScene extends Phaser.Scene {
     super('RoomScene');
   }
 
-  async create(): Promise<void> {
+  create(): void {
     this.cameras.main.setBackgroundColor('#0b0b14');
     const code = gm.roomCode || '?????';
 
@@ -38,28 +38,8 @@ export class RoomScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    const url = await this.controllerUrl(code);
-    this.add
-      .text(300, 128, url, {
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '14px',
-        color: '#9ca3af',
-        align: 'center',
-        wordWrap: { width: 340 }
-      })
-      .setOrigin(0.5, 0);
-
-    try {
-      const dataUrl = await QRCode.toDataURL(url, {
-        width: 190,
-        margin: 1,
-        color: { dark: '#0b0b14', light: '#ffffff' }
-      });
-      this.textures.addBase64('qr', dataUrl);
-      this.add.image(300, 320, 'qr');
-    } catch (e) {
-      console.warn('Generazione QR fallita', e);
-    }
+    // QR generato in modo asincrono (fire-and-forget) per non bloccare il primo render
+    void this.setupQR(code);
 
     this.add
       .text(920, 196, 'SQUADRA', {
@@ -140,6 +120,33 @@ export class RoomScene extends Phaser.Scene {
       }
     }
     return url;
+  }
+
+  /** Genera URL + QR in background (non blocca il render della stanza). */
+  private async setupQR(code: string): Promise<void> {
+    const url = await this.controllerUrl(code);
+    this.add
+      .text(300, 128, url, {
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '14px',
+        color: '#9ca3af',
+        align: 'center',
+        wordWrap: { width: 340 }
+      })
+      .setOrigin(0.5, 0);
+
+    try {
+      const dataUrl = await QRCode.toDataURL(url, {
+        width: 190,
+        margin: 1,
+        color: { dark: '#0b0b14', light: '#ffffff' }
+      });
+      if (this.textures.exists('qr')) this.textures.remove('qr');
+      this.textures.addBase64('qr', dataUrl);
+      this.add.image(300, 320, 'qr');
+    } catch (e) {
+      console.warn('Generazione QR fallita', e);
+    }
   }
 
   private options(): (string | null)[] {
