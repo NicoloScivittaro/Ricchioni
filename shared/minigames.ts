@@ -148,6 +148,26 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'action', label: 'COLPO', kind: 'button', icon: '👊' }
       ]
     }
+  },
+  {
+    id: 'kart',
+    name: 'KART DEI COGLIONI',
+    category: 'GUIDA',
+    rarity: 'rare',
+    minPlayers: 2,
+    maxPlayers: 5,
+    durationSec: 90,
+    compatibleModifiers: ['controlli_invertiti', 'punti_doppi'],
+    sceneKey: 'kart',
+    controllerLayout: {
+      type: 'dpad',
+      controls: [
+        { id: 'up', label: '▲', kind: 'hold' },
+        { id: 'down', label: '▼', kind: 'hold' },
+        { id: 'left', label: '◀', kind: 'hold' },
+        { id: 'right', label: '▶', kind: 'hold' }
+      ]
+    }
   }
 ];
 
