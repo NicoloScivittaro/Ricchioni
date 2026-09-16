@@ -1,8 +1,4 @@
-/**
- * Generatore pseudo-casuale seedable (mulberry32).
- * Fondamentale per testabilità e per il fair-play in multiplayer:
- * il rullo e i minigiochi girano su un RNG deterministico passato dal GameManager.
- */
+/** Generatore pseudo-casuale seedable (mulberry32), deterministico e condiviso. */
 export class Rng {
   private state: number;
 
@@ -10,7 +6,6 @@ export class Rng {
     this.state = seed >>> 0;
   }
 
-  /** Numero in [0, 1). */
   next(): number {
     this.state = (this.state + 0x6d2b79f5) >>> 0;
     let t = this.state;

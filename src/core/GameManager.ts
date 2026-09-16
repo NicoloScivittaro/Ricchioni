@@ -1,127 +1,148 @@
 import Phaser from 'phaser';
-import { GAME_CONFIG } from '../app/config';
-import { Emitter } from './events';
-import { Rng } from './Rng';
-import { PlayerManager } from './PlayerManager';
-import { ScoreManager } from './ScoreManager';
-import { RouletteEngine } from './RouletteEngine';
-import { AbilitySystem } from './AbilitySystem';
-import { MinigameRegistry } from './MinigameRegistry';
-import { ModifierRegistry } from './ModifierRegistry';
-import { CHARACTER_ORDER } from '../characters';
+import { Emitter } from '../../shared/events';
+import { Rng } from '../../shared/rng';
+import { getCharacter } from '../../shared/characters';
+import { getMinigame } from '../../shared/minigames';
+import { getModifier } from '../../shared/modifiers';
+import { EVT } from '../../shared/protocol';
+import type {
+  AckResponse,
+  InputRelayEvent,
+  MinigameSelectedPayload,
+  RoomCreatedAck
+} from '../../shared/protocol';
 import type {
   ActiveModifier,
-  GameMode,
   GamePhase,
-  MinigameDefinition,
   MinigameResult,
   ModifierDefinition,
   PlayerId,
-  RouletteHistoryEntry,
-  RoulettePick
-} from './types';
+  PlayerPublic,
+  PlayerSnapshot,
+  RoomState
+} from '../../shared/types';
+import { SocketClient } from '../network/SocketClient';
+import { InputManager } from '../network/InputManager';
 import type { MinigameContext } from '../minigames/types';
 
-export interface RoundOutcome {
-  ranking: PlayerId[];
-  deltas: Record<PlayerId, number>;
-  stats?: Record<PlayerId, Record<string, number>>;
-  double: boolean;
-}
-
 /**
- * Macchina a stati della partita:
- * LOBBY → SELECT → ROULETTE → MINIGAME → RESULTS → (ROULETTE | GAME_OVER)
- *
- * È la single source of truth della logica. Le scene Phaser renderizzano e
- * raccolgono input; il GameManager decide e guida le transizioni.
+ * View-model lato HOST: rispecchia lo stato autoritativo del server e guida
+ * le transizioni delle scene Phaser. L'host esegue il minigioco (è la
+ * "console") e riferisce solo il ranking finale al server.
  */
 export class GameManager {
-  phase: GamePhase = 'LOBBY';
-  mode: GameMode = 'NORMALE';
-  target: number = GAME_CONFIG.defaultTarget;
-  round = 0;
-  playerCount = 2;
-
-  readonly players = new PlayerManager();
-  scores = new Map<PlayerId, number>();
-  history: RouletteHistoryEntry[] = [];
-  currentPick: RoulettePick | null = null;
-  lastOutcome: RoundOutcome | null = null;
-
   readonly events = new Emitter();
-  private rng: Rng = new Rng();
+  readonly input = new InputManager();
+
+  state: RoomState | null = null;
+  roomCode = '';
+  hostToken: string | null = null;
+
+  pendingMinigame: MinigameSelectedPayload | null = null;
+  minigameContext: MinigameContext | null = null;
+
+  private socket: SocketClient | null = null;
   private game: Phaser.Game | null = null;
+  private lastPhase: GamePhase = 'LOBBY';
 
   attach(game: Phaser.Game): void {
     this.game = game;
   }
 
-  setLobby(playerCount: number, mode: GameMode): void {
-    this.playerCount = playerCount;
-    this.mode = mode;
-    this.target = GAME_CONFIG.winTargets[mode];
-    this.players.set(CHARACTER_ORDER.slice(0, playerCount));
-    this.phase = 'SELECT';
+  connect(url?: string): void {
+    if (this.socket) this.socket.socket.disconnect();
+    this.socket = new SocketClient(url);
+    const s = this.socket;
+
+    s.on(EVT.roomState, (payload) => this.onRoomState(payload as RoomState));
+    s.on(EVT.minigameSelected, (payload) => this.onMinigameSelected(payload as MinigameSelectedPayload));
+    s.on(EVT.inputRelay, (payload) => this.onInputRelay(payload as InputRelayEvent));
   }
 
-  startMatch(): void {
-    this.scores = new Map(this.players.ids().map((id) => [id, 0]));
-    this.players.syncScores(this.scores);
-    this.round = 0;
-    this.history = [];
-    this.currentPick = null;
-    this.lastOutcome = null;
-    this.rng = new Rng();
-    this.phase = 'ROULETTE';
+  get connected(): boolean {
+    return this.socket?.socket.connected ?? false;
   }
 
-  /** Calcola la scelta del rullo: la roulette animata è solo la cosmesi di questo risultato. */
-  spinRoulette(): RoulettePick {
-    const pick = RouletteEngine.pick(this.playerCount, this.history, this.rng);
-    this.currentPick = pick;
-    return pick;
+  // ---- Azioni host ----
+
+  async createRoom(playerCount: number, targetScore: number): Promise<RoomCreatedAck & AckResponse> {
+    const ack = await this.socket!.emitAck<RoomCreatedAck & AckResponse>(EVT.hostCreate, {
+      playerCount,
+      targetScore
+    });
+    if (ack.ok && ack.roomCode) {
+      this.roomCode = ack.roomCode;
+      this.hostToken = (ack as { hostToken?: string }).hostToken ?? null;
+    }
+    return ack;
   }
 
-  isRepeated(minigameId: string): boolean {
-    return this.history.some((h) => h.minigameId === minigameId);
+  startGame(): void {
+    this.socket?.emit(EVT.hostStart);
   }
 
-  /** Avvia il minigioco selezionato (chiamato dalla RouletteScene a fine animazione). */
-  beginMinigame(): void {
-    if (!this.currentPick) throw new Error('Nessuna scelta del rullo attiva');
-    const def = MinigameRegistry.byId(this.currentPick.minigameId);
-    if (!def) throw new Error(`Minigioco non registrato: ${this.currentPick.minigameId}`);
-    const modifier = this.currentPick.modifierId
-      ? (ModifierRegistry.byId(this.currentPick.modifierId) ?? null)
-      : null;
-    const ctx = this.buildContext(def, modifier);
-    this.phase = 'MINIGAME';
-    this.events.emit('phase', this.phase);
-    if (!this.game) throw new Error('GameManager.attach() non chiamato');
-    this.game.scene.start(def.sceneKey, { ctx });
+  continueRound(): void {
+    this.socket?.emit(EVT.hostContinue);
   }
 
-  private buildContext(def: MinigameDefinition, modifier: ModifierDefinition | null): MinigameContext {
-    const snapshots = this.players.snapshots();
-    const modifiers = AbilitySystem.resolve(
-      this.players.players,
-      def.category,
-      this.isRepeated(def.id),
-      this.rng
+  backToLobby(): void {
+    this.socket?.emit(EVT.hostBackToLobby);
+    this.state = null;
+    this.pendingMinigame = null;
+    this.minigameContext = null;
+    this.lastPhase = 'LOBBY';
+  }
+
+  finishMinigame(result: MinigameResult): void {
+    this.socket?.emit(EVT.hostMinigameFinished, { ranking: result.ranking, stats: result.stats });
+  }
+
+  /** Avvia la scena del minigioco (chiamato dalla RouletteScene a fine animazione). */
+  launchMinigame(): void {
+    if (!this.pendingMinigame || !this.game) return;
+    const def = getMinigame(this.pendingMinigame.minigameId);
+    if (!def) return;
+    this.game.scene.start(def.sceneKey, { ctx: this.minigameContext });
+  }
+
+  // ---- Costruzione contesto minigioco ----
+
+  private buildContext(payload: MinigameSelectedPayload): MinigameContext {
+    const snapshots = payload.players.map((p) => this.toSnapshot(p));
+    const modifiers = new Map<PlayerId, ActiveModifier[]>(
+      Object.entries(payload.activeModifiers).map(([k, v]) => [k, v])
     );
-    let duration = def.durationSec;
-    if (modifier?.id === 'tempo_dimezzato') duration = Math.max(5, Math.round(duration / 2));
+    const modifier: ModifierDefinition | null = payload.modifierId
+      ? (getModifier(payload.modifierId) ?? null)
+      : null;
+
+    this.input.reset();
 
     return {
       players: snapshots,
       playerIds: snapshots.map((p) => p.id),
-      rng: this.rng,
-      durationSec: duration,
+      rng: new Rng(),
+      durationSec: payload.durationSec,
       modifier,
       modifiers,
-      consume: (pid, hook) => this.consume(modifiers, pid, hook),
-      finish: (result) => this.submitResult(result)
+      input: this.input,
+      consume: (playerId, hook) => this.consume(modifiers, playerId, hook),
+      finish: (result) => this.finishMinigame(result)
+    };
+  }
+
+  private toSnapshot(p: PlayerPublic): PlayerSnapshot {
+    const c = p.characterId ? getCharacter(p.characterId) : null;
+    return {
+      id: p.id,
+      displayName: p.displayName,
+      characterId: p.characterId,
+      name: c?.name ?? p.displayName,
+      roleTitle: c?.roleTitle ?? '',
+      avatar: c?.avatar ?? '🎮',
+      color: c?.color ?? '#ffffff',
+      quote: c?.quote ?? '',
+      score: p.score
     };
   }
 
@@ -134,60 +155,29 @@ export class GameManager {
     return true;
   }
 
-  submitResult(result: MinigameResult): void {
-    if (!this.currentPick) return;
-    const double = this.currentPick.modifierId === 'punti_doppi';
-    const deltas = ScoreManager.awardRound(this.scores, result.ranking, double);
-    for (const pid of result.ranking) {
-      this.scores.set(pid, (this.scores.get(pid) ?? 0) + (deltas[pid] ?? 0));
-    }
-    this.players.syncScores(this.scores);
-    this.history.push({
-      round: this.round,
-      minigameId: this.currentPick.minigameId,
-      category: this.currentPick.category
-    });
-    this.lastOutcome = { ranking: result.ranking, deltas, stats: result.stats, double };
+  // ---- Handler eventi server ----
 
-    const winner = this.winnerId();
-    this.phase = winner ? 'GAME_OVER' : 'RESULTS';
-    this.events.emit('phase', this.phase);
+  private onRoomState(state: RoomState): void {
+    const prev = this.lastPhase;
+    this.lastPhase = state.phase;
+    this.state = state;
+    this.events.emit('state', state);
 
-    if (this.game) {
-      this.game.scene.start(winner ? 'GameOverScene' : 'ResultsScene');
+    if (prev === 'MINIGAME' && (state.phase === 'RESULTS' || state.phase === 'GAME_OVER')) {
+      if (state.phase === 'GAME_OVER') this.game?.scene.start('GameOverScene');
+      else this.game?.scene.start('ResultsScene');
     }
   }
 
-  /** Torna il giocatore che ha raggiunto il target, o null. */
-  winnerId(): PlayerId | null {
-    let best: PlayerId | null = null;
-    let bestScore = this.target - 1;
-    for (const [id, s] of this.scores) {
-      if (s > bestScore) {
-        bestScore = s;
-        best = id;
-      }
-    }
-    return best;
+  private onMinigameSelected(payload: MinigameSelectedPayload): void {
+    this.pendingMinigame = payload;
+    this.minigameContext = this.buildContext(payload);
+    this.events.emit('minigame', payload);
+    this.game?.scene.start('RouletteScene');
   }
 
-  nextRound(): void {
-    this.round += 1;
-    this.currentPick = null;
-    this.lastOutcome = null;
-    this.phase = 'ROULETTE';
-    this.events.emit('phase', this.phase);
-    if (this.game) this.game.scene.start('RouletteScene');
-  }
-
-  resetToLobby(): void {
-    this.phase = 'LOBBY';
-    this.scores = new Map();
-    this.history = [];
-    this.currentPick = null;
-    this.lastOutcome = null;
-    this.events.emit('phase', this.phase);
-    if (this.game) this.game.scene.start('LobbyScene');
+  private onInputRelay(relay: InputRelayEvent): void {
+    this.input.handle(relay.playerId, relay.input);
   }
 }
 

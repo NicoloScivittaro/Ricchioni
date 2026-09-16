@@ -1,18 +1,18 @@
-import Phaser from 'phaser';
+import type Phaser from 'phaser';
 import type {
   ActiveModifier,
-  MinigameDefinition,
   MinigameResult,
   ModifierDefinition,
   PlayerId,
   PlayerSnapshot
-} from '../core/types';
-import type { Rng } from '../core/Rng';
+} from '../../shared/types';
+import type { Rng } from '../../shared/rng';
+import type { InputManager } from '../network/InputManager';
 
 /**
- * Contesto consegnato a un minigioco al lancio.
- * Il minigioco NON conosce i personaggi: riceve snapshot + hook già risolti
- * e termina chiamando finish() con la classifica.
+ * Contesto consegnato a un minigioco sull'host.
+ * Il minigioco NON conosce i personaggi né il trasporto di rete: legge gli
+ * input tramite ctx.input (InputManager) e termina con ctx.finish(ranking).
  */
 export interface MinigameContext {
   players: PlayerSnapshot[];
@@ -21,17 +21,13 @@ export interface MinigameContext {
   durationSec: number;
   modifier: ModifierDefinition | null;
   modifiers: Map<PlayerId, ActiveModifier[]>;
-  /** Consuma un uso di un hook; true se era disponibile. */
+  input: InputManager;
   consume(playerId: PlayerId, hook: string): boolean;
-  /** Termina il minigioco consegnando la classifica (1°..ultimo). */
   finish(result: MinigameResult): void;
 }
 
-/**
- * Un modulo minigioco = definizione (metadata) + classe Phaser.Scene che lo implementa.
- * La cartella minigames/<nome>/index.ts esporta questo come default.
- */
-export interface MinigameModule {
-  definition: MinigameDefinition;
+/** Modulo esportato da ogni cartella minigames/<id>/index.ts (lato host). */
+export interface MinigameSceneModule {
+  sceneKey: string;
   scene: typeof Phaser.Scene;
 }

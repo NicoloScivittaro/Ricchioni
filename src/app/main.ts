@@ -2,10 +2,9 @@ import Phaser from 'phaser';
 import { GAME_CONFIG } from './config';
 import { game as gm } from '../core/GameManager';
 import { MINIGAME_SCENES } from '../minigames';
-import '../modifiers'; // registra i modificatori (side effect)
 import { BootScene } from '../scenes/BootScene';
 import { LobbyScene } from '../scenes/LobbyScene';
-import { CharacterSelectScene } from '../scenes/CharacterSelectScene';
+import { RoomScene } from '../scenes/RoomScene';
 import { RouletteScene } from '../scenes/RouletteScene';
 import { ResultsScene } from '../scenes/ResultsScene';
 import { GameOverScene } from '../scenes/GameOverScene';
@@ -23,7 +22,7 @@ const config: Phaser.Types.Core.GameConfig = {
   scene: [
     BootScene,
     LobbyScene,
-    CharacterSelectScene,
+    RoomScene,
     RouletteScene,
     ResultsScene,
     GameOverScene,
@@ -33,3 +32,6 @@ const config: Phaser.Types.Core.GameConfig = {
 
 const phaserGame = new Phaser.Game(config);
 gm.attach(phaserGame);
+
+// In dev l'host parla col server locale; in prod same-origin (il server serve anche la build).
+gm.connect(import.meta.env.DEV ? `http://${location.hostname}:3001` : undefined);

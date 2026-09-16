@@ -1,0 +1,136 @@
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #0b0b14;
+  color: #fff;
+  font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+  overflow: hidden;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#app {
+  height: 100%;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 24px;
+  gap: 16px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 26px;
+  margin: 0;
+}
+
+.sub {
+  color: #9ca3af;
+  font-size: 16px;
+  margin: 0;
+}
+
+.err {
+  color: #f87171;
+  font-size: 16px;
+  margin: 0;
+  min-height: 1.2em;
+}
+
+input {
+  width: 82%;
+  font-size: 22px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 2px solid #374151;
+  background: #111827;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.big {
+  font-size: 26px;
+  padding: 18px 44px;
+  border-radius: 18px;
+  border: none;
+  background: #4f46e5;
+  color: #fff;
+  font-weight: 800;
+}
+
+.big:disabled {
+  opacity: 0.5;
+}
+
+.big.ready {
+  background: #16a34a;
+}
+
+.char-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+}
+
+button.char {
+  font-size: 22px;
+  padding: 22px 8px;
+  border-radius: 16px;
+  border: 3px solid transparent;
+  background: #1f2937;
+  color: #fff;
+  font-weight: 700;
+}
+
+button.char.mine {
+  border-color: #fbbf24;
+  background: #3b2f10;
+}
+
+button.char.locked,
+button.char:disabled {
+  opacity: 0.3;
+}
+
+.btn-grid {
+  display: grid;
+  gap: 18px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.ctl-btn {
+  font-size: 32px;
+  padding: 36px 0;
+  border-radius: 20px;
+  border: none;
+  background: #374151;
+  color: #fff;
+  font-weight: 800;
+}
+
+.ctl-btn:active {
+  background: #6b7280;
+  transform: scale(0.97);
+}
+
+.big-num {
+  font-size: 60px;
+  margin: 8px 0;
+  font-weight: 900;
+}

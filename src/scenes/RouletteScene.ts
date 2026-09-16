@@ -1,10 +1,7 @@
 import Phaser from 'phaser';
 import { game as gm } from '../core/GameManager';
-import { audio } from '../core/AudioManager';
-import { MinigameRegistry } from '../core/MinigameRegistry';
-import { ModifierRegistry } from '../core/ModifierRegistry';
 
-/** Il rullo è la cosmesi di un risultato già calcolato dal GameManager. */
+/** Il rullo è la cosmesi di un minigioco già scelto dal server (authoritativo). */
 export class RouletteScene extends Phaser.Scene {
   constructor() {
     super('RouletteScene');
@@ -12,16 +9,14 @@ export class RouletteScene extends Phaser.Scene {
 
   create(): void {
     this.cameras.main.setBackgroundColor('#0b0b14');
-    const pick = gm.spinRoulette();
-    const def = MinigameRegistry.byId(pick.minigameId);
-    if (!def) {
-      this.scene.start('LobbyScene');
+    const pick = gm.pendingMinigame;
+    if (!pick) {
+      this.scene.start('RoomScene');
       return;
     }
-    const mod = pick.modifierId ? (ModifierRegistry.byId(pick.modifierId) ?? null) : null;
 
     this.add
-      .text(640, 60, `ROUND ${gm.round + 1}`, {
+      .text(640, 60, `ROUND ${gm.state?.round ?? 1}`, {
         fontFamily: '"Arial Black", Arial, sans-serif',
         fontSize: '32px',
         color: '#9ca3af'
@@ -37,7 +32,7 @@ export class RouletteScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     const catText = this.add
-      .text(640, 320, '', {
+      .text(640, 320, pick.category, {
         fontFamily: '"Arial Black", Arial, sans-serif',
         fontSize: '84px',
         color: '#fbbf24'
@@ -46,7 +41,7 @@ export class RouletteScene extends Phaser.Scene {
       .setAlpha(0);
 
     const gameText = this.add
-      .text(640, 440, '', {
+      .text(640, 440, pick.name, {
         fontFamily: '"Arial Black", Arial, sans-serif',
         fontSize: '60px',
         color: '#ffffff'
@@ -63,19 +58,13 @@ export class RouletteScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setAlpha(0);
 
-    this.time.delayedCall(700, () => {
-      catText.setText(def.category).setAlpha(1);
-      audio.select();
-    });
+    this.time.delayedCall(700, () => catText.setAlpha(1));
     this.time.delayedCall(1750, () => {
-      gameText.setText(def.name).setAlpha(1);
-      audio.select();
-      if (mod) {
-        modText.setText(`MODIFICATORE: ${mod.name} — ${mod.description}`).setAlpha(1);
+      gameText.setAlpha(1);
+      if (pick.modifierId) {
+        modText.setText(`MODIFICATORE: ${pick.modifierName} — ${pick.modifierDescription}`).setAlpha(1);
       }
     });
-    this.time.delayedCall(3400, () => {
-      gm.beginMinigame();
-    });
+    this.time.delayedCall(3400, () => gm.launchMinigame());
   }
 }

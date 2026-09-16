@@ -1,19 +1,19 @@
 import Phaser from 'phaser';
-import { HOOKS } from '../../core/hooks';
+import { HOOKS } from '../../../shared/hooks';
 import { audio } from '../../core/AudioManager';
-import { resolveKey } from '../../core/InputRouter';
 import { QUESTIONS } from './questions';
 import type { Question } from './questions';
 import type { MinigameContext } from '../types';
-import type { PlayerId } from '../../core/types';
+import type { PlayerId } from '../../../shared/types';
 
 const Q_COUNT = 5;
 const QUESTION_TIME_MS = 10000;
 const EXTRA_TIME_PER_HOOK_MS = 2000;
 
 /**
- * CHI CAZZO LO SA? — quiz rapido, tutti rispondono in contemporanea.
- * Dimostra il plugin system e gli hook: quiz.remove_answer, quiz.extra_time.
+ * CHI CAZZO LO SA? — quiz rapido, tutti rispondono dal telefono in contemporanea.
+ * Legge gli input tramite ctx.input (PlayerInput) e applica gli hook:
+ * quiz.remove_answer (opzione sbagliata rimossa), quiz.extra_time (tempo extra).
  */
 export class QuizScene extends Phaser.Scene {
   private ctx!: MinigameContext;
@@ -22,15 +22,16 @@ export class QuizScene extends Phaser.Scene {
   private correctCount = new Map<PlayerId, number>();
   private answeredThisRound = new Set<PlayerId>();
   private dimmedOptions = new Set<number>();
-  private locked = false;
+  private questionEndsAt = 0;
   private timerEvent?: Phaser.Time.TimerEvent;
-  private countdownText!: Phaser.GameObjects.Text;
+  private finished = false;
 
   private promptText!: Phaser.GameObjects.Text;
   private optionTexts: Phaser.GameObjects.Text[] = [];
   private optionBoxes: Phaser.GameObjects.Rectangle[] = [];
   private optionLetters: Phaser.GameObjects.Text[] = [];
   private playerIndicators: Phaser.GameObjects.Text[] = [];
+  private countdownText!: Phaser.GameObjects.Text;
 
   constructor() {
     super('quiz');
@@ -40,12 +41,12 @@ export class QuizScene extends Phaser.Scene {
     this.ctx = data.ctx;
     audio.unlock();
     this.questions = this.ctx.rng.shuffle(QUESTIONS).slice(0, Q_COUNT);
-    for (const pid of this.ctx.playerIds) this.correctCount.set(pid, 0);
+    for (const p of this.ctx.players) this.correctCount.set(p.id, 0);
 
     this.cameras.main.setBackgroundColor('#1e1b2e');
 
     this.add
-      .text(640, 28, '📚 CHI CAZZO LO SA?', {
+      .text(640, 24, '📚 CHI CAZZO LO SA?', {
         fontFamily: '"Arial Black", Arial, sans-serif',
         fontSize: '42px',
         color: '#ffffff'
@@ -54,7 +55,7 @@ export class QuizScene extends Phaser.Scene {
 
     if (this.ctx.modifier) {
       this.add
-        .text(640, 80, `⚡ ${this.ctx.modifier.name} — ${this.ctx.modifier.description}`, {
+        .text(640, 76, `⚡ ${this.ctx.modifier.name} — ${this.ctx.modifier.description}`, {
           fontFamily: 'Arial, sans-serif',
           fontSize: '20px',
           color: '#fbbf24'
@@ -63,7 +64,7 @@ export class QuizScene extends Phaser.Scene {
     }
 
     this.promptText = this.add
-      .text(640, 150, '', {
+      .text(640, 145, '', {
         fontFamily: '"Arial Black", Arial, sans-serif',
         fontSize: '34px',
         color: '#ffffff',
@@ -77,10 +78,10 @@ export class QuizScene extends Phaser.Scene {
     for (let i = 0; i < 4; i++) {
       const x = 320 + i * 220;
       const box = this.add
-        .rectangle(x, 380, 200, 130, colors[i], 0.9)
+        .rectangle(x, 390, 200, 130, colors[i], 0.9)
         .setStrokeStyle(4, 0xffffff);
       const letter = this.add
-        .text(x, 300, labels[i], {
+        .text(x, 305, labels[i], {
           fontFamily: '"Arial Black", Arial, sans-serif',
           fontSize: '34px',
           color: '#000000'
@@ -110,7 +111,7 @@ export class QuizScene extends Phaser.Scene {
 
     this.ctx.players.forEach((p, idx) => {
       const ind = this.add
-        .text(30 + idx * 248, 640, `${p.avatar} ${p.name}`, {
+        .text(30 + idx * 248, 640, `${p.avatar} ${p.displayName}`, {
           fontFamily: 'Arial, sans-serif',
           fontSize: '18px',
           color: p.color
@@ -120,28 +121,18 @@ export class QuizScene extends Phaser.Scene {
     });
 
     this.add
-      .text(640, 690, 'Rispondi con i tuoi tasti: A/S/D/F · G/H/J/K · frecce · 1-4 · numpad', {
+      .text(640, 692, 'Rispondi dal tuo telefono: premi A, B, C o D', {
         fontFamily: 'Arial, sans-serif',
         fontSize: '16px',
         color: '#9ca3af'
       })
       .setOrigin(0.5);
 
-    this.input.keyboard?.on('keydown', (event: KeyboardEvent) => this.onKey(event.keyCode));
-
     this.nextQuestion();
   }
 
   private hasHook(pid: PlayerId, hook: string): boolean {
     return (this.ctx.modifiers.get(pid) ?? []).some((m) => m.hook === hook);
-  }
-
-  private onKey(keyCode: number): void {
-    const res = resolveKey(keyCode);
-    if (!res) return;
-    const pid = this.ctx.playerIds[res.player];
-    if (!pid) return;
-    this.answer(pid, res.option);
   }
 
   private nextQuestion(): void {
@@ -153,16 +144,15 @@ export class QuizScene extends Phaser.Scene {
     const q = this.questions[this.index];
     this.answeredThisRound.clear();
     this.dimmedOptions.clear();
-    this.locked = false;
 
     this.promptText.setText(`Domanda ${this.index + 1}/${Q_COUNT}\n${q.prompt}`);
 
-    // Applica hook quiz.remove_answer: un'opzione sbagliata rimossa per giocatore con l'hook
     const removers = this.ctx.playerIds.filter((pid) => this.hasHook(pid, HOOKS.quiz_remove_answer));
     const wrongIndices = [0, 1, 2, 3].filter((i) => i !== q.correct);
     const shuffledWrong = this.ctx.rng.shuffle(wrongIndices);
-    const removeCount = Math.min(removers.length, wrongIndices.length - 1);
-    shuffledWrong.slice(0, removeCount).forEach((i) => this.dimmedOptions.add(i));
+    shuffledWrong
+      .slice(0, Math.min(removers.length, wrongIndices.length - 1))
+      .forEach((i) => this.dimmedOptions.add(i));
 
     q.options.forEach((opt, i) => {
       this.optionTexts[i].setText(opt);
@@ -172,17 +162,17 @@ export class QuizScene extends Phaser.Scene {
       this.optionTexts[i].setAlpha(dimmed ? 0.4 : 1);
     });
 
-    // Tempo per domanda + eventuale extra (hook quiz.extra_time)
     const extra = this.ctx.playerIds.reduce((acc, pid) => {
       const n = (this.ctx.modifiers.get(pid) ?? []).filter((m) => m.hook === HOOKS.quiz_extra_time).length;
       return acc + n * EXTRA_TIME_PER_HOOK_MS;
     }, 0);
+    this.questionEndsAt = this.time.now + QUESTION_TIME_MS + extra;
     this.timerEvent?.remove();
     this.timerEvent = this.time.delayedCall(QUESTION_TIME_MS + extra, () => this.advance());
   }
 
   private answer(pid: PlayerId, option: number): void {
-    if (this.locked || this.answeredThisRound.has(pid)) return;
+    if (this.finished || this.answeredThisRound.has(pid)) return;
     if (this.dimmedOptions.has(option)) return;
 
     this.answeredThisRound.add(pid);
@@ -194,11 +184,11 @@ export class QuizScene extends Phaser.Scene {
     if (correct) {
       this.correctCount.set(pid, (this.correctCount.get(pid) ?? 0) + 1);
       audio.correct();
-      indicator.setText(`${this.ctx.players[idx].avatar} ${this.ctx.players[idx].name}  ✔`);
+      indicator.setText(`${this.ctx.players[idx].avatar} ${this.ctx.players[idx].displayName}  ✔`);
       indicator.setColor('#4ade80');
     } else {
       audio.wrong();
-      indicator.setText(`${this.ctx.players[idx].avatar} ${this.ctx.players[idx].name}  ✘`);
+      indicator.setText(`${this.ctx.players[idx].avatar} ${this.ctx.players[idx].displayName}  ✘`);
       indicator.setColor('#f87171');
     }
 
@@ -210,15 +200,16 @@ export class QuizScene extends Phaser.Scene {
 
   private advance(): void {
     this.index += 1;
-    // ripristina indicatori
     this.ctx.players.forEach((p, i) => {
-      this.playerIndicators[i].setText(`${p.avatar} ${p.name}`);
+      this.playerIndicators[i].setText(`${p.avatar} ${p.displayName}`);
       this.playerIndicators[i].setColor(p.color);
     });
     this.nextQuestion();
   }
 
   private endGame(): void {
+    if (this.finished) return;
+    this.finished = true;
     const ranking = [...this.ctx.playerIds].sort((a, b) => {
       const d = (this.correctCount.get(b) ?? 0) - (this.correctCount.get(a) ?? 0);
       return d !== 0 ? d : this.ctx.playerIds.indexOf(a) - this.ctx.playerIds.indexOf(b);
@@ -231,11 +222,22 @@ export class QuizScene extends Phaser.Scene {
   }
 
   update(): void {
-    if (this.timerEvent && !this.timerEvent.hasDispatched) {
-      const remaining = Math.max(0, this.timerEvent.getRemaining());
-      this.countdownText.setText(`${(remaining / 1000).toFixed(1)}s`);
-    } else {
-      this.countdownText.setText('');
+    if (this.finished) return;
+
+    // 1) raccogli le risposte (justPressed accumulati dall'ultimo frame)
+    for (const pid of this.ctx.playerIds) {
+      const input = this.ctx.input.get(pid);
+      if (input.justPressed('answerA')) this.answer(pid, 0);
+      else if (input.justPressed('answerB')) this.answer(pid, 1);
+      else if (input.justPressed('answerC')) this.answer(pid, 2);
+      else if (input.justPressed('answerD')) this.answer(pid, 3);
     }
+
+    // 2) countdown
+    const remaining = Math.max(0, this.questionEndsAt - this.time.now);
+    this.countdownText.setText(remaining > 0 ? `${(remaining / 1000).toFixed(1)}s` : '');
+
+    // 3) a fine frame azzera gli edge justPressed/justReleased
+    this.ctx.input.update();
   }
 }

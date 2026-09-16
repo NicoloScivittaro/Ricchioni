@@ -1,8 +1,7 @@
 /**
  * Catalogo centrale degli hook.
  * Un minigioco DICHIARA quali hook sa interpretare; un personaggio MAPPA la
- * propria identità su questi hook. Nessuno dei due conosce l'altro: parlano
- * solo attraverso questi token tipizzati.
+ * propria identità su questi hook. Parlano solo tramite questi token.
  */
 export const HOOKS = {
   quiz_remove_answer: 'quiz.remove_answer',

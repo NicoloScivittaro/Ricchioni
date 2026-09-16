@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
-import { getCharacter } from '../characters';
+import { getCharacter } from '../../shared/characters';
 
 export class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -10,12 +10,13 @@ export class GameOverScene extends Phaser.Scene {
 
   create(): void {
     this.cameras.main.setBackgroundColor('#0b0b14');
-    const winnerId = gm.winnerId();
-    if (!winnerId) {
+    const st = gm.state;
+    const winnerPlayer = st?.players.find((p) => p.id === st?.winner);
+    if (!st || !winnerPlayer) {
       this.scene.start('LobbyScene');
       return;
     }
-    const c = getCharacter(winnerId);
+    const c = winnerPlayer.characterId ? getCharacter(winnerPlayer.characterId) : null;
     audio.fanfare();
 
     this.add
@@ -27,23 +28,27 @@ export class GameOverScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setShadow(0, 4, '#000000', 8);
 
-    this.add.image(640, 300, c.id).setDisplaySize(200, 200);
+    if (c) {
+      this.add.image(640, 300, c.id).setDisplaySize(200, 200);
+    }
     this.add
-      .text(640, 430, `${c.avatar} ${c.name}`, {
+      .text(640, 430, `${c?.avatar ?? '🎮'} ${winnerPlayer.displayName}`, {
         fontFamily: '"Arial Black", Arial, sans-serif',
         fontSize: '52px',
-        color: c.color
+        color: c?.color ?? '#ffffff'
       })
       .setOrigin(0.5);
+    if (c) {
+      this.add
+        .text(640, 490, c.roleTitle, {
+          fontFamily: 'Arial, sans-serif',
+          fontSize: '26px',
+          color: '#e5e7eb'
+        })
+        .setOrigin(0.5);
+    }
     this.add
-      .text(640, 490, c.roleTitle, {
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '26px',
-        color: '#e5e7eb'
-      })
-      .setOrigin(0.5);
-    this.add
-      .text(640, 530, `${gm.scores.get(winnerId) ?? 0} punti`, {
+      .text(640, 530, `${winnerPlayer.score} punti (obiettivo ${st.targetScore})`, {
         fontFamily: '"Arial Black", Arial, sans-serif',
         fontSize: '30px',
         color: '#ffffff'
@@ -61,7 +66,8 @@ export class GameOverScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
         audio.select();
-        gm.resetToLobby();
+        gm.backToLobby();
+        this.scene.start('LobbyScene');
       }
     });
   }

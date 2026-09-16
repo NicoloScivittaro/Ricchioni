@@ -1,10 +1,6 @@
 type Handler = (payload?: unknown) => void;
 
-/**
- * Mini event-emitter tipizzato, engine-agnostic.
- * Usato dal GameManager per notificare le scene Phaser dei cambi di stato
- * senza accoppiare la logica al motore di rendering.
- */
+/** Mini event-emitter engine-agnostic (usato lato client e lato server). */
 export class Emitter {
   private handlers = new Map<string, Set<Handler>>();
 

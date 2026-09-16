@@ -1,19 +1,31 @@
 {
   "name": "ricchioni-party",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Party game a minigiochi SENZA tabellone — Anzio/Nettuno (Vite + TypeScript + Phaser)",
+  "description": "Party game a minigiochi con controller smartphone — Anzio/Nettuno (Vite + TS + Phaser + Socket.IO)",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently -k \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "tsx watch server/index.ts",
+    "dev:client": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "start": "tsx server/index.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "phaser": "^3.90.0"
+    "express": "^4.21.2",
+    "phaser": "^3.90.0",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.2",
+    "@types/qrcode": "^1.5.5",
+    "concurrently": "^9.1.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vite": "^6.1.0"
   }

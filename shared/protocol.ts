@@ -1,0 +1,102 @@
+import type {
+  ActiveModifier,
+  Category,
+  ControllerLayout,
+  MinigameResult,
+  PlayerId,
+  PlayerPublic
+} from './types';
+
+/**
+ * Nomi degli eventi Socket.IO (tipizzati).
+ * Il payload di ogni evento è definito dalle interfacce qui sotto;
+ * server, host e controller usano queste stesse stringhe.
+ */
+export const EVT = {
+  // ---- Client → Server ----
+  hostCreate: 'host:create',
+  playerJoin: 'player:join',
+  playerSelectCharacter: 'player:selectCharacter',
+  playerReady: 'player:ready',
+  inputDown: 'input:down',
+  inputUp: 'input:up',
+  inputAction: 'input:action',
+  inputAxis: 'input:axis',
+  hostStart: 'host:start',
+  hostMinigameFinished: 'host:minigameFinished',
+  hostContinue: 'host:continue',
+  hostBackToLobby: 'host:backToLobby',
+
+  // ---- Server → Client ----
+  roomState: 'room:state',
+  hostRoomCreated: 'host:roomCreated',
+  playerJoined: 'player:joined',
+  minigameSelected: 'minigame:selected',
+  error: 'error',
+  controllerLayout: 'controller:layout',
+  privateData: 'private:data',
+  vibrate: 'controller:vibrate',
+
+  // ---- Server → Host (relay input) ----
+  inputRelay: 'input:relay'
+} as const;
+
+export interface CreateRoomPayload {
+  playerCount: number;
+  targetScore: number;
+}
+
+export interface RoomCreatedAck {
+  roomCode: string;
+  targetScore: number;
+  playerCount: number;
+}
+
+export interface JoinPayload {
+  roomCode: string;
+  displayName: string;
+  reconnectToken?: string;
+}
+
+export interface JoinAck {
+  playerId: PlayerId;
+  reconnectToken: string;
+}
+
+export interface SelectCharacterPayload {
+  characterId: string;
+}
+
+export interface ReadyPayload {
+  ready: boolean;
+}
+
+export interface MinigameFinishedPayload {
+  ranking: PlayerId[];
+  stats?: MinigameResult['stats'];
+}
+
+export interface InputRelayEvent {
+  playerId: PlayerId;
+  input: import('./types').InputEvent;
+}
+
+/** Payload inviato al solo HOST quando parte un minigioco. */
+export interface MinigameSelectedPayload {
+  minigameId: string;
+  name: string;
+  category: Category;
+  modifierId: string | null;
+  modifierName: string | null;
+  modifierDescription: string | null;
+  durationSec: number;
+  controllerLayout: ControllerLayout;
+  players: PlayerPublic[];
+  activeModifiers: Record<PlayerId, ActiveModifier[]>;
+}
+
+export interface AckResponse {
+  ok: boolean;
+  error?: string;
+  [key: string]: unknown;
+}
