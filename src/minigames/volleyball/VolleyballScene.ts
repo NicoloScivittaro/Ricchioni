@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
+import { PauseMenu } from '../../core/PauseMenu';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 
@@ -34,6 +35,7 @@ export class VolleyballScene extends Phaser.Scene {
   private finished = false;
   private statusText!: Phaser.GameObjects.Text;
   private lowGravity = false;
+  private pauseMenu!: PauseMenu;
 
   constructor() {
     super('volleyball');
@@ -41,6 +43,12 @@ export class VolleyballScene extends Phaser.Scene {
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    // RICOMINCIA riusa la stessa istanza di scena: azzera tutto lo stato custom.
+    this.bodies = [];
+    this.ball = { x: 640, y: 200, vx: 140, vy: -100 };
+    this.hits = new Map();
+    this.finished = false;
+
     audio.unlock();
     this.lowGravity = this.ctx.modifier?.id === 'gravita_bassa';
     this.cameras.main.setBackgroundColor('#0b1220');
@@ -72,9 +80,12 @@ export class VolleyballScene extends Phaser.Scene {
     this.ballCircle = this.add.circle(640, 200, BALL_R, 0xfbbf24).setStrokeStyle(2, 0x000000);
 
     this.time.delayedCall(this.ctx.durationSec * 1000, () => this.endGame());
+
+    this.pauseMenu = new PauseMenu(this, '🏐 PALLAVOLO DEI DISAGIATI', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
   }
 
   update(_t: number, delta: number): void {
+    if (this.pauseMenu.update()) return;
     if (this.finished) return;
     const dt = Math.min(delta, 50) / 1000;
 

@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
+import { PauseMenu } from '../../core/PauseMenu';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 
@@ -54,6 +55,7 @@ export class KartScene extends Phaser.Scene {
   private finished = false;
   private invert = false;
   private hudText!: Phaser.GameObjects.Text;
+  private pauseMenu!: PauseMenu;
 
   constructor() {
     super('kart');
@@ -61,6 +63,12 @@ export class KartScene extends Phaser.Scene {
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    // RICOMINCIA riusa la stessa istanza di scena: azzera tutto lo stato custom.
+    this.karts = [];
+    this.boxes = [];
+    this.finishOrder = [];
+    this.finished = false;
+
     audio.unlock();
     this.invert = this.ctx.modifier?.id === 'controlli_invertiti';
     this.cameras.main.setBackgroundColor('#0b1a0b');
@@ -131,9 +139,12 @@ export class KartScene extends Phaser.Scene {
     }
 
     this.time.delayedCall(this.ctx.durationSec * 1000, () => this.endGame());
+
+    this.pauseMenu = new PauseMenu(this, '🏎️ KART DEI COGLIONI', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
   }
 
   update(_t: number, delta: number): void {
+    if (this.pauseMenu.update()) return;
     if (this.finished) return;
     const dt = Math.min(delta, 50) / 1000;
     const now = this.time.now;

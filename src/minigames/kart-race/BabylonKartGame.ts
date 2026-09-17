@@ -49,6 +49,7 @@ export class BabylonKartGame {
   private firstFinishPlayed = false;
   private resultsSent = false;
   private disposed = false;
+  private paused = false;
   private onResize = (): void => this.engine.resize();
   private trackAngleAt = (d: number): number => this.spline.tangentAngleAt(d);
 
@@ -116,11 +117,17 @@ export class BabylonKartGame {
 
     this.engine.runRenderLoop(() => {
       if (this.disposed) return;
+      if (this.paused) return; // menu ESC del telefono/host: nessun input processato, gara ferma
       const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.05) || 0.016;
       this.step(dt);
       this.scene.render();
     });
     window.addEventListener('resize', this.onResize);
+  }
+
+  /** Menu ESC (KartRaceScene): ferma fisica/input mentre il menu è aperto, senza smontare la scena 3D. */
+  setPaused(paused: boolean): void {
+    this.paused = paused;
   }
 
   private step(dt: number): void {

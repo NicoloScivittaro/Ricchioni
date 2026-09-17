@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
+import { PauseMenu } from '../../core/PauseMenu';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 
@@ -36,6 +37,7 @@ export class SoccerScene extends Phaser.Scene {
   private goals = new Map<PlayerId, number>();
   private finished = false;
   private statusText!: Phaser.GameObjects.Text;
+  private pauseMenu!: PauseMenu;
 
   constructor() {
     super('soccer');
@@ -43,6 +45,13 @@ export class SoccerScene extends Phaser.Scene {
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    // RICOMINCIA riusa la stessa istanza di scena: azzera tutto lo stato custom.
+    this.bodies = [];
+    this.ball = { x: 640, y: 330, vx: 0, vy: 0 };
+    this.lastToucher = null;
+    this.goals = new Map();
+    this.finished = false;
+
     audio.unlock();
     this.cameras.main.setBackgroundColor('#0a120a');
 
@@ -74,9 +83,12 @@ export class SoccerScene extends Phaser.Scene {
     this.ballCircle = this.add.circle(640, 330, BALL_R, 0xffffff).setStrokeStyle(2, 0x000000);
 
     this.time.delayedCall(this.ctx.durationSec * 1000, () => this.endGame());
+
+    this.pauseMenu = new PauseMenu(this, '⚽ CALCIO DEI DISAGIATI', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
   }
 
   update(_t: number, delta: number): void {
+    if (this.pauseMenu.update()) return;
     if (this.finished) return;
     const dt = Math.min(delta, 50) / 1000;
 

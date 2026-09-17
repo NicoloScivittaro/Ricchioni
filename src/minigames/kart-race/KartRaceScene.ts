@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
+import { game as gm } from '../../core/GameManager';
 import type { MinigameContext } from '../types';
 import type { BabylonKartGame } from './BabylonKartGame';
 
@@ -15,12 +16,19 @@ import type { BabylonKartGame } from './BabylonKartGame';
  * in un chunk separato, scaricato solo quando questo minigioco viene davvero
  * selezionato, invece di appesantire il caricamento iniziale di tutto il party
  * game (lobby + altri minigiochi) con una libreria 3D che non usano.
+ *
+ * Il menu ESC (pausa/ricomincia/lobby) qui NON può essere il PauseMenu
+ * Phaser-based usato dagli altri minigiochi: il canvas Babylon ha z-index
+ * 10000 e coprirebbe qualsiasi cosa disegnata da Phaser. È quindi un overlay
+ * HTML dedicato (KartPauseMenu sotto), con z-index sopra il canvas Babylon.
  */
 export class KartRaceScene extends Phaser.Scene {
   private game3d: BabylonKartGame | null = null;
   private overlayCanvas: HTMLCanvasElement | null = null;
   private cancelled = false;
   private loadingText: Phaser.GameObjects.Text | null = null;
+  private pauseMenu: KartPauseMenu | null = null;
+  private escKey!: Phaser.Input.Keyboard.Key;
 
   constructor() {
     super('kart3d');
@@ -39,10 +47,21 @@ export class KartRaceScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
+    this.pauseMenu = new KartPauseMenu(this, () => this.scene.restart({ ctx: data.ctx }));
+    this.escKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);
     this.events.once(Phaser.Scenes.Events.DESTROY, this.cleanup, this);
 
     void this.boot(data.ctx);
+  }
+
+  update(): void {
+    if (Phaser.Input.Keyboard.JustDown(this.escKey)) {
+      audio.select();
+      this.pauseMenu?.toggle();
+      this.game3d?.setPaused(this.pauseMenu?.isVisible() ?? false);
+    }
   }
 
   private async boot(ctx: MinigameContext): Promise<void> {
@@ -74,5 +93,99 @@ export class KartRaceScene extends Phaser.Scene {
     this.overlayCanvas = null;
     this.loadingText?.destroy();
     this.loadingText = null;
+    this.pauseMenu?.destroy();
+    this.pauseMenu = null;
+  }
+}
+
+/** Overlay HTML del menu ESC per il kart 3D (sopra il canvas Babylon, z-index 10000). */
+class KartPauseMenu {
+  private root: HTMLDivElement;
+  private visible = false;
+
+  constructor(
+    private scene: Phaser.Scene,
+    onRestart: () => void
+  ) {
+    this.root = document.createElement('div');
+    this.root.style.cssText = `
+      position: fixed; inset: 0; z-index: 20001; display: none;
+      align-items: center; justify-content: center; background: rgba(0,0,0,0.72);
+    `;
+
+    const panel = document.createElement('div');
+    panel.style.cssText = `
+      background: #0b0b14; border: 2px solid rgba(255,255,255,0.15); border-radius: 20px;
+      padding: 28px 36px; display: flex; flex-direction: column; gap: 12px;
+      min-width: 320px; text-align: center; font-family: Arial, sans-serif;
+    `;
+
+    const title = document.createElement('div');
+    title.textContent = '🏎️ RIBALTATI — PAUSA';
+    title.style.cssText = 'color:#fbbf24; font-weight:900; font-size:20px; margin-bottom:8px;';
+    panel.appendChild(title);
+
+    panel.appendChild(
+      this.makeButton('▶ RIPRENDI', '#4ade80', () => {
+        this.hide();
+      })
+    );
+    panel.appendChild(
+      this.makeButton('🔄 RICOMINCIA MINIGIOCO', '#facc15', () => {
+        if (!confirm('Vuoi davvero ricominciare il minigioco?')) return;
+        this.hide();
+        onRestart();
+      })
+    );
+    panel.appendChild(
+      this.makeButton('🏠 TORNA ALLA LOBBY', '#f87171', () => {
+        if (!confirm('Vuoi davvero abbandonare il minigioco e tornare alla lobby?')) return;
+        this.hide();
+        gm.backToLobby();
+        this.scene.scene.start('LobbyScene');
+      })
+    );
+
+    this.root.appendChild(panel);
+    document.body.appendChild(this.root);
+  }
+
+  private makeButton(label: string, color: string, onClick: () => void): HTMLButtonElement {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = label;
+    btn.style.cssText = `
+      padding: 14px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.06); color: ${color}; font: 800 16px/1.2 Arial, sans-serif;
+      cursor: pointer;
+    `;
+    btn.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      onClick();
+    });
+    return btn;
+  }
+
+  toggle(): void {
+    if (this.visible) this.hide();
+    else this.show();
+  }
+
+  show(): void {
+    this.visible = true;
+    this.root.style.display = 'flex';
+  }
+
+  hide(): void {
+    this.visible = false;
+    this.root.style.display = 'none';
+  }
+
+  isVisible(): boolean {
+    return this.visible;
+  }
+
+  destroy(): void {
+    this.root.remove();
   }
 }

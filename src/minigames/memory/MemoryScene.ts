@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
+import { PauseMenu } from '../../core/PauseMenu';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 
@@ -24,6 +25,7 @@ export class MemoryScene extends Phaser.Scene {
   private boxes: Phaser.GameObjects.Rectangle[] = [];
   private statusText!: Phaser.GameObjects.Text;
   private playerIndicators: Phaser.GameObjects.Text[] = [];
+  private pauseMenu!: PauseMenu;
 
   constructor() {
     super('memory');
@@ -31,6 +33,18 @@ export class MemoryScene extends Phaser.Scene {
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    // RICOMINCIA riusa la stessa istanza di scena: azzera tutto lo stato custom.
+    this.sequences = [];
+    this.round = 0;
+    this.phase = 'show';
+    this.totalCorrect = new Map();
+    this.playerInputs = new Map();
+    this.playerDone = new Set();
+    this.finished = false;
+    this.inputEndsAt = 0;
+    this.boxes = [];
+    this.playerIndicators = [];
+
     audio.unlock();
     this.cameras.main.setBackgroundColor('#0f172a');
 
@@ -82,6 +96,8 @@ export class MemoryScene extends Phaser.Scene {
       this.sequences.push(Array.from({ length: len }, () => Math.floor(this.ctx.rng.next() * 4)));
     }
 
+    this.pauseMenu = new PauseMenu(this, '🧠 MEMORIA DA UBRIACO', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
+
     this.startShow();
   }
 
@@ -113,6 +129,7 @@ export class MemoryScene extends Phaser.Scene {
   }
 
   update(): void {
+    if (this.pauseMenu.update()) return;
     if (this.finished) return;
 
     this.playerIndicators.forEach((t, i) => {

@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
+import { PauseMenu } from '../../core/PauseMenu';
 import { QuizRoundManager } from './QuizRoundManager';
 import type { QuizHudEvent, QuizPhase } from './QuizRoundManager';
 import { abilityNameFor, abilityDescriptionFor } from './abilities';
@@ -53,14 +54,26 @@ export class QuizScene extends Phaser.Scene {
   private abilityFlashText!: Phaser.GameObjects.Text;
   private abilityFlashTimer = 0;
 
+  private pauseMenu!: PauseMenu;
+
   constructor() {
     super('quiz');
   }
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
-    audio.unlock();
+    // RICOMINCIA riusa la stessa istanza di scena: azzera tutto lo stato custom.
     this.resultsSent = false;
+    this.quizStateTimer = 0;
+    this.lastSentPhase = null;
+    this.optionBoxes = [];
+    this.optionLetters = [];
+    this.optionTexts = [];
+    this.playerRows = new Map();
+    this.leaderboardLines = [];
+    this.abilityFlashTimer = 0;
+
+    audio.unlock();
     this.manager = new QuizRoundManager(this.ctx, (ev) => this.onHudEvent(ev));
 
     this.cameras.main.setBackgroundColor('#1e1b2e');
@@ -160,6 +173,8 @@ export class QuizScene extends Phaser.Scene {
       })
       .setOrigin(0.5)
       .setVisible(false);
+
+    this.pauseMenu = new PauseMenu(this, '📚 CHI CAZZO LO SA?', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
   }
 
   private buildPlayerRows(): void {
@@ -239,6 +254,7 @@ export class QuizScene extends Phaser.Scene {
   }
 
   update(_t: number, deltaMs: number): void {
+    if (this.pauseMenu.update()) return;
     const dt = Math.min(deltaMs, 80) / 1000;
 
     for (const pid of this.ctx.playerIds) {

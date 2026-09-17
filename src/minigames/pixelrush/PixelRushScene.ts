@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
+import { PauseMenu } from '../../core/PauseMenu';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 import type { Rng } from '../../../shared/rng';
@@ -65,6 +66,7 @@ export class PixelRushScene extends Phaser.Scene {
   private colW = 0;
   private elapsed = 0;
   private finished = false;
+  private pauseMenu!: PauseMenu;
 
   constructor() {
     super('pixelrush');
@@ -72,6 +74,14 @@ export class PixelRushScene extends Phaser.Scene {
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    // RICOMINCIA riusa la stessa istanza di scena: azzera tutto lo stato custom.
+    this.cars = [];
+    this.gfx = [];
+    this.hud = [];
+    this.colW = 0;
+    this.elapsed = 0;
+    this.finished = false;
+
     audio.unlock();
     this.cameras.main.setBackgroundColor('#0b0b14');
     this.track = this.genTrack(this.ctx.rng);
@@ -115,9 +125,12 @@ export class PixelRushScene extends Phaser.Scene {
         pos: i + 1
       });
     });
+
+    this.pauseMenu = new PauseMenu(this, '🏎️ PIXEL RUSH', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
   }
 
   update(_t: number, delta: number): void {
+    if (this.pauseMenu.update()) return;
     if (this.finished) return;
     const dt = Math.min(delta, 50) / 1000;
     this.elapsed += dt;

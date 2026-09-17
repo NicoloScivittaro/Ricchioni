@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
 import { confetti } from '../../scenes/confetti';
-import { game as gm } from '../../core/GameManager';
+import { PauseMenu } from '../../core/PauseMenu';
 import { REACTION_ABILITIES } from '../../../shared/reactionAbilities';
 import type { MinigameContext } from '../types';
 import type { PlayerSnapshot } from '../../../shared/types';
@@ -58,14 +58,7 @@ export class ReactionScene extends Phaser.Scene {
   private core!: Phaser.GameObjects.Arc;
   private flashRect!: Phaser.GameObjects.Rectangle;
 
-  // Menu ESC
-  private menuMode: 'none' | 'main' | 'confirmRestart' | 'confirmLobby' = 'none';
-  private menuIndex = 0;
-  private menuObjects: Phaser.GameObjects.GameObject[] = [];
-  private escKey!: Phaser.Input.Keyboard.Key;
-  private upKey!: Phaser.Input.Keyboard.Key;
-  private downKey!: Phaser.Input.Keyboard.Key;
-  private enterKey!: Phaser.Input.Keyboard.Key;
+  private pauseMenu!: PauseMenu;
 
   constructor() {
     super('reaction');
@@ -85,9 +78,6 @@ export class ReactionScene extends Phaser.Scene {
     this.fakeDone = false;
     this.fakeActive = false;
     this.finished = false;
-    this.menuMode = 'none';
-    this.menuIndex = 0;
-    this.menuObjects = [];
 
     audio.unlock();
     this.cameras.main.setBackgroundColor('#0d0f1e');
@@ -128,10 +118,7 @@ export class ReactionScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setDepth(10);
 
-    this.escKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-    this.upKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    this.downKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    this.enterKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this.pauseMenu = new PauseMenu(this, '⚡ BOTTA AL VOLO', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
 
     this.showTitle();
   }
@@ -473,119 +460,10 @@ export class ReactionScene extends Phaser.Scene {
     this.ctx.finish({ results });
   }
 
-  // ---- Menu ESC ----
-
-  private toggleMenu(): void {
-    if (this.menuMode === 'none') this.openMenu();
-    else if (this.menuMode === 'main') this.closeMenu();
-    else this.openMenu();
-  }
-
-  private openMenu(): void {
-    this.menuMode = 'main';
-    this.menuIndex = 0;
-    this.renderMenu();
-  }
-
-  private closeMenu(): void {
-    this.menuMode = 'none';
-    this.clearMenu();
-  }
-
-  private clearMenu(): void {
-    for (const o of this.menuObjects) o.destroy();
-    this.menuObjects = [];
-  }
-
-  private menuItemCount(): number {
-    return this.menuMode === 'main' ? 3 : 2;
-  }
-
-  private renderMenu(): void {
-    this.clearMenu();
-    const mk = (obj: Phaser.GameObjects.GameObject): Phaser.GameObjects.GameObject => {
-      this.menuObjects.push(obj);
-      return obj;
-    };
-    mk(this.add.rectangle(640, 360, 1280, 720, 0x000000, 0.72).setDepth(90));
-    mk(this.add.text(640, 160, 'BOTTA AL VOLO', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '40px', color: '#fbbf24' }).setOrigin(0.5).setDepth(91));
-    mk(this.add.text(640, 208, 'PAUSA', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '28px', color: '#ffffff' }).setOrigin(0.5).setDepth(91));
-
-    const items =
-      this.menuMode === 'main'
-        ? ['RIPRENDI', 'RICOMINCIA MINIGIOCO', 'TORNA ALLA LOBBY']
-        : this.menuMode === 'confirmRestart'
-          ? ['ANNULLA', 'RICOMINCIA']
-          : ['ANNULLA', 'TORNA ALLA LOBBY'];
-
-    if (this.menuMode !== 'main') {
-      const msg =
-        this.menuMode === 'confirmRestart'
-          ? 'Vuoi davvero ricominciare il minigioco?'
-          : 'Vuoi davvero abbandonare il minigioco e tornare alla lobby?';
-      mk(this.add.text(640, 270, msg, { fontFamily: 'Arial, sans-serif', fontSize: '22px', color: '#e5e7eb', align: 'center', wordWrap: { width: 720 } }).setOrigin(0.5).setDepth(91));
-    }
-
-    items.forEach((label, i) => {
-      const y = this.menuMode === 'main' ? 300 + i * 88 : 380 + i * 88;
-      const sel = i === this.menuIndex;
-      mk(this.add.rectangle(640, y, 520, 62, sel ? 0xfbbf24 : 0x1f2937, sel ? 0.95 : 0.85).setStrokeStyle(2, 0xffffff).setDepth(91));
-      mk(this.add.text(640, y, label, { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '24px', color: sel ? '#111827' : '#ffffff' }).setOrigin(0.5).setDepth(92));
-    });
-  }
-
-  private handleMenuKeys(): void {
-    if (Phaser.Input.Keyboard.JustDown(this.upKey)) {
-      this.menuIndex = (this.menuIndex - 1 + this.menuItemCount()) % this.menuItemCount();
-      audio.select();
-      this.renderMenu();
-    } else if (Phaser.Input.Keyboard.JustDown(this.downKey)) {
-      this.menuIndex = (this.menuIndex + 1) % this.menuItemCount();
-      audio.select();
-      this.renderMenu();
-    } else if (Phaser.Input.Keyboard.JustDown(this.enterKey)) {
-      this.confirmMenu();
-    }
-  }
-
-  private confirmMenu(): void {
-    if (this.menuMode === 'main') {
-      if (this.menuIndex === 0) {
-        this.closeMenu();
-      } else if (this.menuIndex === 1) {
-        this.menuMode = 'confirmRestart';
-        this.menuIndex = 0;
-        this.renderMenu();
-      } else {
-        this.menuMode = 'confirmLobby';
-        this.menuIndex = 0;
-        this.renderMenu();
-      }
-    } else if (this.menuMode === 'confirmRestart') {
-      if (this.menuIndex === 1) {
-        this.scene.restart({ ctx: this.ctx });
-      } else {
-        this.openMenu();
-      }
-    } else {
-      if (this.menuIndex === 1) {
-        gm.backToLobby();
-      } else {
-        this.openMenu();
-      }
-    }
-  }
-
   // ---- Loop ----
 
   update(_t: number, delta: number): void {
-    if (Phaser.Input.Keyboard.JustDown(this.escKey)) this.toggleMenu();
-
-    if (this.menuMode !== 'none') {
-      this.handleMenuKeys();
-      this.ctx.input.update();
-      return;
-    }
+    if (this.pauseMenu.update()) return;
 
     if (this.finished) return;
     const dt = Math.min(delta, 50) / 1000;

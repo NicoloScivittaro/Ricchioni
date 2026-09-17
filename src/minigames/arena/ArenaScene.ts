@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
+import { PauseMenu } from '../../core/PauseMenu';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 
@@ -34,6 +35,7 @@ export class ArenaScene extends Phaser.Scene {
   private eliminationOrder: PlayerId[] = [];
   private statusText!: Phaser.GameObjects.Text;
   private invert = false;
+  private pauseMenu!: PauseMenu;
 
   constructor() {
     super('arena');
@@ -41,6 +43,11 @@ export class ArenaScene extends Phaser.Scene {
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    // RICOMINCIA riusa la stessa istanza di scena: azzera tutto lo stato custom.
+    this.bodies = [];
+    this.finished = false;
+    this.eliminationOrder = [];
+
     audio.unlock();
     this.invert = this.ctx.modifier?.id === 'controlli_invertiti';
     this.cameras.main.setBackgroundColor('#111827');
@@ -77,9 +84,12 @@ export class ArenaScene extends Phaser.Scene {
     });
 
     this.time.delayedCall(this.ctx.durationSec * 1000, () => this.endGame());
+
+    this.pauseMenu = new PauseMenu(this, '🤼 ARENA DEL DISAGIO', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
   }
 
   update(_time: number, delta: number): void {
+    if (this.pauseMenu.update()) return;
     if (this.finished) return;
     const dt = Math.min(delta, 50) / 1000;
 
