@@ -40,13 +40,16 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     rarity: 'common',
     minPlayers: 1,
     maxPlayers: 5,
-    durationSec: 30,
+    durationSec: 90,
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'reaction',
     controllerLayout: {
       type: 'buttons',
       grid: 1,
-      controls: [{ id: 'action', label: 'ASPETTA...', kind: 'button', icon: '⚡' }]
+      controls: [
+        { id: 'action', label: 'ASPETTA...', kind: 'button', icon: '⚡' },
+        { id: 'ability', label: '⭐ ABILITÀ', kind: 'button', icon: '⭐' }
+      ]
     }
   },
   {

@@ -158,17 +158,78 @@ button.char:disabled {
   transform: scale(0.97);
 }
 
-/* BOTTA AL VOLO: un solo pulsante gigante */
-.btn-grid .ctl-btn:only-child {
-  height: 66vh;
-  font-size: 11vh;
+/* BOTTA AL VOLO: pulsante azione gigante + abilità piccola */
+.btn-grid .ctl-btn.ctl-action {
+  height: 58vh;
+  font-size: 10vh;
   border-radius: 30px;
   padding: 0;
+}
+
+.btn-grid .ctl-btn.ctl-ability {
+  height: 12vh;
+  font-size: 5vh;
+  border-radius: 999px;
+  padding: 0 20px;
+  background: linear-gradient(135deg, #f5d90a, #f59e0b);
+  color: #1b1b1b;
 }
 
 .ctl-btn.go {
   background: #16a34a !important;
   animation: pop 0.35s ease-out;
+}
+
+.ctl-drunk {
+  animation: wobble 1.2s ease-in-out infinite !important;
+}
+
+.ctl-btn.ctl-ability-used {
+  opacity: 0.45;
+  filter: grayscale(1);
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #9ca3af !important;
+}
+
+.ctl-toast {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translate(-50%, -20px);
+  max-width: 90vw;
+  padding: 14px 22px;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+  z-index: 50;
+}
+
+.ctl-toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: rotate(0deg) translateX(0);
+  }
+  25% {
+    transform: rotate(-4deg) translateX(-6px);
+  }
+  75% {
+    transform: rotate(4deg) translateX(6px);
+  }
 }
 
 @keyframes pop {

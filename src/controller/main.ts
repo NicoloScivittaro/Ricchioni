@@ -69,35 +69,125 @@ socket.on(EVT.vibrate, (ms?: number) => {
   }
 });
 
+interface SignalPayload {
+  type: string;
+  ms?: number;
+  name?: string;
+}
+
+function vibrate(pattern: number | number[]): void {
+  try {
+    navigator.vibrate?.(pattern);
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Toast temporaneo sovrapposto ai controlli (abilità, avvisi). */
+let toastTimer: number | null = null;
+function showToast(text: string, ms = 1200): void {
+  let el = app.querySelector<HTMLDivElement>('#ctl-toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'ctl-toast';
+    el.className = 'ctl-toast';
+    app.appendChild(el);
+  }
+  el.textContent = text;
+  el.classList.add('show');
+  if (toastTimer) window.clearTimeout(toastTimer);
+  toastTimer = window.setTimeout(() => {
+    el.classList.remove('show');
+    toastTimer = null;
+  }, ms);
+}
+
 socket.on(EVT.controllerSignal, (data) => {
-  const s = data as { type: string; ms?: number };
-  const btn = app.querySelector<HTMLButtonElement>('.ctl-btn');
-  if (s.type === 'via') {
-    if (btn) {
-      btn.textContent = '⚡ PREMI!';
-      btn.classList.add('go');
+  const s = data as SignalPayload;
+  const actionBtn =
+    app.querySelector<HTMLButtonElement>('.ctl-action') ??
+    app.querySelector<HTMLButtonElement>('.ctl-btn');
+  const abilityBtn = app.querySelector<HTMLButtonElement>('.ctl-ability');
+
+  switch (s.type) {
+    case 'wait': {
+      if (actionBtn) {
+        actionBtn.textContent = 'ASPETTA...';
+        actionBtn.disabled = false;
+        actionBtn.classList.remove('go', 'ctl-drunk');
+      }
+      if (abilityBtn) abilityBtn.disabled = false;
+      break;
     }
-    try {
-      navigator.vibrate?.(60);
-    } catch {
-      /* ignore */
+    case 'via': {
+      if (actionBtn) {
+        actionBtn.textContent = '⚡ PREMI!';
+        actionBtn.classList.add('go');
+        actionBtn.disabled = false;
+      }
+      vibrate(60);
+      break;
     }
-  } else if (s.type === 'pressed') {
-    if (btn) {
-      btn.textContent = `${s.ms ?? '—'} ms`;
-      btn.disabled = true;
-      btn.classList.remove('go');
+    case 'pressed': {
+      if (actionBtn) {
+        actionBtn.textContent = `${s.ms ?? '—'} ms`;
+        actionBtn.disabled = true;
+        actionBtn.classList.remove('go');
+      }
+      break;
     }
-  } else if (s.type === 'falseStart') {
-    if (btn) {
-      btn.textContent = '❌ FALSA PARTENZA';
-      btn.disabled = true;
-      btn.classList.remove('go');
+    case 'falseStart': {
+      if (actionBtn) {
+        actionBtn.textContent = '❌ FALSA PARTENZA';
+        actionBtn.disabled = true;
+        actionBtn.classList.remove('go');
+      }
+      vibrate([100, 60, 100]);
+      break;
     }
-    try {
-      navigator.vibrate?.([100, 60, 100]);
-    } catch {
-      /* ignore */
+    case 'secondChance': {
+      if (actionBtn) {
+        actionBtn.textContent = '🎯 SECONDA CHANCE (+120 ms)';
+        actionBtn.disabled = false;
+        actionBtn.classList.remove('go');
+      }
+      vibrate([80, 40, 80]);
+      showToast('🎯 MO HO CAPITO — seconda chance');
+      break;
+    }
+    case 'ability': {
+      showToast(`⭐ ${s.name ?? 'ABILITÀ'}`);
+      break;
+    }
+    case 'abilityUsed': {
+      if (abilityBtn) {
+        abilityBtn.disabled = true;
+        abilityBtn.classList.add('ctl-ability-used');
+      }
+      break;
+    }
+    case 'drunk': {
+      if (actionBtn) {
+        actionBtn.classList.add('ctl-drunk');
+        window.setTimeout(() => actionBtn.classList.remove('ctl-drunk'), 1500);
+      }
+      vibrate([60, 80, 60, 80]);
+      showToast('🍻 NCULO! — troppo presto, effetto ubriaco');
+      break;
+    }
+    case 'focusHit': {
+      vibrate(150);
+      showToast('👁 SONO PIÙ SVEGLIO — VIA rilevato!');
+      break;
+    }
+    case 'notYet': {
+      showToast('🛑 ORA NON È ANCORA', 1000);
+      break;
+    }
+    case 'reset': {
+      showToast('🔄 ASPETTA UN ATTIMO!', 800);
+      vibrate(40);
+      break;
     }
   }
 });

@@ -122,7 +122,7 @@ function makeRacing(controls: ControlDef[], send: SendInput): HTMLElement {
 
 function makeControl(def: ControlDef, send: SendInput): HTMLButtonElement {
   const b = document.createElement('button');
-  b.className = 'ctl-btn';
+  b.className = `ctl-btn ctl-${def.id}`;
   b.textContent = `${def.icon ? def.icon + ' ' : ''}${def.label}`;
   if (def.color) b.style.background = def.color;
 
