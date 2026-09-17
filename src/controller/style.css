@@ -860,6 +860,7 @@ button.char:disabled {
 /* ---- ARENA DEL DISAGIO — joystick + DASH + ABILITÀ ---- */
 
 .arena-shell {
+  position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -888,9 +889,13 @@ button.char:disabled {
 }
 
 .arena-status {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 800;
   color: #4ade80;
+  background: rgba(74, 222, 128, 0.14);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  border-radius: 999px;
+  padding: 4px 12px;
 }
 
 .arena-body {
@@ -937,6 +942,13 @@ button.char:disabled {
 
 .arena-joy.arena-locked .arena-joy-base {
   opacity: 0.4;
+}
+
+.arena-joy-base.arena-joy-active {
+  border-color: rgba(167, 139, 250, 0.75);
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.45),
+    0 0 22px rgba(167, 139, 250, 0.4);
 }
 
 .arena-actions {
@@ -1009,4 +1021,73 @@ button.char:disabled {
   text-align: center;
   min-height: 1.2em;
   max-width: 46vw;
+}
+
+.arena-dash-cooldown {
+  filter: grayscale(0.7) brightness(0.7);
+  transition: filter 0.2s ease;
+}
+
+.arena-dash-ready {
+  animation: arenaDashPop 0.26s ease-out;
+}
+
+@keyframes arenaDashPop {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  40% {
+    transform: scale(1.12);
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+.arena-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(5, 6, 12, 0.88);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 40;
+}
+
+.arena-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+  animation: arenaOverlayIn 0.4s ease-out;
+}
+
+@keyframes arenaOverlayIn {
+  0% {
+    transform: scale(0.85);
+  }
+  60% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.arena-overlay-icon {
+  font-size: 84px;
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.6));
+}
+
+.arena-overlay-text {
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 0.03em;
 }

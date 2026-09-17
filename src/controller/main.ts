@@ -83,6 +83,7 @@ interface SignalPayload {
   seqLen?: number;
   at?: number;
   value?: number;
+  cooldownMs?: number;
 }
 
 function vibrate(pattern: number | number[]): void {
@@ -196,14 +197,22 @@ let arenaThumbEl: HTMLElement | null = null;
 let arenaDashBtn: HTMLButtonElement | null = null;
 let arenaAbilityBtn: HTMLButtonElement | null = null;
 let arenaStatusEl: HTMLElement | null = null;
+let arenaOverlayEl: HTMLElement | null = null;
 let arenaLocked = false;
+let arenaDashCooldownTimer: number | null = null;
 
-function lockArenaControls(locked: boolean, statusText?: string): void {
+function lockArenaControls(locked: boolean): void {
   arenaLocked = locked;
   if (arenaJoystickEl) arenaJoystickEl.classList.toggle('arena-locked', locked);
   if (arenaDashBtn) arenaDashBtn.disabled = locked;
   if (arenaAbilityBtn) arenaAbilityBtn.disabled = locked;
-  if (statusText && arenaStatusEl) arenaStatusEl.textContent = statusText;
+}
+
+/** Schermata piena e drammatica per i momenti chiave (eliminato/vincitore). */
+function showArenaOverlay(icon: string, text: string, color: string): void {
+  if (!arenaOverlayEl) return;
+  arenaOverlayEl.innerHTML = `<span class="arena-overlay-icon">${icon}</span><span class="arena-overlay-text" style="color:${color}">${text}</span>`;
+  arenaOverlayEl.classList.add('show');
 }
 
 function handleArenaSignal(s: SignalPayload): void {
@@ -218,15 +227,32 @@ function handleArenaSignal(s: SignalPayload): void {
       }
       break;
     case 'eliminated':
-      lockArenaControls(true, '💀 SEI FUORI!');
+      lockArenaControls(true);
+      showArenaOverlay('💀', 'SEI FUORI!', '#f87171');
       vibrate([100, 60, 100]);
-      showToast("💀 Sei fuori dall'arena!");
       break;
     case 'won':
-      lockArenaControls(true, '🏆 HAI VINTO!');
+      lockArenaControls(true);
+      showArenaOverlay('🏆', 'HAI VINTO!', '#fbbf24');
       vibrate([80, 40, 80, 40, 120]);
-      showToast('🏆 HAI VINTO!');
       break;
+    case 'dash_used': {
+      if (arenaDashCooldownTimer) window.clearTimeout(arenaDashCooldownTimer);
+      if (arenaDashBtn) {
+        arenaDashBtn.disabled = true;
+        arenaDashBtn.classList.add('arena-dash-cooldown');
+      }
+      const ms = s.cooldownMs ?? 1150;
+      arenaDashCooldownTimer = window.setTimeout(() => {
+        arenaDashCooldownTimer = null;
+        if (!arenaDashBtn || arenaLocked) return;
+        arenaDashBtn.disabled = false;
+        arenaDashBtn.classList.remove('arena-dash-cooldown');
+        arenaDashBtn.classList.add('arena-dash-ready');
+        window.setTimeout(() => arenaDashBtn?.classList.remove('arena-dash-ready'), 260);
+      }, ms);
+      break;
+    }
     case 'ability':
       if (arenaAbilityBtn) {
         arenaAbilityBtn.disabled = true;
@@ -249,7 +275,12 @@ function renderArenaController(): void {
   arenaDashBtn = null;
   arenaAbilityBtn = null;
   arenaStatusEl = null;
+  arenaOverlayEl = null;
   arenaLocked = false;
+  if (arenaDashCooldownTimer) {
+    window.clearTimeout(arenaDashCooldownTimer);
+    arenaDashCooldownTimer = null;
+  }
 
   const me: PlayerPublic | undefined =
     playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
@@ -274,9 +305,11 @@ function renderArenaController(): void {
           <p id="arena-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
         </div>
       </div>
+      <div id="arena-overlay" class="arena-overlay"></div>
     </div>`;
 
   arenaStatusEl = app.querySelector<HTMLElement>('#arena-status')!;
+  arenaOverlayEl = app.querySelector<HTMLElement>('#arena-overlay')!;
   arenaDashBtn = app.querySelector<HTMLButtonElement>('#arena-dash')!;
   arenaAbilityBtn = app.querySelector<HTMLButtonElement>('#arena-ability')!;
   arenaJoystickEl = app.querySelector<HTMLElement>('#arena-joy')!;
@@ -310,6 +343,7 @@ function renderArenaController(): void {
   };
   const centerThumb = (): void => {
     if (arenaThumbEl) arenaThumbEl.style.transform = 'translate(-50%, -50%)';
+    baseEl.classList.remove('arena-joy-active');
     sendAxis(0, 0);
   };
   const moveThumb = (e: PointerEvent): void => {
@@ -336,6 +370,7 @@ function renderArenaController(): void {
     if (arenaLocked) return;
     baseEl.setPointerCapture(e.pointerId);
     activePointer = e.pointerId;
+    baseEl.classList.add('arena-joy-active');
     moveThumb(e);
   });
   baseEl.addEventListener('pointermove', (e) => {

@@ -227,6 +227,7 @@ export class BabylonArenaGame {
       p.vz = dirZ * DASH_SPEED;
       audio.boost();
       this.ctx.vibrate(p.id, 30);
+      this.ctx.signal(p.id, { type: 'dash_used', cooldownMs: Math.round(DASH_COOLDOWN * 1000) });
     }
 
     // Abilità
