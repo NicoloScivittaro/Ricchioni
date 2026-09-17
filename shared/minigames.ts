@@ -17,8 +17,16 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     rarity: 'common',
     minPlayers: 1,
     maxPlayers: 5,
-    durationSec: 45,
-    compatibleModifiers: ['tempo_dimezzato', 'punti_doppi'],
+    // 10 domande a difficoltà crescente (timer 12-25s) + intro/reveal/spiegazione
+    // per ognuna + 3 classifiche intermedie: il giro completo richiede molto
+    // più dei 45s del vecchio quiz da 5 domande rapide. Vedi QuizRoundManager
+    // per il dettaglio dei tempi; 320s lascia margine anche con bonus tempo
+    // delle abilità (es. +8s del Dottore) che si accumulano su più domande.
+    durationSec: 320,
+    // "tempo_dimezzato" non è più compatibile: dimezzerebbe anche la rete di
+    // sicurezza server-side (durationSec), rischiando di troncare un quiz che
+    // segue comunque i suoi timer per-domanda fissi (non letti dal modificatore).
+    compatibleModifiers: ['punti_doppi'],
     sceneKey: 'quiz',
     controllerLayout: {
       type: 'buttons',
@@ -27,7 +35,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'answerA', label: 'A', kind: 'button', icon: '🔴' },
         { id: 'answerB', label: 'B', kind: 'button', icon: '🔵' },
         { id: 'answerC', label: 'C', kind: 'button', icon: '🟢' },
-        { id: 'answerD', label: 'D', kind: 'button', icon: '🟡' }
+        { id: 'answerD', label: 'D', kind: 'button', icon: '🟡' },
+        { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
       ]
     }
   },

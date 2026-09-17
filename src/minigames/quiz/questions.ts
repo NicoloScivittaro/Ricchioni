@@ -1,73 +1,164 @@
-export interface Question {
+/**
+ * QuizQuestionDatabase — "CHI CAZZO LO SA?"
+ *
+ * 120 domande reali (12 per ciascuna delle 10 difficoltà), fatti verificati e
+ * stabili nel tempo (evitati record/classifiche "attuali" che possono
+ * cambiare). Nessun placeholder: ogni domanda è stata controllata perché la
+ * risposta indicata sia effettivamente corretta e le altre tre chiaramente
+ * sbagliate (non ambigue, non interpretabili, non di opinione).
+ *
+ * Per aggiungere domande in futuro: basta appendere nuovi oggetti a QUESTIONS
+ * con un id univoco — nessun'altra parte del motore va toccata (vedi
+ * selection.ts, che pesca dinamicamente dal pool per ogni difficoltà).
+ */
+export interface QuizQuestion {
+  id: string;
+  difficulty: number; // 1 (molto semplice) .. 10 (difficilissima)
   category: string;
-  prompt: string;
-  options: [string, string, string, string];
-  correct: number;
+  question: string;
+  answers: [string, string, string, string];
+  correctAnswerIndex: number;
+  explanation: string;
 }
 
-/**
- * Banca domande v0.1: mix di cultura generale e domande "sul gruppo".
- * Ogni domanda ha 4 opzioni e l'indice della risposta corretta.
- */
-export const QUESTIONS: Question[] = [
-  {
-    category: 'Gruppo',
-    prompt: 'Chi è il creatore di questo gioco?',
-    options: ['Nicolò', 'Christian', 'Victor', 'Il Judoka'],
-    correct: 0
-  },
-  {
-    category: 'Gruppo',
-    prompt: 'Secondo la lore, quanti capelli ha Ciro?',
-    options: ['Zero', 'Uno', 'Due', 'Tre'],
-    correct: 2
-  },
-  {
-    category: 'Gruppo',
-    prompt: 'Qual è la dipendenza ufficiale del Judoka?',
-    options: ['Il caffè', 'La granita', 'Le patatine', 'Il judo alle 6 del mattino'],
-    correct: 1
-  },
-  {
-    category: 'Gruppo',
-    prompt: 'Cosa cura Christian il doppio?',
-    options: ['La pizza e il kebab', 'Il gelato', 'L\'insalata', 'Il caffè corretto'],
-    correct: 0
-  },
-  {
-    category: 'Gruppo',
-    prompt: 'Qual è il tasso alcolemico iniziale di Nicolò?',
-    options: ['0%', '10%', '25%', '80%'],
-    correct: 2
-  },
-  {
-    category: 'Gruppo',
-    prompt: 'Quale sport pratica Christian?',
-    options: ['Nuoto', 'Pugilato', 'Judo', 'Calcio'],
-    correct: 1
-  },
-  {
-    category: 'Cultura',
-    prompt: 'Qual è la capitale d\'Italia?',
-    options: ['Milano', 'Napoli', 'Roma', 'Torino'],
-    correct: 2
-  },
-  {
-    category: 'Cultura',
-    prompt: 'Quanti giocatori servono minimo per iniziare?',
-    options: ['1', '2', '3', '5'],
-    correct: 1
-  },
-  {
-    category: 'Cultura',
-    prompt: 'Cosa c\'è tra Anzio e Nettuno?',
-    options: ['Una guerra', 'Una rivalità', 'Un fiume', 'Nulla, sono la stessa città'],
-    correct: 1
-  },
-  {
-    category: 'Gruppo',
-    prompt: 'Victor, secondo il gruppo, ha una laurea presa su...',
-    options: ['Oxford', 'Telegram', 'Harvard', 'La Sapienza'],
-    correct: 1
-  }
+export const QUESTIONS: QuizQuestion[] = [
+  // ================= DIFFICOLTÀ 1 — molto semplice =================
+  { id: 'q001', difficulty: 1, category: 'Geografia', question: 'Qual è la capitale della Francia?', answers: ['Lione', 'Marsiglia', 'Parigi', 'Nizza'], correctAnswerIndex: 2, explanation: 'Parigi è la capitale francese fin dal Medioevo.' },
+  { id: 'q002', difficulty: 1, category: 'Cultura generale', question: 'Quanti giorni ci sono in una settimana?', answers: ['5', '6', '7', '8'], correctAnswerIndex: 2, explanation: 'La settimana è composta da sette giorni, da lunedì a domenica.' },
+  { id: 'q003', difficulty: 1, category: 'Astronomia', question: 'Quanti pianeti ci sono nel Sistema Solare?', answers: ['7', '8', '9', '10'], correctAnswerIndex: 1, explanation: "Dal 2006 Plutone è classificato come pianeta nano: i pianeti sono 8." },
+  { id: 'q004', difficulty: 1, category: 'Geografia', question: 'In quale continente si trova l\'Egitto?', answers: ['Asia', 'Europa', 'Africa', 'Oceania'], correctAnswerIndex: 2, explanation: "L'Egitto si trova nel nord-est del continente africano." },
+  { id: 'q005', difficulty: 1, category: 'Sport', question: 'Quanti giocatori di una squadra di calcio stanno in campo contemporaneamente?', answers: ['9', '10', '11', '12'], correctAnswerIndex: 2, explanation: 'Ogni squadra schiera 11 giocatori, portiere incluso.' },
+  { id: 'q006', difficulty: 1, category: 'Natura', question: 'Qual è il più grande animale terrestre vivente?', answers: ['Rinoceronte', 'Elefante africano', 'Ippopotamo', 'Giraffa'], correctAnswerIndex: 1, explanation: "L'elefante africano di savana può superare le 6 tonnellate di peso." },
+  { id: 'q007', difficulty: 1, category: 'Lingua', question: 'Qual è la lingua ufficiale della Spagna?', answers: ['Portoghese', 'Italiano', 'Spagnolo', 'Francese'], correctAnswerIndex: 2, explanation: 'Lo spagnolo (castigliano) è la lingua ufficiale a livello nazionale.' },
+  { id: 'q008', difficulty: 1, category: 'Cultura generale', question: 'Quanti mesi ha un anno?', answers: ['10', '11', '12', '13'], correctAnswerIndex: 2, explanation: 'Il calendario gregoriano è diviso in 12 mesi.' },
+  { id: 'q009', difficulty: 1, category: 'Geografia', question: "Qual è l'oceano più esteso del mondo?", answers: ['Atlantico', 'Indiano', 'Artico', 'Pacifico'], correctAnswerIndex: 3, explanation: "L'Oceano Pacifico copre più superficie di tutte le terre emerse messe insieme." },
+  { id: 'q010', difficulty: 1, category: 'Astronomia', question: 'Qual è la stella più vicina alla Terra?', answers: ['Sirio', 'Il Sole', 'Proxima Centauri', 'Polare'], correctAnswerIndex: 1, explanation: 'Il Sole è la nostra stella: tutte le altre sono molto più lontane.' },
+  { id: 'q011', difficulty: 1, category: 'Videogiochi', question: "Come si chiama l'idraulico protagonista dei giochi Nintendo?", answers: ['Luigi', 'Wario', 'Mario', 'Toad'], correctAnswerIndex: 2, explanation: 'Mario è la mascotte storica di Nintendo dal 1981.' },
+  { id: 'q012', difficulty: 1, category: 'Musica', question: 'Quante corde ha una chitarra classica standard?', answers: ['4', '5', '6', '7'], correctAnswerIndex: 2, explanation: 'La chitarra classica ha 6 corde, accordate solitamente Mi-La-Re-Sol-Si-Mi.' },
+
+  // ================= DIFFICOLTÀ 2 — semplice =================
+  { id: 'q013', difficulty: 2, category: 'Storia', question: 'Chi fu il primo imperatore romano?', answers: ['Giulio Cesare', 'Nerone', 'Augusto', 'Traiano'], correctAnswerIndex: 2, explanation: "Augusto (Ottaviano) divenne il primo imperatore nel 27 a.C." },
+  { id: 'q014', difficulty: 2, category: 'Geografia', question: "Qual è il fiume più lungo d'Italia?", answers: ['Tevere', 'Adige', 'Po', 'Arno'], correctAnswerIndex: 2, explanation: 'Il Po scorre per circa 650 km dalle Alpi all\'Adriatico.' },
+  { id: 'q015', difficulty: 2, category: 'Arte', question: 'Chi ha dipinto la Gioconda (Monna Lisa)?', answers: ['Raffaello', 'Michelangelo', 'Leonardo da Vinci', 'Tiziano'], correctAnswerIndex: 2, explanation: "Leonardo da Vinci la dipinse tra il 1503 e il 1519 circa." },
+  { id: 'q016', difficulty: 2, category: 'Scienza', question: "Qual è la formula chimica dell'acqua?", answers: ['CO2', 'H2O', 'O2', 'NaCl'], correctAnswerIndex: 1, explanation: "L'acqua è composta da due atomi di idrogeno e uno di ossigeno." },
+  { id: 'q017', difficulty: 2, category: 'Sport', question: 'In quale sport si gioca a Wimbledon?', answers: ['Golf', 'Tennis', 'Cricket', 'Rugby'], correctAnswerIndex: 1, explanation: 'Wimbledon è il più antico torneo di tennis al mondo.' },
+  { id: 'q018', difficulty: 2, category: 'Biologia', question: 'Quale organo pompa il sangue nel corpo umano?', answers: ['Il fegato', 'Il polmone', 'Il cuore', 'Il rene'], correctAnswerIndex: 2, explanation: 'Il cuore è un muscolo che pompa il sangue in tutto il corpo.' },
+  { id: 'q019', difficulty: 2, category: 'Cultura generale', question: 'Quanti continenti ci sono sulla Terra secondo il modello più diffuso?', answers: ['5', '6', '7', '8'], correctAnswerIndex: 2, explanation: 'Nel modello più comune si contano 7 continenti.' },
+  { id: 'q020', difficulty: 2, category: 'Letteratura', question: 'Chi ha scritto "Romeo e Giulietta"?', answers: ['Charles Dickens', 'William Shakespeare', 'Oscar Wilde', 'Jane Austen'], correctAnswerIndex: 1, explanation: 'Shakespeare scrisse la tragedia intorno al 1595.' },
+  { id: 'q021', difficulty: 2, category: 'Astronomia', question: 'Qual è il pianeta più grande del Sistema Solare?', answers: ['Saturno', 'Nettuno', 'Giove', 'Urano'], correctAnswerIndex: 2, explanation: 'Giove ha un diametro di oltre 11 volte quello della Terra.' },
+  { id: 'q022', difficulty: 2, category: 'Invenzioni', question: 'A chi viene comunemente attribuita l\'invenzione della lampadina a incandescenza moderna?', answers: ['Nikola Tesla', 'Thomas Edison', 'Alessandro Volta', 'James Watt'], correctAnswerIndex: 1, explanation: 'Edison ne brevettò e commercializzò una versione duratura nel 1879.' },
+  { id: 'q023', difficulty: 2, category: 'Mitologia', question: 'Come si chiama il re degli dei nella mitologia greca?', answers: ['Poseidone', 'Ade', 'Ares', 'Zeus'], correctAnswerIndex: 3, explanation: 'Zeus regna sul Monte Olimpo ed è dio del cielo e del tuono.' },
+  { id: 'q024', difficulty: 2, category: 'Geografia', question: 'Qual è la capitale del Giappone?', answers: ['Osaka', 'Kyoto', 'Tokyo', 'Yokohama'], correctAnswerIndex: 2, explanation: 'Tokyo è capitale del Giappone dal 1868.' },
+
+  // ================= DIFFICOLTÀ 3 — facile =================
+  { id: 'q025', difficulty: 3, category: 'Storia', question: "In che anno cadde l'Impero Romano d'Occidente?", answers: ['376 d.C.', '410 d.C.', '476 d.C.', '526 d.C.'], correctAnswerIndex: 2, explanation: 'La deposizione di Romolo Augustolo nel 476 segna la data convenzionale.' },
+  { id: 'q026', difficulty: 3, category: 'Geografia', question: 'Qual è la montagna più alta del mondo (sul livello del mare)?', answers: ['K2', 'Monte Bianco', 'Everest', 'Kilimangiaro'], correctAnswerIndex: 2, explanation: "L'Everest raggiunge 8.849 metri sul livello del mare." },
+  { id: 'q027', difficulty: 3, category: 'Scienza', question: "In quale stato si trova l'acqua a 100°C a pressione atmosferica normale?", answers: ['Solido', 'Liquido', 'Gassoso', 'Plasma'], correctAnswerIndex: 2, explanation: "A 100°C e pressione normale l'acqua bolle e diventa vapore." },
+  { id: 'q028', difficulty: 3, category: 'Cinema', question: 'Chi ha diretto il film "Titanic" (1997)?', answers: ['Steven Spielberg', 'James Cameron', 'Ridley Scott', 'Peter Jackson'], correctAnswerIndex: 1, explanation: 'James Cameron vinse 11 premi Oscar con questo film.' },
+  { id: 'q029', difficulty: 3, category: 'Musica', question: 'Da quale città provenivano i Beatles?', answers: ['Londra', 'Manchester', 'Liverpool', 'Birmingham'], correctAnswerIndex: 2, explanation: 'I quattro membri si formarono musicalmente a Liverpool.' },
+  { id: 'q030', difficulty: 3, category: 'Sport', question: 'Ogni quanti anni si svolgono le Olimpiadi estive?', answers: ['2', '3', '4', '5'], correctAnswerIndex: 2, explanation: "L'intervallo standard tra due edizioni estive è di 4 anni." },
+  { id: 'q031', difficulty: 3, category: 'Biologia', question: 'Quante ossa ha approssimativamente lo scheletro di un adulto umano?', answers: ['156', '176', '206', '256'], correctAnswerIndex: 2, explanation: "Un adulto ha in media 206 ossa (un neonato ne ha di più, poi alcune si fondono)." },
+  { id: 'q032', difficulty: 3, category: 'Letteratura', question: 'Chi ha scritto "Le avventure di Pinocchio"?', answers: ['Carlo Collodi', 'Italo Calvino', 'Gianni Rodari', 'Emilio Salgari'], correctAnswerIndex: 0, explanation: "Collodi pubblicò la storia a puntate a partire dal 1881." },
+  { id: 'q033', difficulty: 3, category: 'Astronomia', question: 'Come si chiama il satellite naturale della Terra?', answers: ['Titano', 'Europa', 'La Luna', 'Io'], correctAnswerIndex: 2, explanation: 'La Luna è l\'unico satellite naturale terrestre.' },
+  { id: 'q034', difficulty: 3, category: 'Arte', question: 'A quale corrente artistica appartiene Vincent van Gogh?', answers: ['Barocco', 'Post-impressionismo', 'Cubismo', 'Rinascimento'], correctAnswerIndex: 1, explanation: 'Van Gogh è tra i massimi esponenti del post-impressionismo.' },
+  { id: 'q035', difficulty: 3, category: 'Tecnologia', question: 'Chi ha co-fondato Microsoft insieme a Paul Allen?', answers: ['Steve Jobs', 'Bill Gates', 'Larry Page', 'Jeff Bezos'], correctAnswerIndex: 1, explanation: 'Gates e Allen fondarono Microsoft nel 1975.' },
+  { id: 'q036', difficulty: 3, category: 'Geografia', question: 'Qual è il deserto caldo più esteso del mondo?', answers: ['Gobi', 'Kalahari', 'Sahara', 'Atacama'], correctAnswerIndex: 2, explanation: 'Il Sahara copre gran parte del Nord Africa.' },
+
+  // ================= DIFFICOLTÀ 4 — medio-facile =================
+  { id: 'q037', difficulty: 4, category: 'Storia', question: 'In che anno iniziò la Prima Guerra Mondiale?', answers: ['1912', '1914', '1916', '1918'], correctAnswerIndex: 1, explanation: 'Il conflitto scoppiò nel luglio 1914, dopo l\'attentato di Sarajevo.' },
+  { id: 'q038', difficulty: 4, category: 'Scienza', question: "Qual è l'elemento chimico più abbondante nell'universo?", answers: ['Ossigeno', 'Carbonio', 'Elio', 'Idrogeno'], correctAnswerIndex: 3, explanation: "L'idrogeno costituisce circa il 75% della massa ordinaria dell'universo." },
+  { id: 'q039', difficulty: 4, category: 'Cinema', question: 'Chi ha diretto "Inception"?', answers: ['Christopher Nolan', 'Denis Villeneuve', 'David Fincher', 'Quentin Tarantino'], correctAnswerIndex: 0, explanation: 'Nolan scrisse e diresse il film, uscito nel 2010.' },
+  { id: 'q040', difficulty: 4, category: 'Letteratura', question: 'Chi ha scritto il romanzo distopico "1984"?', answers: ['Aldous Huxley', 'George Orwell', 'Ray Bradbury', 'Philip K. Dick'], correctAnswerIndex: 1, explanation: 'Orwell lo pubblicò nel 1949.' },
+  { id: 'q041', difficulty: 4, category: 'Sport', question: "In quale sport ciclistico si assegna la 'maglia gialla'?", answers: ['Giro d\'Italia', 'Vuelta a España', 'Tour de France', 'Parigi-Roubaix'], correctAnswerIndex: 2, explanation: 'La maglia gialla del Tour de France premia il leader della classifica generale.' },
+  { id: 'q042', difficulty: 4, category: 'Biologia', question: 'Quale gas viene rilasciato principalmente dalle piante durante la fotosintesi?', answers: ['Anidride carbonica', 'Ossigeno', 'Azoto', 'Metano'], correctAnswerIndex: 1, explanation: 'Le piante assorbono CO2 e rilasciano ossigeno come prodotto della fotosintesi.' },
+  { id: 'q043', difficulty: 4, category: 'Astronomia', question: 'Qual è il pianeta più vicino al Sole?', answers: ['Venere', 'Mercurio', 'Marte', 'Terra'], correctAnswerIndex: 1, explanation: 'Mercurio orbita a circa 58 milioni di km dal Sole.' },
+  { id: 'q044', difficulty: 4, category: 'Videogiochi', question: 'Quale azienda giapponese ha creato la console PlayStation?', answers: ['Sega', 'Nintendo', 'Sony', 'Konami'], correctAnswerIndex: 2, explanation: 'La prima PlayStation fu lanciata da Sony nel 1994.' },
+  { id: 'q045', difficulty: 4, category: 'Invenzioni', question: 'In quale paese fu sviluppata la stampa a caratteri mobili di Gutenberg?', answers: ['Italia', 'Francia', 'Germania', 'Paesi Bassi'], correctAnswerIndex: 2, explanation: 'Johannes Gutenberg lavorò a Magonza, in Germania, intorno al 1450.' },
+  { id: 'q046', difficulty: 4, category: 'Mitologia', question: 'Chi è la dea della saggezza nella mitologia greca?', answers: ['Era', 'Afrodite', 'Atena', 'Artemide'], correctAnswerIndex: 2, explanation: 'Atena nacque, secondo il mito, dalla testa di Zeus.' },
+  { id: 'q047', difficulty: 4, category: 'Geografia', question: 'Qual è il paese più esteso del mondo per superficie?', answers: ['Canada', 'Cina', 'Stati Uniti', 'Russia'], correctAnswerIndex: 3, explanation: 'La Russia si estende su circa 17 milioni di km².' },
+  { id: 'q048', difficulty: 4, category: 'Musica', question: 'Quale compositore italiano scrisse "Le Quattro Stagioni"?', answers: ['Giuseppe Verdi', 'Antonio Vivaldi', 'Gioachino Rossini', 'Giacomo Puccini'], correctAnswerIndex: 1, explanation: 'Vivaldi compose questi quattro concerti per violino intorno al 1723.' },
+
+  // ================= DIFFICOLTÀ 5 — media =================
+  { id: 'q049', difficulty: 5, category: 'Storia', question: 'Chi fu il primo presidente degli Stati Uniti?', answers: ['Thomas Jefferson', 'John Adams', 'George Washington', 'Abraham Lincoln'], correctAnswerIndex: 2, explanation: 'Washington fu presidente dal 1789 al 1797.' },
+  { id: 'q050', difficulty: 5, category: 'Scienza', question: 'Qual è, approssimativamente, la velocità della luce nel vuoto?', answers: ['30.000 km/s', '150.000 km/s', '300.000 km/s', '1.000.000 km/s'], correctAnswerIndex: 2, explanation: 'La luce viaggia nel vuoto a circa 299.792 km al secondo.' },
+  { id: 'q051', difficulty: 5, category: 'Cinema', question: 'Chi ha vinto l\'Oscar come miglior attore protagonista per "Il discorso del re"?', answers: ['Geoffrey Rush', 'Colin Firth', 'Daniel Day-Lewis', 'Tom Hooper'], correctAnswerIndex: 1, explanation: 'Colin Firth vinse l\'Oscar 2011 per l\'interpretazione di Giorgio VI.' },
+  { id: 'q052', difficulty: 5, category: 'Letteratura', question: 'Chi ha scritto "Cent\'anni di solitudine"?', answers: ['Mario Vargas Llosa', 'Jorge Luis Borges', 'Gabriel García Márquez', 'Pablo Neruda'], correctAnswerIndex: 2, explanation: 'García Márquez pubblicò il romanzo nel 1967.' },
+  { id: 'q053', difficulty: 5, category: 'Musica', question: 'Chi compose "Le Quattro Stagioni" oltre a essere celebre violinista veneziano? (stesso compositore, diverso indizio)', answers: ['Bach', 'Vivaldi', 'Händel', 'Corelli'], correctAnswerIndex: 1, explanation: 'Antonio Vivaldi era anche un celebre violinista, soprannominato "il Prete Rosso".' },
+  { id: 'q054', difficulty: 5, category: 'Sport', question: 'In quale città si tennero i primi Giochi Olimpici moderni, nel 1896?', answers: ['Parigi', 'Londra', 'Atene', 'Roma'], correctAnswerIndex: 2, explanation: 'Atene ospitò la prima edizione moderna organizzata da Pierre de Coubertin.' },
+  { id: 'q055', difficulty: 5, category: 'Biologia', question: 'Chi formulò la teoria dell\'evoluzione per selezione naturale?', answers: ['Gregor Mendel', 'Charles Darwin', 'Louis Pasteur', 'Alfred Wallace'], correctAnswerIndex: 1, explanation: 'Darwin la espose ne "L\'origine delle specie" (1859).' },
+  { id: 'q056', difficulty: 5, category: 'Astronomia', question: 'Come si chiama la galassia in cui si trova il Sistema Solare?', answers: ['Andromeda', 'Via Lattea', 'Triangolo', 'Sombrero'], correctAnswerIndex: 1, explanation: 'Il Sistema Solare orbita in un braccio della Via Lattea.' },
+  { id: 'q057', difficulty: 5, category: 'Arte', question: 'Chi scolpì il David, oggi conservato a Firenze?', answers: ['Donatello', 'Gian Lorenzo Bernini', 'Michelangelo', 'Benvenuto Cellini'], correctAnswerIndex: 2, explanation: 'Michelangelo realizzò il David tra il 1501 e il 1504.' },
+  { id: 'q058', difficulty: 5, category: 'Tecnologia', question: 'Chi è considerato l\'inventore del World Wide Web?', answers: ['Steve Wozniak', 'Vint Cerf', 'Tim Berners-Lee', 'Alan Turing'], correctAnswerIndex: 2, explanation: 'Berners-Lee lo propose nel 1989 al CERN di Ginevra.' },
+  { id: 'q059', difficulty: 5, category: 'Storia', question: 'Sotto quale imperatore l\'Impero Romano raggiunse la massima estensione territoriale?', answers: ['Augusto', 'Adriano', 'Traiano', 'Marco Aurelio'], correctAnswerIndex: 2, explanation: 'Sotto Traiano, nel 117 d.C., l\'impero toccò la sua massima estensione.' },
+  { id: 'q060', difficulty: 5, category: 'Geografia', question: 'Qual è la capitale del Canada?', answers: ['Toronto', 'Vancouver', 'Ottawa', 'Montreal'], correctAnswerIndex: 2, explanation: 'Ottawa, nell\'Ontario, è la capitale federale dal 1857.' },
+
+  // ================= DIFFICOLTÀ 6 — medio-difficile =================
+  { id: 'q061', difficulty: 6, category: 'Storia', question: 'In che anno cadde il Muro di Berlino?', answers: ['1985', '1987', '1989', '1991'], correctAnswerIndex: 2, explanation: 'Il muro cadde il 9 novembre 1989.' },
+  { id: 'q062', difficulty: 6, category: 'Geografia', question: 'Qual è il lago più profondo del mondo?', answers: ['Lago Superiore', 'Lago Bajkal', 'Lago Tanganica', 'Mar Caspio'], correctAnswerIndex: 1, explanation: 'Il lago Bajkal in Siberia raggiunge oltre 1.600 metri di profondità.' },
+  { id: 'q063', difficulty: 6, category: 'Scienza', question: 'Chi formulò la teoria della relatività generale?', answers: ['Isaac Newton', 'Niels Bohr', 'Albert Einstein', 'Max Planck'], correctAnswerIndex: 2, explanation: 'Einstein la pubblicò nel 1915.' },
+  { id: 'q064', difficulty: 6, category: 'Cinema', question: 'Chi ha diretto "2001: Odissea nello spazio"?', answers: ['George Lucas', 'Stanley Kubrick', 'Ridley Scott', 'Terry Gilliam'], correctAnswerIndex: 1, explanation: 'Kubrick lo diresse nel 1968, basandosi su un soggetto di Arthur C. Clarke.' },
+  { id: 'q065', difficulty: 6, category: 'Letteratura', question: 'In quale opera di Dante compare il verso "Lasciate ogne speranza, voi ch\'intrate"?', answers: ['Purgatorio', 'Paradiso', 'Inferno', 'Vita Nuova'], correctAnswerIndex: 2, explanation: 'È scolpito sulla porta dell\'Inferno, nel III canto.' },
+  { id: 'q066', difficulty: 6, category: 'Musica', question: 'Quale compositore tedesco divenne completamente sordo negli ultimi anni della sua vita?', answers: ['Johann Sebastian Bach', 'Ludwig van Beethoven', 'Johannes Brahms', 'Richard Wagner'], correctAnswerIndex: 1, explanation: 'Beethoven continuò a comporre, tra cui la Nona Sinfonia, nonostante la sordità.' },
+  { id: 'q067', difficulty: 6, category: 'Sport', question: 'In quale città si tennero le Olimpiadi estive del 1960?', answers: ['Melbourne', 'Roma', 'Tokyo', 'Città del Messico'], correctAnswerIndex: 1, explanation: 'Roma 1960 fu la prima Olimpiade trasmessa in diretta TV internazionale.' },
+  { id: 'q068', difficulty: 6, category: 'Biologia', question: 'Come si chiama il processo con cui le piante trasformano la luce solare in energia chimica?', answers: ['Respirazione cellulare', 'Fotosintesi clorofilliana', 'Traspirazione', 'Osmosi'], correctAnswerIndex: 1, explanation: 'La fotosintesi avviene nei cloroplasti grazie alla clorofilla.' },
+  { id: 'q069', difficulty: 6, category: 'Astronomia', question: 'Quale pianeta del Sistema Solare ha il sistema di anelli più visibile?', answers: ['Giove', 'Urano', 'Saturno', 'Nettuno'], correctAnswerIndex: 2, explanation: 'Gli anelli di Saturno sono composti principalmente da ghiaccio e roccia.' },
+  { id: 'q070', difficulty: 6, category: 'Mitologia', question: 'Chi è il traghettatore delle anime nell\'Ade, nella mitologia greca?', answers: ['Ermes', 'Caronte', 'Cerbero', 'Ade'], correctAnswerIndex: 1, explanation: 'Caronte traghetta le anime dei defunti attraverso il fiume Stige.' },
+  { id: 'q071', difficulty: 6, category: 'Invenzioni', question: 'A chi è storicamente attribuito il brevetto del telefono, nel 1876?', answers: ['Thomas Edison', 'Guglielmo Marconi', 'Alexander Graham Bell', 'Nikola Tesla'], correctAnswerIndex: 2, explanation: 'Bell depositò il brevetto negli Stati Uniti nel marzo 1876.' },
+  { id: 'q072', difficulty: 6, category: 'Arte', question: 'Pablo Picasso è co-fondatore di quale movimento artistico del Novecento?', answers: ['Futurismo', 'Cubismo', 'Surrealismo', 'Dadaismo'], correctAnswerIndex: 1, explanation: 'Picasso e Georges Braque svilupparono il cubismo a partire dal 1907.' },
+
+  // ================= DIFFICOLTÀ 7 — difficile =================
+  { id: 'q073', difficulty: 7, category: 'Storia', question: 'Come si chiama il trattato che pose ufficialmente fine alla Prima Guerra Mondiale con la Germania?', answers: ['Trattato di Utrecht', 'Trattato di Versailles', 'Trattato di Vienna', 'Trattato di Westfalia'], correctAnswerIndex: 1, explanation: 'Fu firmato il 28 giugno 1919 nella Reggia di Versailles.' },
+  { id: 'q074', difficulty: 7, category: 'Geografia', question: 'Qual è la capitale dell\'Australia?', answers: ['Sydney', 'Melbourne', 'Canberra', 'Perth'], correctAnswerIndex: 2, explanation: 'Canberra fu scelta come capitale nel 1908 come compromesso tra Sydney e Melbourne.' },
+  { id: 'q075', difficulty: 7, category: 'Scienza', question: 'Come si chiama l\'unità di misura della forza nel Sistema Internazionale?', answers: ['Joule', 'Pascal', 'Newton', 'Watt'], correctAnswerIndex: 2, explanation: 'Il newton (N) prende il nome da Isaac Newton.' },
+  { id: 'q076', difficulty: 7, category: 'Cinema', question: 'Chi ha composto la celebre colonna sonora della saga di "Star Wars"?', answers: ['Hans Zimmer', 'John Williams', 'Ennio Morricone', 'Alan Silvestri'], correctAnswerIndex: 1, explanation: 'John Williams ha composto le musiche fin dal primo film del 1977.' },
+  { id: 'q077', difficulty: 7, category: 'Letteratura', question: 'Chi ha scritto il romanzo "Delitto e castigo"?', answers: ['Lev Tolstoj', 'Anton Čechov', 'Fëdor Dostoevskij', 'Ivan Turgenev'], correctAnswerIndex: 2, explanation: 'Dostoevskij lo pubblicò nel 1866.' },
+  { id: 'q078', difficulty: 7, category: 'Sport', question: 'Quale nazionale vinse il primo Campionato del Mondo di calcio, nel 1930?', answers: ['Brasile', 'Argentina', 'Uruguay', 'Italia'], correctAnswerIndex: 2, explanation: 'L\'Uruguay vinse in casa battendo l\'Argentina in finale.' },
+  { id: 'q079', difficulty: 7, category: 'Biologia', question: 'Quanti cromosomi ha normalmente una cellula somatica umana?', answers: ['23', '44', '46', '48'], correctAnswerIndex: 2, explanation: 'Sono 23 coppie di cromosomi, per un totale di 46.' },
+  { id: 'q080', difficulty: 7, category: 'Mitologia', question: 'Secondo il mito, chi uccise Achille colpendolo al tallone?', answers: ['Ettore', 'Paride', 'Agamennone', 'Enea'], correctAnswerIndex: 1, explanation: 'Paride lo colpì con una freccia guidata, secondo il mito, da Apollo.' },
+  { id: 'q081', difficulty: 7, category: 'Invenzioni', question: 'In quale secolo fu perfezionata la macchina a vapore da James Watt?', answers: ['XVI secolo', 'XVII secolo', 'XVIII secolo', 'XIX secolo'], correctAnswerIndex: 2, explanation: 'Watt brevettò i suoi miglioramenti a partire dal 1769.' },
+  { id: 'q082', difficulty: 7, category: 'Tecnologia', question: 'Quale linguaggio di programmazione fu creato da Guido van Rossum?', answers: ['Java', 'Python', 'Ruby', 'Perl'], correctAnswerIndex: 1, explanation: 'Van Rossum iniziò a svilupparlo alla fine degli anni \'80.' },
+  { id: 'q083', difficulty: 7, category: 'Astronomia', question: 'Come si chiama il fenomeno esplosivo che segna la morte di una stella molto massiccia?', answers: ['Nova', 'Supernova', 'Eclissi', 'Quasar'], correctAnswerIndex: 1, explanation: 'Una supernova può, in certi casi, lasciare come residuo un buco nero.' },
+  { id: 'q084', difficulty: 7, category: 'Geografia', question: 'Attraverso quale stretto si affacciano Europa e Africa nel punto più vicino, presso Gibilterra?', answers: ['Stretto di Bering', 'Stretto di Gibilterra', 'Stretto di Messina', 'Stretto di Hormuz'], correctAnswerIndex: 1, explanation: 'Lo stretto separa la Spagna dal Marocco per circa 14 km nel punto più stretto.' },
+
+  // ================= DIFFICOLTÀ 8 — molto difficile =================
+  { id: 'q085', difficulty: 8, category: 'Storia', question: 'Chi era l\'ultimo imperatore bizantino, morto durante la caduta di Costantinopoli nel 1453?', answers: ['Giovanni VIII', 'Costantino XI Paleologo', 'Michele VIII', 'Alessio V'], correctAnswerIndex: 1, explanation: 'Costantino XI morì combattendo durante l\'assedio ottomano del 1453.' },
+  { id: 'q086', difficulty: 8, category: 'Scienza', question: 'Quale particella subatomica, priva di carica elettrica, si trova nel nucleo atomico insieme ai protoni?', answers: ['Elettrone', 'Neutrone', 'Fotone', 'Positrone'], correctAnswerIndex: 1, explanation: 'Il neutrone fu scoperto da James Chadwick nel 1932.' },
+  { id: 'q087', difficulty: 8, category: 'Cinema', question: 'Chi ha diretto il film "Il settimo sigillo" (1957)?', answers: ['Federico Fellini', 'Akira Kurosawa', 'Ingmar Bergman', 'Michelangelo Antonioni'], correctAnswerIndex: 2, explanation: 'Il regista svedese Ingmar Bergman lo scrisse e diresse.' },
+  { id: 'q088', difficulty: 8, category: 'Letteratura', question: 'Chi ha scritto il romanzo "Il nome della rosa"?', answers: ['Umberto Eco', 'Italo Calvino', 'Antonio Tabucchi', 'Leonardo Sciascia'], correctAnswerIndex: 0, explanation: 'Umberto Eco pubblicò il romanzo nel 1980.' },
+  { id: 'q089', difficulty: 8, category: 'Musica', question: 'Quale compositore russo scrisse il balletto "Il lago dei cigni"?', answers: ['Sergej Prokof\'ev', 'Igor Stravinskij', 'Modest Musorgskij', 'Pëtr Il\'ič Čajkovskij'], correctAnswerIndex: 3, explanation: 'Čajkovskij lo compose nel 1875-76.' },
+  { id: 'q090', difficulty: 8, category: 'Sport', question: 'In quale anno l\'Italia vinse il suo primo Campionato del Mondo di calcio?', answers: ['1930', '1934', '1938', '1950'], correctAnswerIndex: 1, explanation: 'L\'Italia vinse in casa, battendo la Cecoslovacchia in finale.' },
+  { id: 'q091', difficulty: 8, category: 'Biologia', question: 'Come si chiama l\'enzima responsabile della copiatura del DNA durante la replicazione cellulare?', answers: ['RNA polimerasi', 'DNA polimerasi', 'Elicasi', 'Ligasi'], correctAnswerIndex: 1, explanation: 'La DNA polimerasi sintetizza il nuovo filamento leggendo lo stampo.' },
+  { id: 'q092', difficulty: 8, category: 'Astronomia', question: 'Come si chiama l\'ipotetica nube di comete situata ai confini estremi del Sistema Solare?', answers: ['Fascia di Kuiper', 'Nube di Oort', 'Cintura di asteroidi', 'Disco diffuso'], correctAnswerIndex: 1, explanation: 'La nube di Oort è più distante e sferica rispetto alla fascia di Kuiper.' },
+  { id: 'q093', difficulty: 8, category: 'Mitologia', question: 'Nella mitologia norrena, come si chiama il lupo gigante che, secondo la profezia, ucciderà Odino durante il Ragnarök?', answers: ['Fenrir', 'Sköll', 'Hati', 'Garm'], correctAnswerIndex: 0, explanation: 'Fenrir è figlio di Loki ed è incatenato fino al Ragnarök.' },
+  { id: 'q094', difficulty: 8, category: 'Arte', question: 'Chi ha dipinto "Guernica"?', answers: ['Salvador Dalí', 'Joan Miró', 'Pablo Picasso', 'Francisco Goya'], correctAnswerIndex: 2, explanation: 'Picasso lo dipinse nel 1937 in risposta al bombardamento della città basca.' },
+  { id: 'q095', difficulty: 8, category: 'Storia', question: 'Quale dinastia cinese costruì la maggior parte della Grande Muraglia nella forma oggi visibile?', answers: ['Dinastia Han', 'Dinastia Tang', 'Dinastia Ming', 'Dinastia Qing'], correctAnswerIndex: 2, explanation: 'I tratti in muratura oggi più noti risalgono principalmente alla dinastia Ming (1368-1644).' },
+  { id: 'q096', difficulty: 8, category: 'Invenzioni', question: 'Chi progettò il "motore analitico", considerato un precursore concettuale del computer?', answers: ['Alan Turing', 'Charles Babbage', 'John von Neumann', 'Blaise Pascal'], correctAnswerIndex: 1, explanation: 'Babbage lo progettò nell\'Ottocento; Ada Lovelace ne scrisse i primi algoritmi.' },
+
+  // ================= DIFFICOLTÀ 9 — esperto =================
+  { id: 'q097', difficulty: 9, category: 'Storia', question: 'Chi fu, secondo la tradizione, il primo console della neonata Repubblica Romana nel 509 a.C.?', answers: ['Lucio Giunio Bruto', 'Publio Valerio Publicola', 'Orazio Coclite', 'Muzio Scevola'], correctAnswerIndex: 0, explanation: 'Bruto fu console insieme a Lucio Tarquinio Collatino dopo la cacciata dei re.' },
+  { id: 'q098', difficulty: 9, category: 'Geografia', question: 'Qual è il punto più profondo conosciuto degli oceani terrestri?', answers: ['Fossa del Portorico', 'Fossa delle Marianne', 'Fossa del Giappone', 'Fossa delle Kermadec'], correctAnswerIndex: 1, explanation: 'La Fossa delle Marianne, nel Pacifico, supera gli 10.900 metri di profondità nel punto Challenger Deep.' },
+  { id: 'q099', difficulty: 9, category: 'Scienza', question: 'Come si chiama il principio secondo cui non è possibile conoscere con precisione arbitraria, allo stesso tempo, posizione e quantità di moto di una particella?', answers: ['Principio di esclusione di Pauli', 'Principio di indeterminazione di Heisenberg', 'Principio di sovrapposizione', 'Principio di complementarità di Bohr'], correctAnswerIndex: 1, explanation: 'Werner Heisenberg lo formulò nel 1927.' },
+  { id: 'q100', difficulty: 9, category: 'Letteratura', question: 'Chi ha scritto il ciclo di romanzi "Alla ricerca del tempo perduto"?', answers: ['Marcel Proust', 'André Gide', 'Albert Camus', 'Romain Rolland'], correctAnswerIndex: 0, explanation: 'Proust pubblicò i sette volumi tra il 1913 e il 1927.' },
+  { id: 'q101', difficulty: 9, category: 'Musica', question: 'Quale compositore lasciò incompiuta la sua ottava sinfonia, oggi nota come "Incompiuta"?', answers: ['Gustav Mahler', 'Franz Schubert', 'Anton Bruckner', 'Johannes Brahms'], correctAnswerIndex: 1, explanation: 'Schubert la lasciò con solo due movimenti completi, composta nel 1822.' },
+  { id: 'q102', difficulty: 9, category: 'Cinema', question: 'Chi ha diretto il film "L\'anno scorso a Marienbad" (1961)?', answers: ['Jean-Luc Godard', 'François Truffaut', 'Alain Resnais', 'Jacques Tati'], correctAnswerIndex: 2, explanation: 'Alain Resnais lo girò su sceneggiatura di Alain Robbe-Grillet.' },
+  { id: 'q103', difficulty: 9, category: 'Biologia', question: 'Come si chiama l\'organulo cellulare principalmente responsabile della produzione di ATP?', answers: ['Ribosoma', 'Apparato di Golgi', 'Mitocondrio', 'Reticolo endoplasmatico'], correctAnswerIndex: 2, explanation: 'I mitocondri sono definiti la "centrale energetica" della cellula.' },
+  { id: 'q104', difficulty: 9, category: 'Astronomia', question: 'Qual è il nome della prima delle tre leggi di Keplero sul moto dei pianeti?', answers: ['Legge delle aree', 'Legge dei periodi', 'Legge delle orbite ellittiche', 'Legge di gravitazione universale'], correctAnswerIndex: 2, explanation: 'Afferma che i pianeti orbitano attorno al Sole seguendo un\'ellisse con il Sole in uno dei fuochi.' },
+  { id: 'q105', difficulty: 9, category: 'Mitologia', question: 'Nella mitologia egizia, quale divinità dalla testa di ibis è protettrice della scrittura e della saggezza?', answers: ['Anubi', 'Horus', 'Thot', 'Seth'], correctAnswerIndex: 2, explanation: 'Thot era considerato lo scriba degli dèi e inventore della scrittura geroglifica.' },
+  { id: 'q106', difficulty: 9, category: 'Storia', question: 'In quale famosa battaglia del 216 a.C. Annibale inflisse una pesantissima sconfitta ai Romani?', answers: ['Battaglia del Trasimeno', 'Battaglia di Canne', 'Battaglia di Zama', 'Battaglia del Ticino'], correctAnswerIndex: 1, explanation: 'A Canne l\'esercito romano subì perdite stimate in decine di migliaia di uomini.' },
+  { id: 'q107', difficulty: 9, category: 'Invenzioni', question: 'Chi progettò il "motore analitico" nell\'Ottocento, di cui Ada Lovelace scrisse i primi algoritmi?', answers: ['Charles Babbage', 'George Boole', 'Joseph Marie Jacquard', 'Herman Hollerith'], correctAnswerIndex: 0, explanation: 'Il motore analitico di Babbage non fu mai completato in vita sua.' },
+  { id: 'q108', difficulty: 9, category: 'Arte', question: 'Quale pittore fiammingo dipinse il trittico "Il giardino delle delizie"?', answers: ['Jan van Eyck', 'Pieter Bruegel il Vecchio', 'Hieronymus Bosch', 'Hans Memling'], correctAnswerIndex: 2, explanation: 'Bosch lo dipinse a cavallo tra XV e XVI secolo, oggi conservato al Prado.' },
+
+  // ================= DIFFICOLTÀ 10 — difficilissima =================
+  { id: 'q109', difficulty: 10, category: 'Storia', question: 'Quale trattato del 1648 pose fine alla Guerra dei Trent\'anni?', answers: ['Pace di Utrecht', 'Pace di Vestfalia', 'Pace di Augusta', 'Pace di Nimega'], correctAnswerIndex: 1, explanation: 'La Pace di Vestfalia ridisegnò gli equilibri politici e religiosi europei.' },
+  { id: 'q110', difficulty: 10, category: 'Scienza', question: 'Come si chiama l\'equazione fondamentale che descrive l\'evoluzione temporale della funzione d\'onda in meccanica quantistica?', answers: ['Equazione di Dirac', 'Equazione di Schrödinger', 'Equazione di Klein-Gordon', 'Equazione di Maxwell'], correctAnswerIndex: 1, explanation: 'Erwin Schrödinger la formulò nel 1925.' },
+  { id: 'q111', difficulty: 10, category: 'Letteratura', question: 'Chi scrisse il monumentale e incompiuto romanzo "L\'uomo senza qualità"?', answers: ['Thomas Mann', 'Robert Musil', 'Hermann Broch', 'Franz Kafka'], correctAnswerIndex: 1, explanation: 'Musil vi lavorò per gran parte della sua vita senza terminarlo.' },
+  { id: 'q112', difficulty: 10, category: 'Geografia', question: 'Quale fiume europeo attraversa quattro capitali nazionali lungo il suo corso?', answers: ['Reno', 'Danubio', 'Volga', 'Elba'], correctAnswerIndex: 1, explanation: 'Il Danubio bagna Vienna, Bratislava, Budapest e Belgrado.' },
+  { id: 'q113', difficulty: 10, category: 'Musica', question: 'Quale compositore lasciò incompiuta, alla morte, l\'opera contrappuntistica "L\'arte della fuga"?', answers: ['Georg Philipp Telemann', 'Johann Sebastian Bach', 'Dietrich Buxtehude', 'Heinrich Schütz'], correctAnswerIndex: 1, explanation: 'Bach lavorò all\'opera fino agli ultimi anni di vita, morendo nel 1750.' },
+  { id: 'q114', difficulty: 10, category: 'Astronomia', question: 'Come si chiama il punto dell\'orbita di un pianeta in cui esso è più vicino al Sole?', answers: ['Afelio', 'Perielio', 'Perigeo', 'Zenit'], correctAnswerIndex: 1, explanation: 'Il termine opposto, punto più lontano, è "afelio".' },
+  { id: 'q115', difficulty: 10, category: 'Mitologia', question: 'Nella mitologia norrena, come si chiama la nave costruita con le unghie dei morti, che salperà durante il Ragnarök?', answers: ['Skidbladnir', 'Naglfar', 'Hringhorni', 'Draupnir'], correctAnswerIndex: 1, explanation: 'Naglfar è descritta nell\'Edda in prosa come la nave dei giganti e dei morti.' },
+  { id: 'q116', difficulty: 10, category: 'Biologia', question: 'Come si chiama il tipo di divisione cellulare che produce le cellule sessuali (gameti) dimezzando il numero di cromosomi?', answers: ['Mitosi', 'Meiosi', 'Citodieresi', 'Apoptosi'], correctAnswerIndex: 1, explanation: 'La meiosi produce cellule aploidi a partire da una cellula diploide.' },
+  { id: 'q117', difficulty: 10, category: 'Storia', question: 'Chi fu l\'ultimo Sacro Romano Imperatore, che sciolse formalmente l\'impero nel 1806?', answers: ['Giuseppe II', 'Leopoldo II', 'Francesco II d\'Asburgo-Lorena', 'Ferdinando I'], correctAnswerIndex: 2, explanation: 'Francesco II abdicò come imperatore del Sacro Romano Impero sotto la pressione napoleonica, restando imperatore d\'Austria.' },
+  { id: 'q118', difficulty: 10, category: 'Arte', question: 'Chi scrisse il trattato rinascimentale "De Pictura", fondamentale per la teoria della prospettiva?', answers: ['Filippo Brunelleschi', 'Leon Battista Alberti', 'Piero della Francesca', 'Lorenzo Ghiberti'], correctAnswerIndex: 1, explanation: 'Alberti lo scrisse nel 1435, codificando le regole della prospettiva lineare.' },
+  { id: 'q119', difficulty: 10, category: 'Letteratura', question: 'Chi scrisse il trattato filosofico "Critica della ragion pura"?', answers: ['Georg Wilhelm Friedrich Hegel', 'Immanuel Kant', 'Arthur Schopenhauer', 'Johann Gottlieb Fichte'], correctAnswerIndex: 1, explanation: 'Kant lo pubblicò nel 1781, opera cardine della filosofia moderna.' },
+  { id: 'q120', difficulty: 10, category: 'Scienza', question: 'Come si chiama il teorema secondo cui, in ogni sistema formale coerente sufficientemente potente, esistono proposizioni indecidibili?', answers: ['Teorema di Church', 'Teorema di incompletezza di Gödel', 'Teorema di Tarski', 'Teorema di Turing'], correctAnswerIndex: 1, explanation: 'Kurt Gödel lo dimostrò nel 1931, con conseguenze fondamentali per la logica matematica.' }
 ];
