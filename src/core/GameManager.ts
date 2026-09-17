@@ -116,6 +116,11 @@ export class GameManager {
     this.socket?.emit(EVT.hostSelectMinigame, { minigameId });
   }
 
+  /** L'host riavvia da capo il minigioco in corso (stesso id), senza tornare al rullo. */
+  restartMinigame(): void {
+    this.socket?.emit(EVT.hostRestartMinigame);
+  }
+
   /** Invia dati privati a un singolo telefono (es. carte segrete, ruoli, obiettivi). */
   sendPrivate(playerId: string, data: unknown): void {
     this.socket?.emit(EVT.hostPrivateData, { playerId, data });

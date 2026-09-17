@@ -12,6 +12,7 @@ import { ResultsScene } from '../scenes/ResultsScene';
 import { LeaderboardScene } from '../scenes/LeaderboardScene';
 import { NextRoundScene } from '../scenes/NextRoundScene';
 import { GameOverScene } from '../scenes/GameOverScene';
+import { mountHostHud } from './HostHud';
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -40,6 +41,7 @@ const config: Phaser.Types.Core.GameConfig = {
 
 const phaserGame = new Phaser.Game(config);
 gm.attach(phaserGame);
+mountHostHud();
 
 // URL del server WebSocket: da VITE_SERVER_URL in prod (es. Render/Railway), locale in dev.
 const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();

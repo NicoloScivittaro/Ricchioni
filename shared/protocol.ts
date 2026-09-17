@@ -26,6 +26,8 @@ export const EVT = {
   hostMinigameFinished: 'host:minigameFinished',
   hostSkip: 'host:skip',
   hostSelectMinigame: 'host:selectMinigame',
+  /** L'host riavvia da capo il minigioco in corso (stesso id), senza tornare al rullo. */
+  hostRestartMinigame: 'host:restartMinigame',
   hostPrivateData: 'host:privateData',
   hostRestartMatch: 'host:restartMatch',
   hostBackToLobby: 'host:backToLobby',

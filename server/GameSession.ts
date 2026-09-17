@@ -55,6 +55,13 @@ export class GameSession {
   manualMinigameId: string | null = null;
   /** Ultimo payload "minigame:selected" (per la ripresa dell'host dopo una riconnessione). */
   lastSelectedPayload: MinigameSelectedPayload | null = null;
+  /**
+   * True quando il minigioco in corso è stato fatto ripartire a mano
+   * dall'host (pulsante "Ricomincia", non il rullo): al termine si mostra
+   * solo chi ha vinto QUESTA partita e si torna in LOBBY, senza toccare
+   * punteggio/round della partita normale (vedi finishMinigame/advanceFrom).
+   */
+  private manualRestartActive = false;
 
   private suddenDeathCandidates: PlayerId[] = [];
   private rng = new Rng();
@@ -135,6 +142,15 @@ export class GameSession {
     if (this.phase !== 'MINIGAME_PLAYING') return;
     const ordered = [...results].sort((a, b) => a.placement - b.placement);
     const ranking = ordered.map((r) => r.playerId);
+
+    if (this.manualRestartActive) {
+      // Replay di test (pulsante "Ricomincia"): mostra solo chi ha vinto
+      // QUESTA partita, senza assegnare punti né sporcare lo storico del rullo.
+      this.lastResults = { results: ordered, ranking, deltas: {}, double: false };
+      this.setPhase('MINIGAME_FINISHED');
+      return;
+    }
+
     const double = this.currentMinigame?.modifierId === 'punti_doppi';
     const scoresMap = new Map(this.players.map((p) => [p.id, p.score]));
     const deltas = ScoreManager.awardRound(scoresMap, ranking, this.targetScore, double);
@@ -187,7 +203,18 @@ export class GameSession {
     this.suddenDeathCandidates = [];
     this.history = [];
     this.round = 1;
+    this.manualRestartActive = false;
     this.setPhase('LOBBY');
+  }
+
+  /** L'host riavvia da capo il minigioco in corso (stesso id), senza tornare al rullo. */
+  restartCurrentMinigame(): void {
+    if (this.phase !== 'MINIGAME_PLAYING' || !this.lastSelectedPayload) return;
+    this.clearTimer();
+    this.manualRestartActive = true;
+    this.lastResults = null;
+    this.events.emit('pick', this.lastSelectedPayload); // re-invia lo stesso minigame:selected (host + telefoni)
+    this.setPhase('MINIGAME_INTRO');
   }
 
   /** Riavvia la partita mantenendo gli stessi giocatori (azzera punteggi e stato). */
@@ -205,6 +232,7 @@ export class GameSession {
     this.history = [];
     this.lastSelectedPayload = null;
     this.round = 1;
+    this.manualRestartActive = false;
     this.setPhase('LOBBY');
   }
 
@@ -334,7 +362,13 @@ export class GameSession {
         this.setPhase('MINIGAME_PLAYING');
         break;
       case 'MINIGAME_FINISHED':
-        this.setPhase('ROUND_RESULTS');
+        if (this.manualRestartActive) {
+          // Replay di test: niente classifica/round, si torna subito in lobby.
+          this.manualRestartActive = false;
+          this.restartMatch();
+        } else {
+          this.setPhase('ROUND_RESULTS');
+        }
         break;
       case 'ROUND_RESULTS':
         this.setPhase('GLOBAL_LEADERBOARD');
