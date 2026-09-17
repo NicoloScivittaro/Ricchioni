@@ -447,6 +447,11 @@ export class QuizRoundManager {
     return Math.max(0, this.effectiveDeadline() - this.questionElapsed);
   }
 
+  /** Durata totale (base + eventuali bonus tempo) della domanda corrente, per la UI del timer. */
+  totalTime(): number {
+    return this.effectiveDeadline();
+  }
+
   private enterQuestion(): void {
     this.phase = 'question';
     this.phaseTimer = 999; // il tempo reale è gestito da questionElapsed/effectiveDeadline()

@@ -28,17 +28,10 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // segue comunque i suoi timer per-domanda fissi (non letti dal modificatore).
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'quiz',
-    controllerLayout: {
-      type: 'buttons',
-      grid: 2,
-      controls: [
-        { id: 'answerA', label: 'A', kind: 'button', icon: '🔴' },
-        { id: 'answerB', label: 'B', kind: 'button', icon: '🔵' },
-        { id: 'answerC', label: 'C', kind: 'button', icon: '🟢' },
-        { id: 'answerD', label: 'D', kind: 'button', icon: '🟡' },
-        { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
-      ]
-    }
+    // UI "TV quiz show" bespoke (timer circolare, card domanda, risposte colorate,
+    // footer con avatar/punteggio/abilità): vedi QuizScene.sendQuizState() per il
+    // payload live e src/controller/main.ts renderQuizController() per il render.
+    controllerLayout: { type: 'custom', id: 'quiz-tv' }
   },
   {
     id: 'reaction',

@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
 import { QuizRoundManager } from './QuizRoundManager';
-import type { QuizHudEvent } from './QuizRoundManager';
-import { abilityNameFor } from './abilities';
+import type { QuizHudEvent, QuizPhase } from './QuizRoundManager';
+import { abilityNameFor, abilityDescriptionFor } from './abilities';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 
@@ -28,6 +28,8 @@ export class QuizScene extends Phaser.Scene {
   private ctx!: MinigameContext;
   private manager!: QuizRoundManager;
   private resultsSent = false;
+  private quizStateTimer = 0;
+  private lastSentPhase: QuizPhase | null = null;
 
   private headerText!: Phaser.GameObjects.Text;
   private starsText!: Phaser.GameObjects.Text;
@@ -222,6 +224,7 @@ export class QuizScene extends Phaser.Scene {
 
     this.manager.update(dt);
     this.render();
+    this.syncQuizState(dt);
 
     if (this.manager.finished && !this.resultsSent) {
       this.resultsSent = true;
@@ -231,6 +234,47 @@ export class QuizScene extends Phaser.Scene {
     }
 
     this.ctx.input.update();
+  }
+
+  /** Stato live per il controller "TV quiz show" del telefono (layout custom quiz-tv). */
+  private syncQuizState(dt: number): void {
+    const m = this.manager;
+    const phase = m.phase;
+    this.quizStateTimer -= dt;
+    const phaseChanged = phase !== this.lastSentPhase;
+    if (!phaseChanged && this.quizStateTimer > 0) return;
+    this.lastSentPhase = phase;
+    this.quizStateTimer = 0.35;
+
+    const q = m.currentQuestion();
+    const qNum = m.questionIndex + 1;
+    const revealed = phase === 'reveal' || phase === 'explanation' || phase === 'leaderboard';
+
+    for (const p of this.ctx.players) {
+      const ps = m.players.get(p.id);
+      if (!ps) continue;
+      this.ctx.sendPrivate(p.id, {
+        type: 'quizState',
+        phase,
+        questionNumber: qNum,
+        totalQuestions: 10,
+        points: qNum,
+        category: q.category,
+        question: q.question,
+        answers: q.answers,
+        hiddenIndices: [...m.hiddenIndices],
+        myAnswerIndex: ps.answerIndex,
+        correctIndex: revealed ? q.correctAnswerIndex : null,
+        timeRemaining: phase === 'question' ? m.timeRemaining() : 0,
+        totalTime: phase === 'question' ? m.totalTime() : 0,
+        playerName: p.displayName,
+        avatar: p.avatar,
+        myScore: ps.points,
+        abilityName: abilityNameFor(p.characterId),
+        abilityDescription: abilityDescriptionFor(p.characterId),
+        abilityUsed: ps.abilityUsed
+      });
+    }
   }
 
   private render(): void {

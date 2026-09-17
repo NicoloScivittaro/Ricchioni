@@ -90,8 +90,36 @@ function isInfoLine(data: unknown): data is InfoLineData {
   return typeof data === 'object' && data !== null && (data as { type?: unknown }).type === 'info';
 }
 
+interface QuizStatePayload {
+  type: 'quizState';
+  phase: string;
+  questionNumber: number;
+  totalQuestions: number;
+  points: number;
+  category: string;
+  question: string;
+  answers: [string, string, string, string];
+  hiddenIndices: number[];
+  myAnswerIndex: number | null;
+  correctIndex: number | null;
+  timeRemaining: number;
+  totalTime: number;
+  playerName: string;
+  avatar: string;
+  myScore: number;
+  abilityName: string;
+  abilityDescription: string;
+  abilityUsed: boolean;
+}
+
+function isQuizState(data: unknown): data is QuizStatePayload {
+  return typeof data === 'object' && data !== null && (data as { type?: unknown }).type === 'quizState';
+}
+
 let choiceRestoreTimer: ReturnType<typeof setTimeout> | null = null;
 let lastInfo: InfoLineData | null = null;
+let lastQuizState: QuizStatePayload | null = null;
+let quizSelectedLocal: number | null = null;
 
 socket.on(EVT.privateData, (data) => {
   if (isChoicePrompt(data)) {
@@ -101,6 +129,12 @@ socket.on(EVT.privateData, (data) => {
   if (isInfoLine(data)) {
     lastInfo = data;
     renderInfoLine();
+    return;
+  }
+  if (isQuizState(data)) {
+    if (data.phase === 'intro') quizSelectedLocal = null;
+    lastQuizState = data;
+    updateQuizUI();
     return;
   }
   // Dati privati (es. carta segreta, ruolo). Mostrati come schermata temporanea.
@@ -308,6 +342,11 @@ function renderPlaying(state: RoomState): void {
 }
 
 function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
+  const layout = mg.controllerLayout;
+  if (layout.type === 'custom' && layout.id === 'quiz-tv') {
+    renderQuizController();
+    return;
+  }
   app.innerHTML = `
     <div class="screen">
       <h1>${mg.name}</h1>
@@ -316,6 +355,142 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
     </div>`;
   renderController(app.querySelector<HTMLDivElement>('#ctl')!, mg.controllerLayout, sendInput);
   renderInfoLine();
+}
+
+const QUIZ_LETTERS = ['A', 'B', 'C', 'D'] as const;
+let quizAnswerEls: { root: HTMLButtonElement; letter: HTMLSpanElement; text: HTMLSpanElement }[] = [];
+
+/** Controller "TV quiz show" dedicato a CHI CAZZO LO SA? (layout custom: quiz-tv). */
+function renderQuizController(): void {
+  lastQuizState = null;
+  quizSelectedLocal = null;
+
+  app.innerHTML = `
+    <div class="quiz-shell">
+      <div class="quiz-topbar">
+        <div class="quiz-brand">📚 CHI CAZZO LO SA?</div>
+        <div id="quiz-timer" class="quiz-timer" style="display:none">
+          <span id="quiz-timer-num">--</span>
+        </div>
+      </div>
+      <div class="quiz-card">
+        <div class="quiz-card-top">
+          <div>
+            <div id="quiz-qnum" class="quiz-qnum">Domanda -/10</div>
+            <div id="quiz-dots" class="quiz-dots"></div>
+          </div>
+          <div id="quiz-points" class="quiz-points">👑 --</div>
+        </div>
+        <div id="quiz-category" class="quiz-category">—</div>
+        <div id="quiz-question" class="quiz-question">In attesa della domanda...</div>
+      </div>
+      <div id="quiz-answers" class="quiz-answers"></div>
+      <div class="quiz-footer">
+        <div class="quiz-player">
+          <div id="quiz-avatar" class="quiz-avatar">🎮</div>
+          <div class="quiz-player-info">
+            <div id="quiz-name" class="quiz-name">—</div>
+            <div id="quiz-score" class="quiz-score">0 punti</div>
+          </div>
+        </div>
+        <button id="quiz-ability-btn" class="quiz-ability-btn">
+          <span id="quiz-ability-icon">⭐</span>
+          <span id="quiz-ability-name">ABILITÀ</span>
+        </button>
+      </div>
+      <p id="quiz-ability-desc" class="quiz-ability-desc"></p>
+    </div>`;
+
+  const answersRoot = app.querySelector<HTMLDivElement>('#quiz-answers')!;
+  quizAnswerEls = [];
+  QUIZ_LETTERS.forEach((letter, i) => {
+    const btn = document.createElement('button');
+    btn.className = `quiz-answer quiz-ans-${letter.toLowerCase()}`;
+    const badge = document.createElement('span');
+    badge.className = 'quiz-answer-letter';
+    badge.textContent = letter;
+    const text = document.createElement('span');
+    text.className = 'quiz-answer-text';
+    btn.append(badge, text);
+    btn.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      if (btn.disabled) return;
+      quizSelectedLocal = i;
+      sendInput({ kind: 'action', controlId: `answer${letter}` });
+      updateQuizUI();
+    });
+    answersRoot.appendChild(btn);
+    quizAnswerEls.push({ root: btn, letter: badge, text });
+  });
+
+  const abilityBtn = app.querySelector<HTMLButtonElement>('#quiz-ability-btn')!;
+  abilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (abilityBtn.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+}
+
+function updateQuizUI(): void {
+  const s = lastQuizState;
+  const root = app.querySelector('.quiz-shell');
+  if (!s || !root) return;
+
+  root.querySelector('#quiz-qnum')!.textContent = `Domanda ${s.questionNumber}/${s.totalQuestions}`;
+
+  const dotsEl = root.querySelector('#quiz-dots')!;
+  dotsEl.innerHTML = '';
+  for (let i = 1; i <= s.totalQuestions; i++) {
+    const dot = document.createElement('span');
+    dot.className = 'quiz-dot' + (i <= s.questionNumber ? ' filled' : '');
+    dotsEl.appendChild(dot);
+  }
+
+  root.querySelector('#quiz-points')!.textContent = `👑 vale ${s.points} punt${s.points === 1 ? 'o' : 'i'}`;
+  root.querySelector('#quiz-category')!.textContent = s.category.toUpperCase();
+  root.querySelector('#quiz-question')!.textContent = s.question;
+
+  const locked = s.phase === 'reveal' || s.phase === 'explanation' || s.phase === 'leaderboard';
+  quizAnswerEls.forEach((el, i) => {
+    el.text.textContent = s.answers[i] ?? '';
+    el.root.classList.remove('hidden', 'selected', 'correct', 'wrong');
+    el.root.disabled = locked || s.hiddenIndices.includes(i);
+    if (s.hiddenIndices.includes(i)) {
+      el.root.classList.add('hidden');
+      el.letter.textContent = '✖';
+    } else {
+      el.letter.textContent = QUIZ_LETTERS[i];
+    }
+
+    if (locked && s.correctIndex !== null) {
+      if (i === s.correctIndex) el.root.classList.add('correct');
+      else if (i === s.myAnswerIndex) el.root.classList.add('wrong');
+    } else if (s.myAnswerIndex === i || quizSelectedLocal === i) {
+      el.root.classList.add('selected');
+    }
+  });
+
+  const timerEl = root.querySelector<HTMLElement>('#quiz-timer')!;
+  const timerNum = root.querySelector('#quiz-timer-num')!;
+  if (s.phase === 'question' && s.totalTime > 0) {
+    timerEl.style.display = '';
+    timerNum.textContent = Math.max(0, Math.ceil(s.timeRemaining)).toString();
+    const frac = Math.max(0, Math.min(1, s.timeRemaining / s.totalTime));
+    timerEl.style.setProperty('--pct', `${frac * 360}deg`);
+    timerEl.classList.toggle('urgent', s.timeRemaining <= 3);
+  } else {
+    timerEl.style.display = 'none';
+  }
+
+  root.querySelector('#quiz-name')!.textContent = s.playerName;
+  root.querySelector('#quiz-avatar')!.textContent = s.avatar;
+  root.querySelector('#quiz-score')!.textContent = `${s.myScore} punti`;
+
+  const abilityBtn = root.querySelector<HTMLButtonElement>('#quiz-ability-btn')!;
+  root.querySelector('#quiz-ability-name')!.textContent = s.abilityUsed ? `${s.abilityName} · USATA` : s.abilityName;
+  root.querySelector('#quiz-ability-desc')!.textContent = s.abilityDescription;
+  abilityBtn.classList.toggle('used', s.abilityUsed);
+  abilityBtn.disabled = s.abilityUsed;
 }
 
 function sendInput(ev: InputEvent): void {
