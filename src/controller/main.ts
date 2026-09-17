@@ -98,6 +98,91 @@ function vibrate(pattern: number | number[]): void {
   }
 }
 
+const JOYSTICK_DEADZONE = 0.12;
+
+/**
+ * Joystick virtuale condiviso da arena/dodgeball/calcio (prima triplicato,
+ * ora un solo posto da correggere/mantenere). Punti curati esplicitamente:
+ * - centro/raggio letti da getBoundingClientRect() a ogni move, mai
+ *   hardcodati: corretti anche con CSS responsive/scalato;
+ * - un solo dito alla volta (pointerId agganciato + setPointerCapture);
+ * - deadzone applicata SIA all'input inviato SIA al pallino visivo (sotto
+ *   soglia il pallino torna visivamente al centro, non solo l'asse a 0);
+ * - vettore = delta dal centro (mai posizione assoluta), clampato al
+ *   raggio massimo prima di normalizzare;
+ * - reset esatto a (0,0)/centro su pointerup/pointercancel;
+ * - touch-action: none sulla base (in style.css) + preventDefault, niente
+ *   scroll/zoom involontario del telefono mentre si trascina.
+ */
+function mountJoystick(baseEl: HTMLElement, thumbEl: HTMLElement, isLocked: () => boolean, onAxis: (x: number, y: number) => void): void {
+  let activePointer: number | null = null;
+  let lastX = 0;
+  let lastY = 0;
+
+  const emit = (x: number, y: number): void => {
+    const rx = Math.round(x * 100) / 100;
+    const ry = Math.round(y * 100) / 100;
+    if (rx === lastX && ry === lastY) return;
+    lastX = rx;
+    lastY = ry;
+    onAxis(rx, ry);
+  };
+
+  const setThumb = (dx: number, dy: number): void => {
+    thumbEl.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+  };
+
+  const center = (): void => {
+    setThumb(0, 0);
+    emit(0, 0);
+  };
+
+  const move = (e: PointerEvent): void => {
+    const rect = baseEl.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const max = Math.min(rect.width, rect.height) / 2 - 10;
+    let dx = e.clientX - cx;
+    let dy = e.clientY - cy;
+    const d = Math.hypot(dx, dy);
+    if (d > max && d > 0) {
+      dx = (dx / d) * max;
+      dy = (dy / d) * max;
+    }
+    const nx = dx / max;
+    const ny = dy / max;
+    if (Math.hypot(nx, ny) < JOYSTICK_DEADZONE) {
+      setThumb(0, 0);
+      emit(0, 0);
+      return;
+    }
+    setThumb(dx, dy);
+    emit(nx, ny);
+  };
+
+  const release = (e: PointerEvent): void => {
+    if (e.pointerId !== activePointer) return;
+    activePointer = null;
+    baseEl.classList.remove('arena-joy-active');
+    center();
+  };
+
+  baseEl.addEventListener('pointerdown', (e) => {
+    if (isLocked()) return;
+    e.preventDefault();
+    baseEl.setPointerCapture(e.pointerId);
+    activePointer = e.pointerId;
+    baseEl.classList.add('arena-joy-active');
+    move(e);
+  });
+  baseEl.addEventListener('pointermove', (e) => {
+    if (e.pointerId !== activePointer) return;
+    move(e);
+  });
+  baseEl.addEventListener('pointerup', release);
+  baseEl.addEventListener('pointercancel', release);
+}
+
 /** Toast temporaneo sovrapposto ai controlli (abilità, avvisi). */
 let toastTimer: number | null = null;
 function showToast(text: string, ms = 1200): void {
@@ -331,65 +416,7 @@ function renderArenaController(): void {
     sendInput({ kind: 'action', controlId: 'ability' });
   });
 
-  // Joystick virtuale (fixed, grande, a sinistra).
-  let activePointer: number | null = null;
-  let lastAxisX = 0;
-  let lastAxisY = 0;
-
-  const sendAxis = (x: number, y: number): void => {
-    // Throttle: invia solo se il valore (arrotondato) è cambiato.
-    const rx = Math.round(x * 100) / 100;
-    const ry = Math.round(y * 100) / 100;
-    if (rx === lastAxisX && ry === lastAxisY) return;
-    lastAxisX = rx;
-    lastAxisY = ry;
-    sendInput({ kind: 'axis', controlId: 'move', x: rx, y: ry });
-  };
-  const centerThumb = (): void => {
-    if (arenaThumbEl) arenaThumbEl.style.transform = 'translate(-50%, -50%)';
-    baseEl.classList.remove('arena-joy-active');
-    sendAxis(0, 0);
-  };
-  const moveThumb = (e: PointerEvent): void => {
-    const rect = baseEl.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const max = rect.width / 2 - 10;
-    let dx = e.clientX - cx;
-    let dy = e.clientY - cy;
-    const d = Math.hypot(dx, dy);
-    if (d > max) {
-      dx = (dx / d) * max;
-      dy = (dy / d) * max;
-    }
-    if (arenaThumbEl) {
-      arenaThumbEl.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
-    }
-    const nx = dx / max;
-    const ny = dy / max;
-    sendAxis(Math.hypot(nx, ny) < 0.12 ? 0 : nx, Math.hypot(nx, ny) < 0.12 ? 0 : ny);
-  };
-
-  baseEl.addEventListener('pointerdown', (e) => {
-    if (arenaLocked) return;
-    baseEl.setPointerCapture(e.pointerId);
-    activePointer = e.pointerId;
-    baseEl.classList.add('arena-joy-active');
-    moveThumb(e);
-  });
-  baseEl.addEventListener('pointermove', (e) => {
-    if (e.pointerId !== activePointer) return;
-    moveThumb(e);
-  });
-  baseEl.addEventListener('pointerup', (e) => {
-    if (e.pointerId !== activePointer) return;
-    activePointer = null;
-    centerThumb();
-  });
-  baseEl.addEventListener('pointercancel', () => {
-    activePointer = null;
-    centerThumb();
-  });
+  mountJoystick(baseEl, arenaThumbEl, () => arenaLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
 }
 
 // ---- DODGEBALL DEI COGLIONI (controller dedicato: joystick + lancia + schiva) ----
@@ -554,63 +581,7 @@ function renderDodgeballController(): void {
     sendInput({ kind: 'action', controlId: 'ability' });
   });
 
-  // Joystick virtuale
-  let activePointer: number | null = null;
-  let lastAxisX = 0;
-  let lastAxisY = 0;
-
-  const sendAxis = (x: number, y: number): void => {
-    const rx = Math.round(x * 100) / 100;
-    const ry = Math.round(y * 100) / 100;
-    if (rx === lastAxisX && ry === lastAxisY) return;
-    lastAxisX = rx;
-    lastAxisY = ry;
-    sendInput({ kind: 'axis', controlId: 'move', x: rx, y: ry });
-  };
-  const centerThumb = (): void => {
-    if (dbThumbEl) dbThumbEl.style.transform = 'translate(-50%, -50%)';
-    sendAxis(0, 0);
-  };
-  const moveThumb = (e: PointerEvent): void => {
-    const rect = baseEl.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const max = rect.width / 2 - 10;
-    let dx = e.clientX - cx;
-    let dy = e.clientY - cy;
-    const d = Math.hypot(dx, dy);
-    if (d > max) {
-      dx = (dx / d) * max;
-      dy = (dy / d) * max;
-    }
-    if (dbThumbEl) {
-      dbThumbEl.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
-    }
-    const nx = dx / max;
-    const ny = dy / max;
-    const dead = Math.hypot(nx, ny) < 0.12;
-    sendAxis(dead ? 0 : nx, dead ? 0 : ny);
-  };
-
-  baseEl.addEventListener('pointerdown', (e) => {
-    if (dbLocked) return;
-    baseEl.setPointerCapture(e.pointerId);
-    activePointer = e.pointerId;
-    moveThumb(e);
-  });
-  baseEl.addEventListener('pointermove', (e) => {
-    if (e.pointerId !== activePointer) return;
-    moveThumb(e);
-  });
-  baseEl.addEventListener('pointerup', (e) => {
-    if (e.pointerId !== activePointer) return;
-    activePointer = null;
-    centerThumb();
-  });
-  baseEl.addEventListener('pointercancel', () => {
-    activePointer = null;
-    centerThumb();
-  });
+  mountJoystick(baseEl, dbThumbEl, () => dbLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
 }
 
 // ---- CALCIO DEI DISAGIATI (controller dedicato: joystick + tiro hold + tackle) ----
@@ -767,61 +738,7 @@ function renderSoccerController(): void {
     sendInput({ kind: 'action', controlId: 'ability' });
   });
 
-  // Joystick virtuale
-  let activePointer: number | null = null;
-  let lastAxisX = 0;
-  let lastAxisY = 0;
-  const sendAxis = (x: number, y: number): void => {
-    const rx = Math.round(x * 100) / 100;
-    const ry = Math.round(y * 100) / 100;
-    if (rx === lastAxisX && ry === lastAxisY) return;
-    lastAxisX = rx;
-    lastAxisY = ry;
-    sendInput({ kind: 'axis', controlId: 'move', x: rx, y: ry });
-  };
-  const centerThumb = (): void => {
-    if (soccerThumbEl) soccerThumbEl.style.transform = 'translate(-50%, -50%)';
-    sendAxis(0, 0);
-  };
-  const moveThumb = (e: PointerEvent): void => {
-    const rect = baseEl.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const max = rect.width / 2 - 10;
-    let dx = e.clientX - cx;
-    let dy = e.clientY - cy;
-    const d = Math.hypot(dx, dy);
-    if (d > max) {
-      dx = (dx / d) * max;
-      dy = (dy / d) * max;
-    }
-    if (soccerThumbEl) {
-      soccerThumbEl.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
-    }
-    const nx = dx / max;
-    const ny = dy / max;
-    const dead = Math.hypot(nx, ny) < 0.12;
-    sendAxis(dead ? 0 : nx, dead ? 0 : ny);
-  };
-  baseEl.addEventListener('pointerdown', (e) => {
-    if (soccerLocked) return;
-    baseEl.setPointerCapture(e.pointerId);
-    activePointer = e.pointerId;
-    moveThumb(e);
-  });
-  baseEl.addEventListener('pointermove', (e) => {
-    if (e.pointerId !== activePointer) return;
-    moveThumb(e);
-  });
-  baseEl.addEventListener('pointerup', (e) => {
-    if (e.pointerId !== activePointer) return;
-    activePointer = null;
-    centerThumb();
-  });
-  baseEl.addEventListener('pointercancel', () => {
-    activePointer = null;
-    centerThumb();
-  });
+  mountJoystick(baseEl, soccerThumbEl, () => soccerLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
 }
 
 socket.on(EVT.controllerSignal, (data) => {
