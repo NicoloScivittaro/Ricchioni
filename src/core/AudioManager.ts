@@ -83,6 +83,17 @@ export class AudioManager {
   hit(): void {
     this.tone(140, 0.16, 'square', 0.09);
   }
+
+  /** Tono libero (es. nota di una tile di memoria): freq Hz, dur secondi. */
+  playTone(freq: number, dur = 0.18, type: OscillatorType = 'triangle', gain = 0.08): void {
+    this.tone(freq, dur, type, gain);
+  }
+
+  /** Nota della tile i (0..3) di MEMORIA DA UBRIACO, stile Simon. */
+  tileTone(index: number): void {
+    const freqs = [329.63, 246.94, 196.0, 146.83];
+    this.tone(freqs[index] ?? 440, 0.22, 'triangle', 0.09);
+  }
 }
 
 export const audio = new AudioManager();

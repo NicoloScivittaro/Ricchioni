@@ -713,3 +713,146 @@ button.char:disabled {
   text-align: center;
   min-height: 1.2em;
 }
+
+/* ---- MEMORIA DA UBRIACO — controller 2x2 tile + abilità ---- */
+
+.mem-shell {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 14px 12px;
+  gap: 10px;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(34, 197, 94, 0.14), transparent 55%),
+    radial-gradient(circle at 90% 0%, rgba(239, 68, 68, 0.12), transparent 50%),
+    #0b0b14;
+}
+
+.mem-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mem-brand {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #4ade80;
+  text-shadow: 0 0 12px rgba(74, 222, 128, 0.35);
+}
+
+.mem-status {
+  font-size: 15px;
+  font-weight: 800;
+  color: #fbbf24;
+}
+
+.mem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 14px;
+  flex: 1;
+  min-height: 0;
+}
+
+.mem-tile {
+  position: relative;
+  border: none;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #fff;
+  box-shadow:
+    inset 0 -8px 20px rgba(0, 0, 0, 0.28),
+    0 0 0 3px rgba(255, 255, 255, 0.55),
+    0 10px 24px rgba(0, 0, 0, 0.45);
+  transition:
+    transform 0.06s ease,
+    filter 0.06s ease,
+    opacity 0.15s ease;
+}
+
+.mem-tile:active {
+  transform: scale(0.95);
+  filter: brightness(1.15);
+}
+
+.mem-tile-icon {
+  font-size: 15vh;
+  line-height: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.35));
+}
+
+.mem-tile-label {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+.mem-tile.mem-locked {
+  opacity: 0.45;
+  filter: grayscale(0.4);
+}
+
+.mem-tile.mem-flash {
+  box-shadow:
+    0 0 0 6px #fff,
+    0 0 40px 8px rgba(255, 255, 255, 0.85);
+  transform: scale(1.04);
+  filter: brightness(1.35);
+  z-index: 2;
+}
+
+.mem-ability {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 900;
+  color: #1b1b1b;
+  background: linear-gradient(135deg, #f5d90a, #f59e0b);
+  box-shadow: 0 0 16px rgba(245, 217, 10, 0.4);
+}
+
+.mem-ability:active {
+  transform: scale(0.97);
+}
+
+.mem-ability-icon {
+  font-size: 18px;
+}
+
+.mem-ability.used,
+.mem-ability-used,
+.mem-ability:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: #9ca3af;
+  box-shadow: none;
+}
+
+.mem-ability-passive {
+  background: rgba(255, 255, 255, 0.06);
+  color: #9ca3af;
+  box-shadow: none;
+}
+
+.mem-ability-desc {
+  margin: 0;
+  font-size: 12px;
+  color: #9ca3af;
+  text-align: center;
+  min-height: 1.2em;
+}

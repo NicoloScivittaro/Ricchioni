@@ -4,6 +4,8 @@ import type { AckResponse, JoinAck, JoinPayload } from '../../shared/protocol';
 import type { InputEvent, PlayerPublic, RoomState } from '../../shared/types';
 import { CHARACTERS, CHARACTER_ORDER } from '../../shared/characters';
 import { renderController } from './ControllerRenderer';
+import { MEMORY_TILES } from '../../shared/memoryTiles';
+import { MEMORY_ABILITIES } from '../../shared/memoryAbilities';
 import './style.css';
 
 const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
@@ -18,6 +20,8 @@ let playerId: string | null = null;
 let reconnectToken: string | null = null;
 let state: RoomState | null = null;
 let lastMinigameId: string | null = null;
+/** Controller attivo (per instradare i segnali): 'memory' | 'quiz' | null. */
+let activeController: string | null = null;
 
 const LS = { pid: 'ricchioni.pid', tok: 'ricchioni.tok' };
 
@@ -73,6 +77,10 @@ interface SignalPayload {
   type: string;
   ms?: number;
   name?: string;
+  seq?: number[];
+  tile?: number;
+  seqLen?: number;
+  at?: number;
 }
 
 function vibrate(pattern: number | number[]): void {
@@ -102,8 +110,89 @@ function showToast(text: string, ms = 1200): void {
   }, ms);
 }
 
+// ---- MEMORIA DA UBRIACO (controller dedicato) ----
+
+let memoryTileEls: HTMLButtonElement[] = [];
+let memoryAbilityBtn: HTMLButtonElement | null = null;
+let memoryStatusEl: HTMLElement | null = null;
+
+function setMemLocked(locked: boolean, statusText: string): void {
+  memoryTileEls.forEach((b) => {
+    b.disabled = locked;
+    b.classList.toggle('mem-locked', locked);
+  });
+  if (memoryStatusEl) memoryStatusEl.textContent = statusText;
+}
+
+function highlightMemTile(index: number, ms: number): void {
+  const btn = memoryTileEls[index];
+  if (!btn) return;
+  btn.classList.add('mem-flash');
+  window.setTimeout(() => btn.classList.remove('mem-flash'), ms);
+}
+
+function playReplay(seq: number[]): void {
+  setMemLocked(true, '🍺 REPLAY...');
+  seq.forEach((tile, i) => {
+    window.setTimeout(() => highlightMemTile(tile, 380), 300 + i * 420);
+  });
+  const total = 300 + seq.length * 420 + 500;
+  window.setTimeout(() => setMemLocked(false, '👆 TOCCA!'), total);
+}
+
+function handleMemorySignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'observe':
+      setMemLocked(true, '👀 OSSERVA...');
+      break;
+    case 'repeat':
+      setMemLocked(false, '👆 TOCCA!');
+      break;
+    case 'completed':
+      setMemLocked(true, `✅ ${s.ms ?? '—'} ms`);
+      vibrate(80);
+      break;
+    case 'eliminated':
+      setMemLocked(true, `💀 ELIMINATO (mossa ${s.at ?? '?'})`);
+      vibrate([100, 60, 100]);
+      break;
+    case 'secondChance':
+      setMemLocked(false, '🥊 RIPROVA!');
+      vibrate([80, 40, 80]);
+      showToast('🥊 MO HO CAPITO — seconda chance');
+      break;
+    case 'abilityUsed':
+      if (memoryAbilityBtn) {
+        memoryAbilityBtn.disabled = true;
+        memoryAbilityBtn.classList.add('mem-ability-used');
+      }
+      break;
+    case 'replay':
+      playReplay(s.seq ?? []);
+      break;
+    case 'hint':
+      highlightMemTile(s.tile ?? 0, 2000);
+      showToast("🤦‍♂️ M'HO SVEJATO — casella illuminata");
+      break;
+    case 'pause':
+      showToast('🥋 NO, ASPETTA! — pausa 2s');
+      vibrate(40);
+      break;
+    case 'rate':
+      showToast('💸 A RATE — metà fatta, respira!');
+      break;
+    case 'rateArmed':
+      showToast('💸 A RATE attivata');
+      break;
+  }
+}
+
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
+  if (activeController === 'memory') {
+    handleMemorySignal(s);
+    return;
+  }
   const actionBtn =
     app.querySelector<HTMLButtonElement>('.ctl-action') ??
     app.querySelector<HTMLButtonElement>('.ctl-btn');
@@ -409,9 +498,16 @@ function renderPlaying(state: RoomState): void {
 function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   const layout = mg.controllerLayout;
   if (layout.type === 'custom' && layout.id === 'quiz-tv') {
+    activeController = 'quiz';
     renderQuizController();
     return;
   }
+  if (layout.type === 'custom' && layout.id === 'memory-tv') {
+    activeController = 'memory';
+    renderMemoryController();
+    return;
+  }
+  activeController = null;
   app.innerHTML = `
     <div class="screen">
       <h1>${mg.name}</h1>
@@ -420,6 +516,66 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
     </div>`;
   renderController(app.querySelector<HTMLDivElement>('#ctl')!, mg.controllerLayout, sendInput);
   renderInfoLine();
+}
+
+/** Controller dedicato a MEMORIA DA UBRIACO (layout custom: memory-tv). */
+function renderMemoryController(): void {
+  memoryTileEls = [];
+  memoryAbilityBtn = null;
+  memoryStatusEl = null;
+
+  const me: PlayerPublic | undefined =
+    playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  const cid = me?.characterId ?? '';
+  const ab = MEMORY_ABILITIES[cid];
+
+  app.innerHTML = `
+    <div class="mem-shell">
+      <div class="mem-topbar">
+        <div class="mem-brand">🧠 MEMORIA DA UBRIACO</div>
+        <div id="mem-status" class="mem-status">👀 OSSERVA...</div>
+      </div>
+      <div id="mem-grid" class="mem-grid"></div>
+      <button id="mem-ability" class="mem-ability">
+        <span class="mem-ability-icon">⭐</span>
+        <span id="mem-ability-name">${ab?.name ?? 'ABILITÀ'}</span>
+      </button>
+      <p id="mem-ability-desc" class="mem-ability-desc">${ab?.desc ?? ''}</p>
+    </div>`;
+
+  memoryStatusEl = app.querySelector<HTMLElement>('#mem-status')!;
+
+  const grid = app.querySelector<HTMLDivElement>('#mem-grid')!;
+  for (const t of MEMORY_TILES) {
+    const btn = document.createElement('button');
+    btn.className = 'mem-tile';
+    btn.dataset.index = String(t.index);
+    btn.style.background = t.color;
+    btn.innerHTML = `<span class="mem-tile-icon">${t.icon}</span><span class="mem-tile-label">${t.label}</span>`;
+    btn.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      if (btn.disabled) return;
+      vibrate(15);
+      sendInput({ kind: 'action', controlId: `c${t.index}` });
+    });
+    grid.appendChild(btn);
+    memoryTileEls.push(btn);
+  }
+
+  memoryAbilityBtn = app.querySelector<HTMLButtonElement>('#mem-ability')!;
+  // Buttafuori: abilità passiva → pulsante non premibile (scatta da sola sull'errore).
+  if (ab?.phase === 'passive') {
+    memoryAbilityBtn.disabled = true;
+    memoryAbilityBtn.classList.add('mem-ability-passive');
+  }
+  memoryAbilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (memoryAbilityBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  // Blocca le tile finché non arriva il segnale "repeat".
+  setMemLocked(true, '👀 OSSERVA...');
 }
 
 const QUIZ_LETTERS = ['A', 'B', 'C', 'D'] as const;

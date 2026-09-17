@@ -59,19 +59,15 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     rarity: 'uncommon',
     minPlayers: 1,
     maxPlayers: 5,
-    durationSec: 60,
-    compatibleModifiers: ['tempo_dimezzato', 'punti_doppi'],
+    // 5 round a sequenze 3-4-5-6-7 (eliminazione) + fasi OSSERVA/RIPETI:
+    // 100s danno ampio margine; il timer server è solo una rete di sicurezza.
+    durationSec: 100,
+    // "tempo_dimezzato" non si applica: il gioco segue i suoi timer per-round
+    // (osserva/ripeti) e non legge il modificatore.
+    compatibleModifiers: ['punti_doppi'],
     sceneKey: 'memory',
-    controllerLayout: {
-      type: 'buttons',
-      grid: 2,
-      controls: [
-        { id: 'c0', label: '🔴', kind: 'button', color: '#ef4444' },
-        { id: 'c1', label: '🔵', kind: 'button', color: '#3b82f6' },
-        { id: 'c2', label: '🟢', kind: 'button', color: '#22c55e' },
-        { id: 'c3', label: '🟡', kind: 'button', color: '#eab308' }
-      ]
-    }
+    // UI dedicata (2x2 tile grandi + abilità) sul telefono: vedi renderMemoryController().
+    controllerLayout: { type: 'custom', id: 'memory-tv' }
   },
   {
     id: 'arena',
