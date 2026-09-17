@@ -1,10 +1,8 @@
 import type { PlayerId } from '../../../shared/types';
 import type { Rng } from '../../../shared/rng';
 import type { MinigameContext } from '../types';
-import { selectQuizQuestions } from './selection';
+import { selectQuizQuestions, rerollQuestion } from './selection';
 import type { QuizQuestion } from './questions';
-import { rollDottoreEffect, dottoreEffectLabel } from './abilities';
-import type { DottoreEffect } from './abilities';
 
 export type QuizPhase = 'intro' | 'question' | 'reveal' | 'explanation' | 'leaderboard' | 'results';
 
@@ -16,8 +14,9 @@ const REVEAL_DURATION = 3.2;
 const EXPLANATION_DURATION = 4.2;
 const LEADERBOARD_DURATION = 4.5;
 const LEADERBOARD_AFTER_QUESTIONS = new Set([3, 6, 9]);
-const SECOND_CHANCE_GRACE = 2.6; // Buttafuori: finestra per attivare MO HO CAPITO dopo una risposta sbagliata
-const CHOICE_TIMEOUT = 3.5; // Dottore: tempo per scegliere una siringa
+const SECOND_CHANCE_GRACE = 4; // Buttafuori: finestra per attivare MO HO CAPITO dopo una risposta sbagliata
+const CIRO_EXTRA_TIME = 4; // Ciro: secondi extra dopo lo scadere del timer normale, per rispondere dopo aver visto il riepilogo
+const DOTTORE_HINT_SCORE_FACTOR = 0.7; // M'HO SVEJATO: usare l'indizio riduce il punteggio se poi si indovina
 
 const TIMER_BY_DIFFICULTY: Record<number, number> = {
   1: 12, 2: 12, 3: 12,
@@ -53,30 +52,14 @@ export interface QuizPlayerState {
   rethinkUsedThisQuestion: boolean;
   personalExtraDeadline: number;
 
-  doubleOrNothing: boolean;
+  dottoreHintText: string | null; // testo dell'indizio, valido solo per la domanda su cui è stato chiesto
+  dottoreHintActive: boolean; // true SOLO sulla domanda in cui è stato chiesto l'indizio (penalizza il punteggio)
 
-  dottoreEffect: DottoreEffect | null;
-  dottoreHintText: string | null;
-  awaitingDottoreChoice: boolean;
-  dottoreChoiceTimer: number;
+  ciroWaiting: boolean; // ULTIMO GIORNO UTILE attivata: aspetta lo scadere del timer normale prima di rispondere
 }
 
 export interface QuizHudEvent {
-  type:
-    | 'intro'
-    | 'reveal'
-    | 'ability_ready'
-    | 'ability_used'
-    | 'exploit'
-    | 'second_chance'
-    | 'rethink'
-    | 'double_or_nothing'
-    | 'dottore_choice_open'
-    | 'dottore_effect'
-    | 'timer_tick'
-    | 'leaderboard'
-    | 'final_question'
-    | 'results';
+  type: 'intro' | 'reveal' | 'ability_used' | 'nculo' | 'second_chance' | 'rethink' | 'dottore_hint' | 'ultimo_giorno' | 'leaderboard' | 'final_question' | 'results';
   playerId?: PlayerId;
   value?: number;
 }
@@ -93,11 +76,9 @@ function freshPerQuestionState(p: QuizPlayerState): void {
   p.usedSecondChanceThisQuestion = false;
   p.rethinkUsedThisQuestion = false;
   p.personalExtraDeadline = 0;
-  p.doubleOrNothing = false;
-  p.dottoreEffect = null;
   p.dottoreHintText = null;
-  p.awaitingDottoreChoice = false;
-  p.dottoreChoiceTimer = 0;
+  p.dottoreHintActive = false;
+  p.ciroWaiting = false;
 }
 
 /**
@@ -110,7 +91,6 @@ export class QuizRoundManager {
   phaseTimer = INTRO_DURATION;
   questionIndex = 0; // 0..9
   questionElapsed = 0;
-  hiddenIndices = new Set<number>(); // condiviso: risposte "oscurate" sullo schermo (EXPLOIT / Dottore)
   finished = false;
 
   readonly questions: QuizQuestion[];
@@ -145,11 +125,9 @@ export class QuizRoundManager {
         usedSecondChanceThisQuestion: false,
         rethinkUsedThisQuestion: false,
         personalExtraDeadline: 0,
-        doubleOrNothing: false,
-        dottoreEffect: null,
         dottoreHintText: null,
-        awaitingDottoreChoice: false,
-        dottoreChoiceTimer: 0
+        dottoreHintActive: false,
+        ciroWaiting: false
       };
       this.players.set(p.id, state);
     }
@@ -178,7 +156,7 @@ export class QuizRoundManager {
 
   submitAnswer(pid: PlayerId, index: number): void {
     if (this.phase !== 'question') return;
-    if (index < 0 || index > 3 || this.hiddenIndices.has(index)) return;
+    if (index < 0 || index > 3) return;
     const p = this.players.get(pid);
     if (!p) return;
 
@@ -213,6 +191,7 @@ export class QuizRoundManager {
     p.answerIndex = index;
     p.hasAnsweredFinal = true;
     p.inSecondChanceGrace = false;
+    p.ciroWaiting = false;
     p.answeredElapsed = this.questionElapsed;
     p.lastCorrect = correct;
     if (isSecondChance) {
@@ -229,12 +208,11 @@ export class QuizRoundManager {
       if (correct) p.points += Math.ceil(value / 2);
       return;
     }
-    if (p.doubleOrNothing) {
+    if (p.dottoreHintActive) {
+      // M'HO SVEJATO: l'indizio aiuta ma costa punti se poi si indovina.
       if (correct) {
-        p.points += value * 2;
+        p.points += Math.round(value * DOTTORE_HINT_SCORE_FACTOR);
         p.correctTimeSum += p.answeredElapsed ?? 0;
-      } else {
-        p.points = Math.max(0, p.points - value);
       }
       return;
     }
@@ -251,16 +229,16 @@ export class QuizRoundManager {
 
     switch (p.characterId) {
       case 'goblin':
-        this.useGoblinExploit(p);
+        this.useGoblinNculo(p);
         break;
       case 'dottore':
-        this.useDottoreDiagnosi(p);
+        this.useDottoreHint(p);
         break;
       case 'judoka':
         this.useJudokaRethink(p);
         break;
       case 'ciro':
-        this.useCiroDoubleOrNothing(p);
+        this.useCiroUltimoGiorno(p);
         break;
       case 'buttafuori':
         this.useButtafuoriSecondChance(p);
@@ -270,21 +248,20 @@ export class QuizRoundManager {
     }
   }
 
-  private useGoblinExploit(p: QuizPlayerState): void {
+  /** GOBLIN — NCULO!: rifiuta la domanda prima di aver risposto. Nuova domanda, stessa difficoltà, per tutti. */
+  private useGoblinNculo(p: QuizPlayerState): void {
     if (this.phase !== 'intro' && this.phase !== 'question') return;
     if (p.hasAnsweredFinal) return;
     const q = this.currentQuestion();
-    const wrongIndices = [0, 1, 2, 3].filter((i) => i !== q.correctAnswerIndex);
-    const shuffled = [...wrongIndices].sort(() => this.ctx.rng.next() - 0.5);
-    const howMany = q.difficulty <= 6 ? 2 : 1;
-    let added = 0;
-    for (const i of shuffled) {
-      if (added >= howMany || this.hiddenIndices.size >= 2) break;
-      this.hiddenIndices.add(i);
-      added++;
-    }
+    const excludeIds = this.questions.map((qq) => qq.id); // evita duplicati con le altre 9 domande già estratte
+    this.questions[this.questionIndex] = rerollQuestion(this.ctx.rng, q.difficulty, excludeIds);
+
+    for (const player of this.players.values()) freshPerQuestionState(player);
     p.abilityUsed = true;
-    this.onEvent({ type: 'exploit', playerId: p.playerId });
+    this.phase = 'intro';
+    this.phaseTimer = INTRO_DURATION;
+    this.questionElapsed = 0;
+    this.onEvent({ type: 'nculo', playerId: p.playerId });
     this.onEvent({ type: 'ability_used', playerId: p.playerId });
   }
 
@@ -296,66 +273,18 @@ export class QuizRoundManager {
     p.secondChanceArmed = true;
     p.answerIndex = null;
     this.onEvent({ type: 'second_chance', playerId: p.playerId });
-  }
-
-  private useDottoreDiagnosi(p: QuizPlayerState): void {
-    if (this.phase !== 'intro' && this.phase !== 'question') return;
-    if (p.hasAnsweredFinal || p.awaitingDottoreChoice) return;
-    p.awaitingDottoreChoice = true;
-    p.dottoreChoiceTimer = CHOICE_TIMEOUT;
-    p.abilityUsed = true;
-    this.ctx.sendPrivate(p.playerId, {
-      type: 'choice',
-      title: 'DIAGNOSI SPERIMENTALE',
-      options: [
-        { id: 'dottore_a', label: 'SIRINGA A', icon: '💉' },
-        { id: 'dottore_b', label: 'SIRINGA B', icon: '💉' },
-        { id: 'dottore_c', label: 'SIRINGA C', icon: '💉' }
-      ],
-      timeoutMs: CHOICE_TIMEOUT * 1000
-    });
     this.onEvent({ type: 'ability_used', playerId: p.playerId });
   }
 
-  /** Da chiamare quando arriva la scelta della siringa (justPressed su dottore_a/b/c). */
-  private resolveDottoreChoice(p: QuizPlayerState): void {
-    const effect = rollDottoreEffect(() => this.ctx.rng.next());
-    p.dottoreEffect = effect;
-    p.awaitingDottoreChoice = false;
-    switch (effect) {
-      case 'remove_wrong': {
-        const q = this.currentQuestion();
-        const wrong = [0, 1, 2, 3].filter((i) => i !== q.correctAnswerIndex && !this.hiddenIndices.has(i));
-        if (wrong.length > 0 && this.hiddenIndices.size < 2) {
-          this.hiddenIndices.add(this.ctx.rng.pick(wrong));
-        }
-        break;
-      }
-      case 'extra_time':
-        p.personalExtraDeadline += 8;
-        break;
-      case 'hint': {
-        const q = this.currentQuestion();
-        const wrong = [0, 1, 2, 3].filter((i) => i !== q.correctAnswerIndex && !this.hiddenIndices.has(i));
-        if (wrong.length > 0) {
-          const letter = ['A', 'B', 'C', 'D'][this.ctx.rng.pick(wrong)];
-          p.dottoreHintText = `💡 Indizio: la risposta corretta NON è ${letter}.`;
-        }
-        break;
-      }
-      case 'faster_timer':
-        p.personalExtraDeadline -= 3;
-        break;
-      case 'no_effect':
-      default:
-        break;
-    }
-    this.ctx.sendPrivate(p.playerId, {
-      type: 'info',
-      item: `💉 ${dottoreEffectLabel(effect)}`,
-      ability: p.dottoreHintText ?? undefined
-    });
-    this.onEvent({ type: 'dottore_effect', playerId: p.playerId, value: DOTTORE_EFFECT_INDEX[effect] });
+  /** DOTTORE — M'HO SVEJATO: un indizio vero sulla domanda corrente (non elimina risposte). */
+  private useDottoreHint(p: QuizPlayerState): void {
+    if (this.phase !== 'intro' && this.phase !== 'question') return;
+    if (p.hasAnsweredFinal) return;
+    p.abilityUsed = true;
+    p.dottoreHintActive = true;
+    p.dottoreHintText = this.currentQuestion().hint;
+    this.onEvent({ type: 'dottore_hint', playerId: p.playerId });
+    this.onEvent({ type: 'ability_used', playerId: p.playerId });
   }
 
   private useJudokaRethink(p: QuizPlayerState): void {
@@ -371,21 +300,33 @@ export class QuizRoundManager {
     this.onEvent({ type: 'ability_used', playerId: p.playerId });
   }
 
-  private useCiroDoubleOrNothing(p: QuizPlayerState): void {
-    if (this.phase !== 'intro') return;
-    p.doubleOrNothing = true;
+  /** CIRO — ULTIMO GIORNO UTILE: lascia scadere il timer normale, poi vede il riepilogo A/B/C/D e ha 4s extra. */
+  private useCiroUltimoGiorno(p: QuizPlayerState): void {
+    if (this.phase !== 'question') return;
+    if (p.hasAnsweredFinal || p.ciroWaiting) return;
+    p.ciroWaiting = true;
     p.abilityUsed = true;
-    this.onEvent({ type: 'double_or_nothing', playerId: p.playerId });
+    this.onEvent({ type: 'ultimo_giorno', playerId: p.playerId });
     this.onEvent({ type: 'ability_used', playerId: p.playerId });
   }
 
-  /** Da chiamare quando arriva un input col controlId di una scelta Dottore. */
-  handleChoiceInput(pid: PlayerId, controlId: string): void {
+  /**
+   * CIRO — ULTIMO GIORNO UTILE: conteggio di quanti hanno scelto A/B/C/D tra
+   * GLI ALTRI (mai i nomi), visibile solo dopo lo scadere del timer normale
+   * e finché Ciro non ha ancora risposto.
+   */
+  ciroBreakdown(pid: PlayerId): [number, number, number, number] | null {
     const p = this.players.get(pid);
-    if (!p || !p.awaitingDottoreChoice) return;
-    if (controlId === 'dottore_a' || controlId === 'dottore_b' || controlId === 'dottore_c') {
-      this.resolveDottoreChoice(p);
+    if (!p || !p.ciroWaiting) return null;
+    if (this.questionElapsed < this.effectiveDeadline()) return null;
+    const counts: [number, number, number, number] = [0, 0, 0, 0];
+    for (const other of this.players.values()) {
+      if (other.playerId === pid) continue;
+      if (other.answerIndex !== null && other.answerIndex >= 0 && other.answerIndex <= 3) {
+        counts[other.answerIndex] += 1;
+      }
     }
+    return counts;
   }
 
   // ---- Ciclo di vita ----
@@ -402,10 +343,6 @@ export class QuizRoundManager {
           p.inSecondChanceGrace = false;
           p.hasAnsweredFinal = true;
         }
-      }
-      if (p.awaitingDottoreChoice) {
-        p.dottoreChoiceTimer -= dt;
-        if (p.dottoreChoiceTimer <= 0) this.resolveDottoreChoice(p);
       }
     }
 
@@ -433,13 +370,13 @@ export class QuizRoundManager {
 
   private questionReadyToReveal(): boolean {
     const players = [...this.players.values()];
-    const anyPending = players.some((p) => p.inSecondChanceGrace || p.awaitingDottoreChoice);
+    const anyPending = players.some((p) => p.inSecondChanceGrace || p.ciroWaiting);
     const allAnswered = players.every((p) => p.hasAnsweredFinal);
     if (allAnswered && !anyPending) return true;
-    // Se qualcuno è ancora dentro una finestra di grazia/scelta proprio allo
+    // Se qualcuno è ancora dentro una finestra di grazia/attesa proprio allo
     // scadere del timer, le concediamo qualche secondo extra invece di
     // troncarla di netto (i suoi timer interni la chiuderanno comunque).
-    const hardDeadline = this.effectiveDeadline() + (anyPending ? 4 : 0);
+    const hardDeadline = this.effectiveDeadline() + (anyPending ? Math.max(SECOND_CHANCE_GRACE, CIRO_EXTRA_TIME) : 0);
     return this.questionElapsed >= hardDeadline;
   }
 
@@ -492,7 +429,6 @@ export class QuizRoundManager {
       this.enterResults();
       return;
     }
-    this.hiddenIndices.clear();
     for (const p of this.players.values()) freshPerQuestionState(p);
     this.phase = 'intro';
     this.phaseTimer = INTRO_DURATION;
@@ -519,11 +455,3 @@ export class QuizRoundManager {
     return this.standings().map((p, i) => ({ playerId: p.playerId, placement: i + 1, score: p.points }));
   }
 }
-
-const DOTTORE_EFFECT_INDEX: Record<DottoreEffect, number> = {
-  remove_wrong: 0,
-  extra_time: 1,
-  hint: 2,
-  no_effect: 3,
-  faster_timer: 4
-};

@@ -142,6 +142,7 @@ interface HudEntry {
   abilityBar: Rectangle;
   abilityFill: Rectangle;
   abilityLabel: TextBlock;
+  debtText: TextBlock;
   flashText: TextBlock;
   flashTimer: number;
 }
@@ -252,6 +253,15 @@ export class KartHud {
     abilityFill.left = '1px';
     abilityBar.addControl(abilityFill);
 
+    const debtText = new TextBlock('debtText', '');
+    debtText.color = '#f472b6';
+    debtText.fontFamily = '"Arial Black", Arial, sans-serif';
+    debtText.fontSize = 11;
+    debtText.top = '78px';
+    debtText.height = '14px';
+    debtText.isVisible = false;
+    panel.addControl(debtText);
+
     const flashText = new TextBlock(`flash_${playerId}`, '');
     flashText.fontFamily = '"Arial Black", Arial, sans-serif';
     flashText.fontSize = 30;
@@ -263,7 +273,7 @@ export class KartHud {
     flashText.textWrapping = true;
     this.adt.addControl(flashText);
 
-    e = { panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, flashText, flashTimer: 0 };
+    e = { panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, debtText, flashText, flashTimer: 0 };
     this.entries.set(playerId, e);
     return e;
   }
@@ -309,19 +319,26 @@ export class KartHud {
     e.driftFill.background = state.driftCharge >= driftT[2] ? '#f97316' : state.driftCharge >= driftT[1] ? '#facc15' : '#4ade80';
     e.driftBar.isVisible = state.drifting;
 
-    const hasMeter = state.characterId === 'goblin' || state.characterId === 'buttafuori' || state.characterId === 'dottore' || state.characterId === 'judoka';
-    const isCiro = state.characterId === 'ciro';
+    const hasMeter = state.characterId === 'goblin' || state.characterId === 'dottore' || state.characterId === 'judoka';
+    const hasCharges = state.characterId === 'buttafuori' || state.characterId === 'ciro';
     e.abilityBar.isVisible = hasMeter;
-    e.abilityLabel.isVisible = hasMeter || isCiro;
+    e.abilityLabel.isVisible = hasMeter || hasCharges;
     if (hasMeter) {
-      const ready = state.abilityMeter >= 1 || state.ipponArmed;
+      const ready = state.abilityMeter >= 1;
       e.abilityFill.width = `${Math.round(Math.min(1, state.abilityMeter) * 118)}px`;
       e.abilityFill.background = ready ? '#facc15' : '#a78bfa';
       e.abilityLabel.text = ready ? '⭐ ABILITÀ PRONTA' : 'ABILITÀ';
       e.abilityLabel.color = ready ? '#facc15' : '#c4b5fd';
-    } else if (isCiro) {
-      e.abilityLabel.text = `🍀 CAPELLI: ${state.abilityCharges}`;
+    } else if (hasCharges) {
+      e.abilityLabel.text = state.abilityCharges > 0 ? '⚡ ABILITÀ PRONTA' : 'ABILITÀ USATA';
       e.abilityLabel.color = state.abilityCharges > 0 ? '#4ade80' : '#6b7280';
+    }
+
+    if (state.debtPending) {
+      e.debtText.isVisible = true;
+      e.debtText.text = `💳 DEBITO: ${Math.max(0, Math.ceil(state.debtTimer))}s`;
+    } else {
+      e.debtText.isVisible = false;
     }
 
     if (e.flashTimer > 0) {

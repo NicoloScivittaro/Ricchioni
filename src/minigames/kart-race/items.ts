@@ -5,14 +5,13 @@ import type { MinigameContext } from '../types';
 import type { KartState, ItemId } from './raceTypes';
 import type { ItemBoxPlacement, TrackSpline } from './track';
 import { applyBoost, hitKart } from './kartPhysics';
-import { ChoiceManager, CharacterAbilities } from './abilities';
+import { CharacterAbilities } from './abilities';
 import type { AbilityFeedback } from './abilities';
 
 const BOX_PICKUP_RADIUS_LAT = 4.2;
 const BOX_PICKUP_RADIUS_S = 3.4;
 const BOX_RESPAWN_TIME = 5;
 const ROULETTE_TIME = 0.55;
-const EXPLOIT_CHOICE_TIME = 3.5;
 
 const PROJECTILE_SPEED = 46;
 const PROJECTILE_LIFE = 3.5;
@@ -27,8 +26,6 @@ const TRAP_LIFE = 18;
 const TRAP_HIT_S = 1.4;
 const TRAP_HIT_LAT = 1.9;
 const TRAP_STUN = 0.6;
-
-const ALL_ITEMS: ItemId[] = ['turbo', 'sfera', 'olio', 'scudo', 'super_turbo', 'disturbo'];
 
 const ITEM_COLORS: Record<ItemId, Color3> = {
   turbo: new Color3(1, 0.55, 0.1),
@@ -88,8 +85,6 @@ export class ItemManager {
     private spline: TrackSpline,
     private rng: Rng,
     private abilities: CharacterAbilities,
-    private choices: ChoiceManager,
-    private ctx: MinigameContext,
     private onFeedback: (playerId: PlayerId, f: AbilityFeedback) => void
   ) {
     this.root = new TransformNode('itemsRoot', scene);
@@ -125,7 +120,7 @@ export class ItemManager {
       box.mesh.rotation.x += dt * 0.6;
 
       for (const k of karts) {
-        if (k.heldItem || k.finished || k.itemImmune) continue;
+        if (k.heldItem || k.finished) continue;
         const ds = Math.abs(this.spline.wrap(k.distance - box.s));
         const dsAlt = this.spline.totalLength - ds;
         const dist = Math.min(ds, dsAlt);
@@ -155,34 +150,7 @@ export class ItemManager {
     return this.roulettes.has(playerId);
   }
 
-  /** GOBLIN — EXPLOIT: durante la finestra attiva, la box mostra 2 scelte invece di 1. */
   private grantItem(k: KartState, placement: number, totalPlayers: number): void {
-    if (this.abilities.isExploitActive(k)) {
-      let a = this.pickWeighted(placement, totalPlayers);
-      let b = this.pickWeighted(placement, totalPlayers);
-      // Molto indietro: piccola chance che uno dei due sia un raro esplicito.
-      if (placement >= totalPlayers && this.rng.chance(0.35) && b !== 'super_turbo') b = 'super_turbo';
-      let guard = 0;
-      while (b === a && guard < 4) {
-        b = this.pickWeighted(placement, totalPlayers);
-        guard++;
-      }
-      this.choices.ask(
-        this.ctx,
-        k.playerId,
-        'EXPLOIT — SCEGLI',
-        [
-          { id: `exploit_${a}`, label: itemLabel(a) },
-          { id: `exploit_${b}`, label: itemLabel(b) }
-        ],
-        EXPLOIT_CHOICE_TIME,
-        (chosenId) => {
-          const id = chosenId.replace('exploit_', '') as ItemId;
-          k.heldItem = ALL_ITEMS.includes(id) ? id : a;
-        }
-      );
-      return;
-    }
     const result = this.pickWeighted(placement, totalPlayers);
     this.roulettes.set(k.playerId, { playerId: k.playerId, timer: ROULETTE_TIME, result });
   }
@@ -246,7 +214,7 @@ export class ItemManager {
       case 'disturbo': {
         // Fastidioso ma leggero: mai frustrante, solo simpatico.
         const target = this.findTargetAhead(k, allKarts, rankOf);
-        if (target) target.disturbTimer = 2.6;
+        if (target) this.applyEffect(target, { disturb: 2.6 });
         break;
       }
     }
@@ -310,7 +278,7 @@ export class ItemManager {
           const ds = Math.abs(k.distance - p.distance);
           const dl = Math.abs(k.lateral - p.lateral);
           if (ds < PROJECTILE_HIT_S && dl < PROJECTILE_HIT_LAT) {
-            this.applyHit(k, PROJECTILE_STUN);
+            this.applyEffect(k, { stun: PROJECTILE_STUN });
             hit = true;
             break;
           }
@@ -335,7 +303,7 @@ export class ItemManager {
       for (const k of karts) {
         if (k.finished) continue;
         if (Math.abs(k.distance - t.distance) < TRAP_HIT_S && Math.abs(k.lateral - t.lateral) < TRAP_HIT_LAT) {
-          this.applyHit(k, TRAP_STUN);
+          this.applyEffect(k, { stun: TRAP_STUN });
           hit = true;
           break;
         }
@@ -347,10 +315,20 @@ export class ItemManager {
     }
   }
 
-  /** Applica un colpo passando prima dal sistema abilità (Napoletano può annullarlo). */
-  private applyHit(k: KartState, baseStun: number): void {
-    if (this.abilities.tryCancelHit(k, (f) => this.onFeedback(k.playerId, f))) return;
-    hitKart(k, baseStun);
+  /**
+   * Applica l'effetto di un item (stordimento e/o sterzo invertito) dopo aver
+   * verificato scudo/invulnerabilità: se il colpo atterrerebbe comunque, offre
+   * a Ciro (PAGO DOPO) la possibilità di rimandarlo invece di subirlo subito.
+   */
+  private applyEffect(k: KartState, effect: { stun?: number; disturb?: number }): void {
+    if (k.invulnTimer > 0) return;
+    if (k.shielded) {
+      k.shielded = false;
+      return;
+    }
+    if (this.abilities.tryDelayHit(k, effect, (f) => this.onFeedback(k.playerId, f))) return;
+    if (effect.stun) hitKart(k, effect.stun);
+    if (effect.disturb) k.disturbTimer = Math.max(k.disturbTimer, effect.disturb);
   }
 
   dispose(): void {

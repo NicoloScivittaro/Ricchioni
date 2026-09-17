@@ -26,7 +26,7 @@ import { ItemManager, itemLabel, itemDescription } from './items';
 import { RaceManager } from './race';
 import type { RaceHudEvent } from './race';
 import { CameraManager, KartHud } from './cameraHud';
-import { CharacterAbilities, ChoiceManager, abilityDescription } from './abilities';
+import { CharacterAbilities, abilityDescription } from './abilities';
 import type { AbilityFeedback } from './abilities';
 
 const KART_S_RADIUS = 2.6;
@@ -45,7 +45,6 @@ export class BabylonKartGame {
   private cameraManager: CameraManager;
   private hud: KartHud;
   private abilities: CharacterAbilities;
-  private choices: ChoiceManager;
   private order: PlayerId[];
   private firstFinishPlayed = false;
   private resultsSent = false;
@@ -83,9 +82,8 @@ export class BabylonKartGame {
     this.checkpoints = buildCheckpoints(this.spline);
     const boxPlacements = buildItemBoxes(this.spline);
 
-    this.choices = new ChoiceManager();
-    this.abilities = new CharacterAbilities(this.choices);
-    this.items = new ItemManager(this.scene, boxPlacements, this.spline, ctx.rng, this.abilities, this.choices, ctx, (pid, f) =>
+    this.abilities = new CharacterAbilities();
+    this.items = new ItemManager(this.scene, boxPlacements, this.spline, ctx.rng, this.abilities, (pid, f) =>
       this.onAbilityFeedback(pid, f)
     );
     this.cameraManager = new CameraManager(this.scene);
@@ -129,7 +127,6 @@ export class BabylonKartGame {
     const kartsList = [...this.karts.values()];
     const invertModifier = this.ctx.modifier?.id === 'controlli_invertiti';
     this.abilities.setRaceTime(this.race.raceTime);
-    this.choices.update(dt, this.ctx);
 
     if (this.race.phase !== 'ended') {
       this.race.update(dt, kartsList, (pid) => this.ctx.input.get(pid).pressed('up'));
@@ -154,15 +151,18 @@ export class BabylonKartGame {
           this.sendInfoLine(pid, state);
         }
         if (pin.justPressed('ability')) {
-          this.abilities.onAbilityPress(this.ctx, state, kartsList, (f) => this.onAbilityFeedback(pid, f));
+          this.abilities.onAbilityPress(state, kartsList, (f) => this.onAbilityFeedback(pid, f));
         }
 
         const wasDrifting = state.drifting;
         const wasCharge = state.driftCharge;
         const wasStunned = state.stunTimer > 0;
-        const prevIpponWindow = state.ipponWindow;
+        const wasAwaitingRespawn = state.respawnTimer > 0;
         stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier);
-        this.abilities.update(dt, state, kartsList, (f) => this.onAbilityFeedback(pid, f));
+
+        const wallCrashed = !wasStunned && state.stunTimer > 0;
+        const respawnTriggered = !wasAwaitingRespawn && state.respawnTimer > 0;
+        this.abilities.update(dt, state, kartsList, wallCrashed, respawnTriggered, this.trackAngleAt, (f) => this.onAbilityFeedback(pid, f));
 
         if (wasDrifting && !state.drifting && wasCharge >= DRIFT_THRESHOLDS[0]) {
           audio.boost();
@@ -173,21 +173,23 @@ export class BabylonKartGame {
           audio.hit();
           this.ctx.vibrate(pid, 90);
         }
-        if (!prevIpponWindow && state.ipponWindow) {
-          this.ctx.vibrate(pid, 55);
-        }
       }
       this.resolveKartCollisions();
 
-      // items.update() può assegnare un item raccolto: il controllo va fatto
-      // DOPO (prima del refactor il confronto "hadItem" avveniva nello stesso
-      // frame ma prima di questa chiamata, quindi non vedeva mai il cambio).
+      // items.update() può assegnare un item raccolto O infliggere un colpo
+      // (proiettile/trappola/disturbo): il confronto va fatto DOPO, altrimenti
+      // si vede sempre lo stato di un frame prima (il cambio avviene qui dentro).
       const prevHeldItem = new Map(kartsList.map((k) => [k.playerId, k.heldItem]));
+      const prevStun = new Map(kartsList.map((k) => [k.playerId, k.stunTimer]));
       this.items.update(dt, kartsList, (pid) => this.race.rankOf(kartsList, pid), this.karts.size);
       for (const state of kartsList) {
         if (prevHeldItem.get(state.playerId) === null && state.heldItem !== null) {
           this.ctx.vibrate(state.playerId, 40);
           this.sendInfoLine(state.playerId, state);
+        }
+        const itemCrashed = (prevStun.get(state.playerId) ?? 0) <= 0 && state.stunTimer > 0;
+        if (itemCrashed) {
+          this.abilities.reactToCrash(state, true, false, this.trackAngleAt, (f) => this.onAbilityFeedback(state.playerId, f));
         }
       }
     }
@@ -221,12 +223,12 @@ export class BabylonKartGame {
         if (Math.abs(ds) < KART_S_RADIUS && Math.abs(dl) < KART_LAT_RADIUS * 2) {
           const overlap = KART_LAT_RADIUS * 2 - Math.abs(dl);
           const dir = dl === 0 ? (Math.random() < 0.5 ? -1 : 1) : Math.sign(dl);
-          // Buttafuori in "MO M'IMPEGNO": quasi immobile, spinge l'altro molto di più.
-          const aShare = a.tankMode && !b.tankMode ? 0.12 : b.tankMode && !a.tankMode ? 0.88 : 0.5;
+          // Dottore in "20 KG IN UN MESE": leggerissimo, viene scaraventato molto più lontano.
+          const aShare = a.lightMode && !b.lightMode ? 0.88 : b.lightMode && !a.lightMode ? 0.12 : 0.5;
           a.lateral += dir * overlap * aShare;
           b.lateral -= dir * overlap * (1 - aShare);
-          a.speed *= a.tankMode ? 0.99 : 0.93;
-          b.speed *= b.tankMode ? 0.99 : 0.93;
+          a.speed *= a.lightMode ? 0.86 : 0.93;
+          b.speed *= b.lightMode ? 0.86 : 0.93;
         }
       }
     }
@@ -243,39 +245,47 @@ export class BabylonKartGame {
 
   private onAbilityFeedback(playerId: PlayerId, f: AbilityFeedback): void {
     switch (f.type) {
-      case 'exploit_start':
-        this.hud.flash(playerId, 'EXPLOIT!', '#4ade80');
+      case 'so_guidare_start':
+        this.hud.flash(playerId, 'SO GUIDARE IO!', '#4ade80');
         audio.boost();
         this.ctx.vibrate(playerId, 100);
         break;
-      case 'tank_start':
-        this.hud.flash(playerId, "MO M'IMPEGNO!", '#f97316');
+      case 'so_guidare_fail':
+        this.hud.flash(playerId, 'EH SÌ, GUIDI BENISSIMO.', '#9ca3af');
+        audio.wrong();
+        this.ctx.vibrate(playerId, 60);
+        break;
+      case 'buttafuori_recovery':
+        this.hud.flash(playerId, 'RIBALTATO MA NON MORTO!', '#f97316');
         audio.hit();
-        this.ctx.vibrate(playerId, 140);
+        this.ctx.vibrate(playerId, 130);
         break;
-      case 'tank_end':
-        break;
-      case 'dottore_effect':
-        this.hud.flash(playerId, 'TRATTAMENTO SPERIMENTALE!', '#22d3ee');
+      case 'dottore_light_start':
+        this.hud.flash(playerId, '20 KG IN UN MESE!', '#22d3ee');
         audio.select();
         this.ctx.vibrate(playerId, 90);
         break;
-      case 'ippon_window':
-        break;
-      case 'ippon_hit':
-        this.hud.flash(playerId, 'IPPON!', '#facc15');
+      case 'judoka_activate':
+        this.hud.flash(playerId, "MI SO' CADUTI GLI OCCHIALI!", '#facc15');
         audio.hit();
-        this.ctx.vibrate(playerId, 110);
+        this.ctx.vibrate(playerId, 90);
         break;
-      case 'ippon_miss':
-        this.hud.flash(playerId, 'IPPON MANCATO...', '#9ca3af');
+      case 'judoka_success':
+        break;
+      case 'judoka_fail':
+        this.hud.flash(playerId, 'MANNAGGIA, NIENTE SORPASSO...', '#9ca3af');
         audio.wrong();
         this.ctx.vibrate(playerId, 50);
         break;
-      case 'ciro_pelato':
-        this.hud.flash(playerId, "CIRO È UFFICIALMENTE PELATO", '#f472b6', 2.2);
-        audio.fanfare();
-        this.ctx.vibrate(playerId, 180);
+      case 'ciro_debt_start':
+        this.hud.flash(playerId, 'PAGO DOPO!', '#a78bfa');
+        audio.select();
+        this.ctx.vibrate(playerId, 70);
+        break;
+      case 'ciro_debt_due':
+        this.hud.flash(playerId, 'DEBITO RISCOSSO!', '#f472b6', 1.6);
+        audio.hit();
+        this.ctx.vibrate(playerId, 110);
         break;
     }
   }

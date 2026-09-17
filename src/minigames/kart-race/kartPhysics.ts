@@ -44,9 +44,10 @@ export function applyBoost(k: KartState, power: number, dur: number): void {
 }
 
 function releaseDrift(k: KartState): void {
-  if (k.driftCharge >= DRIFT_T[2]) applyBoost(k, DRIFT_BOOST[2].power, DRIFT_BOOST[2].dur);
-  else if (k.driftCharge >= DRIFT_T[1]) applyBoost(k, DRIFT_BOOST[1].power, DRIFT_BOOST[1].dur);
-  else if (k.driftCharge >= DRIFT_T[0]) applyBoost(k, DRIFT_BOOST[0].power, DRIFT_BOOST[0].dur);
+  // Goblin — SO GUIDARE IO: driftBoostMultiplier > 1 durante la finestra attiva.
+  if (k.driftCharge >= DRIFT_T[2]) applyBoost(k, DRIFT_BOOST[2].power * k.driftBoostMultiplier, DRIFT_BOOST[2].dur);
+  else if (k.driftCharge >= DRIFT_T[1]) applyBoost(k, DRIFT_BOOST[1].power * k.driftBoostMultiplier, DRIFT_BOOST[1].dur);
+  else if (k.driftCharge >= DRIFT_T[0]) applyBoost(k, DRIFT_BOOST[0].power * k.driftBoostMultiplier, DRIFT_BOOST[0].dur);
   k.drifting = false;
   k.driftCharge = 0;
   k.driftDir = 0;
@@ -97,8 +98,9 @@ export function stepKartPhysics(
   if (up) {
     // Curva di accelerazione arcade: parte pronta, si assottiglia avvicinandosi
     // al fondo scala, così il massimo si sente come un vero tetto da raggiungere.
+    // accelMultiplier: Dottore "20 KG IN UN MESE" (kart leggerissimo).
     const speedFrac = Math.max(0, k.speed) / MAX_SPEED;
-    k.speed += ACCEL * (1.35 - 0.55 * Math.min(1, speedFrac)) * dt;
+    k.speed += ACCEL * k.accelMultiplier * (1.35 - 0.55 * Math.min(1, speedFrac)) * dt;
   } else if (down) {
     if (k.speed > 0.5) k.speed -= BRAKE * dt;
     else k.speed = Math.max(MAX_REVERSE, k.speed - REVERSE_ACCEL * dt);
@@ -117,7 +119,7 @@ export function stepKartPhysics(
 
   const half = halfWidthAt(k.distance);
   k.offRoad = Math.abs(k.lateral) > half;
-  const centerRate = (k.offRoad ? CENTER_RATE_OFFROAD : CENTER_RATE_ONROAD) * k.gripMultiplier;
+  const centerRate = k.offRoad ? CENTER_RATE_OFFROAD : CENTER_RATE_ONROAD;
   const maxSpeed = (k.offRoad ? MAX_SPEED * OFFROAD_SPEED_FACTOR : MAX_SPEED) * k.speedCapMultiplier;
   if (k.offRoad && k.speed > maxSpeed) k.speed -= (k.speed - maxSpeed) * Math.min(1, dt * 2);
   k.speed = clamp(k.speed, MAX_REVERSE, maxSpeed);
@@ -132,13 +134,12 @@ export function stepKartPhysics(
   if (k.drifting) {
     const stillValid = input.drift && k.speed > DRIFT_MIN_SPEED * 0.6 && Math.abs(steerDir) > 0;
     if (!stillValid) releaseDrift(k);
-    else k.driftCharge += dt;
+    // driftChargeRateMultiplier: Dottore "20 KG IN UN MESE" (deriva più facile).
+    else k.driftCharge += dt * k.driftChargeRateMultiplier;
   }
 
   // --- Sterzata: velocità angolare ASSOLUTA (vedi commento sopra la funzione) ---
-  // turnRateMultiplier/tankMode sono effetti delle abilità personaggio (Dottore/Buttafuori):
-  // la fisica li applica senza sapere "perché" sono attivi.
-  const turnRate = MAX_TURN_RATE * k.turnRateMultiplier * (k.tankMode ? 0.55 : 1);
+  const turnRate = MAX_TURN_RATE;
   if (!stunned) {
     k.absHeading += steerDir * turnRate * dt;
     if (k.drifting) k.absHeading += k.driftDir * DRIFT_EXTRA_RATE * dt;
@@ -177,11 +178,11 @@ export function stepKartPhysics(
   if (Math.abs(k.lateral) > wallLimit) {
     const overshoot = Math.abs(k.lateral) - wallLimit;
     k.lateral = Math.sign(k.lateral) * wallLimit;
-    k.speed *= k.tankMode ? 0.85 : 0.5;
+    k.speed *= 0.5;
     const straighten = relHeading * 0.6;
     k.absHeading -= straighten;
     k.heading -= straighten;
-    if (overshoot > 0.15 && k.invulnTimer <= 0 && !k.tankMode) {
+    if (overshoot > 0.15 && k.invulnTimer <= 0) {
       k.stunTimer = Math.max(k.stunTimer, WALL_HIT_STUN);
     }
   }
@@ -219,14 +220,13 @@ export function respawnKart(k: KartState, trackAngleAt: (distance: number) => nu
 }
 
 export function hitKart(k: KartState, stunDur: number): boolean {
-  if (k.itemImmune) return false;
   if (k.shielded) {
     k.shielded = false;
     return false;
   }
   if (k.invulnTimer > 0) return false;
-  k.stunTimer = Math.max(k.stunTimer, k.tankMode ? stunDur * 0.15 : stunDur);
-  k.speed *= k.tankMode ? 0.85 : 0.35;
+  k.stunTimer = Math.max(k.stunTimer, stunDur);
+  k.speed *= 0.35;
   if (k.drifting) {
     k.drifting = false;
     k.driftCharge = 0;

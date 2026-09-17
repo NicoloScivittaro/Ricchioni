@@ -100,7 +100,7 @@ function testFullGame(n: number, description: string, characterIds: (string | nu
       for (const pid of ctx.playerIds) {
         if (answeredThisQuestion.has(pid)) continue;
         const p = m.players.get(pid)!;
-        if (p.hasAnsweredFinal || p.inSecondChanceGrace || p.awaitingDottoreChoice) continue;
+        if (p.hasAnsweredFinal || p.inSecondChanceGrace) continue;
         const idx = answerStrategy(m, pid);
         m.submitAnswer(pid, idx);
         answeredThisQuestion.add(pid);
@@ -278,22 +278,31 @@ console.log('\n=== TEST 8: domanda 10 (climax) ===');
   assert(sawFinal, 'la partita attraversa la decima domanda (indice 9) prima di terminare');
 }
 
-console.log('\n=== TEST 9: abilità — GOBLIN (EXPLOIT nasconde risposte sbagliate) ===');
+console.log("\n=== TEST 9: abilità — GOBLIN (NCULO! rifiuta la domanda, stessa difficoltà per tutti) ===");
 {
   resetQuizHistory();
-  const players = makePlayers(1, ['goblin']);
+  const players = makePlayers(2, ['goblin', null]);
   const ctx = makeCtx(players);
   const mgr = new QuizRoundManager(ctx, () => {});
   mgr.update(mgr.phaseTimer + 0.05); // passa da 'intro' a 'question'
-  const q = mgr.currentQuestion();
+  const before = mgr.currentQuestion();
+  const p1 = mgr.players.get('p1' as PlayerId)!;
+  // p1 risponde PRIMA che Goblin rifiuti: la domanda cambia sotto ai suoi piedi.
+  mgr.submitAnswer('p1' as PlayerId, before.correctAnswerIndex);
+  assert(p1.hasAnsweredFinal, 'p1 ha risposto prima del rifiuto');
+
   mgr.useAbility('p0' as PlayerId);
-  const expected = q.difficulty <= 6 ? 2 : 1;
-  assert(mgr.hiddenIndices.size === expected, `EXPLOIT su difficoltà ${q.difficulty} nasconde ${expected} risposte (trovate ${mgr.hiddenIndices.size})`);
-  assert(!mgr.hiddenIndices.has(q.correctAnswerIndex), 'la risposta corretta non viene mai nascosta');
+  const after = mgr.currentQuestion();
+  assert(after.id !== before.id, `NCULO! sostituisce la domanda (${before.id} -> ${after.id})`);
+  assert(after.difficulty === before.difficulty, `la nuova domanda ha la STESSA difficoltà (${before.difficulty})`);
+  assert(mgr.phase === 'intro', 'dopo NCULO! si torna alla fase intro (nuova domanda da presentare)');
+  assert(!p1.hasAnsweredFinal, "la risposta di p1 sulla vecchia domanda viene azzerata (la domanda è cambiata per tutti)");
   const p0 = mgr.players.get('p0' as PlayerId)!;
   assert(p0.abilityUsed, "l'abilità risulta usata dopo l'attivazione");
+  mgr.update(mgr.phaseTimer + 0.05);
+  const stillSame = mgr.currentQuestion();
   mgr.useAbility('p0' as PlayerId);
-  assert(mgr.hiddenIndices.size === expected, "una seconda pressione di ABILITÀ non ha alcun effetto (una sola volta a partita)");
+  assert(mgr.currentQuestion().id === stillSame.id, 'una seconda pressione di ABILITÀ non ha alcun effetto (una sola volta a partita)');
 }
 
 console.log('\n=== TEST 10: abilità — BUTTAFUORI (secondo tentativo dopo risposta sbagliata) ===');
@@ -338,50 +347,75 @@ console.log('\n=== TEST 11: abilità — JUDOKA (cambia risposta prima della riv
   assert(p0.points === mgr.questionIndex + 1, 'NO, ASPETTA! non altera il valore normale della domanda');
 }
 
-console.log('\n=== TEST 12: abilità — CIRO (raddoppia/rischia prima delle risposte) ===');
+console.log("\n=== TEST 12: abilità — CIRO (ULTIMO GIORNO UTILE: aspetta, vede il riepilogo, risponde dopo) ===");
 {
   resetQuizHistory();
-  const players = makePlayers(1, ['ciro']);
+  const players = makePlayers(2, ['ciro', null]);
   const ctx = makeCtx(players);
   const mgr = new QuizRoundManager(ctx, () => {});
-  // attiva DURANTE 'intro', come da spec ("prima di vedere le risposte")
-  mgr.useAbility('p0' as PlayerId);
+  mgr.update(mgr.phaseTimer + 0.05); // passa a 'question'
+  const q = mgr.currentQuestion();
+
+  mgr.useAbility('p0' as PlayerId); // attiva ULTIMO GIORNO UTILE
   const p0 = mgr.players.get('p0' as PlayerId)!;
-  assert(p0.doubleOrNothing, "È TUTTO REGOLARE si attiva durante la fase intro");
-  mgr.update(mgr.phaseTimer + 0.05);
-  const q = mgr.currentQuestion();
-  mgr.submitAnswer('p0' as PlayerId, q.correctAnswerIndex);
-  assert(p0.points === (mgr.questionIndex + 1) * 2, `risposta corretta raddoppiata (${(mgr.questionIndex + 1) * 2}, trovato ${p0.points})`);
-}
-{
-  resetQuizHistory();
-  const players = makePlayers(1, ['ciro']);
-  const ctx = makeCtx(players);
-  const mgr = new QuizRoundManager(ctx, () => {});
-  mgr.useAbility('p0' as PlayerId);
-  mgr.update(mgr.phaseTimer + 0.05);
-  const q = mgr.currentQuestion();
+  assert(p0.ciroWaiting, 'ULTIMO GIORNO UTILE mette Ciro in attesa');
+  assert(p0.abilityUsed, "l'abilità risulta usata subito");
+
+  // p1 risponde subito (sbagliata), Ciro non ha ancora risposto: nessun riepilogo prima dello scadere del timer normale.
   const wrongIdx = [0, 1, 2, 3].find((i) => i !== q.correctAnswerIndex)!;
-  mgr.submitAnswer('p0' as PlayerId, wrongIdx);
-  const p0 = mgr.players.get('p0' as PlayerId)!;
-  assert(p0.points === 0, `risposta sbagliata con RADDOPPIA: punteggio resta a 0 (mai negativo), trovato ${p0.points}`);
+  mgr.submitAnswer('p1' as PlayerId, wrongIdx);
+  assert(mgr.ciroBreakdown('p0' as PlayerId) === null, 'il riepilogo non è ancora visibile prima dello scadere del timer normale');
+
+  // Facciamo scadere il timer normale (non oltre l'extra time, altrimenti la domanda passa a reveal).
+  mgr.update(mgr.totalTime() + 0.1);
+  const breakdown = mgr.ciroBreakdown('p0' as PlayerId);
+  assert(breakdown !== null && breakdown[wrongIdx] === 1, `il riepilogo mostra il conteggio delle risposte altrui (${JSON.stringify(breakdown)})`);
+  assert(mgr.phase === 'question', 'la domanda resta aperta durante i 4 secondi extra di Ciro');
+
+  mgr.submitAnswer('p0' as PlayerId, q.correctAnswerIndex);
+  assert(p0.hasAnsweredFinal && p0.lastCorrect === true, 'Ciro può ancora rispondere correttamente entro il tempo extra');
+  assert(p0.points === mgr.questionIndex + 1, 'ULTIMO GIORNO UTILE non altera il punteggio normale della domanda');
+  assert(mgr.ciroBreakdown('p0' as PlayerId) === null, 'il riepilogo sparisce una volta che Ciro ha risposto');
 }
 
-console.log('\n=== TEST 13: abilità — DOTTORE (scelta siringa, effetto applicato) ===');
+console.log("\n=== TEST 13: abilità — DOTTORE (M'HO SVEJATO: indizio vero, 70% dei punti se indovina) ===");
 {
   resetQuizHistory();
   const players = makePlayers(1, ['dottore']);
   const ctx = makeCtx(players);
   const mgr = new QuizRoundManager(ctx, () => {});
   mgr.update(mgr.phaseTimer + 0.05);
+  const q = mgr.currentQuestion();
   mgr.useAbility('p0' as PlayerId);
   const p0 = mgr.players.get('p0' as PlayerId)!;
-  assert(p0.awaitingDottoreChoice, 'DIAGNOSI SPERIMENTALE apre una scelta in sospeso');
-  const sentChoice = ctx.sentPrivate.find((s) => (s.data as { type?: string })?.type === 'choice');
-  assert(!!sentChoice, 'viene inviata al telefono una richiesta di scelta (3 siringhe)');
-  mgr.handleChoiceInput('p0' as PlayerId, 'dottore_b');
-  assert(!p0.awaitingDottoreChoice, 'dopo la scelta la richiesta in sospeso si chiude');
-  assert(p0.dottoreEffect !== null, 'un effetto casuale viene assegnato');
+  assert(p0.dottoreHintText === q.hint, "M'HO SVEJATO mostra l'indizio vero della domanda corrente");
+  assert(p0.abilityUsed, "l'abilità risulta usata subito");
+  mgr.submitAnswer('p0' as PlayerId, q.correctAnswerIndex);
+  const value = mgr.questionIndex + 1;
+  const expected = Math.round(value * 0.7);
+  assert(p0.points === expected, `risposta corretta con indizio vale il 70% arrotondato (${expected}, trovato ${p0.points})`);
+}
+{
+  // Sulla domanda successiva l'indizio non è più attivo (era valido solo per quella su cui è stato chiesto).
+  resetQuizHistory();
+  const players = makePlayers(1, ['dottore']);
+  const ctx = makeCtx(players);
+  const mgr = new QuizRoundManager(ctx, () => {});
+  mgr.update(mgr.phaseTimer + 0.05);
+  mgr.useAbility('p0' as PlayerId);
+  const q1 = mgr.currentQuestion();
+  mgr.submitAnswer('p0' as PlayerId, q1.correctAnswerIndex);
+  // attraversa reveal + explanation con piccoli step, fino alla domanda successiva.
+  for (let i = 0; i < 150 && mgr.questionIndex === 0; i++) mgr.update(0.1);
+  assert(mgr.questionIndex === 1, 'la partita è avanzata alla domanda successiva');
+  if (mgr.phase !== 'question') mgr.update(mgr.phaseTimer + 0.05);
+  const p0 = mgr.players.get('p0' as PlayerId)!;
+  assert(!p0.dottoreHintActive && p0.dottoreHintText === null, "l'indizio non è più attivo sulla domanda successiva");
+  const pointsBeforeQ2 = p0.points; // 1 punto dalla domanda 1 (70% di 1, arrotondato)
+  const q2 = mgr.currentQuestion();
+  mgr.submitAnswer('p0' as PlayerId, q2.correctAnswerIndex);
+  const q2Value = mgr.questionIndex + 1;
+  assert(p0.points === pointsBeforeQ2 + q2Value, `senza indizio attivo la domanda successiva vale il punteggio pieno (+${q2Value}, trovato +${p0.points - pointsBeforeQ2})`);
 }
 
 console.log('\n=== TEST 14: 2, 3, 4, 5 giocatori — partita completa senza crash ===');

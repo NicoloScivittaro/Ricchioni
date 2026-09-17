@@ -8,7 +8,7 @@ import type { PlayerId } from '../../../shared/types';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 const OPTION_COLORS = [0xef4444, 0x3b82f6, 0x22c55e, 0xf59e0b];
-const ABILITY_CONTROL_IDS = ['dottore_a', 'dottore_b', 'dottore_c'];
+const ABILITY_FLASH_DURATION = 2.2;
 
 interface PlayerRow {
   bg: Phaser.GameObjects.Rectangle;
@@ -48,6 +48,10 @@ export class QuizScene extends Phaser.Scene {
   private leaderboardPanel!: Phaser.GameObjects.Rectangle;
   private leaderboardTitle!: Phaser.GameObjects.Text;
   private leaderboardLines: Phaser.GameObjects.Text[] = [];
+
+  private abilityFlashBg!: Phaser.GameObjects.Rectangle;
+  private abilityFlashText!: Phaser.GameObjects.Text;
+  private abilityFlashTimer = 0;
 
   constructor() {
     super('quiz');
@@ -143,6 +147,19 @@ export class QuizScene extends Phaser.Scene {
         .setVisible(false);
       this.leaderboardLines.push(line);
     }
+
+    // Banner "nome abilità a schermo" quando un giocatore la usa (vale per tutti e 5 i personaggi).
+    this.abilityFlashBg = this.add.rectangle(640, 445, 760, 74, 0x000000, 0.8).setStrokeStyle(3, 0xfacc15).setVisible(false);
+    this.abilityFlashText = this.add
+      .text(640, 445, '', {
+        fontFamily: '"Arial Black", Arial, sans-serif',
+        fontSize: '26px',
+        color: '#facc15',
+        align: 'center',
+        wordWrap: { width: 720 }
+      })
+      .setOrigin(0.5)
+      .setVisible(false);
   }
 
   private buildPlayerRows(): void {
@@ -172,7 +189,7 @@ export class QuizScene extends Phaser.Scene {
       case 'reveal':
         audio.select();
         break;
-      case 'exploit':
+      case 'nculo':
         audio.boost();
         if (ev.playerId) this.ctx.vibrate(ev.playerId, 90);
         break;
@@ -184,13 +201,16 @@ export class QuizScene extends Phaser.Scene {
         audio.select();
         if (ev.playerId) this.ctx.vibrate(ev.playerId, 70);
         break;
-      case 'double_or_nothing':
-        audio.hit();
-        if (ev.playerId) this.ctx.vibrate(ev.playerId, 100);
-        break;
-      case 'dottore_effect':
+      case 'dottore_hint':
         audio.select();
         if (ev.playerId) this.ctx.vibrate(ev.playerId, 60);
+        break;
+      case 'ultimo_giorno':
+        audio.tick();
+        if (ev.playerId) this.ctx.vibrate(ev.playerId, 60);
+        break;
+      case 'ability_used':
+        if (ev.playerId) this.flashAbilityName(ev.playerId);
         break;
       case 'final_question':
         audio.fanfare();
@@ -206,6 +226,18 @@ export class QuizScene extends Phaser.Scene {
     }
   }
 
+  /** "Il nome dell'abilità appare a schermo" quando un giocatore la usa (qualsiasi personaggio). */
+  private flashAbilityName(playerId: PlayerId): void {
+    const p = this.ctx.players.find((pp) => pp.id === playerId);
+    const ps = this.manager.players.get(playerId);
+    if (!p || !ps) return;
+    this.abilityFlashText.setText(`${p.avatar} ${p.displayName} — ${abilityNameFor(ps.characterId)}!`);
+    this.abilityFlashText.setColor(p.color);
+    this.abilityFlashBg.setVisible(true);
+    this.abilityFlashText.setVisible(true);
+    this.abilityFlashTimer = ABILITY_FLASH_DURATION;
+  }
+
   update(_t: number, deltaMs: number): void {
     const dt = Math.min(deltaMs, 80) / 1000;
 
@@ -217,14 +249,19 @@ export class QuizScene extends Phaser.Scene {
       else if (input.justPressed('answerD')) this.manager.submitAnswer(pid, 3);
 
       if (input.justPressed('ability')) this.manager.useAbility(pid);
-      for (const cid of ABILITY_CONTROL_IDS) {
-        if (input.justPressed(cid)) this.manager.handleChoiceInput(pid, cid);
-      }
     }
 
     this.manager.update(dt);
     this.render();
     this.syncQuizState(dt);
+
+    if (this.abilityFlashTimer > 0) {
+      this.abilityFlashTimer -= dt;
+      if (this.abilityFlashTimer <= 0) {
+        this.abilityFlashBg.setVisible(false);
+        this.abilityFlashText.setVisible(false);
+      }
+    }
 
     if (this.manager.finished && !this.resultsSent) {
       this.resultsSent = true;
@@ -262,7 +299,6 @@ export class QuizScene extends Phaser.Scene {
         category: q.category,
         question: q.question,
         answers: q.answers,
-        hiddenIndices: [...m.hiddenIndices],
         myAnswerIndex: ps.answerIndex,
         correctIndex: revealed ? q.correctAnswerIndex : null,
         timeRemaining: phase === 'question' ? m.timeRemaining() : 0,
@@ -272,7 +308,9 @@ export class QuizScene extends Phaser.Scene {
         myScore: ps.points,
         abilityName: abilityNameFor(p.characterId),
         abilityDescription: abilityDescriptionFor(p.characterId),
-        abilityUsed: ps.abilityUsed
+        abilityUsed: ps.abilityUsed,
+        hintText: ps.dottoreHintText,
+        ciroBreakdown: m.ciroBreakdown(p.id)
       });
     }
   }
@@ -298,17 +336,16 @@ export class QuizScene extends Phaser.Scene {
       this.optionLetters[i].setVisible(showBoard);
       this.optionTexts[i].setVisible(showBoard);
       if (!showBoard) continue;
-      const hidden = m.hiddenIndices.has(i);
       this.optionTexts[i].setText(q.answers[i]);
       let fill = OPTION_COLORS[i];
-      let alpha = hidden ? 0.2 : 0.92;
+      let alpha = 0.92;
       if (phase === 'reveal') {
         if (i === q.correctAnswerIndex) fill = 0x22c55e;
         else fill = 0x3f3f46;
-        alpha = hidden ? 0.3 : 0.95;
+        alpha = 0.95;
       }
       this.optionBoxes[i].setFillStyle(fill, alpha);
-      this.optionLetters[i].setText(hidden ? '✖' : LETTERS[i]);
+      this.optionLetters[i].setText(LETTERS[i]);
     }
 
     this.countdownText.setVisible(phase === 'question');
@@ -341,8 +378,8 @@ export class QuizScene extends Phaser.Scene {
       if (phase === 'question' || phase === 'intro') {
         if (ps.inSecondChanceGrace && !ps.secondChanceArmed) row.status.setText('❓ MO HO CAPITO?').setColor('#fbbf24');
         else if (ps.inSecondChanceGrace && ps.secondChanceArmed) row.status.setText('🔁 RIPROVA...').setColor('#fbbf24');
+        else if (ps.ciroWaiting && !ps.hasAnsweredFinal) row.status.setText('⏳ ULTIMO GIORNO...').setColor('#fbbf24');
         else if (ps.hasAnsweredFinal) row.status.setText('✅ RISPOSTO').setColor('#4ade80');
-        else if (ps.awaitingDottoreChoice) row.status.setText('💉 SCEGLIE...').setColor('#22d3ee');
         else row.status.setText('...').setColor('#9ca3af');
       } else if (phase === 'reveal' || phase === 'explanation') {
         if (ps.lastCorrect) row.status.setText('✅ CORRETTO').setColor('#4ade80');

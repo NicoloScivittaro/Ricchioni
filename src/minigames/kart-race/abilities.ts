@@ -1,229 +1,249 @@
 import type { PlayerId } from '../../../shared/types';
-import type { MinigameContext } from '../types';
 import type { KartState } from './raceTypes';
-import { applyBoost, hitKart } from './kartPhysics';
-import { ChoiceManager } from './choice';
-import type { ChoiceOption } from './choice';
+import { applyBoost, respawnKart, hitKart } from './kartPhysics';
 
-const EXPLOIT_DURATION = 6;
-const TANK_MODE_DURATION = 5.5;
-const DOTTORE_EFFECT_DURATION = 6.5;
-const CIRO_PRESS_BUFFER = 0.5; // finestra retroattiva: ABILITÀ premuta negli ultimi N secondi annulla un colpo
+const SO_GUIDARE_DURATION = 6; // Goblin: durata della finestra "sfida"
+const SO_GUIDARE_DRIFT_MULT = 1.6; // moltiplicatore potenza mini-turbo durante la finestra
 
-const IPPON_WINDOW = 0.6;
-const IPPON_S_RADIUS = 2.4;
-const IPPON_LAT_RADIUS = 2.8;
-const IPPON_MIN_LAT = 0.6;
-const IPPON_MIN_SPEED = 14;
-const IPPON_PUSH = 3.4;
-const IPPON_MISS_PENALTY = 0.7;
+const BUTTAFUORI_SEVERE_STUN = 1; // soglia oltre la quale uno stordimento da colpo conta come "schianto grave"
+const BUTTAFUORI_RECOVERY_BOOST_POWER = 20;
+const BUTTAFUORI_RECOVERY_BOOST_DURATION = 0.9;
 
-const DOTTORE_OPTIONS: ChoiceOption[] = [
-  { id: 'dottore_turbo', label: 'SIRINGA A', icon: '💉' },
-  { id: 'dottore_grip', label: 'SIRINGA B', icon: '💉' },
-  { id: 'dottore_immune', label: 'SIRINGA C', icon: '💉' }
-];
+const DOTTORE_LIGHT_DURATION = 6; // Dottore: durata della modalità "leggerissimo"
+const DOTTORE_ACCEL_MULT = 1.35;
+const DOTTORE_DRIFT_RATE_MULT = 1.8;
+
+const JUDOKA_RANGE_S = 9; // raggio (lungo il percorso) entro cui i rivali davanti sono "vicini"
+const JUDOKA_LAT_RANGE = 6; // tolleranza laterale
+const JUDOKA_SLOW_FACTOR = 0.55; // velocità massima dei rivali rallentati
+const JUDOKA_SLOW_DURATION = 1.4;
+const JUDOKA_RESOLVE_WINDOW = 3.5; // tempo per superare almeno un rivale rallentato
+const JUDOKA_PENALTY_STUN = 0.5; // piccola penalità se non supera nessuno
+
+const CIRO_PRESS_BUFFER = 0.5; // finestra retroattiva: ABILITÀ premuta negli ultimi N secondi "arma" il rinvio
+const CIRO_DEBT_DELAY = 4; // secondi prima che il DEBITO venga riscosso
 
 /** Riga descrittiva mostrata sul telefono: cosa fa l'abilità di QUESTO personaggio. */
 export function abilityDescription(characterId: string | null): string {
   switch (characterId) {
     case 'goblin':
-      return 'EXPLOIT: a barra piena, le item box ti fanno scegliere tra 2 oggetti.';
+      return 'SO GUIDARE IO: a barra piena, per 6s i drift caricati bene danno mini-turbo più forti. Sbatti o esci di pista e lo perdi.';
     case 'buttafuori':
-      return "MO M'IMPEGNO: modalità carro armato per alcuni secondi — resisti ai colpi, ma sterzi peggio.";
+      return "RIBALTATO MA NON MORTO: dopo uno schianto grave, torni subito in pista con un piccolo boost (1 volta a gara).";
     case 'dottore':
-      return 'TRATTAMENTO SPERIMENTALE: scegli una siringa anonima, buff forte + effetto collaterale.';
+      return '20 KG IN UN MESE: per 6s sei leggerissimo — accelerazione e drift facili, ma chi ti urta ti manda lontanissimo.';
     case 'judoka':
-      return 'IPPON!: affianca un rivale (il telefono vibra), premi ABILITÀ al momento giusto per lanciarlo via.';
+      return "MI SO' CADUTI GLI OCCHIALI!: rallenta un attimo i rivali vicini. Superane almeno uno o prendi una penalità.";
     case 'ciro':
-      return 'I DUE CAPELLI DEL DESTINO: 2 cariche. Premi ABILITÀ appena prima di un colpo per annullarlo.';
+      return 'PAGO DOPO: premi ABILITÀ poco prima di un colpo per rimandarlo. Torna dopo qualche secondo come DEBITO (1 volta a gara).';
     default:
       return '';
   }
 }
 
 export type AbilityFeedback =
-  | { type: 'exploit_ready' | 'exploit_start' | 'tank_start' | 'tank_end' }
-  | { type: 'dottore_effect'; effect: string }
-  | { type: 'ippon_window' }
-  | { type: 'ippon_hit'; targetId: PlayerId }
-  | { type: 'ippon_miss' }
-  | { type: 'ciro_pelato' };
+  | { type: 'so_guidare_start' | 'so_guidare_fail' }
+  | { type: 'buttafuori_recovery' }
+  | { type: 'dottore_light_start' }
+  | { type: 'judoka_activate' | 'judoka_success' | 'judoka_fail' }
+  | { type: 'ciro_debt_start' | 'ciro_debt_due' };
 
 /**
- * Una gimmick unica per personaggio (non bonus statistici). Goblin/Buttafuori/
- * Dottore/Judoka caricano una barra giocando bene (drift puliti, sorpassi,
- * item evitati, checkpoint puliti — vedi addMeter, chiamato da fuori); il
- * Napoletano ha invece 2 cariche fisse per gara, non legate alla barra.
- * La fisica (kartPhysics.ts) resta ignara del "perché": legge solo flag
- * generici (tankMode, turnRateMultiplier, itemImmune, ...) che questa classe
- * imposta e ripristina.
+ * Una gimmick unica per personaggio (non bonus statistici). Goblin/Dottore/
+ * Judoka caricano una barra giocando bene (drift puliti, sorpassi, item
+ * evitati, checkpoint puliti — vedi addMeter, chiamato da fuori); Buttafuori e
+ * Ciro hanno invece 1 carica fissa per gara, non legata alla barra. La fisica
+ * (kartPhysics.ts) resta ignara del "perché": legge solo flag generici
+ * (driftBoostMultiplier, lightMode, speedCapMultiplier, ...) che questa
+ * classe imposta e ripristina.
  */
 export class CharacterAbilities {
   private raceTime = 0;
-
-  constructor(private choices: ChoiceManager) {}
 
   setRaceTime(t: number): void {
     this.raceTime = t;
   }
 
   hasMeter(characterId: string | null): boolean {
-    return characterId === 'goblin' || characterId === 'buttafuori' || characterId === 'dottore' || characterId === 'judoka';
+    return characterId === 'goblin' || characterId === 'dottore' || characterId === 'judoka';
   }
 
   /** Da chiamare quando il kart fa qualcosa che merita di caricare la barra. */
   addMeter(k: KartState, amount: number): void {
-    if (!this.hasMeter(k.characterId) || k.abilityActive) return;
-    if (k.characterId === 'judoka' && k.ipponArmed) return;
+    if (!this.hasMeter(k.characterId) || k.abilityActive || k.judokaPending) return;
     if (k.abilityMeter >= 1) return;
     k.abilityMeter = Math.min(1, k.abilityMeter + amount);
-    if (k.characterId === 'judoka' && k.abilityMeter >= 1) k.ipponArmed = true;
   }
 
   /** Da chiamare quando il giocatore preme il tasto ABILITÀ. */
-  onAbilityPress(ctx: MinigameContext, k: KartState, allKarts: KartState[], onFeedback: (f: AbilityFeedback) => void): void {
+  onAbilityPress(k: KartState, allKarts: KartState[], onFeedback: (f: AbilityFeedback) => void): void {
     k.lastAbilityPressAt = this.raceTime;
 
     switch (k.characterId) {
       case 'goblin':
         if (k.abilityMeter >= 1 && !k.abilityActive) {
           k.abilityActive = true;
-          k.abilityTimer = EXPLOIT_DURATION;
+          k.abilityTimer = SO_GUIDARE_DURATION;
+          k.driftBoostMultiplier = SO_GUIDARE_DRIFT_MULT;
           k.abilityMeter = 0;
-          onFeedback({ type: 'exploit_start' });
-        }
-        break;
-
-      case 'buttafuori':
-        if (k.abilityMeter >= 1 && !k.abilityActive) {
-          k.abilityActive = true;
-          k.abilityTimer = TANK_MODE_DURATION;
-          k.tankMode = true;
-          k.abilityMeter = 0;
-          onFeedback({ type: 'tank_start' });
+          onFeedback({ type: 'so_guidare_start' });
         }
         break;
 
       case 'dottore':
-        if (k.abilityMeter >= 1 && !k.abilityActive && !this.choices.isPending(k.playerId)) {
+        if (k.abilityMeter >= 1 && !k.abilityActive) {
+          k.abilityActive = true;
+          k.abilityTimer = DOTTORE_LIGHT_DURATION;
+          k.lightMode = true;
+          k.accelMultiplier = DOTTORE_ACCEL_MULT;
+          k.driftChargeRateMultiplier = DOTTORE_DRIFT_RATE_MULT;
           k.abilityMeter = 0;
-          this.choices.ask(ctx, k.playerId, 'TRATTAMENTO SPERIMENTALE', DOTTORE_OPTIONS, 4, (chosenId) => {
-            this.applyDottoreEffect(k, chosenId);
-            onFeedback({ type: 'dottore_effect', effect: chosenId });
-          });
+          onFeedback({ type: 'dottore_light_start' });
         }
         break;
 
       case 'judoka':
-        if (k.ipponWindow && k.ipponTargetId) {
-          const target = allKarts.find((o) => o.playerId === k.ipponTargetId);
-          k.ipponWindow = false;
-          k.ipponTargetId = null;
-          k.ipponArmed = false;
-          k.abilityMeter = 0;
-          if (target) {
-            this.executeIppon(k, target);
-            onFeedback({ type: 'ippon_hit', targetId: target.playerId });
+        if (k.abilityMeter >= 1 && !k.judokaPending) {
+          const targets = allKarts.filter((other) => {
+            if (other.playerId === k.playerId || other.finished) return false;
+            const ds = other.distance - k.distance;
+            return ds > 0.5 && ds < JUDOKA_RANGE_S && Math.abs(other.lateral - k.lateral) < JUDOKA_LAT_RANGE;
+          });
+          for (const target of targets) {
+            target.speedCapMultiplier = JUDOKA_SLOW_FACTOR;
+            target.speedCapTimer = JUDOKA_SLOW_DURATION;
           }
-        } else if (k.ipponArmed) {
-          k.speed *= IPPON_MISS_PENALTY;
-          k.ipponArmed = false;
+          k.judokaPending = true;
+          k.judokaResolveTimer = JUDOKA_RESOLVE_WINDOW;
+          k.judokaTargets = targets.map((t) => t.playerId);
           k.abilityMeter = 0;
-          onFeedback({ type: 'ippon_miss' });
+          onFeedback({ type: 'judoka_activate' });
         }
         break;
 
+      case 'buttafuori':
+        // Nessuna azione diretta: si attiva da sola dopo uno schianto grave (vedi update()).
+        break;
+
       case 'ciro':
-        // Nessuna azione diretta: il press viene solo registrato. L'annullamento
-        // è reattivo (vedi tryCancelHit), così il giocatore deve anticipare il colpo.
+        // Nessuna azione diretta: il press viene solo registrato (vedi tryDelayHit in items.ts),
+        // così il giocatore deve anticipare il colpo per rimandarlo.
         break;
     }
-  }
-
-  private applyDottoreEffect(k: KartState, id: string): void {
-    k.abilityActive = true;
-    k.effectTimer = DOTTORE_EFFECT_DURATION;
-    if (id === 'dottore_turbo') {
-      applyBoost(k, 28, 1.2);
-      k.turnRateMultiplier = 1.55;
-      k.gripMultiplier = 0.4;
-    } else if (id === 'dottore_grip') {
-      k.gripMultiplier = 2.6;
-      k.speedCapMultiplier = 0.8;
-    } else if (id === 'dottore_immune') {
-      k.itemImmune = true;
-    }
-  }
-
-  private executeIppon(attacker: KartState, target: KartState): void {
-    const pushDir = Math.sign(target.lateral - attacker.lateral) || 1;
-    target.lateral += pushDir * IPPON_PUSH;
-    hitKart(target, 0.9);
   }
 
   /** Da chiamare ogni frame per ogni kart in gara. */
-  update(dt: number, k: KartState, allKarts: KartState[], onFeedback: (f: AbilityFeedback) => void): void {
+  update(
+    dt: number,
+    k: KartState,
+    allKarts: KartState[],
+    crashedThisFrame: boolean,
+    respawnTriggeredThisFrame: boolean,
+    trackAngleAt: (distance: number) => number,
+    onFeedback: (f: AbilityFeedback) => void
+  ): void {
+    // Judoka: decadimento del rallentamento subito (vale per QUALSIASI kart bersaglio, non solo Judoka).
+    if (k.speedCapTimer > 0) {
+      k.speedCapTimer -= dt;
+      if (k.speedCapTimer <= 0) k.speedCapMultiplier = 1;
+    }
+
+    // Ciro: il DEBITO scade e la penalità posticipata viene applicata.
+    if (k.debtPending) {
+      k.debtTimer -= dt;
+      if (k.debtTimer <= 0) {
+        k.debtPending = false;
+        if (k.debtStun > 0) hitKart(k, k.debtStun);
+        if (k.debtDisturb > 0) k.disturbTimer = Math.max(k.disturbTimer, k.debtDisturb);
+        onFeedback({ type: 'ciro_debt_due' });
+      }
+    }
+
+    // Goblin/Dottore: finestra a tempo attiva.
     if (k.abilityTimer > 0) {
       k.abilityTimer -= dt;
-      if (k.abilityTimer <= 0) {
-        const wasTank = k.tankMode;
-        k.abilityActive = false;
-        k.tankMode = false;
-        if (wasTank) onFeedback({ type: 'tank_end' });
-      }
+      if (k.abilityTimer <= 0) this.endTimedAbility(k);
     }
-    if (k.effectTimer > 0) {
-      k.effectTimer -= dt;
-      if (k.effectTimer <= 0) {
-        k.turnRateMultiplier = 1;
-        k.gripMultiplier = 1;
-        k.speedCapMultiplier = 1;
-        k.itemImmune = false;
-        k.abilityActive = false;
+
+    // Judoka: risoluzione del proprio tentativo (ha superato almeno un bersaglio?).
+    if (k.judokaPending) {
+      k.judokaResolveTimer -= dt;
+      if (k.judokaResolveTimer <= 0) {
+        const overtookOne = k.judokaTargets.some((tid) => {
+          const target = allKarts.find((o) => o.playerId === tid);
+          return target ? k.distance > target.distance : false;
+        });
+        k.judokaPending = false;
+        k.judokaTargets = [];
+        if (overtookOne) {
+          onFeedback({ type: 'judoka_success' });
+        } else {
+          k.stunTimer = Math.max(k.stunTimer, JUDOKA_PENALTY_STUN);
+          onFeedback({ type: 'judoka_fail' });
+        }
       }
     }
 
-    if (k.characterId === 'judoka') this.updateIppon(dt, k, allKarts, onFeedback);
+    this.reactToCrash(k, crashedThisFrame, respawnTriggeredThisFrame, trackAngleAt, onFeedback);
   }
 
-  private updateIppon(dt: number, k: KartState, allKarts: KartState[], onFeedback: (f: AbilityFeedback) => void): void {
-    if (k.ipponWindow) {
-      k.ipponWindowTimer -= dt;
-      if (k.ipponWindowTimer <= 0) {
-        k.ipponWindow = false;
-        k.ipponTargetId = null;
-      }
-      return;
+  /**
+   * Reazione a un urto avvenuto in QUESTO frame (muro/fuori pista, rilevati
+   * subito dopo stepKartPhysics, OPPURE un item incassato più tardi nello
+   * stesso frame — vedi il secondo punto di chiamata in BabylonKartGame.step).
+   * Goblin: perde SO GUIDARE IO se attiva. Buttafuori: recupero automatico
+   * dopo uno schianto grave (1 volta a gara).
+   */
+  reactToCrash(
+    k: KartState,
+    crashedThisFrame: boolean,
+    respawnTriggeredThisFrame: boolean,
+    trackAngleAt: (distance: number) => number,
+    onFeedback: (f: AbilityFeedback) => void
+  ): void {
+    if (k.abilityActive && k.characterId === 'goblin' && (crashedThisFrame || respawnTriggeredThisFrame)) {
+      // "Se durante l'effetto sbatte o va fuori pista, perde il bonus."
+      this.endTimedAbility(k);
+      onFeedback({ type: 'so_guidare_fail' });
     }
-    if (!k.ipponArmed || Math.abs(k.speed) < IPPON_MIN_SPEED) return;
-    for (const other of allKarts) {
-      if (other.playerId === k.playerId || other.finished) continue;
-      const ds = Math.abs(k.distance - other.distance);
-      const dl = Math.abs(k.lateral - other.lateral);
-      if (ds < IPPON_S_RADIUS && dl < IPPON_LAT_RADIUS && dl > IPPON_MIN_LAT && Math.abs(other.speed) > IPPON_MIN_SPEED * 0.5) {
-        k.ipponWindow = true;
-        k.ipponWindowTimer = IPPON_WINDOW;
-        k.ipponTargetId = other.playerId;
-        onFeedback({ type: 'ippon_window' });
-        break;
+
+    if (k.characterId === 'buttafuori' && k.abilityCharges > 0) {
+      const severeHit = crashedThisFrame && k.stunTimer >= BUTTAFUORI_SEVERE_STUN;
+      if (respawnTriggeredThisFrame || severeHit) {
+        k.abilityCharges -= 1;
+        k.respawnTimer = 0;
+        k.stunTimer = 0;
+        respawnKart(k, trackAngleAt);
+        applyBoost(k, BUTTAFUORI_RECOVERY_BOOST_POWER, BUTTAFUORI_RECOVERY_BOOST_DURATION);
+        onFeedback({ type: 'buttafuori_recovery' });
       }
     }
   }
 
-  /** Napoletano: prova ad annullare un colpo in arrivo se ha premuto ABILITÀ di recente. */
-  tryCancelHit(k: KartState, onFeedback: (f: AbilityFeedback) => void): boolean {
-    if (k.characterId !== 'ciro' || k.abilityCharges <= 0) return false;
+  private endTimedAbility(k: KartState): void {
+    k.abilityActive = false;
+    k.abilityTimer = 0;
+    k.driftBoostMultiplier = 1;
+    k.lightMode = false;
+    k.accelMultiplier = 1;
+    k.driftChargeRateMultiplier = 1;
+  }
+
+  /**
+   * CIRO — PAGO DOPO: se ha appena premuto ABILITÀ (entro CIRO_PRESS_BUFFER) e
+   * ha ancora la carica, rimanda l'effetto di un item invece di annullarlo.
+   * Ritorna true se l'effetto è stato rimandato (chi chiama non deve applicarlo ora).
+   */
+  tryDelayHit(k: KartState, effect: { stun?: number; disturb?: number }, onFeedback: (f: AbilityFeedback) => void): boolean {
+    if (k.characterId !== 'ciro' || k.abilityCharges <= 0 || k.debtPending) return false;
     if (this.raceTime - k.lastAbilityPressAt > CIRO_PRESS_BUFFER) return false;
     k.abilityCharges -= 1;
     k.lastAbilityPressAt = -99;
-    if (k.abilityCharges === 0) onFeedback({ type: 'ciro_pelato' });
+    k.debtPending = true;
+    k.debtTimer = CIRO_DEBT_DELAY;
+    k.debtStun = effect.stun ?? 0;
+    k.debtDisturb = effect.disturb ?? 0;
+    onFeedback({ type: 'ciro_debt_start' });
     return true;
   }
-
-  isExploitActive(k: KartState): boolean {
-    return k.characterId === 'goblin' && k.abilityActive;
-  }
 }
-
-export { ChoiceManager };

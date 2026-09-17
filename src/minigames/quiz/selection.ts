@@ -50,3 +50,19 @@ export function selectQuizQuestions(rng: Rng): QuizQuestion[] {
 export function resetQuizHistory(): void {
   recentIds = [];
 }
+
+/**
+ * GOBLIN — NCULO!: pesca una domanda sostitutiva della STESSA difficoltà di
+ * quella rifiutata, evitando sia quella rifiutata sia le altre 9 già estratte
+ * per questa partita (così non si rischia un duplicato nello stesso quiz).
+ */
+export function rerollQuestion(rng: Rng, difficulty: number, excludeIds: string[]): QuizQuestion {
+  const excludeSet = new Set(excludeIds);
+  const pool = QUESTIONS.filter((q) => q.difficulty === difficulty && !excludeSet.has(q.id));
+  const recentSet = new Set(recentIds);
+  const notRecent = pool.filter((q) => !recentSet.has(q.id));
+  const candidates = notRecent.length > 0 ? notRecent : pool.length > 0 ? pool : QUESTIONS.filter((q) => q.difficulty === difficulty);
+  const picked = rng.pick(candidates);
+  markUsed([picked.id]);
+  return picked;
+}

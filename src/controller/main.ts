@@ -69,17 +69,6 @@ socket.on(EVT.vibrate, (ms?: number) => {
   }
 });
 
-interface ChoicePromptData {
-  type: 'choice';
-  title: string;
-  options: { id: string; label: string; icon?: string }[];
-  timeoutMs?: number;
-}
-
-function isChoicePrompt(data: unknown): data is ChoicePromptData {
-  return typeof data === 'object' && data !== null && (data as { type?: unknown }).type === 'choice';
-}
-
 interface InfoLineData {
   type: 'info';
   item?: string | null;
@@ -99,7 +88,6 @@ interface QuizStatePayload {
   category: string;
   question: string;
   answers: [string, string, string, string];
-  hiddenIndices: number[];
   myAnswerIndex: number | null;
   correctIndex: number | null;
   timeRemaining: number;
@@ -110,22 +98,19 @@ interface QuizStatePayload {
   abilityName: string;
   abilityDescription: string;
   abilityUsed: boolean;
+  hintText: string | null;
+  ciroBreakdown: [number, number, number, number] | null;
 }
 
 function isQuizState(data: unknown): data is QuizStatePayload {
   return typeof data === 'object' && data !== null && (data as { type?: unknown }).type === 'quizState';
 }
 
-let choiceRestoreTimer: ReturnType<typeof setTimeout> | null = null;
 let lastInfo: InfoLineData | null = null;
 let lastQuizState: QuizStatePayload | null = null;
 let quizSelectedLocal: number | null = null;
 
 socket.on(EVT.privateData, (data) => {
-  if (isChoicePrompt(data)) {
-    renderAbilityChoice(data);
-    return;
-  }
   if (isInfoLine(data)) {
     lastInfo = data;
     renderInfoLine();
@@ -154,49 +139,6 @@ function renderInfoLine(): void {
   if (lastInfo.item) parts.push(`🎁 ${lastInfo.item}`);
   if (lastInfo.ability) parts.push(`⭐ ${lastInfo.ability}`);
   el.textContent = parts.join(' · ');
-}
-
-/** Scelta temporanea da un'abilità (es. Goblin: 2 item; Dottore: 3 siringhe). */
-function renderAbilityChoice(data: ChoicePromptData): void {
-  if (choiceRestoreTimer) clearTimeout(choiceRestoreTimer);
-
-  app.innerHTML = `
-    <div class="screen">
-      <h1>${data.title}</h1>
-      <div id="choice-grid" class="btn-grid"></div>
-    </div>`;
-  const grid = app.querySelector<HTMLDivElement>('#choice-grid')!;
-  grid.style.gridTemplateColumns = `repeat(${data.options.length}, 1fr)`;
-
-  let answered = false;
-  const answer = (controlId: string): void => {
-    if (answered) return;
-    answered = true;
-    sendInput({ kind: 'action', controlId });
-    restoreControls();
-  };
-
-  for (const opt of data.options) {
-    const b = document.createElement('button');
-    b.className = 'ctl-btn';
-    b.textContent = `${opt.icon ? opt.icon + ' ' : ''}${opt.label}`;
-    b.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
-      answer(opt.id);
-    });
-    grid.appendChild(b);
-  }
-
-  choiceRestoreTimer = setTimeout(() => answer(data.options[0].id), data.timeoutMs ?? 3500);
-}
-
-function restoreControls(): void {
-  if (choiceRestoreTimer) {
-    clearTimeout(choiceRestoreTimer);
-    choiceRestoreTimer = null;
-  }
-  if (!state || state.phase !== 'MINIGAME_PLAYING' || !state.currentMinigame) return;
-  showControls(state.currentMinigame);
 }
 
 // ---- rendering ----
@@ -383,8 +325,10 @@ function renderQuizController(): void {
         </div>
         <div id="quiz-category" class="quiz-category">—</div>
         <div id="quiz-question" class="quiz-question">In attesa della domanda...</div>
+        <p id="quiz-hint" class="quiz-hint"></p>
       </div>
       <div id="quiz-answers" class="quiz-answers"></div>
+      <div id="quiz-breakdown" class="quiz-breakdown"></div>
       <div class="quiz-footer">
         <div class="quiz-player">
           <div id="quiz-avatar" class="quiz-avatar">🎮</div>
@@ -450,17 +394,16 @@ function updateQuizUI(): void {
   root.querySelector('#quiz-category')!.textContent = s.category.toUpperCase();
   root.querySelector('#quiz-question')!.textContent = s.question;
 
+  const hintEl = root.querySelector<HTMLElement>('#quiz-hint')!;
+  hintEl.textContent = s.hintText ? `💡 ${s.hintText}` : '';
+  hintEl.style.display = s.hintText ? '' : 'none';
+
   const locked = s.phase === 'reveal' || s.phase === 'explanation' || s.phase === 'leaderboard';
   quizAnswerEls.forEach((el, i) => {
     el.text.textContent = s.answers[i] ?? '';
-    el.root.classList.remove('hidden', 'selected', 'correct', 'wrong');
-    el.root.disabled = locked || s.hiddenIndices.includes(i);
-    if (s.hiddenIndices.includes(i)) {
-      el.root.classList.add('hidden');
-      el.letter.textContent = '✖';
-    } else {
-      el.letter.textContent = QUIZ_LETTERS[i];
-    }
+    el.letter.textContent = QUIZ_LETTERS[i];
+    el.root.classList.remove('selected', 'correct', 'wrong');
+    el.root.disabled = locked;
 
     if (locked && s.correctIndex !== null) {
       if (i === s.correctIndex) el.root.classList.add('correct');
@@ -469,6 +412,17 @@ function updateQuizUI(): void {
       el.root.classList.add('selected');
     }
   });
+
+  const breakdownEl = root.querySelector<HTMLElement>('#quiz-breakdown')!;
+  if (s.ciroBreakdown) {
+    breakdownEl.style.display = 'flex';
+    breakdownEl.innerHTML = QUIZ_LETTERS.map(
+      (letter, i) => `<div class="quiz-breakdown-row"><span>${letter}</span><span>${s.ciroBreakdown![i]}</span></div>`
+    ).join('');
+  } else {
+    breakdownEl.style.display = 'none';
+    breakdownEl.innerHTML = '';
+  }
 
   const timerEl = root.querySelector<HTMLElement>('#quiz-timer')!;
   const timerNum = root.querySelector('#quiz-timer-num')!;
