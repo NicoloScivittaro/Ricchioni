@@ -1,183 +1,174 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
-import { PauseMenu } from '../../core/PauseMenu';
+import { game as gm } from '../../core/GameManager';
 import type { MinigameContext } from '../types';
-import type { PlayerId } from '../../../shared/types';
+import type { BabylonDodgeballGame } from './BabylonDodgeballGame';
 
-// Ispirato a Poro-Party (licenza ISC). Reimplementato per il modello host/controller.
-
-const MIN_X = 40;
-const MAX_X = 1240;
-const MIN_Y = 100;
-const MAX_Y = 570;
-const PLAYER_R = 22;
-const BALL_R = 12;
-const SPEED = 360;
-const BALL_SPEED = 380;
-
-interface Body {
-  id: PlayerId;
-  x: number;
-  y: number;
-  alive: boolean;
-  avatar: string;
-  circle: Phaser.GameObjects.Arc;
-  label: Phaser.GameObjects.Text;
-}
-interface Ball {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  circle: Phaser.GameObjects.Arc;
-}
-
-/** DODGEBALL: schiva le palle, chi viene colpito è fuori. Vince l'ultimo in piedi. */
+/**
+ * Wrapper Phaser per DODGEBALL DEI COGLIONI (3D Babylon.js su canvas dedicato).
+ * Stessa architettura di arena/kart 3D: la scena Phaser gestisce solo il ciclo
+ * di vita (canvas + motore + menu ESC HTML), Babylon guida il render loop.
+ */
 export class DodgeballScene extends Phaser.Scene {
-  private ctx!: MinigameContext;
-  private bodies: Body[] = [];
-  private balls: Ball[] = [];
-  private eliminationOrder: PlayerId[] = [];
-  private finished = false;
-  private statusText!: Phaser.GameObjects.Text;
-  private pauseMenu!: PauseMenu;
+  private game3d: BabylonDodgeballGame | null = null;
+  private overlayCanvas: HTMLCanvasElement | null = null;
+  private cancelled = false;
+  private loadingText: Phaser.GameObjects.Text | null = null;
+  private pauseMenu: DodgeballPauseMenu | null = null;
+  private escKey!: Phaser.Input.Keyboard.Key;
 
   constructor() {
     super('dodgeball');
   }
 
   create(data: { ctx: MinigameContext }): void {
-    this.ctx = data.ctx;
-    // RICOMINCIA riusa la stessa istanza di scena: azzera tutto lo stato custom.
-    this.bodies = [];
-    this.balls = [];
-    this.eliminationOrder = [];
-    this.finished = false;
-
+    this.cancelled = false;
+    this.cameras.main.setBackgroundColor('#0b0b14');
     audio.unlock();
-    this.cameras.main.setBackgroundColor('#0c0f1d');
 
-    this.add.rectangle(640, 335, 1240, 520, 0x111827).setStrokeStyle(4, 0xffffff);
-    this.add
-      .text(640, 30, '🎯 DODGEBALL DEI COGLIONI', {
+    this.loadingText = this.add
+      .text(640, 360, 'Caricamento DODGEBALL DEI COGLIONI…', {
         fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '46px',
-        color: '#ffffff'
+        fontSize: '28px',
+        color: '#fbbf24'
       })
       .setOrigin(0.5);
-    this.statusText = this.add
-      .text(640, 80, '', { fontFamily: 'Arial, sans-serif', fontSize: '22px', color: '#9ca3af' })
-      .setOrigin(0.5);
 
-    const n = this.ctx.playerIds.length;
-    this.ctx.players.forEach((p, i) => {
-      const x = MIN_X + ((MAX_X - MIN_X) * (i + 1)) / (n + 1);
-      const y = MAX_Y - 30;
-      const color = Phaser.Display.Color.HexStringToColor(p.color).color;
-      const circle = this.add.circle(x, y, PLAYER_R, color).setStrokeStyle(3, 0xffffff);
-      const label = this.add.text(x, y, p.avatar, { fontFamily: 'Arial, sans-serif', fontSize: '20px' }).setOrigin(0.5);
-      this.bodies.push({ id: p.id, x, y, alive: true, avatar: p.avatar, circle, label });
+    this.pauseMenu = new DodgeballPauseMenu(this, () => this.scene.restart({ ctx: data.ctx }));
+    this.escKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);
+    this.events.once(Phaser.Scenes.Events.DESTROY, this.cleanup, this);
+
+    void this.boot(data.ctx);
+  }
+
+  update(): void {
+    if (Phaser.Input.Keyboard.JustDown(this.escKey)) {
+      audio.select();
+      this.pauseMenu?.toggle();
+      this.game3d?.setPaused(this.pauseMenu?.isVisible() ?? false);
+    }
+  }
+
+  private async boot(ctx: MinigameContext): Promise<void> {
+    const { BabylonDodgeballGame } = await import('./BabylonDodgeballGame');
+    if (this.cancelled) return;
+
+    this.loadingText?.destroy();
+    this.loadingText = null;
+
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.inset = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '10000';
+    canvas.style.touchAction = 'none';
+    canvas.style.outline = 'none';
+    document.body.appendChild(canvas);
+    this.overlayCanvas = canvas;
+
+    this.game3d = new BabylonDodgeballGame(canvas, ctx);
+  }
+
+  private cleanup(): void {
+    this.cancelled = true;
+    this.game3d?.dispose();
+    this.game3d = null;
+    this.overlayCanvas?.remove();
+    this.overlayCanvas = null;
+    this.loadingText?.destroy();
+    this.loadingText = null;
+    this.pauseMenu?.destroy();
+    this.pauseMenu = null;
+  }
+}
+
+/** Overlay HTML del menu ESC (sopra il canvas Babylon, z-index 10000). */
+class DodgeballPauseMenu {
+  private root: HTMLDivElement;
+  private visible = false;
+
+  constructor(
+    private scene: Phaser.Scene,
+    onRestart: () => void
+  ) {
+    this.root = document.createElement('div');
+    this.root.style.cssText = `
+      position: fixed; inset: 0; z-index: 20001; display: none;
+      align-items: center; justify-content: center; background: rgba(0,0,0,0.72);
+    `;
+
+    const panel = document.createElement('div');
+    panel.style.cssText = `
+      background: #0b0b14; border: 2px solid rgba(255,255,255,0.15); border-radius: 20px;
+      padding: 28px 36px; display: flex; flex-direction: column; gap: 12px;
+      min-width: 320px; text-align: center; font-family: Arial, sans-serif;
+    `;
+
+    const title = document.createElement('div');
+    title.textContent = '🎯 DODGEBALL DEI COGLIONI — PAUSA';
+    title.style.cssText = 'color:#fbbf24; font-weight:900; font-size:20px; margin-bottom:8px;';
+    panel.appendChild(title);
+
+    panel.appendChild(this.makeButton('▶ RIPRENDI', '#4ade80', () => this.hide()));
+    panel.appendChild(
+      this.makeButton('🔄 RICOMINCIA MINIGIOCO', '#facc15', () => {
+        if (!confirm('Vuoi davvero ricominciare il minigioco?')) return;
+        this.hide();
+        onRestart();
+      })
+    );
+    panel.appendChild(
+      this.makeButton('🏠 TORNA ALLA LOBBY', '#f87171', () => {
+        if (!confirm('Vuoi davvero abbandonare il minigioco e tornare alla lobby?')) return;
+        this.hide();
+        gm.backToLobby();
+        this.scene.scene.start('LobbyScene');
+      })
+    );
+
+    this.root.appendChild(panel);
+    document.body.appendChild(this.root);
+  }
+
+  private makeButton(label: string, color: string, onClick: () => void): HTMLButtonElement {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = label;
+    btn.style.cssText = `
+      padding: 14px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.06); color: ${color}; font: 800 16px/1.2 Arial, sans-serif;
+      cursor: pointer;
+    `;
+    btn.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      onClick();
     });
-
-    const ballColors = [0xf87171, 0xfbbf24, 0x60a5fa];
-    for (let i = 0; i < 3; i++) {
-      const ang = Math.random() * Math.PI * 2;
-      const circle = this.add.circle(640, 250, BALL_R, ballColors[i]).setStrokeStyle(2, 0xffffff);
-      this.balls.push({ x: 640, y: 250, vx: Math.cos(ang) * BALL_SPEED, vy: Math.sin(ang) * BALL_SPEED, circle });
-    }
-
-    this.time.delayedCall(this.ctx.durationSec * 1000, () => this.endGame());
-
-    this.pauseMenu = new PauseMenu(this, '🎯 DODGEBALL DEI COGLIONI', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
+    return btn;
   }
 
-  update(_t: number, delta: number): void {
-    if (this.pauseMenu.update()) return;
-    if (this.finished) return;
-    const dt = Math.min(delta, 50) / 1000;
-
-    for (const b of this.bodies) {
-      if (!b.alive) continue;
-      const input = this.ctx.input.get(b.id);
-      let ax = 0;
-      let ay = 0;
-      if (input.pressed('left')) ax -= 1;
-      if (input.pressed('right')) ax += 1;
-      if (input.pressed('up')) ay -= 1;
-      if (input.pressed('down')) ay += 1;
-      const len = Math.hypot(ax, ay) || 1;
-      b.x += (ax / len) * SPEED * dt;
-      b.y += (ay / len) * SPEED * dt;
-      b.x = Phaser.Math.Clamp(b.x, MIN_X, MAX_X);
-      b.y = Phaser.Math.Clamp(b.y, MIN_Y, MAX_Y);
-    }
-
-    for (const ball of this.balls) {
-      ball.x += ball.vx * dt;
-      ball.y += ball.vy * dt;
-      if (ball.x < MIN_X) {
-        ball.x = MIN_X;
-        ball.vx = Math.abs(ball.vx);
-      } else if (ball.x > MAX_X) {
-        ball.x = MAX_X;
-        ball.vx = -Math.abs(ball.vx);
-      }
-      if (ball.y < MIN_Y) {
-        ball.y = MIN_Y;
-        ball.vy = Math.abs(ball.vy);
-      } else if (ball.y > MAX_Y) {
-        ball.y = MAX_Y;
-        ball.vy = -Math.abs(ball.vy);
-      }
-    }
-
-    for (const b of this.bodies) {
-      if (!b.alive) continue;
-      for (const ball of this.balls) {
-        const dx = b.x - ball.x;
-        const dy = b.y - ball.y;
-        const dist = Math.hypot(dx, dy);
-        const minDist = PLAYER_R + BALL_R;
-        if (dist > 0 && dist < minDist) {
-          b.alive = false;
-          this.eliminationOrder.push(b.id);
-          b.circle.setVisible(false);
-          b.label.setVisible(false);
-          audio.wrong();
-          const nx = dx / dist;
-          const ny = dy / dist;
-          const dot = ball.vx * nx + ball.vy * ny;
-          ball.vx -= 2 * dot * nx;
-          ball.vy -= 2 * dot * ny;
-          ball.x += nx * (minDist - dist);
-          ball.y += ny * (minDist - dist);
-          break;
-        }
-      }
-    }
-
-    for (const b of this.bodies) {
-      if (b.alive) {
-        b.circle.setPosition(b.x, b.y);
-        b.label.setPosition(b.x, b.y);
-      }
-    }
-    for (const ball of this.balls) ball.circle.setPosition(ball.x, ball.y);
-
-    const alive = this.bodies.filter((b) => b.alive);
-    this.statusText.setText(`In gioco: ${alive.length}`);
-    if (alive.length <= 1) this.endGame();
-
-    this.ctx.input.update();
+  toggle(): void {
+    if (this.visible) this.hide();
+    else this.show();
   }
 
-  private endGame(): void {
-    if (this.finished) return;
-    this.finished = true;
-    const alive = this.bodies.filter((b) => b.alive);
-    const eliminated = this.eliminationOrder.slice().reverse();
-    const ranking = [...alive.map((b) => b.id), ...eliminated.filter((id) => !alive.some((b) => b.id === id))];
-    const results = ranking.map((pid, i) => ({ playerId: pid, placement: i + 1, score: 0 }));
-    this.ctx.finish({ results });
+  show(): void {
+    this.visible = true;
+    this.root.style.display = 'flex';
+  }
+
+  hide(): void {
+    this.visible = false;
+    this.root.style.display = 'none';
+  }
+
+  isVisible(): boolean {
+    return this.visible;
+  }
+
+  destroy(): void {
+    this.root.remove();
   }
 }

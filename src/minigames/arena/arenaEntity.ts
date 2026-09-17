@@ -11,8 +11,23 @@ import {
   Texture,
   DynamicTexture
 } from '@babylonjs/core';
-import type { ArenaPlayer } from './arenaTypes';
 import { MAX_SPEED } from './arenaTypes';
+
+/** Sottoinsieme di stato letto da updateVisual (condiviso tra arena e dodgeball). */
+export interface VisualSubject {
+  x: number;
+  y: number;
+  z: number;
+  vx: number;
+  vz: number;
+  facing: number;
+  alive: boolean;
+  falling: boolean;
+  spin: number;
+  dashing: boolean;
+  stunTime: number;
+  hitFlash: number;
+}
 
 /** Personaggio chibi low-poly costruito a partire da primitive. */
 export class ArenaEntity {
@@ -32,6 +47,7 @@ export class ArenaEntity {
   private readonly bobSeed: number;
   private visualFacing = 0;
   private readonly extras: Mesh[] = [];
+  private throwPose = 0;
 
   constructor(
     scene: Scene,
@@ -288,8 +304,18 @@ export class ArenaEntity {
     this.hitFx.start();
   }
 
+  /** Posizione locale della mano destra (per agganciare una palla tenuta in mano). */
+  get handAnchor(): { x: number; y: number; z: number } {
+    return { x: 0.62, y: 1.15, z: 0.3 };
+  }
+
+  /** Breve posa di tiro (braccia in avanti). */
+  playThrow(): void {
+    this.throwPose = 0.35;
+  }
+
   /** Sincronizza mesh + animazioni procedurali con lo stato fisico. */
-  updateVisual(p: ArenaPlayer, dt: number, now: number): void {
+  updateVisual(p: VisualSubject, dt: number, now: number): void {
     // Posizione
     this.root.position.set(p.x, p.y, p.z);
 
@@ -327,6 +353,13 @@ export class ArenaEntity {
     } else {
       this.armLPivot.rotation.z = Math.sin(runPhase * 0.5) * 0.1;
       this.armRPivot.rotation.z = -Math.sin(runPhase * 0.5) * 0.1;
+    }
+
+    // Posa di tiro (braccia in avanti), usata da dodgeball.
+    if (this.throwPose > 0) {
+      this.throwPose -= dt;
+      this.armLPivot.rotation.x = -1.6;
+      this.armRPivot.rotation.x = -1.6;
     }
 
     // Stordimento: squash + tremore

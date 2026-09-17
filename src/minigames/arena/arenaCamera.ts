@@ -1,5 +1,12 @@
 import { ArcRotateCamera, Scene, Vector3 } from '@babylonjs/core';
-import type { ArenaPlayer } from './arenaTypes';
+
+/** Sottoinsieme di stato letto dalla camera (condiviso tra minigiochi 3D). */
+export interface CameraSubject {
+  alive: boolean;
+  falling: boolean;
+  x: number;
+  z: number;
+}
 
 /**
  * Camera condivisa: una sola vista, inclinata, centrata sul gruppo di giocatori
@@ -31,7 +38,7 @@ export class ArenaCamera {
     this.shakeUntil = performance.now() + ms;
   }
 
-  update(dt: number, players: ArenaPlayer[], now: number): void {
+  update(dt: number, players: CameraSubject[], now: number): void {
     const alive = players.filter((p) => p.alive && !p.falling);
     const src = alive.length > 0 ? alive : players;
 

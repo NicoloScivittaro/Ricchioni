@@ -7,6 +7,7 @@ import { renderController } from './ControllerRenderer';
 import { MEMORY_TILES } from '../../shared/memoryTiles';
 import { MEMORY_ABILITIES } from '../../shared/memoryAbilities';
 import { ARENA_ABILITIES } from '../../shared/arenaAbilities';
+import { DODGEBALL_ABILITIES } from '../../shared/dodgeballAbilities';
 import './style.css';
 
 const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
@@ -388,6 +389,187 @@ function renderArenaController(): void {
   });
 }
 
+// ---- DODGEBALL DEI COGLIONI (controller dedicato: joystick + lancia + schiva) ----
+
+let dbJoystickEl: HTMLElement | null = null;
+let dbThumbEl: HTMLElement | null = null;
+let dbThrowBtn: HTMLButtonElement | null = null;
+let dbDodgeBtn: HTMLButtonElement | null = null;
+let dbAbilityBtn: HTMLButtonElement | null = null;
+let dbStatusEl: HTMLElement | null = null;
+let dbLocked = false;
+
+function lockDbControls(locked: boolean, statusText?: string): void {
+  dbLocked = locked;
+  if (dbJoystickEl) dbJoystickEl.classList.toggle('arena-locked', locked);
+  if (dbThrowBtn) dbThrowBtn.disabled = locked;
+  if (dbDodgeBtn) dbDodgeBtn.disabled = locked;
+  if (dbAbilityBtn) dbAbilityBtn.disabled = locked;
+  if (statusText && dbStatusEl) dbStatusEl.textContent = statusText;
+}
+
+function handleDodgeballSignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'countdown':
+      if (s.value === 0) {
+        if (dbStatusEl) dbStatusEl.textContent = '⚡ VIA!';
+        vibrate(110);
+      } else if (s.value && s.value > 0) {
+        if (dbStatusEl) dbStatusEl.textContent = `⏱ ${s.value}`;
+        vibrate(35);
+      }
+      break;
+    case 'eliminated':
+      lockDbControls(true, '💀 SEI FUORI!');
+      vibrate([100, 60, 100]);
+      showToast('💀 Sei stato colpito!');
+      break;
+    case 'won':
+      lockDbControls(true, '🏆 HAI VINTO!');
+      vibrate([80, 40, 80, 40, 120]);
+      showToast('🏆 HAI VINTO!');
+      break;
+    case 'ability':
+      if (dbAbilityBtn) {
+        dbAbilityBtn.disabled = true;
+        dbAbilityBtn.classList.add('arena-ability-used');
+      }
+      showToast(`⭐ ${s.name ?? 'ABILITÀ'}`);
+      vibrate(70);
+      break;
+    case 'saved':
+      showToast('🛡 Colpo respinto!');
+      vibrate(120);
+      break;
+    case 'gotBall':
+      if (dbStatusEl) dbStatusEl.textContent = '🏐 HAI LA PALLA!';
+      vibrate(35);
+      break;
+    case 'threwBall':
+      if (dbStatusEl) dbStatusEl.textContent = 'cerca la palla...';
+      break;
+  }
+}
+
+/** Controller dedicato a DODGEBALL DEI COGLIONI (layout custom: dodgeball-tv). */
+function renderDodgeballController(): void {
+  dbJoystickEl = null;
+  dbThumbEl = null;
+  dbThrowBtn = null;
+  dbDodgeBtn = null;
+  dbAbilityBtn = null;
+  dbStatusEl = null;
+  dbLocked = false;
+
+  const me: PlayerPublic | undefined =
+    playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  const cid = me?.characterId ?? '';
+  const ab = DODGEBALL_ABILITIES[cid];
+
+  app.innerHTML = `
+    <div class="arena-shell">
+      <div class="arena-topbar">
+        <div class="arena-brand">🎯 DODGEBALL DEI COGLIONI</div>
+        <div id="db-status" class="arena-status">PRONTO</div>
+      </div>
+      <div class="arena-body">
+        <div class="arena-joy">
+          <div class="arena-joy-base">
+            <div class="arena-joy-thumb"></div>
+          </div>
+        </div>
+        <div class="arena-actions">
+          <button id="db-throw" class="arena-dash db-throw">🏐<span>LANCIA</span></button>
+          <button id="db-dodge" class="db-dodge">💨<span>SCHIVA</span></button>
+          <button id="db-ability" class="arena-ability">⭐<span>${ab?.name ?? 'ABILITÀ'}</span></button>
+          <p id="db-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
+        </div>
+      </div>
+    </div>`;
+
+  dbStatusEl = app.querySelector<HTMLElement>('#db-status')!;
+  dbThrowBtn = app.querySelector<HTMLButtonElement>('#db-throw')!;
+  dbDodgeBtn = app.querySelector<HTMLButtonElement>('#db-dodge')!;
+  dbAbilityBtn = app.querySelector<HTMLButtonElement>('#db-ability')!;
+  dbJoystickEl = app.querySelector<HTMLElement>('.arena-joy')!;
+  dbThumbEl = app.querySelector<HTMLElement>('.arena-joy-thumb')!;
+  const baseEl = app.querySelector<HTMLElement>('.arena-joy-base')!;
+
+  dbThrowBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (dbThrowBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'throw' });
+  });
+  dbDodgeBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (dbDodgeBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'dodge' });
+  });
+  dbAbilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (dbAbilityBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  // Joystick virtuale
+  let activePointer: number | null = null;
+  let lastAxisX = 0;
+  let lastAxisY = 0;
+
+  const sendAxis = (x: number, y: number): void => {
+    const rx = Math.round(x * 100) / 100;
+    const ry = Math.round(y * 100) / 100;
+    if (rx === lastAxisX && ry === lastAxisY) return;
+    lastAxisX = rx;
+    lastAxisY = ry;
+    sendInput({ kind: 'axis', controlId: 'move', x: rx, y: ry });
+  };
+  const centerThumb = (): void => {
+    if (dbThumbEl) dbThumbEl.style.transform = 'translate(-50%, -50%)';
+    sendAxis(0, 0);
+  };
+  const moveThumb = (e: PointerEvent): void => {
+    const rect = baseEl.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const max = rect.width / 2 - 10;
+    let dx = e.clientX - cx;
+    let dy = e.clientY - cy;
+    const d = Math.hypot(dx, dy);
+    if (d > max) {
+      dx = (dx / d) * max;
+      dy = (dy / d) * max;
+    }
+    if (dbThumbEl) {
+      dbThumbEl.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+    }
+    const nx = dx / max;
+    const ny = dy / max;
+    const dead = Math.hypot(nx, ny) < 0.12;
+    sendAxis(dead ? 0 : nx, dead ? 0 : ny);
+  };
+
+  baseEl.addEventListener('pointerdown', (e) => {
+    if (dbLocked) return;
+    baseEl.setPointerCapture(e.pointerId);
+    activePointer = e.pointerId;
+    moveThumb(e);
+  });
+  baseEl.addEventListener('pointermove', (e) => {
+    if (e.pointerId !== activePointer) return;
+    moveThumb(e);
+  });
+  baseEl.addEventListener('pointerup', (e) => {
+    if (e.pointerId !== activePointer) return;
+    activePointer = null;
+    centerThumb();
+  });
+  baseEl.addEventListener('pointercancel', () => {
+    activePointer = null;
+    centerThumb();
+  });
+}
+
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
   if (activeController === 'memory') {
@@ -396,6 +578,10 @@ socket.on(EVT.controllerSignal, (data) => {
   }
   if (activeController === 'arena') {
     handleArenaSignal(s);
+    return;
+  }
+  if (activeController === 'dodgeball') {
+    handleDodgeballSignal(s);
     return;
   }
   const actionBtn =
@@ -715,6 +901,11 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   if (layout.type === 'custom' && layout.id === 'arena-tv') {
     activeController = 'arena';
     renderArenaController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'dodgeball-tv') {
+    activeController = 'dodgeball';
+    renderDodgeballController();
     return;
   }
   activeController = null;

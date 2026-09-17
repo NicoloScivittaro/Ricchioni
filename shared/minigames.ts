@@ -92,18 +92,13 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     rarity: 'uncommon',
     minPlayers: 1,
     maxPlayers: 5,
+    // Dodgeball arcade 3D: countdown + round a eliminazione (una palla = sei fuori).
+    // 45s danno tempo; il timer server è solo la rete di sicurezza.
     durationSec: 45,
-    compatibleModifiers: ['punti_doppi'],
+    compatibleModifiers: ['controlli_invertiti', 'gravita_bassa', 'punti_doppi'],
     sceneKey: 'dodgeball',
-    controllerLayout: {
-      type: 'dpad',
-      controls: [
-        { id: 'up', label: '▲', kind: 'hold' },
-        { id: 'down', label: '▼', kind: 'hold' },
-        { id: 'left', label: '◀', kind: 'hold' },
-        { id: 'right', label: '▶', kind: 'hold' }
-      ]
-    }
+    // Controller dedicato: joystick + LANCIA + SCHIVA + ABILITÀ (renderDodgeballController()).
+    controllerLayout: { type: 'custom', id: 'dodgeball-tv' }
   },
   {
     id: 'soccer',
