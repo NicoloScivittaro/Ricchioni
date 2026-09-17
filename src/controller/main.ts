@@ -80,11 +80,27 @@ function isChoicePrompt(data: unknown): data is ChoicePromptData {
   return typeof data === 'object' && data !== null && (data as { type?: unknown }).type === 'choice';
 }
 
+interface InfoLineData {
+  type: 'info';
+  item?: string | null;
+  ability?: string | null;
+}
+
+function isInfoLine(data: unknown): data is InfoLineData {
+  return typeof data === 'object' && data !== null && (data as { type?: unknown }).type === 'info';
+}
+
 let choiceRestoreTimer: ReturnType<typeof setTimeout> | null = null;
+let lastInfo: InfoLineData | null = null;
 
 socket.on(EVT.privateData, (data) => {
   if (isChoicePrompt(data)) {
     renderAbilityChoice(data);
+    return;
+  }
+  if (isInfoLine(data)) {
+    lastInfo = data;
+    renderInfoLine();
     return;
   }
   // Dati privati (es. carta segreta, ruolo). Mostrati come schermata temporanea.
@@ -95,6 +111,16 @@ socket.on(EVT.privateData, (data) => {
       <p class="sub">Guarda lo schermo principale</p>
     </div>`;
 });
+
+/** Aggiorna la riga "cosa fa" (item tenuto + abilità del personaggio) senza toccare i pulsanti. */
+function renderInfoLine(): void {
+  const el = app.querySelector<HTMLDivElement>('#info-line');
+  if (!el || !lastInfo) return;
+  const parts: string[] = [];
+  if (lastInfo.item) parts.push(`🎁 ${lastInfo.item}`);
+  if (lastInfo.ability) parts.push(`⭐ ${lastInfo.ability}`);
+  el.textContent = parts.join(' · ');
+}
 
 /** Scelta temporanea da un'abilità (es. Goblin: 2 item; Dottore: 3 siringhe). */
 function renderAbilityChoice(data: ChoicePromptData): void {
@@ -285,9 +311,11 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   app.innerHTML = `
     <div class="screen">
       <h1>${mg.name}</h1>
+      <p id="info-line" class="sub info-line"></p>
       <div id="ctl"></div>
     </div>`;
   renderController(app.querySelector<HTMLDivElement>('#ctl')!, mg.controllerLayout, sendInput);
+  renderInfoLine();
 }
 
 function sendInput(ev: InputEvent): void {

@@ -22,11 +22,11 @@ import type { KartState } from './raceTypes';
 import { KartEntity } from './kartEntity';
 import { stepKartPhysics, DRIFT_THRESHOLDS } from './kartPhysics';
 import type { KartInputSnapshot } from './kartPhysics';
-import { ItemManager } from './items';
+import { ItemManager, itemLabel, itemDescription } from './items';
 import { RaceManager } from './race';
 import type { RaceHudEvent } from './race';
 import { CameraManager, KartHud } from './cameraHud';
-import { CharacterAbilities, ChoiceManager } from './abilities';
+import { CharacterAbilities, ChoiceManager, abilityDescription } from './abilities';
 import type { AbilityFeedback } from './abilities';
 
 const KART_S_RADIUS = 2.6;
@@ -151,6 +151,7 @@ export class BabylonKartGame {
           this.items.useItem(state, kartsList, (id) => this.race.rankOf(kartsList, id));
           audio.select();
           this.ctx.vibrate(pid, 45);
+          this.sendInfoLine(pid, state);
         }
         if (pin.justPressed('ability')) {
           this.abilities.onAbilityPress(this.ctx, state, kartsList, (f) => this.onAbilityFeedback(pid, f));
@@ -159,7 +160,6 @@ export class BabylonKartGame {
         const wasDrifting = state.drifting;
         const wasCharge = state.driftCharge;
         const wasStunned = state.stunTimer > 0;
-        const hadItem = state.heldItem !== null;
         const prevIpponWindow = state.ipponWindow;
         stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier);
         this.abilities.update(dt, state, kartsList, (f) => this.onAbilityFeedback(pid, f));
@@ -173,15 +173,23 @@ export class BabylonKartGame {
           audio.hit();
           this.ctx.vibrate(pid, 90);
         }
-        if (!hadItem && state.heldItem !== null) {
-          this.ctx.vibrate(pid, 40);
-        }
         if (!prevIpponWindow && state.ipponWindow) {
           this.ctx.vibrate(pid, 55);
         }
       }
       this.resolveKartCollisions();
+
+      // items.update() può assegnare un item raccolto: il controllo va fatto
+      // DOPO (prima del refactor il confronto "hadItem" avveniva nello stesso
+      // frame ma prima di questa chiamata, quindi non vedeva mai il cambio).
+      const prevHeldItem = new Map(kartsList.map((k) => [k.playerId, k.heldItem]));
       this.items.update(dt, kartsList, (pid) => this.race.rankOf(kartsList, pid), this.karts.size);
+      for (const state of kartsList) {
+        if (prevHeldItem.get(state.playerId) === null && state.heldItem !== null) {
+          this.ctx.vibrate(state.playerId, 40);
+          this.sendInfoLine(state.playerId, state);
+        }
+      }
     }
 
     for (const [pid, state] of this.karts) {
@@ -222,6 +230,15 @@ export class BabylonKartGame {
         }
       }
     }
+  }
+
+  /** Riga sul telefono: cosa fa l'item tenuto (se c'è) + cosa fa l'abilità del personaggio. */
+  private sendInfoLine(playerId: PlayerId, state: KartState): void {
+    this.ctx.sendPrivate(playerId, {
+      type: 'info',
+      item: state.heldItem ? `${itemLabel(state.heldItem)} — ${itemDescription(state.heldItem)}` : null,
+      ability: abilityDescription(state.characterId)
+    });
   }
 
   private onAbilityFeedback(playerId: PlayerId, f: AbilityFeedback): void {
@@ -273,7 +290,11 @@ export class BabylonKartGame {
       } else {
         this.hud.setCountdown('VIA!');
         audio.boost();
-        for (const pid of this.order) this.ctx.vibrate(pid, 110);
+        for (const pid of this.order) {
+          this.ctx.vibrate(pid, 110);
+          const k = this.karts.get(pid);
+          if (k) this.sendInfoLine(pid, k);
+        }
         setTimeout(() => {
           if (!this.disposed) this.hud.setCountdown('');
         }, 700);

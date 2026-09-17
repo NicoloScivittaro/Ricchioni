@@ -24,6 +24,24 @@ const DOTTORE_OPTIONS: ChoiceOption[] = [
   { id: 'dottore_immune', label: 'SIRINGA C', icon: '💉' }
 ];
 
+/** Riga descrittiva mostrata sul telefono: cosa fa l'abilità di QUESTO personaggio. */
+export function abilityDescription(characterId: string | null): string {
+  switch (characterId) {
+    case 'goblin':
+      return 'EXPLOIT: a barra piena, le item box ti fanno scegliere tra 2 oggetti.';
+    case 'buttafuori':
+      return "MO M'IMPEGNO: modalità carro armato per alcuni secondi — resisti ai colpi, ma sterzi peggio.";
+    case 'dottore':
+      return 'TRATTAMENTO SPERIMENTALE: scegli una siringa anonima, buff forte + effetto collaterale.';
+    case 'judoka':
+      return 'IPPON!: affianca un rivale (il telefono vibra), premi ABILITÀ al momento giusto per lanciarlo via.';
+    case 'ciro':
+      return 'I DUE CAPELLI DEL DESTINO: 2 cariche. Premi ABILITÀ appena prima di un colpo per annullarlo.';
+    default:
+      return '';
+  }
+}
+
 export type AbilityFeedback =
   | { type: 'exploit_ready' | 'exploit_start' | 'tank_start' | 'tank_end' }
   | { type: 'dottore_effect'; effect: string }

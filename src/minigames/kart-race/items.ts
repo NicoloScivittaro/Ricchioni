@@ -10,7 +10,7 @@ import type { AbilityFeedback } from './abilities';
 
 const BOX_PICKUP_RADIUS_LAT = 4.2;
 const BOX_PICKUP_RADIUS_S = 3.4;
-const BOX_RESPAWN_TIME = 6;
+const BOX_RESPAWN_TIME = 5;
 const ROULETTE_TIME = 0.55;
 const EXPLOIT_CHOICE_TIME = 3.5;
 
@@ -20,13 +20,13 @@ const PROJECTILE_HIT_S = 1.8;
 const PROJECTILE_HIT_LAT = 2.2;
 const PROJECTILE_NEARMISS_S = 3.2;
 const PROJECTILE_NEARMISS_LAT = 3.6;
-const PROJECTILE_STUN = 1.1;
+const PROJECTILE_STUN = 1.3;
 const NEARMISS_METER = 0.15;
 
 const TRAP_LIFE = 18;
 const TRAP_HIT_S = 1.4;
 const TRAP_HIT_LAT = 1.9;
-const TRAP_STUN = 0.55;
+const TRAP_STUN = 0.6;
 
 const ALL_ITEMS: ItemId[] = ['turbo', 'sfera', 'olio', 'scudo', 'super_turbo', 'disturbo'];
 
@@ -201,7 +201,7 @@ export class ItemManager {
         ]
       : isLast
         ? [
-            { item: 'super_turbo', weight: 2.2 },
+            { item: 'super_turbo', weight: 1.8 },
             { item: 'sfera', weight: 2.6 },
             { item: 'turbo', weight: 2.2 },
             { item: 'olio', weight: 1.6 },
@@ -214,7 +214,7 @@ export class ItemManager {
             { item: 'olio', weight: 1.6 },
             { item: 'scudo', weight: 1.6 },
             { item: 'disturbo', weight: 1.4 },
-            { item: 'super_turbo', weight: 0.5 }
+            { item: 'super_turbo', weight: 0.3 }
           ];
     return this.rng.weighted(table);
   }
@@ -227,10 +227,12 @@ export class ItemManager {
 
     switch (item) {
       case 'turbo':
-        applyBoost(k, 17, 1.0);
+        // Divertente e utile, ma non ribalta la gara da solo.
+        applyBoost(k, 18, 1.1);
         break;
       case 'super_turbo':
-        applyBoost(k, 27, 1.7);
+        // Raro e potente: deve sentirsi come un vero cambio di passo.
+        applyBoost(k, 38, 2.4);
         break;
       case 'scudo':
         k.shielded = true;
@@ -242,8 +244,9 @@ export class ItemManager {
         this.spawnProjectile(k);
         break;
       case 'disturbo': {
+        // Fastidioso ma leggero: mai frustrante, solo simpatico.
         const target = this.findTargetAhead(k, allKarts, rankOf);
-        if (target) target.disturbTimer = 2.4;
+        if (target) target.disturbTimer = 2.6;
         break;
       }
     }
@@ -372,5 +375,23 @@ export function itemLabel(id: ItemId): string {
       return '🛡️ SCUDO';
     case 'disturbo':
       return '⚡ DISTURBO';
+  }
+}
+
+/** Riga descrittiva mostrata sul telefono, così è chiaro cosa fa ogni oggetto. */
+export function itemDescription(id: ItemId): string {
+  switch (id) {
+    case 'turbo':
+      return 'Accelerazione forte e immediata.';
+    case 'super_turbo':
+      return 'RARO E FORTISSIMO: può ribaltare la gara.';
+    case 'sfera':
+      return "Proiettile: stordisce chi colpisce davanti a te.";
+    case 'olio':
+      return 'Lascia una chiazza scivolosa dietro di te.';
+    case 'scudo':
+      return 'Ti protegge dal prossimo colpo subito.';
+    case 'disturbo':
+      return 'Simpatico: inverte per un attimo lo sterzo di chi hai davanti.';
   }
 }
