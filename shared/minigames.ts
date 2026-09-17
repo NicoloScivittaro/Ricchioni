@@ -190,27 +190,6 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     }
   },
   {
-    id: 'hotwheels',
-    name: 'HOT WHEELS',
-    category: 'GUIDA',
-    rarity: 'rare',
-    minPlayers: 1,
-    maxPlayers: 5,
-    durationSec: 90,
-    compatibleModifiers: ['punti_doppi'],
-    sceneKey: 'hotwheels',
-    controllerLayout: {
-      type: 'dpad',
-      controls: [
-        { id: 'up', label: '▲', kind: 'hold' },
-        { id: 'down', label: '▼', kind: 'hold' },
-        { id: 'left', label: '◀', kind: 'hold' },
-        { id: 'right', label: '▶', kind: 'hold' },
-        { id: 'action', label: 'POTERE', kind: 'button', icon: '🎁' }
-      ]
-    }
-  },
-  {
     id: 'kart3d',
     name: 'RIBALTATI — CIRCUITO DEL LITORALE',
     category: 'GUIDA',
