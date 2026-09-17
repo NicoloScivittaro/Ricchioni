@@ -1,200 +1,176 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
-import { PauseMenu } from '../../core/PauseMenu';
+import { game as gm } from '../../core/GameManager';
 import type { MinigameContext } from '../types';
-import type { PlayerId } from '../../../shared/types';
-
-const CENTER_X = 640;
-const CENTER_Y = 360;
-const ARENA_R = 290;
-const PLAYER_R = 26;
-const ACCEL = 1100;
-const MAX_SPEED = 300;
-const FRICTION = 0.9;
-
-interface Body {
-  id: PlayerId;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  alive: boolean;
-  avatar: string;
-  circle: Phaser.GameObjects.Arc;
-  label: Phaser.GameObjects.Text;
-}
+import type { BabylonArenaGame } from './BabylonArenaGame';
 
 /**
- * ARENA DEL DISAGIO — sumo: spingi gli altri fuori dal cerchio.
- * Supporta il modificatore "controlli invertiti".
+ * Wrapper Phaser per ARENA DEL DISAGIO (3D Babylon.js su canvas dedicato).
+ * Stessa architettura del kart 3D: la scena Phaser gestisce solo il ciclo di
+ * vita (canvas + motore + menu ESC HTML), Babylon guida il render loop.
  */
 export class ArenaScene extends Phaser.Scene {
-  private ctx!: MinigameContext;
-  private bodies: Body[] = [];
-  private finished = false;
-  private eliminationOrder: PlayerId[] = [];
-  private statusText!: Phaser.GameObjects.Text;
-  private invert = false;
-  private pauseMenu!: PauseMenu;
+  private game3d: BabylonArenaGame | null = null;
+  private overlayCanvas: HTMLCanvasElement | null = null;
+  private cancelled = false;
+  private loadingText: Phaser.GameObjects.Text | null = null;
+  private pauseMenu: ArenaPauseMenu | null = null;
+  private escKey!: Phaser.Input.Keyboard.Key;
 
   constructor() {
     super('arena');
   }
 
   create(data: { ctx: MinigameContext }): void {
-    this.ctx = data.ctx;
-    // RICOMINCIA riusa la stessa istanza di scena: azzera tutto lo stato custom.
-    this.bodies = [];
-    this.finished = false;
-    this.eliminationOrder = [];
-
+    this.cancelled = false;
+    this.cameras.main.setBackgroundColor('#0b0b14');
     audio.unlock();
-    this.invert = this.ctx.modifier?.id === 'controlli_invertiti';
-    this.cameras.main.setBackgroundColor('#111827');
 
-    this.add.circle(CENTER_X, CENTER_Y, ARENA_R, 0x1f2937).setStrokeStyle(6, 0xffffff);
-    this.add
-      .text(640, 40, '🤼 ARENA DEL DISAGIO', {
+    this.loadingText = this.add
+      .text(640, 360, 'Caricamento ARENA DEL DISAGIO…', {
         fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '48px',
-        color: '#ffffff'
+        fontSize: '28px',
+        color: '#fbbf24'
       })
       .setOrigin(0.5);
-    this.statusText = this.add
-      .text(640, 92, '', {
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '22px',
-        color: '#9ca3af'
-      })
-      .setOrigin(0.5);
-    if (this.invert) {
-      this.statusText.setText('CONTROLLI INVERTITI!').setColor('#f87171');
-    }
 
-    const n = this.ctx.playerIds.length;
-    this.ctx.players.forEach((p, i) => {
-      const ang = (Math.PI * 2 * i) / n - Math.PI / 2;
-      const dist = ARENA_R * 0.55;
-      const x = CENTER_X + Math.cos(ang) * dist;
-      const y = CENTER_Y + Math.sin(ang) * dist;
-      const color = Phaser.Display.Color.HexStringToColor(p.color).color;
-      const circle = this.add.circle(x, y, PLAYER_R, color).setStrokeStyle(3, 0xffffff);
-      const label = this.add.text(x, y, p.avatar, { fontFamily: 'Arial, sans-serif', fontSize: '22px' }).setOrigin(0.5);
-      this.bodies.push({ id: p.id, x, y, vx: 0, vy: 0, alive: true, avatar: p.avatar, circle, label });
+    this.pauseMenu = new ArenaPauseMenu(this, () => this.scene.restart({ ctx: data.ctx }));
+    this.escKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);
+    this.events.once(Phaser.Scenes.Events.DESTROY, this.cleanup, this);
+
+    void this.boot(data.ctx);
+  }
+
+  update(): void {
+    if (Phaser.Input.Keyboard.JustDown(this.escKey)) {
+      audio.select();
+      this.pauseMenu?.toggle();
+      this.game3d?.setPaused(this.pauseMenu?.isVisible() ?? false);
+    }
+  }
+
+  private async boot(ctx: MinigameContext): Promise<void> {
+    const { BabylonArenaGame } = await import('./BabylonArenaGame');
+    if (this.cancelled) return;
+
+    this.loadingText?.destroy();
+    this.loadingText = null;
+
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.inset = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '10000';
+    canvas.style.touchAction = 'none';
+    canvas.style.outline = 'none';
+    document.body.appendChild(canvas);
+    this.overlayCanvas = canvas;
+
+    this.game3d = new BabylonArenaGame(canvas, ctx);
+  }
+
+  private cleanup(): void {
+    this.cancelled = true;
+    this.game3d?.dispose();
+    this.game3d = null;
+    this.overlayCanvas?.remove();
+    this.overlayCanvas = null;
+    this.loadingText?.destroy();
+    this.loadingText = null;
+    this.pauseMenu?.destroy();
+    this.pauseMenu = null;
+  }
+}
+
+/** Overlay HTML del menu ESC (sopra il canvas Babylon, z-index 10000). */
+class ArenaPauseMenu {
+  private root: HTMLDivElement;
+  private visible = false;
+
+  constructor(
+    private scene: Phaser.Scene,
+    onRestart: () => void
+  ) {
+    this.root = document.createElement('div');
+    this.root.style.cssText = `
+      position: fixed; inset: 0; z-index: 20001; display: none;
+      align-items: center; justify-content: center; background: rgba(0,0,0,0.72);
+    `;
+
+    const panel = document.createElement('div');
+    panel.style.cssText = `
+      background: #0b0b14; border: 2px solid rgba(255,255,255,0.15); border-radius: 20px;
+      padding: 28px 36px; display: flex; flex-direction: column; gap: 12px;
+      min-width: 320px; text-align: center; font-family: Arial, sans-serif;
+    `;
+
+    const title = document.createElement('div');
+    title.textContent = '🤼 ARENA DEL DISAGIO — PAUSA';
+    title.style.cssText = 'color:#fbbf24; font-weight:900; font-size:20px; margin-bottom:8px;';
+    panel.appendChild(title);
+
+    panel.appendChild(
+      this.makeButton('▶ RIPRENDI', '#4ade80', () => this.hide())
+    );
+    panel.appendChild(
+      this.makeButton('🔄 RICOMINCIA MINIGIOCO', '#facc15', () => {
+        if (!confirm('Vuoi davvero ricominciare il minigioco?')) return;
+        this.hide();
+        onRestart();
+      })
+    );
+    panel.appendChild(
+      this.makeButton('🏠 TORNA ALLA LOBBY', '#f87171', () => {
+        if (!confirm('Vuoi davvero abbandonare il minigioco e tornare alla lobby?')) return;
+        this.hide();
+        gm.backToLobby();
+        this.scene.scene.start('LobbyScene');
+      })
+    );
+
+    this.root.appendChild(panel);
+    document.body.appendChild(this.root);
+  }
+
+  private makeButton(label: string, color: string, onClick: () => void): HTMLButtonElement {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = label;
+    btn.style.cssText = `
+      padding: 14px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.06); color: ${color}; font: 800 16px/1.2 Arial, sans-serif;
+      cursor: pointer;
+    `;
+    btn.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      onClick();
     });
-
-    this.time.delayedCall(this.ctx.durationSec * 1000, () => this.endGame());
-
-    this.pauseMenu = new PauseMenu(this, '🤼 ARENA DEL DISAGIO', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
+    return btn;
   }
 
-  update(_time: number, delta: number): void {
-    if (this.pauseMenu.update()) return;
-    if (this.finished) return;
-    const dt = Math.min(delta, 50) / 1000;
-
-    for (const b of this.bodies) {
-      if (!b.alive) continue;
-      const input = this.ctx.input.get(b.id);
-      let left = input.pressed('left');
-      let right = input.pressed('right');
-      let up = input.pressed('up');
-      let down = input.pressed('down');
-      if (this.invert) {
-        [left, right] = [right, left];
-        [up, down] = [down, up];
-      }
-
-      let ax = 0;
-      let ay = 0;
-      if (left) ax -= 1;
-      if (right) ax += 1;
-      if (up) ay -= 1;
-      if (down) ay += 1;
-
-      const len = Math.hypot(ax, ay) || 1;
-      b.vx += (ax / len) * ACCEL * dt;
-      b.vy += (ay / len) * ACCEL * dt;
-      b.vx *= FRICTION;
-      b.vy *= FRICTION;
-      const sp = Math.hypot(b.vx, b.vy);
-      if (sp > MAX_SPEED) {
-        b.vx = (b.vx / sp) * MAX_SPEED;
-        b.vy = (b.vy / sp) * MAX_SPEED;
-      }
-      b.x += b.vx * dt;
-      b.y += b.vy * dt;
-
-      if (Math.hypot(b.x - CENTER_X, b.y - CENTER_Y) > ARENA_R) {
-        b.alive = false;
-        this.eliminationOrder.push(b.id);
-        b.circle.setVisible(false);
-        b.label.setVisible(false);
-        audio.wrong();
-      }
-    }
-
-    // Collisioni tra corpi vivi
-    const alive = this.bodies.filter((b) => b.alive);
-    for (let i = 0; i < alive.length; i++) {
-      for (let j = i + 1; j < alive.length; j++) {
-        const a = alive[i];
-        const c = alive[j];
-        const dx = c.x - a.x;
-        const dy = c.y - a.y;
-        const dist = Math.hypot(dx, dy);
-        const minDist = PLAYER_R * 2;
-        if (dist > 0 && dist < minDist) {
-          const overlap = (minDist - dist) / 2;
-          const nx = dx / dist;
-          const ny = dy / dist;
-          a.x -= nx * overlap;
-          a.y -= ny * overlap;
-          c.x += nx * overlap;
-          c.y += ny * overlap;
-          const relAlong = (c.vx - a.vx) * nx + (c.vy - a.vy) * ny;
-          if (relAlong < 0) {
-            const impulse = -relAlong * 0.9;
-            a.vx -= nx * impulse;
-            a.vy -= ny * impulse;
-            c.vx += nx * impulse;
-            c.vy += ny * impulse;
-          }
-        }
-      }
-    }
-
-    for (const b of this.bodies) {
-      if (b.alive) {
-        b.circle.setPosition(b.x, b.y);
-        b.label.setPosition(b.x, b.y);
-      }
-    }
-
-    const remaining = this.bodies.filter((b) => b.alive);
-    if (!this.invert) this.statusText.setText(`Spingi gli altri fuori! — in gioco: ${remaining.length}`);
-    if (remaining.length <= 1) {
-      this.endGame();
-    }
-
-    this.ctx.input.update();
+  toggle(): void {
+    if (this.visible) this.hide();
+    else this.show();
   }
 
-  private endGame(): void {
-    if (this.finished) return;
-    this.finished = true;
+  show(): void {
+    this.visible = true;
+    this.root.style.display = 'flex';
+  }
 
-    const alive = this.bodies
-      .filter((b) => b.alive)
-      .sort(
-        (a, b) =>
-          Math.hypot(a.x - CENTER_X, a.y - CENTER_Y) - Math.hypot(b.x - CENTER_X, b.y - CENTER_Y)
-      );
-    const eliminated = this.eliminationOrder.slice().reverse();
-    const aliveIds = alive.map((b) => b.id);
-    const ranking = [...aliveIds, ...eliminated.filter((id) => !aliveIds.includes(id))];
+  hide(): void {
+    this.visible = false;
+    this.root.style.display = 'none';
+  }
 
-    const results = ranking.map((pid, i) => ({ playerId: pid, placement: i + 1, score: 0 }));
-    this.ctx.finish({ results });
+  isVisible(): boolean {
+    return this.visible;
+  }
+
+  destroy(): void {
+    this.root.remove();
   }
 }

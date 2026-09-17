@@ -76,18 +76,14 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     rarity: 'uncommon',
     minPlayers: 1,
     maxPlayers: 5,
-    durationSec: 30,
-    compatibleModifiers: ['controlli_invertiti', 'punti_doppi'],
+    // Sumo/brawl 3D: countdown + round a eliminazione + eventuale restringimento
+    // dell'arena. 45s danno tempo alle eliminazioni; il timer server è solo la
+    // rete di sicurezza.
+    durationSec: 45,
+    compatibleModifiers: ['controlli_invertiti', 'gravita_bassa', 'punti_doppi'],
     sceneKey: 'arena',
-    controllerLayout: {
-      type: 'dpad',
-      controls: [
-        { id: 'up', label: '▲', kind: 'hold' },
-        { id: 'down', label: '▼', kind: 'hold' },
-        { id: 'left', label: '◀', kind: 'hold' },
-        { id: 'right', label: '▶', kind: 'hold' }
-      ]
-    }
+    // Controller dedicato: joystick virtuale + DASH + ABILITÀ (vedi renderArenaController()).
+    controllerLayout: { type: 'custom', id: 'arena-tv' }
   },
   {
     id: 'dodgeball',

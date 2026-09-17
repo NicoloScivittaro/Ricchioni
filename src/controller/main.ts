@@ -6,6 +6,7 @@ import { CHARACTERS, CHARACTER_ORDER } from '../../shared/characters';
 import { renderController } from './ControllerRenderer';
 import { MEMORY_TILES } from '../../shared/memoryTiles';
 import { MEMORY_ABILITIES } from '../../shared/memoryAbilities';
+import { ARENA_ABILITIES } from '../../shared/arenaAbilities';
 import './style.css';
 
 const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
@@ -81,6 +82,7 @@ interface SignalPayload {
   tile?: number;
   seqLen?: number;
   at?: number;
+  value?: number;
 }
 
 function vibrate(pattern: number | number[]): void {
@@ -187,10 +189,178 @@ function handleMemorySignal(s: SignalPayload): void {
   }
 }
 
+// ---- ARENA DEL DISAGIO (controller dedicato: joystick + dash + abilità) ----
+
+let arenaJoystickEl: HTMLElement | null = null;
+let arenaThumbEl: HTMLElement | null = null;
+let arenaDashBtn: HTMLButtonElement | null = null;
+let arenaAbilityBtn: HTMLButtonElement | null = null;
+let arenaStatusEl: HTMLElement | null = null;
+let arenaLocked = false;
+
+function lockArenaControls(locked: boolean, statusText?: string): void {
+  arenaLocked = locked;
+  if (arenaJoystickEl) arenaJoystickEl.classList.toggle('arena-locked', locked);
+  if (arenaDashBtn) arenaDashBtn.disabled = locked;
+  if (arenaAbilityBtn) arenaAbilityBtn.disabled = locked;
+  if (statusText && arenaStatusEl) arenaStatusEl.textContent = statusText;
+}
+
+function handleArenaSignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'countdown':
+      if (s.value === 0) {
+        if (arenaStatusEl) arenaStatusEl.textContent = '⚡ VIA!';
+        vibrate(110);
+      } else if (s.value && s.value > 0) {
+        if (arenaStatusEl) arenaStatusEl.textContent = `⏱ ${s.value}`;
+        vibrate(35);
+      }
+      break;
+    case 'eliminated':
+      lockArenaControls(true, '💀 SEI FUORI!');
+      vibrate([100, 60, 100]);
+      showToast("💀 Sei fuori dall'arena!");
+      break;
+    case 'won':
+      lockArenaControls(true, '🏆 HAI VINTO!');
+      vibrate([80, 40, 80, 40, 120]);
+      showToast('🏆 HAI VINTO!');
+      break;
+    case 'ability':
+      if (arenaAbilityBtn) {
+        arenaAbilityBtn.disabled = true;
+        arenaAbilityBtn.classList.add('arena-ability-used');
+      }
+      showToast(`⭐ ${s.name ?? 'ABILITÀ'}`);
+      vibrate(70);
+      break;
+    case 'ciro_due':
+      showToast('💸 DEBITO RISCOSSO!');
+      vibrate(90);
+      break;
+  }
+}
+
+/** Controller dedicato a ARENA DEL DISAGIO (layout custom: arena-tv). */
+function renderArenaController(): void {
+  arenaJoystickEl = null;
+  arenaThumbEl = null;
+  arenaDashBtn = null;
+  arenaAbilityBtn = null;
+  arenaStatusEl = null;
+  arenaLocked = false;
+
+  const me: PlayerPublic | undefined =
+    playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  const cid = me?.characterId ?? '';
+  const ab = ARENA_ABILITIES[cid];
+
+  app.innerHTML = `
+    <div class="arena-shell">
+      <div class="arena-topbar">
+        <div class="arena-brand">🤼 ARENA DEL DISAGIO</div>
+        <div id="arena-status" class="arena-status">PRONTO</div>
+      </div>
+      <div class="arena-body">
+        <div id="arena-joy" class="arena-joy">
+          <div id="arena-joy-base" class="arena-joy-base">
+            <div id="arena-joy-thumb" class="arena-joy-thumb"></div>
+          </div>
+        </div>
+        <div class="arena-actions">
+          <button id="arena-dash" class="arena-dash">💨<span>DASH</span></button>
+          <button id="arena-ability" class="arena-ability">⭐<span>${ab?.name ?? 'ABILITÀ'}</span></button>
+          <p id="arena-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
+        </div>
+      </div>
+    </div>`;
+
+  arenaStatusEl = app.querySelector<HTMLElement>('#arena-status')!;
+  arenaDashBtn = app.querySelector<HTMLButtonElement>('#arena-dash')!;
+  arenaAbilityBtn = app.querySelector<HTMLButtonElement>('#arena-ability')!;
+  arenaJoystickEl = app.querySelector<HTMLElement>('#arena-joy')!;
+  arenaThumbEl = app.querySelector<HTMLElement>('#arena-joy-thumb')!;
+  const baseEl = app.querySelector<HTMLElement>('#arena-joy-base')!;
+
+  arenaDashBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (arenaDashBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'dash' });
+  });
+  arenaAbilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (arenaAbilityBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  // Joystick virtuale (fixed, grande, a sinistra).
+  let activePointer: number | null = null;
+  let lastAxisX = 0;
+  let lastAxisY = 0;
+
+  const sendAxis = (x: number, y: number): void => {
+    // Throttle: invia solo se il valore (arrotondato) è cambiato.
+    const rx = Math.round(x * 100) / 100;
+    const ry = Math.round(y * 100) / 100;
+    if (rx === lastAxisX && ry === lastAxisY) return;
+    lastAxisX = rx;
+    lastAxisY = ry;
+    sendInput({ kind: 'axis', controlId: 'move', x: rx, y: ry });
+  };
+  const centerThumb = (): void => {
+    if (arenaThumbEl) arenaThumbEl.style.transform = 'translate(-50%, -50%)';
+    sendAxis(0, 0);
+  };
+  const moveThumb = (e: PointerEvent): void => {
+    const rect = baseEl.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const max = rect.width / 2 - 10;
+    let dx = e.clientX - cx;
+    let dy = e.clientY - cy;
+    const d = Math.hypot(dx, dy);
+    if (d > max) {
+      dx = (dx / d) * max;
+      dy = (dy / d) * max;
+    }
+    if (arenaThumbEl) {
+      arenaThumbEl.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+    }
+    const nx = dx / max;
+    const ny = dy / max;
+    sendAxis(Math.hypot(nx, ny) < 0.12 ? 0 : nx, Math.hypot(nx, ny) < 0.12 ? 0 : ny);
+  };
+
+  baseEl.addEventListener('pointerdown', (e) => {
+    if (arenaLocked) return;
+    baseEl.setPointerCapture(e.pointerId);
+    activePointer = e.pointerId;
+    moveThumb(e);
+  });
+  baseEl.addEventListener('pointermove', (e) => {
+    if (e.pointerId !== activePointer) return;
+    moveThumb(e);
+  });
+  baseEl.addEventListener('pointerup', (e) => {
+    if (e.pointerId !== activePointer) return;
+    activePointer = null;
+    centerThumb();
+  });
+  baseEl.addEventListener('pointercancel', () => {
+    activePointer = null;
+    centerThumb();
+  });
+}
+
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
   if (activeController === 'memory') {
     handleMemorySignal(s);
+    return;
+  }
+  if (activeController === 'arena') {
+    handleArenaSignal(s);
     return;
   }
   const actionBtn =
@@ -505,6 +675,11 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   if (layout.type === 'custom' && layout.id === 'memory-tv') {
     activeController = 'memory';
     renderMemoryController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'arena-tv') {
+    activeController = 'arena';
+    renderArenaController();
     return;
   }
   activeController = null;
