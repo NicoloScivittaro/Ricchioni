@@ -105,86 +105,31 @@ const JOYSTICK_DEADZONE = 0.12;
 const JOYSTICK_DEBUG = new URLSearchParams(location.search).has('joyDebug');
 
 /**
- * Joystick virtuale condiviso da arena/dodgeball/calcio (prima triplicato,
- * ora un solo posto da correggere/mantenere). Punti curati esplicitamente:
- * - centro/raggio letti da getBoundingClientRect() a ogni move, mai
- *   hardcodati: corretti anche con CSS responsive/scalato;
- * - un solo dito alla volta (pointerId agganciato + setPointerCapture);
- * - deadzone applicata SIA all'input inviato SIA al pallino visivo (sotto
- *   soglia il pallino torna visivamente al centro, non solo l'asse a 0);
- * - vettore = delta dal centro (mai posizione assoluta), clampato al
- *   raggio massimo prima di normalizzare;
- * - reset esatto a (0,0)/centro su pointerup/pointercancel;
- * - touch-action: none sulla base (in style.css) + preventDefault, niente
- *   scroll/zoom involontario del telefono mentre si trascina.
+ * Joystick virtuale condiviso da arena/dodgeball/calcio. La logica vive in
+ * `joystick.ts` (createVirtualJoystick): qui si passa solo configurazione e
+ * callback. Garanzie:
+ * - aggancio a UN SOLO dito (pointerId + setPointerCapture), gli altri touch
+ *   vengono ignorati finché non si rilascia;
+ * - centro/raggio da getBoundingClientRect() a ogni move (mai hardcodati);
+ * - vettore = delta dal centro, clampato a (raggio base - raggio thumb), poi
+ *   normalizzato in [-1,1] (sinistra=-x, destra=+x, su=-y, giù=+y);
+ * - deadzone configurabile (sotto soglia l'OUTPUT è 0, il thumb segue il dito);
+ * - reset a (0,0) su pointerup/pointercancel/touchend/touchcancel;
+ * - debug opzionale via ?joyDebug=1.
  */
-function mountJoystick(baseEl: HTMLElement, thumbEl: HTMLElement, isLocked: () => boolean, onAxis: (x: number, y: number) => void): void {
-  let activePointer: number | null = null;
-  let lastX = 0;
-  let lastY = 0;
-
-  const emit = (x: number, y: number): void => {
-    const rx = Math.round(x * 100) / 100;
-    const ry = Math.round(y * 100) / 100;
-    if (rx === lastX && ry === lastY) return;
-    lastX = rx;
-    lastY = ry;
-    onAxis(rx, ry);
-  };
-
-  const setThumb = (dx: number, dy: number): void => {
-    thumbEl.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
-  };
-
-  const center = (): void => {
-    setThumb(0, 0);
-    emit(0, 0);
-  };
-
-  const move = (e: PointerEvent): void => {
-    const rect = baseEl.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const max = Math.min(rect.width, rect.height) / 2 - 10;
-    let dx = e.clientX - cx;
-    let dy = e.clientY - cy;
-    const d = Math.hypot(dx, dy);
-    if (d > max && d > 0) {
-      dx = (dx / d) * max;
-      dy = (dy / d) * max;
-    }
-    const nx = dx / max;
-    const ny = dy / max;
-    if (Math.hypot(nx, ny) < JOYSTICK_DEADZONE) {
-      setThumb(0, 0);
-      emit(0, 0);
-      return;
-    }
-    setThumb(dx, dy);
-    emit(nx, ny);
-  };
-
-  const release = (e: PointerEvent): void => {
-    if (e.pointerId !== activePointer) return;
-    activePointer = null;
-    baseEl.classList.remove('arena-joy-active');
-    center();
-  };
-
-  baseEl.addEventListener('pointerdown', (e) => {
-    if (isLocked()) return;
-    e.preventDefault();
-    baseEl.setPointerCapture(e.pointerId);
-    activePointer = e.pointerId;
-    baseEl.classList.add('arena-joy-active');
-    move(e);
+function mountJoystick(
+  baseEl: HTMLElement,
+  thumbEl: HTMLElement,
+  isLocked: () => boolean,
+  onAxis: (x: number, y: number) => void
+): VirtualJoystick {
+  return createVirtualJoystick(baseEl, thumbEl, {
+    deadzone: JOYSTICK_DEADZONE,
+    enabled: () => !isLocked(),
+    onAxis,
+    onActiveChange: (active) => baseEl.classList.toggle('arena-joy-active', active),
+    debug: JOYSTICK_DEBUG
   });
-  baseEl.addEventListener('pointermove', (e) => {
-    if (e.pointerId !== activePointer) return;
-    move(e);
-  });
-  baseEl.addEventListener('pointerup', release);
-  baseEl.addEventListener('pointercancel', release);
 }
 
 /** Toast temporaneo sovrapposto ai controlli (abilità, avvisi). */
@@ -293,12 +238,14 @@ let arenaStatusEl: HTMLElement | null = null;
 let arenaOverlayEl: HTMLElement | null = null;
 let arenaLocked = false;
 let arenaDashCooldownTimer: number | null = null;
+let arenaJoy: VirtualJoystick | null = null;
 
 function lockArenaControls(locked: boolean): void {
   arenaLocked = locked;
   if (arenaJoystickEl) arenaJoystickEl.classList.toggle('arena-locked', locked);
   if (arenaDashBtn) arenaDashBtn.disabled = locked;
   if (arenaAbilityBtn) arenaAbilityBtn.disabled = locked;
+  if (locked) arenaJoy?.reset();
 }
 
 /** Schermata piena e drammatica per i momenti chiave (eliminato/vincitore). */
@@ -370,6 +317,7 @@ function renderArenaController(): void {
   arenaStatusEl = null;
   arenaOverlayEl = null;
   arenaLocked = false;
+  arenaJoy = null;
   if (arenaDashCooldownTimer) {
     window.clearTimeout(arenaDashCooldownTimer);
     arenaDashCooldownTimer = null;
@@ -420,7 +368,7 @@ function renderArenaController(): void {
     sendInput({ kind: 'action', controlId: 'ability' });
   });
 
-  mountJoystick(baseEl, arenaThumbEl, () => arenaLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
+  arenaJoy = mountJoystick(baseEl, arenaThumbEl, () => arenaLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
 }
 
 // ---- DODGEBALL DEI COGLIONI (controller dedicato: joystick + lancia + schiva) ----
@@ -432,6 +380,7 @@ let dbDodgeBtn: HTMLButtonElement | null = null;
 let dbAbilityBtn: HTMLButtonElement | null = null;
 let dbStatusEl: HTMLElement | null = null;
 let dbLocked = false;
+let dbJoy: VirtualJoystick | null = null;
 
 function lockDbControls(locked: boolean, statusText?: string): void {
   dbLocked = locked;
@@ -440,6 +389,7 @@ function lockDbControls(locked: boolean, statusText?: string): void {
   if (dbDodgeBtn) dbDodgeBtn.disabled = locked;
   if (dbAbilityBtn) dbAbilityBtn.disabled = locked;
   if (statusText && dbStatusEl) dbStatusEl.textContent = statusText;
+  if (locked) dbJoy?.reset();
 }
 
 function handleDodgeballSignal(s: SignalPayload): void {
@@ -534,6 +484,7 @@ function renderDodgeballController(): void {
   dbAbilityBtn = null;
   dbStatusEl = null;
   dbLocked = false;
+  dbJoy = null;
 
   const me: PlayerPublic | undefined =
     playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
@@ -585,7 +536,7 @@ function renderDodgeballController(): void {
     sendInput({ kind: 'action', controlId: 'ability' });
   });
 
-  mountJoystick(baseEl, dbThumbEl, () => dbLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
+  dbJoy = mountJoystick(baseEl, dbThumbEl, () => dbLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
 }
 
 // ---- CALCIO DEI DISAGIATI (controller dedicato: joystick + tiro hold + tackle) ----
@@ -598,6 +549,7 @@ let soccerAbilityBtn: HTMLButtonElement | null = null;
 let soccerStatusEl: HTMLElement | null = null;
 let soccerTeam: string | null = null;
 let soccerLocked = false;
+let soccerJoy: VirtualJoystick | null = null;
 
 function lockSoccerControls(locked: boolean, statusText?: string): void {
   soccerLocked = locked;
@@ -606,6 +558,7 @@ function lockSoccerControls(locked: boolean, statusText?: string): void {
   if (soccerTackleBtn) soccerTackleBtn.disabled = locked;
   if (soccerAbilityBtn) soccerAbilityBtn.disabled = locked;
   if (statusText && soccerStatusEl) soccerStatusEl.textContent = statusText;
+  if (locked) soccerJoy?.reset();
 }
 
 function handleSoccerSignal(s: SignalPayload): void {
@@ -681,6 +634,7 @@ function renderSoccerController(): void {
   soccerStatusEl = null;
   soccerTeam = null;
   soccerLocked = false;
+  soccerJoy = null;
 
   const me: PlayerPublic | undefined =
     playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
@@ -742,7 +696,7 @@ function renderSoccerController(): void {
     sendInput({ kind: 'action', controlId: 'ability' });
   });
 
-  mountJoystick(baseEl, soccerThumbEl, () => soccerLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
+  soccerJoy = mountJoystick(baseEl, soccerThumbEl, () => soccerLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
 }
 
 socket.on(EVT.controllerSignal, (data) => {

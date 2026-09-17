@@ -40,6 +40,7 @@ import { ArenaCamera } from '../arena/arenaCamera';
 import { SoccerHud } from './soccerHud';
 import { buildSoccerEnvironment } from './soccerEnvironment';
 import { SoccerAbilities } from './soccerAbilities';
+import { readMove } from '../moveInput';
 import type { SoccerAbilityFeedback } from './soccerAbilities';
 
 const COUNTDOWN_S = 3.2;
@@ -309,8 +310,9 @@ export class BabylonSoccerGame {
     this.abilities.update(p, dt);
 
     const input = this.ctx.input.get(p.id);
-    let ax = input.axis('move').x;
-    let az = input.axis('move').y;
+    const mv = readMove(input);
+    let ax = mv.x;
+    let az = mv.z;
     const mag = Math.hypot(ax, az);
     if (mag > 1) {
       ax /= mag;

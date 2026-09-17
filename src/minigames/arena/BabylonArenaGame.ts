@@ -26,6 +26,7 @@ import { ArenaCamera } from './arenaCamera';
 import { ArenaHud } from './arenaHud';
 import { ArenaAbilities, abilityDescription } from './arenaAbilities';
 import type { ArenaAbilityFeedback } from './arenaAbilities';
+import { readMove } from '../moveInput';
 
 const COUNTDOWN_S = 3.2;
 
@@ -202,8 +203,9 @@ export class BabylonArenaGame {
     this.abilities.update(p, dt, (f) => this.onAbilityFeedback(p, f));
 
     const input = this.ctx.input.get(p.id);
-    let ax = input.axis('move').x;
-    let az = input.axis('move').y;
+    const mv = readMove(input);
+    let ax = mv.x;
+    let az = mv.z;
     if (this.invert) {
       ax = -ax;
       az = -az;

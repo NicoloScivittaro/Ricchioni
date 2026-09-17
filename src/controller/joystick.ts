@@ -27,6 +27,8 @@ export interface VirtualJoystickOptions {
   enabled?: () => boolean;
   /** Output normalizzato in [-1,1] (chiamato solo quando il valore cambia). */
   onAxis: (x: number, y: number) => void;
+  /** Notifica attivo/inattivo (per feedback visivo, es. glow della base). */
+  onActiveChange?: (active: boolean) => void;
   /** Se true mostra un piccolo overlay di debug con i valori interni. */
   debug?: boolean;
 }
@@ -62,9 +64,11 @@ export function createVirtualJoystick(
   };
 
   const reset = (): void => {
+    if (activePointer === null) return;
     activePointer = null;
     thumbEl.style.transform = 'translate(-50%, -50%)';
     emit(0, 0);
+    opts.onActiveChange?.(false);
   };
 
   const updateFromPointer = (clientX: number, clientY: number): void => {
@@ -117,6 +121,7 @@ export function createVirtualJoystick(
     if (activePointer !== null) return;
     e.preventDefault();
     activePointer = e.pointerId;
+    opts.onActiveChange?.(true);
     try {
       baseEl.setPointerCapture(e.pointerId);
     } catch {

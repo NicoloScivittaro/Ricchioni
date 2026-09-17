@@ -51,6 +51,7 @@ import { ArenaHud } from '../arena/arenaHud';
 import { buildDodgeballEnvironment } from './dodgeballEnvironment';
 import { DodgeballAbilities } from './dodgeballAbilities';
 import type { DodgeballAbilityFeedback } from './dodgeballAbilities';
+import { readMove } from '../moveInput';
 import { DODGEBALL_ABILITIES } from '../../../shared/dodgeballAbilities';
 
 const COUNTDOWN_S = 3.2;
@@ -284,8 +285,9 @@ export class BabylonDodgeballGame {
     }
 
     const input = this.ctx.input.get(p.id);
-    let ax = input.axis('move').x;
-    let az = input.axis('move').y;
+    const mv = readMove(input);
+    let ax = mv.x;
+    let az = mv.z;
     if (this.invert) {
       ax = -ax;
       az = -az;
