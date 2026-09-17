@@ -69,6 +69,39 @@ socket.on(EVT.vibrate, (ms?: number) => {
   }
 });
 
+socket.on(EVT.controllerSignal, (data) => {
+  const s = data as { type: string; ms?: number };
+  const btn = app.querySelector<HTMLButtonElement>('.ctl-btn');
+  if (s.type === 'via') {
+    if (btn) {
+      btn.textContent = '⚡ PREMI!';
+      btn.classList.add('go');
+    }
+    try {
+      navigator.vibrate?.(60);
+    } catch {
+      /* ignore */
+    }
+  } else if (s.type === 'pressed') {
+    if (btn) {
+      btn.textContent = `${s.ms ?? '—'} ms`;
+      btn.disabled = true;
+      btn.classList.remove('go');
+    }
+  } else if (s.type === 'falseStart') {
+    if (btn) {
+      btn.textContent = '❌ FALSA PARTENZA';
+      btn.disabled = true;
+      btn.classList.remove('go');
+    }
+    try {
+      navigator.vibrate?.([100, 60, 100]);
+    } catch {
+      /* ignore */
+    }
+  }
+});
+
 interface InfoLineData {
   type: 'info';
   item?: string | null;

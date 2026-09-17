@@ -38,15 +38,15 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     name: 'BOTTA AL VOLO',
     category: 'RIFLESSI',
     rarity: 'common',
-    minPlayers: 1,
+    minPlayers: 2,
     maxPlayers: 5,
-    durationSec: 20,
+    durationSec: 30,
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'reaction',
     controllerLayout: {
       type: 'buttons',
       grid: 1,
-      controls: [{ id: 'action', label: 'PREMI!', kind: 'button', icon: '⚡' }]
+      controls: [{ id: 'action', label: 'ASPETTA...', kind: 'button', icon: '⚡' }]
     }
   },
   {

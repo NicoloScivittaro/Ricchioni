@@ -27,6 +27,8 @@ export interface MinigameContext {
   sendPrivate(playerId: PlayerId, data: unknown): void;
   /** Fa vibrare il telefono di un giocatore, se il device lo supporta (nessun effetto altrimenti). */
   vibrate(playerId: PlayerId, ms?: number): void;
+  /** Invia un segnale di gioco a uno (o tutti) i telefoni della stanza. */
+  signal(playerId: PlayerId | null, signal: Record<string, unknown>): void;
   finish(result: MinigameResult): void;
 }
 

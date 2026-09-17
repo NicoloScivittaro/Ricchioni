@@ -131,6 +131,11 @@ export class GameManager {
     this.socket?.emit(EVT.hostVibratePlayer, { playerId, ms });
   }
 
+  /** Invia un segnale di gioco a uno (o tutti) i telefoni della stanza. */
+  signal(playerId: string | null, signal: Record<string, unknown>): void {
+    this.socket?.emit(EVT.hostSignal, { playerId, signal });
+  }
+
   /** Riavvia la partita mantenendo gli stessi giocatori (azzera i punteggi). */
   restartMatch(): void {
     this.socket?.emit(EVT.hostRestartMatch);
@@ -184,6 +189,7 @@ export class GameManager {
       consume: (playerId, hook) => this.consume(modifiers, playerId, hook),
       sendPrivate: (playerId, data) => this.sendPrivate(playerId, data),
       vibrate: (playerId, ms) => this.vibrate(playerId, ms),
+      signal: (playerId, signal) => this.signal(playerId, signal),
       finish: (result) => this.finishMinigame(result)
     };
   }

@@ -33,6 +33,8 @@ export const EVT = {
   hostBackToLobby: 'host:backToLobby',
   /** L'host chiede di far vibrare il telefono di UN giocatore specifico. */
   hostVibratePlayer: 'host:vibratePlayer',
+  /** L'host invia un segnale di gioco a uno (o tutti) i telefoni della stanza. */
+  hostSignal: 'host:signal',
 
   // ---- Server → Client ----
   roomState: 'room:state',
@@ -43,6 +45,7 @@ export const EVT = {
   controllerLayout: 'controller:layout',
   privateData: 'private:data',
   vibrate: 'controller:vibrate',
+  controllerSignal: 'controller:signal',
 
   // ---- Server → Host (relay input) ----
   inputRelay: 'input:relay',
@@ -106,6 +109,12 @@ export interface PlayerDisconnectedEvent {
 export interface VibratePlayerPayload {
   playerId: PlayerId;
   ms?: number;
+}
+
+export interface SignalPayload {
+  /** null = tutti i telefoni della stanza. */
+  playerId: PlayerId | null;
+  signal: { type: string; [key: string]: unknown };
 }
 
 /** Payload inviato al solo HOST quando parte un minigioco. */

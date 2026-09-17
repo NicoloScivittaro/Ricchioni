@@ -14,6 +14,7 @@ import type {
   RoomCreatedAck,
   SelectCharacterPayload,
   SelectMinigamePayload,
+  SignalPayload,
   VibratePlayerPayload
 } from '../shared/protocol';
 import { MAX_PLAYERS, MIN_PLAYERS, TARGET_SCORE_MAX, TARGET_SCORE_MIN } from '../shared/types';
@@ -83,6 +84,7 @@ export class RoomManager {
     socket.on(EVT.hostRestartMatch, () => this.onRestartMatch(socket));
     socket.on(EVT.hostBackToLobby, () => this.onBackToLobby(socket));
     socket.on(EVT.hostVibratePlayer, (p: VibratePlayerPayload) => this.onHostVibratePlayer(socket, p));
+    socket.on(EVT.hostSignal, (p: SignalPayload) => this.onSignal(socket, p));
     socket.on('disconnect', () => this.onDisconnect(socket));
   }
 
@@ -247,6 +249,19 @@ export class RoomManager {
     if (!room) return;
     const player = room.getPlayer(p.playerId);
     if (player?.connectionId) this.io.to(player.connectionId).emit(EVT.vibrate, p.ms);
+  }
+
+  private onSignal(socket: Socket, p: SignalPayload): void {
+    const room = this.roomOfHost(socket);
+    if (!room) return;
+    if (p.playerId) {
+      const player = room.getPlayer(p.playerId);
+      if (player?.connectionId) this.io.to(player.connectionId).emit(EVT.controllerSignal, p.signal);
+    } else {
+      for (const pl of room.players) {
+        if (pl.connectionId) this.io.to(pl.connectionId).emit(EVT.controllerSignal, p.signal);
+      }
+    }
   }
 
   private onBackToLobby(socket: Socket): void {
