@@ -9,6 +9,8 @@ import { MEMORY_ABILITIES } from '../../shared/memoryAbilities';
 import { ARENA_ABILITIES } from '../../shared/arenaAbilities';
 import { DODGEBALL_ABILITIES } from '../../shared/dodgeballAbilities';
 import { SOCCER_ABILITIES } from '../../shared/soccerAbilities';
+import { createVirtualJoystick } from './joystick';
+import type { VirtualJoystick } from './joystick';
 import './style.css';
 
 const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
@@ -99,6 +101,8 @@ function vibrate(pattern: number | number[]): void {
 }
 
 const JOYSTICK_DEADZONE = 0.12;
+/** Attiva l'overlay di debug del joystick con `?joyDebug=1` nell'URL. */
+const JOYSTICK_DEBUG = new URLSearchParams(location.search).has('joyDebug');
 
 /**
  * Joystick virtuale condiviso da arena/dodgeball/calcio (prima triplicato,
