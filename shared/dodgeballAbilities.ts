@@ -8,23 +8,23 @@ export interface DodgeballAbility {
 
 export const DODGEBALL_ABILITIES: Record<string, DodgeballAbility> = {
   goblin: {
-    name: 'NCULO!',
-    desc: 'Schiva sporca: scatto imprevedibile con un attimo di invulnerabilità.'
+    name: "N'CULO, RIPIGLIATELA!",
+    desc: 'Parata a timing: se intercetti bene una palla, la rimandi al mittente più veloce. Sbagli e vieni colpito.'
   },
   buttafuori: {
-    name: "MO M'IMPEGNO",
-    desc: 'Per 5 secondi resisti ai colpi (vieni spinto ma non eliminato).'
+    name: 'OCCHIO DA POLIGONO',
+    desc: 'Per qualche secondo vedi la traiettoria precisa del tuo lancio; il primo tiro è più teso e veloce.'
   },
   dottore: {
-    name: '20 KG IN UN MESE',
-    desc: 'Per 5 secondi più veloce, ma se colpito voli molto più lontano.'
+    name: 'TRE MESI DOPO',
+    desc: 'Per qualche secondo vedi le traiettorie delle palle in arrivo. Se colpito: ERA SOLO UN PERIODO.'
   },
   judoka: {
-    name: 'IPPON',
-    desc: "Onda d'urto: spinge via chi ti sta vicino e gli fa cadere la palla."
+    name: 'CARICO E SCARICO',
+    desc: 'Modalità camion: scatto lungo che raccoglie fino a 2 palloni, poi li spari in rapida successione.'
   },
   ciro: {
-    name: 'PAGO DOPO',
-    desc: 'Arma il rinvio: la prossima palla che ti prende viene respinta (ma resti stordito).'
+    name: 'PAGO DOMANI',
+    desc: "Il colpo che ti eliminerebbe diventa un DEBITO: colpisci qualcuno in tempo o arriva l'esattore."
   }
 };

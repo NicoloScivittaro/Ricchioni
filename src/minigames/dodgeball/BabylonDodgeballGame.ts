@@ -32,6 +32,15 @@ import {
   STUN_TIME,
   GRAVITY,
   BALL_COUNT_MAX,
+  PARRY_RADIUS,
+  REFLECT_SPEED_MULT,
+  AIM_THROW_SPEED_MULT,
+  AIM_BOUNCE_DAMP,
+  TRUCK_SPEED,
+  TRUCK_PICKUP_RADIUS,
+  TRUCK_MAX_BALLS,
+  TRUCK_WALL_STUN,
+  TRUCK_PUSH_POWER,
   createDodgeballPlayer,
   createBall
 } from './dodgeballTypes';
@@ -62,6 +71,13 @@ export class BabylonDodgeballGame {
   private hud: ArenaHud;
   private abilities: DodgeballAbilities;
   private order: PlayerId[];
+
+  private aimDots: Mesh[] = [];
+  private visionDots: Mesh[] = [];
+  private aimMat: StandardMaterial;
+  private visionMat: StandardMaterial;
+  private dangerMat: StandardMaterial;
+  private lastDangerWarn = 0;
 
   private phase: Phase = 'countdown';
   private countdown = COUNTDOWN_S;
@@ -104,9 +120,33 @@ export class BabylonDodgeballGame {
     dc.fill();
     dotTex.update();
 
-    this.abilities = new DodgeballAbilities((target, kx, kz, power, dropBall) =>
-      this.applyKnockback(target, kx, kz, power, dropBall ?? false)
-    );
+    this.abilities = new DodgeballAbilities();
+
+    // Pallini di traiettoria (mira Buttafuori + visione Dottore)
+    this.aimMat = new StandardMaterial('aimMat', this.scene);
+    this.aimMat.diffuseColor = new Color3(0.2, 0.9, 1);
+    this.aimMat.emissiveColor = new Color3(0.3, 0.9, 1);
+    this.aimMat.disableLighting = true;
+    this.visionMat = new StandardMaterial('visMat', this.scene);
+    this.visionMat.diffuseColor = new Color3(1, 0.85, 0.2);
+    this.visionMat.emissiveColor = new Color3(1, 0.8, 0.15);
+    this.visionMat.disableLighting = true;
+    this.dangerMat = new StandardMaterial('dangerMat', this.scene);
+    this.dangerMat.diffuseColor = new Color3(1, 0.15, 0.15);
+    this.dangerMat.emissiveColor = new Color3(1, 0.1, 0.1);
+    this.dangerMat.disableLighting = true;
+    for (let i = 0; i < 20; i++) {
+      const d = MeshBuilder.CreateSphere('aimDot', { diameter: 0.24, segments: 6 }, this.scene);
+      d.material = this.aimMat;
+      d.isVisible = false;
+      this.aimDots.push(d);
+    }
+    for (let i = 0; i < 24; i++) {
+      const d = MeshBuilder.CreateSphere('visDot', { diameter: 0.22, segments: 6 }, this.scene);
+      d.material = this.visionMat;
+      d.isVisible = false;
+      this.visionDots.push(d);
+    }
 
     // Personaggi
     this.order = [...ctx.playerIds];
@@ -116,7 +156,7 @@ export class BabylonDodgeballGame {
       const t = n > 1 ? -1 + (2 * i) / (n - 1) : 0;
       p.x = t * (ARENA_HALF_W - 3);
       p.z = ARENA_HALF_D - 2;
-      p.facing = Math.PI; // rivolti verso il campo (-Z)
+      p.facing = Math.PI;
       this.players.push(p);
       const entity = new ArenaEntity(this.scene, dotTex, snap.color, snap.characterId, snap.avatar, snap.displayName);
       this.entities.set(p.id, entity);
@@ -200,11 +240,12 @@ export class BabylonDodgeballGame {
       }
     }
 
-    // Aggiornamento visuale
+    // Visuali
     for (const p of this.players) {
       this.entities.get(p.id)?.updateVisual(p, dt, now);
     }
     this.syncBallMeshes();
+    this.updateTrajectories(now);
     this.camera.update(dt, this.players, now);
     this.env.update(now);
 
@@ -234,7 +275,13 @@ export class BabylonDodgeballGame {
     p.invulnTime = Math.max(0, p.invulnTime - dt);
     p.stunTime = Math.max(0, p.stunTime - dt);
     p.hitFlash = Math.max(0, p.hitFlash - dt);
-    this.abilities.update(p, dt);
+    this.abilities.update(p, dt, (f) => this.onAbilityFeedback(p, f));
+
+    // Ciro: esattore.
+    if (p.debtActive && p.debtTimer <= 0) {
+      this.debtCollector(p);
+      return;
+    }
 
     const input = this.ctx.input.get(p.id);
     let ax = input.axis('move').x;
@@ -249,11 +296,34 @@ export class BabylonDodgeballGame {
       az /= mag;
     }
 
+    // ---- Modalità camion (Judoka) ----
+    if (p.truckBeepTimer > 0) {
+      p.vx = 0;
+      p.vz = 0;
+      this.integratePlayer(p, dt, false);
+      return;
+    }
+    if (p.truckTime > 0) {
+      p.vx = p.truckDirX * TRUCK_SPEED;
+      p.vz = p.truckDirZ * TRUCK_SPEED;
+      this.integratePlayer(p, dt, true);
+      let hitWall = false;
+      if (p.x >= ARENA_HALF_W - PLAYER_RADIUS || p.x <= -ARENA_HALF_W + PLAYER_RADIUS) hitWall = true;
+      if (p.z >= ARENA_HALF_D - PLAYER_RADIUS || p.z <= -ARENA_HALF_D + PLAYER_RADIUS) hitWall = true;
+      if (hitWall) {
+        this.truckFail(p);
+      } else {
+        this.truckPickup(p);
+        this.truckPush(p);
+      }
+      return;
+    }
+
     const stunned = p.stunTime > 0;
     const dodging = p.dodgeTime > 0;
     p.dashing = dodging;
 
-    // Schivata / dash
+    // Schivata
     if (!stunned && !dodging && input.justPressed('dodge') && p.dodgeCooldown <= 0) {
       const dirX = mag > 0.15 ? ax : Math.sin(p.facing);
       const dirZ = mag > 0.15 ? az : Math.cos(p.facing);
@@ -268,20 +338,23 @@ export class BabylonDodgeballGame {
 
     // Abilità
     if (!stunned && input.justPressed('ability')) {
-      this.abilities.onAbilityPress(p, this.players, (f) => this.onAbilityFeedback(p, f));
+      const dirX = mag > 0.15 ? ax : Math.sin(p.facing);
+      const dirZ = mag > 0.15 ? az : Math.cos(p.facing);
+      this.abilities.onAbilityPress(p, dirX, dirZ, (f) => this.onAbilityFeedback(p, f));
     }
 
-    // Tiro
-    if (!stunned && input.justPressed('throw') && p.hasBall) {
-      this.throwBall(p);
+    // Tiro (palloni del camion O palla normale)
+    if (!stunned && input.justPressed('throw')) {
+      if (p.truckBalls.length > 0) this.fireTruckBall(p);
+      else if (p.hasBall) this.throwBall(p);
     }
 
     if (dodging) {
-      // il dash mantiene la velocità impostata
+      // velocità impostata dalla schivata
     } else if (!stunned && mag > 0.15) {
       p.facing = Math.atan2(ax, az);
-      p.vx += ax * ACCEL * p.speedMult * dt;
-      p.vz += az * ACCEL * p.speedMult * dt;
+      p.vx += ax * ACCEL * dt;
+      p.vz += az * ACCEL * dt;
     }
 
     if (!dodging) {
@@ -289,18 +362,22 @@ export class BabylonDodgeballGame {
       p.vx *= damp;
       p.vz *= damp;
       const sp = Math.hypot(p.vx, p.vz);
-      const cap = MAX_SPEED * p.speedMult;
-      if (sp > cap) {
-        p.vx = (p.vx / sp) * cap;
-        p.vz = (p.vz / sp) * cap;
+      if (sp > MAX_SPEED) {
+        p.vx = (p.vx / sp) * MAX_SPEED;
+        p.vz = (p.vz / sp) * MAX_SPEED;
       }
     }
 
+    this.integratePlayer(p, dt, true);
+  }
+
+  private integratePlayer(p: DodgeballPlayer, dt: number, clampToArena: boolean): void {
     p.x += p.vx * dt;
     p.z += p.vz * dt;
-    p.x = Math.max(-ARENA_HALF_W + PLAYER_RADIUS, Math.min(ARENA_HALF_W - PLAYER_RADIUS, p.x));
-    p.z = Math.max(-ARENA_HALF_D + PLAYER_RADIUS, Math.min(ARENA_HALF_D - PLAYER_RADIUS, p.z));
-
+    if (clampToArena) {
+      p.x = Math.max(-ARENA_HALF_W + PLAYER_RADIUS, Math.min(ARENA_HALF_W - PLAYER_RADIUS, p.x));
+      p.z = Math.max(-ARENA_HALF_D + PLAYER_RADIUS, Math.min(ARENA_HALF_D - PLAYER_RADIUS, p.z));
+    }
     if (p.y > 0 || p.vy !== 0) {
       p.vy -= GRAVITY * dt;
       p.y += p.vy * dt;
@@ -320,18 +397,54 @@ export class BabylonDodgeballGame {
     ball.throwerId = p.id;
     ball.bounces = 0;
     ball.life = 0;
-    ball.vx = Math.sin(p.facing) * THROW_SPEED;
-    ball.vz = Math.cos(p.facing) * THROW_SPEED;
-    ball.x = p.x + Math.sin(p.facing) * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
-    ball.z = p.z + Math.cos(p.facing) * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
+    ball.bounceDamp = BALL_BOUNCE_DAMP;
+
+    let speed = THROW_SPEED;
+    if (p.characterId === 'buttafuori' && p.aimTime > 0 && !p.aimThrown) {
+      // Primo tiro durante OCCHIO DA POLIGONO: più teso e veloce.
+      p.aimThrown = true;
+      speed = THROW_SPEED * AIM_THROW_SPEED_MULT;
+      ball.bounceDamp = AIM_BOUNCE_DAMP;
+      this.onAbilityFeedback(p, { type: 'buttafuori_charged' });
+    }
+
+    const dirX = Math.sin(p.facing);
+    const dirZ = Math.cos(p.facing);
+    ball.vx = dirX * speed;
+    ball.vz = dirZ * speed;
+    ball.x = p.x + dirX * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
+    ball.z = p.z + dirZ * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
     this.entities.get(p.id)?.playThrow();
     audio.select();
     this.ctx.vibrate(p.id, 40);
     this.ctx.signal(p.id, { type: 'threwBall' });
   }
 
+  private fireTruckBall(p: DodgeballPlayer): void {
+    const idx = p.truckBalls.shift();
+    if (idx === undefined) return;
+    const ball = this.balls[idx];
+    if (!ball || ball.state !== 'held') return;
+    ball.state = 'flying';
+    ball.holderId = null;
+    ball.throwerId = p.id;
+    ball.bounces = 0;
+    ball.life = 0;
+    ball.bounceDamp = BALL_BOUNCE_DAMP;
+    const dirX = Math.sin(p.facing);
+    const dirZ = Math.cos(p.facing);
+    ball.vx = dirX * THROW_SPEED;
+    ball.vz = dirZ * THROW_SPEED;
+    ball.x = p.x + dirX * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
+    ball.z = p.z + dirZ * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
+    this.entities.get(p.id)?.playThrow();
+    audio.select();
+    this.ctx.vibrate(p.id, 45);
+    this.ctx.signal(p.id, { type: 'threwBall' });
+  }
+
   private resolvePlayerCollisions(): void {
-    const list = this.players.filter((p) => p.alive && !p.falling);
+    const list = this.players.filter((p) => p.alive && !p.falling && p.truckTime <= 0 && p.truckBeepTimer <= 0);
     for (let i = 0; i < list.length; i++) {
       for (let j = i + 1; j < list.length; j++) {
         const a = list[i];
@@ -360,65 +473,124 @@ export class BabylonDodgeballGame {
     }
   }
 
+  // ---- Camion (Judoka) ----
+
+  private truckPickup(p: DodgeballPlayer): void {
+    if (p.truckBalls.length >= TRUCK_MAX_BALLS) return;
+    for (let i = 0; i < this.balls.length; i++) {
+      const b = this.balls[i];
+      if (b.state !== 'free') continue;
+      const d = Math.hypot(b.x - p.x, b.z - p.z);
+      if (d < TRUCK_PICKUP_RADIUS) {
+        b.state = 'held';
+        b.holderId = p.id;
+        b.throwerId = null;
+        p.truckBalls.push(i);
+        audio.select();
+        this.ctx.vibrate(p.id, 30);
+        if (p.truckBalls.length >= TRUCK_MAX_BALLS) return;
+      }
+    }
+  }
+
+  private truckPush(p: DodgeballPlayer): void {
+    for (const other of this.players) {
+      if (other.id === p.id || !other.alive || other.falling) continue;
+      const dx = other.x - p.x;
+      const dz = other.z - p.z;
+      const d = Math.hypot(dx, dz);
+      if (d < PLAYER_RADIUS * 2 + 0.3 && d > 0.001) {
+        const front = (dx / d) * p.truckDirX + (dz / d) * p.truckDirZ;
+        if (front > 0.2) {
+          other.vx += (dx / d) * TRUCK_PUSH_POWER;
+          other.vz += (dz / d) * TRUCK_PUSH_POWER;
+          other.stunTime = Math.max(other.stunTime, 0.15);
+        }
+      }
+    }
+  }
+
+  private truckFail(p: DodgeballPlayer): void {
+    p.truckTime = 0;
+    p.stunTime = Math.max(p.stunTime, TRUCK_WALL_STUN);
+    for (const idx of p.truckBalls) {
+      const b = this.balls[idx];
+      if (b) this.dropBall(b);
+    }
+    p.truckBalls = [];
+    this.onAbilityFeedback(p, { type: 'judoka_wall' });
+  }
+
+  // ---- Ciro: esattore ----
+
+  private debtCollector(p: DodgeballPlayer): void {
+    p.debtActive = false;
+    p.debtTimer = 0;
+    this.eliminate(p, 0, 1, null);
+    this.onAbilityFeedback(p, { type: 'ciro_debt_due' });
+  }
+
   // ---- Palloni ----
 
   private updateBalls(dt: number): void {
-    for (let i = 0; i < this.balls.length; i++) {
-      const ball = this.balls[i];
-
+    for (const ball of this.balls) {
       if (ball.state === 'flying') {
         ball.life += dt;
         ball.x += ball.vx * dt;
         ball.z += ball.vz * dt;
 
-        // Rimbalzi sui muri
         if (ball.x > ARENA_HALF_W - BALL_RADIUS) {
           ball.x = ARENA_HALF_W - BALL_RADIUS;
-          ball.vx = -Math.abs(ball.vx) * BALL_BOUNCE_DAMP;
+          ball.vx = -Math.abs(ball.vx) * ball.bounceDamp;
           ball.bounces++;
           audio.tick();
         } else if (ball.x < -ARENA_HALF_W + BALL_RADIUS) {
           ball.x = -ARENA_HALF_W + BALL_RADIUS;
-          ball.vx = Math.abs(ball.vx) * BALL_BOUNCE_DAMP;
+          ball.vx = Math.abs(ball.vx) * ball.bounceDamp;
           ball.bounces++;
           audio.tick();
         }
         if (ball.z > ARENA_HALF_D - BALL_RADIUS) {
           ball.z = ARENA_HALF_D - BALL_RADIUS;
-          ball.vz = -Math.abs(ball.vz) * BALL_BOUNCE_DAMP;
+          ball.vz = -Math.abs(ball.vz) * ball.bounceDamp;
           ball.bounces++;
           audio.tick();
         } else if (ball.z < -ARENA_HALF_D + BALL_RADIUS) {
           ball.z = -ARENA_HALF_D + BALL_RADIUS;
-          ball.vz = Math.abs(ball.vz) * BALL_BOUNCE_DAMP;
+          ball.vz = Math.abs(ball.vz) * ball.bounceDamp;
           ball.bounces++;
           audio.tick();
         }
 
-        // Colpo su giocatore
         for (const p of this.players) {
           if (!p.alive || p.falling) continue;
-          if (ball.throwerId === p.id && ball.life < 0.15) continue; // non colpisce il lanciatore subito
+          if (ball.throwerId === p.id && ball.life < 0.15) continue;
           const dx = p.x - ball.x;
           const dz = p.z - ball.z;
           const dist = Math.hypot(dx, dz);
+
+          // Parata di Goblin
+          if (p.parryTime > 0 && dist < PARRY_RADIUS) {
+            this.reflectBall(ball, p);
+            break;
+          }
+
           if (dist < PLAYER_RADIUS + BALL_RADIUS) {
             this.onBallHitPlayer(ball, p, dx, dz, dist);
             break;
           }
         }
 
-        // Decadimento a palla libera
         const speed = Math.hypot(ball.vx, ball.vz);
         if (ball.bounces >= BALL_MAX_BOUNCES || ball.life >= BALL_MAX_LIFE || speed < 1.5) {
           this.dropBall(ball);
         }
       } else if (ball.state === 'free') {
-        // Pickup: il giocatore più vicino senza palla la raccoglie.
         let best: DodgeballPlayer | null = null;
         let bestD = PICKUP_RADIUS;
         for (const p of this.players) {
           if (!p.alive || p.falling || p.hasBall || p.stunTime > 0) continue;
+          if (p.truckTime > 0 || p.truckBeepTimer > 0 || p.truckBalls.length > 0) continue;
           const d = Math.hypot(p.x - ball.x, p.z - ball.z);
           if (d < bestD) {
             bestD = d;
@@ -437,19 +609,62 @@ export class BabylonDodgeballGame {
     }
   }
 
+  private reflectBall(ball: Ball, goblin: DodgeballPlayer): void {
+    const target = this.reflectTarget(goblin, ball.throwerId);
+    const dx = target.x - goblin.x;
+    const dz = target.z - goblin.z;
+    const d = Math.hypot(dx, dz) || 1;
+    ball.vx = (dx / d) * THROW_SPEED * REFLECT_SPEED_MULT;
+    ball.vz = (dz / d) * THROW_SPEED * REFLECT_SPEED_MULT;
+    ball.throwerId = goblin.id;
+    ball.bounces = 0;
+    ball.life = 0;
+    ball.bounceDamp = BALL_BOUNCE_DAMP;
+    ball.x = goblin.x + (dx / d) * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
+    ball.z = goblin.z + (dz / d) * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
+    goblin.parryTime = 0;
+    audio.hit();
+    this.ctx.vibrate(goblin.id, 80);
+    this.camera.shake(0.2, 160);
+    this.onAbilityFeedback(goblin, { type: 'goblin_reflect' });
+  }
+
+  private reflectTarget(goblin: DodgeballPlayer, originalThrowerId: PlayerId | null): { x: number; z: number } {
+    if (originalThrowerId) {
+      const orig = this.players.find((p) => p.id === originalThrowerId && p.alive && !p.falling);
+      if (orig) return { x: orig.x, z: orig.z };
+    }
+    let best: DodgeballPlayer | null = null;
+    let bestD = Infinity;
+    for (const other of this.players) {
+      if (other.id === goblin.id || !other.alive || other.falling) continue;
+      const d = Math.hypot(other.x - goblin.x, other.z - goblin.z);
+      if (d < bestD) {
+        bestD = d;
+        best = other;
+      }
+    }
+    if (best) return { x: best.x, z: best.z };
+    return { x: goblin.x + Math.sin(goblin.facing), z: goblin.z + Math.cos(goblin.facing) };
+  }
+
   private onBallHitPlayer(ball: Ball, p: DodgeballPlayer, dx: number, dz: number, dist: number): void {
     const nx = dist > 0.001 ? dx / dist : 0;
     const nz = dist > 0.001 ? dz / dist : 0;
     const result = this.abilities.handleIncomingHit(p, (f) => this.onAbilityFeedback(p, f));
 
     if (result === 'survive') {
-      // Colpo assorbito: knockback + palla cade a terra.
-      this.applyKnockback(p, nx, nz, KNOCKBACK_HIT, true);
-      this.dropBall(ball);
+      this.applyKnockback(p, nx, nz, KNOCKBACK_HIT);
+      // La palla rimbalza via.
+      const dot = ball.vx * nx + ball.vz * nz;
+      ball.vx -= 2 * dot * nx;
+      ball.vz -= 2 * dot * nz;
+      ball.vx *= 0.8;
+      ball.vz *= 0.8;
+      ball.bounces++;
       return;
     }
 
-    // Eliminazione
     this.eliminate(p, nx, nz, ball.throwerId);
     this.dropBall(ball);
   }
@@ -462,31 +677,17 @@ export class BabylonDodgeballGame {
     ball.vz = 0;
     ball.bounces = 0;
     ball.life = 0;
-    // Rimane dentro il campo.
     ball.x = Math.max(-ARENA_HALF_W + BALL_RADIUS, Math.min(ARENA_HALF_W - BALL_RADIUS, ball.x));
     ball.z = Math.max(-ARENA_HALF_D + BALL_RADIUS, Math.min(ARENA_HALF_D - BALL_RADIUS, ball.z));
   }
 
-  private applyKnockback(target: DodgeballPlayer, kx: number, kz: number, power: number, dropBall = false): void {
+  private applyKnockback(target: DodgeballPlayer, kx: number, kz: number, power: number): void {
     if (!target.alive || target.falling) return;
-    const mult = target.knockbackResist;
-    target.vx += kx * power * mult;
-    target.vz += kz * power * mult;
+    target.vx += kx * power * target.knockbackResist;
+    target.vz += kz * power * target.knockbackResist;
     target.vy = this.gravityLow ? 5 : 3;
     target.stunTime = Math.max(target.stunTime, STUN_TIME);
     target.hitFlash = 0.16;
-    if (dropBall && target.hasBall) {
-      const held = this.balls.find((b) => b.state === 'held' && b.holderId === target.id);
-      if (held) {
-        target.hasBall = false;
-        held.state = 'free';
-        held.holderId = null;
-        held.throwerId = null;
-        held.vx = 0;
-        held.vz = 0;
-        this.ctx.signal(target.id, { type: 'threwBall' });
-      }
-    }
     this.entities.get(target.id)?.burstHit();
     audio.hit();
     this.ctx.vibrate(target.id, 60);
@@ -502,15 +703,32 @@ export class BabylonDodgeballGame {
     p.vz = nz * 8;
     p.vy = 5;
     if (p.hasBall) {
-      // lascia cadere la palla
       const held = this.balls.find((b) => b.state === 'held' && b.holderId === p.id);
       if (held) this.dropBall(held);
       p.hasBall = false;
       this.ctx.signal(p.id, { type: 'threwBall' });
     }
+    // Palle del camion perse
+    for (const idx of p.truckBalls) {
+      const b = this.balls[idx];
+      if (b) this.dropBall(b);
+    }
+    p.truckBalls = [];
+
     if (throwerId) {
       const thrower = this.players.find((x) => x.id === throwerId);
-      if (thrower) thrower.eliminations++;
+      if (thrower) {
+        thrower.eliminations++;
+        // Ciro: cancella il debito se colpisce un avversario.
+        if (thrower.debtActive) {
+          thrower.debtActive = false;
+          thrower.debtTimer = 0;
+          this.onAbilityFeedback(thrower, { type: 'ciro_debt_cancelled' });
+        }
+      }
+    }
+    if (p.characterId === 'dottore' && p.visionTime > 0) {
+      this.onAbilityFeedback(p, { type: 'dottore_hit_anyway' });
     }
     audio.wrong();
     this.entities.get(p.id)?.burstHit();
@@ -518,6 +736,105 @@ export class BabylonDodgeballGame {
     this.hud.feedMessage(`${p.avatar} ${p.name.toUpperCase()} È FUORI!`, '#f87171');
     this.ctx.signal(p.id, { type: 'eliminated' });
     this.hud.setAlive(this.players.filter((x) => x.alive).length);
+  }
+
+  // ---- Traiettorie (mira / visione) ----
+
+  private computePath(sx: number, sz: number, dirX: number, dirZ: number): { x: number; z: number }[] {
+    const pts: { x: number; z: number }[] = [];
+    let x = sx;
+    let z = sz;
+    let dx = dirX;
+    let dz = dirZ;
+    let bounces = 0;
+    for (let i = 0; i < 20; i++) {
+      x += dx * 0.7;
+      z += dz * 0.7;
+      if (x > ARENA_HALF_W - BALL_RADIUS) {
+        x = ARENA_HALF_W - BALL_RADIUS;
+        dx = -Math.abs(dx);
+        bounces++;
+      } else if (x < -ARENA_HALF_W + BALL_RADIUS) {
+        x = -ARENA_HALF_W + BALL_RADIUS;
+        dx = Math.abs(dx);
+        bounces++;
+      }
+      if (z > ARENA_HALF_D - BALL_RADIUS) {
+        z = ARENA_HALF_D - BALL_RADIUS;
+        dz = -Math.abs(dz);
+        bounces++;
+      } else if (z < -ARENA_HALF_D + BALL_RADIUS) {
+        z = -ARENA_HALF_D + BALL_RADIUS;
+        dz = Math.abs(dz);
+        bounces++;
+      }
+      if (bounces > 2) break;
+      pts.push({ x, z });
+    }
+    return pts;
+  }
+
+  private setDots(dots: Mesh[], pts: { x: number; z: number }[], mat: StandardMaterial, y: number): void {
+    for (let i = 0; i < dots.length; i++) {
+      const d = dots[i];
+      if (i < pts.length) {
+        d.position.set(pts[i].x, y, pts[i].z);
+        if (d.material !== mat) d.material = mat;
+        d.isVisible = true;
+      } else {
+        d.isVisible = false;
+      }
+    }
+  }
+
+  private updateTrajectories(now: number): void {
+    const aimer = this.players.find((p) => p.aimTime > 0 && !p.aimThrown && p.alive && !p.falling);
+    if (aimer) {
+      const dirX = Math.sin(aimer.facing);
+      const dirZ = Math.cos(aimer.facing);
+      const sx = aimer.x + dirX * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
+      const sz = aimer.z + dirZ * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
+      this.setDots(this.aimDots, this.computePath(sx, sz, dirX, dirZ), this.aimMat, BALL_HEIGHT);
+    } else {
+      this.setDots(this.aimDots, [], this.aimMat, BALL_HEIGHT);
+    }
+
+    const doc = this.players.find((p) => p.visionTime > 0 && p.alive && !p.falling);
+    if (doc) {
+      let idx = 0;
+      let dangerNear = false;
+      for (const ball of this.balls) {
+        if (ball.state !== 'flying') continue;
+        const speed = Math.hypot(ball.vx, ball.vz) || 1;
+        const bx = ball.vx / speed;
+        const bz = ball.vz / speed;
+        const toX = doc.x - ball.x;
+        const toZ = doc.z - ball.z;
+        const toD = Math.hypot(toX, toZ) || 1;
+        const danger = (bx * toX + bz * toZ) / toD > 0.85 && toD < 9;
+        if (danger) dangerNear = true;
+        let x = ball.x;
+        let z = ball.z;
+        for (let k = 0; k < 6 && idx < this.visionDots.length; k++) {
+          x += bx * 0.8;
+          z += bz * 0.8;
+          const d = this.visionDots[idx];
+          d.position.set(x, BALL_HEIGHT, z);
+          d.material = danger ? this.dangerMat : this.visionMat;
+          d.isVisible = true;
+          idx++;
+        }
+      }
+      for (let i = idx; i < this.visionDots.length; i++) this.visionDots[i].isVisible = false;
+
+      if (dangerNear && now - this.lastDangerWarn > 450) {
+        this.lastDangerWarn = now;
+        this.ctx.vibrate(doc.id, 45);
+        doc.hitFlash = Math.max(doc.hitFlash, 0.1);
+      }
+    } else {
+      this.setDots(this.visionDots, [], this.visionMat, BALL_HEIGHT);
+    }
   }
 
   // ---- Vittoria / risultati ----
@@ -559,48 +876,90 @@ export class BabylonDodgeballGame {
 
   private onAbilityFeedback(p: DodgeballPlayer, f: DodgeballAbilityFeedback): void {
     switch (f.type) {
-      case 'goblin_nculo':
-        this.hud.feedMessage(`${p.avatar} NCULO!`, '#10b981');
-        this.ctx.signal(p.id, { type: 'ability', name: 'NCULO!' });
-        audio.boost();
-        this.ctx.vibrate(p.id, 80);
-        break;
-      case 'buttafuori_impegno':
-        this.hud.feedMessage(`${p.avatar} MO M'IMPEGNO!`, '#f97316');
-        this.ctx.signal(p.id, { type: 'ability', name: "MO M'IMPEGNO" });
+      case 'goblin_parry':
+        this.hud.feedMessage(`${p.avatar} N'CULO, RIPIGLIATELA!`, '#10b981');
+        this.ctx.signal(p.id, { type: 'ability', name: "N'CULO, RIPIGLIATELA!" });
         audio.select();
-        this.ctx.vibrate(p.id, 80);
+        this.ctx.vibrate(p.id, 60);
         break;
-      case 'dottore_light':
-        this.hud.feedMessage(`${p.avatar} 20 KG IN UN MESE!`, '#22d3ee');
-        this.ctx.signal(p.id, { type: 'ability', name: '20 KG IN UN MESE' });
-        audio.select();
-        this.ctx.vibrate(p.id, 80);
+      case 'goblin_reflect':
+        this.hud.feedMessage(`${p.avatar} RIPIGLIATELA! → rimandata!`, '#10b981');
+        this.ctx.signal(p.id, { type: 'parry_ok' });
         break;
-      case 'judoka_ippon':
-        this.hud.feedMessage(`${p.avatar} IPPON!`, '#facc15');
-        this.ctx.signal(p.id, { type: 'ability', name: 'IPPON' });
-        audio.hit();
-        this.ctx.vibrate(p.id, 110);
+      case 'goblin_whiff':
+        this.ctx.signal(p.id, { type: 'parry_miss' });
         break;
-      case 'ciro_arm':
-        this.hud.feedMessage(`${p.avatar} PAGO DOPO!`, '#a78bfa');
-        this.ctx.signal(p.id, { type: 'ability', name: 'PAGO DOPO' });
+      case 'buttafuori_aim':
+        this.hud.feedMessage(`${p.avatar} OCCHIO DA POLIGONO!`, '#f97316');
+        this.ctx.signal(p.id, { type: 'ability', name: 'OCCHIO DA POLIGONO' });
         audio.select();
         this.ctx.vibrate(p.id, 70);
         break;
-      case 'buttafuori_saved':
-        this.hud.feedMessage(`${p.avatar} RIBALTATO MA NON MORTO!`, '#f97316');
-        this.ctx.signal(p.id, { type: 'saved' });
+      case 'buttafuori_charged':
+        this.ctx.signal(p.id, { type: 'charged' });
+        audio.boost();
+        break;
+      case 'dottore_vision':
+        this.hud.feedMessage(`${p.avatar} TRE MESI DOPO!`, '#22d3ee');
+        this.ctx.signal(p.id, { type: 'ability', name: 'TRE MESI DOPO' });
+        audio.select();
+        this.ctx.vibrate(p.id, 70);
+        break;
+      case 'dottore_hit_anyway':
+        this.hud.feedMessage(`${p.avatar} ERA SOLO UN PERIODO.`, '#22d3ee');
+        this.ctx.signal(p.id, { type: 'era_solo' });
+        break;
+      case 'judoka_beep':
+        this.hud.feedMessage(`${p.avatar} 🚚 CARICO E SCARICO!`, '#facc15');
+        this.ctx.signal(p.id, { type: 'ability', name: 'CARICO E SCARICO' });
+        this.playTruckBeeps();
+        break;
+      case 'judoka_truck':
+        this.hud.feedMessage(`🚚 BIP BIP BIP!`, '#facc15');
+        this.ctx.signal(p.id, { type: 'truck_go' });
+        audio.boost();
+        break;
+      case 'judoka_scarica':
+        this.hud.feedMessage(`${p.avatar} SCARICA!`, '#facc15');
+        this.ctx.signal(p.id, { type: 'scarica' });
+        break;
+      case 'judoka_wall':
+        this.hud.feedMessage(`${p.avatar} CONSEGNA FALLITA 💀`, '#f87171');
+        this.ctx.signal(p.id, { type: 'truck_fail' });
         audio.hit();
         this.ctx.vibrate(p.id, 120);
         break;
-      case 'ciro_saved':
-        this.hud.feedMessage(`${p.avatar} PAGO DOPO — colpo respinto!`, '#a78bfa');
-        this.ctx.signal(p.id, { type: 'saved' });
+      case 'ciro_arm':
+        this.hud.feedMessage(`${p.avatar} PAGO DOMANI!`, '#a78bfa');
+        this.ctx.signal(p.id, { type: 'ability', name: 'PAGO DOMANI' });
+        audio.select();
+        this.ctx.vibrate(p.id, 70);
+        break;
+      case 'ciro_debt':
+        this.hud.feedMessage(`${p.avatar} DEBITO! Colpisci qualcuno!`, '#a78bfa');
+        this.ctx.signal(p.id, { type: 'debt' });
         audio.hit();
         this.ctx.vibrate(p.id, 110);
         break;
+      case 'ciro_debt_cancelled':
+        this.hud.feedMessage(`${p.avatar} DEBITO SALDATO!`, '#4ade80');
+        this.ctx.signal(p.id, { type: 'debt_ok' });
+        audio.select();
+        break;
+      case 'ciro_debt_due':
+        this.hud.feedMessage(`${p.avatar} ESATTORE! DEBITO RISCOSSO 💀`, '#f472b6');
+        this.ctx.signal(p.id, { type: 'debt_due' });
+        audio.wrong();
+        this.ctx.vibrate(p.id, 130);
+        break;
+    }
+  }
+
+  private playTruckBeeps(): void {
+    for (let i = 0; i < 3; i++) {
+      window.setTimeout(() => {
+        if (!this.disposed) audio.tick();
+      }, i * 300);
     }
   }
 
@@ -616,17 +975,21 @@ export class BabylonDodgeballGame {
         const entity = holder ? this.entities.get(holder.id) : null;
         if (entity && holder) {
           const h = entity.handAnchor;
-          // Ruota l'ancora locale della mano secondo l'orientamento del personaggio.
           const sinF = Math.sin(holder.facing);
           const cosF = Math.cos(holder.facing);
           const lx = h.x * cosF + h.z * sinF;
           const lz = -h.x * sinF + h.z * cosF;
-          mesh.position.set(holder.x + lx, holder.y + h.y, holder.z + lz);
+          // Palloni del camion: leggermente sfalsati.
+          let off = 0;
+          if (holder.truckBalls.length > 1) {
+            const pos = holder.truckBalls.indexOf(i);
+            off = pos * 0.45;
+          }
+          mesh.position.set(holder.x + lx + off, holder.y + h.y, holder.z + lz + off * 0.3);
         }
       } else {
         mesh.position.set(ball.x, BALL_HEIGHT, ball.z);
       }
-      // rotazione decorativa
       mesh.rotation.y += 0.08;
       mesh.rotation.x += 0.05;
     }

@@ -19,7 +19,7 @@ export const DODGE_INVULN = 0.3;
 export const THROW_SPEED = 24;
 export const BALL_BOUNCE_DAMP = 0.82;
 export const BALL_MAX_BOUNCES = 3;
-export const BALL_MAX_LIFE = 4; // secondi in volo prima di cadere
+export const BALL_MAX_LIFE = 4;
 export const PICKUP_RADIUS = 1.6;
 
 export const KNOCKBACK_HIT = 8;
@@ -27,6 +27,32 @@ export const STUN_TIME = 0.4;
 export const GRAVITY = 26;
 
 export const BALL_COUNT_MAX = 3;
+
+// Goblin "N'CULO, RIPIGLIATELA!"
+export const PARRY_TIME = 0.42;
+export const PARRY_RADIUS = 1.9;
+export const REFLECT_SPEED_MULT = 1.45;
+
+// Buttafuori "OCCHIO DA POLIGONO"
+export const AIM_TIME = 5;
+export const AIM_THROW_SPEED_MULT = 1.4;
+export const AIM_BOUNCE_DAMP = 0.93;
+
+// Dottore "TRE MESI DOPO"
+export const VISION_TIME = 6;
+
+// Judoka "CARICO E SCARICO"
+export const TRUCK_BEEP_TIME = 0.9;
+export const TRUCK_TIME = 1.4;
+export const TRUCK_SPEED = 11;
+export const TRUCK_PICKUP_RADIUS = 2.3;
+export const TRUCK_MAX_BALLS = 2;
+export const TRUCK_WALL_STUN = 0.5;
+export const TRUCK_PUSH_POWER = 6;
+
+// Ciro "PAGO DOMANI"
+export const CIRO_ARM_WINDOW = 4;
+export const CIRO_DEBT_TIME = 4;
 
 export type BallState = 'free' | 'held' | 'flying';
 
@@ -40,6 +66,8 @@ export interface Ball {
   throwerId: PlayerId | null;
   bounces: number;
   life: number;
+  /** Bounce damping personalizzato (Buttafuori con OCCHIO DA POLIGONO tira "più teso"). */
+  bounceDamp: number;
 }
 
 export interface DodgeballPlayer {
@@ -72,11 +100,30 @@ export interface DodgeballPlayer {
 
   // Abilità (una volta a partita)
   abilityUsed: boolean;
-  abilityTimer: number;
-  knockbackResist: number; // moltiplicatore knockback SUBITO
-  speedMult: number;
-  knockMult: number;
-  deferArmed: boolean; // Ciro
+  knockbackResist: number; // moltiplicatore knockback SUBITO (<1 = resiste)
+
+  // Goblin: finestra di parata
+  parryTime: number;
+
+  // Buttafuori: finestra di mira + primo tiro potenziato
+  aimTime: number;
+  aimThrown: boolean;
+
+  // Dottore: visione delle traiettorie in arrivo
+  visionTime: number;
+
+  // Judoka: modalità camion
+  truckTime: number;
+  truckBeepTimer: number;
+  truckDirX: number;
+  truckDirZ: number;
+  truckBalls: number[]; // indici nella lista palloni del gioco
+
+  // Ciro: debito
+  deferArmed: boolean;
+  armTimer: number;
+  debtActive: boolean;
+  debtTimer: number;
 }
 
 export function createDodgeballPlayer(
@@ -111,14 +158,34 @@ export function createDodgeballPlayer(
     hitFlash: 0,
     eliminations: 0,
     abilityUsed: false,
-    abilityTimer: 0,
     knockbackResist: 1,
-    speedMult: 1,
-    knockMult: 1,
-    deferArmed: false
+    parryTime: 0,
+    aimTime: 0,
+    aimThrown: false,
+    visionTime: 0,
+    truckTime: 0,
+    truckBeepTimer: 0,
+    truckDirX: 0,
+    truckDirZ: 0,
+    truckBalls: [],
+    deferArmed: false,
+    armTimer: 0,
+    debtActive: false,
+    debtTimer: 0
   };
 }
 
 export function createBall(): Ball {
-  return { x: 0, z: 0, vx: 0, vz: 0, state: 'free', holderId: null, throwerId: null, bounces: 0, life: 0 };
+  return {
+    x: 0,
+    z: 0,
+    vx: 0,
+    vz: 0,
+    state: 'free',
+    holderId: null,
+    throwerId: null,
+    bounces: 0,
+    life: 0,
+    bounceDamp: BALL_BOUNCE_DAMP
+  };
 }

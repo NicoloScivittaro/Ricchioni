@@ -19,7 +19,9 @@ export class ArenaCamera {
   private shakeAmp = 0;
 
   constructor(scene: Scene, canvas: HTMLCanvasElement) {
-    this.camera = new ArcRotateCamera('arenaCam', -Math.PI / 2, 1.12, 24, new Vector3(0, 1.2, 0), scene);
+    // alpha=0 → camera dietro il campo (asse +Z) che guarda verso -Z: così
+    // "destra" sul joystick = destra sullo schermo e "su" = avanti (lontano).
+    this.camera = new ArcRotateCamera('arenaCam', 0, 1.12, 24, new Vector3(0, 1.2, 0), scene);
     this.camera.lowerRadiusLimit = 14;
     this.camera.upperRadiusLimit = 42;
     this.camera.lowerBetaLimit = 0.75;

@@ -437,9 +437,49 @@ function handleDodgeballSignal(s: SignalPayload): void {
       showToast(`⭐ ${s.name ?? 'ABILITÀ'}`);
       vibrate(70);
       break;
-    case 'saved':
-      showToast('🛡 Colpo respinto!');
-      vibrate(120);
+    case 'parry_ok':
+      showToast("↩️ RIPIGLIATELA! Rimandata al mittente!");
+      vibrate(110);
+      break;
+    case 'parry_miss':
+      showToast('😵 Parata a vuoto...');
+      break;
+    case 'charged':
+      showToast('💥 Tiro potenziato!');
+      vibrate(60);
+      break;
+    case 'era_solo':
+      showToast('🤦 ERA SOLO UN PERIODO.');
+      vibrate(90);
+      break;
+    case 'truck_go':
+      if (dbStatusEl) dbStatusEl.textContent = '🚚 BIP BIP BIP!';
+      vibrate([60, 40, 60]);
+      break;
+    case 'scarica':
+      if (dbStatusEl) dbStatusEl.textContent = '🔫 SCARICA! Spara i palloni!';
+      vibrate(90);
+      showToast('🔫 SCARICA!');
+      break;
+    case 'truck_fail':
+      if (dbStatusEl) dbStatusEl.textContent = '💀 CONSEGNA FALLITA';
+      vibrate([100, 60, 100]);
+      showToast('💀 CONSEGNA FALLITA');
+      break;
+    case 'debt':
+      if (dbStatusEl) dbStatusEl.textContent = '💸 DEBITO! Colpisci qualcuno!';
+      vibrate([80, 40, 80]);
+      showToast('💸 DEBITO! Colpisci qualcuno!');
+      break;
+    case 'debt_ok':
+      if (dbStatusEl) dbStatusEl.textContent = '✅ DEBITO SALDATO!';
+      showToast('✅ DEBITO SALDATO!');
+      vibrate(60);
+      break;
+    case 'debt_due':
+      if (dbStatusEl) dbStatusEl.textContent = '💀 ESATTORE!';
+      vibrate([100, 60, 100]);
+      showToast('💀 ESATTORE!');
       break;
     case 'gotBall':
       if (dbStatusEl) dbStatusEl.textContent = '🏐 HAI LA PALLA!';
