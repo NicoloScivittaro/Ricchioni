@@ -6,7 +6,8 @@ import {
   StandardMaterial,
   VertexData,
   Scene,
-  TransformNode
+  TransformNode,
+  DynamicTexture
 } from '@babylonjs/core';
 
 /**
@@ -241,9 +242,14 @@ function buildRibbon(scene: Scene, spline: TrackSpline, parent: TransformNode): 
     const rightP = pos.add(right.scale(half));
     positions.push(left.x, left.y, left.z, rightP.x, rightP.y, rightP.z);
 
-    // Asfalto a bande leggere verso il centro, cordolo rosso/bianco ai bordi esterni.
+    // Asfalto a bande leggere verso il centro + un po' di rumore (segni di
+    // gomme/usura) così non è una superficie perfettamente piatta.
     const stripe = Math.floor(idx / 6) % 2 === 0 ? asphaltA : asphaltB;
-    colors.push(stripe[0], stripe[1], stripe[2], 1, stripe[0], stripe[1], stripe[2], 1);
+    const noise = Math.abs(Math.sin(idx * 12.9898) * 43758.5453) % 1;
+    const noise2 = Math.abs(Math.sin(idx * 78.233) * 12543.61) % 1;
+    const wearL = 1 + (noise - 0.5) * 0.16;
+    const wearR = 1 + (noise2 - 0.5) * 0.16;
+    colors.push(stripe[0] * wearL, stripe[1] * wearL, stripe[2] * wearL, 1, stripe[0] * wearR, stripe[1] * wearR, stripe[2] * wearR, 1);
   }
 
   // Sovrascrive un piccolo margine ai bordi con il colore del cordolo.
@@ -386,6 +392,203 @@ function palmTree(scene: Scene, pos: Vector3, parent: TransformNode, scale: numb
   }
 }
 
+function bush(scene: Scene, pos: Vector3, parent: TransformNode, scale: number): void {
+  const mat = new StandardMaterial('bushMat', scene);
+  const tone = 0.36 + Math.random() * 0.18;
+  mat.diffuseColor = new Color3(0.14, tone, 0.18);
+  for (let i = 0; i < 3; i++) {
+    const s = MeshBuilder.CreateSphere('bushBlob', { diameter: (0.85 + Math.random() * 0.45) * scale, segments: 6 }, scene);
+    s.position = pos.add(new Vector3((Math.random() - 0.5) * 0.6 * scale, 0.32 * scale + Math.random() * 0.2, (Math.random() - 0.5) * 0.6 * scale));
+    s.material = mat;
+    s.parent = parent;
+  }
+}
+
+function lampPost(scene: Scene, pos: Vector3, parent: TransformNode): void {
+  const poleMat = new StandardMaterial('lampPoleMat', scene);
+  poleMat.diffuseColor = new Color3(0.14, 0.14, 0.17);
+
+  const pole = MeshBuilder.CreateCylinder('lampPole', { height: 4.2, diameter: 0.14, tessellation: 8 }, scene);
+  pole.position = pos.add(new Vector3(0, 2.1, 0));
+  pole.material = poleMat;
+  pole.parent = parent;
+
+  const arm = MeshBuilder.CreateCylinder('lampArm', { height: 0.7, diameter: 0.08, tessellation: 6 }, scene);
+  arm.position = pos.add(new Vector3(0, 4.05, 0.3));
+  arm.rotation.x = Math.PI / 2.4;
+  arm.material = poleMat;
+  arm.parent = parent;
+
+  const headMat = new StandardMaterial('lampHeadMat', scene);
+  headMat.diffuseColor = new Color3(1, 0.92, 0.7);
+  headMat.emissiveColor = new Color3(0.85, 0.7, 0.32);
+  const head = MeshBuilder.CreateSphere('lampHead', { diameter: 0.32, segments: 6 }, scene);
+  head.position = pos.add(new Vector3(0, 4.35, 0.55));
+  head.material = headMat;
+  head.parent = parent;
+}
+
+let signPanelCounter = 0;
+
+/** Pannello con testo renderizzato via canvas (DynamicTexture) — riusabile per cartelli/insegne. */
+function buildSignPanel(
+  scene: Scene,
+  pos: Vector3,
+  parent: TransformNode,
+  text: string,
+  bg: string,
+  fg: string,
+  width = 2.6,
+  height = 1.3
+): void {
+  signPanelCounter++;
+  const dt = new DynamicTexture(`signTex_${signPanelCounter}`, { width: 256, height: 128 }, scene, false);
+  const c = dt.getContext() as unknown as CanvasRenderingContext2D;
+  c.fillStyle = bg;
+  c.fillRect(0, 0, 256, 128);
+  c.strokeStyle = fg;
+  c.lineWidth = 6;
+  c.strokeRect(6, 6, 244, 116);
+  c.fillStyle = fg;
+  c.font = 'bold 40px Arial';
+  c.textAlign = 'center';
+  c.textBaseline = 'middle';
+  c.fillText(text, 128, 66);
+  dt.update();
+
+  const panel = MeshBuilder.CreatePlane('signPanel', { width, height }, scene);
+  panel.position = pos;
+  const mat = new StandardMaterial(`signMat_${signPanelCounter}`, scene);
+  mat.diffuseTexture = dt;
+  mat.emissiveColor = new Color3(0.3, 0.3, 0.3);
+  mat.backFaceCulling = false;
+  panel.material = mat;
+  panel.parent = parent;
+}
+
+/** Cartello autoportante su palo (insegne "inside joke": Gusto, Granita, Kebab...). */
+function signpost(scene: Scene, pos: Vector3, parent: TransformNode, text: string, bg: string, fg: string): void {
+  const postMat = new StandardMaterial('signPostMat', scene);
+  postMat.diffuseColor = new Color3(0.28, 0.28, 0.3);
+  const post = MeshBuilder.CreateCylinder('signPost', { height: 2.6, diameter: 0.16, tessellation: 8 }, scene);
+  post.position = pos.add(new Vector3(0, 1.3, 0));
+  post.material = postMat;
+  post.parent = parent;
+  buildSignPanel(scene, pos.add(new Vector3(0, 2.7, 0)), parent, text, bg, fg);
+}
+
+const KIOSK_STRIPES = [new Color3(0.86, 0.2, 0.22), new Color3(0.15, 0.5, 0.75), new Color3(0.95, 0.75, 0.15)];
+
+function kiosk(scene: Scene, pos: Vector3, parent: TransformNode, label: string, stripeIdx: number): void {
+  const bodyMat = new StandardMaterial('kioskBodyMat', scene);
+  bodyMat.diffuseColor = new Color3(0.94, 0.91, 0.84);
+  const body = MeshBuilder.CreateBox('kioskBody', { width: 2.6, height: 2, depth: 2 }, scene);
+  body.position = pos.add(new Vector3(0, 1, 0));
+  body.material = bodyMat;
+  body.parent = parent;
+
+  const stripe = KIOSK_STRIPES[stripeIdx % KIOSK_STRIPES.length];
+  const awningMat = new StandardMaterial('kioskAwningMat', scene);
+  awningMat.diffuseColor = stripe;
+  const awning = MeshBuilder.CreateBox('kioskAwning', { width: 3, height: 0.16, depth: 1.3 }, scene);
+  awning.position = pos.add(new Vector3(0, 2.15, 1.1));
+  awning.rotation.x = -0.22;
+  awning.material = awningMat;
+  awning.parent = parent;
+
+  buildSignPanel(scene, pos.add(new Vector3(0, 1.15, 1.02)), parent, label, '#14161c', '#fbbf24', 2, 0.9);
+}
+
+function boat(scene: Scene, pos: Vector3, rotY: number, parent: TransformNode, hull: Color3): void {
+  const hullMat = new StandardMaterial('boatHullMat', scene);
+  hullMat.diffuseColor = hull;
+  const body = MeshBuilder.CreateCylinder('boatHull', { height: 4.4, diameterTop: 1.5, diameterBottom: 0.25, tessellation: 8 }, scene);
+  body.rotation.x = Math.PI / 2;
+  body.rotation.y = rotY;
+  body.position = pos.add(new Vector3(0, 0.5, 0));
+  body.material = hullMat;
+  body.parent = parent;
+
+  const cabinMat = new StandardMaterial('boatCabinMat', scene);
+  cabinMat.diffuseColor = new Color3(0.92, 0.92, 0.9);
+  const cabin = MeshBuilder.CreateBox('boatCabin', { width: 1, height: 0.8, depth: 1.1 }, scene);
+  cabin.rotation.y = rotY;
+  cabin.position = pos.add(new Vector3(0, 1.1, 0)).add(new Vector3(Math.sin(rotY), 0, Math.cos(rotY)).scale(0.5));
+  cabin.material = cabinMat;
+  cabin.parent = parent;
+
+  const mastMat = new StandardMaterial('boatMastMat', scene);
+  mastMat.diffuseColor = new Color3(0.8, 0.78, 0.72);
+  const mast = MeshBuilder.CreateCylinder('boatMast', { height: 2.2, diameter: 0.06, tessellation: 6 }, scene);
+  mast.rotation.y = rotY;
+  mast.position = pos.add(new Vector3(0, 1.9, 0)).add(new Vector3(Math.sin(rotY), 0, Math.cos(rotY)).scale(-0.3));
+  mast.material = mastMat;
+  mast.parent = parent;
+}
+
+function pier(scene: Scene, pos: Vector3, rotY: number, parent: TransformNode): void {
+  const mat = new StandardMaterial('pierMat', scene);
+  mat.diffuseColor = new Color3(0.45, 0.33, 0.2);
+  const deck = MeshBuilder.CreateBox('pierDeck', { width: 5, height: 0.3, depth: 18 }, scene);
+  deck.position = pos;
+  deck.rotation.y = rotY;
+  deck.material = mat;
+  deck.parent = parent;
+  for (const side of [-1, 1]) {
+    for (let i = 0; i < 4; i++) {
+      const piling = MeshBuilder.CreateCylinder('pierPiling', { height: 2.4, diameter: 0.3, tessellation: 6 }, scene);
+      const local = new Vector3(side * 2.2, -1.2, -8 + i * 5.3);
+      const rotated = new Vector3(
+        local.x * Math.cos(rotY) + local.z * Math.sin(rotY),
+        local.y,
+        -local.x * Math.sin(rotY) + local.z * Math.cos(rotY)
+      );
+      piling.position = pos.add(rotated);
+      piling.material = mat;
+      piling.parent = parent;
+    }
+  }
+}
+
+const BUILDING_PALETTE: [Color3, Color3][] = [
+  [new Color3(0.92, 0.74, 0.55), new Color3(0.75, 0.3, 0.26)], // terracotta / tetto rosso
+  [new Color3(0.95, 0.92, 0.82), new Color3(0.35, 0.55, 0.68)], // bianco / tetto blu
+  [new Color3(0.93, 0.78, 0.42), new Color3(0.6, 0.28, 0.22)], // ocra / tetto mattone
+  [new Color3(0.96, 0.82, 0.8), new Color3(0.4, 0.42, 0.46)], // rosa pallido / tetto grigio
+  [new Color3(0.88, 0.88, 0.9), new Color3(0.72, 0.32, 0.3)] // grigio chiaro / tetto rosso
+];
+
+function building(scene: Scene, pos: Vector3, parent: TransformNode, paletteIdx: number, w: number, h: number, d: number): void {
+  const [wallColor, roofColor] = BUILDING_PALETTE[paletteIdx % BUILDING_PALETTE.length];
+  const wallMat = new StandardMaterial('buildingMat', scene);
+  wallMat.diffuseColor = wallColor;
+  const box = MeshBuilder.CreateBox('building', { width: w, height: h, depth: d }, scene);
+  box.position = pos.add(new Vector3(0, h / 2, 0));
+  box.material = wallMat;
+  box.parent = parent;
+
+  const roofMat = new StandardMaterial('roofMat', scene);
+  roofMat.diffuseColor = roofColor;
+  const roof = MeshBuilder.CreateBox('roof', { width: w + 0.6, height: 0.9, depth: d + 0.6 }, scene);
+  roof.position = box.position.add(new Vector3(0, h / 2 + 0.45, 0));
+  roof.material = roofMat;
+  roof.parent = parent;
+
+  // Finestrelle: piccoli riquadri scuri, giusto per rompere la superficie piatta.
+  const winMat = new StandardMaterial('windowMat', scene);
+  winMat.diffuseColor = new Color3(0.15, 0.2, 0.26);
+  winMat.emissiveColor = new Color3(0.08, 0.1, 0.13);
+  const rows = h > 7 ? 2 : 1;
+  for (let row = 0; row < rows; row++) {
+    for (const wx of [-w * 0.25, w * 0.25]) {
+      const win = MeshBuilder.CreateBox('window', { width: w * 0.22, height: 0.7, depth: 0.05 }, scene);
+      win.position = box.position.add(new Vector3(wx, h * 0.2 + row * 1.6 - h * 0.1, d / 2 + 0.03));
+      win.material = winMat;
+      win.parent = parent;
+    }
+  }
+}
+
 function buildEnvironment(scene: Scene, spline: TrackSpline, parent: TransformNode): void {
   const ground = MeshBuilder.CreateGround('ground', { width: 900, height: 900, subdivisions: 2 }, scene);
   ground.position.y = -1.8;
@@ -402,37 +605,87 @@ function buildEnvironment(scene: Scene, spline: TrackSpline, parent: TransformNo
   sea.material = seaMat;
 
   const slices = spline.sampleCount;
-  for (let i = 0; i < slices; i += 18) {
+
+  // Vegetazione: palme + cespugli alternati, più fitta di prima.
+  for (let i = 0; i < slices; i += 11) {
     const s = (i / slices) * spline.totalLength;
     const pos = spline.positionAt(s);
     const right = spline.rightAt(s);
     const half = spline.widthAt(s) / 2;
-    const side = i % 36 === 0 ? -1 : 1;
-    const off = half + 6 + Math.random() * 6;
-    palmTree(scene, pos.add(right.scale(side * off)), parent, 0.9 + Math.random() * 0.4);
+    const side = i % 22 === 0 ? -1 : 1;
+    const off = half + 5.5 + Math.random() * 6;
+    if (i % 33 < 11) {
+      palmTree(scene, pos.add(right.scale(side * off)), parent, 0.85 + Math.random() * 0.45);
+    } else {
+      bush(scene, pos.add(right.scale(side * off * 0.7)), parent, 0.8 + Math.random() * 0.5);
+    }
   }
 
-  const buildingMat = new StandardMaterial('buildingMat', scene);
-  buildingMat.diffuseColor = new Color3(0.92, 0.74, 0.55);
-  const roofMat = new StandardMaterial('roofMat', scene);
-  roofMat.diffuseColor = new Color3(0.75, 0.3, 0.26);
-  const buildingSpots = [0.02, 0.5, 0.52, 0.98];
-  for (const f of buildingSpots) {
+  // Lampioni lungo la pista, passo regolare, lato alternato.
+  for (let i = 0; i < slices; i += 26) {
+    const s = (i / slices) * spline.totalLength;
+    const pos = spline.positionAt(s);
+    const right = spline.rightAt(s);
+    const half = spline.widthAt(s) / 2;
+    const side = i % 52 === 0 ? -1 : 1;
+    lampPost(scene, pos.add(right.scale(side * (half + 2.2))), parent);
+  }
+
+  // Edifici mediterranei colorati, molti di più e più vicini alla pista.
+  const buildingSpots = [0.015, 0.06, 0.47, 0.5, 0.53, 0.56, 0.7, 0.73, 0.93, 0.965];
+  buildingSpots.forEach((f, idx) => {
     const s = f * spline.totalLength;
     const pos = spline.positionAt(s);
     const right = spline.rightAt(s);
     const half = spline.widthAt(s) / 2;
-    const bx = pos.add(right.scale(-(half + 14)));
-    const w = 8 + Math.random() * 6;
-    const h = 6 + Math.random() * 5;
-    const box = MeshBuilder.CreateBox('building', { width: w, height: h, depth: 8 }, scene);
-    box.position = bx.add(new Vector3(0, h / 2, 0));
-    box.material = buildingMat;
-    box.parent = parent;
-    const roof = MeshBuilder.CreateBox('roof', { width: w + 0.6, height: 1, depth: 8.6 }, scene);
-    roof.position = box.position.add(new Vector3(0, h / 2 + 0.5, 0));
-    roof.material = roofMat;
-    roof.parent = parent;
+    const bx = pos.add(right.scale(-(half + 12 + Math.random() * 4)));
+    const w = 7 + Math.random() * 5;
+    const h = 5 + Math.random() * 6;
+    const d = 7 + Math.random() * 3;
+    building(scene, bx, parent, idx, w, h, d);
+  });
+
+  // Chioschi con le insegne inside-joke, sui rettilinei.
+  const kioskSpots: [number, string, number][] = [
+    [0.09, 'GUSTO', 0],
+    [0.46, 'GRANITA', 1],
+    [0.6, 'KEBAB', 2],
+    [0.75, 'CASA DI CARBO', 0]
+  ];
+  for (const [f, label, stripeIdx] of kioskSpots) {
+    const s = f * spline.totalLength;
+    const pos = spline.positionAt(s);
+    const right = spline.rightAt(s);
+    const half = spline.widthAt(s) / 2;
+    kiosk(scene, pos.add(right.scale(half + 4.5)), parent, label, stripeIdx);
+  }
+
+  // Cartelli stradali sparsi (nomi delle località + un'insegna assurda).
+  const signSpots: [number, string][] = [
+    [0.2, 'NETTUNO'],
+    [0.38, 'ANZIO'],
+    [0.63, 'LIDL →']
+  ];
+  for (const [f, label] of signSpots) {
+    const s = f * spline.totalLength;
+    const pos = spline.positionAt(s);
+    const right = spline.rightAt(s);
+    const half = spline.widthAt(s) / 2;
+    const side = Math.random() < 0.5 ? -1 : 1;
+    signpost(scene, pos.add(right.scale(side * (half + 3))), parent, label, '#0b3d2e', '#ffffff');
+  }
+
+  // Piccolo porticciolo sul rettilineo veloce: molo + un paio di barche.
+  {
+    const s = 0.33 * spline.totalLength;
+    const pos = spline.positionAt(s);
+    const right = spline.rightAt(s);
+    const tangentAngle = spline.tangentAngleAt(s);
+    const half = spline.widthAt(s) / 2;
+    const dockPos = pos.add(right.scale(-(half + 20)));
+    pier(scene, dockPos, tangentAngle, parent);
+    boat(scene, dockPos.add(right.scale(-9)).add(new Vector3(0, 0, 3)), tangentAngle + 0.3, parent, new Color3(0.85, 0.25, 0.25));
+    boat(scene, dockPos.add(right.scale(-9)).add(new Vector3(0, 0, -4)), tangentAngle - 0.2, parent, new Color3(0.2, 0.4, 0.75));
   }
 }
 

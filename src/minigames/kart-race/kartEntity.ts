@@ -36,6 +36,29 @@ function getDotTexture(scene: Scene): Texture {
 
 const MAX_VISUAL_STEER_ANGLE = 0.42; // rad, angolo massimo di sterzata delle ruote anteriori (solo estetico)
 
+interface Shape {
+  bodyW: number;
+  bodyH: number;
+  bodyD: number;
+  noseD: number;
+  spoilerW: number;
+  wheelD: number;
+}
+
+const BASE_SHAPE: Shape = { bodyW: 1.3, bodyH: 0.48, bodyD: 2.0, noseD: 0.6, spoilerW: 1.35, wheelD: 0.76 };
+
+/** Sagoma per personaggio: non solo colore, dimensioni/proporzioni diverse. */
+const SHAPES: Record<string, Partial<Shape>> = {
+  buttafuori: { bodyW: 1.58, bodyH: 0.56, bodyD: 2.1, noseD: 0.5, spoilerW: 1.6, wheelD: 0.84 }, // largo e tozzo
+  dottore: { bodyW: 1.18, bodyH: 0.44, bodyD: 2.25, noseD: 0.85, spoilerW: 1.25, wheelD: 0.7 }, // affusolato, muso lungo
+  judoka: { bodyW: 1.26, bodyH: 0.38, bodyD: 2.0, noseD: 0.55, spoilerW: 1.5, wheelD: 0.72 }, // basso e sportivo
+  ciro: { bodyW: 1.16, bodyH: 0.44, bodyD: 1.85, noseD: 0.5, spoilerW: 1.2, wheelD: 0.7 } // compatto
+};
+
+function shapeFor(characterId: string | null): Shape {
+  return { ...BASE_SHAPE, ...(characterId ? SHAPES[characterId] : undefined) };
+}
+
 export class KartEntity {
   readonly root: TransformNode;
   readonly body: Mesh;
@@ -47,12 +70,14 @@ export class KartEntity {
   private readonly engine: EngineSound;
   private readonly bobSeed: number;
 
-  constructor(scene: Scene, colorHex: string) {
+  constructor(scene: Scene, colorHex: string, characterId: string | null = null) {
     this.root = new TransformNode('kartRoot', scene);
     this.root.rotationQuaternion = Quaternion.Identity();
     this.bobSeed = Math.random() * 1000;
 
+    const shape = shapeFor(characterId);
     const color = Color3.FromHexString(colorHex);
+    const accent = color.scale(1.25);
 
     const bodyMat = new StandardMaterial('kartBodyMat', scene);
     bodyMat.diffuseColor = color;
@@ -62,15 +87,18 @@ export class KartEntity {
     wheelMat.diffuseColor = new Color3(0.07, 0.07, 0.08);
     const rimMat = new StandardMaterial('kartRimMat', scene);
     rimMat.diffuseColor = new Color3(0.55, 0.56, 0.6);
+    const accentMat = new StandardMaterial('kartAccentMat', scene);
+    accentMat.diffuseColor = accent;
+    accentMat.emissiveColor = accent.scale(0.25);
 
-    const body = MeshBuilder.CreateBox('kartBody', { width: 1.3, height: 0.5, depth: 2.1 }, scene);
+    const body = MeshBuilder.CreateBox('kartBody', { width: shape.bodyW, height: shape.bodyH, depth: shape.bodyD }, scene);
     body.position.y = 0.42;
     body.material = bodyMat;
     body.parent = this.root;
     this.body = body;
 
-    const nose = MeshBuilder.CreateBox('kartNose', { width: 1.0, height: 0.32, depth: 0.6 }, scene);
-    nose.position = new Vector3(0, 0.34, 1.25);
+    const nose = MeshBuilder.CreateBox('kartNose', { width: shape.bodyW * 0.78, height: 0.32, depth: shape.noseD }, scene);
+    nose.position = new Vector3(0, 0.34, shape.bodyD / 2 + shape.noseD / 2 - 0.05);
     nose.material = bodyMat;
     nose.parent = this.root;
 
@@ -79,37 +107,42 @@ export class KartEntity {
     cabin.material = darkMat;
     cabin.parent = this.root;
 
-    const spoiler = MeshBuilder.CreateBox('kartSpoiler', { width: 1.35, height: 0.14, depth: 0.14 }, scene);
+    this.buildDriver(scene, accentMat);
+
+    const spoiler = MeshBuilder.CreateBox('kartSpoiler', { width: shape.spoilerW, height: 0.14, depth: 0.14 }, scene);
     spoiler.position = new Vector3(0, 0.78, -1.05);
     spoiler.material = darkMat;
     spoiler.parent = this.root;
-    for (const sx of [-0.6, 0.6]) {
+    for (const sx of [-shape.spoilerW * 0.44, shape.spoilerW * 0.44]) {
       const strut = MeshBuilder.CreateBox('spoilerStrut', { width: 0.08, height: 0.3, depth: 0.08 }, scene);
       strut.position = new Vector3(sx, 0.62, -1.05);
       strut.material = darkMat;
       strut.parent = this.root;
     }
 
-    // Ruote: le anteriori hanno un pivot che sterza (rotazione Y), tutte
-    // rotolano (rotazione X) in base alla velocità. La forma "a disco" è
-    // cotta nei vertici così la rotazione di rotolamento resta pulita.
+    this.buildCharacterExtras(scene, characterId, shape, bodyMat, darkMat, accentMat);
+
+    // Ruote grandi in stile arcade: le anteriori hanno un pivot che sterza
+    // (rotazione Y), tutte rotolano (rotazione X) in base alla velocità. La
+    // forma "a disco" è cotta nei vertici così il rotolamento resta pulito.
     this.frontPivots = [];
     this.wheels = [];
+    const halfW = shape.bodyW / 2 - 0.02;
     const mountFront: [number, number][] = [
-      [-0.72, 0.75],
-      [0.72, 0.75]
+      [-halfW, shape.bodyD / 2 - 0.3],
+      [halfW, shape.bodyD / 2 - 0.3]
     ];
     const mountRear: [number, number][] = [
-      [-0.72, -0.85],
-      [0.72, -0.85]
+      [-halfW, -shape.bodyD / 2 + 0.25],
+      [halfW, -shape.bodyD / 2 + 0.25]
     ];
 
     const makeWheelMesh = (): Mesh => {
-      const w = MeshBuilder.CreateCylinder('kartWheel', { diameter: 0.62, height: 0.34, tessellation: 14 }, scene);
+      const w = MeshBuilder.CreateCylinder('kartWheel', { diameter: shape.wheelD, height: 0.36, tessellation: 14 }, scene);
       w.rotation.z = Math.PI / 2;
       w.bakeCurrentTransformIntoVertices();
       w.material = wheelMat;
-      const hub = MeshBuilder.CreateCylinder('kartHub', { diameter: 0.24, height: 0.36, tessellation: 8 }, scene);
+      const hub = MeshBuilder.CreateCylinder('kartHub', { diameter: shape.wheelD * 0.4, height: 0.38, tessellation: 8 }, scene);
       hub.rotation.z = Math.PI / 2;
       hub.bakeCurrentTransformIntoVertices();
       hub.material = rimMat;
@@ -117,10 +150,11 @@ export class KartEntity {
       return w;
     };
 
+    const wheelY = shape.wheelD / 2;
     for (const [x, z] of mountFront) {
       const pivot = new TransformNode('wheelPivot', scene);
       pivot.parent = this.root;
-      pivot.position = new Vector3(x, 0.32, z);
+      pivot.position = new Vector3(x, wheelY, z);
       const w = makeWheelMesh();
       w.parent = pivot;
       this.frontPivots.push(pivot);
@@ -129,7 +163,7 @@ export class KartEntity {
     for (const [x, z] of mountRear) {
       const w = makeWheelMesh();
       w.parent = this.root;
-      w.position = new Vector3(x, 0.32, z);
+      w.position = new Vector3(x, wheelY, z);
       this.wheels.push(w);
     }
 
@@ -144,6 +178,95 @@ export class KartEntity {
 
     this.engine = audio.createEngine();
     this.engine.start();
+  }
+
+  /** Sagoma minimale del personaggio alla guida, seduto nell'abitacolo. */
+  private buildDriver(scene: Scene, shirtMat: StandardMaterial): void {
+    const skinMat = new StandardMaterial('driverSkinMat', scene);
+    skinMat.diffuseColor = new Color3(0.85, 0.66, 0.52);
+
+    const torso = MeshBuilder.CreateBox('driverTorso', { width: 0.42, height: 0.4, depth: 0.28 }, scene);
+    torso.position = new Vector3(0, 0.86, -0.22);
+    torso.material = shirtMat;
+    torso.parent = this.root;
+
+    const head = MeshBuilder.CreateSphere('driverHead', { diameter: 0.3, segments: 8 }, scene);
+    head.position = new Vector3(0, 1.18, -0.22);
+    head.material = skinMat;
+    head.parent = this.root;
+
+    for (const sx of [-0.26, 0.26]) {
+      const arm = MeshBuilder.CreateCylinder('driverArm', { diameter: 0.1, height: 0.4, tessellation: 6 }, scene);
+      arm.position = new Vector3(sx, 0.82, 0.05);
+      arm.rotation.x = -Math.PI / 2.6;
+      arm.material = shirtMat;
+      arm.parent = this.root;
+    }
+  }
+
+  /** Dettaglio che distingue visivamente il kart di ogni personaggio, oltre a colore/sagoma. */
+  private buildCharacterExtras(
+    scene: Scene,
+    characterId: string | null,
+    shape: Shape,
+    bodyMat: StandardMaterial,
+    darkMat: StandardMaterial,
+    accentMat: StandardMaterial
+  ): void {
+    switch (characterId) {
+      case 'goblin': {
+        // Scarico "a lattina" storto sul retro.
+        const exhaust = MeshBuilder.CreateCylinder('exhaust', { diameter: 0.16, height: 0.5, tessellation: 8 }, scene);
+        exhaust.position = new Vector3(0.45, 0.55, -1.0);
+        exhaust.rotation.z = -0.5;
+        exhaust.material = darkMat;
+        exhaust.parent = this.root;
+        break;
+      }
+      case 'buttafuori': {
+        // Bull-bar anteriore: protegge e minaccia.
+        for (const [x] of [[-0.5], [0], [0.5]] as [number][]) {
+          const bar = MeshBuilder.CreateCylinder('bullbar', { diameter: 0.09, height: 0.4, tessellation: 6 }, scene);
+          bar.position = new Vector3(x, 0.4, shape.bodyD / 2 + shape.noseD - 0.05);
+          bar.rotation.x = Math.PI / 2;
+          bar.material = darkMat;
+          bar.parent = this.root;
+        }
+        break;
+      }
+      case 'dottore': {
+        // Boccione da laboratorio agganciato dietro.
+        const flask = MeshBuilder.CreateCylinder('flask', { diameterTop: 0.1, diameterBottom: 0.32, height: 0.42, tessellation: 10 }, scene);
+        flask.position = new Vector3(-0.4, 0.72, -0.95);
+        const flaskMat = new StandardMaterial('flaskMat', scene);
+        flaskMat.diffuseColor = new Color3(0.4, 0.85, 0.5);
+        flaskMat.alpha = 0.72;
+        flaskMat.emissiveColor = new Color3(0.15, 0.4, 0.2);
+        flask.material = flaskMat;
+        flask.parent = this.root;
+        break;
+      }
+      case 'judoka': {
+        // Fascette laterali basse, più aggressive.
+        for (const sx of [-shape.bodyW / 2 - 0.03, shape.bodyW / 2 + 0.03]) {
+          const skirt = MeshBuilder.CreateBox('sideSkirt', { width: 0.06, height: 0.16, depth: shape.bodyD * 0.7 }, scene);
+          skirt.position = new Vector3(sx, 0.24, 0);
+          skirt.material = accentMat;
+          skirt.parent = this.root;
+        }
+        break;
+      }
+      case 'ciro': {
+        // Ciondolo portafortuna appeso dietro (i "due capelli del destino").
+        const charm = MeshBuilder.CreateSphere('charm', { diameter: 0.14, segments: 6 }, scene);
+        charm.position = new Vector3(0.35, 0.5, -1.0);
+        charm.material = accentMat;
+        charm.parent = this.root;
+        break;
+      }
+      default:
+        void bodyMat;
+    }
   }
 
   private makeParticles(scene: Scene, emitter: Mesh, color: Color4, size: number, capacity: number): ParticleSystem {

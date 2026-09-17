@@ -6,7 +6,12 @@ import {
   Color3,
   HemisphericLight,
   DirectionalLight,
-  ShadowGenerator
+  ShadowGenerator,
+  GlowLayer,
+  MeshBuilder,
+  StandardMaterial,
+  DynamicTexture,
+  Mesh
 } from '@babylonjs/core';
 import type { PlayerId } from '../../../shared/types';
 import type { MinigameContext } from '../types';
@@ -55,6 +60,7 @@ export class BabylonKartGame {
     this.engine = new Engine(canvas, true, { antialias: true, stencil: true, adaptToDeviceRatio: true });
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.55, 0.8, 0.94, 1);
+    this.buildSky();
 
     const hemi = new HemisphericLight('hemi', new Vector3(0.1, 1, 0.15), this.scene);
     hemi.intensity = 0.68;
@@ -65,6 +71,12 @@ export class BabylonKartGame {
     const shadowGen = new ShadowGenerator(1024, sun);
     shadowGen.usePoissonSampling = true;
     shadowGen.bias = 0.002;
+
+    // Bloom economico: un GlowLayer illumina solo i materiali emissivi (item
+    // box, effetto turbo, lampioni) invece di un bloom globale su tutta la
+    // scena — molto più leggero con 5 viewport attive contemporaneamente.
+    const glow = new GlowLayer('glow', this.scene, { mainTextureRatio: 0.5 });
+    glow.intensity = 0.55;
 
     this.spline = buildTrack();
     buildTrackVisuals(this.scene, this.spline);
@@ -90,7 +102,7 @@ export class BabylonKartGame {
       state.absHeading = this.trackAngleAt(state.distance);
       this.karts.set(p.id, state);
 
-      const entity = new KartEntity(this.scene, p.color);
+      const entity = new KartEntity(this.scene, p.color, p.characterId);
       entity.updateVisual(state, this.spline);
       this.entities.set(p.id, entity);
       for (const mesh of entity.root.getChildMeshes()) shadowGen.addShadowCaster(mesh, false);
@@ -283,6 +295,30 @@ export class BabylonKartGame {
       const k = this.karts.get(ev.playerId);
       if (k) this.abilities.addMeter(k, 0.18);
     }
+  }
+
+  /** Cupola del cielo con gradiente verticale (canvas) invece del colore piatto di prima. */
+  private buildSky(): void {
+    const dome = MeshBuilder.CreateSphere('skyDome', { diameter: 850, segments: 12, sideOrientation: Mesh.BACKSIDE }, this.scene);
+    dome.infiniteDistance = true;
+
+    const dt = new DynamicTexture('skyTex', { width: 4, height: 256 }, this.scene, false);
+    const c = dt.getContext() as unknown as CanvasRenderingContext2D;
+    const grad = c.createLinearGradient(0, 0, 0, 256);
+    grad.addColorStop(0, '#1f7fd4');
+    grad.addColorStop(0.55, '#a9e2ff');
+    grad.addColorStop(1, '#eef8ff');
+    c.fillStyle = grad;
+    c.fillRect(0, 0, 4, 256);
+    dt.update();
+
+    const mat = new StandardMaterial('skyMat', this.scene);
+    mat.diffuseTexture = dt;
+    mat.emissiveColor = new Color3(1, 1, 1);
+    mat.disableLighting = true;
+    mat.backFaceCulling = false;
+    dome.material = mat;
+    dome.isPickable = false;
   }
 
   dispose(): void {
