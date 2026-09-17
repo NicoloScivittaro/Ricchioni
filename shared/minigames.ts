@@ -38,7 +38,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     name: 'BOTTA AL VOLO',
     category: 'RIFLESSI',
     rarity: 'common',
-    minPlayers: 2,
+    minPlayers: 1,
     maxPlayers: 5,
     durationSec: 30,
     compatibleModifiers: ['punti_doppi'],
