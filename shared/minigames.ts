@@ -107,18 +107,14 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     rarity: 'uncommon',
     minPlayers: 1,
     maxPlayers: 5,
-    durationSec: 45,
-    compatibleModifiers: ['punti_doppi'],
+    // Partita a squadre 3D: intro squadre + countdown + match 60s + eventuale
+    // golden goal. 100s lasciano margine per tutto; il timer server è solo la
+    // rete di sicurezza.
+    durationSec: 100,
+    compatibleModifiers: ['punti_doppi', 'gravita_bassa'],
     sceneKey: 'soccer',
-    controllerLayout: {
-      type: 'dpad',
-      controls: [
-        { id: 'up', label: '▲', kind: 'hold' },
-        { id: 'down', label: '▼', kind: 'hold' },
-        { id: 'left', label: '◀', kind: 'hold' },
-        { id: 'right', label: '▶', kind: 'hold' }
-      ]
-    }
+    // Controller dedicato: joystick + TIRO/PASSA (hold = più forte) + TACKLE + ABILITÀ.
+    controllerLayout: { type: 'custom', id: 'soccer-tv' }
   },
   {
     id: 'volleyball',

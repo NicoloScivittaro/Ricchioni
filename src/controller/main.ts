@@ -8,6 +8,7 @@ import { MEMORY_TILES } from '../../shared/memoryTiles';
 import { MEMORY_ABILITIES } from '../../shared/memoryAbilities';
 import { ARENA_ABILITIES } from '../../shared/arenaAbilities';
 import { DODGEBALL_ABILITIES } from '../../shared/dodgeballAbilities';
+import { SOCCER_ABILITIES } from '../../shared/soccerAbilities';
 import './style.css';
 
 const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
@@ -85,6 +86,8 @@ interface SignalPayload {
   at?: number;
   value?: number;
   cooldownMs?: number;
+  team?: string;
+  winner?: string;
 }
 
 function vibrate(pattern: number | number[]): void {
@@ -610,6 +613,217 @@ function renderDodgeballController(): void {
   });
 }
 
+// ---- CALCIO DEI DISAGIATI (controller dedicato: joystick + tiro hold + tackle) ----
+
+let soccerJoystickEl: HTMLElement | null = null;
+let soccerThumbEl: HTMLElement | null = null;
+let soccerShootBtn: HTMLButtonElement | null = null;
+let soccerTackleBtn: HTMLButtonElement | null = null;
+let soccerAbilityBtn: HTMLButtonElement | null = null;
+let soccerStatusEl: HTMLElement | null = null;
+let soccerTeam: string | null = null;
+let soccerLocked = false;
+
+function lockSoccerControls(locked: boolean, statusText?: string): void {
+  soccerLocked = locked;
+  if (soccerJoystickEl) soccerJoystickEl.classList.toggle('arena-locked', locked);
+  if (soccerShootBtn) soccerShootBtn.disabled = locked;
+  if (soccerTackleBtn) soccerTackleBtn.disabled = locked;
+  if (soccerAbilityBtn) soccerAbilityBtn.disabled = locked;
+  if (statusText && soccerStatusEl) soccerStatusEl.textContent = statusText;
+}
+
+function handleSoccerSignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'countdown':
+      if (s.value === 0) {
+        if (soccerStatusEl) soccerStatusEl.textContent = '⚡ VIA!';
+        vibrate(110);
+      } else if (s.value && s.value > 0) {
+        if (soccerStatusEl) soccerStatusEl.textContent = `⏱ ${s.value}`;
+        vibrate(35);
+      }
+      break;
+    case 'team':
+      soccerTeam = s.team ?? null;
+      if (soccerStatusEl) {
+        soccerStatusEl.textContent = s.team === 'red' ? '🔴 SEI ROSSO' : '🔵 SEI BLU';
+      }
+      break;
+    case 'gotBall':
+      if (soccerStatusEl) soccerStatusEl.textContent = '⚽ HAI LA PALLA!';
+      vibrate(30);
+      break;
+    case 'threwBall':
+      if (soccerStatusEl) soccerStatusEl.textContent = '⚽ TIRATA!';
+      vibrate(40);
+      break;
+    case 'lostBall':
+      if (soccerStatusEl) soccerStatusEl.textContent = '😵 palla persa!';
+      vibrate(60);
+      break;
+    case 'goal':
+      showToast(`⚽ GOOOL ${s.team === 'red' ? 'ROSSI' : 'BLU'}!`);
+      vibrate([80, 40, 120]);
+      break;
+    case 'won':
+      lockSoccerControls(true, '🏆 HAI VINTO!');
+      vibrate([80, 40, 80, 40, 120]);
+      showToast('🏆 HAI VINTO!');
+      break;
+    case 'matchEnd':
+      if (s.winner && s.winner !== soccerTeam) {
+        lockSoccerControls(true, '😞 hai perso...');
+        showToast('😞 hai perso...');
+      }
+      break;
+    case 'ability':
+      if (soccerAbilityBtn) {
+        soccerAbilityBtn.disabled = true;
+        soccerAbilityBtn.classList.add('arena-ability-used');
+      }
+      showToast(`⭐ ${s.name ?? 'ABILITÀ'}`);
+      vibrate(70);
+      break;
+    case 'charged':
+      showToast('💥 Tiro potenziato!');
+      vibrate(60);
+      break;
+    case 'heldBall':
+      showToast('💸 PAGO DOMANI — palla trattenuta!');
+      vibrate(80);
+      break;
+  }
+}
+
+/** Controller dedicato a CALCIO DEI DISAGIATI (layout custom: soccer-tv). */
+function renderSoccerController(): void {
+  soccerJoystickEl = null;
+  soccerThumbEl = null;
+  soccerShootBtn = null;
+  soccerTackleBtn = null;
+  soccerAbilityBtn = null;
+  soccerStatusEl = null;
+  soccerTeam = null;
+  soccerLocked = false;
+
+  const me: PlayerPublic | undefined =
+    playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  const cid = me?.characterId ?? '';
+  const ab = SOCCER_ABILITIES[cid];
+
+  app.innerHTML = `
+    <div class="arena-shell">
+      <div class="arena-topbar">
+        <div class="arena-brand">⚽ CALCIO DEI DISAGIATI</div>
+        <div id="soccer-status" class="arena-status">PRONTO</div>
+      </div>
+      <div class="arena-body">
+        <div class="arena-joy">
+          <div class="arena-joy-base">
+            <div class="arena-joy-thumb"></div>
+          </div>
+        </div>
+        <div class="arena-actions">
+          <button id="soccer-shoot" class="arena-dash db-throw">⚽<span>TIRO/PASSA</span></button>
+          <button id="soccer-tackle" class="db-dodge">💨<span>TACKLE</span></button>
+          <button id="soccer-ability" class="arena-ability">⭐<span>${ab?.name ?? 'ABILITÀ'}</span></button>
+          <p id="soccer-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
+        </div>
+      </div>
+    </div>`;
+
+  soccerStatusEl = app.querySelector<HTMLElement>('#soccer-status')!;
+  soccerShootBtn = app.querySelector<HTMLButtonElement>('#soccer-shoot')!;
+  soccerTackleBtn = app.querySelector<HTMLButtonElement>('#soccer-tackle')!;
+  soccerAbilityBtn = app.querySelector<HTMLButtonElement>('#soccer-ability')!;
+  soccerJoystickEl = app.querySelector<HTMLElement>('.arena-joy')!;
+  soccerThumbEl = app.querySelector<HTMLElement>('.arena-joy-thumb')!;
+  const baseEl = app.querySelector<HTMLElement>('.arena-joy-base')!;
+
+  // TIRO/PASSA è "hold" (carica): down = inizia carica, up = tira.
+  const shootDown = (e: PointerEvent): void => {
+    e.preventDefault();
+    if (soccerShootBtn!.disabled) return;
+    sendInput({ kind: 'down', controlId: 'shoot' });
+  };
+  const shootUp = (e: PointerEvent): void => {
+    e.preventDefault();
+    sendInput({ kind: 'up', controlId: 'shoot' });
+  };
+  soccerShootBtn.addEventListener('pointerdown', shootDown);
+  soccerShootBtn.addEventListener('pointerup', shootUp);
+  soccerShootBtn.addEventListener('pointerleave', shootUp);
+  soccerShootBtn.addEventListener('pointercancel', shootUp);
+
+  soccerTackleBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (soccerTackleBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'dash' });
+  });
+  soccerAbilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (soccerAbilityBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  // Joystick virtuale
+  let activePointer: number | null = null;
+  let lastAxisX = 0;
+  let lastAxisY = 0;
+  const sendAxis = (x: number, y: number): void => {
+    const rx = Math.round(x * 100) / 100;
+    const ry = Math.round(y * 100) / 100;
+    if (rx === lastAxisX && ry === lastAxisY) return;
+    lastAxisX = rx;
+    lastAxisY = ry;
+    sendInput({ kind: 'axis', controlId: 'move', x: rx, y: ry });
+  };
+  const centerThumb = (): void => {
+    if (soccerThumbEl) soccerThumbEl.style.transform = 'translate(-50%, -50%)';
+    sendAxis(0, 0);
+  };
+  const moveThumb = (e: PointerEvent): void => {
+    const rect = baseEl.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const max = rect.width / 2 - 10;
+    let dx = e.clientX - cx;
+    let dy = e.clientY - cy;
+    const d = Math.hypot(dx, dy);
+    if (d > max) {
+      dx = (dx / d) * max;
+      dy = (dy / d) * max;
+    }
+    if (soccerThumbEl) {
+      soccerThumbEl.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+    }
+    const nx = dx / max;
+    const ny = dy / max;
+    const dead = Math.hypot(nx, ny) < 0.12;
+    sendAxis(dead ? 0 : nx, dead ? 0 : ny);
+  };
+  baseEl.addEventListener('pointerdown', (e) => {
+    if (soccerLocked) return;
+    baseEl.setPointerCapture(e.pointerId);
+    activePointer = e.pointerId;
+    moveThumb(e);
+  });
+  baseEl.addEventListener('pointermove', (e) => {
+    if (e.pointerId !== activePointer) return;
+    moveThumb(e);
+  });
+  baseEl.addEventListener('pointerup', (e) => {
+    if (e.pointerId !== activePointer) return;
+    activePointer = null;
+    centerThumb();
+  });
+  baseEl.addEventListener('pointercancel', () => {
+    activePointer = null;
+    centerThumb();
+  });
+}
+
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
   if (activeController === 'memory') {
@@ -622,6 +836,10 @@ socket.on(EVT.controllerSignal, (data) => {
   }
   if (activeController === 'dodgeball') {
     handleDodgeballSignal(s);
+    return;
+  }
+  if (activeController === 'soccer') {
+    handleSoccerSignal(s);
     return;
   }
   const actionBtn =
@@ -946,6 +1164,11 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   if (layout.type === 'custom' && layout.id === 'dodgeball-tv') {
     activeController = 'dodgeball';
     renderDodgeballController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'soccer-tv') {
+    activeController = 'soccer';
+    renderSoccerController();
     return;
   }
   activeController = null;

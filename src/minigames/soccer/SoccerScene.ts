@@ -1,207 +1,174 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
-import { PauseMenu } from '../../core/PauseMenu';
+import { game as gm } from '../../core/GameManager';
 import type { MinigameContext } from '../types';
-import type { PlayerId } from '../../../shared/types';
+import type { BabylonSoccerGame } from './BabylonSoccerGame';
 
-// Ispirato a Poro-Party (licenza ISC). Reimplementato come "chi segna di più".
-
-const MIN_X = 40;
-const MAX_X = 1240;
-const MIN_Y = 90;
-const MAX_Y = 570;
-const PLAYER_R = 20;
-const BALL_R = 13;
-const SPEED = 340;
-const GOAL_Y_MIN = 280;
-const GOAL_Y_MAX = 500;
-const GOAL_EDGE = 70;
-const WIN_SCORE = 3;
-
-interface Body {
-  id: PlayerId;
-  x: number;
-  y: number;
-  avatar: string;
-  circle: Phaser.GameObjects.Arc;
-  label: Phaser.GameObjects.Text;
-}
-
-/** CALCIO: spingi la palla in porta; segna chi l'ha toccata per ultimo. */
+/**
+ * Wrapper Phaser per CALCIO DEI DISAGIATI (3D Babylon.js su canvas dedicato).
+ * La scena Phaser gestisce solo il ciclo di vita (canvas + motore + menu ESC),
+ * Babylon guida il render loop.
+ */
 export class SoccerScene extends Phaser.Scene {
-  private ctx!: MinigameContext;
-  private bodies: Body[] = [];
-  private ball = { x: 640, y: 330, vx: 0, vy: 0 };
-  private ballCircle!: Phaser.GameObjects.Arc;
-  private lastToucher: PlayerId | null = null;
-  private goals = new Map<PlayerId, number>();
-  private finished = false;
-  private statusText!: Phaser.GameObjects.Text;
-  private pauseMenu!: PauseMenu;
+  private game3d: BabylonSoccerGame | null = null;
+  private overlayCanvas: HTMLCanvasElement | null = null;
+  private cancelled = false;
+  private loadingText: Phaser.GameObjects.Text | null = null;
+  private pauseMenu: SoccerPauseMenu | null = null;
+  private escKey!: Phaser.Input.Keyboard.Key;
 
   constructor() {
     super('soccer');
   }
 
   create(data: { ctx: MinigameContext }): void {
-    this.ctx = data.ctx;
-    // RICOMINCIA riusa la stessa istanza di scena: azzera tutto lo stato custom.
-    this.bodies = [];
-    this.ball = { x: 640, y: 330, vx: 0, vy: 0 };
-    this.lastToucher = null;
-    this.goals = new Map();
-    this.finished = false;
-
+    this.cancelled = false;
+    this.cameras.main.setBackgroundColor('#0b0b14');
     audio.unlock();
-    this.cameras.main.setBackgroundColor('#0a120a');
 
-    this.add.rectangle(640, 330, 1240, 520, 0x1a2e1a).setStrokeStyle(4, 0xffffff);
-    this.add.rectangle(20, 390, 40, 220, 0x7f1d1d).setStrokeStyle(3, 0xffffff);
-    this.add.rectangle(1260, 390, 40, 220, 0x1d4ed8).setStrokeStyle(3, 0xffffff);
-
-    this.add
-      .text(640, 30, '⚽ CALCIO DEI DISAGIATI', {
+    this.loadingText = this.add
+      .text(640, 360, 'Caricamento CALCIO DEI DISAGIATI…', {
         fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '46px',
-        color: '#ffffff'
+        fontSize: '28px',
+        color: '#fbbf24'
       })
       .setOrigin(0.5);
-    this.statusText = this.add
-      .text(640, 80, '', { fontFamily: 'Arial, sans-serif', fontSize: '22px', color: '#9ca3af' })
-      .setOrigin(0.5);
 
-    const n = this.ctx.playerIds.length;
-    this.ctx.players.forEach((p, i) => {
-      const x = MIN_X + ((MAX_X - MIN_X) * (i + 1)) / (n + 1);
-      const y = MAX_Y - 30;
-      const color = Phaser.Display.Color.HexStringToColor(p.color).color;
-      const circle = this.add.circle(x, y, PLAYER_R, color).setStrokeStyle(3, 0xffffff);
-      const label = this.add.text(x, y, p.avatar, { fontFamily: 'Arial, sans-serif', fontSize: '18px' }).setOrigin(0.5);
-      this.bodies.push({ id: p.id, x, y, avatar: p.avatar, circle, label });
-    });
+    this.pauseMenu = new SoccerPauseMenu(this, () => this.scene.restart({ ctx: data.ctx }));
+    this.escKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-    this.ballCircle = this.add.circle(640, 330, BALL_R, 0xffffff).setStrokeStyle(2, 0x000000);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);
+    this.events.once(Phaser.Scenes.Events.DESTROY, this.cleanup, this);
 
-    this.time.delayedCall(this.ctx.durationSec * 1000, () => this.endGame());
-
-    this.pauseMenu = new PauseMenu(this, '⚽ CALCIO DEI DISAGIATI', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
+    void this.boot(data.ctx);
   }
 
-  update(_t: number, delta: number): void {
-    if (this.pauseMenu.update()) return;
-    if (this.finished) return;
-    const dt = Math.min(delta, 50) / 1000;
-
-    for (const b of this.bodies) {
-      const input = this.ctx.input.get(b.id);
-      let ax = 0;
-      let ay = 0;
-      if (input.pressed('left')) ax -= 1;
-      if (input.pressed('right')) ax += 1;
-      if (input.pressed('up')) ay -= 1;
-      if (input.pressed('down')) ay += 1;
-      const len = Math.hypot(ax, ay) || 1;
-      b.x += (ax / len) * SPEED * dt;
-      b.y += (ay / len) * SPEED * dt;
-      b.x = Phaser.Math.Clamp(b.x, MIN_X, MAX_X);
-      b.y = Phaser.Math.Clamp(b.y, MIN_Y, MAX_Y);
+  update(): void {
+    if (Phaser.Input.Keyboard.JustDown(this.escKey)) {
+      audio.select();
+      this.pauseMenu?.toggle();
+      this.game3d?.setPaused(this.pauseMenu?.isVisible() ?? false);
     }
-
-    this.ball.vx *= 0.995;
-    this.ball.vy *= 0.995;
-    this.ball.x += this.ball.vx * dt;
-    this.ball.y += this.ball.vy * dt;
-
-    if (this.ball.y < MIN_Y) {
-      this.ball.y = MIN_Y;
-      this.ball.vy = Math.abs(this.ball.vy);
-    } else if (this.ball.y > MAX_Y) {
-      this.ball.y = MAX_Y;
-      this.ball.vy = -Math.abs(this.ball.vy);
-    }
-
-    // Porte
-    if (this.ball.x < GOAL_EDGE && this.inGoal(this.ball.y)) this.score('left');
-    else if (this.ball.x > MAX_X - GOAL_EDGE && this.inGoal(this.ball.y)) this.score('right');
-    else {
-      if (this.ball.x < MIN_X) {
-        this.ball.x = MIN_X;
-        this.ball.vx = Math.abs(this.ball.vx);
-      } else if (this.ball.x > MAX_X) {
-        this.ball.x = MAX_X;
-        this.ball.vx = -Math.abs(this.ball.vx);
-      }
-    }
-
-    // Spinta palla
-    for (const b of this.bodies) {
-      const dx = b.x - this.ball.x;
-      const dy = b.y - this.ball.y;
-      const dist = Math.hypot(dx, dy);
-      const minDist = PLAYER_R + BALL_R;
-      if (dist > 0 && dist < minDist) {
-        const nx = dx / dist;
-        const ny = dy / dist;
-        this.ball.x -= nx * (minDist - dist);
-        this.ball.y -= ny * (minDist - dist);
-        this.ball.vx -= nx * 320;
-        this.ball.vy -= ny * 320;
-        this.lastToucher = b.id;
-        audio.tick();
-      }
-    }
-
-    const sp = Math.hypot(this.ball.vx, this.ball.vy);
-    if (sp > 600) {
-      this.ball.vx = (this.ball.vx / sp) * 600;
-      this.ball.vy = (this.ball.vy / sp) * 600;
-    }
-
-    for (const b of this.bodies) {
-      b.circle.setPosition(b.x, b.y);
-      b.label.setPosition(b.x, b.y);
-    }
-    this.ballCircle.setPosition(this.ball.x, this.ball.y);
-
-    const parts = this.ctx.playerIds
-      .map((id) => `${this.ctx.players[this.ctx.playerIds.indexOf(id)].avatar} ${this.goals.get(id) ?? 0}`)
-      .join('  ');
-    this.statusText.setText(parts);
-
-    this.ctx.input.update();
   }
 
-  private inGoal(y: number): boolean {
-    return y > GOAL_Y_MIN && y < GOAL_Y_MAX;
+  private async boot(ctx: MinigameContext): Promise<void> {
+    const { BabylonSoccerGame } = await import('./BabylonSoccerGame');
+    if (this.cancelled) return;
+
+    this.loadingText?.destroy();
+    this.loadingText = null;
+
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.inset = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '10000';
+    canvas.style.touchAction = 'none';
+    canvas.style.outline = 'none';
+    document.body.appendChild(canvas);
+    this.overlayCanvas = canvas;
+
+    this.game3d = new BabylonSoccerGame(canvas, ctx);
   }
 
-  private score(_side: 'left' | 'right'): void {
-    if (this.lastToucher) {
-      this.goals.set(this.lastToucher, (this.goals.get(this.lastToucher) ?? 0) + 1);
-      audio.correct();
-      if ((this.goals.get(this.lastToucher) ?? 0) >= WIN_SCORE) {
-        this.endGame();
-        return;
-      }
-    }
-    this.ball.x = 640;
-    this.ball.y = 330;
-    this.ball.vx = 0;
-    this.ball.vy = 0;
-    this.lastToucher = null;
+  private cleanup(): void {
+    this.cancelled = true;
+    this.game3d?.dispose();
+    this.game3d = null;
+    this.overlayCanvas?.remove();
+    this.overlayCanvas = null;
+    this.loadingText?.destroy();
+    this.loadingText = null;
+    this.pauseMenu?.destroy();
+    this.pauseMenu = null;
   }
+}
 
-  private endGame(): void {
-    if (this.finished) return;
-    this.finished = true;
-    const sorted = [...this.ctx.playerIds].sort(
-      (a, b) => (this.goals.get(b) ?? 0) - (this.goals.get(a) ?? 0)
+/** Overlay HTML del menu ESC (sopra il canvas Babylon). */
+class SoccerPauseMenu {
+  private root: HTMLDivElement;
+  private visible = false;
+
+  constructor(
+    private scene: Phaser.Scene,
+    onRestart: () => void
+  ) {
+    this.root = document.createElement('div');
+    this.root.style.cssText = `
+      position: fixed; inset: 0; z-index: 20001; display: none;
+      align-items: center; justify-content: center; background: rgba(0,0,0,0.72);
+    `;
+
+    const panel = document.createElement('div');
+    panel.style.cssText = `
+      background: #0b0b14; border: 2px solid rgba(255,255,255,0.15); border-radius: 20px;
+      padding: 28px 36px; display: flex; flex-direction: column; gap: 12px;
+      min-width: 320px; text-align: center; font-family: Arial, sans-serif;
+    `;
+
+    const title = document.createElement('div');
+    title.textContent = '⚽ CALCIO DEI DISAGIATI — PAUSA';
+    title.style.cssText = 'color:#fbbf24; font-weight:900; font-size:20px; margin-bottom:8px;';
+    panel.appendChild(title);
+
+    panel.appendChild(this.makeButton('▶ RIPRENDI', '#4ade80', () => this.hide()));
+    panel.appendChild(
+      this.makeButton('🔄 RICOMINCIA MINIGIOCO', '#facc15', () => {
+        if (!confirm('Vuoi davvero ricominciare il minigioco?')) return;
+        this.hide();
+        onRestart();
+      })
     );
-    const results = sorted.map((pid, i) => ({
-      playerId: pid,
-      placement: i + 1,
-      score: this.goals.get(pid) ?? 0
-    }));
-    this.ctx.finish({ results });
+    panel.appendChild(
+      this.makeButton('🏠 TORNA ALLA LOBBY', '#f87171', () => {
+        if (!confirm('Vuoi davvero abbandonare il minigioco e tornare alla lobby?')) return;
+        this.hide();
+        gm.backToLobby();
+        this.scene.scene.start('LobbyScene');
+      })
+    );
+
+    this.root.appendChild(panel);
+    document.body.appendChild(this.root);
+  }
+
+  private makeButton(label: string, color: string, onClick: () => void): HTMLButtonElement {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = label;
+    btn.style.cssText = `
+      padding: 14px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.06); color: ${color}; font: 800 16px/1.2 Arial, sans-serif;
+      cursor: pointer;
+    `;
+    btn.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      onClick();
+    });
+    return btn;
+  }
+
+  toggle(): void {
+    if (this.visible) this.hide();
+    else this.show();
+  }
+
+  show(): void {
+    this.visible = true;
+    this.root.style.display = 'flex';
+  }
+
+  hide(): void {
+    this.visible = false;
+    this.root.style.display = 'none';
+  }
+
+  isVisible(): boolean {
+    return this.visible;
+  }
+
+  destroy(): void {
+    this.root.remove();
   }
 }
