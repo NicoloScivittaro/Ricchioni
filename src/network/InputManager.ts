@@ -40,6 +40,11 @@ export class InputManager {
     }
   }
 
+  /** Testo libero da un giocatore (es. bluff). */
+  setText(playerId: PlayerId, controlId: string, text: string): void {
+    this.get(playerId).setText(controlId, text);
+  }
+
   /** Azzera gli edge di frame per tutti (chiamare ogni frame). */
   update(): void {
     for (const p of this.inputs.values()) p.clearFrame();

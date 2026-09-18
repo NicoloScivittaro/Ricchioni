@@ -156,6 +156,22 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     }
   },
   {
+    id: 'cultura',
+    name: 'CULTURA O CAZZATA?',
+    category: 'CULTURA',
+    rarity: 'uncommon',
+    minPlayers: 1,
+    maxPlayers: 5,
+    // Bluff culturale a round (8 default): domanda → bluff telefono → voto →
+    // reveal → spiegazione. 300s lasciano margine; il timer server è solo la
+    // rete di sicurezza.
+    durationSec: 300,
+    compatibleModifiers: ['punti_doppi'],
+    sceneKey: 'cultura',
+    // Controller dedicato: scrivi bluff / vota (renderCulturaController()).
+    controllerLayout: { type: 'custom', id: 'cultura-tv' }
+  },
+  {
     id: 'fps',
     name: 'SPARATORIA DEI DISAGIATI',
     category: 'ARENA',

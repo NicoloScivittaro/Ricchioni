@@ -22,6 +22,8 @@ export const EVT = {
   inputUp: 'input:up',
   inputAction: 'input:action',
   inputAxis: 'input:axis',
+  /** Testo libero dal telefono (es. bluff di CULTURA O CAZZATA). */
+  inputText: 'input:text',
   hostStart: 'host:start',
   hostMinigameFinished: 'host:minigameFinished',
   hostSkip: 'host:skip',
@@ -47,6 +49,8 @@ export const EVT = {
 
   // ---- Server → Host (relay input) ----
   inputRelay: 'input:relay',
+  /** Testo libero relayed dal telefono all'host. */
+  textRelay: 'text:relay',
   /** Un giocatore si è disconnesso: l'host deve rilasciare i suoi input tenuti premuti. */
   playerDisconnected: 'player:disconnected'
 } as const;
@@ -98,6 +102,17 @@ export interface PrivateDataPayload {
 export interface InputRelayEvent {
   playerId: PlayerId;
   input: import('./types').InputEvent;
+}
+
+export interface InputTextPayload {
+  controlId: string;
+  text: string;
+}
+
+export interface TextRelayEvent {
+  playerId: PlayerId;
+  controlId: string;
+  text: string;
 }
 
 export interface PlayerDisconnectedEvent {

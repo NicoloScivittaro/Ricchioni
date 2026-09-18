@@ -868,6 +868,116 @@ function renderVolleyballController(): void {
   volleyJoy = mountJoystick(baseEl, volleyThumbEl, () => volleyLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
 }
 
+// ---- CULTURA O CAZZATA? (controller dedicato: scrivi bluff / vota) ----
+
+function sendText(controlId: string, text: string): void {
+  socket.emit(EVT.inputText, { controlId, text });
+}
+
+/** Controller dedicato a CULTURA O CAZZATA? (layout custom: cultura-tv). */
+function renderCulturaController(): void {
+  app.innerHTML = `<div class="cultura-shell" id="cultura-shell"></div>`;
+}
+
+function updateCulturaUI(s: CulturaState): void {
+  const root = app.querySelector<HTMLElement>('#cultura-shell') ?? app;
+  const letters = 'ABCDE';
+
+  if (s.phase === 'intro' || s.phase === 'bluff') {
+    root.innerHTML = `
+      <div class="cultura-top">ROUND ${s.round}/${s.totalRounds} · ${s.category.toUpperCase()}</div>
+      <div class="cultura-q">"${s.question}"</div>
+      ${s.myBluff
+        ? `<div class="cultura-done">✍️ RISPOSTA INVIATA ✅<br><span>${s.myBluff}</span></div>`
+        : `<input id="cultura-bluff" class="cultura-input" placeholder="Scrivi una risposta falsa credibile..." maxlength="40" autocomplete="off" />
+           <button id="cultura-confirm" class="cultura-btn">CONFERMA</button>`}
+      <p class="cultura-hint">Scrivi una risposta falsa che possa sembrare vera.</p>`;
+    const inp = root.querySelector<HTMLInputElement>('#cultura-bluff');
+    const btn = root.querySelector<HTMLButtonElement>('#cultura-confirm');
+    if (inp && btn) {
+      const submit = (): void => {
+        const t = inp.value.trim();
+        if (!t) return;
+        sendText('bluff', t);
+        inp.disabled = true;
+        btn.disabled = true;
+      };
+      btn.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        submit();
+      });
+      inp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') submit();
+      });
+    }
+    return;
+  }
+
+  if (s.phase === 'options' || s.phase === 'vote') {
+    const opts = s.options
+      .map((o, i) => {
+        const locked = o.disabled || s.myVote !== null;
+        return `<button class="cultura-opt ${o.disabled ? 'mine' : ''} ${s.myVote === i ? 'picked' : ''}" data-i="${i}" ${locked ? 'disabled' : ''}>
+          <span class="cultura-opt-letter">${letters[i]}</span>
+          <span class="cultura-opt-text">${o.text}${o.disabled ? ' <em>(LA TUA CAZZATA)</em>' : ''}</span>
+        </button>`;
+      })
+      .join('');
+    root.innerHTML = `
+      <div class="cultura-top">🔥 SCEGLI LA RISPOSTA VERA</div>
+      <div class="cultura-q">"${s.question}"</div>
+      <div class="cultura-opts">${opts}</div>
+      ${s.myVote !== null ? '<div class="cultura-done">🔒 RISPOSTA BLOCCATA</div>' : ''}
+      ${s.isSecchione ? `<div class="cultura-secret">🤓 SEI IL SECCHIONE INFAME.<br>RISPOSTA VERA: ${s.correctAnswer ?? ''}</div>` : ''}
+      ${s.isAdvocate && s.defendText ? `<div class="cultura-advocate">🎤 DIFENDI QUESTA RISPOSTA: ${s.defendText}</div>` : ''}
+      ${s.teConoscoReveal ? `<div class="cultura-secret">👁️ ${s.teConoscoReveal}</div>` : ''}
+      ${s.canTeConosco ? `<button id="cultura-teconosco" class="cultura-tebtn">👁️ TE CONOSCO</button>` : ''}`;
+
+    root.querySelectorAll<HTMLButtonElement>('.cultura-opt').forEach((b) => {
+      b.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        if (b.disabled || s.myVote !== null) return;
+        sendText('vote', b.dataset.i ?? '0');
+      });
+    });
+    const te = root.querySelector<HTMLButtonElement>('#cultura-teconosco');
+    if (te) {
+      te.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        // Scegli un avversario
+        root.innerHTML = `
+          <div class="cultura-top">👁️ TE CONOSCO, COGLIONE</div>
+          <div class="cultura-opts">${s.teConoscoTargets.map((t) => `<button class="cultura-opt" data-t="${t.id}">${t.name}</button>`).join('')}</div>`;
+        root.querySelectorAll<HTMLButtonElement>('.cultura-opt').forEach((tb) => {
+          tb.addEventListener('pointerdown', (e2) => {
+            e2.preventDefault();
+            sendText('teConosco', tb.dataset.t ?? '');
+            tb.disabled = true;
+          });
+        });
+      });
+    }
+    return;
+  }
+
+  if (s.phase === 'reveal' || s.phase === 'explanation') {
+    const r = s.reveal;
+    root.innerHTML = `
+      <div class="cultura-top">📺 RISULTATO</div>
+      ${r
+        ? `<div class="cultura-result">Hai scelto: <b>${r.text}</b><br>${r.correct ? '✅ LA SAPEVI DAVVERO' : '❌ CI SEI CASCATO 💀'}</div>`
+        : '<div class="cultura-result">Guarda lo schermo principale</div>'}
+      <div class="cultura-score">Punteggio: ${s.myScore}</div>`;
+    return;
+  }
+
+  // ranking / results
+  root.innerHTML = `
+    <div class="cultura-top">📊 CLASSIFICA</div>
+    <div class="cultura-rank">${s.ranking.map((r2, i) => `${i + 1}. ${r2.avatar} ${r2.name} — ${r2.score}`).join('<br>')}</div>
+    <div class="cultura-score">Il tuo punteggio: ${s.myScore}</div>`;
+}
+
 // ---- SPARATORIA DEI DISAGIATI (controller FPS completo su telefono) ----
 
 let fpsClient: FpsClient | null = null;
@@ -1184,6 +1294,32 @@ let lastInfo: InfoLineData | null = null;
 let lastQuizState: QuizStatePayload | null = null;
 let quizSelectedLocal: number | null = null;
 
+interface CulturaState {
+  type: 'cultura';
+  phase: string;
+  round: number;
+  totalRounds: number;
+  question: string;
+  category: string;
+  myScore: number;
+  ranking: { name: string; avatar: string; score: number }[];
+  myBluff?: string;
+  options: { text: string; isMine: boolean; disabled: boolean }[];
+  myVote: number | null;
+  canTeConosco: boolean;
+  teConoscoTargets: { id: string; name: string }[];
+  teConoscoReveal: string | null;
+  isSecchione: boolean;
+  correctAnswer?: string;
+  isAdvocate: boolean;
+  defendText?: string;
+  reveal: { text: string; correct: boolean } | null;
+}
+
+function isCulturaState(data: unknown): data is CulturaState {
+  return typeof data === 'object' && data !== null && (data as { type?: unknown }).type === 'cultura';
+}
+
 socket.on(EVT.privateData, (data) => {
   if (isInfoLine(data)) {
     lastInfo = data;
@@ -1194,6 +1330,10 @@ socket.on(EVT.privateData, (data) => {
     if (data.phase === 'intro') quizSelectedLocal = null;
     lastQuizState = data;
     updateQuizUI();
+    return;
+  }
+  if (isCulturaState(data)) {
+    updateCulturaUI(data);
     return;
   }
   // Dati privati (es. carta segreta, ruolo). Mostrati come schermata temporanea.
@@ -1392,6 +1532,11 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   if (layout.type === 'custom' && layout.id === 'fps-tv') {
     activeController = 'fps';
     renderFpsController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'cultura-tv') {
+    activeController = 'cultura';
+    renderCulturaController();
     return;
   }
   activeController = null;

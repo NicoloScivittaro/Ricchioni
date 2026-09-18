@@ -15,6 +15,7 @@ import type {
   SelectCharacterPayload,
   SelectMinigamePayload,
   SignalPayload,
+  TextRelayEvent,
   VibratePlayerPayload
 } from '../shared/protocol';
 import { MAX_PLAYERS, MIN_PLAYERS, TARGET_SCORE_MAX, TARGET_SCORE_MIN } from '../shared/types';
@@ -71,6 +72,13 @@ export class RoomManager {
     socket.on(EVT.inputAxis, (p: { controlId: string; x: number; y: number }) =>
       this.onInput(socket, { kind: 'axis', controlId: p.controlId, x: p.x, y: p.y })
     );
+    socket.on(EVT.inputText, (p: { controlId: string; text: string }) => {
+      const loc = this.socketToPlayer.get(socket.id);
+      const room = loc ? this.rooms.get(loc.roomCode) : undefined;
+      if (!loc || !room || room.phase !== 'MINIGAME_PLAYING' || !room.hostConnectionId) return;
+      const relay: TextRelayEvent = { playerId: loc.playerId, controlId: p.controlId, text: (p.text ?? '').slice(0, 60) };
+      this.io.to(room.hostConnectionId).emit(EVT.textRelay, relay);
+    });
     socket.on(EVT.hostStart, () => this.onHostStart(socket));
     socket.on(EVT.hostMinigameFinished, (p: MinigameFinishedPayload) =>
       this.onMinigameFinished(socket, p)

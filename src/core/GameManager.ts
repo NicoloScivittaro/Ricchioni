@@ -10,7 +10,8 @@ import type {
   InputRelayEvent,
   MinigameSelectedPayload,
   PlayerDisconnectedEvent,
-  RoomCreatedAck
+  RoomCreatedAck,
+  TextRelayEvent
 } from '../../shared/protocol';
 import type {
   ActiveModifier,
@@ -69,6 +70,7 @@ export class GameManager {
     s.on(EVT.roomState, (payload) => this.onRoomState(payload as RoomState));
     s.on(EVT.minigameSelected, (payload) => this.onMinigameSelected(payload as MinigameSelectedPayload));
     s.on(EVT.inputRelay, (payload) => this.onInputRelay(payload as InputRelayEvent));
+    s.on(EVT.textRelay, (payload) => this.onTextRelay(payload as TextRelayEvent));
     s.on(EVT.playerDisconnected, (payload) => {
       this.input.releasePlayer((payload as PlayerDisconnectedEvent).playerId);
     });
@@ -323,6 +325,10 @@ export class GameManager {
 
   private onInputRelay(relay: InputRelayEvent): void {
     this.input.handle(relay.playerId, relay.input);
+  }
+
+  private onTextRelay(relay: TextRelayEvent): void {
+    this.input.setText(relay.playerId, relay.controlId, relay.text);
   }
 }
 

@@ -13,6 +13,16 @@ interface ButtonState {
 export class PlayerInput {
   private buttons = new Map<string, ButtonState>();
   private axes = new Map<string, { x: number; y: number }>();
+  private texts = new Map<string, string>();
+
+  /** Testo libero (es. bluff di CULTURA O CAZZATA). */
+  setText(id: string, text: string): void {
+    this.texts.set(id, text);
+  }
+
+  text(id: string): string {
+    return this.texts.get(id) ?? '';
+  }
 
   setDown(id: string): void {
     const b = this.ensure(id);

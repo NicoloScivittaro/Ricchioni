@@ -1234,3 +1234,179 @@ button.char:disabled {
   transform: scale(0.94);
   filter: brightness(1.12);
 }
+
+/* ---- CULTURA O CAZZATA? (scrivi bluff / vota) ---- */
+
+.cultura-shell {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 16px 18px;
+  overflow-y: auto;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(251, 191, 36, 0.16), transparent 55%),
+    radial-gradient(circle at 90% 0%, rgba(168, 85, 247, 0.14), transparent 50%),
+    #12082a;
+  color: #fff;
+}
+
+.cultura-top {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fbbf24;
+  letter-spacing: 0.04em;
+}
+
+.cultura-q {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.cultura-input {
+  width: 100%;
+  font-size: 18px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 2px solid #4c1d95;
+  background: #1f1140;
+  color: #fff;
+  text-align: left;
+}
+
+.cultura-btn {
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 18px;
+  font-weight: 900;
+  color: #1b1b1b;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.cultura-btn:disabled {
+  opacity: 0.5;
+}
+
+.cultura-hint {
+  margin: 0;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.cultura-done {
+  font-size: 16px;
+  font-weight: 800;
+  color: #4ade80;
+  text-align: center;
+}
+
+.cultura-done span {
+  color: #e0e7ff;
+  font-weight: 700;
+}
+
+.cultura-opts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cultura-opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.cultura-opt-letter {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #4c1d95;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  color: #fbbf24;
+}
+
+.cultura-opt-text {
+  flex: 1;
+}
+
+.cultura-opt-text em {
+  color: #fbbf24;
+  font-style: normal;
+  font-size: 12px;
+}
+
+.cultura-opt.mine {
+  opacity: 0.55;
+}
+
+.cultura-opt.picked {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+}
+
+.cultura-secret {
+  font-size: 15px;
+  font-weight: 800;
+  color: #22d3ee;
+  text-align: center;
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.cultura-advocate {
+  font-size: 15px;
+  font-weight: 800;
+  color: #facc15;
+  text-align: center;
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.4);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.cultura-tebtn {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 900;
+  color: #1b1b1b;
+  background: linear-gradient(135deg, #22d3ee, #0ea5e9);
+}
+
+.cultura-result {
+  font-size: 18px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.cultura-score {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fbbf24;
+  text-align: center;
+}
+
+.cultura-rank {
+  font-size: 17px;
+  line-height: 1.8;
+  font-weight: 700;
+}
