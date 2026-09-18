@@ -11,10 +11,10 @@ export class SoccerHud {
   private feed: StackPanel;
   private feedTimers: number[] = [];
 
-  constructor(scene: Scene) {
+  constructor(scene: Scene, titleText = '⚽ CALCIO DEI DISAGIATI') {
     this.adt = AdvancedDynamicTexture.CreateFullscreenUI('soccerHud', true, scene);
 
-    const title = new TextBlock('title', '⚽ CALCIO DEI DISAGIATI');
+    const title = new TextBlock('title', titleText);
     title.color = '#ffffff';
     title.fontSize = 34;
     title.fontFamily = '"Arial Black", Arial, sans-serif';

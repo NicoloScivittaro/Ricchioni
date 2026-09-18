@@ -123,19 +123,14 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     rarity: 'uncommon',
     minPlayers: 1,
     maxPlayers: 5,
-    durationSec: 40,
+    // Beach volley 3D a squadre: intro + countdown + match primo a 5 punti.
+    // 120s di margine per una partita completa; il timer server è solo la rete
+    // di sicurezza.
+    durationSec: 120,
     compatibleModifiers: ['gravita_bassa', 'punti_doppi'],
     sceneKey: 'volleyball',
-    controllerLayout: {
-      type: 'dpad',
-      controls: [
-        { id: 'up', label: '▲', kind: 'hold' },
-        { id: 'down', label: '▼', kind: 'hold' },
-        { id: 'left', label: '◀', kind: 'hold' },
-        { id: 'right', label: '▶', kind: 'hold' },
-        { id: 'action', label: 'COLPO', kind: 'button', icon: '👊' }
-      ]
-    }
+    // Controller dedicato: joystick + SALTA + COLPISCI + ABILITÀ (renderVolleyballController()).
+    controllerLayout: { type: 'custom', id: 'volleyball-tv' }
   },
   {
     id: 'kart',

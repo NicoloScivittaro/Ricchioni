@@ -9,6 +9,7 @@ import { MEMORY_ABILITIES } from '../../shared/memoryAbilities';
 import { ARENA_ABILITIES } from '../../shared/arenaAbilities';
 import { DODGEBALL_ABILITIES } from '../../shared/dodgeballAbilities';
 import { SOCCER_ABILITIES } from '../../shared/soccerAbilities';
+import { VOLLEYBALL_ABILITIES } from '../../shared/volleyballAbilities';
 import { createVirtualJoystick } from './joystick';
 import type { VirtualJoystick } from './joystick';
 import './style.css';
@@ -699,6 +700,173 @@ function renderSoccerController(): void {
   soccerJoy = mountJoystick(baseEl, soccerThumbEl, () => soccerLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
 }
 
+// ---- PALLAVOLO DEI DISAGIATI (controller dedicato: joystick + salta + colpisci) ----
+
+let volleyJoystickEl: HTMLElement | null = null;
+let volleyThumbEl: HTMLElement | null = null;
+let volleyHitBtn: HTMLButtonElement | null = null;
+let volleyJumpBtn: HTMLButtonElement | null = null;
+let volleyAbilityBtn: HTMLButtonElement | null = null;
+let volleyStatusEl: HTMLElement | null = null;
+let volleyTeam: string | null = null;
+let volleyLocked = false;
+let volleyJoy: VirtualJoystick | null = null;
+
+function lockVolleyControls(locked: boolean, statusText?: string): void {
+  volleyLocked = locked;
+  if (volleyJoystickEl) volleyJoystickEl.classList.toggle('arena-locked', locked);
+  if (volleyHitBtn) volleyHitBtn.disabled = locked;
+  if (volleyJumpBtn) volleyJumpBtn.disabled = locked;
+  if (volleyAbilityBtn) volleyAbilityBtn.disabled = locked;
+  if (statusText && volleyStatusEl) volleyStatusEl.textContent = statusText;
+  if (locked) volleyJoy?.reset();
+}
+
+function handleVolleyballSignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'countdown':
+      if (s.value === 0) {
+        if (volleyStatusEl) volleyStatusEl.textContent = '⚡ VIA!';
+        vibrate(110);
+      } else if (s.value && s.value > 0) {
+        if (volleyStatusEl) volleyStatusEl.textContent = `⏱ ${s.value}`;
+        vibrate(35);
+      }
+      break;
+    case 'team':
+      volleyTeam = s.team ?? null;
+      if (volleyStatusEl) volleyStatusEl.textContent = s.team === 'red' ? '🔴 SEI ROSSO' : '🔵 SEI BLU';
+      break;
+    case 'served':
+      if (volleyStatusEl) volleyStatusEl.textContent = '🏐 HAI SERVITO!';
+      vibrate(40);
+      break;
+    case 'receive':
+      if (volleyStatusEl) volleyStatusEl.textContent = '🙌 ricezione!';
+      vibrate(30);
+      break;
+    case 'smash':
+      if (volleyStatusEl) volleyStatusEl.textContent = '💥 SMASH!';
+      vibrate(80);
+      showToast('💥 SMASH!');
+      break;
+    case 'point':
+      showToast(`💥 PUNTO ${s.team === 'red' ? 'ROSSI' : 'BLU'}!`);
+      vibrate([80, 40, 120]);
+      break;
+    case 'won':
+      lockVolleyControls(true, '🏆 HAI VINTO!');
+      vibrate([80, 40, 80, 40, 120]);
+      showToast('🏆 HAI VINTO!');
+      break;
+    case 'matchEnd':
+      if (s.winner && s.winner !== volleyTeam) {
+        lockVolleyControls(true, '😞 hai perso...');
+        showToast('😞 hai perso...');
+      }
+      break;
+    case 'ability':
+      if (volleyAbilityBtn) {
+        volleyAbilityBtn.disabled = true;
+        volleyAbilityBtn.classList.add('arena-ability-used');
+      }
+      showToast(`⭐ ${s.name ?? 'ABILITÀ'}`);
+      vibrate(70);
+      break;
+    case 'jager_boom':
+      showToast('💥 JÄGER BOMB!');
+      vibrate(100);
+      break;
+    case 'jager_wasted':
+      showToast('😵 JÄGER BOMB sprecata...');
+      break;
+    case 'stable':
+      showToast('🧱 MURO DEL POLIGONO stabile!');
+      break;
+    case 'scarica':
+      showToast('💥 SCARICA!');
+      vibrate(70);
+      break;
+    case 'frozen':
+      if (volleyStatusEl) volleyStatusEl.textContent = '⏳ PAGO DOMANI — salva!';
+      vibrate([80, 40, 80]);
+      showToast('⏳ PAGO DOMANI — salva!');
+      break;
+    case 'debt_ok':
+      showToast('✅ DEBITO SALDATO!');
+      vibrate(60);
+      break;
+    case 'debt_fail':
+      showToast('💀 debito non saldato');
+      break;
+  }
+}
+
+/** Controller dedicato a PALLAVOLO DEI DISAGIATI (layout custom: volleyball-tv). */
+function renderVolleyballController(): void {
+  volleyJoystickEl = null;
+  volleyThumbEl = null;
+  volleyHitBtn = null;
+  volleyJumpBtn = null;
+  volleyAbilityBtn = null;
+  volleyStatusEl = null;
+  volleyTeam = null;
+  volleyLocked = false;
+  volleyJoy = null;
+
+  const me: PlayerPublic | undefined =
+    playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  const cid = me?.characterId ?? '';
+  const ab = VOLLEYBALL_ABILITIES[cid];
+
+  app.innerHTML = `
+    <div class="arena-shell">
+      <div class="arena-topbar">
+        <div class="arena-brand">🏐 PALLAVOLO DEI DISAGIATI</div>
+        <div id="volley-status" class="arena-status">PRONTO</div>
+      </div>
+      <div class="arena-body">
+        <div class="arena-joy">
+          <div class="arena-joy-base">
+            <div class="arena-joy-thumb"></div>
+          </div>
+        </div>
+        <div class="arena-actions">
+          <button id="volley-hit" class="arena-dash">👊<span>COLPISCI</span></button>
+          <button id="volley-jump" class="db-dodge">🦘<span>SALTA</span></button>
+          <button id="volley-ability" class="arena-ability">⭐<span>${ab?.name ?? 'ABILITÀ'}</span></button>
+          <p id="volley-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
+        </div>
+      </div>
+    </div>`;
+
+  volleyStatusEl = app.querySelector<HTMLElement>('#volley-status')!;
+  volleyHitBtn = app.querySelector<HTMLButtonElement>('#volley-hit')!;
+  volleyJumpBtn = app.querySelector<HTMLButtonElement>('#volley-jump')!;
+  volleyAbilityBtn = app.querySelector<HTMLButtonElement>('#volley-ability')!;
+  volleyJoystickEl = app.querySelector<HTMLElement>('.arena-joy')!;
+  volleyThumbEl = app.querySelector<HTMLElement>('.arena-joy-thumb')!;
+  const baseEl = app.querySelector<HTMLElement>('.arena-joy-base')!;
+
+  volleyHitBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (volleyHitBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'hit' });
+  });
+  volleyJumpBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (volleyJumpBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'jump' });
+  });
+  volleyAbilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (volleyAbilityBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  volleyJoy = mountJoystick(baseEl, volleyThumbEl, () => volleyLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
+}
+
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
   if (activeController === 'memory') {
@@ -715,6 +883,10 @@ socket.on(EVT.controllerSignal, (data) => {
   }
   if (activeController === 'soccer') {
     handleSoccerSignal(s);
+    return;
+  }
+  if (activeController === 'volleyball') {
+    handleVolleyballSignal(s);
     return;
   }
   const actionBtn =
@@ -1044,6 +1216,11 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   if (layout.type === 'custom' && layout.id === 'soccer-tv') {
     activeController = 'soccer';
     renderSoccerController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'volleyball-tv') {
+    activeController = 'volleyball';
+    renderVolleyballController();
     return;
   }
   activeController = null;
