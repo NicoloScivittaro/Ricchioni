@@ -886,11 +886,19 @@ function handleFpsSignal(s: SignalPayload): void {
       break;
     case 'hit':
       vibrate(20);
+      fpsClient?.hitMarker();
       break;
     case 'damaged': {
-      vibrate(60);
-      const from = (s as unknown as { from?: string }).from;
-      if (fpsClient) fpsClient.feed(`💥 colpito${from ? ` da ${from}` : ''}!`);
+      const d = s as unknown as { from?: string; amount?: number };
+      const amount = d.amount ?? 10;
+      vibrate(amount >= 30 ? 80 : 40);
+      fpsClient?.damageTaken(d.from ?? '', amount);
+      break;
+    }
+    case 'killed': {
+      const d = s as unknown as { name?: string };
+      vibrate([60, 30, 80]);
+      fpsClient?.killConfirm(d.name ?? '');
       break;
     }
     case 'eliminated': {
@@ -903,7 +911,7 @@ function handleFpsSignal(s: SignalPayload): void {
       if (fpsClient) fpsClient.hideDeath();
       break;
     case 'reload':
-      if (fpsClient) fpsClient.feed('🔄 RICARICA...');
+      fpsClient?.reloadStart(1.5);
       break;
     case 'fpsEnd':
       if (fpsClient) fpsClient.showDeath('⏱ TEMPO!');
@@ -984,10 +992,12 @@ function renderFpsController(): void {
   const fireDown = (e: PointerEvent): void => {
     e.preventDefault();
     if (fpsFireBtn!.disabled) return;
+    fpsClient?.setFirePressed(true);
     sendInput({ kind: 'down', controlId: 'fire' });
   };
   const fireUp = (e: PointerEvent): void => {
     e.preventDefault();
+    fpsClient?.setFirePressed(false);
     sendInput({ kind: 'up', controlId: 'fire' });
   };
   fpsFireBtn.addEventListener('pointerdown', fireDown);

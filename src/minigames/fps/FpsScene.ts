@@ -307,7 +307,9 @@ export class FpsScene extends Phaser.Scene {
     killer.kills++;
     audio.wrong();
     this.ctx.vibrate(target.id, 130);
+    this.ctx.vibrate(killer.id, 40);
     this.ctx.signal(target.id, { type: 'eliminated', by: killer.id });
+    this.ctx.signal(killer.id, { type: 'killed', name: target.name });
   }
 
   private respawn(p: FpsPlayer): void {
