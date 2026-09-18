@@ -160,7 +160,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     name: 'SPARATORIA DEI DISAGIATI',
     category: 'ARENA',
     rarity: 'rare',
-    minPlayers: 2,
+    minPlayers: 1,
     maxPlayers: 5,
     // FPS free-for-all: ogni telefono renderizza la propria visuale, il PC è
     // radar/regia. 100s di match; il timer server è solo la rete di sicurezza.
