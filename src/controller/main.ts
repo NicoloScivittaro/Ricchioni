@@ -11,6 +11,7 @@ import { DODGEBALL_ABILITIES } from '../../shared/dodgeballAbilities';
 import { SOCCER_ABILITIES } from '../../shared/soccerAbilities';
 import { VOLLEYBALL_ABILITIES } from '../../shared/volleyballAbilities';
 import { createVirtualJoystick } from './joystick';
+import type { FpsClient, FpsStatePayload } from './fpsClient';
 import type { VirtualJoystick } from './joystick';
 import './style.css';
 
@@ -867,6 +868,157 @@ function renderVolleyballController(): void {
   volleyJoy = mountJoystick(baseEl, volleyThumbEl, () => volleyLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
 }
 
+// ---- SPARATORIA DEI DISAGIATI (controller FPS completo su telefono) ----
+
+let fpsClient: FpsClient | null = null;
+let fpsPendingState: FpsStatePayload | null = null;
+let fpsLookEl: HTMLElement | null = null;
+let fpsFireBtn: HTMLButtonElement | null = null;
+let fpsDashBtn: HTMLButtonElement | null = null;
+let fpsAbilityBtn: HTMLButtonElement | null = null;
+let fpsLocked = false;
+
+function handleFpsSignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'fpsState':
+      if (fpsClient) fpsClient.updateState(s as unknown as FpsStatePayload);
+      else fpsPendingState = s as unknown as FpsStatePayload;
+      break;
+    case 'hit':
+      vibrate(20);
+      break;
+    case 'damaged': {
+      vibrate(60);
+      const from = (s as unknown as { from?: string }).from;
+      if (fpsClient) fpsClient.feed(`💥 colpito${from ? ` da ${from}` : ''}!`);
+      break;
+    }
+    case 'eliminated': {
+      const by = (s as unknown as { by?: string }).by;
+      if (fpsClient) fpsClient.showDeath(`💀 ELIMINATO${by ? ` — ${by}` : ''}`);
+      vibrate([100, 60, 100]);
+      break;
+    }
+    case 'respawn':
+      if (fpsClient) fpsClient.hideDeath();
+      break;
+    case 'reload':
+      if (fpsClient) fpsClient.feed('🔄 RICARICA...');
+      break;
+    case 'fpsEnd':
+      if (fpsClient) fpsClient.showDeath('⏱ TEMPO!');
+      break;
+  }
+}
+
+/** Controller dedicato a SPARATORIA DEI DISAGIATI (layout custom: fps-tv). */
+function renderFpsController(): void {
+  fpsClient = null;
+  fpsPendingState = null;
+  fpsLookEl = null;
+  fpsFireBtn = null;
+  fpsDashBtn = null;
+  fpsAbilityBtn = null;
+  fpsLocked = false;
+
+  app.innerHTML = `
+    <div class="fps-shell">
+      <div id="fps-canvas"></div>
+      <div class="fps-look" id="fps-look"></div>
+      <div class="fps-joy">
+        <div class="arena-joy-base">
+          <div class="arena-joy-thumb"></div>
+        </div>
+      </div>
+      <div class="fps-btns">
+        <button id="fps-fire" class="fps-fire">🔫<span>SPARA</span></button>
+        <button id="fps-dash" class="fps-dash">💨<span>DASH</span></button>
+        <button id="fps-ability" class="arena-ability">⭐<span>ABILITÀ</span></button>
+      </div>
+    </div>`;
+
+  const canvasHost = app.querySelector<HTMLElement>('#fps-canvas')!;
+  fpsLookEl = app.querySelector<HTMLElement>('#fps-look')!;
+  fpsFireBtn = app.querySelector<HTMLButtonElement>('#fps-fire')!;
+  fpsDashBtn = app.querySelector<HTMLButtonElement>('#fps-dash')!;
+  fpsAbilityBtn = app.querySelector<HTMLButtonElement>('#fps-ability')!;
+  const baseEl = app.querySelector<HTMLElement>('.arena-joy-base')!;
+  const thumbEl = app.querySelector<HTMLElement>('.arena-joy-thumb')!;
+
+  // Joystick movimento
+  mountJoystick(baseEl, thumbEl, () => fpsLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
+
+  // Look touch (trascina per guardare)
+  let lastX = -1;
+  let lastY = -1;
+  let activeLookPointer: number | null = null;
+  fpsLookEl.addEventListener('pointerdown', (e) => {
+    if (fpsLocked) return;
+    activeLookPointer = e.pointerId;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    try {
+      fpsLookEl!.setPointerCapture(e.pointerId);
+    } catch {
+      /* ignore */
+    }
+  });
+  fpsLookEl.addEventListener('pointermove', (e) => {
+    if (e.pointerId !== activeLookPointer || lastX < 0) return;
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    fpsClient?.look(dx, dy);
+  });
+  const lookEnd = (e: PointerEvent): void => {
+    if (e.pointerId !== activeLookPointer) return;
+    activeLookPointer = null;
+    lastX = -1;
+    lastY = -1;
+  };
+  fpsLookEl.addEventListener('pointerup', lookEnd);
+  fpsLookEl.addEventListener('pointercancel', lookEnd);
+
+  // SPARA (hold)
+  const fireDown = (e: PointerEvent): void => {
+    e.preventDefault();
+    if (fpsFireBtn!.disabled) return;
+    sendInput({ kind: 'down', controlId: 'fire' });
+  };
+  const fireUp = (e: PointerEvent): void => {
+    e.preventDefault();
+    sendInput({ kind: 'up', controlId: 'fire' });
+  };
+  fpsFireBtn.addEventListener('pointerdown', fireDown);
+  fpsFireBtn.addEventListener('pointerup', fireUp);
+  fpsFireBtn.addEventListener('pointercancel', fireUp);
+  fpsFireBtn.addEventListener('pointerleave', fireUp);
+
+  fpsDashBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (fpsDashBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'dash' });
+  });
+  fpsAbilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (fpsAbilityBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  // Client FPS (Babylon, caricato lazy)
+  void (async () => {
+    const { FpsClient } = await import('./fpsClient');
+    fpsClient = new FpsClient(canvasHost, playerId ?? '', (yaw, pitch) =>
+      sendInput({ kind: 'axis', controlId: 'look', x: yaw, y: pitch })
+    );
+    if (fpsPendingState) {
+      fpsClient.updateState(fpsPendingState);
+      fpsPendingState = null;
+    }
+  })();
+}
+
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
   if (activeController === 'memory') {
@@ -887,6 +1039,10 @@ socket.on(EVT.controllerSignal, (data) => {
   }
   if (activeController === 'volleyball') {
     handleVolleyballSignal(s);
+    return;
+  }
+  if (activeController === 'fps') {
+    handleFpsSignal(s);
     return;
   }
   const actionBtn =
@@ -1221,6 +1377,11 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   if (layout.type === 'custom' && layout.id === 'volleyball-tv') {
     activeController = 'volleyball';
     renderVolleyballController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'fps-tv') {
+    activeController = 'fps';
+    renderFpsController();
     return;
   }
   activeController = null;

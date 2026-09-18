@@ -133,46 +133,6 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     controllerLayout: { type: 'custom', id: 'volleyball-tv' }
   },
   {
-    id: 'kart',
-    name: 'KART DEI COGLIONI',
-    category: 'GUIDA',
-    rarity: 'rare',
-    minPlayers: 1,
-    maxPlayers: 5,
-    durationSec: 90,
-    compatibleModifiers: ['controlli_invertiti', 'punti_doppi'],
-    sceneKey: 'kart',
-    controllerLayout: {
-      type: 'dpad',
-      controls: [
-        { id: 'up', label: '▲', kind: 'hold' },
-        { id: 'down', label: '▼', kind: 'hold' },
-        { id: 'left', label: '◀', kind: 'hold' },
-        { id: 'right', label: '▶', kind: 'hold' }
-      ]
-    }
-  },
-  {
-    id: 'pixelrush',
-    name: 'PIXEL RUSH',
-    category: 'GUIDA',
-    rarity: 'uncommon',
-    minPlayers: 1,
-    maxPlayers: 5,
-    durationSec: 60,
-    compatibleModifiers: ['punti_doppi'],
-    sceneKey: 'pixelrush',
-    controllerLayout: {
-      type: 'buttons',
-      grid: 2,
-      controls: [
-        { id: 'left', label: '◀', kind: 'button' },
-        { id: 'right', label: '▶', kind: 'button' },
-        { id: 'action', label: 'OGGETTO', kind: 'button', icon: '🎁' }
-      ]
-    }
-  },
-  {
     id: 'kart3d',
     name: 'RIBALTATI — CIRCUITO DEL LITORALE',
     category: 'GUIDA',
@@ -194,6 +154,21 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
       ]
     }
+  },
+  {
+    id: 'fps',
+    name: 'SPARATORIA DEI DISAGIATI',
+    category: 'ARENA',
+    rarity: 'rare',
+    minPlayers: 2,
+    maxPlayers: 5,
+    // FPS free-for-all: ogni telefono renderizza la propria visuale, il PC è
+    // radar/regia. 100s di match; il timer server è solo la rete di sicurezza.
+    durationSec: 100,
+    compatibleModifiers: ['punti_doppi'],
+    sceneKey: 'fps',
+    // Controller dedicato: joystick + look touch + SPARA + DASH + ABILITÀ (renderFpsController()).
+    controllerLayout: { type: 'custom', id: 'fps-tv' }
   }
 ];
 
