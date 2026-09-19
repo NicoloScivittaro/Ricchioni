@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
+import { getMinigame } from '../../shared/minigames';
 
 /** INTRO del minigioco: nome, categoria e countdown "3, 2, 1, VIA!". */
 export class IntroScene extends Phaser.Scene {
@@ -33,7 +34,7 @@ export class IntroScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.add
-      .text(640, 320, 'Usa il telefono per giocare', {
+      .text(640, 320, getMinigame(pick.minigameId)?.description ?? 'Usa il telefono per giocare', {
         fontFamily: 'Arial, sans-serif',
         fontSize: '22px',
         color: '#9ca3af'
@@ -41,9 +42,9 @@ export class IntroScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     const count = this.add
-      .text(640, 440, 'PREPARATI', {
+      .text(640, 440, 'PREPARATE I TELEFONI', {
         fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '64px',
+        fontSize: '48px',
         color: '#ffffff'
       })
       .setOrigin(0.5);
@@ -51,7 +52,7 @@ export class IntroScene extends Phaser.Scene {
     const steps = ['3', '2', '1', 'VIA!'];
     steps.forEach((s, i) => {
       this.time.delayedCall(400 + i * 850, () => {
-        count.setText(s).setColor(s === 'VIA!' ? '#4ade80' : '#ffffff');
+        count.setFontSize(64).setText(s).setColor(s === 'VIA!' ? '#4ade80' : '#ffffff');
         audio.select();
       });
     });

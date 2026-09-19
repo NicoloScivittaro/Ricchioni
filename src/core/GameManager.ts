@@ -26,6 +26,7 @@ import type {
 import { SocketClient } from '../network/SocketClient';
 import { InputManager } from '../network/InputManager';
 import type { MinigameContext } from '../minigames/types';
+import { showMinigameError, hideMinigameError } from './HostOverlay';
 
 /**
  * View-model lato HOST: rispecchia lo stato autoritativo del server e guida
@@ -48,6 +49,7 @@ export class GameManager {
   private socket: SocketClient | null = null;
   private game: Phaser.Game | null = null;
   private lastPhase: GamePhase = 'LOBBY';
+  private loadWatchdog: ReturnType<typeof setTimeout> | null = null;
 
   attach(game: Phaser.Game): void {
     this.game = game;
@@ -65,6 +67,10 @@ export class GameManager {
     this.socket.socket.on('connect', () => {
       this.connectionError = null;
       this.events.emit('connection', 'ok');
+      // Dopo un calo di rete Socket.IO ricrea il socket con un id NUOVO: l'host va
+      // ri-registrato ogni volta, altrimenti il server lo ignora per sempre.
+      const tok = this.hostToken ?? this.loadHostToken();
+      if (tok) this.attemptHostReconnect(tok);
     });
 
     s.on(EVT.roomState, (payload) => this.onRoomState(payload as RoomState));
@@ -75,14 +81,8 @@ export class GameManager {
       this.input.releasePlayer((payload as PlayerDisconnectedEvent).playerId);
     });
 
-    // Riconnessione automatica dell'host con token salvato
-    const saved = this.loadHostToken();
-    if (saved) {
-      this.reconnecting = true;
-      const doReconnect = (): void => this.attemptHostReconnect(saved);
-      if (this.socket.socket.connected) doReconnect();
-      else this.socket.socket.once('connect', doReconnect);
-    }
+    // Riconnessione automatica dell'host con token salvato (ricarica pagina)
+    if (this.loadHostToken()) this.reconnecting = true;
   }
 
   get connected(): boolean {
@@ -150,16 +150,71 @@ export class GameManager {
     this.clearHostToken();
   }
 
-  finishMinigame(result: MinigameResult): void {
-    this.socket?.emit(EVT.hostMinigameFinished, { results: result.results });
+  finishMinigame(result: MinigameResult, roundId?: number): void {
+    this.socket?.emit(EVT.hostMinigameFinished, { results: result.results, roundId });
+  }
+
+  /** Pausa/ripresa (ESC): il server ferma la rete di sicurezza e i telefoni mostrano PAUSA. */
+  setPaused(paused: boolean): void {
+    this.socket?.emit(EVT.hostPause, { paused });
+  }
+
+  /** Emergenza: salta il minigioco in corso SENZA punti e torna al rullo. */
+  skipMinigame(): void {
+    hideMinigameError();
+    this.clearLoadWatchdog();
+    this.socket?.emit(EVT.hostSkipMinigame);
+  }
+
+  /** Errore di caricamento/avvio di un minigioco: mai schermo nero, sempre una via d'uscita. */
+  reportMinigameError(err: unknown): void {
+    console.error('[minigioco]', err);
+    this.clearLoadWatchdog();
+    const msg = err instanceof Error ? err.message : String(err);
+    showMinigameError(
+      msg,
+      () => {
+        hideMinigameError();
+        this.launchMinigame();
+      },
+      () => this.skipMinigame()
+    );
+  }
+
+  /** Le scene con caricamento asincrono (3D) segnalano inizio/fine: oltre 25s → recovery. */
+  minigameLoadStarted(): void {
+    this.clearLoadWatchdog();
+    this.loadWatchdog = setTimeout(() => {
+      this.loadWatchdog = null;
+      this.reportMinigameError('Il caricamento sta impiegando troppo tempo');
+    }, 25000);
+  }
+
+  minigameLoadFinished(): void {
+    this.clearLoadWatchdog();
+  }
+
+  private clearLoadWatchdog(): void {
+    if (this.loadWatchdog) {
+      clearTimeout(this.loadWatchdog);
+      this.loadWatchdog = null;
+    }
   }
 
   /** Avvia la scena del minigioco (chiamato dalla RouletteScene a fine animazione). */
   launchMinigame(): void {
     if (!this.pendingMinigame || !this.game) return;
     const def = getMinigame(this.pendingMinigame.minigameId);
-    if (!def) return;
-    this.game.scene.start(def.sceneKey, { ctx: this.minigameContext });
+    if (!def) {
+      this.reportMinigameError(`Minigioco sconosciuto: ${this.pendingMinigame.minigameId}`);
+      return;
+    }
+    try {
+      if (!this.game.scene.getScene(def.sceneKey)) throw new Error(`Scena non registrata: ${def.sceneKey}`);
+      this.game.scene.start(def.sceneKey, { ctx: this.minigameContext });
+    } catch (e) {
+      this.reportMinigameError(e);
+    }
   }
 
   // ---- Costruzione contesto minigioco ----
@@ -175,6 +230,9 @@ export class GameManager {
 
     this.input.reset();
 
+    const roundId = payload.roundId;
+    let submitted = false;
+
     return {
       players: snapshots,
       playerIds: snapshots.map((p) => p.id),
@@ -187,7 +245,12 @@ export class GameManager {
       sendPrivate: (playerId, data) => this.sendPrivate(playerId, data),
       vibrate: (playerId, ms) => this.vibrate(playerId, ms),
       signal: (playerId, signal) => this.signal(playerId, signal),
-      finish: (result) => this.finishMinigame(result)
+      // Un contesto può consegnare i risultati UNA volta sola (protezione doppio result).
+      finish: (result) => {
+        if (submitted) return;
+        submitted = true;
+        this.finishMinigame(result, roundId);
+      }
     };
   }
 
@@ -269,6 +332,11 @@ export class GameManager {
       }
     }
 
+    if (state.phase !== 'MINIGAME_PLAYING') {
+      hideMinigameError();
+      this.clearLoadWatchdog();
+    }
+
     if (state.phase === prev) return;
 
     // Transizione verso LOBBY: restart (giocatori mantenuti) o back-to-lobby (vuoto)
@@ -318,6 +386,11 @@ export class GameManager {
   }
 
   private onMinigameSelected(payload: MinigameSelectedPayload): void {
+    // Re-invio dopo una riconnessione host a metà round: stesso roundId → tieni il contesto
+    // già in uso (ricrearlo azzererebbe gli input e riaprirebbe la consegna dei risultati).
+    if (payload.roundId !== undefined && this.pendingMinigame?.roundId === payload.roundId && this.minigameContext) {
+      return;
+    }
     this.pendingMinigame = payload;
     this.minigameContext = this.buildContext(payload);
     this.events.emit('minigame', payload);

@@ -46,6 +46,7 @@ import { buildVolleyballEnvironment } from './volleyballEnvironment';
 import { VolleyballAbilities, JAGER_POWER_MULT, JUDOKA_ACCEL_MULT, JUDOKA_HIT_MULT } from './volleyballAbilities';
 import type { VolleyballAbilityFeedback } from './volleyballAbilities';
 import { readMove } from '../moveInput';
+import { guardLoop } from '../../core/loopGuard';
 
 const COUNTDOWN_S = 3.2;
 const INTRO_SECONDS = 3.4;
@@ -150,13 +151,13 @@ export class BabylonVolleyballGame {
     this.hud.setTimer(0);
     this.showTeamIntro();
 
-    this.engine.runRenderLoop(() => {
+    this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
       if (this.paused) return;
       const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.05) || 0.016;
       this.step(dt);
       this.scene.render();
-    });
+    }));
     window.addEventListener('resize', this.onResize);
   }
 

@@ -9,6 +9,7 @@ import type {
   JoinPayload,
   MinigameFinishedPayload,
   MinigameSelectedPayload,
+  PausePayload,
   PrivateDataPayload,
   ReadyPayload,
   RoomCreatedAck,
@@ -84,6 +85,8 @@ export class RoomManager {
       this.onMinigameFinished(socket, p)
     );
     socket.on(EVT.hostSkip, () => this.onSkip(socket));
+    socket.on(EVT.hostSkipMinigame, () => this.onSkipMinigame(socket));
+    socket.on(EVT.hostPause, (p: PausePayload) => this.onPause(socket, p));
     socket.on(EVT.hostSelectMinigame, (p: SelectMinigamePayload) =>
       this.onSelectMinigame(socket, p.minigameId)
     );
@@ -136,6 +139,10 @@ export class RoomManager {
         const room = this.rooms.get(target.roomCode);
         const player = room?.getPlayer(target.playerId);
         if (room && player) {
+          // Il vecchio socket (telefono in standby / tab fantasma) non deve più pilotare.
+          if (player.connectionId && player.connectionId !== socket.id) {
+            this.socketToPlayer.delete(player.connectionId);
+          }
           player.attach(socket.id);
           this.reconn.cancelExpiry(payload.reconnectToken);
           this.socketToPlayer.set(socket.id, { roomCode: room.roomCode, playerId: player.id });
@@ -147,6 +154,18 @@ export class RoomManager {
       }
       cb?.({ ok: false, error: 'Token di riconnessione non valido o scaduto' });
       return;
+    }
+
+    // Stesso socket che rifà join (doppio tap / doppio emit): restituisci l'identità già creata,
+    // niente giocatore duplicato.
+    const existing = this.socketToPlayer.get(socket.id);
+    if (existing && existing.roomCode === (payload.roomCode ?? '').toUpperCase().trim()) {
+      const exRoom = this.rooms.get(existing.roomCode);
+      const exPlayer = exRoom?.getPlayer(existing.playerId);
+      if (exRoom && exPlayer && exPlayer.connectionId === socket.id) {
+        cb?.({ ok: true, playerId: exPlayer.id, reconnectToken: exPlayer.reconnectToken } as JoinAck & AckResponse);
+        return;
+      }
     }
 
     const code = (payload.roomCode ?? '').toUpperCase().trim();
@@ -166,7 +185,7 @@ export class RoomManager {
 
     const playerId = randomUUID();
     const reconnectToken = randomUUID();
-    const name = (payload.displayName ?? '').trim().slice(0, 20) || 'Giocatore';
+    const name = (payload.displayName ?? '').replace(/[<>&"'`]/g, '').trim().slice(0, 20) || 'Giocatore';
     const player = new PlayerSession(playerId, name, reconnectToken);
     player.attach(socket.id);
     room.addPlayer(player);
@@ -222,13 +241,25 @@ export class RoomManager {
   private onMinigameFinished(socket: Socket, p: MinigameFinishedPayload): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
-    room.finishMinigame(p.results);
+    room.finishMinigame(p?.results ?? [], typeof p?.roundId === 'number' ? p.roundId : undefined);
   }
 
   private onSkip(socket: Socket): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
     room.skip();
+  }
+
+  private onSkipMinigame(socket: Socket): void {
+    const room = this.roomOfHost(socket);
+    if (!room) return;
+    room.skipMinigame();
+  }
+
+  private onPause(socket: Socket, p: PausePayload): void {
+    const room = this.roomOfHost(socket);
+    if (!room) return;
+    room.setPaused(Boolean(p?.paused));
   }
 
   private onSelectMinigame(socket: Socket, minigameId: string | null): void {
@@ -313,7 +344,7 @@ export class RoomManager {
     if (loc) {
       const room = this.rooms.get(loc.roomCode);
       const player = room?.getPlayer(loc.playerId);
-      if (room && player) {
+      if (room && player && player.connectionId === socket.id) {
         player.detach();
         this.reconn.scheduleExpiry(player.reconnectToken, () => {
           /* scaduto: il token non è più valido, il giocatore resta in partita senza controllo */

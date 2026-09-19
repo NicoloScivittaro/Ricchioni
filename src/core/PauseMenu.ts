@@ -3,7 +3,7 @@ import { game as gm } from './GameManager';
 import { audio } from './AudioManager';
 import type { InputManager } from '../network/InputManager';
 
-type MenuMode = 'none' | 'main' | 'confirmRestart' | 'confirmLobby';
+type MenuMode = 'none' | 'main' | 'confirmRestart' | 'confirmLobby' | 'confirmSkip';
 
 /**
  * Menu di pausa riutilizzabile (ESC): PAUSA → RIPRENDI / RICOMINCIA MINIGIOCO
@@ -58,6 +58,7 @@ export class PauseMenu {
   }
 
   private open(): void {
+    if (this.mode === 'none') gm.setPaused(true);
     this.mode = 'main';
     this.index = 0;
     this.render();
@@ -65,6 +66,7 @@ export class PauseMenu {
 
   private close(): void {
     this.mode = 'none';
+    gm.setPaused(false);
     this.clear();
   }
 
@@ -74,7 +76,7 @@ export class PauseMenu {
   }
 
   private itemCount(): number {
-    return this.mode === 'main' ? 3 : 2;
+    return this.mode === 'main' ? 4 : 2;
   }
 
   private render(): void {
@@ -98,16 +100,20 @@ export class PauseMenu {
 
     const items =
       this.mode === 'main'
-        ? ['RIPRENDI', 'RICOMINCIA MINIGIOCO', 'TORNA ALLA LOBBY']
+        ? ['RIPRENDI', 'RICOMINCIA MINIGIOCO', 'TORNA ALLA LOBBY', 'SALTA MINIGIOCO (NO PUNTI)']
         : this.mode === 'confirmRestart'
           ? ['ANNULLA', 'RICOMINCIA']
-          : ['ANNULLA', 'TORNA ALLA LOBBY'];
+          : this.mode === 'confirmSkip'
+            ? ['ANNULLA', 'SALTA MINIGIOCO']
+            : ['ANNULLA', 'TORNA ALLA LOBBY'];
 
     if (this.mode !== 'main') {
       const msg =
         this.mode === 'confirmRestart'
           ? 'Vuoi davvero ricominciare il minigioco?'
-          : 'Vuoi davvero abbandonare il minigioco e tornare alla lobby?';
+          : this.mode === 'confirmSkip'
+            ? 'Saltare il minigioco SENZA assegnare punti e tornare al rullo?'
+            : 'Vuoi davvero abbandonare il minigioco e tornare alla lobby?';
       mk(
         this.scene.add
           .text(640, 270, msg, { fontFamily: 'Arial, sans-serif', fontSize: '22px', color: '#e5e7eb', align: 'center', wordWrap: { width: 720 } })
@@ -156,14 +162,28 @@ export class PauseMenu {
         this.mode = 'confirmRestart';
         this.index = 0;
         this.render();
-      } else {
+      } else if (this.index === 2) {
         this.mode = 'confirmLobby';
         this.index = 0;
         this.render();
+      } else {
+        this.mode = 'confirmSkip';
+        this.index = 0;
+        this.render();
+      }
+    } else if (this.mode === 'confirmSkip') {
+      if (this.index === 1) {
+        audio.select();
+        this.mode = 'none';
+        this.clear();
+        gm.skipMinigame();
+      } else {
+        this.open();
       }
     } else if (this.mode === 'confirmRestart') {
       if (this.index === 1) {
         audio.select();
+        gm.setPaused(false);
         this.onRestart();
       } else {
         this.open();

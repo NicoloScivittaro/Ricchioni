@@ -56,6 +56,11 @@ export class GameSession {
   /** Ultimo payload "minigame:selected" (per la ripresa dell'host dopo una riconnessione). */
   lastSelectedPayload: MinigameSelectedPayload | null = null;
 
+  /** Id incrementale del minigioco in corso (incrementa a ogni estrazione del rullo). */
+  minigameSeq = 0;
+  /** Host in pausa durante MINIGAME_PLAYING. */
+  paused = false;
+
   private suddenDeathCandidates: PlayerId[] = [];
   private rng = new Rng();
   private history: RouletteHistoryEntry[] = [];
@@ -86,8 +91,13 @@ export class GameSession {
     return this.players.length >= this.playerCount;
   }
 
+  /** Minimo di giocatori per iniziare una partita vera. */
+  static readonly MIN_TO_START = 2;
+
   allReady(): boolean {
-    return this.players.length >= 1 && this.players.every((p) => p.ready && p.characterId);
+    return (
+      this.players.length >= GameSession.MIN_TO_START && this.players.every((p) => p.ready && p.characterId)
+    );
   }
 
   selectCharacter(playerId: PlayerId, characterId: string): void {
@@ -119,21 +129,50 @@ export class GameSession {
       lastResults: this.lastResults,
       winner: this.winner,
       suddenDeath: this.suddenDeath,
-      selectedMinigameId: this.manualMinigameId
+      selectedMinigameId: this.manualMinigameId,
+      paused: this.paused,
+      roundId: this.minigameSeq
     };
   }
 
   // ---- Controllo partita ----
 
   startGame(): void {
+    // Guard anti doppio START (tasto tenuto premuto / doppio click): solo dalla LOBBY.
+    if (this.phase !== 'LOBBY' || !this.allReady()) return;
     this.round = 1;
     this.pickAndEnterRoulette();
   }
 
+  /**
+   * Risultati di un minigioco sanificati: solo giocatori veri, nessun duplicato,
+   * placement finiti; chi manca (disconnesso/non piazzato) va in coda. Restituisce
+   * SEMPRE una classifica completa 1..N, mai placement undefined.
+   */
+  private normalizeResults(results: PlayerResult[]): PlayerResult[] {
+    const known = new Set(this.players.map((p) => p.id));
+    const seen = new Set<PlayerId>();
+    const valid: PlayerResult[] = [];
+    (Array.isArray(results) ? results : []).forEach((r, i) => {
+      if (!r || !known.has(r.playerId) || seen.has(r.playerId)) return;
+      seen.add(r.playerId);
+      const placement = Number.isFinite(r.placement) ? r.placement : 1e6 + i;
+      const score = Number.isFinite(r.score) ? r.score : 0;
+      valid.push({ playerId: r.playerId, placement, score });
+    });
+    valid.sort((a, b) => a.placement - b.placement);
+    for (const p of this.players) {
+      if (!seen.has(p.id)) valid.push({ playerId: p.id, placement: 1e7, score: 0 });
+    }
+    return valid.map((r, i) => ({ ...r, placement: i + 1 }));
+  }
+
   /** Il minigioco (via host) restituisce i risultati; qui si assegnano i punti. */
-  finishMinigame(results: PlayerResult[]): void {
+  finishMinigame(results: PlayerResult[], roundId?: number): void {
     if (this.phase !== 'MINIGAME_PLAYING') return;
-    const ordered = [...results].sort((a, b) => a.placement - b.placement);
+    // Evento tardivo di un round vecchio (ctx di un minigioco precedente): ignora.
+    if (roundId !== undefined && roundId !== this.minigameSeq) return;
+    const ordered = this.normalizeResults(results);
     const ranking = ordered.map((r) => r.playerId);
     const double = this.currentMinigame?.modifierId === 'punti_doppi';
     const scoresMap = new Map(this.players.map((p) => [p.id, p.score]));
@@ -153,6 +192,40 @@ export class GameSession {
       });
     }
     this.setPhase('MINIGAME_FINISHED');
+  }
+
+  /**
+   * EMERGENZA (menu host): salta il minigioco in corso SENZA assegnare punti e
+   * torna al rullo. Il gioco saltato conta come "appena giocato" per il rullo.
+   */
+  skipMinigame(): void {
+    if (
+      this.phase !== 'MINIGAME_PLAYING' &&
+      this.phase !== 'MINIGAME_INTRO' &&
+      this.phase !== 'MINIGAME_ROULETTE'
+    ) {
+      return;
+    }
+    if (this.currentMinigame) {
+      this.history.push({
+        round: this.round,
+        minigameId: this.currentMinigame.minigameId,
+        category: this.currentMinigame.category
+      });
+    }
+    this.manualMinigameId = null; // niente loop sul gioco forzato che sto saltando
+    this.lastResults = null;
+    this.pickAndEnterRoulette();
+  }
+
+  /** Pausa/ripresa (ESC host): la rete di sicurezza non deve scattare mentre si è in pausa. */
+  setPaused(paused: boolean): void {
+    if (this.phase !== 'MINIGAME_PLAYING') return;
+    if (paused === this.paused) return;
+    this.paused = paused;
+    if (paused) this.clearTimer();
+    else this.armPlayingSafetyNet();
+    this.events.emit('changed');
   }
 
   /** L'host sceglie manualmente il prossimo minigioco (null = torna al rullo). */
@@ -187,6 +260,7 @@ export class GameSession {
     this.suddenDeathCandidates = [];
     this.history = [];
     this.round = 1;
+    this.manualMinigameId = null;
     this.setPhase('LOBBY');
   }
 
@@ -205,6 +279,7 @@ export class GameSession {
     this.history = [];
     this.lastSelectedPayload = null;
     this.round = 1;
+    this.manualMinigameId = null;
     this.setPhase('LOBBY');
   }
 
@@ -214,18 +289,23 @@ export class GameSession {
     let minigameId: string;
     let modifierId: string | null;
 
+    // Conta reale dei giocatori in stanza (non quella dichiarata alla creazione).
+    const count = Math.max(1, this.players.length);
+
     if (this.manualMinigameId) {
       const forced = getMinigame(this.manualMinigameId);
-      if (forced && this.playerCount >= forced.minPlayers && this.playerCount <= forced.maxPlayers) {
+      // Il gioco forzato vale UNA sola volta (poi si torna al rullo) e solo se valido.
+      this.manualMinigameId = null;
+      if (forced && forced.enabled !== false && count >= forced.minPlayers && count <= forced.maxPlayers) {
         minigameId = forced.id;
         modifierId = this.pickModifier(forced);
       } else {
-        const pick = RouletteEngine.pick(this.playerCount, this.history, this.rng);
+        const pick = RouletteEngine.pick(count, this.history, this.rng);
         minigameId = pick.minigameId;
         modifierId = pick.modifierId;
       }
     } else {
-      const pick = RouletteEngine.pick(this.playerCount, this.history, this.rng);
+      const pick = RouletteEngine.pick(count, this.history, this.rng);
       minigameId = pick.minigameId;
       modifierId = pick.modifierId;
     }
@@ -258,7 +338,9 @@ export class GameSession {
       modMap[k] = v;
     });
 
+    this.minigameSeq += 1;
     const payload: MinigameSelectedPayload = {
+      roundId: this.minigameSeq,
       minigameId: def.id,
       name: def.name,
       category: def.category,
@@ -287,6 +369,7 @@ export class GameSession {
 
   private setPhase(next: GamePhase): void {
     this.phase = next;
+    this.paused = false; // ogni cambio fase esce dalla pausa
     this.events.emit('changed');
     if (next === 'MINIGAME_PLAYING' || next === 'MINIGAME_FINISHED' || next === 'GAME_FINISHED') {
       this.events.emit('vibrate');
@@ -317,12 +400,17 @@ export class GameSession {
       return;
     }
     if (phase === 'MINIGAME_PLAYING') {
-      // Safety net: se il minigioco non restituisce un risultato, chiudi comunque.
-      const dur = (this.currentMinigame?.durationSec ?? 30) * 1000 + 15000;
-      this.timer = setTimeout(() => this.fallbackFinish(), dur);
+      this.armPlayingSafetyNet();
       return;
     }
     this.timer = setTimeout(() => this.advanceFrom(phase), this.phaseDuration(phase));
+  }
+
+  /** Safety net: se il minigioco non restituisce un risultato, non lasciare la serata bloccata. */
+  private armPlayingSafetyNet(): void {
+    this.clearTimer();
+    const dur = (this.currentMinigame?.durationSec ?? 30) * 1000 + 20000;
+    this.timer = setTimeout(() => this.fallbackFinish(), dur);
   }
 
   private advanceFrom(phase: GamePhase): void {
@@ -375,17 +463,27 @@ export class GameSession {
         this.winner = tied[0].id;
         this.setPhase('GAME_FINISHED');
       } else {
-        this.suddenDeath = true;
-        this.suddenDeathCandidates = tied.map((p) => p.id);
-        this.setPhase('NEXT_ROUND');
+        // Pari al vertice: vince il miglior piazzamento nell'ultimo minigioco
+        // (i placement sono unici e completi, quindi il pari si risolve sempre).
+        const order = this.lastResults?.ranking ?? [];
+        const best = [...tied].sort((a, b) => {
+          const ia = order.indexOf(a.id);
+          const ib = order.indexOf(b.id);
+          return (ia < 0 ? 1e6 : ia) - (ib < 0 ? 1e6 : ib);
+        })[0];
+        this.winner = best.id;
+        this.setPhase('GAME_FINISHED');
       }
     }
   }
 
+  /**
+   * Minigioco che non ha mai risposto: NON si assegnano punti inventati (prima
+   * premiava chi era già in testa). Si salta e si torna al rullo.
+   */
   private fallbackFinish(): void {
     if (this.phase !== 'MINIGAME_PLAYING') return;
-    const ranking = [...this.players].sort((a, b) => b.score - a.score).map((p) => p.id);
-    this.finishMinigame(ranking.map((pid, i) => ({ playerId: pid, placement: i + 1, score: 0 })));
+    this.skipMinigame();
   }
 
   private phaseDuration(phase: GamePhase): number {

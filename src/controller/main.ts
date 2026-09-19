@@ -72,6 +72,71 @@ socket.on(EVT.roomState, (payload) => {
   render();
 });
 
+/**
+ * Ad OGNI (ri)connessione Socket.IO il socket ha un id NUOVO e il server non ci riconosce
+ * più: va rifatto il join col token, non solo al caricamento della pagina.
+ */
+function rejoinWithToken(): void {
+  if (!reconnectToken) return;
+  const payload: JoinPayload = { roomCode: '', displayName: '', reconnectToken };
+  socket.emit(EVT.playerJoin, payload, (ack: JoinAck & AckResponse) => {
+    if (ack && ack.ok && ack.playerId) {
+      playerId = ack.playerId;
+      reconnectToken = ack.reconnectToken;
+      saveIdentity(playerId, reconnectToken);
+    } else {
+      // Stanza sparita (server riavviato) o token scaduto: si riparte dal join.
+      clearIdentity();
+      playerId = null;
+      reconnectToken = null;
+      state = null;
+      lastMinigameId = null;
+      renderJoin();
+    }
+  });
+}
+
+function setOfflineBanner(offline: boolean): void {
+  let el = document.getElementById('offline-banner');
+  if (offline && !el) {
+    el = document.createElement('div');
+    el.id = 'offline-banner';
+    el.textContent = '📡 Connessione persa… riprovo';
+    el.style.cssText =
+      'position:fixed;top:0;left:0;right:0;z-index:10000;padding:6px 10px;text-align:center;' +
+      'background:#b91c1c;color:#fff;font:700 13px Arial,sans-serif;pointer-events:none;';
+    document.body.appendChild(el);
+  } else if (!offline && el) {
+    el.remove();
+  }
+}
+
+socket.on('connect', () => {
+  setOfflineBanner(false);
+  rejoinWithToken();
+});
+socket.on('disconnect', () => setOfflineBanner(true));
+
+/** Overlay PAUSA (ESC sull'host): sta sopra al controller senza toccarne il DOM. */
+function syncPauseOverlay(s: RoomState | null): void {
+  const want = !!s && s.phase === 'MINIGAME_PLAYING' && s.paused === true;
+  let el = document.getElementById('pause-overlay');
+  if (want && !el) {
+    el = document.createElement('div');
+    el.id = 'pause-overlay';
+    el.style.cssText =
+      'position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;' +
+      'justify-content:center;gap:10px;background:rgba(0,0,0,.85);color:#fff;touch-action:none;' +
+      'font-family:Arial,sans-serif;';
+    el.innerHTML =
+      '<div style="font:900 44px Arial,sans-serif;color:#fbbf24">⏸ PAUSA</div>' +
+      '<div style="font-size:16px;opacity:.75">Guarda lo schermo principale</div>';
+    document.body.appendChild(el);
+  } else if (!want && el) {
+    el.remove();
+  }
+}
+
 socket.on(EVT.vibrate, (ms?: number) => {
   try {
     navigator.vibrate?.(typeof ms === 'number' && ms > 0 ? ms : 120);
@@ -1029,10 +1094,20 @@ function handleFpsSignal(s: SignalPayload): void {
   }
 }
 
-/** Controller dedicato a SPARATORIA DEI DISAGIATI (layout custom: fps-tv). */
-function renderFpsController(): void {
+/** Libera il motore Babylon del telefono (senza, ogni round FPS lascia un engine vivo in background). */
+function disposeFps(): void {
+  try {
+    fpsClient?.dispose();
+  } catch {
+    /* ignora */
+  }
   fpsClient = null;
   fpsPendingState = null;
+}
+
+/** Controller dedicato a SPARATORIA DEI DISAGIATI (layout custom: fps-tv). */
+function renderFpsController(): void {
+  disposeFps();
   fpsLookEl = null;
   fpsFireBtn = null;
   fpsDashBtn = null;
@@ -1129,6 +1204,7 @@ function renderFpsController(): void {
   // Client FPS (Babylon, caricato lazy)
   void (async () => {
     const { FpsClient } = await import('./fpsClient');
+    if (!canvasHost.isConnected) return; // il controller è già cambiato mentre caricava
     fpsClient = new FpsClient(canvasHost, playerId ?? '', (yaw, pitch) =>
       sendInput({ kind: 'axis', controlId: 'look', x: yaw, y: pitch })
     );
@@ -1358,6 +1434,8 @@ function renderInfoLine(): void {
 // ---- rendering ----
 
 function render(): void {
+  syncPauseOverlay(state);
+  if (!state || state.phase !== 'MINIGAME_PLAYING') disposeFps();
   const me: PlayerPublic | undefined =
     playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
 
@@ -1777,10 +1855,12 @@ function sendInput(ev: InputEvent): void {
 
 function renderPreGame(state: RoomState): void {
   const mg = state.currentMinigame;
+  // Durante il rullo il nome NON va rivelato (spoilera l'animazione sulla TV): solo dall'intro.
+  const reveal = state.phase === 'MINIGAME_INTRO' && !!mg;
   app.innerHTML = `
     <div class="screen">
-      <h1>${mg?.name ?? 'Preparati...'}</h1>
-      <p class="sub">Il rullo sta scegliendo il minigioco</p>
+      <h1>${reveal ? mg!.name : 'PROSSIMO GIOCO...'}</h1>
+      <p class="sub">${reveal ? 'Preparati! Tieni il telefono pronto' : 'Guarda lo schermo principale'}</p>
     </div>`;
 }
 
@@ -1818,19 +1898,7 @@ function renderWait(state: RoomState): void {
 
 if (reconnectToken) {
   renderReconnecting();
-  const payload: JoinPayload = { roomCode: '', displayName: '', reconnectToken };
-  socket.emit(EVT.playerJoin, payload, (ack: JoinAck & AckResponse) => {
-    if (ack.ok && ack.playerId) {
-      playerId = ack.playerId;
-      reconnectToken = ack.reconnectToken;
-      saveIdentity(playerId, reconnectToken);
-    } else {
-      clearIdentity();
-      playerId = null;
-      reconnectToken = null;
-      renderJoin();
-    }
-  });
+  if (socket.connected) rejoinWithToken(); // altrimenti ci pensa l'handler 'connect'
 } else {
   renderJoin();
 }

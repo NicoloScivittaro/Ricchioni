@@ -26,7 +26,7 @@ export interface RoulettePick {
 export class RouletteEngine {
   static pick(playerCount: number, history: RouletteHistoryEntry[], rng: Rng): RoulettePick {
     const all = MINIGAME_DEFINITIONS.filter(
-      (d) => playerCount >= d.minPlayers && playerCount <= d.maxPlayers
+      (d) => d.enabled !== false && playerCount >= d.minPlayers && playerCount <= d.maxPlayers
     );
     if (all.length === 0) throw new Error('Nessun minigioco compatibile con questo numero di giocatori');
 

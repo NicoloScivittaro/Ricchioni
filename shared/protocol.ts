@@ -27,6 +27,10 @@ export const EVT = {
   hostStart: 'host:start',
   hostMinigameFinished: 'host:minigameFinished',
   hostSkip: 'host:skip',
+  /** Emergenza: salta il minigioco in corso SENZA punti e torna al rullo. */
+  hostSkipMinigame: 'host:skipMinigame',
+  /** Pausa/ripresa del minigioco (ESC host): ferma la rete di sicurezza server. */
+  hostPause: 'host:pause',
   hostSelectMinigame: 'host:selectMinigame',
   hostPrivateData: 'host:privateData',
   hostRestartMatch: 'host:restartMatch',
@@ -87,6 +91,12 @@ export interface ReadyPayload {
 
 export interface MinigameFinishedPayload {
   results: PlayerResult[];
+  /** roundId del minigioco che ha prodotto il risultato (eventi tardivi vengono ignorati). */
+  roundId?: number;
+}
+
+export interface PausePayload {
+  paused: boolean;
 }
 
 export interface SelectMinigamePayload {
@@ -132,6 +142,8 @@ export interface SignalPayload {
 
 /** Payload inviato al solo HOST quando parte un minigioco. */
 export interface MinigameSelectedPayload {
+  /** Id incrementale del minigioco (round): il risultato deve riportarlo indietro. */
+  roundId?: number;
   minigameId: string;
   name: string;
   category: Category;

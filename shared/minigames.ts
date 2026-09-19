@@ -12,6 +12,8 @@ import type { MinigameDefinition } from './types';
 export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id: 'quiz',
+    icon: '🧠',
+    description: 'Rispondi prima e meglio degli altri. Cultura generale, zero pietà.',
     name: 'CHI CAZZO LO SA?',
     category: 'CULTURA',
     rarity: 'common',
@@ -35,6 +37,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id: 'reaction',
+    icon: '⚡',
+    description: 'Premi appena scatta il segnale. Chi anticipa paga.',
     name: 'BOTTA AL VOLO',
     category: 'RIFLESSI',
     rarity: 'common',
@@ -54,6 +58,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id: 'memory',
+    icon: '🍺',
+    description: 'Guarda la sequenza e ripetila. Più si beve, meno si ricorda.',
     name: 'MEMORIA DA UBRIACO',
     category: 'MEMORIA',
     rarity: 'uncommon',
@@ -71,6 +77,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id: 'arena',
+    icon: '🤼',
+    description: "Spingi gli altri fuori dall'arena. L'ultimo in piedi vince.",
     name: 'ARENA DEL DISAGIO',
     category: 'ARENA',
     rarity: 'uncommon',
@@ -87,6 +95,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id: 'dodgeball',
+    icon: '🏐',
+    description: 'Schiva. Tira. Non farti prendere in faccia.',
     name: 'DODGEBALL DEI COGLIONI',
     category: 'ARENA',
     rarity: 'uncommon',
@@ -102,6 +112,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id: 'soccer',
+    icon: '⚽',
+    description: 'Calcio a squadre: segna un gol in più degli avversari.',
     name: 'CALCIO DEI DISAGIATI',
     category: 'SPORT',
     rarity: 'uncommon',
@@ -118,6 +130,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id: 'volleyball',
+    icon: '🏖️',
+    description: 'Beach volley a squadre: chi arriva a 5 punti vince.',
     name: 'PALLAVOLO DEI DISAGIATI',
     category: 'SPORT',
     rarity: 'uncommon',
@@ -134,6 +148,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id: 'kart3d',
+    icon: '🏎️',
+    description: 'Corri sul circuito e taglia il traguardo per primo.',
     name: 'RIBALTATI — CIRCUITO DEL LITORALE',
     category: 'GUIDA',
     rarity: 'rare',
@@ -157,6 +173,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id: 'cultura',
+    icon: '🎭',
+    description: 'Inventa bugie credibili e smaschera quelle degli altri.',
     name: 'CULTURA O CAZZATA?',
     category: 'CULTURA',
     rarity: 'uncommon',
@@ -173,6 +191,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id: 'fps',
+    icon: '🔫',
+    description: 'Tutti contro tutti in prima persona. Più kill, più punti.',
     name: 'SPARATORIA DEI DISAGIATI',
     category: 'ARENA',
     rarity: 'rare',

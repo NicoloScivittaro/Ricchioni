@@ -1,6 +1,8 @@
 import type { PlayerId, RoomCode } from '../shared/types';
 
-const GRACE_MS = 30_000;
+// Un telefono in standby / con wifi ballerino può restare via molto più di 30s:
+// il token vale finché vive la stanza (il giocatore non viene mai rimosso dalla partita).
+const GRACE_MS = 6 * 60 * 60 * 1000;
 
 interface TokenTarget {
   roomCode: RoomCode;

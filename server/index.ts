@@ -30,6 +30,14 @@ app.get('/api/network', (_req, res) => {
   res.json({ ips });
 });
 
+// Rete di sicurezza: un'eccezione in un handler/timer non deve abbattere tutte le stanze.
+process.on('uncaughtException', (err) => {
+  console.error('[uncaughtException]', err);
+});
+process.on('unhandledRejection', (err) => {
+  console.error('[unhandledRejection]', err);
+});
+
 const rooms = new RoomManager(io);
 io.on('connection', (socket) => rooms.handleConnection(socket));
 

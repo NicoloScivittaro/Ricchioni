@@ -6,6 +6,9 @@ import { CHARACTER_ORDER, getCharacter } from '../../shared/characters';
 import { MINIGAME_DEFINITIONS, getMinigame } from '../../shared/minigames';
 import type { PlayerPublic } from '../../shared/types';
 
+/** Minimo giocatori per avviare (deve coincidere con GameSession.MIN_TO_START sul server). */
+const MIN_TO_START = 2;
+
 /** Stanza: QR + codice, ritratti dei personaggi scelti, selettore minigioco, avvio. */
 export class RoomScene extends Phaser.Scene {
   private portraits: Phaser.GameObjects.Image[] = [];
@@ -155,7 +158,7 @@ export class RoomScene extends Phaser.Scene {
     const st = gm.state;
     if (!st) return [null];
     const compat = MINIGAME_DEFINITIONS.filter(
-      (d) => st.playerCount >= d.minPlayers && st.playerCount <= d.maxPlayers
+      (d) => d.enabled !== false && st.playerCount >= d.minPlayers && st.playerCount <= d.maxPlayers
     ).map((d) => d.id);
     return [null, ...compat];
   }
@@ -172,7 +175,7 @@ export class RoomScene extends Phaser.Scene {
   private tryStart(): void {
     const st = gm.state;
     if (!st) return;
-    if (st.players.length >= 1 && st.players.every((p) => p.ready && p.characterId)) {
+    if (st.players.length >= MIN_TO_START && st.players.every((p) => p.ready && p.characterId)) {
       audio.select();
       gm.startGame();
     }
@@ -214,11 +217,13 @@ export class RoomScene extends Phaser.Scene {
 
     this.countText.setText(`${st.players.length} / ${st.playerCount} giocatori connessi`);
 
-    const canStart = st.players.length >= 1 && st.players.every((p) => p.ready && p.characterId);
+    const canStart = st.players.length >= MIN_TO_START && st.players.every((p) => p.ready && p.characterId);
     this.startText.setText(
       canStart
         ? 'Premi INVIO per INIZIARE LA PARTITA'
-        : 'In attesa che tutti scelgano il personaggio e siano pronti...'
+        : st.players.length < MIN_TO_START
+          ? `Servono almeno ${MIN_TO_START} giocatori per iniziare`
+          : 'In attesa che tutti scelgano il personaggio e siano pronti...'
     );
     this.startText.setColor(canStart ? '#4ade80' : '#9ca3af');
   }

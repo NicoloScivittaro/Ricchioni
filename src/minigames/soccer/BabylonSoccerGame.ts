@@ -42,6 +42,7 @@ import { buildSoccerEnvironment } from './soccerEnvironment';
 import { SoccerAbilities } from './soccerAbilities';
 import { readMove } from '../moveInput';
 import type { SoccerAbilityFeedback } from './soccerAbilities';
+import { guardLoop } from '../../core/loopGuard';
 
 const COUNTDOWN_S = 3.2;
 const BALL_HEIGHT = 0.35;
@@ -148,13 +149,13 @@ export class BabylonSoccerGame {
     this.hud.setTimer(MATCH_SECONDS);
     this.showTeamIntro();
 
-    this.engine.runRenderLoop(() => {
+    this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
       if (this.paused) return;
       const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.05) || 0.016;
       this.step(dt);
       this.scene.render();
-    });
+    }));
     window.addEventListener('resize', this.onResize);
   }
 

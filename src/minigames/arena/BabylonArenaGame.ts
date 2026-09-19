@@ -27,6 +27,7 @@ import { ArenaHud } from './arenaHud';
 import { ArenaAbilities, abilityDescription } from './arenaAbilities';
 import type { ArenaAbilityFeedback } from './arenaAbilities';
 import { readMove } from '../moveInput';
+import { guardLoop } from '../../core/loopGuard';
 
 const COUNTDOWN_S = 3.2;
 
@@ -104,13 +105,13 @@ export class BabylonArenaGame {
     this.hud.setAlive(n);
     this.hud.setCountdown('3');
 
-    this.engine.runRenderLoop(() => {
+    this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
       if (this.paused) return; // menu ESC: fermo totale, nessun input processato
       const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.05) || 0.016;
       this.step(dt);
       this.scene.render();
-    });
+    }));
     window.addEventListener('resize', this.onResize);
   }
 

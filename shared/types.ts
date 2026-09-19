@@ -49,8 +49,8 @@ export const FLOW_TIMING = {
   revealStepMs: 900,
   revealWinnerDelayMs: 1300,
   revealFinalHoldMs: 2400,
-  rouletteMs: 3800,
-  introMs: 4200,
+  rouletteMs: 7000,
+  introMs: 3800,
   finishedMs: 1200,
   leaderboardMs: 3600,
   nextRoundMs: 3000
@@ -73,7 +73,7 @@ export const SCORE_PRESETS: ScorePreset[] = [
 
 export const TARGET_SCORE_MIN = 10;
 export const TARGET_SCORE_MAX = 200;
-export const MIN_PLAYERS = 1;
+export const MIN_PLAYERS = 2;
 export const MAX_PLAYERS = 5;
 
 // ---- Personaggio ----
@@ -181,6 +181,12 @@ export interface MinigameDefinition {
   compatibleModifiers: string[];
   sceneKey: string;
   controllerLayout: ControllerLayout;
+  /** false = mai estratto dal rullo (gioco rotto/disattivato temporaneamente). Default: attivo. */
+  enabled?: boolean;
+  /** Una riga mostrata dal rullo dopo l'estrazione. */
+  description?: string;
+  /** Emoji mostrata sulla card del rullo. */
+  icon?: string;
 }
 
 export interface ModifierDefinition {
@@ -233,6 +239,10 @@ export interface RoomState {
   suddenDeath: boolean;
   /** null = rullo (casuale); altrimenti il minigioco scelto manualmente dall'host. */
   selectedMinigameId: string | null;
+  /** true = host in pausa (ESC) durante MINIGAME_PLAYING: i telefoni mostrano PAUSA. */
+  paused?: boolean;
+  /** Id incrementale del minigioco in corso: scarta eventi tardivi di round vecchi. */
+  roundId?: number;
 }
 
 /** Evento di input (telefono → server → host). */

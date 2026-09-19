@@ -47,13 +47,25 @@ export class KartRaceScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    this.pauseMenu = new KartPauseMenu(this, () => this.scene.restart({ ctx: data.ctx }));
+    this.pauseMenu = new KartPauseMenu(
+      this,
+      () => this.scene.restart({ ctx: data.ctx }),
+      (visible) => {
+        gm.setPaused(visible);
+        this.game3d?.setPaused(visible);
+      }
+    );
     this.escKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);
     this.events.once(Phaser.Scenes.Events.DESTROY, this.cleanup, this);
 
-    void this.boot(data.ctx);
+    gm.minigameLoadStarted();
+    this.boot(data.ctx)
+      .then(() => gm.minigameLoadFinished())
+      .catch((err) => {
+        if (!this.cancelled) gm.reportMinigameError(err);
+      });
   }
 
   update(): void {
@@ -105,7 +117,8 @@ class KartPauseMenu {
 
   constructor(
     private scene: Phaser.Scene,
-    onRestart: () => void
+    onRestart: () => void,
+    private onVisible: (visible: boolean) => void = () => {}
   ) {
     this.root = document.createElement('div');
     this.root.style.cssText = `
@@ -146,6 +159,14 @@ class KartPauseMenu {
       })
     );
 
+    panel.appendChild(
+      this.makeButton('⏭ SALTA MINIGIOCO (NO PUNTI)', '#9ca3af', () => {
+        if (!confirm('Saltare il minigioco SENZA assegnare punti e tornare al rullo?')) return;
+        this.hide();
+        gm.skipMinigame();
+      })
+    );
+
     this.root.appendChild(panel);
     document.body.appendChild(this.root);
   }
@@ -172,13 +193,17 @@ class KartPauseMenu {
   }
 
   show(): void {
+    const was = this.visible;
     this.visible = true;
     this.root.style.display = 'flex';
+    if (!was) this.onVisible(true);
   }
 
   hide(): void {
+    const was = this.visible;
     this.visible = false;
     this.root.style.display = 'none';
+    if (was) this.onVisible(false);
   }
 
   isVisible(): boolean {
