@@ -72,6 +72,8 @@ export class CulturaScene extends Phaser.Scene {
   private mainText!: Phaser.GameObjects.Text;
   private subText!: Phaser.GameObjects.Text;
   private scoreText!: Phaser.GameObjects.Text;
+  private timerText!: Phaser.GameObjects.Text;
+  private statusText!: Phaser.GameObjects.Text;
   private pauseMenu!: PauseMenu;
 
   constructor() {
@@ -100,6 +102,8 @@ export class CulturaScene extends Phaser.Scene {
     this.mainText = this.add.text(640, 250, '', { fontFamily: 'Arial, sans-serif', fontSize: '26px', color: '#ffffff', align: 'center', wordWrap: { width: 1100 } }).setOrigin(0.5);
     this.subText = this.add.text(640, 470, '', { fontFamily: 'Arial, sans-serif', fontSize: '20px', color: '#c4b5fd', align: 'center', wordWrap: { width: 1100 } }).setOrigin(0.5);
     this.scoreText = this.add.text(30, 100, '', { fontFamily: 'Arial, sans-serif', fontSize: '18px', color: '#9ca3af' }).setOrigin(0, 0);
+    this.timerText = this.add.text(1210, 62, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '38px', color: '#fbbf24' }).setOrigin(1, 0.5);
+    this.statusText = this.add.text(640, 648, '', { fontFamily: 'Arial, sans-serif', fontSize: '24px', color: '#c4b5fd', align: 'center', wordWrap: { width: 1150 } }).setOrigin(0.5);
 
     this.ctx.players.forEach((p) => this.scores.set(p.id, { cultura: 0, furbizia: 0, correct: 0, deceived: 0, deceivedOthers: 0 }));
     // Prepara le domande senza ripetizioni.
@@ -153,8 +157,8 @@ export class CulturaScene extends Phaser.Scene {
     const isAdvocateRound = this.round === 1 || this.round === 4;
 
     this.titleText.setText(`ROUND ${this.round + 1}/${TOTAL_ROUNDS} · ${this.currentQuestion.category.toUpperCase()}`);
-    this.mainText.setText(`"${this.currentQuestion.question}"`);
-    this.subText.setText('✍️ INVENTATE UNA CAZZATA CREDIBILE');
+    this.mainText.setText(`"${this.currentQuestion.question}"`).setFontSize(40).setColor('#ffffff'); // grande: si legge dal divano
+    this.subText.setText('✍️ INVENTATE UNA CAZZATA CREDIBILE').setFontSize(28).setColor('#c4b5fd');
     audio.select();
 
     this.broadcastState();
@@ -500,6 +504,24 @@ export class CulturaScene extends Phaser.Scene {
         break;
     }
 
+    this.updateHud();
     this.ctx.input.update();
+  }
+
+  /** Timer della fase e chi ha gia' risposto: tensione sullo schermo condiviso (solo durante scrittura e voto). */
+  private updateHud(): void {
+    let timer = '';
+    let status = '';
+    if (this.phase === 'bluff' || this.phase === 'vote') {
+      const left = Math.max(0, Math.ceil(this.phaseEndsAt - this.gameTime));
+      timer = `⏱ ${left}`;
+      this.timerText.setColor(left <= 10 ? '#f87171' : '#fbbf24');
+      const bluff = this.phase === 'bluff';
+      status = this.ctx.players
+        .map((p) => `${(bluff ? this.normalize(this.ctx.input.get(p.id).text('bluff')).length > 0 : this.hasValidVote(p.id)) ? '✅' : bluff ? '✍️' : '🗳️'} ${p.name}`)
+        .join('     ');
+    }
+    if (this.timerText.text !== timer) this.timerText.setText(timer);
+    if (this.statusText.text !== status) this.statusText.setText(status);
   }
 }

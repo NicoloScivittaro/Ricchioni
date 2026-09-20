@@ -83,7 +83,7 @@ export class ReactionScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#0d0f1e');
 
     this.flashRect = this.add.rectangle(640, 360, 1280, 720, 0xffffff, 0).setDepth(60);
-    this.core = this.add.circle(640, 350, 100, 0x14182b).setStrokeStyle(6, 0x6366f1).setDepth(5).setVisible(false);
+    this.core = this.add.circle(640, 290, 110, 0x14182b).setStrokeStyle(6, 0x6366f1).setDepth(5).setVisible(false);
 
     const n = this.ctx.players.length;
     this.ctx.players.forEach((p, i) => {
@@ -128,7 +128,7 @@ export class ReactionScene extends Phaser.Scene {
   private showTitle(): void {
     this.phase = 'title';
     this.phaseEndsAt = this.gameTime + TITLE_S;
-    this.centerText.setText('⚡ BOTTA AL VOLO ⚡').setFontSize(64).setColor('#fbbf24').setScale(0.4).setAlpha(0);
+    this.centerText.setText('⚡ BOTTA AL VOLO ⚡').setFontSize(64).setColor('#fbbf24').setScale(0.4).setAlpha(0).setY(320);
     this.tweens.add({ targets: this.centerText, scale: 1, alpha: 1, duration: 380, ease: 'Back.easeOut' });
     this.subText.setText('5 ROUND · PREMI APPENA VEDI "VIA!" · SE PREMI PRIMA: FALSA PARTENZA');
     audio.select();
@@ -151,7 +151,7 @@ export class ReactionScene extends Phaser.Scene {
       if (ab) this.ctx.sendPrivate(p.snap.id, { type: 'info', ability: `${ab.name}: ${ab.desc}` });
     }
     this.core.setVisible(false);
-    this.centerText.setText(`ROUND ${this.round}/${ROUNDS}`).setFontSize(72).setColor('#ffffff').setScale(1).setAlpha(1);
+    this.centerText.setText(`ROUND ${this.round}/${ROUNDS}`).setFontSize(72).setColor('#ffffff').setScale(1).setAlpha(1).setY(320);
     this.subText.setText('');
     audio.select();
   }
@@ -163,7 +163,7 @@ export class ReactionScene extends Phaser.Scene {
     this.fakeDone = false;
     this.fakeActive = false;
     this.core.setVisible(true);
-    this.centerText.setText('ATTENDI...').setFontSize(96).setColor('#e0e7ff');
+    this.centerText.setText('ATTENDI...').setFontSize(72).setColor('#e0e7ff').setY(500); // sotto il cerchio pulsante
     this.subText.setText('');
     this.ctx.signal(null, { type: 'wait' });
   }
@@ -261,7 +261,7 @@ export class ReactionScene extends Phaser.Scene {
     this.showAbilityBanner(p, 'ASPETTA UN ATTIMO! — finto reset');
     this.flashRect.setFillStyle(0xffffff, 1).setAlpha(0.55);
     this.tweens.add({ targets: this.flashRect, alpha: 0, duration: 500 });
-    this.centerText.setText('RESET...').setFontSize(90).setColor('#ffffff');
+    this.centerText.setText('RESET...').setFontSize(72).setColor('#ffffff');
     this.viaDeadline = this.gameTime + 1.4 + MIN_WAIT_S + Math.random() * (MAX_WAIT_S - MIN_WAIT_S);
     this.time.delayedCall(1000, () => {
       if (this.phase === 'waiting') this.centerText.setText('ATTENDI...').setColor('#e0e7ff');
@@ -295,7 +295,7 @@ export class ReactionScene extends Phaser.Scene {
     this.phase = 'via';
     this.viaTime = this.gameTime;
     this.core.setVisible(false);
-    this.centerText.setText('⚡ VIA! ⚡').setFontSize(140).setColor('#4ade80');
+    this.centerText.setText('⚡ VIA! ⚡').setFontSize(140).setColor('#4ade80').setY(320);
     this.subText.setText('');
     this.cameras.main.shake(180, 0.008);
     this.flashRect.setFillStyle(0x4ade80, 1).setAlpha(0.5);
@@ -345,7 +345,7 @@ export class ReactionScene extends Phaser.Scene {
     } else {
       this.phase = 'roundResult';
       this.phaseEndsAt = this.gameTime + ROUND_RESULT_S;
-      this.centerText.setText(`FINE ROUND ${this.round}`).setFontSize(60).setColor('#ffffff');
+      this.centerText.setText(`FINE ROUND ${this.round}`).setFontSize(60).setColor('#ffffff').setY(320);
       this.subText.setText('');
     }
   }
@@ -354,7 +354,7 @@ export class ReactionScene extends Phaser.Scene {
 
   private showResults(): void {
     this.phase = 'results';
-    this.centerText.setText('RISULTATI').setFontSize(64).setColor('#ffffff');
+    this.centerText.setText('RISULTATI').setFontSize(64).setColor('#ffffff').setY(320);
     this.subText.setText('Somma dei 5 round (ms)');
 
     const ranking = [...this.players].sort((a, b) => this.totalTime(a) - this.totalTime(b));

@@ -104,37 +104,38 @@ export class MemoryScene extends Phaser.Scene {
       .setAlpha(0);
 
     this.centerText = this.add
-      .text(640, 110, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '72px', color: '#ffffff' })
+      .text(640, 74, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '72px', color: '#ffffff' })
       .setOrigin(0.5)
       .setDepth(20);
     this.subText = this.add
-      .text(640, 168, '', { fontFamily: 'Arial, sans-serif', fontSize: '24px', color: '#9ca3af', align: 'center' })
+      .text(640, 126, '', { fontFamily: 'Arial, sans-serif', fontSize: '24px', color: '#9ca3af', align: 'center' })
       .setOrigin(0.5)
       .setDepth(20);
 
+    // Griglia 2x2 senza sovrapposizioni: tessere 220px con passo 260px, da y=150 a y=630 (titolo sopra, schede giocatori sotto).
     const positions = [
-      { x: 410, y: 285 },
-      { x: 870, y: 285 },
-      { x: 410, y: 515 },
-      { x: 870, y: 515 }
+      { x: 510, y: 260 },
+      { x: 770, y: 260 },
+      { x: 510, y: 520 },
+      { x: 770, y: 520 }
     ];
     for (let i = 0; i < 4; i++) {
       const t = MEMORY_TILES[i];
       const { x, y } = positions[i];
       const halo = this.add
-        .rectangle(x, y, 330, 330, hex(t.color), 0)
+        .rectangle(x, y, 270, 270, hex(t.color), 0)
         .setDepth(5)
         .setAlpha(0);
       const rect = this.add
-        .rectangle(x, y, 270, 270, hex(t.color), 0.9)
+        .rectangle(x, y, 220, 220, hex(t.color), 0.9)
         .setStrokeStyle(6, 0xffffff, 0.85)
         .setDepth(6);
       const icon = this.add
-        .text(x, y - 26, t.icon, { fontSize: '118px' })
+        .text(x, y - 22, t.icon, { fontSize: '100px' })
         .setOrigin(0.5)
         .setDepth(7);
       const label = this.add
-        .text(x, y + 92, t.label, { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '24px', color: '#ffffff' })
+        .text(x, y + 80, t.label, { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '22px', color: '#ffffff' })
         .setOrigin(0.5)
         .setDepth(7);
       this.tileRects.push(rect);
@@ -147,7 +148,7 @@ export class MemoryScene extends Phaser.Scene {
     this.ctx.players.forEach((p, i) => {
       const x = n > 1 ? 640 - ((n - 1) * 230) / 2 + i * 230 : 640;
       const card = this.add
-        .text(x, 668, '', { fontFamily: 'Arial, sans-serif', fontSize: '15px', color: p.color, align: 'center', lineSpacing: 3 })
+        .text(x, 656, '', { fontFamily: 'Arial, sans-serif', fontSize: '15px', color: p.color, align: 'center', lineSpacing: 3 })
         .setOrigin(0.5, 0);
       this.players.push({
         snap: p,
@@ -493,7 +494,7 @@ export class MemoryScene extends Phaser.Scene {
     // Doppia visione "da ubriaco" dai round più avanti.
     if (this.round >= 2) {
       const ghost = this.add
-        .rectangle(rect.x + 22, rect.y + 14, 270, 270, hex(MEMORY_TILES[i].color), 0.22)
+        .rectangle(rect.x + 18, rect.y + 12, 220, 220, hex(MEMORY_TILES[i].color), 0.22)
         .setDepth(4);
       this.tweens.add({ targets: ghost, alpha: 0, duration: 320, onComplete: () => ghost.destroy() });
     }
@@ -514,7 +515,7 @@ export class MemoryScene extends Phaser.Scene {
 
   private showBanner(p: PState, text: string): void {
     const b = this.add
-      .text(640, 620, `${p.snap.avatar} ${text}`, {
+      .text(640, 646, `${p.snap.avatar} ${text}`, {
         fontFamily: '"Arial Black", Arial, sans-serif',
         fontSize: '22px',
         color: p.snap.color

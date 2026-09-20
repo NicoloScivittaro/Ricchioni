@@ -206,8 +206,10 @@ export function buildVolleyballEnvironment(scene: Scene): VolleyballEnvironment 
   }
 
   // Cartelloni
-  neonSign(scene, 'GRANITA', '#fbbf24', new Vector3(-FIELD_HALF_W - 5, 4, -FIELD_HALF_D - 2));
-  neonSign(scene, 'KEBAB', '#f97316', new Vector3(FIELD_HALF_W + 5, 4, -FIELD_HALF_D - 2));
+  // Cartelloni laterali DENTRO l'inquadratura (a x = ±(W/2 + 3) uscivano dai bordi dello schermo 16:9 e restavano tagliati)
+  // (sul lato lontano e fuori dal campo: li' l'inquadratura e' larga e non coprono mai i giocatori)
+  neonSign(scene, 'GRANITA', '#fbbf24', new Vector3(-FIELD_HALF_W - 5, 4, 3));
+  neonSign(scene, 'KEBAB', '#f97316', new Vector3(FIELD_HALF_W + 5, 4, 3));
   neonSign(scene, 'GOBLINS GAME', '#22d3ee', new Vector3(0, 4.5, -FIELD_HALF_D - 4));
   neonSign(scene, 'NETTUNO', '#a78bfa', new Vector3(-FIELD_HALF_W - 5, 4, FIELD_HALF_D + 3));
   neonSign(scene, 'ANZIO', '#fb7185', new Vector3(FIELD_HALF_W + 5, 4, FIELD_HALF_D + 3));

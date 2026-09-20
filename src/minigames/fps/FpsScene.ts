@@ -23,6 +23,11 @@ const DASH_COOLDOWN = 4;
 const RESPAWN_TIME = 2.5;
 const SPAWN_PROTECTION = 1.5;
 const MAX_HP = 100;
+// Layout host (1280x720): intestazione in alto, radar a sinistra (sotto l'intestazione), classifica live a destra.
+const RADAR_SCALE = 10; // px per unita' mondo
+const RADAR_CX = 460;
+const RADAR_CY = 404;
+const BOARD_X = 800;
 
 interface FpsPlayer {
   id: PlayerId;
@@ -83,7 +88,13 @@ export class FpsScene extends Phaser.Scene {
     this.graphics = this.add.graphics();
     this.add.text(640, 24, '🔫 SPARATORIA DEI DISAGIATI', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '34px', color: '#ffffff' }).setOrigin(0.5);
     this.add.text(640, 58, 'RADAR / REGIA — i giocatori guardano il telefono', { fontFamily: 'Arial, sans-serif', fontSize: '16px', color: '#9ca3af' }).setOrigin(0.5);
-    this.timerText = this.add.text(640, 84, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '26px', color: '#fbbf24' }).setOrigin(0.5);
+    this.timerText = this.add.text(640, 90, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '26px', color: '#fbbf24' }).setOrigin(0.5);
+    this.add.text(BOARD_X, 136, 'CLASSIFICA', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '22px', color: '#94a3b8' });
+    this.ctx.players.forEach((_, i) => {
+      this.rankTexts.push(
+        this.add.text(BOARD_X, 176 + i * 92, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '30px', color: '#ffffff', lineSpacing: 6 })
+      );
+    });
 
     this.ctx.players.forEach((snap) => {
       const spawn = this.pickSpawn(this.players);
@@ -160,6 +171,7 @@ export class FpsScene extends Phaser.Scene {
     for (const sub of steps) for (const p of this.players) this.stepPlayer(p, sub);
 
     this.renderRadar();
+    this.renderBoard();
     this.broadcastAcc += dt;
     if (this.broadcastAcc >= TICK) {
       this.broadcastAcc = 0;
@@ -356,14 +368,14 @@ export class FpsScene extends Phaser.Scene {
   private renderRadar(): void {
     const g = this.graphics;
     g.clear();
-    const scale = 11; // px per unità mondo
-    const cx = 640;
-    const cy = 360;
+    const scale = RADAR_SCALE;
+    const cx = RADAR_CX;
+    const cy = RADAR_CY;
 
     g.lineStyle(2, 0x334155, 1);
     g.fillStyle(0x0f172a, 1);
-    g.fillRoundedRect(cx - FPS_MAP.halfSize * scale - 30, cy - FPS_MAP.halfSize * scale - 30, FPS_MAP.halfSize * scale * 2 + 60, FPS_MAP.halfSize * scale * 2 + 60, 12);
-    g.strokeRoundedRect(cx - FPS_MAP.halfSize * scale - 30, cy - FPS_MAP.halfSize * scale - 30, FPS_MAP.halfSize * scale * 2 + 60, FPS_MAP.halfSize * scale * 2 + 60, 12);
+    g.fillRoundedRect(cx - FPS_MAP.halfSize * scale - 20, cy - FPS_MAP.halfSize * scale - 20, FPS_MAP.halfSize * scale * 2 + 40, FPS_MAP.halfSize * scale * 2 + 40, 12);
+    g.strokeRoundedRect(cx - FPS_MAP.halfSize * scale - 20, cy - FPS_MAP.halfSize * scale - 20, FPS_MAP.halfSize * scale * 2 + 40, FPS_MAP.halfSize * scale * 2 + 40, 12);
 
     // Ostacoli
     g.fillStyle(0x475569, 1);
@@ -396,6 +408,19 @@ export class FpsScene extends Phaser.Scene {
       g.fillStyle(p.hp > 40 ? 0x4ade80 : 0xf87171, 1);
       g.fillRect(x - 10, y - 20, 20 * (p.hp / MAX_HP), 4);
     }
+  }
+
+  /** Classifica live: per kill (poi meno morti), con il colore di ogni giocatore; chi e' a terra ha il teschio. */
+  private renderBoard(): void {
+    const order = [...this.players].sort((a, b) => b.kills - a.kills || a.deaths - b.deaths);
+    order.forEach((p, i) => {
+      const row = this.rankTexts[i];
+      if (!row) return;
+      const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}°`;
+      const t = `${medal} ${p.avatar} ${p.name}${p.alive ? '' : '  💀'}\n      ${p.kills} kill · ${p.deaths} morti`;
+      if (row.text !== t) row.setText(t);
+      row.setColor(p.color);
+    });
   }
 
   private endGame(): void {

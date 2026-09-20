@@ -7,6 +7,7 @@ import fs from 'node:fs';
 const GAME = process.env.GAME ?? 'arena';
 const OUT = process.env.OUT ?? path.resolve('e2e-shots/resolutions');
 fs.mkdirSync(OUT, { recursive: true });
+const IS_3D = ['arena', 'dodgeball', 'soccer', 'volleyball', 'kart3d'].includes(GAME);
 const PLAYERS = Number(process.env.PLAYERS ?? 2);
 const SIZES = (process.env.SIZES ?? '1366x768,1920x1080,2560x1440').split(',');
 let fails = 0;
@@ -32,14 +33,14 @@ for (const size of SIZES) {
     await page.screenshot({ path: path.join(OUT, `${size}-roulette.png`) });
     while ((await hostSnapshot(page)).phase !== 'MINIGAME_PLAYING') await sleep(200);
     let g = null;
-    for (let i = 0; i < 120 && !g; i++) {
+    for (let i = 0; IS_3D && i < 120 && !g; i++) {
       await sleep(300);
       g = await hostEval(page, (gm, id) => {
         const s = gm.game.scene.getScene(id)?.game3d;
         return s ? { w: s.engine.getRenderWidth(), h: s.engine.getRenderHeight(), scaling: s.engine.getHardwareScalingLevel() } : null;
       }, GAME);
     }
-    await sleep(6000); // fine del countdown: HUD di gioco visibile
+    await sleep(IS_3D ? 6000 : 4500); // fine del countdown: HUD di gioco visibile
     await page.screenshot({ path: path.join(OUT, `${size}-${GAME}${PLAYERS !== 2 ? '-' + PLAYERS + 'p' : ''}.png`) });
     const [vw, vh] = size.split('x').map(Number);
     const box = await page.evaluate(() => {
@@ -48,8 +49,8 @@ for (const size of SIZES) {
       return r ? { w: Math.round(r.width), h: Math.round(r.height), sx: document.documentElement.scrollWidth - innerWidth, sy: document.documentElement.scrollHeight - innerHeight } : null;
     });
     console.log(`   ${size}: render ${g?.w}x${g?.h} (scala ${g?.scaling}), canvas CSS ${box?.w}x${box?.h}`);
-    check(!!box && box.w === vw && box.h === vh, `${size}: il canvas 3D copre tutto lo schermo`);
-    check(!!box && box.sx <= 1 && box.sy <= 1, `${size}: nessuno scroll della pagina`);
+    if (IS_3D) check(!!box && box.w === vw && box.h === vh, `${size}: il canvas 3D copre tutto lo schermo`);
+    check(box === null ? !IS_3D : box.sx <= 1 && box.sy <= 1, `${size}: nessuno scroll della pagina`);
     check(errs.length === 0, `${size}: nessun errore di pagina`);
   } catch (e) {
     fails++;

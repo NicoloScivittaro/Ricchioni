@@ -211,8 +211,9 @@ export function buildSoccerEnvironment(scene: Scene): SoccerEnvironment {
 
   // Cartelloni
   neonSign(scene, 'DISAGIO', '#f43f5e', new Vector3(0, 4.5, -D / 2 - 3));
-  neonSign(scene, 'GOOOL!', '#22d3ee', new Vector3(-W / 2 - 3, 4.5, 0));
-  neonSign(scene, 'FUORI!', '#fbbf24', new Vector3(W / 2 + 3, 4.5, 0));
+  // Cartelloni laterali DENTRO l'inquadratura (a x = ±(W/2 + 3) uscivano dai bordi dello schermo 16:9 e restavano tagliati)
+  neonSign(scene, 'GOOOL!', '#22d3ee', new Vector3(-W / 2 + 1, 4.5, 0));
+  neonSign(scene, 'FUORI!', '#fbbf24', new Vector3(W / 2 - 1, 4.5, 0));
 
   return {
     update(now: number): void {
