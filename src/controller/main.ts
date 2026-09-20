@@ -116,6 +116,11 @@ socket.on('connect', () => {
   rejoinWithToken();
 });
 socket.on('disconnect', () => setOfflineBanner(true));
+// Telefono tornato in primo piano (schermo riacceso / cambio app): il join col token è idempotente e
+// fa ripartire uno snapshot completo dal server, così la UI si riallinea senza refresh.
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && socket.connected) rejoinWithToken();
+});
 
 /** Overlay PAUSA (ESC sull'host): sta sopra al controller senza toccarne il DOM. */
 function syncPauseOverlay(s: RoomState | null): void {
@@ -1096,13 +1101,19 @@ function handleFpsSignal(s: SignalPayload): void {
 
 /** Libera il motore Babylon del telefono (senza, ogni round FPS lascia un engine vivo in background). */
 function disposeFps(): void {
-  try {
-    fpsClient?.dispose();
-  } catch {
-    /* ignora */
-  }
+  const c = fpsClient;
   fpsClient = null;
   fpsPendingState = null;
+  if (!c) return;
+  // Lo smontaggio dell'engine WebGL è pesante: si fa DOPO che la nuova schermata è stata mostrata,
+  // così il telefono cambia vista subito invece di restare congelato sul vecchio controller.
+  window.setTimeout(() => {
+    try {
+      c.dispose();
+    } catch {
+      /* ignora */
+    }
+  }, 150);
 }
 
 /** Controller dedicato a SPARATORIA DEI DISAGIATI (layout custom: fps-tv). */
@@ -1570,8 +1581,12 @@ function renderCharacterSelect(state: RoomState, me: PlayerPublic): void {
 function renderPlaying(state: RoomState): void {
   const mg = state.currentMinigame;
   if (!mg) return;
-  if (lastMinigameId === mg.minigameId) return; // evita re-render durante il gioco
-  lastMinigameId = mg.minigameId;
+  // Chiave = roundId + gioco: uno snapshot di un round NUOVO ricostruisce sempre il controller
+  // (anche se il gioco è lo stesso o il telefono ha perso le fasi intermedie), mentre gli snapshot
+  // dello stesso round durante la partita non lo rifanno.
+  const roundKey = `${state.roundId ?? 0}:${mg.minigameId}`;
+  if (lastMinigameId === roundKey) return;
+  lastMinigameId = roundKey;
   showControls(mg);
 }
 

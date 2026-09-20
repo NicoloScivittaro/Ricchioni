@@ -86,7 +86,11 @@ export class SoccerScene extends Phaser.Scene {
 
   private cleanup(): void {
     this.cancelled = true;
-    this.game3d?.dispose();
+    try {
+      this.game3d?.dispose();
+    } catch (e) {
+      console.warn('[cleanup] dispose 3D fallito', e);
+    }
     this.game3d = null;
     this.overlayCanvas?.remove();
     this.overlayCanvas = null;

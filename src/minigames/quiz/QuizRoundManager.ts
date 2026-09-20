@@ -135,7 +135,8 @@ export class QuizRoundManager {
   }
 
   currentQuestion(): QuizQuestion {
-    return this.questions[this.questionIndex];
+    // Mai fuori dall'array (dopo l'ultima domanda la scena continua a disegnare i risultati).
+    return this.questions[Math.min(this.questionIndex, this.questions.length - 1)];
   }
 
   private abilitiesAllowedNow(): boolean {
@@ -424,11 +425,13 @@ export class QuizRoundManager {
   }
 
   private advanceToNextQuestion(): void {
-    this.questionIndex += 1;
-    if (this.questionIndex >= this.questions.length) {
+    // Dopo la 10ª domanda si va ai risultati SENZA incrementare l'indice: prima diventava 10, la scena
+    // leggeva questions[10].difficulty → TypeError a ogni frame e finish() non veniva mai chiamato.
+    if (this.questionIndex + 1 >= this.questions.length) {
       this.enterResults();
       return;
     }
+    this.questionIndex += 1;
     for (const p of this.players.values()) freshPerQuestionState(p);
     this.phase = 'intro';
     this.phaseTimer = INTRO_DURATION;

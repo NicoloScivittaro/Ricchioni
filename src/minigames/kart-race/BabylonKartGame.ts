@@ -28,7 +28,7 @@ import type { RaceHudEvent } from './race';
 import { CameraManager, KartHud } from './cameraHud';
 import { CharacterAbilities, abilityDescription } from './abilities';
 import type { AbilityFeedback } from './abilities';
-import { guardLoop } from '../../core/loopGuard';
+import { guardLoop, safely } from '../../core/loopGuard';
 
 const KART_S_RADIUS = 2.6;
 const KART_LAT_RADIUS = 1.7;
@@ -364,12 +364,14 @@ export class BabylonKartGame {
     if (this.disposed) return;
     this.disposed = true;
     window.removeEventListener('resize', this.onResize);
-    for (const e of this.entities.values()) e.dispose();
-    this.items.dispose();
-    this.cameraManager.dispose();
-    this.hud.dispose();
-    this.engine.stopRenderLoop();
-    this.scene.dispose();
-    this.engine.dispose();
+    safely('entities', () => {
+      for (const e of this.entities.values()) e.dispose();
+    });
+    safely('items.dispose', () => this.items.dispose());
+    safely('cameraManager.dispose', () => this.cameraManager.dispose());
+    safely('hud.dispose', () => this.hud.dispose());
+    safely('engine.stopRenderLoop', () => this.engine.stopRenderLoop());
+    safely('scene.dispose', () => this.scene.dispose());
+    safely('engine.dispose', () => this.engine.dispose());
   }
 }

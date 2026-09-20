@@ -29,7 +29,7 @@ function conn(): Promise<Socket> {
 function ack<T = AckResponse>(s: Socket, ev: string, payload: unknown): Promise<T> {
   return new Promise((res) => s.emit(ev, payload, (r: T) => res(r)));
 }
-async function until(cond: () => boolean, what: string, ms = 4000): Promise<void> {
+async function until(cond: () => boolean, what: string, ms = 8000): Promise<void> {
   const t0 = Date.now();
   while (!cond()) {
     if (Date.now() - t0 > ms) throw new Error(`TIMEOUT: ${what}`);
@@ -79,25 +79,37 @@ async function setupRoom(names: string[], target: number, opts: { ready?: boolea
 
 const isPhase = (r: Room, ph: GamePhase): boolean => r.st()?.phase === ph;
 
-/** Porta il round da ROULETTE a PLAYING saltando le animazioni. */
+/**
+ * Salta le fasi cosmetiche fino a una delle fasi target. Un solo skip per cambio di fase
+ * (con latenza alta spammare salterebbe fasi di troppo); ri-emette solo dopo 2.5s di stallo.
+ */
+async function driveTo(r: Room, targets: GamePhase[], maxMs = 25000): Promise<void> {
+  const t0 = Date.now();
+  let lastPhase = '';
+  let lastEmit = 0;
+  while (!targets.includes(r.st()?.phase)) {
+    if (Date.now() - t0 > maxMs) throw new Error(`TIMEOUT: verso ${targets.join('|')} (fase attuale ${r.st()?.phase})`);
+    const ph = r.st()?.phase ?? '';
+    if (ph !== lastPhase || Date.now() - lastEmit > 2500) {
+      lastPhase = ph;
+      lastEmit = Date.now();
+      r.host.emit(EVT.hostSkip);
+    }
+    await sleep(20);
+  }
+}
+
+/** Porta il round fino a PLAYING (rullo e intro saltati) e restituisce il minigioco scelto. */
 async function toPlaying(r: Room): Promise<MinigameSelectedPayload> {
-  await until(() => isPhase(r, 'MINIGAME_ROULETTE'), 'ROULETTE');
-  const pick = r.sel()!;
-  r.host.emit(EVT.hostSkip);
-  await until(() => isPhase(r, 'MINIGAME_INTRO'), 'INTRO');
-  r.host.emit(EVT.hostSkip);
-  await until(() => isPhase(r, 'MINIGAME_PLAYING'), 'PLAYING');
-  return pick;
+  await until(() => ['MINIGAME_ROULETTE', 'MINIGAME_INTRO', 'MINIGAME_PLAYING'].includes(r.st()?.phase), 'inizio round');
+  await driveTo(r, ['MINIGAME_PLAYING']);
+  return r.sel()!;
 }
 
 /** Dopo il risultato: salta tutte le fasi cosmetiche fino al prossimo ROULETTE / GAME_FINISHED. */
 async function drain(r: Room): Promise<void> {
-  const t0 = Date.now();
-  while (!(isPhase(r, 'MINIGAME_ROULETTE') || isPhase(r, 'GAME_FINISHED'))) {
-    if (Date.now() - t0 > 6000) throw new Error(`TIMEOUT drain (phase=${r.st().phase})`);
-    r.host.emit(EVT.hostSkip);
-    await sleep(25);
-  }
+  await driveTo(r, ['MINIGAME_ROULETTE', 'GAME_FINISHED']);
+  await sleep(150); // lascia arrivare lo stato definitivo
 }
 
 const results = (r: Room, order: P[]): { playerId: string; placement: number; score: number }[] =>

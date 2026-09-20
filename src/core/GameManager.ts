@@ -211,7 +211,7 @@ export class GameManager {
     }
     try {
       if (!this.game.scene.getScene(def.sceneKey)) throw new Error(`Scena non registrata: ${def.sceneKey}`);
-      this.game.scene.start(def.sceneKey, { ctx: this.minigameContext });
+      this.startScene(def.sceneKey, { ctx: this.minigameContext });
     } catch (e) {
       this.reportMinigameError(e);
     }
@@ -327,7 +327,7 @@ export class GameManager {
     if (this.reconnecting) {
       this.reconnecting = false;
       if (state.phase === 'LOBBY') {
-        this.game?.scene.start('RoomScene');
+        this.startScene('RoomScene');
         return;
       }
     }
@@ -337,11 +337,16 @@ export class GameManager {
       this.clearLoadWatchdog();
     }
 
-    if (state.phase === prev) return;
+    if (state.phase === prev) {
+      // Stesso phase: se una transizione è andata persa (o è rimasta una scena vecchia) lo snapshot
+      // successivo deve comunque riportare l'host sulla schermata giusta.
+      this.resyncScene(state.phase);
+      return;
+    }
 
     // Transizione verso LOBBY: restart (giocatori mantenuti) o back-to-lobby (vuoto)
     if (state.phase === 'LOBBY') {
-      this.game?.scene.start(state.players.length > 0 ? 'RoomScene' : 'LobbyScene');
+      this.startScene(state.players.length > 0 ? 'RoomScene' : 'LobbyScene');
       return;
     }
 
@@ -353,32 +358,94 @@ export class GameManager {
     this.transitionTo(state.phase);
   }
 
+  /**
+   * Avvia UNA scena e ferma tutte le altre. `game.scene.start()` di Phaser NON ferma le scene già
+   * attive: senza questo ogni scena mai avviata restava in esecuzione, la scena del minigioco
+   * (registrata per ultima, quindi in cima al render) copriva Risultati/Classifica e il canvas 3D
+   * restava sopra a tutto → "schermo vecchio" fino al refresh manuale.
+   * Ogni stop è isolato in try/catch: un cleanup che lancia non deve mai impedire la transizione.
+   */
+  private startScene(key: string, data?: object): void {
+    const game = this.game;
+    if (!game) return;
+    for (const scene of game.scene.getScenes(false)) {
+      const k = scene.sys.settings.key;
+      if (k === key) continue;
+      const status = scene.sys.settings.status;
+      if (status >= Phaser.Scenes.START && status <= Phaser.Scenes.SLEEPING) {
+        try {
+          game.scene.stop(k);
+        } catch (e) {
+          console.error(`[scene] stop di ${k} fallito`, e);
+        }
+      }
+    }
+    game.scene.start(key, data);
+  }
+
+  private expectedSceneKey(phase: GamePhase): string | null {
+    switch (phase) {
+      case 'MINIGAME_ROULETTE':
+        return 'RouletteScene';
+      case 'MINIGAME_INTRO':
+        return 'IntroScene';
+      case 'MINIGAME_FINISHED':
+        return 'FinishedScene';
+      case 'ROUND_RESULTS':
+        return 'ResultsScene';
+      case 'GLOBAL_LEADERBOARD':
+        return 'LeaderboardScene';
+      case 'NEXT_ROUND':
+        return 'NextRoundScene';
+      case 'GAME_FINISHED':
+        return 'GameOverScene';
+      case 'MINIGAME_PLAYING':
+        return this.pendingMinigame ? (getMinigame(this.pendingMinigame.minigameId)?.sceneKey ?? null) : null;
+      default:
+        return null; // LOBBY / CHECK_WINNER: nessuna scena dedicata
+    }
+  }
+
+  private resyncScene(phase: GamePhase): void {
+    const game = this.game;
+    const key = this.expectedSceneKey(phase);
+    if (!game || !key) return;
+    const active = game.scene.getScenes(true).map((s) => s.scene.key);
+    if (phase === 'MINIGAME_PLAYING') {
+      // Il minigioco in corso non si riavvia da solo (gli errori passano dall'overlay RIPROVA/SALTA):
+      // si eliminano solo le scene estranee rimaste attive.
+      for (const k of active) if (k !== key) game.scene.stop(k);
+      return;
+    }
+    if (!active.includes(key) || active.length > 1) this.transitionTo(phase);
+  }
+
   private transitionTo(phase: GamePhase): void {
     if (!this.game) return;
     switch (phase) {
       case 'MINIGAME_ROULETTE':
-        this.game.scene.start('RouletteScene');
+        this.startScene('RouletteScene');
         break;
       case 'MINIGAME_INTRO':
-        this.game.scene.start('IntroScene');
+        this.startScene('IntroScene');
         break;
       case 'MINIGAME_PLAYING':
         this.launchMinigame();
         break;
       case 'MINIGAME_FINISHED':
-        this.game.scene.start('FinishedScene');
+        this.startScene('FinishedScene');
         break;
       case 'ROUND_RESULTS':
-        this.game.scene.start('ResultsScene');
+        this.startScene('ResultsScene');
         break;
       case 'GLOBAL_LEADERBOARD':
-        this.game.scene.start('LeaderboardScene');
+        this.startScene('LeaderboardScene');
         break;
       case 'NEXT_ROUND':
-        this.game.scene.start('NextRoundScene');
+        this.startScene('NextRoundScene');
         break;
       case 'GAME_FINISHED':
-        this.game.scene.start('GameOverScene');
+        this.startScene('GameOverScene');
         break;
       default:
         break;

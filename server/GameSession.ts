@@ -4,7 +4,7 @@ import { ScoreManager } from '../shared/scoring';
 import { RouletteEngine } from '../shared/roulette';
 import type { RouletteHistoryEntry } from '../shared/roulette';
 import { AbilitySystem } from '../shared/abilities';
-import { getMinigame } from '../shared/minigames';
+import { getMinigame, safetyCapSec } from '../shared/minigames';
 import { getModifier } from '../shared/modifiers';
 import { FLOW_TIMING } from '../shared/types';
 import type {
@@ -409,8 +409,12 @@ export class GameSession {
   /** Safety net: se il minigioco non restituisce un risultato, non lasciare la serata bloccata. */
   private armPlayingSafetyNet(): void {
     this.clearTimer();
-    const dur = (this.currentMinigame?.durationSec ?? 30) * 1000 + 20000;
-    this.timer = setTimeout(() => this.fallbackFinish(), dur);
+    // durationSec è la durata di GIOCO di alcuni minigiochi (arena, fps, kart…), non la loro durata
+    // reale massima: la rete di sicurezza usa hardCapSec, così non tronca partite ancora valide.
+    const def = this.currentMinigame ? getMinigame(this.currentMinigame.minigameId) : undefined;
+    const base = this.currentMinigame?.durationSec ?? 30;
+    const capSec = def ? safetyCapSec(def, base) : base + 20;
+    this.timer = setTimeout(() => this.fallbackFinish(), capSec * 1000);
   }
 
   private advanceFrom(phase: GamePhase): void {

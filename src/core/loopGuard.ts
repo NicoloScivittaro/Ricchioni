@@ -17,3 +17,12 @@ export function guardLoop(fn: () => void): () => void {
     }
   };
 }
+
+/** Esegue un passo di cleanup isolando le eccezioni: un dispose che lancia non deve bloccare i successivi. */
+export function safely(label: string, fn: () => void): void {
+  try {
+    fn();
+  } catch (e) {
+    console.warn(`[cleanup] ${label} fallito`, e);
+  }
+}

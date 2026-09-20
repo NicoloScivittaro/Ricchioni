@@ -107,7 +107,9 @@ export class CameraManager {
     rig.smoothPos = Vector3.Lerp(rig.smoothPos, desiredPos, alpha);
     rig.smoothLook = Vector3.Lerp(rig.smoothLook, desiredLook, alpha);
 
-    const targetFov = CAM_BASE_FOV + speedFrac * 0.22 + (boosting ? 0.18 : 0);
+    // Espansione FOV con la velocità ridotta (era 0.22 + 0.18 in boost): l'effetto velocità resta ma non
+    // amplifica più la sensazione di "troppo veloce".
+    const targetFov = CAM_BASE_FOV + speedFrac * 0.14 + (boosting ? 0.1 : 0);
     rig.smoothFov = rig.smoothFov + (targetFov - rig.smoothFov) * Math.min(1, dt * 5);
 
     const stunned = state.stunTimer > 0;

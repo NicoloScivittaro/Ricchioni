@@ -21,3 +21,12 @@ export const MEMORY_TILES: MemoryTile[] = [
 
 export const MEMORY_SEQ_LENS = [3, 4, 5, 6, 7];
 export const MEMORY_ROUNDS = MEMORY_SEQ_LENS.length;
+
+/**
+ * Il minigioco Memoria è finito dopo il round `roundIndex` (0-based)?
+ * Fine ROUND ≠ fine MINIGIOCO: si esce solo dopo l'ULTIMO round, oppure se non è rimasto nessuno in gara.
+ * Un solo superstite NON chiude il gioco (prima chiudeva al round in cui gli altri sbagliavano).
+ */
+export function isMemoryOver(roundIndex: number, totalRounds: number, aliveCount: number): boolean {
+  return roundIndex + 1 >= totalRounds || aliveCount <= 0;
+}

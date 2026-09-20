@@ -178,6 +178,12 @@ export interface MinigameDefinition {
   minPlayers: number;
   maxPlayers: number;
   durationSec: number;
+  /**
+   * Rete di sicurezza SERVER: se il minigioco non consegna il risultato entro questo tempo (host
+   * bloccato, gioco incastrato) si torna al rullo senza punti. Deve coprire la durata REALE massima
+   * del gioco con margine; NON è la durata di gioco (quella è durationSec). Default: durationSec + 20s.
+   */
+  hardCapSec?: number;
   compatibleModifiers: string[];
   sceneKey: string;
   controllerLayout: ControllerLayout;

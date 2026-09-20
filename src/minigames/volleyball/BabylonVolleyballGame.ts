@@ -25,12 +25,15 @@ import {
   HIT_RADIUS,
   HIT_REACH,
   HIT_COOLDOWN,
-  RECEIVE_UP,
-  RECEIVE_SPEED,
-  SMASH_DOWN,
-  SMASH_SPEED,
-  SERVE_UP,
-  SERVE_SPEED,
+  BALL_GRAVITY,
+  BALL_NORMAL_UP,
+  BALL_NORMAL_SPEED,
+  BALL_SMASH_DOWN,
+  BALL_SMASH_SPEED,
+  BALL_SERVE_UP,
+  BALL_SERVE_SPEED,
+  clampBallSpeed,
+  hitDirection,
   WIN_SCORE,
   MATCH_POINT_AT,
   TEAM_COLOR,
@@ -46,7 +49,7 @@ import { buildVolleyballEnvironment } from './volleyballEnvironment';
 import { VolleyballAbilities, JAGER_POWER_MULT, JUDOKA_ACCEL_MULT, JUDOKA_HIT_MULT } from './volleyballAbilities';
 import type { VolleyballAbilityFeedback } from './volleyballAbilities';
 import { readMove } from '../moveInput';
-import { guardLoop } from '../../core/loopGuard';
+import { guardLoop, safely } from '../../core/loopGuard';
 
 const COUNTDOWN_S = 3.2;
 const INTRO_SECONDS = 3.4;
@@ -63,6 +66,7 @@ export class BabylonVolleyballGame {
   private ball: VolleyballBall = createBall();
   private ballMesh: Mesh;
   private landingRing: Mesh;
+  private ballShadow: Mesh;
   private env: ReturnType<typeof buildVolleyballEnvironment>;
   private camera: ArenaCamera;
   private hud: SoccerHud;
@@ -146,6 +150,18 @@ export class BabylonVolleyballGame {
     this.landingRing.rotation.x = Math.PI / 2;
     this.landingRing.material = ringMat;
     this.landingRing.isVisible = false;
+
+    // Ombra della palla sul campo: aiuta a leggere altezza e posizione (più piccola/scura quando la palla è alta).
+    const shadowMat = new StandardMaterial('ballShadowMat', this.scene);
+    shadowMat.diffuseColor = new Color3(0, 0, 0);
+    shadowMat.emissiveColor = new Color3(0, 0, 0);
+    shadowMat.specularColor = new Color3(0, 0, 0);
+    shadowMat.alpha = 0.4;
+    shadowMat.disableLighting = true;
+    this.ballShadow = MeshBuilder.CreateDisc('ballShadow', { radius: BALL_RADIUS * 1.1, tessellation: 20 }, this.scene);
+    this.ballShadow.rotation.x = Math.PI / 2;
+    this.ballShadow.material = shadowMat;
+    this.ballShadow.isPickable = false;
 
     this.hud.setScore(0, 0);
     this.hud.setTimer(0);
@@ -281,6 +297,9 @@ export class BabylonVolleyballGame {
       this.entities.get(p.id)?.updateVisual(p, dt, now);
     }
     this.ballMesh.position.set(this.ball.x, this.ball.y, this.ball.z);
+    this.ballShadow.position.set(this.ball.x, 0.03, this.ball.z);
+    const shadowScale = Math.max(0.45, 1 - this.ball.y / 9);
+    this.ballShadow.scaling.set(shadowScale, shadowScale, 1);
     this.updateLandingRing();
     const subjects = this.players.map((p) => ({ alive: p.alive, falling: p.falling, x: p.x, z: p.z }));
     subjects.push({ alive: true, falling: false, x: this.ball.x, z: this.ball.z });
@@ -385,8 +404,8 @@ export class BabylonVolleyballGame {
     this.ball.crossedNet = false;
     const dirZ = p.team === 'red' ? 1 : -1;
     this.ball.vx = (Math.random() - 0.5) * 3;
-    this.ball.vy = SERVE_UP;
-    this.ball.vz = dirZ * SERVE_SPEED;
+    this.ball.vy = BALL_SERVE_UP;
+    this.ball.vz = dirZ * BALL_SERVE_SPEED;
     this.ball.x = p.x;
     this.ball.z = p.z + dirZ * 0.6;
     audio.select();
@@ -415,15 +434,17 @@ export class BabylonVolleyballGame {
     const isSmash = p.y > 0.4 && this.ball.y > NET_HEIGHT * 0.8 && Math.abs(p.z) < 2.4;
     const perfect = this.ball.y > p.y + 1.1 && this.ball.y < p.y + 2.2;
     const dirZ = p.team === 'red' ? 1 : -1;
-    const dirX = -this.ball.x * 0.12; // lieve assist verso il centro
+    // Direzione orizzontale unitaria (avanti + lieve assist verso il centro): la velocità orizzontale
+    // del colpo è quella nominale, non dipende più da dove si trova la palla.
+    const aim = hitDirection(this.ball.x, dirZ);
 
-    let vx = dirX;
+    let vx = aim.dx;
     let vy: number;
-    let vz = dirZ;
+    let vz = aim.dz;
 
     if (isSmash) {
-      let speed = SMASH_SPEED;
-      let down = SMASH_DOWN;
+      let speed = BALL_SMASH_SPEED;
+      let down = BALL_SMASH_DOWN;
       if (p.jagerBomb) {
         if (perfect) {
           speed *= JAGER_POWER_MULT;
@@ -448,8 +469,8 @@ export class BabylonVolleyballGame {
       this.camera.shake(0.25, 200);
       this.ctx.signal(p.id, { type: 'smash' });
     } else {
-      let up = RECEIVE_UP;
-      let speed = RECEIVE_SPEED;
+      let up = BALL_NORMAL_UP;
+      let speed = BALL_NORMAL_SPEED;
       if (p.muroTime > 0) {
         up *= 1.1;
         if (!p.muroStableDone) {
@@ -475,6 +496,7 @@ export class BabylonVolleyballGame {
     this.ball.vx = vx;
     this.ball.vy = vy;
     this.ball.vz = vz;
+    clampBallSpeed(this.ball);
     this.ball.lastTouchId = p.id;
     this.ball.teamTouches++;
     this.entities.get(p.id)?.playThrow();
@@ -500,7 +522,8 @@ export class BabylonVolleyballGame {
     }
 
     const prevZ = b.z;
-    b.vy -= GRAVITY * this.gravityScale * dt;
+    b.vy -= BALL_GRAVITY * this.gravityScale * dt;
+    clampBallSpeed(b);
     b.x += b.vx * dt;
     b.y += b.vy * dt;
     b.z += b.vz * dt;
@@ -605,11 +628,12 @@ export class BabylonVolleyballGame {
 
   private updateLandingRing(): void {
     const b = this.ball;
-    if (b.state !== 'flying' || b.vy >= 0 || b.frozenTimer > 0) {
+    // Visibile per TUTTO il volo (anche in salita): il ricevente ha subito dove andare.
+    if (b.state !== 'flying' || b.frozenTimer > 0) {
       this.landingRing.isVisible = false;
       return;
     }
-    const g = GRAVITY * this.gravityScale;
+    const g = BALL_GRAVITY * this.gravityScale;
     const disc = b.vy * b.vy + 2 * g * b.y;
     if (disc < 0) {
       this.landingRing.isVisible = false;
@@ -698,11 +722,13 @@ export class BabylonVolleyballGame {
     if (this.disposed) return;
     this.disposed = true;
     window.removeEventListener('resize', this.onResize);
-    for (const e of this.entities.values()) e.dispose();
-    this.camera.dispose();
-    this.hud.dispose();
-    this.engine.stopRenderLoop();
-    this.scene.dispose();
-    this.engine.dispose();
+    safely('entities', () => {
+      for (const e of this.entities.values()) e.dispose();
+    });
+    safely('camera.dispose', () => this.camera.dispose());
+    safely('hud.dispose', () => this.hud.dispose());
+    safely('engine.stopRenderLoop', () => this.engine.stopRenderLoop());
+    safely('scene.dispose', () => this.scene.dispose());
+    safely('engine.dispose', () => this.engine.dispose());
   }
 }

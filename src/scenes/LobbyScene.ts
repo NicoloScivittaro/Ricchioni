@@ -86,7 +86,9 @@ export class LobbyScene extends Phaser.Scene {
       }
     };
     updateConn(gm.connected ? 'ok' : 'error');
-    gm.events.on('connection', updateConn);
+    const offConn = gm.events.on('connection', updateConn);
+    // Ogni ritorno in lobby ricrea la scena: senza questo i listener si accumulano e aggiornano testi distrutti.
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, offConn);
 
     this.render();
 

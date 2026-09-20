@@ -25,6 +25,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // per il dettaglio dei tempi; 320s lascia margine anche con bonus tempo
     // delle abilità (es. +8s del Dottore) che si accumulano su più domande.
     durationSec: 320,
+    // Rete di sicurezza server (10 domande: timer 12-25s + reveal/spiegazione + 3 classifiche = circa 285s al massimo, piu bonus tempo abilita).
+    hardCapSec: 480,
     // "tempo_dimezzato" non è più compatibile: dimezzerebbe anche la rete di
     // sicurezza server-side (durationSec), rischiando di troncare un quiz che
     // segue comunque i suoi timer per-domanda fissi (non letti dal modificatore).
@@ -45,6 +47,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     minPlayers: 1,
     maxPlayers: 5,
     durationSec: 90,
+    // Rete di sicurezza server (5 round = circa 72s al massimo).
+    hardCapSec: 180,
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'reaction',
     controllerLayout: {
@@ -68,6 +72,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // 5 round a sequenze 3-4-5-6-7 (eliminazione) + fasi OSSERVA/RIPETI:
     // 100s danno ampio margine; il timer server è solo una rete di sicurezza.
     durationSec: 100,
+    // Rete di sicurezza server (5 round: osserva+ripeti = circa 100s al massimo, anche con un solo superstite).
+    hardCapSec: 240,
     // "tempo_dimezzato" non si applica: il gioco segue i suoi timer per-round
     // (osserva/ripeti) e non legge il modificatore.
     compatibleModifiers: ['punti_doppi'],
@@ -88,6 +94,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // dell'arena. 45s danno tempo alle eliminazioni; il timer server è solo la
     // rete di sicurezza.
     durationSec: 45,
+    // Rete di sicurezza server (countdown + partita (cap durationSec) + festeggiamenti). Larga di proposito: il tempo di gioco 3D avanza per frame (dt max 50ms), su un PC host lento scorre più piano dell'orologio.
+    hardCapSec: 240,
     compatibleModifiers: ['controlli_invertiti', 'gravita_bassa', 'punti_doppi'],
     sceneKey: 'arena',
     // Controller dedicato: joystick virtuale + DASH + ABILITÀ (vedi renderArenaController()).
@@ -105,6 +113,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // Dodgeball arcade 3D: countdown + round a eliminazione (una palla = sei fuori).
     // 45s danno tempo; il timer server è solo la rete di sicurezza.
     durationSec: 45,
+    // Rete di sicurezza server (countdown + partita (cap durationSec) + festeggiamenti).
+    hardCapSec: 240,
     compatibleModifiers: ['controlli_invertiti', 'gravita_bassa', 'punti_doppi'],
     sceneKey: 'dodgeball',
     // Controller dedicato: joystick + LANCIA + SCHIVA + ABILITÀ (renderDodgeballController()).
@@ -123,6 +133,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // golden goal. 100s lasciano margine per tutto; il timer server è solo la
     // rete di sicurezza.
     durationSec: 100,
+    // Rete di sicurezza server (60s di partita + golden goal 15s + pause dopo ogni gol).
+    hardCapSec: 360,
     compatibleModifiers: ['punti_doppi', 'gravita_bassa'],
     sceneKey: 'soccer',
     // Controller dedicato: joystick + TIRO/PASSA (hold = più forte) + TACKLE + ABILITÀ.
@@ -141,6 +153,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // 120s di margine per una partita completa; il timer server è solo la rete
     // di sicurezza.
     durationSec: 120,
+    // Rete di sicurezza server (primo a 5 punti: nessun cap di tempo in gioco, scambi lunghi).
+    hardCapSec: 720,
     compatibleModifiers: ['gravita_bassa', 'punti_doppi'],
     sceneKey: 'volleyball',
     // Controller dedicato: joystick + SALTA + COLPISCI + ABILITÀ (renderVolleyballController()).
@@ -155,7 +169,10 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     rarity: 'rare',
     minPlayers: 1,
     maxPlayers: 5,
-    durationSec: 130,
+    // Limite di tempo della GARA (3 giri): con i kart più lenti (vmax 44) serve più margine di 130s.
+    durationSec: 170,
+    // Rete di sicurezza server (gara con limite di tempo durationSec + countdown/arrivo).
+    hardCapSec: 480,
     compatibleModifiers: ['controlli_invertiti', 'punti_doppi'],
     sceneKey: 'kart3d',
     controllerLayout: {
@@ -184,6 +201,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // reveal → spiegazione. 300s lasciano margine; il timer server è solo la
     // rete di sicurezza.
     durationSec: 300,
+    // Rete di sicurezza server (8 round x circa 60s (bluff 22 + voto 14 + reveal circa 10 + spiegazione 7) + 3 classifiche = circa 490s).
+    hardCapSec: 900,
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'cultura',
     // Controller dedicato: scrivi bluff / vota (renderCulturaController()).
@@ -201,12 +220,19 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // FPS free-for-all: ogni telefono renderizza la propria visuale, il PC è
     // radar/regia. 100s di match; il timer server è solo la rete di sicurezza.
     durationSec: 100,
+    // Rete di sicurezza server (match di 100s + countdown/risultati).
+    hardCapSec: 300,
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'fps',
     // Controller dedicato: joystick + look touch + SPARA + DASH + ABILITÀ (renderFpsController()).
     controllerLayout: { type: 'custom', id: 'fps-tv' }
   }
 ];
+
+/** Rete di sicurezza server per un minigioco, in secondi (mai sotto durationSec + 20s). */
+export function safetyCapSec(def: MinigameDefinition, durationSec: number = def.durationSec): number {
+  return Math.max(def.hardCapSec ?? 0, durationSec + 20);
+}
 
 export function getMinigame(id: string): MinigameDefinition | undefined {
   return MINIGAME_DEFINITIONS.find((m) => m.id === id);

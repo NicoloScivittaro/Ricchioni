@@ -27,7 +27,7 @@ import { ArenaHud } from './arenaHud';
 import { ArenaAbilities, abilityDescription } from './arenaAbilities';
 import type { ArenaAbilityFeedback } from './arenaAbilities';
 import { readMove } from '../moveInput';
-import { guardLoop } from '../../core/loopGuard';
+import { guardLoop, safely } from '../../core/loopGuard';
 
 const COUNTDOWN_S = 3.2;
 
@@ -448,11 +448,13 @@ export class BabylonArenaGame {
     if (this.disposed) return;
     this.disposed = true;
     window.removeEventListener('resize', this.onResize);
-    for (const e of this.entities.values()) e.dispose();
-    this.camera.dispose();
-    this.hud.dispose();
-    this.engine.stopRenderLoop();
-    this.scene.dispose();
-    this.engine.dispose();
+    safely('entities', () => {
+      for (const e of this.entities.values()) e.dispose();
+    });
+    safely('camera.dispose', () => this.camera.dispose());
+    safely('hud.dispose', () => this.hud.dispose());
+    safely('engine.stopRenderLoop', () => this.engine.stopRenderLoop());
+    safely('scene.dispose', () => this.scene.dispose());
+    safely('engine.dispose', () => this.engine.dispose());
   }
 }

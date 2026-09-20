@@ -24,15 +24,69 @@ export const HIT_RADIUS = 2.5;
 export const HIT_REACH = 2.9;
 export const HIT_COOLDOWN = 0.35;
 
-// Ricezione / palleggio
-export const RECEIVE_UP = 9;
-export const RECEIVE_SPEED = 8;
-// Smash
-export const SMASH_DOWN = -7.5;
-export const SMASH_SPEED = 15;
-// Servizio
-export const SERVE_UP = 10;
-export const SERVE_SPEED = 9;
+// ---- Palla: TUTTO il bilanciamento in un posto solo (m/s, m/s²) ----
+// (scripts/volleyball-balance.ts simula gli scambi con questi stessi valori)
+
+/**
+ * Gravità della PALLA (prima 22, come i giocatori). Più bassa = palla più leggibile: il tempo che un
+ * difensore ha per reagire cresce come 1/√g (lo smash passa da 0,28s a ~0,6s dal colpo all'atterraggio).
+ * I giocatori continuano a saltare con GRAVITY.
+ */
+export const BALL_GRAVITY = 12;
+/** Colpo normale / ricezione: spinta verso l'alto e velocità orizzontale verso la metà campo avversaria. (prima 9 / 8) */
+export const BALL_NORMAL_UP = 8;
+export const BALL_NORMAL_SPEED = 5.8;
+/** Smash: verso il basso (negativo) e velocità orizzontale. Resta ~2× più veloce del colpo normale. (prima -7.5 / 15) */
+export const BALL_SMASH_DOWN = -1.5;
+export const BALL_SMASH_SPEED = 12;
+/** Servizio. (prima 10 / 9) */
+export const BALL_SERVE_UP = 8.5;
+export const BALL_SERVE_SPEED = 6.5;
+/** Limiti di sicurezza: nessuna combinazione di colpi/abilità/collisioni può superarli. */
+export const BALL_MAX_SPEED = 18; // velocità totale
+export const BALL_MAX_HSPEED = 15; // componente orizzontale (XZ)
+
+/** Assist di mira verso il centro campo: laterale = -x · BALL_AIM_ASSIST, limitato a ±BALL_AIM_MAX (rapporto laterale/avanti). */
+export const BALL_AIM_ASSIST = 0.06; // prima 0.12
+export const BALL_AIM_MAX = 0.5;
+
+/**
+ * Direzione ORIZZONTALE UNITARIA di un colpo: avanti (dirZ = ±1) + lieve assist laterale verso il centro.
+ * Normalizzata: la velocità orizzontale del colpo è sempre quella nominale del tipo di colpo. Prima
+ * era vx = -x·0.12·speed, quindi ai bordi campo la componente orizzontale cresceva fino a +75%
+ * (uno smash da 15 m/s diventava ~21 m/s): il difensore non poteva reagire.
+ */
+export function hitDirection(
+  ballX: number,
+  dirZ: number,
+  assist = BALL_AIM_ASSIST,
+  max = BALL_AIM_MAX
+): { dx: number; dz: number } {
+  const lateral = Math.max(-max, Math.min(max, -ballX * assist));
+  const len = Math.hypot(lateral, 1);
+  return { dx: lateral / len, dz: dirZ / len };
+}
+
+/** Clamp separato di componente orizzontale e velocità totale: le velocità non si accumulano oltre il tetto. */
+export function clampBallSpeed(
+  b: { vx: number; vy: number; vz: number },
+  maxTotal = BALL_MAX_SPEED,
+  maxHorizontal = BALL_MAX_HSPEED
+): void {
+  const h = Math.hypot(b.vx, b.vz);
+  if (h > maxHorizontal) {
+    const k = maxHorizontal / h;
+    b.vx *= k;
+    b.vz *= k;
+  }
+  const t = Math.hypot(b.vx, b.vy, b.vz);
+  if (t > maxTotal) {
+    const k = maxTotal / t;
+    b.vx *= k;
+    b.vy *= k;
+    b.vz *= k;
+  }
+}
 
 export const WIN_SCORE = 5;
 export const MATCH_POINT_AT = WIN_SCORE - 1;

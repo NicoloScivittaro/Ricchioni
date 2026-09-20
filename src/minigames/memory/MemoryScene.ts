@@ -3,7 +3,7 @@ import { audio } from '../../core/AudioManager';
 import { confetti } from '../../scenes/confetti';
 import { PauseMenu } from '../../core/PauseMenu';
 import { MEMORY_ABILITIES } from '../../../shared/memoryAbilities';
-import { MEMORY_TILES, MEMORY_SEQ_LENS, MEMORY_ROUNDS } from '../../../shared/memoryTiles';
+import { MEMORY_TILES, MEMORY_SEQ_LENS, MEMORY_ROUNDS, isMemoryOver } from '../../../shared/memoryTiles';
 import type { MinigameContext } from '../types';
 import type { PlayerSnapshot } from '../../../shared/types';
 
@@ -374,10 +374,10 @@ export class MemoryScene extends Phaser.Scene {
   }
 
   private advanceRound(): void {
+    // Fine ROUND ≠ fine MINIGIOCO: anche se resta un solo superstite si giocano tutti i round
+    // previsti (5); il minigioco finisce solo dopo l'ultimo round o se sono usciti tutti.
     const aliveCount = this.players.filter((p) => p.alive).length;
-    const allOut = aliveCount === 0;
-    const alone = this.players.length > 1 && aliveCount <= 1;
-    if (this.round + 1 >= MEMORY_ROUNDS || allOut || alone) {
+    if (isMemoryOver(this.round, MEMORY_ROUNDS, aliveCount)) {
       this.showResults();
     } else {
       this.round += 1;
