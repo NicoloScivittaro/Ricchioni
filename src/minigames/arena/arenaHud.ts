@@ -13,6 +13,7 @@ export class ArenaHud {
 
   constructor(scene: Scene, titleText = '🤼 ARENA DEL DISAGIO') {
     this.adt = AdvancedDynamicTexture.CreateFullscreenUI('arenaHud', true, scene);
+    this.adt.idealHeight = 720; // l'HUD scala con lo schermo (720p = misure di progetto; 1080p/1440p/4K proporzionali)
 
     const title = new TextBlock('title', titleText);
     title.color = '#ffffff';
@@ -20,6 +21,7 @@ export class ArenaHud {
     title.fontFamily = '"Arial Black", Arial, sans-serif';
     title.top = '18px';
     title.height = '46px';
+    title.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
     title.shadowColor = 'rgba(0,0,0,0.6)';
     this.adt.addControl(title);
 
@@ -29,6 +31,7 @@ export class ArenaHud {
     this.modifierText.fontFamily = '"Arial Black", Arial, sans-serif';
     this.modifierText.top = '64px';
     this.modifierText.height = '26px';
+    this.modifierText.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
     this.modifierText.shadowColor = 'rgba(0,0,0,0.6)';
     this.adt.addControl(this.modifierText);
 
@@ -40,6 +43,11 @@ export class ArenaHud {
     this.aliveText.left = '-24px';
     this.aliveText.height = '40px';
     this.aliveText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
+    this.aliveText.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+    // La casella era larga quanto lo schermo e il testo si centrava dentro di essa (finiva sopra il titolo):
+    // larghezza fissa + testo allineato a destra.
+    this.aliveText.width = '300px';
+    this.aliveText.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
     this.aliveText.shadowColor = 'rgba(0,0,0,0.6)';
     this.adt.addControl(this.aliveText);
 
@@ -54,7 +62,7 @@ export class ArenaHud {
 
     this.feed = new StackPanel('feed');
     this.feed.isVertical = true;
-    this.feed.top = '80px';
+    this.feed.top = '100px'; // sotto titolo e modificatore
     this.feed.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
     this.feed.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
     this.adt.addControl(this.feed);

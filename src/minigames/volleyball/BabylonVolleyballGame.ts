@@ -52,6 +52,7 @@ import { readMove } from '../moveInput';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
+import { say } from '../../core/announcer';
 
 const COUNTDOWN_S = 3.2;
 const INTRO_SECONDS = 3.4;
@@ -79,6 +80,7 @@ export class BabylonVolleyballGame {
   private phaseTime = 0;
   private countdown = COUNTDOWN_S;
   private lastCountInt = 4;
+  private rally = 0; // colpi (di entrambe le squadre) dal servizio: alimenta il telecronista
   private redScore = 0;
   private blueScore = 0;
   private servingTeam: Team = 'red';
@@ -405,6 +407,7 @@ export class BabylonVolleyballGame {
     this.ball.lastTouchId = p.id;
     this.ball.teamTouches = 1;
     this.ball.crossedNet = false;
+    this.rally = 1;
     const dirZ = p.team === 'red' ? 1 : -1;
     this.ball.vx = (Math.random() - 0.5) * 3;
     this.ball.vy = BALL_SERVE_UP;
@@ -502,8 +505,17 @@ export class BabylonVolleyballGame {
     clampBallSpeed(this.ball);
     this.ball.lastTouchId = p.id;
     this.ball.teamTouches++;
+    this.rally++;
+    this.announceRally();
     this.entities.get(p.id)?.playThrow();
     this.ctx.vibrate(p.id, perfect ? 80 : 40);
+  }
+
+  /** Frasi del telecronista sugli scambi lunghi (5 / 8 / 12 colpi). */
+  private announceRally(): void {
+    const kind = this.rally === 5 ? 'rally5' : this.rally === 8 ? 'rally8' : this.rally === 12 ? 'rally12' : null;
+    const line = kind ? say(kind, true) : null;
+    if (line) this.hud.feedMessage(line, '#fbbf24', 1500);
   }
 
   // ---- Palla ----
@@ -605,7 +617,9 @@ export class BabylonVolleyballGame {
 
     audio.fanfare();
     this.camera.shake(0.3, 260);
-    this.hud.feedMessage(`💥 PUNTO ${TEAM_LABEL[scoringTeam]}! ${this.redScore} — ${this.blueScore}`, scoringTeam === 'red' ? '#f87171' : '#60a5fa', 2600);
+    const rallyLen = this.rally;
+    this.rally = 0;
+    this.hud.feedMessage(`💥 PUNTO ${TEAM_LABEL[scoringTeam]}! ${this.redScore} — ${this.blueScore}${rallyLen >= 6 ? ` · scambio da ${rallyLen} colpi` : ''}`, scoringTeam === 'red' ? '#f87171' : '#60a5fa', 2600);
     for (const p of this.players) this.ctx.vibrate(p.id, p.team === scoringTeam ? 150 : 70);
     this.ctx.signal(null, { type: 'point', team: scoringTeam });
 

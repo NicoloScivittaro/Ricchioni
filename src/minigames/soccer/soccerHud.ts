@@ -14,6 +14,7 @@ export class SoccerHud {
 
   constructor(scene: Scene, titleText = '⚽ CALCIO DEI DISAGIATI') {
     this.adt = AdvancedDynamicTexture.CreateFullscreenUI('soccerHud', true, scene);
+    this.adt.idealHeight = 720; // l'HUD scala con lo schermo (720p = misure di progetto; 1080p/1440p/4K proporzionali)
 
     const title = new TextBlock('title', titleText);
     title.color = '#ffffff';
@@ -21,6 +22,7 @@ export class SoccerHud {
     title.fontFamily = '"Arial Black", Arial, sans-serif';
     title.top = '12px';
     title.height = '40px';
+    title.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
     title.shadowColor = 'rgba(0,0,0,0.6)';
     this.adt.addControl(title);
 
@@ -30,6 +32,7 @@ export class SoccerHud {
     this.scoreText.fontFamily = '"Arial Black", Arial, sans-serif';
     this.scoreText.top = '48px';
     this.scoreText.height = '60px';
+    this.scoreText.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
     this.scoreText.shadowColor = 'rgba(0,0,0,0.7)';
     this.scoreText.outlineWidth = 3;
     this.scoreText.outlineColor = 'black';
@@ -41,6 +44,7 @@ export class SoccerHud {
     this.timerText.fontFamily = '"Arial Black", Arial, sans-serif';
     this.timerText.top = '104px';
     this.timerText.height = '30px';
+    this.timerText.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
     this.timerText.shadowColor = 'rgba(0,0,0,0.6)';
     this.adt.addControl(this.timerText);
 
@@ -50,6 +54,7 @@ export class SoccerHud {
     this.noteText.fontFamily = '"Arial Black", Arial, sans-serif';
     this.noteText.top = '132px';
     this.noteText.height = '24px';
+    this.noteText.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
     this.noteText.shadowColor = 'rgba(0,0,0,0.6)';
     this.adt.addControl(this.noteText);
 
@@ -64,7 +69,7 @@ export class SoccerHud {
 
     this.feed = new StackPanel('feed');
     this.feed.isVertical = true;
-    this.feed.top = '80px';
+    this.feed.top = '166px'; // sotto tabellone, timer e nota
     this.feed.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
     this.feed.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
     this.adt.addControl(this.feed);

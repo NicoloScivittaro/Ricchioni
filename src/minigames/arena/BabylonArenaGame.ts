@@ -30,6 +30,7 @@ import { readMove } from '../moveInput';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
+import { say } from '../../core/announcer';
 
 const COUNTDOWN_S = 3.2;
 
@@ -364,7 +365,10 @@ export class BabylonArenaGame {
     this.camera.shake(0.3, 240);
     this.hud.feedMessage(`${p.avatar} ${p.name.toUpperCase()} È FUORI!`, '#f87171');
     this.ctx.signal(p.id, { type: 'eliminated' });
-    this.hud.setAlive(this.players.filter((x) => x.alive).length);
+    const aliveNow = this.players.filter((x) => x.alive).length;
+    this.hud.setAlive(aliveNow);
+    const duel = aliveNow === 2 && this.players.length > 2 ? say('lastTwo', true) : null;
+    if (duel) this.hud.feedMessage(duel, '#fbbf24', 2200);
   }
 
   private checkEndCondition(): void {

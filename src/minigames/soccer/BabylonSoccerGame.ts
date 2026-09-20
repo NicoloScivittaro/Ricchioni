@@ -45,6 +45,7 @@ import type { SoccerAbilityFeedback } from './soccerAbilities';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
+import { say } from '../../core/announcer';
 
 const COUNTDOWN_S = 3.2;
 const BALL_HEIGHT = 0.35;
@@ -592,7 +593,7 @@ export class BabylonSoccerGame {
 
     audio.fanfare();
     this.camera.shake(0.4, 300);
-    const label = ownGoal ? 'AUTOGOL! 😱' : 'GOOOOL!';
+    const label = say(ownGoal ? 'ownGoal' : 'goal', true) ?? (ownGoal ? 'AUTOGOL! 😱' : 'GOOOOL!');
     this.hud.feedMessage(`${label} ${TEAM_LABEL[team]} ${this.redScore} — ${this.blueScore}`, team === 'red' ? '#f87171' : '#60a5fa', 3000);
     for (const p of this.players) this.ctx.vibrate(p.id, team === p.team ? 160 : 80);
     this.ctx.signal(null, { type: 'goal', team });

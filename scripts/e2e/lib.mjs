@@ -22,7 +22,10 @@ export async function launch() {
       '--disable-backgrounding-occluded-windows',
       '--window-size=1300,760'
     ],
-    defaultViewport: (() => { const m = /^(d+)x(d+)$/.exec(process.env.VIEWPORT ?? ''); return m ? { width: Number(m[1]), height: Number(m[2]) } : { width: 1280, height: 720 }; })()
+    defaultViewport: (() => {
+      const m = /^(\d+)x(\d+)$/.exec(process.env.VIEWPORT ?? '');
+      return m ? { width: Number(m[1]), height: Number(m[2]) } : { width: 1280, height: 720 };
+    })()
   });
 }
 

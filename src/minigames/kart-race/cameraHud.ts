@@ -41,6 +41,14 @@ export function splitScreenLayout(n: number): ViewportRect[] {
   ];
 }
 
+// Layer HUD: ogni giocatore ha il proprio GUI (bit 20..24), visibile solo dalla sua camera. Un GUI a schermo intero
+// condiviso verrebbe disegnato in OGNI viewport (pannelli di tutti i giocatori, schiacciati). Le mesh usano la
+// maschera di default 0x0FFFFFFF, che resta visibile a tutte le camere.
+const HUD_LAYER_BIT0 = 20;
+const HUD_LAYER_BITS = 0x1f << HUD_LAYER_BIT0;
+const DEFAULT_LAYER_MASK = 0x0fffffff;
+const hudLayerMask = (index: number): number => 1 << (HUD_LAYER_BIT0 + index);
+
 const CAM_BACK = 6.4;
 const CAM_UP = 2.7;
 const CAM_LOOK_AHEAD = 9;
@@ -83,6 +91,7 @@ export class CameraManager {
       if (!rig) return;
       const r = rects[i];
       rig.camera.viewport = new Viewport(r.x, r.y, r.w, r.h);
+      rig.camera.layerMask = (DEFAULT_LAYER_MASK & ~HUD_LAYER_BITS) | hudLayerMask(i);
       active.push(rig.camera);
     });
     this.scene.activeCameras = active;
@@ -136,6 +145,8 @@ export class CameraManager {
 }
 
 interface HudEntry {
+  adt: AdvancedDynamicTexture;
+  countdownText: TextBlock;
   panel: Rectangle;
   posText: TextBlock;
   lapText: TextBlock;
@@ -150,33 +161,38 @@ interface HudEntry {
   flashTimer: number;
 }
 
-/** HUD essenziale per viewport (Babylon GUI, un solo AdvancedDynamicTexture condiviso). */
+const IDEAL_HEIGHT = 720;
+
+/** HUD essenziale: un AdvancedDynamicTexture PER GIOCATORE, disegnato solo nel viewport della sua camera. */
 export class KartHud {
-  private adt: AdvancedDynamicTexture;
   private entries = new Map<PlayerId, HudEntry>();
-  private countdownText: TextBlock;
 
-  constructor(scene: Scene, private engine: Engine) {
-    this.adt = AdvancedDynamicTexture.CreateFullscreenUI('kartHud', true, scene);
-    this.countdownText = new TextBlock('countdown', '');
-    this.countdownText.fontFamily = '"Arial Black", Arial, sans-serif';
-    this.countdownText.fontSize = 96;
-    this.countdownText.color = '#ffffff';
-    this.countdownText.outlineColor = '#000000';
-    this.countdownText.outlineWidth = 8;
-    this.countdownText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
-    this.countdownText.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
-    this.adt.addControl(this.countdownText);
-  }
+  constructor(private scene: Scene, private engine: Engine) {}
 
+  /** Countdown 3-2-1-VIA nel viewport di ogni giocatore (il lampo a schermo intero parte una volta sola). */
   setCountdown(text: string): void {
-    this.countdownText.text = text;
-    if (text) popCountdown(this.countdownText, this.adt.getScene(), text === 'VIA!');
+    let first = true;
+    for (const e of this.entries.values()) {
+      e.countdownText.text = text;
+      if (text) popCountdown(e.countdownText, this.scene, first && text === 'VIA!');
+      first = false;
+    }
   }
 
   ensure(playerId: PlayerId, colorHex: string): HudEntry {
     let e = this.entries.get(playerId);
     if (e) return e;
+
+    const adt = AdvancedDynamicTexture.CreateFullscreenUI(`kartHud_${playerId}`, true, this.scene);
+    const countdownText = new TextBlock(`countdown_${playerId}`, '');
+    countdownText.fontFamily = '"Arial Black", Arial, sans-serif';
+    countdownText.fontSize = 96;
+    countdownText.color = '#ffffff';
+    countdownText.outlineColor = '#000000';
+    countdownText.outlineWidth = 8;
+    countdownText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
+    countdownText.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
+    adt.addControl(countdownText);
 
     const panel = new Rectangle(`hudPanel_${playerId}`);
     panel.width = '150px';
@@ -186,7 +202,9 @@ export class KartHud {
     panel.cornerRadius = 10;
     panel.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
     panel.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
-    this.adt.addControl(panel);
+    panel.left = '10px';
+    panel.top = '10px';
+    adt.addControl(panel);
 
     const posText = new TextBlock('posText', '1°/1');
     posText.color = colorHex;
@@ -275,9 +293,9 @@ export class KartHud {
     flashText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
     flashText.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
     flashText.textWrapping = true;
-    this.adt.addControl(flashText);
+    adt.addControl(flashText);
 
-    e = { panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, debtText, flashText, flashTimer: 0 };
+    e = { adt, countdownText, panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, debtText, flashText, flashTimer: 0 };
     this.entries.set(playerId, e);
     return e;
   }
@@ -292,21 +310,30 @@ export class KartHud {
     e.flashTimer = durationSec;
   }
 
+  /**
+   * Assegna a ogni giocatore il proprio layer e dimensiona la texture del GUI come il suo viewport (stesse proporzioni:
+   * niente schiacciamento). L'HUD e' in unita' 'ideali' (altezza 720) e scala con lo schermo. Idempotente.
+   */
   layout(order: PlayerId[]): void {
     const rects = splitScreenLayout(order.length);
-    const w = this.engine.getRenderWidth();
-    const h = this.engine.getRenderHeight();
+    const rw = this.engine.getRenderWidth();
+    const rh = this.engine.getRenderHeight();
     order.forEach((pid, i) => {
       const e = this.entries.get(pid);
       if (!e) return;
       const r = rects[i];
-      const px = r.x * w;
-      const py = (1 - r.y - r.h) * h;
-      e.panel.left = `${px + 10}px`;
-      e.panel.top = `${py + 10}px`;
-      e.flashText.left = `${px + r.w * w * 0.5 - w * 0.5}px`;
-      e.flashText.top = `${py + r.h * h * 0.32 - h * 0.5}px`;
-      e.flashText.width = `${Math.max(120, r.w * w - 20)}px`;
+      const vpW = Math.max(2, Math.round(r.w * rw));
+      const vpH = Math.max(2, Math.round(r.h * rh));
+      if (e.adt.layer && e.adt.layer.layerMask !== hudLayerMask(i)) e.adt.layer.layerMask = hudLayerMask(i);
+      const size = e.adt.getSize();
+      if (size.width !== vpW || size.height !== vpH) e.adt.scaleTo(vpW, vpH); // dopo un resize Babylon rimette lo schermo intero
+      // altezza ideale del viewport: la scala resta uguale per tutti i layout; da 3 giocatori i viewport sono piccoli e il
+      // pannello si riduce un po' (x0.83) per non coprire la pista
+      const idealH = IDEAL_HEIGHT * r.h * (order.length >= 3 ? 1.2 : 1);
+      if (e.adt.idealHeight !== idealH) e.adt.idealHeight = idealH;
+      const idealW = idealH * (vpW / vpH);
+      e.flashText.top = `${(0.32 - 0.5) * idealH}px`;
+      e.flashText.width = `${Math.max(120, idealW - 20)}px`;
     });
   }
 
@@ -353,7 +380,8 @@ export class KartHud {
   }
 
   dispose(): void {
-    this.adt.dispose();
+    for (const e of this.entries.values()) e.adt.dispose();
+    this.entries.clear();
   }
 }
 
