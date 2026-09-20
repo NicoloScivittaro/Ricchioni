@@ -24,6 +24,11 @@ export class PlayerInput {
     return this.texts.get(id) ?? '';
   }
 
+  /** Azzera un testo libero (es. all'inizio di ogni round, così non resta il testo del round prima). */
+  clearText(id: string): void {
+    this.texts.delete(id);
+  }
+
   setDown(id: string): void {
     const b = this.ensure(id);
     if (!b.pressed) {

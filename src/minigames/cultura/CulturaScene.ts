@@ -11,13 +11,17 @@ import type { PlayerId } from '../../../shared/types';
 // Fasi: intro domanda → bluff (telefono) → opzioni → voto → reveal → spiegazione.
 
 const TOTAL_ROUNDS = 8;
-const INTRO_S = 3;
-const BLUFF_S = 22;
-const OPTIONS_S = 3;
-const VOTE_S = 14;
+// Ritmo: partita da ~5-7 minuti (prima ~8). I timer sono il TETTO: quando tutti hanno consegnato
+// bluff/voto la fase si chiude dopo EARLY_GRACE_S invece di aspettare la scadenza.
+const INTRO_S = 2.2;
+const BLUFF_S = 20;
+const OPTIONS_S = 2.5;
+const VOTE_S = 12;
 const REVEAL_S = 16;
-const EXPLANATION_S = 7;
-const RANKING_S = 4;
+const REVEAL_STEP_S = 1.8; // un passo di rivelazione per ogni risposta sbagliata
+const EXPLANATION_S = 5.5;
+const RANKING_S = 3.5;
+const EARLY_GRACE_S = 1.5;
 const FINAL_BONUS = 5;
 
 const REVEAL_BAD = [
@@ -133,6 +137,13 @@ export class CulturaScene extends Phaser.Scene {
     this.votes = new Map();
     this.advocate = null;
     this.phaseEndsAt = this.gameTime + INTRO_S;
+    // I testi dei telefoni persistono tra un round e l'altro: senza questo chi non rispondeva riusava il
+    // bluff (o il voto!) del round precedente.
+    for (const p of this.ctx.players) {
+      const inp = this.ctx.input.get(p.id);
+      inp.clearText('bluff');
+      inp.clearText('vote');
+    }
 
     // Secchione Infame: round 3 e 6 (1-based)
     const isSecchioneRound = this.round === 2 || this.round === 5;
@@ -151,8 +162,16 @@ export class CulturaScene extends Phaser.Scene {
   }
 
   private advocatePending = false;
+  private earlyBluff = false;
+  private earlyVote = false;
+
+  private hasValidVote(pid: PlayerId): boolean {
+    const idx = parseInt(this.ctx.input.get(pid).text('vote'), 10);
+    return !Number.isNaN(idx) && idx >= 0 && idx < this.options.length;
+  }
 
   private enterBluff(): void {
+    this.earlyBluff = false;
     this.phase = 'bluff';
     this.phaseEndsAt = this.gameTime + BLUFF_S;
   }
@@ -203,6 +222,7 @@ export class CulturaScene extends Phaser.Scene {
   }
 
   private enterVote(): void {
+    this.earlyVote = false;
     this.phase = 'vote';
     this.phaseEndsAt = this.gameTime + VOTE_S;
     this.renderOptions();
@@ -429,6 +449,10 @@ export class CulturaScene extends Phaser.Scene {
         if (this.gameTime >= this.phaseEndsAt) this.enterBluff();
         break;
       case 'bluff':
+        if (!this.earlyBluff && this.ctx.players.every((p) => this.normalize(this.ctx.input.get(p.id).text('bluff')).length > 0)) {
+          this.earlyBluff = true; // tutti hanno scritto: chiudi dopo una breve pausa
+          this.phaseEndsAt = Math.min(this.phaseEndsAt, this.gameTime + EARLY_GRACE_S);
+        }
         if (this.gameTime >= this.phaseEndsAt) this.endBluff();
         break;
       case 'options':
@@ -447,12 +471,16 @@ export class CulturaScene extends Phaser.Scene {
             }
           }
         }
+        if (!this.earlyVote && this.ctx.players.every((p) => this.hasValidVote(p.id))) {
+          this.earlyVote = true; // tutti hanno votato
+          this.phaseEndsAt = Math.min(this.phaseEndsAt, this.gameTime + EARLY_GRACE_S);
+        }
         if (this.gameTime >= this.phaseEndsAt) this.endVote();
         break;
       }
       case 'reveal': {
         this.revealTimer += dt;
-        if (this.revealTimer >= 2.2) {
+        if (this.revealTimer >= REVEAL_STEP_S) {
           this.revealTimer = 0;
           this.revealStep++;
           this.renderRevealFrame();

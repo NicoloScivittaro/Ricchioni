@@ -88,7 +88,7 @@ console.log('\n[TETTO SERVER] copre la durata REALE massima di ogni gioco (con �
     soccer: 115, // 60s + golden goal 15s + pause dopo i gol
     volleyball: 420, // primo a 5: nessun cap di tempo in gioco; scambi lunghi
     kart3d: 185, // countdown + gara (cap durationSec) + arrivo
-    cultura: 490, // 8 round × ~58s + 3 classifiche
+    cultura: 430, // 8 round × ~51s (bluff 20 + voto 12 + reveal ~9 + spiegazione 5.5) + 3 classifiche; con fine anticipata ~5 min
     fps: 112 // match 100s + countdown/risultati
   };
   for (const def of MINIGAME_DEFINITIONS) {

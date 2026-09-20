@@ -17,6 +17,10 @@ const OBSERVE_INTERVAL = 0.62;
 const OBSERVE_POST = 0.55;
 const TIME_BUDGET_PER_TILE = 1.5; // secondi per mossa + margine
 const ROUND_RESULT_S = 2.4;
+// Ultimo superstite (con altri già fuori): deve comunque completare tutti i round, ma più svelti
+// (osserva ~40% più rapido, stacchi più corti) così i round "da soli" non annoiano.
+const SOLO_SPEED = 0.6;
+const SOLO_ROUND_RESULT_S = 1.0;
 const REPLAY_TILE_S = 0.42; // replay veloce (Goblin)
 const REPLAY_POST_S = 0.4;
 
@@ -190,23 +194,40 @@ export class MemoryScene extends Phaser.Scene {
 
     this.centerText.setText('👀 OSSERVA').setFontSize(88).setColor('#ffffff').setScale(1).setAlpha(1);
     this.subText
-      .setText(isLast ? '🔥 ULTIMO ROUND — attento!' : `Round ${this.round + 1}/${MEMORY_ROUNDS} · sequenza da ${seq.length}`)
+      .setText(
+        this.soloSurvivor()
+          ? `⭐ ULTIMO IN GARA — round ${this.round + 1}/${MEMORY_ROUNDS}, completa le sequenze!`
+          : isLast
+            ? '🔥 ULTIMO ROUND — attento!'
+            : `Round ${this.round + 1}/${MEMORY_ROUNDS} · sequenza da ${seq.length}`
+      )
       .setColor(isLast ? '#f87171' : '#9ca3af');
 
     for (const p of this.players) this.updateCard(p);
     this.ctx.signal(null, { type: 'observe', seqLen: seq.length });
   }
 
+  /** true = un solo giocatore ancora in gara mentre altri sono già stati eliminati. */
+  private soloSurvivor(): boolean {
+    return this.players.length > 1 && this.players.filter((p) => p.alive).length === 1;
+  }
+
+  private observeTiming(): { pre: number; interval: number; post: number } {
+    const k = this.soloSurvivor() ? SOLO_SPEED : 1;
+    return { pre: OBSERVE_PRE * k, interval: OBSERVE_INTERVAL * k, post: OBSERVE_POST * k };
+  }
+
   private updateObserve(): void {
     const seq = this.sequences[this.round];
     while (
       this.nextFlashIndex < seq.length &&
-      this.gameTime >= this.observeStart + OBSERVE_PRE + this.nextFlashIndex * OBSERVE_INTERVAL
+      this.gameTime >= this.observeStart + this.observeTiming().pre + this.nextFlashIndex * this.observeTiming().interval
     ) {
       this.flashTile(seq[this.nextFlashIndex]);
       this.nextFlashIndex++;
     }
-    if (this.gameTime >= this.observeStart + OBSERVE_PRE + seq.length * OBSERVE_INTERVAL + OBSERVE_POST) {
+    const tm = this.observeTiming();
+    if (this.gameTime >= this.observeStart + tm.pre + seq.length * tm.interval + tm.post) {
       this.startRepeat();
     }
   }
@@ -365,7 +386,7 @@ export class MemoryScene extends Phaser.Scene {
 
   private endRound(): void {
     this.phase = 'roundResult';
-    this.phaseEndsAt = this.gameTime + ROUND_RESULT_S;
+    this.phaseEndsAt = this.gameTime + (this.soloSurvivor() ? SOLO_ROUND_RESULT_S : ROUND_RESULT_S);
     const survivors = this.players.filter((p) => p.alive);
     this.centerText.setText(`FINE ROUND ${this.round + 1}`).setFontSize(60).setColor('#ffffff');
     this.subText.setText(survivors.length > 0 ? `In gara: ${survivors.length}` : 'Tutti eliminati!');

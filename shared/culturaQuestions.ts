@@ -168,7 +168,7 @@ export const CULTURA_QUESTIONS: CulturaQuestion[] = [
   {
     id: 'q016',
     question: 'Quale fenomeno causa l\'aurora boreale?',
-    correctAnswer: 'Particelle solari che colpiscono l\'atmosfera',
+    correctAnswer: 'Il vento solare',
     category: 'Astronomia',
     difficulty: 4,
     explanation: 'Le aurore nascono quando particelle cariche del vento solare interagiscono con il campo magnetico terrestre e i gas atmosferici.',
