@@ -36,13 +36,19 @@ export class VolleyballScene extends Phaser.Scene {
 
     this.pauseMenu = new VolleyballPauseMenu(
       this,
-      () => this.scene.restart({ ctx: data.ctx }),
+      () => {
+        data.ctx.input.reset(); // tasti/abilità tenuti prima del riavvio non passano al gioco nuovo
+        this.scene.restart({ ctx: data.ctx });
+      },
       (visible) => {
         gm.setPaused(visible);
         this.game3d?.setPaused(visible);
       }
     );
-    this.escKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+    this.escKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ESC); // cattura il tasto (niente scroll)
+    this.input.keyboard!.on('keydown-ESC', (e: KeyboardEvent) => {
+      if (!e.repeat) this.toggleMenu();
+    });
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);
     this.events.once(Phaser.Scenes.Events.DESTROY, this.cleanup, this);
@@ -55,12 +61,11 @@ export class VolleyballScene extends Phaser.Scene {
       });
   }
 
-  update(): void {
-    if (Phaser.Input.Keyboard.JustDown(this.escKey)) {
-      audio.select();
-      this.pauseMenu?.toggle();
-      this.game3d?.setPaused(this.pauseMenu?.isVisible() ?? false);
-    }
+  /** ESC a evento keydown (JustDown perde il tasto se down+up cadono nello stesso frame: PC host lenti). */
+  private toggleMenu(): void {
+    audio.select();
+    this.pauseMenu?.toggle();
+    this.game3d?.setPaused(this.pauseMenu?.isVisible() ?? false);
   }
 
   private async boot(ctx: MinigameContext): Promise<void> {

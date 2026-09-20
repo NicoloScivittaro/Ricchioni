@@ -24,10 +24,11 @@ export class PauseMenu {
   private mode: MenuMode = 'none';
   private index = 0;
   private objects: Phaser.GameObjects.GameObject[] = [];
-  private escKey: Phaser.Input.Keyboard.Key;
-  private upKey: Phaser.Input.Keyboard.Key;
-  private downKey: Phaser.Input.Keyboard.Key;
-  private enterKey: Phaser.Input.Keyboard.Key;
+  /**
+   * Tasti premuti dall'ultimo frame. Eventi keydown invece di JustDown(): Phaser azzera _justDown se
+   * pressione e rilascio cadono nello stesso frame, e su un PC host lento un colpetto su ESC andava perso.
+   */
+  private pressed = new Set<string>();
 
   constructor(
     private scene: Phaser.Scene,
@@ -36,16 +37,25 @@ export class PauseMenu {
     private onRestart: () => void
   ) {
     const kb = scene.input.keyboard!;
-    this.escKey = kb.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-    this.upKey = kb.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    this.downKey = kb.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    this.enterKey = kb.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    kb.addCapture('ESC,UP,DOWN,ENTER');
+    for (const name of ['ESC', 'UP', 'DOWN', 'ENTER']) {
+      kb.on(`keydown-${name}`, (e: KeyboardEvent) => {
+        if (!e.repeat) this.pressed.add(name);
+      });
+    }
+  }
+
+  private took(name: string): boolean {
+    return this.pressed.delete(name);
   }
 
   /** Da chiamare a inizio update(): true se il menu ha "consumato" il frame (salta la logica di gioco). */
   update(): boolean {
-    if (Phaser.Input.Keyboard.JustDown(this.escKey)) this.toggle();
-    if (this.mode === 'none') return false;
+    if (this.took('ESC')) this.toggle();
+    if (this.mode === 'none') {
+      this.pressed.clear();
+      return false;
+    }
     this.handleKeys();
     this.input.update();
     return true;
@@ -141,15 +151,15 @@ export class PauseMenu {
   }
 
   private handleKeys(): void {
-    if (Phaser.Input.Keyboard.JustDown(this.upKey)) {
+    if (this.took('UP')) {
       this.index = (this.index - 1 + this.itemCount()) % this.itemCount();
       audio.select();
       this.render();
-    } else if (Phaser.Input.Keyboard.JustDown(this.downKey)) {
+    } else if (this.took('DOWN')) {
       this.index = (this.index + 1) % this.itemCount();
       audio.select();
       this.render();
-    } else if (Phaser.Input.Keyboard.JustDown(this.enterKey)) {
+    } else if (this.took('ENTER')) {
       this.confirm();
     }
   }
@@ -184,6 +194,7 @@ export class PauseMenu {
       if (this.index === 1) {
         audio.select();
         gm.setPaused(false);
+        this.input.reset();
         this.onRestart();
       } else {
         this.open();
