@@ -12,6 +12,7 @@ import {
   DynamicTexture
 } from '@babylonjs/core';
 import { MAX_SPEED } from './arenaTypes';
+import { getCharacter } from '../../../shared/characters';
 
 /** Sottoinsieme di stato letto da updateVisual (condiviso tra arena e dodgeball). */
 export interface VisualSubject {
@@ -135,7 +136,7 @@ export class ArenaEntity {
     this.buildCharacterExtras(scene, characterId, shirt, white, dark, skin);
 
     // Nameplate billboard (avatar + nome) sopra la testa.
-    this.buildNameplate(scene, avatar, name);
+    this.buildNameplate(scene, avatar, name, characterId);
 
     // Ancoraggio particelle (mesh invisibile che segue il personaggio).
     const fxAnchor = MeshBuilder.CreateBox('arenaFxAnchor', { size: 0.05 }, scene);
@@ -243,7 +244,7 @@ export class ArenaEntity {
     }
   }
 
-  private buildNameplate(scene: Scene, avatar: string, name: string): void {
+  private buildNameplate(scene: Scene, avatar: string, name: string, characterId: string | null): void {
     const dt = new DynamicTexture('nameplate', { width: 256, height: 96 }, scene, false);
     dt.hasAlpha = true;
     const c = dt.getContext() as unknown as CanvasRenderingContext2D;
@@ -259,6 +260,15 @@ export class ArenaEntity {
     c.font = '800 30px Arial, sans-serif';
     c.textAlign = 'left';
     c.fillText(name.length > 12 ? name.slice(0, 12) + '…' : name, 76, 62);
+    // Barra col COLORE DEL GIOCATORE: nelle partite a squadre la maglia è del colore della squadra, l'identità si legge qui
+    // (stesso colore del telefono, della classifica e dei risultati).
+    const idColor = characterId ? getCharacter(characterId)?.color : undefined;
+    if (idColor) {
+      c.fillStyle = idColor;
+      c.beginPath();
+      c.roundRect(20, 74, 216, 8, 4);
+      c.fill();
+    }
     dt.update();
 
     const mat = new StandardMaterial('nameplateMat', scene);

@@ -56,7 +56,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
       grid: 1,
       controls: [
         { id: 'action', label: 'ASPETTA...', kind: 'button', icon: '⚡' },
-        { id: 'ability', label: '⭐ ABILITÀ', kind: 'button', icon: '⭐' }
+        { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
       ]
     }
   },

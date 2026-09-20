@@ -95,7 +95,16 @@ export class BabylonKartGame {
     this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), this.trackAngleAt, (ev) => this.onRaceEvent(ev));
 
     this.order = [...ctx.playerIds];
-    ctx.players.forEach((p, i) => {
+    // Griglia equa: chi è in testa alla classifica parte dietro, gli ultimi davanti; a parità decide il caso
+    // (prima la pole andava sempre a chi era entrato per primo in stanza). L'ordine dei viewport resta invariato.
+    const gridSlot = new Map(
+      [...ctx.players]
+        .map((p) => ({ id: p.id, key: p.score + ctx.rng.next() * 0.9 }))
+        .sort((a, b) => a.key - b.key)
+        .map((e, slot) => [e.id, slot] as const)
+    );
+    ctx.players.forEach((p) => {
+      const i = gridSlot.get(p.id) ?? 0;
       const state = createKartState(p.id, p.characterId, p.color, p.avatar);
       const col = i % 2 === 0 ? -1 : 1;
       const row = Math.floor(i / 2);
