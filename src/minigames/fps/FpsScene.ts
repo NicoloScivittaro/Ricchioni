@@ -407,7 +407,15 @@ export class FpsScene extends Phaser.Scene {
       if (a.assists !== b.assists) return b.assists - a.assists;
       return b.damageDealt - a.damageDealt;
     });
-    const results = sorted.map((p, i) => ({ playerId: p.id, placement: i + 1, score: p.kills }));
+    const results = sorted.map((p, i) => ({
+      playerId: p.id,
+      placement: i + 1,
+      score: p.kills,
+      stats: [
+        `${p.kills} kill · ${p.deaths} morti`,
+        p.shotsFired > 0 ? `precisione ${Math.round((p.shotsHit / p.shotsFired) * 100)}%` : 'nessun colpo sparato'
+      ]
+    }));
     this.ctx.signal(null, { type: 'fpsEnd', players: sorted.map((p) => ({ id: p.id, name: p.name, kills: p.kills, deaths: p.deaths })) });
     this.ctx.finish({ results });
   }

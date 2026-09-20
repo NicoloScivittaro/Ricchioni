@@ -443,7 +443,12 @@ export class MemoryScene extends Phaser.Scene {
   private finish(ranking: PState[]): void {
     if (this.finished) return;
     this.finished = true;
-    const results = ranking.map((p, i) => ({ playerId: p.snap.id, placement: i + 1, score: p.totalCorrect }));
+    const results = ranking.map((p, i) => ({
+      playerId: p.snap.id,
+      placement: i + 1,
+      score: p.totalCorrect,
+      stats: [`${p.completedRounds}/${MEMORY_ROUNDS} sequenze`, `${p.totalCorrect} mosse esatte`]
+    }));
     this.ctx.finish({ results });
   }
 

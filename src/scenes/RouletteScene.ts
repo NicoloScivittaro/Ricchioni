@@ -4,9 +4,10 @@ import { audio } from '../core/AudioManager';
 import { MINIGAME_DEFINITIONS, getMinigame } from '../../shared/minigames';
 import { getCharacter } from '../../shared/characters';
 import type { MinigameDefinition, PlayerPublic } from '../../shared/types';
+import { THEME, sceneIn } from '../core/theme';
 import { confetti } from './confetti';
 
-const FONT = '"Arial Black", Arial, sans-serif';
+const FONT = THEME.title;
 const CARD_W = 240;
 const CARD_H = 230;
 const STEP = 270; // larghezza carta + spazio
@@ -42,7 +43,7 @@ export class RouletteScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor('#0b0b14');
+    sceneIn(this);
     const pick = gm.pendingMinigame;
     if (!pick) {
       this.scene.start('RoomScene');
@@ -80,6 +81,19 @@ export class RouletteScene extends Phaser.Scene {
     const title = this.add
       .text(640, 66, '🎰 IL RULLO DECIDE…', { fontFamily: FONT, fontSize: '40px', color: '#ffffff' })
       .setOrigin(0.5);
+    // ultimo minigioco giocato + chi l'ha vinto (dal secondo round in poi)
+    const lastDef = state?.lastPlayedMinigameId ? getMinigame(state.lastPlayedMinigameId) : undefined;
+    if (lastDef) {
+      const winId = state?.lastRound?.minigameId === lastDef.id ? state.lastRound.winnerId : null;
+      const winName = state?.players.find((p) => p.id === winId)?.displayName;
+      this.add
+        .text(640, 26, `ULTIMO GIOCO: ${lastDef.icon ?? ''} ${lastDef.name}${winName ? `  ·  🥇 ${winName}` : ''}`, {
+          fontFamily: THEME.body,
+          fontSize: '17px',
+          color: THEME.muted
+        })
+        .setOrigin(0.5);
+    }
 
     // ---- rullo ----
     const strip = this.add.container(0, REEL_Y);
@@ -106,8 +120,12 @@ export class RouletteScene extends Phaser.Scene {
     });
 
     // Ombre laterali + cornice centrale fissa
-    this.add.rectangle(150, REEL_Y, 300, 300, 0x0b0b14, 0.6).setDepth(5);
-    this.add.rectangle(1130, REEL_Y, 300, 300, 0x0b0b14, 0.6).setDepth(5);
+    // sfumatura laterale a strisce sovrapposte (niente bordo netto)
+    for (let k = 0; k < 5; k++) {
+      const w = 60 + k * 60;
+      this.add.rectangle(w / 2, REEL_Y, w, 300, 0x0b0b14, 0.16).setDepth(5);
+      this.add.rectangle(1280 - w / 2, REEL_Y, w, 300, 0x0b0b14, 0.16).setDepth(5);
+    }
     this.add.rectangle(640, REEL_Y, CARD_W + 26, CARD_H + 26).setStrokeStyle(4, 0xfbbf24).setDepth(6);
     this.add.text(640, REEL_Y - 132, '▼', { fontSize: '26px', color: '#fbbf24' }).setOrigin(0.5).setDepth(6);
     this.add.text(640, REEL_Y + 132, '▲', { fontSize: '26px', color: '#fbbf24' }).setOrigin(0.5).setDepth(6);
@@ -269,6 +287,12 @@ export class RouletteScene extends Phaser.Scene {
       this.add
         .text(cx - w / 2 + 12, y + 2, `${p.score} / ${target} pt`, { fontFamily: 'Arial, sans-serif', fontSize: '16px', color: '#e5e7eb' })
         .setOrigin(0, 0.5);
+      const d = gm.state?.lastRound?.deltas[p.id] ?? 0;
+      if (d > 0) {
+        this.add
+          .text(cx + w / 2 - 12, y + 2, `+${d}`, { fontFamily: FONT, fontSize: '16px', color: THEME.green })
+          .setOrigin(1, 0.5);
+      }
       const barW = w - 24;
       this.add.rectangle(cx - w / 2 + 12, y + 28, barW, 8, 0x1f2937).setOrigin(0, 0.5);
       const frac = target > 0 ? Math.max(0, Math.min(1, p.score / target)) : 0;

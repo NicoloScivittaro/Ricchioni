@@ -8,7 +8,7 @@ import {
   Color3,
   Mesh
 } from '@babylonjs/core';
-import type { PlayerId } from '../../../shared/types';
+import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
 import {
@@ -651,11 +651,16 @@ export class BabylonVolleyballGame {
     return p.points * 3 + p.smashes * 2 + p.receives + p.saves - p.errors * 2;
   }
 
-  private buildResults(): { playerId: PlayerId; placement: number; score: number }[] {
+  private buildResults(): PlayerResult[] {
     const winners = this.players.filter((p) => p.team === this.winnerTeam).sort((a, b) => this.mvp(b) - this.mvp(a));
     const losers = this.players.filter((p) => p.team !== this.winnerTeam).sort((a, b) => this.mvp(b) - this.mvp(a));
     const ranking = [...winners, ...losers];
-    return ranking.map((p, i) => ({ playerId: p.id, placement: i + 1, score: this.mvp(p) }));
+    return ranking.map((p, i) => ({
+      playerId: p.id,
+      placement: i + 1,
+      score: this.mvp(p),
+      stats: [`${p.points} punti · ${p.smashes} smash`, `${p.receives} ricezioni`, ...(p.errors > 0 ? [`${p.errors} errori`] : [])]
+    }));
   }
 
   // ---- Feedback abilità ----

@@ -2,6 +2,7 @@ import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { KartState } from './raceTypes';
 import { applyBoost, respawnKart } from './kartPhysics';
 import { LAPS } from './track';
+import { fmtTime } from '../../core/format';
 
 const COUNTDOWN_TOTAL = 3.6; // 3,2,1,VIA
 const GOOD_START_WINDOW = 0.32; // finestra "buon avvio" dopo il VIA
@@ -100,6 +101,9 @@ export class RaceManager {
       k.lastValidCheckpointS = threshold;
       if (!k.offRoad) this.onEvent({ type: 'checkpoint_clean', playerId: k.playerId });
       if (k.nextCheckpoint >= this.checkpoints.length) {
+        const lapTime = this.raceTime - k.lapStartTime;
+        k.lapStartTime = this.raceTime;
+        if (lapTime > 1 && lapTime < k.bestLapTime) k.bestLapTime = lapTime;
         k.lap += 1;
         k.nextCheckpoint = 1;
         this.onEvent({ type: 'lap', playerId: k.playerId, value: k.lap });
@@ -154,10 +158,17 @@ export class RaceManager {
   buildResults(karts: KartState[]): PlayerResult[] {
     return [...karts]
       .sort((a, b) => a.placement - b.placement)
-      .map((k) => ({
-        playerId: k.playerId,
-        placement: k.placement,
-        score: Math.round(k.finishTime * 1000)
-      }));
+      .map((k) => {
+        const finished = k.lap >= LAPS;
+        return {
+          playerId: k.playerId,
+          placement: k.placement,
+          score: Math.round(k.finishTime * 1000),
+          stats: [
+            finished ? `tempo ${fmtTime(k.finishTime * 1000)}` : `fermo al giro ${Math.min(LAPS, k.lap + 1)}/${LAPS}`,
+            ...(Number.isFinite(k.bestLapTime) ? [`miglior giro ${fmtTime(k.bestLapTime * 1000)}`] : [])
+          ]
+        };
+      });
   }
 }

@@ -1,4 +1,4 @@
-import type { PlayerId } from '../../../shared/types';
+import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { Rng } from '../../../shared/rng';
 import type { MinigameContext } from '../types';
 import { selectQuizQuestions, rerollQuestion } from './selection';
@@ -35,6 +35,7 @@ export interface QuizPlayerState {
 
   points: number;
   correctTimeSum: number;
+  correctCount: number; // risposte esatte (statistica dei risultati)
   abilityUsed: boolean;
 
   answerIndex: number | null;
@@ -112,6 +113,7 @@ export class QuizRoundManager {
         avatar: p.avatar,
         points: 0,
         correctTimeSum: 0,
+        correctCount: 0,
         abilityUsed: false,
         answerIndex: null,
         hasAnsweredFinal: false,
@@ -206,7 +208,10 @@ export class QuizRoundManager {
   private applyScore(p: QuizPlayerState, correct: boolean, isSecondChance: boolean): void {
     const value = this.questionIndex + 1; // Q1=1 .. Q10=10
     if (isSecondChance) {
-      if (correct) p.points += Math.ceil(value / 2);
+      if (correct) {
+        p.points += Math.ceil(value / 2);
+        p.correctCount++;
+      }
       return;
     }
     if (p.dottoreHintActive) {
@@ -214,12 +219,14 @@ export class QuizRoundManager {
       if (correct) {
         p.points += Math.round(value * DOTTORE_HINT_SCORE_FACTOR);
         p.correctTimeSum += p.answeredElapsed ?? 0;
+        p.correctCount++;
       }
       return;
     }
     if (correct) {
       p.points += value;
       p.correctTimeSum += p.answeredElapsed ?? 0;
+      p.correctCount++;
     }
   }
 
@@ -454,7 +461,15 @@ export class QuizRoundManager {
     });
   }
 
-  buildResults(): { playerId: PlayerId; placement: number; score: number }[] {
-    return this.standings().map((p, i) => ({ playerId: p.playerId, placement: i + 1, score: p.points }));
+  buildResults(): PlayerResult[] {
+    return this.standings().map((p, i) => ({
+      playerId: p.playerId,
+      placement: i + 1,
+      score: p.points,
+      stats: [
+        `${p.correctCount}/${this.questions.length} corrette`,
+        ...(p.correctCount > 0 ? [`${(p.correctTimeSum / p.correctCount).toFixed(1)}s di media`] : [])
+      ]
+    }));
   }
 }

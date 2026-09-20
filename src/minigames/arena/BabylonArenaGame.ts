@@ -1,5 +1,5 @@
 import { Engine, Scene, Color4, DynamicTexture } from '@babylonjs/core';
-import type { PlayerId } from '../../../shared/types';
+import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
 import {
@@ -55,6 +55,7 @@ export class BabylonArenaGame {
   private gravityLow: boolean;
 
   private eliminationOrder: PlayerId[] = [];
+  private eliminatedAt = new Map<PlayerId, number>(); // secondi di gioco alla caduta (statistica risultati)
   private resultsSent = false;
   private disposed = false;
   private paused = false;
@@ -350,6 +351,7 @@ export class BabylonArenaGame {
     p.falling = true;
     p.spin = 0;
     this.eliminationOrder.push(p.id);
+    this.eliminatedAt.set(p.id, this.gameTime);
     // Lancio fuori: spinta radiale + salto + rotazione.
     const d = Math.hypot(p.x, p.z) || 1;
     p.vx = (p.x / d) * 7;
@@ -390,14 +392,22 @@ export class BabylonArenaGame {
     }
   }
 
-  private buildResults(): { playerId: PlayerId; placement: number; score: number }[] {
+  private buildResults(): PlayerResult[] {
     const alive = this.players
       .filter((p) => p.alive)
       .sort((a, b) => Math.hypot(a.x, a.z) - Math.hypot(b.x, b.z));
     const eliminated = this.eliminationOrder.slice().reverse();
     const aliveIds = alive.map((p) => p.id);
     const ranking = [...aliveIds, ...eliminated.filter((id) => !aliveIds.includes(id))];
-    return ranking.map((pid, i) => ({ playerId: pid, placement: i + 1, score: 0 }));
+    return ranking.map((pid, i) => {
+      const t = this.eliminatedAt.get(pid);
+      return {
+        playerId: pid,
+        placement: i + 1,
+        score: 0,
+        stats: [t === undefined ? 'ultimo in piedi' : `caduto dopo ${Math.round(t)}s`]
+      };
+    });
   }
 
   // ---- Feedback abilità ----

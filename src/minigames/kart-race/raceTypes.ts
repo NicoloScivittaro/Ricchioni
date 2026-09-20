@@ -16,6 +16,8 @@ export interface KartState {
   speed: number; // velocità lungo il percorso (unità/s)
 
   lap: number;
+  lapStartTime: number; // raceTime all'inizio del giro corrente (statistica: miglior giro)
+  bestLapTime: number; // secondi, Infinity finché non completa un giro
   nextCheckpoint: number;
   finished: boolean;
   finishTime: number;
@@ -88,6 +90,8 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     heading: 0,
     speed: 0,
     lap: 0,
+    lapStartTime: 0,
+    bestLapTime: Infinity,
     nextCheckpoint: 0,
     finished: false,
     finishTime: 0,

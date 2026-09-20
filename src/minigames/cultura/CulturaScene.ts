@@ -337,7 +337,15 @@ export class CulturaScene extends Phaser.Scene {
   }
 
   private buildResults() {
-    return this.playersSorted().map((p, i) => ({ playerId: p.id, placement: i + 1, score: this.total(this.scores.get(p.id)!) }));
+    return this.playersSorted().map((p, i) => {
+      const sc = this.scores.get(p.id)!;
+      return {
+        playerId: p.id,
+        placement: i + 1,
+        score: this.total(sc),
+        stats: [`${sc.correct} risposte esatte`, `${sc.deceivedOthers} persone fregate`]
+      };
+    });
   }
 
   private playerName(id: PlayerId): string {

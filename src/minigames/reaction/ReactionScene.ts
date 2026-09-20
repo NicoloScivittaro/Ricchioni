@@ -456,7 +456,18 @@ export class ReactionScene extends Phaser.Scene {
   private finish(ranking: PState[]): void {
     if (this.finished) return;
     this.finished = true;
-    const results = ranking.map((p, i) => ({ playerId: p.snap.id, placement: i + 1, score: this.totalTime(p) }));
+    const results = ranking.map((p, i) => {
+      const valid = p.roundTimes.filter((t) => t < FALSE_START_PENALTY); // esclude falsi start / DNF
+      return {
+        playerId: p.snap.id,
+        placement: i + 1,
+        score: this.totalTime(p),
+        stats: [
+          `${Math.round(this.totalTime(p) / ROUNDS)} ms di media`,
+          ...(valid.length > 0 ? [`miglior tempo ${Math.min(...valid)} ms`] : ['nessun tempo valido'])
+        ]
+      };
+    });
     this.ctx.finish({ results });
   }
 

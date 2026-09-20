@@ -1,35 +1,21 @@
 import Phaser from 'phaser';
+import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
+import { THEME, titleText, bodyText, sceneIn } from '../core/theme';
 
-/** Countdown "PROSSIMO ROUND 3, 2, 1" prima del rullo. */
+/** Stacco BREVE "ROUND N" prima del rullo (niente countdown: il rullo e l'intro hanno già il loro). */
 export class NextRoundScene extends Phaser.Scene {
   constructor() {
     super('NextRoundScene');
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor('#0b0b14');
-    this.add
-      .text(640, 220, 'PROSSIMO ROUND', {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '56px',
-        color: '#ffffff'
-      })
-      .setOrigin(0.5);
-
-    const count = this.add
-      .text(640, 360, '', {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '96px',
-        color: '#fbbf24'
-      })
-      .setOrigin(0.5);
-
-    ['3', '2', '1'].forEach((s, i) => {
-      this.time.delayedCall(150 + i * 900, () => {
-        count.setText(s);
-        audio.tick();
-      });
-    });
+    sceneIn(this);
+    const next = (gm.state?.round ?? 0) + 1;
+    const t = titleText(this, 640, 320, `ROUND ${next}`, 96, THEME.text).setScale(0.6).setAlpha(0);
+    const sub = bodyText(this, 640, 410, 'Si gira!', 26, THEME.gold).setAlpha(0);
+    this.tweens.add({ targets: t, scale: 1, alpha: 1, duration: THEME.normal, ease: 'Back.easeOut' });
+    this.tweens.add({ targets: sub, alpha: 1, duration: THEME.normal, delay: 160 });
+    audio.tick();
   }
 }

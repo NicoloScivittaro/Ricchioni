@@ -8,7 +8,7 @@ import {
   Color3,
   Mesh
 } from '@babylonjs/core';
-import type { PlayerId } from '../../../shared/types';
+import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
 import {
@@ -91,6 +91,7 @@ export class BabylonDodgeballGame {
   private gravityLow: boolean;
 
   private eliminationOrder: PlayerId[] = [];
+  private eliminatedAt = new Map<PlayerId, number>(); // secondi di gioco alla caduta (statistica risultati)
   private resultsSent = false;
   private disposed = false;
   private paused = false;
@@ -703,6 +704,7 @@ export class BabylonDodgeballGame {
     p.falling = true;
     p.spin = 0;
     this.eliminationOrder.push(p.id);
+    this.eliminatedAt.set(p.id, this.gameTime);
     p.vx = nx * 8;
     p.vz = nz * 8;
     p.vy = 5;
@@ -868,12 +870,21 @@ export class BabylonDodgeballGame {
     }
   }
 
-  private buildResults(): { playerId: PlayerId; placement: number; score: number }[] {
+  private buildResults(): PlayerResult[] {
     const alive = this.players.filter((p) => p.alive);
     const eliminated = this.eliminationOrder.slice().reverse();
     const aliveIds = alive.map((p) => p.id);
     const ranking = [...aliveIds, ...eliminated.filter((id) => !aliveIds.includes(id))];
-    return ranking.map((pid, i) => ({ playerId: pid, placement: i + 1, score: this.players.find((p) => p.id === pid)?.eliminations ?? 0 }));
+    return ranking.map((pid, i) => {
+      const elim = this.players.find((p) => p.id === pid)?.eliminations ?? 0;
+      const t = this.eliminatedAt.get(pid);
+      return {
+        playerId: pid,
+        placement: i + 1,
+        score: elim,
+        stats: [`${elim} ${elim === 1 ? 'eliminazione' : 'eliminazioni'}`, t === undefined ? 'ultimo in piedi' : `fuori dopo ${Math.round(t)}s`]
+      };
+    });
   }
 
   // ---- Feedback abilità ----

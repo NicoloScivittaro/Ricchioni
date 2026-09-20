@@ -64,6 +64,8 @@ export class GameSession {
   private suddenDeathCandidates: PlayerId[] = [];
   private rng = new Rng();
   private history: RouletteHistoryEntry[] = [];
+  /** Ultimo minigioco concluso con risultati: lo mostra il rullo (lastResults viene azzerato a NEXT_ROUND). */
+  private lastRound: RoomState['lastRound'] = null;
   private timer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(roomCode: RoomCode, playerCount: number, targetScore: number, hostToken: string) {
@@ -131,7 +133,9 @@ export class GameSession {
       suddenDeath: this.suddenDeath,
       selectedMinigameId: this.manualMinigameId,
       paused: this.paused,
-      roundId: this.minigameSeq
+      roundId: this.minigameSeq,
+      lastPlayedMinigameId: this.history.length > 0 ? this.history[this.history.length - 1].minigameId : null,
+      lastRound: this.lastRound
     };
   }
 
@@ -158,7 +162,11 @@ export class GameSession {
       seen.add(r.playerId);
       const placement = Number.isFinite(r.placement) ? r.placement : 1e6 + i;
       const score = Number.isFinite(r.score) ? r.score : 0;
-      valid.push({ playerId: r.playerId, placement, score });
+      // statistiche brevi (solo testo, max 3 righe da 40 caratteri): il resto viene scartato
+      const stats = Array.isArray(r.stats)
+        ? r.stats.filter((x): x is string => typeof x === 'string' && x.length > 0).slice(0, 3).map((x) => x.slice(0, 40))
+        : undefined;
+      valid.push(stats && stats.length > 0 ? { playerId: r.playerId, placement, score, stats } : { playerId: r.playerId, placement, score });
     });
     valid.sort((a, b) => a.placement - b.placement);
     for (const p of this.players) {
@@ -184,6 +192,7 @@ export class GameSession {
     }
 
     this.lastResults = { results: ordered, ranking, deltas, double };
+    this.lastRound = { minigameId: this.currentMinigame?.minigameId ?? '', winnerId: ranking[0] ?? null, deltas };
     if (this.currentMinigame) {
       this.history.push({
         round: this.round,
@@ -259,6 +268,7 @@ export class GameSession {
     this.suddenDeath = false;
     this.suddenDeathCandidates = [];
     this.history = [];
+    this.lastRound = null;
     this.round = 1;
     this.manualMinigameId = null;
     this.setPhase('LOBBY');
@@ -277,6 +287,7 @@ export class GameSession {
     this.suddenDeath = false;
     this.suddenDeathCandidates = [];
     this.history = [];
+    this.lastRound = null;
     this.lastSelectedPayload = null;
     this.round = 1;
     this.manualMinigameId = null;

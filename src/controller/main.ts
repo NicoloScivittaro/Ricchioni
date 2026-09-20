@@ -10,6 +10,7 @@ import { ARENA_ABILITIES } from '../../shared/arenaAbilities';
 import { DODGEBALL_ABILITIES } from '../../shared/dodgeballAbilities';
 import { SOCCER_ABILITIES } from '../../shared/soccerAbilities';
 import { VOLLEYBALL_ABILITIES } from '../../shared/volleyballAbilities';
+import { getMinigame } from '../../shared/minigames';
 import { createVirtualJoystick } from './joystick';
 import type { FpsClient, FpsStatePayload } from './fpsClient';
 import type { VirtualJoystick } from './joystick';
@@ -103,7 +104,7 @@ function setOfflineBanner(offline: boolean): void {
     el.id = 'offline-banner';
     el.textContent = '📡 Connessione persa… riprovo';
     el.style.cssText =
-      'position:fixed;top:0;left:0;right:0;z-index:10000;padding:6px 10px;text-align:center;' +
+      'position:fixed;top:0;left:0;right:0;z-index:10000;padding:calc(6px + env(safe-area-inset-top,0px)) 10px 6px;text-align:center;' +
       'background:#b91c1c;color:#fff;font:700 13px Arial,sans-serif;pointer-events:none;';
     document.body.appendChild(el);
   } else if (!offline && el) {
@@ -1587,6 +1588,7 @@ function renderPlaying(state: RoomState): void {
   const roundKey = `${state.roundId ?? 0}:${mg.minigameId}`;
   if (lastMinigameId === roundKey) return;
   lastMinigameId = roundKey;
+  vibrate(45);
   showControls(mg);
 }
 
@@ -1868,15 +1870,28 @@ function sendInput(ev: InputEvent): void {
   }
 }
 
+let lastIntroKey = '';
+
 function renderPreGame(state: RoomState): void {
   const mg = state.currentMinigame;
   // Durante il rullo il nome NON va rivelato (spoilera l'animazione sulla TV): solo dall'intro.
   const reveal = state.phase === 'MINIGAME_INTRO' && !!mg;
+  const def = reveal ? getMinigame(mg!.minigameId) : undefined;
   app.innerHTML = `
     <div class="screen">
+      ${def?.icon ? `<div class="pre-icon">${def.icon}</div>` : ''}
       <h1>${reveal ? mg!.name : 'PROSSIMO GIOCO...'}</h1>
-      <p class="sub">${reveal ? 'Preparati! Tieni il telefono pronto' : 'Guarda lo schermo principale'}</p>
+      <p class="sub">${reveal ? (def?.description ?? 'Preparati! Tieni il telefono pronto') : 'Guarda lo schermo principale'}</p>
+      ${reveal ? '<p class="pre-ready">📱 PREPARATI!</p>' : ''}
     </div>`;
+  // un solo "toc" di vibrazione quando parte l'intro di un round nuovo
+  if (reveal) {
+    const key = `${state.roundId ?? 0}:${mg!.minigameId}`;
+    if (key !== lastIntroKey) {
+      lastIntroKey = key;
+      vibrate(60);
+    }
+  }
 }
 
 function renderRoundEnded(): void {

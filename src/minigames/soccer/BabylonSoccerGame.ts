@@ -1,5 +1,5 @@
 import { Engine, Scene, Color4, DynamicTexture, MeshBuilder, StandardMaterial, Color3, Mesh } from '@babylonjs/core';
-import type { PlayerId } from '../../../shared/types';
+import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
 import {
@@ -642,11 +642,20 @@ export class BabylonSoccerGame {
     return p.goals * 3 + p.assists * 2 + p.tackles + p.interceptions - p.ownGoals * 2;
   }
 
-  private buildResults(): { playerId: PlayerId; placement: number; score: number }[] {
+  private buildResults(): PlayerResult[] {
     const winners = this.players.filter((p) => p.team === this.winnerTeam).sort((a, b) => this.mvp(b) - this.mvp(a));
     const losers = this.players.filter((p) => p.team !== this.winnerTeam).sort((a, b) => this.mvp(b) - this.mvp(a));
     const ranking = [...winners, ...losers];
-    return ranking.map((p, i) => ({ playerId: p.id, placement: i + 1, score: this.mvp(p) }));
+    return ranking.map((p, i) => ({
+      playerId: p.id,
+      placement: i + 1,
+      score: this.mvp(p),
+      stats: [
+        `${p.goals} gol · ${p.assists} assist`,
+        `${p.tackles + p.interceptions} contrasti`,
+        ...(p.ownGoals > 0 ? [`${p.ownGoals} autogol 😱`] : [])
+      ]
+    }));
   }
 
   // ---- Feedback abilità ----

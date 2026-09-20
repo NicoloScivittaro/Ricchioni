@@ -20,6 +20,7 @@ import type {
   ModifierDefinition,
   PlayerId,
   PlayerPublic,
+  PlayerResult,
   PlayerSnapshot,
   RoomState
 } from '../../shared/types';
@@ -45,6 +46,9 @@ export class GameManager {
 
   pendingMinigame: MinigameSelectedPayload | null = null;
   minigameContext: MinigameContext | null = null;
+
+  /** Registro dei round della PARTITA in corso (per le statistiche divertenti del finale). Si azzera in lobby. */
+  roundLog: { roundId: number; minigameId: string; name: string; results: PlayerResult[]; deltas: Record<string, number> }[] = [];
 
   private socket: SocketClient | null = null;
   private game: Phaser.Game | null = null;
@@ -322,6 +326,16 @@ export class GameManager {
     const prev = this.lastPhase;
     this.lastPhase = state.phase;
     this.state = state;
+    if (state.phase === 'LOBBY') this.roundLog = [];
+    else if (state.phase === 'ROUND_RESULTS' && state.lastResults && !this.roundLog.some((r) => r.roundId === (state.roundId ?? -1))) {
+      this.roundLog.push({
+        roundId: state.roundId ?? -1,
+        minigameId: state.currentMinigame?.minigameId ?? '',
+        name: state.currentMinigame?.name ?? '',
+        results: state.lastResults.results,
+        deltas: state.lastResults.deltas
+      });
+    }
     this.events.emit('state', state);
 
     if (this.reconnecting) {

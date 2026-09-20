@@ -48,12 +48,12 @@ export type GamePhase =
 export const FLOW_TIMING = {
   revealStepMs: 900,
   revealWinnerDelayMs: 1300,
-  revealFinalHoldMs: 2400,
+  revealFinalHoldMs: 2000,
   rouletteMs: 7000,
-  introMs: 3800,
-  finishedMs: 1200,
-  leaderboardMs: 3600,
-  nextRoundMs: 3000
+  introMs: 2600,
+  finishedMs: 1000,
+  leaderboardMs: 3800,
+  nextRoundMs: 1600
 } as const;
 
 // ---- Configurazione partita ----
@@ -144,6 +144,8 @@ export interface PlayerResult {
   placement: number;
   /** Punteggio interno del minigioco (es. risposte corrette). NON i punti partita. */
   score: number;
+  /** Fino a 3 statistiche BREVI e pertinenti mostrate nei risultati (es. "7/10 corrette", "tempo 1:12.3"). */
+  stats?: string[];
 }
 
 /** Risultato standardizzato che ogni minigioco restituisce al sistema centrale. */
@@ -249,6 +251,10 @@ export interface RoomState {
   paused?: boolean;
   /** Id incrementale del minigioco in corso: scarta eventi tardivi di round vecchi. */
   roundId?: number;
+  /** Ultimo minigioco concluso (o saltato) prima di quello corrente: lo mostra il rullo. */
+  lastPlayedMinigameId?: string | null;
+  /** Riepilogo dell'ultimo minigioco CON risultati (resta valido durante il rullo successivo). */
+  lastRound?: { minigameId: string; winnerId: string | null; deltas: Record<PlayerId, number> } | null;
 }
 
 /** Evento di input (telefono → server → host). */
