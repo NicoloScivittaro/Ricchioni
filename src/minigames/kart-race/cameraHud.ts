@@ -1,6 +1,7 @@
 import { Scene, UniversalCamera, Vector3, Engine, Viewport } from '@babylonjs/core';
 import { AdvancedDynamicTexture, TextBlock, Rectangle, Control } from '@babylonjs/gui';
 import type { PlayerId } from '../../../shared/types';
+import { popCountdown } from '../../core/countdownFx';
 import type { KartState } from './raceTypes';
 import type { TrackSpline } from './track';
 import { itemLabel } from './items';
@@ -170,6 +171,7 @@ export class KartHud {
 
   setCountdown(text: string): void {
     this.countdownText.text = text;
+    if (text) popCountdown(this.countdownText, this.adt.getScene(), text === 'VIA!');
   }
 
   ensure(playerId: PlayerId, colorHex: string): HudEntry {

@@ -306,7 +306,7 @@ export class BabylonKartGame {
     if (ev.type === 'countdown') {
       if (ev.value && ev.value > 0) {
         this.hud.setCountdown(String(ev.value));
-        audio.tick();
+        audio.tick(1 + (3 - ev.value) * 0.25); // tono crescente: 3 → 2 → 1 → VIA
         for (const pid of this.order) this.ctx.vibrate(pid, 35);
       } else {
         this.hud.setCountdown('VIA!');

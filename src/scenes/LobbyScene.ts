@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
-import { MAX_PLAYERS, MIN_PLAYERS, SCORE_PRESETS, TARGET_SCORE_MAX, TARGET_SCORE_MIN } from '../../shared/types';
+import { MAX_PLAYERS, MIN_PLAYERS, SCORE_PRESETS, TARGET_SCORE_MAX, TARGET_SCORE_MIN, estimateGameMinutes } from '../../shared/types';
 
 const CUSTOM_IDX = SCORE_PRESETS.length;
 
@@ -137,9 +137,9 @@ export class LobbyScene extends Phaser.Scene {
     this.countText.setText(String(this.count));
     if (this.presetIdx < SCORE_PRESETS.length) {
       const p = SCORE_PRESETS[this.presetIdx];
-      this.targetText.setText(`${p.label} · ${p.points} punti`);
+      this.targetText.setText(`${p.label} · ${p.points} punti · ~${estimateGameMinutes(p.points)} min`);
     } else {
-      this.targetText.setText(`PERSONALIZZATA · ${this.customScore} punti`);
+      this.targetText.setText(`PERSONALIZZATA · ${this.customScore} punti · ~${estimateGameMinutes(this.customScore)} min`);
     }
   }
 

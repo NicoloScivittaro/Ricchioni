@@ -1,5 +1,6 @@
 import { AdvancedDynamicTexture, TextBlock, Control, StackPanel } from '@babylonjs/gui';
 import { Scene } from '@babylonjs/core';
+import { popCountdown } from '../../core/countdownFx';
 
 /** HUD minimale ma leggibile (Babylon GUI fullscreen). */
 export class ArenaHud {
@@ -71,6 +72,7 @@ export class ArenaHud {
   setCountdown(text: string, color = '#fbbf24'): void {
     this.countdownText.text = text;
     this.countdownText.color = color;
+    if (text) popCountdown(this.countdownText, this.adt.getScene(), text === 'VIA!');
   }
 
   clearCountdown(): void {

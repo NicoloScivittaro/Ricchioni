@@ -226,11 +226,18 @@ export class RoomManager {
     const room = loc ? this.rooms.get(loc.roomCode) : undefined;
     if (!loc || !room || room.phase !== 'MINIGAME_PLAYING' || !room.hostConnectionId) return;
 
-    // rate-limit grossolano anti-flood (max ~1 evento / 4ms per giocatore)
-    const now = Date.now();
-    const last = this.lastInputTs.get(loc.playerId) ?? 0;
-    if (now - last < 4) return;
-    this.lastInputTs.set(loc.playerId, now);
+    // Anti-flood SOLO sugli assi del joystick (max ~1 evento / 4ms per giocatore; il successivo sostituisce comunque
+    // il precedente). Down/up/action NON si scartano mai: perdere un "up" lascia un tasto incastrato (kart che accelera
+    // per sempre) e perdere un "down" è un tocco ignorato; capita quando due pollici agiscono insieme o quando il Wi-Fi
+    // consegna più pacchetti nello stesso istante. Anche il rilascio del joystick (0,0) passa sempre: se si perdesse,
+    // il personaggio continuerebbe a correre da solo.
+    if (input.kind === 'axis') {
+      const release = input.x === 0 && input.y === 0;
+      const now = Date.now();
+      const last = this.lastInputTs.get(loc.playerId) ?? 0;
+      if (!release && now - last < 4) return;
+      this.lastInputTs.set(loc.playerId, now);
+    }
 
     const relay: InputRelayEvent = { playerId: loc.playerId, input };
     this.io.to(room.hostConnectionId).emit(EVT.inputRelay, relay);

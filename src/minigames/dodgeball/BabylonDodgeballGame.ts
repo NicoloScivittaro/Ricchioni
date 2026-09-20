@@ -219,7 +219,7 @@ export class BabylonDodgeballGame {
       if (n < this.lastCountInt && n > 0) {
         this.lastCountInt = n;
         this.hud.setCountdown(String(n));
-        audio.tick();
+        audio.tick(1 + (3 - n) * 0.25); // tono crescente: 3 → 2 → 1 → VIA
         this.ctx.signal(null, { type: 'countdown', value: n });
       } else if (this.countdown <= 0) {
         this.phase = 'playing';

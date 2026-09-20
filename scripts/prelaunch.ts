@@ -343,6 +343,41 @@ async function testRoulette(): Promise<void> {
   r.players.forEach((p) => p.sock.close());
 }
 
+/**
+ * Input dal telefono: una RAFFICA di eventi dello stesso giocatore (down/up ravvicinati, joystick + tasto,
+ * pacchetti arrivati insieme dopo un calo di rete) deve arrivare INTERA all'host. Se il server ne scartasse
+ * qualcuno, un "up" perso lascerebbe il kart accelerato per sempre e un joystick rilasciato resterebbe incastrato.
+ */
+async function testInputBurst(): Promise<void> {
+  console.log('\n[8] Input: raffica di eventi dello stesso telefono non viene scartata');
+  const r = await setupRoom(['Uno', 'Due'], 30);
+  const relayed: { kind: string; controlId: string; x?: number; y?: number }[] = [];
+  r.host.on(EVT.inputRelay, (e: { input: { kind: string; controlId: string; x?: number; y?: number } }) => relayed.push(e.input));
+  r.host.emit(EVT.hostSelectMinigame, { minigameId: 'reaction' });
+  await sleep(150);
+  r.host.emit(EVT.hostStart);
+  await toPlaying(r);
+  await sleep(100);
+  relayed.length = 0;
+  const p = r.players[0].sock;
+  // tutto nello stesso tick: joystick, tasto giù/su due volte, joystick a riposo (0,0)
+  p.emit(EVT.inputAxis, { controlId: 'move', x: 0.7, y: 0.2 });
+  p.emit(EVT.inputDown, { controlId: 'accelerate' });
+  p.emit(EVT.inputUp, { controlId: 'accelerate' });
+  p.emit(EVT.inputDown, { controlId: 'drift' });
+  p.emit(EVT.inputUp, { controlId: 'drift' });
+  p.emit(EVT.inputAxis, { controlId: 'move', x: 0, y: 0 });
+  await until(() => relayed.length >= 6, 'arrivo della raffica', 3000).catch(() => undefined);
+  const kinds = relayed.map((e) => e.kind + ':' + e.controlId);
+  console.log('    arrivati:', kinds.join(', '));
+  ok(relayed.length === 6, `tutti e 6 gli eventi arrivano all'host (arrivati ${relayed.length})`);
+  ok(relayed.filter((e) => e.kind === 'up').length === 2, 'nessun "up" perso (niente tasti incastrati)');
+  const last = [...relayed].reverse().find((e) => e.kind === 'axis');
+  ok(!!last && last.x === 0 && last.y === 0, 'il rilascio del joystick (0,0) arriva sempre');
+  r.host.close();
+  r.players.forEach((q) => q.sock.close());
+}
+
 async function main(): Promise<void> {
   await test1PlayerCannotStart();
   await testMainFlow();
@@ -351,6 +386,7 @@ async function main(): Promise<void> {
   await testDisconnectDuringRoulette();
   await testTieBreak();
   await testRoulette();
+  await testInputBurst();
   console.log(`\n✅ PRELAUNCH OK (${checks} controlli)`);
   process.exit(0);
 }

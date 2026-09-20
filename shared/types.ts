@@ -68,8 +68,17 @@ export const SCORE_PRESETS: ScorePreset[] = [
   { id: 'rapida', label: 'RAPIDA', points: 30 },
   { id: 'breve', label: 'BREVE', points: 40 },
   { id: 'normale', label: 'NORMALE', points: 60 },
-  { id: 'lunga', label: 'LUNGA', points: 80 }
+  { id: 'lunga', label: 'LUNGA', points: 80 },
+  { id: 'serata', label: 'SERATA', points: 120 }
 ];
+
+/**
+ * Durata stimata (minuti) di una partita al punteggio obiettivo dato: ~0.39 min per punto, da
+ * `npx tsx scripts/game-length.ts` (simulazione con lo ScoreManager reale, minigiochi ~2.7 min + ~22s di flusso).
+ */
+export function estimateGameMinutes(targetScore: number): number {
+  return Math.max(5, Math.round(targetScore * 0.39));
+}
 
 export const TARGET_SCORE_MIN = 10;
 export const TARGET_SCORE_MAX = 200;
