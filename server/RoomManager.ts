@@ -26,6 +26,9 @@ import { PlayerSession } from './PlayerSession';
 import { ReconnectionManager } from './ReconnectionManager';
 import { log } from './log';
 
+/** Intervallo minimo tra due eventi dello stesso asse (anti-flood); gli eventi intermedi vengono fusi, mai persi. */
+const AXIS_MIN_INTERVAL_MS = 4;
+
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
 function genRoomCode(len = 5): string {
@@ -49,7 +52,8 @@ export class RoomManager {
   private socketToPlayer = new Map<string, { roomCode: RoomCode; playerId: string }>();
   private hostSockets = new Map<string, RoomCode>();
   private reconn = new ReconnectionManager();
-  private lastInputTs = new Map<string, number>();
+  private lastInputTs = new Map<string, number>(); // "playerId:controlId" → ultimo asse inoltrato
+  private pendingAxis = new Map<string, InputEvent>(); // ultimo asse fuso in attesa di consegna
 
   constructor(private io: Server) {}
 
@@ -226,17 +230,36 @@ export class RoomManager {
     const room = loc ? this.rooms.get(loc.roomCode) : undefined;
     if (!loc || !room || room.phase !== 'MINIGAME_PLAYING' || !room.hostConnectionId) return;
 
-    // Anti-flood SOLO sugli assi del joystick (max ~1 evento / 4ms per giocatore; il successivo sostituisce comunque
-    // il precedente). Down/up/action NON si scartano mai: perdere un "up" lascia un tasto incastrato (kart che accelera
-    // per sempre) e perdere un "down" è un tocco ignorato; capita quando due pollici agiscono insieme o quando il Wi-Fi
-    // consegna più pacchetti nello stesso istante. Anche il rilascio del joystick (0,0) passa sempre: se si perdesse,
-    // il personaggio continuerebbe a correre da solo.
+    // Anti-flood SOLO sugli assi (max ~1 evento / 4ms per giocatore e per controllo). Un asse troppo ravvicinato NON si
+    // scarta: si fonde con l'ultimo valore e viene consegnato appena scade l'intervallo, così l'ultimo stato (es. la
+    // visuale impostata all'inizio, o la fine di uno swipe) arriva sempre. Down/up/action non hanno alcun limite:
+    // perdere un "up" lascia un tasto incastrato (kart che accelera per sempre), perdere un "down" è un tocco ignorato;
+    // capita con due pollici insieme o quando il Wi-Fi consegna più pacchetti nello stesso istante. Il rilascio del
+    // joystick (0,0) passa sempre e cancella eventuali valori in attesa: se si perdesse, il personaggio correrebbe da solo.
     if (input.kind === 'axis') {
+      const key = `${loc.playerId}:${input.controlId}`;
       const release = input.x === 0 && input.y === 0;
       const now = Date.now();
-      const last = this.lastInputTs.get(loc.playerId) ?? 0;
-      if (!release && now - last < 4) return;
-      this.lastInputTs.set(loc.playerId, now);
+      const last = this.lastInputTs.get(key) ?? 0;
+      if (!release && now - last < AXIS_MIN_INTERVAL_MS) {
+        const waiting = this.pendingAxis.has(key);
+        this.pendingAxis.set(key, input);
+        if (!waiting) {
+          const roomCode = room.roomCode;
+          const playerId = loc.playerId;
+          setTimeout(() => {
+            const pending = this.pendingAxis.get(key);
+            this.pendingAxis.delete(key);
+            const r = this.rooms.get(roomCode);
+            if (!pending || !r || r.phase !== 'MINIGAME_PLAYING' || !r.hostConnectionId) return;
+            this.lastInputTs.set(key, Date.now());
+            this.io.to(r.hostConnectionId).emit(EVT.inputRelay, { playerId, input: pending } as InputRelayEvent);
+          }, Math.max(1, AXIS_MIN_INTERVAL_MS - (now - last)));
+        }
+        return;
+      }
+      this.pendingAxis.delete(key); // un valore più vecchio in attesa sarebbe consegnato DOPO questo: superato
+      this.lastInputTs.set(key, now);
     }
 
     const relay: InputRelayEvent = { playerId: loc.playerId, input };

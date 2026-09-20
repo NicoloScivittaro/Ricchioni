@@ -374,6 +374,16 @@ async function testInputBurst(): Promise<void> {
   ok(relayed.filter((e) => e.kind === 'up').length === 2, 'nessun "up" perso (niente tasti incastrati)');
   const last = [...relayed].reverse().find((e) => e.kind === 'axis');
   ok(!!last && last.x === 0 && last.y === 0, 'il rilascio del joystick (0,0) arriva sempre');
+  // assi ravvicinati: si fondono, ma l'ULTIMO valore arriva sempre; controlli diversi (move/look) non si intralciano
+  relayed.length = 0;
+  p.emit(EVT.inputAxis, { controlId: 'look', x: 1, y: 0.1 });
+  p.emit(EVT.inputAxis, { controlId: 'move', x: 0.5, y: 0.5 });
+  p.emit(EVT.inputAxis, { controlId: 'look', x: 2, y: 0.2 });
+  p.emit(EVT.inputAxis, { controlId: 'look', x: 3, y: 0.3 });
+  await until(() => relayed.some((e) => e.kind === 'axis' && e.controlId === 'look' && e.x === 3), 'ultimo valore di look', 2000).catch(() => undefined);
+  const looks = relayed.filter((e) => e.controlId === 'look');
+  ok(looks.length > 0 && looks[looks.length - 1].x === 3, `l'ultimo valore di look (3) arriva sempre (${looks.map((e) => e.x).join(',')})`);
+  ok(relayed.some((e) => e.controlId === 'move' && e.x === 0.5), 'move e look sono indipendenti');
   r.host.close();
   r.players.forEach((q) => q.sock.close());
 }

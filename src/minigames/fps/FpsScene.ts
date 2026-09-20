@@ -94,7 +94,7 @@ export class FpsScene extends Phaser.Scene {
         color: snap.color,
         x: spawn.x,
         z: spawn.z,
-        yaw: Math.random() * Math.PI * 2,
+        yaw: Math.atan2(-spawn.x, -spawn.z), // verso il centro (il telefono allinea la visuale al primo stato)
         pitch: 0,
         hp: MAX_HP,
         alive: true,
@@ -319,7 +319,7 @@ export class FpsScene extends Phaser.Scene {
     const spawn = this.pickSpawn(this.players.filter((q) => q.id !== p.id));
     p.x = spawn.x;
     p.z = spawn.z;
-    p.yaw = Math.random() * Math.PI * 2;
+    p.yaw = Math.atan2(-spawn.x, -spawn.z);
     p.pitch = 0;
     p.hp = MAX_HP;
     p.alive = true;

@@ -92,6 +92,8 @@ export class FpsClient {
   private selfZ = 0;
   private selfSpeed = 0;
   private yaw = 0;
+  private facingInit = false;
+  private wasDead = false;
   private pitch = 0;
   private weaponId = 'mitraglia';
 
@@ -511,6 +513,15 @@ export class FpsClient {
         this.selfSpeed = Math.hypot(dx, dz) / 0.05; // ~velocità (tick 20Hz)
         this.selfX = ps.x;
         this.selfZ = ps.z;
+        // Spawn equo: la visuale è comandata dal telefono, quindi al primo stato e a ogni rinascita ci si gira verso il
+        // centro della mappa (prima si nasceva con lo sguardo di prima, spesso contro il muro dell'angolo).
+        if (ps.alive && (!this.facingInit || this.wasDead)) {
+          this.yaw = Math.atan2(-ps.x, -ps.z);
+          this.pitch = 0;
+          this.facingInit = true;
+          this.onLook(this.yaw, this.pitch);
+        }
+        this.wasDead = !ps.alive;
         this.weaponId = ps.weaponId;
         this.setHp(ps.hp);
         if (!ps.alive) this.showDeath('💀 ELIMINATO');
