@@ -255,7 +255,7 @@ export class QuizScene extends Phaser.Scene {
 
   update(_t: number, deltaMs: number): void {
     if (this.pauseMenu.update()) return;
-    const dt = Math.min(deltaMs, 80) / 1000;
+    const dt = Math.min(deltaMs, 250) / 1000; // tempo reale fino a ~4 FPS
 
     for (const pid of this.ctx.playerIds) {
       const input = this.ctx.input.get(pid);

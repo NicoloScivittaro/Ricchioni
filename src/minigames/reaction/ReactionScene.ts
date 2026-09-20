@@ -466,7 +466,7 @@ export class ReactionScene extends Phaser.Scene {
     if (this.pauseMenu.update()) return;
 
     if (this.finished) return;
-    const dt = Math.min(delta, 50) / 1000;
+    const dt = Math.min(delta, 250) / 1000; // tempo reale fino a ~4 FPS
     this.gameTime += dt;
 
     switch (this.phase) {

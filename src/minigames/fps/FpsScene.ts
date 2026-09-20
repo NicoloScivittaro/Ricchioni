@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { splitFrameDelta } from '../../core/frameClock';
 import { audio } from '../../core/AudioManager';
 import { PauseMenu } from '../../core/PauseMenu';
 import { FPS_MAP, resolveCollisions, rayVsAabb } from '../../../shared/fpsMap';
@@ -146,7 +147,9 @@ export class FpsScene extends Phaser.Scene {
   update(_t: number, delta: number): void {
     if (this.pauseMenu.update()) return;
     if (this.finished) return;
-    const dt = Math.min(delta, 50) / 1000;
+    // Tempo reale (vedi core/frameClock): il timer scala con l'orologio, la simulazione va a sotto-passi.
+    const steps = splitFrameDelta(delta / 1000);
+    const dt = steps.reduce((a, b) => a + b, 0);
     this.matchTime -= dt;
     this.timerText.setText(`TEMPO ${Math.max(0, Math.ceil(this.matchTime))}`);
     if (this.matchTime <= 0) {
@@ -154,7 +157,7 @@ export class FpsScene extends Phaser.Scene {
       return;
     }
 
-    for (const p of this.players) this.stepPlayer(p, dt);
+    for (const sub of steps) for (const p of this.players) this.stepPlayer(p, sub);
 
     this.renderRadar();
     this.broadcastAcc += dt;

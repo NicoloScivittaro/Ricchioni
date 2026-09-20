@@ -53,6 +53,7 @@ import { DodgeballAbilities } from './dodgeballAbilities';
 import type { DodgeballAbilityFeedback } from './dodgeballAbilities';
 import { readMove } from '../moveInput';
 import { DODGEBALL_ABILITIES } from '../../../shared/dodgeballAbilities';
+import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 
 const COUNTDOWN_S = 3.2;
@@ -193,8 +194,8 @@ export class BabylonDodgeballGame {
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
       if (this.paused) return;
-      const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.05) || 0.016;
-      this.step(dt);
+      // Sotto-passi in tempo reale: timer/countdown/durata non dipendono dagli FPS (vedi core/frameClock).
+      runSteps(this.engine.getDeltaTime(), (dt) => this.step(dt));
       this.scene.render();
     }));
     window.addEventListener('resize', this.onResize);

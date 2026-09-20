@@ -9,6 +9,7 @@ import { MEMORY_ROUNDS, isMemoryOver } from '../shared/memoryTiles';
 import { MINIGAME_DEFINITIONS, safetyCapSec } from '../shared/minigames';
 import { QuizRoundManager } from '../src/minigames/quiz/QuizRoundManager';
 import type { MinigameContext } from '../src/minigames/types';
+import { splitFrameDelta, MAX_STEP_DT, MAX_FRAME_DT } from '../src/core/frameClock';
 
 let checks = 0;
 function ok(cond: unknown, msg: string): void {
@@ -100,6 +101,24 @@ console.log('\n[TETTO SERVER] copre la durata REALE massima di ogni gioco (con �
   ok(cultura.durationSec + 20 < WORST_CASE_SEC.cultura, 'Cultura: il vecchio tetto durationSec+20 era troppo corto (bug)');
   const volley = MINIGAME_DEFINITIONS.find((d) => d.id === 'volleyball')!;
   ok(volley.durationSec + 20 < WORST_CASE_SEC.volleyball, 'Pallavolo: idem (con scambi più lunghi il vecchio tetto avrebbe troncato la partita)');
+}
+
+// ---------- FRAME-RATE: stessa durata a 4, 10, 30 e 120 FPS ----------
+console.log('\n[FRAME-RATE] il tempo di gioco segue l\'orologio, non i frame');
+{
+  const sum = (a: number[]): number => a.reduce((x, y) => x + y, 0);
+  ok(splitFrameDelta(1 / 120).length === 1 && Math.abs(sum(splitFrameDelta(1 / 120)) - 1 / 120) < 1e-9, '120 FPS: un solo passo con il dt reale');
+  ok(splitFrameDelta(1 / 30).length === 1, '30 FPS: un solo passo (nessun cambiamento di comportamento)');
+  ok(splitFrameDelta(0.1).length === 2 && splitFrameDelta(0.1).every((d) => d <= MAX_STEP_DT + 1e-9), '10 FPS: 2 sotto-passi ≤ 50ms');
+  ok(splitFrameDelta(MAX_FRAME_DT).length === 5, '4 FPS: 5 sotto-passi');
+  ok(Math.abs(sum(splitFrameDelta(3)) - MAX_FRAME_DT) < 1e-9, 'blocco lungo (3s): recupera al massimo 250ms, poi rallenta invece di saltare');
+  ok([NaN, 0, -1].every((v) => splitFrameDelta(v).length === 1 && splitFrameDelta(v)[0] <= MAX_STEP_DT), 'delta non valido → un passo di sicurezza');
+  for (const fps of [4, 10, 30, 60, 120]) {
+    let game = 0;
+    const frames = 45 * fps; // 45 secondi REALI di partita
+    for (let i = 0; i < frames; i++) game += sum(splitFrameDelta(1 / fps));
+    ok(Math.abs(game - 45) < 0.01, `${fps} FPS: 45s reali → ${game.toFixed(2)}s di gioco (durata identica)`);
+  }
 }
 
 console.log(`\n✅ ROUNDS SELFTEST OK (${checks} controlli)`);

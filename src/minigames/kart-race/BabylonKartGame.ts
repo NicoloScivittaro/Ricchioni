@@ -28,6 +28,7 @@ import type { RaceHudEvent } from './race';
 import { CameraManager, KartHud } from './cameraHud';
 import { CharacterAbilities, abilityDescription } from './abilities';
 import type { AbilityFeedback } from './abilities';
+import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 
 const KART_S_RADIUS = 2.6;
@@ -119,8 +120,8 @@ export class BabylonKartGame {
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
       if (this.paused) return; // menu ESC del telefono/host: nessun input processato, gara ferma
-      const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.05) || 0.016;
-      this.step(dt);
+      // Sotto-passi in tempo reale: timer/countdown/durata non dipendono dagli FPS (vedi core/frameClock).
+      runSteps(this.engine.getDeltaTime(), (dt) => this.step(dt));
       this.scene.render();
     }));
     window.addEventListener('resize', this.onResize);
