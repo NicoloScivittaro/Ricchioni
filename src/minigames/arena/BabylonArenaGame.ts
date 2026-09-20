@@ -29,6 +29,7 @@ import type { ArenaAbilityFeedback } from './arenaAbilities';
 import { readMove } from '../moveInput';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
+import { applyQuality, engineOptions } from '../../core/quality';
 
 const COUNTDOWN_S = 3.2;
 
@@ -71,7 +72,7 @@ export class BabylonArenaGame {
     this.invert = ctx.modifier?.id === 'controlli_invertiti';
     this.gravityLow = ctx.modifier?.id === 'gravita_bassa';
 
-    this.engine = new Engine(canvas, true, { antialias: true, stencil: true, adaptToDeviceRatio: true });
+    this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.07, 0.04, 0.12, 1);
 
@@ -107,6 +108,7 @@ export class BabylonArenaGame {
     this.hud.setAlive(n);
     this.hud.setCountdown('3');
 
+    applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
       if (this.paused) return; // menu ESC: fermo totale, nessun input processato

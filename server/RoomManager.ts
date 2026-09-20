@@ -24,6 +24,7 @@ import type { InputEvent, RoomCode } from '../shared/types';
 import { GameSession } from './GameSession';
 import { PlayerSession } from './PlayerSession';
 import { ReconnectionManager } from './ReconnectionManager';
+import { log } from './log';
 
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
@@ -95,6 +96,7 @@ export class RoomManager {
     socket.on(EVT.hostBackToLobby, () => this.onBackToLobby(socket));
     socket.on(EVT.hostVibratePlayer, (p: VibratePlayerPayload) => this.onHostVibratePlayer(socket, p));
     socket.on(EVT.hostSignal, (p: SignalPayload) => this.onSignal(socket, p));
+    socket.on(EVT.debugPing, (_p: unknown, cb?: () => void) => cb?.());
     socket.on('disconnect', () => this.onDisconnect(socket));
   }
 
@@ -107,6 +109,7 @@ export class RoomManager {
       if (room) {
         room.hostConnectionId = socket.id;
         this.hostSockets.set(socket.id, room.roomCode);
+        log('RECONNECT', room.roomCode, `host tornato (fase ${room.phase})`);
         cb?.({ ok: true, roomCode: room.roomCode, hostToken: room.hostToken, playerCount: room.playerCount, targetScore: room.targetScore });
         room.resendSelected(); // se a metà partita, re-invia il minigioco per la ripresa
         this.broadcast(room.roomCode);
@@ -123,6 +126,7 @@ export class RoomManager {
     this.rooms.set(code, session);
     this.hostSockets.set(socket.id, code);
     this.wireRoom(session);
+    log('ROOM', code, `creata: ${playerCount} giocatori, target ${targetScore} (stanze attive ${this.rooms.size})`);
 
     const ack: RoomCreatedAck & AckResponse = { ok: true, roomCode: code, hostToken, playerCount, targetScore };
     cb?.(ack);
@@ -146,6 +150,7 @@ export class RoomManager {
           player.attach(socket.id);
           this.reconn.cancelExpiry(payload.reconnectToken);
           this.socketToPlayer.set(socket.id, { roomCode: room.roomCode, playerId: player.id });
+          log('RECONNECT', room.roomCode, `${player.displayName} tornato (fase ${room.phase})`);
           const ack: JoinAck & AckResponse = { ok: true, playerId: player.id, reconnectToken: player.reconnectToken };
           cb?.(ack);
           this.broadcast(room.roomCode);
@@ -191,6 +196,7 @@ export class RoomManager {
     room.addPlayer(player);
     this.reconn.register(reconnectToken, room.roomCode, playerId);
     this.socketToPlayer.set(socket.id, { roomCode: room.roomCode, playerId });
+    log('ROOM', room.roomCode, `entra ${name} (${room.players.length}/${room.playerCount})`);
 
     const ack: JoinAck & AckResponse = { ok: true, playerId, reconnectToken };
     cb?.(ack);
@@ -334,7 +340,10 @@ export class RoomManager {
     const hostCode = this.hostSockets.get(socket.id);
     if (hostCode) {
       const room = this.rooms.get(hostCode);
-      if (room && room.hostConnectionId === socket.id) room.hostConnectionId = null;
+      if (room && room.hostConnectionId === socket.id) {
+        room.hostConnectionId = null;
+        log('RECONNECT', hostCode, `host disconnesso (fase ${room.phase})`);
+      }
       this.hostSockets.delete(socket.id);
       return;
     }
@@ -345,6 +354,7 @@ export class RoomManager {
       const room = this.rooms.get(loc.roomCode);
       const player = room?.getPlayer(loc.playerId);
       if (room && player && player.connectionId === socket.id) {
+        log('RECONNECT', room.roomCode, `${player.displayName} disconnesso (fase ${room.phase})`);
         player.detach();
         this.reconn.scheduleExpiry(player.reconnectToken, () => {
           /* scaduto: il token non è più valido, il giocatore resta in partita senza controllo */

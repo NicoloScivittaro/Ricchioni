@@ -27,6 +27,7 @@ import type {
 import { SocketClient } from '../network/SocketClient';
 import { InputManager } from '../network/InputManager';
 import type { MinigameContext } from '../minigames/types';
+import { preloadMinigame } from '../minigames/preload';
 import { showMinigameError, hideMinigameError } from './HostOverlay';
 
 /**
@@ -474,7 +475,22 @@ export class GameManager {
     }
     this.pendingMinigame = payload;
     this.minigameContext = this.buildContext(payload);
+    // Il codice del gioco 3D estratto si scarica ora, durante rullo e intro (~10s), non al via.
+    preloadMinigame(payload.minigameId);
     this.events.emit('minigame', payload);
+  }
+
+  /** Solo debug: chiavi delle scene Phaser attualmente attive (deve essere UNA sola). */
+  activeSceneKeys(): string[] {
+    return this.game ? this.game.scene.getScenes(true).map((s) => s.scene.key) : [];
+  }
+
+  /** Solo debug: round-trip verso il server in ms (null se offline/timeout). */
+  async ping(): Promise<number | null> {
+    if (!this.socket?.socket.connected) return null;
+    const t0 = performance.now();
+    const res = await this.socket.emitAck<{ ok?: boolean } | undefined>(EVT.debugPing, undefined, 2000);
+    return res && res.ok === false ? null : Math.round(performance.now() - t0);
   }
 
   private onInputRelay(relay: InputRelayEvent): void {

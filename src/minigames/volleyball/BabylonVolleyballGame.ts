@@ -51,6 +51,7 @@ import type { VolleyballAbilityFeedback } from './volleyballAbilities';
 import { readMove } from '../moveInput';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
+import { applyQuality, engineOptions } from '../../core/quality';
 
 const COUNTDOWN_S = 3.2;
 const INTRO_SECONDS = 3.4;
@@ -100,7 +101,7 @@ export class BabylonVolleyballGame {
   ) {
     this.gravityScale = ctx.modifier?.id === 'gravita_bassa' ? 0.5 : 1;
 
-    this.engine = new Engine(canvas, true, { antialias: true, stencil: true, adaptToDeviceRatio: true });
+    this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.6, 0.82, 0.95, 1);
 
@@ -168,6 +169,7 @@ export class BabylonVolleyballGame {
     this.hud.setTimer(0);
     this.showTeamIntro();
 
+    applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
       if (this.paused) return;

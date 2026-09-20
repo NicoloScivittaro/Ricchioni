@@ -30,6 +30,7 @@ import { CharacterAbilities, abilityDescription } from './abilities';
 import type { AbilityFeedback } from './abilities';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
+import { applyQuality, engineOptions } from '../../core/quality';
 
 const KART_S_RADIUS = 2.6;
 const KART_LAT_RADIUS = 1.7;
@@ -59,7 +60,7 @@ export class BabylonKartGame {
     private canvas: HTMLCanvasElement,
     private ctx: MinigameContext
   ) {
-    this.engine = new Engine(canvas, true, { antialias: true, stencil: true, adaptToDeviceRatio: true });
+    this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.55, 0.8, 0.94, 1);
     this.buildSky();
@@ -117,6 +118,7 @@ export class BabylonKartGame {
     this.hud.layout(this.order);
     this.hud.setCountdown('3');
 
+    applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
       if (this.paused) return; // menu ESC del telefono/host: nessun input processato, gara ferma

@@ -44,6 +44,7 @@ import { readMove } from '../moveInput';
 import type { SoccerAbilityFeedback } from './soccerAbilities';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
+import { applyQuality, engineOptions } from '../../core/quality';
 
 const COUNTDOWN_S = 3.2;
 const BALL_HEIGHT = 0.35;
@@ -90,7 +91,7 @@ export class BabylonSoccerGame {
     private canvas: HTMLCanvasElement,
     private ctx: MinigameContext
   ) {
-    this.engine = new Engine(canvas, true, { antialias: true, stencil: true, adaptToDeviceRatio: true });
+    this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.05, 0.1, 0.08, 1);
 
@@ -150,6 +151,7 @@ export class BabylonSoccerGame {
     this.hud.setTimer(MATCH_SECONDS);
     this.showTeamIntro();
 
+    applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
       if (this.paused) return;

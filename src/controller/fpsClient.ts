@@ -16,6 +16,7 @@ import {
 import { FPS_MAP } from '../../shared/fpsMap';
 import { getWeapon } from '../../shared/fpsWeapons';
 import { audio } from '../core/AudioManager';
+import { applyQuality, engineOptions } from '../core/quality';
 
 const EYE_HEIGHT = 1.5;
 const SENSITIVITY_X = 0.004;
@@ -137,7 +138,8 @@ export class FpsClient {
     canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;touch-action:none;';
     container.appendChild(canvas);
 
-    this.engine = new Engine(canvas, true, { antialias: true, adaptToDeviceRatio: true });
+    // Telefoni: qualità automatica (i dispositivi deboli renderizzano a risoluzione ridotta, con risoluzione dinamica)
+    this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.55, 0.75, 0.95, 1);
 
@@ -154,6 +156,7 @@ export class FpsClient {
 
     this.buildMap();
     this.gunRoot = this.buildGun();
+    applyQuality(this.engine, this.scene);
 
     const onResize = (): void => this.engine.resize();
     window.addEventListener('resize', onResize);

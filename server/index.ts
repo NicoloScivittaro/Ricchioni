@@ -4,6 +4,7 @@ import { Server } from 'socket.io';
 import os from 'node:os';
 import path from 'node:path';
 import { RoomManager } from './RoomManager';
+import { log } from './log';
 
 const app = express();
 const httpServer = createServer(app);
@@ -32,10 +33,10 @@ app.get('/api/network', (_req, res) => {
 
 // Rete di sicurezza: un'eccezione in un handler/timer non deve abbattere tutte le stanze.
 process.on('uncaughtException', (err) => {
-  console.error('[uncaughtException]', err);
+  log('ERROR', null, `uncaughtException: ${err instanceof Error ? (err.stack ?? err.message) : String(err)}`);
 });
 process.on('unhandledRejection', (err) => {
-  console.error('[unhandledRejection]', err);
+  log('ERROR', null, `unhandledRejection: ${err instanceof Error ? (err.stack ?? err.message) : String(err)}`);
 });
 
 const rooms = new RoomManager(io);
@@ -43,5 +44,6 @@ io.on('connection', (socket) => rooms.handleConnection(socket));
 
 const PORT = Number(process.env.PORT) || 3001;
 httpServer.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Server Ricchioni Party su http://localhost:${PORT}`);
+  // Riga di avvio sempre visibile (anche con LOG=quiet)
+  console.log(`🚀 Server Ricchioni Party su http://localhost:${PORT}${process.env.LOG === 'quiet' ? ' (log ridotti: solo [ERROR])' : ''}`);
 });

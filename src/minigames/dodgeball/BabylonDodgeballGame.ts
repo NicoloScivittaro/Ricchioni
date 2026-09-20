@@ -55,6 +55,7 @@ import { readMove } from '../moveInput';
 import { DODGEBALL_ABILITIES } from '../../../shared/dodgeballAbilities';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
+import { applyQuality, engineOptions } from '../../core/quality';
 
 const COUNTDOWN_S = 3.2;
 const BALL_HEIGHT = 0.7;
@@ -107,7 +108,7 @@ export class BabylonDodgeballGame {
     this.invert = ctx.modifier?.id === 'controlli_invertiti';
     this.gravityLow = ctx.modifier?.id === 'gravita_bassa';
 
-    this.engine = new Engine(canvas, true, { antialias: true, stencil: true, adaptToDeviceRatio: true });
+    this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.05, 0.08, 0.16, 1);
 
@@ -192,6 +193,7 @@ export class BabylonDodgeballGame {
     this.hud.setAlive(n);
     this.hud.setCountdown('3');
 
+    applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
       if (this.paused) return;

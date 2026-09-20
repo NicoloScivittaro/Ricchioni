@@ -39,6 +39,8 @@ export const EVT = {
   hostVibratePlayer: 'host:vibratePlayer',
   /** L'host invia un segnale di gioco a uno (o tutti) i telefoni della stanza. */
   hostSignal: 'host:signal',
+  /** Solo debug: il server risponde subito all'ack → misura del ping (overlay F3 / ?debug=1). */
+  debugPing: 'debug:ping',
 
   // ---- Server → Client ----
   roomState: 'room:state',

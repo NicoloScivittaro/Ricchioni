@@ -21,6 +21,7 @@ import type {
 } from '../shared/types';
 import type { MinigameSelectedPayload } from '../shared/protocol';
 import { PlayerSession } from './PlayerSession';
+import { log } from './log';
 
 /**
  * Stanza di gioco autoritativa, implementata come macchina a stati:
@@ -179,7 +180,10 @@ export class GameSession {
   finishMinigame(results: PlayerResult[], roundId?: number): void {
     if (this.phase !== 'MINIGAME_PLAYING') return;
     // Evento tardivo di un round vecchio (ctx di un minigioco precedente): ignora.
-    if (roundId !== undefined && roundId !== this.minigameSeq) return;
+    if (roundId !== undefined && roundId !== this.minigameSeq) {
+      log('RESULT', this.roomCode, `ignorato: risultato del round ${roundId}, in corso il ${this.minigameSeq}`);
+      return;
+    }
     const ordered = this.normalizeResults(results);
     const ranking = ordered.map((r) => r.playerId);
     const double = this.currentMinigame?.modifierId === 'punti_doppi';
@@ -191,6 +195,13 @@ export class GameSession {
       if (p) p.score += deltas[pid] ?? 0;
     }
 
+    log(
+      'RESULT',
+      this.roomCode,
+      `${this.currentMinigame?.minigameId ?? '?'} · ${ranking
+        .map((pid) => `${this.getPlayer(pid)?.displayName ?? pid.slice(0, 4)} +${deltas[pid] ?? 0}`)
+        .join(', ')}${double ? ' (punti doppi)' : ''}`
+    );
     this.lastResults = { results: ordered, ranking, deltas, double };
     this.lastRound = { minigameId: this.currentMinigame?.minigameId ?? '', winnerId: ranking[0] ?? null, deltas };
     if (this.currentMinigame) {
@@ -216,6 +227,7 @@ export class GameSession {
       return;
     }
     if (this.currentMinigame) {
+      log('MINIGAME', this.roomCode, `${this.currentMinigame.minigameId} saltato senza punti (fase ${this.phase})`);
       this.history.push({
         round: this.round,
         minigameId: this.currentMinigame.minigameId,
@@ -259,6 +271,7 @@ export class GameSession {
   }
 
   resetToLobby(): void {
+    log('ROOM', this.roomCode, 'reset alla lobby');
     this.clearTimer();
     this.players = [];
     this.charactersLocked = [];
@@ -276,6 +289,7 @@ export class GameSession {
 
   /** Riavvia la partita mantenendo gli stessi giocatori (azzera punteggi e stato). */
   restartMatch(): void {
+    log('ROOM', this.roomCode, 'nuova partita: punteggi azzerati, stessi giocatori');
     this.clearTimer();
     for (const p of this.players) {
       p.score = 0;
@@ -365,6 +379,11 @@ export class GameSession {
     };
 
     this.lastSelectedPayload = payload;
+    log(
+      'ROUND',
+      this.roomCode,
+      `#${this.round} (id ${payload.roundId}) → ${def.id}${modifier ? ` [${modifier.id}]` : ''} · ${count} giocatori`
+    );
     this.events.emit('pick', payload);
     this.setPhase('MINIGAME_ROULETTE');
   }
@@ -381,6 +400,10 @@ export class GameSession {
   private setPhase(next: GamePhase): void {
     this.phase = next;
     this.paused = false; // ogni cambio fase esce dalla pausa
+    if (next === 'MINIGAME_PLAYING') log('MINIGAME', this.roomCode, `${this.currentMinigame?.minigameId ?? '?'} via (id ${this.minigameSeq})`);
+    else if (next === 'GAME_FINISHED') {
+      log('ROOM', this.roomCode, `partita finita al round ${this.round}: vince ${this.getPlayer(this.winner ?? '')?.displayName ?? '?'}`);
+    }
     this.events.emit('changed');
     if (next === 'MINIGAME_PLAYING' || next === 'MINIGAME_FINISHED' || next === 'GAME_FINISHED') {
       this.events.emit('vibrate');
@@ -498,6 +521,7 @@ export class GameSession {
    */
   private fallbackFinish(): void {
     if (this.phase !== 'MINIGAME_PLAYING') return;
+    log('ERROR', this.roomCode, `rete di sicurezza: ${this.currentMinigame?.minigameId ?? '?'} non ha risposto in tempo`);
     this.skipMinigame();
   }
 

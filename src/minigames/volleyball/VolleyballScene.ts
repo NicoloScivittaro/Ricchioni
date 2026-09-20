@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
 import { game as gm } from '../../core/GameManager';
+import { showLoading } from '../../core/theme';
 import type { MinigameContext } from '../types';
 import type { BabylonVolleyballGame } from './BabylonVolleyballGame';
 
@@ -13,7 +14,7 @@ export class VolleyballScene extends Phaser.Scene {
   private game3d: BabylonVolleyballGame | null = null;
   private overlayCanvas: HTMLCanvasElement | null = null;
   private cancelled = false;
-  private loadingText: Phaser.GameObjects.Text | null = null;
+  private hideLoading: (() => void) | null = null;
   private pauseMenu: VolleyballPauseMenu | null = null;
   private escKey!: Phaser.Input.Keyboard.Key;
 
@@ -26,13 +27,7 @@ export class VolleyballScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#0b0b14');
     audio.unlock();
 
-    this.loadingText = this.add
-      .text(640, 360, 'Caricamento PALLAVOLO DEI DISAGIATI…', {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '28px',
-        color: '#fbbf24'
-      })
-      .setOrigin(0.5);
+    this.hideLoading = showLoading(this, '🏐', 'PALLAVOLO DEI DISAGIATI');
 
     this.pauseMenu = new VolleyballPauseMenu(
       this,
@@ -72,8 +67,8 @@ export class VolleyballScene extends Phaser.Scene {
     const { BabylonVolleyballGame } = await import('./BabylonVolleyballGame');
     if (this.cancelled) return;
 
-    this.loadingText?.destroy();
-    this.loadingText = null;
+    this.hideLoading?.();
+    this.hideLoading = null;
 
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
@@ -99,8 +94,8 @@ export class VolleyballScene extends Phaser.Scene {
     this.game3d = null;
     this.overlayCanvas?.remove();
     this.overlayCanvas = null;
-    this.loadingText?.destroy();
-    this.loadingText = null;
+    this.hideLoading?.();
+    this.hideLoading = null;
     this.pauseMenu?.destroy();
     this.pauseMenu = null;
   }
