@@ -85,6 +85,7 @@ export class FpsScene extends Phaser.Scene {
   private graphics!: Phaser.GameObjects.Graphics;
   private timerText!: Phaser.GameObjects.Text;
   private rankTexts: Phaser.GameObjects.Text[] = [];
+  private radarTags: Phaser.GameObjects.Text[] = [];
   private blasts: Blast[] = [];
   private clock = 0; // secondi di gioco (tempi di esplosione)
 
@@ -98,6 +99,7 @@ export class FpsScene extends Phaser.Scene {
     this.finished = false;
     this.broadcastAcc = 0;
     this.rankTexts = [];
+    this.radarTags = [];
     this.matchTime = Math.min(100, data.ctx.durationSec);
     audio.unlock();
     this.cameras.main.setBackgroundColor('#0b1220');
@@ -502,14 +504,21 @@ export class FpsScene extends Phaser.Scene {
     }
 
     // Giocatori
-    for (const p of this.players) {
+    this.players.forEach((p, i) => {
       const x = cx + p.x * scale;
       const y = cy + p.z * scale;
       const color = Phaser.Display.Color.HexStringToColor(p.color).color;
+      // accessibilita': accanto al pallino colorato c'e' la faccina del personaggio (non solo il colore)
+      let tag = this.radarTags[i];
+      if (!tag) {
+        tag = this.add.text(0, 0, p.avatar, { fontSize: '15px' }).setOrigin(0.5).setDepth(3);
+        this.radarTags[i] = tag;
+      }
+      tag.setPosition(x, y + 19).setVisible(p.alive);
       if (!p.alive) {
         g.fillStyle(0x64748b, 0.5);
         g.fillCircle(x, y, 7);
-        continue;
+        return;
       }
       // direzione
       g.lineStyle(3, 0xffffff, 0.8);
@@ -523,7 +532,7 @@ export class FpsScene extends Phaser.Scene {
       g.fillRect(x - 10, y - 20, 20, 4);
       g.fillStyle(p.hp > 40 ? 0x4ade80 : 0xf87171, 1);
       g.fillRect(x - 10, y - 20, 20 * (p.hp / MAX_HP), 4);
-    }
+    });
   }
 
   /** Classifica live: per kill (poi meno morti), con il colore di ogni giocatore; chi e' a terra ha il teschio. */

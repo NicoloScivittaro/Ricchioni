@@ -169,7 +169,7 @@ interface HudEntry {
   flashText: TextBlock;
   flashTimer: number;
   mapBox: Rectangle | null;
-  dots: Map<PlayerId, { dot: Ellipse; arrow: TextBlock | null }>;
+  dots: Map<PlayerId, { dot: Ellipse; arrow: TextBlock | null; tag: TextBlock | null }>;
 }
 
 const MM = 118; // lato della minimappa (unita' ideali)
@@ -265,7 +265,7 @@ export class KartHud {
       const fz = t.z * ch + r.z * sh;
       const cx = ((offX + (p.x - minX) * scale) / 256 - 0.5) * MM;
       const cy = ((offY + (maxZ - p.z) * scale) / 256 - 0.5) * MM;
-      return { id: k.playerId, color: k.colorHex, cx, cy, fx, fz };
+      return { id: k.playerId, color: k.colorHex, avatar: k.avatar, cx, cy, fx, fz };
     });
     for (const [viewer, e] of this.entries) {
       if (!e.mapBox) continue;
@@ -288,11 +288,22 @@ export class KartHud {
             arrow.outlineColor = '#000000';
             e.mapBox.addControl(arrow);
           }
-          d = { dot, arrow };
+          // accessibilita': gli avversari non si distinguono solo per colore, accanto al puntino c'e' la faccina del loro personaggio
+          let tag: TextBlock | null = null;
+          if (!self) {
+            tag = new TextBlock(`mmTag_${viewer}_${q.id}`, q.avatar);
+            tag.fontSize = 11;
+            e.mapBox.addControl(tag);
+          }
+          d = { dot, arrow, tag };
           e.dots.set(q.id, d);
         }
         d.dot.left = `${q.cx}px`;
         d.dot.top = `${q.cy}px`;
+        if (d.tag) {
+          d.tag.left = `${q.cx + 9}px`;
+          d.tag.top = `${q.cy - 8}px`;
+        }
         if (d.arrow) {
           d.arrow.left = `${q.cx + q.fx * 11}px`;
           d.arrow.top = `${q.cy - q.fz * 11}px`;

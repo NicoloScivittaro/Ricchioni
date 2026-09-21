@@ -56,7 +56,9 @@ export class ArenaEntity {
     colorHex: string,
     characterId: string | null,
     avatar: string,
-    name: string
+    name: string,
+    /** squadra (calcio/pallavolo): sul cartellino compare un distintivo con FORMA e PAROLA oltre al colore */
+    team: 'red' | 'blue' | null = null
   ) {
     this.root = new TransformNode('arenaChar', scene);
     this.bobSeed = Math.random() * 1000;
@@ -136,7 +138,7 @@ export class ArenaEntity {
     this.buildCharacterExtras(scene, characterId, shirt, white, dark, skin);
 
     // Nameplate billboard (avatar + nome) sopra la testa.
-    this.buildNameplate(scene, avatar, name, characterId);
+    this.buildNameplate(scene, avatar, name, characterId, team);
 
     // Ancoraggio particelle (mesh invisibile che segue il personaggio).
     const fxAnchor = MeshBuilder.CreateBox('arenaFxAnchor', { size: 0.05 }, scene);
@@ -244,29 +246,42 @@ export class ArenaEntity {
     }
   }
 
-  private buildNameplate(scene: Scene, avatar: string, name: string, characterId: string | null): void {
-    const dt = new DynamicTexture('nameplate', { width: 256, height: 96 }, scene, false);
+  private buildNameplate(scene: Scene, avatar: string, name: string, characterId: string | null, team: 'red' | 'blue' | null): void {
+    // con la squadra il cartellino cresce di una fascia in alto (distintivo); altrimenti resta identico
+    const top = team ? 26 : 0;
+    const dt = new DynamicTexture('nameplate', { width: 256, height: 96 + top }, scene, false);
     dt.hasAlpha = true;
     const c = dt.getContext() as unknown as CanvasRenderingContext2D;
-    c.clearRect(0, 0, 256, 96);
+    c.clearRect(0, 0, 256, 96 + top);
+    if (team) {
+      const col = team === 'red' ? '#ef4444' : '#3b82f6';
+      c.fillStyle = 'rgba(10,10,18,0.85)';
+      c.beginPath();
+      c.roundRect(60, 2, 136, 26, 13);
+      c.fill();
+      c.fillStyle = col;
+      c.font = '900 20px "Arial Black", Arial, sans-serif';
+      c.textAlign = 'center';
+      c.fillText(team === 'red' ? '▲ ROSSI' : '● BLU', 128, 22);
+    }
     c.fillStyle = 'rgba(10,10,18,0.72)';
     c.beginPath();
-    c.roundRect(8, 8, 240, 80, 18);
+    c.roundRect(8, 8 + top, 240, 80, 18);
     c.fill();
     c.font = '900 34px "Arial Black", Arial, sans-serif';
     c.textAlign = 'center';
-    c.fillText(avatar, 44, 60);
+    c.fillText(avatar, 44, 60 + top);
     c.fillStyle = '#ffffff';
     c.font = '800 30px Arial, sans-serif';
     c.textAlign = 'left';
-    c.fillText(name.length > 12 ? name.slice(0, 12) + '…' : name, 76, 62);
+    c.fillText(name.length > 12 ? name.slice(0, 12) + '…' : name, 76, 62 + top);
     // Barra col COLORE DEL GIOCATORE: nelle partite a squadre la maglia è del colore della squadra, l'identità si legge qui
     // (stesso colore del telefono, della classifica e dei risultati).
     const idColor = characterId ? getCharacter(characterId)?.color : undefined;
     if (idColor) {
       c.fillStyle = idColor;
       c.beginPath();
-      c.roundRect(20, 74, 216, 8, 4);
+      c.roundRect(20, 74 + top, 216, 8, 4);
       c.fill();
     }
     dt.update();
@@ -277,8 +292,8 @@ export class ArenaEntity {
     mat.disableLighting = true;
     mat.backFaceCulling = false;
 
-    const plate = MeshBuilder.CreatePlane('nameplatePlane', { width: 1.6, height: 0.6 }, scene);
-    plate.position.y = 2.5;
+    const plate = MeshBuilder.CreatePlane('nameplatePlane', { width: 1.6, height: (96 + top) / 160 }, scene);
+    plate.position.y = 2.5 + top / 320;
     plate.material = mat;
     plate.billboardMode = Mesh.BILLBOARDMODE_ALL;
     plate.parent = this.root;

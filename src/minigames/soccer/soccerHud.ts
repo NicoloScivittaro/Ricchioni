@@ -26,7 +26,7 @@ export class SoccerHud {
     title.shadowColor = 'rgba(0,0,0,0.6)';
     this.adt.addControl(title);
 
-    this.scoreText = new TextBlock('score', '🔴 0 — 0 🔵');
+    this.scoreText = new TextBlock('score', '🔴 ROSSI 0 — 0 BLU 🔵');
     this.scoreText.color = '#ffffff';
     this.scoreText.fontSize = 52;
     this.scoreText.fontFamily = '"Arial Black", Arial, sans-serif';
@@ -76,7 +76,8 @@ export class SoccerHud {
   }
 
   setScore(red: number, blue: number): void {
-    this.scoreText.text = `🔴 ${red} — ${blue} 🔵`;
+    // parole oltre ai colori: il tabellone si legge anche senza distinguere rosso e blu
+    this.scoreText.text = `🔴 ROSSI ${red} — ${blue} BLU 🔵`;
   }
 
   setTimer(seconds: number): void {

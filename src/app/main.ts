@@ -15,6 +15,32 @@ import { LeaderboardScene } from '../scenes/LeaderboardScene';
 import { NextRoundScene } from '../scenes/NextRoundScene';
 import { GameOverScene } from '../scenes/GameOverScene';
 
+/**
+ * NITIDEZZA DEL TESTO. Il canvas resta 1280x720 logico (nessuna coordinata cambia), ma su TV 1080p/4K e schermi HiDPI il browser lo
+ * ingrandisce e i testi (rasterizzati a risoluzione 1) sfocano. Ogni Text viene quindi creato a risoluzione 2 quando ogni pixel
+ * logico occupa piu' di ~1.2 pixel fisici; su un monitor 720p resta 1 (nessun costo). Tetto a 2: memoria e prestazioni invariate.
+ * Override di prova: `?textres=1|2`.
+ */
+function textResolution(): number {
+  try {
+    const forced = Number(new URLSearchParams(location.search).get('textres'));
+    if (forced === 1 || forced === 2) return forced;
+    const canvas = document.querySelector('#app canvas') as HTMLCanvasElement | null;
+    const shown = canvas ? canvas.getBoundingClientRect().width : GAME_CONFIG.width;
+    return (shown / GAME_CONFIG.width) * (window.devicePixelRatio || 1) > 1.2 ? 2 : 1;
+  } catch {
+    return 1;
+  }
+}
+
+type TextFactory = (x: number, y: number, text: string | string[], style?: Phaser.Types.GameObjects.Text.TextStyle) => Phaser.GameObjects.Text;
+const factoryProto = Phaser.GameObjects.GameObjectFactory.prototype as unknown as { text: TextFactory };
+const originalText = factoryProto.text;
+factoryProto.text = function (this: unknown, x, y, text, style) {
+  const res = textResolution();
+  return originalText.call(this, x, y, text, res > 1 && style?.resolution === undefined ? { ...style, resolution: res } : style);
+};
+
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   parent: 'app',

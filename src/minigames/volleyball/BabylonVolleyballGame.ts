@@ -135,7 +135,7 @@ export class BabylonVolleyballGame {
       const team: Team = idx < redCount ? 'red' : 'blue';
       const p = createVolleyballPlayer(snap.id, snap.characterId, snap.color, snap.avatar, snap.name, team, team === this.handicappedTeam);
       this.players.push(p);
-      const entity = new ArenaEntity(this.scene, dotTex, TEAM_COLOR[team], snap.characterId, snap.avatar, snap.displayName);
+      const entity = new ArenaEntity(this.scene, dotTex, TEAM_COLOR[team], snap.characterId, snap.avatar, snap.displayName, team);
       this.entities.set(p.id, entity);
     });
 

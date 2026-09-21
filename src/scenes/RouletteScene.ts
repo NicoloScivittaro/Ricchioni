@@ -30,6 +30,7 @@ const CATEGORY_COLOR: Record<string, string> = {
 interface Card {
   box: Phaser.GameObjects.Container;
   frame: Phaser.GameObjects.Rectangle;
+  icon: Phaser.GameObjects.Text;
 }
 
 /**
@@ -116,7 +117,7 @@ export class RouletteScene extends Phaser.Scene {
       const cat = this.add.text(0, 92, def.category, { fontFamily: FONT, fontSize: '15px', color }).setOrigin(0.5);
       const box = this.add.container(i * STEP, 0, [frame, icon, name, cat]);
       strip.add(box);
-      cards.push({ box, frame });
+      cards.push({ box, frame, icon });
     });
 
     // Ombre laterali + cornice centrale fissa
@@ -144,8 +145,10 @@ export class RouletteScene extends Phaser.Scene {
         lastK = k;
         const now = this.time.now;
         if (now - lastTickAt > 35) {
+          // un tick per carta che passa sotto il puntatore; il tono segue la velocita' (veloce = acuto, in frenata = grave e rado)
+          const cardsPerSec = 1000 / Math.max(35, now - lastTickAt);
           lastTickAt = now;
-          audio.tick();
+          audio.tick(0.75 + Math.min(0.7, cardsPerSec * 0.04));
         }
       }
       cards.forEach((c, i) => {
@@ -196,13 +199,17 @@ export class RouletteScene extends Phaser.Scene {
     cards: Card[],
     title: Phaser.GameObjects.Text
   ): void {
+    audio.thump(0.9); // il "clunk" dello stop
     audio.fanfare(); // DING
+    this.cameras.main.flash(140, 255, 240, 180, false);
+    this.cameras.main.shake(220, 0.004);
     title.setText('IL PROSSIMO GIOCO È…').setColor('#fbbf24');
     confetti(this, 640, REEL_Y);
 
     if (chosen) {
       chosen.frame.setStrokeStyle(6, 0xfbbf24);
       this.tweens.add({ targets: chosen.box, scale: 1.22, duration: 350, ease: 'Back.easeOut' });
+      this.tweens.add({ targets: chosen.icon, scale: 1.3, duration: 420, delay: 120, ease: 'Back.easeOut' }); // l'icona del gioco "salta fuori"
       const glow = this.add
         .rectangle(640, REEL_Y, CARD_W * 1.22 + 30, CARD_H * 1.22 + 30, 0xfbbf24, 0.16)
         .setStrokeStyle(2, 0xfbbf24, 0.8)
@@ -257,6 +264,7 @@ export class RouletteScene extends Phaser.Scene {
   private drawStandings(players: PlayerPublic[], target: number): void {
     if (players.length === 0) return;
     const sorted = players.map((p, i) => ({ p, i })).sort((a, b) => b.p.score - a.p.score || a.i - b.i);
+    const topScore = sorted[0]?.p.score ?? 0;
     const w = 228;
     const gap = 12;
     const total = sorted.length * w + (sorted.length - 1) * gap;
@@ -278,14 +286,14 @@ export class RouletteScene extends Phaser.Scene {
       const cx = x0 + rank * (w + gap);
       this.add.rectangle(cx, y, w, 84, 0x111426, 0.95).setStrokeStyle(2, colorInt, p.connected ? 1 : 0.35);
       this.add
-        .text(cx - w / 2 + 12, y - 26, `${rank + 1}° ${avatar} ${p.displayName}`, {
+        .text(cx - w / 2 + 12, y - 26, `${topScore > 0 && p.score === topScore ? '👑' : `${rank + 1}°`} ${avatar} ${p.displayName}`, {
           fontFamily: FONT,
-          fontSize: '17px',
+          fontSize: '19px',
           color: p.connected ? color : '#6b7280'
         })
         .setOrigin(0, 0.5);
       this.add
-        .text(cx - w / 2 + 12, y + 2, `${p.score} / ${target} pt`, { fontFamily: 'Arial, sans-serif', fontSize: '16px', color: '#e5e7eb' })
+        .text(cx - w / 2 + 12, y + 2, `${p.score} / ${target} pt`, { fontFamily: 'Arial, sans-serif', fontSize: '18px', color: '#e5e7eb' })
         .setOrigin(0, 0.5);
       const d = gm.state?.lastRound?.deltas[p.id] ?? 0;
       if (d > 0) {

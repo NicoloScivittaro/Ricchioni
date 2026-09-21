@@ -156,7 +156,7 @@ export class BabylonSoccerGame {
       const p = createSoccerPlayer(snap.id, snap.characterId, snap.color, snap.avatar, snap.name, team, handicapped);
       this.players.push(p);
       // Colore maglia = colore squadra (identità personale via nameplate + tratti).
-      const entity = new ArenaEntity(this.scene, dotTex, TEAM_COLOR[team], snap.characterId, snap.avatar, snap.displayName);
+      const entity = new ArenaEntity(this.scene, dotTex, TEAM_COLOR[team], snap.characterId, snap.avatar, snap.displayName, team);
       this.entities.set(p.id, entity);
     });
 
