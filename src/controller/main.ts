@@ -14,6 +14,8 @@ import { getMinigame } from '../../shared/minigames';
 import { createVirtualJoystick } from './joystick';
 import type { FpsClient, FpsStatePayload } from './fpsClient';
 import type { VirtualJoystick } from './joystick';
+import { audio } from '../core/AudioManager';
+import { initMobileDebug } from './mobileDebug';
 import './style.css';
 
 const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
@@ -32,6 +34,22 @@ let lastMinigameId: string | null = null;
 let activeController: string | null = null;
 
 const LS = { pid: 'ricchioni.pid', tok: 'ricchioni.tok' };
+
+/**
+ * AUDIO SUL TELEFONO: il PRIMO tap valido sblocca l'AudioContext (i browser mobili lo sospendono finche' non c'e' un gesto dell'utente;
+ * su iOS conta solo un gesto vero, e a volte serve piu' di un tentativo). Ascolta i gesti finche' il contesto non e' 'running', poi
+ * si stacca da solo. Cosi' i suoni (Sparatoria) funzionano fin dal primo colpo, anche se il primo suono nasce fuori da un gesto.
+ */
+(function armAudioUnlock(): void {
+  const events = ['pointerdown', 'pointerup', 'touchstart', 'touchend', 'click', 'keydown'];
+  const handler = (): void => {
+    audio.unlock();
+    window.setTimeout(() => {
+      if (audio.getState() === 'running') for (const e of events) window.removeEventListener(e, handler, true);
+    }, 250);
+  };
+  for (const e of events) window.addEventListener(e, handler, { capture: true, passive: true });
+})();
 
 function loadIdentity(): { playerId: string | null; reconnectToken: string | null } {
   try {
@@ -1158,6 +1176,8 @@ function updateCulturaUI(s: CulturaState): void {
 // ---- SPARATORIA DEI DISAGIATI (controller FPS completo su telefono) ----
 
 let fpsClient: FpsClient | null = null;
+// Modalita' test sul telefono (solo con ?debug=1): FPS, ping, qualita', latenza del tocco, vibrazione, audio
+initMobileDebug(socket, () => fpsClient?.getDebugStats() ?? null);
 let fpsPendingState: FpsStatePayload | null = null;
 let fpsLookEl: HTMLElement | null = null;
 let fpsFireBtn: HTMLButtonElement | null = null;

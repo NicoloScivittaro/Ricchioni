@@ -8,7 +8,7 @@
  * FPS + frame time medio/peggiore, heap JS (Chrome), connessione, ping, giocatori, qualità.
  */
 import { game as gm } from './GameManager';
-import { cycleQuality, getQualityLevel } from './quality';
+import { cycleQuality, getQualityInfo } from './quality';
 
 const STORE = 'ricchioni.debug';
 
@@ -164,7 +164,7 @@ class DebugOverlay {
       `gioco ${gm.pendingMinigame?.minigameId ?? '—'}${st?.paused ? ' · PAUSA' : ''}`,
       `scene ${scenes.length}${scenes.length === 1 ? '' : ' ⚠'} [${scenes.join(', ')}] · canvas ${document.querySelectorAll('canvas').length} · timer ${liveTimers.size}`,
       `rete ${gm.connected ? 'ok' : 'OFFLINE'} · ping ${this.ping === null ? '—' : this.ping + 'ms'} · giocatori ${st?.players.length ?? 0}`,
-      `heap ${mem ? (mem.usedJSHeapSize / 1048576).toFixed(0) + ' MB' : 'n/d'} · qualità ${getQualityLevel()}`
+      `heap ${mem ? (mem.usedJSHeapSize / 1048576).toFixed(0) + ' MB' : 'n/d'} · qualità ${qualityLabel()}`
     ];
     this.root.textContent = lines.join('\n');
   }
@@ -176,6 +176,11 @@ let overlay: DebugOverlay | null = null;
 /** true in sviluppo o con `?debug=1`: abilita le statistiche di bilanciamento (pallavolo) e simili. In produzione e' false. */
 export function debugEnabled(): boolean {
   return allowed();
+}
+
+function qualityLabel(): string {
+  const q = getQualityInfo();
+  return `${q.level}${q.auto ? ' (auto)' : ''} · scala ${q.scale.toFixed(2)}`;
 }
 
 export function initDebug(): void {

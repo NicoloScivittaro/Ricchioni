@@ -82,9 +82,28 @@ export class AudioManager {
     }
   }
 
-  /** Da chiamare sul primo input utente per sbloccare l'audio (policy browser). */
-  unlock(): void {
-    this.ensure();
+  /**
+   * Da chiamare DENTRO un gesto dell'utente (tap/click/tasto) per sbloccare l'audio (policy dei browser, iOS compreso):
+   * crea/riprende il contesto e suona un buffer vuoto (su iOS serve una riproduzione reale nel gesto).
+   * true = il contesto e' gia' attivo (il passaggio a 'running' puo' completarsi subito dopo: si controlla con getState()).
+   */
+  unlock(): boolean {
+    const ctx = this.ensure();
+    if (!ctx) return false;
+    try {
+      const src = ctx.createBufferSource();
+      src.buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+      src.connect(ctx.destination);
+      src.start(0);
+    } catch {
+      /* ignora errori audio */
+    }
+    return ctx.state === 'running';
+  }
+
+  /** Stato del contesto SENZA crearlo: 'none' se nessun suono e' mai stato richiesto, altrimenti suspended / running / closed. */
+  getState(): 'none' | AudioContextState {
+    return this.ctx ? this.ctx.state : 'none';
   }
 
   /** Accesso al contesto condiviso (per suoni continui gestiti altrove, es. motore kart). */
