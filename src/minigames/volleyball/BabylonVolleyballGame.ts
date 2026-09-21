@@ -80,6 +80,9 @@ export class BabylonVolleyballGame {
   private order: PlayerId[];
 
   private phase: Phase = 'intro';
+  /** Schermata CONTROLLI: richiesta una volta a fine intro, poi il countdown parte solo a schermata chiusa. */
+  private controlsRequested = false;
+  private controlsDone = false;
   private phaseTime = 0;
   private countdown = COUNTDOWN_S;
   private lastCountInt = 4;
@@ -256,9 +259,17 @@ export class BabylonVolleyballGame {
     if (this.phase === 'intro') {
       this.phaseTime -= dt;
       if (this.phaseTime <= 0) {
-        this.phase = 'countdown';
-        this.countdown = COUNTDOWN_S;
-        this.hud.setCountdown('3');
+        // Schermata CONTROLLI dopo l'intro e PRIMA del countdown: finche' e' su, il gioco resta fermo (fase intro, nessun timer)
+        if (!this.controlsRequested) {
+          this.controlsRequested = true;
+          if (this.ctx.showControls) void this.ctx.showControls().then(() => (this.controlsDone = true));
+          else this.controlsDone = true;
+        }
+        if (this.controlsDone) {
+          this.phase = 'countdown';
+          this.countdown = COUNTDOWN_S;
+          this.hud.setCountdown('3');
+        }
       }
     } else if (this.phase === 'countdown') {
       this.countdown -= dt;

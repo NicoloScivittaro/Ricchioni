@@ -172,7 +172,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     compatibleModifiers: ['gravita_bassa', 'punti_doppi'],
     sceneKey: 'volleyball',
 
-    inputMode: 'GAMEPAD_OR_PHONE',
+    inputMode: 'GAMEPAD',
     // Controller dedicato: joystick + SALTA + COLPISCI + ABILITÀ (renderVolleyballController()).
     controllerLayout: { type: 'custom', id: 'volleyball-tv' }
   },

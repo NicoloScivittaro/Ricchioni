@@ -72,6 +72,14 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'PASS', binding: 'PRIMARY', control: 'shoot', label: 'PASSA (TOCCO BREVE)' },
     { action: 'TACKLE', binding: 'LEFT', control: 'dash', label: 'DASH / TACKLE' },
     { action: 'ABILITY', binding: 'TOP', control: 'ability', label: 'ABILITÀ' }
+  ]),
+  // Pallavolo: tutti e tre sono comandi a PRESSIONE (justPressed) e indipendenti: direzione + salto + colpo insieme funzionano (ogni tasto
+  // e' il proprio evento nell'InputManager). Nessun ritardo aggiunto: il tasto arriva al gioco nello stesso fotogramma di polling.
+  volleyball: defineProfile('volleyball', [
+    { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI' },
+    { action: 'JUMP', binding: 'LEFT', control: 'jump', label: 'SALTA' },
+    { action: 'HIT', binding: 'PRIMARY', control: 'hit', label: 'COLPISCI / SMASH' },
+    { action: 'ABILITY', binding: 'SECONDARY', control: 'ability', label: 'ABILITÀ' }
   ])
 };
 
