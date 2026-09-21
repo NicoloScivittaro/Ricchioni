@@ -2,6 +2,17 @@ import type { Rng } from '../../../shared/rng';
 import { QUESTIONS } from './questions';
 import type { QuizQuestion } from './questions';
 
+/**
+ * MESCOLAMENTO DELLE RISPOSTE. Nel database la risposta giusta sta quasi sempre in B o C (audit: 6% A / 44% B / 46% C / 4% D):
+ * chi lo nota indovina senza sapere. Ogni volta che una domanda viene estratta le 4 opzioni si mescolano e correctAnswerIndex segue.
+ * Le serie puramente numeriche (5, 6, 7, 8) restano in ordine: mescolate sembrerebbero un errore.
+ */
+export function shuffleAnswers(q: QuizQuestion, rng: Rng): QuizQuestion {
+  if (q.answers.every((a) => /^[\d.,\s%°-]+$/.test(a.trim()))) return q;
+  const order = rng.shuffle([0, 1, 2, 3]);
+  return { ...q, answers: order.map((i) => q.answers[i]) as QuizQuestion['answers'], correctAnswerIndex: order.indexOf(q.correctAnswerIndex) };
+}
+
 const HISTORY_LIMIT = 30; // ~3 partite di 10 domande: evita che il pool si esaurisca in sessioni lunghe
 
 /**
@@ -39,7 +50,7 @@ export function selectQuizQuestions(rng: Rng): QuizQuestion[] {
 
     const candidates = notRecentDifferentCategory.length > 0 ? notRecentDifferentCategory : notRecent.length > 0 ? notRecent : pool;
 
-    selected.push(rng.pick(candidates));
+    selected.push(shuffleAnswers(rng.pick(candidates), rng));
   }
 
   markUsed(selected.map((q) => q.id));
@@ -64,5 +75,5 @@ export function rerollQuestion(rng: Rng, difficulty: number, excludeIds: string[
   const candidates = notRecent.length > 0 ? notRecent : pool.length > 0 ? pool : QUESTIONS.filter((q) => q.difficulty === difficulty);
   const picked = rng.pick(candidates);
   markUsed([picked.id]);
-  return picked;
+  return shuffleAnswers(picked, rng);
 }
