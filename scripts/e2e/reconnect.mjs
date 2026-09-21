@@ -56,8 +56,13 @@ try {
 
   // 3) un telefono CADE e NON torna: il round finisce comunque, risultati con tutti e 3 i giocatori
   await phones[2].page.close();
-  await sleep(800);
-  const st = await hostEval(page, (gm) => gm.state.players.map((p) => p.connected));
+  // il server nota la chiusura del socket quando può (con la macchina carica anche >1s): polling invece di uno sleep fisso
+  let st = [];
+  for (let i = 0; i < 25; i++) {
+    await sleep(300);
+    st = await hostEval(page, (gm) => gm.state.players.map((p) => p.connected));
+    if (st.filter((x) => !x).length >= 1) break;
+  }
   check(st.filter((x) => !x).length === 1, 'un telefono risulta offline');
   await hostEval(page, (gm) => {
     const ctx = gm.minigameContext;
