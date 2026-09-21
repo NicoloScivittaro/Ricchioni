@@ -52,6 +52,7 @@ import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
 import { say } from '../../core/announcer';
+import { telemetry } from '../../core/telemetry';
 
 const COUNTDOWN_S = 3.2;
 const BALL_HEIGHT = 0.35;
@@ -757,6 +758,16 @@ export class BabylonSoccerGame {
     }
     this.phase = 'ended';
     this.celebrateTime = 2.4;
+    const sum = (f: (p: SoccerPlayer) => number): number => this.players.reduce((a, p) => a + f(p), 0);
+    telemetry.metrics('soccer', {
+      score: `${this.redScore}-${this.blueScore}`,
+      teams: `${this.players.filter((p) => p.team === 'red').length}v${this.players.filter((p) => p.team === 'blue').length}`,
+      handicap: this.handicappedTeam ?? 'nessuno',
+      kicks: `${this.teamKicks.red}/${this.teamKicks.blue}`,
+      tackles: sum((p) => p.tackles),
+      interceptions: sum((p) => p.interceptions),
+      ownGoals: sum((p) => p.ownGoals)
+    });
     const wl = TEAM_LABEL[this.winnerTeam];
     this.hud.feedMessage(`🏆 VINCE LA SQUADRA ${wl}! ${this.redScore} — ${this.blueScore}`, '#fbbf24', 4000);
     this.ctx.signal(null, { type: 'matchEnd', winner: this.winnerTeam });

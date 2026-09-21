@@ -4,6 +4,7 @@ import { game as gm } from '../../core/GameManager';
 import { showLoading } from '../../core/theme';
 import type { MinigameContext } from '../types';
 import type { BabylonSoccerGame } from './BabylonSoccerGame';
+import { telemetry } from '../../core/telemetry';
 
 /**
  * Wrapper Phaser per CALCIO DEI DISAGIATI (3D Babylon.js su canvas dedicato).
@@ -134,6 +135,7 @@ class SoccerPauseMenu {
       this.makeButton('🔄 RICOMINCIA MINIGIOCO', '#facc15', () => {
         if (!confirm('Vuoi davvero ricominciare il minigioco?')) return;
         this.hide();
+        telemetry.mark('restart');
         onRestart();
       })
     );

@@ -33,6 +33,7 @@ import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
 import { say } from '../../core/announcer';
+import { telemetry } from '../../core/telemetry';
 
 const COUNTDOWN_S = 3.2;
 
@@ -471,6 +472,8 @@ export class BabylonArenaGame {
   }
 
   private buildResults(): PlayerResult[] {
+    const pushed = this.players.reduce((a, p) => a + p.eliminations, 0);
+    telemetry.metrics('arena', { durationSec: Math.round(this.gameTime), out: this.eliminatedAt.size, pushOuts: pushed, edgeOrFallOuts: this.eliminatedAt.size - pushed });
     const alive = this.players
       .filter((p) => p.alive)
       .sort((a, b) => Math.hypot(a.x, a.z) - Math.hypot(b.x, b.z));

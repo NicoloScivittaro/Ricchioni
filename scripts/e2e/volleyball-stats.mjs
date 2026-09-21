@@ -58,6 +58,8 @@ try {
   check(stats?.smashPointsDirect === 1, `1 punto diretto da smash (${stats?.smashPointsDirect})`);
   check(stats?.avgTouches === 4, `colpi nello scambio: servizio + 3 colpi = 4 (${stats?.avgTouches})`);
   check(stats?.maxBallSpeed > 5, `velocita' massima della palla registrata (${stats?.maxBallSpeed?.toFixed(1)} u/s)`);
+  const tel = await hostEval(page, () => JSON.parse(JSON.stringify(window.__session?.records?.at(-1)?.metrics ?? null)));
+  check(tel && tel.smashes === 2 && tel.rallies === 1, `le stesse metriche arrivano alla telemetria di sessione (${JSON.stringify(tel)})`);
   check(errs.length === 0, `nessun errore di pagina ${errs.length ? JSON.stringify(errs.slice(0, 3)) : ''}`);
   process.exitCode = fails ? 1 : 0;
 } catch (e) {

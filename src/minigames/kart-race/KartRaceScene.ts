@@ -4,6 +4,7 @@ import { game as gm } from '../../core/GameManager';
 import { showLoading } from '../../core/theme';
 import type { MinigameContext } from '../types';
 import type { BabylonKartGame } from './BabylonKartGame';
+import { telemetry } from '../../core/telemetry';
 
 /**
  * Wrapper Phaser per il minigioco 3D "RIBALTATI — CIRCUITO DEL LITORALE".
@@ -151,6 +152,7 @@ class KartPauseMenu {
       this.makeButton('🔄 RICOMINCIA MINIGIOCO', '#facc15', () => {
         if (!confirm('Vuoi davvero ricominciare il minigioco?')) return;
         this.hide();
+        telemetry.mark('restart');
         onRestart();
       })
     );

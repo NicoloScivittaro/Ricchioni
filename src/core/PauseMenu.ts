@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { game as gm } from './GameManager';
 import { audio } from './AudioManager';
+import { telemetry } from './telemetry';
 import type { InputManager } from '../network/InputManager';
 
 type MenuMode = 'none' | 'main' | 'confirmRestart' | 'confirmLobby' | 'confirmSkip';
@@ -195,6 +196,7 @@ export class PauseMenu {
         audio.select();
         gm.setPaused(false);
         this.input.reset();
+        telemetry.mark('restart');
         this.onRestart();
       } else {
         this.open();

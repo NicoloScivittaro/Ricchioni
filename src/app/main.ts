@@ -3,6 +3,7 @@ import { GAME_CONFIG } from './config';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
 import { initDebug } from '../core/debug';
+import { initTelemetry } from '../core/telemetry';
 import { MINIGAME_SCENES } from '../minigames';
 import { BootScene } from '../scenes/BootScene';
 import { LobbyScene } from '../scenes/LobbyScene';
@@ -70,6 +71,7 @@ const phaserGame = new Phaser.Game(config);
 gm.attach(phaserGame);
 audio.enableHotkeys(); // M = muto, [ ] = volume generale (solo host)
 initDebug(); // overlay F3 (solo dev o ?debug=1)
+initTelemetry(); // telemetria locale di sessione + SESSION REPORT (F4), solo debug: niente esce dal browser
 
 // Rete di sicurezza: se update() lancia, Phaser NON ripianifica il frame → host congelato per sempre.
 // Dal primo frame in poi il callback è avvolto: l'errore viene loggato (max 1 ogni 3s) e, durante un

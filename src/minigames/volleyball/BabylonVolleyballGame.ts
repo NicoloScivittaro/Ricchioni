@@ -55,6 +55,7 @@ import { applyQuality, engineOptions } from '../../core/quality';
 import { say } from '../../core/announcer';
 import { debugEnabled } from '../../core/debug';
 import { VolleyStats } from './volleyballStats';
+import { telemetry } from '../../core/telemetry';
 
 const COUNTDOWN_S = 3.2;
 const INTRO_SECONDS = 3.4;
@@ -638,6 +639,7 @@ export class BabylonVolleyballGame {
     if (this.redScore >= WIN_SCORE || this.blueScore >= WIN_SCORE) {
       this.winnerTeam = scoringTeam;
       this.stats?.report(new Map(this.players.map((p) => [p.id, p.name])));
+      if (this.stats) telemetry.metrics('volleyball', this.stats.summary());
       // partita finita: dopo la pausa punto si chiude
       this.phase = 'ended';
       this.celebrateTime = 2.6;

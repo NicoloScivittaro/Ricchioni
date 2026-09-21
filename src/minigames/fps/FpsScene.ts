@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { splitFrameDelta } from '../../core/frameClock';
 import { audio } from '../../core/AudioManager';
 import { PauseMenu } from '../../core/PauseMenu';
+import { telemetry } from '../../core/telemetry';
 import { FPS_MAP, resolveCollisions, rayVsAabb } from '../../../shared/fpsMap';
 import type { Aabb } from '../../../shared/fpsMap';
 import { WEAPONS, getWeapon } from '../../../shared/fpsWeapons';
@@ -578,6 +579,11 @@ export class FpsScene extends Phaser.Scene {
         p.shotsFired > 0 ? `precisione ${Math.round((p.shotsHit / p.shotsFired) * 100)}%` : 'nessun colpo sparato'
       ]
     }));
+    telemetry.metrics('fps', {
+      kills: this.players.reduce((a, p) => a + p.kills, 0),
+      deaths: this.players.reduce((a, p) => a + p.deaths, 0),
+      accuracyPct: Math.round((this.players.reduce((a, p) => a + p.shotsHit, 0) / Math.max(1, this.players.reduce((a, p) => a + p.shotsFired, 0))) * 100)
+    });
     this.ctx.signal(null, { type: 'fpsEnd', players: sorted.map((p) => ({ id: p.id, name: p.name, kills: p.kills, deaths: p.deaths })) });
     this.ctx.finish({ results });
   }
