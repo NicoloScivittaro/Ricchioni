@@ -86,9 +86,38 @@ reconnectToken = saved.reconnectToken;
 
 // ---- eventi server ----
 
+/**
+ * TEMPI DEL CAMBIO VISTA (solo con ?debug=1): per ogni roomState ricevuto registra l'istante di arrivo (Date.now, confrontabile con
+ * l'host sulla stessa macchina), quanto e' durato render() (= vista nuova montata) e, per lo smontaggio della sparatoria, le durate
+ * di stop del loop / vm / scene / engine. window.__phaseTiming e window.__longTasks (task >50 ms del thread principale).
+ */
+const PHASE_DBG = (() => {
+  try {
+    return new URLSearchParams(location.search).get('debug') === '1';
+  } catch {
+    return false;
+  }
+})();
+const phaseTiming: Record<string, unknown>[] = [];
+if (PHASE_DBG) {
+  (window as unknown as Record<string, unknown>).__phaseTiming = phaseTiming;
+  const longTasks: { at: number; dur: number }[] = [];
+  (window as unknown as Record<string, unknown>).__longTasks = longTasks;
+  try {
+    new PerformanceObserver((list) => {
+      for (const e of list.getEntries()) longTasks.push({ at: Math.round(performance.timeOrigin + e.startTime), dur: Math.round(e.duration) });
+    }).observe({ type: 'longtask', buffered: true });
+  } catch {
+    /* longtask non supportato */
+  }
+}
+
 socket.on(EVT.roomState, (payload) => {
+  const recvAt = Date.now();
+  const t0 = performance.now();
   state = payload as RoomState;
   render();
+  if (PHASE_DBG) phaseTiming.push({ kind: 'roomState', phase: state.phase, recvAt, renderMs: +(performance.now() - t0).toFixed(1) });
 });
 
 /**
@@ -1251,11 +1280,20 @@ function disposeFps(): void {
   fpsClient = null;
   fpsPendingState = null;
   if (!c) return;
-  // Lo smontaggio dell'engine WebGL è pesante: si fa DOPO che la nuova schermata è stata mostrata,
-  // così il telefono cambia vista subito invece di restare congelato sul vecchio controller.
+  // 1) Il ciclo di rendering si ferma SUBITO (costa ~0.1 ms): misurato, prima ogni frame WebGL ancora in coda dopo il cambio vista
+  //    bloccava il thread 500-700 ms (headless) proprio mentre la nuova schermata doveva reagire ai tocchi.
+  try {
+    c.stop();
+  } catch {
+    /* ignora */
+  }
+  // 2) Lo smontaggio vero dell'engine WebGL (15-30 ms) si fa DOPO che la nuova schermata è stata mostrata,
+  //    così il telefono cambia vista subito invece di restare congelato sul vecchio controller.
   window.setTimeout(() => {
     try {
+      const t = performance.now();
       c.dispose();
+      if (PHASE_DBG) phaseTiming.push({ kind: 'fpsDispose', at: Date.now(), totalMs: +(performance.now() - t).toFixed(1), parts: (c.constructor as unknown as { lastDispose?: unknown }).lastDispose });
     } catch {
       /* ignora */
     }

@@ -65,6 +65,16 @@ export class GameSession {
   private suddenDeathCandidates: PlayerId[] = [];
   private rng = new Rng();
   private history: RouletteHistoryEntry[] = [];
+  /** Diagnostica di flusso: SOLO con FLOW_TRACE=1 (dev/test). Ultimi eventi di fase, risultati ignorati, skip ignorati. Non cambia il gioco. */
+  private flow: { t: number; kind: string; phase: string; roundId: number; selected: string | null; manual: string | null; timerArmed: boolean; note?: string }[] = [];
+  private trace(kind: string, note?: string): void {
+    if (process.env.FLOW_TRACE !== '1') return;
+    this.flow.push({ t: Date.now(), kind, phase: this.phase, roundId: this.minigameSeq, selected: this.currentMinigame?.minigameId ?? null, manual: this.manualMinigameId, timerArmed: this.timer !== null, note });
+    if (this.flow.length > 200) this.flow.shift();
+  }
+  getFlowTrace(): unknown[] {
+    return this.flow;
+  }
   /** Ultimo minigioco concluso con risultati: lo mostra il rullo (lastResults viene azzerato a NEXT_ROUND). */
   private lastRound: RoomState['lastRound'] = null;
   private timer: ReturnType<typeof setTimeout> | null = null;
@@ -178,12 +188,17 @@ export class GameSession {
 
   /** Il minigioco (via host) restituisce i risultati; qui si assegnano i punti. */
   finishMinigame(results: PlayerResult[], roundId?: number): void {
-    if (this.phase !== 'MINIGAME_PLAYING') return;
+    if (this.phase !== 'MINIGAME_PLAYING') {
+      this.trace('finish-ignored', `fase ${this.phase}, roundId ricevuto ${roundId}`);
+      return;
+    }
     // Evento tardivo di un round vecchio (ctx di un minigioco precedente): ignora.
     if (roundId !== undefined && roundId !== this.minigameSeq) {
       log('RESULT', this.roomCode, `ignorato: risultato del round ${roundId}, in corso il ${this.minigameSeq}`);
+      this.trace('finish-ignored', `roundId ricevuto ${roundId} != in corso ${this.minigameSeq}`);
       return;
     }
+    this.trace('finish-accepted', `roundId ${roundId}`);
     const ordered = this.normalizeResults(results);
     const ranking = ordered.map((r) => r.playerId);
     const double = this.currentMinigame?.modifierId === 'punti_doppi';
@@ -269,8 +284,10 @@ export class GameSession {
       this.phase === 'GAME_FINISHED' ||
       this.phase === 'CHECK_WINNER'
     ) {
+      this.trace('skip-ignored', `fase ${this.phase}`);
       return;
     }
+    this.trace('skip', `da ${this.phase}`);
     this.clearTimer();
     this.advanceFrom(this.phase);
   }
@@ -403,7 +420,9 @@ export class GameSession {
   }
 
   private setPhase(next: GamePhase): void {
+    const prev = this.phase;
     this.phase = next;
+    this.trace('phase', `${prev} -> ${next}`);
     this.paused = false; // ogni cambio fase esce dalla pausa
     if (next === 'MINIGAME_PLAYING') log('MINIGAME', this.roomCode, `${this.currentMinigame?.minigameId ?? '?'} via (id ${this.minigameSeq})`);
     else if (next === 'GAME_FINISHED') {

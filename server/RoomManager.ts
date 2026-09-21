@@ -49,6 +49,11 @@ function clampInt(v: unknown, min: number, max: number, fallback: number): numbe
  */
 export class RoomManager {
   private rooms = new Map<RoomCode, GameSession>();
+
+  /** Solo con FLOW_TRACE=1 (vedi index.ts): ultimi eventi di flusso della stanza. */
+  flowTraceOf(code: string): unknown[] | null {
+    return this.rooms.get(code)?.getFlowTrace() ?? null;
+  }
   private socketToPlayer = new Map<string, { roomCode: RoomCode; playerId: string }>();
   private hostSockets = new Map<string, RoomCode>();
   private reconn = new ReconnectionManager();

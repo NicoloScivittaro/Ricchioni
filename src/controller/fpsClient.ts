@@ -846,11 +846,25 @@ export class FpsClient {
     return plane;
   }
 
-  dispose(): void {
+  /** Ferma SUBITO il ciclo di rendering (leggerissimo): il resto dello smontaggio puo' aspettare. */
+  stop(): void {
     this.engine.stopRenderLoop();
+  }
+
+  /** Durata (ms) dei pezzi dell'ultimo smontaggio: serve alla diagnostica (?debug=1), non cambia nulla. */
+  static lastDispose: { stop: number; vm: number; scene: number; engine: number } | null = null;
+
+  dispose(): void {
+    const t0 = performance.now();
+    this.engine.stopRenderLoop();
+    const t1 = performance.now();
     this.vm.dispose();
+    const t2 = performance.now();
     this.scene.dispose();
+    const t3 = performance.now();
     this.engine.dispose();
+    const t4 = performance.now();
+    FpsClient.lastDispose = { stop: +(t1 - t0).toFixed(1), vm: +(t2 - t1).toFixed(1), scene: +(t3 - t2).toFixed(1), engine: +(t4 - t3).toFixed(1) };
   }
 }
 

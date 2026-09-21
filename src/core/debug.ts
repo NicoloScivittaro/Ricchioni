@@ -33,6 +33,15 @@ function wasVisible(): boolean {
 /** Conta i timer JS ancora vivi (setTimeout non scaduti + setInterval): rivela perdite di timer tra un minigioco e l'altro. */
 const liveTimers = new Set<number>();
 let timersPatched = false;
+/** Timer JS ancora vivi (richiede patchTimers, attivato da flowTrace/overlay); -1 se il conteggio non e' attivo. */
+export function liveTimerCount(): number {
+  return timersPatched ? liveTimers.size : -1;
+}
+
+export function ensureTimerPatch(): void {
+  patchTimers();
+}
+
 function patchTimers(): void {
   if (timersPatched) return;
   timersPatched = true;

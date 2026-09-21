@@ -40,6 +40,10 @@ process.on('unhandledRejection', (err) => {
 });
 
 const rooms = new RoomManager(io);
+// Diagnostica di flusso (solo se il server e' avviato con FLOW_TRACE=1): in produzione l'endpoint non esiste.
+if (process.env.FLOW_TRACE === '1') {
+  app.get('/debug/trace/:code', (req, res) => res.json(rooms.flowTraceOf(String(req.params.code).toUpperCase()) ?? []));
+}
 io.on('connection', (socket) => rooms.handleConnection(socket));
 
 const PORT = Number(process.env.PORT) || 3001;

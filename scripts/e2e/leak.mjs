@@ -78,6 +78,35 @@ async function windowListeners(page) {
   return byType;
 }
 
+/**
+ * DIAGNOSTICA DI BLOCCO: se il flusso si ferma, stampa la traccia dell'host (window.__flowDump, attiva in dev) e quella del server
+ * (/debug/trace/CODICE, disponibile se il server e' avviato con FLOW_TRACE=1). Cosi' un blocco raro lascia le prove invece di un timeout.
+ */
+async function diag(host, code, why) {
+  console.log('\n===== DIAGNOSTICA BLOCCO: ' + why + ' =====');
+  try {
+    const snap = await hostSnapshot(host);
+    console.log('snapshot host:', JSON.stringify(snap));
+    console.log('--- traccia HOST (ultimi 40 eventi) ---');
+    console.log(await host.evaluate(() => (window.__flowDump ? window.__flowDump(40) : '(flowTrace non attivo)')));
+    const stall = await host.evaluate(() => window.__flowStall?.at ?? null);
+    if (stall) console.log('STALLO rilevato dall\'host:', JSON.stringify(stall));
+  } catch (e) {
+    console.log('traccia host non leggibile:', String(e).slice(0, 120));
+  }
+  try {
+    const r = await fetch('http://localhost:3001/debug/trace/' + code);
+    const tr = await r.json();
+    console.log('--- traccia SERVER (ultimi 25 eventi) ---');
+    for (const e of tr.slice(-25)) {
+      console.log(new Date(e.t).toISOString().slice(11, 23), e.kind.padEnd(15), 'fase=' + e.phase, 'round=' + e.roundId, 'scelto=' + e.selected, 'manuale=' + e.manual, 'timer=' + e.timerArmed, e.note ?? '');
+    }
+  } catch (e) {
+    console.log('traccia server non disponibile (avvia il server con FLOW_TRACE=1):', String(e).slice(0, 80));
+  }
+  console.log('===== FINE DIAGNOSTICA =====\n');
+}
+
 const browser = await launch();
 const errs = [];
 try {
@@ -139,7 +168,10 @@ try {
       if (await handleGameOver()) continue;
       await hostEval(host, (gm) => gm.skip());
       await sleep(450);
-      if (++guard > 80) throw new Error('PLAYING non raggiunto');
+      if (++guard > 80) {
+        await diag(host, code, 'PLAYING non raggiunto (round ' + round + ')');
+        throw new Error('PLAYING non raggiunto');
+      }
     }
     const snap = await hostSnapshot(host);
     played.push(snap.pending);
@@ -154,7 +186,10 @@ try {
       if ((await hostSnapshot(host)).phase === 'GAME_FINISHED') break; // finale: lo gestisce il ciclo successivo
       await hostEval(host, (gm) => gm.skip());
       await sleep(450);
-      if (++guard > 80) throw new Error('rullo successivo non raggiunto');
+      if (++guard > 80) {
+        await diag(host, code, 'rullo successivo non raggiunto (round ' + round + ')');
+        throw new Error('rullo successivo non raggiunto');
+      }
     }
     await sleep(1200);
     if ((await hostSnapshot(host)).phase === 'GAME_FINISHED') {
