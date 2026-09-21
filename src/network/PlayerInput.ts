@@ -15,7 +15,7 @@ export class PlayerInput {
    * SONDA DI DEBUG (solo con ?debug=1 / dev, la installa il GamepadManager): registra cosa il MINIGIOCO legge davvero da qui.
    * In produzione e' null: il costo per lettura e' un solo controllo.
    */
-  static probe: ((owner: string, kind: 'axis' | 'justPressed', control: string, value: unknown) => void) | null = null;
+  static probe: ((owner: string, kind: 'axis' | 'justPressed' | 'justReleased' | 'pressed', control: string, value: unknown) => void) | null = null;
 
   constructor(private readonly owner = '') {}
 
@@ -63,7 +63,9 @@ export class PlayerInput {
   }
 
   pressed(id: string): boolean {
-    return this.buttons.get(id)?.pressed ?? false;
+    const v = this.buttons.get(id)?.pressed ?? false;
+    if (PlayerInput.probe) PlayerInput.probe(this.owner, 'pressed', id, v);
+    return v;
   }
 
   justPressed(id: string): boolean {
@@ -82,7 +84,9 @@ export class PlayerInput {
   }
 
   justReleased(id: string): boolean {
-    return this.buttons.get(id)?.justReleased ?? false;
+    const v = this.buttons.get(id)?.justReleased ?? false;
+    if (v && PlayerInput.probe) PlayerInput.probe(this.owner, 'justReleased', id, true);
+    return v;
   }
 
   axis(id: string): { x: number; y: number } {

@@ -128,7 +128,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     compatibleModifiers: ['controlli_invertiti', 'gravita_bassa', 'punti_doppi'],
     sceneKey: 'dodgeball',
 
-    inputMode: 'GAMEPAD_OR_PHONE',
+    inputMode: 'GAMEPAD',
     // Controller dedicato: joystick + LANCIA + SCHIVA + ABILITÀ (renderDodgeballController()).
     controllerLayout: { type: 'custom', id: 'dodgeball-tv' }
   },

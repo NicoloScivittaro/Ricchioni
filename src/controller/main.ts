@@ -190,7 +190,13 @@ function syncPauseOverlay(s: RoomState | null): void {
   }
 }
 
+/** Chi gioca col controller tiene il telefono sul tavolo: le vibrazioni (anche quelle di inizio/fine gioco mandate dal server) vanno al controller. */
+function phoneIsOnTable(): boolean {
+  return !!(state && playerId && state.players.find((p) => p.id === playerId)?.pad);
+}
+
 socket.on(EVT.vibrate, (ms?: number) => {
+  if (phoneIsOnTable()) return;
   try {
     navigator.vibrate?.(typeof ms === 'number' && ms > 0 ? ms : 120);
   } catch {
@@ -217,6 +223,7 @@ interface SignalPayload {
 }
 
 function vibrate(pattern: number | number[]): void {
+  if (phoneIsOnTable()) return;
   try {
     navigator.vibrate?.(pattern);
   } catch {

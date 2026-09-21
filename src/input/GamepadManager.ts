@@ -13,6 +13,7 @@ import {
   type PadContext,
   type PadControl,
   type PadSettings,
+  padLabel,
   type PadView
 } from './padTypes';
 import { MINIGAME_DEFINITIONS } from '../../shared/minigames';
@@ -99,7 +100,7 @@ export class GamepadManager {
   loop = { polls: 0, lastAt: 0, errors: 0, lastError: '', ratePerSec: 0 };
   private rateWindow = { t: 0, n: 0 };
   /** Cosa il GIOCO legge davvero da ctx.input (sonda attiva solo in debug): ultimo asse e contatori degli eventi consumati. */
-  private reads = new Map<string, { axis: { x: number; y: number }; axisAt: number; axisReads: number; ev: Record<string, { n: number; at: number }> }>();
+  private reads = new Map<string, { axes: Record<string, { x: number; y: number; at: number; n: number }>; ev: Record<string, { n: number; at: number; last: boolean }> }>();
 
   // ------------------------------------------------------------------ ciclo di vita
 
@@ -685,29 +686,29 @@ export class GamepadManager {
 
   // ------------------------------------------------------------------ diagnostica F3
 
-  /** Sonda sulle LETTURE del gioco: ogni volta che un minigioco chiede un asse o consuma un tasto, qui resta traccia (solo debug). */
+  /** Sonda sulle LETTURE del gioco: ogni volta che un minigioco chiede un asse o un tasto, qui resta traccia (solo debug). */
   private installReadProbe(): void {
     PlayerInput.probe = (owner, kind, control, value) => {
       let r = this.reads.get(owner);
       if (!r) {
-        r = { axis: { x: 0, y: 0 }, axisAt: 0, axisReads: 0, ev: {} };
+        r = { axes: {}, ev: {} };
         this.reads.set(owner, r);
       }
       const now = performance.now();
       if (kind === 'axis') {
         const v = value as { x: number; y: number };
-        r.axis = { x: v.x, y: v.y };
-        r.axisAt = now;
-        r.axisReads++;
+        r.axes[control] = { x: v.x, y: v.y, at: now, n: (r.axes[control]?.n ?? 0) + 1 };
       } else {
-        const e = (r.ev[control] ??= { n: 0, at: 0 });
+        const k = `${control}:${kind}`;
+        const e = (r.ev[k] ??= { n: 0, at: 0, last: false });
         e.n++;
         e.at = now;
+        e.last = !!value;
       }
     };
   }
 
-  /** Righe per l'overlay F3: si capisce in 5 secondi dove si ferma un input (RAW -> PROFILO -> PLAYER -> GIOCO). */
+  /** Righe per l'overlay F3, per il PROFILO del gioco in corso: RAW -> PROFILO -> PLAYER -> GIOCO, con tutte le azioni del profilo. */
   debugLines(): string[] {
     const st = gm.state as unknown as RoomLike | null;
     const now = performance.now();
@@ -715,7 +716,7 @@ export class GamepadManager {
     const f = (n: number): string => (n >= 0 ? '+' : '') + n.toFixed(2);
     const ago = (t: number): string => (t ? `${Math.round(now - t)}ms fa` : 'mai');
     const out: string[] = [];
-    out.push(`GAMEPAD · contesto ${this.context} · gioco ${this.minigameId ?? '—'} · profilo ${profile ? profile.minigameId : 'NESSUNO'}`);
+    out.push(`GAMEPAD · contesto ${this.context} · gioco ${this.minigameId ?? '—'} · profilo ${profile ? profile.minigameId.toUpperCase() : 'NESSUNO'}`);
     out.push(
       `  pagina: focus ${document.hasFocus() ? 'SI' : 'NO ⚠'} · ${document.visibilityState} · esposti dal browser ${this.detected} · loop ${this.loop.ratePerSec}/s (ultimo ${ago(this.loop.lastAt)}) · errori loop ${this.loop.errors}${this.loop.lastError ? ' [' + this.loop.lastError + ']' : ''}`
     );
@@ -728,17 +729,46 @@ export class GamepadManager {
         out.push(`${tag}: ${sl?.state === 'awaiting' ? 'controller SCOLLEGATO (in attesa)' : 'nessun controller (telefono)'}`);
         return;
       }
-      const e = pad.edges;
-      const mapped = profile ? { x: pad.left.x, y: pad.left.y } : { x: 0, y: 0 };
+      const fam = padFamily(pad.id);
       out.push(`${tag}: device #${pad.index} ${padShortName(pad.id)} · connesso SI · mapping ${pad.standard ? 'standard' : 'NON standard ⚠'} · rumble ${pad.rumble ? 'si' : 'no'}`);
-      out.push(`  RAW      LX ${f(pad.rawL.x)} LY ${f(pad.rawL.y)} · A ${pad.raw.PRIMARY ? 1 : 0} B ${pad.raw.SECONDARY ? 1 : 0} X ${pad.raw.LEFT ? 1 : 0} Y ${pad.raw.TOP ? 1 : 0} · RT ${pad.rt.toFixed(2)}`);
-      out.push(`  PROFILO  moveX ${f(mapped.x)} moveY ${f(mapped.y)} · dash ${e.PRIMARY.down ? 1 : 0} ability ${e.SECONDARY.down ? 1 : 0}${pad.blocked.size ? ` · tasti bloccati fino al rilascio: ${[...pad.blocked].join(',')}` : ''}`);
+      const controls = profile?.controls ?? [];
       const pin = gm.input.has(pl.id) ? gm.input.get(pl.id) : null;
-      const ax = pin ? pin.peekAxis('move') : { x: 0, y: 0 };
-      out.push(`  PLAYER   ${pl.id.slice(0, 6)}… move ${f(ax.x)},${f(ax.y)} · dash ${pin?.peekPressed('dash') ? 1 : 0} ability ${pin?.peekPressed('ability') ? 1 : 0}`);
       const r = this.reads.get(pl.id);
+      const isStick = (b: string): boolean => b === 'LEFT_STICK' || b === 'RIGHT_STICK';
+      const stickOf = (b: string): { x: number; y: number } => (b === 'LEFT_STICK' ? pad.left : pad.right);
+      const phys = controls.filter((c) => !isStick(c.binding)).map((c) => {
+        const cc = c.binding as PadControl;
+        const v = cc === 'RT' ? pad.rt.toFixed(2) : cc === 'LT' ? pad.lt.toFixed(2) : pad.raw[cc] ? 1 : 0;
+        return `${padLabel(cc, fam)} ${v}`;
+      });
+      out.push(`  RAW      LX ${f(pad.rawL.x)} LY ${f(pad.rawL.y)} RX ${f(pad.rawR.x)} RY ${f(pad.rawR.y)}${phys.length ? ' · ' + phys.join(' ') : ''}`);
       out.push(
-        `  GIOCO    legge move ${r ? `${f(r.axis.x)},${f(r.axis.y)} (${r.axisReads} letture, ${ago(r.axisAt)})` : 'MAI (il gioco non sta leggendo)'} · dash consumato ${r?.ev.dash?.n ?? 0}x (${ago(r?.ev.dash?.at ?? 0)}) · ability ${r?.ev.ability?.n ?? 0}x`
+        `  PROFILO  ` +
+          (controls.length
+            ? controls.map((c) => (isStick(c.binding) ? `${c.control} ${f(stickOf(c.binding).x)},${f(stickOf(c.binding).y)}` : `${c.control} ${pad.edges[c.binding as PadControl].down ? 1 : 0}`)).join(' · ')
+            : '(nessun profilo: il gioco non usa il controller)') +
+          (pad.blocked.size ? ` · tasti bloccati fino al rilascio: ${[...pad.blocked].join(',')}` : '')
+      );
+      out.push(
+        `  PLAYER   ${pl.id.slice(0, 6)}… ` +
+          controls.map((c) => (isStick(c.binding) ? `${c.control} ${f(pin?.peekAxis(c.control).x ?? 0)},${f(pin?.peekAxis(c.control).y ?? 0)}` : `${c.control} ${pin?.peekPressed(c.control) ? 1 : 0}`)).join(' · ')
+      );
+      out.push(
+        `  GIOCO    ` +
+          (controls.length
+            ? controls
+                .map((c) => {
+                  if (isStick(c.binding)) {
+                    const a = r?.axes[c.control];
+                    return a ? `${c.control} ${f(a.x)},${f(a.y)} (${a.n} letture, ${ago(a.at)})` : `${c.control} MAI letto`;
+                  }
+                  const jp = r?.ev[`${c.control}:justPressed`];
+                  const jr = r?.ev[`${c.control}:justReleased`];
+                  const pr = r?.ev[`${c.control}:pressed`];
+                  return `${c.control} ${jp?.n ?? 0}x${jp ? ' (' + ago(jp.at) + ')' : ''}${jr ? ` rilasci ${jr.n}x` : ''}${pr ? ` tenuto ${pr.last ? 'SI' : 'no'}` : ''}`;
+                })
+                .join(' · ')
+            : '—')
       );
     });
     return out;

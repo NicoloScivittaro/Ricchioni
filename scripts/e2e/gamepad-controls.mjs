@@ -118,14 +118,26 @@ try {
   // durante la schermata: A tenuto sul pad 0, stick a destra sul pad 1, e si campiona lo stato del gioco
   await btn(page, 0, 'A', true);
   await stick(page, 1, 1, 0);
-  await sleep(600);
-  const s1 = await arenaState(page, pids[0]);
-  const ax1 = await axisOf(page, pids[1]);
-  const ctxNow = await page.evaluate(() => window.__pads.contextNow());
-  await sleep(1300);
-  const s2 = await arenaState(page, pids[0]);
+  await sleep(300);
+  // campioni presi MENTRE la schermata e' ancora su (le letture dal test sono lente in headless)
+  const smp = [];
+  let ax1 = { x: 0, y: 0 };
+  let ctxNow = null;
+  for (let k = 0; k < 14; k++) {
+    const q = await hostEval(page, (gm, id) => {
+      const g = gm.game.scene.getScene('arena')?.game3d;
+      return { c: g?.countdown, t: g?.gameTime, ov: !!document.getElementById('pad-controls') };
+    });
+    if (!q.ov) break;
+    smp.push(q);
+    if (k === 1) {
+      ax1 = await axisOf(page, pids[1]);
+      ctxNow = await page.evaluate(() => window.__pads.contextNow());
+    }
+    await sleep(150);
+  }
   check(ctxNow === 'CONTROLS', `contesto durante la schermata: ${ctxNow}`);
-  check(s1 && s2 && s1.countdown === s2.countdown && s2.gameTime === 0, `timer e countdown FERMI durante la schermata (countdown ${s1?.countdown?.toFixed(2)} → ${s2?.countdown?.toFixed(2)}, gameTime ${s2?.gameTime})`);
+  check(smp.length >= 3 && smp.every((x) => x.c === smp[0].c && x.t === 0), `timer e countdown FERMI durante la schermata (${smp.length} campioni, countdown ${smp[0]?.c?.toFixed(2)} → ${smp[smp.length - 1]?.c?.toFixed(2)})`);
   check(ax1.x === 0 && ax1.y === 0, `input di gameplay ignorato durante la schermata (stick a fondo → move ${ax1.x},${ax1.y})`);
   await until(async () => await page.evaluate(() => window.__cc.hiddenAt !== null), 8000, 'fine schermata CONTROLLI');
   const cc = await page.evaluate(() => window.__cc);
@@ -153,17 +165,17 @@ try {
   await page.keyboard.press('F3');
   await sleep(900);
   const f3 = await page.evaluate(() => [...document.querySelectorAll('div')].find((d) => d.style.zIndex === '2147483000' && d.style.display !== 'none')?.textContent ?? '');
-  check(/GAMEPAD · contesto MINIGAME · gioco arena · profilo arena/.test(f3), 'F3: contesto MINIGAME, gioco e profilo');
+  check(/GAMEPAD · contesto MINIGAME · gioco arena · profilo ARENA/.test(f3), 'F3: contesto MINIGAME, gioco e profilo');
   check(/focus SI/.test(f3) || /focus NO/.test(f3), `F3: focus/visibilita' della pagina (${(f3.match(/focus \w+ · \w+/) ?? [''])[0]})`);
   check(/loop \d+\/s/.test(f3), `F3: il ciclo di polling e' vivo (${(f3.match(/loop \d+\/s/) ?? [''])[0]})`);
   check(/RAW\s+LX \+0\.00 LY -0\.90/.test(f3), 'F3 RAW: valori grezzi dello stick (LY -0.90)');
-  check(/PROFILO\s+moveX \+0\.00 moveY -0\.8\d/.test(f3), 'F3 PROFILO: valore dopo la deadzone (moveY -0.8x)');
+  check(/PROFILO\s+move \+0\.00,-0\.8\d/.test(f3), 'F3 PROFILO: valore dopo la deadzone (moveY -0.8x)');
   check(/PLAYER\s+\w+… move \+0\.00,-0\.8\d/.test(f3), 'F3 PLAYER: cio\' che sta nel PlayerInput');
-  check(/GIOCO\s+legge move \+0\.00,-0\.8\d \(\d+ letture/.test(f3), 'F3 GIOCO: cio\' che Arena legge davvero (letture > 0)');
+  check(/GIOCO\s+move \+0\.00,-0\.8\d \(\d+ letture/.test(f3), 'F3 GIOCO: cio\' che Arena legge davvero (letture > 0)');
   await tap(page, 0, 'A', 450);
   await sleep(500);
   const f3b = await page.evaluate(() => [...document.querySelectorAll('div')].find((d) => d.style.zIndex === '2147483000' && d.style.display !== 'none')?.textContent ?? '');
-  check(/dash consumato [1-9]\d*x/.test(f3b), 'F3 GIOCO: il dash e\' stato consumato da Arena');
+  check(/GIOCO[^\n]*dash [1-9]\d*x/.test(f3b), 'F3 GIOCO: il dash e\' stato consumato da Arena');
   await page.keyboard.press('F3');
   await stick(page, 0, 0, 0);
 

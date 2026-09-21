@@ -87,7 +87,7 @@ try {
     await sleep(250);
   }
   check(sawControls, 'schermata CONTROLLI comparsa sul bundle di produzione');
-  check(/contesto MINIGAME · gioco arena · profilo arena/.test(ctxText), 'F3: contesto MINIGAME, profilo arena');
+  check(/contesto MINIGAME · gioco arena · profilo ARENA/.test(ctxText), 'F3: contesto MINIGAME, profilo arena');
   const phoneT = await phones[0].page.evaluate(() => document.getElementById('app')?.innerText.replace(/\s+/g, ' '));
   check(/USA IL CONTROLLER/.test(phoneT), `telefono: "${phoneT.slice(0, 60)}"`);
 
@@ -97,24 +97,24 @@ try {
   for (let i = 0; i < 60; i++) {
     await sleep(300);
     line = await f3();
-    if (/GIOCO\s+legge move \+0\.\d\d,-0\.\d\d \(\d+ letture/.test(line) && /PLAYER\s+\w+… move \+0\.\d\d,-0\.\d\d/.test(line)) break;
+    if (/GIOCO\s+move \+0\.\d\d,-0\.\d\d \(\d+ letture/.test(line) && /PLAYER\s+\w+… move \+0\.\d\d,-0\.\d\d/.test(line)) break;
   }
   const grab = (re) => (line.match(re) ?? ['(non trovato)'])[0];
   console.log('   ' + grab(/RAW\s+LX[^\n]*/));
-  console.log('   ' + grab(/PROFILO\s+moveX[^\n]*/));
+  console.log('   ' + grab(/PROFILO\s+move[^\n]*/));
   console.log('   ' + grab(/PLAYER\s+\w+…[^\n]*/));
-  console.log('   ' + grab(/GIOCO\s+legge[^\n]*/));
+  console.log('   ' + grab(/GIOCO\s+move[^\n]*/));
   check(/RAW\s+LX \+0\.30 LY -0\.90/.test(line), 'RAW: valori grezzi del controller nel bundle di produzione');
-  check(/PROFILO\s+moveX \+0\.\d\d moveY -0\.\d\d/.test(line), 'PROFILO: dopo deadzone');
+  check(/PROFILO\s+move \+0\.\d\d,-0\.\d\d/.test(line), 'PROFILO: dopo deadzone');
   check(/PLAYER\s+\w+… move \+0\.\d\d,-0\.\d\d/.test(line), 'PLAYER: nel PlayerInput');
-  check(/GIOCO\s+legge move \+0\.\d\d,-0\.\d\d \(\d+ letture/.test(line), 'GIOCO: Arena legge quei valori');
+  check(/GIOCO\s+move \+0\.\d\d,-0\.\d\d \(\d+ letture/.test(line), 'GIOCO: Arena legge quei valori');
   await stick(0, 0, 0);
   // il dash: aspetta che il gioco sia in corso (il countdown ignora i tasti)
   let dashOk = false;
   for (let i = 0; i < 20 && !dashOk; i++) {
     await tap(0, 'A', 450);
     await sleep(500);
-    dashOk = /dash consumato [1-9]\d*x/.test(await f3());
+    dashOk = /GIOCO[^\n]*dash [1-9]\d*x/.test(await f3());
   }
   check(dashOk, 'A/✕ = dash consumato dal gioco nel bundle di produzione');
   check(errs.length === 0, `nessun errore di pagina ${errs.length ? JSON.stringify(errs.slice(0, 2)) : ''}`);

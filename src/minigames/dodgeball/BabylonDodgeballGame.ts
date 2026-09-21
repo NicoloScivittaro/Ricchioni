@@ -101,6 +101,8 @@ export class BabylonDodgeballGame {
   private hitStop = 0;
 
   private phase: Phase = 'countdown';
+  /** false finche' la schermata CONTROLLI e' visibile. */
+  private controlsDone = false;
   private countdown = COUNTDOWN_S;
   private lastCountInt = 4;
   private gameTime = 0;
@@ -213,6 +215,10 @@ export class BabylonDodgeballGame {
     this.hud.setAlive(n);
     this.hud.setCountdown('3');
 
+    // Schermata CONTROLLI: finche' e' su, countdown/fisica/timer restano fermi (vedi step()); alla fine gli input sono azzerati.
+    if (ctx.showControls) void ctx.showControls().then(() => (this.controlsDone = true));
+    else this.controlsDone = true;
+
     applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
@@ -235,6 +241,7 @@ export class BabylonDodgeballGame {
     let held = false; // hitstop in corso: gli edge degli input (justPressed) restano per il prossimo passo di simulazione
 
     if (this.phase === 'countdown') {
+      if (!this.controlsDone) dt = 0; // schermata CONTROLLI in corso: il countdown non parte
       this.countdown -= dt;
       const n = Math.ceil(this.countdown);
       if (n < this.lastCountInt && n > 0) {
@@ -833,6 +840,7 @@ export class BabylonDodgeballGame {
     }
     audio.thump(1.3);
     audio.wrong();
+    this.ctx.vibrate(p.id, 110); // chi viene eliminato lo sente (controller o telefono): solo feedback, nessun effetto sul gioco
     this.entities.get(p.id)?.burstHit();
     this.shocks.spawn(p.x, p.z, p.color);
     this.camera.shake(0.42, 260);

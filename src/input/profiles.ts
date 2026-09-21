@@ -54,6 +54,14 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI' },
     { action: 'DASH', binding: 'PRIMARY', control: 'dash', label: 'DASH / SPINTA' },
     { action: 'ABILITY', binding: 'SECONDARY', control: 'ability', label: 'ABILITÀ' }
+  ]),
+  // Il lancio del Dodgeball e' ISTANTANEO (justPressed('throw'), come il tocco sul telefono) e la presa della palla e' automatica:
+  // RT e' quindi un tasto (pressed/tenuto/rilasciato), non una carica analogica. Introdurre una carica cambierebbe il bilanciamento.
+  dodgeball: defineProfile('dodgeball', [
+    { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI' },
+    { action: 'THROW', binding: 'RT', control: 'throw', label: 'LANCIA' },
+    { action: 'DODGE', binding: 'PRIMARY', control: 'dodge', label: 'SCHIVA' },
+    { action: 'ABILITY', binding: 'SECONDARY', control: 'ability', label: 'ABILITÀ' }
   ])
 };
 
