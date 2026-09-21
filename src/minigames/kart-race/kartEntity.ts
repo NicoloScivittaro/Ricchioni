@@ -18,7 +18,18 @@ import {
 import type { KartState } from './raceTypes';
 import type { TrackSpline } from './track';
 import { audio, EngineSound } from '../../core/AudioManager';
-import { MAX_SPEED } from './kartPhysics';
+import { MAX_SPEED, DRIFT_THRESHOLDS } from './kartPhysics';
+
+/** Colore del mini-turbo per livello (0 = nessuno): stesso codice colore di scintille, fanali e barra della HUD. */
+export const DRIFT_LEVEL_COLORS: [number, number, number][] = [
+  [0.9, 0.9, 0.75],
+  [0.38, 0.65, 1],
+  [1, 0.58, 0.15],
+  [0.78, 0.4, 1]
+];
+export function driftLevelOf(driftCharge: number): number {
+  return driftCharge >= DRIFT_THRESHOLDS[2] ? 3 : driftCharge >= DRIFT_THRESHOLDS[1] ? 2 : driftCharge >= DRIFT_THRESHOLDS[0] ? 1 : 0;
+}
 
 let dotTexture: Texture | null = null;
 function getDotTexture(scene: Scene): Texture {
@@ -65,6 +76,11 @@ export class KartEntity {
   private readonly driftSmoke: ParticleSystem;
   private readonly boostFx: ParticleSystem;
   private readonly dustFx: ParticleSystem;
+  private readonly sparkL: ParticleSystem;
+  private readonly sparkR: ParticleSystem;
+  private readonly tailMat: StandardMaterial;
+  private slide = 0;
+  private lastLevel = -1;
   private readonly frontPivots: TransformNode[];
   private readonly wheels: Mesh[];
   private readonly engine: EngineSound;
@@ -175,6 +191,53 @@ export class KartEntity {
     this.driftSmoke = this.makeParticles(scene, fxAnchor, new Color4(0.75, 0.75, 0.78, 0.55), 0.18, 45);
     this.boostFx = this.makeParticles(scene, fxAnchor, new Color4(1, 0.55, 0.15, 0.85), 0.14, 60);
     this.dustFx = this.makeParticles(scene, fxAnchor, new Color4(0.78, 0.68, 0.42, 0.5), 0.16, 35);
+
+    // Scintille dalle ruote posteriori: cambiano colore col livello del mini-turbo (blu, arancio, viola)
+    const sparkAnchor = (x: number): Mesh => {
+      const a = MeshBuilder.CreateBox('sparkAnchor', { size: 0.04 }, scene);
+      a.isVisible = false;
+      a.position = new Vector3(x, 0.2, -0.95);
+      a.parent = this.root;
+      return a;
+    };
+    const mkSpark = (anchor: Mesh): ParticleSystem => {
+      const ps = new ParticleSystem('kartSpark', 40, scene);
+      ps.particleTexture = getDotTexture(scene);
+      ps.emitter = anchor;
+      ps.minEmitBox = new Vector3(-0.05, 0, -0.05);
+      ps.maxEmitBox = new Vector3(0.05, 0.05, 0.05);
+      ps.color1 = new Color4(0.9, 0.9, 0.75, 1);
+      ps.color2 = new Color4(0.9, 0.9, 0.75, 1);
+      ps.colorDead = new Color4(0.9, 0.9, 0.75, 0);
+      ps.minSize = 0.06;
+      ps.maxSize = 0.14;
+      ps.minLifeTime = 0.12;
+      ps.maxLifeTime = 0.28;
+      ps.emitRate = 0;
+      ps.direction1 = new Vector3(-0.6, 0.5, -1);
+      ps.direction2 = new Vector3(0.6, 1.1, -1.8);
+      ps.minEmitPower = 2.2;
+      ps.maxEmitPower = 4.2;
+      ps.gravity = new Vector3(0, -7, 0);
+      ps.blendMode = ParticleSystem.BLENDMODE_ONEONE; // luminose: si leggono anche di giorno
+      ps.start();
+      return ps;
+    };
+    const halfRear = shape.bodyW / 2 - 0.02;
+    this.sparkL = mkSpark(sparkAnchor(-halfRear));
+    this.sparkR = mkSpark(sparkAnchor(halfRear));
+
+    // Fanali posteriori: si accendono del colore del livello di mini-turbo (segnale visivo anche per gli avversari)
+    this.tailMat = new StandardMaterial('tailMat', scene);
+    this.tailMat.diffuseColor = new Color3(0.2, 0.02, 0.02);
+    this.tailMat.emissiveColor = new Color3(0.35, 0.02, 0.02);
+    this.tailMat.disableLighting = true;
+    for (const x of [-shape.bodyW * 0.32, shape.bodyW * 0.32]) {
+      const lamp = MeshBuilder.CreateSphere('tailLamp', { diameter: 0.2, segments: 6 }, scene);
+      lamp.position = new Vector3(x, 0.52, -shape.bodyD / 2 - 0.02);
+      lamp.material = this.tailMat;
+      lamp.parent = this.root;
+    }
 
     this.engine = audio.createEngine();
     this.engine.start();
@@ -293,7 +356,7 @@ export class KartEntity {
   }
 
   /** Sincronizza mesh + effetti con lo stato fisico del kart. */
-  updateVisual(state: KartState, spline: TrackSpline): void {
+  updateVisual(state: KartState, spline: TrackSpline, throttle = 0): void {
     const pos = spline.worldPoint(state.distance, state.lateral, 0.05);
     const speedFrac = Math.min(1, Math.abs(state.speed) / MAX_SPEED);
     const bob = Math.sin(performance.now() * 0.018 + this.bobSeed) * 0.01 * (0.3 + speedFrac);
@@ -312,6 +375,9 @@ export class KartEntity {
     Matrix.FromXYZAxesToRef(newRight, up, forward, m);
     this.root.rotationQuaternion = Quaternion.FromRotationMatrix(m);
 
+    // Derapata: il kart si inclina e il MUSO punta dentro la curva (scivola di traverso), con morbidezza in entrata/uscita
+    this.slide += ((state.drifting ? 1 : 0) - this.slide) * 0.22;
+    if (this.slide > 0.01) this.root.rotate(Axis.Y, state.driftDir * 0.24 * this.slide, Space.LOCAL);
     const roll = state.drifting ? -state.driftDir * 0.16 : 0;
     if (roll !== 0) this.root.rotate(Axis.Z, roll, Space.LOCAL);
 
@@ -323,14 +389,37 @@ export class KartEntity {
     // Tutte le ruote rotolano in base alla velocità percorsa.
     for (const w of this.wheels) w.rotation.x = state.wheelSpin;
 
-    this.driftSmoke.emitRate = state.drifting && state.driftCharge > 0.15 ? 40 : 0;
+    const level = state.drifting ? driftLevelOf(state.driftCharge) : 0;
+    this.driftSmoke.emitRate = state.drifting && state.driftCharge > 0.15 ? 26 : 0;
+    // scintille: sempre visibili in derapata, piu' fitte e colorate man mano che sale il livello
+    const sparkRate = state.drifting && Math.abs(state.speed) > 10 ? 34 + level * 46 : 0;
+    this.sparkL.emitRate = this.sparkR.emitRate = sparkRate;
+    if (level !== this.lastLevel) {
+      this.lastLevel = level;
+      const c = DRIFT_LEVEL_COLORS[level];
+      for (const ps of [this.sparkL, this.sparkR]) {
+        ps.color1.set(c[0], c[1], c[2], 1);
+        ps.color2.set(c[0], c[1], c[2], 1);
+        ps.colorDead.set(c[0], c[1], c[2], 0);
+      }
+      const lamp = level > 0 ? DRIFT_LEVEL_COLORS[level] : [0.35, 0.02, 0.02];
+      this.tailMat.emissiveColor.set(lamp[0], lamp[1], lamp[2]);
+    }
     this.boostFx.emitRate = state.boostTimer > 0 ? 70 : 0;
     this.dustFx.emitRate = state.offRoad && Math.abs(state.speed) > 8 ? 30 : 0;
 
-    this.engine.update(speedFrac, state.boostTimer > 0);
+    this.engine.update(speedFrac, state.boostTimer > 0, throttle, state.drifting ? Math.min(1, 0.45 + state.driftCharge * 0.5) : 0);
+  }
+
+  /** Partenza di un boost: raffica di particelle dallo scarico e colpo di giri del motore. */
+  burstBoost(): void {
+    this.boostFx.manualEmitCount = 46;
+    this.engine.boostKick();
   }
 
   dispose(): void {
+    this.sparkL.dispose();
+    this.sparkR.dispose();
     this.driftSmoke.dispose();
     this.boostFx.dispose();
     this.dustFx.dispose();

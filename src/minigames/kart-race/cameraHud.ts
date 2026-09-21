@@ -1,11 +1,12 @@
 import { Scene, UniversalCamera, Vector3, Engine, Viewport } from '@babylonjs/core';
-import { AdvancedDynamicTexture, TextBlock, Rectangle, Control } from '@babylonjs/gui';
+import { AdvancedDynamicTexture, TextBlock, Rectangle, Control, Ellipse, Image as GuiImage } from '@babylonjs/gui';
 import type { PlayerId } from '../../../shared/types';
 import { popCountdown } from '../../core/countdownFx';
 import type { KartState } from './raceTypes';
 import type { TrackSpline } from './track';
 import { itemLabel } from './items';
-import { MAX_SPEED } from './kartPhysics';
+import { MAX_SPEED, DRIFT_THRESHOLDS } from './kartPhysics';
+import { DRIFT_LEVEL_COLORS, driftLevelOf } from './kartEntity';
 
 export interface ViewportRect {
   x: number;
@@ -60,6 +61,7 @@ interface CamRig {
   smoothPos: Vector3;
   smoothLook: Vector3;
   smoothFov: number;
+  fovKick: number; // 1 -> 0 dopo la partenza di un boost
   shakeTimer: number;
   prevStunned: boolean;
 }
@@ -77,10 +79,16 @@ export class CameraManager {
       camera.fov = CAM_BASE_FOV;
       camera.minZ = 0.3;
       camera.maxZ = 1200;
-      rig = { camera, smoothPos: startPos.clone(), smoothLook: startPos.clone(), smoothFov: CAM_BASE_FOV, shakeTimer: 0, prevStunned: false };
+      rig = { camera, smoothPos: startPos.clone(), smoothLook: startPos.clone(), smoothFov: CAM_BASE_FOV, fovKick: 0, shakeTimer: 0, prevStunned: false };
       this.rigs.set(playerId, rig);
     }
     return rig.camera;
+  }
+
+  /** Boost appena partito: il campo visivo si apre e la camera si allontana un attimo (sensazione di spinta). */
+  kick(playerId: PlayerId): void {
+    const rig = this.rigs.get(playerId);
+    if (rig) rig.fovKick = 1;
   }
 
   applyLayout(order: PlayerId[]): void {
@@ -109,7 +117,8 @@ export class CameraManager {
     const speedFrac = Math.max(0, Math.min(1, state.speed / MAX_SPEED));
     const boosting = state.boostTimer > 0;
 
-    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1)).add(new Vector3(0, CAM_UP, 0));
+    rig.fovKick = Math.max(0, rig.fovKick - dt * 2.2);
+    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1 + rig.fovKick * 0.9)).add(new Vector3(0, CAM_UP, 0));
     const anticipate = right.scale(state.heading * 2.2);
     const desiredLook = kartPos.add(forward.scale(CAM_LOOK_AHEAD)).add(anticipate).add(new Vector3(0, 0.8, 0));
 
@@ -135,7 +144,7 @@ export class CameraManager {
 
     rig.camera.position.copyFrom(rig.smoothPos.add(shakeOffset));
     rig.camera.setTarget(rig.smoothLook);
-    rig.camera.fov = rig.smoothFov;
+    rig.camera.fov = rig.smoothFov + rig.fovKick * 0.2;
   }
 
   dispose(): void {
@@ -159,15 +168,144 @@ interface HudEntry {
   debtText: TextBlock;
   flashText: TextBlock;
   flashTimer: number;
+  mapBox: Rectangle | null;
+  dots: Map<PlayerId, { dot: Ellipse; arrow: TextBlock | null }>;
 }
+
+const MM = 118; // lato della minimappa (unita' ideali)
+const cssOf = (c: [number, number, number]): string => `rgb(${Math.round(c[0] * 255)},${Math.round(c[1] * 255)},${Math.round(c[2] * 255)})`;
 
 const IDEAL_HEIGHT = 720;
 
 /** HUD essenziale: un AdvancedDynamicTexture PER GIOCATORE, disegnato solo nel viewport della sua camera. */
 export class KartHud {
   private entries = new Map<PlayerId, HudEntry>();
+  private mapUrl: string | null = null;
+  private mapView = { minX: 0, maxZ: 0, scale: 1, offX: 0, offY: 0 };
 
   constructor(private scene: Scene, private engine: Engine) {}
+
+  /**
+   * Disegna UNA volta la minimappa (nord in alto): pista, traguardo (barra rossa) e checkpoint (punti azzurri).
+   * Va chiamato prima di ensure(): ogni viewport ne riceve una copia con i kart che si muovono.
+   */
+  setTrack(spline: TrackSpline, checkpoints: number[]): void {
+    const N = 260;
+    const pts: { x: number; z: number }[] = [];
+    let minX = Infinity;
+    let maxX = -Infinity;
+    let minZ = Infinity;
+    let maxZ = -Infinity;
+    for (let i = 0; i < N; i++) {
+      const p = spline.positionAt((i / N) * spline.totalLength);
+      pts.push({ x: p.x, z: p.z });
+      minX = Math.min(minX, p.x);
+      maxX = Math.max(maxX, p.x);
+      minZ = Math.min(minZ, p.z);
+      maxZ = Math.max(maxZ, p.z);
+    }
+    const size = 256;
+    const pad = 26;
+    const span = Math.max(maxX - minX, maxZ - minZ);
+    const scale = (size - pad * 2) / span;
+    const offX = pad + ((span - (maxX - minX)) / 2) * scale;
+    const offY = pad + ((span - (maxZ - minZ)) / 2) * scale;
+    this.mapView = { minX, maxZ, scale, offX, offY };
+    const u = (x: number): number => offX + (x - minX) * scale;
+    const v = (z: number): number => offY + (maxZ - z) * scale;
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = size;
+    const c = canvas.getContext('2d');
+    if (!c) return;
+    c.lineCap = 'round';
+    c.lineJoin = 'round';
+    const road = (): void => {
+      c.beginPath();
+      pts.forEach((p, i) => (i === 0 ? c.moveTo(u(p.x), v(p.z)) : c.lineTo(u(p.x), v(p.z))));
+      c.closePath();
+    };
+    road();
+    c.strokeStyle = '#05070d';
+    c.lineWidth = 17;
+    c.stroke();
+    road();
+    c.strokeStyle = '#cbd5e1';
+    c.lineWidth = 11;
+    c.stroke();
+    for (let i = 1; i < checkpoints.length; i++) {
+      const p = spline.positionAt(checkpoints[i]);
+      c.fillStyle = '#22d3ee';
+      c.beginPath();
+      c.arc(u(p.x), v(p.z), 4, 0, Math.PI * 2);
+      c.fill();
+    }
+    // traguardo: barra rossa attraversa la pista
+    const p0 = spline.positionAt(0);
+    const r0 = spline.rightAt(0);
+    c.strokeStyle = '#ef4444';
+    c.lineWidth = 6;
+    c.beginPath();
+    c.moveTo(u(p0.x - r0.x * 11), v(p0.z - r0.z * 11));
+    c.lineTo(u(p0.x + r0.x * 11), v(p0.z + r0.z * 11));
+    c.stroke();
+    this.mapUrl = canvas.toDataURL();
+  }
+
+  /** Aggiorna i puntini dei kart su ogni minimappa (una volta per frame). Il proprio e' piu' grande e ha la freccia di direzione. */
+  updateMinimap(karts: KartState[], spline: TrackSpline): void {
+    if (!this.mapUrl) return;
+    const { minX, maxZ, scale, offX, offY } = this.mapView;
+    const pos = karts.map((k) => {
+      const p = spline.worldPoint(k.distance, k.lateral);
+      const t = spline.tangentAt(k.distance);
+      const r = spline.rightAt(k.distance);
+      const ch = Math.cos(k.heading);
+      const sh = Math.sin(k.heading);
+      const fx = t.x * ch + r.x * sh;
+      const fz = t.z * ch + r.z * sh;
+      const cx = ((offX + (p.x - minX) * scale) / 256 - 0.5) * MM;
+      const cy = ((offY + (maxZ - p.z) * scale) / 256 - 0.5) * MM;
+      return { id: k.playerId, color: k.colorHex, cx, cy, fx, fz };
+    });
+    for (const [viewer, e] of this.entries) {
+      if (!e.mapBox) continue;
+      for (const q of pos) {
+        let d = e.dots.get(q.id);
+        const self = q.id === viewer;
+        if (!d) {
+          const dot = new Ellipse(`mmDot_${viewer}_${q.id}`);
+          dot.width = dot.height = `${self ? 13 : 9}px`;
+          dot.background = q.color;
+          dot.color = self ? '#ffffff' : '#0b0b14';
+          dot.thickness = self ? 2.5 : 1.5;
+          e.mapBox.addControl(dot);
+          let arrow: TextBlock | null = null;
+          if (self) {
+            arrow = new TextBlock(`mmArrow_${viewer}`, '▲');
+            arrow.color = '#ffffff';
+            arrow.fontSize = 13;
+            arrow.outlineWidth = 2;
+            arrow.outlineColor = '#000000';
+            e.mapBox.addControl(arrow);
+          }
+          d = { dot, arrow };
+          e.dots.set(q.id, d);
+        }
+        d.dot.left = `${q.cx}px`;
+        d.dot.top = `${q.cy}px`;
+        if (d.arrow) {
+          d.arrow.left = `${q.cx + q.fx * 11}px`;
+          d.arrow.top = `${q.cy - q.fz * 11}px`;
+          d.arrow.rotation = Math.atan2(q.fx, q.fz);
+        }
+        // il proprio puntino resta in primo piano
+        if (self && d.dot.zIndex !== 5) {
+          d.dot.zIndex = 5;
+          if (d.arrow) d.arrow.zIndex = 6;
+        }
+      }
+    }
+  }
 
   /** Countdown 3-2-1-VIA nel viewport di ogni giocatore (il lampo a schermo intero parte una volta sola). */
   setCountdown(text: string): void {
@@ -247,6 +385,17 @@ export class KartHud {
     driftFill.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
     driftFill.left = '1px';
     driftBar.addControl(driftFill);
+    // tacche ai livelli 1 e 2 del mini-turbo (il livello 3 e' la fine della barra)
+    for (const th of [DRIFT_THRESHOLDS[0], DRIFT_THRESHOLDS[1]]) {
+      const tick = new Rectangle();
+      tick.width = '2px';
+      tick.height = '8px';
+      tick.thickness = 0;
+      tick.background = 'rgba(255,255,255,0.85)';
+      tick.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+      tick.left = `${Math.round((th / DRIFT_THRESHOLDS[2]) * 118)}px`;
+      driftBar.addControl(tick);
+    }
 
     const abilityLabel = new TextBlock('abilityLabel', '');
     abilityLabel.color = '#c4b5fd';
@@ -295,7 +444,26 @@ export class KartHud {
     flashText.textWrapping = true;
     adt.addControl(flashText);
 
-    e = { adt, countdownText, panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, debtText, flashText, flashTimer: 0 };
+    let mapBox: Rectangle | null = null;
+    if (this.mapUrl) {
+      mapBox = new Rectangle(`mm_${playerId}`);
+      mapBox.width = `${MM}px`;
+      mapBox.height = `${MM}px`;
+      mapBox.thickness = 2;
+      mapBox.color = 'rgba(255,255,255,0.4)';
+      mapBox.background = 'rgba(8,10,18,0.55)';
+      mapBox.cornerRadius = 10;
+      mapBox.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
+      mapBox.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+      mapBox.left = '-10px';
+      mapBox.top = '10px';
+      adt.addControl(mapBox);
+      const img = new GuiImage(`mmImg_${playerId}`, this.mapUrl);
+      img.width = '100%';
+      img.height = '100%';
+      mapBox.addControl(img);
+    }
+    e = { mapBox, dots: new Map(), adt, countdownText, panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, debtText, flashText, flashTimer: 0 };
     this.entries.set(playerId, e);
     return e;
   }
@@ -347,7 +515,7 @@ export class KartHud {
     const maxCharge = driftT[2];
     const frac = state.drifting ? Math.min(1, state.driftCharge / maxCharge) : 0;
     e.driftFill.width = `${Math.round(frac * 118)}px`;
-    e.driftFill.background = state.driftCharge >= driftT[2] ? '#f97316' : state.driftCharge >= driftT[1] ? '#facc15' : '#4ade80';
+    e.driftFill.background = cssOf(driftLevelOf(state.driftCharge) === 0 ? [0.3, 0.87, 0.5] : DRIFT_LEVEL_COLORS[driftLevelOf(state.driftCharge)]);
     e.driftBar.isVisible = state.drifting;
 
     const hasMeter = state.characterId === 'goblin' || state.characterId === 'dottore' || state.characterId === 'judoka';

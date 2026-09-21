@@ -232,47 +232,43 @@ function buildRibbon(scene: Scene, spline: TrackSpline, parent: TransformNode): 
   const curbWhite = [0.92, 0.92, 0.9];
   const laneYellow = [0.95, 0.78, 0.15];
 
+  // Sei vertici per fetta: [bordo sx | fine cordolo sx] [inizio asfalto sx | inizio asfalto dx] [fine cordolo dx | bordo dx].
+  // I vertici a cavallo tra cordolo e asfalto sono doppi, cosi' i colori restano netti (prima il cordolo copriva tutta la strada).
+  const VERTS = 6;
   for (let i = 0; i <= slices; i++) {
     const idx = i % slices;
     const s = (idx / slices) * spline.totalLength;
     const pos = spline.positionAt(s);
     const right = spline.rightAt(s);
     const half = spline.widthAt(s) / 2;
-    const left = pos.add(right.scale(-half));
-    const rightP = pos.add(right.scale(half));
-    positions.push(left.x, left.y, left.z, rightP.x, rightP.y, rightP.z);
+    const cw = Math.min(1.1, half * 0.22); // larghezza del cordolo
+    const pl = pos.add(right.scale(-half));
+    const pli = pos.add(right.scale(-half + cw));
+    const pri = pos.add(right.scale(half - cw));
+    const pr = pos.add(right.scale(half));
+    positions.push(pl.x, pl.y, pl.z, pli.x, pli.y, pli.z, pli.x, pli.y, pli.z, pri.x, pri.y, pri.z, pri.x, pri.y, pri.z, pr.x, pr.y, pr.z);
 
-    // Asfalto a bande leggere verso il centro + un po' di rumore (segni di
-    // gomme/usura) così non è una superficie perfettamente piatta.
+    // Asfalto a bande leggere + un po' di rumore (segni di gomme/usura); cordoli alternati rosso/bianco.
     const stripe = Math.floor(idx / 6) % 2 === 0 ? asphaltA : asphaltB;
     const noise = Math.abs(Math.sin(idx * 12.9898) * 43758.5453) % 1;
     const noise2 = Math.abs(Math.sin(idx * 78.233) * 12543.61) % 1;
     const wearL = 1 + (noise - 0.5) * 0.16;
     const wearR = 1 + (noise2 - 0.5) * 0.16;
-    colors.push(stripe[0] * wearL, stripe[1] * wearL, stripe[2] * wearL, 1, stripe[0] * wearR, stripe[1] * wearR, stripe[2] * wearR, 1);
-  }
-
-  // Sovrascrive un piccolo margine ai bordi con il colore del cordolo.
-  for (let i = 0; i <= slices; i++) {
-    const idx = i % slices;
-    const curbOn = Math.floor(idx / 5) % 2 === 0;
-    const edgeColor = curbOn ? curbRed : curbWhite;
-    const baseL = i * 8;
-    const baseR = baseL + 4;
-    colors[baseL] = edgeColor[0];
-    colors[baseL + 1] = edgeColor[1];
-    colors[baseL + 2] = edgeColor[2];
-    colors[baseR] = edgeColor[0];
-    colors[baseR + 1] = edgeColor[1];
-    colors[baseR + 2] = edgeColor[2];
+    const curb = Math.floor(idx / 5) % 2 === 0 ? curbRed : curbWhite;
+    const c4 = (c: number[], k = 1): number[] => [c[0] * k, c[1] * k, c[2] * k, 1];
+    colors.push(
+      ...c4(curb), ...c4(curb), // cordolo sinistro
+      ...c4(stripe, wearL), ...c4(stripe, wearR), // asfalto
+      ...c4(curb), ...c4(curb) // cordolo destro
+    );
   }
 
   for (let i = 0; i < slices; i++) {
-    const a = i * 2;
-    const b = i * 2 + 1;
-    const c = (i + 1) * 2;
-    const d = (i + 1) * 2 + 1;
-    indices.push(a, c, b, b, c, d);
+    const base = i * VERTS;
+    const next = (i + 1) * VERTS;
+    for (const [l, r] of [[0, 1], [2, 3], [4, 5]] as const) {
+      indices.push(base + l, next + l, base + r, base + r, next + l, next + r);
+    }
   }
 
   const mesh = new Mesh('road', scene);
@@ -288,6 +284,8 @@ function buildRibbon(scene: Scene, spline: TrackSpline, parent: TransformNode): 
   const mat = new StandardMaterial('roadMat', scene);
   mat.specularColor = new Color3(0.05, 0.05, 0.06);
   mat.backFaceCulling = false;
+  // le normali calcolate dal winding puntano verso il basso: senza questo la strada veniva illuminata come se fosse capovolta (nera)
+  mat.twoSidedLighting = true;
   mesh.material = mat;
 
   // Striscia centrale tratteggiata gialla, leggermente sollevata per evitare z-fighting.

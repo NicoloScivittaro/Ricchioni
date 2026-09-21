@@ -19,7 +19,7 @@ import { audio } from '../../core/AudioManager';
 import { buildTrack, buildTrackVisuals, buildCheckpoints, buildItemBoxes, LAPS, TrackSpline } from './track';
 import { createKartState } from './raceTypes';
 import type { KartState } from './raceTypes';
-import { KartEntity } from './kartEntity';
+import { KartEntity, driftLevelOf, DRIFT_LEVEL_COLORS } from './kartEntity';
 import { stepKartPhysics, DRIFT_THRESHOLDS } from './kartPhysics';
 import type { KartInputSnapshot } from './kartPhysics';
 import { ItemManager, itemLabel, itemDescription } from './items';
@@ -31,6 +31,7 @@ import type { AbilityFeedback } from './abilities';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
+import { buildTrackGuides } from './trackGuides';
 
 const KART_S_RADIUS = 2.6;
 const KART_LAT_RADIUS = 1.7;
@@ -51,6 +52,7 @@ export class BabylonKartGame {
   private order: PlayerId[];
   private firstFinishPlayed = false;
   private resultsSent = false;
+  private fxState = new Map<PlayerId, { level: number; boost: number }>();
   private disposed = false;
   private paused = false;
   private onResize = (): void => this.engine.resize();
@@ -83,6 +85,7 @@ export class BabylonKartGame {
 
     this.spline = buildTrack();
     buildTrackVisuals(this.scene, this.spline);
+    buildTrackGuides(this.scene, this.spline); // cartelli e frecce prima delle curve, portali dei checkpoint
     this.checkpoints = buildCheckpoints(this.spline);
     const boxPlacements = buildItemBoxes(this.spline);
 
@@ -92,6 +95,7 @@ export class BabylonKartGame {
     );
     this.cameraManager = new CameraManager(this.scene);
     this.hud = new KartHud(this.scene, this.engine);
+    this.hud.setTrack(this.spline, this.checkpoints); // minimappa (prima di ensure(): ogni viewport ne riceve una)
     this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), this.trackAngleAt, (ev) => this.onRaceEvent(ev));
 
     this.order = [...ctx.playerIds];
@@ -185,8 +189,7 @@ export class BabylonKartGame {
         this.abilities.update(dt, state, kartsList, wallCrashed, respawnTriggered, this.trackAngleAt, (f) => this.onAbilityFeedback(pid, f));
 
         if (wasDrifting && !state.drifting && wasCharge >= DRIFT_THRESHOLDS[0]) {
-          audio.boost();
-          this.ctx.vibrate(pid, 65);
+          // suono, vibrazione, FOV e particelle del boost partono da trackFeedback() (vale anche per item e partenza lanciata)
           if (wasCharge >= DRIFT_THRESHOLDS[1]) this.abilities.addMeter(state, 0.22);
         }
         if (!wasStunned && state.stunTimer > 0) {
@@ -215,10 +218,13 @@ export class BabylonKartGame {
     }
 
     for (const [pid, state] of this.karts) {
-      this.entities.get(pid)?.updateVisual(state, this.spline);
+      const throttle = this.race.phase === 'racing' && this.ctx.input.get(pid).pressed('up') ? 1 : 0;
+      this.entities.get(pid)?.updateVisual(state, this.spline, throttle);
+      this.trackFeedback(pid, state);
       this.cameraManager.update(dt, pid, state, this.spline);
       this.hud.update(pid, state, this.karts.size, LAPS, DRIFT_THRESHOLDS, dt);
     }
+    this.hud.updateMinimap([...this.karts.values()], this.spline);
     this.hud.layout(this.order);
 
     if (this.race.phase === 'ended' && !this.resultsSent) {
@@ -230,6 +236,33 @@ export class BabylonKartGame {
     // render loop (Babylon), non quello di Phaser, quindi non possiamo fare
     // affidamento sull'update() della Scene Phaser per il timing corretto.
     this.ctx.input.update();
+  }
+
+  /**
+   * Feedback di guida generico (fronti di salita): il giocatore deve CAPIRE quando sta facendo un buon drift.
+   *  - ogni livello di mini-turbo raggiunto: blip che sale di tono, vibrazione breve, scritta colorata (stesso colore di
+   *    scintille, fanali e barra); scintille e fanali cambiano da soli in KartEntity
+   *  - partenza di un boost (drift rilasciato, item, partenza lanciata): FOV, particelle, whoosh, colpo di giri, vibrazione
+   */
+  private trackFeedback(pid: PlayerId, state: KartState): void {
+    const fx = this.fxState.get(pid) ?? { level: 0, boost: 0 };
+    this.fxState.set(pid, fx);
+    const level = state.drifting ? driftLevelOf(state.driftCharge) : 0;
+    if (level > fx.level) {
+      const c = DRIFT_LEVEL_COLORS[level];
+      const hex = '#' + c.map((v) => Math.round(v * 255).toString(16).padStart(2, '0')).join('');
+      audio.driftLevel(level);
+      this.ctx.vibrate(pid, 16 + level * 6);
+      this.hud.flash(pid, level === 3 ? '⚡⚡⚡ MAX!' : '⚡'.repeat(level) + ` TURBO ${level}`, hex, 0.55);
+    }
+    fx.level = level;
+    if (state.boostTimer > 0 && fx.boost <= 0) {
+      this.entities.get(pid)?.burstBoost();
+      this.cameraManager.kick(pid);
+      audio.kartBoost(state.boostPower);
+      this.ctx.vibrate(pid, 70);
+    }
+    fx.boost = state.boostTimer;
   }
 
   private resolveKartCollisions(): void {
@@ -342,6 +375,7 @@ export class BabylonKartGame {
     } else if (ev.type === 'checkpoint_clean' && ev.playerId) {
       const k = this.karts.get(ev.playerId);
       if (k) this.abilities.addMeter(k, 0.08);
+      this.hud.flash(ev.playerId, '✔ CHECKPOINT', '#22d3ee', 0.6);
     } else if (ev.type === 'overtake' && ev.playerId) {
       const k = this.karts.get(ev.playerId);
       if (k) this.abilities.addMeter(k, 0.18);
