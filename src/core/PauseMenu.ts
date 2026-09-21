@@ -18,7 +18,7 @@ type MenuMode = 'none' | 'main' | 'confirmRestart' | 'confirmLobby' | 'confirmSk
  *   }
  *
  * "Ricomincia" è specifico per minigioco (di solito scene.restart con lo
- * stesso ctx); "torna alla lobby" è sempre gm.backToLobby().
+ * stesso ctx); "torna alla lobby" è sempre gm.restartMatch() (stessa stanza, giocatori mantenuti).
  */
 export class PauseMenu {
   private mode: MenuMode = 'none';
@@ -123,7 +123,7 @@ export class PauseMenu {
           ? 'Vuoi davvero ricominciare il minigioco?'
           : this.mode === 'confirmSkip'
             ? 'Saltare il minigioco SENZA assegnare punti e tornare al rullo?'
-            : 'Vuoi davvero abbandonare il minigioco e tornare alla lobby?';
+            : 'Tornare alla lobby? Il minigioco viene annullato e i punteggi ripartono da zero, ma restano tutti in stanza.';
       mk(
         this.scene.add
           .text(640, 270, msg, { fontFamily: 'Arial, sans-serif', fontSize: '22px', color: '#e5e7eb', align: 'center', wordWrap: { width: 720 } })
@@ -202,8 +202,9 @@ export class PauseMenu {
     } else {
       if (this.index === 1) {
         audio.select();
-        gm.backToLobby();
-        this.scene.scene.start('LobbyScene');
+        this.mode = 'none';
+        this.clear();
+        gm.restartMatch(); // stessa stanza, stessi giocatori: l'host passa da solo alla RoomScene
       } else {
         this.open();
       }

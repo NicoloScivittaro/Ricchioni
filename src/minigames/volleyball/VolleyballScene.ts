@@ -139,10 +139,9 @@ class VolleyballPauseMenu {
     );
     panel.appendChild(
       this.makeButton('🏠 TORNA ALLA LOBBY', '#f87171', () => {
-        if (!confirm('Vuoi davvero abbandonare il minigioco e tornare alla lobby?')) return;
+        if (!confirm('Tornare alla lobby? Il minigioco viene annullato e i punteggi ripartono da zero, ma restano tutti in stanza.')) return;
         this.hide();
-        gm.backToLobby();
-        this.scene.scene.start('LobbyScene');
+        gm.restartMatch(); // stessa stanza, stessi giocatori: l'host passa da solo alla RoomScene
       })
     );
 
