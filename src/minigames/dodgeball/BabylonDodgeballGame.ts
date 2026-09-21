@@ -981,7 +981,7 @@ export class BabylonDodgeballGame {
 
   private buildResults(): PlayerResult[] {
     const firstOut = [...this.eliminatedAt.values()].sort((a, b) => a - b)[0];
-    telemetry.metrics('dodgeball', { durationSec: Math.round(this.gameTime), out: this.eliminatedAt.size, firstOutSec: firstOut === undefined ? '-' : Math.round(firstOut), byThrow: this.players.reduce((a, p) => a + p.eliminations, 0) });
+    telemetry.metrics('dodgeball', { durationSec: Math.round(this.gameTime), limitSec: Math.round(this.durationSec), out: this.eliminatedAt.size, firstOutSec: firstOut === undefined ? '-' : Math.round(firstOut), byThrow: this.players.reduce((a, p) => a + p.eliminations, 0) });
     const alive = this.players.filter((p) => p.alive);
     const eliminated = this.eliminationOrder.slice().reverse();
     const aliveIds = alive.map((p) => p.id);

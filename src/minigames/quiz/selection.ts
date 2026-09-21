@@ -5,10 +5,10 @@ import type { QuizQuestion } from './questions';
 /**
  * MESCOLAMENTO DELLE RISPOSTE. Nel database la risposta giusta sta quasi sempre in B o C (audit: 6% A / 44% B / 46% C / 4% D):
  * chi lo nota indovina senza sapere. Ogni volta che una domanda viene estratta le 4 opzioni si mescolano e correctAnswerIndex segue.
- * Le serie puramente numeriche (5, 6, 7, 8) restano in ordine: mescolate sembrerebbero un errore.
+ * Anche le serie puramente numeriche (5, 6, 7, 8) si mescolano: lasciate in ordine crescente (test statistico su 100.000 estrazioni,
+ * scripts/quiz-shuffle-stat.ts) mettevano la giusta in C il 64% delle volte, cioe' il 48% delle domande di difficolta' 1.
  */
 export function shuffleAnswers(q: QuizQuestion, rng: Rng): QuizQuestion {
-  if (q.answers.every((a) => /^[\d.,\s%°-]+$/.test(a.trim()))) return q;
   const order = rng.shuffle([0, 1, 2, 3]);
   return { ...q, answers: order.map((i) => q.answers[i]) as QuizQuestion['answers'], correctAnswerIndex: order.indexOf(q.correctAnswerIndex) };
 }

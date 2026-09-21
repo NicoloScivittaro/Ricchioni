@@ -51,6 +51,7 @@ const totals = { disconnects: 0, restarts: 0, skips: 0, lobbyReturns: 0, errors:
 const conn = new Map<string, boolean>();
 let reportShown = false;
 let panel: HTMLPreElement | null = null;
+let copyBtn: HTMLButtonElement | null = null;
 let printedFinal = false;
 
 function noteError(msg: string): void {
@@ -74,34 +75,91 @@ function fmtMetrics(m: Record<string, unknown>): string {
     .join(' · ');
 }
 
+/** Sezioni del report: SESSION SUMMARY, un blocco per gioco, POTENTIAL BALANCE FLAGS. Solo lettura: non corregge mai nulla. */
+const avgOf = (a: number[]): number => a.reduce((x, y) => x + y, 0) / a.length;
+const num = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) ? v : null);
+const ord = (n: number): string => `${n}°`;
+
+/**
+ * SEGNALAZIONI DI BILANCIAMENTO. Soglie fisse e dichiarate; sono SOSPETTI da confermare con piu' partite, non verdetti:
+ * per questo ogni riga riporta il campione (n) e, sotto 4 partite, l'avviso "campione piccolo".
+ *  - Pallavolo: piu' del 70% dei punti da schiacciata diretta            -> schiacciata forse troppo forte
+ *  - Calcio con squadre dispari: la squadra numerosa vince > 65%         -> handicap forse insufficiente (min. 2 partite)
+ *  - Dodgeball: durata media < 30 s (stima normale ~75 s con festeggiamenti) -> tiro forse troppo forte
+ */
+export function balanceFlags(recs: Rec[] = records): string[] {
+  const flags: string[] = [];
+  const small = (n: number): string => (n < 4 ? ' — campione piccolo, da riconfermare' : '');
+  // pallavolo
+  let vPts = 0;
+  let vDirect = 0;
+  let vN = 0;
+  for (const r of recs) {
+    if (r.game !== 'volleyball') continue;
+    const pts = num(r.metrics.rallies);
+    const dir = num(r.metrics.smashPointsDirect);
+    if (pts === null || dir === null || pts < 1) continue;
+    vPts += pts;
+    vDirect += dir;
+    vN++;
+  }
+  if (vN && vPts >= 8 && vDirect / vPts > 0.7) flags.push(`Pallavolo: ${Math.round((vDirect / vPts) * 100)}% dei punti da schiacciata diretta (${vDirect}/${vPts}, ${vN} partite, soglia 70%) -> la schiacciata potrebbe essere troppo forte${small(vN)}`);
+  // calcio: solo partite con squadre dispari (1 v 2, 2 v 3...)
+  let sBig = 0;
+  let sN = 0;
+  for (const r of recs) {
+    if (r.game !== 'soccer') continue;
+    const m = /^(\d+)v(\d+)$/.exec(String(r.metrics.teams ?? ''));
+    const w = r.metrics.winner;
+    if (!m || (w !== 'r' && w !== 'b') || m[1] === m[2]) continue;
+    sN++;
+    if ((Number(m[1]) > Number(m[2])) === (w === 'r')) sBig++;
+  }
+  if (sN >= 2 && sBig / sN > 0.65) flags.push(`Calcio: la squadra numerosa vince ${Math.round((sBig / sN) * 100)}% delle partite dispari (${sBig}/${sN}, soglia 65%) -> l'handicap potrebbe non bastare${small(sN)}`);
+  // dodgeball
+  const dur = recs.filter((r) => r.game === 'dodgeball').map((r) => num(r.metrics.durationSec)).filter((x): x is number => x !== null);
+  if (dur.length && avgOf(dur) < 30) flags.push(`Dodgeball: partite molto corte, durata media ${Math.round(avgOf(dur))} s su ${dur.length} (soglia 30 s) -> il tiro potrebbe essere troppo forte${small(dur.length)}`);
+  return flags;
+}
+
 export function buildReport(): string {
-  const mins = Math.max(1, Math.round((Date.now() - sessionStart) / 60000));
+  const now = Date.now();
+  const totalSec = Math.max(1, Math.round((now - sessionStart) / 1000));
   const played = records.filter((r) => !r.skipped);
   const pc = records.map((r) => r.players);
-  const lines: string[] = [];
-  lines.push(`SESSION REPORT — ${new Date(sessionStart).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })} · ${mins} min · ${played.length} giochi giocati${records.length !== played.length ? ` (+${records.length - played.length} saltati)` : ''}${pc.length ? ` · ${Math.min(...pc)}-${Math.max(...pc)} giocatori` : ''}`);
-  lines.push('');
-  lines.push(' #  gioco                   round durata giocatori vincitore        FPS medio (min)  note');
-  for (const r of records) {
-    const avg = r.fps.length ? Math.round(r.fps.reduce((a, b) => a + b, 0) / r.fps.length) : null;
-    const min = r.fps.length ? Math.min(...r.fps) : null;
-    const notes = [r.skipped ? 'SALTATO' : '', r.restarts ? `restart x${r.restarts}` : '', r.disconnects.length ? `disconnessi: ${r.disconnects.join(',')}` : '', r.errors.length ? `errori x${r.errors.length}` : ''].filter(Boolean).join(' · ');
-    lines.push(
-      `${String(r.n).padStart(2)}  ${r.name.slice(0, 22).padEnd(22)}  ${String(r.round).padStart(3)}   ${fmtDur(r.durationSec).padStart(5)}   ${String(r.players).padStart(4)}     ${(r.winner ?? '—').slice(0, 14).padEnd(14)}  ${avg === null ? '—'.padStart(6) : String(avg).padStart(6)} (${min ?? '—'})      ${notes}`
-    );
-    if (Object.keys(r.metrics).length) lines.push(`      ▸ ${fmtMetrics(r.metrics)}`);
-  }
-  lines.push('');
   const fpsAll = records.flatMap((r) => r.fps);
-  lines.push(`Totali: disconnessioni ${totals.disconnects} · restart minigioco ${totals.restarts} · skip ${totals.skips} · ritorni alla lobby ${totals.lobbyReturns} · errori ${totals.errors}${fpsAll.length ? ` · FPS host medio ${Math.round(fpsAll.reduce((a, b) => a + b, 0) / fpsAll.length)} (peggior secondo ${Math.min(...fpsAll)})` : ''}`);
-  if (totals.errorSamples.length) lines.push(`Errori: ${totals.errorSamples.join(' | ')}`);
-  // giochi piu' e meno giocati
+  const L: string[] = [];
+  const hr = '─'.repeat(60);
+
+  L.push('=== SESSION SUMMARY ===');
+  L.push(`Inizio ${new Date(sessionStart).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })} · durata totale ${fmtDur(totalSec)} (${Math.max(1, Math.round(totalSec / 60))} min)`);
+  L.push(`Minigiochi: ${played.length} giocati${records.length !== played.length ? ` + ${records.length - played.length} saltati` : ''} · giocatori: ${pc.length ? (Math.min(...pc) === Math.max(...pc) ? String(pc[0]) : `${Math.min(...pc)}-${Math.max(...pc)}`) : '—'}`);
+  L.push(`Disconnessioni ${totals.disconnects} · restart ${totals.restarts} · skip ${totals.skips} · ritorni alla lobby ${totals.lobbyReturns} · errori ${totals.errors}`);
+  L.push(fpsAll.length ? `FPS host: medio ${Math.round(avgOf(fpsAll))} · peggior secondo ${Math.min(...fpsAll)}${fpsAll.some((f) => f < 25) ? ' · ⚠ sotto 25 in: ' + [...new Set(records.filter((r) => r.fps.some((f) => f < 25)).map((r) => r.name))].join(', ') : ''}` : 'FPS host: nessun campione');
   const byGame = new Map<string, number>();
   for (const r of played) byGame.set(r.name, (byGame.get(r.name) ?? 0) + 1);
-  if (byGame.size) lines.push(`Giochi usciti: ${[...byGame.entries()].sort((a, b) => b[1] - a[1]).map(([g, n]) => `${g} x${n}`).join(' · ')}`);
-  const slow = records.filter((r) => r.fps.length && Math.min(...r.fps) < 25).map((r) => r.name);
-  if (slow.length) lines.push(`⚠ FPS sotto 25 in: ${[...new Set(slow)].join(', ')}`);
-  return lines.join('\n');
+  if (byGame.size) L.push(`Giochi usciti: ${[...byGame.entries()].sort((a, b) => b[1] - a[1]).map(([g, n]) => `${g} x${n}`).join(' · ')}`);
+  if (totals.errorSamples.length) L.push(`Errori: ${totals.errorSamples.join(' | ')}`);
+
+  L.push('', '=== PER GIOCO ===');
+  if (!records.length) L.push('(nessun minigioco ancora giocato)');
+  for (const r of records) {
+    L.push(hr);
+    L.push(`#${r.n} ${r.name}${r.skipped ? '  [SALTATO]' : ''} — round ${r.round} · durata ${fmtDur(r.durationSec)} · ${r.players} giocatori`);
+    L.push(`  Piazzamento: ${r.placements.length ? r.placements.map((p) => `${ord(p.placement)} ${p.name}`).join(' · ') : r.skipped ? 'nessuno (saltato)' : 'non disponibile'}`);
+    const avg = r.fps.length ? Math.round(avgOf(r.fps)) : null;
+    const min = r.fps.length ? Math.min(...r.fps) : null;
+    L.push(`  FPS host: ${avg === null ? '—' : `medio ${avg} · min ${min}`}`);
+    L.push(`  Disconnessioni: ${r.disconnects.length ? r.disconnects.join(', ') : 'nessuna'} · restart: ${r.restarts} · skip: ${r.skipped ? 'sì' : 'no'}${r.errors.length ? ` · errori: ${r.errors.length}` : ''}`);
+    if (Object.keys(r.metrics).length) L.push(`  Gameplay: ${fmtMetrics(r.metrics)}`);
+  }
+
+  L.push(hr, '', '=== POTENTIAL BALANCE FLAGS ===');
+  const flags = balanceFlags();
+  if (flags.length) for (const f of flags) L.push(`⚠ ${f}`);
+  else L.push('Nessuna segnalazione con i dati raccolti finora.');
+  L.push('(Solo segnalazioni: nessun valore viene modificato in automatico.)');
+  return L.join('\n');
 }
 
 function tick(): void {
@@ -173,6 +231,7 @@ function togglePanel(): void {
   reportShown = !reportShown;
   if (!reportShown) {
     if (panel) panel.style.display = 'none';
+    if (copyBtn) copyBtn.style.display = 'none';
     return;
   }
   if (!panel) {
@@ -182,7 +241,44 @@ function togglePanel(): void {
     document.body.appendChild(panel);
   }
   panel.style.display = 'block';
-  panel.textContent = printReport() + '\n\n[F4 chiude]';
+  panel.textContent = printReport() + '\n\n[F4 chiude · il pulsante COPIA mette il report negli appunti]';
+  if (!copyBtn) {
+    copyBtn = document.createElement('button');
+    copyBtn.textContent = '📋 COPIA';
+    copyBtn.style.cssText = 'position:fixed;top:16px;right:26px;z-index:100002;padding:6px 12px;border:0;border-radius:8px;background:#10b981;color:#052e21;font:700 12px ui-monospace,Menlo,Consolas,monospace;cursor:pointer;';
+    copyBtn.onclick = (): void => void copyReport();
+    document.body.appendChild(copyBtn);
+  }
+  copyBtn.style.display = 'block';
+}
+
+/** Copia il report negli appunti (Clipboard API; ripiego su execCommand perche' l'host puo' girare su http locale). */
+async function copyReport(): Promise<boolean> {
+  const text = buildReport();
+  let ok = false;
+  try {
+    await navigator.clipboard.writeText(text);
+    ok = true;
+  } catch {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px;top:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      ok = document.execCommand('copy');
+      ta.remove();
+    } catch {
+      /* ignora */
+    }
+  }
+  if (copyBtn) {
+    copyBtn.textContent = ok ? '✅ COPIATO' : '⚠ SELEZIONA E COPIA A MANO';
+    window.setTimeout(() => {
+      if (copyBtn) copyBtn.textContent = '📋 COPIA';
+    }, 1800);
+  }
+  return ok;
 }
 
 /** Da chiamare una volta all'avvio (app/main.ts): non fa nulla fuori dal debug. */
@@ -230,6 +326,8 @@ export function initTelemetry(): void {
   });
   const w = window as unknown as Record<string, unknown>;
   w.__sessionReport = printReport;
+  w.__balanceFlags = balanceFlags;
+  w.__copyReport = copyReport;
   w.__session = { records, totals };
 }
 

@@ -181,4 +181,22 @@ if (errors.length) {
 console.log(`\n⚠️  SOSPETTI DA RILEGGERE (${suspects.length}) — non sono errori certi:`);
 for (const s of suspects) console.log('   ' + s);
 if (!suspects.length) console.log('   nessuno');
+
+// COPERTURA DEL POOL CULTURA: nessuna domanda viene inventata qui, e' solo il conto di dove mancano (una partita ne pesca 8 su tutto il pool).
+{
+  const TARGET = 4; // domande minime per categoria perche' una categoria non si ripeta a ogni partita
+  const byCat = new Map<string, number[]>();
+  for (const q of CULTURA_QUESTIONS) byCat.set(q.category, [...(byCat.get(q.category) ?? []), q.difficulty]);
+  console.log(`\nCOPERTURA CULTURA — ${CULTURA_QUESTIONS.length} domande, ${byCat.size} categorie (obiettivo minimo ${TARGET} per categoria)`);
+  console.log('   categoria        domande  difficolta\' presenti   da aggiungere  difficolta\' consigliate');
+  let toAdd = 0;
+  for (const [cat, ds] of [...byCat.entries()].sort((a, b) => a[1].length - b[1].length || a[0].localeCompare(b[0]))) {
+    const need = Math.max(0, TARGET - ds.length);
+    toAdd += need;
+    const have = new Set(ds);
+    const want = [1, 2, 3, 4, 5].filter((d) => !have.has(d)).slice(0, need || 0);
+    console.log(`   ${cat.padEnd(16)} ${String(ds.length).padStart(5)}    ${[...have].sort().join(',').padEnd(20)} ${String(need).padStart(8)}       ${need ? want.join(',') : '—'}`);
+  }
+  console.log(`   TOTALE consigliato: +${toAdd} domande (pool ${CULTURA_QUESTIONS.length} -> ${CULTURA_QUESTIONS.length + toAdd}); ogni partita ne pesca 8 su tutto il pool (senza memoria fra una partita e l'altra), quindi con 30 domande le ripetizioni arrivano presto.`);
+}
 process.exit(errors.length ? 1 : 0);

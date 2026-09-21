@@ -57,7 +57,25 @@ try {
   await sleep(1200);
   const report = await hostEval(page, () => window.__sessionReport());
   console.log(report.split('\n').map((l) => '   ' + l).join('\n'));
-  check(/SESSION REPORT/.test(report) && /dodgeball|DODGEBALL/i.test(report), 'SESSION REPORT stampabile con i giochi');
+  check(/=== SESSION SUMMARY ===/.test(report) && /=== PER GIOCO ===/.test(report) && /=== POTENTIAL BALANCE FLAGS ===/.test(report), 'il report ha SESSION SUMMARY, PER GIOCO e POTENTIAL BALANCE FLAGS');
+  check(/durata totale \d+:\d\d/.test(report) && /Minigiochi: 1 giocati \+ 1 saltati/.test(report) && /giocatori: 3/.test(report), 'SESSION SUMMARY: durata totale, numero minigiochi, numero giocatori');
+  check(/Piazzamento: 1° .*2° .*3°/.test(report) && /FPS host: medio \d+ · min \d+/.test(report) && /Disconnessioni: nessuna · restart: 0 · skip: no/.test(report), 'per gioco: piazzamento, FPS medio/min, disconnessioni, restart, skip');
+  check(/Disconnessioni: P3 · restart: 0 · skip: sì/.test(report), 'il gioco 2 mostra disconnessione e skip');
+  // segnalazioni di bilanciamento: soglie su dati finti (non tocca la sessione vera)
+  const fl = await hostEval(page, () => {
+    const mk = (game, metrics) => ({ game, metrics });
+    const f = window.__balanceFlags;
+    return {
+      none: f([mk('volleyball', { rallies: 20, smashPointsDirect: 8 }), mk('soccer', { teams: '3v2', winner: 'b' }), mk('soccer', { teams: '3v3', winner: 'r' }), mk('dodgeball', { durationSec: 60 })]),
+      volley: f([mk('volleyball', { rallies: 20, smashPointsDirect: 16 })]),
+      soccer: f([mk('soccer', { teams: '3v2', winner: 'r' }), mk('soccer', { teams: '2v3', winner: 'b' }), mk('soccer', { teams: '3v2', winner: 'r' }), mk('soccer', { teams: '3v3', winner: 'b' })]),
+      dodge: f([mk('dodgeball', { durationSec: 18 }), mk('dodgeball', { durationSec: 26 })])
+    };
+  });
+  check(fl.none.length === 0, 'nessuna segnalazione con dati sani');
+  check(fl.volley.length === 1 && /Pallavolo: 80%/.test(fl.volley[0]), `segnala pallavolo con smash diretti 80% (${fl.volley[0] ?? '-'})`);
+  check(fl.soccer.length === 1 && /Calcio: .*100%/.test(fl.soccer[0]) && /\(3\/3/.test(fl.soccer[0]), `segnala calcio se la squadra numerosa vince (${fl.soccer[0] ?? '-'})`);
+  check(fl.dodge.length === 1 && /Dodgeball: .*22 s/.test(fl.dodge[0]), `segnala dodgeball con partite molto corte (${fl.dodge[0] ?? '-'})`);
   check(/SALTATO/.test(report), 'il gioco saltato e\' segnato SALTATO');
   const s2 = await hostEval(page, () => JSON.parse(JSON.stringify(window.__session)));
   check(s2.totals.skips === 1 && s2.totals.disconnects >= 1, `totali: skip ${s2.totals.skips}, disconnessioni ${s2.totals.disconnects}`);
@@ -65,8 +83,15 @@ try {
   // F4: pannello a schermo
   await page.keyboard.press('F4');
   await sleep(400);
-  const shown = await page.evaluate(() => [...document.querySelectorAll('pre')].some((p) => /SESSION REPORT/.test(p.textContent ?? '') && p.style.display !== 'none'));
+  const shown = await page.evaluate(() => [...document.querySelectorAll('pre')].some((p) => /SESSION SUMMARY/.test(p.textContent ?? '') && p.style.display !== 'none'));
   check(shown, 'F4 mostra il SESSION REPORT sull\'host');
+  const btn = await page.evaluate(() => {
+    const b = [...document.querySelectorAll('button')].find((x) => /COPIA/.test(x.textContent ?? ''));
+    return b ? getComputedStyle(b).display : null;
+  });
+  check(btn === 'block', 'pulsante COPIA visibile nel pannello F4');
+  const copied = await hostEval(page, () => window.__copyReport());
+  console.log('   (copia negli appunti in headless: ' + copied + ')');
   check(errs.length === 0, `nessun errore di pagina sull'host ${errs.length ? JSON.stringify(errs.slice(0, 3)) : ''}`);
   process.exitCode = fails ? 1 : 0;
 } catch (e) {

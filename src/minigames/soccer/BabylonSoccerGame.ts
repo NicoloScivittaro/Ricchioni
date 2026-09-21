@@ -762,6 +762,7 @@ export class BabylonSoccerGame {
     telemetry.metrics('soccer', {
       score: `${this.redScore}-${this.blueScore}`,
       teams: `${this.players.filter((p) => p.team === 'red').length}v${this.players.filter((p) => p.team === 'blue').length}`,
+      winner: this.winnerTeam === 'red' ? 'r' : 'b',
       handicap: this.handicappedTeam ?? 'nessuno',
       kicks: `${this.teamKicks.red}/${this.teamKicks.blue}`,
       tackles: sum((p) => p.tackles),
