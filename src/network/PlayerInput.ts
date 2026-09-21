@@ -111,6 +111,19 @@ export class PlayerInput {
     }
   }
 
+  /**
+   * Azzera tutto SENZA generare bordi: nessun justPressed e nessun justReleased. Serve al controller fisico quando cambia contesto,
+   * va in pausa o si scollega: un "rilascio" fittizio farebbe partire ai giochi con azione-al-rilascio (il tiro del Calcio) un colpo fantasma.
+   */
+  cancelAll(): void {
+    for (const b of this.buttons.values()) {
+      b.pressed = false;
+      b.justPressed = false;
+      b.justReleased = false;
+    }
+    this.axes.clear();
+  }
+
   /** Rilascia forzatamente tutti i tasti (es. il telefono si è disconnesso a metà pressione). */
   releaseAll(): void {
     for (const b of this.buttons.values()) {

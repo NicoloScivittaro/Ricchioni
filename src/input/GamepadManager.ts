@@ -201,7 +201,8 @@ export class GamepadManager {
   }
 
   private releasePlayer(playerId: string): void {
-    gm.input.releasePlayer(playerId);
+    // cancel, non release: un rilascio fittizio farebbe calciare il pallone a chi sta caricando il tiro (pausa, cambio contesto, disconnessione)
+    gm.input.cancelPlayer(playerId);
   }
 
   // ------------------------------------------------------------------ polling

@@ -83,6 +83,9 @@ export class BabylonSoccerGame {
 
   private phase: Phase = 'intro';
   private phaseTime = 0;
+  /** Schermata CONTROLLI: richiesta una volta a fine intro, poi il countdown parte solo a schermata chiusa. */
+  private controlsRequested = false;
+  private controlsDone = false;
   private countdown = COUNTDOWN_S;
   private lastCountInt = 4;
   private matchTime = MATCH_SECONDS;
@@ -268,9 +271,17 @@ export class BabylonSoccerGame {
     if (this.phase === 'intro') {
       this.phaseTime -= dt;
       if (this.phaseTime <= 0) {
-        this.phase = 'countdown';
-        this.countdown = COUNTDOWN_S;
-        this.hud.setCountdown('3');
+        // Schermata CONTROLLI dopo l'intro e PRIMA del countdown: finche' e' su, il gioco resta fermo (fase intro, nessun timer)
+        if (!this.controlsRequested) {
+          this.controlsRequested = true;
+          if (this.ctx.showControls) void this.ctx.showControls().then(() => (this.controlsDone = true));
+          else this.controlsDone = true;
+        }
+        if (this.controlsDone) {
+          this.phase = 'countdown';
+          this.countdown = COUNTDOWN_S;
+          this.hud.setCountdown('3');
+        }
       }
     } else if (this.phase === 'countdown') {
       this.countdown -= dt;
@@ -420,6 +431,8 @@ export class BabylonSoccerGame {
     if (input.justReleased('shoot')) {
       if (p.hasBall && p.charging) this.kick(p, p.chargeTime);
       p.charging = false;
+    } else if (p.charging && !input.pressed('shoot')) {
+      p.charging = false; // il tasto non e' piu' premuto ma non c'e' stato un rilascio (input azzerato da pausa/disconnessione): la carica si annulla, NON calcia
     }
 
     if (dodging) {

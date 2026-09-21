@@ -150,7 +150,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     compatibleModifiers: ['punti_doppi', 'gravita_bassa'],
     sceneKey: 'soccer',
 
-    inputMode: 'GAMEPAD_OR_PHONE',
+    inputMode: 'GAMEPAD',
     // Controller dedicato: joystick + TIRO/PASSA (hold = più forte) + TACKLE + ABILITÀ.
     controllerLayout: { type: 'custom', id: 'soccer-tv' }
   },

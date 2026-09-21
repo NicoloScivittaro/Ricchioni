@@ -62,6 +62,16 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'THROW', binding: 'RT', control: 'throw', label: 'LANCIA' },
     { action: 'DODGE', binding: 'PRIMARY', control: 'dodge', label: 'SCHIVA' },
     { action: 'ABILITY', binding: 'SECONDARY', control: 'ability', label: 'ABILITÀ' }
+  ]),
+  // Il calcio ha UN solo comando di calcio: 'shoot' (tocco = tiro debole/passaggio, tenuto = carica, rilascio = calcia; la barra di carica
+  // e la curva di potenza sono quelle del gioco, invariate). RT e A/✕ sono due modi di premere lo STESSO comando: il gioco non ha un
+  // "passaggio" separato e crearne uno cambierebbe il gameplay. Il bordo (down/up) garantisce una sola pressione anche se il tasto resta giu'.
+  soccer: defineProfile('soccer', [
+    { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI' },
+    { action: 'SHOOT', binding: 'RT', control: 'shoot', label: 'CARICA E TIRA' },
+    { action: 'PASS', binding: 'PRIMARY', control: 'shoot', label: 'PASSA (TOCCO BREVE)' },
+    { action: 'TACKLE', binding: 'LEFT', control: 'dash', label: 'DASH / TACKLE' },
+    { action: 'ABILITY', binding: 'TOP', control: 'ability', label: 'ABILITÀ' }
   ])
 };
 

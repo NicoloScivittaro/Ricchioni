@@ -50,6 +50,11 @@ export class InputManager {
     for (const p of this.inputs.values()) p.clearFrame();
   }
 
+  /** Azzera gli input di un giocatore senza bordi (nessun rilascio fittizio): vedi PlayerInput.cancelAll. */
+  cancelPlayer(playerId: PlayerId): void {
+    this.inputs.get(playerId)?.cancelAll();
+  }
+
   /** Rilascia tutti i tasti di un giocatore (es. disconnessione a metà pressione). */
   releasePlayer(playerId: PlayerId): void {
     this.inputs.get(playerId)?.releaseAll();
