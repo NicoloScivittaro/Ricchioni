@@ -58,7 +58,12 @@ for (const id of GAMES) {
     if (after.code !== code) { ok = false; notes.push(`stanza cambiata ${code} -> ${after.code}`); }
     if (JSON.stringify(after.ids) !== JSON.stringify(before)) { ok = false; notes.push(`giocatori cambiati ${JSON.stringify(before)} -> ${JSON.stringify(after.ids)}`); }
     for (const p of phones) {
-      const inLobby = await p.page.evaluate(() => !!document.querySelector('#chars .char') && !!document.querySelector('#ready'));
+      // il telefono con il motore 3D (sparatoria) impiega piu' di un istante a smontarsi: si aspetta fino a 10 s
+      let inLobby = false;
+      for (let k = 0; k < 50 && !inLobby; k++) {
+        inLobby = await p.page.evaluate(() => !!document.querySelector('#chars .char') && !!document.querySelector('#ready'));
+        if (!inLobby) await sleep(200);
+      }
       if (!inLobby) { ok = false; notes.push(`${p.name} non e' tornato alla scelta personaggio`); }
     }
     notes.push(`stanza ${after.code}, ${after.n} giocatori rimasti`);
