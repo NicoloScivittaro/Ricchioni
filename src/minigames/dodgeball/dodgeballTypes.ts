@@ -20,7 +20,8 @@ export const THROW_SPEED = 24;
 export const BALL_BOUNCE_DAMP = 0.82;
 export const BALL_MAX_BOUNCES = 3;
 export const BALL_MAX_LIFE = 4;
-export const PICKUP_RADIUS = 1.6;
+/** Distanza centro-centro per raccogliere una palla libera: corpo (1.0) + 1.0 = "il corpo tocca l'anello" disegnato sotto la palla. */
+export const PICKUP_RADIUS = 2.0;
 
 export const KNOCKBACK_HIT = 8;
 export const STUN_TIME = 0.4;

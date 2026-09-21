@@ -161,6 +161,7 @@ interface SignalPayload {
   at?: number;
   value?: number;
   cooldownMs?: number;
+  by?: string | null;
   team?: string;
   winner?: string;
 }
@@ -454,6 +455,7 @@ let dbAbilityBtn: HTMLButtonElement | null = null;
 let dbStatusEl: HTMLElement | null = null;
 let dbLocked = false;
 let dbJoy: VirtualJoystick | null = null;
+let dbDodgeCooldownTimer: number | null = null;
 
 function lockDbControls(locked: boolean, statusText?: string): void {
   dbLocked = locked;
@@ -479,8 +481,36 @@ function handleDodgeballSignal(s: SignalPayload): void {
     case 'eliminated':
       lockDbControls(true, '💀 SEI FUORI!');
       vibrate([100, 60, 100]);
-      showToast('💀 Sei stato colpito!');
+      showToast(s.by ? `💀 ${s.by} ti ha colpito!` : '💀 Sei fuori!');
       break;
+    case 'danger':
+      // una palla ti sta per prendere: pulsante SCHIVA rosso lampeggiante + vibrazione secca
+      if (dbDodgeBtn && !dbDodgeBtn.disabled) {
+        dbDodgeBtn.classList.remove('db-danger');
+        void dbDodgeBtn.offsetWidth; // riavvia l'animazione
+        dbDodgeBtn.classList.add('db-danger');
+        window.setTimeout(() => dbDodgeBtn?.classList.remove('db-danger'), 600);
+      }
+      vibrate(30);
+      break;
+    case 'dodged': {
+      // schivata accettata dall'host: il pulsante si spegne per il cooldown reale e "scatta" quando e' di nuovo pronto
+      if (dbDodgeCooldownTimer) window.clearTimeout(dbDodgeCooldownTimer);
+      if (dbDodgeBtn) {
+        dbDodgeBtn.classList.remove('db-danger');
+        dbDodgeBtn.disabled = true;
+        dbDodgeBtn.classList.add('arena-dash-cooldown');
+      }
+      dbDodgeCooldownTimer = window.setTimeout(() => {
+        dbDodgeCooldownTimer = null;
+        if (!dbDodgeBtn || dbLocked) return;
+        dbDodgeBtn.disabled = false;
+        dbDodgeBtn.classList.remove('arena-dash-cooldown');
+        dbDodgeBtn.classList.add('arena-dash-ready');
+        window.setTimeout(() => dbDodgeBtn?.classList.remove('arena-dash-ready'), 260);
+      }, s.cooldownMs ?? 1000);
+      break;
+    }
     case 'won':
       lockDbControls(true, '🏆 HAI VINTO!');
       vibrate([80, 40, 80, 40, 120]);
@@ -558,6 +588,10 @@ function renderDodgeballController(): void {
   dbStatusEl = null;
   dbLocked = false;
   dbJoy = null;
+  if (dbDodgeCooldownTimer) {
+    window.clearTimeout(dbDodgeCooldownTimer);
+    dbDodgeCooldownTimer = null;
+  }
 
   const me: PlayerPublic | undefined =
     playerId && state ? state.players.find((p) => p.id === playerId) : undefined;

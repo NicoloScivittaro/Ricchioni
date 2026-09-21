@@ -6,7 +6,9 @@ import {
   MeshBuilder,
   StandardMaterial,
   Color3,
-  Mesh
+  Mesh,
+  ParticleSystem,
+  Vector3
 } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
@@ -60,6 +62,11 @@ import { say } from '../../core/announcer';
 
 const COUNTDOWN_S = 3.2;
 const BALL_HEIGHT = 0.7;
+/** Avviso di pericolo: la palla passera' a portata di corpo entro questo tempo (s). Lascia margine a un dash reattivo (invulnerabilita' 0.3 s). */
+const DANGER_TIME = 0.42;
+/** Hitstop all'eliminazione (s): la simulazione si ferma un attimo, l'impatto "pesa". Gli input restano in coda. */
+const HITSTOP_S = 0.07;
+const SHOCK_TIME = 0.4;
 
 type Phase = 'countdown' | 'playing' | 'celebrating';
 
@@ -83,6 +90,12 @@ export class BabylonDodgeballGame {
   private visionMat: StandardMaterial;
   private dangerMat: StandardMaterial;
   private lastDangerWarn = 0;
+  private trails: ParticleSystem[] = [];
+  private pickRings: Mesh[] = [];
+  private ringMat: StandardMaterial | null = null;
+  private shocks: { mesh: Mesh; t: number }[] = [];
+  private warned = new Map<string, number>();
+  private hitStop = 0;
 
   private phase: Phase = 'countdown';
   private countdown = COUNTDOWN_S;
@@ -189,6 +202,18 @@ export class BabylonDodgeballGame {
       mesh.material = ballMat;
       mesh.position.set(b.x, BALL_HEIGHT, b.z);
       this.ballMeshes.push(mesh);
+      this.trails.push(this.makeTrail(mesh, dotTex));
+      this.pickRings.push(this.makeRing());
+    }
+    for (let i = 0; i < 4; i++) {
+      const m = MeshBuilder.CreateTorus('dbShock', { diameter: 2, thickness: 0.16, tessellation: 28 }, this.scene);
+      const mat = new StandardMaterial('dbShockMat', this.scene);
+      mat.disableLighting = true;
+      mat.emissiveColor = new Color3(1, 1, 1);
+      m.material = mat;
+      m.isPickable = false;
+      m.isVisible = false;
+      this.shocks.push({ mesh: m, t: SHOCK_TIME });
     }
 
     this.hud.setAlive(n);
@@ -213,6 +238,7 @@ export class BabylonDodgeballGame {
 
   private step(dt: number): void {
     const now = performance.now();
+    let held = false; // hitstop in corso: gli edge degli input (justPressed) restano per il prossimo passo di simulazione
 
     if (this.phase === 'countdown') {
       this.countdown -= dt;
@@ -234,11 +260,16 @@ export class BabylonDodgeballGame {
         }
       }
     } else if (this.phase === 'playing') {
-      this.gameTime += dt;
-      for (const p of this.players) this.stepPlayer(p, dt);
-      this.resolvePlayerCollisions();
-      this.updateBalls(dt);
-      this.checkEndCondition();
+      if (this.hitStop > 0) {
+        this.hitStop -= dt;
+        held = true;
+      } else {
+        this.gameTime += dt;
+        for (const p of this.players) this.stepPlayer(p, dt);
+        this.resolvePlayerCollisions();
+        this.updateBalls(dt);
+        this.checkEndCondition();
+      }
     } else if (this.phase === 'celebrating') {
       this.celebrateTime -= dt;
       if (this.celebrateTime <= 0 && !this.resultsSent) {
@@ -251,12 +282,13 @@ export class BabylonDodgeballGame {
     for (const p of this.players) {
       this.entities.get(p.id)?.updateVisual(p, dt, now);
     }
-    this.syncBallMeshes();
+    this.syncBallMeshes(now);
+    this.updateShocks(dt);
     this.updateTrajectories(now);
     this.camera.update(dt, this.players, now);
     this.env.update(now);
 
-    this.ctx.input.update();
+    if (!held) this.ctx.input.update();
   }
 
   private timeOutClearCountdown(): void {
@@ -342,6 +374,7 @@ export class BabylonDodgeballGame {
       p.vz = dirZ * DODGE_SPEED;
       audio.boost();
       this.ctx.vibrate(p.id, 25);
+      this.ctx.signal(p.id, { type: 'dodged', cooldownMs: Math.round(DODGE_COOLDOWN * 1000) });
     }
 
     // Abilità
@@ -423,7 +456,10 @@ export class BabylonDodgeballGame {
     ball.x = p.x + dirX * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
     ball.z = p.z + dirZ * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
     this.entities.get(p.id)?.playThrow();
-    audio.select();
+    this.tintTrail(this.balls.indexOf(ball), p.color);
+    const charged = speed > THROW_SPEED * 1.05;
+    audio.throwWhoosh(charged ? 1.35 : 1);
+    this.camera.shake(charged ? 0.1 : 0.05, 90);
     this.ctx.vibrate(p.id, 40);
     this.ctx.signal(p.id, { type: 'threwBall' });
   }
@@ -446,7 +482,9 @@ export class BabylonDodgeballGame {
     ball.x = p.x + dirX * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
     ball.z = p.z + dirZ * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
     this.entities.get(p.id)?.playThrow();
-    audio.select();
+    this.tintTrail(idx, p.color);
+    audio.throwWhoosh(1);
+    this.camera.shake(0.05, 90);
     this.ctx.vibrate(p.id, 45);
     this.ctx.signal(p.id, { type: 'threwBall' });
   }
@@ -478,6 +516,116 @@ export class BabylonDodgeballGame {
           b.vz += nz * impulse;
         }
       }
+    }
+  }
+
+  // ---- Effetti di contatto ----
+
+  /** Scia luminosa dietro la palla in volo. Si colora del giocatore che ha tirato (tintTrail): si capisce di CHI e' la palla. */
+  private makeTrail(mesh: Mesh, tex: DynamicTexture): ParticleSystem {
+    const ps = new ParticleSystem('ballTrail', 60, this.scene);
+    ps.particleTexture = tex;
+    ps.emitter = mesh;
+    ps.minEmitBox = new Vector3(-0.08, -0.08, -0.08);
+    ps.maxEmitBox = new Vector3(0.08, 0.08, 0.08);
+    ps.color1 = new Color4(1, 0.7, 0.35, 0.9);
+    ps.color2 = new Color4(1, 0.45, 0.2, 0.75);
+    ps.colorDead = new Color4(1, 0.3, 0.1, 0);
+    ps.minSize = 0.28;
+    ps.maxSize = 0.55;
+    ps.minLifeTime = 0.16;
+    ps.maxLifeTime = 0.32;
+    ps.emitRate = 0;
+    ps.direction1 = new Vector3(-0.2, -0.05, -0.2);
+    ps.direction2 = new Vector3(0.2, 0.15, 0.2);
+    ps.minEmitPower = 0.1;
+    ps.maxEmitPower = 0.5;
+    ps.gravity = Vector3.Zero();
+    ps.blendMode = ParticleSystem.BLENDMODE_ONEONE;
+    ps.start();
+    return ps;
+  }
+
+  private tintTrail(ballIndex: number, colorHex: string): void {
+    const ps = this.trails[ballIndex];
+    if (!ps) return;
+    const c = Color3.FromHexString(colorHex);
+    // mescolato un po' col bianco: si legge anche con colori scuri, senza perdere l'identita'
+    const r = 0.22 + c.r * 0.78;
+    const g = 0.22 + c.g * 0.78;
+    const b = 0.22 + c.b * 0.78;
+    ps.color1.set(r, g, b, 0.9);
+    ps.color2.set(r * 0.85, g * 0.85, b * 0.85, 0.75);
+    ps.colorDead.set(r, g, b, 0);
+  }
+
+  /** Anello a terra sotto una palla libera: quando il CORPO del giocatore lo tocca, la palla e' sua (PICKUP_RADIUS = corpo + anello). */
+  private makeRing(): Mesh {
+    if (!this.ringMat) {
+      this.ringMat = new StandardMaterial('dbRingMat', this.scene);
+      this.ringMat.disableLighting = true;
+      this.ringMat.emissiveColor = new Color3(1, 0.85, 0.3);
+      this.ringMat.alpha = 0.85;
+    }
+    const m = MeshBuilder.CreateTorus('dbPickRing', { diameter: (PICKUP_RADIUS - PLAYER_RADIUS) * 2, thickness: 0.14, tessellation: 32 }, this.scene);
+    m.material = this.ringMat;
+    m.isPickable = false;
+    m.isVisible = false;
+    return m;
+  }
+
+  /** Onda d'urto a terra (anello che si allarga e sfuma) del colore del giocatore colpito. */
+  private spawnShock(x: number, z: number, colorHex: string): void {
+    const s = this.shocks.find((k) => k.t >= SHOCK_TIME) ?? this.shocks[0];
+    if (!s) return;
+    s.t = 0;
+    s.mesh.position.set(x, 0.12, z);
+    const mat = s.mesh.material as StandardMaterial;
+    const c = Color3.FromHexString(colorHex);
+    mat.emissiveColor.set(0.4 + c.r * 0.6, 0.4 + c.g * 0.6, 0.4 + c.b * 0.6);
+    s.mesh.scaling.set(0.5, 1, 0.5);
+    s.mesh.visibility = 0.9;
+    s.mesh.isVisible = true;
+  }
+
+  private updateShocks(dt: number): void {
+    for (const s of this.shocks) {
+      if (s.t >= SHOCK_TIME) {
+        if (s.mesh.isVisible) s.mesh.isVisible = false;
+        continue;
+      }
+      s.t += dt;
+      const k = Math.min(1, s.t / SHOCK_TIME);
+      const sc = 0.5 + k * 3.4;
+      s.mesh.scaling.set(sc, 1, sc);
+      s.mesh.visibility = 0.9 * (1 - k);
+    }
+  }
+
+  private bounceSfx(ball: Ball): void {
+    audio.bounce(Math.max(0.4, Math.min(1.2, Math.hypot(ball.vx, ball.vz) / THROW_SPEED)));
+  }
+
+  /**
+   * AVVISO DI PERICOLO: una palla in volo passera' a portata di corpo di un giocatore entro DANGER_TIME (~0.42 s, prima del punto di
+   * massimo avvicinamento, ignorando i rimbalzi). Il telefono vibra e il pulsante SCHIVA lampeggia. Non e' un auto-schivata: il
+   * giocatore deve comunque premere, ma le palle di rimbalzo e quelle "da dietro" smettono di essere ingiuste.
+   */
+  private warnIncoming(ball: Ball, ballIndex: number): void {
+    const sp2 = ball.vx * ball.vx + ball.vz * ball.vz;
+    if (sp2 < 25) return;
+    for (const p of this.players) {
+      if (!p.alive || p.falling || p.stunTime > 0 || p.invulnTime > 0 || p.dodgeTime > 0 || p.parryTime > 0) continue;
+      const rx = p.x - ball.x;
+      const rz = p.z - ball.z;
+      const t = (rx * ball.vx + rz * ball.vz) / sp2;
+      if (t <= 0 || t > DANGER_TIME) continue;
+      if (Math.hypot(rx - ball.vx * t, rz - ball.vz * t) > PLAYER_RADIUS + BALL_RADIUS + 0.3) continue;
+      const key = `${ballIndex}|${p.id}`;
+      const last = this.warned.get(key);
+      if (last !== undefined && this.gameTime - last < 0.9) continue;
+      this.warned.set(key, this.gameTime);
+      this.ctx.signal(p.id, { type: 'danger' });
     }
   }
 
@@ -551,23 +699,23 @@ export class BabylonDodgeballGame {
           ball.x = ARENA_HALF_W - BALL_RADIUS;
           ball.vx = -Math.abs(ball.vx) * ball.bounceDamp;
           ball.bounces++;
-          audio.tick();
+          this.bounceSfx(ball);
         } else if (ball.x < -ARENA_HALF_W + BALL_RADIUS) {
           ball.x = -ARENA_HALF_W + BALL_RADIUS;
           ball.vx = Math.abs(ball.vx) * ball.bounceDamp;
           ball.bounces++;
-          audio.tick();
+          this.bounceSfx(ball);
         }
         if (ball.z > ARENA_HALF_D - BALL_RADIUS) {
           ball.z = ARENA_HALF_D - BALL_RADIUS;
           ball.vz = -Math.abs(ball.vz) * ball.bounceDamp;
           ball.bounces++;
-          audio.tick();
+          this.bounceSfx(ball);
         } else if (ball.z < -ARENA_HALF_D + BALL_RADIUS) {
           ball.z = -ARENA_HALF_D + BALL_RADIUS;
           ball.vz = Math.abs(ball.vz) * ball.bounceDamp;
           ball.bounces++;
-          audio.tick();
+          this.bounceSfx(ball);
         }
 
         for (const p of this.players) {
@@ -589,6 +737,8 @@ export class BabylonDodgeballGame {
           }
         }
 
+        if (ball.state === 'flying') this.warnIncoming(ball, this.balls.indexOf(ball));
+
         const speed = Math.hypot(ball.vx, ball.vz);
         if (ball.bounces >= BALL_MAX_BOUNCES || ball.life >= BALL_MAX_LIFE || speed < 1.5) {
           this.dropBall(ball);
@@ -609,7 +759,7 @@ export class BabylonDodgeballGame {
           ball.state = 'held';
           ball.holderId = best.id;
           best.hasBall = true;
-          audio.select();
+          audio.pickupPop();
           this.ctx.vibrate(best.id, 35);
           this.ctx.signal(best.id, { type: 'gotBall' });
         }
@@ -631,7 +781,8 @@ export class BabylonDodgeballGame {
     ball.x = goblin.x + (dx / d) * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
     ball.z = goblin.z + (dz / d) * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
     goblin.parryTime = 0;
-    audio.hit();
+    this.tintTrail(this.balls.indexOf(ball), goblin.color);
+    audio.thump(0.9);
     this.ctx.vibrate(goblin.id, 80);
     this.camera.shake(0.2, 160);
     this.onAbilityFeedback(goblin, { type: 'goblin_reflect' });
@@ -697,7 +848,8 @@ export class BabylonDodgeballGame {
     target.stunTime = Math.max(target.stunTime, STUN_TIME);
     target.hitFlash = 0.16;
     this.entities.get(target.id)?.burstHit();
-    audio.hit();
+    this.spawnShock(target.x, target.z, target.color);
+    audio.thump(0.8);
     this.ctx.vibrate(target.id, 60);
     this.camera.shake(0.15, 160);
   }
@@ -724,7 +876,7 @@ export class BabylonDodgeballGame {
     }
     p.truckBalls = [];
 
-    if (throwerId) {
+    if (throwerId && throwerId !== p.id) {
       const thrower = this.players.find((x) => x.id === throwerId);
       if (thrower) {
         thrower.eliminations++;
@@ -739,11 +891,22 @@ export class BabylonDodgeballGame {
     if (p.characterId === 'dottore' && p.visionTime > 0) {
       this.onAbilityFeedback(p, { type: 'dottore_hit_anyway' });
     }
+    audio.thump(1.3);
     audio.wrong();
     this.entities.get(p.id)?.burstHit();
-    this.camera.shake(0.3, 240);
-    this.hud.feedMessage(`${p.avatar} ${p.name.toUpperCase()} È FUORI!`, '#f87171');
-    this.ctx.signal(p.id, { type: 'eliminated' });
+    this.spawnShock(p.x, p.z, p.color);
+    this.camera.shake(0.42, 260);
+    this.hitStop = HITSTOP_S;
+    // CHI / COME: chi ti ha colpito (nome sul telefono e nel feed), oppure "colpo di rimbalzo" / debito
+    const thrower = throwerId && throwerId !== p.id ? this.players.find((x) => x.id === throwerId) : undefined;
+    if (thrower) this.ctx.vibrate(thrower.id, 70);
+    const feed = thrower
+      ? `🎯 ${thrower.name.toUpperCase()} → ${p.avatar} ${p.name.toUpperCase()} È FUORI!`
+      : throwerId === p.id
+        ? `🤦 ${p.avatar} ${p.name.toUpperCase()} SI È COLPITO DA SOLO!`
+        : `${p.avatar} ${p.name.toUpperCase()} È FUORI!`;
+    this.hud.feedMessage(feed, '#f87171');
+    this.ctx.signal(p.id, { type: 'eliminated', by: thrower?.name ?? null });
     const aliveNow = this.players.filter((x) => x.alive).length;
     this.hud.setAlive(aliveNow);
     const duel = aliveNow === 2 && this.players.length > 2 ? say('lastTwo', true) : null;
@@ -986,7 +1149,7 @@ export class BabylonDodgeballGame {
 
   // ---- Visual ----
 
-  private syncBallMeshes(): void {
+  private syncBallMeshes(now: number): void {
     for (let i = 0; i < this.balls.length; i++) {
       const ball = this.balls[i];
       const mesh = this.ballMeshes[i];
@@ -1008,11 +1171,26 @@ export class BabylonDodgeballGame {
           }
           mesh.position.set(holder.x + lx + off, holder.y + h.y, holder.z + lz + off * 0.3);
         }
+      } else if (ball.state === 'free') {
+        // palla libera: ondeggia piano ("prendimi") e ha un anello a terra
+        mesh.position.set(ball.x, BALL_HEIGHT + Math.sin(now * 0.005 + i * 2) * 0.09, ball.z);
       } else {
         mesh.position.set(ball.x, BALL_HEIGHT, ball.z);
       }
       mesh.rotation.y += 0.08;
       mesh.rotation.x += 0.05;
+      const trail = this.trails[i];
+      if (trail) trail.emitRate = ball.state === 'flying' ? 40 + 80 * Math.min(1, Math.hypot(ball.vx, ball.vz) / THROW_SPEED) : 0;
+      const ring = this.pickRings[i];
+      if (ring) {
+        const free = ball.state === 'free';
+        if (ring.isVisible !== free) ring.isVisible = free;
+        if (free) {
+          ring.position.set(ball.x, 0.07, ball.z);
+          const k = 1 + Math.sin(now * 0.006 + i) * 0.09;
+          ring.scaling.set(k, 1, k);
+        }
+      }
     }
   }
 

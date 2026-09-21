@@ -32,6 +32,7 @@ export class AudioManager {
   private cats: Partial<Record<AudioCategory, GainNode>> = {};
   private settings: AudioSettings = this.load();
   private lastPlayed = new Map<string, number>();
+  private noiseBuf: AudioBuffer | null = null;
   private toastEl: HTMLDivElement | null = null;
   private toastTimer: number | null = null;
 
@@ -275,6 +276,110 @@ export class AudioManager {
 
   hit(): void {
     this.tone(140, 0.16, 'square', 0.09);
+  }
+
+  /** Oscillatore con glissando esponenziale da f0 a f1: base di whoosh, colpi e pop. */
+  private sweep(type: OscillatorType, f0: number, f1: number, dur: number, gain: number, when = 0): void {
+    const ctx = this.ensure();
+    const out = ctx ? this.cats.sfx : null;
+    if (!ctx || !out) return;
+    try {
+      const t = ctx.currentTime + when;
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = type;
+      o.frequency.setValueAtTime(Math.max(20, f0), t);
+      o.frequency.exponentialRampToValueAtTime(Math.max(20, f1), t + dur);
+      g.gain.setValueAtTime(gain, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g);
+      g.connect(out);
+      o.start(t);
+      o.stop(t + dur + 0.02);
+    } catch {
+      /* ignora errori audio */
+    }
+  }
+
+  /** Rumore filtrato (passa-banda che scivola da f0 a f1): fruscii e schiocchi. Buffer di rumore condiviso. */
+  private noiseBurst(dur: number, f0: number, f1: number, gain: number, when = 0, q = 1.2): void {
+    const ctx = this.ensure();
+    const out = ctx ? this.cats.sfx : null;
+    if (!ctx || !out) return;
+    try {
+      if (!this.noiseBuf || this.noiseBuf.sampleRate !== ctx.sampleRate) {
+        const len = Math.floor(ctx.sampleRate * 0.5);
+        const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+        const d = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+        this.noiseBuf = buf;
+      }
+      const t = ctx.currentTime + when;
+      const src = ctx.createBufferSource();
+      src.buffer = this.noiseBuf;
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.Q.value = q;
+      bp.frequency.setValueAtTime(f0, t);
+      bp.frequency.exponentialRampToValueAtTime(Math.max(40, f1), t + dur);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.linearRampToValueAtTime(gain, t + Math.min(0.03, dur * 0.3));
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      src.connect(bp);
+      bp.connect(g);
+      g.connect(out);
+      src.start(t);
+      src.stop(t + Math.min(dur + 0.02, 0.5));
+    } catch {
+      /* ignora errori audio */
+    }
+  }
+
+  /** Lancio di una palla: fruscio d'aria che sale. `power` 0.6..1.4 (tiro potenziato = piu' acuto e lungo). */
+  throwWhoosh(power = 1): void {
+    this.noiseBurst(Math.min(0.5, 0.16 + 0.06 * power), 500 * power, 2400 * power, 0.07 * power, 0, 0.9);
+    this.sweep('triangle', 240 * power, 520 * power, 0.09, 0.04);
+  }
+
+  /** Presa di una palla/oggetto: pop asciutto. */
+  pickupPop(): void {
+    this.sweep('sine', 380, 760, 0.09, 0.08);
+    this.tone(1140, 0.05, 'triangle', 0.035, 0.04);
+  }
+
+  /** Rimbalzo contro una parete: colpo sordo corto (non il tick dell'interfaccia). */
+  bounce(power = 1): void {
+    this.sweep('sine', 230 + power * 40, 90, 0.11, 0.07 * Math.min(1.3, power));
+  }
+
+  /** Colpo pesante (eliminazione, spinta forte): botto grave + schiocco + sfregamento di rumore. `power` 0.6..1.5. */
+  thump(power = 1): void {
+    this.sweep('sine', 190, 48, 0.24, 0.16 * Math.min(1.4, power));
+    this.sweep('square', 320, 90, 0.09, 0.06 * power);
+    this.noiseBurst(0.14, 1800, 300, 0.09 * power, 0, 0.7);
+  }
+
+  /** Fischio d'arbitro (calcio): due note vibranti. `long` = fischio lungo (fine partita). */
+  whistle(long = false): void {
+    const d = long ? 0.75 : 0.32;
+    this.sweep('sine', 2600, 2450, d, 0.05);
+    this.sweep('sine', 2810, 2660, d, 0.04);
+    this.noiseBurst(Math.min(0.5, d), 3200, 2900, 0.018, 0, 6);
+  }
+
+  /** Gol: boato di folla (rumore che gonfia e scende) + fanfara + colpo di tamburo. */
+  goalRoar(): void {
+    this.noiseBurst(0.5, 700, 260, 0.14, 0, 0.5);
+    this.noiseBurst(0.5, 600, 240, 0.1, 0.4, 0.5);
+    this.sweep('sine', 150, 55, 0.35, 0.18);
+    [392, 523, 659, 784].forEach((fr, i) => this.tone(fr, 0.32, 'triangle', 0.09, 0.05 + i * 0.09, 'ui'));
+  }
+
+  /** Calcio/tocco di pallone: tonfo secco. `power` 0.5..1.5. */
+  kick(power = 1): void {
+    this.sweep('sine', 210 * power, 70, 0.1, 0.13 * Math.min(1.3, power));
+    this.noiseBurst(0.05, 1500, 700, 0.06 * power, 0, 1.4);
   }
 
   /** Tono libero (es. nota di una tile di memoria): freq Hz, dur secondi. */
