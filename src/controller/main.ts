@@ -162,6 +162,7 @@ interface SignalPayload {
   value?: number;
   cooldownMs?: number;
   by?: string | null;
+  how?: string;
   team?: string;
   winner?: string;
 }
@@ -323,9 +324,16 @@ function lockArenaControls(locked: boolean): void {
 }
 
 /** Schermata piena e drammatica per i momenti chiave (eliminato/vincitore). */
-function showArenaOverlay(icon: string, text: string, color: string): void {
+function showArenaOverlay(icon: string, text: string, color: string, sub?: string): void {
   if (!arenaOverlayEl) return;
   arenaOverlayEl.innerHTML = `<span class="arena-overlay-icon">${icon}</span><span class="arena-overlay-text" style="color:${color}">${text}</span>`;
+  if (sub) {
+    // il nome di chi ti ha spinto e' testo libero del giocatore: mai dentro innerHTML
+    const line = document.createElement('span');
+    line.className = 'arena-overlay-sub';
+    line.textContent = sub;
+    arenaOverlayEl.appendChild(line);
+  }
   arenaOverlayEl.classList.add('show');
 }
 
@@ -340,10 +348,25 @@ function handleArenaSignal(s: SignalPayload): void {
         vibrate(35);
       }
       break;
-    case 'eliminated':
+    case 'eliminated': {
       lockArenaControls(true);
-      showArenaOverlay('💀', 'SEI FUORI!', '#f87171');
+      // CHI / COME / PERCHE': spinto da un giocatore, inghiottito dal bordo che si stringe, oppure caduto
+      const why = s.by ? `${s.by} ti ha buttato fuori!` : s.how === 'edge' ? 'Il bordo si stringe: stai piu\' al centro!' : 'Sei caduto nel vuoto!';
+      showArenaOverlay('💀', 'SEI FUORI!', '#f87171', why);
       vibrate([100, 60, 100]);
+      break;
+    }
+    case 'kill':
+      showToast(`🥊 Hai buttato fuori ${s.name ?? 'qualcuno'}!`);
+      vibrate([40, 30, 80]);
+      break;
+    case 'edge':
+      if (arenaStatusEl) arenaStatusEl.textContent = '⚠️ BORDO VICINO!';
+      vibrate(28);
+      break;
+    case 'shrink':
+      if (arenaStatusEl) arenaStatusEl.textContent = '⭕ IL BORDO SI STRINGE';
+      vibrate([40, 30, 40]);
       break;
     case 'won':
       lockArenaControls(true);

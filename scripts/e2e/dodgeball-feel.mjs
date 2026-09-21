@@ -149,9 +149,9 @@ try {
   if (OUT) await page.screenshot({ path: path.join(OUT, 'dodgeball-impatto.png') });
   const hs = await probe((gm) => {
     const g = gm.game.scene.getScene('dodgeball').game3d;
-    return { hitStop: g.hitStop, shocks: g.shocks.filter((s) => s.t < 0.4).length };
+    return { hitStop: g.hitStop };
   });
-  console.log('   hitstop residuo', hs.hitStop.toFixed(3), 'onde attive', hs.shocks);
+  console.log('   hitstop residuo', hs.hitStop.toFixed(3));
 
   // ---- SELF-HIT: C viene colpito da una sua palla di rimbalzo: nessuna eliminazione in piu' ----
   await probe((gm) => {

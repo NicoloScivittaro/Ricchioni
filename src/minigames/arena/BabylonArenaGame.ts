@@ -2,6 +2,7 @@ import { Engine, Scene, Color4, DynamicTexture } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
+import { ShockRings, GroundMarkers } from './impactFx';
 import {
   ARENA_R,
   ARENA_R_MIN,
@@ -17,6 +18,7 @@ import {
   KNOCKBACK_BASE,
   SHRINK_DELAY,
   SHRINK_DURATION,
+  EDGE_WARN_DIST,
   createArenaPlayer
 } from './arenaTypes';
 import type { ArenaPlayer } from './arenaTypes';
@@ -62,6 +64,10 @@ export class BabylonArenaGame {
   private disposed = false;
   private paused = false;
   private celebrateTime = 0;
+  private shocks: ShockRings;
+  private edgeMarkers: GroundMarkers;
+  private hitStop = 0;
+  private shrinkAnnounced = false;
 
   private onResize = (): void => this.engine.resize();
 
@@ -91,7 +97,7 @@ export class BabylonArenaGame {
     dc.fill();
     dotTex.update();
 
-    this.abilities = new ArenaAbilities((target, kx, kz, power) => this.applyKnockback(target, kx, kz, power));
+    this.abilities = new ArenaAbilities((target, kx, kz, power, source) => this.applyKnockback(target, kx, kz, power, source));
 
     this.order = [...ctx.playerIds];
     const n = this.order.length;
@@ -106,6 +112,8 @@ export class BabylonArenaGame {
       this.entities.set(p.id, entity);
     });
 
+    this.shocks = new ShockRings(this.scene);
+    this.edgeMarkers = new GroundMarkers(this.scene, n, 2.6, [1, 0.15, 0.2]);
     this.hud.setAlive(n);
     this.hud.setCountdown('3');
 
@@ -128,6 +136,7 @@ export class BabylonArenaGame {
 
   private step(dt: number): void {
     const now = performance.now();
+    let held = false; // hitstop in corso: gli edge degli input (justPressed) restano per il prossimo passo di simulazione
 
     if (this.phase === 'countdown') {
       this.countdown -= dt;
@@ -149,12 +158,19 @@ export class BabylonArenaGame {
         }
       }
     } else if (this.phase === 'playing') {
-      this.gameTime += dt;
-      this.updateShrink();
-      for (const p of this.players) this.stepPlayer(p, dt);
-      this.resolveCollisions();
-      this.checkEliminations();
-      this.checkEndCondition();
+      if (this.hitStop > 0) {
+        // HITSTOP leggero: pochi ms di fermo sul colpo (l'impatto "pesa"), poi la simulazione riprende identica
+        this.hitStop -= dt;
+        held = true;
+      } else {
+        this.gameTime += dt;
+        this.updateShrink();
+        for (const p of this.players) this.stepPlayer(p, dt);
+        this.resolveCollisions();
+        this.checkEliminations();
+        this.updateEdgeWarnings(now);
+        this.checkEndCondition();
+      }
     } else if (this.phase === 'celebrating') {
       this.celebrateTime -= dt;
       if (this.celebrateTime <= 0 && !this.resultsSent) {
@@ -167,10 +183,11 @@ export class BabylonArenaGame {
     for (const p of this.players) {
       this.entities.get(p.id)?.updateVisual(p, dt, now);
     }
+    this.shocks.update(dt);
     this.camera.update(dt, this.players, now);
     this.env.update(now);
 
-    this.ctx.input.update();
+    if (!held) this.ctx.input.update();
   }
 
   private timeOutClearCountdown(): void {
@@ -188,6 +205,33 @@ export class BabylonArenaGame {
     const scale = radius / ARENA_R;
     this.env.setShrink(scale, frac > 0);
     this.currentRadius = radius;
+    if (!this.shrinkAnnounced && this.gameTime >= SHRINK_DELAY) {
+      // il PERCHE' di molte cadute: il bordo si stringe. Prima annuncio (feed + botto), poi l'anello diventa rosso.
+      this.shrinkAnnounced = true;
+      this.hud.feedMessage('⭕ IL BORDO SI STRINGE! STAI LONTANO DAL VUOTO', '#f87171', 3200);
+      audio.thump(0.7);
+      this.camera.shake(0.12, 400);
+      this.ctx.signal(null, { type: 'shrink' });
+    }
+  }
+
+  /** Bordo vicino: anello rosso pulsante sotto il giocatore + avviso sul telefono (max 1 ogni 1.5 s). */
+  private updateEdgeWarnings(now: number): void {
+    this.players.forEach((p, i) => {
+      if (!p.alive || p.falling) {
+        this.edgeMarkers.hide(i);
+        return;
+      }
+      if (this.currentRadius - Math.hypot(p.x, p.z) < EDGE_WARN_DIST) {
+        this.edgeMarkers.show(i, p.x, p.z, now);
+        if (now - p.edgeWarnAt > 1500) {
+          p.edgeWarnAt = now;
+          this.ctx.signal(p.id, { type: 'edge' });
+        }
+      } else {
+        this.edgeMarkers.hide(i);
+      }
+    });
   }
 
   private currentRadius = ARENA_R;
@@ -279,8 +323,13 @@ export class BabylonArenaGame {
     }
   }
 
-  private applyKnockback(target: ArenaPlayer, kx: number, kz: number, power: number): void {
+  private applyKnockback(target: ArenaPlayer, kx: number, kz: number, power: number, source?: ArenaPlayer): void {
     if (!target.alive || target.falling) return;
+    if (source && source.id !== target.id) {
+      // CHI: ricordo l'ultimo che ti ha spinto (anche se la spinta e' rimandata da Ciro): a lui va l'eliminazione
+      target.lastHitBy = source.id;
+      target.lastHitAt = this.gameTime;
+    }
     const k = this.abilities.shieldIncoming(target, kx * power, kz * power);
     if (k.x === 0 && k.z === 0) return; // Ciro: rimandata
     target.vx += k.x;
@@ -289,9 +338,14 @@ export class BabylonArenaGame {
     target.stunTime = Math.max(target.stunTime, STUN_TIME);
     target.hitFlash = 0.16;
     this.entities.get(target.id)?.burstHit();
-    audio.hit();
+    // impatto proporzionale al colpo EFFETTIVO (resistenze incluse): onda d'urto nel punto di contatto, botto, hitstop leggero
+    const heavy = Math.min(1.5, Math.hypot(k.x, k.z) / KNOCKBACK_BASE + 0.2);
+    this.shocks.spawn(target.x - kx * 0.6, target.z - kz * 0.6, target.color, 0.7 + heavy * 0.5);
+    audio.thump(heavy);
+    this.hitStop = Math.max(this.hitStop, 0.035 + 0.03 * Math.min(1, heavy));
     this.ctx.vibrate(target.id, 60);
-    this.camera.shake(0.15, 160);
+    if (source) this.ctx.vibrate(source.id, 35); // conferma di colpo per chi ha spinto
+    this.camera.shake(0.1 + 0.1 * heavy, 170);
   }
 
   private resolveCollisions(): void {
@@ -316,12 +370,12 @@ export class BabylonArenaGame {
         const aDash = a.dashing;
         const bDash = b.dashing;
         if (aDash && !bDash) {
-          this.applyKnockback(b, nx, nz, KNOCKBACK_BASE * a.knockMult);
+          this.applyKnockback(b, nx, nz, KNOCKBACK_BASE * a.knockMult, a);
           a.dashing = false;
           a.vx *= 0.35;
           a.vz *= 0.35;
         } else if (bDash && !aDash) {
-          this.applyKnockback(a, -nx, -nz, KNOCKBACK_BASE * b.knockMult);
+          this.applyKnockback(a, -nx, -nz, KNOCKBACK_BASE * b.knockMult, b);
           b.dashing = false;
           b.vx *= 0.35;
           b.vz *= 0.35;
@@ -360,11 +414,28 @@ export class BabylonArenaGame {
     p.vx = (p.x / d) * 7;
     p.vz = (p.z / d) * 7;
     p.vy = 5;
-    audio.wrong();
+    // CHI / COME / PERCHE': chi ti ha spinto negli ultimi 3 s, oppure il bordo che si stringe, oppure sei caduto da solo
+    const pusher = p.lastHitBy && this.gameTime - p.lastHitAt < 3 ? this.players.find((x) => x.id === p.lastHitBy) : undefined;
+    if (pusher) pusher.eliminations++;
+    const shrinking = this.gameTime > SHRINK_DELAY;
+    const how = pusher ? 'push' : shrinking ? 'edge' : 'fall';
+    const feed = pusher
+      ? `🥊 ${pusher.name.toUpperCase()} → ${p.avatar} ${p.name.toUpperCase()} È FUORI!`
+      : shrinking
+        ? `⭕ ${p.avatar} ${p.name.toUpperCase()} INGHIOTTITO DAL BORDO!`
+        : `${p.avatar} ${p.name.toUpperCase()} È CADUTO!`;
+    audio.fall();
+    audio.thump(1.1);
     this.entities.get(p.id)?.burstHit();
-    this.camera.shake(0.3, 240);
-    this.hud.feedMessage(`${p.avatar} ${p.name.toUpperCase()} È FUORI!`, '#f87171');
-    this.ctx.signal(p.id, { type: 'eliminated' });
+    this.shocks.spawn(p.x, p.z, p.color, 1.5);
+    this.camera.shake(0.42, 280);
+    this.hitStop = Math.max(this.hitStop, 0.08);
+    this.hud.feedMessage(feed, '#f87171');
+    this.ctx.signal(p.id, { type: 'eliminated', by: pusher?.name ?? null, how });
+    if (pusher) {
+      this.ctx.signal(pusher.id, { type: 'kill', name: p.name });
+      this.ctx.vibrate(pusher.id, 90);
+    }
     const aliveNow = this.players.filter((x) => x.alive).length;
     this.hud.setAlive(aliveNow);
     const duel = aliveNow === 2 && this.players.length > 2 ? say('lastTwo', true) : null;
@@ -383,6 +454,7 @@ export class BabylonArenaGame {
     if (this.phase === 'celebrating') return;
     this.phase = 'celebrating';
     this.celebrateTime = 1.8;
+    for (let i = 0; i < this.players.length; i++) this.edgeMarkers.hide(i);
 
     const winner = this.players.find((p) => p.alive);
     if (winner) {
@@ -407,11 +479,12 @@ export class BabylonArenaGame {
     const ranking = [...aliveIds, ...eliminated.filter((id) => !aliveIds.includes(id))];
     return ranking.map((pid, i) => {
       const t = this.eliminatedAt.get(pid);
+      const elim = this.players.find((p) => p.id === pid)?.eliminations ?? 0;
       return {
         playerId: pid,
         placement: i + 1,
         score: 0,
-        stats: [t === undefined ? 'ultimo in piedi' : `caduto dopo ${Math.round(t)}s`]
+        stats: [t === undefined ? 'ultimo in piedi' : `caduto dopo ${Math.round(t)}s`, ...(elim > 0 ? [`${elim} ${elim === 1 ? 'buttato fuori' : 'buttati fuori'}`] : [])]
       };
     });
   }

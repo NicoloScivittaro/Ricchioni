@@ -43,7 +43,7 @@ export function abilityDescription(characterId: string | null): string {
  * deferArmed, deferredKnock) che questa classe imposta e ripristina.
  */
 export class ArenaAbilities {
-  constructor(private onKnock: (target: ArenaPlayer, kx: number, kz: number, power: number) => void) {}
+  constructor(private onKnock: (target: ArenaPlayer, kx: number, kz: number, power: number, source?: ArenaPlayer) => void) {}
 
   onAbilityPress(p: ArenaPlayer, players: ArenaPlayer[], onFeedback: (f: ArenaAbilityFeedback) => void): void {
     if (p.abilityUsed || !p.alive || p.falling) return;
@@ -89,7 +89,7 @@ export class ArenaAbilities {
           const dz = other.z - p.z;
           const d = Math.hypot(dx, dz);
           if (d < JUDOKA_RADIUS && d > 0.001) {
-            this.onKnock(other, dx / d, dz / d, JUDOKA_POWER);
+            this.onKnock(other, dx / d, dz / d, JUDOKA_POWER, p);
           }
         }
         onFeedback({ type: 'judoka_ippon' });

@@ -387,14 +387,16 @@ export class ArenaEntity {
     const flash = p.hitFlash > 0 ? 1 : 0;
     for (const m of this.bodyMats) m.emissiveColor = new Color3(flash, flash, flash);
 
-    // Particelle
-    this.dashFx.emitRate = p.dashing ? 90 : 0;
+    // Particelle: scia in dash e, piu' rada, mentre vieni sbalzato via da un colpo (si vede chi vola e in che direzione)
+    const knocked = p.stunTime > 0.12 && speed > 6.5;
+    this.dashFx.emitRate = p.dashing ? 90 : knocked ? 60 : 0;
 
     // Caduta / vittoria: spin
     if (p.falling) {
       this.root.rotation.x = Math.sin(now * 0.01) * 0.5;
       const s = Math.max(0.2, 1 - p.spin * 0.05);
       this.root.scaling.setAll(s);
+      if (p.y < -22 && this.root.isEnabled()) this.root.setEnabled(false); // caduto nel vuoto: non si disegna piu'
     }
   }
 

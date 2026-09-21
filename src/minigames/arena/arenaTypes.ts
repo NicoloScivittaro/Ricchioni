@@ -23,6 +23,9 @@ export const STUN_TIME = 0.42;
 /** Gravità per l'arco del knockback (salto in aria). */
 export const GRAVITY = 26;
 
+/** Distanza dal bordo (unita') sotto cui scatta l'avviso di pericolo (anello rosso sotto il giocatore + telefono). */
+export const EDGE_WARN_DIST = 2.6;
+
 /** Secondi prima che l'arena inizi a restringersi. */
 export const SHRINK_DELAY = 8;
 /** Durata del restringimento (dopo lo shrink delay), in secondi. */
@@ -64,6 +67,14 @@ export interface ArenaPlayer {
   deferredKnock: { x: number; z: number } | null;
   deferTimer: number;
 
+  /** CHI: ultimo giocatore che ti ha spinto e QUANDO (secondi di gioco): decide di chi e' l'eliminazione. */
+  lastHitBy: PlayerId | null;
+  lastHitAt: number;
+  /** Eliminazioni "meritate" (spinte fuori entro 3 s dall'ultimo colpo). */
+  eliminations: number;
+  /** Ultimo avviso di bordo mandato al telefono (ms, performance.now). */
+  edgeWarnAt: number;
+
   /** spin/scale usati dall'animazione di caduta/vittoria. */
   spin: number;
 }
@@ -103,6 +114,10 @@ export function createArenaPlayer(
     deferArmed: false,
     deferredKnock: null,
     deferTimer: 0,
+    lastHitBy: null,
+    lastHitAt: -99,
+    eliminations: 0,
+    edgeWarnAt: 0,
     spin: 0
   };
 }

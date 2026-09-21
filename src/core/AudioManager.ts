@@ -360,6 +360,13 @@ export class AudioManager {
     this.noiseBurst(0.14, 1800, 300, 0.09 * power, 0, 0.7);
   }
 
+  /** Caduta nel vuoto (arena): fischio discendente + soffio d'aria. */
+  fall(): void {
+    this.sweep('sine', 880, 130, 0.7, 0.07);
+    this.sweep('triangle', 660, 100, 0.6, 0.03, 0.05);
+    this.noiseBurst(0.45, 1600, 240, 0.04, 0, 0.8);
+  }
+
   /** Fischio d'arbitro (calcio): due note vibranti. `long` = fischio lungo (fine partita). */
   whistle(long = false): void {
     const d = long ? 0.75 : 0.32;

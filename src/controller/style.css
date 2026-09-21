@@ -1148,6 +1148,16 @@ button.char:disabled {
   letter-spacing: 0.03em;
 }
 
+.arena-overlay-sub {
+  margin-top: 6px;
+  padding: 0 16px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #e5e7eb;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
 /* ---- DODGEBALL DEI COGLIONI: varianti pulsanti azione ---- */
 
 .arena-dash.db-throw {

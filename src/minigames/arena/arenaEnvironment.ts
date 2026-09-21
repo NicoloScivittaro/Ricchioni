@@ -244,11 +244,8 @@ export function buildEnvironment(scene: Scene): ArenaEnvironment {
       platform.scaling.z = scale;
       edgeRing.scaling.x = scale;
       edgeRing.scaling.z = scale;
-      if (danger) {
-        edgeMat.emissiveColor = new Color3(0.9, 0.15, 0.2);
-      } else {
-        edgeMat.emissiveColor = new Color3(0.35, 0.05, 0.6);
-      }
+      if (danger) edgeMat.emissiveColor.set(0.9, 0.15, 0.2);
+      else edgeMat.emissiveColor.set(0.35, 0.05, 0.6);
     },
     update(now: number): void {
       const t = now * 0.001;

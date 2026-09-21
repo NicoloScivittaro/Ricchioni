@@ -48,6 +48,7 @@ import {
 } from './dodgeballTypes';
 import type { DodgeballPlayer, Ball } from './dodgeballTypes';
 import { ArenaEntity } from '../arena/arenaEntity';
+import { ShockRings } from '../arena/impactFx';
 import { ArenaCamera } from '../arena/arenaCamera';
 import { ArenaHud } from '../arena/arenaHud';
 import { buildDodgeballEnvironment } from './dodgeballEnvironment';
@@ -66,7 +67,6 @@ const BALL_HEIGHT = 0.7;
 const DANGER_TIME = 0.42;
 /** Hitstop all'eliminazione (s): la simulazione si ferma un attimo, l'impatto "pesa". Gli input restano in coda. */
 const HITSTOP_S = 0.07;
-const SHOCK_TIME = 0.4;
 
 type Phase = 'countdown' | 'playing' | 'celebrating';
 
@@ -93,7 +93,7 @@ export class BabylonDodgeballGame {
   private trails: ParticleSystem[] = [];
   private pickRings: Mesh[] = [];
   private ringMat: StandardMaterial | null = null;
-  private shocks: { mesh: Mesh; t: number }[] = [];
+  private shocks: ShockRings;
   private warned = new Map<string, number>();
   private hitStop = 0;
 
@@ -205,16 +205,7 @@ export class BabylonDodgeballGame {
       this.trails.push(this.makeTrail(mesh, dotTex));
       this.pickRings.push(this.makeRing());
     }
-    for (let i = 0; i < 4; i++) {
-      const m = MeshBuilder.CreateTorus('dbShock', { diameter: 2, thickness: 0.16, tessellation: 28 }, this.scene);
-      const mat = new StandardMaterial('dbShockMat', this.scene);
-      mat.disableLighting = true;
-      mat.emissiveColor = new Color3(1, 1, 1);
-      m.material = mat;
-      m.isPickable = false;
-      m.isVisible = false;
-      this.shocks.push({ mesh: m, t: SHOCK_TIME });
-    }
+    this.shocks = new ShockRings(this.scene);
 
     this.hud.setAlive(n);
     this.hud.setCountdown('3');
@@ -283,7 +274,7 @@ export class BabylonDodgeballGame {
       this.entities.get(p.id)?.updateVisual(p, dt, now);
     }
     this.syncBallMeshes(now);
-    this.updateShocks(dt);
+    this.shocks.update(dt);
     this.updateTrajectories(now);
     this.camera.update(dt, this.players, now);
     this.env.update(now);
@@ -574,34 +565,6 @@ export class BabylonDodgeballGame {
     return m;
   }
 
-  /** Onda d'urto a terra (anello che si allarga e sfuma) del colore del giocatore colpito. */
-  private spawnShock(x: number, z: number, colorHex: string): void {
-    const s = this.shocks.find((k) => k.t >= SHOCK_TIME) ?? this.shocks[0];
-    if (!s) return;
-    s.t = 0;
-    s.mesh.position.set(x, 0.12, z);
-    const mat = s.mesh.material as StandardMaterial;
-    const c = Color3.FromHexString(colorHex);
-    mat.emissiveColor.set(0.4 + c.r * 0.6, 0.4 + c.g * 0.6, 0.4 + c.b * 0.6);
-    s.mesh.scaling.set(0.5, 1, 0.5);
-    s.mesh.visibility = 0.9;
-    s.mesh.isVisible = true;
-  }
-
-  private updateShocks(dt: number): void {
-    for (const s of this.shocks) {
-      if (s.t >= SHOCK_TIME) {
-        if (s.mesh.isVisible) s.mesh.isVisible = false;
-        continue;
-      }
-      s.t += dt;
-      const k = Math.min(1, s.t / SHOCK_TIME);
-      const sc = 0.5 + k * 3.4;
-      s.mesh.scaling.set(sc, 1, sc);
-      s.mesh.visibility = 0.9 * (1 - k);
-    }
-  }
-
   private bounceSfx(ball: Ball): void {
     audio.bounce(Math.max(0.4, Math.min(1.2, Math.hypot(ball.vx, ball.vz) / THROW_SPEED)));
   }
@@ -848,7 +811,7 @@ export class BabylonDodgeballGame {
     target.stunTime = Math.max(target.stunTime, STUN_TIME);
     target.hitFlash = 0.16;
     this.entities.get(target.id)?.burstHit();
-    this.spawnShock(target.x, target.z, target.color);
+    this.shocks.spawn(target.x, target.z, target.color);
     audio.thump(0.8);
     this.ctx.vibrate(target.id, 60);
     this.camera.shake(0.15, 160);
@@ -894,7 +857,7 @@ export class BabylonDodgeballGame {
     audio.thump(1.3);
     audio.wrong();
     this.entities.get(p.id)?.burstHit();
-    this.spawnShock(p.x, p.z, p.color);
+    this.shocks.spawn(p.x, p.z, p.color);
     this.camera.shake(0.42, 260);
     this.hitStop = HITSTOP_S;
     // CHI / COME: chi ti ha colpito (nome sul telefono e nel feed), oppure "colpo di rimbalzo" / debito
