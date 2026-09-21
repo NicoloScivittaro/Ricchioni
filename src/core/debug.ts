@@ -173,6 +173,11 @@ class DebugOverlay {
 let overlay: DebugOverlay | null = null;
 
 /** Da chiamare una volta all'avvio dell'host: registra F3 (e Q con overlay visibile) solo se il debug è consentito. */
+/** true in sviluppo o con `?debug=1`: abilita le statistiche di bilanciamento (pallavolo) e simili. In produzione e' false. */
+export function debugEnabled(): boolean {
+  return allowed();
+}
+
 export function initDebug(): void {
   if (!allowed()) return;
   overlay = new DebugOverlay();

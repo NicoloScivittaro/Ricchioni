@@ -53,6 +53,8 @@ import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
 import { say } from '../../core/announcer';
+import { debugEnabled } from '../../core/debug';
+import { VolleyStats } from './volleyballStats';
 
 const COUNTDOWN_S = 3.2;
 const INTRO_SECONDS = 3.4;
@@ -94,6 +96,7 @@ export class BabylonVolleyballGame {
   private paused = false;
   private celebrateTime = 0;
   private winnerTeam: Team | null = null;
+  private stats: VolleyStats | null = debugEnabled() ? new VolleyStats() : null; // statistiche di bilanciamento (solo debug)
 
   private onResize = (): void => this.engine.resize();
 
@@ -321,6 +324,7 @@ export class BabylonVolleyballGame {
   }
 
   private updateGameplay(dt: number, now: number): void {
+    this.stats?.tick(dt);
     for (const p of this.players) this.stepPlayer(p, dt);
     this.updateBall(dt);
     void now;
@@ -408,6 +412,7 @@ export class BabylonVolleyballGame {
     this.ball.teamTouches = 1;
     this.ball.crossedNet = false;
     this.rally = 1;
+    this.stats?.rallyStart();
     const dirZ = p.team === 'red' ? 1 : -1;
     this.ball.vx = (Math.random() - 0.5) * 3;
     this.ball.vy = BALL_SERVE_UP;
@@ -503,6 +508,7 @@ export class BabylonVolleyballGame {
     this.ball.vy = vy;
     this.ball.vz = vz;
     clampBallSpeed(this.ball);
+    this.stats?.hit(p.team, p.id, isSmash, Math.hypot(this.ball.vx, this.ball.vy, this.ball.vz));
     this.ball.lastTouchId = p.id;
     this.ball.teamTouches++;
     this.rally++;
@@ -539,6 +545,7 @@ export class BabylonVolleyballGame {
     const prevZ = b.z;
     b.vy -= BALL_GRAVITY * this.gravityScale * dt;
     clampBallSpeed(b);
+    this.stats?.ball(Math.hypot(b.vx, b.vy, b.vz));
     b.x += b.vx * dt;
     b.y += b.vy * dt;
     b.z += b.vz * dt;
@@ -619,6 +626,7 @@ export class BabylonVolleyballGame {
     this.camera.shake(0.3, 260);
     const rallyLen = this.rally;
     this.rally = 0;
+    this.stats?.point(scoringTeam);
     this.hud.feedMessage(`💥 PUNTO ${TEAM_LABEL[scoringTeam]}! ${this.redScore} — ${this.blueScore}${rallyLen >= 6 ? ` · scambio da ${rallyLen} colpi` : ''}`, scoringTeam === 'red' ? '#f87171' : '#60a5fa', 2600);
     for (const p of this.players) this.ctx.vibrate(p.id, p.team === scoringTeam ? 150 : 70);
     this.ctx.signal(null, { type: 'point', team: scoringTeam });
@@ -629,6 +637,7 @@ export class BabylonVolleyballGame {
 
     if (this.redScore >= WIN_SCORE || this.blueScore >= WIN_SCORE) {
       this.winnerTeam = scoringTeam;
+      this.stats?.report(new Map(this.players.map((p) => [p.id, p.name])));
       // partita finita: dopo la pausa punto si chiude
       this.phase = 'ended';
       this.celebrateTime = 2.6;
