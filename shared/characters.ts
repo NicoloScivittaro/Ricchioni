@@ -124,6 +124,11 @@ export const CHARACTERS: Record<string, CharacterDefinition> = {
 
 export const CHARACTER_ORDER: string[] = ['goblin', 'buttafuori', 'dottore', 'judoka', 'ciro'];
 
+/** Iniziale del personaggio per i segnali piccoli (minimappa, radar): G oblin, B uttafuori, D ottore, J udoka, C iro — tutte diverse. */
+export function characterInitial(id: string | null | undefined): string {
+  return id ? id.charAt(0).toUpperCase() : '?';
+}
+
 export function getCharacter(id: string): CharacterDefinition {
   const c = CHARACTERS[id];
   if (!c) throw new Error(`Personaggio sconosciuto: ${id}`);

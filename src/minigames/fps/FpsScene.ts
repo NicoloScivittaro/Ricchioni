@@ -8,6 +8,7 @@ import { WEAPONS, getWeapon } from '../../../shared/fpsWeapons';
 import type { WeaponConfig } from '../../../shared/fpsWeapons';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
+import { characterInitial } from '../../../shared/characters';
 
 // SPARATORIA DEI DISAGIATI — Milestone 1: FPS free-for-all.
 // L'HOST (PC) è l'autorità: simula movimento/collisioni/hitscan/HP/kill/respawn,
@@ -33,6 +34,8 @@ interface FpsPlayer {
   id: PlayerId;
   name: string;
   avatar: string;
+  /** iniziale del personaggio (G/B/D/J/C) per il radar */
+  initial: string;
   color: string;
   x: number;
   z: number;
@@ -86,6 +89,7 @@ export class FpsScene extends Phaser.Scene {
   private timerText!: Phaser.GameObjects.Text;
   private rankTexts: Phaser.GameObjects.Text[] = [];
   private radarTags: Phaser.GameObjects.Text[] = [];
+  private radarNames: Phaser.GameObjects.Text[] = [];
   private blasts: Blast[] = [];
   private clock = 0; // secondi di gioco (tempi di esplosione)
 
@@ -100,6 +104,7 @@ export class FpsScene extends Phaser.Scene {
     this.broadcastAcc = 0;
     this.rankTexts = [];
     this.radarTags = [];
+    this.radarNames = [];
     this.matchTime = Math.min(100, data.ctx.durationSec);
     audio.unlock();
     this.cameras.main.setBackgroundColor('#0b1220');
@@ -121,6 +126,7 @@ export class FpsScene extends Phaser.Scene {
         id: snap.id,
         name: snap.name,
         avatar: snap.avatar,
+        initial: characterInitial(snap.characterId),
         color: snap.color,
         x: spawn.x,
         z: spawn.z,
@@ -508,30 +514,36 @@ export class FpsScene extends Phaser.Scene {
       const x = cx + p.x * scale;
       const y = cy + p.z * scale;
       const color = Phaser.Display.Color.HexStringToColor(p.color).color;
-      // accessibilita': accanto al pallino colorato c'e' la faccina del personaggio (non solo il colore)
+      // ogni giocatore: cerchio colorato + INIZIALE dentro + freccia di direzione + nome breve sotto (simboli semplici, niente faccine illeggibili)
       let tag = this.radarTags[i];
+      let nameTag = this.radarNames[i];
       if (!tag) {
-        tag = this.add.text(0, 0, p.avatar, { fontSize: '15px' }).setOrigin(0.5).setDepth(3);
+        tag = this.add.text(0, 0, p.initial, { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '15px', color: '#ffffff', stroke: '#0b1220', strokeThickness: 3 }).setOrigin(0.5).setDepth(3);
+        nameTag = this.add.text(0, 0, p.name.slice(0, 6).toUpperCase(), { fontFamily: 'Arial, sans-serif', fontSize: '11px', fontStyle: 'bold', color: '#e2e8f0', stroke: '#0b1220', strokeThickness: 3 }).setOrigin(0.5).setDepth(3);
         this.radarTags[i] = tag;
+        this.radarNames[i] = nameTag;
       }
-      tag.setPosition(x, y + 19).setVisible(p.alive);
+      tag.setPosition(x, y).setVisible(p.alive);
+      nameTag.setPosition(x, y + 19).setVisible(p.alive);
       if (!p.alive) {
         g.fillStyle(0x64748b, 0.5);
-        g.fillCircle(x, y, 7);
+        g.fillCircle(x, y, 8);
         return;
       }
-      // direzione
-      g.lineStyle(3, 0xffffff, 0.8);
-      g.lineBetween(x, y, x + Math.sin(p.yaw) * 14, y + Math.cos(p.yaw) * 14);
+      // freccia di direzione: triangolo che esce dal cerchio
+      const sx = Math.sin(p.yaw);
+      const sz = Math.cos(p.yaw);
+      g.fillStyle(0xffffff, 1);
+      g.fillTriangle(x + sx * 20, y + sz * 20, x + sx * 10 - sz * 6, y + sz * 10 + sx * 6, x + sx * 10 + sz * 6, y + sz * 10 - sx * 6);
       g.fillStyle(color, 1);
-      g.fillCircle(x, y, 8);
-      g.lineStyle(2, 0xffffff, 1);
-      g.strokeCircle(x, y, 8);
+      g.fillCircle(x, y, 11);
+      g.lineStyle(2.5, 0xffffff, 1);
+      g.strokeCircle(x, y, 11);
       // HP bar
       g.fillStyle(0x111827, 1);
-      g.fillRect(x - 10, y - 20, 20, 4);
+      g.fillRect(x - 12, y - 24, 24, 4);
       g.fillStyle(p.hp > 40 ? 0x4ade80 : 0xf87171, 1);
-      g.fillRect(x - 10, y - 20, 20 * (p.hp / MAX_HP), 4);
+      g.fillRect(x - 12, y - 24, 24 * (p.hp / MAX_HP), 4);
     });
   }
 

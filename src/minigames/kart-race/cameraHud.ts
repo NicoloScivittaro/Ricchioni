@@ -1,6 +1,7 @@
 import { Scene, UniversalCamera, Vector3, Engine, Viewport } from '@babylonjs/core';
 import { AdvancedDynamicTexture, TextBlock, Rectangle, Control, Ellipse, Image as GuiImage } from '@babylonjs/gui';
 import type { PlayerId } from '../../../shared/types';
+import { characterInitial } from '../../../shared/characters';
 import { popCountdown } from '../../core/countdownFx';
 import type { KartState } from './raceTypes';
 import type { TrackSpline } from './track';
@@ -265,7 +266,7 @@ export class KartHud {
       const fz = t.z * ch + r.z * sh;
       const cx = ((offX + (p.x - minX) * scale) / 256 - 0.5) * MM;
       const cy = ((offY + (maxZ - p.z) * scale) / 256 - 0.5) * MM;
-      return { id: k.playerId, color: k.colorHex, avatar: k.avatar, cx, cy, fx, fz };
+      return { id: k.playerId, color: k.colorHex, initial: characterInitial(k.characterId), cx, cy, fx, fz };
     });
     for (const [viewer, e] of this.entries) {
       if (!e.mapBox) continue;
@@ -274,25 +275,29 @@ export class KartHud {
         const self = q.id === viewer;
         if (!d) {
           const dot = new Ellipse(`mmDot_${viewer}_${q.id}`);
-          dot.width = dot.height = `${self ? 13 : 9}px`;
+          dot.width = dot.height = `${self ? 18 : 11}px`; // il proprio: piu' grande e con contorno pieno
           dot.background = q.color;
           dot.color = self ? '#ffffff' : '#0b0b14';
-          dot.thickness = self ? 2.5 : 1.5;
+          dot.thickness = self ? 3.5 : 1.5;
           e.mapBox.addControl(dot);
           let arrow: TextBlock | null = null;
           if (self) {
             arrow = new TextBlock(`mmArrow_${viewer}`, '▲');
             arrow.color = '#ffffff';
-            arrow.fontSize = 13;
+            arrow.fontSize = 15;
             arrow.outlineWidth = 2;
             arrow.outlineColor = '#000000';
             e.mapBox.addControl(arrow);
           }
-          // accessibilita': gli avversari non si distinguono solo per colore, accanto al puntino c'e' la faccina del loro personaggio
+          // accessibilita': gli avversari non si distinguono solo per colore: l'INIZIALE del personaggio (G/B/D/J/C) sta dentro il puntino
           let tag: TextBlock | null = null;
           if (!self) {
-            tag = new TextBlock(`mmTag_${viewer}_${q.id}`, q.avatar);
-            tag.fontSize = 11;
+            tag = new TextBlock(`mmTag_${viewer}_${q.id}`, q.initial);
+            tag.fontSize = 10;
+            tag.fontStyle = 'bold';
+            tag.color = '#ffffff';
+            tag.outlineWidth = 2;
+            tag.outlineColor = '#000000';
             e.mapBox.addControl(tag);
           }
           d = { dot, arrow, tag };
@@ -301,8 +306,8 @@ export class KartHud {
         d.dot.left = `${q.cx}px`;
         d.dot.top = `${q.cy}px`;
         if (d.tag) {
-          d.tag.left = `${q.cx + 9}px`;
-          d.tag.top = `${q.cy - 8}px`;
+          d.tag.left = `${q.cx}px`;
+          d.tag.top = `${q.cy}px`;
         }
         if (d.arrow) {
           d.arrow.left = `${q.cx + q.fx * 11}px`;
