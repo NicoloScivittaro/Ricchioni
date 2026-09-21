@@ -179,6 +179,8 @@ interface SignalPayload {
   at?: number;
   value?: number;
   cooldownMs?: number;
+  permanent?: boolean;
+  why?: string;
   by?: string | null;
   how?: string;
   team?: string;
@@ -1408,7 +1410,7 @@ socket.on(EVT.controllerSignal, (data) => {
         actionBtn.disabled = false;
         actionBtn.classList.remove('go', 'ctl-drunk');
       }
-      if (abilityBtn) abilityBtn.disabled = false;
+      if (abilityBtn && abilityBtn.dataset.locked !== '1') abilityBtn.disabled = false; // Dottore/Ciro: una volta a partita
       break;
     }
     case 'via': {
@@ -1455,6 +1457,7 @@ socket.on(EVT.controllerSignal, (data) => {
       if (abilityBtn) {
         abilityBtn.disabled = true;
         abilityBtn.classList.add('ctl-ability-used');
+        if (s.permanent) abilityBtn.dataset.locked = '1';
       }
       break;
     }
@@ -1467,13 +1470,34 @@ socket.on(EVT.controllerSignal, (data) => {
       showToast('🍻 NCULO! — troppo presto, effetto ubriaco');
       break;
     }
-    case 'focusHit': {
-      vibrate(150);
-      showToast('👁 SONO PIÙ SVEGLIO — VIA rilevato!');
+    case 'focus': {
+      // finestra FOCUS di 2 s: il pulsante pulsa finche' dura
+      if (actionBtn) {
+        actionBtn.classList.add('ctl-drunk');
+        window.setTimeout(() => actionBtn.classList.remove('ctl-drunk'), s.ms ?? 2000);
+      }
+      showToast("🧪 M'HO SVEJATO — FOCUS! (2 s)", 1400);
+      vibrate(30);
       break;
     }
-    case 'notYet': {
-      showToast('🛑 ORA NON È ANCORA', 1000);
+    case 'focusHit': {
+      vibrate([40, 40, 160]);
+      showToast('🧪 DIAGNOSI ESATTA — il VIA era nel FOCUS!');
+      break;
+    }
+    case 'focusMiss': {
+      showToast("🧪 FOCUS sprecato: il VIA non c'era", 1200);
+      break;
+    }
+    case 'armed': {
+      showToast('🛑 ULTIMO SECONDO — in guardia', 1200);
+      vibrate(30);
+      break;
+    }
+    case 'calm': {
+      // falso allarme o falsa partenza altrui: NON premere, non e' ancora finita
+      vibrate([50, 50, 50]);
+      showToast(s.why === 'fake' ? '🛑 FALSO ALLARME — NON È ANCORA FINITA!' : '🛑 QUALCUNO HA SBAGLIATO — NON È ANCORA FINITA!', 1400);
       break;
     }
     case 'reset': {

@@ -33,6 +33,12 @@ interface PState {
   abilityUsed: boolean;
   penaltyMs: number;
   focusUntil: number;
+  /** M'HO SVEJATO: la finestra FOCUS e' aperta (2 s durante l'attesa) */
+  focusOpen: boolean;
+  /** ULTIMO SECONDO: in guardia per questo round */
+  armed: boolean;
+  /** Dottore e Ciro: abilita' UNA volta a partita (le altre si rinnovano a ogni round) */
+  gameUsed: boolean;
   roundTimes: number[];
   card: Phaser.GameObjects.Text;
 }
@@ -104,6 +110,9 @@ export class ReactionScene extends Phaser.Scene {
         abilityUsed: false,
         penaltyMs: 0,
         focusUntil: 0,
+        focusOpen: false,
+        armed: false,
+        gameUsed: false,
         roundTimes: [],
         card
       });
@@ -142,9 +151,11 @@ export class ReactionScene extends Phaser.Scene {
       p.status = 'ready';
       p.timeMs = null;
       p.falseAt = null;
-      p.abilityUsed = false;
+      p.abilityUsed = p.gameUsed; // Dottore e Ciro: una volta a partita
       p.penaltyMs = 0;
       p.focusUntil = 0;
+      p.focusOpen = false;
+      p.armed = false;
       this.updateCard(p);
       // Riga persistente sul telefono: cosa fa l'abilità di QUESTO personaggio (come kart/quiz).
       const ab = REACTION_ABILITIES[p.snap.characterId ?? ''];
@@ -186,6 +197,15 @@ export class ReactionScene extends Phaser.Scene {
       }
     }
 
+    // FOCUS scaduto senza VIA: abilita' sprecata
+    for (const p of this.players) {
+      if (p.focusOpen && this.gameTime > p.focusUntil) {
+        p.focusOpen = false;
+        this.ctx.signal(p.snap.id, { type: 'focusMiss' });
+        this.showAbilityBanner(p, "M'HO SVEJATO — FOCUS sprecato");
+      }
+    }
+
     if (this.gameTime >= this.viaDeadline) this.triggerVia();
   }
 
@@ -206,6 +226,7 @@ export class ReactionScene extends Phaser.Scene {
     audio.wrong();
     this.ctx.signal(p.snap.id, { type: 'falseStart' });
     this.updateCard(p);
+    this.calmArmed('false', p);
   }
 
   private useAbility(p: PState): void {
@@ -215,7 +236,9 @@ export class ReactionScene extends Phaser.Scene {
     // il pulsante abilità sul suo telefono non deve consumarla.
     if (!['goblin', 'dottore', 'judoka', 'ciro'].includes(cid)) return;
     p.abilityUsed = true;
-    this.ctx.signal(p.snap.id, { type: 'abilityUsed', name: REACTION_ABILITIES[cid]?.name });
+    const once = cid === 'dottore' || cid === 'ciro';
+    if (once) p.gameUsed = true;
+    this.ctx.signal(p.snap.id, { type: 'abilityUsed', name: REACTION_ABILITIES[cid]?.name, permanent: once });
     switch (cid) {
       case 'goblin':
         this.abilityGoblin(p);
@@ -248,11 +271,16 @@ export class ReactionScene extends Phaser.Scene {
     }
   }
 
+  /**
+   * M'HO SVEJATO (Dottore): vantaggio INFORMATIVO, mai temporale. Apre una finestra FOCUS di 2 s durante l'attesa: se il VIA cade dentro
+   * il telefono vibra e la TV annuncia la diagnosi esatta, altrimenti l'abilita' e' sprecata. Il tempo parte sempre dal VIA vero.
+   */
   private abilityDottore(p: PState): void {
     p.focusUntil = this.gameTime + 2;
+    p.focusOpen = true;
     audio.select();
-    this.ctx.signal(p.snap.id, { type: 'ability', name: 'SONO PIÙ SVEGLIO' });
-    this.showAbilityBanner(p, 'SONO PIÙ SVEGLIO — focus 2s');
+    this.ctx.signal(p.snap.id, { type: 'focus', ms: 2000 });
+    this.showAbilityBanner(p, "M'HO SVEJATO — FOCUS aperto (2 s)");
   }
 
   private abilityJudoka(p: PState): void {
@@ -268,18 +296,29 @@ export class ReactionScene extends Phaser.Scene {
     });
   }
 
+  /**
+   * ULTIMO SECONDO (Ciro): resta in guardia per il round. Se parte un falso allarme (il finto V) o un altro giocatore sbaglia, il suo
+   * telefono lo avvisa: NON È ANCORA FINITA. Non dice MAI quando arriva il VIA e non regala millisecondi.
+   */
   private abilityCiro(p: PState): void {
-    const someoneFalse = this.players.some((x) => x.snap.id !== p.snap.id && x.status === 'falseStart');
-    if (someoneFalse) {
-      this.ctx.signal(p.snap.id, { type: 'notYet' });
-      this.showAbilityBanner(p, 'ULTIMO MOMENTO — ORA NON È ANCORA');
-    } else {
-      this.showAbilityBanner(p, 'ULTIMO MOMENTO — nessuno ha sbagliato');
+    p.armed = true;
+    audio.select();
+    this.ctx.signal(p.snap.id, { type: 'armed' });
+    this.showAbilityBanner(p, 'ULTIMO SECONDO — in guardia per questo round');
+  }
+
+  /** Avvisa i Ciro in guardia (falso allarme o falsa partenza altrui): "NON È ANCORA FINITA". */
+  private calmArmed(why: 'fake' | 'false', except?: PState): void {
+    for (const c of this.players) {
+      if (!c.armed || c === except || c.status !== 'ready') continue;
+      this.ctx.signal(c.snap.id, { type: 'calm', why });
+      this.showAbilityBanner(c, why === 'fake' ? 'ULTIMO SECONDO — FALSO ALLARME, non è ancora finita' : 'ULTIMO SECONDO — qualcuno ha sbagliato, non è ancora finita');
     }
   }
 
   private doFakeOut(): void {
     this.fakeActive = true;
+    this.calmArmed('fake');
     audio.tick();
     this.flashRect.setFillStyle(0x4ade80, 1).setAlpha(0.15);
     this.tweens.add({ targets: this.flashRect, alpha: 0, duration: 180, onComplete: () => (this.fakeActive = false) });
@@ -305,8 +344,10 @@ export class ReactionScene extends Phaser.Scene {
     this.ctx.signal(null, { type: 'via' });
     // Dottore: se il focus è attivo, vibrazione extra
     for (const p of this.players) {
-      if (p.snap.characterId === 'dottore' && p.focusUntil >= this.viaTime && p.focusUntil > 0) {
+      if (p.snap.characterId === 'dottore' && p.focusOpen) {
+        p.focusOpen = false;
         this.ctx.signal(p.snap.id, { type: 'focusHit' });
+        this.showAbilityBanner(p, "M'HO SVEJATO — DIAGNOSI ESATTA: il VIA è nel FOCUS");
       }
     }
   }
