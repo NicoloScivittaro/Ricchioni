@@ -229,7 +229,7 @@ export class BabylonSoccerGame {
     this.hud.feedMessage(`🔴 SQUADRA ROSSA: ${red}`, '#f87171', 3200);
     this.hud.feedMessage(`🔵 SQUADRA BLU: ${blue}`, '#60a5fa', 3200);
     if (this.handicappedTeam) {
-      this.hud.setNote(`${TEAM_LABEL[this.handicappedTeam]} IN SUPERIORITÀ NUMERICA: MALUS ATTIVO`, '#fbbf24');
+      this.hud.setNote(`${TEAM_LABEL[this.handicappedTeam]} IN SUPERIORITÀ NUMERICA: DASH PIÙ LENTO`, '#fbbf24');
     }
     for (const p of this.players) {
       this.ctx.signal(p.id, { type: 'team', team: p.team });

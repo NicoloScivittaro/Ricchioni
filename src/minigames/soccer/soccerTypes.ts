@@ -62,11 +62,17 @@ export const CURVE_RATE = 1.6; // Goblin: curvatura (rad/s)
 export const JUDOKA_CHARGE_SPEED = 17;
 export const JUDOKA_CHARGE_POWER = 11;
 
-// Handicap squadra in superiorità numerica (parametrico).
+/**
+ * Handicap della squadra in superiorità numerica (parametrico). Scelto con scripts/soccer-team-balance.ts (bot "umani", 1500 partite):
+ * il vecchio malus (-8% velocità, -10% tiro, +15% cooldown dash) ribaltava il match a favore della squadra PICCOLA (2v1: 26% contro 50%;
+ * 3v2: 17% contro 58%). Basta un solo malus leggero: dash/tackle più lenti (+30%).
+ *   2v1 → grande 46% · pari 23% · piccola 31%      3v2 → grande 35% · pari 30% · piccola 35%     (senza handicap: 47/23/30 e 39/30/32)
+ * Ogni malus di movimento (anche -3% di velocità) sposta il 3v2 verso la squadra piccola: per questo la velocità resta 1.
+ */
 export const HANDICAP = {
-  speedMult: 0.92, // -8% velocità
-  kickMult: 0.9, // -10% potenza tiro
-  dashCooldownMult: 1.15 // cooldown dash peggiore (+15%)
+  speedMult: 1,
+  kickMult: 1,
+  dashCooldownMult: 1.3
 };
 
 export interface SoccerPlayer {
