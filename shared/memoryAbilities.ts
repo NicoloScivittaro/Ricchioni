@@ -23,17 +23,17 @@ export const MEMORY_ABILITIES: Record<string, MemoryAbility> = {
   },
   dottore: {
     name: "M'HO SVEJATO",
-    desc: 'Per 2 secondi si illumina la prossima casella giusta.',
+    desc: 'Sbircia la prossima casella giusta per un attimo (solo tu la vedi). Costa 0,8 s sul tuo tempo.',
     phase: 'repeat'
   },
   judoka: {
     name: 'NO, ASPETTA!',
-    desc: 'Ferma il proprio tempo per 2 secondi e riprende fiato.',
+    desc: 'Ferma il TUO tempo per 2 secondi (non puoi toccare), poi riprendi subito da dove eri. Nessun replay.',
     phase: 'repeat'
   },
   ciro: {
     name: 'A RATE',
-    desc: 'Divide la sequenza a metà: pausa mentale prima della seconda parte.',
+    desc: 'A metà sequenza pausa di 2 secondi e 1,5 s in meno sul tuo tempo.',
     phase: 'repeat'
   }
 };

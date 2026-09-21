@@ -231,6 +231,7 @@ function showToast(text: string, ms = 1200): void {
 let memoryTileEls: HTMLButtonElement[] = [];
 let memoryAbilityBtn: HTMLButtonElement | null = null;
 let memoryStatusEl: HTMLElement | null = null;
+let memoryPauseTimer: number | null = null;
 
 function setMemLocked(locked: boolean, statusText: string): void {
   memoryTileEls.forEach((b) => {
@@ -259,6 +260,8 @@ function playReplay(seq: number[]): void {
 function handleMemorySignal(s: SignalPayload): void {
   switch (s.type) {
     case 'observe':
+      if (memoryPauseTimer) window.clearTimeout(memoryPauseTimer);
+      memoryPauseTimer = null;
       setMemLocked(true, '👀 OSSERVA...');
       break;
     case 'repeat':
@@ -287,13 +290,23 @@ function handleMemorySignal(s: SignalPayload): void {
       playReplay(s.seq ?? []);
       break;
     case 'hint':
-      highlightMemTile(s.tile ?? 0, 2000);
-      showToast("🤦‍♂️ M'HO SVEJATO — casella illuminata");
+      // sbirciata privata e breve: la casella lampeggia solo qui
+      highlightMemTile(s.tile ?? 0, s.ms ?? 1200);
+      showToast("🤦‍♂️ M'HO SVEJATO — sbirci! (+0,8 s)");
       break;
-    case 'pause':
-      showToast('🥋 NO, ASPETTA! — pausa 2s');
+    case 'pause': {
+      // tempo fermo: tasti bloccati per la durata della pausa, poi si riprende subito (nessun replay)
+      const ms = s.ms ?? 2000;
+      setMemLocked(true, '🥋 NO, ASPETTA! — tempo fermo...');
+      if (memoryPauseTimer) window.clearTimeout(memoryPauseTimer);
+      memoryPauseTimer = window.setTimeout(() => {
+        memoryPauseTimer = null;
+        setMemLocked(false, '👆 TOCCA!');
+        vibrate(40);
+      }, ms);
       vibrate(40);
       break;
+    }
     case 'rate':
       showToast('💸 A RATE — metà fatta, respira!');
       break;

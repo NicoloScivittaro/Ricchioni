@@ -23,6 +23,11 @@ const SOLO_SPEED = 0.6;
 const SOLO_ROUND_RESULT_S = 1.0;
 const REPLAY_TILE_S = 0.42; // replay veloce (Goblin)
 const REPLAY_POST_S = 0.4;
+// Abilita' che toccano il TEMPO del giocatore (lo spareggio e' la somma dei tempi di completamento)
+const PEEK_PENALTY_MS = 800; // M'HO SVEJATO: costo dello sbirciare
+const PEEK_SHOW_MS = 1200;
+const PAUSE_S = 2; // NO, ASPETTA!: tempo fermo
+const RATE_CREDIT_MS = 1500; // A RATE: sconto sul tempo a meta' sequenza
 
 const JUDOKA_SHOUTS = ['EH?! MA DAI!', 'NO, ASPETTA!', 'NON È COSÌ!', 'CASA MIA, REGOLE MIE!'];
 
@@ -39,6 +44,10 @@ interface PState {
   inputIndex: number;
   deadline: number;
   penaltyMs: number;
+  /** tempo "fermo" dalle abilita' (NO, ASPETTA! / A RATE): non conta per lo spareggio */
+  pauseMs: number;
+  /** fino a questo istante di gioco i tasti sono bloccati (NO, ASPETTA!) */
+  pausedUntil: number;
   rateArmed: boolean;
   resolved: boolean;
   card: Phaser.GameObjects.Text;
@@ -154,6 +163,8 @@ export class MemoryScene extends Phaser.Scene {
         snap: p,
         alive: true,
         abilityUsed: false,
+        pauseMs: 0,
+        pausedUntil: 0,
         completedRounds: 0,
         progress: 0,
         totalTimeMs: 0,
@@ -243,6 +254,8 @@ export class MemoryScene extends Phaser.Scene {
       if (!p.alive) continue;
       p.inputIndex = 0;
       p.penaltyMs = 0;
+      p.pauseMs = 0;
+      p.pausedUntil = 0;
       p.rateArmed = false;
       p.resolved = false;
       p.deadline = this.repeatStartTime + budget;
@@ -277,6 +290,8 @@ export class MemoryScene extends Phaser.Scene {
 
       const input = this.ctx.input.get(p.snap.id);
       if (input.justPressed('ability')) this.handleAbility(p);
+      // NO, ASPETTA!: durante la pausa i tasti non contano (il tempo e' fermo); si riprende subito dopo, senza replay
+      if (this.gameTime < p.pausedUntil) continue;
       for (let c = 0; c < 4; c++) {
         if (input.justPressed(`c${c}`)) this.handleTilePress(p, c, seq);
       }
@@ -293,7 +308,7 @@ export class MemoryScene extends Phaser.Scene {
       p.inputIndex++;
       p.totalCorrect++;
       if (p.inputIndex >= seq.length) {
-        const roundMs = Math.round((this.gameTime - this.repeatStartTime) * 1000) + p.penaltyMs;
+        const roundMs = Math.max(150, Math.round((this.gameTime - this.repeatStartTime) * 1000) + p.penaltyMs - p.pauseMs);
         p.totalTimeMs += roundMs;
         p.completedRounds++;
         p.progress = seq.length;
@@ -305,9 +320,10 @@ export class MemoryScene extends Phaser.Scene {
         // Ciro "A RATE": pausa mentale a metà sequenza.
         if (p.rateArmed && p.inputIndex === Math.ceil(seq.length / 2)) {
           p.deadline += 2;
+          p.pauseMs += RATE_CREDIT_MS;
           p.rateArmed = false;
           this.ctx.signal(p.snap.id, { type: 'rate' });
-          this.showBanner(p, '💸 A RATE — metà fatta, respira!');
+          this.showBanner(p, '💸 A RATE — metà fatta, respira! (−1,5 s dal tuo tempo)');
         }
       }
       this.updateCard(p);
@@ -361,18 +377,22 @@ export class MemoryScene extends Phaser.Scene {
         break;
       }
       case 'dottore': {
+        // Privato: la casella si vede SOLO sul telefono del Dottore (prima si illuminava sulla TV e la vedevano tutti). Costa tempo.
         const seq = this.sequences[this.round];
         const next = seq[p.inputIndex] ?? 0;
-        this.highlightTile(next, 2000);
-        this.ctx.signal(p.snap.id, { type: 'hint', tile: next });
-        this.showBanner(p, "🤦‍♂️ M'HO SVEJATO — prossima casella illuminata");
+        p.penaltyMs += PEEK_PENALTY_MS;
+        this.ctx.signal(p.snap.id, { type: 'hint', tile: next, ms: PEEK_SHOW_MS });
+        this.showBanner(p, "🤦‍♂️ M'HO SVEJATO — ha sbirciato (+0,8 s)");
         break;
       }
       case 'judoka': {
-        p.deadline += 2;
+        // Tempo fermo: la scadenza slitta, lo spareggio non conta la pausa, i tasti restano bloccati 2 s, poi si riprende SUBITO
+        p.deadline += PAUSE_S;
+        p.pauseMs += PAUSE_S * 1000;
+        p.pausedUntil = this.gameTime + PAUSE_S;
         const shout = JUDOKA_SHOUTS[Math.floor(Math.random() * JUDOKA_SHOUTS.length)];
-        this.ctx.signal(p.snap.id, { type: 'pause' });
-        this.showBanner(p, `🥋 ${shout} — pausa 2s`);
+        this.ctx.signal(p.snap.id, { type: 'pause', ms: PAUSE_S * 1000 });
+        this.showBanner(p, `🥋 ${shout} — tempo fermo 2s`);
         break;
       }
       case 'ciro': {

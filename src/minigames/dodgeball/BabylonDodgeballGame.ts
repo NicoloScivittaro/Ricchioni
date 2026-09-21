@@ -65,6 +65,8 @@ const COUNTDOWN_S = 3.2;
 const BALL_HEIGHT = 0.7;
 /** Avviso di pericolo: la palla passera' a portata di corpo entro questo tempo (s). Lascia margine a un dash reattivo (invulnerabilita' 0.3 s). */
 const DANGER_TIME = 0.42;
+/** Il Dottore con TRE MESI DOPO attivo vede il pericolo molto prima (la sua abilita' resta unica ora che l'avviso base e' per tutti). */
+const DANGER_TIME_VISION = 0.95;
 /** Hitstop all'eliminazione (s): la simulazione si ferma un attimo, l'impatto "pesa". Gli input restano in coda. */
 const HITSTOP_S = 0.07;
 
@@ -556,7 +558,7 @@ export class BabylonDodgeballGame {
       const rx = p.x - ball.x;
       const rz = p.z - ball.z;
       const t = (rx * ball.vx + rz * ball.vz) / sp2;
-      if (t <= 0 || t > DANGER_TIME) continue;
+      if (t <= 0 || t > (p.visionTime > 0 ? DANGER_TIME_VISION : DANGER_TIME)) continue;
       if (Math.hypot(rx - ball.vx * t, rz - ball.vz * t) > PLAYER_RADIUS + BALL_RADIUS + 0.3) continue;
       const key = `${ballIndex}|${p.id}`;
       const last = this.warned.get(key);
