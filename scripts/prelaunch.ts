@@ -388,6 +388,32 @@ async function testInputBurst(): Promise<void> {
   r.players.forEach((q) => q.sock.close());
 }
 
+/** Scelta manuale del gioco: vale UN round, si puo' fare tra un round e l'altro, non durante il gioco. */
+async function testSelectBetweenRounds(): Promise<void> {
+  console.log('\n[9] Scelta manuale del prossimo gioco tra un round e l\'altro');
+  const r = await setupRoom(['Uno', 'Due', 'Tre'], 200);
+  const [a, b, c] = r.players;
+  r.host.emit(EVT.hostSelectMinigame, { minigameId: 'reaction' });
+  await sleep(150);
+  r.host.emit(EVT.hostStart);
+  const p1 = await toPlaying(r);
+  ok(p1.minigameId === 'reaction', 'round 1 = gioco scelto in lobby');
+  r.host.emit(EVT.hostSelectMinigame, { minigameId: 'quiz' });
+  await sleep(200);
+  ok(r.st().selectedMinigameId === null, 'durante il gioco la scelta viene ignorata');
+  r.host.emit(EVT.hostMinigameFinished, { results: results(r, [a, b, c]), roundId: p1.roundId });
+  await until(() => isPhase(r, 'MINIGAME_FINISHED') || isPhase(r, 'ROUND_RESULTS'), 'fine round');
+  r.host.emit(EVT.hostSelectMinigame, { minigameId: 'fps' });
+  await sleep(200);
+  ok(r.st().selectedMinigameId === 'fps', 'tra un round e l\'altro la scelta viene accettata');
+  await drain(r);
+  const p2 = await toPlaying(r);
+  ok(p2.minigameId === 'fps', 'round 2 = gioco scelto dopo il round 1');
+  ok(r.st().selectedMinigameId === null, 'la scelta ha valso UN solo round');
+  r.host.close();
+  r.players.forEach((p) => p.sock.close());
+}
+
 async function main(): Promise<void> {
   await test1PlayerCannotStart();
   await testMainFlow();
@@ -397,6 +423,7 @@ async function main(): Promise<void> {
   await testTieBreak();
   await testRoulette();
   await testInputBurst();
+  await testSelectBetweenRounds();
   console.log(`\n✅ PRELAUNCH OK (${checks} controlli)`);
   process.exit(0);
 }

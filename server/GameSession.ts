@@ -249,9 +249,14 @@ export class GameSession {
     this.events.emit('changed');
   }
 
-  /** L'host sceglie manualmente il prossimo minigioco (null = torna al rullo). */
+  /**
+   * L'host sceglie manualmente il prossimo minigioco (null = torna al rullo). Vale UN solo round. Si può impostare in
+   * lobby e tra un round e l'altro (risultati/classifica), ma non mentre rullo, intro o gioco sono in corso: cambierebbe
+   * un gioco già estratto o in svolgimento.
+   */
   selectMinigame(minigameId: string | null): void {
-    if (this.phase !== 'LOBBY') return;
+    const selectable: GamePhase[] = ['LOBBY', 'MINIGAME_FINISHED', 'ROUND_RESULTS', 'GLOBAL_LEADERBOARD', 'CHECK_WINNER', 'NEXT_ROUND'];
+    if (!selectable.includes(this.phase)) return;
     if (minigameId && !getMinigame(minigameId)) return;
     this.manualMinigameId = minigameId;
   }
