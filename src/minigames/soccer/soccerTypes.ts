@@ -29,8 +29,16 @@ export const DASH_SPEED = 15;
 export const DASH_TIME = 0.2;
 export const DASH_COOLDOWN = 1.0;
 
-export const POSSESSION_RADIUS = 1.7;
+export const POSSESSION_RADIUS = 1.9; // palla ferma: corpo (0.95) + palla (0.55) + margine generoso
 export const TACKLE_RADIUS = PLAYER_RADIUS + BALL_RADIUS + 0.4;
+/** Ricezione assistita: un compagno di chi ha calciato controlla al volo il passaggio entro questo raggio e sotto questa velocita'. */
+export const RECEIVE_RADIUS = 2.1;
+export const RECEIVE_SPEED = 15;
+/** Tackle in scivolata: contatto col portatore DURANTE il dash (oltre al controllo istantaneo alla pressione del tasto). */
+export const LUNGE_REACH = PLAYER_RADIUS * 2;
+/** Il dash conta come tentativo di tackle solo se un portatore avversario e' entro questa distanza; se il colpo manca: inciampo. */
+export const LUNGE_ATTEMPT_RANGE = 6.5;
+export const WHIFF_STUN = 0.22;
 
 export const KICK_MIN = 10;
 export const KICK_MAX = 24;
@@ -94,6 +102,9 @@ export interface SoccerPlayer {
   speedMult: number;
   kickMult: number;
   dashCooldownMult: number;
+  /** Tackle in scivolata in corso (il dash puo' ancora rubare la palla al contatto). */
+  lunge: boolean;
+  lungeCharge: boolean;
 
   // Abilità (una volta a partita)
   abilityUsed: boolean;
@@ -150,6 +161,8 @@ export function createSoccerPlayer(
     speedMult: handicapped ? HANDICAP.speedMult : 1,
     kickMult: handicapped ? HANDICAP.kickMult : 1,
     dashCooldownMult: handicapped ? HANDICAP.dashCooldownMult : 1,
+    lunge: false,
+    lungeCharge: false,
     abilityUsed: false,
     curveNext: false,
     aimTime: 0,

@@ -490,6 +490,21 @@ function lockDbControls(locked: boolean, statusText?: string): void {
   if (locked) dbJoy?.reset();
 }
 
+/** Spegne un pulsante azione per il cooldown REALE deciso dall'host e lo "fa scattare" quando e' di nuovo pronto. */
+function cooldownButton(btn: HTMLButtonElement | null, ms: number, locked: () => boolean): number | null {
+  if (!btn) return null;
+  btn.classList.remove('db-danger');
+  btn.disabled = true;
+  btn.classList.add('arena-dash-cooldown');
+  return window.setTimeout(() => {
+    if (locked()) return;
+    btn.disabled = false;
+    btn.classList.remove('arena-dash-cooldown');
+    btn.classList.add('arena-dash-ready');
+    window.setTimeout(() => btn.classList.remove('arena-dash-ready'), 260);
+  }, ms);
+}
+
 function handleDodgeballSignal(s: SignalPayload): void {
   switch (s.type) {
     case 'countdown':
@@ -516,24 +531,11 @@ function handleDodgeballSignal(s: SignalPayload): void {
       }
       vibrate(30);
       break;
-    case 'dodged': {
-      // schivata accettata dall'host: il pulsante si spegne per il cooldown reale e "scatta" quando e' di nuovo pronto
+    case 'dodged':
+      // schivata accettata dall'host: il pulsante si spegne per il cooldown reale
       if (dbDodgeCooldownTimer) window.clearTimeout(dbDodgeCooldownTimer);
-      if (dbDodgeBtn) {
-        dbDodgeBtn.classList.remove('db-danger');
-        dbDodgeBtn.disabled = true;
-        dbDodgeBtn.classList.add('arena-dash-cooldown');
-      }
-      dbDodgeCooldownTimer = window.setTimeout(() => {
-        dbDodgeCooldownTimer = null;
-        if (!dbDodgeBtn || dbLocked) return;
-        dbDodgeBtn.disabled = false;
-        dbDodgeBtn.classList.remove('arena-dash-cooldown');
-        dbDodgeBtn.classList.add('arena-dash-ready');
-        window.setTimeout(() => dbDodgeBtn?.classList.remove('arena-dash-ready'), 260);
-      }, s.cooldownMs ?? 1000);
+      dbDodgeCooldownTimer = cooldownButton(dbDodgeBtn, s.cooldownMs ?? 1000, () => dbLocked);
       break;
-    }
     case 'won':
       lockDbControls(true, '🏆 HAI VINTO!');
       vibrate([80, 40, 80, 40, 120]);
@@ -680,6 +682,16 @@ let soccerStatusEl: HTMLElement | null = null;
 let soccerTeam: string | null = null;
 let soccerLocked = false;
 let soccerJoy: VirtualJoystick | null = null;
+let soccerHasBall = false;
+let soccerChargeTimer: number | null = null;
+let soccerDodgeTimer: number | null = null;
+
+/** Fine della carica del tiro: spegne il feedback sul pulsante. */
+function endSoccerCharge(): void {
+  if (soccerChargeTimer) window.clearTimeout(soccerChargeTimer);
+  soccerChargeTimer = null;
+  soccerShootBtn?.classList.remove('soccer-charging', 'soccer-full');
+}
 
 function lockSoccerControls(locked: boolean, statusText?: string): void {
   soccerLocked = locked;
@@ -709,16 +721,25 @@ function handleSoccerSignal(s: SignalPayload): void {
       }
       break;
     case 'gotBall':
+      soccerHasBall = true;
       if (soccerStatusEl) soccerStatusEl.textContent = '⚽ HAI LA PALLA!';
       vibrate(30);
       break;
     case 'threwBall':
+      soccerHasBall = false;
+      endSoccerCharge();
       if (soccerStatusEl) soccerStatusEl.textContent = '⚽ TIRATA!';
       vibrate(40);
       break;
     case 'lostBall':
+      soccerHasBall = false;
+      endSoccerCharge();
       if (soccerStatusEl) soccerStatusEl.textContent = '😵 palla persa!';
       vibrate(60);
+      break;
+    case 'dodged':
+      if (soccerDodgeTimer) window.clearTimeout(soccerDodgeTimer);
+      soccerDodgeTimer = cooldownButton(soccerTackleBtn, s.cooldownMs ?? 1000, () => soccerLocked);
       break;
     case 'goal':
       showToast(`⚽ GOOOL ${s.team === 'red' ? 'ROSSI' : 'BLU'}!`);
@@ -765,6 +786,11 @@ function renderSoccerController(): void {
   soccerTeam = null;
   soccerLocked = false;
   soccerJoy = null;
+  soccerHasBall = false;
+  if (soccerChargeTimer) window.clearTimeout(soccerChargeTimer);
+  soccerChargeTimer = null;
+  if (soccerDodgeTimer) window.clearTimeout(soccerDodgeTimer);
+  soccerDodgeTimer = null;
 
   const me: PlayerPublic | undefined =
     playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
@@ -805,9 +831,19 @@ function renderSoccerController(): void {
     e.preventDefault();
     if (soccerShootBtn!.disabled) return;
     sendInput({ kind: 'down', controlId: 'shoot' });
+    // feedback locale della carica (0.8 s = CHARGE_TIME dell'host): il pulsante si riempie, a carica massima pulsa e vibra
+    if (soccerHasBall && !soccerChargeTimer) {
+      soccerShootBtn!.classList.add('soccer-charging');
+      soccerChargeTimer = window.setTimeout(() => {
+        soccerShootBtn?.classList.remove('soccer-charging');
+        soccerShootBtn?.classList.add('soccer-full');
+        vibrate(25);
+      }, 800);
+    }
   };
   const shootUp = (e: PointerEvent): void => {
     e.preventDefault();
+    endSoccerCharge();
     sendInput({ kind: 'up', controlId: 'shoot' });
   };
   soccerShootBtn.addEventListener('pointerdown', shootDown);

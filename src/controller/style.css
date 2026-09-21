@@ -1199,6 +1199,36 @@ button.char:disabled {
   filter: grayscale(0.5);
 }
 
+/* Calcio: carica del tiro (0.8 s) — il pulsante si riempie di giallo, a carica massima pulsa */
+.arena-dash.soccer-charging {
+  animation: soccerCharge 0.8s linear forwards;
+}
+
+@keyframes soccerCharge {
+  0% {
+    box-shadow: 0 0 0 5px rgba(251, 113, 133, 0.22), 0 12px 26px rgba(0, 0, 0, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 16px rgba(250, 204, 21, 0.7), 0 0 34px rgba(250, 204, 21, 0.8);
+    filter: brightness(1.2) hue-rotate(35deg);
+  }
+}
+
+.arena-dash.soccer-full {
+  animation: soccerFull 0.24s ease-in-out infinite alternate;
+  filter: brightness(1.2) hue-rotate(35deg);
+}
+
+@keyframes soccerFull {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.09);
+    box-shadow: 0 0 0 18px rgba(250, 204, 21, 0.85), 0 0 40px rgba(250, 204, 21, 0.95);
+  }
+}
+
 /* Avviso di pericolo (una palla sta per prenderti): il pulsante SCHIVA vira al rosso e pulsa ~0.5 s */
 .db-dodge.db-danger {
   animation: dbDanger 0.17s ease-in-out 3;

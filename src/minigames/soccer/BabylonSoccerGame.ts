@@ -1,4 +1,4 @@
-import { Engine, Scene, Color4, DynamicTexture, MeshBuilder, StandardMaterial, Color3, Mesh } from '@babylonjs/core';
+import { Engine, Scene, Color4, DynamicTexture, MeshBuilder, StandardMaterial, Color3, Mesh, ParticleSystem, Vector3 } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
@@ -15,6 +15,11 @@ import {
   DASH_TIME,
   DASH_COOLDOWN,
   POSSESSION_RADIUS,
+  RECEIVE_RADIUS,
+  RECEIVE_SPEED,
+  LUNGE_REACH,
+  LUNGE_ATTEMPT_RANGE,
+  WHIFF_STUN,
   KICK_MIN,
   KICK_MAX,
   CHARGE_TIME,
@@ -37,6 +42,7 @@ import {
 import type { SoccerPlayer, SoccerBall, Team } from './soccerTypes';
 import { ArenaEntity } from '../arena/arenaEntity';
 import { ArenaCamera } from '../arena/arenaCamera';
+import { ShockRings, makeBallTrail } from '../arena/impactFx';
 import { SoccerHud } from './soccerHud';
 import { buildSoccerEnvironment } from './soccerEnvironment';
 import { SoccerAbilities } from './soccerAbilities';
@@ -67,6 +73,12 @@ export class BabylonSoccerGame {
 
   private aimDots: Mesh[] = [];
   private aimMat: StandardMaterial;
+  private chargeMidMat: StandardMaterial;
+  private chargeFullMat: StandardMaterial;
+  private shocks: ShockRings;
+  private trail: ParticleSystem;
+  private confetti: ParticleSystem;
+  private confettiAnchor: Mesh;
 
   private phase: Phase = 'intro';
   private phaseTime = 0;
@@ -113,6 +125,16 @@ export class BabylonSoccerGame {
     this.aimMat.diffuseColor = new Color3(0.2, 0.9, 1);
     this.aimMat.emissiveColor = new Color3(0.3, 0.9, 1);
     this.aimMat.disableLighting = true;
+    // Linea di carica del tiro: ciano (debole) -> giallo (medio) -> arancio (massimo)
+    const mkMat = (name: string, r: number, g: number, b: number): StandardMaterial => {
+      const m = new StandardMaterial(name, this.scene);
+      m.diffuseColor = new Color3(r, g, b);
+      m.emissiveColor = new Color3(r, g, b);
+      m.disableLighting = true;
+      return m;
+    };
+    this.chargeMidMat = mkMat('chargeMid', 1, 0.9, 0.2);
+    this.chargeFullMat = mkMat('chargeFull', 1, 0.45, 0.1);
     for (let i = 0; i < 20; i++) {
       const d = MeshBuilder.CreateSphere('aimDot', { diameter: 0.22, segments: 6 }, this.scene);
       d.material = this.aimMat;
@@ -147,6 +169,30 @@ export class BabylonSoccerGame {
     ballMat.specularColor = new Color3(0.3, 0.3, 0.3);
     this.ballMesh = MeshBuilder.CreateSphere('soccerBall', { diameter: BALL_RADIUS * 2, segments: 12 }, this.scene);
     this.ballMesh.material = ballMat;
+    this.trail = makeBallTrail(this.scene, this.ballMesh, dotTex, [1, 1, 0.9]);
+    this.shocks = new ShockRings(this.scene, 3);
+    this.confettiAnchor = MeshBuilder.CreateBox('confettiAnchor', { size: 0.05 }, this.scene);
+    this.confettiAnchor.isVisible = false;
+    const cf = new ParticleSystem('goalConfetti', 160, this.scene);
+    cf.particleTexture = dotTex;
+    cf.emitter = this.confettiAnchor;
+    cf.minEmitBox = new Vector3(-0.6, 0, -GOAL_HALF_W);
+    cf.maxEmitBox = new Vector3(0.6, 0.6, GOAL_HALF_W);
+    cf.color1 = new Color4(1, 0.85, 0.2, 1);
+    cf.color2 = new Color4(0.3, 0.9, 1, 1);
+    cf.colorDead = new Color4(1, 1, 1, 0);
+    cf.minSize = 0.18;
+    cf.maxSize = 0.4;
+    cf.minLifeTime = 0.9;
+    cf.maxLifeTime = 1.7;
+    cf.emitRate = 0;
+    cf.direction1 = new Vector3(-2, 5, -3);
+    cf.direction2 = new Vector3(2, 10, 3);
+    cf.minEmitPower = 1;
+    cf.maxEmitPower = 3;
+    cf.gravity = new Vector3(0, -9, 0);
+    cf.start();
+    this.confetti = cf;
 
     this.hud.setScore(0, 0);
     this.hud.setTimer(MATCH_SECONDS);
@@ -283,7 +329,11 @@ export class BabylonSoccerGame {
     for (const p of this.players) {
       this.entities.get(p.id)?.updateVisual(p, dt, now);
     }
-    this.ballMesh.position.set(this.ball.x, BALL_HEIGHT + (this.ball.ownerId ? 0 : 0), this.ball.z);
+    this.ballMesh.position.set(this.ball.x, BALL_HEIGHT, this.ball.z);
+    // scia sui tiri veloci (leggibilita' della traiettoria): piu' fitta col crescere della velocita'
+    const bsp = this.ball.ownerId ? 0 : Math.hypot(this.ball.vx, this.ball.vz);
+    this.trail.emitRate = bsp > 9 ? 25 + 90 * Math.min(1, bsp / BALL_MAX_SPEED) : 0;
+    this.shocks.update(dt);
     this.updateAimLine();
     const subjects = this.players.map((p) => ({ alive: p.alive, falling: p.falling, x: p.x, z: p.z }));
     subjects.push({ alive: true, falling: false, x: this.ball.x, z: this.ball.z });
@@ -293,10 +343,10 @@ export class BabylonSoccerGame {
     this.ctx.input.update();
   }
 
-  private timeOutClearCountdown(): void {
+  private timeOutClearCountdown(ms = 800): void {
     window.setTimeout(() => {
       if (!this.disposed) this.hud.clearCountdown();
-    }, 800);
+    }, ms);
   }
 
   private updateGameplay(dt: number, now: number): void {
@@ -325,7 +375,7 @@ export class BabylonSoccerGame {
     }
 
     const stunned = p.stunTime > 0;
-    const dodging = p.dodgeTime > 0;
+    let dodging = p.dodgeTime > 0;
     p.dashing = dodging;
 
     // Tackle / dash
@@ -334,12 +384,19 @@ export class BabylonSoccerGame {
       const dirZ = mag > 0.15 ? az : Math.cos(p.facing);
       const charge = p.judokaCharge;
       p.dodgeTime = DASH_TIME;
+      dodging = true; // vale gia' in QUESTO passo: prima la velocita' del dash veniva subito tagliata al tetto di corsa (9 invece di 15)
+      p.dashing = true;
       p.dodgeCooldown = DASH_COOLDOWN * p.dashCooldownMult;
       p.vx = dirX * (charge ? JUDOKA_CHARGE_SPEED : DASH_SPEED);
       p.vz = dirZ * (charge ? JUDOKA_CHARGE_SPEED : DASH_SPEED);
       audio.boost();
       this.ctx.vibrate(p.id, 25);
-      this.tryTackle(p, charge);
+      this.ctx.signal(p.id, { type: 'dodged', cooldownMs: Math.round(DASH_COOLDOWN * p.dashCooldownMult * 1000) });
+      // tackle: controllo istantaneo alla pressione; se non aggancia nessuno il dash resta una "scivolata" che ruba al contatto
+      const hit = this.tryTackle(p, charge);
+      // scivolata: solo se c'e' davvero un portatore avversario a tiro (un dash per correre non e' un tackle e non si paga)
+      p.lunge = !hit && this.players.some((v) => v.alive && v.team !== p.team && v.hasBall && Math.hypot(v.x - p.x, v.z - p.z) < LUNGE_ATTEMPT_RANGE);
+      p.lungeCharge = charge;
       if (charge) {
         p.judokaCharge = false;
         this.onAbilityFeedback(p, { type: 'judoka_charge' });
@@ -389,6 +446,16 @@ export class BabylonSoccerGame {
     p.z += p.vz * dt;
     p.x = Math.max(-FIELD_HALF_W + PLAYER_RADIUS, Math.min(FIELD_HALF_W - PLAYER_RADIUS, p.x));
     p.z = Math.max(-FIELD_HALF_D + PLAYER_RADIUS, Math.min(FIELD_HALF_D - PLAYER_RADIUS, p.z));
+
+    if (p.lunge) {
+      if (p.dodgeTime <= 0) {
+        // scivolata a vuoto: inciampo breve (rischio/beneficio del tackle)
+        p.lunge = false;
+        p.stunTime = Math.max(p.stunTime, WHIFF_STUN);
+      } else if (this.tryTackle(p, p.lungeCharge, LUNGE_REACH)) {
+        p.lunge = false;
+      }
+    }
   }
 
   private kick(p: SoccerPlayer, charge: number): void {
@@ -414,40 +481,45 @@ export class BabylonSoccerGame {
     p.hasBall = false;
     this.teamKicks[p.team]++;
     this.entities.get(p.id)?.playThrow();
-    audio.select();
-    this.ctx.vibrate(p.id, 40);
+    audio.kick(0.6 + frac * 0.9);
+    if (frac > 0.7) this.camera.shake(0.04 + 0.08 * frac, 110);
+    this.ctx.vibrate(p.id, 30 + Math.round(frac * 30));
     this.ctx.signal(p.id, { type: 'threwBall' });
   }
 
-  private tryTackle(attacker: SoccerPlayer, charge: boolean): void {
-    // Il tackle ruba la palla al portatore vicino.
+  /** Tackle: ruba la palla al portatore a portata. true = ha agganciato un portatore (rubata, o trattenuta di Ciro). */
+  private tryTackle(attacker: SoccerPlayer, charge: boolean, reach = PLAYER_RADIUS * 2 + 0.5): boolean {
     for (const victim of this.players) {
       if (victim.id === attacker.id || !victim.alive || !victim.hasBall) continue;
+      if (victim.dodgeTime > 0) continue; // chi scatta con la palla si divincola: non si tackla al volo
       const d = Math.hypot(victim.x - attacker.x, victim.z - attacker.z);
-      if (d < PLAYER_RADIUS * 2 + 0.5) {
-        const result = this.abilities.resolveTackle(attacker, victim);
-        if (result === 'steal') {
-          victim.hasBall = false;
-          attacker.hasBall = true;
-          this.ball.ownerId = attacker.id;
-          attacker.tackles++;
-          const nx = (victim.x - attacker.x) / (d || 1);
-          const nz = (victim.z - attacker.z) / (d || 1);
-          victim.vx += nx * (charge ? JUDOKA_CHARGE_POWER : 6);
-          victim.vz += nz * (charge ? JUDOKA_CHARGE_POWER : 6);
-          victim.stunTime = Math.max(victim.stunTime, 0.3);
-          victim.hitFlash = 0.14;
-          audio.hit();
-          this.ctx.vibrate(attacker.id, 50);
-          this.ctx.signal(victim.id, { type: 'lostBall' });
-          this.ctx.signal(attacker.id, { type: 'gotBall' });
-          if (charge) this.onAbilityFeedback(attacker, { type: 'judoka_charge' });
-        } else {
-          this.onAbilityFeedback(victim, { type: 'ciro_hold' });
-        }
-        break;
+      if (d >= reach) continue;
+      const result = this.abilities.resolveTackle(attacker, victim);
+      if (result === 'steal') {
+        victim.hasBall = false;
+        attacker.hasBall = true;
+        this.ball.ownerId = attacker.id;
+        attacker.tackles++;
+        const nx = (victim.x - attacker.x) / (d || 1);
+        const nz = (victim.z - attacker.z) / (d || 1);
+        victim.vx += nx * (charge ? JUDOKA_CHARGE_POWER : 6);
+        victim.vz += nz * (charge ? JUDOKA_CHARGE_POWER : 6);
+        victim.stunTime = Math.max(victim.stunTime, 0.3);
+        victim.hitFlash = 0.14;
+        audio.thump(0.9);
+        this.shocks.spawn(victim.x, victim.z, TEAM_COLOR[victim.team], 0.8);
+        this.camera.shake(0.12, 150);
+        this.ctx.vibrate(attacker.id, 50);
+        this.ctx.vibrate(victim.id, 60);
+        this.ctx.signal(victim.id, { type: 'lostBall' });
+        this.ctx.signal(attacker.id, { type: 'gotBall' });
+        if (charge) this.onAbilityFeedback(attacker, { type: 'judoka_charge' });
+      } else {
+        this.onAbilityFeedback(victim, { type: 'ciro_hold' });
       }
+      return true;
     }
+    return false;
   }
 
   // ---- Palla ----
@@ -497,7 +569,7 @@ export class BabylonSoccerGame {
       }
       b.x = FIELD_HALF_W;
       b.vx = -Math.abs(b.vx);
-      audio.tick();
+      this.bounceSfx();
     } else if (b.x < -FIELD_HALF_W) {
       if (Math.abs(b.z) < GOAL_HALF_W) {
         this.scoreGoal('blue');
@@ -505,22 +577,42 @@ export class BabylonSoccerGame {
       }
       b.x = -FIELD_HALF_W;
       b.vx = Math.abs(b.vx);
-      audio.tick();
+      this.bounceSfx();
     }
     if (b.z > FIELD_HALF_D) {
       b.z = FIELD_HALF_D;
       b.vz = -Math.abs(b.vz);
-      audio.tick();
+      this.bounceSfx();
     } else if (b.z < -FIELD_HALF_D) {
       b.z = -FIELD_HALF_D;
       b.vz = Math.abs(b.vz);
-      audio.tick();
+      this.bounceSfx();
     }
 
     const sp = Math.hypot(b.vx, b.vz);
     if (sp > BALL_MAX_SPEED) {
       b.vx = (b.vx / sp) * BALL_MAX_SPEED;
       b.vz = (b.vz / sp) * BALL_MAX_SPEED;
+    }
+
+    // RICEZIONE ASSISTITA: un compagno di chi ha calciato controlla al volo il passaggio (entro RECEIVE_RADIUS, sotto RECEIVE_SPEED)
+    // invece di respingerlo. Non e' una palla incollata: serve averla a portata, e i tiri forti restano tiri (si respingono).
+    const lastKicker = b.lastKickerId ? this.players.find((q) => q.id === b.lastKickerId) : undefined;
+    if (lastKicker && b.freeGrace <= 0 && sp < RECEIVE_SPEED) {
+      let mate: SoccerPlayer | null = null;
+      let mateD = RECEIVE_RADIUS;
+      for (const q of this.players) {
+        if (!q.alive || q.hasBall || q.id === lastKicker.id || q.team !== lastKicker.team || q.stunTime > 0) continue;
+        const d = Math.hypot(q.x - b.x, q.z - b.z);
+        if (d < mateD) {
+          mateD = d;
+          mate = q;
+        }
+      }
+      if (mate) {
+        this.giveBall(mate);
+        return;
+      }
     }
 
     // Deflessione sui giocatori (bloccare i tiri)
@@ -541,6 +633,8 @@ export class BabylonSoccerGame {
           b.vz *= 0.88;
           b.x += nx * (PLAYER_RADIUS + BALL_RADIUS - dist);
           b.z += nz * (PLAYER_RADIUS + BALL_RADIUS - dist);
+          if (-dot > 6) audio.kick(0.7); // parata / deviazione secca
+          b.freeGrace = Math.max(b.freeGrace, 0.12); // dopo un rimpallo non si riprende subito (niente "respingi e incolla")
         }
       }
     }
@@ -557,17 +651,39 @@ export class BabylonSoccerGame {
           best = p;
         }
       }
-      if (best) {
-        b.ownerId = best.id;
-        best.hasBall = true;
-        best.interceptions++;
-        b.vx = 0;
-        b.vz = 0;
-        audio.select();
-        this.ctx.vibrate(best.id, 30);
-        this.ctx.signal(best.id, { type: 'gotBall' });
-      }
+      if (best) this.giveBall(best);
     }
+  }
+
+  /** Un giocatore prende il controllo della palla. E' un INTERCETTO (statistica MVP) solo se l'ultimo tiro era di un avversario:
+   *  riprendere la propria palla lunga non e' un contrasto (niente farming di punti). L'intercetto spezza la catena degli assist. */
+  private giveBall(p: SoccerPlayer): void {
+    const b = this.ball;
+    const lk = b.lastKickerId ? this.players.find((q) => q.id === b.lastKickerId) : undefined;
+    if (lk && lk.team !== p.team) {
+      p.interceptions++;
+      b.prevKickerId = null;
+    }
+    b.ownerId = p.id;
+    p.hasBall = true;
+    b.vx = 0;
+    b.vz = 0;
+    audio.pickupPop();
+    this.ctx.vibrate(p.id, 30);
+    this.ctx.signal(p.id, { type: 'gotBall' });
+  }
+
+  private bounceSfx(): void {
+    audio.bounce(Math.min(1.2, Math.hypot(this.ball.vx, this.ball.vz) / 18 + 0.35));
+  }
+
+  /** Coriandoli di squadra dalla porta in cui e' entrata la palla. */
+  private burstConfetti(scoringTeam: Team): void {
+    const c = Color3.FromHexString(TEAM_COLOR[scoringTeam]);
+    this.confetti.color1.set(c.r, c.g, c.b, 1);
+    this.confetti.color2.set(1, 0.85, 0.2, 1);
+    this.confettiAnchor.position.set(scoringTeam === 'red' ? FIELD_HALF_W : -FIELD_HALF_W, 1.2, 0);
+    this.confetti.manualEmitCount = 140;
   }
 
   private scoreGoal(team: Team): void {
@@ -591,8 +707,13 @@ export class BabylonSoccerGame {
     else this.blueScore++;
     this.hud.setScore(this.redScore, this.blueScore);
 
-    audio.fanfare();
-    this.camera.shake(0.4, 300);
+    audio.goalRoar();
+    audio.whistle();
+    this.camera.shake(0.55, 360);
+    this.burstConfetti(team);
+    this.shocks.spawn(team === 'red' ? FIELD_HALF_W - 1 : -FIELD_HALF_W + 1, this.ball.z, TEAM_COLOR[team], 1.6);
+    this.hud.setCountdown(ownGoal ? 'AUTOGOL!' : 'GOOOL!', TEAM_COLOR[team]);
+    this.timeOutClearCountdown(1500);
     const label = say(ownGoal ? 'ownGoal' : 'goal', true) ?? (ownGoal ? 'AUTOGOL! 😱' : 'GOOOOL!');
     this.hud.feedMessage(`${label} ${TEAM_LABEL[team]} ${this.redScore} — ${this.blueScore}`, team === 'red' ? '#f87171' : '#60a5fa', 3000);
     for (const p of this.players) this.ctx.vibrate(p.id, team === p.team ? 160 : 80);
@@ -601,9 +722,13 @@ export class BabylonSoccerGame {
     this.goalDuringGolden = this.phase === 'goldenGoal';
     this.phase = 'goalPause';
     this.phaseTime = GOAL_PAUSE_SECONDS;
+    // la palla RESTA in rete (e la camera la segue) fino alla ripartenza: prima si teletrasportava a centrocampo
+    const gx = team === 'red' ? FIELD_HALF_W + 0.8 : -FIELD_HALF_W - 0.8;
+    const gz = Math.max(-GOAL_HALF_W + 0.6, Math.min(GOAL_HALF_W - 0.6, this.ball.z));
     this.ball = createBall();
-    this.ball.x = 0;
-    this.ball.z = 0;
+    this.ball.x = gx;
+    this.ball.z = gz;
+    this.ball.freeGrace = 99;
   }
 
   private resetAfterGoal(): void {
@@ -707,32 +832,46 @@ export class BabylonSoccerGame {
 
   // ---- Mira (Buttafuori) ----
 
+  /**
+   * Linea di mira sulla TV. Chi sta CARICANDO un tiro mostra una linea di pallini lunga quanto rotolera' la palla (la potenza si
+   * legge dalla lunghezza) e colorata per livello: ciano debole, giallo medio, arancio = carica MASSIMA. Se non carica nessuno,
+   * il Buttafuori con OCCHIO DA POLIGONO attivo vede la sua linea fissa (ciano).
+   */
   private updateAimLine(): void {
-    const aimer = this.players.find((p) => p.aimTime > 0 && !p.aimThrown && p.alive && p.hasBall);
-    if (aimer) {
-      const dirX = Math.sin(aimer.facing);
-      const dirZ = Math.cos(aimer.facing);
-      let x = aimer.x;
-      let z = aimer.z;
-      const pts: { x: number; z: number }[] = [];
-      for (let i = 0; i < 20; i++) {
-        x += dirX * 0.8;
-        z += dirZ * 0.8;
-        if (Math.abs(z) > FIELD_HALF_D) break;
-        if (x > FIELD_HALF_W || x < -FIELD_HALF_W) break;
-        pts.push({ x, z });
-      }
-      for (let i = 0; i < this.aimDots.length; i++) {
-        const d = this.aimDots[i];
-        if (i < pts.length) {
-          d.position.set(pts[i].x, 0.35, pts[i].z);
-          d.isVisible = true;
-        } else {
-          d.isVisible = false;
-        }
-      }
-    } else {
+    const shooter = this.players.find((p) => p.charging && p.hasBall && p.alive);
+    const aimer = shooter ?? this.players.find((p) => p.aimTime > 0 && !p.aimThrown && p.alive && p.hasBall);
+    if (!aimer) {
       for (const d of this.aimDots) d.isVisible = false;
+      return;
+    }
+    const frac = shooter ? Math.min(1, shooter.chargeTime / CHARGE_TIME) : 1;
+    let reach = 16; // linea fissa del Buttafuori
+    if (shooter) {
+      const power = (KICK_MIN + (KICK_MAX - KICK_MIN) * frac) * shooter.kickMult * (shooter.aimTime > 0 && !shooter.aimThrown ? AIM_KICK_MULT : 1);
+      reach = (power / BALL_FRICTION) * 0.92; // distanza di rotolamento prima di fermarsi (senza rimbalzi)
+    }
+    const mat = !shooter ? this.aimMat : frac >= 0.97 ? this.chargeFullMat : frac >= 0.5 ? this.chargeMidMat : this.aimMat;
+    const dirX = Math.sin(aimer.facing);
+    const dirZ = Math.cos(aimer.facing);
+    let x = aimer.x + dirX * (PLAYER_RADIUS + BALL_RADIUS);
+    let z = aimer.z + dirZ * (PLAYER_RADIUS + BALL_RADIUS);
+    const pts: { x: number; z: number }[] = [];
+    for (let i = 0; i < this.aimDots.length && (i + 1) * 0.8 <= reach; i++) {
+      x += dirX * 0.8;
+      z += dirZ * 0.8;
+      if (Math.abs(z) > FIELD_HALF_D) break;
+      if (x > FIELD_HALF_W || x < -FIELD_HALF_W) break;
+      pts.push({ x, z });
+    }
+    for (let i = 0; i < this.aimDots.length; i++) {
+      const d = this.aimDots[i];
+      if (i < pts.length) {
+        d.position.set(pts[i].x, 0.35, pts[i].z);
+        if (d.material !== mat) d.material = mat;
+        d.isVisible = true;
+      } else {
+        d.isVisible = false;
+      }
     }
   }
 

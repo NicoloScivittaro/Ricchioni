@@ -48,7 +48,7 @@ import {
 } from './dodgeballTypes';
 import type { DodgeballPlayer, Ball } from './dodgeballTypes';
 import { ArenaEntity } from '../arena/arenaEntity';
-import { ShockRings } from '../arena/impactFx';
+import { ShockRings, makeBallTrail, tintBallTrail } from '../arena/impactFx';
 import { ArenaCamera } from '../arena/arenaCamera';
 import { ArenaHud } from '../arena/arenaHud';
 import { buildDodgeballEnvironment } from './dodgeballEnvironment';
@@ -351,7 +351,7 @@ export class BabylonDodgeballGame {
     }
 
     const stunned = p.stunTime > 0;
-    const dodging = p.dodgeTime > 0;
+    let dodging = p.dodgeTime > 0;
     p.dashing = dodging;
 
     // Schivata
@@ -359,6 +359,8 @@ export class BabylonDodgeballGame {
       const dirX = mag > 0.15 ? ax : Math.sin(p.facing);
       const dirZ = mag > 0.15 ? az : Math.cos(p.facing);
       p.dodgeTime = DODGE_TIME;
+      dodging = true; // vale gia' in QUESTO passo: prima la velocita' del dash veniva subito tagliata al tetto di corsa (9 invece di 16)
+      p.dashing = true;
       p.dodgeCooldown = DODGE_COOLDOWN;
       p.invulnTime = DODGE_INVULN;
       p.vx = dirX * DODGE_SPEED;
@@ -514,40 +516,12 @@ export class BabylonDodgeballGame {
 
   /** Scia luminosa dietro la palla in volo. Si colora del giocatore che ha tirato (tintTrail): si capisce di CHI e' la palla. */
   private makeTrail(mesh: Mesh, tex: DynamicTexture): ParticleSystem {
-    const ps = new ParticleSystem('ballTrail', 60, this.scene);
-    ps.particleTexture = tex;
-    ps.emitter = mesh;
-    ps.minEmitBox = new Vector3(-0.08, -0.08, -0.08);
-    ps.maxEmitBox = new Vector3(0.08, 0.08, 0.08);
-    ps.color1 = new Color4(1, 0.7, 0.35, 0.9);
-    ps.color2 = new Color4(1, 0.45, 0.2, 0.75);
-    ps.colorDead = new Color4(1, 0.3, 0.1, 0);
-    ps.minSize = 0.28;
-    ps.maxSize = 0.55;
-    ps.minLifeTime = 0.16;
-    ps.maxLifeTime = 0.32;
-    ps.emitRate = 0;
-    ps.direction1 = new Vector3(-0.2, -0.05, -0.2);
-    ps.direction2 = new Vector3(0.2, 0.15, 0.2);
-    ps.minEmitPower = 0.1;
-    ps.maxEmitPower = 0.5;
-    ps.gravity = Vector3.Zero();
-    ps.blendMode = ParticleSystem.BLENDMODE_ONEONE;
-    ps.start();
-    return ps;
+    return makeBallTrail(this.scene, mesh, tex);
   }
 
   private tintTrail(ballIndex: number, colorHex: string): void {
     const ps = this.trails[ballIndex];
-    if (!ps) return;
-    const c = Color3.FromHexString(colorHex);
-    // mescolato un po' col bianco: si legge anche con colori scuri, senza perdere l'identita'
-    const r = 0.22 + c.r * 0.78;
-    const g = 0.22 + c.g * 0.78;
-    const b = 0.22 + c.b * 0.78;
-    ps.color1.set(r, g, b, 0.9);
-    ps.color2.set(r * 0.85, g * 0.85, b * 0.85, 0.75);
-    ps.colorDead.set(r, g, b, 0);
+    if (ps) tintBallTrail(ps, colorHex);
   }
 
   /** Anello a terra sotto una palla libera: quando il CORPO del giocatore lo tocca, la palla e' sua (PICKUP_RADIUS = corpo + anello). */
