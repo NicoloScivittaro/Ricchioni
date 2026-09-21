@@ -18,7 +18,7 @@ export interface VolleyballEnvironment {
   update(now: number): void;
 }
 
-function buildSky(scene: Scene): void {
+function buildSky(scene: Scene): Mesh {
   const dome = MeshBuilder.CreateSphere('skyDome', { diameter: 900, segments: 12, sideOrientation: Mesh.BACKSIDE }, scene);
   dome.infiniteDistance = true;
   const dt = new DynamicTexture('skyTex', { width: 4, height: 256 }, scene, false);
@@ -38,6 +38,7 @@ function buildSky(scene: Scene): void {
   mat.backFaceCulling = false;
   dome.material = mat;
   dome.isPickable = false;
+  return dome;
 }
 
 function buildSandTexture(scene: Scene): DynamicTexture {
@@ -122,7 +123,7 @@ function buildPalm(scene: Scene, x: number, z: number, scale: number): void {
 }
 
 export function buildVolleyballEnvironment(scene: Scene): VolleyballEnvironment {
-  buildSky(scene);
+  const sky = buildSky(scene);
 
   const hemi = new HemisphericLight('hemi', new Vector3(0.1, 1, 0.1), scene);
   hemi.intensity = 0.65;
@@ -136,6 +137,9 @@ export function buildVolleyballEnvironment(scene: Scene): VolleyballEnvironment 
 
   const glow = new GlowLayer('glow', scene, { mainTextureRatio: 0.5 });
   glow.intensity = 0.55;
+  // CIELO BIANCO A HIGH: la cupola del cielo e' tutta emissiva e il GlowLayer fa brillare ogni mesh emissiva, quindi sommava il cielo a se stesso
+  // (a 0.6 di intensita' lo sbiancava). Il bagliore serve a neon/luci, non al cielo: escluso.
+  glow.addExcludedMesh(sky);
 
   // Sabbia (grande)
   const sandTex = buildSandTexture(scene);

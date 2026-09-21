@@ -17,23 +17,72 @@ export interface RoulettePick {
 }
 
 /**
+ * PITY WEIGHT: piu' round passano senza che un gioco esca, piu' cresce il suo peso; appena esce torna normale.
+ * `since` = round giocati dopo l'ultima volta in cui e' uscito (0 = e' uscito nell'ultimo round; mai uscito = tutti i round giocati).
+ * Le soglie sono ordinate: vale l'ultima con `since >= da`. Valori scelti con scripts/roulette-sim.ts (100.000 estrazioni).
+ */
+export interface PityStep {
+  from: number;
+  mult: number;
+}
+export const PITY_STEPS: PityStep[] = [
+  { from: 0, mult: 1 },
+  { from: 3, mult: 1.3 },
+  { from: 5, mult: 2 },
+  { from: 7, mult: 3.5 },
+  { from: 9, mult: 6 },
+  { from: 11, mult: 10 }
+];
+
+export function pityMultiplier(since: number, steps: readonly PityStep[] = PITY_STEPS): number {
+  let m = 1;
+  for (const st of steps) if (since >= st.from) m = st.mult;
+  return m;
+}
+
+export interface RouletteOptions {
+  /** false = nessun pity (solo per confronto nelle simulazioni). Default: attivo. */
+  pity?: boolean;
+  pitySteps?: readonly PityStep[];
+}
+
+/**
  * Selezione del rullo (server-authoritative):
  * - filtra i giochi incompatibili con il numero di giocatori (minPlayers/maxPlayers)
- * - categoria pesata con anti-ripetizione
- * - minigioco pesato per rarità + anti-ripetizione
+ * - categoria pesata con anti-ripetizione (+ pity: una categoria con un gioco "in ritardo" pesa di piu')
+ * - minigioco pesato per rarità + anti-ripetizione + pity
  * - modificatore opzionale (~25%) tra quelli compatibili
  */
 export class RouletteEngine {
-  static pick(playerCount: number, history: RouletteHistoryEntry[], rng: Rng): RoulettePick {
+  static pick(playerCount: number, history: RouletteHistoryEntry[], rng: Rng, opts: RouletteOptions = {}): RoulettePick {
     const all = MINIGAME_DEFINITIONS.filter(
       (d) => d.enabled !== false && playerCount >= d.minPlayers && playerCount <= d.maxPlayers
     );
     if (all.length === 0) throw new Error('Nessun minigioco compatibile con questo numero di giocatori');
 
+    const usePity = opts.pity !== false;
+    const steps = opts.pitySteps ?? PITY_STEPS;
+    const pityOf = (id: string): number => {
+      if (!usePity) return 1;
+      let idx = -1;
+      for (let i = history.length - 1; i >= 0; i--) {
+        if (history[i].minigameId === id) {
+          idx = i;
+          break;
+        }
+      }
+      return pityMultiplier(idx < 0 ? history.length : history.length - 1 - idx, steps);
+    };
+
     const lastCategory = history[history.length - 1]?.category;
     const categories = [...new Set(all.map((d) => d.category))];
     const category = rng.weighted(
-      categories.map((c) => ({ item: c, weight: c === lastCategory ? 0.3 : 1 }))
+      categories.map((c) => {
+        const inCat = all.filter((d) => d.category === c);
+        // la categoria pesa quanto il suo gioco piu' "in ritardo"; l'anti-ripetizione di categoria resta
+        const pity = Math.max(...inCat.map((d) => pityOf(d.id)));
+        return { item: c, weight: (c === lastCategory ? 0.3 : 1) * pity };
+      })
     );
 
     const lastId = history[history.length - 1]?.minigameId;
@@ -41,7 +90,10 @@ export class RouletteEngine {
     const weightOf = (d: MinigameDefinition): number => {
       let w = RARITY_WEIGHT[d.rarity];
       if (d.id === lastId) w = 0;
-      else if (recentIds.has(d.id)) w *= 0.3;
+      else {
+        if (recentIds.has(d.id)) w *= 0.3;
+        w *= pityOf(d.id);
+      }
       return w;
     };
 

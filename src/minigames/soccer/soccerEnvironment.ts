@@ -18,7 +18,7 @@ export interface SoccerEnvironment {
   update(now: number): void;
 }
 
-function buildSky(scene: Scene): void {
+function buildSky(scene: Scene): Mesh {
   const dome = MeshBuilder.CreateSphere('skyDome', { diameter: 900, segments: 12, sideOrientation: Mesh.BACKSIDE }, scene);
   dome.infiniteDistance = true;
   const dt = new DynamicTexture('skyTex', { width: 4, height: 256 }, scene, false);
@@ -38,6 +38,7 @@ function buildSky(scene: Scene): void {
   mat.backFaceCulling = false;
   dome.material = mat;
   dome.isPickable = false;
+  return dome;
 }
 
 function buildFloorTexture(scene: Scene): DynamicTexture {
@@ -127,7 +128,7 @@ function buildGoal(scene: Scene, side: 1 | -1, team: 'red' | 'blue'): void {
 }
 
 export function buildSoccerEnvironment(scene: Scene): SoccerEnvironment {
-  buildSky(scene);
+  const sky = buildSky(scene);
 
   const hemi = new HemisphericLight('hemi', new Vector3(0.1, 1, 0.1), scene);
   hemi.intensity = 0.6;
@@ -141,6 +142,9 @@ export function buildSoccerEnvironment(scene: Scene): SoccerEnvironment {
 
   const glow = new GlowLayer('glow', scene, { mainTextureRatio: 0.5 });
   glow.intensity = 0.55;
+  // CIELO BIANCO A HIGH: la cupola del cielo e' tutta emissiva e il GlowLayer fa brillare ogni mesh emissiva, quindi sommava il cielo a se stesso
+  // (a 0.6 di intensita' lo sbiancava). Il bagliore serve a neon/luci, non al cielo: escluso.
+  glow.addExcludedMesh(sky);
 
   const W = FIELD_HALF_W * 2;
   const D = FIELD_HALF_D * 2;

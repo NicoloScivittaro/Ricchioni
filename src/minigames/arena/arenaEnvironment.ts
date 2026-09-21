@@ -22,7 +22,7 @@ export interface ArenaEnvironment {
 }
 
 /** Gradiente del cielo su cupola (stesso approccio del kart 3D). */
-function buildSky(scene: Scene): void {
+function buildSky(scene: Scene): Mesh {
   const dome = MeshBuilder.CreateSphere('skyDome', { diameter: 900, segments: 12, sideOrientation: Mesh.BACKSIDE }, scene);
   dome.infiniteDistance = true;
   const dt = new DynamicTexture('skyTex', { width: 4, height: 256 }, scene, false);
@@ -42,6 +42,7 @@ function buildSky(scene: Scene): void {
   mat.backFaceCulling = false;
   dome.material = mat;
   dome.isPickable = false;
+  return dome;
 }
 
 /** Texture pavimento: bullseye centrale + fasce + anello esterno a strisce pericolose. */
@@ -139,7 +140,7 @@ function neonSign(scene: Scene, text: string, color: string, position: Vector3, 
 }
 
 export function buildEnvironment(scene: Scene): ArenaEnvironment {
-  buildSky(scene);
+  const sky = buildSky(scene);
 
   // Luci
   const hemi = new HemisphericLight('hemi', new Vector3(0.15, 1, 0.1), scene);
@@ -154,6 +155,9 @@ export function buildEnvironment(scene: Scene): ArenaEnvironment {
 
   const glow = new GlowLayer('glow', scene, { mainTextureRatio: 0.5 });
   glow.intensity = 0.6;
+  // CIELO BIANCO A HIGH: la cupola del cielo e' tutta emissiva e il GlowLayer fa brillare ogni mesh emissiva, quindi sommava il cielo a se stesso
+  // (a 0.6 di intensita' lo sbiancava). Il bagliore serve a neon/luci, non al cielo: escluso.
+  glow.addExcludedMesh(sky);
 
   // Pavimento con spessore
   const floorTex = buildFloorTexture(scene);

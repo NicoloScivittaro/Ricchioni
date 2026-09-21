@@ -72,6 +72,39 @@ try {
   const t2 = await overlayText(dbg.page);
   check(/ping \d+ ms/.test(t2 ?? ''), `ping misurato (${(t2 ?? '').split('\n')[2]})`);
   check(/tocco \d+ ms/.test(t2 ?? ''), `latenza del tocco misurata (${(t2 ?? '').split('\n')[4]})`);
+
+  // 5. DEVICE TEST: pagina di prova completa
+  const openBtn = await dbg.page.evaluateHandle(() => [...document.querySelectorAll('button')].find((b) => b.textContent === 'DEVICE TEST'));
+  check(!!openBtn.asElement(), "con ?debug=1 c'e' il pulsante DEVICE TEST");
+  await dbg.page.evaluate(() => [...document.querySelectorAll('button')].find((b) => b.textContent === 'DEVICE TEST').click());
+  await dbg.page.waitForSelector('#device-test', { timeout: 10000 });
+  await dbg.page.evaluate(() => document.querySelector('#dt-audio').click());
+  await sleep(900);
+  const audioTxt = await dbg.page.evaluate(() => document.querySelector('#dt-audio-out').textContent);
+  check(/AUDIO UNLOCKED ✅/.test(audioTxt), `TEST AUDIO: ${audioTxt}`);
+  await dbg.page.evaluate(() => document.querySelector('#dt-vib').click());
+  const vibTxt = await dbg.page.evaluate(() => document.querySelector('#dt-vib-out').textContent);
+  check(/UNSUPPORTED/.test(vibTxt), `TEST VIBRAZIONE su telefono senza vibrate: ${vibTxt}`);
+  await dbg.page.evaluate(() => document.querySelector('#dt-3d').click());
+  await sleep(2500);
+  const info = await dbg.page.evaluate(() => document.querySelector('#dt-info').textContent);
+  check(/3D grezzo\s+\d+ fps/.test(info) && /GPU\s+\S+/.test(info), 'TEST 3D: FPS e GPU mostrati');
+  check(/orientamento\s+\S+/.test(info) && /latenza tocco/.test(info) && /AudioContext\s+attivo/.test(info), 'orientamento, latenza tocco e AudioContext nel pannello');
+  // multitouch reale (CDP): un dito sul PAD e un dito su A insieme
+  const rects = await dbg.page.evaluate(() => ['dt-pad', 'dt-a'].map((id) => { const r = document.getElementById(id).getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 }; }));
+  await dbg.page.evaluate(() => document.getElementById('dt-pad').scrollIntoView());
+  const rects2 = await dbg.page.evaluate(() => ['dt-pad', 'dt-a'].map((id) => { const r = document.getElementById(id).getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2 }; }));
+  const cdp = await dbg.page.createCDPSession();
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: rects2[0].x, y: rects2[0].y, id: 1 }, { x: rects2[1].x, y: rects2[1].y, id: 2 }] });
+  await sleep(400);
+  const touchTxt = await dbg.page.evaluate(() => document.querySelector('#dt-touch').textContent);
+  check(/touch attivi 2/.test(touchTxt) && /MULTITOUCH OK/.test(touchTxt), `multitouch joystick + pulsante insieme: ${touchTxt.split(String.fromCharCode(10)).filter((l) => /attivi|MULTI/.test(l)).join(' | ')}`);
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  void rects;
+  await dbg.page.evaluate(() => document.querySelector('#dt-close').click());
+  await sleep(300);
+  check(!(await dbg.page.evaluate(() => !!document.getElementById('device-test'))), 'CHIUDI rimuove la pagina di prova');
+  check(dbg.errs.length === 0, `nessun errore di pagina dopo il DEVICE TEST ${dbg.errs.length ? JSON.stringify(dbg.errs.slice(0, 3)) : ''}`);
   process.exitCode = fails ? 1 : 0;
 } catch (e) {
   console.error('ERRORE', e);

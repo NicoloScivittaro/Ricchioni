@@ -11,6 +11,8 @@ import { getQualityInfo } from '../core/quality';
  *   FPS della pagina · FPS/scala di rendering del 3D (solo Sparatoria) · ping verso il server · livello di qualità (auto/manuale) ·
  *   latenza del tocco (ritardo fra il tocco e il momento in cui la pagina lo elabora) · vibrazione supportata · audio sbloccato.
  * Tocco con 3 dita = mostra/nasconde (impossibile da fare per sbaglio).
+ * In alto a destra il pulsante DEVICE TEST apre la pagina di prova completa (deviceTest.ts: audio, vibrazione, multitouch, 3D, GPU);
+ * con `&devicetest=1` si apre da sola.
  */
 export function initMobileDebug(socket: Socket, get3d: () => { fps: number; scale: number } | null): void {
   try {
@@ -24,6 +26,19 @@ export function initMobileDebug(socket: Socket, get3d: () => { fps: number; scal
     'position:fixed;left:4px;top:4px;z-index:99999;max-width:92vw;padding:5px 8px;border-radius:8px;background:rgba(0,0,0,.72);' +
     'color:#86efac;font:11px/1.35 ui-monospace,Menlo,Consolas,monospace;white-space:pre;pointer-events:none;';
   document.body.appendChild(el);
+
+  const btn = document.createElement('button');
+  btn.textContent = 'DEVICE TEST';
+  btn.style.cssText =
+    'position:fixed;right:6px;top:6px;z-index:99999;padding:8px 10px;border-radius:10px;border:0;background:#4f46e5;color:#fff;font:800 12px sans-serif;';
+  const openTest = (): void => void import('./deviceTest').then((m) => m.openDeviceTest(socket));
+  btn.addEventListener('click', openTest);
+  document.body.appendChild(btn);
+  try {
+    if (new URLSearchParams(location.search).get('devicetest') === '1') openTest();
+  } catch {
+    /* ignora */
+  }
 
   let frames = 0;
   let worst = 0;
@@ -97,7 +112,10 @@ export function initMobileDebug(socket: Socket, get3d: () => { fps: number; scal
   window.addEventListener(
     'touchstart',
     (e) => {
-      if (e.touches.length === 3) el.style.display = el.style.display === 'none' ? '' : 'none';
+      if (e.touches.length === 3) {
+        el.style.display = el.style.display === 'none' ? '' : 'none';
+        btn.style.display = el.style.display;
+      }
     },
     { passive: true }
   );
