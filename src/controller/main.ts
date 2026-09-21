@@ -1056,7 +1056,7 @@ let fpsPendingState: FpsStatePayload | null = null;
 let fpsLookEl: HTMLElement | null = null;
 let fpsFireBtn: HTMLButtonElement | null = null;
 let fpsDashBtn: HTMLButtonElement | null = null;
-let fpsAbilityBtn: HTMLButtonElement | null = null;
+let fpsReloadBtn: HTMLButtonElement | null = null;
 let fpsLocked = false;
 
 function handleFpsSignal(s: SignalPayload): void {
@@ -1065,10 +1065,13 @@ function handleFpsSignal(s: SignalPayload): void {
       if (fpsClient) fpsClient.updateState(s as unknown as FpsStatePayload);
       else fpsPendingState = s as unknown as FpsStatePayload;
       break;
-    case 'hit':
-      vibrate(20);
-      fpsClient?.hitMarker();
+    case 'hit': {
+      // conferma dell'host: il danno e' stato davvero inflitto (dmg e kill vengono dall'host)
+      const d = s as unknown as { dmg?: number; kill?: boolean };
+      if (!d.kill) vibrate(d.dmg && d.dmg >= 40 ? 35 : 18); // la kill ha la sua vibrazione
+      fpsClient?.hitMarker(d.dmg ?? 10, Boolean(d.kill));
       break;
+    }
     case 'damaged': {
       const d = s as unknown as { from?: string; amount?: number };
       const amount = d.amount ?? 10;
@@ -1091,8 +1094,22 @@ function handleFpsSignal(s: SignalPayload): void {
     case 'respawn':
       if (fpsClient) fpsClient.hideDeath();
       break;
-    case 'reload':
-      fpsClient?.reloadStart(1.5);
+    case 'reload': {
+      const d = s as unknown as { duration?: number; weaponId?: string };
+      fpsClient?.reloadStart(d.duration ?? 1.5, d.weaponId);
+      break;
+    }
+    case 'equip':
+      fpsClient?.equipped((s as unknown as { weaponId?: string }).weaponId ?? 'mitraglia');
+      break;
+    case 'dash':
+      fpsClient?.dashed();
+      break;
+    case 'proj':
+      fpsClient?.projectile(s as unknown as { ox: number; oy: number; oz: number; tx: number; ty: number; tz: number; dur: number });
+      break;
+    case 'boom':
+      fpsClient?.boom(s as unknown as { x: number; y: number; z: number; r: number });
       break;
     case 'fpsEnd':
       if (fpsClient) fpsClient.showDeath('⏱ TEMPO!');
@@ -1123,7 +1140,7 @@ function renderFpsController(): void {
   fpsLookEl = null;
   fpsFireBtn = null;
   fpsDashBtn = null;
-  fpsAbilityBtn = null;
+  fpsReloadBtn = null;
   fpsLocked = false;
 
   app.innerHTML = `
@@ -1138,7 +1155,7 @@ function renderFpsController(): void {
       <div class="fps-btns">
         <button id="fps-fire" class="fps-fire">🔫<span>SPARA</span></button>
         <button id="fps-dash" class="fps-dash">💨<span>DASH</span></button>
-        <button id="fps-ability" class="arena-ability">⭐<span>ABILITÀ</span></button>
+        <button id="fps-reload" class="arena-ability fps-reload">🔄<span>RICARICA</span></button>
       </div>
     </div>`;
 
@@ -1146,7 +1163,7 @@ function renderFpsController(): void {
   fpsLookEl = app.querySelector<HTMLElement>('#fps-look')!;
   fpsFireBtn = app.querySelector<HTMLButtonElement>('#fps-fire')!;
   fpsDashBtn = app.querySelector<HTMLButtonElement>('#fps-dash')!;
-  fpsAbilityBtn = app.querySelector<HTMLButtonElement>('#fps-ability')!;
+  fpsReloadBtn = app.querySelector<HTMLButtonElement>('#fps-reload')!;
   const baseEl = app.querySelector<HTMLElement>('.arena-joy-base')!;
   const thumbEl = app.querySelector<HTMLElement>('.arena-joy-thumb')!;
 
@@ -1207,10 +1224,10 @@ function renderFpsController(): void {
     if (fpsDashBtn!.disabled) return;
     sendInput({ kind: 'action', controlId: 'dash' });
   });
-  fpsAbilityBtn.addEventListener('pointerdown', (e) => {
+  fpsReloadBtn.addEventListener('pointerdown', (e) => {
     e.preventDefault();
-    if (fpsAbilityBtn!.disabled) return;
-    sendInput({ kind: 'action', controlId: 'ability' });
+    if (fpsReloadBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'reload' });
   });
 
   // Client FPS (Babylon, caricato lazy)

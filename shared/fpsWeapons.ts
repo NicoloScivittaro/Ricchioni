@@ -19,6 +19,12 @@ export interface WeaponConfig {
   splashRadius: number; // 0 = nessuno splash
   movementModifier: number; // 1 = nessun modificatore
   difficulty: 'FACILE' | 'MEDIA' | 'ALTA';
+  /** Pallini per colpo (fucile a pompa): `damage` vale PER PALLINO. Default 1. */
+  pellets?: number;
+  /** Colpi per pressione del grilletto (raffica). `fireRate` resta la cadenza MEDIA in colpi/s. Default 1. */
+  burst?: number;
+  /** Secondi tra i colpi dentro una raffica. */
+  burstGap?: number;
 }
 
 export const WEAPONS: WeaponConfig[] = [
@@ -29,7 +35,7 @@ export const WEAPONS: WeaponConfig[] = [
     damage: 12,
     fireRate: 8,
     range: 40,
-    spread: 0.02,
+    spread: 0.025,
     magazine: 30,
     reload: 1.5,
     projectileSpeed: 0,
@@ -41,10 +47,11 @@ export const WEAPONS: WeaponConfig[] = [
     id: 'spaccatutto',
     name: 'SPACCATUTTO',
     icon: '💥',
-    damage: 11,
+    damage: 11, // per pallino
     fireRate: 1.4,
     range: 14,
-    spread: 0.16,
+    spread: 0.13,
+    pellets: 8,
     magazine: 6,
     reload: 2.0,
     projectileSpeed: 0,
@@ -57,7 +64,7 @@ export const WEAPONS: WeaponConfig[] = [
     name: 'LASER DEL DISAGIO',
     icon: '🔦',
     damage: 55,
-    fireRate: 1.1,
+    fireRate: 1.05,
     range: 60,
     spread: 0.0,
     magazine: 5,
@@ -71,10 +78,12 @@ export const WEAPONS: WeaponConfig[] = [
     id: 'raffica',
     name: 'RAFFICA 3X',
     icon: '💨',
-    damage: 15,
-    fireRate: 3.2,
-    range: 35,
-    spread: 0.03,
+    damage: 22,
+    fireRate: 3.2, // colpi/s medi: 3 colpi ravvicinati, poi pausa
+    range: 40,
+    spread: 0.02,
+    burst: 3,
+    burstGap: 0.07,
     magazine: 24,
     reload: 1.7,
     projectileSpeed: 0,
@@ -86,8 +95,8 @@ export const WEAPONS: WeaponConfig[] = [
     id: 'bombarda',
     name: 'BOMBARDA',
     icon: '🧨',
-    damage: 70,
-    fireRate: 0.7,
+    damage: 75,
+    fireRate: 0.9,
     range: 45,
     spread: 0.02,
     magazine: 4,
@@ -104,7 +113,7 @@ export const WEAPONS: WeaponConfig[] = [
     damage: 6,
     fireRate: 14,
     range: 30,
-    spread: 0.05,
+    spread: 0.04,
     magazine: 90,
     reload: 1.2,
     projectileSpeed: 0,

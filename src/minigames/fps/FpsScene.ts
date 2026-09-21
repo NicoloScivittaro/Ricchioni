@@ -4,7 +4,7 @@ import { audio } from '../../core/AudioManager';
 import { PauseMenu } from '../../core/PauseMenu';
 import { FPS_MAP, resolveCollisions, rayVsAabb } from '../../../shared/fpsMap';
 import type { Aabb } from '../../../shared/fpsMap';
-import { getWeapon } from '../../../shared/fpsWeapons';
+import { WEAPONS, getWeapon } from '../../../shared/fpsWeapons';
 import type { WeaponConfig } from '../../../shared/fpsWeapons';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
@@ -58,6 +58,21 @@ interface FpsPlayer {
   dashDirX: number;
   dashDirZ: number;
   firing: boolean;
+  /** Sacchetto di armi: a ogni vita se ne pesca una, e non si ripete finche' non le hai usate tutte. */
+  bag: string[];
+  burstLeft: number;
+  burstTimer: number;
+}
+
+/** Proiettile lento (bombarda): esplode dopo il tempo di volo nel punto d'impatto calcolato allo sparo. */
+interface Blast {
+  x: number;
+  y: number;
+  z: number;
+  at: number;
+  owner: PlayerId;
+  dmg: number;
+  radius: number;
 }
 
 export class FpsScene extends Phaser.Scene {
@@ -70,6 +85,8 @@ export class FpsScene extends Phaser.Scene {
   private graphics!: Phaser.GameObjects.Graphics;
   private timerText!: Phaser.GameObjects.Text;
   private rankTexts: Phaser.GameObjects.Text[] = [];
+  private blasts: Blast[] = [];
+  private clock = 0; // secondi di gioco (tempi di esplosione)
 
   constructor() {
     super('fps');
@@ -126,9 +143,14 @@ export class FpsScene extends Phaser.Scene {
         dashCooldown: 0,
         dashDirX: 0,
         dashDirZ: 0,
-        firing: false
+        firing: false,
+        bag: [],
+        burstLeft: 0,
+        burstTimer: 0
       });
     });
+
+    for (const p of this.players) this.equipNext(p); // prima arma di ognuno (dal sacchetto)
 
     // Invia subito lo stato (i telefoni devono conoscere la mappa + spawn).
     this.broadcastState();
@@ -168,7 +190,11 @@ export class FpsScene extends Phaser.Scene {
       return;
     }
 
-    for (const sub of steps) for (const p of this.players) this.stepPlayer(p, sub);
+    for (const sub of steps) {
+      this.clock += sub;
+      for (const p of this.players) this.stepPlayer(p, sub);
+      this.stepBlasts();
+    }
 
     this.renderRadar();
     this.renderBoard();
@@ -230,6 +256,7 @@ export class FpsScene extends Phaser.Scene {
       p.dashDirZ = mag > 0.15 ? az : Math.cos(p.yaw);
       audio.boost();
       this.ctx.vibrate(p.id, 25);
+      this.ctx.signal(p.id, { type: 'dash' });
     }
 
     if (p.dashTime > 0) {
@@ -247,71 +274,158 @@ export class FpsScene extends Phaser.Scene {
     p.x = Math.max(-FPS_MAP.halfSize + PLAYER_RADIUS, Math.min(FPS_MAP.halfSize - PLAYER_RADIUS, p.x));
     p.z = Math.max(-FPS_MAP.halfSize + PLAYER_RADIUS, Math.min(FPS_MAP.halfSize - PLAYER_RADIUS, p.z));
 
+    // Ricarica manuale (pulsante): serve per non restare a secco nel momento sbagliato
+    if (input.justPressed('reload') && !p.reloading && p.magazine < weapon.magazine) this.startReload(p, weapon);
+
+    // Raffica in corso: i colpi successivi partono a intervalli fissi
+    if (p.burstLeft > 0) {
+      p.burstTimer -= dt;
+      if (p.burstTimer <= 0) {
+        if (p.magazine > 0 && !p.reloading) {
+          this.fireShot(p, weapon);
+          p.burstLeft--;
+          p.burstTimer = weapon.burstGap ?? 0.07;
+        } else {
+          p.burstLeft = 0;
+        }
+      }
+    }
+
     // Spara (hold)
     p.firing = input.pressed('fire');
-    if (p.firing && p.fireCooldown <= 0 && !p.reloading) {
+    if (p.firing && p.fireCooldown <= 0 && !p.reloading && p.burstLeft <= 0) {
       if (p.magazine > 0) {
-        this.fire(p, weapon);
+        const burst = weapon.burst ?? 1;
+        p.fireCooldown = burst / weapon.fireRate; // cadenza MEDIA: la raffica e' compressa all'inizio del ciclo
+        this.fireShot(p, weapon);
+        p.burstLeft = burst - 1;
+        p.burstTimer = weapon.burstGap ?? 0.07;
       } else {
-        p.reloading = true;
-        p.reloadTimer = weapon.reload;
-        audio.select();
-        this.ctx.signal(p.id, { type: 'reload' });
+        this.startReload(p, weapon); // a secco: ricarica da sola
       }
     }
   }
 
-  private fire(p: FpsPlayer, weapon: WeaponConfig): void {
+  private startReload(p: FpsPlayer, weapon: WeaponConfig): void {
+    if (p.reloading) return;
+    p.reloading = true;
+    p.reloadTimer = weapon.reload;
+    p.burstLeft = 0;
+    this.ctx.signal(p.id, { type: 'reload', duration: weapon.reload, weaponId: weapon.id });
+  }
+
+  /** Pesca la prossima arma dal sacchetto del giocatore (si rimescola quando e' vuoto, senza ripetere l'ultima). */
+  private equipNext(p: FpsPlayer): void {
+    if (p.bag.length === 0) {
+      const ids = WEAPONS.map((w) => w.id);
+      for (let i = ids.length - 1; i > 0; i--) {
+        const j = Math.floor(this.ctx.rng.next() * (i + 1));
+        [ids[i], ids[j]] = [ids[j], ids[i]];
+      }
+      // la prima che verra' pescata (in fondo) non deve essere quella appena usata
+      if (ids.length > 1 && ids[ids.length - 1] === p.weaponId) [ids[0], ids[ids.length - 1]] = [ids[ids.length - 1], ids[0]];
+      p.bag = ids;
+    }
+    const next = p.bag.pop()!;
+    const w = getWeapon(next);
+    p.weaponId = next;
+    p.magazine = w.magazine;
+    p.reloading = false;
+    p.reloadTimer = 0;
+    p.burstLeft = 0;
+    p.fireCooldown = 0.35; // breve tempo di estrazione
+    this.ctx.signal(p.id, { type: 'equip', weaponId: next });
+  }
+
+  /** Un colpo (tutti i pallini): hitscan; la bombarda lancia invece un proiettile lento con esplosione ad area. */
+  private fireShot(p: FpsPlayer, weapon: WeaponConfig): void {
     p.spawnProtection = 0; // spara → protezione rimossa subito
-    p.fireCooldown = 1 / weapon.fireRate;
     p.magazine--;
     p.shotsFired++;
     p.firing = true;
-    audio.tick();
-    this.ctx.vibrate(p.id, 15);
+    if (weapon.fireRate < 4) audio.tick(0.75); // sulla TV solo le armi lente: la mitraglia sarebbe un ticchettio continuo
 
-    // Spread
-    const spread = weapon.spread;
-    const yaw = p.yaw + (Math.random() - 0.5) * 2 * spread;
-    const pitch = p.pitch + (Math.random() - 0.5) * 2 * spread;
-    const dx = Math.sin(yaw) * Math.cos(pitch);
-    const dy = Math.sin(pitch);
-    const dz = Math.cos(yaw) * Math.cos(pitch);
     const ox = p.x;
     const oy = EYE_HEIGHT;
     const oz = p.z;
+    const pellets = weapon.pellets ?? 1;
+    const damageBy = new Map<FpsPlayer, number>(); // un solo hit/danno per bersaglio per colpo, anche con 8 pallini
+    for (let i = 0; i < pellets; i++) {
+      // Dispersione
+      const yaw = p.yaw + (Math.random() - 0.5) * 2 * weapon.spread;
+      const pitch = p.pitch + (Math.random() - 0.5) * 2 * weapon.spread;
+      const dx = Math.sin(yaw) * Math.cos(pitch);
+      const dy = Math.sin(pitch);
+      const dz = Math.cos(yaw) * Math.cos(pitch);
 
-    // Hitscan contro ostacoli + altri giocatori
-    let bestT = weapon.range;
-    let hitPlayer: FpsPlayer | null = null;
-    for (const b of FPS_MAP.obstacles) {
-      const t = rayVsAabb(ox, oy, oz, dx, dy, dz, b);
-      if (t !== null && t < bestT) bestT = t;
-    }
-    for (const other of this.players) {
-      if (other.id === p.id || !other.alive) continue;
-      const box: Aabb = { x: other.x, z: other.z, w: 0.8, d: 0.8, h: 1.8 };
-      const t = rayVsAabb(ox, oy, oz, dx, dy, dz, box);
-      if (t !== null && t < bestT) {
-        bestT = t;
-        hitPlayer = other;
+      // Raggio contro ostacoli + altri giocatori
+      let bestT = weapon.range;
+      let hitPlayer: FpsPlayer | null = null;
+      for (const b of FPS_MAP.obstacles) {
+        const t = rayVsAabb(ox, oy, oz, dx, dy, dz, b);
+        if (t !== null && t < bestT) bestT = t;
+      }
+      for (const other of this.players) {
+        if (other.id === p.id || !other.alive) continue;
+        const box: Aabb = { x: other.x, z: other.z, w: 0.8, d: 0.8, h: 1.8 };
+        const t = rayVsAabb(ox, oy, oz, dx, dy, dz, box);
+        if (t !== null && t < bestT) {
+          bestT = t;
+          hitPlayer = other;
+        }
+      }
+
+      if (weapon.splashRadius > 0) {
+        this.launchBlast(p, weapon, ox, oy, oz, dx, dy, dz, bestT);
+      } else if (hitPlayer) {
+        damageBy.set(hitPlayer, (damageBy.get(hitPlayer) ?? 0) + weapon.damage);
       }
     }
 
-    if (hitPlayer) {
-      p.shotsHit++;
-      this.applyDamage(hitPlayer, weapon.damage, p);
-      this.ctx.signal(p.id, { type: 'hit' });
+    let connected = false;
+    for (const [victim, dmg] of damageBy) if (this.applyDamage(victim, dmg, p)) connected = true;
+    if (connected) p.shotsHit++;
+    if (p.magazine <= 0) this.startReload(p, weapon); // caricatore vuoto: ricarica automatica
+  }
+
+  /** Bombarda: il proiettile vola (visibile sui telefoni) e la SUA esplosione fa danno ad area nel punto calcolato allo sparo. */
+  private launchBlast(p: FpsPlayer, weapon: WeaponConfig, ox: number, oy: number, oz: number, dx: number, dy: number, dz: number, t: number): void {
+    const tx = ox + dx * t;
+    const ty = Math.max(0.2, oy + dy * t);
+    const tz = oz + dz * t;
+    const dur = t / (weapon.projectileSpeed || 20);
+    this.blasts.push({ x: tx, y: ty, z: tz, at: this.clock + dur, owner: p.id, dmg: weapon.damage, radius: weapon.splashRadius });
+    this.ctx.signal(null, { type: 'proj', ox, oy: oy - 0.25, oz, tx, ty, tz, dur });
+  }
+
+  private stepBlasts(): void {
+    for (let i = this.blasts.length - 1; i >= 0; i--) {
+      const b = this.blasts[i];
+      if (this.clock < b.at) continue;
+      this.blasts.splice(i, 1);
+      this.ctx.signal(null, { type: 'boom', x: b.x, y: b.y, z: b.z, r: b.radius });
+      const owner = this.players.find((q) => q.id === b.owner);
+      if (!owner) continue;
+      for (const q of this.players) {
+        if (!q.alive || q.id === b.owner) continue; // niente danno a se stessi: arcade
+        const dist = Math.max(0, Math.hypot(q.x - b.x, q.z - b.z) - 0.4);
+        if (dist > b.radius) continue;
+        // colpo diretto = danno pieno; poi cala fino al 30% al bordo dello splash
+        const k = dist <= 1 ? 1 : Math.max(0.3, 1 - (0.7 * (dist - 1)) / (b.radius - 1));
+        this.applyDamage(q, Math.round(b.dmg * k), owner);
+      }
     }
   }
 
-  private applyDamage(target: FpsPlayer, damage: number, source: FpsPlayer): void {
-    if (target.spawnProtection > 0) return;
+  /** Applica il danno; ritorna false se non e' stato inflitto (bersaglio protetto). L'hit al tiratore parte SOLO da qui: conferma reale. */
+  private applyDamage(target: FpsPlayer, damage: number, source: FpsPlayer): boolean {
+    if (!target.alive || target.spawnProtection > 0) return false;
     target.hp -= damage;
-    target.assists = target.assists; // assist gestito alla morte
     source.damageDealt += damage;
     this.ctx.signal(target.id, { type: 'damaged', amount: damage, from: source.id });
+    this.ctx.signal(source.id, { type: 'hit', dmg: damage, kill: target.hp <= 0 });
     if (target.hp <= 0) this.kill(target, source);
+    return true;
   }
 
   private kill(target: FpsPlayer, killer: FpsPlayer): void {
@@ -336,8 +450,7 @@ export class FpsScene extends Phaser.Scene {
     p.hp = MAX_HP;
     p.alive = true;
     p.spawnProtection = SPAWN_PROTECTION;
-    p.magazine = getWeapon(p.weaponId).magazine;
-    p.reloading = false;
+    this.equipNext(p); // a ogni vita un'arma diversa
     this.ctx.signal(p.id, { type: 'respawn' });
   }
 
@@ -360,7 +473,10 @@ export class FpsScene extends Phaser.Scene {
         kills: p.kills,
         deaths: p.deaths,
         weaponId: p.weaponId,
-        firing: p.firing
+        firing: p.firing,
+        magazine: p.magazine,
+        reloading: p.reloading,
+        dashing: p.dashTime > 0
       }))
     });
   }
@@ -417,7 +533,7 @@ export class FpsScene extends Phaser.Scene {
       const row = this.rankTexts[i];
       if (!row) return;
       const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}°`;
-      const t = `${medal} ${p.avatar} ${p.name}${p.alive ? '' : '  💀'}\n      ${p.kills} kill · ${p.deaths} morti`;
+      const t = `${medal} ${p.avatar} ${p.name} ${getWeapon(p.weaponId).icon}${p.alive ? '' : '  💀'}\n      ${p.kills} kill · ${p.deaths} morti`;
       if (row.text !== t) row.setText(t);
       row.setColor(p.color);
     });
