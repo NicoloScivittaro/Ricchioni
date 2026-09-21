@@ -52,6 +52,8 @@ export class BabylonArenaGame {
   private order: PlayerId[];
 
   private phase: Phase = 'countdown';
+  /** false finche' la schermata CONTROLLI e' visibile. */
+  private controlsDone = false;
   private countdown = COUNTDOWN_S;
   private lastCountInt = 4;
   private gameTime = 0;
@@ -118,6 +120,10 @@ export class BabylonArenaGame {
     this.hud.setAlive(n);
     this.hud.setCountdown('3');
 
+    // Schermata CONTROLLI: finche' e' su, countdown/fisica/timer restano fermi (vedi step()); alla fine gli input sono azzerati.
+    if (ctx.showControls) void ctx.showControls().then(() => (this.controlsDone = true));
+    else this.controlsDone = true;
+
     applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
@@ -140,6 +146,7 @@ export class BabylonArenaGame {
     let held = false; // hitstop in corso: gli edge degli input (justPressed) restano per il prossimo passo di simulazione
 
     if (this.phase === 'countdown') {
+      if (!this.controlsDone) dt = 0; // schermata CONTROLLI in corso: il countdown non parte
       this.countdown -= dt;
       const n = Math.ceil(this.countdown);
       if (n < this.lastCountInt && n > 0) {

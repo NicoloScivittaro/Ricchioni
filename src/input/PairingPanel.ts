@@ -1,7 +1,9 @@
 import { game as gm } from '../core/GameManager';
 import { CHARACTERS } from '../../shared/characters';
+import { MINIGAME_DEFINITIONS } from '../../shared/minigames';
 import { pads } from './GamepadManager';
 import { PAD_CONTROLS, padFamily, padLabel } from './padTypes';
+import { PAD_PROFILES } from './profiles';
 
 /**
  * PANNELLO "🎮 COLLEGA I CONTROLLER" (host, DOM sopra il canvas: nessuna scena Phaser toccata).
@@ -22,6 +24,7 @@ interface St {
 let root: HTMLDivElement;
 let badge: HTMLDivElement;
 let alertBar: HTMLDivElement;
+let focusBar: HTMLDivElement;
 let toasts: HTMLDivElement;
 let open = false;
 let dismissed = false;
@@ -50,6 +53,7 @@ const css = `
 #pad-root td,#pad-root th{padding:4px 6px;text-align:left;border-bottom:1px solid #1e293b;vertical-align:top}
 #pad-badge{position:fixed;left:12px;bottom:12px;z-index:89000;padding:6px 12px;border-radius:999px;background:rgba(15,23,42,.85);color:#cbd5e1;font:700 13px Arial;cursor:pointer;display:none}
 #pad-alert{position:fixed;left:0;right:0;top:0;z-index:99000;padding:10px 16px;text-align:center;background:#b91c1c;color:#fff;font:800 22px Arial;display:none}
+#pad-focus{position:fixed;left:0;right:0;bottom:0;z-index:99000;padding:10px 16px;text-align:center;background:#b45309;color:#fff;font:800 20px Arial;display:none}
 #pad-toasts{position:fixed;left:50%;transform:translateX(-50%);top:14px;z-index:99500;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
 #pad-toasts div{padding:10px 18px;border-radius:12px;background:rgba(15,23,42,.95);border:2px solid #475569;color:#fff;font:800 20px Arial}
 `;
@@ -82,7 +86,7 @@ function render(): void {
     const names = waiting.map((s) => pads.playerLabel(s.playerId)).join(' / ');
     const fam = padFamily(free[0]?.id ?? '');
     alertBar.textContent = free.length
-      ? `⚠️ CONTROLLER DI ${names} SCOLLEGATO — PREMI ${padLabel('PRIMARY', fam) === 'BASSO' ? 'IL TASTO IN BASSO' : padLabel('PRIMARY', fam)} PER RICONNETTERE`
+      ? `⚠️ CONTROLLER DI ${names} SCOLLEGATO — PREMI ${fam === 'generic' ? 'IL TASTO IN BASSO' : padLabel('PRIMARY', fam)} PER RICONNETTERE`
       : `⚠️ CONTROLLER DI ${names} DISCONNESSO`;
   } else alertBar.style.display = 'none';
 
@@ -100,8 +104,8 @@ function renderPairing(): string {
   const fam = padFamily(free[0]?.id ?? '');
   const primary = padLabel('PRIMARY', fam);
   let hint = 'PREMI UN TASTO SUL CONTROLLER CHE VUOI USARE';
-  if (target) hint = `${pads.playerLabel(target)}: PREMI ${primary === 'BASSO' ? 'IL TASTO IN BASSO' : primary} SUL TUO CONTROLLER`;
-  else if (free.length) hint = `CONTROLLER LIBERO: SCEGLI IL TUO GIOCATORE CON ⬆⬇ E CONFERMA CON ${primary === 'BASSO' ? 'IL TASTO IN BASSO' : primary}`;
+  if (target) hint = `${pads.playerLabel(target)}: PREMI ${fam === 'generic' ? 'IL TASTO IN BASSO' : primary} SUL TUO CONTROLLER`;
+  else if (free.length) hint = `CONTROLLER LIBERO: SCEGLI IL TUO GIOCATORE CON ⬆⬇ E CONFERMA CON ${fam === 'generic' ? 'IL TASTO IN BASSO' : primary}`;
   let unpairedRank = 0;
   const rows = slots
     .map((s) => {
@@ -133,8 +137,10 @@ function renderPairing(): string {
       return `<div class="row${target === s.playerId ? ' target' : ''}${cur !== null ? ' cursor' : ''}" data-act="target" data-id="${s.playerId}"><span class="dot" style="background:${color}"></span><div class="who"><b>${esc(title)}</b><span>${esc(sub)}</span></div>${tools}<div class="st">${status}</div></div>`;
     })
     .join('');
+  const supported = MINIGAME_DEFINITIONS.filter((m) => PAD_PROFILES[m.id]).map((m) => m.name).join(', ') || 'nessuno';
+  const supportNote = `<p class="hint" style="color:#93c5fd;font-size:15px">Giochi giocabili col controller: ${esc(supported)} · negli altri si usa ancora il telefono (Cultura o Cazzata resta sempre da telefono).</p>`;
   const noExp = pads.detected < slots.length && pads.detected > 0 && !free.length ? `<p class="hint" style="color:#f87171">Il browser espone ${pads.detected} controller su ${slots.length} giocatori (Chrome ne mostra al massimo 4): gli altri usano il telefono.</p>` : '';
-  return `<div class="box"><h2>🎮 COLLEGA I CONTROLLER</h2><p class="hint">${esc(hint)}</p>${noExp}${rows || '<p>Nessun giocatore nella stanza.</p>'}
+  return `<div class="box"><h2>🎮 COLLEGA I CONTROLLER</h2><p class="hint">${esc(hint)}</p>${supportNote}${noExp}${rows || '<p>Nessun giocatore nella stanza.</p>'}
   <div class="foot"><button data-act="test">🧪 TEST CONTROLLER</button><button data-act="close">CHIUDI (G)</button><span class="set">Clic su un giocatore = scegli per chi collegare. Il controller resta di quella persona per tutta la serata.</span></div></div>`;
 }
 
@@ -194,7 +200,9 @@ export function initPairingPanel(): void {
   alertBar.id = 'pad-alert';
   toasts = document.createElement('div');
   toasts.id = 'pad-toasts';
-  document.body.append(root, badge, alertBar, toasts);
+  focusBar = document.createElement('div');
+  focusBar.id = 'pad-focus';
+  document.body.append(root, badge, alertBar, toasts, focusBar);
   root.addEventListener('click', onClick);
   badge.addEventListener('click', () => {
     open = true;
@@ -210,6 +218,14 @@ export function initPairingPanel(): void {
       render();
     }
   });
+  // senza focus il browser puo' non consegnare i controller alla pagina: meglio dirlo a schermo che lasciare i giocatori a muovere lo stick a vuoto
+  window.setInterval(() => {
+    const c = pads.contextNow();
+    const relevant = (c === 'MINIGAME' || c === 'CONTROLS') && pads.pairedCount() > 0;
+    const lost = relevant && !document.hasFocus();
+    focusBar.style.display = lost ? 'block' : 'none';
+    if (lost) focusBar.textContent = '⚠️ CLICCA SULLA FINESTRA DEL GIOCO — senza focus il browser può ignorare i controller';
+  }, 500);
   pads.events.on('change', render);
   pads.events.on('toast', (t) => {
     const m = t as { message: string; ms: number };

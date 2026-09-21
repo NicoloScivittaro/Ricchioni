@@ -76,7 +76,14 @@ function patchTimers(): void {
   }) as typeof window.clearInterval;
 }
 
+/** Sezioni extra dell'overlay F3 (es. GAMEPAD): ogni modulo registra una funzione che restituisce le sue righe. Solo debug. */
+const extraSections: (() => string[])[] = [];
+export function registerDebugSection(fn: () => string[]): void {
+  extraSections.push(fn);
+}
+
 class DebugOverlay {
+  private lastRender = 0;
   private root: HTMLDivElement | null = null;
   private visible = false;
   private raf = 0;
@@ -133,6 +140,10 @@ class DebugOverlay {
         this.sumMs = 0;
         this.worstMs = 0;
         this.lastSecond = now;
+      }
+      // i valori dei controller devono sembrare "vivi": l'overlay si ridisegna 4 volte al secondo (gli FPS restano calcolati a 1 s)
+      if (now - this.lastRender >= 250) {
+        this.lastRender = now;
         this.render();
       }
       this.raf = requestAnimationFrame(tick);
@@ -175,6 +186,13 @@ class DebugOverlay {
       `rete ${gm.connected ? 'ok' : 'OFFLINE'} · ping ${this.ping === null ? '—' : this.ping + 'ms'} · giocatori ${st?.players.length ?? 0}`,
       `heap ${mem ? (mem.usedJSHeapSize / 1048576).toFixed(0) + ' MB' : 'n/d'} · qualità ${qualityLabel()}`
     ];
+    for (const section of extraSections) {
+      try {
+        lines.push(...section());
+      } catch (e) {
+        lines.push(`(sezione debug in errore: ${String((e as Error)?.message ?? e).slice(0, 80)})`);
+      }
+    }
     this.root.textContent = lines.join('\n');
   }
 }

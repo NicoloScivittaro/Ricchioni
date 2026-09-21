@@ -1,5 +1,7 @@
 import { Emitter } from '../../shared/events';
 import { game as gm } from '../core/GameManager';
+import { debugEnabled, registerDebugSection } from '../core/debug';
+import { PlayerInput } from '../network/PlayerInput';
 import { profileFor } from './profiles';
 import { PAD_CONFIG, edge, loadPadConfig, radialDeadzone, triggerValue } from './padMath';
 import {
@@ -42,6 +44,9 @@ interface RawPad {
   edges: Record<PadControl, { down: boolean; pressed: boolean; released: boolean }>;
   left: { x: number; y: number };
   right: { x: number; y: number };
+  /** Valori grezzi degli stick PRIMA della deadzone (diagnostica F3). */
+  rawL: { x: number; y: number };
+  rawR: { x: number; y: number };
   lt: number;
   rt: number;
   rumble: boolean;
@@ -88,6 +93,13 @@ export class GamepadManager {
   private roomCode = '';
   /** Ultimo numero di controller esposti dal browser (per il messaggio "N° CONTROLLER NON RILEVATO"). */
   detected = 0;
+  /** Schermata CONTROLLI in corso: gli input di gameplay sono ignorati e, alla fine, tutto viene azzerato. */
+  private controlsActive = false;
+  /** Diagnostica del ciclo di polling (F3): il loop deve restare vivo per tutta la sessione, in QUALSIASI scena. */
+  loop = { polls: 0, lastAt: 0, errors: 0, lastError: '', ratePerSec: 0 };
+  private rateWindow = { t: 0, n: 0 };
+  /** Cosa il GIOCO legge davvero da ctx.input (sonda attiva solo in debug): ultimo asse e contatori degli eventi consumati. */
+  private reads = new Map<string, { axis: { x: number; y: number }; axisAt: number; axisReads: number; ev: Record<string, { n: number; at: number }> }>();
 
   // ------------------------------------------------------------------ ciclo di vita
 
@@ -98,13 +110,26 @@ export class GamepadManager {
     window.addEventListener('gamepadconnected', () => this.poll());
     window.addEventListener('gamepaddisconnected', () => this.poll());
     gm.padRumble = (playerId, ms) => this.rumble(playerId, ms);
+    gm.padHandles = (playerId) => this.handles(playerId);
     gm.events.on('state', (s) => this.onState(s as RoomLike));
+    // Il ciclo appartiene al CORE (avviato da app/main.ts, indipendente da qualsiasi scena) e NON puo' morire: un'eccezione in un
+    // fotogramma verrebbe altrimenti propagata prima di riprogrammare il successivo e i controller smetterebbero di rispondere per sempre.
     const loop = (): void => {
-      this.poll();
+      try {
+        this.poll();
+      } catch (e) {
+        this.loop.errors++;
+        this.loop.lastError = String((e as Error)?.message ?? e).slice(0, 120);
+        if (this.loop.errors <= 3) console.error('[gamepad] errore nel polling (il ciclo continua)', e);
+      }
       requestAnimationFrame(loop);
     };
     requestAnimationFrame(loop);
     this.loadSettings();
+    if (debugEnabled()) {
+      this.installReadProbe();
+      registerDebugSection(() => this.debugLines());
+    }
   }
 
   // ------------------------------------------------------------------ stato del gioco
@@ -157,6 +182,7 @@ export class GamepadManager {
 
   /** Cambio contesto = tabula rasa: niente stick/tasti/bordi del contesto precedente nel nuovo. */
   private setContext(next: PadContext): void {
+    if (this.controlsActive) return; // durante la schermata CONTROLLI il contesto resta CONTROLS: alla fine si ricalcola dallo stato
     if (next === this.context) return;
     this.context = next;
     this.resetAll();
@@ -180,6 +206,14 @@ export class GamepadManager {
   // ------------------------------------------------------------------ polling
 
   poll(): void {
+    const t = performance.now();
+    this.loop.polls++;
+    this.loop.lastAt = t;
+    if (t - this.rateWindow.t >= 1000) {
+      this.loop.ratePerSec = Math.round((this.rateWindow.n * 1000) / Math.max(1, t - this.rateWindow.t));
+      this.rateWindow = { t, n: 0 };
+    }
+    this.rateWindow.n++;
     let list: ArrayLike<Gamepad | null> = [];
     try {
       list = navigator.getGamepads();
@@ -224,6 +258,8 @@ export class GamepadManager {
       edges: emptyMap(() => ({ down: false, pressed: false, released: false })),
       left: { x: 0, y: 0 },
       right: { x: 0, y: 0 },
+      rawL: { x: 0, y: 0 },
+      rawR: { x: 0, y: 0 },
       lt: 0,
       rt: 0,
       rumble: !!(gp as unknown as { vibrationActuator?: unknown }).vibrationActuator,
@@ -242,6 +278,8 @@ export class GamepadManager {
       const btn = b[STANDARD_BUTTON_INDEX[c]];
       p.raw[c] = c === 'LT' ? p.lt > cfg.triggerButtonThreshold : c === 'RT' ? p.rt > cfg.triggerButtonThreshold : !!btn?.pressed;
     }
+    p.rawL = { x: gp.axes[0] ?? 0, y: gp.axes[1] ?? 0 };
+    p.rawR = { x: gp.axes[2] ?? 0, y: gp.axes[3] ?? 0 };
     p.left = radialDeadzone(gp.axes[0] ?? 0, gp.axes[1] ?? 0, cfg.leftDeadzone);
     p.right = radialDeadzone(gp.axes[2] ?? 0, gp.axes[3] ?? 0, cfg.rightDeadzone);
     // navigazione a "D-pad": croce digitale OR stick sinistro oltre soglia (menu, cursore, quiz)
@@ -445,7 +483,8 @@ export class GamepadManager {
   /** true se il minigioco in corso e' pilotato da questo giocatore col controller (serve a non far vibrare il telefono). */
   handles(playerId: string): boolean {
     const sl = this.slots.get(playerId);
-    return !!sl && sl.state === 'paired' && sl.padIndex !== null && this.context === 'MINIGAME' && !!profileFor(this.minigameId);
+    const gameCtx = this.context === 'MINIGAME' || this.context === 'CONTROLS' || this.context === 'PAUSE';
+    return !!sl && sl.state === 'paired' && sl.padIndex !== null && gameCtx && !!profileFor(this.minigameId);
   }
 
   // ------------------------------------------------------------------ rumble
@@ -588,6 +627,8 @@ export class GamepadManager {
         connected: true,
         rumble: p.rumble,
         playerId: this.padSlot(p.index)?.playerId ?? null,
+        rawLeft: { ...p.rawL },
+        rawRight: { ...p.rawR },
         left: { ...p.left },
         right: { ...p.right },
         lt: p.lt,
@@ -602,6 +643,105 @@ export class GamepadManager {
 
   playerLabel(playerId: string): string {
     return this.playerName(playerId);
+  }
+
+  // ------------------------------------------------------------------ schermata CONTROLLI
+
+  /** Inizio della schermata CONTROLLI: il gameplay dei controller e' ignorato. */
+  beginControls(): void {
+    this.controlsActive = true;
+    this.context = 'CONTROLS';
+    this.resetAll();
+    this.events.emit('change');
+  }
+
+  /**
+   * Fine della schermata CONTROLLI: contesto ricalcolato dallo stato, TUTTO azzerato (stick, tasti, bordi, edge del telefono) e i
+   * tasti ancora tenuti restano bloccati finche' non li si rilascia: tenere premuto A mentre si legge non fa fare il dash al VIA.
+   */
+  endControls(): void {
+    if (!this.controlsActive) return;
+    this.controlsActive = false;
+    const st = gm.state as unknown as RoomLike | null;
+    this.context = st ? this.resolveContext(st) : 'MINIGAME';
+    this.resetAll();
+    gm.input.reset();
+    this.events.emit('change');
+  }
+
+  /** Giocatori con un controller collegato adesso. */
+  pairedCount(): number {
+    let n = 0;
+    for (const s of this.slots.values()) if (s.state === 'paired' && s.padIndex !== null) n++;
+    return n;
+  }
+
+  /** Id grezzi dei controller collegati (per scegliere il set di simboli della schermata CONTROLLI). */
+  pairedPadIds(): string[] {
+    const out: string[] = [];
+    for (const s of this.slots.values()) if (s.state === 'paired' && s.padIndex !== null) out.push(this.pads.get(s.padIndex)?.id ?? s.padId);
+    return out;
+  }
+
+  // ------------------------------------------------------------------ diagnostica F3
+
+  /** Sonda sulle LETTURE del gioco: ogni volta che un minigioco chiede un asse o consuma un tasto, qui resta traccia (solo debug). */
+  private installReadProbe(): void {
+    PlayerInput.probe = (owner, kind, control, value) => {
+      let r = this.reads.get(owner);
+      if (!r) {
+        r = { axis: { x: 0, y: 0 }, axisAt: 0, axisReads: 0, ev: {} };
+        this.reads.set(owner, r);
+      }
+      const now = performance.now();
+      if (kind === 'axis') {
+        const v = value as { x: number; y: number };
+        r.axis = { x: v.x, y: v.y };
+        r.axisAt = now;
+        r.axisReads++;
+      } else {
+        const e = (r.ev[control] ??= { n: 0, at: 0 });
+        e.n++;
+        e.at = now;
+      }
+    };
+  }
+
+  /** Righe per l'overlay F3: si capisce in 5 secondi dove si ferma un input (RAW -> PROFILO -> PLAYER -> GIOCO). */
+  debugLines(): string[] {
+    const st = gm.state as unknown as RoomLike | null;
+    const now = performance.now();
+    const profile = profileFor(this.minigameId);
+    const f = (n: number): string => (n >= 0 ? '+' : '') + n.toFixed(2);
+    const ago = (t: number): string => (t ? `${Math.round(now - t)}ms fa` : 'mai');
+    const out: string[] = [];
+    out.push(`GAMEPAD · contesto ${this.context} · gioco ${this.minigameId ?? '—'} · profilo ${profile ? profile.minigameId : 'NESSUNO'}`);
+    out.push(
+      `  pagina: focus ${document.hasFocus() ? 'SI' : 'NO ⚠'} · ${document.visibilityState} · esposti dal browser ${this.detected} · loop ${this.loop.ratePerSec}/s (ultimo ${ago(this.loop.lastAt)}) · errori loop ${this.loop.errors}${this.loop.lastError ? ' [' + this.loop.lastError + ']' : ''}`
+    );
+    const players = st?.players ?? [];
+    players.forEach((pl, i) => {
+      const sl = this.slots.get(pl.id);
+      const pad = sl && sl.state === 'paired' && sl.padIndex !== null ? this.pads.get(sl.padIndex) : undefined;
+      const tag = `P${i + 1} ${pl.displayName.slice(0, 10)}`;
+      if (!pad) {
+        out.push(`${tag}: ${sl?.state === 'awaiting' ? 'controller SCOLLEGATO (in attesa)' : 'nessun controller (telefono)'}`);
+        return;
+      }
+      const e = pad.edges;
+      const mapped = profile ? { x: pad.left.x, y: pad.left.y } : { x: 0, y: 0 };
+      out.push(`${tag}: device #${pad.index} ${padShortName(pad.id)} · connesso SI · mapping ${pad.standard ? 'standard' : 'NON standard ⚠'} · rumble ${pad.rumble ? 'si' : 'no'}`);
+      out.push(`  RAW      LX ${f(pad.rawL.x)} LY ${f(pad.rawL.y)} · A ${pad.raw.PRIMARY ? 1 : 0} B ${pad.raw.SECONDARY ? 1 : 0} X ${pad.raw.LEFT ? 1 : 0} Y ${pad.raw.TOP ? 1 : 0} · RT ${pad.rt.toFixed(2)}`);
+      out.push(`  PROFILO  moveX ${f(mapped.x)} moveY ${f(mapped.y)} · dash ${e.PRIMARY.down ? 1 : 0} ability ${e.SECONDARY.down ? 1 : 0}${pad.blocked.size ? ` · tasti bloccati fino al rilascio: ${[...pad.blocked].join(',')}` : ''}`);
+      const pin = gm.input.has(pl.id) ? gm.input.get(pl.id) : null;
+      const ax = pin ? pin.peekAxis('move') : { x: 0, y: 0 };
+      out.push(`  PLAYER   ${pl.id.slice(0, 6)}… move ${f(ax.x)},${f(ax.y)} · dash ${pin?.peekPressed('dash') ? 1 : 0} ability ${pin?.peekPressed('ability') ? 1 : 0}`);
+      const r = this.reads.get(pl.id);
+      out.push(
+        `  GIOCO    legge move ${r ? `${f(r.axis.x)},${f(r.axis.y)} (${r.axisReads} letture, ${ago(r.axisAt)})` : 'MAI (il gioco non sta leggendo)'} · dash consumato ${r?.ev.dash?.n ?? 0}x (${ago(r?.ev.dash?.at ?? 0)}) · ability ${r?.ev.ability?.n ?? 0}x`
+      );
+    });
+    return out;
   }
 
   orderIndex(playerId: string): number {

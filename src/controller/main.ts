@@ -2174,6 +2174,12 @@ function renderPreGame(state: RoomState): void {
       app.innerHTML = `<div class="screen pad-screen"><div class="pad-icon">🎮</div><h1>METTI GIÙ IL TELEFONO</h1><p class="pad-game">${def.icon ?? ''} ${mg!.name}</p><p class="pad-look">USA IL CONTROLLER · GUARDA LA TV</p></div>`;
       return;
     }
+    // Gioco NON ancora migrato al controller (o giocatore senza controller): la UI non deve far credere che il gamepad sia supportato.
+    if (def) {
+      const why = def.inputMode === 'GAMEPAD' ? 'MODALITÀ FALLBACK · controller non collegato' : 'IN QUESTO GIOCO IL CONTROLLER NON È ANCORA SUPPORTATO';
+      app.innerHTML = `<div class="screen pad-screen"><div class="pad-icon">📱</div><h1>USA IL TELEFONO</h1><p class="pad-game">${def.icon ?? ''} ${mg!.name}</p><p class="pad-look">${why}</p></div>`;
+      return;
+    }
   }
   app.innerHTML = `
     <div class="screen">

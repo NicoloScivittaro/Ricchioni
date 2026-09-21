@@ -67,18 +67,33 @@ try {
     if (i + 1 < SEQ.length) await hostEval(page, (gm, nid) => gm.selectMinigame(nid), SEQ[i + 1]);
     const seen = [];
     let last = '';
-    await until(async () => {
-      const sn = await hostSnapshot(page);
-      if (sn.phase !== last) {
-        last = sn.phase;
-        seen.push(`${sn.phase}(${sn.active.join('+')})`);
-      }
-      return i + 1 < SEQ.length ? sn.phase === 'MINIGAME_ROULETTE' : sn.phase === 'LEADERBOARD' || sn.phase === 'GLOBAL_LEADERBOARD';
-    }, 60000, `dopo ${id}`);
+    const tWait = Date.now();
+    try {
+      await until(async () => {
+        const sn = await hostSnapshot(page);
+        if (sn.phase !== last) {
+          last = sn.phase;
+          seen.push(`${sn.phase}(${sn.active.join('+')}) @${Math.round((Date.now() - tWait) / 1000)}s`);
+        }
+        // la partita puo' FINIRE prima dell'ultimo gioco: gli esiti forzati danno sempre gli stessi punti e un modificatore "punti doppi" casuale
+        // porta un giocatore al punteggio obiettivo in anticipo. E' un esito valido (GAME_FINISHED), non un blocco.
+        if (sn.phase === 'GAME_FINISHED') return true;
+        return i + 1 < SEQ.length ? sn.phase === 'MINIGAME_ROULETTE' : sn.phase === 'LEADERBOARD' || sn.phase === 'GLOBAL_LEADERBOARD';
+      }, 60000, `dopo ${id}`);
+    } catch (e) {
+      // diagnostica del timeout: e' lento (ancora nei risultati) o incastrato? sequenza delle fasi e traccia di flusso dell'host
+      console.log('   fasi viste:', seen.join(' > '));
+      console.log(await page.evaluate(() => (window.__flowDump ? window.__flowDump(14) : '(niente flowDump)')));
+      throw e;
+    }
     const badScene = seen.filter((x) => x.split('(')[1].replace(')', '').split('+').length !== 1);
     check(badScene.length === 0, `[${i + 1}] dopo ${id}: sempre una sola scena → ${seen.join(' > ')}`);
     const overlays = (await hostSnapshot(page)).overlays;
     check(overlays === 0, `[${i + 1}] nessun canvas 3D residuo`);
+    if (last === 'GAME_FINISHED' && i + 1 < SEQ.length) {
+      console.log(`ℹ️  partita conclusa al gioco ${i + 1}/${SEQ.length} (punteggio obiettivo raggiunto): esito valido, si passa ai controlli finali`);
+      break;
+    }
   }
 
   // nessuna pagina ricaricata

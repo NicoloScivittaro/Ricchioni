@@ -22,6 +22,11 @@ export interface MinigameContext {
   modifier: ModifierDefinition | null;
   modifiers: Map<PlayerId, ActiveModifier[]>;
   input: InputManager;
+  /**
+   * Schermata CONTROLLI / "PRENDETE I TELEFONI" prima del countdown. Il minigioco la chiama quando e' pronto e attende la promessa:
+   * intanto nulla avanza (timer, fisica, countdown) e gli input sono ignorati. Facoltativa: chi non la chiama parte subito.
+   */
+  showControls?: () => Promise<void>;
   consume(playerId: PlayerId, hook: string): boolean;
   /** Invia dati privati a un singolo telefono (host → server → telefono). */
   sendPrivate(playerId: PlayerId, data: unknown): void;

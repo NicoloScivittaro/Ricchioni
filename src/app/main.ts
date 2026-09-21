@@ -7,6 +7,7 @@ import { initTelemetry } from '../core/telemetry';
 import { initFlowTrace } from '../core/flowTrace';
 import { pads } from '../input/GamepadManager';
 import { initPairingPanel } from '../input/PairingPanel';
+import { initControlsHelp } from '../input/ControlsHelp';
 import { MINIGAME_SCENES } from '../minigames';
 import { BootScene } from '../scenes/BootScene';
 import { LobbyScene } from '../scenes/LobbyScene';
@@ -79,6 +80,7 @@ initTelemetry(); // telemetria locale di sessione + SESSION REPORT (F4), solo de
 // Controller fisici (Gamepad API): rilevamento, associazione ai giocatori, input verso i minigiochi. Inerte finche' nessun controller compare.
 pads.init();
 initPairingPanel();
+initControlsHelp(); // schermata CONTROLLI prima del countdown (o "PRENDETE I TELEFONI" per Cultura)
 if (debugEnabled()) (window as unknown as Record<string, unknown>).__pads = pads;
 
 // Rete di sicurezza: se update() lancia, Phaser NON ripianifica il frame → host congelato per sempre.

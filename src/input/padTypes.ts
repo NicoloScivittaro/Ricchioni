@@ -45,15 +45,16 @@ export const STANDARD_BUTTON_INDEX: Record<PadControl, number> = {
 export const PAD_CONTROLS = Object.keys(STANDARD_BUTTON_INDEX) as PadControl[];
 
 /** Contesti di input: la stessa pressione ha significati diversi (A in lobby = conferma, in Kart = drift, nei risultati = niente). */
-export type PadContext = 'LOBBY' | 'ROULETTE' | 'MINIGAME' | 'PAUSE' | 'RESULTS' | 'PHONE_TEXT';
+export type PadContext = 'LOBBY' | 'ROULETTE' | 'CONTROLS' | 'MINIGAME' | 'PAUSE' | 'RESULTS' | 'PHONE_TEXT';
 
 export type PadFamily = 'xbox' | 'playstation' | 'generic';
 
 /** Riconosce la famiglia dall'id del browser (es. "Xbox 360 Controller (STANDARD GAMEPAD Vendor: 045e Product: 028e)"). */
 export function padFamily(id: string): PadFamily {
   const s = (id ?? '').toLowerCase();
-  if (/dualsense|dualshock|playstation|054c|wireless controller/.test(s)) return 'playstation';
+  // Xbox PRIMA: "Xbox Wireless Controller" contiene "wireless controller", che e' anche il nome generico di un DualShock 4 (vendor 054c).
   if (/xbox|x-box|xinput|045e/.test(s)) return 'xbox';
+  if (/dualsense|dualshock|playstation|054c/.test(s)) return 'playstation';
   return 'generic';
 }
 
@@ -67,7 +68,7 @@ export function padShortName(id: string, index?: number): string {
 const LABELS: Record<PadFamily, Partial<Record<PadControl, string>>> = {
   xbox: { PRIMARY: 'A', SECONDARY: 'B', LEFT: 'X', TOP: 'Y', LB: 'LB', RB: 'RB', LT: 'LT', RT: 'RT', START: 'MENU', SELECT: 'VIEW', L3: 'L3', R3: 'R3' },
   playstation: { PRIMARY: '✕', SECONDARY: '◯', LEFT: '□', TOP: '△', LB: 'L1', RB: 'R1', LT: 'L2', RT: 'R2', START: 'OPTIONS', SELECT: 'CREATE', L3: 'L3', R3: 'R3' },
-  generic: { PRIMARY: 'BASSO', SECONDARY: 'DESTRA', LEFT: 'SINISTRA', TOP: 'ALTO', LB: 'L1', RB: 'R1', LT: 'L2', RT: 'R2', START: 'START', SELECT: 'SELECT', L3: 'L3', R3: 'R3' }
+  generic: { PRIMARY: 'PRIMARY', SECONDARY: 'SECONDARY', LEFT: 'ACTION', TOP: 'ABILITY', LB: 'LB', RB: 'RB', LT: 'LT', RT: 'RT', START: 'START', SELECT: 'SELECT', L3: 'L3', R3: 'R3' }
 };
 
 /** Simbolo da mostrare per un controllo fisico, nel set grafico della famiglia (generico se non identificabile). */
@@ -75,6 +76,16 @@ export function padLabel(control: PadControl, family: PadFamily = 'generic'): st
   const arrows: Partial<Record<PadControl, string>> = { DPAD_UP: '⬆', DPAD_DOWN: '⬇', DPAD_LEFT: '⬅', DPAD_RIGHT: '➡' };
   if (arrows[control]) return arrows[control]!;
   return LABELS[family][control] ?? control;
+}
+
+/** Cosa si muove/preme: un controllo fisico oppure uno stick. */
+export type PadBinding = PadControl | 'LEFT_STICK' | 'RIGHT_STICK';
+
+/** Testo del simbolo di un binding nel set grafico della famiglia (gli stick hanno lo stesso nome in tutte le famiglie). */
+export function bindingLabel(binding: PadBinding, family: PadFamily = 'generic'): string {
+  if (binding === 'LEFT_STICK') return 'LEFT STICK';
+  if (binding === 'RIGHT_STICK') return 'RIGHT STICK';
+  return padLabel(binding, family);
 }
 
 /** Impostazioni per giocatore (prima versione: solo queste tre). */
@@ -101,5 +112,8 @@ export interface PadView {
   right: { x: number; y: number };
   lt: number;
   rt: number;
+  /** Valori grezzi dello stick sinistro/destro PRIMA della deadzone (diagnostica). */
+  rawLeft: { x: number; y: number };
+  rawRight: { x: number; y: number };
   buttons: Partial<Record<PadControl, boolean>>;
 }

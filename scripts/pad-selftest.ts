@@ -5,7 +5,7 @@
  * Il comportamento nel browser (pairing, disconnessione, contesti, telefono) lo prova scripts/e2e/gamepad.mjs.
  */
 import { DEFAULT_PAD_CONFIG, axisDeadzone, edge, radialDeadzone, responseCurve, triggerValue } from '../src/input/padMath';
-import { padFamily, padLabel, padShortName } from '../src/input/padTypes';
+import { bindingLabel, padFamily, padLabel, padShortName } from '../src/input/padTypes';
 import { PAD_PROFILES, profileFor } from '../src/input/profiles';
 import { MINIGAME_DEFINITIONS } from '../shared/minigames';
 
@@ -89,4 +89,19 @@ for (const p of Object.values(PAD_PROFILES)) {
   const all = [...p.sticks.map((s) => s.control), ...p.buttons.map((b) => b.control)];
   ok(all.every((c) => /^[a-zA-Z][a-zA-Z0-9]*$/.test(c)) && new Set(p.buttons.map((b) => b.from)).size === p.buttons.length, `${p.minigameId}: controlId ben formati e nessun tasto fisico usato due volte`);
 }
+// --- Xbox Wireless Controller non e' un DualShock
+ok(padFamily('Xbox Wireless Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b13)') === 'xbox', '"Xbox Wireless Controller" = Xbox (contiene "wireless controller" ma non è PlayStation)');
+ok(padFamily('Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)') === 'playstation', 'DualShock 4 ("Wireless Controller", vendor 054c) = PlayStation');
+ok(padLabel('PRIMARY', 'generic') === 'PRIMARY' && padLabel('LEFT', 'generic') === 'ACTION' && padLabel('TOP', 'generic') === 'ABILITY', 'simboli generici: PRIMARY / SECONDARY / ACTION / ABILITY');
+ok(bindingLabel('LEFT_STICK') === 'LEFT STICK' && bindingLabel('RT', 'playstation') === 'R2' && bindingLabel('RT', 'xbox') === 'RT', 'binding: LEFT STICK; RT = R2 su PlayStation, RT su Xbox');
+
+// --- il profilo e' la fonte UNICA di input e schermata comandi
+for (const pr of Object.values(PAD_PROFILES)) {
+  const derived = pr.sticks.length + pr.buttons.length + pr.triggers.length;
+  ok(derived === pr.controls.length, `${pr.minigameId}: ogni voce di controls produce esattamente un binding (${pr.controls.length} voci, ${derived} binding)`);
+  ok(pr.controls.every((c) => c.label.trim().length > 0 && c.action.trim().length > 0), `${pr.minigameId}: ogni controllo ha azione e testo per la schermata CONTROLLI`);
+  for (const b of pr.buttons) ok(pr.controls.some((c) => c.binding === b.from && c.control === b.control), `${pr.minigameId}: il tasto ${b.from} -> "${b.control}" e' lo STESSO mostrato nella schermata comandi`);
+}
+const ar = PAD_PROFILES.arena;
+ok(ar.sticks[0]?.control === 'move' && ar.buttons.find((b) => b.control === 'dash')?.from === 'PRIMARY' && ar.buttons.find((b) => b.control === 'ability')?.from === 'SECONDARY', 'Arena: move = stick sinistro, dash = PRIMARY (A/✕), ability = SECONDARY (B/◯): i controlId che il gioco legge già');
 process.exitCode = fails ? 1 : 0;

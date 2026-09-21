@@ -11,6 +11,14 @@ interface ButtonState {
  * smartphone, tastiera o gamepad.
  */
 export class PlayerInput {
+  /**
+   * SONDA DI DEBUG (solo con ?debug=1 / dev, la installa il GamepadManager): registra cosa il MINIGIOCO legge davvero da qui.
+   * In produzione e' null: il costo per lettura e' un solo controllo.
+   */
+  static probe: ((owner: string, kind: 'axis' | 'justPressed', control: string, value: unknown) => void) | null = null;
+
+  constructor(private readonly owner = '') {}
+
   private buttons = new Map<string, ButtonState>();
   private axes = new Map<string, { x: number; y: number }>();
   private texts = new Map<string, string>();
@@ -59,7 +67,18 @@ export class PlayerInput {
   }
 
   justPressed(id: string): boolean {
-    return this.buttons.get(id)?.justPressed ?? false;
+    const v = this.buttons.get(id)?.justPressed ?? false;
+    if (v && PlayerInput.probe) PlayerInput.probe(this.owner, 'justPressed', id, true);
+    return v;
+  }
+
+  /** Lettura SENZA sonda (per l'overlay di debug: guardare non deve contare come "il gioco ha letto"). */
+  peekAxis(id: string): { x: number; y: number } {
+    return this.axes.get(id) ?? { x: 0, y: 0 };
+  }
+
+  peekPressed(id: string): boolean {
+    return this.buttons.get(id)?.pressed ?? false;
   }
 
   justReleased(id: string): boolean {
@@ -67,7 +86,9 @@ export class PlayerInput {
   }
 
   axis(id: string): { x: number; y: number } {
-    return this.axes.get(id) ?? { x: 0, y: 0 };
+    const v = this.axes.get(id) ?? { x: 0, y: 0 };
+    if (PlayerInput.probe) PlayerInput.probe(this.owner, 'axis', id, v);
+    return v;
   }
 
   /** Azione generica "primo tasto": comoda per giochi a un solo comando. */

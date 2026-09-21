@@ -135,6 +135,10 @@ export class GameManager {
 
   /** Agganciato dal GamepadManager: vibra il controller del giocatore e ritorna true se lo sta usando (src/input). */
   padRumble: ((playerId: string, ms: number) => boolean) | null = null;
+  /** Agganciato dal GamepadManager: true se il giocatore GIOCA col controller (sorgente primaria del gameplay: il telefono non la sovrascrive). */
+  padHandles: ((playerId: string) => boolean) | null = null;
+  /** Agganciato da src/input: mostra la schermata CONTROLLI (o "PRENDETE I TELEFONI") e risolve alla fine. Senza aggancio: subito. */
+  controlsGate: ((minigameId: string) => Promise<void>) | null = null;
 
   /** Comunica al server quali giocatori hanno un controller fisico collegato (playerId -> nome breve). */
   sendGamepads(pads: Record<string, string>): void {
@@ -254,6 +258,8 @@ export class GameManager {
       modifier,
       modifiers,
       input: this.input,
+      // il minigioco la chiama quando e' PRONTO a mostrarsi (dopo il caricamento) e aspetta la fine prima del proprio countdown
+      showControls: () => (this.controlsGate ? this.controlsGate(payload.minigameId) : Promise.resolve()),
       consume: (playerId, hook) => this.consume(modifiers, playerId, hook),
       sendPrivate: (playerId, data) => this.sendPrivate(playerId, data),
       // se il giocatore sta giocando col controller la vibrazione va al controller (il telefono e' sul tavolo)
@@ -506,6 +512,9 @@ export class GameManager {
   }
 
   private onInputRelay(relay: InputRelayEvent): void {
+    // Un giocatore che gioca col CONTROLLER ha quello come unica sorgente del gameplay: un evento del telefono (es. un asse a 0
+    // mandato da un joystick residuo) NON deve sovrascrivere gli assi del controller.
+    if (this.padHandles?.(relay.playerId)) return;
     this.input.handle(relay.playerId, relay.input);
   }
 

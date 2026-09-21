@@ -52,6 +52,7 @@ export class CulturaScene extends Phaser.Scene {
   private questions: CulturaQuestion[] = [];
   private round = 0;
   private phase: Phase = 'intro';
+  private holdForControls = false;
   private gameTime = 0;
   private phaseEndsAt = 0;
   private finished = false;
@@ -111,6 +112,10 @@ export class CulturaScene extends Phaser.Scene {
 
     this.pauseMenu = new PauseMenu(this, '🧠 CULTURA O CAZZATA?', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
 
+    // "PRENDETE I TELEFONI" (solo se in stanza c'e' chi gioca col controller): il gioco parte a schermata chiusa
+    this.holdForControls = true;
+    const ready = this.ctx.showControls ? this.ctx.showControls() : Promise.resolve();
+    void ready.then(() => (this.holdForControls = false));
     this.startRound();
   }
 
@@ -441,6 +446,10 @@ export class CulturaScene extends Phaser.Scene {
 
   update(_t: number, delta: number): void {
     if (this.pauseMenu.update()) return;
+    if (this.holdForControls) {
+      this.ctx.input.update();
+      return; // schermata "PRENDETE I TELEFONI": nessun timer parte
+    }
     if (this.finished) {
       this.ctx.input.update();
       return;

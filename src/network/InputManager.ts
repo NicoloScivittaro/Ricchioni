@@ -11,7 +11,7 @@ export class InputManager {
   get(playerId: PlayerId): PlayerInput {
     let p = this.inputs.get(playerId);
     if (!p) {
-      p = new PlayerInput();
+      p = new PlayerInput(playerId);
       this.inputs.set(playerId, p);
     }
     return p;
