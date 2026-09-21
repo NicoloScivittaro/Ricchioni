@@ -1524,3 +1524,23 @@ button.char:disabled {
   line-height: 1.8;
   font-weight: 700;
 }
+
+/* Controller fisico: il telefono sta sul tavolo */
+.pad-screen { text-align: center; }
+.pad-icon { font-size: 88px; line-height: 1; margin-bottom: 6px; }
+.pad-game { margin: 6px 0 0; font-weight: 900; font-size: 22px; color: #fbbf24; }
+.pad-look { margin: 14px 0 0; font-weight: 800; font-size: 18px; letter-spacing: 1px; opacity: 0.85; }
+.pad-ok { margin: 18px 0 0; font-weight: 800; font-size: 16px; color: #34d399; }
+#pad-fallback-badge {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 9000;
+  padding: calc(6px + env(safe-area-inset-top, 0px)) 10px 6px;
+  text-align: center;
+  background: #b45309;
+  color: #fff;
+  font: 800 13px Arial, sans-serif;
+  pointer-events: none;
+}

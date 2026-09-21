@@ -129,6 +129,8 @@ export interface PlayerPublic {
   ready: boolean;
   connected: boolean;
   score: number;
+  /** Nome breve del controller fisico collegato a questo giocatore ("Xbox"); assente = nessun controller (o scollegato). */
+  pad?: string;
 }
 
 /** Snapshot arricchito (con dati del personaggio) usato dai minigiochi sull'host. */
@@ -204,7 +206,15 @@ export interface MinigameDefinition {
   description?: string;
   /** Emoji mostrata sulla card del rullo. */
   icon?: string;
+  /**
+   * Da dove si gioca: GAMEPAD = controller fisico (il telefono resta sul tavolo, se il giocatore ha un controller collegato);
+   * PHONE_TEXT = serve il telefono (testo, bluff, informazioni private); GAMEPAD_OR_PHONE = entrambi (oggi: controller non ancora
+   * supportato da questo gioco, il telefono funziona come sempre). Mancante = GAMEPAD_OR_PHONE.
+   */
+  inputMode?: MinigameInputMode;
 }
+
+export type MinigameInputMode = 'GAMEPAD' | 'PHONE_TEXT' | 'GAMEPAD_OR_PHONE';
 
 export interface ModifierDefinition {
   id: string;

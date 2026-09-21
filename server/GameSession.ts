@@ -92,8 +92,28 @@ export class GameSession {
     this.players.push(p);
   }
 
+  /** Controller fisici collegati (playerId -> nome breve), comunicati dall'host. Vuoto = tutti col telefono, come sempre. */
+  private gamepads: Record<PlayerId, string> = {};
+
+  /** Aggiorna i controller collegati; true se qualcosa e' cambiato (serve un nuovo broadcast). */
+  setGamepads(pads: Record<string, unknown> | undefined): boolean {
+    const clean: Record<PlayerId, string> = {};
+    if (pads && typeof pads === 'object') {
+      for (const [id, name] of Object.entries(pads)) {
+        if (this.getPlayer(id) && typeof name === 'string' && name.trim()) clean[id] = name.trim().slice(0, 24);
+      }
+    }
+    if (JSON.stringify(clean) === JSON.stringify(this.gamepads)) return false;
+    this.gamepads = clean;
+    return true;
+  }
+
   playersPublic(): PlayerPublic[] {
-    return this.players.map((p) => p.toPublic());
+    return this.players.map((p) => {
+      const pub = p.toPublic();
+      const pad = this.gamepads[p.id];
+      return pad ? { ...pub, pad } : pub;
+    });
   }
 
   getPlayer(id: PlayerId): PlayerSession | undefined {

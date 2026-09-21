@@ -39,6 +39,8 @@ export const EVT = {
   hostVibratePlayer: 'host:vibratePlayer',
   /** L'host invia un segnale di gioco a uno (o tutti) i telefoni della stanza. */
   hostSignal: 'host:signal',
+  /** L'host comunica quali giocatori hanno un controller fisico collegato (playerId -> nome breve). */
+  hostGamepads: 'host:gamepads',
   /** Solo debug: il server risponde subito all'ack → misura del ping (overlay F3 / ?debug=1). */
   debugPing: 'debug:ping',
 
@@ -140,6 +142,11 @@ export interface SignalPayload {
   /** null = tutti i telefoni della stanza. */
   playerId: PlayerId | null;
   signal: { type: string; [key: string]: unknown };
+}
+
+export interface GamepadsPayload {
+  /** Solo i giocatori con un controller collegato ADESSO. */
+  pads: Record<PlayerId, string>;
 }
 
 /** Payload inviato al solo HOST quando parte un minigioco. */

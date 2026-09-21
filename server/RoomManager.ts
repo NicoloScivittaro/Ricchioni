@@ -15,6 +15,7 @@ import type {
   RoomCreatedAck,
   SelectCharacterPayload,
   SelectMinigamePayload,
+  GamepadsPayload,
   SignalPayload,
   TextRelayEvent,
   VibratePlayerPayload
@@ -105,6 +106,7 @@ export class RoomManager {
     socket.on(EVT.hostBackToLobby, () => this.onBackToLobby(socket));
     socket.on(EVT.hostVibratePlayer, (p: VibratePlayerPayload) => this.onHostVibratePlayer(socket, p));
     socket.on(EVT.hostSignal, (p: SignalPayload) => this.onSignal(socket, p));
+    socket.on(EVT.hostGamepads, (p: GamepadsPayload) => this.onGamepads(socket, p));
     socket.on(EVT.debugPing, (_p: unknown, cb?: () => void) => cb?.());
     socket.on('disconnect', () => this.onDisconnect(socket));
   }
@@ -322,6 +324,13 @@ export class RoomManager {
     if (!room) return;
     const player = room.getPlayer(p.playerId);
     if (player?.connectionId) this.io.to(player.connectionId).emit(EVT.vibrate, p.ms);
+  }
+
+  /** L'host dice chi ha un controller fisico collegato: i telefoni di quei giocatori possono restare sul tavolo. */
+  private onGamepads(socket: Socket, p: GamepadsPayload): void {
+    const room = this.roomOfHost(socket);
+    if (!room) return;
+    if (room.setGamepads(p?.pads)) this.broadcast(room.roomCode);
   }
 
   private onSignal(socket: Socket, p: SignalPayload): void {

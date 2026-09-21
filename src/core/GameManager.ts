@@ -133,6 +133,14 @@ export class GameManager {
     this.socket?.emit(EVT.hostVibratePlayer, { playerId, ms });
   }
 
+  /** Agganciato dal GamepadManager: vibra il controller del giocatore e ritorna true se lo sta usando (src/input). */
+  padRumble: ((playerId: string, ms: number) => boolean) | null = null;
+
+  /** Comunica al server quali giocatori hanno un controller fisico collegato (playerId -> nome breve). */
+  sendGamepads(pads: Record<string, string>): void {
+    this.socket?.emit(EVT.hostGamepads, { pads });
+  }
+
   /** Invia un segnale di gioco a uno (o tutti) i telefoni della stanza. */
   signal(playerId: string | null, signal: Record<string, unknown>): void {
     this.socket?.emit(EVT.hostSignal, { playerId, signal });
@@ -248,7 +256,11 @@ export class GameManager {
       input: this.input,
       consume: (playerId, hook) => this.consume(modifiers, playerId, hook),
       sendPrivate: (playerId, data) => this.sendPrivate(playerId, data),
-      vibrate: (playerId, ms) => this.vibrate(playerId, ms),
+      // se il giocatore sta giocando col controller la vibrazione va al controller (il telefono e' sul tavolo)
+      vibrate: (playerId, ms) => {
+        if (this.padRumble?.(playerId, ms ?? 120)) return;
+        this.vibrate(playerId, ms);
+      },
       signal: (playerId, signal) => this.signal(playerId, signal),
       // Un contesto può consegnare i risultati UNA volta sola (protezione doppio result).
       finish: (result) => {

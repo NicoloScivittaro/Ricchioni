@@ -1662,13 +1662,15 @@ function render(): void {
     return;
   }
 
+  syncPadBadge(state, me);
+  keepAwake(!!me.pad); // controller collegato = telefono sul tavolo: lo schermo non deve spegnersi
   switch (state.phase) {
     case 'LOBBY':
       lastMinigameId = null;
       renderCharacterSelect(state, me);
       break;
     case 'MINIGAME_PLAYING':
-      renderPlaying(state);
+      renderPlaying(state, me);
       break;
     case 'MINIGAME_ROULETTE':
     case 'MINIGAME_INTRO':
@@ -1784,13 +1786,88 @@ function renderCharacterSelect(state: RoomState, me: PlayerPublic): void {
   ready.addEventListener('click', () => socket.emit(EVT.playerReady, { ready: !me.ready }));
 }
 
-function renderPlaying(state: RoomState): void {
+// ---- CONTROLLER FISICO: il telefono resta collegato alla stanza ma, se il giocatore ha un controller, non e' piu' il controller di gioco ----
+
+type PadMode = 'pad' | 'fallback' | 'phone';
+
+/**
+ * pad      = il gioco si gioca col controller e questo giocatore ne ha uno collegato: schermata "USA IL CONTROLLER", niente joystick;
+ * fallback = il gioco vuole il controller ma questo giocatore non ne ha uno (mentre altri si): controlli del telefono + badge FALLBACK;
+ * phone    = tutto come sempre (gioco da telefono, o nessun controller collegato in tutta la stanza).
+ */
+function padModeFor(state: RoomState, me: PlayerPublic): PadMode {
+  const mg = state.currentMinigame;
+  const def = mg ? getMinigame(mg.minigameId) : undefined;
+  if (def?.inputMode !== 'GAMEPAD') return 'phone';
+  if (me.pad) return 'pad';
+  return state.players.some((p) => p.pad) ? 'fallback' : 'phone';
+}
+
+function padSessionActive(state: RoomState): boolean {
+  return state.players.some((p) => !!p.pad);
+}
+
+/** Badge "MODALITA' FALLBACK" sopra ai controlli del telefono (solo se serve, altrimenti non esiste). */
+function syncPadBadge(state: RoomState, me: PlayerPublic): void {
+  const want = state.phase === 'MINIGAME_PLAYING' && padModeFor(state, me) === 'fallback';
+  let el = document.getElementById('pad-fallback-badge');
+  if (want && !el) {
+    el = document.createElement('div');
+    el.id = 'pad-fallback-badge';
+    el.textContent = '📱 MODALITÀ FALLBACK — controller non collegato';
+    document.body.appendChild(el);
+  } else if (!want && el) el.remove();
+}
+
+/** Tiene lo schermo acceso mentre il telefono sta sul tavolo (uno schermo spento puo' far cadere la connessione). */
+let padWakeLock: { release: () => Promise<void> } | null = null;
+function keepAwake(on: boolean): void {
+  try {
+    const wl = (navigator as unknown as { wakeLock?: { request: (t: string) => Promise<{ release: () => Promise<void> }> } }).wakeLock;
+    if (on && !padWakeLock && wl) {
+      void wl
+        .request('screen')
+        .then((l) => (padWakeLock = l))
+        .catch(() => undefined);
+    } else if (!on && padWakeLock) {
+      void padWakeLock.release().catch(() => undefined);
+      padWakeLock = null;
+    }
+  } catch {
+    /* wake lock non supportato */
+  }
+}
+
+function renderPadScreen(mg: NonNullable<RoomState['currentMinigame']>, me: PlayerPublic): void {
+  activeController = null; // i segnali di gioco non hanno piu' una UI da aggiornare qui
+  disposeFps();
+  const def = getMinigame(mg.minigameId);
+  app.innerHTML = `
+    <div class="screen pad-screen">
+      <div class="pad-icon">🎮</div>
+      <h1>USA IL CONTROLLER</h1>
+      <p class="pad-game">${def?.icon ?? ''} ${mg.name}</p>
+      <p class="pad-look">GUARDA LA TV</p>
+      <p class="pad-ok">✅ CONTROLLER CONNESSO${me.pad ? ` · ${me.pad}` : ''}</p>
+    </div>`;
+}
+
+function renderPlaying(state: RoomState, me: PlayerPublic): void {
   const mg = state.currentMinigame;
   if (!mg) return;
+  const mode = padModeFor(state, me);
+  if (mode === 'pad') {
+    // chiave = round + gioco + modalita': se il controller cade a meta' round la schermata si ricostruisce con i controlli del telefono
+    const padKey = `${state.roundId ?? 0}:${mg.minigameId}:pad`;
+    if (lastMinigameId === padKey) return;
+    lastMinigameId = padKey;
+    renderPadScreen(mg, me);
+    return;
+  }
   // Chiave = roundId + gioco: uno snapshot di un round NUOVO ricostruisce sempre il controller
   // (anche se il gioco è lo stesso o il telefono ha perso le fasi intermedie), mentre gli snapshot
   // dello stesso round durante la partita non lo rifanno.
-  const roundKey = `${state.roundId ?? 0}:${mg.minigameId}`;
+  const roundKey = `${state.roundId ?? 0}:${mg.minigameId}${mode === 'fallback' ? ':fb' : ''}`;
   if (lastMinigameId === roundKey) return;
   lastMinigameId = roundKey;
   vibrate(45);
@@ -2082,6 +2159,22 @@ function renderPreGame(state: RoomState): void {
   // Durante il rullo il nome NON va rivelato (spoilera l'animazione sulla TV): solo dall'intro.
   const reveal = state.phase === 'MINIGAME_INTRO' && !!mg;
   const def = reveal ? getMinigame(mg!.minigameId) : undefined;
+  const meNow = state.players.find((p) => p.id === playerId);
+  // sessione con controller: il telefono dice cosa fare (mettilo giu' / riprendilo) senza spoilerare il rullo
+  if (meNow && padSessionActive(state)) {
+    if (!reveal) {
+      app.innerHTML = `<div class="screen pad-screen"><div class="pad-icon">🎰</div><h1>RULLO IN CORSO</h1><p class="pad-look">GUARDA LA TV</p></div>`;
+      return;
+    }
+    if (def?.inputMode === 'PHONE_TEXT') {
+      app.innerHTML = `<div class="screen pad-screen"><div class="pad-icon">📱</div><h1>PRENDI IL TELEFONO</h1><p class="pad-game">${def.icon ?? ''} ${mg!.name}</p><p class="pad-look">SERVE PER SCRIVERE E VOTARE</p></div>`;
+      return;
+    }
+    if (def?.inputMode === 'GAMEPAD' && meNow.pad) {
+      app.innerHTML = `<div class="screen pad-screen"><div class="pad-icon">🎮</div><h1>METTI GIÙ IL TELEFONO</h1><p class="pad-game">${def.icon ?? ''} ${mg!.name}</p><p class="pad-look">USA IL CONTROLLER · GUARDA LA TV</p></div>`;
+      return;
+    }
+  }
   app.innerHTML = `
     <div class="screen">
       ${def?.icon ? `<div class="pre-icon">${def.icon}</div>` : ''}

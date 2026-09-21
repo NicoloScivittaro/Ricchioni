@@ -9,6 +9,8 @@ import type { MinigameDefinition } from './types';
  * 1. aggiungi qui la definizione (con minPlayers/maxPlayers e controllerLayout);
  * 2. crea la cartella src/minigames/<id>/ con la scena Phaser.
  */
+// INPUT: GAMEPAD = si gioca col controller (telefono sul tavolo); PHONE_TEXT = serve il telefono; GAMEPAD_OR_PHONE = telefono come sempre.
+// OBIETTIVO: tutti GAMEPAD tranne cultura (PHONE_TEXT); un gioco passa a GAMEPAD solo quando ha il profilo in src/input/profiles.ts (lo verifica pad-selftest).
 export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id: 'quiz',
@@ -32,6 +34,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // segue comunque i suoi timer per-domanda fissi (non letti dal modificatore).
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'quiz',
+
+    inputMode: 'GAMEPAD_OR_PHONE',
     // UI "TV quiz show" bespoke (timer circolare, card domanda, risposte colorate,
     // footer con avatar/punteggio/abilità): vedi QuizScene.sendQuizState() per il
     // payload live e src/controller/main.ts renderQuizController() per il render.
@@ -51,6 +55,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     hardCapSec: 180,
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'reaction',
+
+    inputMode: 'GAMEPAD_OR_PHONE',
     controllerLayout: {
       type: 'buttons',
       grid: 1,
@@ -78,6 +84,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // (osserva/ripeti) e non legge il modificatore.
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'memory',
+
+    inputMode: 'GAMEPAD_OR_PHONE',
     // UI dedicata (2x2 tile grandi + abilità) sul telefono: vedi renderMemoryController().
     controllerLayout: { type: 'custom', id: 'memory-tv' }
   },
@@ -98,6 +106,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     hardCapSec: 240,
     compatibleModifiers: ['controlli_invertiti', 'gravita_bassa', 'punti_doppi'],
     sceneKey: 'arena',
+
+    inputMode: 'GAMEPAD',
     // Controller dedicato: joystick virtuale + DASH + ABILITÀ (vedi renderArenaController()).
     controllerLayout: { type: 'custom', id: 'arena-tv' }
   },
@@ -117,6 +127,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     hardCapSec: 240,
     compatibleModifiers: ['controlli_invertiti', 'gravita_bassa', 'punti_doppi'],
     sceneKey: 'dodgeball',
+
+    inputMode: 'GAMEPAD_OR_PHONE',
     // Controller dedicato: joystick + LANCIA + SCHIVA + ABILITÀ (renderDodgeballController()).
     controllerLayout: { type: 'custom', id: 'dodgeball-tv' }
   },
@@ -137,6 +149,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     hardCapSec: 360,
     compatibleModifiers: ['punti_doppi', 'gravita_bassa'],
     sceneKey: 'soccer',
+
+    inputMode: 'GAMEPAD_OR_PHONE',
     // Controller dedicato: joystick + TIRO/PASSA (hold = più forte) + TACKLE + ABILITÀ.
     controllerLayout: { type: 'custom', id: 'soccer-tv' }
   },
@@ -157,6 +171,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     hardCapSec: 720,
     compatibleModifiers: ['gravita_bassa', 'punti_doppi'],
     sceneKey: 'volleyball',
+
+    inputMode: 'GAMEPAD_OR_PHONE',
     // Controller dedicato: joystick + SALTA + COLPISCI + ABILITÀ (renderVolleyballController()).
     controllerLayout: { type: 'custom', id: 'volleyball-tv' }
   },
@@ -175,6 +191,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     hardCapSec: 480,
     compatibleModifiers: ['controlli_invertiti', 'punti_doppi'],
     sceneKey: 'kart3d',
+
+    inputMode: 'GAMEPAD_OR_PHONE',
     controllerLayout: {
       type: 'racing',
       controls: [
@@ -205,6 +223,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     hardCapSec: 900,
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'cultura',
+
+    inputMode: 'PHONE_TEXT',
     // Controller dedicato: scrivi bluff / vota (renderCulturaController()).
     controllerLayout: { type: 'custom', id: 'cultura-tv' }
   },
@@ -224,6 +244,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     hardCapSec: 300,
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'fps',
+
+    inputMode: 'GAMEPAD_OR_PHONE',
     // Controller dedicato: joystick + look touch + SPARA + DASH + ABILITÀ (renderFpsController()).
     controllerLayout: { type: 'custom', id: 'fps-tv' }
   }
