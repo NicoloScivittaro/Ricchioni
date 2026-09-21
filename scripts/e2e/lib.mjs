@@ -136,3 +136,39 @@ export async function addPhone(browser, code, name, charIndex) {
 export function fmt(o) {
   return JSON.stringify(o);
 }
+
+/**
+ * TRACCIA lato pagina: registra dentro il browser (ogni 20 ms) ogni cambio di fase/scene dell'host o di titolo del telefono.
+ * Serve ai test che verificano fasi BREVI (es. MINIGAME_FINISHED dura 1 s): il polling da Node, con un host lento, puo' perderle
+ * senza che il gioco abbia alcun difetto. kind: 'host' | 'phone'.
+ */
+export async function installTrace(page, kind) {
+  await page.evaluate(async (k) => {
+    window.__trace = [];
+    let gm = null;
+    if (k === 'host') {
+      const url = performance.getEntriesByType('resource').map((e) => e.name).find((n) => /GameManager.ts/.test(n)) ?? '/src/core/GameManager.ts';
+      gm = (await import(url)).game;
+    }
+    let last = '';
+    const t0 = performance.now();
+    window.__traceTimer = setInterval(() => {
+      let e;
+      if (k === 'host') {
+        const ov = [...document.querySelectorAll('canvas')].filter((c) => c.style.zIndex === '10000').length;
+        e = { ph: gm.state?.phase ?? null, act: gm.game.scene.getScenes(true).map((s) => s.scene.key), ov };
+      } else {
+        e = { h1: document.getElementById('app')?.querySelector('h1')?.textContent?.trim() ?? '' };
+      }
+      const key = JSON.stringify(e);
+      if (key !== last) {
+        last = key;
+        window.__trace.push({ t: Math.round(performance.now() - t0), ...e });
+      }
+    }, 20);
+  }, kind);
+}
+
+export async function readTrace(page) {
+  return page.evaluate(() => window.__trace ?? []);
+}

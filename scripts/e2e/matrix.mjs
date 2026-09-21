@@ -1,5 +1,5 @@
 // Per OGNI minigioco del registry: rullo → intro → gioco (host + 2 telefoni reali) → fine → risultati → rullo. Nessun refresh.
-import { launch, createRoomOnHost, addPhone, hostEval, hostSnapshot, phoneView, sleep } from './lib.mjs';
+import { launch, createRoomOnHost, addPhone, hostEval, hostSnapshot, phoneView, sleep, installTrace, readTrace } from './lib.mjs';
 
 const GAMES = (process.env.GAMES ?? 'quiz,reaction,memory,arena,dodgeball,soccer,volleyball,kart3d,cultura,fps').split(',');
 const report = [];
@@ -50,33 +50,43 @@ for (const id of GAMES) {
         row.notes.push(`${p.name} bloccato su "${v.h1}"`);
       }
     }
-    // fine gioco
+    // fine gioco. Le fasi brevi (FINISHED dura 1 s) si verificano da una TRACCIA campionata dentro il browser (installTrace), non con
+    // sleep + istantanea da Node: con un host lento (es. FPS) il polling puo' arrivare quando il server e' gia' passato a ROUND_RESULTS.
+    await installTrace(page, 'host');
+    for (const p of phones) await installTrace(p.page, 'phone');
     await hostEval(page, (gm) => {
       const ctx = gm.minigameContext;
       ctx.finish({ results: ctx.players.map((p, i) => ({ playerId: p.id, placement: i + 1, score: 10 - i })) });
     });
-    await until(async () => (await hostSnapshot(page)).phase === 'MINIGAME_FINISHED', 8000, 'FINISHED');
-    await sleep(800);
-    let s2 = await hostSnapshot(page);
-    if (s2.active.length !== 1 || s2.active[0] !== 'FinishedScene' || s2.overlays) {
+    await until(async () => (await readTrace(page)).some((e) => e.ph === 'MINIGAME_ROULETTE'), 30000, 'ROULETTE dopo i risultati');
+    await sleep(900);
+    const trace = await readTrace(page);
+    const iFin = trace.findIndex((e) => e.ph === 'MINIGAME_FINISHED');
+    const fin = trace.filter((e) => e.ph === 'MINIGAME_FINISHED');
+    if (iFin < 0) {
       row.ok = false;
-      row.notes.push(`dopo la fine: ${JSON.stringify(s2)}`);
+      row.notes.push('MINIGAME_FINISHED mai visto');
+    } else if (!fin.some((e) => e.act.length === 1 && e.act[0] === 'FinishedScene' && !e.ov)) {
+      row.ok = false;
+      row.notes.push(`durante FINISHED scene attive mai pulite: ${JSON.stringify(fin.map((e) => [e.act, e.ov]))}`);
+    }
+    const rou = trace.filter((e, k) => k > iFin && e.ph === 'MINIGAME_ROULETTE');
+    if (!rou.some((e) => e.act.length === 1 && e.act[0] === 'RouletteScene')) {
+      row.ok = false;
+      row.notes.push(`nel rullo: ${JSON.stringify(rou.map((e) => e.act))}`);
+    }
+    // nessuna scena "doppia" mai, in nessun istante dopo la fine del gioco
+    const doubled = trace.filter((e, k) => k >= iFin && e.act.length > 1 && !e.act.every((a) => a === 'RouletteScene' || a === 'FinishedScene' || a === 'ResultsScene'));
+    if (doubled.length) {
+      row.ok = false;
+      row.notes.push(`scene attive insieme: ${JSON.stringify(doubled.slice(0, 2))}`);
     }
     for (const p of phones) {
-      const v = await phoneView(p.page);
-      if (v.h1 !== 'ROUND TERMINATO') {
+      const pt = await readTrace(p.page);
+      if (!pt.some((e) => e.h1 === 'ROUND TERMINATO')) {
         row.ok = false;
-        row.notes.push(`${p.name} dopo la fine: "${v.h1}"`);
+        row.notes.push(`${p.name}: mai visto "ROUND TERMINATO" (titoli: ${[...new Set(pt.map((e) => e.h1))].join(' > ').slice(0, 90)})`);
       }
-    }
-    await until(async () => (await hostSnapshot(page)).phase === 'MINIGAME_ROULETTE', 25000, 'ROULETTE dopo i risultati');
-    await sleep(700);
-    s2 = await hostSnapshot(page);
-    if (s2.active.length !== 1 || s2.active[0] !== 'RouletteScene') {
-      row.ok = false;
-      row.notes.push(`nel rullo: ${JSON.stringify(s2.active)}`);
-    }
-    for (const p of phones) {
       const v = await phoneView(p.page);
       if (v.h1 !== 'PROSSIMO GIOCO...') {
         row.ok = false;
