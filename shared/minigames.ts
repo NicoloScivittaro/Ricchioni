@@ -35,7 +35,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'quiz',
 
-    inputMode: 'GAMEPAD_OR_PHONE',
+    inputMode: 'GAMEPAD',
     // UI "TV quiz show" bespoke (timer circolare, card domanda, risposte colorate,
     // footer con avatar/punteggio/abilità): vedi QuizScene.sendQuizState() per il
     // payload live e src/controller/main.ts renderQuizController() per il render.

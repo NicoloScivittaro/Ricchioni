@@ -1630,6 +1630,7 @@ socket.on(EVT.privateData, (data) => {
     if (data.phase === 'intro') quizSelectedLocal = null;
     lastQuizState = data;
     updateQuizUI();
+    syncQuizPadPrivateInfo(data);
     return;
   }
   if (isCulturaState(data)) {
@@ -1848,6 +1849,7 @@ function keepAwake(on: boolean): void {
 function renderPadScreen(mg: NonNullable<RoomState['currentMinigame']>, me: PlayerPublic): void {
   activeController = null; // i segnali di gioco non hanno piu' una UI da aggiornare qui
   disposeFps();
+  quizPadPrivateShown = false; // torniamo alla schermata normale: nessuna informazione privata restante a schermo
   const def = getMinigame(mg.minigameId);
   app.innerHTML = `
     <div class="screen pad-screen">
@@ -2140,6 +2142,52 @@ function updateQuizUI(): void {
   root.querySelector('#quiz-ability-desc')!.textContent = s.abilityDescription;
   abilityBtn.classList.toggle('used', s.abilityUsed);
   abilityBtn.disabled = s.abilityUsed;
+}
+
+// ---- QUIZ col controller: "private info companion" — il telefono resta su USA IL CONTROLLER, ma quando arriva
+// un'informazione che TV/controller non possono mostrare in privato (indizio del Dottore, riepilogo di Ciro) il
+// telefono la mostra qui SENZA nessun bottone di gioco (nessun tocco tocca il gameplay), poi torna da solo a
+// USA IL CONTROLLER appena l'informazione sparisce (nuova domanda, o Ciro ha risposto) — nessun refresh manuale.
+let quizPadPrivateShown = false;
+
+function renderQuizPadPrivateInfo(data: QuizStatePayload, mg: NonNullable<RoomState['currentMinigame']>): void {
+  activeController = null;
+  disposeFps();
+  const def = getMinigame(mg.minigameId);
+  const hint = data.hintText ? `<p class="pad-look" style="margin-top:14px">💡 ${data.hintText}</p>` : '';
+  const breakdown = data.ciroBreakdown
+    ? `<div class="quiz-breakdown" style="display:flex;margin-top:14px">${QUIZ_LETTERS.map(
+        (letter, i) => `<div class="quiz-breakdown-row"><span>${letter}</span><span>${data.ciroBreakdown![i]}</span></div>`
+      ).join('')}</div>`
+    : '';
+  app.innerHTML = `
+    <div class="screen pad-screen">
+      <div class="pad-icon">🔒</div>
+      <h1>SOLO PER TE</h1>
+      <p class="pad-game">${def?.icon ?? ''} ${mg.name}</p>
+      ${hint}
+      ${breakdown}
+      <p class="pad-look" style="margin-top:16px">RIGUARDA LA TV · USA IL CONTROLLER</p>
+    </div>`;
+}
+
+/** Chiamata ad ogni quizState: decide se mostrare/nascondere la schermata privata per chi gioca col controller. */
+function syncQuizPadPrivateInfo(data: QuizStatePayload): void {
+  if (!state || !playerId) return;
+  const me = state.players.find((p) => p.id === playerId);
+  const mg = state.currentMinigame;
+  if (!me || !mg || padModeFor(state, me) !== 'pad') {
+    quizPadPrivateShown = false;
+    return;
+  }
+  const hasPrivateInfo = !!data.hintText || !!data.ciroBreakdown;
+  if (hasPrivateInfo) {
+    quizPadPrivateShown = true;
+    renderQuizPadPrivateInfo(data, mg);
+  } else if (quizPadPrivateShown) {
+    quizPadPrivateShown = false;
+    renderPadScreen(mg, me);
+  }
 }
 
 function sendInput(ev: InputEvent): void {
