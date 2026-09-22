@@ -104,4 +104,17 @@ for (const pr of Object.values(PAD_PROFILES)) {
 }
 const ar = PAD_PROFILES.arena;
 ok(ar.sticks[0]?.control === 'move' && ar.buttons.find((b) => b.control === 'dash')?.from === 'PRIMARY' && ar.buttons.find((b) => b.control === 'ability')?.from === 'SECONDARY', 'Arena: move = stick sinistro, dash = PRIMARY (A/✕), ability = SECONDARY (B/◯): i controlId che il gioco legge già');
+
+// --- Kart: sterzo analogico, RT/LT come tasti digitali (adattamento compatibile), holdThrough SOLO su acceleratore/freno
+const kt = PAD_PROFILES.kart3d;
+ok(!!kt, 'kart3d: profilo presente');
+ok(kt.sticks[0]?.control === 'steer' && kt.sticks[0]?.stick === 'LEFT', 'Kart: sterzo = stick sinistro -> controlId "steer" (continuo, stessa deadzone centrale)');
+ok(kt.triggers.length === 0, 'Kart: RT/LT NON sono grilletti analogici nel profilo (il gioco non ha un accel/frenata a magnitudine: adattamento compatibile)');
+ok(kt.buttons.find((b) => b.from === 'RT')?.control === 'up' && kt.buttons.find((b) => b.from === 'LT')?.control === 'down', 'Kart: RT -> "up", LT -> "down" (stessi controlId digitali del telefono)');
+ok(new Set(kt.holdThroughControls).size === 2 && kt.holdThroughControls.includes('RT') && kt.holdThroughControls.includes('LT'), `Kart: SOLO RT e LT sono holdThrough (${kt.holdThroughControls.join(',')})`);
+ok(!kt.controls.find((c) => c.control === 'drift')?.holdThrough && !kt.controls.find((c) => c.control === 'item')?.holdThrough && !kt.controls.find((c) => c.control === 'ability')?.holdThrough, 'Kart: drift/item/abilità NON sono holdThrough (restano azioni one-shot protette dal blocco)');
+for (const [id, pr] of Object.entries(PAD_PROFILES)) {
+  if (id === 'kart3d') continue;
+  ok((pr.holdThroughControls?.length ?? 0) === 0, `${id}: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)`);
+}
 process.exitCode = fails ? 1 : 0;

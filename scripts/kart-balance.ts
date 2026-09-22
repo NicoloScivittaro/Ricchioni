@@ -152,8 +152,10 @@ export function race(cfg: Cfg, driver: Driver, seed: number, timeCap = 300): Rac
       if (k.drifting && Math.abs(err) < driver.deadband * 3) steer = k.driftDir;
     }
 
-    queue.push({ left: steer < 0, right: steer > 0, up, down, drift, item: false });
-    const applied: KartInputSnapshot = queue.length > delaySteps ? queue.shift()! : { left: false, right: false, up: true, down: false, drift: false, item: false };
+    // steer: 0 = usa il digitale left/right qui sopra (nessun gamepad in questa simulazione). driftReleased: true = ogni
+    // rilascio del bot e' un rilascio "vero" (qui non esiste ne' pausa ne' disconnessione): stesso mini-turbo di sempre.
+    queue.push({ left: steer < 0, right: steer > 0, up, down, drift, item: false, steer: 0, driftReleased: true });
+    const applied: KartInputSnapshot = queue.length > delaySteps ? queue.shift()! : { left: false, right: false, up: true, down: false, drift: false, item: false, steer: 0, driftReleased: true };
 
     const wasStunned = k.stunTimer > 0;
     const wasResp = k.respawnTimer > 0;

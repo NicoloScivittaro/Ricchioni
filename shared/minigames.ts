@@ -192,7 +192,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     compatibleModifiers: ['controlli_invertiti', 'punti_doppi'],
     sceneKey: 'kart3d',
 
-    inputMode: 'GAMEPAD_OR_PHONE',
+    inputMode: 'GAMEPAD',
     controllerLayout: {
       type: 'racing',
       controls: [

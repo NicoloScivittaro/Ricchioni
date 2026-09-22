@@ -192,8 +192,12 @@ export class GamepadManager {
   /** Azzera tutti gli input dei giocatori con controller e blocca i tasti attualmente tenuti fino al rilascio. */
   private resetAll(): void {
     for (const sl of this.slots.values()) if (sl.state !== 'none') this.releasePlayer(sl.playerId);
+    // I controlli "a livello" del profilo (es. acceleratore/freno del Kart, vedi PadBindingDef.holdThrough) restano ESENTI
+    // dal blocco: il gioco stesso resta fermo fino al VIA (fase countdown), quindi tenerli premuti da prima non ha nessun
+    // effetto anticipato — cambia solo che non serve rilasciare e ripremere per farli contare al VIA.
+    const exempt = new Set(profileFor(this.minigameId)?.holdThroughControls ?? []);
     for (const p of this.pads.values()) {
-      p.blocked = new Set(PAD_CONTROLS.filter((c) => p.raw[c]));
+      p.blocked = new Set(PAD_CONTROLS.filter((c) => p.raw[c] && !exempt.has(c)));
       p.eff = emptyMap(() => false);
       p.edges = emptyMap(() => ({ down: false, pressed: false, released: false }));
       p.navPrev = { ...p.nav };

@@ -25,7 +25,7 @@ function assert(cond: boolean, label: string): void {
 
 const flatHalfWidth = () => 8;
 const flatAngle = () => 0;
-const NEUTRAL_INPUT: KartInputSnapshot = { left: false, right: false, up: false, down: false, drift: false, item: false };
+const NEUTRAL_INPUT: KartInputSnapshot = { left: false, right: false, up: false, down: false, drift: false, item: false, steer: 0, driftReleased: true };
 
 function collectFeedback(): { events: AbilityFeedback[]; onFeedback: (f: AbilityFeedback) => void } {
   const events: AbilityFeedback[] = [];

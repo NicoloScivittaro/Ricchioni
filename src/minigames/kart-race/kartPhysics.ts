@@ -7,6 +7,16 @@ export interface KartInputSnapshot {
   down: boolean;
   drift: boolean;
   item: boolean;
+  /**
+   * Sterzo CONTINUO del gamepad (-1..1, gia' con la deadzone centrale del GamepadManager). 0 = nessun gamepad che sterza in questo
+   * istante (telefono, o stick centrato): in quel caso lo sterzo resta quello digitale (left/right), invariato. Diverso da 0 = ha
+   * priorita' sul digitale. Non tocca ne' la formula ne' le costanti di sterzo: solo la SORGENTE del valore.
+   */
+  steer: number;
+  /** true SOLO nel fotogramma in cui il tasto drift e' stato DAVVERO rilasciato dal giocatore (edge, non livello). Serve a
+   *  distinguere un rilascio vero da un azzeramento forzato (pausa/disconnessione/cambio di contesto): vedi il commento su
+   *  releaseDrift piu' sotto. */
+  driftReleased: boolean;
 }
 
 /**
@@ -130,7 +140,10 @@ export function stepKartPhysics(
   if (k.invulnTimer > 0) k.invulnTimer = Math.max(0, k.invulnTimer - dt);
   if (k.disturbTimer > 0) k.disturbTimer = Math.max(0, k.disturbTimer - dt);
 
-  let steerDir = stunned ? 0 : (input.right ? 1 : 0) - (input.left ? 1 : 0);
+  // Sterzo: se il gamepad sta sterzando (input.steer != 0) usa quel valore CONTINUO (-1..1); altrimenti il digitale di
+  // sempre (telefono, o stick centrato). Stessa formula/costanti di prima: a ±1 o 0 il risultato è identico a oggi.
+  const digitalSteer = (input.right ? 1 : 0) - (input.left ? 1 : 0);
+  let steerDir = stunned ? 0 : input.steer !== 0 ? Math.max(-1, Math.min(1, input.steer)) : digitalSteer;
   if (invertSteer) steerDir *= -1;
   if (k.disturbTimer > 0) steerDir *= -1;
 
@@ -190,7 +203,18 @@ export function stepKartPhysics(
   }
   if (k.drifting) {
     const stillValid = input.drift && k.speed > C.driftMinSpeed * 0.6 && Math.abs(steerDir) > 0;
-    if (!stillValid) releaseDrift(k);
+    if (!stillValid) {
+      // Se il tasto e' ANCORA "premuto" (input.drift true) ma la deriva finisce per velocità/sterzo: comportamento
+      // originale, invariato (assegna il mini-turbo maturato). Se invece è il tasto STESSO ad essere andato a false —
+      // e non per un vero rilascio (driftReleased) ma per un azzeramento forzato: pausa, disconnessione, cambio di
+      // contesto — annulla la deriva SENZA regalare boost: nessun mini-turbo fantasma da un controller che cade.
+      if (input.drift || input.driftReleased) releaseDrift(k);
+      else {
+        k.drifting = false;
+        k.driftCharge = 0;
+        k.driftDir = 0;
+      }
+    }
     // driftChargeRateMultiplier: Dottore "20 KG IN UN MESE" (deriva più facile).
     else k.driftCharge += dt * k.driftChargeRateMultiplier;
   }

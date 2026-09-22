@@ -32,6 +32,7 @@ import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
 import { buildTrackGuides } from './trackGuides';
+import { telemetry } from '../../core/telemetry';
 
 const KART_S_RADIUS = 2.6;
 const KART_LAT_RADIUS = 1.7;
@@ -57,6 +58,10 @@ export class BabylonKartGame {
   private paused = false;
   private onResize = (): void => this.engine.resize();
   private trackAngleAt = (d: number): number => this.spline.tangentAngleAt(d);
+  /** false finche' la schermata CONTROLLI e' visibile: countdown/gara restano fermi (vedi step()). */
+  private controlsDone = false;
+  /** Metriche solo-debug per il SESSION REPORT (F4): nessun effetto sul gameplay. Aggregate su tutti i giocatori. */
+  private stats = { steerFrames: 0, steerSat: 0, throttleFrames: 0, brakeFrames: 0, totalFrames: 0, driftAttempts: 0, miniTurbos: 0, wallHits: 0 };
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -131,6 +136,10 @@ export class BabylonKartGame {
     this.hud.layout(this.order);
     this.hud.setCountdown('3');
 
+    // Schermata CONTROLLI: finche' e' su, il countdown/la gara restano fermi (vedi step()); alla fine gli input sono azzerati.
+    if (ctx.showControls) void ctx.showControls().then(() => (this.controlsDone = true));
+    else this.controlsDone = true;
+
     applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
@@ -152,22 +161,34 @@ export class BabylonKartGame {
     const invertModifier = this.ctx.modifier?.id === 'controlli_invertiti';
     this.abilities.setRaceTime(this.race.raceTime);
 
+    // Schermata CONTROLLI in corso: la gara resta ferma (dt=0, countdown incluso) e il "tenuto troppo presto" del
+    // telefono/gamepad non deve contare come partenza anticipata (upPressed valutato con dt reale SOLO a schermata chiusa).
+    const raceDt = this.controlsDone ? dt : 0;
+    const throttlePressed = this.controlsDone ? (pid: PlayerId): boolean => this.ctx.input.get(pid).pressed('up') : (): boolean => false;
     if (this.race.phase !== 'ended') {
-      this.race.update(dt, kartsList, (pid) => this.ctx.input.get(pid).pressed('up'));
+      this.race.update(raceDt, kartsList, throttlePressed);
     }
 
     if (this.race.phase === 'racing') {
       for (const [pid, state] of this.karts) {
         if (state.finished) continue;
         const pin = this.ctx.input.get(pid);
+        const steer = pin.axis('steer').x;
         const snapshot: KartInputSnapshot = {
           left: pin.pressed('left'),
           right: pin.pressed('right'),
           up: pin.pressed('up'),
           down: pin.pressed('down'),
           drift: pin.pressed('drift'),
-          item: pin.justPressed('item')
+          item: pin.justPressed('item'),
+          steer,
+          driftReleased: pin.justReleased('drift')
         };
+        this.stats.totalFrames++;
+        this.stats.steerFrames++;
+        this.stats.steerSat += Math.abs(steer);
+        if (snapshot.up) this.stats.throttleFrames++;
+        if (snapshot.down) this.stats.brakeFrames++;
         if (snapshot.item && state.heldItem) {
           this.items.useItem(state, kartsList, (id) => this.race.rankOf(kartsList, id));
           audio.select();
@@ -182,14 +203,20 @@ export class BabylonKartGame {
         const wasCharge = state.driftCharge;
         const wasStunned = state.stunTimer > 0;
         const wasAwaitingRespawn = state.respawnTimer > 0;
+        // Stessa condizione usata dentro stepKartPhysics per decidere se assegnare il mini-turbo (vedi releaseDrift li'):
+        // un azzeramento forzato (pausa/disconnessione/contesto) non deve contare ne' qui ne' nel meter delle abilita'.
+        const wasGenuineDriftEnd = snapshot.drift || snapshot.driftReleased;
         stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier);
 
         const wallCrashed = !wasStunned && state.stunTimer > 0;
         const respawnTriggered = !wasAwaitingRespawn && state.respawnTimer > 0;
         this.abilities.update(dt, state, kartsList, wallCrashed, respawnTriggered, this.trackAngleAt, (f) => this.onAbilityFeedback(pid, f));
+        if (wallCrashed) this.stats.wallHits++;
+        if (!wasDrifting && state.drifting) this.stats.driftAttempts++;
 
-        if (wasDrifting && !state.drifting && wasCharge >= DRIFT_THRESHOLDS[0]) {
+        if (wasDrifting && !state.drifting && wasCharge >= DRIFT_THRESHOLDS[0] && wasGenuineDriftEnd) {
           // suono, vibrazione, FOV e particelle del boost partono da trackFeedback() (vale anche per item e partenza lanciata)
+          this.stats.miniTurbos++;
           if (wasCharge >= DRIFT_THRESHOLDS[1]) this.abilities.addMeter(state, 0.22);
         }
         if (!wasStunned && state.stunTimer > 0) {
@@ -229,6 +256,16 @@ export class BabylonKartGame {
 
     if (this.race.phase === 'ended' && !this.resultsSent) {
       this.resultsSent = true;
+      // Solo debug (SESSION REPORT, F4): nessun effetto sul gameplay. Aggregate su tutti i giocatori della gara.
+      const s = this.stats;
+      telemetry.metrics('kart3d', {
+        steerSatPct: s.steerFrames ? Math.round((s.steerSat / s.steerFrames) * 100) : 0,
+        throttlePct: s.totalFrames ? Math.round((s.throttleFrames / s.totalFrames) * 100) : 0,
+        brakePct: s.totalFrames ? Math.round((s.brakeFrames / s.totalFrames) * 100) : 0,
+        driftAttempts: s.driftAttempts,
+        miniTurbos: s.miniTurbos,
+        wallHits: s.wallHits
+      });
       this.ctx.finish({ results: this.race.buildResults(kartsList) });
     }
 
@@ -282,6 +319,11 @@ export class BabylonKartGame {
           b.lateral -= dir * overlap * (1 - aShare);
           a.speed *= a.lightMode ? 0.86 : 0.93;
           b.speed *= b.lightMode ? 0.86 : 0.93;
+          // Solo feedback (nessun effetto fisico aggiuntivo): mancava del tutto, anche sul telefono. Intensità proporzionale
+          // alla sovrapposizione, come chiesto per il rumble delle collisioni tra kart.
+          const bump = 15 + Math.min(1, overlap / (KART_LAT_RADIUS * 2)) * 35;
+          this.ctx.vibrate(a.playerId, bump);
+          this.ctx.vibrate(b.playerId, bump);
         }
       }
     }

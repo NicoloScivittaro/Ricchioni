@@ -22,6 +22,13 @@ export interface PadBindingDef {
   label: string;
   /** Solo per LT/RT: il minigioco vuole il valore analogico 0..1 (asse) invece di un tasto. */
   analog?: boolean;
+  /**
+   * SOLO per controlli "a livello" tipo acceleratore/freno (mai per azioni one-shot: dash, tiro, item, abilità...): true
+   * esenta questo tasto dal blocco-fino-al-rilascio quando la schermata CONTROLLI si chiude (o la pausa finisce). Tenerlo
+   * premuto da prima del VIA funziona SUBITO al VIA, senza dover rilasciare e ripremere — il gioco stesso resta comunque
+   * fermo fino al VIA (fase countdown), quindi non c'è nessun effetto anticipato: cambia solo QUANDO il tasto torna attivo.
+   */
+  holdThrough?: boolean;
 }
 
 export interface PadProfile {
@@ -34,19 +41,25 @@ export interface PadProfile {
   buttons: { from: PadControl; control: string }[];
   /** Ricavati da `controls`: grilletti analogici -> asse 0..1 (x = valore). */
   triggers: { from: 'LT' | 'RT'; control: string }[];
+  /** Ricavati da `controls`: tasti marcati `holdThrough` (vedi PadBindingDef). Quasi sempre vuoto. */
+  holdThroughControls: PadControl[];
 }
 
 export function defineProfile(minigameId: string, controls: PadBindingDef[]): PadProfile {
   const sticks: PadProfile['sticks'] = [];
   const buttons: PadProfile['buttons'] = [];
   const triggers: PadProfile['triggers'] = [];
+  const holdThroughControls: PadControl[] = [];
   for (const c of controls) {
     if (c.binding === 'LEFT_STICK') sticks.push({ stick: 'LEFT', control: c.control });
     else if (c.binding === 'RIGHT_STICK') sticks.push({ stick: 'RIGHT', control: c.control });
     else if (c.analog && (c.binding === 'LT' || c.binding === 'RT')) triggers.push({ from: c.binding, control: c.control });
-    else buttons.push({ from: c.binding, control: c.control });
+    else {
+      buttons.push({ from: c.binding, control: c.control });
+      if (c.holdThrough) holdThroughControls.push(c.binding);
+    }
   }
-  return { minigameId, controls, sticks, buttons, triggers };
+  return { minigameId, controls, sticks, buttons, triggers, holdThroughControls };
 }
 
 export const PAD_PROFILES: Record<string, PadProfile> = {
@@ -80,6 +93,22 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'JUMP', binding: 'LEFT', control: 'jump', label: 'SALTA' },
     { action: 'HIT', binding: 'PRIMARY', control: 'hit', label: 'COLPISCI / SMASH' },
     { action: 'ABILITY', binding: 'SECONDARY', control: 'ability', label: 'ABILITÀ' }
+  ]),
+  // Kart: RT/LT sono TASTI (pressed/tenuto/rilasciato), come 'up'/'down' del telefono oggi — il gioco non ha un accel/frenata
+  // analogici (accelerazione a valore fisso mentre il tasto e' giu'): introdurre una magnitudine cambierebbe la curva fisica,
+  // quindi si adatta in modo compatibile ("RT+LT insieme": vince il throttle, identico a oggi con up/down). Lo STERZO invece
+  // e' vero analogico: vedi kartPhysics.ts (stessa formula/costanti, solo la sorgente del valore e' continua). B/guarda-dietro
+  // non esiste nel gioco: non va inventato qui.
+  kart3d: defineProfile('kart3d', [
+    { action: 'STEER', binding: 'LEFT_STICK', control: 'steer', label: 'STERZA' },
+    // holdThrough: l'acceleratore/freno NON deve richiedere rilascia-e-ripremi al VIA se il giocatore lo tiene premuto da
+    // prima (la gara resta comunque ferma fino al VIA: lo garantisce race.phase, non il blocco tasti). Drift/item/abilità
+    // restano protetti come sempre: quelli SONO azioni one-shot e devono ripartire da zero dopo la schermata CONTROLLI.
+    { action: 'THROTTLE', binding: 'RT', control: 'up', label: 'ACCELERA', holdThrough: true },
+    { action: 'BRAKE', binding: 'LT', control: 'down', label: 'FRENA / RETROMARCIA', holdThrough: true },
+    { action: 'DRIFT', binding: 'PRIMARY', control: 'drift', label: 'DRIFT' },
+    { action: 'ITEM', binding: 'LEFT', control: 'item', label: 'USA ITEM' },
+    { action: 'ABILITY', binding: 'TOP', control: 'ability', label: 'ABILITÀ' }
   ])
 };
 
