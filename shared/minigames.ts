@@ -56,7 +56,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'reaction',
 
-    inputMode: 'GAMEPAD_OR_PHONE',
+    inputMode: 'GAMEPAD',
     controllerLayout: {
       type: 'buttons',
       grid: 1,

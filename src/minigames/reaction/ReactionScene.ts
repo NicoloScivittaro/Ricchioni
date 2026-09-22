@@ -3,6 +3,7 @@ import { audio } from '../../core/AudioManager';
 import { confetti } from '../../scenes/confetti';
 import { PauseMenu } from '../../core/PauseMenu';
 import { REACTION_ABILITIES } from '../../../shared/reactionAbilities';
+import { debugEnabled, registerDebugSection } from '../../core/debug';
 import type { MinigameContext } from '../types';
 import type { PlayerSnapshot } from '../../../shared/types';
 
@@ -45,6 +46,35 @@ interface PState {
 
 let sessionRecord: { ms: number; name: string } | null = null;
 
+/**
+ * DIAGNOSTICA SOLO-DEBUG (F3): timestamp GO/PRESS nello STESSO dominio (performance.now(), lo stesso usato dal VIA vero),
+ * intervallo di frame reale, reazione misurata. Non influenza in nessun modo lo scoring: quello resta this.gameTime
+ * (accumulo dt), identico a prima. Serve solo a vedere ad occhio la precisione REALE del polling su hardware vero.
+ * Modulo-livello (come sessionRecord): la scena viene ricreata ad ogni "ricomincia", il pannello F3 no.
+ */
+interface ReactionDebugRow {
+  name: string;
+  goAt: number | null;
+  pressAt: number | null;
+  frameMs: number;
+}
+const debugRows = new Map<string, ReactionDebugRow>();
+let debugSectionReady = false;
+
+function ensureReactionDebugSection(): void {
+  if (debugSectionReady || !debugEnabled()) return;
+  debugSectionReady = true;
+  registerDebugSection(() => {
+    if (debugRows.size === 0) return [];
+    const lines = ['REACTION · timestamp in performance.now() (stesso dominio del VIA) · precisione = un fotogramma, nessuna correzione'];
+    for (const r of debugRows.values()) {
+      const dt = r.goAt !== null && r.pressAt !== null ? (r.pressAt - r.goAt).toFixed(2) : '—';
+      lines.push(`  ${r.name}: GO ${r.goAt?.toFixed(2) ?? '—'} · PRESS ${r.pressAt?.toFixed(2) ?? '—'} · DT ${dt} ms · frame ~${r.frameMs.toFixed(1)}ms`);
+    }
+    return lines;
+  });
+}
+
 export class ReactionScene extends Phaser.Scene {
   private ctx!: MinigameContext;
   private players: PState[] = [];
@@ -65,6 +95,8 @@ export class ReactionScene extends Phaser.Scene {
   private flashRect!: Phaser.GameObjects.Rectangle;
 
   private pauseMenu!: PauseMenu;
+  /** false finche' la schermata CONTROLLI e' visibile: il gioco resta fermo (vedi update()). */
+  private controlsDone = false;
 
   constructor() {
     super('reaction');
@@ -129,7 +161,17 @@ export class ReactionScene extends Phaser.Scene {
 
     this.pauseMenu = new PauseMenu(this, '⚡ BOTTA AL VOLO', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
 
-    this.showTitle();
+    debugRows.clear();
+    for (const p of this.ctx.players) debugRows.set(p.id, { name: p.displayName, goAt: null, pressAt: null, frameMs: 0 });
+    ensureReactionDebugSection();
+
+    // Schermata CONTROLLI: finche' e' su, il gioco resta fermo (vedi update()); alla fine gli input sono azzerati e parte il TITOLO.
+    this.controlsDone = false;
+    if (this.ctx.showControls) void this.ctx.showControls().then(() => { this.controlsDone = true; this.showTitle(); });
+    else {
+      this.controlsDone = true;
+      this.showTitle();
+    }
   }
 
   // ---- Fasi ----
@@ -342,6 +384,17 @@ export class ReactionScene extends Phaser.Scene {
     confetti(this, 640, 320);
     audio.correct();
     this.ctx.signal(null, { type: 'via' });
+    // Vibrazione SIMULTANEA al VIA (audio/visivo): mai prima, mai un istante dopo — stesso evento, stessa chiamata.
+    for (const p of this.players) this.ctx.vibrate(p.snap.id, 40);
+    // Solo debug: timestamp del VIA vero nello stesso dominio (performance.now()) del press rilevato più sotto.
+    const goAt = performance.now();
+    for (const p of this.players) {
+      const row = debugRows.get(p.snap.id);
+      if (row) {
+        row.goAt = goAt;
+        row.pressAt = null;
+      }
+    }
     // Dottore: se il focus è attivo, vibrazione extra
     for (const p of this.players) {
       if (p.snap.characterId === 'dottore' && p.focusOpen) {
@@ -361,6 +414,8 @@ export class ReactionScene extends Phaser.Scene {
         audio.select();
         this.ctx.signal(p.snap.id, { type: 'pressed', ms: p.timeMs });
         this.updateCard(p);
+        const row = debugRows.get(p.snap.id);
+        if (row && row.pressAt === null) row.pressAt = performance.now();
       }
     }
 
@@ -518,8 +573,13 @@ export class ReactionScene extends Phaser.Scene {
     if (this.pauseMenu.update()) return;
 
     if (this.finished) return;
+    if (!this.controlsDone) {
+      this.ctx.input.update(); // schermata CONTROLLI: nessuna fase avanza, nessun input di gioco consumato
+      return;
+    }
     const dt = Math.min(delta, 250) / 1000; // tempo reale fino a ~4 FPS
     this.gameTime += dt;
+    if (debugSectionReady) for (const row of debugRows.values()) row.frameMs = delta;
 
     switch (this.phase) {
       case 'title':

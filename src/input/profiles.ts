@@ -118,6 +118,14 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'BOTTOM', binding: 'PRIMARY', control: 'c2', label: 'TESSERA IN BASSO' },
     { action: 'LEFT', binding: 'LEFT', control: 'c3', label: 'TESSERA A SINISTRA' },
     { action: 'ABILITY', binding: 'RB', control: 'ability', label: 'ABILITÀ' }
+  ]),
+  // Botta al Volo: un solo comando di reazione (nessuna carica, nessun asse). La precisione e' quella del polling del
+  // browser (vedi F3): nessuna correzione artificiale. Il blocco-fino-al-rilascio GIA' esistente (GamepadManager) e' cio'
+  // che impedisce di "precaricare" il tasto durante la schermata CONTROLLI: chi lo tiene premuto da prima resta bloccato
+  // finche' non lo rilascia davvero, esattamente come per dash/drift/item negli altri giochi — nessun codice nuovo per questo.
+  reaction: defineProfile('reaction', [
+    { action: 'REACTION', binding: 'PRIMARY', control: 'action', label: 'PREMI SOLO QUANDO VEDI VIA!' },
+    { action: 'ABILITY', binding: 'RB', control: 'ability', label: 'ABILITÀ' }
   ])
 };
 
