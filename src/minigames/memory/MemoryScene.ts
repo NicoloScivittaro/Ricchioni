@@ -79,6 +79,8 @@ export class MemoryScene extends Phaser.Scene {
   private tileLabels: Phaser.GameObjects.Text[] = [];
   private drunkTint!: Phaser.GameObjects.Rectangle;
   private pauseMenu!: PauseMenu;
+  /** false finche' la schermata CONTROLLI e' visibile: il gioco resta fermo (vedi update()). */
+  private controlsDone = false;
 
   constructor() {
     super('memory');
@@ -121,30 +123,33 @@ export class MemoryScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setDepth(20);
 
-    // Griglia 2x2 senza sovrapposizioni: tessere 220px con passo 260px, da y=150 a y=630 (titolo sopra, schede giocatori sotto).
+    // Diamante (non griglia 2x2): ricalca la disposizione FISICA dei 4 face button del controller (Y/B/A/X in alto/destra/
+    // basso/sinistra, △/◯/✕/□ uguale) così il cervello del giocatore può usare la posizione, non il colore o la lettera —
+    // c0=ALTO, c1=DESTRA, c2=BASSO, c3=SINISTRA, esattamente come il profilo in src/input/profiles.ts (memory).
     const positions = [
-      { x: 510, y: 260 },
-      { x: 770, y: 260 },
-      { x: 510, y: 520 },
-      { x: 770, y: 520 }
+      { x: 640, y: 250 }, // c0 ALTO
+      { x: 860, y: 410 }, // c1 DESTRA
+      { x: 640, y: 570 }, // c2 BASSO
+      { x: 420, y: 410 } // c3 SINISTRA
     ];
+    const ARROWS = ['⬆', '➡', '⬇', '⬅']; // simbolo spaziale universale: leggibile anche con controller di famiglie diverse insieme
     for (let i = 0; i < 4; i++) {
       const t = MEMORY_TILES[i];
       const { x, y } = positions[i];
       const halo = this.add
-        .rectangle(x, y, 270, 270, hex(t.color), 0)
+        .rectangle(x, y, 250, 250, hex(t.color), 0)
         .setDepth(5)
         .setAlpha(0);
       const rect = this.add
-        .rectangle(x, y, 220, 220, hex(t.color), 0.9)
+        .rectangle(x, y, 200, 200, hex(t.color), 0.9)
         .setStrokeStyle(6, 0xffffff, 0.85)
         .setDepth(6);
       const icon = this.add
-        .text(x, y - 22, t.icon, { fontSize: '100px' })
+        .text(x, y - 26, t.icon, { fontSize: '86px' })
         .setOrigin(0.5)
         .setDepth(7);
       const label = this.add
-        .text(x, y + 80, t.label, { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '22px', color: '#ffffff' })
+        .text(x, y + 68, `${ARROWS[i]} ${t.label}`, { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '20px', color: '#ffffff' })
         .setOrigin(0.5)
         .setDepth(7);
       this.tileRects.push(rect);
@@ -182,7 +187,13 @@ export class MemoryScene extends Phaser.Scene {
 
     this.pauseMenu = new PauseMenu(this, '🧠 MEMORIA DA UBRIACO', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
 
-    this.showTitle();
+    // Schermata CONTROLLI: finche' e' su, il gioco resta fermo (vedi update()); alla fine gli input sono azzerati e parte il TITOLO.
+    this.controlsDone = false;
+    if (this.ctx.showControls) void this.ctx.showControls().then(() => { this.controlsDone = true; this.showTitle(); });
+    else {
+      this.controlsDone = true;
+      this.showTitle();
+    }
   }
 
   // ---- Fasi ----
@@ -230,6 +241,13 @@ export class MemoryScene extends Phaser.Scene {
   }
 
   private updateObserve(): void {
+    // BUG PRE-ESISTENTE (non del gamepad, c'era già col telefono): handleAbility() veniva letta SOLO qui sotto in updateRepeat(),
+    // ma l'abilità del Goblin ("ANCORA UN GIRO") richiede this.phase==='observe' per attivarsi — quindi non scattava MAI, con
+    // nessuna sorgente di input. L'effetto e il costo dell'abilità restano identici: cambia solo la fase in cui viene LETTA.
+    for (const p of this.players) {
+      if (!p.alive) continue;
+      if (this.ctx.input.get(p.snap.id).justPressed('ability')) this.handleAbility(p);
+    }
     const seq = this.sequences[this.round];
     while (
       this.nextFlashIndex < seq.length &&
@@ -588,6 +606,10 @@ export class MemoryScene extends Phaser.Scene {
   update(_t: number, delta: number): void {
     if (this.pauseMenu.update()) return;
     if (this.finished) return;
+    if (!this.controlsDone) {
+      this.ctx.input.update(); // schermata CONTROLLI: nessuna fase avanza, nessun input di gioco consumato
+      return;
+    }
 
     const dt = Math.min(delta, 250) / 1000; // tempo reale fino a ~4 FPS
     this.gameTime += dt;

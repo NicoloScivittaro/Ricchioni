@@ -109,6 +109,15 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'DRIFT', binding: 'PRIMARY', control: 'drift', label: 'DRIFT' },
     { action: 'ITEM', binding: 'LEFT', control: 'item', label: 'USA ITEM' },
     { action: 'ABILITY', binding: 'TOP', control: 'ability', label: 'ABILITÀ' }
+  ]),
+  // Memoria: le 4 tessere sono per POSIZIONE fisica (alto/destra/basso/sinistra), non per lettera — il layout sulla TV e'
+  // un diamante che ricalca i 4 face button. RB/R1 per l'abilita': i quattro face button sono gia' occupati dalle tessere.
+  memory: defineProfile('memory', [
+    { action: 'TOP', binding: 'TOP', control: 'c0', label: 'TESSERA IN ALTO' },
+    { action: 'RIGHT', binding: 'SECONDARY', control: 'c1', label: 'TESSERA A DESTRA' },
+    { action: 'BOTTOM', binding: 'PRIMARY', control: 'c2', label: 'TESSERA IN BASSO' },
+    { action: 'LEFT', binding: 'LEFT', control: 'c3', label: 'TESSERA A SINISTRA' },
+    { action: 'ABILITY', binding: 'RB', control: 'ability', label: 'ABILITÀ' }
   ])
 };
 

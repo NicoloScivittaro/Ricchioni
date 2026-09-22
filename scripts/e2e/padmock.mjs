@@ -125,3 +125,11 @@ export const gameEval = (page, sceneKey, fn, arg) =>
     // eslint-disable-next-line no-new-func
     return g ? new Function('g', 'arg', `return (${a.src})(g, arg);`)(g, a.arg) : null;
   }, { key: sceneKey, src: fn.toString(), arg });
+
+/** Come gameEval, ma per una scena Phaser 2D SENZA sotto-oggetto .game3d (Memoria, Reazione, Quiz): legge la Scene stessa. */
+export const sceneEval = (page, sceneKey, fn, arg) =>
+  hostEval(page, (gm, a) => {
+    const g = gm.game.scene.getScene(a.key);
+    // eslint-disable-next-line no-new-func
+    return g ? new Function('g', 'arg', `return (${a.src})(g, arg);`)(g, a.arg) : null;
+  }, { key: sceneKey, src: fn.toString(), arg });

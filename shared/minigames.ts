@@ -85,7 +85,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'memory',
 
-    inputMode: 'GAMEPAD_OR_PHONE',
+    inputMode: 'GAMEPAD',
     // UI dedicata (2x2 tile grandi + abilità) sul telefono: vedi renderMemoryController().
     controllerLayout: { type: 'custom', id: 'memory-tv' }
   },
