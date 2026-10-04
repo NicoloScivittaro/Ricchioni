@@ -1856,7 +1856,7 @@ function renderPadScreen(mg: NonNullable<RoomState['currentMinigame']>, me: Play
       <div class="pad-icon">🎮</div>
       <h1>USA IL CONTROLLER</h1>
       <p class="pad-game">${def?.icon ?? ''} ${mg.name}</p>
-      <p class="pad-look">GUARDA LA TV</p>
+      <p class="pad-look">${mg.minigameId === 'fps' ? 'GUARDA LA TUA FINESTRA SULLA TV' : 'GUARDA LA TV'}</p>
       <p class="pad-ok">✅ CONTROLLER CONNESSO${me.pad ? ` · ${me.pad}` : ''}</p>
     </div>`;
 }

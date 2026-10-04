@@ -237,16 +237,18 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     rarity: 'rare',
     minPlayers: 1,
     maxPlayers: 5,
-    // FPS free-for-all: ogni telefono renderizza la propria visuale, il PC è
-    // radar/regia. 100s di match; il timer server è solo la rete di sicurezza.
+    // FPS free-for-all: chi ha il controller gioca in split-screen sul PC (Milestone 6); chi non ce l'ha continua
+    // dal telefono ESATTAMENTE come prima (rendering 3D privato sul telefono, invariato). 100s di match; il timer
+    // server è solo la rete di sicurezza.
     durationSec: 100,
     // Rete di sicurezza server (match di 100s + countdown/risultati).
     hardCapSec: 300,
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'fps',
 
-    inputMode: 'GAMEPAD_OR_PHONE',
-    // Controller dedicato: joystick + look touch + SPARA + DASH + ABILITÀ (renderFpsController()).
+    inputMode: 'GAMEPAD',
+    // Controller dedicato: joystick + look touch + SPARA + DASH + ABILITÀ (renderFpsController()) — usato da chi
+    // NON ha un controller fisico (fallback, badge automatico: vedi src/input/profiles.ts per il profilo pad).
     controllerLayout: { type: 'custom', id: 'fps-tv' }
   }
 ];

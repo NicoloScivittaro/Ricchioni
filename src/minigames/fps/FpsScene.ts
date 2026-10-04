@@ -10,6 +10,38 @@ import type { WeaponConfig } from '../../../shared/fpsWeapons';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 import { characterInitial } from '../../../shared/characters';
+import { pads } from '../../input/GamepadManager';
+import { responseCurve } from '../../input/padMath';
+import type { BabylonFpsGame, FpsRenderSnapshot } from './BabylonFpsGame';
+
+/**
+ * MIRA COL CONTROLLER (Milestone 6.1) — TUTTI i parametri della mira in un solo posto, per poterli ritoccare
+ * dopo il test con hardware reale senza andare a caccia nel file. A differenza del telefono (touch-drag = angolo
+ * assoluto, invariato), lo stick destro e' letto come VELOCITA' angolare e integrato qui in yaw/pitch (come un
+ * mouse): rotazione = stick * sensitivity * dt, mai "per fotogramma" (altrimenti la mira girerebbe piu' veloce
+ * a FPS piu' alti — vedi il test di indipendenza dal frame-rate).
+ *
+ * - sensX/sensY: rad/s a deflessione piena (stick=1) con moltiplicatore di sensibilita' 1.0.
+ * - curveExponent: 1 = lineare (default, NESSUN cambio di comportamento rispetto a prima); >1 disponibile per
+ *   dosare meglio i movimenti piccoli una volta provato con un controller vero (vedi input/padMath.ts:responseCurve,
+ *   gia' pensata per la mira FPS ma non ancora applicata da nessun gioco).
+ * - maxTurnSpeed: tetto di sicurezza in rad/s DOPO sensibilita'+curva. Deve coprire tutto il range ESISTENTE
+ *   di pads.settingsOf(id).sensitivity (0.5..2, vedi GamepadManager): con sensX=2.6 il tetto e' sensX*2=5.2,
+ *   altrimenti la meta' superiore del range (sensibilita' > 1.0) verrebbe tagliata silenziosamente a costo
+ *   zero apparente — bug reale trovato e corretto durante il collegamento di questo parametro (M6.1).
+ * - pitchClamp: quanto in su/giu' si puo' guardare (radianti), invariato dal telefono.
+ * - invertY e la deadzone (PAD_CONFIG.rightDeadzone) sono GIA' centralizzati altrove (GamepadManager/padMath) e
+ *   si applicano automaticamente a QUALSIASI stick destro: non li ripeto qui per non avere due fonti diverse.
+ * - la sensibilita' PER GIOCATORE (pads.settingsOf(id).sensitivity, 0.5..2, gia' esistente e persistita ma finora
+ *   inutilizzata da nessun gioco) moltiplica sensX/sensY qui sotto: NON e' un sistema nuovo, e' quello gia' pronto.
+ */
+export const AIM_CONFIG = {
+  sensX: 2.6,
+  sensY: 2.0,
+  curveExponent: 1, // 1 = lineare = comportamento IDENTICO a prima di M6.1
+  maxTurnSpeed: 5.2, // sensX * 2 (limite superiore del range di sensibilita' per giocatore, 0.5..2)
+  pitchClamp: 1.4
+} as const;
 
 // SPARATORIA DEI DISAGIATI — Milestone 1: FPS free-for-all.
 // L'HOST (PC) è l'autorità: simula movimento/collisioni/hitscan/HP/kill/respawn,
@@ -94,6 +126,13 @@ export class FpsScene extends Phaser.Scene {
   private blasts: Blast[] = [];
   private clock = 0; // secondi di gioco (tempi di esplosione)
 
+  /** false finche' la schermata CONTROLLI (chi ha il controller) e' visibile: vedi update(). */
+  private controlsDone = false;
+  private splitScreen: BabylonFpsGame | null = null;
+  private splitScreenCanvas: HTMLCanvasElement | null = null;
+  /** true se la scena e' stata chiusa/riavviata MENTRE il modulo Babylon dello split-screen si stava caricando. */
+  private splitScreenCancelled = false;
+
   constructor() {
     super('fps');
   }
@@ -107,6 +146,10 @@ export class FpsScene extends Phaser.Scene {
     this.radarTags = [];
     this.radarNames = [];
     this.matchTime = Math.min(100, data.ctx.durationSec);
+    this.controlsDone = false;
+    this.splitScreen = null;
+    this.splitScreenCanvas = null;
+    this.splitScreenCancelled = false;
     audio.unlock();
     this.cameras.main.setBackgroundColor('#0b1220');
 
@@ -165,6 +208,77 @@ export class FpsScene extends Phaser.Scene {
     this.broadcastState();
 
     this.pauseMenu = new PauseMenu(this, '🔫 SPARATORIA DEI DISAGIATI', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
+
+    // Split-screen (Milestone 6): chi ha il controller ALL'AVVIO del round gioca in prima persona sul PC (viewport
+    // multipli, stessa scena Babylon); chi non ce l'ha continua dal telefono, ESATTAMENTE come prima (nessuna
+    // modifica al percorso telefono). L'ordine e' quello dei giocatori in stanza: stabile, mai per indice del pad.
+    const localPlayerIds = this.ctx.players.map((p) => p.id).filter((id) => pads.slotOf(id)?.state === 'paired');
+    if (localPlayerIds.length > 0) void this.bootSplitScreen(localPlayerIds);
+
+    // Intercetta i segnali (stesso ctx.signal usato dai telefoni: nessun percorso nuovo) SOLO per il feedback
+    // locale hitmarker/vignetta dello split-screen — il contenuto/la consegna ai telefoni resta invariata.
+    const originalSignal = this.ctx.signal.bind(this.ctx);
+    this.ctx.signal = (pid: PlayerId | null, msg: Record<string, unknown>): void => {
+      originalSignal(pid, msg);
+      if (!this.splitScreen || !pid) return;
+      if (msg.type === 'damaged') this.splitScreen.notifyHit(null, pid);
+      else if (msg.type === 'hit') this.splitScreen.notifyHit(pid, null);
+    };
+
+    // Schermata CONTROLLI: finche' e' su, la simulazione resta ferma (vedi update()).
+    if (this.ctx.showControls) void this.ctx.showControls().then(() => (this.controlsDone = true));
+    else this.controlsDone = true;
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.disposeSplitScreen, this);
+    this.events.once(Phaser.Scenes.Events.DESTROY, this.disposeSplitScreen, this);
+  }
+
+  private async bootSplitScreen(localPlayerIds: PlayerId[]): Promise<void> {
+    const { BabylonFpsGame } = await import('./BabylonFpsGame');
+    if (this.splitScreenCancelled) return; // scena chiusa/riavviata mentre il modulo si caricava
+
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.inset = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '10000';
+    canvas.style.touchAction = 'none';
+    canvas.style.outline = 'none';
+    document.body.appendChild(canvas);
+    this.splitScreenCanvas = canvas;
+    this.splitScreen = new BabylonFpsGame(canvas, localPlayerIds);
+  }
+
+  private disposeSplitScreen(): void {
+    this.splitScreenCancelled = true;
+    try {
+      this.splitScreen?.dispose();
+    } catch (e) {
+      console.warn('[cleanup] dispose split-screen FPS fallito', e);
+    }
+    this.splitScreen = null;
+    this.splitScreenCanvas?.remove();
+    this.splitScreenCanvas = null;
+  }
+
+  private toRenderSnapshot(p: FpsPlayer): FpsRenderSnapshot {
+    return {
+      id: p.id,
+      name: p.name,
+      color: p.color,
+      x: p.x,
+      z: p.z,
+      yaw: p.yaw,
+      pitch: p.pitch,
+      hp: p.hp,
+      maxHp: MAX_HP,
+      alive: p.alive,
+      kills: p.kills,
+      weaponId: p.weaponId,
+      magazine: p.magazine,
+      reloading: p.reloading
+    };
   }
 
   private pickSpawn(exclude: FpsPlayer[]): { x: number; z: number } {
@@ -187,8 +301,16 @@ export class FpsScene extends Phaser.Scene {
   }
 
   update(_t: number, delta: number): void {
-    if (this.pauseMenu.update()) return;
+    if (this.pauseMenu.update()) {
+      this.splitScreen?.setPaused(true);
+      return;
+    }
+    this.splitScreen?.setPaused(false);
     if (this.finished) return;
+    if (!this.controlsDone) {
+      this.ctx.input.update(); // schermata CONTROLLI: nessuna fase avanza, nessun input di gioco consumato
+      return;
+    }
     // Tempo reale (vedi core/frameClock): il timer scala con l'orologio, la simulazione va a sotto-passi.
     const steps = splitFrameDelta(delta / 1000);
     const dt = steps.reduce((a, b) => a + b, 0);
@@ -207,6 +329,7 @@ export class FpsScene extends Phaser.Scene {
 
     this.renderRadar();
     this.renderBoard();
+    if (this.splitScreen) this.splitScreen.update(dt, this.players.map((p) => this.toRenderSnapshot(p)));
     this.broadcastAcc += dt;
     if (this.broadcastAcc >= TICK) {
       this.broadcastAcc = 0;
@@ -252,10 +375,25 @@ export class FpsScene extends Phaser.Scene {
       ax /= mag;
       az /= mag;
     }
-    const look = input.axis('look');
-    // look.x = yaw assoluto, look.y = pitch assoluto (inviato dal telefono)
-    p.yaw = look.x;
-    p.pitch = Math.max(-1.4, Math.min(1.4, look.y));
+    if (pads.slotOf(p.id)?.state === 'paired') {
+      // Controller: lo stick destro e' una VELOCITA' angolare (come un mouse), integrata qui — mai un angolo assoluto.
+      // Deadzone e invertY sono GIA' applicati a monte (GamepadManager/padMath), generici per qualsiasi stick destro.
+      const stick = input.axis('lookStick');
+      const mag = Math.hypot(stick.x, stick.y);
+      // Riscala la GRANDEZZA con la curva di risposta (mantiene la direzione): con curveExponent=1 e' l'identita',
+      // quindi con i valori di default il comportamento resta ESATTAMENTE quello di prima di M6.1.
+      const curved = mag > 0 ? responseCurve(mag, AIM_CONFIG.curveExponent) / mag : 0;
+      const sens = pads.settingsOf(p.id).sensitivity; // 0.5..2 per giocatore, gia' esistente (prima inutilizzato)
+      const rateX = Math.max(-AIM_CONFIG.maxTurnSpeed, Math.min(AIM_CONFIG.maxTurnSpeed, stick.x * curved * AIM_CONFIG.sensX * sens));
+      const rateY = Math.max(-AIM_CONFIG.maxTurnSpeed, Math.min(AIM_CONFIG.maxTurnSpeed, stick.y * curved * AIM_CONFIG.sensY * sens));
+      p.yaw += rateX * dt;
+      p.pitch = Math.max(-AIM_CONFIG.pitchClamp, Math.min(AIM_CONFIG.pitchClamp, p.pitch - rateY * dt));
+    } else {
+      const look = input.axis('look');
+      // look.x = yaw assoluto, look.y = pitch assoluto (inviato dal telefono, touch-drag) — invariato.
+      p.yaw = look.x;
+      p.pitch = Math.max(-AIM_CONFIG.pitchClamp, Math.min(AIM_CONFIG.pitchClamp, look.y));
+    }
 
     // Dash
     if (input.justPressed('dash') && p.dashCooldown <= 0 && p.dashTime <= 0) {
@@ -564,6 +702,7 @@ export class FpsScene extends Phaser.Scene {
   private endGame(): void {
     if (this.finished) return;
     this.finished = true;
+    this.splitScreen?.setRoundEndMessage('⏱ TEMPO SCADUTO');
     const sorted = [...this.players].sort((a, b) => {
       if (a.kills !== b.kills) return b.kills - a.kills;
       if (a.deaths !== b.deaths) return a.deaths - b.deaths;
