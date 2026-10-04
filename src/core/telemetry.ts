@@ -1,5 +1,7 @@
 import { game as gm } from './GameManager';
 import { debugEnabled } from './debug';
+import { MINIGAME_DEFINITIONS } from '../../shared/minigames';
+import { pads } from '../input/GamepadManager';
 
 /**
  * TELEMETRIA LOCALE DI SESSIONE (solo host, solo debug: `?debug=1` o `npm run dev`). NON invia niente fuori dal browser, non usa servizi
@@ -37,7 +39,7 @@ interface State {
   phase: string;
   round: number;
   roundId?: number;
-  players: { id: string; displayName: string; connected: boolean; score: number }[];
+  players: { id: string; displayName: string; connected: boolean; score: number; pad?: string | null }[];
   currentMinigame: { minigameId: string; name: string } | null;
   lastResults: { results: { playerId: string; placement: number; score: number }[] } | null;
   lastRound?: { minigameId: string; winnerId: string | null } | null;
@@ -53,6 +55,74 @@ let reportShown = false;
 let panel: HTMLPreElement | null = null;
 let copyBtn: HTMLButtonElement | null = null;
 let printedFinal = false;
+
+/**
+ * INPUT (controller/telefono), solo per il report: osserva lo stato pubblico (`players[].pad`), nessun hook nel GamepadManager.
+ * disconnessione = il giocatore aveva un controller e ora no; riconnessione = lo riottiene dopo averlo perso (la prima associazione non conta).
+ */
+interface InputStats {
+  name: string;
+  gamepadGames: number;
+  phoneFallbackGames: number;
+  disconnects: number;
+  reconnects: number;
+}
+const inputStats = new Map<string, InputStats>();
+const padPrev = new Map<string, string | null>();
+const padEver = new Set<string>();
+const inputTotals = { maxPads: 0, mixedRounds: 0, gamepadRounds: 0 };
+
+function statsOf(id: string, name: string): InputStats {
+  let s = inputStats.get(id);
+  if (!s) {
+    s = { name, gamepadGames: 0, phoneFallbackGames: 0, disconnects: 0, reconnects: 0 };
+    inputStats.set(id, s);
+  }
+  s.name = name;
+  return s;
+}
+
+/** Ad ogni tick: transizioni del controller di ciascun giocatore e numero massimo di controller contemporanei. */
+function trackPads(st: State): void {
+  let count = 0;
+  for (const p of st.players) {
+    const now = p.pad ?? null;
+    const prev = padPrev.get(p.id) ?? null;
+    const s = statsOf(p.id, p.displayName);
+    if (prev && !now) s.disconnects++;
+    else if (!prev && now && padEver.has(p.id)) s.reconnects++;
+    if (now) {
+      padEver.add(p.id);
+      count++;
+    }
+    padPrev.set(p.id, now);
+  }
+  inputTotals.maxPads = Math.max(inputTotals.maxPads, count);
+}
+
+/** All'inizio di ogni minigioco col controller: chi gioca col pad, chi in fallback dal telefono, round misto sì/no. */
+function countRoundInput(st: State, gameId: string): void {
+  if (MINIGAME_DEFINITIONS.find((m) => m.id === gameId)?.inputMode !== 'GAMEPAD') return;
+  const withPad = st.players.filter((p) => p.pad);
+  if (!withPad.length) return; // nessun controller in stanza: sessione solo-telefono, non e' "fallback"
+  inputTotals.gamepadRounds++;
+  for (const p of st.players) {
+    const s = statsOf(p.id, p.displayName);
+    if (p.pad) s.gamepadGames++;
+    else s.phoneFallbackGames++;
+  }
+  if (withPad.length < st.players.length) inputTotals.mixedRounds++;
+}
+
+function inputSection(): string[] {
+  const L = ['', '=== INPUT ==='];
+  L.push(`Controller contemporanei (max) ${inputTotals.maxPads} · round col controller ${inputTotals.gamepadRounds} · round misti (controller + telefono) ${inputTotals.mixedRounds} · errori controller ${pads.loop.errors}${pads.loop.lastError ? ` [${pads.loop.lastError}]` : ''}`);
+  if (!inputStats.size) L.push('(nessun dato)');
+  for (const s of inputStats.values()) {
+    L.push(`  ${s.name}: ${s.gamepadGames} giochi col controller · ${s.phoneFallbackGames} in fallback telefono · disconnessioni ${s.disconnects} · riconnessioni ${s.reconnects}`);
+  }
+  return L;
+}
 
 function noteError(msg: string): void {
   totals.errors++;
@@ -154,6 +224,7 @@ export function buildReport(): string {
     if (Object.keys(r.metrics).length) L.push(`  Gameplay: ${fmtMetrics(r.metrics)}`);
   }
 
+  L.push(...inputSection());
   L.push(hr, '', '=== POTENTIAL BALANCE FLAGS ===');
   const flags = balanceFlags();
   if (flags.length) for (const f of flags) L.push(`⚠ ${f}`);
@@ -174,9 +245,11 @@ function tick(): void {
     }
     conn.set(p.id, p.connected);
   }
+  trackPads(st);
   const playing = st.phase === 'MINIGAME_PLAYING';
   if (playing && (!cur || cur.roundId !== (st.roundId ?? -1))) {
     const mg = st.currentMinigame;
+    if (mg) countRoundInput(st, mg.minigameId);
     cur = {
       n: records.length + 1,
       game: mg?.minigameId ?? '?',
@@ -328,7 +401,7 @@ export function initTelemetry(): void {
   w.__sessionReport = printReport;
   w.__balanceFlags = balanceFlags;
   w.__copyReport = copyReport;
-  w.__session = { records, totals };
+  w.__session = { records, totals, input: { players: inputStats, totals: inputTotals } };
 }
 
 export const telemetry = {

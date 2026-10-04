@@ -89,6 +89,9 @@ try {
   const accs = [];
   let dirOk = 0;
   const snap = (id) => gameEval(page, 'dodgeball', (g, i) => { const p = g.players.find((x) => x.id === i); return { x: p.x, z: p.z, v: Math.hypot(p.vx, p.vz), t: g.gameTime }; }, id);
+  // il rullo puo' estrarre il modificatore "controlli invertiti" (voluto): in quel caso la direzione attesa e' l'opposta
+  const inv = (await gameEval(page, 'dodgeball', (g) => g.invert)) ? -1 : 1;
+  if (inv < 0) console.log('   [info] modificatore "controlli invertiti" attivo: direzioni attese invertite');
   for (const [sx, sy] of dirs) {
     await gameEval(page, 'dodgeball', (g, id) => {
       const p = g.players.find((x) => x.id === id);
@@ -107,8 +110,8 @@ try {
       if (Math.hypot(a.x, a.z) > 0.8 && acc !== null) break;
     }
     await stick(page, 0, 0, 0);
-    const ex = sx / Math.hypot(sx, sy);
-    const ez = -sy / Math.hypot(sx, sy); // readMove: z = -y
+    const ex = (inv * sx) / Math.hypot(sx, sy);
+    const ez = (inv * -sy) / Math.hypot(sx, sy); // readMove: z = -y
     const m = Math.hypot(a.x, a.z);
     const cos = m > 0 ? (a.x * ex + a.z * ez) / m : 0;
     accs.push(acc ?? 0);
@@ -251,14 +254,14 @@ try {
   check((await axisOf(page, P1)).y === 0, 'controller di P1 caduto: input a zero');
   check(/DISCONNESSO|SCOLLEGATO/.test(await page.evaluate(() => document.getElementById('pad-alert')?.innerText ?? '')), 'avviso TV: controller scollegato');
   try {
-    await until(async () => await phones[0].page.evaluate(() => /FALLBACK/.test(document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback P1');
+    await until(async () => await phones[0].page.evaluate(() => /CONTROLLER PERSO/.test(document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback P1');
   } catch (e) {
     console.log('   [diag] telefono P1:', await phoneText(phones[0]));
     console.log('   [diag] pad per giocatore (stato stanza):', JSON.stringify(await hostEval(page, (gm) => gm.state.players.map((p) => [p.displayName, p.pad ?? null, p.connected]))), 'fase', (await hostSnapshot(page)).phase);
     console.log('   [diag] caselle:', await slots(page), 'contesto', await page.evaluate(() => window.__pads.contextNow()));
     throw e;
   }
-  check(true, 'il telefono di P1 passa da solo a 📱 MODALITÀ FALLBACK');
+  check(true, 'il telefono di P1 passa da solo a 📱 CONTROLLER PERSO — USA TEMPORANEAMENTE IL TELEFONO');
   await add(page, 0, XBOX);
   await sleep(700);
   check((await page.evaluate((id) => window.__pads.slotOf(id).state, P1)) === 'paired', 'il controller torna: pairing recuperato');

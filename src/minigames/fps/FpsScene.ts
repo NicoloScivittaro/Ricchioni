@@ -11,8 +11,9 @@ import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 import { characterInitial } from '../../../shared/characters';
 import { pads } from '../../input/GamepadManager';
+import { HAPTIC } from '../../core/haptics';
 import { responseCurve } from '../../input/padMath';
-import type { BabylonFpsGame, FpsRenderSnapshot } from './BabylonFpsGame';
+import type { BabylonFpsGame, FpsLocalPlayer, FpsRenderSnapshot } from './BabylonFpsGame';
 
 /**
  * MIRA COL CONTROLLER (Milestone 6.1) — TUTTI i parametri della mira in un solo posto, per poterli ritoccare
@@ -212,8 +213,10 @@ export class FpsScene extends Phaser.Scene {
     // Split-screen (Milestone 6): chi ha il controller ALL'AVVIO del round gioca in prima persona sul PC (viewport
     // multipli, stessa scena Babylon); chi non ce l'ha continua dal telefono, ESATTAMENTE come prima (nessuna
     // modifica al percorso telefono). L'ordine e' quello dei giocatori in stanza: stabile, mai per indice del pad.
-    const localPlayerIds = this.ctx.players.map((p) => p.id).filter((id) => pads.slotOf(id)?.state === 'paired');
-    if (localPlayerIds.length > 0) void this.bootSplitScreen(localPlayerIds);
+    const locals: FpsLocalPlayer[] = this.ctx.players
+      .filter((p) => pads.slotOf(p.id)?.state === 'paired')
+      .map((p) => ({ id: p.id, name: p.displayName, color: p.color }));
+    if (locals.length > 0) void this.bootSplitScreen(locals);
 
     // Intercetta i segnali (stesso ctx.signal usato dai telefoni: nessun percorso nuovo) SOLO per il feedback
     // locale hitmarker/vignetta dello split-screen — il contenuto/la consegna ai telefoni resta invariata.
@@ -233,7 +236,7 @@ export class FpsScene extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.DESTROY, this.disposeSplitScreen, this);
   }
 
-  private async bootSplitScreen(localPlayerIds: PlayerId[]): Promise<void> {
+  private async bootSplitScreen(locals: FpsLocalPlayer[]): Promise<void> {
     const { BabylonFpsGame } = await import('./BabylonFpsGame');
     if (this.splitScreenCancelled) return; // scena chiusa/riavviata mentre il modulo si caricava
 
@@ -247,7 +250,7 @@ export class FpsScene extends Phaser.Scene {
     canvas.style.outline = 'none';
     document.body.appendChild(canvas);
     this.splitScreenCanvas = canvas;
-    this.splitScreen = new BabylonFpsGame(canvas, localPlayerIds);
+    this.splitScreen = new BabylonFpsGame(canvas, locals);
   }
 
   private disposeSplitScreen(): void {
@@ -402,7 +405,7 @@ export class FpsScene extends Phaser.Scene {
       p.dashDirX = mag > 0.15 ? ax : Math.sin(p.yaw);
       p.dashDirZ = mag > 0.15 ? az : Math.cos(p.yaw);
       audio.boost();
-      this.ctx.vibrate(p.id, 25);
+      this.ctx.vibrate(p.id, HAPTIC.LIGHT);
       this.ctx.signal(p.id, { type: 'dash' });
     }
 
@@ -582,8 +585,8 @@ export class FpsScene extends Phaser.Scene {
     target.deaths++;
     killer.kills++;
     audio.wrong();
-    this.ctx.vibrate(target.id, 130);
-    this.ctx.vibrate(killer.id, 40);
+    this.ctx.vibrate(target.id, HAPTIC.HEAVY);
+    this.ctx.vibrate(killer.id, HAPTIC.SUCCESS);
     this.ctx.signal(target.id, { type: 'eliminated', by: killer.id });
     this.ctx.signal(killer.id, { type: 'killed', name: target.name });
   }

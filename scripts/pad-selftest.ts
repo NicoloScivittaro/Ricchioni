@@ -92,7 +92,11 @@ for (const p of Object.values(PAD_PROFILES)) {
 // --- Xbox Wireless Controller non e' un DualShock
 ok(padFamily('Xbox Wireless Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b13)') === 'xbox', '"Xbox Wireless Controller" = Xbox (contiene "wireless controller" ma non è PlayStation)');
 ok(padFamily('Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)') === 'playstation', 'DualShock 4 ("Wireless Controller", vendor 054c) = PlayStation');
-ok(padLabel('PRIMARY', 'generic') === 'PRIMARY' && padLabel('LEFT', 'generic') === 'ACTION' && padLabel('TOP', 'generic') === 'ABILITY', 'simboli generici: PRIMARY / SECONDARY / ACTION / ABILITY');
+ok(padLabel('PRIMARY', 'generic') === 'A' && padLabel('SECONDARY', 'generic') === 'B' && padLabel('LEFT', 'generic') === 'X' && padLabel('TOP', 'generic') === 'Y', 'generico standard: A / B / X / Y (mai nomi tecnici tipo PRIMARY accanto ad "A" o "✕")');
+// Controller misti nella stessa stanza: Xbox + generico non devono produrre "A / A" (si deduplica), Xbox + PlayStation sì "A / ✕".
+ok([...new Set(['xbox', 'generic'].map((f) => padLabel('PRIMARY', f as 'xbox' | 'generic')))].join(' / ') === 'A', 'Xbox + generico nella stessa stanza: un solo "A"');
+ok([...new Set(['xbox', 'playstation'].map((f) => padLabel('RT', f as 'xbox' | 'playstation')))].join(' / ') === 'RT / R2', 'Xbox + PlayStation: "RT / R2"');
+ok(padFamily('Sony Interactive Entertainment Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 05c4)') === 'playstation', 'DualShock 4 (id con "Sony") = PlayStation');
 ok(bindingLabel('LEFT_STICK') === 'LEFT STICK' && bindingLabel('RT', 'playstation') === 'R2' && bindingLabel('RT', 'xbox') === 'RT', 'binding: LEFT STICK; RT = R2 su PlayStation, RT su Xbox');
 
 // --- il profilo e' la fonte UNICA di input e schermata comandi

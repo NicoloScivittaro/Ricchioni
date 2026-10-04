@@ -30,6 +30,7 @@ const esc = (s: string): string => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', 
 const CSS = `
 #pad-controls{position:fixed;inset:0;z-index:95000;display:flex;align-items:center;justify-content:center;background:rgba(3,6,18,.92);font-family:Arial,Helvetica,sans-serif;color:#e5e7eb}
 #pad-controls .cc-card{width:min(760px,92vw);padding:28px 34px 22px;border-radius:22px;background:#0b1224;border:3px solid #fbbf24;text-align:center;box-shadow:0 20px 80px rgba(0,0,0,.6)}
+#pad-controls .cc-icon{font-size:64px;line-height:1;margin-bottom:6px}
 #pad-controls .cc-title{font-size:38px;font-weight:900;letter-spacing:1px;color:#fbbf24}
 #pad-controls .cc-sub{margin:6px 0 18px;font-size:22px;font-weight:800;color:#93c5fd;letter-spacing:2px}
 #pad-controls .cc-row{display:flex;align-items:center;gap:18px;margin:10px 0;padding:10px 16px;border-radius:14px;background:#111a30;text-align:left}
@@ -40,6 +41,12 @@ const CSS = `
 #pad-controls .cc-bar{height:6px;margin-top:18px;border-radius:3px;background:#1e293b;overflow:hidden}
 #pad-controls .cc-bar i{display:block;height:100%;width:100%;background:#fbbf24;transform-origin:left;animation:cc-shrink linear forwards}
 @keyframes cc-shrink{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+#pad-retake{position:fixed;left:50%;top:9vh;transform:translateX(-50%);z-index:95000;pointer-events:none;font-family:Arial,Helvetica,sans-serif;color:#e5e7eb}
+#pad-retake .cc-card{width:min(640px,90vw);padding:22px 30px 18px;border-radius:22px;background:#0b1224;border:3px solid #34d399;text-align:center;box-shadow:0 20px 80px rgba(0,0,0,.6)}
+#pad-retake .cc-icon{font-size:52px;line-height:1;margin-bottom:4px}
+#pad-retake .cc-title{font-size:28px;font-weight:900;color:#fbbf24}
+#pad-retake .cc-big{margin:16px 0 6px;font-size:42px;font-weight:900;color:#fff}
+#pad-retake .cc-sub{font-size:18px;font-weight:800;color:#93c5fd;letter-spacing:2px}
 `;
 
 let root: HTMLDivElement | null = null;
@@ -53,12 +60,16 @@ function families(): PadFamily[] {
   return set.size ? [...set] : ['generic'];
 }
 
-function build(minigameId: string, mode: 'pad' | 'phone'): string {
+/** Intestazione comune a TUTTE le schermate (controller, telefoni, ripresa controller): icona, nome. Un solo layout per ogni gioco. */
+function header(minigameId: string): string {
   const def = getMinigame(minigameId);
-  const title = `${def?.icon ?? ''} ${def?.name ?? minigameId}`.trim();
+  return `${def?.icon ? `<div class="cc-icon">${esc(def.icon)}</div>` : ''}<div class="cc-title">${esc(def?.name ?? minigameId)}</div>`;
+}
+
+function build(minigameId: string, mode: 'pad' | 'phone'): string {
   const bar = `<div class="cc-bar"><i style="animation-duration:${helpMs}ms"></i></div>`;
   if (mode === 'phone') {
-    return `<div class="cc-card"><div class="cc-title">${esc(title)}</div><div class="cc-big">📱 PRENDETE I TELEFONI</div><div class="cc-sub">SERVONO PER SCRIVERE E VOTARE</div>${bar}</div>`;
+    return `<div class="cc-card">${header(minigameId)}<div class="cc-big">📱 PRENDETE I TELEFONI</div><div class="cc-sub">SERVONO PER SCRIVERE E VOTARE</div>${bar}</div>`;
   }
   const profile = profileFor(minigameId)!;
   const fams = families();
@@ -70,7 +81,7 @@ function build(minigameId: string, mode: 'pad' | 'phone'): string {
     .join('');
   const someoneWithoutPad = (gm.state?.players ?? []).some((p) => !(p as { pad?: string }).pad);
   const note = someoneWithoutPad ? '<div class="cc-note">Chi non ha il controller gioca col telefono (📱 modalità fallback)</div>' : '';
-  return `<div class="cc-card"><div class="cc-title">${esc(title)}</div><div class="cc-sub">🎮 CONTROLLI</div>${rows}${note}${bar}</div>`;
+  return `<div class="cc-card">${header(minigameId)}<div class="cc-sub">🎮 CONTROLLI</div>${rows}${note}${bar}</div>`;
 }
 
 /**
@@ -86,12 +97,7 @@ export function showControlsHelp(minigameId: string): Promise<void> {
   else if (def.inputMode === 'GAMEPAD' && profileFor(minigameId)) mode = 'pad';
   else return Promise.resolve();
 
-  if (!styled) {
-    const st = document.createElement('style');
-    st.textContent = CSS;
-    document.head.appendChild(st);
-    styled = true;
-  }
+  ensureStyle();
   root = document.createElement('div');
   root.id = 'pad-controls';
   root.innerHTML = build(minigameId, mode);
@@ -132,8 +138,43 @@ export function dismissControlsHelp(): void {
   finish?.();
 }
 
+function ensureStyle(): void {
+  if (styled) return;
+  const st = document.createElement('style');
+  st.textContent = CSS;
+  document.head.appendChild(st);
+  styled = true;
+}
+
+/**
+ * Fine di un gioco da telefono (Cultura o Cazzata) in una sessione con controller: "🎮 RIPRENDETE I CONTROLLER", ben visibile
+ * ma senza bloccare nulla (nessun input toccato, i risultati restano leggibili sotto). Sparisce da sola dopo CONTROL_HELP_MS.
+ */
+let retakeTimer = 0;
+function showRetakeControllers(minigameId: string): void {
+  ensureStyle();
+  document.getElementById('pad-retake')?.remove();
+  const el = document.createElement('div');
+  el.id = 'pad-retake';
+  el.innerHTML = `<div class="cc-card">${header(minigameId)}<div class="cc-big">🎮 RIPRENDETE I CONTROLLER</div><div class="cc-sub">I TELEFONI TORNANO SUL TAVOLO</div></div>`;
+  document.body.appendChild(el);
+  window.clearTimeout(retakeTimer);
+  retakeTimer = window.setTimeout(() => el.remove(), helpMs);
+}
+
 export function initControlsHelp(): void {
   gm.controlsGate = (id) => showControlsHelp(id);
+  // Osserva solo lo stato (nessuna modifica a GameManager): quando un gioco PHONE_TEXT termina e ci sono controller associati.
+  let prev: { phase: string; game: string | null } = { phase: '', game: null };
+  gm.events.on('state', (s) => {
+    const st = s as { phase?: string; currentMinigame?: { minigameId: string } | null };
+    const phase = st.phase ?? '';
+    const game = st.currentMinigame?.minigameId ?? prev.game;
+    if (prev.phase === 'MINIGAME_PLAYING' && phase !== 'MINIGAME_PLAYING' && prev.game && getMinigame(prev.game)?.inputMode === 'PHONE_TEXT' && pads.pairedCount() > 0) {
+      showRetakeControllers(prev.game);
+    }
+    prev = { phase, game };
+  });
   try {
     const q = new URLSearchParams(location.search).get('helpms');
     if (q && debugEnabled()) setControlHelpMs(Number(q));

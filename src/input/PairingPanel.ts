@@ -3,13 +3,12 @@ import { CHARACTERS } from '../../shared/characters';
 import { MINIGAME_DEFINITIONS } from '../../shared/minigames';
 import { pads } from './GamepadManager';
 import { PAD_CONTROLS, padFamily, padLabel } from './padTypes';
-import { PAD_PROFILES } from './profiles';
 
 /**
  * PANNELLO "🎮 COLLEGA I CONTROLLER" (host, DOM sopra il canvas: nessuna scena Phaser toccata).
  *
  *  - in LOBBY compare da solo quando un controller libero viene toccato, oppure con il tasto G;
- *  - mostra per ogni giocatore lo stato ("NESSUN CONTROLLER" / collegato / scollegato) e le istruzioni di associazione;
+ *  - mostra per ogni giocatore lo stato ("PREMI A / ✕ PER COLLEGARTI" / 🎮 CONNESSO / ⚠️ DISCONNESSO / 📱 USERÀ IL TELEFONO) e le istruzioni di associazione;
  *  - TEST CONTROLLER: stick, grilletti, tasti, rumble, indice e id di ogni controller esposto dal browser;
  *  - fuori dalla lobby resta solo la barra rossa "CONTROLLER DI CIRO DISCONNESSO - PREMI A PER RICONNETTERE" (se serve) e i messaggi.
  */
@@ -18,7 +17,29 @@ const esc = (s: string): string => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', 
 
 interface St {
   phase: string;
+  paused?: boolean;
   players: { id: string; displayName: string; characterId: string | null; connected: boolean }[];
+}
+
+/** Gioco attivo (non in pausa): il pannello non deve coprire il gameplay. Fuori da qui (lobby, rullo, risultati, pausa) si puo' aprire con G. */
+function activePlay(st: St | null): boolean {
+  return st?.phase === 'MINIGAME_PLAYING' && !st.paused;
+}
+
+/** Simbolo del tasto principale per TUTTE le famiglie di controller presenti (es. "A / ✕"), mai un nome tecnico. */
+function primaryForRoom(): string {
+  const fams = [...new Set(pads.views().map((v) => v.family))];
+  const labels = [...new Set((fams.length ? fams : (['xbox', 'playstation'] as const)).map((f) => padLabel('PRIMARY', f)))];
+  return labels.join(' / ');
+}
+
+/** Riepilogo leggibile a colpo d'occhio: "4 🎮 + 1 📱" (o "5 🎮"). Non blocca mai: chi non ha il controller usa il telefono. */
+export function readySummary(): string {
+  const slots = pads.slotList();
+  const withPad = slots.filter((s) => s.state === 'paired').length;
+  const phone = slots.length - withPad;
+  if (!slots.length) return '';
+  return phone ? `${withPad} 🎮 + ${phone} 📱` : `${withPad} 🎮`;
 }
 
 let root: HTMLDivElement;
@@ -41,14 +62,23 @@ const css = `
 #pad-root .row.cursor{border-color:#38bdf8}
 #pad-root .dot{width:14px;height:14px;border-radius:50%;flex:none}
 #pad-root .who{flex:1;min-width:0}
-#pad-root .who b{display:block;font-size:19px}
+#pad-root .who b{display:block;font-size:21px}
 #pad-root .who span{font-size:13px;color:#94a3b8}
-#pad-root .st{font-weight:800;font-size:16px;text-align:right}
+#pad-root .ava{font-size:36px;line-height:1;flex:none;width:44px;text-align:center}
+#pad-root .st{font-weight:900;font-size:18px;text-align:right;flex:none}
+#pad-root .st small{display:block;font-size:12px;font-weight:700;color:#94a3b8;margin-top:2px}
+#pad-root .head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+#pad-root .ready{font-size:30px;font-weight:900;color:#fff;white-space:nowrap}
+#pad-root .note{margin:12px 0 0;font-size:14px;color:#93c5fd}
+#pad-root .note.warn{color:#f87171}
+#pad-root .foot .main{font-size:16px;padding:10px 22px;background:#16a34a;color:#fff}
+#pad-root .foot .dbg{margin-left:auto;background:transparent;color:#64748b;font-weight:600}
 #pad-root .ok{color:#34d399}.warn{color:#f87171}.none{color:#94a3b8}.cur{color:#38bdf8}
 #pad-root button{font:700 13px Arial;border:0;border-radius:8px;padding:6px 10px;background:#1e293b;color:#e5e7eb;cursor:pointer}
 #pad-root button:hover{background:#334155}
 #pad-root .foot{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-#pad-root .set{display:flex;gap:6px;align-items:center;font-size:12px;color:#94a3b8}
+#pad-root .set{display:flex;gap:6px;align-items:center;font-size:12px;color:#94a3b8;margin-top:6px;flex-wrap:wrap}
+#pad-root .set b{display:inline;font-size:13px;color:#e5e7eb}
 #pad-root table{width:100%;border-collapse:collapse;font:12px ui-monospace,Menlo,Consolas,monospace}
 #pad-root td,#pad-root th{padding:4px 6px;text-align:left;border-bottom:1px solid #1e293b;vertical-align:top}
 #pad-badge{position:fixed;left:12px;bottom:12px;z-index:89000;padding:6px 12px;border-radius:999px;background:rgba(15,23,42,.85);color:#cbd5e1;font:700 13px Arial;cursor:pointer;display:none}
@@ -67,26 +97,25 @@ function render(): void {
   const inLobby = st?.phase === 'LOBBY';
   const slots = pads.slotList();
   const free = pads.freePads();
-  const paired = slots.filter((s) => s.state === 'paired').length;
 
   // auto-apertura: un controller libero viene toccato in lobby
   if (inLobby && !open && !dismissed && free.length && slots.some((s) => s.state !== 'paired')) open = true;
-  if (!inLobby) {
+  // si chiude da solo SOLO quando parte il gameplay vero; nei risultati/rullo/pausa resta apribile con G (es. ritoccare la sensibilita' FPS)
+  if (activePlay(st)) {
     open = false;
     dismissed = false;
   }
 
-  badge.style.display = inLobby && !open ? 'block' : 'none';
-  badge.textContent = `🎮 CONTROLLER ${paired}/${slots.length} · premi G`;
+  badge.style.display = inLobby && !open && slots.length ? 'block' : 'none';
+  badge.textContent = `${readySummary()} · premi G`;
 
   // barra rossa: controller scollegato (o in attesa dopo un ricaricamento)
   const waiting = slots.filter((s) => s.state === 'awaiting');
   if (waiting.length && st?.phase !== 'GAME_FINISHED') {
     alertBar.style.display = 'block';
     const names = waiting.map((s) => pads.playerLabel(s.playerId)).join(' / ');
-    const fam = padFamily(free[0]?.id ?? '');
     alertBar.textContent = free.length
-      ? `⚠️ CONTROLLER DI ${names} SCOLLEGATO — PREMI ${fam === 'generic' ? 'IL TASTO IN BASSO' : padLabel('PRIMARY', fam)} PER RICONNETTERE`
+      ? `⚠️ CONTROLLER DI ${names} DISCONNESSO — PREMI ${padLabel('PRIMARY', padFamily(free[0].id))} PER RICONNETTERE`
       : `⚠️ CONTROLLER DI ${names} DISCONNESSO`;
   } else alertBar.style.display = 'none';
 
@@ -95,53 +124,49 @@ function render(): void {
   root.innerHTML = testView ? renderTest() : renderPairing();
 }
 
+const FAMILY_NAME = { xbox: 'Xbox', playstation: 'PlayStation', generic: 'Controller' } as const;
+
 function renderPairing(): string {
   const st = gm.state as unknown as St;
   const slots = pads.slotList();
   const free = pads.freePads();
-  const paired = slots.filter((s) => s.state === 'paired').length;
   const target = pads.getTarget();
-  const fam = padFamily(free[0]?.id ?? '');
-  const primary = padLabel('PRIMARY', fam);
-  let hint = 'PREMI UN TASTO SUL CONTROLLER CHE VUOI USARE';
-  if (target) hint = `${pads.playerLabel(target)}: PREMI ${fam === 'generic' ? 'IL TASTO IN BASSO' : primary} SUL TUO CONTROLLER`;
-  else if (free.length) hint = `CONTROLLER LIBERO: SCEGLI IL TUO GIOCATORE CON ⬆⬇ E CONFERMA CON ${fam === 'generic' ? 'IL TASTO IN BASSO' : primary}`;
+  const primary = free.length ? padLabel('PRIMARY', padFamily(free[0].id)) : primaryForRoom();
+  let hint = `PREMI ${primary} SUL CONTROLLER CHE VUOI USARE`;
+  if (target) hint = `${pads.playerLabel(target)}: PREMI ${primary} SUL TUO CONTROLLER`;
+  else if (free.length) hint = `CONTROLLER LIBERO: SCEGLI IL TUO GIOCATORE CON ⬆⬇ E CONFERMA CON ${primary}`;
+  const paired = slots.filter((s) => s.state === 'paired').length;
   let unpairedRank = 0;
   const rows = slots
     .map((s) => {
       const p = st.players.find((x) => x.id === s.playerId);
       const ch = p?.characterId ? CHARACTERS[p.characterId] : null;
       const color = ch?.color ?? '#64748b';
-      const title = ch?.roleTitle ?? p?.displayName ?? '?';
-      const sub = p ? `${p.displayName}${p.connected ? '' : ' · telefono scollegato'}` : '';
       const cur = pads.cursorOf(s.playerId);
-      let status = '<span class="none">NESSUN CONTROLLER</span>';
+      let status = `<span class="none">PREMI ${esc(primary)} PER COLLEGARTI</span>`;
       if (s.state === 'paired') {
         const v = pads.views().find((x) => x.index === s.padIndex);
-        status = `<span class="ok">🎮 ${esc(v?.shortName ?? 'Controller')} ✅ COLLEGATO</span>`;
-      } else if (s.state === 'awaiting') status = '<span class="warn">⚠️ SCOLLEGATO — riconnetti con il controller</span>';
-      else {
-        unpairedRank++;
-        if (cur !== null) status = `<span class="cur">◀ controller #${cur + 1} sta scegliendo ▶</span>`;
-        else if (target === s.playerId) status = '<span class="cur">PREMI IL TASTO SUL CONTROLLER…</span>';
-        else if (!free.length) {
-          const n = paired + unpairedRank;
-          status = `<span class="none">${n}° CONTROLLER NON RILEVATO<br><small>📱 uso il telefono come emergenza</small></span>`;
-        }
-      }
+        status = `<span class="ok">🎮 CONNESSO</span><small>${esc(v ? FAMILY_NAME[v.family] : 'Controller')}</small>`;
+      } else if (s.state === 'awaiting') status = `<span class="warn">⚠️ DISCONNESSO</span><small>premi ${esc(primary)} sul suo controller</small>`;
+      else if (cur !== null) status = '<span class="cur">◀ STA SCEGLIENDO ▶</span>';
+      else if (target === s.playerId) status = `<span class="cur">PREMI ${esc(primary)} SUL CONTROLLER…</span>`;
+      else if (!free.length && pads.detected > 0) status = `<span class="none">📱 USERÀ IL TELEFONO</span><small>${paired + ++unpairedRank}° controller non rilevato</small>`;
+      // impostazioni del giocatore: piccole e leggibili, non un menu tecnico (vibrazione, sensibilita' mira FPS, Y invertita)
       const set = pads.settingsOf(s.playerId);
       const tools =
         s.state === 'paired'
-          ? `<span class="set"><button data-act="vib" data-id="${s.playerId}">📳 ${set.vibration ? 'ON' : 'OFF'}</button><button data-act="inv" data-id="${s.playerId}">Y ${set.invertY ? 'INV' : 'norm'}</button><button data-act="sm" data-id="${s.playerId}">−</button>sens ${set.sensitivity.toFixed(1)}<button data-act="sp" data-id="${s.playerId}">+</button><button data-act="un" data-id="${s.playerId}">✕</button></span>`
+          ? `<div class="set"><button data-act="vib" data-id="${s.playerId}">📳 ${set.vibration ? 'ON' : 'OFF'}</button><span>mira FPS</span><button data-act="sm" data-id="${s.playerId}">−</button><b>${set.sensitivity.toFixed(1)}</b><button data-act="sp" data-id="${s.playerId}">+</button><button data-act="inv" data-id="${s.playerId}">Y ${set.invertY ? 'INVERTITA' : 'normale'}</button><button data-act="un" data-id="${s.playerId}" title="scollega">✕</button></div>`
           : '';
-      return `<div class="row${target === s.playerId ? ' target' : ''}${cur !== null ? ' cursor' : ''}" data-act="target" data-id="${s.playerId}"><span class="dot" style="background:${color}"></span><div class="who"><b>${esc(title)}</b><span>${esc(sub)}</span></div>${tools}<div class="st">${status}</div></div>`;
+      const name = p?.displayName ?? '?';
+      const sub = `${ch?.roleTitle ?? ''}${p && !p.connected ? ' · telefono scollegato' : ''}`;
+      return `<div class="row${target === s.playerId ? ' target' : ''}${cur !== null ? ' cursor' : ''}" data-act="target" data-id="${s.playerId}" style="border-left:6px solid ${color}"><span class="ava">${esc(ch?.avatar ?? '🙂')}</span><div class="who"><b style="color:${color}">${esc(name)}</b><span>${esc(sub)}</span>${tools}</div><div class="st">${status}</div></div>`;
     })
     .join('');
-  const supported = MINIGAME_DEFINITIONS.filter((m) => PAD_PROFILES[m.id]).map((m) => m.name).join(', ') || 'nessuno';
-  const supportNote = `<p class="hint" style="color:#93c5fd;font-size:15px">Giochi giocabili col controller: ${esc(supported)} · negli altri si usa ancora il telefono (Cultura o Cazzata resta sempre da telefono).</p>`;
-  const noExp = pads.detected < slots.length && pads.detected > 0 && !free.length ? `<p class="hint" style="color:#f87171">Il browser espone ${pads.detected} controller su ${slots.length} giocatori (Chrome ne mostra al massimo 4): gli altri usano il telefono.</p>` : '';
-  return `<div class="box"><h2>🎮 COLLEGA I CONTROLLER</h2><p class="hint">${esc(hint)}</p>${supportNote}${noExp}${rows || '<p>Nessun giocatore nella stanza.</p>'}
-  <div class="foot"><button data-act="test">🧪 TEST CONTROLLER</button><button data-act="close">CHIUDI (G)</button><span class="set">Clic su un giocatore = scegli per chi collegare. Il controller resta di quella persona per tutta la serata.</span></div></div>`;
+  const phoneGames = MINIGAME_DEFINITIONS.filter((m) => m.inputMode === 'PHONE_TEXT').map((m) => m.name);
+  const note = `<p class="note">Tutti i giochi si giocano col controller${phoneGames.length ? ` · solo ${esc(phoneGames.join(', '))} usa il telefono` : ''}. Il controller resta di quella persona per tutta la serata.</p>`;
+  const noExp = pads.detected < slots.length && pads.detected > 0 && !free.length ? `<p class="note warn">Il browser vede ${pads.detected} controller su ${slots.length} giocatori: gli altri giocano col telefono.</p>` : '';
+  return `<div class="box"><div class="head"><h2>🎮 COLLEGA I CONTROLLER</h2><div class="ready">${esc(readySummary())}</div></div><p class="hint">${esc(hint)}</p>${rows || '<p>Nessun giocatore nella stanza.</p>'}${note}${noExp}
+  <div class="foot"><button data-act="close" class="main">PRONTI (G)</button><button data-act="test" class="dbg">🧪 test controller</button></div></div>`;
 }
 
 function renderTest(): string {
@@ -150,11 +175,12 @@ function renderTest(): string {
     .map((v) => {
       const btns = PAD_CONTROLS.filter((c) => v.buttons[c]).map((c) => padLabel(c, v.family)).join(' ') || '—';
       const who = v.playerId ? pads.playerLabel(v.playerId) : 'libero';
-      return `<tr><td>#${v.index}</td><td>${esc(v.shortName)}<br>${esc(v.id.slice(0, 60))}</td><td>${who}</td><td>${v.standard ? 'standard' : '<b class="warn">NON standard</b>'}</td><td>L ${v.left.x.toFixed(2)} , ${v.left.y.toFixed(2)}<br>R ${v.right.x.toFixed(2)} , ${v.right.y.toFixed(2)}</td><td>LT ${v.lt.toFixed(2)}<br>RT ${v.rt.toFixed(2)}</td><td>${btns}</td><td>${v.rumble ? 'sì' : 'no'}</td><td>${v.connected ? 'sì' : 'no'}</td></tr>`;
+      const set = v.playerId ? pads.settingsOf(v.playerId) : null;
+      return `<tr><td>#${v.index}</td><td>${v.connected ? 'sì' : 'no'}</td><td>${esc(who)}</td><td>${esc(FAMILY_NAME[v.family])}<br><small>${esc(v.id.slice(0, 48))}</small></td><td>${v.standard ? 'standard' : '<b class="warn">NON standard</b>'}</td><td>LX ${v.left.x.toFixed(2)} LY ${v.left.y.toFixed(2)}<br>RX ${v.right.x.toFixed(2)} RY ${v.right.y.toFixed(2)}</td><td>LT ${v.lt.toFixed(2)}<br>RT ${v.rt.toFixed(2)}</td><td>${btns}</td><td>${v.rumble ? 'sì' : 'no'}${set && !set.vibration ? ' (spenta)' : ''}</td><td>${set ? set.sensitivity.toFixed(1) : '—'}</td><td>${set ? (set.invertY ? 'sì' : 'no') : '—'}</td></tr>`;
     })
     .join('');
   return `<div class="box"><h2>🧪 TEST CONTROLLER</h2><p class="hint">${views.length} controller esposti dal browser · contesto: ${pads.contextNow()}</p>
-  <table><tr><th>idx</th><th>controller</th><th>giocatore</th><th>mapping</th><th>stick</th><th>grilletti</th><th>tasti premuti</th><th>rumble</th><th>conn.</th></tr>${cfgRows || '<tr><td colspan="9">Nessun controller: premi un tasto su un controller collegato.</td></tr>'}</table>
+  <table><tr><th>idx</th><th>conn.</th><th>giocatore</th><th>famiglia</th><th>mapping</th><th>stick</th><th>grilletti</th><th>tasti premuti</th><th>rumble</th><th>sens.</th><th>Y inv.</th></tr>${cfgRows || '<tr><td colspan="11">Nessun controller: premi un tasto su un controller collegato.</td></tr>'}</table>
   <div class="foot"><button data-act="back">← COLLEGA I CONTROLLER</button><button data-act="close">CHIUDI</button></div></div>`;
 }
 
@@ -212,7 +238,9 @@ export function initPairingPanel(): void {
     if (e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
     const tag = (e.target as HTMLElement | null)?.tagName ?? '';
     if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-    if ((e.key === 'g' || e.key === 'G') && phase() === 'LOBBY') {
+    // G apre il pannello ovunque TRANNE durante il gameplay attivo: in pausa (o fra un round e l'altro) si puo' ritoccare la
+    // sensibilita' FPS e vale subito (FpsScene la rilegge a ogni fotogramma).
+    if ((e.key === 'g' || e.key === 'G') && phase() !== '' && !activePlay(gm.state as unknown as St | null)) {
       open = !open;
       dismissed = !open;
       render();

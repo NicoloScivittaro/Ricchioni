@@ -315,7 +315,7 @@ export class GamepadManager {
     const sameNewPads = [...this.pads.values()].filter((x) => x.id === p.id && !this.padSlot(x.index));
     if (awaiting.length === 1 && sameNewPads.length === 1) {
       this.bind(awaiting[0].playerId, p, false);
-      this.toast(`✅ CONTROLLER DI ${this.playerName(awaiting[0].playerId)} RICOLLEGATO`);
+      this.toast(`🎮 CONTROLLER DI ${this.playerName(awaiting[0].playerId)} RICONNESSO`);
     } else if (awaiting.length >= 1) {
       this.toast(`🎮 CONTROLLER RILEVATO — PREMI ${this.primaryLabel(p)} PER RICONNETTERE ${awaiting.map((s) => this.playerName(s.playerId)).join(' / ')}`);
     }
@@ -604,8 +604,7 @@ export class GamepadManager {
   }
 
   private primaryLabel(p: RawPad): string {
-    const f = padFamily(p.id);
-    return f === 'xbox' ? 'A' : f === 'playstation' ? '✕' : 'IL TASTO IN BASSO';
+    return padLabel('PRIMARY', padFamily(p.id));
   }
 
   private toast(message: string, ms = 3500): void {

@@ -5,7 +5,19 @@ import { buildFpsWorld } from '../../controller/fpsWorld';
 import { splitScreenLayout } from '../kart-race/cameraHud';
 import { getWeapon } from '../../../shared/fpsWeapons';
 import { guardLoop, safely } from '../../core/loopGuard';
-import { applyQuality, engineOptions } from '../../core/quality';
+import { applyQuality, engineOptions, getQualityInfo } from '../../core/quality';
+import { debugEnabled } from '../../core/debug';
+
+/** Chi ha una finestra nello split-screen: identita' visiva = nome + colore del giocatore, mai l'indice del controller. */
+export interface FpsLocalPlayer {
+  id: PlayerId;
+  name: string;
+  color: string;
+}
+
+// Avviso SOLO in debug (mai durante una serata normale): FPS sotto soglia per qualche secondo con l'auto-quality gia' al minimo.
+const PERF_WARN_FPS = 20;
+const PERF_WARN_AFTER_MS = 3000;
 
 /**
  * SPLIT-SCREEN HOST per la Sparatoria dei Disagiati (Milestone 6). Una SOLA scena Babylon, più camere/viewport —
@@ -81,18 +93,24 @@ export class BabylonFpsGame {
   private disposed = false;
   private paused = false;
   private onResize = (): void => this.engine.resize();
+  private localPlayerIds: PlayerId[];
+  private perfLowSince = 0;
+  private perfFrames = 0;
+  private perfEl: HTMLDivElement | null = null;
+  private readonly debug = debugEnabled();
 
   constructor(
     private canvas: HTMLCanvasElement,
-    private localPlayerIds: PlayerId[] // ordine stabile: chi ha il controller ALL'AVVIO del round, nell'ordine dei giocatori
+    locals: FpsLocalPlayer[] // ordine stabile: chi ha il controller ALL'AVVIO del round, nell'ordine dei giocatori
   ) {
+    this.localPlayerIds = locals.map((l) => l.id);
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.07, 0.08, 0.12, 1);
     buildFpsWorld(this.scene);
 
-    const rects = splitScreenLayout(localPlayerIds.length);
-    localPlayerIds.forEach((pid, i) => {
+    const rects = splitScreenLayout(locals.length);
+    locals.forEach(({ id: pid, name, color }, i) => {
       const camera = new UniversalCamera(`fpsCam_${pid}`, new Vector3(0, EYE_HEIGHT, 0), this.scene);
       camera.minZ = 0.15;
       camera.maxZ = 260;
@@ -102,7 +120,7 @@ export class BabylonFpsGame {
       // capsula (avatarBit(i) tolto qui e solo qui — le altre camere lo mantengono, la vedono normalmente).
       camera.layerMask = (DEFAULT_LAYER_MASK & ~(0x1f << HUD_LAYER_BIT0) & ~avatarBit(i)) | hudBit(i);
       this.cams.push({ index: i, playerId: pid, camera });
-      this.hud.set(pid, this.buildHud(i, rects.length));
+      this.hud.set(pid, this.buildHud(i, rects.length, name, color));
     });
     this.scene.activeCameras = this.cams.map((c) => c.camera);
 
@@ -110,8 +128,34 @@ export class BabylonFpsGame {
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed || this.paused) return;
       this.scene.render();
+      if (this.debug) this.checkPerf();
     }));
     window.addEventListener('resize', this.onResize);
+  }
+
+  /** SOLO DEBUG: FPS host sotto soglia per qualche secondo E auto-quality gia' al minimo (livello LOW, scala massima). */
+  private checkPerf(): void {
+    if (++this.perfFrames % 30 !== 0) return;
+    const fps = this.engine.getFps();
+    const q = getQualityInfo();
+    const atMin = q.scale >= 2 - 1e-6 && (q.level === 'low' || !q.auto);
+    const now = performance.now();
+    if (fps > 0 && fps < PERF_WARN_FPS && atMin) {
+      if (!this.perfLowSince) this.perfLowSince = now;
+    } else this.perfLowSince = 0;
+    const show = this.perfLowSince > 0 && now - this.perfLowSince >= PERF_WARN_AFTER_MS;
+    if (show && !this.perfEl) {
+      this.perfEl = document.createElement('div');
+      this.perfEl.id = 'fps-perf-warning';
+      this.perfEl.style.cssText = 'position:fixed;right:8px;bottom:8px;z-index:100000;padding:6px 10px;border-radius:8px;background:rgba(127,29,29,.9);color:#fff;font:700 12px ui-monospace,Consolas,monospace;pointer-events:none';
+      document.body.appendChild(this.perfEl);
+    }
+    if (this.perfEl) {
+      if (!show) {
+        this.perfEl.remove();
+        this.perfEl = null;
+      } else this.perfEl.textContent = `⚠️ FPS SPLIT-SCREEN PERFORMANCE · ${this.cams.length} viewport · ${Math.round(fps)} FPS · scala ${q.scale.toFixed(2)}`;
+    }
   }
 
   setPaused(paused: boolean): void {
@@ -151,9 +195,24 @@ export class BabylonFpsGame {
     return rig;
   }
 
-  private buildHud(index: number, total: number): HudEntry {
+  private buildHud(index: number, total: number, name: string, color: string): HudEntry {
     const adt = AdvancedDynamicTexture.CreateFullscreenUI(`fpsHud_${index}`, true, this.scene);
     if (adt.layer) adt.layer.layerMask = hudBit(index);
+
+    // di chi e' questa finestra: nome nel colore del giocatore, in alto a sinistra (in 2x2 nessuno deve chiedersi "quale sono?")
+    const nameTag = new TextBlock(`fpsName_${index}`, name.toUpperCase());
+    nameTag.color = color;
+    nameTag.fontFamily = '"Arial Black", Arial, sans-serif';
+    nameTag.fontSize = total >= 4 ? 18 : 22;
+    nameTag.outlineColor = '#000000';
+    nameTag.outlineWidth = 4;
+    nameTag.resizeToFit = true;
+    nameTag.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    nameTag.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+    nameTag.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    nameTag.left = '12px';
+    nameTag.top = '10px';
+    adt.addControl(nameTag);
 
     const panel = new Rectangle(`fpsPanel_${index}`);
     panel.width = '190px';
@@ -298,6 +357,8 @@ export class BabylonFpsGame {
     if (this.disposed) return;
     this.disposed = true;
     window.removeEventListener('resize', this.onResize);
+    this.perfEl?.remove();
+    this.perfEl = null;
     for (const h of this.hud.values()) safely('fpsHud.dispose', () => h.adt.dispose());
     safely('fpsScene.dispose', () => this.scene.dispose());
     safely('fpsEngine.dispose', () => this.engine.dispose());

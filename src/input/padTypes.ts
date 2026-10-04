@@ -68,7 +68,10 @@ export function padShortName(id: string, index?: number): string {
 const LABELS: Record<PadFamily, Partial<Record<PadControl, string>>> = {
   xbox: { PRIMARY: 'A', SECONDARY: 'B', LEFT: 'X', TOP: 'Y', LB: 'LB', RB: 'RB', LT: 'LT', RT: 'RT', START: 'MENU', SELECT: 'VIEW', L3: 'L3', R3: 'R3' },
   playstation: { PRIMARY: '✕', SECONDARY: '◯', LEFT: '□', TOP: '△', LB: 'L1', RB: 'R1', LT: 'L2', RT: 'R2', START: 'OPTIONS', SELECT: 'CREATE', L3: 'L3', R3: 'R3' },
-  generic: { PRIMARY: 'PRIMARY', SECONDARY: 'SECONDARY', LEFT: 'ACTION', TOP: 'ABILITY', LB: 'LB', RB: 'RB', LT: 'LT', RT: 'RT', START: 'START', SELECT: 'SELECT', L3: 'L3', R3: 'R3' }
+  // Generico con mapping "standard": la specifica W3C dispone i tasti come un pad Xbox, e la quasi totalita' dei pad
+  // generici da PC sono cloni XInput con A/B/X/Y stampati. Si usano quindi le lettere Xbox, mai nomi tecnici
+  // ("PRIMARY", "ACTION"...) che comparirebbero accanto a "A" o "✕" nella stessa schermata.
+  generic: { PRIMARY: 'A', SECONDARY: 'B', LEFT: 'X', TOP: 'Y', LB: 'LB', RB: 'RB', LT: 'LT', RT: 'RT', START: 'START', SELECT: 'SELECT', L3: 'L3', R3: 'R3' }
 };
 
 /** Simbolo da mostrare per un controllo fisico, nel set grafico della famiglia (generico se non identificabile). */

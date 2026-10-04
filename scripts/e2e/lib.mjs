@@ -71,7 +71,9 @@ export async function phoneView(page) {
   });
 }
 
-export async function createRoomOnHost(browser, { targetKeyPresses = 0 } = {}) {
+// targetKeyPresses: freccia DESTRA = +1 giocatore (3p = 1, 4p = 2, 5p = 3). scoreDownPresses: freccia GIU' = preset di punteggio
+// successivo (0 = NORMALE 60, 1 = LUNGA 80, 2 = SERATA 120) — utile alle sessioni lunghe, che a 60 punti finirebbero prima.
+export async function createRoomOnHost(browser, { targetKeyPresses = 0, scoreDownPresses = 0 } = {}) {
   const page = await browser.newPage();
   page.on('pageerror', (e) => console.log('  [host pageerror]', String(e).slice(0, 200)));
   page.on('console', (m) => {
@@ -99,6 +101,13 @@ export async function createRoomOnHost(browser, { targetKeyPresses = 0 } = {}) {
   );
   await sleep(300);
   for (let i = 0; i < targetKeyPresses; i++) await page.keyboard.press('ArrowRight');
+  // una pressione per fotogramma: tasti consegnati a Phaser nello stesso frame vengono contati due volte (2 frecce GIU' di fila
+  // davano RAPIDA 30 invece di SERATA 120). I test esistenti con targetKeyPresses restano invariati apposta (taratura storica).
+  for (let i = 0; i < scoreDownPresses; i++) {
+    await sleep(150);
+    await page.keyboard.press('ArrowDown');
+  }
+  if (scoreDownPresses > 0) await sleep(150);
   await page.keyboard.press('Enter'); // crea la stanza
   await page.waitForFunction(
     async () => {

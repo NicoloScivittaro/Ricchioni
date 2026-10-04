@@ -260,8 +260,8 @@ async function run(browser) {
   const disc = await G(page, (g, id) => ({ drifting: g.karts.get(id).drifting, boost: g.karts.get(id).boostTimer }), P1);
   check(disc.drifting === false && disc.boost === 0, 'disconnessione con drift carico: deriva annullata SENZA mini-turbo (nessun boost fantasma dal reset)');
   check(/DISCONNESSO|SCOLLEGATO/.test(await page.evaluate(() => document.getElementById('pad-alert')?.innerText ?? '')), 'avviso TV: controller scollegato');
-  await until(async () => await phones[0].page.evaluate(() => /FALLBACK/.test(document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback P1');
-  check(true, 'il telefono di P1 passa da solo a 📱 MODALITÀ FALLBACK');
+  await until(async () => await phones[0].page.evaluate(() => /CONTROLLER PERSO/.test(document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback P1');
+  check(true, 'il telefono di P1 passa da solo a 📱 CONTROLLER PERSO — USA TEMPORANEAMENTE IL TELEFONO');
 
   // ------------------------------------------------------------ RICONNESSIONE
   await add(page, 0, XBOX);

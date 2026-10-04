@@ -133,11 +133,11 @@ async function fullRun(browser) {
   check(views.length === 4, `il browser espone 4 controller (${views.map((v) => v.n).join(', ')})`);
   check(views.find((v) => v.i === 3)?.f === 'generic' && views.find((v) => v.i === 2)?.f === 'xbox' && views.find((v) => v.i === 0)?.f === 'playstation', 'famiglie riconosciute: Xbox / PlayStation / generico');
   check((await hostText(page)).includes('COLLEGA I CONTROLLER'), 'in lobby il pannello 🎮 COLLEGA I CONTROLLER compare da solo');
-  check((await hostText(page)).includes('NESSUN CONTROLLER'), 'ogni giocatore mostra "NESSUN CONTROLLER"');
+  check((await hostText(page)).includes('PER COLLEGARTI'), 'ogni giocatore mostra "PREMI A / ✕ PER COLLEGARTI"');
 
   // ---- pairing rapido con cursore: il pad 2 sceglie il 2° giocatore (A, giu', A)
   await tap(page, 2, 'A');
-  check((await hostText(page)).includes('controller #3 sta scegliendo'), 'il pad #2 ha un cursore sul primo giocatore libero');
+  check((await hostText(page)).includes('STA SCEGLIENDO'), 'il pad #2 ha un cursore sul primo giocatore libero');
   await tap(page, 2, 'DOWN');
   await tap(page, 2, 'A');
   check((await slot(page, pids[1])).padIndex === 2 && (await slot(page, pids[1])).state === 'paired', `pad #2 (Xbox) -> ${pids[1]} (2° giocatore) col cursore`);
@@ -162,7 +162,7 @@ async function fullRun(browser) {
   await tap(page, 1, 'A'); // conferma il primo libero
   if (N === 5) {
     check(freeNow.length === 2, 'con 5 giocatori e 4 controller: uno resta senza');
-    check(/5° CONTROLLER NON RILEVATO/.test(await hostText(page)), 'messaggio "5° CONTROLLER NON RILEVATO" per chi non ha controller');
+    check(/USERÀ IL TELEFONO\s*5° controller non rilevato/i.test(await hostText(page)), 'messaggio "📱 USERÀ IL TELEFONO · 5° controller non rilevato" per chi non ha controller');
   }
   const paired = await pads(page, () => window.__pads.slotList().filter((s) => s.state === 'paired').length);
   check(paired === Math.min(N, 4), `controller associati: ${paired}/${N} (massimo 4 esposti da Chrome)`);
@@ -258,7 +258,7 @@ async function fullRun(browser) {
   check((await slot(page, A)).state === 'awaiting', 'la casella del giocatore passa a "in attesa" (non viene riassegnata a caso)');
   const ht = await hostText(page);
   check(/DISCONNESSO|SCOLLEGATO/.test(ht), `avviso sul PC: ${ht.match(/CONTROLLER DI [^|]*?(DISCONNESSO|SCOLLEGATO)/)?.[0] ?? '(non trovato)'}`);
-  await until(async () => /FALLBACK/.test(await phoneOfA.page.evaluate(() => document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback sul telefono dopo la disconnessione');
+  await until(async () => /CONTROLLER PERSO/.test(await phoneOfA.page.evaluate(() => document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback sul telefono dopo la disconnessione');
   check(true, 'il telefono del giocatore scollegato torna ai controlli (📱 FALLBACK) senza refresh');
 
   // ---- RICONNESSIONE: stesso id, una sola casella in attesa con quell'id -> riassociato da solo (a un indice diverso)
@@ -304,15 +304,15 @@ async function fullRun(browser) {
   const t2 = await phoneText(phoneOfA);
   check(/RULLO IN CORSO|GUARDA|PROSSIMO|ROUND/.test(t2), `telefono durante rullo/risultati: "${t2.slice(0, 50)}"`);
 
-  // ---- QUIZ: gioco non ancora migrato (GAMEPAD_OR_PHONE): il controller non pilota nulla, il telefono funziona come sempre
+  // ---- QUIZ (col controller da M5c: D-PAD + A, nessuno stick): lo stick tenuto non produce nulla, il telefono resta passivo
   await hostEval(page, (gm, id) => gm.selectMinigame(id), 'quiz');
   await sleep(300);
   await until(async () => (await hostSnapshot(page)).phase === 'MINIGAME_PLAYING', 90000, 'quiz PLAYING');
   await stick(page, holdPad, 1, 0);
   await sleep(500);
-  check((await axisOf(page, A)).x === 0, 'in un gioco senza profilo il controller non invia nulla (nessun input fantasma)');
+  check((await axisOf(page, A)).x === 0, 'Quiz: lo stick (non usato dal profilo) non invia nulla (nessun input fantasma)');
   const qt = await phoneText(phoneOfA);
-  check(!/USA IL CONTROLLER/.test(qt), 'Quiz: il telefono mostra il suo controller (gioco non ancora migrato)');
+  check(/USA IL CONTROLLER/.test(qt), `Quiz: il telefono di chi ha il controller resta passivo ("${qt.slice(0, 40)}")`);
   await stick(page, holdPad, 0, 0);
   await btn(page, holdPad, 'A', false);
   await finishNow(page);

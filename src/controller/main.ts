@@ -191,8 +191,16 @@ function syncPauseOverlay(s: RoomState | null): void {
 }
 
 /** Chi gioca col controller tiene il telefono sul tavolo: le vibrazioni (anche quelle di inizio/fine gioco mandate dal server) vanno al controller. */
+/**
+ * Telefono "sul tavolo": il giocatore ha un controller E il gioco in corso non e' da telefono. Durante un gioco PHONE_TEXT
+ * (Cultura o Cazzata) il telefono e' in mano anche a chi ha un controller: lì la vibrazione deve arrivare al telefono — prima
+ * veniva soppressa e, non avendo quel gioco un profilo controller, il giocatore non riceveva nessun feedback aptico.
+ */
 function phoneIsOnTable(): boolean {
-  return !!(state && playerId && state.players.find((p) => p.id === playerId)?.pad);
+  if (!state || !playerId || !state.players.find((p) => p.id === playerId)?.pad) return false;
+  const mg = state.currentMinigame;
+  const phoneGame = state.phase === 'MINIGAME_PLAYING' && !!mg && getMinigame(mg.minigameId)?.inputMode === 'PHONE_TEXT';
+  return !phoneGame;
 }
 
 socket.on(EVT.vibrate, (ms?: number) => {
@@ -1815,16 +1823,45 @@ function padSessionActive(state: RoomState): boolean {
   return state.players.some((p) => !!p.pad);
 }
 
-/** Badge "MODALITA' FALLBACK" sopra ai controlli del telefono (solo se serve, altrimenti non esiste). */
+/** true dopo che il controller di QUESTO giocatore e' caduto (aveva un controller, ora no): serve a distinguere "perso" da "mai avuto". */
+let padLost = false;
+let lastPad: string | null = null;
+
+/** Messaggio breve sul telefono (es. controller riconnesso): non blocca nulla, sparisce da solo. */
+function phoneToast(text: string, ms = 2500): void {
+  document.getElementById('pad-phone-toast')?.remove();
+  const el = document.createElement('div');
+  el.id = 'pad-phone-toast';
+  el.textContent = text;
+  document.body.appendChild(el);
+  window.setTimeout(() => el.remove(), ms);
+}
+
+/**
+ * Badge sopra ai controlli del telefono quando il gioco vuole il controller ma questo giocatore non ce l'ha. Se il controller
+ * c'era ed e' caduto il messaggio lo dice ("CONTROLLER PERSO"), diverso da chi non l'ha mai avuto; al ritorno, un avviso breve.
+ */
 function syncPadBadge(state: RoomState, me: PlayerPublic): void {
+  const pad = me.pad ?? null;
+  if (lastPad && !pad) padLost = true;
+  else if (!lastPad && pad && padLost) {
+    padLost = false;
+    phoneToast('🎮 CONTROLLER RICONNESSO');
+  }
+  lastPad = pad;
+
   const want = state.phase === 'MINIGAME_PLAYING' && padModeFor(state, me) === 'fallback';
+  const text = padLost ? '📱 CONTROLLER PERSO — USA TEMPORANEAMENTE IL TELEFONO' : '📱 MODALITÀ FALLBACK — controller non collegato';
   let el = document.getElementById('pad-fallback-badge');
   if (want && !el) {
     el = document.createElement('div');
     el.id = 'pad-fallback-badge';
-    el.textContent = '📱 MODALITÀ FALLBACK — controller non collegato';
     document.body.appendChild(el);
-  } else if (!want && el) el.remove();
+  } else if (!want && el) {
+    el.remove();
+    el = null;
+  }
+  if (el && el.textContent !== text) el.textContent = text;
 }
 
 /** Tiene lo schermo acceso mentre il telefono sta sul tavolo (uno schermo spento puo' far cadere la connessione). */
@@ -2162,8 +2199,9 @@ function renderQuizPadPrivateInfo(data: QuizStatePayload, mg: NonNullable<RoomSt
     : '';
   app.innerHTML = `
     <div class="screen pad-screen">
-      <div class="pad-icon">🔒</div>
-      <h1>SOLO PER TE</h1>
+      <div class="pad-icon">📱</div>
+      <h1>INFO PRIVATA</h1>
+      <p class="pad-look">🔒 SOLO PER TE</p>
       <p class="pad-game">${def?.icon ?? ''} ${mg.name}</p>
       ${hint}
       ${breakdown}
@@ -2257,7 +2295,7 @@ function renderRoundEnded(): void {
   app.innerHTML = `
     <div class="screen">
       <h1>ROUND TERMINATO</h1>
-      <p class="sub">Guarda lo schermo principale</p>
+      <p class="pad-look">📺 RISULTATI SULLA TV</p>
     </div>`;
 }
 

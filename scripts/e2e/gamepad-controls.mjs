@@ -1,4 +1,4 @@
-// GAMEPAD — schermata CONTROLLI, diagnostica F3, robustezza del ciclo di polling, precedenza gamepad/telefono, giochi non migrati.
+// GAMEPAD — schermata CONTROLLI, diagnostica F3, robustezza del ciclo di polling, precedenza gamepad/telefono, Quiz col controller, Cultura col telefono.
 // Controller simulati (navigator.getGamepads sostituito nella pagina host). 2 giocatori con famiglie DIVERSE (Xbox + PlayStation).
 //   node scripts/e2e/gamepad-controls.mjs
 import { launch, createRoomOnHost, addPhone, hostEval, hostSnapshot, sleep } from './lib.mjs';
@@ -202,7 +202,7 @@ try {
   check((await axisOf(page, pids[1])).x > 0.9, 'dopo l\'eccezione i controller rispondono ancora');
   await stick(page, 1, 0, 0);
 
-  // ---------------------------------------------------------------- giochi NON migrati: telefono, nessuna schermata CONTROLLI
+  // ---------------------------------------------------------------- Quiz (col controller da M5c): stessa schermata CONTROLLI, telefono passivo
   await hostEval(page, (gm) => {
     const ctx = gm.minigameContext;
     ctx.finish({ results: ctx.players.map((pl, i) => ({ playerId: pl.id, placement: i + 1, score: 5 - i })) });
@@ -210,18 +210,19 @@ try {
   await until(async () => ['NEXT_ROUND', 'MINIGAME_ROULETTE'].includes((await hostSnapshot(page)).phase), 60000, 'rullo');
   await hostEval(page, (gm, id) => gm.selectMinigame(id), 'quiz');
   await page.evaluate(() => (window.__cc = { shownAt: null, hiddenAt: null, text: '' }));
-  let sawUsaTelefono = false;
+  let sawPutDown = false;
   let quizPlaying = false;
   await until(async () => {
     const ph = (await hostSnapshot(page)).phase;
-    if (ph === 'MINIGAME_INTRO') sawUsaTelefono ||= /USA IL TELEFONO/.test(await phoneText(phones[0]));
+    if (ph === 'MINIGAME_INTRO') sawPutDown ||= /METTI GIÙ IL TELEFONO/.test(await phoneText(phones[0]));
     if (ph === 'MINIGAME_PLAYING') quizPlaying = true;
     return quizPlaying;
   }, 90000, 'quiz PLAYING');
   await sleep(3200);
-  check(sawUsaTelefono, 'Quiz (non migrato): il telefono all\'intro dice "📱 USA IL TELEFONO", non "USA IL CONTROLLER"');
-  check(!(await page.evaluate(() => !!document.getElementById('pad-controls') || window.__cc.shownAt !== null)), 'Quiz: nessuna schermata CONTROLLI (il gioco non usa il gamepad)');
-  check(!/USA IL CONTROLLER/.test(await phoneText(phones[0])), 'Quiz: il telefono mostra il suo controller');
+  check(sawPutDown, 'Quiz: il telefono di chi ha il controller all\'intro dice "METTI GIÙ IL TELEFONO"');
+  const qcc = await page.evaluate(() => window.__cc);
+  check(qcc.shownAt !== null && /CHI CAZZO LO SA/.test(qcc.text) && /CONTROLLI/.test(qcc.text), `Quiz: schermata CONTROLLI generica come gli altri giochi ("${(qcc.text ?? '').slice(0, 60)}")`);
+  check(/USA IL CONTROLLER/.test(await phoneText(phones[0])), 'Quiz: il telefono di chi ha il controller resta passivo ("USA IL CONTROLLER")');
   await hostEval(page, (gm) => {
     const ctx = gm.minigameContext;
     ctx.finish({ results: ctx.players.map((pl, i) => ({ playerId: pl.id, placement: i + 1, score: 5 - i })) });

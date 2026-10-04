@@ -162,7 +162,7 @@ try {
   const phaseAfterDisc = await G(page, (g) => g.phase);
   check(p1AfterDisc.status === 'ready', `la disconnessione da sola (nessuna pressione prima) non conta come input: status ${p1AfterDisc.status}, fase ${phaseAfterDisc}`);
   check(/DISCONNESSO|SCOLLEGATO/.test(await page.evaluate(() => document.getElementById('pad-alert')?.innerText ?? '')), 'avviso TV: controller scollegato');
-  await until(async () => await phones[0].page.evaluate(() => /FALLBACK/.test(document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback P1');
+  await until(async () => await phones[0].page.evaluate(() => /CONTROLLER PERSO/.test(document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback P1');
   await add(page, 0, XBOX);
   await sleep(700);
   check((await page.evaluate((id) => window.__pads.slotOf(id).state, P1)) === 'paired', 'il controller torna: pairing recuperato');

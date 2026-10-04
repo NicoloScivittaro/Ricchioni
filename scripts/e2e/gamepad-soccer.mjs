@@ -202,7 +202,7 @@ async function run(browser, n) {
   await sleep(900);
   check((await axisOf(page, P1)).y === 0, 'controller caduto: input a zero');
   check((await kicks()) === kd0, 'controller caduto mentre RT e\' in carica: nessun tiro fantasma');
-  await until(async () => await phones[0].page.evaluate(() => /FALLBACK/.test(document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback P1');
+  await until(async () => await phones[0].page.evaluate(() => /CONTROLLER PERSO/.test(document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback P1');
   check(/DISCONNESSO|SCOLLEGATO/.test(await page.evaluate(() => document.getElementById('pad-alert')?.innerText ?? '')), 'avviso TV + 📱 MODALITÀ FALLBACK sul telefono di P1');
   await add(page, 0, XBOX);
   await sleep(700);

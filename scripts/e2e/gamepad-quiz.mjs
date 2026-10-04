@@ -189,7 +189,7 @@ try {
   await remove(page, 1);
   await sleep(700);
   check((await pressedOf(page, P2, 'confirm')) === false, 'disconnessione: nessun input residuo su P2');
-  await until(async () => await phones[1].page.evaluate(() => /FALLBACK/.test(document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback P2');
+  await until(async () => await phones[1].page.evaluate(() => /CONTROLLER PERSO/.test(document.getElementById('pad-fallback-badge')?.textContent ?? '')), 8000, 'fallback P2');
   const p2BeforeFallbackAnswer = await P(P2);
   check(p2BeforeFallbackAnswer.answerIndex === null, 'P2 non ha ancora risposto alla domanda 2 quando il controller cade');
   await phones[1].page.click('.quiz-ans-b'); // risponde dal TELEFONO in modalita' fallback (come previsto: l'input passa al telefono)
