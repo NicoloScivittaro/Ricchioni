@@ -167,7 +167,14 @@ export class ReactionScene extends Phaser.Scene {
 
     // Schermata CONTROLLI: finche' e' su, il gioco resta fermo (vedi update()); alla fine gli input sono azzerati e parte il TITOLO.
     this.controlsDone = false;
-    if (this.ctx.showControls) void this.ctx.showControls().then(() => { this.controlsDone = true; this.showTitle(); });
+    // la schermata CONTROLLI puo' chiudersi DOPO che il round e' gia' finito (salto del gioco, rete di sicurezza): in quel caso
+    // la scena e' spenta e i suoi testi distrutti, scriverci farebbe lanciare Phaser. Si continua solo se e' ancora QUESTO round.
+    const ctx = this.ctx;
+    if (this.ctx.showControls) void this.ctx.showControls().then(() => {
+      if (this.ctx !== ctx || !this.sys.isActive()) return;
+      this.controlsDone = true;
+      this.showTitle();
+    });
     else {
       this.controlsDone = true;
       this.showTitle();
