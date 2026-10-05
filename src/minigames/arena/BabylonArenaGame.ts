@@ -28,6 +28,11 @@ import { ArenaCamera } from './arenaCamera';
 import { ArenaHud } from './arenaHud';
 import { ArenaAbilities, abilityDescription } from './arenaAbilities';
 import type { ArenaAbilityFeedback } from './arenaAbilities';
+import { ARENA_ABILITIES } from '../../../shared/arenaAbilities';
+import { abilityLabel, winnerFeed } from '../characters/reactions';
+
+/** Eventi che sono l'ATTIVAZIONE di un'abilita' (posa + VFX + nome sopra la testa); gli altri sono esiti e restano solo nel feed. */
+const ARENA_ACTIVATIONS = new Set<ArenaAbilityFeedback['type']>(['goblin_nculo', 'buttafuori_impegno', 'dottore_light', 'judoka_ippon', 'ciro_arm']);
 import { readMove } from '../moveInput';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
@@ -435,6 +440,8 @@ export class BabylonArenaGame {
     audio.fall();
     audio.thump(1.1);
     this.entities.get(p.id)?.burstHit();
+    this.entities.get(p.id)?.playDefeat();
+    if (pusher) this.entities.get(pusher.id)?.react('elimination');
     this.shocks.spawn(p.x, p.z, p.color, 1.5);
     this.camera.shake(0.42, 280);
     this.hitStop = Math.max(this.hitStop, 0.08);
@@ -464,14 +471,19 @@ export class BabylonArenaGame {
     this.celebrateTime = 1.8;
     for (let i = 0; i < this.players.length; i++) this.edgeMarkers.hide(i);
 
-    const winner = this.players.find((p) => p.alive);
+    // stesso criterio della classifica (buildResults): a tempo scaduto vince chi e' piu' vicino al centro, non il primo della lista
+    const standing = this.players.filter((p) => p.alive).sort((a, b) => Math.hypot(a.x, a.z) - Math.hypot(b.x, b.z));
+    const winner = standing[0];
+    for (const other of standing.slice(1)) this.entities.get(other.id)?.playDefeat();
     if (winner) {
       winner.vy = 6; // salto di vittoria
       audio.fanfare();
-      this.hud.feedMessage(`🏆 ${winner.avatar} ${winner.name.toUpperCase()} VINCE!`, '#fbbf24', 4000);
+      this.hud.feedMessage(winnerFeed(winner.avatar, winner.name, winner.characterId), '#fbbf24', 4000);
       this.ctx.signal(winner.id, { type: 'won' });
       const e = this.entities.get(winner.id);
       e?.burstHit();
+      e?.playVictory();
+      e?.react('victory');
     } else {
       audio.select();
       this.hud.feedMessage('Nessun sopravvissuto!', '#9ca3af', 3000);
@@ -502,6 +514,7 @@ export class BabylonArenaGame {
   // ---- Feedback abilità ----
 
   private onAbilityFeedback(p: ArenaPlayer, f: ArenaAbilityFeedback): void {
+    if (ARENA_ACTIVATIONS.has(f.type)) this.entities.get(p.id)?.playAbility(abilityLabel(ARENA_ABILITIES, p.characterId));
     switch (f.type) {
       case 'goblin_nculo':
         this.hud.feedMessage(`${p.avatar} NCULO!`, '#10b981');

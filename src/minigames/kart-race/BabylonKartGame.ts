@@ -339,6 +339,10 @@ export class BabylonKartGame {
   }
 
   private onAbilityFeedback(playerId: PlayerId, f: AbilityFeedback): void {
+    // attivazioni (non gli esiti): posa del pilota + simbolo del personaggio sopra il kart
+    if (f.type === 'so_guidare_start' || f.type === 'dottore_light_start' || f.type === 'judoka_activate' || f.type === 'ciro_debt_start' || f.type === 'buttafuori_recovery') {
+      this.entities.get(playerId)?.playAbility();
+    }
     switch (f.type) {
       case 'so_guidare_start':
         this.hud.flash(playerId, 'SO GUIDARE IO!', '#4ade80');
@@ -408,6 +412,7 @@ export class BabylonKartGame {
       audio.select();
     } else if (ev.type === 'finish') {
       if (ev.playerId) this.ctx.vibrate(ev.playerId, 160);
+      if (ev.playerId) this.entities.get(ev.playerId)?.playFinish(!this.firstFinishPlayed);
       if (!this.firstFinishPlayed) {
         this.firstFinishPlayed = true;
         audio.fanfare();

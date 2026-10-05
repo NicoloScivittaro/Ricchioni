@@ -56,6 +56,10 @@ import { DodgeballAbilities } from './dodgeballAbilities';
 import type { DodgeballAbilityFeedback } from './dodgeballAbilities';
 import { readMove } from '../moveInput';
 import { DODGEBALL_ABILITIES } from '../../../shared/dodgeballAbilities';
+import { abilityLabel, winnerFeed } from '../characters/reactions';
+
+/** Eventi che sono l'ATTIVAZIONE di un'abilita' (posa + VFX + nome sopra la testa); gli esiti restano solo nel feed. */
+const DODGEBALL_ACTIVATIONS = new Set<DodgeballAbilityFeedback['type']>(['goblin_parry', 'buttafuori_aim', 'dottore_vision', 'judoka_beep', 'ciro_arm']);
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
@@ -848,6 +852,8 @@ export class BabylonDodgeballGame {
     // CHI / COME: chi ti ha colpito (nome sul telefono e nel feed), oppure "colpo di rimbalzo" / debito
     const thrower = throwerId && throwerId !== p.id ? this.players.find((x) => x.id === throwerId) : undefined;
     if (thrower) this.ctx.vibrate(thrower.id, 70);
+    this.entities.get(p.id)?.playDefeat();
+    if (thrower) this.entities.get(thrower.id)?.react('elimination');
     const feed = thrower
       ? `🎯 ${thrower.name.toUpperCase()} → ${p.avatar} ${p.name.toUpperCase()} È FUORI!`
       : throwerId === p.id
@@ -978,9 +984,12 @@ export class BabylonDodgeballGame {
     if (winner) {
       winner.vy = 6;
       audio.fanfare();
-      this.hud.feedMessage(`🏆 ${winner.avatar} ${winner.name.toUpperCase()} VINCE!`, '#fbbf24', 4000);
+      this.hud.feedMessage(winnerFeed(winner.avatar, winner.name, winner.characterId), '#fbbf24', 4000);
       this.ctx.signal(winner.id, { type: 'won' });
       this.entities.get(winner.id)?.burstHit();
+      this.entities.get(winner.id)?.playVictory();
+      this.entities.get(winner.id)?.react('victory');
+      for (const other of this.players) if (other.alive && other !== winner) this.entities.get(other.id)?.playDefeat();
     } else {
       audio.select();
       this.hud.feedMessage('Nessun sopravvissuto!', '#9ca3af', 3000);
@@ -1009,6 +1018,7 @@ export class BabylonDodgeballGame {
   // ---- Feedback abilità ----
 
   private onAbilityFeedback(p: DodgeballPlayer, f: DodgeballAbilityFeedback): void {
+    if (DODGEBALL_ACTIVATIONS.has(f.type)) this.entities.get(p.id)?.playAbility(abilityLabel(DODGEBALL_ABILITIES, p.characterId));
     switch (f.type) {
       case 'goblin_parry':
         this.hud.feedMessage(`${p.avatar} N'CULO, RIPIGLIATELA!`, '#10b981');

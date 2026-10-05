@@ -48,6 +48,11 @@ import { SoccerHud } from '../soccer/soccerHud';
 import { buildVolleyballEnvironment } from './volleyballEnvironment';
 import { VolleyballAbilities, JAGER_POWER_MULT, JUDOKA_ACCEL_MULT, JUDOKA_HIT_MULT } from './volleyballAbilities';
 import type { VolleyballAbilityFeedback } from './volleyballAbilities';
+import { VOLLEYBALL_ABILITIES } from '../../../shared/volleyballAbilities';
+import { abilityLabel } from '../characters/reactions';
+
+/** Eventi che sono l'ATTIVAZIONE di un'abilita' (posa + VFX + nome sopra la testa); gli esiti restano solo nel feed. */
+const VOLLEYBALL_ACTIVATIONS = new Set<VolleyballAbilityFeedback['type']>(['goblin_jager', 'buttafuori_muro', 'dottore_light', 'judoka_charge', 'ciro_arm']);
 import { readMove } from '../moveInput';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
@@ -525,7 +530,8 @@ export class BabylonVolleyballGame {
     this.ball.teamTouches++;
     this.rally++;
     this.announceRally();
-    this.entities.get(p.id)?.playThrow();
+    if (isSmash) this.entities.get(p.id)?.playSpike();
+    else this.entities.get(p.id)?.playThrow();
     this.ctx.vibrate(p.id, perfect ? 80 : 40);
   }
 
@@ -642,6 +648,12 @@ export class BabylonVolleyballGame {
     this.hud.feedMessage(`💥 PUNTO ${TEAM_LABEL[scoringTeam]}! ${this.redScore} — ${this.blueScore}${rallyLen >= 6 ? ` · scambio da ${rallyLen} colpi` : ''}`, scoringTeam === 'red' ? '#f87171' : '#60a5fa', 2600);
     for (const p of this.players) this.ctx.vibrate(p.id, p.team === scoringTeam ? 150 : 70);
     this.ctx.signal(null, { type: 'point', team: scoringTeam });
+    // ESULTANZA DEL PUNTO: breve, nello stile di ciascuno (chi l'ha fatto un po' di piu'); chi l'ha subito ci resta male
+    for (const p of this.players) {
+      const e = this.entities.get(p.id);
+      if (p.team === scoringTeam) e?.playVictory(p.id === last ? POINT_PAUSE_SECONDS * 0.8 : POINT_PAUSE_SECONDS * 0.5);
+      else e?.playDefeat(POINT_PAUSE_SECONDS * 0.5);
+    }
 
     this.servingTeam = scoringTeam;
     this.phase = 'pointPause';
@@ -658,7 +670,11 @@ export class BabylonVolleyballGame {
       this.ctx.signal(null, { type: 'matchEnd', winner: scoringTeam });
       for (const p of this.players) {
         if (p.team === scoringTeam) this.ctx.signal(p.id, { type: 'won' });
+        if (p.team === scoringTeam) this.entities.get(p.id)?.playVictory();
+        else this.entities.get(p.id)?.playDefeat();
       }
+      const best = this.players.filter((p) => p.team === scoringTeam).sort((a, b) => b.points - a.points)[0];
+      if (best) this.entities.get(best.id)?.react('victory');
     } else if (this.redScore >= MATCH_POINT_AT || this.blueScore >= MATCH_POINT_AT) {
       this.hud.setNote('🔥 MATCH POINT', '#fbbf24');
       this.hud.feedMessage('🔥 MATCH POINT!', '#fbbf24', 2000);
@@ -704,6 +720,7 @@ export class BabylonVolleyballGame {
   // ---- Feedback abilità ----
 
   private onAbilityFeedback(p: VolleyballPlayer, f: VolleyballAbilityFeedback): void {
+    if (VOLLEYBALL_ACTIVATIONS.has(f.type)) this.entities.get(p.id)?.playAbility(abilityLabel(VOLLEYBALL_ABILITIES, p.characterId));
     switch (f.type) {
       case 'goblin_jager':
         this.hud.feedMessage(`${p.avatar} JÄGER BOMB!`, '#10b981');

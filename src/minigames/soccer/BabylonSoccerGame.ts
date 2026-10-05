@@ -48,6 +48,11 @@ import { buildSoccerEnvironment } from './soccerEnvironment';
 import { SoccerAbilities } from './soccerAbilities';
 import { readMove } from '../moveInput';
 import type { SoccerAbilityFeedback } from './soccerAbilities';
+import { SOCCER_ABILITIES } from '../../../shared/soccerAbilities';
+import { abilityLabel } from '../characters/reactions';
+
+/** Eventi che sono l'ATTIVAZIONE di un'abilita' (posa + VFX + nome sopra la testa); gli esiti restano solo nel feed. */
+const SOCCER_ACTIVATIONS = new Set<SoccerAbilityFeedback['type']>(['goblin_trivela', 'buttafuori_aim', 'dottore_light', 'judoka_charge', 'ciro_arm']);
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
@@ -494,7 +499,7 @@ export class BabylonSoccerGame {
     p.curveNext = false;
     p.hasBall = false;
     this.teamKicks[p.team]++;
-    this.entities.get(p.id)?.playThrow();
+    this.entities.get(p.id)?.playKick();
     audio.kick(0.6 + frac * 0.9);
     if (frac > 0.7) this.camera.shake(0.04 + 0.08 * frac, 110);
     this.ctx.vibrate(p.id, 30 + Math.round(frac * 30));
@@ -732,6 +737,20 @@ export class BabylonSoccerGame {
     this.hud.feedMessage(`${label} ${TEAM_LABEL[team]} ${this.redScore} — ${this.blueScore}`, team === 'red' ? '#f87171' : '#60a5fa', 3000);
     for (const p of this.players) this.ctx.vibrate(p.id, team === p.team ? 160 : 80);
     this.ctx.signal(null, { type: 'goal', team });
+    // ESULTANZA PERSONALE: chi segna fa la sua (il Goblin da stadio, l'ippon del Judoka...), i compagni la breve, gli altri ci restano male
+    const pause = GOAL_PAUSE_SECONDS - 0.2;
+    for (const p of this.players) {
+      const e = this.entities.get(p.id);
+      if (!e) continue;
+      if (kicker && p.id === kicker.id) {
+        if (ownGoal) e.playDefeat(pause);
+        else {
+          e.playVictory(pause);
+          e.react('victory');
+        }
+      } else if (p.team === team) e.playVictory(pause * 0.6);
+      else e.playDefeat(pause * 0.6);
+    }
 
     this.goalDuringGolden = this.phase === 'goldenGoal';
     this.phase = 'goalPause';
@@ -787,6 +806,8 @@ export class BabylonSoccerGame {
     this.ctx.signal(null, { type: 'matchEnd', winner: this.winnerTeam });
     for (const p of this.players) {
       if (p.team === this.winnerTeam) this.ctx.signal(p.id, { type: 'won' });
+      if (p.team === this.winnerTeam) this.entities.get(p.id)?.playVictory();
+      else this.entities.get(p.id)?.playDefeat();
     }
     audio.fanfare();
   }
@@ -814,6 +835,7 @@ export class BabylonSoccerGame {
   // ---- Feedback abilità ----
 
   private onAbilityFeedback(p: SoccerPlayer, f: SoccerAbilityFeedback): void {
+    if (SOCCER_ACTIVATIONS.has(f.type)) this.entities.get(p.id)?.playAbility(abilityLabel(SOCCER_ABILITIES, p.characterId));
     switch (f.type) {
       case 'goblin_trivela':
         this.hud.feedMessage(`${p.avatar} TRIVELA DEL GOBLIN!`, '#10b981');
