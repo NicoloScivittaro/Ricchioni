@@ -1,5 +1,6 @@
 import { game as gm } from '../core/GameManager';
 import { debugEnabled } from '../core/debug';
+import { controlsOverlay } from '../core/musicDirector';
 import { getMinigame } from '../../shared/minigames';
 import { pads } from './GamepadManager';
 import { profileFor } from './profiles';
@@ -103,6 +104,7 @@ export function showControlsHelp(minigameId: string): Promise<void> {
   root.innerHTML = build(minigameId, mode);
   document.body.appendChild(root);
   if (mode === 'pad') pads.beginControls();
+  controlsOverlay(true); // musica sotto mentre si leggono i comandi
 
   active = new Promise<void>((resolve) => {
     let done = false;
@@ -123,6 +125,7 @@ export function showControlsHelp(minigameId: string): Promise<void> {
       unsub();
       root?.remove();
       root = null;
+      controlsOverlay(false);
       if (mode === 'pad') pads.endControls(); // azzera stick/tasti/edge: nessun input accumulato durante la lettura
       active = null;
       finish = null;

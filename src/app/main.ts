@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import { GAME_CONFIG } from './config';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
+import { initAudioSettings } from '../core/audioSettings';
+import { initMusicDirector } from '../core/musicDirector';
 import { initDebug, debugEnabled } from '../core/debug';
 import { initTelemetry } from '../core/telemetry';
 import { initFlowTrace } from '../core/flowTrace';
@@ -74,6 +76,8 @@ const config: Phaser.Types.Core.GameConfig = {
 const phaserGame = new Phaser.Game(config);
 gm.attach(phaserGame);
 audio.enableHotkeys(); // M = muto, [ ] = volume generale (solo host)
+initAudioSettings(); // V = volumi (generale/musica/effetti/telecronista); debug audio in F3 e con ?audio=1
+initMusicDirector(); // musica procedurale guidata dalle fasi della partita (solo TV, mai sui telefoni)
 initDebug(); // overlay F3 (solo dev o ?debug=1)
 initFlowTrace(); // traccia di flusso per diagnosticare blocchi (solo debug)
 initTelemetry(); // telemetria locale di sessione + SESSION REPORT (F4), solo debug: niente esce dal browser
@@ -112,3 +116,5 @@ gm.connect(serverUrl || (import.meta.env.DEV ? `http://${location.hostname}:3001
 if (debugEnabled() && new URLSearchParams(location.search).get('characters') === '1') void import('../dev/characterGallery').then((m) => m.openCharacterGallery());
 // Impact Lab: SOLO sviluppo o ?debug=1, aperto con ?impact=1 (src/dev/impactLab.ts): feedback delle azioni a confronto, anche al rallentatore.
 if (debugEnabled() && new URLSearchParams(location.search).get('impact') === '1') void import('../dev/impactLab').then((m) => m.openImpactLab());
+// Audio Lab: SOLO sviluppo o ?debug=1, aperto con ?audiolab=1 (src/dev/audioLab.ts): tutti i suoni e le musiche a portata di click.
+if (debugEnabled() && new URLSearchParams(location.search).get('audiolab') === '1') void import('../dev/audioLab').then((m) => m.openAudioLab());
