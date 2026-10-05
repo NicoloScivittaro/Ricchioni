@@ -57,7 +57,7 @@ export const CHARACTERS: Record<string, CharacterDefinition> = {
     name: 'Victor',
     roleTitle: 'IL DOTTORE SCEMO',
     subtitle: 'Tranquilli, So Quello Che Faccio | 5ml di Idee Brillanti(?)',
-    avatar: '🧪',
+    avatar: '💡',
     image: '/characters/victor.jpg',
     color: '#06b6d4',
     quote: 'Tranquilli, so quello che faccio. Diagnosi: forse tutto bene, o forse ripensiamoci domani.',
