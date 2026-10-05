@@ -6,6 +6,8 @@ import { FLOW_TIMING } from '../../shared/types';
 import type { PlayerResult, RoundResults } from '../../shared/types';
 import { THEME, medal, panel, titleText, bodyText, hexInt, sceneIn } from '../core/theme';
 import { confetti } from './confetti';
+import { addPortrait } from '../core/portraits';
+import { bark } from '../../shared/characterPresentation';
 
 const ROW_H = 84;
 const ROW_W = 980;
@@ -69,7 +71,7 @@ export class ResultsScene extends Phaser.Scene {
     const place = this.add
       .text(-ROW_W / 2 + 50, 0, medal(r.placement), { fontFamily: THEME.title, fontSize: isWinner ? '44px' : '36px', color: THEME.gold })
       .setOrigin(0.5);
-    const avatar = this.add.text(-ROW_W / 2 + 130, 0, c?.avatar ?? '🎮', { fontSize: '40px' }).setOrigin(0.5);
+    const avatar = addPortrait(this, -ROW_W / 2 + 130, 0, player?.characterId, isWinner ? 72 : 64);
     const name = this.add
       .text(-ROW_W / 2 + 190, isWinner ? -14 : -12, player?.displayName ?? r.playerId, {
         fontFamily: THEME.title,
@@ -97,6 +99,27 @@ export class ResultsScene extends Phaser.Scene {
 
     row.add([bg, place, avatar, name, stats, plus, ptLabel]);
     this.tweens.add({ targets: row, alpha: 1, x: 640, duration: THEME.normal, ease: 'Cubic.easeOut' });
+
+    // REAZIONE del personaggio: il primo esulta (rimbalzo + la sua battuta), l'ultimo ci resta male (ritratto spento e storto,
+    // e a volte una battuta). Le battute sono rare: al massimo due per schermata, quella dell'ultimo non sempre.
+    const isLast = out.results.length > 1 && r.placement === out.results.length;
+    const line = isWinner ? bark(player?.characterId, 'victory') : isLast && Math.random() < 0.6 ? bark(player?.characterId, 'defeat') : null;
+    if (line) {
+      const bubble = this.add
+        .text(name.x + name.width + 18, name.y, `“${line}”`, { fontFamily: THEME.body, fontSize: '18px', color: '#111827', backgroundColor: '#f8fafc', padding: { x: 10, y: 4 } })
+        .setOrigin(0, 0.5)
+        .setScale(0.6)
+        .setAlpha(0);
+      row.add(bubble);
+      this.tweens.add({ targets: bubble, alpha: 1, scale: 1, delay: 350, duration: 260, ease: 'Back.easeOut' });
+    }
+    if (isWinner) {
+      this.tweens.add({ targets: avatar, y: -10, duration: 220, yoyo: true, repeat: 3, ease: 'Sine.easeOut', delay: 200 });
+      this.tweens.add({ targets: avatar, angle: { from: -8, to: 8 }, duration: 260, yoyo: true, repeat: 3, delay: 200 });
+    } else if (isLast) {
+      if ('setTint' in avatar) avatar.setTint(0x8a8f99);
+      this.tweens.add({ targets: avatar, angle: -14, duration: 380, ease: 'Back.easeOut', delay: 150 });
+    }
 
     if (isWinner) {
       audio.fanfare();

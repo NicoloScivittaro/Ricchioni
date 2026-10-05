@@ -162,6 +162,18 @@ button.char .char-label {
   line-height: 1.1;
 }
 
+/* riga di personalita' del personaggio scelto (lobby del telefono) */
+.char-tag {
+  margin: 10px 0 4px;
+  padding: 8px 12px;
+  border-left: 4px solid #fbbf24;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 14px;
+  line-height: 1.35;
+  text-align: left;
+}
+
 button.char.mine {
   border-color: #fbbf24;
   background: #3b2f10;

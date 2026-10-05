@@ -2,6 +2,7 @@ import { game as gm } from '../core/GameManager';
 import { CHARACTERS } from '../../shared/characters';
 import { MINIGAME_DEFINITIONS } from '../../shared/minigames';
 import { pads } from './GamepadManager';
+import { portraitCss } from '../core/portraits';
 import { PAD_CONTROLS, padFamily, padLabel } from './padTypes';
 
 /**
@@ -159,7 +160,7 @@ function renderPairing(): string {
           : '';
       const name = p?.displayName ?? '?';
       const sub = `${ch?.roleTitle ?? ''}${p && !p.connected ? ' · telefono scollegato' : ''}`;
-      return `<div class="row${target === s.playerId ? ' target' : ''}${cur !== null ? ' cursor' : ''}" data-act="target" data-id="${s.playerId}" style="border-left:6px solid ${color}"><span class="ava">${esc(ch?.avatar ?? '🙂')}</span><div class="who"><b style="color:${color}">${esc(name)}</b><span>${esc(sub)}</span>${tools}</div><div class="st">${status}</div></div>`;
+      return `<div class="row${target === s.playerId ? ' target' : ''}${cur !== null ? ' cursor' : ''}" data-act="target" data-id="${s.playerId}" style="border-left:6px solid ${color}">${p?.characterId ? `<span class="ava pic" style="${portraitCss(p.characterId, 44)}"></span>` : `<span class="ava">${esc(ch?.avatar ?? '🙂')}</span>`}<div class="who"><b style="color:${color}">${esc(name)}</b><span>${esc(sub)}</span>${tools}</div><div class="st">${status}</div></div>`;
     })
     .join('');
   const phoneGames = MINIGAME_DEFINITIONS.filter((m) => m.inputMode === 'PHONE_TEXT').map((m) => m.name);

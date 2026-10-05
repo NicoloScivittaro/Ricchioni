@@ -5,6 +5,8 @@ import { getCharacter } from '../../shared/characters';
 import type { PlayerPublic } from '../../shared/types';
 import { THEME, titleText, bodyText, panel, hexInt, sceneIn } from '../core/theme';
 import { confetti } from './confetti';
+import { addPortrait, portraitKey } from '../core/portraits';
+import { bark, presentationOf } from '../../shared/characterPresentation';
 
 const KEY_LOCK_MS = 1500; // ignora tasti residui della schermata precedente
 const BASE_Y = 585; // base del podio
@@ -79,7 +81,11 @@ export class GameOverScene extends Phaser.Scene {
       const chip = this.add.container(x, y).setAlpha(0);
       chip.add(panel(this, 0, 0, 270, 56, { stroke: hexInt(c?.color ?? '#ffffff') }));
       chip.add(this.add.text(-108, 0, `${place}°`, { fontFamily: THEME.title, fontSize: '26px', color: THEME.muted }).setOrigin(0.5));
-      chip.add(this.add.text(-80, 0, `${c?.avatar ?? '🎮'} ${p.displayName}`, { fontFamily: THEME.body, fontSize: '20px', color: c?.color ?? '#fff' }).setOrigin(0, 0.5));
+      // fuori dal podio: ritratto un po' spento (sconfitta), nome nel suo colore
+      const face = addPortrait(this, -62, 0, p.characterId, 44);
+      if ('setTint' in face) face.setTint(0xa0a4ad);
+      chip.add(face);
+      chip.add(this.add.text(-34, 0, p.displayName, { fontFamily: THEME.body, fontSize: '20px', color: c?.color ?? '#fff' }).setOrigin(0, 0.5));
       chip.add(this.add.text(122, 0, `${p.score}`, { fontFamily: THEME.title, fontSize: '22px', color: '#ffffff' }).setOrigin(1, 0.5));
       this.time.delayedCall(400 + i * 600, () => {
         this.tweens.add({ targets: chip, alpha: 1, y: y - 8, duration: THEME.normal });
@@ -173,15 +179,18 @@ export class GameOverScene extends Phaser.Scene {
     this.time.delayedCall(430, () => {
       this.tweens.add({ targets: num, alpha: 0.4, duration: THEME.normal });
       const cy = top - 58;
-      if (textureKey && this.textures.exists(textureKey)) {
-        const img = this.add.image(col.x, cy, textureKey);
-        img.setScale(104 / Math.max(img.width, img.height));
-        const g = this.make.graphics({ x: 0, y: 0 }, false);
-        g.fillCircle(col.x, cy, 52);
-        img.setMask(g.createGeometryMask());
-        this.add.circle(col.x, cy, 53).setStrokeStyle(4, hexInt(color));
+      const pKey = portraitKey(textureKey);
+      if (pKey && this.textures.exists(pKey)) {
+        // ritratto (testa del personaggio, ritaglio unico) + reazione: il 1° esulta a lungo, 2° e 3° piu' composti
+        const img = this.add.image(col.x, cy, pKey).setDisplaySize(isWinner ? 120 : 104, isWinner ? 120 : 104);
         img.setAlpha(0);
         this.tweens.add({ targets: img, alpha: 1, duration: THEME.normal });
+        if (isWinner) {
+          this.tweens.add({ targets: img, y: cy - 16, duration: 260, yoyo: true, repeat: -1, ease: 'Sine.easeInOut', delay: 300 });
+          this.tweens.add({ targets: img, angle: { from: -7, to: 7 }, duration: 520, yoyo: true, repeat: -1, ease: 'Sine.easeInOut', delay: 300 });
+        } else {
+          this.tweens.add({ targets: img, y: cy - 5, duration: 700, yoyo: true, repeat: 2, ease: 'Sine.easeInOut', delay: 300 });
+        }
       }
       const name = this.add
         .text(col.x, cy - 78, p.displayName, { fontFamily: THEME.title, fontSize: isWinner ? '34px' : '26px', color })
@@ -194,6 +203,18 @@ export class GameOverScene extends Phaser.Scene {
       this.tweens.add({ targets: [name, pts], alpha: 1, duration: THEME.normal });
       if (isWinner) {
         header.setText('🏆 CAMPIONE DELLA SERATA 🏆').setColor(THEME.gold);
+        // il campione dice la sua (una sola battuta in tutta la schermata) e il telecronista lo chiama per soprannome
+        const alias = presentationOf(textureKey)?.announcerAlias;
+        const line = bark(textureKey, 'victory', { force: true });
+        if (line) {
+          const bubble = this.add
+            .text(col.x + 70, cy - 40, `“${line}”`, { fontFamily: THEME.title, fontSize: '22px', color: '#111827', backgroundColor: '#f8fafc', padding: { x: 12, y: 6 } })
+            .setOrigin(0, 0.5)
+            .setScale(0.5)
+            .setAlpha(0);
+          this.tweens.add({ targets: bubble, alpha: 1, scale: 1, delay: 700, duration: 300, ease: 'Back.easeOut' });
+        }
+        if (alias) bodyText(this, col.x, cy - 108, `${alias}!`, 18, THEME.gold).setAlpha(0.9);
         this.tweens.add({ targets: name, scale: 1.18, duration: 500, yoyo: true, ease: 'Sine.easeInOut' });
         audio.fanfare();
         confetti(this, 640, -30);

@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
 import { getCharacter } from '../../shared/characters';
+import { addPortrait } from '../core/portraits';
 import { THEME, panel, titleText, bodyText, hexInt, sceneIn } from '../core/theme';
 
 const ROW_H = 84;
@@ -51,7 +52,7 @@ export class LeaderboardScene extends Phaser.Scene {
       const row = this.add.container(640, y + 24).setAlpha(0);
       row.add(panel(this, 0, 0, ROW_W, ROW_H, { fill: i === 0 ? 0x1d2440 : THEME.panel, stroke: hexInt(color), strokeWidth: i === 0 ? 3 : 2 }));
       row.add(this.add.text(-ROW_W / 2 + 44, 0, `${i + 1}`, { fontFamily: THEME.title, fontSize: '34px', color: i === 0 ? THEME.gold : THEME.muted }).setOrigin(0.5));
-      row.add(this.add.text(-ROW_W / 2 + 112, 0, c?.avatar ?? '🎮', { fontSize: '38px' }).setOrigin(0.5));
+      row.add(addPortrait(this, -ROW_W / 2 + 112, 0, p.characterId, Math.min(56, ROW_H - 8)));
       row.add(
         this.add.text(-ROW_W / 2 + 160, -14, p.displayName, { fontFamily: THEME.title, fontSize: '27px', color }).setOrigin(0, 0.5)
       );

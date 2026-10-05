@@ -3,6 +3,7 @@ import { EVT } from '../../shared/protocol';
 import type { AckResponse, JoinAck, JoinPayload } from '../../shared/protocol';
 import type { InputEvent, PlayerPublic, RoomState } from '../../shared/types';
 import { CHARACTERS, CHARACTER_ORDER } from '../../shared/characters';
+import { presentationOf } from '../../shared/characterPresentation';
 import { renderController } from './ControllerRenderer';
 import { MEMORY_TILES } from '../../shared/memoryTiles';
 import { MEMORY_ABILITIES } from '../../shared/memoryAbilities';
@@ -1415,8 +1416,11 @@ function renderFpsController(): void {
   void (async () => {
     const { FpsClient } = await import('./fpsClient');
     if (!canvasHost.isConnected) return; // il controller è già cambiato mentre caricava
-    fpsClient = new FpsClient(canvasHost, playerId ?? '', (yaw, pitch) =>
-      sendInput({ kind: 'axis', controlId: 'look', x: yaw, y: pitch })
+    fpsClient = new FpsClient(
+      canvasHost,
+      playerId ?? '',
+      (yaw, pitch) => sendInput({ kind: 'axis', controlId: 'look', x: yaw, y: pitch }),
+      (id) => state?.players.find((p) => p.id === id)?.characterId ?? null
     );
     if (fpsPendingState) {
       fpsClient.updateState(fpsPendingState);
@@ -1529,17 +1533,17 @@ socket.on(EVT.controllerSignal, (data) => {
         actionBtn.classList.add('ctl-drunk');
         window.setTimeout(() => actionBtn.classList.remove('ctl-drunk'), s.ms ?? 2000);
       }
-      showToast("🧪 M'HO SVEJATO — FOCUS! (2 s)", 1400);
+      showToast("💡 M'HO SVEJATO — FOCUS! (2 s)", 1400);
       vibrate(30);
       break;
     }
     case 'focusHit': {
       vibrate([40, 40, 160]);
-      showToast('🧪 DIAGNOSI ESATTA — il VIA era nel FOCUS!');
+      showToast('💡 DIAGNOSI ESATTA — il VIA era nel FOCUS!');
       break;
     }
     case 'focusMiss': {
-      showToast("🧪 FOCUS sprecato: il VIA non c'era", 1200);
+      showToast("💡 FOCUS sprecato: il VIA non c'era", 1200);
       break;
     }
     case 'armed': {
@@ -1770,6 +1774,11 @@ function renderCharacterSelect(state: RoomState, me: PlayerPublic): void {
     <div class="screen">
       <h1>Scegli il personaggio</h1>
       <div id="chars" class="char-grid"></div>
+      ${(() => {
+        // personalita' del personaggio scelto: una riga sola, rara (solo qui), col suo colore
+        const pr = presentationOf(myChar);
+        return pr ? `<p class="char-tag" style="border-color:${pr.accent}"><b style="color:${pr.accent}">${pr.icon} ${pr.displayName}</b><br><i>“${pr.tagline}”</i></p>` : '';
+      })()}
       <button id="ready" class="big ${me.ready ? 'ready' : ''}">${me.ready ? 'PRONTO ✅' : 'PRONTO'}</button>
       <p class="sub">${state.players.length}/${state.playerCount} giocatori</p>
     </div>`;

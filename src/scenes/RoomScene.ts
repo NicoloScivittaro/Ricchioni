@@ -5,6 +5,7 @@ import { audio } from '../core/AudioManager';
 import { CHARACTER_ORDER, getCharacter } from '../../shared/characters';
 import { MINIGAME_DEFINITIONS, getMinigame } from '../../shared/minigames';
 import type { PlayerPublic } from '../../shared/types';
+import { presentationOf } from '../../shared/characterPresentation';
 
 /** Minimo giocatori per avviare (deve coincidere con GameSession.MIN_TO_START sul server). */
 const MIN_TO_START = 2;
@@ -16,6 +17,9 @@ export class RoomScene extends Phaser.Scene {
   private startText!: Phaser.GameObjects.Text;
   private mgText!: Phaser.GameObjects.Text;
   private countText!: Phaser.GameObjects.Text;
+  /** riga di personalita' del personaggio appena scelto (compare qualche secondo, poi sparisce: rara apposta) */
+  private spotText!: Phaser.GameObjects.Text;
+  private chosen = new Set<string>();
 
   constructor() {
     super('RoomScene');
@@ -71,6 +75,12 @@ export class RoomScene extends Phaser.Scene {
         .setOrigin(0.5, 0);
       this.labels.push(label);
     });
+
+    this.spotText = this.add
+      .text(640, 462, '', { fontFamily: 'Arial, sans-serif', fontSize: '19px', fontStyle: 'bold', color: '#ffffff', align: 'center', wordWrap: { width: 1100 } })
+      .setOrigin(0.5)
+      .setAlpha(0);
+    this.chosen = new Set();
 
     this.mgText = this.add
       .text(640, 500, '', {
@@ -154,6 +164,16 @@ export class RoomScene extends Phaser.Scene {
     }
   }
 
+  /** Qualcuno ha appena scelto un personaggio: nome del ruolo + la sua frase, per qualche secondo. */
+  private spotlight(cid: string, playerName: string): void {
+    const pr = presentationOf(cid);
+    if (!pr || !this.spotText) return;
+    this.tweens.killTweensOf(this.spotText);
+    this.spotText.setText(`${pr.icon} ${playerName.toUpperCase()} È ${pr.displayName} — “${pr.tagline}”`).setColor(pr.accent).setAlpha(0).setScale(0.9);
+    this.tweens.add({ targets: this.spotText, alpha: 1, scale: 1, duration: 260, ease: 'Back.easeOut' });
+    this.tweens.add({ targets: this.spotText, alpha: 0, delay: 3800, duration: 600 });
+  }
+
   private options(): (string | null)[] {
     const st = gm.state;
     if (!st) return [null];
@@ -206,14 +226,17 @@ export class RoomScene extends Phaser.Scene {
     CHARACTER_ORDER.forEach((cid, i) => {
       const p = byChar.get(cid);
       const c = getCharacter(cid);
+      const pr = presentationOf(cid);
       this.portraits[i].setAlpha(p ? 1 : 0.26);
       if (p) {
         const status = !p.connected ? '⚠' : p.ready ? '✅' : '…';
         this.labels[i].setText(`${c.avatar} ${p.displayName}\n${status}`).setColor(c.color);
+        if (!this.chosen.has(cid)) this.spotlight(cid, p.displayName);
       } else {
-        this.labels[i].setText(c.name).setColor('#6b7280');
+        this.labels[i].setText(pr?.shortName ?? c.name).setColor('#6b7280');
       }
     });
+    this.chosen = new Set(byChar.keys());
 
     this.countText.setText(`${st.players.length} / ${st.playerCount} giocatori connessi`);
 
