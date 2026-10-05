@@ -12,6 +12,7 @@ import {
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
+import { setGameIntensity } from '../../core/musicDirector';
 import {
   FIELD_HALF_W,
   FIELD_HALF_D,
@@ -78,6 +79,8 @@ export class BabylonVolleyballGame {
   private entities = new Map<PlayerId, ArenaEntity>();
   private ball: VolleyballBall = createBall();
   private ballMesh: Mesh;
+  private prevY = new Map<string, number>();
+  private matchPointAnnounced = false;
   // ---- IMPATTO (solo grafica): scia della palla, lampo e onda del contatto dello smash
   private ballTrail!: ParticleSystem;
   private shocks!: ShockRings;
@@ -299,12 +302,12 @@ export class BabylonVolleyballGame {
       if (n < this.lastCountInt && n > 0) {
         this.lastCountInt = n;
         this.hud.setCountdown(String(n));
-        audio.tick(1 + (3 - n) * 0.25); // tono crescente: 3 → 2 → 1 → VIA
+        audio.countdown(n); // toni crescenti comuni a tutti i giochi: 3 → 2 → 1 → VIA
         this.ctx.signal(null, { type: 'countdown', value: n });
       } else if (this.countdown <= 0) {
         this.phase = 'playing';
         this.hud.setCountdown('VIA!', '#4ade80');
-        audio.boost();
+        audio.go();
         this.ctx.signal(null, { type: 'countdown', value: 0 });
         this.timeOutClearCountdown();
       }
@@ -337,6 +340,10 @@ export class BabylonVolleyballGame {
     // Visuali
     for (const p of this.players) {
       this.entities.get(p.id)?.updateVisual(p, dt, now);
+      // atterraggio sulla sabbia: un "pff" sordo (solo suono, il salto e' del gioco)
+      const py = this.prevY.get(p.id) ?? 0;
+      if (py > 0.25 && p.y <= 0.02) audio.sand(this.pan(p.x));
+      this.prevY.set(p.id, p.y);
     }
     this.ballMesh.position.set(this.ball.x, this.ball.y, this.ball.z);
     // scia: dopo uno smash e' piena per un attimo (si vede la palla "partire"), poi solo se la palla e' veloce
@@ -465,7 +472,7 @@ export class BabylonVolleyballGame {
     this.ball.vz = dirZ * BALL_SERVE_SPEED;
     this.ball.x = p.x;
     this.ball.z = p.z + dirZ * 0.6;
-    audio.select();
+    audio.serve(this.pan(p.x));
     this.entities.get(p.id)?.playThrow();
     this.ctx.vibrate(p.id, 40);
     this.ctx.signal(p.id, { type: 'served' });
@@ -523,7 +530,7 @@ export class BabylonVolleyballGame {
       vz *= speed;
       vy = down;
       p.smashes++;
-      audio.hit();
+      audio.smash(this.pan(p.x)); // transiente + aria + impatto, nello stesso istante della nuova velocita' della palla
       this.camera.shake(0.25, 200);
       this.ctx.signal(p.id, { type: 'smash' });
     } else {
@@ -547,7 +554,7 @@ export class BabylonVolleyballGame {
       vz *= speed;
       vy = up;
       p.receives++;
-      audio.select();
+      audio.bump(this.pan(p.x));
       this.ctx.signal(p.id, { type: 'receive' });
     }
 
@@ -579,6 +586,11 @@ export class BabylonVolleyballGame {
       tintBallTrail(this.ballTrail, '#ffffff');
     }
     this.ctx.vibrate(p.id, perfect ? 80 : 40);
+  }
+
+  /** Pan stereo dalla posizione (larghezza del campo vista dalla TV). */
+  private pan(x: number): number {
+    return Math.max(-0.8, Math.min(0.8, x / 6));
   }
 
   /** Frasi del telecronista sugli scambi lunghi (5 / 8 / 12 colpi). */
@@ -686,7 +698,7 @@ export class BabylonVolleyballGame {
       else if (toucher) toucher.errors++;
     }
 
-    audio.fanfare();
+    audio.pointSting(); // ogni punto: stinger corto (la fanfara e' per la fine partita)
     this.camera.shake(0.3, 260);
     const rallyLen = this.rally;
     this.rally = 0;
@@ -713,6 +725,8 @@ export class BabylonVolleyballGame {
       this.phase = 'ended';
       this.celebrateTime = 2.6;
       this.hud.feedMessage(`🏆 VINCE LA SQUADRA ${TEAM_LABEL[scoringTeam]}! ${this.redScore} — ${this.blueScore}`, '#fbbf24', 4000);
+      audio.fanfare();
+      audio.duck(0.5, 1300);
       this.ctx.signal(null, { type: 'matchEnd', winner: scoringTeam });
       for (const p of this.players) {
         if (p.team === scoringTeam) this.ctx.signal(p.id, { type: 'won' });
@@ -724,6 +738,11 @@ export class BabylonVolleyballGame {
     } else if (this.redScore >= MATCH_POINT_AT || this.blueScore >= MATCH_POINT_AT) {
       this.hud.setNote('🔥 MATCH POINT', '#fbbf24');
       this.hud.feedMessage('🔥 MATCH POINT!', '#fbbf24', 2000);
+      if (!this.matchPointAnnounced) {
+        this.matchPointAnnounced = true;
+        audio.announcer('MATCH_POINT');
+        setGameIntensity(2);
+      }
     }
   }
 

@@ -2,6 +2,7 @@ import { Engine, Scene, Color4, DynamicTexture, MeshBuilder, StandardMaterial, C
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
+import { setGameIntensity } from '../../core/musicDirector';
 import {
   FIELD_HALF_W,
   FIELD_HALF_D,
@@ -294,18 +295,20 @@ export class BabylonSoccerGame {
       if (n < this.lastCountInt && n > 0) {
         this.lastCountInt = n;
         this.hud.setCountdown(String(n));
-        audio.tick(1 + (3 - n) * 0.25); // tono crescente: 3 → 2 → 1 → VIA
+        audio.countdown(n); // toni crescenti comuni a tutti i giochi: 3 → 2 → 1 → VIA
         this.ctx.signal(null, { type: 'countdown', value: n });
       } else if (this.countdown <= 0) {
         this.phase = 'playing';
         this.hud.setCountdown('VIA!', '#4ade80');
-        audio.boost();
+        audio.go();
+        audio.startCrowd(1); // letto di folla leggerissimo per tutta la partita
         this.ctx.signal(null, { type: 'countdown', value: 0 });
         this.timeOutClearCountdown();
       }
     } else if (this.phase === 'playing' || this.phase === 'goldenGoal') {
       if (this.phase === 'playing') {
         this.matchTime -= dt;
+        if (this.matchTime <= 20) setGameIntensity(2); // ultimi 20 secondi: strato musicale finale
         this.hud.setTimer(this.matchTime);
         if (this.matchTime <= 0) {
           if (this.redScore === this.blueScore) {
@@ -502,7 +505,7 @@ export class BabylonSoccerGame {
     this.teamKicks[p.team]++;
     // contatto NELLO STESSO istante dell'impulso alla palla; la carica (wind-up) si e' vista prima, follow-through ∝ potenza
     this.entities.get(p.id)?.playKick(frac);
-    audio.kick(0.6 + frac * 0.9);
+    audio.kick(0.6 + frac * 0.9, this.pan(p.x)); // passaggio (tocco) e tiro (caricato) suonano diversi
     if (frac > 0.7) this.camera.shake(0.04 + 0.08 * frac, 110);
     this.ctx.vibrate(p.id, 30 + Math.round(frac * 30));
     this.ctx.signal(p.id, { type: 'threwBall' });
@@ -530,7 +533,7 @@ export class BabylonSoccerGame {
         // tackle riuscito: chi entra allunga la gamba, chi lo subisce barcolla dalla parte della spinta
         this.entities.get(attacker.id)?.playKick(charge ? 0.9 : 0.55);
         this.entities.get(victim.id)?.playHitFrom(nx, nz, charge ? 1 : 0.7);
-        audio.thump(0.9);
+        audio.tackle(this.pan(victim.x));
         this.shocks.spawn(victim.x, victim.z, TEAM_COLOR[victim.team], 0.8);
         this.camera.shake(0.12, 150);
         this.ctx.vibrate(attacker.id, 50);
@@ -731,7 +734,10 @@ export class BabylonSoccerGame {
     else this.blueScore++;
     this.hud.setScore(this.redScore, this.blueScore);
 
-    audio.goalRoar();
+    // GOL: impatto in rete -> la folla si gonfia -> stinger del telecronista (musica giu') -> fischio
+    audio.goalNet(this.pan(this.ball.x));
+    audio.crowdSwell(1);
+    audio.announcer('GOAL');
     audio.whistle();
     this.camera.shake(0.55, 360);
     this.burstConfetti(team);
@@ -929,9 +935,15 @@ export class BabylonSoccerGame {
 
   // ---- Ciclo di vita ----
 
+  /** Pan stereo dalla posizione nel campo (sinistra/destra vista dalla TV). */
+  private pan(x: number): number {
+    return Math.max(-0.8, Math.min(0.8, x / FIELD_HALF_W));
+  }
+
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    audio.stopCrowd();
     window.removeEventListener('resize', this.onResize);
     safely('entities', () => {
       for (const e of this.entities.values()) e.dispose();

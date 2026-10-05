@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
+import { music } from '../core/music';
 import { MINIGAME_DEFINITIONS, getMinigame } from '../../shared/minigames';
 import { getCharacter } from '../../shared/characters';
 import type { MinigameDefinition, PlayerPublic } from '../../shared/types';
@@ -138,6 +139,7 @@ export class RouletteScene extends Phaser.Scene {
     const pos = { p: 0 };
     let lastK = 0;
     let lastTickAt = 0;
+    let tension = false;
     const apply = (): void => {
       strip.x = 640 - pos.p * STEP;
       const k = Math.round(pos.p);
@@ -148,7 +150,12 @@ export class RouletteScene extends Phaser.Scene {
           // un tick per carta che passa sotto il puntatore; il tono segue la velocita' (veloce = acuto, in frenata = grave e rado)
           const cardsPerSec = 1000 / Math.max(35, now - lastTickAt);
           lastTickAt = now;
-          audio.tick(0.75 + Math.min(0.7, cardsPerSec * 0.04));
+          audio.rouletteTick(Math.min(1, cardsPerSec / 18));
+          // tensione degli ultimi secondi: quando il rullo rallenta la musica passa allo strato finale
+          if (cardsPerSec < 6 && !tension) {
+            tension = true;
+            if (music.current() === 'roulette') music.setLevel(2);
+          }
         }
       }
       cards.forEach((c, i) => {
@@ -199,8 +206,11 @@ export class RouletteScene extends Phaser.Scene {
     cards: Card[],
     title: Phaser.GameObjects.Text
   ): void {
-    audio.thump(0.9); // il "clunk" dello stop
-    audio.fanfare(); // DING
+    // STOP: clunk meccanico, la musica del rullo si chiude, parte lo stinger DEL GIOCO uscito (piu' spettacolare per i giochi
+    // lunghi come Sparatoria e Kart, senza effetto "jackpot": le probabilita' del rullo non cambiano)
+    audio.rouletteClunk();
+    music.stop(0.25, 'roulette');
+    audio.gameSting(minigameId, minigameId === 'fps' || minigameId === 'kart3d');
     this.cameras.main.flash(140, 255, 240, 180, false);
     this.cameras.main.shake(220, 0.004);
     title.setText('IL PROSSIMO GIOCO È…').setColor('#fbbf24');

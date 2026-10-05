@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
+import { setGameIntensity } from '../../core/musicDirector';
 import { PauseMenu } from '../../core/PauseMenu';
 import { QuizRoundManager } from './QuizRoundManager';
 import type { QuizHudEvent, QuizPhase, QuizPlayerState } from './QuizRoundManager';
@@ -236,10 +237,12 @@ export class QuizScene extends Phaser.Scene {
     });
   }
 
+  private lastTickSec = -1;
+
   private onHudEvent(ev: QuizHudEvent): void {
     switch (ev.type) {
       case 'reveal':
-        audio.select();
+        audio.quizReveal();
         break;
       case 'nculo':
         audio.boost();
@@ -265,7 +268,11 @@ export class QuizScene extends Phaser.Scene {
         if (ev.playerId) this.flashAbilityName(ev.playerId);
         break;
       case 'final_question':
-        audio.fanfare();
+        audio.announcer('FINAL_ROUND');
+        setGameIntensity(2);
+        break;
+      case 'intro':
+        audio.quizQuestion();
         break;
       case 'leaderboard':
         audio.tick();
@@ -421,6 +428,15 @@ export class QuizScene extends Phaser.Scene {
       const remain = m.timeRemaining();
       this.countdownText.setText(`${remain.toFixed(1)}s`);
       this.countdownText.setColor(remain <= 3 ? '#f87171' : '#e5e7eb');
+      // tensione: un tic per ogni secondo degli ultimi 5 (piu' urgente negli ultimi 3). Nessun suono per la risposta del
+      // singolo giocatore: nessuna informazione privata passa dall'audio.
+      const sec = Math.ceil(remain);
+      if (sec <= 5 && sec >= 1 && sec !== this.lastTickSec) {
+        this.lastTickSec = sec;
+        audio.quizTick(sec <= 3);
+      }
+    } else {
+      this.lastTickSec = -1;
     }
 
     this.explanationText.setVisible(phase === 'explanation').setText(phase === 'explanation' ? `💡 ${q.explanation}` : '');

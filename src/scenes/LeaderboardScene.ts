@@ -39,6 +39,10 @@ export class LeaderboardScene extends Phaser.Scene {
       .map((x) => x.id);
 
     const standings = [...st.players].sort((a, b) => b.score - a.score);
+    // NUOVO LEADER: solo se il primo e' cambiato (e c'era gia' qualcuno davanti a punti)
+    if (standings[0] && before[0] && standings[0].id !== before[0] && standings[0].score > 0) {
+      this.time.delayedCall(450, () => audio.announcer('NEW_LEADER'));
+    }
     standings.forEach((p, i) => {
       const y = TOP + i * (ROW_H + 8) + ROW_H / 2;
       const c = p.characterId ? getCharacter(p.characterId) : null;

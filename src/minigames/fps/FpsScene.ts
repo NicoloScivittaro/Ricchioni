@@ -13,6 +13,7 @@ import { characterInitial } from '../../../shared/characters';
 import { pads } from '../../input/GamepadManager';
 import { HAPTIC } from '../../core/haptics';
 import { getTimeScale } from '../../core/impact';
+import { setGameIntensity } from '../../core/musicDirector';
 import { responseCurve } from '../../input/padMath';
 import type { BabylonFpsGame, FpsLocalPlayer, FpsRenderSnapshot } from './BabylonFpsGame';
 
@@ -323,6 +324,7 @@ export class FpsScene extends Phaser.Scene {
     const steps = splitFrameDelta((delta / 1000) * getTimeScale()); // getTimeScale: 1, salvo rallentatore di debug
     const dt = steps.reduce((a, b) => a + b, 0);
     this.matchTime -= dt;
+    if (this.matchTime <= 20) setGameIntensity(2); // ultimi 20 secondi: strato musicale finale (nessun effetto sul tempo)
     this.timerText.setText(`TEMPO ${Math.max(0, Math.ceil(this.matchTime))}`);
     if (this.matchTime <= 0) {
       this.endGame();

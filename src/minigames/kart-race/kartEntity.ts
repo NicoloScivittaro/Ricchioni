@@ -100,7 +100,7 @@ export class KartEntity {
   private driverHead: TransformNode | null = null;
   private lean = 0;
 
-  constructor(scene: Scene, colorHex: string, characterId: string | null = null) {
+  constructor(scene: Scene, colorHex: string, private readonly characterId: string | null = null) {
     this.root = new TransformNode('kartRoot', scene);
     this.root.rotationQuaternion = Quaternion.Identity();
     this.bobSeed = Math.random() * 1000;
@@ -465,6 +465,7 @@ export class KartEntity {
   /** Abilita' attivata: il pilota alza il braccio e sopra il kart compare il simbolo del personaggio (lo vedono anche gli avversari). */
   playAbility(): void {
     this.abilityUntil = performance.now() + 900;
+    audio.characterSting(this.characterId);
   }
 
   /** Mini-turbo/boost appena partito: il pilota da' un colpo di braccio (reazione breve). */

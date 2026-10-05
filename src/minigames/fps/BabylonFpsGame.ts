@@ -11,6 +11,7 @@ import { presentationOf } from '../../../shared/characterPresentation';
 import { decorateHead, makeCharMaterials } from '../characters/characterModel';
 import { FpsViewmodel, recoilOf } from '../../controller/fpsViewmodel';
 import * as sfx from '../../controller/fpsAudio';
+import { audio } from '../../core/AudioManager';
 import { getQualityLevel } from '../../core/quality';
 import { CHAR_ICONS, drawIcon, iconDataUrl } from '../../../shared/charIcons';
 import { Image as GuiImage } from '@babylonjs/gui';
@@ -566,9 +567,12 @@ export class BabylonFpsGame {
         cam.weaponId = weaponId;
       }
       cam.vm.fire();
-      sfx.shot(weaponId, { gain: 0.5, pan: cam.pan });
+      // l'arma di chi ha una finestra: forte, dal lato della sua finestra (un solo AudioContext, nessun mix duplicato)
+      if (audio.reserveVoice('sfx', 0.12)) sfx.shot(weaponId, { gain: 0.42, pan: cam.pan });
     } else {
-      sfx.shot(weaponId, { gain: 0.22, pan: 0 });
+      // chi gioca dal telefono: piu' basso e SPAZIALIZZATO rispetto alla finestra piu' vicina (pan + distanza)
+      const sp = this.spatial(shooterId);
+      if (sp.gain > 0.06 && audio.reserveVoice('sfx', 0.12)) sfx.shot(weaponId, sp);
     }
     const a = this.avatars.get(shooterId);
     if (a) {
@@ -677,6 +681,24 @@ export class BabylonFpsGame {
       cam.vm.dash();
       cam.dashT = 0.18;
     }
+  }
+
+  /** Pan/volume di un suono nato dove sta `pid`, sentito dalla camera locale piu' vicina (attenuazione semplice, niente HRTF). */
+  private spatial(pid: PlayerId): { gain: number; pan: number } {
+    const src = this.lastPos.get(pid);
+    if (!src || this.cams.length === 0) return { gain: 0.18, pan: 0 };
+    let best = { d: Infinity, pan: 0 };
+    for (const c of this.cams) {
+      const me = this.lastPos.get(c.playerId);
+      if (!me) continue;
+      const d = Math.hypot(src.x - me.x, src.z - me.z);
+      if (d < best.d) {
+        const rel = Math.atan2(src.x - me.x, src.z - me.z) - c.prevYaw;
+        // posizione nella finestra di chi ascolta + direzione dentro la finestra
+        best = { d, pan: Math.max(-0.9, Math.min(0.9, c.pan * 0.6 + Math.sin(rel) * 0.5)) };
+      }
+    }
+    return { gain: Math.max(0, 0.3 * (1 - Math.min(1, best.d / 40))), pan: best.pan };
   }
 
   /** Esplosione della bombarda: palla di fuoco + anello che si allarga + detriti, scossa proporzionata alla distanza. */

@@ -157,6 +157,7 @@ export class CulturaScene extends Phaser.Scene {
     // Secchione Infame: round 3 e 6 (1-based)
     const isSecchioneRound = this.round === 2 || this.round === 5;
     this.secchioneId = isSecchioneRound ? this.ctx.playerIds[Math.floor(this.ctx.rng.next() * this.ctx.playerIds.length)] : null;
+    if (isSecchioneRound) audio.culturaRole('secchione'); // campanella: questo round c'e' il Secchione
 
     // Avvocato della cazzata: round 2 e 5 (1-based)
     const isAdvocateRound = this.round === 1 || this.round === 4;
@@ -164,7 +165,7 @@ export class CulturaScene extends Phaser.Scene {
     this.titleText.setText(`ROUND ${this.round + 1}/${TOTAL_ROUNDS} · ${this.currentQuestion.category.toUpperCase()}`);
     this.mainText.setText(`"${this.currentQuestion.question}"`).setFontSize(40).setColor('#ffffff'); // grande: si legge dal divano
     this.subText.setText('✍️ INVENTATE UNA CAZZATA CREDIBILE').setFontSize(28).setColor('#c4b5fd');
-    audio.select();
+    audio.culturaQuestion();
 
     this.broadcastState();
     if (isAdvocateRound) this.advocatePending = true;
@@ -222,6 +223,7 @@ export class CulturaScene extends Phaser.Scene {
       const optIndex = Math.floor(this.ctx.rng.next() * this.options.length);
       this.advocate = { pid, optIndex };
       this.advocatePending = false;
+      audio.culturaRole('avvocato'); // martelletto: entra l'Avvocato della cazzata
     }
 
     this.phase = 'options';
@@ -291,12 +293,12 @@ export class CulturaScene extends Phaser.Scene {
       const victims = [...this.votes.entries()].filter(([, idx]) => idx === this.options.indexOf(o) && (!o.ownerId || idx !== this.options.indexOf(o))).map(([pid]) => this.playerName(pid));
       this.mainText.setText(`${o.text.toUpperCase()}`).setFontSize(44).setColor('#f87171');
       this.subText.setText(`❌ ${label}\n${victims.length > 0 ? 'CI SONO CASCATI: ' + victims.join(', ') : 'NESSUNO GLI HA CREDUTO. MIRACOLO.'}`);
-      audio.wrong();
+      audio.bluffReveal(o.ownerId ? this.ctx.players.find((pl) => pl.id === o.ownerId)?.characterId === 'ciro' : false); // ogni cazzata: piccolo stinger (quella di Ciro con la monetina)
     } else {
       const winners = [...this.votes.entries()].filter(([, idx]) => idx === this.options.indexOf(correctOpt)).map(([pid]) => this.playerName(pid));
       this.mainText.setText(`✅ ${correctOpt.text.toUpperCase()}`).setFontSize(44).setColor('#4ade80');
       this.subText.setText(`RISPOSTA CORRETTA.\n${winners.length > 0 ? 'L\'HANNO SCELTA: ' + winners.join(', ') : 'NESSUNO L\'HA TROVATA!'}`);
-      audio.correct();
+      audio.culturaCorrect(); // la risposta vera: stinger piu' importante
       confetti(this, 640, 300);
     }
   }

@@ -69,13 +69,17 @@ export class PauseMenu {
   }
 
   private open(): void {
-    if (this.mode === 'none') gm.setPaused(true);
+    if (this.mode === 'none') {
+      gm.setPaused(true);
+      audio.ui('confirm');
+    }
     this.mode = 'main';
     this.index = 0;
     this.render();
   }
 
   private close(): void {
+    audio.ui('cancel');
     this.mode = 'none';
     gm.setPaused(false);
     this.clear();
@@ -133,6 +137,14 @@ export class PauseMenu {
       );
     }
 
+    if (this.mode === 'main') {
+      mk(
+        this.scene.add
+          .text(640, 660, 'V = VOLUMI (generale · musica · effetti · telecronista)   ·   M = muto', { fontFamily: 'Arial, sans-serif', fontSize: '18px', color: '#9ca3af' })
+          .setOrigin(0.5)
+          .setDepth(91)
+      );
+    }
     items.forEach((label, i) => {
       const y = this.mode === 'main' ? 300 + i * 88 : 380 + i * 88;
       const sel = i === this.index;
@@ -154,11 +166,11 @@ export class PauseMenu {
   private handleKeys(): void {
     if (this.took('UP')) {
       this.index = (this.index - 1 + this.itemCount()) % this.itemCount();
-      audio.select();
+      audio.ui('move');
       this.render();
     } else if (this.took('DOWN')) {
       this.index = (this.index + 1) % this.itemCount();
-      audio.select();
+      audio.ui('move');
       this.render();
     } else if (this.took('ENTER')) {
       this.confirm();

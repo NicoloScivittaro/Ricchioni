@@ -89,7 +89,7 @@ export class GameOverScene extends Phaser.Scene {
       chip.add(this.add.text(122, 0, `${p.score}`, { fontFamily: THEME.title, fontSize: '22px', color: '#ffffff' }).setOrigin(1, 0.5));
       this.time.delayedCall(400 + i * 600, () => {
         this.tweens.add({ targets: chip, alpha: 1, y: y - 8, duration: THEME.normal });
-        audio.select();
+        audio.resultReveal('last');
       });
     });
 
@@ -203,6 +203,8 @@ export class GameOverScene extends Phaser.Scene {
       this.tweens.add({ targets: [name, pts], alpha: 1, duration: THEME.normal });
       if (isWinner) {
         header.setText('🏆 CAMPIONE DELLA SERATA 🏆').setColor(THEME.gold);
+        audio.announcer('WINNER'); // fanfara del campione, separata dai risultati normali (poi il tema del podio continua)
+        audio.characterSting(textureKey, true);
         // il campione dice la sua (una sola battuta in tutta la schermata) e il telecronista lo chiama per soprannome
         const alias = presentationOf(textureKey)?.announcerAlias;
         const line = bark(textureKey, 'victory', { force: true });
@@ -216,7 +218,6 @@ export class GameOverScene extends Phaser.Scene {
         }
         if (alias) bodyText(this, col.x, cy - 108, `${alias}!`, 18, THEME.gold).setAlpha(0.9);
         this.tweens.add({ targets: name, scale: 1.18, duration: 500, yoyo: true, ease: 'Sine.easeInOut' });
-        audio.fanfare();
         confetti(this, 640, -30);
         this.time.delayedCall(700, () => confetti(this, 300, -30));
         this.cameras.main.flash(220, 251, 191, 36);

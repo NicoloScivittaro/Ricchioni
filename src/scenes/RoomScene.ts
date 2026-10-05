@@ -188,7 +188,7 @@ export class RoomScene extends Phaser.Scene {
     const cur = gm.state?.selectedMinigameId ?? null;
     const idx = Math.max(0, opts.indexOf(cur));
     const next = opts[(idx + dir + opts.length) % opts.length];
-    audio.select();
+    audio.ui('move');
     gm.selectMinigame(next);
   }
 
@@ -196,14 +196,14 @@ export class RoomScene extends Phaser.Scene {
     const st = gm.state;
     if (!st) return;
     if (st.players.length >= MIN_TO_START && st.players.every((p) => p.ready && p.characterId)) {
-      audio.select();
+      audio.ui('confirm');
       gm.startGame();
     }
   }
 
   /** Abbandona la stanza e torna alla configurazione (pulisce il token host). */
   private abandon(): void {
-    audio.select();
+    audio.ui('cancel');
     gm.backToLobby();
     this.scene.start('LobbyScene');
   }

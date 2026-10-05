@@ -272,7 +272,7 @@ export class ReactionScene extends Phaser.Scene {
     }
     p.status = 'falseStart';
     p.falseAt = this.gameTime;
-    audio.wrong();
+    audio.falseStart();
     this.ctx.signal(p.snap.id, { type: 'falseStart' });
     this.updateCard(p);
     this.calmArmed('false', p);
@@ -368,7 +368,7 @@ export class ReactionScene extends Phaser.Scene {
   private doFakeOut(): void {
     this.fakeActive = true;
     this.calmArmed('fake');
-    audio.tick();
+    audio.reactionFake(); // stesso attacco del VIA: a orecchio inganna quanto il lampo verde
     this.flashRect.setFillStyle(0x4ade80, 1).setAlpha(0.15);
     this.tweens.add({ targets: this.flashRect, alpha: 0, duration: 180, onComplete: () => (this.fakeActive = false) });
     const v = this.add
@@ -389,7 +389,7 @@ export class ReactionScene extends Phaser.Scene {
     this.flashRect.setFillStyle(0x4ade80, 1).setAlpha(0.5);
     this.tweens.add({ targets: this.flashRect, alpha: 0, duration: 300 });
     confetti(this, 640, 320);
-    audio.correct();
+    audio.reactionGo(); // STESSA chiamata del VIA visivo e della vibrazione: nessun anticipo dell'audio
     this.ctx.signal(null, { type: 'via' });
     // Vibrazione SIMULTANEA al VIA (audio/visivo): mai prima, mai un istante dopo — stesso evento, stessa chiamata.
     for (const p of this.players) this.ctx.vibrate(p.snap.id, 40);

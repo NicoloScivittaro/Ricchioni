@@ -2,6 +2,7 @@ import { Engine, Scene, Color4, DynamicTexture } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
+import { setGameIntensity } from '../../core/musicDirector';
 import { ShockRings, GroundMarkers } from './impactFx';
 import {
   ARENA_R,
@@ -157,12 +158,12 @@ export class BabylonArenaGame {
       if (n < this.lastCountInt && n > 0) {
         this.lastCountInt = n;
         this.hud.setCountdown(String(n));
-        audio.tick(1 + (3 - n) * 0.25); // tono crescente: 3 → 2 → 1 → VIA
+        audio.countdown(n); // toni crescenti comuni a tutti i giochi: 3 → 2 → 1 → VIA
         this.ctx.signal(null, { type: 'countdown', value: n });
       } else if (this.countdown <= 0) {
         this.phase = 'playing';
         this.hud.setCountdown('VIA!', '#4ade80');
-        audio.boost();
+        audio.go();
         this.ctx.signal(null, { type: 'countdown', value: 0 });
         this.timeOutClearCountdown();
         for (const p of this.players) {
@@ -242,6 +243,7 @@ export class BabylonArenaGame {
         this.entities.get(p.id)?.setEdge(p.x / d, p.z / d); // equilibrio precario: verso il vuoto
         if (now - p.edgeWarnAt > 1500) {
           p.edgeWarnAt = now;
+          audio.edgeWarn(this.pan(p.x));
           this.ctx.signal(p.id, { type: 'edge' });
         }
       } else {
@@ -294,7 +296,7 @@ export class BabylonArenaGame {
       p.dashCooldown = DASH_COOLDOWN;
       p.vx = dirX * DASH_SPEED;
       p.vz = dirZ * DASH_SPEED;
-      audio.boost();
+      audio.boost(this.pan(p.x));
       this.ctx.vibrate(p.id, 30);
       this.ctx.signal(p.id, { type: 'dash_used', cooldownMs: Math.round(DASH_COOLDOWN * 1000) });
     }
@@ -358,7 +360,7 @@ export class BabylonArenaGame {
     // impatto proporzionale al colpo EFFETTIVO (resistenze incluse): onda d'urto nel punto di contatto, botto, hitstop leggero
     const heavy = Math.min(1.5, Math.hypot(k.x, k.z) / KNOCKBACK_BASE + 0.2);
     this.shocks.spawn(target.x - kx * 0.6, target.z - kz * 0.6, target.color, 0.7 + heavy * 0.5);
-    audio.thump(heavy);
+    audio.thump(heavy, this.pan(target.x));
     this.hitStop = Math.max(this.hitStop, 0.035 + 0.03 * Math.min(1, heavy));
     // reazioni dei corpi (solo grafica): chi colpisce rimbalza indietro, chi e' colpito cede nella direzione della spinta
     this.entities.get(target.id)?.playHitFrom(k.x, k.z, Math.min(1, heavy / 1.5));
@@ -444,8 +446,9 @@ export class BabylonArenaGame {
       : shrinking
         ? `⭕ ${p.avatar} ${p.name.toUpperCase()} INGHIOTTITO DAL BORDO!`
         : `${p.avatar} ${p.name.toUpperCase()} È CADUTO!`;
-    audio.fall();
-    audio.thump(1.1);
+    audio.fall(this.pan(p.x));
+    audio.thump(1.1, this.pan(p.x));
+    audio.duck(0.4, 500); // eliminazione: la musica si fa da parte un attimo
     this.entities.get(p.id)?.burstHit();
     this.entities.get(p.id)?.playDefeat();
     if (pusher) this.entities.get(pusher.id)?.react('elimination');
@@ -462,6 +465,12 @@ export class BabylonArenaGame {
     this.hud.setAlive(aliveNow);
     const duel = aliveNow === 2 && this.players.length > 2 ? say('lastTwo', true) : null;
     if (duel) this.hud.feedMessage(duel, '#fbbf24', 2200);
+    if (aliveNow === 2 && this.players.length > 2) setGameIntensity(2); // resa dei conti: strato musicale finale
+  }
+
+  /** Pan stereo dalla posizione (sinistra/destra dell'arena vista dalla TV). */
+  private pan(x: number): number {
+    return Math.max(-0.8, Math.min(0.8, x / ARENA_R));
   }
 
   private checkEndCondition(): void {
@@ -485,6 +494,7 @@ export class BabylonArenaGame {
     if (winner) {
       winner.vy = 6; // salto di vittoria
       audio.fanfare();
+      audio.duck(0.5, 1300);
       this.hud.feedMessage(winnerFeed(winner.avatar, winner.name, winner.characterId), '#fbbf24', 4000);
       this.ctx.signal(winner.id, { type: 'won' });
       const e = this.entities.get(winner.id);

@@ -13,6 +13,7 @@ import {
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
+import { setGameIntensity } from '../../core/musicDirector';
 import {
   ARENA_HALF_W,
   ARENA_HALF_D,
@@ -251,12 +252,12 @@ export class BabylonDodgeballGame {
       if (n < this.lastCountInt && n > 0) {
         this.lastCountInt = n;
         this.hud.setCountdown(String(n));
-        audio.tick(1 + (3 - n) * 0.25); // tono crescente: 3 → 2 → 1 → VIA
+        audio.countdown(n); // toni crescenti comuni a tutti i giochi: 3 → 2 → 1 → VIA
         this.ctx.signal(null, { type: 'countdown', value: n });
       } else if (this.countdown <= 0) {
         this.phase = 'playing';
         this.hud.setCountdown('VIA!', '#4ade80');
-        audio.boost();
+        audio.go();
         this.ctx.signal(null, { type: 'countdown', value: 0 });
         this.timeOutClearCountdown();
         for (const p of this.players) {
@@ -379,7 +380,7 @@ export class BabylonDodgeballGame {
       p.invulnTime = DODGE_INVULN;
       p.vx = dirX * DODGE_SPEED;
       p.vz = dirZ * DODGE_SPEED;
-      audio.boost();
+      audio.dodge(this.pan(p.x));
       this.ctx.vibrate(p.id, 25);
       this.ctx.signal(p.id, { type: 'dodged', cooldownMs: Math.round(DODGE_COOLDOWN * 1000) });
     }
@@ -465,7 +466,7 @@ export class BabylonDodgeballGame {
     this.entities.get(p.id)?.playThrow();
     this.tintTrail(this.balls.indexOf(ball), p.color);
     const charged = speed > THROW_SPEED * 1.05;
-    audio.throwWhoosh(charged ? 1.35 : 1);
+    audio.throwWhoosh(charged ? 1.35 : 1, this.pan(p.x));
     this.camera.shake(charged ? 0.1 : 0.05, 90);
     this.ctx.vibrate(p.id, 40);
     this.ctx.signal(p.id, { type: 'threwBall' });
@@ -490,7 +491,7 @@ export class BabylonDodgeballGame {
     ball.z = p.z + dirZ * (PLAYER_RADIUS + BALL_RADIUS + 0.2);
     this.entities.get(p.id)?.playThrow();
     this.tintTrail(idx, p.color);
-    audio.throwWhoosh(1);
+    audio.throwWhoosh(1, this.pan(p.x));
     this.camera.shake(0.05, 90);
     this.ctx.vibrate(p.id, 45);
     this.ctx.signal(p.id, { type: 'threwBall' });
@@ -554,7 +555,7 @@ export class BabylonDodgeballGame {
   }
 
   private bounceSfx(ball: Ball): void {
-    audio.bounce(Math.max(0.4, Math.min(1.2, Math.hypot(ball.vx, ball.vz) / THROW_SPEED)));
+    audio.bounce(Math.max(0.4, Math.min(1.2, Math.hypot(ball.vx, ball.vz) / THROW_SPEED)), this.pan(ball.x)); // la palla si sente DOVE rimbalza
   }
 
   /**
@@ -711,7 +712,7 @@ export class BabylonDodgeballGame {
           ball.holderId = best.id;
           best.hasBall = true;
           this.entities.get(best.id)?.playPickup();
-          audio.pickupPop();
+          audio.pickupPop(this.pan(best.x));
           this.ctx.vibrate(best.id, 35);
           this.ctx.signal(best.id, { type: 'gotBall' });
         }
@@ -803,7 +804,7 @@ export class BabylonDodgeballGame {
     target.hitFlash = 0.16;
     this.entities.get(target.id)?.burstHit();
     this.shocks.spawn(target.x, target.z, target.color);
-    audio.thump(0.8);
+    audio.thump(0.8, this.pan(target.x));
     this.ctx.vibrate(target.id, 60);
     this.camera.shake(0.15, 160);
   }
@@ -845,8 +846,9 @@ export class BabylonDodgeballGame {
     if (p.characterId === 'dottore' && p.visionTime > 0) {
       this.onAbilityFeedback(p, { type: 'dottore_hit_anyway' });
     }
-    audio.thump(1.3);
+    audio.thump(1.3, this.pan(p.x));
     audio.wrong();
+    audio.duck(0.4, 500);
     this.ctx.vibrate(p.id, 110); // chi viene eliminato lo sente (controller o telefono): solo feedback, nessun effetto sul gioco
     this.entities.get(p.id)?.burstHit();
     this.shocks.spawn(p.x, p.z, p.color);
@@ -868,6 +870,12 @@ export class BabylonDodgeballGame {
     this.hud.setAlive(aliveNow);
     const duel = aliveNow === 2 && this.players.length > 2 ? say('lastTwo', true) : null;
     if (duel) this.hud.feedMessage(duel, '#fbbf24', 2200);
+    if (aliveNow === 2 && this.players.length > 2) setGameIntensity(2);
+  }
+
+  /** Pan stereo dalla posizione nel campo (sinistra/destra vista dalla TV). */
+  private pan(x: number): number {
+    return Math.max(-0.8, Math.min(0.8, x / ARENA_HALF_W));
   }
 
   // ---- Traiettorie (mira / visione) ----

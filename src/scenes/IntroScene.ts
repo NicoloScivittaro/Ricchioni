@@ -42,6 +42,7 @@ export class IntroScene extends Phaser.Scene {
     this.add.rectangle(640, 610, 420, 10, THEME.line).setOrigin(0.5);
     const bar = this.add.rectangle(430, 610, 4, 10, THEME.goldInt).setOrigin(0, 0.5);
     this.tweens.add({ targets: bar, displayWidth: 420, duration: FLOW_TIMING.introMs - 200, ease: 'Linear' });
-    audio.select();
+    // stinger del gioco (se non e' gia' suonato allo stop del rullo, es. gioco scelto dall'host senza rullo)
+    if (pick.minigameId && !audio.recentSting(pick.minigameId)) audio.gameSting(pick.minigameId, pick.minigameId === 'fps' || pick.minigameId === 'kart3d');
   }
 }

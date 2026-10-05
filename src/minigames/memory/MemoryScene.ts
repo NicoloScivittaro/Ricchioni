@@ -261,6 +261,7 @@ export class MemoryScene extends Phaser.Scene {
       this.gameTime >= this.observeStart + this.observeTiming().pre + this.nextFlashIndex * this.observeTiming().interval
     ) {
       this.flashTile(seq[this.nextFlashIndex]);
+      audio.tileTone(seq[this.nextFlashIndex]); // OSSERVA: ogni tessera ha la SUA nota (fissa in tutti i round)
       this.nextFlashIndex++;
     }
     const tm = this.observeTiming();
@@ -326,7 +327,7 @@ export class MemoryScene extends Phaser.Scene {
   }
 
   private handleTilePress(p: PState, c: number, seq: number[]): void {
-    audio.tileTone(c);
+    audio.tileTone(c, true); // stessa nota dell'osservazione, appena piu' brillante
     this.flashTile(c);
 
     if (c === seq[p.inputIndex]) {
@@ -376,7 +377,7 @@ export class MemoryScene extends Phaser.Scene {
     p.resolved = true;
     p.alive = false;
     p.progress = p.inputIndex;
-    audio.wrong();
+    audio.error(); // errore inequivocabile, mai confondibile con una nota
     this.ctx.signal(p.snap.id, { type: 'eliminated', at: p.inputIndex + 1 });
     this.showBanner(p, reason);
     this.updateCard(p);

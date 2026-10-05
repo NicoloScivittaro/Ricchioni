@@ -16,6 +16,7 @@ import {
 import type { PlayerId } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
+import { setGameIntensity } from '../../core/musicDirector';
 import { buildTrack, buildTrackVisuals, buildCheckpoints, buildItemBoxes, LAPS, TrackSpline } from './track';
 import { createKartState } from './raceTypes';
 import type { KartState } from './raceTypes';
@@ -323,6 +324,7 @@ export class BabylonKartGame {
           // Solo feedback (nessun effetto fisico aggiuntivo): mancava del tutto, anche sul telefono. Intensità proporzionale
           // alla sovrapposizione, come chiesto per il rumble delle collisioni tra kart.
           const bump = 15 + Math.min(1, overlap / (KART_LAT_RADIUS * 2)) * 35;
+          audio.kartBump((bump - 15) / 35); // urto piccolo = colpetto, grosso = botta (con dedupe nello stesso istante)
           this.ctx.vibrate(a.playerId, bump);
           this.ctx.vibrate(b.playerId, bump);
           // urto piccolo = solo vibrazione; urto grosso = anche una breve scossa di camera (mai a ogni sfioramento)
@@ -400,11 +402,11 @@ export class BabylonKartGame {
     if (ev.type === 'countdown') {
       if (ev.value && ev.value > 0) {
         this.hud.setCountdown(String(ev.value));
-        audio.tick(1 + (3 - ev.value) * 0.25); // tono crescente: 3 → 2 → 1 → VIA
+        audio.countdown(ev.value); // toni crescenti comuni a tutti i giochi: 3 → 2 → 1 → VIA
         for (const pid of this.order) this.ctx.vibrate(pid, 35);
       } else {
         this.hud.setCountdown('VIA!');
-        audio.boost();
+        audio.go();
         for (const pid of this.order) {
           this.ctx.vibrate(pid, 110);
           const k = this.karts.get(pid);
@@ -416,6 +418,7 @@ export class BabylonKartGame {
       }
     } else if (ev.type === 'lap') {
       audio.select();
+      if ((ev.value ?? 0) === LAPS - 1) setGameIntensity(2); // giro finale: strato musicale in piu'
     } else if (ev.type === 'finish') {
       if (ev.playerId) this.ctx.vibrate(ev.playerId, 160);
       if (ev.playerId) this.entities.get(ev.playerId)?.playFinish(!this.firstFinishPlayed);
@@ -426,9 +429,9 @@ export class BabylonKartGame {
       }
       if (!this.firstFinishPlayed) {
         this.firstFinishPlayed = true;
-        audio.fanfare();
+        audio.kartFinish(true);
       } else {
-        audio.select();
+        audio.kartFinish(false);
       }
     } else if (ev.type === 'checkpoint_clean' && ev.playerId) {
       const k = this.karts.get(ev.playerId);

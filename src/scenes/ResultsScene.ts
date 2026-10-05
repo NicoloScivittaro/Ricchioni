@@ -121,12 +121,14 @@ export class ResultsScene extends Phaser.Scene {
       this.tweens.add({ targets: avatar, angle: -14, duration: 380, ease: 'Back.easeOut', delay: 150 });
     }
 
+    // progressione sonora dall'ultimo al primo: piccolo "fail", rivelazioni neutre, sting del vincitore
     if (isWinner) {
-      audio.fanfare();
+      audio.resultReveal('first');
       confetti(this, 640, -30);
       this.tweens.add({ targets: row, scale: 1.04, duration: 360, yoyo: true, ease: 'Sine.easeInOut' });
     } else {
-      audio.select();
+      audio.resultReveal(isLast ? 'last' : 'mid');
     }
+    if (line) audio.characterSting(player?.characterId, true);
   }
 }

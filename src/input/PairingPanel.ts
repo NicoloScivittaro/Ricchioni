@@ -3,6 +3,7 @@ import { CHARACTERS } from '../../shared/characters';
 import { MINIGAME_DEFINITIONS } from '../../shared/minigames';
 import { pads } from './GamepadManager';
 import { portraitCss } from '../core/portraits';
+import { audio } from '../core/AudioManager';
 import { PAD_CONTROLS, padFamily, padLabel } from './padTypes';
 
 /**
@@ -256,7 +257,17 @@ export function initPairingPanel(): void {
     if (lost) focusBar.textContent = '⚠️ CLICCA SULLA FINESTRA DEL GIOCO — senza focus il browser può ignorare i controller';
   }, 500);
   pads.events.on('change', render);
+  // suoni d'interfaccia: un controller in piu' associato = "pair"; avvisi di disconnessione / riconnessione
+  let pairedBefore = pads.pairedCount();
+  pads.events.on('change', () => {
+    const n = pads.pairedCount();
+    if (n > pairedBefore) audio.ui('pair');
+    pairedBefore = n;
+  });
   pads.events.on('toast', (t) => {
+    const tt = String((t as { message?: string })?.message ?? '');
+    if (/DISCONNESS/.test(tt)) audio.ui('disconnect');
+    else if (/RICONNESS/.test(tt)) audio.ui('reconnect');
     const m = t as { message: string; ms: number };
     toast(m.message, m.ms);
   });

@@ -366,8 +366,9 @@ export class ArenaEntity {
       this.ring.isVisible = true;
     }
     if (label) this.showPopup(label, 'ability');
-    const notes = this.pres?.sting.notes ?? [];
-    this.stingQueue = notes.map((n, i) => ({ at: this.clock + i * 0.07, freq: 440 * Math.pow(2, n / 12) }));
+    // firma sonora del personaggio (una sola, non tre suoni forti sovrapposti: il gioco aggiunge al massimo il suo effetto)
+    audio.characterSting(this.pres?.id);
+    audio.duck(0.2, 350);
   }
 
   /** Posa di vittoria del personaggio: per `sec` secondi (gol, punto) o fino alla fine (fine round). */
@@ -395,6 +396,7 @@ export class ArenaEntity {
     const line = bark(this.pres?.id, kind, { force });
     if (!line) return false;
     this.showPopup(line, 'bark');
+    audio.characterSting(this.pres?.id, true); // la battuta e' testo: il suo segnale sonoro e' la versione piccola della firma
     return true;
   }
 

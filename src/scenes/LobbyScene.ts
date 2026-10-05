@@ -96,19 +96,19 @@ export class LobbyScene extends Phaser.Scene {
       audio.unlock();
       if (e.key === 'ArrowLeft') {
         this.count = Math.max(MIN_PLAYERS, this.count - 1);
-        audio.select();
+        audio.ui('move');
         this.render();
       } else if (e.key === 'ArrowRight') {
         this.count = Math.min(MAX_PLAYERS, this.count + 1);
-        audio.select();
+        audio.ui('move');
         this.render();
       } else if (e.key === 'ArrowUp') {
         this.presetIdx = this.presetIdx <= 0 ? CUSTOM_IDX : this.presetIdx - 1;
-        audio.select();
+        audio.ui('move');
         this.render();
       } else if (e.key === 'ArrowDown') {
         this.presetIdx = this.presetIdx >= CUSTOM_IDX ? 0 : this.presetIdx + 1;
-        audio.select();
+        audio.ui('move');
         this.render();
       } else if (e.key === '+' || e.key === '=') {
         if (this.presetIdx === CUSTOM_IDX) {
@@ -123,7 +123,7 @@ export class LobbyScene extends Phaser.Scene {
           this.render();
         }
       } else if (e.key === 'Enter') {
-        audio.select();
+        audio.ui('confirm');
         void this.start();
       }
     });
