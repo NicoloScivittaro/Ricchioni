@@ -215,7 +215,7 @@ export class FpsScene extends Phaser.Scene {
     // modifica al percorso telefono). L'ordine e' quello dei giocatori in stanza: stabile, mai per indice del pad.
     const locals: FpsLocalPlayer[] = this.ctx.players
       .filter((p) => pads.slotOf(p.id)?.state === 'paired')
-      .map((p) => ({ id: p.id, name: p.displayName, color: p.color }));
+      .map((p) => ({ id: p.id, name: `${p.avatar} ${p.displayName}`, color: p.color }));
     if (locals.length > 0) void this.bootSplitScreen(locals);
 
     // Intercetta i segnali (stesso ctx.signal usato dai telefoni: nessun percorso nuovo) SOLO per il feedback
@@ -270,6 +270,9 @@ export class FpsScene extends Phaser.Scene {
       id: p.id,
       name: p.name,
       color: p.color,
+      avatar: p.avatar,
+      characterId: this.ctx.players.find((s) => s.id === p.id)?.characterId ?? null,
+      displayName: this.ctx.players.find((s) => s.id === p.id)?.displayName,
       x: p.x,
       z: p.z,
       yaw: p.yaw,

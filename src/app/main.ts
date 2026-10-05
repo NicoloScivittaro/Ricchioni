@@ -107,3 +107,6 @@ phaserGame.events.once(Phaser.Core.Events.PRE_STEP, () => {
 // URL del server WebSocket: da VITE_SERVER_URL in prod (es. Render/Railway), locale in dev.
 const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
 gm.connect(serverUrl || (import.meta.env.DEV ? `http://${location.hostname}:3001` : undefined));
+
+// Galleria dei personaggi: SOLO sviluppo o ?debug=1, aperta con ?characters=1 (src/dev/characterGallery.ts). Nella UX normale non esiste.
+if (debugEnabled() && new URLSearchParams(location.search).get('characters') === '1') void import('../dev/characterGallery').then((m) => m.openCharacterGallery());

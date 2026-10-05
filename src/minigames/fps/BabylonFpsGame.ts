@@ -1,4 +1,4 @@
-import { Engine, Scene, Color4, Color3, StandardMaterial, MeshBuilder, Mesh, UniversalCamera, Viewport, Vector3 } from '@babylonjs/core';
+import { Engine, Scene, Color4, Color3, StandardMaterial, MeshBuilder, Mesh, UniversalCamera, Viewport, Vector3, TransformNode, DynamicTexture, HemisphericLight, DirectionalLight } from '@babylonjs/core';
 import { AdvancedDynamicTexture, TextBlock, Rectangle, Control } from '@babylonjs/gui';
 import type { PlayerId } from '../../../shared/types';
 import { buildFpsWorld } from '../../controller/fpsWorld';
@@ -7,6 +7,8 @@ import { getWeapon } from '../../../shared/fpsWeapons';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions, getQualityInfo } from '../../core/quality';
 import { debugEnabled } from '../../core/debug';
+import { presentationOf } from '../../../shared/characterPresentation';
+import { decorateHead, makeCharMaterials } from '../characters/characterModel';
 
 /** Chi ha una finestra nello split-screen: identita' visiva = nome + colore del giocatore, mai l'indice del controller. */
 export interface FpsLocalPlayer {
@@ -34,6 +36,10 @@ export interface FpsRenderSnapshot {
   id: PlayerId;
   name: string;
   color: string;
+  avatar?: string;
+  characterId?: string | null;
+  /** nome scelto dal giocatore (targhetta); `name` resta quello usato dalla simulazione */
+  displayName?: string;
   x: number;
   z: number;
   yaw: number;
@@ -69,6 +75,13 @@ interface CamRig {
 interface AvatarRig {
   body: Mesh;
   gun: Mesh;
+  /** tutte le mesh dell'avatar (capsula, arma, tratti del personaggio, targhetta): stessa layerMask */
+  parts: Mesh[];
+  /** ultimo stato "vivo" visto: per la piccola reazione alla morte */
+  wasAlive: boolean;
+  deathT: number;
+  /** sussulto quando viene colpito */
+  hitT: number;
 }
 
 interface HudEntry {
@@ -107,6 +120,15 @@ export class BabylonFpsGame {
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.07, 0.08, 0.12, 1);
+    // LUCI: le stesse del client telefono (fpsClient). buildFpsWorld non ne crea: senza queste, sulla TV mondo e
+    // personaggi erano neri (bug di M6: lo split-screen non aveva luci, il telefono si').
+    const hemi = new HemisphericLight('hemi', new Vector3(0.1, 1, 0.1), this.scene);
+    hemi.intensity = 0.85;
+    hemi.diffuse = new Color3(1, 0.98, 0.94);
+    hemi.groundColor = new Color3(0.4, 0.38, 0.36);
+    const sun = new DirectionalLight('sun', new Vector3(-0.4, -1, -0.3), this.scene);
+    sun.intensity = 0.7;
+    sun.diffuse = new Color3(1, 0.95, 0.85);
     buildFpsWorld(this.scene);
 
     const rects = splitScreenLayout(locals.length);
@@ -166,7 +188,7 @@ export class BabylonFpsGame {
     return this.localPlayerIds.includes(playerId);
   }
 
-  private ensureAvatar(pid: PlayerId, color: string): AvatarRig {
+  private ensureAvatar(pid: PlayerId, color: string, characterId: string | null = null, avatar = '', name = ''): AvatarRig {
     let rig = this.avatars.get(pid);
     if (rig) return rig;
     const mat = new StandardMaterial(`fpsMat_${pid}`, this.scene);
@@ -185,14 +207,59 @@ export class BabylonFpsGame {
     // propria maschera (vedi sopra), le altre lo mantengono. Chi non ha camera qui (gioca dal telefono) resta con
     // la maschera di default: e' comunque visibile a tutte le camere split-screen, non ha una "propria" vista da
     // escludere in questo renderer.
-    const ownIndex = this.cams.find((c) => c.playerId === pid)?.index;
-    if (ownIndex !== undefined) {
-      body.layerMask = avatarBit(ownIndex);
-      gun.layerMask = avatarBit(ownIndex);
+    const parts: Mesh[] = [body, gun];
+    // IDENTITA': i tratti della testa del personaggio sulla calotta della capsula (aderenti: la sagoma e la hitbox non cambiano,
+    // la hitbox e' comunque quella di FpsScene) + targhetta con icona e nome sopra la testa.
+    const pres = presentationOf(characterId);
+    if (pres) {
+      const head = new TransformNode(`fpsHead_${pid}`, this.scene);
+      head.parent = body;
+      head.position.y = 0.42;
+      const mats = makeCharMaterials(this.scene, pres, color);
+      decorateHead(this.scene, head, 0.8, pres, mats);
+      for (const m of head.getChildMeshes()) {
+        m.isPickable = false;
+        parts.push(m as Mesh);
+      }
     }
-    rig = { body, gun };
+    if (name) parts.push(this.buildTag(pid, body, `${avatar} ${name}`.trim(), pres?.accent ?? color));
+    const ownIndex = this.cams.find((c) => c.playerId === pid)?.index;
+    if (ownIndex !== undefined) for (const m of parts) m.layerMask = avatarBit(ownIndex);
+    rig = { body, gun, parts, wasAlive: true, deathT: 0, hitT: 0 };
     this.avatars.set(pid, rig);
     return rig;
+  }
+
+  /** Targhetta sopra la testa degli ALTRI (la propria camera non la vede: stessa layerMask della capsula). */
+  private buildTag(pid: PlayerId, parent: Mesh, text: string, color: string): Mesh {
+    const dt = new DynamicTexture(`fpsTag_${pid}`, { width: 256, height: 64 }, this.scene, false);
+    dt.hasAlpha = true;
+    const c = dt.getContext() as unknown as CanvasRenderingContext2D;
+    c.clearRect(0, 0, 256, 64);
+    c.fillStyle = 'rgba(10,10,18,0.75)';
+    c.beginPath();
+    c.roundRect(4, 4, 248, 56, 14);
+    c.fill();
+    c.fillStyle = color;
+    c.fillRect(16, 50, 224, 6);
+    c.fillStyle = '#ffffff';
+    c.font = '800 28px Arial, sans-serif';
+    c.textAlign = 'center';
+    c.fillText(text.length > 16 ? text.slice(0, 16) + '…' : text, 128, 40);
+    dt.update();
+    const mat = new StandardMaterial(`fpsTagMat_${pid}`, this.scene);
+    mat.diffuseTexture = dt;
+    mat.emissiveColor = new Color3(1, 1, 1);
+    mat.disableLighting = true;
+    mat.useAlphaFromDiffuseTexture = true;
+    mat.backFaceCulling = false;
+    const plane = MeshBuilder.CreatePlane(`fpsTagPlane_${pid}`, { width: 1.3, height: 0.33 }, this.scene);
+    plane.material = mat;
+    plane.billboardMode = Mesh.BILLBOARDMODE_ALL;
+    plane.parent = parent;
+    plane.position.y = 1.25;
+    plane.isPickable = false;
+    return plane;
   }
 
   private buildHud(index: number, total: number, name: string, color: string): HudEntry {
@@ -305,6 +372,8 @@ export class BabylonFpsGame {
     if (targetId) {
       const h = this.hud.get(targetId);
       if (h) h.vignetteTimer = 0.35;
+      const a = this.avatars.get(targetId);
+      if (a) a.hitT = 0.22;
     }
   }
 
@@ -316,8 +385,22 @@ export class BabylonFpsGame {
   update(dt: number, players: FpsRenderSnapshot[]): void {
     if (this.disposed) return;
     for (const snap of players) {
-      const rig = this.ensureAvatar(snap.id, snap.color);
-      rig.body.setEnabled(snap.alive);
+      const rig = this.ensureAvatar(snap.id, snap.color, snap.characterId ?? null, snap.avatar ?? '', snap.displayName ?? snap.name);
+      // reazione all'eliminazione: la capsula si accascia per un attimo invece di sparire di colpo (solo grafica)
+      if (rig.wasAlive && !snap.alive) rig.deathT = 0.45;
+      rig.wasAlive = snap.alive;
+      if (rig.deathT > 0) {
+        rig.deathT -= dt;
+        const k = Math.max(0, rig.deathT / 0.45);
+        rig.body.rotation.x = (1 - k) * 1.3;
+        rig.body.scaling.setAll(0.6 + 0.4 * k);
+      } else {
+        rig.body.rotation.x = 0;
+        rig.body.scaling.setAll(1);
+      }
+      if (rig.hitT > 0) rig.hitT = Math.max(0, rig.hitT - dt);
+      rig.body.rotation.z = rig.hitT > 0 ? Math.sin(rig.hitT * 45) * 0.14 : 0;
+      rig.body.setEnabled(snap.alive || rig.deathT > 0);
       if (snap.alive) {
         rig.body.position.x = snap.x;
         rig.body.position.z = snap.z;

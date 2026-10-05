@@ -17,6 +17,8 @@ import { applyQuality, engineOptions, getQualityLevel } from '../core/quality';
 import * as sfx from './fpsAudio';
 import { FpsViewmodel, recoilOf } from './fpsViewmodel';
 import { buildFpsWorld, makeBlobShadow } from './fpsWorld';
+import { presentationOf } from '../../shared/characterPresentation';
+import { decorateHead, makeCharMaterials } from '../minigames/characters/characterModel';
 
 /**
  * CLIENT DELLA SPARATORIA (telefono): rendering in prima persona.
@@ -169,7 +171,9 @@ export class FpsClient {
   constructor(
     private container: HTMLElement,
     selfId: string,
-    private onLook: (yaw: number, pitch: number) => void
+    private onLook: (yaw: number, pitch: number) => void,
+    /** personaggio di un giocatore (dallo stato della stanza): solo per disegnare i tratti della testa degli avversari */
+    private characterOf: (id: string) => string | null = () => null
   ) {
     this.selfId = selfId;
     this.buildHud();
@@ -782,9 +786,12 @@ export class FpsClient {
     body.position.y = 0.7;
     const head = MeshBuilder.CreateSphere('head', { diameter: 0.55, segments: 8 }, this.scene);
     const skin = new StandardMaterial('skin', this.scene);
-    skin.diffuseColor = new Color3(0.9, 0.72, 0.58);
+    const pres = presentationOf(this.characterOf(ps.id));
+    skin.diffuseColor = pres ? Color3.FromHexString(pres.skin) : new Color3(0.9, 0.72, 0.58);
     head.material = skin;
     head.position.y = 1.55;
+    // stessi tratti del personaggio che si vedono in TV (orecchie, occhiali, capelli...): figli della testa, la seguono da soli
+    if (pres) decorateHead(this.scene, head, 0.55, pres, makeCharMaterials(this.scene, pres, ps.color));
 
     const tag = this.makeNameTag(ps);
     tag.position.y = 2.1;

@@ -19,6 +19,8 @@ import type { KartState } from './raceTypes';
 import type { TrackSpline } from './track';
 import { audio, EngineSound } from '../../core/AudioManager';
 import { MAX_SPEED, DRIFT_THRESHOLDS } from './kartPhysics';
+import { presentationOf } from '../../../shared/characterPresentation';
+import { decorateHead, makeCharMaterials, makeSymbolPlane } from '../characters/characterModel';
 
 /** Colore del mini-turbo per livello (0 = nessuno): stesso codice colore di scintille, fanali e barra della HUD. */
 export const DRIFT_LEVEL_COLORS: [number, number, number][] = [
@@ -85,6 +87,13 @@ export class KartEntity {
   private readonly wheels: Mesh[];
   private readonly engine: EngineSound;
   private readonly bobSeed: number;
+  private driverMats: StandardMaterial[] = [];
+  /** braccia del pilota: [sinistro, destro] (pose di abilita'/arrivo) */
+  private driverArms: Mesh[] = [];
+  private symbol: Mesh | null = null;
+  private abilityUntil = 0;
+  private finishUntil = 0;
+  private finishFirst = false;
 
   constructor(scene: Scene, colorHex: string, characterId: string | null = null) {
     this.root = new TransformNode('kartRoot', scene);
@@ -123,7 +132,7 @@ export class KartEntity {
     cabin.material = darkMat;
     cabin.parent = this.root;
 
-    this.buildDriver(scene, accentMat);
+    this.buildDriver(scene, accentMat, characterId, colorHex);
 
     const spoiler = MeshBuilder.CreateBox('kartSpoiler', { width: shape.spoilerW, height: 0.14, depth: 0.14 }, scene);
     spoiler.position = new Vector3(0, 0.78, -1.05);
@@ -243,20 +252,34 @@ export class KartEntity {
     this.engine.start();
   }
 
-  /** Sagoma minimale del personaggio alla guida, seduto nell'abitacolo. */
-  private buildDriver(scene: Scene, shirtMat: StandardMaterial): void {
+  /**
+   * Sagoma minimale del personaggio alla guida, seduto nell'abitacolo: stessa pelle e stessi tratti della testa del modello
+   * intero (orecchie del Goblin, occhiali scuri del Buttafuori, capelli del Judoka, occhiali tondi del Dottore, i due capelli di Ciro).
+   */
+  private buildDriver(scene: Scene, shirtMat: StandardMaterial, characterId: string | null, colorHex: string): void {
+    const pres = presentationOf(characterId);
     const skinMat = new StandardMaterial('driverSkinMat', scene);
-    skinMat.diffuseColor = new Color3(0.85, 0.66, 0.52);
+    skinMat.diffuseColor = pres ? Color3.FromHexString(pres.skin) : new Color3(0.85, 0.66, 0.52);
 
     const torso = MeshBuilder.CreateBox('driverTorso', { width: 0.42, height: 0.4, depth: 0.28 }, scene);
     torso.position = new Vector3(0, 0.86, -0.22);
     torso.material = shirtMat;
     torso.parent = this.root;
 
-    const head = MeshBuilder.CreateSphere('driverHead', { diameter: 0.3, segments: 8 }, scene);
-    head.position = new Vector3(0, 1.18, -0.22);
+    // testa un po' piu' grande del vero: e' l'unica parte del personaggio che si vede dal kart
+    const headNode = new TransformNode('driverHeadNode', scene);
+    headNode.parent = this.root;
+    headNode.position = new Vector3(0, 1.2, -0.22);
+    const head = MeshBuilder.CreateSphere('driverHead', { diameter: 0.38, segments: 8 }, scene);
     head.material = skinMat;
-    head.parent = this.root;
+    head.parent = headNode;
+    if (pres) {
+      const mats = makeCharMaterials(scene, pres, colorHex);
+      mats.skin.dispose();
+      mats.skin = skinMat;
+      decorateHead(scene, headNode, 0.38, pres, mats);
+      this.driverMats = mats.all.filter((x) => x !== skinMat);
+    }
 
     for (const sx of [-0.26, 0.26]) {
       const arm = MeshBuilder.CreateCylinder('driverArm', { diameter: 0.1, height: 0.4, tessellation: 6 }, scene);
@@ -264,6 +287,11 @@ export class KartEntity {
       arm.rotation.x = -Math.PI / 2.6;
       arm.material = shirtMat;
       arm.parent = this.root;
+      this.driverArms.push(arm);
+    }
+    if (pres) {
+      this.symbol = makeSymbolPlane(scene, pres.symbol, 0.7);
+      this.symbol.parent = this.root;
     }
   }
 
@@ -298,15 +326,18 @@ export class KartEntity {
         break;
       }
       case 'dottore': {
-        // Boccione da laboratorio agganciato dietro.
-        const flask = MeshBuilder.CreateCylinder('flask', { diameterTop: 0.1, diameterBottom: 0.32, height: 0.42, tessellation: 10 }, scene);
-        flask.position = new Vector3(-0.4, 0.72, -0.95);
-        const flaskMat = new StandardMaterial('flaskMat', scene);
-        flaskMat.diffuseColor = new Color3(0.4, 0.85, 0.5);
-        flaskMat.alpha = 0.72;
-        flaskMat.emissiveColor = new Color3(0.15, 0.4, 0.2);
-        flask.material = flaskMat;
-        flask.parent = this.root;
+        // Lampadina su un'antennina dietro: "ogni tanto si sveglia" (niente laboratorio: non e' un medico ne' uno scienziato).
+        const rod = MeshBuilder.CreateCylinder('bulbRod', { diameter: 0.04, height: 0.5, tessellation: 5 }, scene);
+        rod.position = new Vector3(-0.4, 0.82, -0.95);
+        rod.material = darkMat;
+        rod.parent = this.root;
+        const bulb = MeshBuilder.CreateSphere('bulb', { diameter: 0.24, segments: 8 }, scene);
+        bulb.position = new Vector3(-0.4, 1.12, -0.95);
+        const bulbMat = new StandardMaterial('bulbMat', scene);
+        bulbMat.diffuseColor = new Color3(1, 0.93, 0.55);
+        bulbMat.emissiveColor = new Color3(0.75, 0.65, 0.25);
+        bulb.material = bulbMat;
+        bulb.parent = this.root;
         break;
       }
       case 'judoka': {
@@ -317,13 +348,25 @@ export class KartEntity {
           skirt.material = accentMat;
           skirt.parent = this.root;
         }
+        // Lampeggiante arancione da camion dietro al pilota (carico e scarico).
+        const beacon = MeshBuilder.CreateCylinder('beacon', { diameter: 0.18, height: 0.16, tessellation: 10 }, scene);
+        beacon.position = new Vector3(0, 1.0, -0.75);
+        const beaconMat = new StandardMaterial('beaconMat', scene);
+        beaconMat.diffuseColor = new Color3(1, 0.55, 0.05);
+        beaconMat.emissiveColor = new Color3(0.9, 0.45, 0.02);
+        beacon.material = beaconMat;
+        beacon.parent = this.root;
         break;
       }
       case 'ciro': {
-        // Ciondolo portafortuna appeso dietro (i "due capelli del destino").
-        const charm = MeshBuilder.CreateSphere('charm', { diameter: 0.14, segments: 6 }, scene);
-        charm.position = new Vector3(0.35, 0.5, -1.0);
-        charm.material = accentMat;
+        // Monetona d'oro appesa dietro: tutto torna (prima o poi).
+        const charm = MeshBuilder.CreateCylinder('charm', { diameter: 0.26, height: 0.04, tessellation: 14 }, scene);
+        charm.position = new Vector3(0.35, 0.55, -1.0);
+        charm.rotation.x = Math.PI / 2;
+        const goldMat = new StandardMaterial('charmGold', scene);
+        goldMat.diffuseColor = new Color3(0.96, 0.77, 0.26);
+        goldMat.emissiveColor = new Color3(0.35, 0.27, 0.05);
+        charm.material = goldMat;
         charm.parent = this.root;
         break;
       }
@@ -409,6 +452,39 @@ export class KartEntity {
     this.dustFx.emitRate = state.offRoad && Math.abs(state.speed) > 8 ? 30 : 0;
 
     this.engine.update(speedFrac, state.boostTimer > 0, throttle, state.drifting ? Math.min(1, 0.45 + state.driftCharge * 0.5) : 0);
+    this.updateDriver();
+  }
+
+  /** Abilita' attivata: il pilota alza il braccio e sopra il kart compare il simbolo del personaggio (lo vedono anche gli avversari). */
+  playAbility(): void {
+    this.abilityUntil = performance.now() + 900;
+  }
+
+  /** Arrivo: il primo esulta con entrambe le braccia, gli altri alzano un braccio. */
+  playFinish(first: boolean): void {
+    this.finishUntil = performance.now() + 2600;
+    this.finishFirst = first;
+  }
+
+  private updateDriver(): void {
+    const now = performance.now();
+    const ability = now < this.abilityUntil;
+    const finish = now < this.finishUntil;
+    const [armL, armR] = this.driverArms;
+    if (armL && armR) {
+      const wheel = -Math.PI / 2.6;
+      const wave = Math.sin(now * 0.02) * 0.25;
+      armR.rotation.x = ability || finish ? -Math.PI * 0.95 + wave : wheel;
+      armL.rotation.x = finish && this.finishFirst ? -Math.PI * 0.95 - wave : wheel;
+    }
+    if (this.symbol) {
+      this.symbol.isVisible = ability;
+      if (ability) {
+        const life = 1 - (this.abilityUntil - now) / 900;
+        this.symbol.position.set(0, 1.7 + life * 0.8, -0.22);
+        this.symbol.visibility = life > 0.7 ? (1 - life) / 0.3 : 1;
+      }
+    }
   }
 
   /** Partenza di un boost: raffica di particelle dallo scarico e colpo di giri del motore. */
@@ -424,6 +500,7 @@ export class KartEntity {
     this.boostFx.dispose();
     this.dustFx.dispose();
     this.engine.stop();
+    for (const m of this.driverMats) m.dispose();
     this.root.dispose();
   }
 }
