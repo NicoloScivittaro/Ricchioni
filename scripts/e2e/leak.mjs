@@ -54,7 +54,9 @@ const METRICS = () => ({
   domOverlays: [...document.body.children].filter((el) => el.tagName === 'DIV' && /z-index:\s*(20001|30000)/.test(el.getAttribute('style') ?? '')).length,
   bodyChildren: document.body.children.length,
   timers: window.__timers?.size ?? -1,
-  osc: window.__osc ?? -1
+  // oscillatori vivi ESCLUSA la musica (le sue note sono brevi e si chiudono da sole; un motore o un suono rimasto acceso no)
+  osc: (window.__osc ?? -1) - (window.__musicOsc ?? 0),
+  musicOsc: window.__musicOsc ?? 0
 });
 
 async function heapMB(page) {
@@ -225,7 +227,8 @@ try {
     [`canvas stabili (crescita ${growth('canvases').toFixed(1)})`, growth('canvases') <= 0.5],
     [`elementi in body stabili (crescita ${growth('bodyChildren').toFixed(1)})`, growth('bodyChildren') <= 0.5],
     [`timer pendenti stabili (crescita ${growth('timers').toFixed(1)})`, growth('timers') <= 3],
-    [`oscillatori vivi al rullo ≤ 2 (max ${Math.max(...rows.map((r) => r.osc))})`, rows.every((r) => r.osc <= 2)],
+    [`oscillatori vivi al rullo (musica esclusa) ≤ 2 (max ${Math.max(...rows.map((r) => r.osc))})`, rows.every((r) => r.osc <= 2)],
+    [`note della musica stabili (crescita ${growth('musicOsc').toFixed(1)}, max ${Math.max(...rows.map((r) => r.musicOsc))})`, growth('musicOsc') <= 6],
     [`listener su window stabili (crescita ${growth('listeners').toFixed(1)})`, growth('listeners') <= 1],
     [`heap host: ${avg(first, 'heap').toFixed(0)} → ${avg(last, 'heap').toFixed(0)} MB (crescita ${growth('heap').toFixed(1)} MB, ${(rows.length)} round)`, growth('heap') <= Math.max(25, avg(first, 'heap') * 0.35)],
     [`heap telefono: ${avg(first, 'pheap').toFixed(0)} → ${avg(last, 'pheap').toFixed(0)} MB`, growth('pheap') <= Math.max(15, avg(first, 'pheap') * 0.5)]
