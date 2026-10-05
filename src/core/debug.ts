@@ -3,12 +3,14 @@
  * in produzione normale NON esiste e non costa nulla (nessun timer, nessun rAF, nessun patch dei timer).
  *
  *   F3  mostra / nasconde l'overlay      Q  cambia qualità 3D (si applica al prossimo minigioco)
+ *   T   rallentatore 1x / 0.5x / 0.25x (giochi 3D e Sparatoria: grafica e gameplay insieme)
  *
  * Mostra: fase, round/roundId, minigioco, scene Phaser attive (deve essere 1), canvas, timer JS vivi,
  * FPS + frame time medio/peggiore, heap JS (Chrome), connessione, ping, giocatori, qualità.
  */
 import { game as gm } from './GameManager';
 import { cycleQuality, getQualityInfo } from './quality';
+import { getTimeScale, setTimeScale } from './impact';
 
 const STORE = 'ricchioni.debug';
 
@@ -220,6 +222,11 @@ export function initDebug(): void {
     } else if ((e.key === 'q' || e.key === 'Q') && overlay?.isVisible() && !e.repeat) {
       const next = cycleQuality();
       console.log(`[debug] qualità 3D → ${next} (si applica al prossimo minigioco)`);
+    } else if ((e.key === 't' || e.key === 'T') && overlay?.isVisible() && !e.repeat) {
+      // rallentatore: 1x -> 0.5x -> 0.25x -> 1x (solo debug: in produzione normale l'overlay non esiste)
+      const cur = getTimeScale();
+      setTimeScale(cur === 1 ? 0.5 : cur === 0.5 ? 0.25 : 1);
+      console.log(`[debug] rallentatore → ${getTimeScale()}x`);
     }
   });
   if (wasVisible()) overlay.show();

@@ -8,6 +8,8 @@
  * (~4 FPS); oltre (tab in background, blocchi lunghi) si rallenta invece di "saltare" avanti.
  * A 30 o a 120 FPS non cambia nulla: un solo passo con il dt reale.
  */
+import { getTimeScale } from './impact';
+
 export const MAX_STEP_DT = 0.05;
 export const MAX_FRAME_DT = 0.25;
 
@@ -19,7 +21,11 @@ export function splitFrameDelta(deltaSec: number): number[] {
   return Array.from({ length: n }, () => dt);
 }
 
-/** Esegue `step` per ogni sotto-passo del frame (delta del motore in ms). */
+/**
+ * Esegue `step` per ogni sotto-passo del frame (delta del motore in ms). `getTimeScale()` vale SEMPRE 1, tranne quando il
+ * rallentatore di debug (tasto T con l'overlay F3, solo dev o ?debug=1) lo porta a 0.5 / 0.25: grafica e gameplay rallentano
+ * insieme, per controllare che animazione, suono ed evento cadano nello stesso istante.
+ */
 export function runSteps(engineDeltaMs: number, step: (dt: number) => void): void {
-  for (const dt of splitFrameDelta(engineDeltaMs / 1000)) step(dt);
+  for (const dt of splitFrameDelta((engineDeltaMs / 1000) * getTimeScale())) step(dt);
 }
