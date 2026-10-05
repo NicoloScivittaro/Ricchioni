@@ -111,7 +111,7 @@ export class FpsClient {
 
   // proiettili lenti (bombarda) ed esplosioni, a pool
   private projs: { m: Mesh; t: number; dur: number; ox: number; oy: number; oz: number; tx: number; ty: number; tz: number; on: boolean }[] = [];
-  private booms: { m: Mesh; t: number; r: number; on: boolean }[] = [];
+  private booms: { m: Mesh; ring: Mesh; t: number; r: number; on: boolean }[] = [];
 
   private selfId: string;
   private selfX = 0;
@@ -242,7 +242,12 @@ export class FpsClient {
       m.material = boomMat.clone(`boomMat${i}`);
       m.isVisible = false;
       m.isPickable = false;
-      this.booms.push({ m, t: 0, r: 4, on: false });
+      // anello a terra che si allarga: si legge l'AREA dell'esplosione (stesso effetto dello split-screen della TV)
+      const ring = MeshBuilder.CreateTorus('boomRing', { diameter: 2, thickness: 0.18, tessellation: 24 }, this.scene);
+      ring.material = boomMat.clone(`boomRingMat${i}`);
+      ring.isVisible = false;
+      ring.isPickable = false;
+      this.booms.push({ m, ring, t: 0, r: 4, on: false });
     }
 
     applyQuality(this.engine, this.scene);
@@ -532,9 +537,13 @@ export class FpsClient {
       const k = Math.min(1, b.t / 0.4);
       b.m.scaling.setAll(0.3 + k * b.r * 0.55);
       (b.m.material as StandardMaterial).alpha = 1 - k;
+      const e = 1 - Math.pow(1 - k, 3);
+      b.ring.scaling.set(0.2 + e * b.r * 1.05, 1, 0.2 + e * b.r * 1.05);
+      (b.ring.material as StandardMaterial).alpha = 1 - k * k;
       if (k >= 1) {
         b.on = false;
         b.m.isVisible = false;
+        b.ring.isVisible = false;
       }
     }
   }
@@ -653,6 +662,8 @@ export class FpsClient {
     slot.r = b.r;
     slot.m.position.set(b.x, Math.max(0.6, b.y), b.z);
     slot.m.isVisible = true;
+    slot.ring.position.set(b.x, 0.12, b.z);
+    slot.ring.isVisible = true;
     const dist = Math.hypot(b.x - this.selfX, b.z - this.selfZ);
     const rel = Math.atan2(b.x - this.selfX, b.z - this.selfZ) - this.yaw;
     sfx.boom({ gain: Math.max(0.15, 1 - dist / 45), pan: Math.max(-0.9, Math.min(0.9, Math.sin(rel))) });

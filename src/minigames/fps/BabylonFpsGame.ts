@@ -9,12 +9,19 @@ import { applyQuality, engineOptions, getQualityInfo } from '../../core/quality'
 import { debugEnabled } from '../../core/debug';
 import { presentationOf } from '../../../shared/characterPresentation';
 import { decorateHead, makeCharMaterials } from '../characters/characterModel';
+import { FpsViewmodel, recoilOf } from '../../controller/fpsViewmodel';
+import * as sfx from '../../controller/fpsAudio';
+import { getQualityLevel } from '../../core/quality';
+import { CHAR_ICONS, drawIcon, iconDataUrl } from '../../../shared/charIcons';
+import { Image as GuiImage } from '@babylonjs/gui';
 
 /** Chi ha una finestra nello split-screen: identita' visiva = nome + colore del giocatore, mai l'indice del controller. */
 export interface FpsLocalPlayer {
   id: PlayerId;
   name: string;
   color: string;
+  /** per l'icona vettoriale accanto al nome della finestra */
+  characterId?: string | null;
 }
 
 // Avviso SOLO in debug (mai durante una serata normale): FPS sotto soglia per qualche secondo con l'auto-quality gia' al minimo.
@@ -62,19 +69,80 @@ const HUD_LAYER_BIT0 = 20; // 20..24: HUD di ciascun giocatore
 const AVATAR_LAYER_BIT0 = 10;
 const DEFAULT_LAYER_MASK = 0x0fffffff;
 const hudBit = (i: number): number => 1 << (HUD_LAYER_BIT0 + i);
+// Bit "viewmodel" (arma in prima persona): 15..19, uno per finestra. L'arma e' figlia della SUA camera: le altre non devono
+// vederla (galleggerebbe nel mondo).
+const VM_LAYER_BIT0 = 15;
+const vmBit = (i: number): number => 1 << (VM_LAYER_BIT0 + i);
 const avatarBit = (i: number): number => 1 << (AVATAR_LAYER_BIT0 + i);
 
 const EYE_HEIGHT = 1.5;
+const PLAYER_SPEED = 9; // solo per normalizzare il bob dell'arma (la velocita' vera la decide FpsScene)
+const BASE_FOV = 1.05;
 
 interface CamRig {
   index: number;
   playerId: PlayerId;
   camera: UniversalCamera;
+  /** arma in prima persona (stessa del telefono: rinculo a molle per arma, lampo, ricarica, estrazione, dash) */
+  vm: FpsViewmodel;
+  /** posizione stereo della finestra (-0.6 sinistra .. +0.6 destra): i suoni di QUESTO giocatore arrivano dal suo lato */
+  pan: number;
+  prevX: number;
+  prevZ: number;
+  prevYaw: number;
+  prevPitch: number;
+  weaponId: string;
+  reloadAt: number;
+  reloadDur: number;
+  dashT: number;
+  /** calcio di camera da danno/esplosione (solo visivo) */
+  kickP: number;
+  kickR: number;
+  shake: number;
+}
+
+interface Tracer {
+  m: Mesh;
+  mat: StandardMaterial;
+  life: number;
+  max: number;
+}
+interface Proj {
+  m: Mesh;
+  t: number;
+  dur: number;
+  ox: number;
+  oy: number;
+  oz: number;
+  tx: number;
+  ty: number;
+  tz: number;
+  on: boolean;
+}
+interface Boom {
+  core: Mesh;
+  ring: Mesh;
+  coreMat: StandardMaterial;
+  ringMat: StandardMaterial;
+  t: number;
+  r: number;
+  on: boolean;
+}
+interface Debris {
+  m: Mesh;
+  vx: number;
+  vy: number;
+  vz: number;
+  life: number;
 }
 
 interface AvatarRig {
   body: Mesh;
   gun: Mesh;
+  bodyMat: StandardMaterial;
+  /** lampo dell'arma visto dagli ALTRI quando questo giocatore spara */
+  flash: Mesh;
+  flashT: number;
   /** tutte le mesh dell'avatar (capsula, arma, tratti del personaggio, targhetta): stessa layerMask */
   parts: Mesh[];
   /** ultimo stato "vivo" visto: per la piccola reazione alla morte */
@@ -95,6 +163,11 @@ interface HudEntry {
   vignette: Rectangle;
   vignetteTimer: number;
   centerText: TextBlock;
+  /** colpo che uccide: hitmarker rosso piu' grande e piu' lungo */
+  hitKill: boolean;
+  /** frecce "da dove arriva il colpo" (pool di 3, ruotano attorno al centro) */
+  dmgInds: { box: Rectangle; t: number }[];
+  dmgIdx: number;
 }
 
 export class BabylonFpsGame {
@@ -111,6 +184,18 @@ export class BabylonFpsGame {
   private perfFrames = 0;
   private perfEl: HTMLDivElement | null = null;
   private readonly debug = debugEnabled();
+  private tracers: Tracer[] = [];
+  private tracerIdx = 0;
+  private projs: Proj[] = [];
+  private booms: Boom[] = [];
+  private debris: Debris[] = [];
+  private debrisIdx = 0;
+  private remoteFlashMat!: StandardMaterial;
+  /** ultima posizione nota di ogni giocatore (indicatore direzionale del danno, distanza dalle esplosioni) */
+  private lastPos = new Map<PlayerId, { x: number; z: number }>();
+  /** su LOW (e con 4-5 finestre) meno detriti/traccianti: stesso sistema di qualita', nessuno nuovo */
+  private readonly fxLow: boolean;
+  private readonly tmpV = new Vector3();
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -132,17 +217,27 @@ export class BabylonFpsGame {
     buildFpsWorld(this.scene);
 
     const rects = splitScreenLayout(locals.length);
-    locals.forEach(({ id: pid, name, color }, i) => {
+    this.fxLow = getQualityLevel() === 'low' || locals.length >= 4;
+    this.buildFxPools();
+    const cw = canvas.clientWidth || 1280;
+    const ch = canvas.clientHeight || 720;
+    locals.forEach(({ id: pid, name, color, characterId }, i) => {
       const camera = new UniversalCamera(`fpsCam_${pid}`, new Vector3(0, EYE_HEIGHT, 0), this.scene);
-      camera.minZ = 0.15;
+      camera.minZ = 0.05; // l'arma in prima persona sta a ~0.5 m dalla camera
       camera.maxZ = 260;
-      camera.fov = 1.05;
+      camera.fov = BASE_FOV;
       camera.viewport = new Viewport(rects[i].x, rects[i].y, rects[i].w, rects[i].h);
       // Maschera camera: tutto per default, il PROPRIO gruppo HUD al posto di tutti i gruppi HUD, MAI la propria
-      // capsula (avatarBit(i) tolto qui e solo qui — le altre camere lo mantengono, la vedono normalmente).
-      camera.layerMask = (DEFAULT_LAYER_MASK & ~(0x1f << HUD_LAYER_BIT0) & ~avatarBit(i)) | hudBit(i);
-      this.cams.push({ index: i, playerId: pid, camera });
-      this.hud.set(pid, this.buildHud(i, rects.length, name, color));
+      // capsula (avatarBit(i) tolto qui e solo qui — le altre camere lo mantengono, la vedono normalmente), e solo la
+      // PROPRIA arma in prima persona.
+      camera.layerMask = (DEFAULT_LAYER_MASK & ~(0x1f << HUD_LAYER_BIT0) & ~(0x1f << VM_LAYER_BIT0) & ~avatarBit(i)) | hudBit(i) | vmBit(i);
+      const vm = new FpsViewmodel(this.scene, camera, false, vmBit(i));
+      vm.aspect = (rects[i].w * cw) / Math.max(1, rects[i].h * ch);
+      vm.scale = locals.length >= 3 ? 0.5 : 0.58;
+      vm.equip('mitraglia');
+      const pan = Math.max(-0.6, Math.min(0.6, (rects[i].x + rects[i].w / 2) * 2 - 1));
+      this.cams.push({ index: i, playerId: pid, camera, vm, pan, prevX: 0, prevZ: 0, prevYaw: 0, prevPitch: 0, weaponId: 'mitraglia', reloadAt: 0, reloadDur: 0, dashT: 0, kickP: 0, kickR: 0, shake: 0 });
+      this.hud.set(pid, this.buildHud(i, rects.length, name, color, characterId ?? null));
     });
     this.scene.activeCameras = this.cams.map((c) => c.camera);
 
@@ -222,16 +317,24 @@ export class BabylonFpsGame {
         parts.push(m as Mesh);
       }
     }
-    if (name) parts.push(this.buildTag(pid, body, `${avatar} ${name}`.trim(), pres?.accent ?? color));
+    if (name) parts.push(this.buildTag(pid, body, name, pres?.accent ?? color, characterId, avatar));
+    const flash = MeshBuilder.CreatePlane(`fpsRemoteFlash_${pid}`, { size: 0.55 }, this.scene);
+    flash.material = this.remoteFlashMat;
+    flash.billboardMode = Mesh.BILLBOARDMODE_ALL;
+    flash.parent = gun;
+    flash.position.set(0, 0, 0.38);
+    flash.isPickable = false;
+    flash.isVisible = false;
+    parts.push(flash);
     const ownIndex = this.cams.find((c) => c.playerId === pid)?.index;
     if (ownIndex !== undefined) for (const m of parts) m.layerMask = avatarBit(ownIndex);
-    rig = { body, gun, parts, wasAlive: true, deathT: 0, hitT: 0 };
+    rig = { body, gun, bodyMat: mat, flash, flashT: 0, parts, wasAlive: true, deathT: 0, hitT: 0 };
     this.avatars.set(pid, rig);
     return rig;
   }
 
   /** Targhetta sopra la testa degli ALTRI (la propria camera non la vede: stessa layerMask della capsula). */
-  private buildTag(pid: PlayerId, parent: Mesh, text: string, color: string): Mesh {
+  private buildTag(pid: PlayerId, parent: Mesh, text: string, color: string, characterId: string | null = null, avatar = ''): Mesh {
     const dt = new DynamicTexture(`fpsTag_${pid}`, { width: 256, height: 64 }, this.scene, false);
     dt.hasAlpha = true;
     const c = dt.getContext() as unknown as CanvasRenderingContext2D;
@@ -242,10 +345,13 @@ export class BabylonFpsGame {
     c.fill();
     c.fillStyle = color;
     c.fillRect(16, 50, 224, 6);
+    // icona vettoriale del personaggio + nome (l'emoji solo se manca l'icona)
+    const hasIcon = drawIcon(c, characterId ? CHAR_ICONS[characterId] : undefined, 12, 8, 44);
+    const label = hasIcon ? text : `${avatar} ${text}`.trim();
     c.fillStyle = '#ffffff';
     c.font = '800 28px Arial, sans-serif';
     c.textAlign = 'center';
-    c.fillText(text.length > 16 ? text.slice(0, 16) + '…' : text, 128, 40);
+    c.fillText(label.length > 13 ? label.slice(0, 13) + '…' : label, hasIcon ? 150 : 128, 40);
     dt.update();
     const mat = new StandardMaterial(`fpsTagMat_${pid}`, this.scene);
     mat.diffuseTexture = dt;
@@ -262,7 +368,7 @@ export class BabylonFpsGame {
     return plane;
   }
 
-  private buildHud(index: number, total: number, name: string, color: string): HudEntry {
+  private buildHud(index: number, total: number, name: string, color: string, characterId: string | null = null): HudEntry {
     const adt = AdvancedDynamicTexture.CreateFullscreenUI(`fpsHud_${index}`, true, this.scene);
     if (adt.layer) adt.layer.layerMask = hudBit(index);
 
@@ -277,9 +383,21 @@ export class BabylonFpsGame {
     nameTag.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
     nameTag.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
     nameTag.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
-    nameTag.left = '12px';
+    const iconSrc = characterId ? iconDataUrl(CHAR_ICONS[characterId]) : '';
+    nameTag.left = iconSrc ? '44px' : '12px';
     nameTag.top = '10px';
     adt.addControl(nameTag);
+    if (iconSrc) {
+      // icona vettoriale del personaggio (niente emoji del sistema)
+      const icon = new GuiImage(`fpsIcon_${index}`, iconSrc);
+      icon.width = '28px';
+      icon.height = '28px';
+      icon.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+      icon.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+      icon.left = '10px';
+      icon.top = '8px';
+      adt.addControl(icon);
+    }
 
     const panel = new Rectangle(`fpsPanel_${index}`);
     panel.width = '190px';
@@ -360,20 +478,333 @@ export class BabylonFpsGame {
     centerText.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
     adt.addControl(centerText);
 
-    return { adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText };
+    // indicatori di direzione del danno: una freccia rossa sul bordo di un cerchio invisibile, ruotato verso l'attaccante
+    const dmgInds: { box: Rectangle; t: number }[] = [];
+    for (let k = 0; k < 3; k++) {
+      const box = new Rectangle(`fpsDmgInd_${index}_${k}`);
+      box.width = total >= 4 ? '150px' : '210px';
+      box.height = box.width;
+      box.thickness = 0;
+      box.alpha = 0;
+      box.isHitTestVisible = false;
+      const arrow = new TextBlock(`fpsDmgArrow_${index}_${k}`, '▲');
+      arrow.color = '#ef4444';
+      arrow.outlineColor = '#000000';
+      arrow.outlineWidth = 3;
+      arrow.fontSize = total >= 4 ? 26 : 34;
+      arrow.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+      box.addControl(arrow);
+      adt.addControl(box);
+      dmgInds.push({ box, t: 0 });
+    }
+
+    return { adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText, hitKill: false, dmgInds, dmgIdx: 0 };
   }
 
-  /** Un colpo confermato dal PROPRIO sparo (hitmarker) o un danno subito (vignetta rossa) — solo feedback, nessuna logica. */
-  notifyHit(shooterId: PlayerId | null, targetId: PlayerId | null): void {
-    if (shooterId) {
-      const h = this.hud.get(shooterId);
-      if (h) h.hitmarkerTimer = 0.18;
+  /** Pool di effetti condivisi (visibili a tutte le finestre): traccianti, proiettili, esplosioni, detriti. Nessuna allocazione per colpo. */
+  private buildFxPools(): void {
+    const s = this.scene;
+    const em = (name: string, r: number, g: number, b: number): StandardMaterial => {
+      const m = new StandardMaterial(name, s);
+      m.emissiveColor = new Color3(r, g, b);
+      m.diffuseColor = new Color3(0, 0, 0);
+      m.disableLighting = true;
+      return m;
+    };
+    for (let i = 0; i < (this.fxLow ? 16 : 28); i++) {
+      const m = MeshBuilder.CreateBox(`fpsTracer${i}`, { size: 1 }, s);
+      const mt = em(`fpsTracerMat${i}`, 1, 0.8, 0.3);
+      m.material = mt;
+      m.isVisible = false;
+      m.isPickable = false;
+      this.tracers.push({ m, mat: mt, life: 0, max: 0.06 });
     }
-    if (targetId) {
-      const h = this.hud.get(targetId);
-      if (h) h.vignetteTimer = 0.35;
-      const a = this.avatars.get(targetId);
+    this.remoteFlashMat = em('fpsRemoteFlashMat', 1, 0.85, 0.4);
+    this.remoteFlashMat.backFaceCulling = false;
+    const projMat = em('fpsProjMat', 1, 0.55, 0.15);
+    for (let i = 0; i < 5; i++) {
+      const m = MeshBuilder.CreateSphere(`fpsProj${i}`, { diameter: 0.5, segments: 8 }, s);
+      m.material = projMat;
+      m.isVisible = false;
+      m.isPickable = false;
+      this.projs.push({ m, t: 0, dur: 1, ox: 0, oy: 0, oz: 0, tx: 0, ty: 0, tz: 0, on: false });
+    }
+    for (let i = 0; i < 3; i++) {
+      const coreMat = em(`fpsBoomCore${i}`, 1, 0.62, 0.2);
+      const ringMat = em(`fpsBoomRing${i}`, 1, 0.85, 0.45);
+      const core = MeshBuilder.CreateSphere(`fpsBoom${i}`, { diameter: 2, segments: 10 }, s);
+      core.material = coreMat;
+      const ring = MeshBuilder.CreateTorus(`fpsBoomRing${i}`, { diameter: 2, thickness: 0.18, tessellation: 24 }, s);
+      ring.material = ringMat;
+      for (const m of [core, ring]) {
+        m.isVisible = false;
+        m.isPickable = false;
+      }
+      this.booms.push({ core, ring, coreMat, ringMat, t: 0, r: 4, on: false });
+    }
+    const debMat = em('fpsDebrisMat', 1, 0.7, 0.25);
+    for (let i = 0; i < (this.fxLow ? 10 : 20); i++) {
+      const m = MeshBuilder.CreateBox(`fpsDebris${i}`, { size: 0.16 }, s);
+      m.material = debMat;
+      m.isVisible = false;
+      m.isPickable = false;
+      this.debris.push({ m, vx: 0, vy: 0, vz: 0, life: 0 });
+    }
+  }
+
+  /**
+   * UNO SPARO (dalla simulazione, nello stesso istante in cui FpsScene applica il colpo): rinculo/lampo/suono per chi spara se ha
+   * una finestra qui, lampo sull'arma vista dagli altri, un tracciante per pallino (non per la bombarda: il suo proiettile vola).
+   */
+  notifyShot(shooterId: PlayerId, weaponId: string, segs: { ox: number; oy: number; oz: number; ex: number; ey: number; ez: number }[]): void {
+    if (this.disposed) return;
+    const prof = recoilOf(weaponId);
+    const cam = this.cams.find((c) => c.playerId === shooterId);
+    if (cam) {
+      if (cam.weaponId !== weaponId) {
+        cam.vm.equip(weaponId);
+        cam.weaponId = weaponId;
+      }
+      cam.vm.fire();
+      sfx.shot(weaponId, { gain: 0.5, pan: cam.pan });
+    } else {
+      sfx.shot(weaponId, { gain: 0.22, pan: 0 });
+    }
+    const a = this.avatars.get(shooterId);
+    if (a) {
+      a.flashT = 0.06;
+      a.flash.isVisible = true;
+      a.flash.rotation.z = Math.random() * Math.PI;
+    }
+    if (prof.tracer.thick <= 0) return;
+    const max = this.fxLow ? Math.min(segs.length, 3) : segs.length;
+    for (let i = 0; i < max; i++) {
+      const sg = segs[i];
+      const t = this.tracers[this.tracerIdx++ % this.tracers.length];
+      // dal vivo di volata al punto colpito; parte ~1.6 m avanti: piu' vicino, nella finestra di chi spara diventerebbe una
+      // barra spessa davanti alla mira
+      const dx = sg.ex - sg.ox;
+      const dz = sg.ez - sg.oz;
+      const len = Math.hypot(dx, sg.ey - sg.oy, dz) || 1;
+      const start = Math.min(1.6, len * 0.5);
+      const sx = sg.ox + (dx / len) * start + (dz / len) * 0.12;
+      const sy = sg.oy - 0.1;
+      const sz = sg.oz + (dz / len) * start - (dx / len) * 0.12;
+      const L = Math.max(0.2, Math.hypot(sg.ex - sx, sg.ey - sy, sg.ez - sz));
+      t.m.position.set((sx + sg.ex) / 2, (sy + sg.ey) / 2, (sz + sg.ez) / 2);
+      t.m.scaling.set(prof.tracer.thick * 1.1, prof.tracer.thick * 1.1, L);
+      this.tmpV.set(sg.ex, sg.ey, sg.ez);
+      t.m.lookAt(this.tmpV);
+      t.mat.emissiveColor.set(prof.tracer.color[0], prof.tracer.color[1], prof.tracer.color[2]);
+      t.m.visibility = 1;
+      t.m.isVisible = true;
+      t.life = t.max = Math.max(0.05, prof.tracer.life * 1.4);
+    }
+  }
+
+  /**
+   * Segnali della simulazione (gli stessi che arrivano ai telefoni, intercettati da FpsScene): solo feedback visivo/sonoro.
+   * proj/boom = bombarda; damaged/hit = danno subito/inflitto (confermato dall'host); reload/equip/dash = arma.
+   */
+  onSignal(pid: PlayerId | null, msg: Record<string, unknown>): void {
+    if (this.disposed) return;
+    const type = msg.type;
+    if (type === 'proj') {
+      const slot = this.projs.find((q) => !q.on);
+      if (!slot) return;
+      slot.ox = Number(msg.ox);
+      slot.oy = Number(msg.oy);
+      slot.oz = Number(msg.oz);
+      slot.tx = Number(msg.tx);
+      slot.ty = Number(msg.ty);
+      slot.tz = Number(msg.tz);
+      slot.dur = Math.max(0.1, Number(msg.dur) || 0.5);
+      // il proiettile si vede nascere ~1.2 m davanti a chi spara: dagli occhi riempirebbe la sua finestra (solo grafica,
+      // il punto d'arrivo e l'istante dell'esplosione restano quelli della simulazione)
+      const len = Math.hypot(slot.tx - slot.ox, slot.tz - slot.oz) || 1;
+      const k = Math.min(0.4, 1.2 / len);
+      slot.ox += (slot.tx - slot.ox) * k;
+      slot.oy += (slot.ty - slot.oy) * k;
+      slot.oz += (slot.tz - slot.oz) * k;
+      slot.t = 0;
+      slot.on = true;
+      slot.m.position.set(slot.ox, slot.oy, slot.oz);
+      slot.m.isVisible = true;
+      if (slot.dur > 0.4) sfx.whistle(slot.dur);
+      return;
+    }
+    if (type === 'boom') {
+      this.boom(Number(msg.x), Number(msg.y), Number(msg.z), Number(msg.r) || 4);
+      return;
+    }
+    if (!pid) return;
+    const cam = this.cams.find((c) => c.playerId === pid);
+    const h = this.hud.get(pid);
+    if (type === 'hit' && h) {
+      // colpo CONFERMATO dall'host: hitmarker (piu' grosso e rosso sulla kill) + tick sonoro
+      h.hitKill = msg.kill === true;
+      h.hitmarkerTimer = h.hitKill ? 0.42 : 0.2;
+      if (h.hitKill) sfx.kill();
+      else sfx.hitTick(Number(msg.dmg) || 10);
+    } else if (type === 'damaged') {
+      const amount = Number(msg.amount) || 10;
+      const a = this.avatars.get(pid);
       if (a) a.hitT = 0.22;
+      if (h) h.vignetteTimer = 0.35;
+      if (cam) {
+        cam.kickP += Math.min(0.09, 0.02 + amount * 0.0012);
+        cam.kickR += (Math.random() < 0.5 ? -1 : 1) * Math.min(0.07, 0.02 + amount * 0.001);
+        cam.shake = Math.min(1, cam.shake + amount / 70);
+        sfx.hurt(amount);
+      }
+      const from = this.lastPos.get(String(msg.from));
+      const me = this.lastPos.get(pid);
+      if (h && from && me) {
+        const ind = h.dmgInds[h.dmgIdx++ % h.dmgInds.length];
+        ind.box.rotation = Math.atan2(from.x - me.x, from.z - me.z) - (cam ? cam.prevYaw : 0);
+        ind.t = 1;
+      }
+    } else if (type === 'reload' && cam) {
+      cam.reloadAt = performance.now();
+      cam.reloadDur = (Number(msg.duration) || 1.5) * 1000;
+      sfx.reload(String(msg.weaponId ?? cam.weaponId), Number(msg.duration) || 1.5);
+    } else if (type === 'equip' && cam) {
+      const w = String(msg.weaponId);
+      cam.vm.equip(w);
+      cam.weaponId = w;
+      sfx.equip(w);
+    } else if (type === 'dash' && cam) {
+      cam.vm.dash();
+      cam.dashT = 0.18;
+    }
+  }
+
+  /** Esplosione della bombarda: palla di fuoco + anello che si allarga + detriti, scossa proporzionata alla distanza. */
+  private boom(x: number, y: number, z: number, r: number): void {
+    const b = this.booms.find((q) => !q.on) ?? this.booms[0];
+    b.on = true;
+    b.t = 0;
+    b.r = r;
+    b.core.position.set(x, Math.max(0.6, y), z);
+    b.ring.position.set(x, 0.12, z);
+    b.core.isVisible = true;
+    b.ring.isVisible = true;
+    const n = this.fxLow ? 6 : 12;
+    for (let i = 0; i < n; i++) {
+      const d = this.debris[this.debrisIdx++ % this.debris.length];
+      const ang = Math.random() * Math.PI * 2;
+      const sp = 4 + Math.random() * 6;
+      d.m.position.set(x, Math.max(0.6, y), z);
+      d.vx = Math.cos(ang) * sp;
+      d.vz = Math.sin(ang) * sp;
+      d.vy = 3 + Math.random() * 5;
+      d.life = 0.5 + Math.random() * 0.3;
+      d.m.isVisible = true;
+    }
+    let nearest = Infinity;
+    for (const cam of this.cams) {
+      const me = this.lastPos.get(cam.playerId);
+      if (!me) continue;
+      const dist = Math.hypot(x - me.x, z - me.z);
+      nearest = Math.min(nearest, dist);
+      if (dist < 12) {
+        const k = 1 - dist / 12;
+        cam.shake = Math.min(1, cam.shake + k);
+        cam.kickP += 0.05 * k;
+      }
+    }
+    sfx.boom({ gain: Number.isFinite(nearest) ? Math.max(0.2, 1 - nearest / 45) : 0.5 });
+  }
+
+  /** Compatibilita': un colpo confermato (hitmarker) o un danno subito (vignetta) senza dettagli. */
+  notifyHit(shooterId: PlayerId | null, targetId: PlayerId | null): void {
+    if (shooterId) this.onSignal(shooterId, { type: 'hit', dmg: 10, kill: false });
+    if (targetId) this.onSignal(targetId, { type: 'damaged', amount: 10, from: '' });
+  }
+
+  /** Camera + arma in prima persona di una finestra: calci e scosse SOLO visivi (la mira vera resta quella di FpsScene). */
+  private updateCam(cam: CamRig, snap: FpsRenderSnapshot, dt: number): void {
+    const d = Math.max(1e-3, dt);
+    const speedFrac = snap.alive ? Math.min(1, Math.hypot(snap.x - cam.prevX, snap.z - cam.prevZ) / d / PLAYER_SPEED) : 0;
+    let dyaw = snap.yaw - cam.prevYaw;
+    while (dyaw > Math.PI) dyaw -= Math.PI * 2;
+    while (dyaw < -Math.PI) dyaw += Math.PI * 2;
+    // il sway dell'arma e' tarato sui pixel di trascinamento del telefono: ~600 px per radiante
+    const lookDx = dyaw * 600;
+    const lookDy = -(snap.pitch - cam.prevPitch) * 600;
+    cam.prevX = snap.x;
+    cam.prevZ = snap.z;
+    cam.prevYaw = snap.yaw;
+    cam.prevPitch = snap.pitch;
+    if (snap.weaponId !== cam.weaponId) {
+      cam.vm.equip(snap.weaponId);
+      cam.weaponId = snap.weaponId;
+    }
+    let reloadP = 0;
+    if (snap.reloading && cam.reloadAt > 0) reloadP = Math.min(0.999, Math.max(0.001, (performance.now() - cam.reloadAt) / cam.reloadDur));
+    else if (!snap.reloading) cam.reloadAt = 0;
+    cam.dashT = Math.max(0, cam.dashT - dt);
+    cam.vm.update(dt, speedFrac, lookDx, lookDy, reloadP, cam.dashT > 0);
+
+    cam.kickP *= Math.max(0, 1 - dt * 9);
+    cam.kickR *= Math.max(0, 1 - dt * 7);
+    cam.shake = Math.max(0, cam.shake - dt * 2.5);
+    if (!snap.alive) return;
+    const sh = cam.shake * 0.1;
+    cam.camera.position.set(snap.x + (Math.random() - 0.5) * sh, EYE_HEIGHT + (Math.random() - 0.5) * sh, snap.z + (Math.random() - 0.5) * sh);
+    cam.camera.rotation.y = snap.yaw + cam.vm.cameraKickYaw;
+    cam.camera.rotation.x = -(snap.pitch + cam.vm.cameraKickPitch + cam.kickP);
+    cam.camera.rotation.z = cam.kickR;
+    cam.camera.fov = BASE_FOV + 0.12 * cam.vm.fovKick;
+  }
+
+  /** Effetti condivisi: traccianti che sfumano, proiettili in volo, esplosioni, detriti. */
+  private updateFx(dt: number): void {
+    for (const t of this.tracers) {
+      if (t.life <= 0) continue;
+      t.life -= dt;
+      t.m.visibility = Math.max(0, t.life / t.max);
+      if (t.life <= 0) t.m.isVisible = false;
+    }
+    for (const p of this.projs) {
+      if (!p.on) continue;
+      p.t += dt;
+      const k = Math.min(1, p.t / p.dur);
+      p.m.position.set(p.ox + (p.tx - p.ox) * k, p.oy + (p.ty - p.oy) * k - Math.sin(k * Math.PI) * 0.4, p.oz + (p.tz - p.oz) * k);
+      p.m.scaling.setAll(1 + Math.sin(p.t * 30) * 0.12);
+      if (k >= 1) {
+        p.on = false;
+        p.m.isVisible = false;
+      }
+    }
+    for (const b of this.booms) {
+      if (!b.on) continue;
+      b.t += dt;
+      const k = Math.min(1, b.t / 0.42);
+      // scatto rapido poi rallenta (ease-out): il botto "esplode", non si gonfia
+      const e = 1 - Math.pow(1 - k, 3);
+      b.core.scaling.setAll(0.3 + e * b.r * 0.5);
+      b.coreMat.alpha = 1 - k;
+      b.ring.scaling.set(0.2 + e * b.r * 1.05, 1, 0.2 + e * b.r * 1.05);
+      b.ringMat.alpha = 1 - k * k;
+      if (k >= 1) {
+        b.on = false;
+        b.core.isVisible = false;
+        b.ring.isVisible = false;
+      }
+    }
+    for (const d of this.debris) {
+      if (d.life <= 0) continue;
+      d.life -= dt;
+      if (d.life <= 0) {
+        d.m.isVisible = false;
+        continue;
+      }
+      d.vy -= 18 * dt;
+      d.m.position.x += d.vx * dt;
+      d.m.position.y = Math.max(0.05, d.m.position.y + d.vy * dt);
+      d.m.position.z += d.vz * dt;
+      d.m.rotation.x += dt * 9;
     }
   }
 
@@ -384,6 +815,7 @@ export class BabylonFpsGame {
   /** Chiamato dal chiamante (FpsScene) una volta al frame: aggiorna camere/avatar/HUD dallo stato di simulazione. */
   update(dt: number, players: FpsRenderSnapshot[]): void {
     if (this.disposed) return;
+    this.updateFx(dt);
     for (const snap of players) {
       const rig = this.ensureAvatar(snap.id, snap.color, snap.characterId ?? null, snap.avatar ?? '', snap.displayName ?? snap.name);
       // reazione all'eliminazione: la capsula si accascia per un attimo invece di sparire di colpo (solo grafica)
@@ -400,6 +832,14 @@ export class BabylonFpsGame {
       }
       if (rig.hitT > 0) rig.hitT = Math.max(0, rig.hitT - dt);
       rig.body.rotation.z = rig.hitT > 0 ? Math.sin(rig.hitT * 45) * 0.14 : 0;
+      // lampo bianco brevissimo sulla capsula colpita (si vede CHI e' stato colpito anche da lontano)
+      const fl = rig.hitT > 0.14 ? 0.85 : 0;
+      rig.bodyMat.emissiveColor.set(fl, fl, fl);
+      if (rig.flashT > 0) {
+        rig.flashT -= dt;
+        if (rig.flashT <= 0) rig.flash.isVisible = false;
+      }
+      this.lastPos.set(snap.id, { x: snap.x, z: snap.z });
       rig.body.setEnabled(snap.alive || rig.deathT > 0);
       if (snap.alive) {
         rig.body.position.x = snap.x;
@@ -407,11 +847,7 @@ export class BabylonFpsGame {
         rig.body.rotation.y = snap.yaw;
       }
       const cam = this.cams.find((c) => c.playerId === snap.id);
-      if (cam && snap.alive) {
-        cam.camera.position.set(snap.x, EYE_HEIGHT, snap.z);
-        cam.camera.rotation.y = snap.yaw;
-        cam.camera.rotation.x = -snap.pitch;
-      }
+      if (cam) this.updateCam(cam, snap, dt);
       const h = this.hud.get(snap.id);
       if (!h) continue;
       const frac = Math.max(0, Math.min(1, snap.hp / snap.maxHp));
@@ -424,7 +860,19 @@ export class BabylonFpsGame {
 
       if (h.hitmarkerTimer > 0) {
         h.hitmarkerTimer -= dt;
-        h.hitmarker.alpha = Math.max(0, Math.min(1, h.hitmarkerTimer / 0.18));
+        const dur = h.hitKill ? 0.42 : 0.2;
+        const life = 1 - h.hitmarkerTimer / dur;
+        h.hitmarker.alpha = Math.max(0, Math.min(1, h.hitmarkerTimer / (dur * 0.6)));
+        // pulse: parte grande e si stringe (scatto); la kill e' rossa e piu' grossa
+        const sc = (h.hitKill ? 1.6 : 1) * (1 + 0.5 * Math.max(0, 1 - life * 4));
+        h.hitmarker.scaleX = sc;
+        h.hitmarker.scaleY = sc;
+        h.hitmarker.color = h.hitKill ? '#ff4d4d' : '#ffffff';
+      }
+      for (const ind of h.dmgInds) {
+        if (ind.t <= 0) continue;
+        ind.t = Math.max(0, ind.t - dt);
+        ind.box.alpha = Math.min(1, ind.t * 2.2);
       }
       if (h.vignetteTimer > 0) {
         h.vignetteTimer -= dt;
@@ -439,6 +887,7 @@ export class BabylonFpsGame {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    for (const c of this.cams) safely('fpsVm.dispose', () => c.vm.dispose());
     window.removeEventListener('resize', this.onResize);
     this.perfEl?.remove();
     this.perfEl = null;

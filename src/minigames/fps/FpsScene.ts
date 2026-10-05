@@ -12,6 +12,7 @@ import type { PlayerId } from '../../../shared/types';
 import { characterInitial } from '../../../shared/characters';
 import { pads } from '../../input/GamepadManager';
 import { HAPTIC } from '../../core/haptics';
+import { getTimeScale } from '../../core/impact';
 import { responseCurve } from '../../input/padMath';
 import type { BabylonFpsGame, FpsLocalPlayer, FpsRenderSnapshot } from './BabylonFpsGame';
 
@@ -215,7 +216,7 @@ export class FpsScene extends Phaser.Scene {
     // modifica al percorso telefono). L'ordine e' quello dei giocatori in stanza: stabile, mai per indice del pad.
     const locals: FpsLocalPlayer[] = this.ctx.players
       .filter((p) => pads.slotOf(p.id)?.state === 'paired')
-      .map((p) => ({ id: p.id, name: `${p.avatar} ${p.displayName}`, color: p.color }));
+      .map((p) => ({ id: p.id, name: p.displayName, color: p.color, characterId: p.characterId }));
     if (locals.length > 0) void this.bootSplitScreen(locals);
 
     // Intercetta i segnali (stesso ctx.signal usato dai telefoni: nessun percorso nuovo) SOLO per il feedback
@@ -223,9 +224,10 @@ export class FpsScene extends Phaser.Scene {
     const originalSignal = this.ctx.signal.bind(this.ctx);
     this.ctx.signal = (pid: PlayerId | null, msg: Record<string, unknown>): void => {
       originalSignal(pid, msg);
-      if (!this.splitScreen || !pid) return;
-      if (msg.type === 'damaged') this.splitScreen.notifyHit(null, pid);
-      else if (msg.type === 'hit') this.splitScreen.notifyHit(pid, null);
+      if (!this.splitScreen) return;
+      this.splitScreen.onSignal(pid, msg);
+      // conferma del colpo sul CONTROLLER (il telefono ha gia' la sua): solo chi gioca nello split-screen, mai due volte
+      if (pid && msg.type === 'hit' && msg.kill !== true && this.splitScreen.isLocal(pid)) this.ctx.vibrate(pid, HAPTIC.LIGHT);
     };
 
     // Schermata CONTROLLI: finche' e' su, la simulazione resta ferma (vedi update()).
@@ -318,7 +320,7 @@ export class FpsScene extends Phaser.Scene {
       return;
     }
     // Tempo reale (vedi core/frameClock): il timer scala con l'orologio, la simulazione va a sotto-passi.
-    const steps = splitFrameDelta(delta / 1000);
+    const steps = splitFrameDelta((delta / 1000) * getTimeScale()); // getTimeScale: 1, salvo rallentatore di debug
     const dt = steps.reduce((a, b) => a + b, 0);
     this.matchTime -= dt;
     this.timerText.setText(`TEMPO ${Math.max(0, Math.ceil(this.matchTime))}`);
@@ -496,7 +498,9 @@ export class FpsScene extends Phaser.Scene {
     p.magazine--;
     p.shotsFired++;
     p.firing = true;
-    if (weapon.fireRate < 4) audio.tick(0.75); // sulla TV solo le armi lente: la mitraglia sarebbe un ticchettio continuo
+    // sulla TV senza split-screen solo un tick per le armi lente; con lo split-screen ogni arma ha il suo suono (BabylonFpsGame)
+    if (weapon.fireRate < 4 && !this.splitScreen) audio.tick(0.75);
+    const segs: { ox: number; oy: number; oz: number; ex: number; ey: number; ez: number }[] = [];
 
     const ox = p.x;
     const oy = EYE_HEIGHT;
@@ -533,7 +537,10 @@ export class FpsScene extends Phaser.Scene {
       } else if (hitPlayer) {
         damageBy.set(hitPlayer, (damageBy.get(hitPlayer) ?? 0) + weapon.damage);
       }
+      segs.push({ ox, oy, oz, ex: ox + dx * bestT, ey: oy + dy * bestT, ez: oz + dz * bestT });
     }
+    // solo grafica/suono, nello stesso istante del colpo: rinculo, lampo e traccianti fino al punto colpito VERO
+    this.splitScreen?.notifyShot(p.id, weapon.id, segs);
 
     let connected = false;
     for (const [victim, dmg] of damageBy) if (this.applyDamage(victim, dmg, p)) connected = true;

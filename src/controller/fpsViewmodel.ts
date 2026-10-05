@@ -136,6 +136,8 @@ export class FpsViewmodel {
   stepEvent = false;
   /** Larghezza/altezza dello schermo: in verticale l'arma va verso il centro (l'FOV orizzontale e' piu' stretto). */
   aspect = 2;
+  /** Dimensione dell'arma (1 = telefono). Lo split-screen della TV la rimpicciolisce: le finestre sono quasi quadrate. */
+  scale = 1;
 
   // muzzle flash + effetti (tutti a pool)
   private flash: Mesh;
@@ -151,7 +153,11 @@ export class FpsViewmodel {
   private lightK = 0;
   private profile: RecoilProfile = RECOIL.mitraglia;
 
-  constructor(private scene: Scene, camera: UniversalCamera, highQuality: boolean) {
+  /**
+   * `layerMask`: solo per lo split-screen della TV (piu' camere nella stessa scena): ogni mesh del viewmodel porta il bit della
+   * SUA camera, cosi' le altre finestre non la vedono. Sul telefono resta quella di default (una camera sola).
+   */
+  constructor(private scene: Scene, camera: UniversalCamera, highQuality: boolean, private layerMask?: number) {
     this.holder = new TransformNode('vmHolder', scene);
     this.holder.parent = camera;
     this.holder.position.set(BASE_X, BASE_Y, BASE_Z);
@@ -188,6 +194,7 @@ export class FpsViewmodel {
     this.flash.billboardMode = Mesh.BILLBOARDMODE_ALL;
     this.flash.isPickable = false;
     this.flash.isVisible = false;
+    if (layerMask !== undefined) this.flash.layerMask = layerMask;
 
     this.sparkMat = new StandardMaterial('sparkMat', scene);
     this.sparkMat.emissiveColor = new Color3(1, 0.7, 0.2);
@@ -199,6 +206,7 @@ export class FpsViewmodel {
       m.parent = camera;
       m.isPickable = false;
       m.isVisible = false;
+      if (layerMask !== undefined) m.layerMask = layerMask;
       this.sparks.push({ m, vx: 0, vy: 0, vz: 0, life: 0 });
     }
     this.smokeMat = new StandardMaterial('smokeMat', scene);
@@ -212,10 +220,11 @@ export class FpsViewmodel {
       m.parent = camera;
       m.isPickable = false;
       m.isVisible = false;
+      if (layerMask !== undefined) m.layerMask = layerMask;
       this.smokes.push({ m, life: 0 });
     }
     // piccola luce del lampo: SOLO su HIGH (una luce in piu' costa su GPU deboli)
-    if (highQuality) {
+    if (highQuality && layerMask === undefined) {
       this.light = new PointLight('muzzleLight', new Vector3(0.25, -0.05, 0.9), scene);
       this.light.parent = camera;
       this.light.range = 7;
@@ -236,6 +245,7 @@ export class FpsViewmodel {
       m.parent = root;
       m.position.set(x, y, z);
       m.isPickable = false;
+      if (this.layerMask !== undefined) m.layerMask = this.layerMask;
       return m;
     };
     const box = (w: number, h: number, d: number, hex: string, x: number, y: number, z: number): Mesh => {
@@ -317,6 +327,7 @@ export class FpsViewmodel {
         ring(0.115, 0.014, '#86efac', 0, 0, 0.22);
         spin = ball(0.13, '#bbf7d0', 0, 0.1, -0.02, '#4ade80');
         const nozzle = MeshBuilder.CreateCylinder('n', { diameterBottom: 0.05, diameterTop: 0.02, height: 0.1, tessellation: 8 }, s);
+        if (this.layerMask !== undefined) nozzle.layerMask = this.layerMask;
         nozzle.rotation.x = Math.PI / 2;
         nozzle.material = mat(s, '#166534');
         part(nozzle, 0, 0, 0.32);
@@ -551,6 +562,8 @@ export class FpsViewmodel {
     this.holder.rotation.x = this.rx + eoRx + rdRx + 0.04 * dk;
     this.holder.rotation.z = -this.swayY * 4 + this.rz + rdRz + 0.3 * dk;
     this.holder.rotation.y = -0.07 - this.x * 0.6; // la canna punta un filo verso il centro
+    this.holder.scaling.setAll(this.scale);
+    if (this.scale !== 1) this.holder.position.y -= 0.04 * (1 - this.scale);
 
     // lampo, scintille, fumo, luce
     if (this.flashT > 0) {
