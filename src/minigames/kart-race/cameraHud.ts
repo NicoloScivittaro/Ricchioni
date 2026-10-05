@@ -64,7 +64,10 @@ interface CamRig {
   smoothFov: number;
   fovKick: number; // 1 -> 0 dopo la partenza di un boost
   shakeTimer: number;
+  shakeMag: number;
   prevStunned: boolean;
+  /** spostamento laterale della camera in derapata (leggerissimo, smussato) */
+  driftOff: number;
 }
 
 /** Camera third-person per kart + split-screen via viewport multipli sulla STESSA scena. */
@@ -80,7 +83,7 @@ export class CameraManager {
       camera.fov = CAM_BASE_FOV;
       camera.minZ = 0.3;
       camera.maxZ = 1200;
-      rig = { camera, smoothPos: startPos.clone(), smoothLook: startPos.clone(), smoothFov: CAM_BASE_FOV, fovKick: 0, shakeTimer: 0, prevStunned: false };
+      rig = { camera, smoothPos: startPos.clone(), smoothLook: startPos.clone(), smoothFov: CAM_BASE_FOV, fovKick: 0, shakeTimer: 0, shakeMag: 0.18, prevStunned: false, driftOff: 0 };
       this.rigs.set(playerId, rig);
     }
     return rig.camera;
@@ -90,6 +93,14 @@ export class CameraManager {
   kick(playerId: PlayerId): void {
     const rig = this.rigs.get(playerId);
     if (rig) rig.fovKick = 1;
+  }
+
+  /** Scossa breve della camera di UN giocatore (collisione grossa): `mag` 0.1 leggera .. 0.25 forte. */
+  shake(playerId: PlayerId, mag: number): void {
+    const rig = this.rigs.get(playerId);
+    if (!rig || rig.shakeTimer > 0.1) return; // non accumula: ogni urto non deve far tremare tutto
+    rig.shakeTimer = 0.2;
+    rig.shakeMag = mag;
   }
 
   applyLayout(order: PlayerId[]): void {
@@ -120,7 +131,9 @@ export class CameraManager {
 
     rig.fovKick = Math.max(0, rig.fovKick - dt * 2.2);
     const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1 + rig.fovKick * 0.9)).add(new Vector3(0, CAM_UP, 0));
-    const anticipate = right.scale(state.heading * 2.2);
+    // in derapata la camera scivola appena verso l'esterno della curva: si sente il kart di traverso (sterzo invariato)
+    rig.driftOff += ((state.drifting ? -state.driftDir * 0.45 : 0) - rig.driftOff) * Math.min(1, dt * 4);
+    const anticipate = right.scale(state.heading * 2.2 + rig.driftOff);
     const desiredLook = kartPos.add(forward.scale(CAM_LOOK_AHEAD)).add(anticipate).add(new Vector3(0, 0.8, 0));
 
     const alpha = 1 - Math.exp(-CAM_FOLLOW_SPEED * dt);
@@ -133,13 +146,16 @@ export class CameraManager {
     rig.smoothFov = rig.smoothFov + (targetFov - rig.smoothFov) * Math.min(1, dt * 5);
 
     const stunned = state.stunTimer > 0;
-    if (stunned && !rig.prevStunned) rig.shakeTimer = 0.28;
+    if (stunned && !rig.prevStunned) {
+      rig.shakeTimer = 0.28;
+      rig.shakeMag = 0.18;
+    }
     rig.prevStunned = stunned;
 
     let shakeOffset = Vector3.Zero();
     if (rig.shakeTimer > 0) {
       rig.shakeTimer -= dt;
-      const mag = 0.18 * (rig.shakeTimer / 0.28);
+      const mag = rig.shakeMag * Math.min(1, rig.shakeTimer / 0.28);
       shakeOffset = new Vector3((Math.random() - 0.5) * mag, (Math.random() - 0.5) * mag, (Math.random() - 0.5) * mag);
     }
 
@@ -169,6 +185,9 @@ interface HudEntry {
   debtText: TextBlock;
   flashText: TextBlock;
   flashTimer: number;
+  /** linee di velocita' ai lati durante il boost (nessun cambio di velocita' massima: solo percezione) */
+  speedLines: Rectangle[];
+  speedT: number;
   mapBox: Rectangle | null;
   dots: Map<PlayerId, { dot: Ellipse; arrow: TextBlock | null; tag: TextBlock | null }>;
 }
@@ -479,7 +498,21 @@ export class KartHud {
       img.height = '100%';
       mapBox.addControl(img);
     }
-    e = { mapBox, dots: new Map(), adt, countdownText, panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, debtText, flashText, flashTimer: 0 };
+    const speedLines: Rectangle[] = [];
+    for (let i = 0; i < 8; i++) {
+      const l = new Rectangle(`speedLine_${playerId}_${i}`);
+      l.width = '150px';
+      l.height = `${2 + (i % 3)}px`;
+      l.thickness = 0;
+      l.background = '#ffffff';
+      l.alpha = 0;
+      l.isHitTestVisible = false;
+      l.horizontalAlignment = i % 2 === 0 ? Control.HORIZONTAL_ALIGNMENT_LEFT : Control.HORIZONTAL_ALIGNMENT_RIGHT;
+      l.top = `${-200 + i * 52}px`;
+      adt.addControl(l);
+      speedLines.push(l);
+    }
+    e = { mapBox, dots: new Map(), adt, countdownText, panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, debtText, flashText, flashTimer: 0, speedLines, speedT: 0 };
     this.entries.set(playerId, e);
     return e;
   }
@@ -560,6 +593,18 @@ export class KartHud {
       e.flashTimer -= dt;
       e.flashText.alpha = Math.min(1, e.flashTimer * 3);
       if (e.flashTimer <= 0) e.flashText.text = '';
+    }
+
+    // linee di velocita': scorrono dai bordi verso l'esterno finche' dura il boost, poi sfumano
+    const boosting = state.boostTimer > 0;
+    e.speedT += dt * (boosting ? 3.2 : 0);
+    for (let i = 0; i < e.speedLines.length; i++) {
+      const l = e.speedLines[i];
+      const ph = (e.speedT + i * 0.37) % 1;
+      const target = boosting ? 0.55 * (1 - ph) : 0;
+      l.alpha += (target - l.alpha) * Math.min(1, dt * 12);
+      l.left = `${(i % 2 === 0 ? 1 : -1) * (10 + ph * 70)}px`;
+      l.width = `${90 + (1 - ph) * 120}px`;
     }
   }
 

@@ -710,6 +710,7 @@ export class BabylonDodgeballGame {
           ball.state = 'held';
           ball.holderId = best.id;
           best.hasBall = true;
+          this.entities.get(best.id)?.playPickup();
           audio.pickupPop();
           this.ctx.vibrate(best.id, 35);
           this.ctx.signal(best.id, { type: 'gotBall' });
@@ -763,6 +764,8 @@ export class BabylonDodgeballGame {
     const nz = dist > 0.001 ? dz / dist : 0;
     const result = this.abilities.handleIncomingHit(p, (f) => this.onAbilityFeedback(p, f));
 
+    // il colpo arriva da DOVE viaggiava la palla: il corpo cede da quella parte (solo grafica)
+    this.entities.get(p.id)?.playHitFrom(nx, nz, result === 'survive' ? 0.6 : 1);
     if (result === 'survive') {
       this.applyKnockback(p, nx, nz, KNOCKBACK_HIT);
       // La palla rimbalza via.

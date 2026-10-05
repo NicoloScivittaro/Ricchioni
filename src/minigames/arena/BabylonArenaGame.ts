@@ -233,16 +233,20 @@ export class BabylonArenaGame {
     this.players.forEach((p, i) => {
       if (!p.alive || p.falling) {
         this.edgeMarkers.hide(i);
+        this.entities.get(p.id)?.setEdge(null);
         return;
       }
       if (this.currentRadius - Math.hypot(p.x, p.z) < EDGE_WARN_DIST) {
         this.edgeMarkers.show(i, p.x, p.z, now);
+        const d = Math.hypot(p.x, p.z) || 1;
+        this.entities.get(p.id)?.setEdge(p.x / d, p.z / d); // equilibrio precario: verso il vuoto
         if (now - p.edgeWarnAt > 1500) {
           p.edgeWarnAt = now;
           this.ctx.signal(p.id, { type: 'edge' });
         }
       } else {
         this.edgeMarkers.hide(i);
+        this.entities.get(p.id)?.setEdge(null);
       }
     });
   }
@@ -356,6 +360,9 @@ export class BabylonArenaGame {
     this.shocks.spawn(target.x - kx * 0.6, target.z - kz * 0.6, target.color, 0.7 + heavy * 0.5);
     audio.thump(heavy);
     this.hitStop = Math.max(this.hitStop, 0.035 + 0.03 * Math.min(1, heavy));
+    // reazioni dei corpi (solo grafica): chi colpisce rimbalza indietro, chi e' colpito cede nella direzione della spinta
+    this.entities.get(target.id)?.playHitFrom(k.x, k.z, Math.min(1, heavy / 1.5));
+    if (source && source.id !== target.id) this.entities.get(source.id)?.playRecoil();
     this.ctx.vibrate(target.id, 60);
     if (source) this.ctx.vibrate(source.id, 35); // conferma di colpo per chi ha spinto
     this.camera.shake(0.1 + 0.1 * heavy, 170);

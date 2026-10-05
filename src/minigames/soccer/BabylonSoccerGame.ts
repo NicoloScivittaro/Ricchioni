@@ -344,6 +344,7 @@ export class BabylonSoccerGame {
 
     // Visuali
     for (const p of this.players) {
+      this.entities.get(p.id)?.setCharge(p.charging ? Math.min(1, p.chargeTime / CHARGE_TIME) : 0);
       this.entities.get(p.id)?.updateVisual(p, dt, now);
     }
     this.ballMesh.position.set(this.ball.x, BALL_HEIGHT, this.ball.z);
@@ -499,7 +500,8 @@ export class BabylonSoccerGame {
     p.curveNext = false;
     p.hasBall = false;
     this.teamKicks[p.team]++;
-    this.entities.get(p.id)?.playKick();
+    // contatto NELLO STESSO istante dell'impulso alla palla; la carica (wind-up) si e' vista prima, follow-through ∝ potenza
+    this.entities.get(p.id)?.playKick(frac);
     audio.kick(0.6 + frac * 0.9);
     if (frac > 0.7) this.camera.shake(0.04 + 0.08 * frac, 110);
     this.ctx.vibrate(p.id, 30 + Math.round(frac * 30));
@@ -525,6 +527,9 @@ export class BabylonSoccerGame {
         victim.vz += nz * (charge ? JUDOKA_CHARGE_POWER : 6);
         victim.stunTime = Math.max(victim.stunTime, 0.3);
         victim.hitFlash = 0.14;
+        // tackle riuscito: chi entra allunga la gamba, chi lo subisce barcolla dalla parte della spinta
+        this.entities.get(attacker.id)?.playKick(charge ? 0.9 : 0.55);
+        this.entities.get(victim.id)?.playHitFrom(nx, nz, charge ? 1 : 0.7);
         audio.thump(0.9);
         this.shocks.spawn(victim.x, victim.z, TEAM_COLOR[victim.team], 0.8);
         this.camera.shake(0.12, 150);

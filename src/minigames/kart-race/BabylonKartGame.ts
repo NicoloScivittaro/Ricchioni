@@ -295,6 +295,7 @@ export class BabylonKartGame {
     fx.level = level;
     if (state.boostTimer > 0 && fx.boost <= 0) {
       this.entities.get(pid)?.burstBoost();
+      this.entities.get(pid)?.playBoost();
       this.cameraManager.kick(pid);
       audio.kartBoost(state.boostPower);
       this.ctx.vibrate(pid, 70);
@@ -324,6 +325,11 @@ export class BabylonKartGame {
           const bump = 15 + Math.min(1, overlap / (KART_LAT_RADIUS * 2)) * 35;
           this.ctx.vibrate(a.playerId, bump);
           this.ctx.vibrate(b.playerId, bump);
+          // urto piccolo = solo vibrazione; urto grosso = anche una breve scossa di camera (mai a ogni sfioramento)
+          if (bump > 38) {
+            this.cameraManager.shake(a.playerId, 0.12);
+            this.cameraManager.shake(b.playerId, 0.12);
+          }
         }
       }
     }
@@ -413,6 +419,11 @@ export class BabylonKartGame {
     } else if (ev.type === 'finish') {
       if (ev.playerId) this.ctx.vibrate(ev.playerId, 160);
       if (ev.playerId) this.entities.get(ev.playerId)?.playFinish(!this.firstFinishPlayed);
+      if (ev.playerId) {
+        // posizione d'arrivo grande e chiara nella propria finestra
+        const place = this.karts.get(ev.playerId)?.placement ?? 0;
+        if (place > 0) this.hud.flash(ev.playerId, place === 1 ? '🏁 1° ARRIVATO!' : `🏁 ${place}° ARRIVATO`, place === 1 ? '#facc15' : '#ffffff', 2.4);
+      }
       if (!this.firstFinishPlayed) {
         this.firstFinishPlayed = true;
         audio.fanfare();

@@ -94,6 +94,11 @@ export class KartEntity {
   private abilityUntil = 0;
   private finishUntil = 0;
   private finishFirst = false;
+  private boostUntil = 0;
+  /** pilota (busto + testa) per inclinarlo in curva/derapata */
+  private driverTorso: Mesh | null = null;
+  private driverHead: TransformNode | null = null;
+  private lean = 0;
 
   constructor(scene: Scene, colorHex: string, characterId: string | null = null) {
     this.root = new TransformNode('kartRoot', scene);
@@ -265,11 +270,13 @@ export class KartEntity {
     torso.position = new Vector3(0, 0.86, -0.22);
     torso.material = shirtMat;
     torso.parent = this.root;
+    this.driverTorso = torso;
 
     // testa un po' piu' grande del vero: e' l'unica parte del personaggio che si vede dal kart
     const headNode = new TransformNode('driverHeadNode', scene);
     headNode.parent = this.root;
     headNode.position = new Vector3(0, 1.2, -0.22);
+    this.driverHead = headNode;
     const head = MeshBuilder.CreateSphere('driverHead', { diameter: 0.38, segments: 8 }, scene);
     head.material = skinMat;
     head.parent = headNode;
@@ -290,7 +297,7 @@ export class KartEntity {
       this.driverArms.push(arm);
     }
     if (pres) {
-      this.symbol = makeSymbolPlane(scene, pres.symbol, 0.7);
+      this.symbol = makeSymbolPlane(scene, pres.symbol, 0.7, pres.id);
       this.symbol.parent = this.root;
     }
   }
@@ -452,12 +459,17 @@ export class KartEntity {
     this.dustFx.emitRate = state.offRoad && Math.abs(state.speed) > 8 ? 30 : 0;
 
     this.engine.update(speedFrac, state.boostTimer > 0, throttle, state.drifting ? Math.min(1, 0.45 + state.driftCharge * 0.5) : 0);
-    this.updateDriver();
+    this.updateDriver(state);
   }
 
   /** Abilita' attivata: il pilota alza il braccio e sopra il kart compare il simbolo del personaggio (lo vedono anche gli avversari). */
   playAbility(): void {
     this.abilityUntil = performance.now() + 900;
+  }
+
+  /** Mini-turbo/boost appena partito: il pilota da' un colpo di braccio (reazione breve). */
+  playBoost(): void {
+    this.boostUntil = performance.now() + 380;
   }
 
   /** Arrivo: il primo esulta con entrambe le braccia, gli altri alzano un braccio. */
@@ -466,10 +478,17 @@ export class KartEntity {
     this.finishFirst = first;
   }
 
-  private updateDriver(): void {
+  private updateDriver(state?: KartState): void {
     const now = performance.now();
-    const ability = now < this.abilityUntil;
+    const ability = now < this.abilityUntil || now < this.boostUntil;
     const finish = now < this.finishUntil;
+    // il pilota si piega nella curva (sterzo) e di piu' in derapata: solo posa, lo sterzo vero non cambia
+    if (state) {
+      const target = -state.steerVisual * 0.22 + (state.drifting ? -state.driftDir * 0.18 : 0);
+      this.lean += (target - this.lean) * 0.2;
+      if (this.driverTorso) this.driverTorso.rotation.z = this.lean;
+      if (this.driverHead) this.driverHead.rotation.z = this.lean * 1.4;
+    }
     const [armL, armR] = this.driverArms;
     if (armL && armR) {
       const wheel = -Math.PI / 2.6;

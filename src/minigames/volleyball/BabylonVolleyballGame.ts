@@ -6,7 +6,8 @@ import {
   MeshBuilder,
   StandardMaterial,
   Color3,
-  Mesh
+  Mesh,
+  ParticleSystem
 } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
@@ -44,6 +45,7 @@ import {
 import type { VolleyballPlayer, VolleyballBall, Team } from './volleyballTypes';
 import { ArenaEntity } from '../arena/arenaEntity';
 import { ArenaCamera } from '../arena/arenaCamera';
+import { ShockRings, makeBallTrail, tintBallTrail } from '../arena/impactFx';
 import { SoccerHud } from '../soccer/soccerHud';
 import { buildVolleyballEnvironment } from './volleyballEnvironment';
 import { VolleyballAbilities, JAGER_POWER_MULT, JUDOKA_ACCEL_MULT, JUDOKA_HIT_MULT } from './volleyballAbilities';
@@ -76,6 +78,12 @@ export class BabylonVolleyballGame {
   private entities = new Map<PlayerId, ArenaEntity>();
   private ball: VolleyballBall = createBall();
   private ballMesh: Mesh;
+  // ---- IMPATTO (solo grafica): scia della palla, lampo e onda del contatto dello smash
+  private ballTrail!: ParticleSystem;
+  private shocks!: ShockRings;
+  private contactFlash!: Mesh;
+  private contactFlashT = 0;
+  private smashTrailT = 0;
   private landingRing: Mesh;
   private ballShadow: Mesh;
   private env: ReturnType<typeof buildVolleyballEnvironment>;
@@ -156,6 +164,15 @@ export class BabylonVolleyballGame {
     ballMat.specularColor = new Color3(0.3, 0.3, 0.3);
     this.ballMesh = MeshBuilder.CreateSphere('volleyBall', { diameter: BALL_RADIUS * 2, segments: 12 }, this.scene);
     this.ballMesh.material = ballMat;
+    this.ballTrail = makeBallTrail(this.scene, this.ballMesh, dotTex);
+    this.shocks = new ShockRings(this.scene, 3);
+    const flashMat = new StandardMaterial('contactFlashMat', this.scene);
+    flashMat.emissiveColor = new Color3(1, 1, 0.92);
+    flashMat.disableLighting = true;
+    this.contactFlash = MeshBuilder.CreateSphere('contactFlash', { diameter: 1, segments: 10 }, this.scene);
+    this.contactFlash.material = flashMat;
+    this.contactFlash.isPickable = false;
+    this.contactFlash.isVisible = false;
 
     // Anello zona di caduta
     const ringMat = new StandardMaterial('ringMat', this.scene);
@@ -322,6 +339,18 @@ export class BabylonVolleyballGame {
       this.entities.get(p.id)?.updateVisual(p, dt, now);
     }
     this.ballMesh.position.set(this.ball.x, this.ball.y, this.ball.z);
+    // scia: dopo uno smash e' piena per un attimo (si vede la palla "partire"), poi solo se la palla e' veloce
+    this.smashTrailT = Math.max(0, this.smashTrailT - dt);
+    const ballSpeed = Math.hypot(this.ball.vx, this.ball.vy, this.ball.vz);
+    this.ballTrail.emitRate = this.ball.state === 'flying' ? (this.smashTrailT > 0 ? 160 : ballSpeed > 9 ? 45 : 0) : 0;
+    this.shocks.update(dt);
+    if (this.contactFlashT > 0) {
+      this.contactFlashT -= dt;
+      const k = Math.max(0, this.contactFlashT / 0.09);
+      this.contactFlash.scaling.setAll(0.6 + (1 - k) * 1.4);
+      this.contactFlash.visibility = k;
+      if (this.contactFlashT <= 0) this.contactFlash.isVisible = false;
+    }
     this.ballShadow.position.set(this.ball.x, 0.03, this.ball.z);
     const shadowScale = Math.max(0.45, 1 - this.ball.y / 9);
     this.ballShadow.scaling.set(shadowScale, shadowScale, 1);
@@ -450,6 +479,7 @@ export class BabylonVolleyballGame {
     if (this.ball.y < p.y - 0.4 || this.ball.y > p.y + HIT_REACH) return;
 
     p.hitCooldown = HIT_COOLDOWN * p.hitCooldownMult;
+    const incoming = Math.hypot(this.ball.vx, this.ball.vy, this.ball.vz); // solo per la posa di ricezione
 
     // Salvataggio disperato (Ciro "PAGO DOMANI"): palla congelata vicino a terra.
     if (this.ball.frozenTimer > 0) {
@@ -530,8 +560,24 @@ export class BabylonVolleyballGame {
     this.ball.teamTouches++;
     this.rally++;
     this.announceRally();
-    if (isSmash) this.entities.get(p.id)?.playSpike();
-    else this.entities.get(p.id)?.playThrow();
+    if (isSmash) {
+      // SMASH: il braccio caricato in salto scatta giu' (contatto = adesso, stesso istante della nuova velocita'), lampo bianco
+      // sulla palla, onda a terra sotto chi schiaccia, scia piena della squadra
+      this.entities.get(p.id)?.playSpike();
+      this.contactFlash.position.set(this.ball.x, this.ball.y, this.ball.z);
+      this.contactFlash.isVisible = true;
+      this.contactFlashT = 0.09;
+      this.shocks.spawn(p.x, p.z, TEAM_COLOR[p.team], 0.9);
+      tintBallTrail(this.ballTrail, TEAM_COLOR[p.team]);
+      this.smashTrailT = 0.6;
+    } else if (incoming > BALL_NORMAL_SPEED * 1.6) {
+      // ricezione di una palla forte: il corpo assorbe
+      this.entities.get(p.id)?.playAbsorb();
+      tintBallTrail(this.ballTrail, '#ffffff');
+    } else {
+      this.entities.get(p.id)?.playThrow();
+      tintBallTrail(this.ballTrail, '#ffffff');
+    }
     this.ctx.vibrate(p.id, perfect ? 80 : 40);
   }
 
