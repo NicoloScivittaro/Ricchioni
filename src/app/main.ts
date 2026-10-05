@@ -110,3 +110,5 @@ gm.connect(serverUrl || (import.meta.env.DEV ? `http://${location.hostname}:3001
 
 // Galleria dei personaggi: SOLO sviluppo o ?debug=1, aperta con ?characters=1 (src/dev/characterGallery.ts). Nella UX normale non esiste.
 if (debugEnabled() && new URLSearchParams(location.search).get('characters') === '1') void import('../dev/characterGallery').then((m) => m.openCharacterGallery());
+// Impact Lab: SOLO sviluppo o ?debug=1, aperto con ?impact=1 (src/dev/impactLab.ts): feedback delle azioni a confronto, anche al rallentatore.
+if (debugEnabled() && new URLSearchParams(location.search).get('impact') === '1') void import('../dev/impactLab').then((m) => m.openImpactLab());
