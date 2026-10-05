@@ -3,7 +3,8 @@ import { EVT } from '../../shared/protocol';
 import type { AckResponse, JoinAck, JoinPayload } from '../../shared/protocol';
 import type { InputEvent, PlayerPublic, RoomState } from '../../shared/types';
 import { CHARACTERS, CHARACTER_ORDER } from '../../shared/characters';
-import { presentationOf } from '../../shared/characterPresentation';
+import { portraitCss, presentationOf } from '../../shared/characterPresentation';
+import { CHAR_ICONS, iconSvg } from '../../shared/charIcons';
 import { renderController } from './ControllerRenderer';
 import { MEMORY_TILES } from '../../shared/memoryTiles';
 import { MEMORY_ABILITIES } from '../../shared/memoryAbilities';
@@ -1777,7 +1778,7 @@ function renderCharacterSelect(state: RoomState, me: PlayerPublic): void {
       ${(() => {
         // personalita' del personaggio scelto: una riga sola, rara (solo qui), col suo colore
         const pr = presentationOf(myChar);
-        return pr ? `<p class="char-tag" style="border-color:${pr.accent}"><b style="color:${pr.accent}">${pr.icon} ${pr.displayName}</b><br><i>“${pr.tagline}”</i></p>` : '';
+        return pr ? `<p class="char-tag" style="border-color:${pr.accent}"><b style="color:${pr.accent}">${iconSvg(CHAR_ICONS[pr.id], 20)} ${pr.displayName}</b><br><i>“${pr.tagline}”</i></p>` : '';
       })()}
       <button id="ready" class="big ${me.ready ? 'ready' : ''}">${me.ready ? 'PRONTO ✅' : 'PRONTO'}</button>
       <p class="sub">${state.players.length}/${state.playerCount} giocatori</p>
@@ -1792,14 +1793,17 @@ function renderCharacterSelect(state: RoomState, me: PlayerPublic): void {
     b.className = 'char' + (mine ? ' mine' : '') + (locked ? ' locked' : '');
     b.disabled = locked;
 
-    const img = document.createElement('img');
-    img.className = 'char-img';
-    img.src = c.image;
-    img.alt = c.name;
+    // ritratto = la TESTA (stesso ritaglio della TV): l'illustrazione intera del Dottore ha ancora camice e provette,
+    // che non sono piu' la sua direzione
+    const img = document.createElement('div');
+    img.className = 'char-img char-face';
+    img.setAttribute('role', 'img');
+    img.setAttribute('aria-label', c.name);
+    img.style.cssText = portraitCss(cid, 92);
 
     const label = document.createElement('span');
     label.className = 'char-label';
-    label.textContent = `${c.avatar} ${c.name}`;
+    label.innerHTML = `${iconSvg(CHAR_ICONS[cid], 18)} ${c.name.replace(/[&<>]/g, '')}`;
 
     b.append(img, label);
     b.addEventListener('click', () => socket.emit(EVT.playerSelectCharacter, { characterId: cid }));

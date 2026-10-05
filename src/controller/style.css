@@ -157,6 +157,12 @@ button.char .char-img {
   border-radius: 10px;
 }
 
+/* ritratto rotondo della testa (vedi renderCharacterSelect) */
+button.char .char-img.char-face {
+  height: 92px;
+  margin: 2px auto 0;
+}
+
 button.char .char-label {
   font-size: 14px;
   line-height: 1.1;

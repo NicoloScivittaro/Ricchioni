@@ -9,6 +9,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { CHARACTERS, CHARACTER_ORDER } from '../shared/characters';
 import { CHARACTER_PRESENTATION, REACTION_KINDS, bark, presentationOf, resetBarks, validatePresentation } from '../shared/characterPresentation';
+import { ABILITY_SYMBOLS, CHAR_ICONS, iconSvg } from '../shared/charIcons';
 
 let fails = 0;
 const ok = (c: boolean, m: string): void => {
@@ -62,6 +63,15 @@ for (let i = 0; i < 40; i++) {
 }
 ok(repeats === 0, 'mai la stessa battuta due volte di fila');
 ok(bark(null, 'hit') === null && bark('nessuno', 'victory') === null, 'nessuna battuta per giocatori senza personaggio');
+
+// icone interne (niente emoji del sistema per giocatore/abilita'): ogni personaggio ha icona + simbolo, SVG valido
+for (const id of CHARACTER_ORDER) {
+  const icon = iconSvg(CHAR_ICONS[id], 32);
+  const sym = iconSvg(ABILITY_SYMBOLS[id], 32);
+  ok(icon.startsWith('<svg') && icon.includes('<path') && sym.startsWith('<svg'), `${id}: icona e simbolo d'abilita' vettoriali presenti`);
+  ok(!/[\u{1F300}-\u{1FAFF}☀-➿]/u.test(icon + sym), `${id}: le icone non contengono emoji`);
+}
+ok(Object.values(CHARACTER_PRESENTATION).every((p) => p.motion.stiffness > 0 && p.motion.damping > 0), 'ogni personaggio ha il "peso" delle pose (molle)');
 
 // regola d'oro: la presentazione non entra nel gameplay. I file di simulazione/abilita' non devono importarla.
 const GAMEPLAY = ['shared/arenaAbilities.ts', 'shared/dodgeballAbilities.ts', 'shared/soccerAbilities.ts', 'shared/volleyballAbilities.ts', 'shared/memoryAbilities.ts', 'shared/reactionAbilities.ts', 'shared/abilities.ts', 'shared/scoring.ts', 'shared/fpsWeapons.ts', 'src/minigames/kart-race/kartPhysics.ts', 'src/minigames/arena/arenaAbilities.ts', 'src/minigames/dodgeball/dodgeballAbilities.ts', 'src/minigames/soccer/soccerAbilities.ts', 'src/minigames/volleyball/volleyballAbilities.ts', 'src/minigames/kart-race/abilities.ts'];

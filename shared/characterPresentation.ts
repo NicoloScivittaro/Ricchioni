@@ -73,6 +73,11 @@ export interface CharacterPresentation {
   body: { height: number; width: number; head: number; shoulders: number; stance: number; crouch: number; lean: number };
   /** andatura: frequenza passo, ampiezza oscillazione, rimbalzo, nervosismo, ancheggiamento */
   gait: { step: number; swing: number; bob: number; jitter: number; sway: number };
+  /**
+   * "Peso" delle pose: le articolazioni sono molle (rigidezza, smorzamento). Rigida e poco smorzata = scattante con un filo di
+   * rimbalzo (Goblin, Ciro); morbida = lenta e convinta (Dottore); tanto smorzamento = pesante, niente rimbalzo (Buttafuori).
+   */
+  motion: { stiffness: number; damping: number };
   accessories: AccessoryId[];
   idleStyle: IdleStyle;
   victoryStyle: VictoryStyle;
@@ -102,6 +107,7 @@ export const CHARACTER_PRESENTATION: Record<string, CharacterPresentation> = {
     dark: '#4a3424',
     body: { height: 0.9, width: 0.86, head: 1.14, shoulders: 0.9, stance: 1, crouch: 0.04, lean: 0.2 },
     gait: { step: 1.35, swing: 1.15, bob: 1.2, jitter: 1, sway: 0 },
+    motion: { stiffness: 420, damping: 24 },
     accessories: ['goblinEars', 'curlyHair', 'tankard', 'wristband'],
     idleStyle: 'impatient',
     victoryStyle: 'football',
@@ -134,6 +140,7 @@ export const CHARACTER_PRESENTATION: Record<string, CharacterPresentation> = {
     dark: '#15151c',
     body: { height: 0.8, width: 1.32, head: 0.98, shoulders: 1.3, stance: 1.12, crouch: 0.06, lean: 0.06 },
     gait: { step: 0.82, swing: 0.75, bob: 1.5, jitter: 0, sway: 0.25 },
+    motion: { stiffness: 170, damping: 26 },
     accessories: ['buzzCut', 'shades', 'earpiece', 'boxingGloves', 'longCoat'],
     idleStyle: 'guard',
     victoryStyle: 'gotIt',
@@ -166,6 +173,7 @@ export const CHARACTER_PRESENTATION: Record<string, CharacterPresentation> = {
     dark: '#1f2937',
     body: { height: 0.86, width: 1.05, head: 0.98, shoulders: 1.05, stance: 1.45, crouch: 0.16, lean: 0.1 },
     gait: { step: 1.05, swing: 0.7, bob: 0.6, jitter: 0, sway: 0.1 },
+    motion: { stiffness: 300, damping: 33 },
     accessories: ['shortHair', 'giLapels', 'beltEnds', 'glasses', 'granita', 'hazardPlate'],
     idleStyle: 'belt',
     victoryStyle: 'ippon',
@@ -198,6 +206,7 @@ export const CHARACTER_PRESENTATION: Record<string, CharacterPresentation> = {
     dark: '#1e3a5f',
     body: { height: 1.08, width: 1.2, head: 1.02, shoulders: 1.08, stance: 1.05, crouch: 0, lean: -0.08 },
     gait: { step: 0.78, swing: 0.6, bob: 0.7, jitter: 0, sway: 0.35 },
+    motion: { stiffness: 115, damping: 13 },
     accessories: ['messyHair', 'roundGlasses', 'cigarette', 'dottBadge', 'belly'],
     idleStyle: 'relaxed',
     victoryStyle: 'toldYou',
@@ -230,6 +239,7 @@ export const CHARACTER_PRESENTATION: Record<string, CharacterPresentation> = {
     dark: '#18181b',
     body: { height: 0.96, width: 0.9, head: 1, shoulders: 0.92, stance: 0.92, crouch: 0.03, lean: 0.04 },
     gait: { step: 1.1, swing: 0.55, bob: 0.8, jitter: 0, sway: 0.7 },
+    motion: { stiffness: 260, damping: 15 },
     accessories: ['twoHairs', 'beard', 'goldChain', 'coin'],
     idleStyle: 'pockets',
     victoryStyle: 'dodgedPayment',
@@ -248,6 +258,19 @@ export const CHARACTER_PRESENTATION: Record<string, CharacterPresentation> = {
     }
   }
 };
+
+/**
+ * Stile CSS di un <div> rotondo col ritratto (telefono, pannello controller): stesso ritaglio della testa delle texture della
+ * TV (core/portraits). Solo testo: nessuna dipendenza da Phaser/DOM, usabile ovunque.
+ */
+export function portraitCss(characterId: string | null | undefined, d: number): string {
+  const p = presentationOf(characterId);
+  if (!p) return '';
+  const { image, cx, cy, r } = p.portrait;
+  const k = d / (2 * r);
+  // ritratti larghi 520 px: background-size sulla sola larghezza, l'altezza segue
+  return `width:${d}px;height:${d}px;border-radius:50%;border:3px solid ${p.accent};background:#1f2937 url(${image}) no-repeat;background-size:${Math.round(520 * k)}px auto;background-position:${-Math.round((cx - r) * k)}px ${-Math.round((cy - r) * k)}px;flex:none`;
+}
 
 /** Presentazione di un personaggio; null per id sconosciuti/assenti (i chiamanti mostrano un fallback neutro). */
 export function presentationOf(id: string | null | undefined): CharacterPresentation | null {

@@ -50,12 +50,4 @@ export function addPortrait(scene: Phaser.Scene, x: number, y: number, character
   return scene.add.text(x, y, presentationOf(characterId)?.icon ?? '🎮', { fontSize: `${Math.round(d * 0.8)}px` }).setOrigin(0.5);
 }
 
-/** Stile CSS di un <div> rotondo col ritratto (pannello controller, telefono): stesso ritaglio delle texture della TV. */
-export function portraitCss(characterId: string | null | undefined, d: number): string {
-  const p = presentationOf(characterId);
-  if (!p) return '';
-  const { image, cx, cy, r } = p.portrait;
-  const k = d / (2 * r);
-  // dimensioni dei file (ritratti 520 px di larghezza): background-size in base alla sola larghezza, l'altezza segue
-  return `width:${d}px;height:${d}px;border-radius:50%;border:3px solid ${p.accent};background:#1f2937 url(${image}) no-repeat;background-size:${Math.round(520 * k)}px auto;background-position:${-Math.round((cx - r) * k)}px ${-Math.round((cy - r) * k)}px;flex:none`;
-}
+export { portraitCss } from '../../shared/characterPresentation';

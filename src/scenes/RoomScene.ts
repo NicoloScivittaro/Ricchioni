@@ -6,13 +6,14 @@ import { CHARACTER_ORDER, getCharacter } from '../../shared/characters';
 import { MINIGAME_DEFINITIONS, getMinigame } from '../../shared/minigames';
 import type { PlayerPublic } from '../../shared/types';
 import { presentationOf } from '../../shared/characterPresentation';
+import { addPortrait } from '../core/portraits';
 
 /** Minimo giocatori per avviare (deve coincidere con GameSession.MIN_TO_START sul server). */
 const MIN_TO_START = 2;
 
 /** Stanza: QR + codice, ritratti dei personaggi scelti, selettore minigioco, avvio. */
 export class RoomScene extends Phaser.Scene {
-  private portraits: Phaser.GameObjects.Image[] = [];
+  private portraits: (Phaser.GameObjects.Image | Phaser.GameObjects.Text)[] = [];
   private labels: Phaser.GameObjects.Text[] = [];
   private startText!: Phaser.GameObjects.Text;
   private mgText!: Phaser.GameObjects.Text;
@@ -60,9 +61,8 @@ export class RoomScene extends Phaser.Scene {
 
     CHARACTER_ORDER.forEach((cid, i) => {
       const x = 700 + i * 115;
-      const img = this.add.image(x, 320, cid);
-      img.setScale(112 / img.height);
-      this.portraits.push(img);
+      // ritratto rotondo della testa (lo stesso di risultati e podio): niente illustrazione intera, niente emoji
+      this.portraits.push(addPortrait(this, x, 320, cid, 100));
 
       const label = this.add
         .text(x, 386, '', {
@@ -169,7 +169,7 @@ export class RoomScene extends Phaser.Scene {
     const pr = presentationOf(cid);
     if (!pr || !this.spotText) return;
     this.tweens.killTweensOf(this.spotText);
-    this.spotText.setText(`${pr.icon} ${playerName.toUpperCase()} È ${pr.displayName} — “${pr.tagline}”`).setColor(pr.accent).setAlpha(0).setScale(0.9);
+    this.spotText.setText(`${playerName.toUpperCase()} È ${pr.displayName} — “${pr.tagline}”`).setColor(pr.accent).setAlpha(0).setScale(0.9);
     this.tweens.add({ targets: this.spotText, alpha: 1, scale: 1, duration: 260, ease: 'Back.easeOut' });
     this.tweens.add({ targets: this.spotText, alpha: 0, delay: 3800, duration: 600 });
   }
@@ -230,7 +230,7 @@ export class RoomScene extends Phaser.Scene {
       this.portraits[i].setAlpha(p ? 1 : 0.26);
       if (p) {
         const status = !p.connected ? '⚠' : p.ready ? '✅' : '…';
-        this.labels[i].setText(`${c.avatar} ${p.displayName}\n${status}`).setColor(c.color);
+        this.labels[i].setText(`${p.displayName}\n${status}`).setColor(c.color);
         if (!this.chosen.has(cid)) this.spotlight(cid, p.displayName);
       } else {
         this.labels[i].setText(pr?.shortName ?? c.name).setColor('#6b7280');
