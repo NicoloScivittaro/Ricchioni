@@ -1,5 +1,6 @@
-import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, TransformNode, DynamicTexture } from '@babylonjs/core';
+import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, TransformNode, DynamicTexture, Vector3 } from '@babylonjs/core';
 import type { AccessoryId, CharacterPresentation } from '../../../shared/characterPresentation';
+import { ABILITY_SYMBOLS, drawIcon } from '../../../shared/charIcons';
 
 /**
  * MODELLO PROCEDURALE DEI PERSONAGGI (solo grafica). Un corpo chibi comune — stessa struttura per tutti, quindi stesse
@@ -72,6 +73,11 @@ export interface CharRig {
   hipY: number;
   /** lunghezza del braccio (per agganciare oggetti in mano) */
   armLen: number;
+  /**
+   * MOVIMENTO SECONDARIO: accessori che "seguono" il corpo con un attimo di ritardo (orecchie, capelli, code della cintura,
+   * filo dell'auricolare, sigaretta). Solo una rotazione attorno a un asse: nessuna simulazione fisica.
+   */
+  secondary: { node: TransformNode; axis: 'x' | 'z'; base: number; amp: number }[];
 }
 
 const BASE = { legLen: 0.62, torsoH: 0.95, torsoW: 1.15, torsoD: 0.7, headD: 0.85, legD: 0.26, armD: 0.22, armLen: 0.72 };
@@ -157,7 +163,7 @@ export function buildCharacterRig(scene: Scene, root: TransformNode, pres: Chara
   const armL = mkArm(-1);
   const armR = mkArm(1);
 
-  const rig: CharRig = { upper, torso, head, headMesh, eyes, legL, legR, armL, armR, prop: null, topY: hipY + torsoH + headD * 0.96, shoulderY, hipY, armLen };
+  const rig: CharRig = { upper, torso, head, headMesh, eyes, legL, legR, armL, armR, prop: null, topY: hipY + torsoH + headD * 0.96, shoulderY, hipY, armLen, secondary: [] };
   if (pres) {
     const ctx: AccCtx = { scene, m, rig, headD, torsoW, torsoH, team, pres };
     for (const id of pres.accessories) ACCESSORIES[id]?.(ctx);
@@ -208,6 +214,7 @@ const ACCESSORIES: Partial<Record<AccessoryId, (c: AccCtx) => void>> = {
       part(ear, rig.head, m.skin, s * headD * 0.68, headD * 0.14, -headD * 0.04);
       ear.rotation.z = -s * (Math.PI / 2 - 0.3);
       ear.scaling.z = 0.4;
+      rig.secondary?.push({ node: ear, axis: 'z', base: ear.rotation.z, amp: s * 0.35 });
     }
   },
   curlyHair: ({ scene, m, rig, headD }) => {
@@ -252,27 +259,31 @@ const ACCESSORIES: Partial<Record<AccessoryId, (c: AccCtx) => void>> = {
     part(MeshBuilder.CreateSphere('earpiece', { diameter: 0.11, segments: 6 }, scene), rig.head, m.dark, headD * 0.5, 0, 0.02);
     const wire = part(MeshBuilder.CreateCylinder('earWire', { diameter: 0.025, height: headD * 0.55, tessellation: 4 }, scene), rig.head, m.dark, headD * 0.5, -headD * 0.3, -0.04);
     wire.rotation.z = 0.15;
+    rig.secondary?.push({ node: wire, axis: 'z', base: 0.15, amp: 0.5 });
   },
-  boxingGloves: ({ scene, m, rig }) => {
+  boxingGloves: ({ scene, m, rig, team }) => {
+    // nei giochi a squadre il rosso personale confonderebbe con la squadra ROSSA: guantoni neri, polsini bianchi (forma identica)
+    const gloveMat = team ? m.dark : m.accent;
     for (const arm of [rig.armL, rig.armR]) {
-      const glove = part(MeshBuilder.CreateSphere('glove', { diameter: 0.42, segments: 10 }, scene), arm, m.accent, 0, -rig.armLen + 0.02, 0.04);
+      const glove = part(MeshBuilder.CreateSphere('glove', { diameter: 0.42, segments: 10 }, scene), arm, gloveMat, 0, -rig.armLen + 0.02, 0.04);
       glove.scaling.set(1, 1.05, 1.15);
       part(MeshBuilder.CreateCylinder('cuff', { diameter: 0.3, height: 0.1, tessellation: 10 }, scene), arm, m.white, 0, -rig.armLen + 0.22, 0);
     }
   },
-  longCoat: ({ scene, m, rig, torsoW }) => {
+  longCoat: ({ scene, m, rig, torsoW, team }) => {
     // falda del cappotto dalla vita alle ginocchia: allarga la base (silhouette "a campana" tozza)
     const coatMat = m.all.length === 1 ? m.garment : m.dark;
     const skirt = part(
-      MeshBuilder.CreateCylinder('coatSkirt', { diameterTop: torsoW * 1.0, diameterBottom: torsoW * 1.32, height: 0.5, tessellation: 12 }, scene),
+      // falda corta: deve allargare la base ma lasciare vedere le gambe (calci, corsa, salti)
+      MeshBuilder.CreateCylinder('coatSkirt', { diameterTop: torsoW * 1.0, diameterBottom: torsoW * 1.32, height: 0.34, tessellation: 12 }, scene),
       rig.upper,
       coatMat,
       0,
-      -0.18,
+      -0.1,
       0
     );
     skirt.scaling.z = 0.72;
-    part(MeshBuilder.CreateTorus('coatTrim', { diameter: torsoW * 1.3, thickness: 0.07, tessellation: 16 }, scene), rig.upper, m.accent, 0, -0.42, 0).scaling.z = 0.72;
+    part(MeshBuilder.CreateTorus('coatTrim', { diameter: torsoW * 1.3, thickness: 0.07, tessellation: 16 }, scene), rig.upper, team ? m.white : m.accent, 0, -0.26, 0).scaling.z = 0.72;
     // colletto alto scuro
     const collar = part(MeshBuilder.CreateCylinder('coatCollar', { diameterTop: 0.6, diameterBottom: 0.74, height: 0.12, tessellation: 10 }, scene), rig.upper, coatMat, 0, rig.shoulderY + 0.09, -0.04);
     collar.scaling.z = 0.8;
@@ -292,6 +303,9 @@ const ACCESSORIES: Partial<Record<AccessoryId, (c: AccCtx) => void>> = {
     for (const s of [-1, 1]) {
       const end = part(MeshBuilder.CreateBox('beltEnd', { width: 0.09, height: 0.36, depth: 0.04 }, scene), rig.upper, m.dark, s * 0.12, -0.08, 0.41);
       end.rotation.z = s * 0.25;
+      // le code penzolano dal nodo: il pivot va in alto, non al centro
+      end.setPivotPoint(new Vector3(0, 0.18, 0));
+      rig.secondary?.push({ node: end, axis: 'x', base: 0, amp: 0.7 + s * 0.15 });
     }
   },
   glasses: ({ scene, m, rig, headD }) => {
@@ -386,6 +400,7 @@ const ACCESSORIES: Partial<Record<AccessoryId, (c: AccCtx) => void>> = {
     const cig = part(MeshBuilder.CreateCylinder('cig', { diameter: 0.045, height: 0.26, tessellation: 6 }, scene), rig.head, m.white, headD * 0.16, -headD * 0.2, headD * 0.52);
     cig.rotation.x = Math.PI / 2 - 0.25;
     cig.rotation.z = -0.35;
+    rig.secondary?.push({ node: cig, axis: 'x', base: cig.rotation.x, amp: 0.25 });
     const ember = new StandardMaterial('ember', scene);
     ember.diffuseColor = new Color3(1, 0.4, 0.1);
     ember.emissiveColor = new Color3(1, 0.35, 0.05);
@@ -427,6 +442,9 @@ const ACCESSORIES: Partial<Record<AccessoryId, (c: AccCtx) => void>> = {
       const h = part(MeshBuilder.CreateCylinder('hairTuft', { diameterTop: 0.012, diameterBottom: 0.07, height: headD * 0.42, tessellation: 5 }, scene), rig.head, m.dark, s * headD * 0.09, headD * 0.62, headD * 0.02);
       h.rotation.z = -s * 0.38;
       h.rotation.x = 0.15;
+      // i due capelli ondeggiano dalla radice
+      h.setPivotPoint(new Vector3(0, -headD * 0.21, 0));
+      rig.secondary?.push({ node: h, axis: 'z', base: h.rotation.z, amp: 0.9 * (s < 0 ? 1 : 0.8) });
     }
     // basette corte: solo ai lati, il cranio resta nudo (stempiatura)
     for (const s of [-1, 1]) {
@@ -459,22 +477,27 @@ const ACCESSORIES: Partial<Record<AccessoryId, (c: AccCtx) => void>> = {
  */
 export function decorateHead(scene: Scene, head: TransformNode, headD: number, pres: CharacterPresentation | null, m: CharMaterials): void {
   if (!pres) return;
-  const rig = { head, upper: head, armL: head, armR: head } as unknown as CharRig;
+  const rig = { head, upper: head, armL: head, armR: head, secondary: [] } as unknown as CharRig;
   const ctx: AccCtx = { scene, m, rig, headD, torsoW: headD, torsoH: headD, team: false, pres };
   const HEAD_ONLY: AccessoryId[] = ['goblinEars', 'curlyHair', 'buzzCut', 'shades', 'earpiece', 'glasses', 'shortHair', 'messyHair', 'roundGlasses', 'cigarette', 'twoHairs', 'beard'];
   for (const id of pres.accessories) if (HEAD_ONLY.includes(id)) ACCESSORIES[id]?.(ctx);
 }
 
-/** Simbolo del personaggio (emoji su una piccola texture) come billboard: compare sopra la testa quando usa l'abilita'. */
-export function makeSymbolPlane(scene: Scene, symbol: string, size: number): Mesh {
+/**
+ * Simbolo dell'abilita' come billboard (compare sopra la testa quando la usa). Disegnato col set VETTORIALE interno
+ * (shared/charIcons): uguale su ogni sistema; l'emoji `symbol` resta solo come ripiego per personaggi senza icona.
+ */
+export function makeSymbolPlane(scene: Scene, symbol: string, size: number, characterId?: string | null): Mesh {
   const st = new DynamicTexture('charSymbol', { width: 128, height: 128 }, scene, false);
   st.hasAlpha = true;
   const sc = st.getContext() as unknown as CanvasRenderingContext2D;
   sc.clearRect(0, 0, 128, 128);
-  sc.font = '96px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif';
-  sc.textAlign = 'center';
-  sc.textBaseline = 'middle';
-  sc.fillText(symbol, 64, 70);
+  if (!drawIcon(sc, characterId ? ABILITY_SYMBOLS[characterId] : undefined, 8, 8, 112)) {
+    sc.font = '96px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif';
+    sc.textAlign = 'center';
+    sc.textBaseline = 'middle';
+    sc.fillText(symbol, 64, 70);
+  }
   st.update();
   const sm = new StandardMaterial('charSymbolMat', scene);
   sm.diffuseTexture = st;

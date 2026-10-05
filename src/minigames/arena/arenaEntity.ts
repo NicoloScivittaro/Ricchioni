@@ -6,6 +6,7 @@ import type { CharacterPresentation, ReactionKind } from '../../../shared/charac
 import { buildCharacterRig, makeCharMaterials, makeSymbolPlane } from '../characters/characterModel';
 import type { CharMaterials, CharRig } from '../characters/characterModel';
 import { audio } from '../../core/AudioManager';
+import { CHAR_ICONS, drawIcon } from '../../../shared/charIcons';
 
 /** Sottoinsieme di stato letto da updateVisual (condiviso tra arena, dodgeball, calcio e pallavolo). */
 export interface VisualSubject {
@@ -32,7 +33,28 @@ export interface EntityOptions {
   nameplate?: boolean;
 }
 
-type ActionKind = 'throw' | 'kick' | 'spike';
+type ActionKind = 'throw' | 'kick' | 'spike' | 'recoil' | 'pickup' | 'absorb';
+
+/** Molla smorzata per UNA articolazione: le pose non scattano da un angolo all'altro, ci arrivano (con un filo di rimbalzo). */
+class Spring {
+  x: number;
+  v = 0;
+  constructor(x0: number) {
+    this.x = x0;
+  }
+  step(target: number, k: number, c: number, dt: number): number {
+    // semi-implicito, sotto-passi se il frame e' lungo (stabile anche a 4 fps in headless)
+    const n = dt > 0.02 ? Math.ceil(dt / 0.02) : 1;
+    const h = dt / n;
+    for (let i = 0; i < n; i++) {
+      this.v += (k * (target - this.x) - c * this.v) * h;
+      this.x += this.v * h;
+    }
+    return this.x;
+  }
+}
+
+const clampN = (v: number, lo: number, hi: number): number => Math.max(lo, Math.min(hi, v));
 type Celebration = 'victory' | 'defeat' | null;
 
 const ABILITY_DUR = 0.8;
@@ -77,7 +99,28 @@ export class ArenaEntity {
   private ringT = 0;
   private stingQueue: { at: number; freq: number }[] = [];
   private clock = 0;
+  // ---- MOVIMENTO: molle delle articolazioni + locomozione (solo grafica)
+  private joints: { node: TransformNode; axis: 'x' | 'y' | 'z'; s: Spring }[] = [];
+  private readonly jiggle = new Spring(0);
+  private actionDur = 0.35;
+  private kickPower = 0.5;
+  private charge = 0;
+  private hitDir: { x: number; z: number } | null = null;
+  private edge: { x: number; z: number } | null = null;
+  private prevSpeed = 0;
+  private accelSm = 0;
+  private prevFacing = 0;
+  private angVelSm = 0;
+  private prevY = 0;
+  private prevDashing = false;
+  private dashStartT = 0;
+  private landT = 0;
+  private stopT = 0;
+  private squashT = 0;
   private readonly nameplateY: number;
+  private nameplate: Mesh | null = null;
+  /** >1 quando la camera e' lontana (Arena): popup, simbolo e targhetta crescono per restare leggibili dalla TV */
+  private viewScale = 1;
 
   constructor(
     scene: Scene,
@@ -132,7 +175,7 @@ export class ArenaEntity {
     this.popup.isVisible = false;
     this.popup.isPickable = false;
 
-    this.symbol = makeSymbolPlane(scene, this.pres?.symbol ?? '✨', 0.8);
+    this.symbol = makeSymbolPlane(scene, this.pres?.symbol ?? '✨', 0.8, characterId);
     this.symbol.parent = this.root;
 
     // Onda d'urto personale (Buttafuori: l'abilita' "pesa")
@@ -172,9 +215,12 @@ export class ArenaEntity {
     c.beginPath();
     c.roundRect(8, 8 + top, 240, 80, 18);
     c.fill();
-    c.font = '900 34px "Arial Black", Arial, sans-serif';
-    c.textAlign = 'center';
-    c.fillText(avatar, 44, 60 + top);
+    // icona VETTORIALE del personaggio (uguale su ogni sistema); l'emoji solo come ripiego
+    if (!drawIcon(c, characterId ? CHAR_ICONS[characterId] : undefined, 18, 22 + top, 52)) {
+      c.font = '900 34px "Arial Black", Arial, sans-serif';
+      c.textAlign = 'center';
+      c.fillText(avatar, 44, 60 + top);
+    }
     c.fillStyle = '#ffffff';
     c.font = '800 30px Arial, sans-serif';
     c.textAlign = 'left';
@@ -197,6 +243,7 @@ export class ArenaEntity {
     mat.backFaceCulling = false;
 
     const plate = MeshBuilder.CreatePlane('nameplatePlane', { width: 1.6, height: (96 + top) / 160 }, scene);
+    this.nameplate = plate;
     plate.position.y = this.nameplateY;
     plate.material = mat;
     plate.billboardMode = Mesh.BILLBOARDMODE_ALL;
@@ -239,22 +286,69 @@ export class ArenaEntity {
     return { x: this.rig.armR.position.x * 0.86, y: this.rig.hipY + this.rig.shoulderY - this.rig.armLen * 0.42, z: 0.3 };
   }
 
-  /** Breve posa di tiro (braccia in avanti). */
+  private startAction(kind: ActionKind, dur: number): void {
+    this.actionKind = kind;
+    this.actionT = this.actionDur = dur;
+  }
+
+  /** Tiro (dodgeball, servizio): torsione del busto, braccio che frusta in avanti, follow-through. Parte NELL'ISTANTE del lancio. */
   playThrow(): void {
-    this.actionKind = 'throw';
-    this.actionT = 0.35;
+    this.startAction('throw', 0.36);
   }
 
-  /** Calcio al pallone: gamba destra in avanti. */
-  playKick(): void {
-    this.actionKind = 'kick';
-    this.actionT = 0.32;
+  /**
+   * Calcio al pallone: il CONTATTO e' adesso (lo stesso istante in cui il gioco spinge la palla); la carica si e' vista prima
+   * (setCharge). `power` 0..1 = quanto era caricato: piu' potenza, follow-through piu' ampio.
+   */
+  playKick(power = 0.5): void {
+    this.kickPower = clampN(power, 0, 1);
+    this.charge = 0;
+    this.startAction('kick', 0.26 + 0.12 * this.kickPower);
   }
 
-  /** Colpo / schiacciata a pallavolo: braccio destro in alto. */
+  /** Schiacciata / colpo a pallavolo: il braccio caricato in alto scatta giu' nell'istante del contatto con la palla. */
   playSpike(): void {
-    this.actionKind = 'spike';
-    this.actionT = 0.32;
+    this.startAction('spike', 0.3);
+    this.jiggle.v += 5;
+  }
+
+  /** Chi spinge/placca: dopo il contatto il busto rimbalza indietro (l'urto "pesa" anche per chi lo da'). */
+  playRecoil(): void {
+    this.startAction('recoil', 0.24);
+  }
+
+  /** Raccolta della palla: piccolo piegamento (dodgeball). */
+  playPickup(): void {
+    this.startAction('pickup', 0.24);
+  }
+
+  /** Ricezione di una palla forte: il corpo assorbe (compressione + avambracci avanti). */
+  playAbsorb(): void {
+    this.startAction('absorb', 0.26);
+    this.squashT = 0.14;
+  }
+
+  /** Carica in corso (0..1) prima di un tiro: wind-up proporzionato (gamba indietro, busto ruotato). 0 = nessuna carica. */
+  setCharge(k: number): void {
+    this.charge = clampN(k, 0, 1);
+  }
+
+  /**
+   * Colpo subito DA UNA DIREZIONE (x,z nel mondo = dove va la spinta): il busto cede da quella parte, schiacciamento breve.
+   * `strength` 0..1 sceglie quanto e' forte la reazione (impatto leggero/medio/pesante).
+   */
+  playHitFrom(dx: number, dz: number, strength = 0.6): void {
+    const l = Math.hypot(dx, dz) || 1;
+    this.hitDir = { x: dx / l, z: dz / l };
+    this.hitT = HIT_DUR;
+    this.hitBig = strength >= 0.6;
+    this.squashT = 0.08 + 0.06 * strength;
+    this.jiggle.v += 4 + 6 * strength;
+  }
+
+  /** Vicino al bordo (Arena): equilibrio precario, braccia a mulinello. `outX/outZ` = verso il vuoto; null = al sicuro. */
+  setEdge(outX: number | null, outZ = 0): void {
+    this.edge = outX === null ? null : { x: outX, z: outZ };
   }
 
   /**
@@ -408,6 +502,28 @@ export class ArenaEntity {
     // Lean del corpo intero (corsa/dash)
     this.root.rotation.x = p.dashing ? 0.42 : speedFrac * 0.18;
 
+    // ---- LOCOMOZIONE (solo posa: la velocita' vera e' del gioco). Accelerazione -> busto avanti, frenata -> indietro e
+    // piccola compressione, curva -> si piega verso l'interno. Valori smussati: niente scatti da un frame all'altro.
+    const dts = Math.max(dt, 1e-3);
+    const accel = (speed - this.prevSpeed) / dts;
+    this.prevSpeed = speed;
+    this.accelSm += (clampN(accel, -80, 80) - this.accelSm) * Math.min(1, dt * 10);
+    let dF = this.visualFacing - this.prevFacing;
+    while (dF > Math.PI) dF -= Math.PI * 2;
+    while (dF < -Math.PI) dF += Math.PI * 2;
+    this.prevFacing = this.visualFacing;
+    this.angVelSm += (clampN(dF / dts, -12, 12) - this.angVelSm) * Math.min(1, dt * 10);
+    if (p.alive && !p.falling) {
+      r.upper.rotation.x += clampN(this.accelSm * 0.012, -0.22, 0.28);
+      r.upper.rotation.z += clampN(this.angVelSm * speedFrac * 0.06, -0.28, 0.28);
+      if (this.accelSm < -28 && speedFrac < 0.35 && this.stopT <= 0) this.stopT = 0.16;
+    }
+    const vy = (p.y - this.prevY) / dts;
+    if (this.prevY > 0.08 && p.y <= 0.03 && p.alive && !p.falling) this.landT = 0.18; // atterraggio
+    this.prevY = p.y;
+    if (p.dashing && !this.prevDashing) this.dashStartT = 0.07; // anticipo dello scatto: un attimo di compressione
+    this.prevDashing = p.dashing;
+
     const swing = (p.dashing ? 0.25 : speedFrac * 0.7) * gait.swing;
     r.legL.rotation.x = Math.sin(runPhase) * swing;
     r.legR.rotation.x = -Math.sin(runPhase) * swing;
@@ -421,7 +537,7 @@ export class ArenaEntity {
     }
 
     const still = speedFrac < 0.12 && !p.dashing && p.alive && !p.falling;
-    const busy = this.actionT > 0 || this.abilityT > 0 || this.hitT > 0 || this.celebration !== null;
+    const busy = this.actionT > 0 || this.abilityT > 0 || this.hitT > 0 || this.celebration !== null || this.charge > 0 || this.edge !== null;
     // ---- IDLE con personalita'
     if (still && !busy && pres) {
       const cyc = (period: number, len: number): number => {
@@ -499,12 +615,58 @@ export class ArenaEntity {
       r.prop.rotation.x = 0;
     }
 
-    // ---- SALTO (pallavolo): gambe raccolte, braccia su
+    // ---- SALTO (pallavolo): gambe raccolte; in salita il busto si inarca e il braccio si carica dietro la testa (anticipo
+    // della schiacciata), in discesa si apre
     if (p.alive && !p.falling && p.y > 0.08) {
       r.legL.rotation.x = -0.7;
       r.legR.rotation.x = 0.35;
-      aLx = -2.5;
-      aRx = -2.7;
+      const rising = vy > 0.5;
+      aLx = -2.2;
+      aRx = rising ? -3.25 : -2.7;
+      if (rising) r.upper.rotation.x -= 0.22;
+    }
+    // ---- BORDO (Arena): equilibrio precario, braccia a mulinello, busto che si tira indietro dal vuoto
+    if (this.edge && p.alive && !p.falling && speedFrac < 0.55 && !p.dashing) {
+      const f = this.visualFacing;
+      const lx = this.edge.x * Math.cos(f) - this.edge.z * Math.sin(f);
+      const lz = this.edge.x * Math.sin(f) + this.edge.z * Math.cos(f);
+      r.upper.rotation.x -= lz * 0.28;
+      r.upper.rotation.z += lx * 0.28;
+      aLx = -1.6 + Math.sin(t * 16) * 1.1;
+      aRx = -1.6 + Math.cos(t * 16) * 1.1;
+      aLz = -0.7;
+      aRz = 0.7;
+    }
+    // ---- SBALZATO VIA (colpo forte, stordito e veloce): corpo inclinato nella direzione del volo, braccia che annaspano
+    const flying = p.stunTime > 0.12 && speed > 6.5 && p.alive && !p.falling;
+    if (flying) {
+      const f = this.visualFacing;
+      const lx = (p.vx * Math.cos(f) - p.vz * Math.sin(f)) / (speed || 1);
+      const lz = (p.vx * Math.sin(f) + p.vz * Math.cos(f)) / (speed || 1);
+      const k = Math.min(0.6, speed * 0.045);
+      r.upper.rotation.x -= lz * k;
+      r.upper.rotation.z += lx * k;
+      aLx = -2.4 + Math.sin(t * 22) * 0.6;
+      aRx = -2.4 + Math.cos(t * 22) * 0.6;
+      aLz = -1;
+      aRz = 1;
+    }
+    // ---- CADUTA nel vuoto: braccia al cielo che si agitano
+    if (p.falling) {
+      aLx = -2.9 + Math.sin(t * 18) * 0.4;
+      aRx = -2.9 + Math.cos(t * 18) * 0.4;
+      aLz = -0.6;
+      aRz = 0.6;
+    }
+    // ---- CARICA (calcio): wind-up proporzionale, gamba indietro, busto ruotato, braccia aperte
+    if (this.charge > 0 && this.actionT <= 0) {
+      const k = this.charge;
+      r.legR.rotation.x = 0.35 + 0.75 * k;
+      r.upper.rotation.y = 0.35 * k;
+      r.upper.rotation.x -= 0.12 * k;
+      aLz = -0.5 - 0.4 * k;
+      aRz = 0.4 + 0.3 * k;
+      aLx = -0.6 * k;
     }
     // ---- SCHIVATA (dodgeball): busto di lato, variazione per personaggio
     if ((p.dodgeTime ?? 0) > 0) {
@@ -513,22 +675,73 @@ export class ArenaEntity {
       aLz = -1;
       aRz = 1;
     }
-    // ---- AZIONE (tiro / calcio / schiacciata)
+    // ---- AZIONE: tutte partono dall'istante del gioco (contatto/rilascio). Scatto (molle rigide), poi recupero.
     if (this.actionT > 0) {
-      if (this.actionKind === 'throw') {
-        aLx = -1.6;
-        aRx = -1.6;
-      } else if (this.actionKind === 'kick') {
-        r.legR.rotation.x = -1.25;
-        r.legL.rotation.x = 0.3;
-        aLz = -0.7;
-        aRz = 0.7;
-      } else {
-        aRx = -2.95;
-        aLx = -1.2;
+      const e = 1 - this.actionT / this.actionDur; // 0 = contatto, 1 = fine recupero
+      const follow = Math.sin(Math.min(1, e * 1.6) * Math.PI * 0.5); // arriva subito, poi tiene
+      switch (this.actionKind) {
+        case 'throw':
+          // il busto si svita: dalla torsione indietro al follow-through in avanti, braccio che frusta
+          r.upper.rotation.y = -0.5 + 0.85 * follow;
+          r.upper.rotation.x += 0.28 * follow;
+          aRx = -1.9 + 0.4 * e;
+          aRz = 0.15;
+          aLx = 0.45;
+          aLz = -0.4;
+          break;
+        case 'kick': {
+          const pw = this.kickPower;
+          r.legR.rotation.x = -(1.0 + 0.6 * pw) * follow;
+          r.legL.rotation.x = 0.25;
+          r.upper.rotation.x -= (0.12 + 0.18 * pw) * follow;
+          r.upper.rotation.y = -0.25 * pw * follow;
+          aLz = -0.6 - 0.5 * pw;
+          aRz = 0.6 + 0.5 * pw;
+          break;
+        }
+        case 'spike':
+          // contatto: il braccio caricato scende di colpo davanti, busto che si chiude
+          aRx = -0.7 - 0.5 * e;
+          aLx = -1.4;
+          r.upper.rotation.x += 0.38 * (1 - e * 0.5);
+          break;
+        case 'recoil': {
+          const k = Math.sin(e * Math.PI);
+          r.upper.rotation.x -= 0.42 * k;
+          aLx = -1.45;
+          aRx = -1.45;
+          break;
+        }
+        case 'pickup': {
+          const k = Math.sin(e * Math.PI);
+          r.upper.position.y -= 0.14 * k;
+          r.upper.rotation.x += 0.5 * k;
+          aRx = -0.8 * k;
+          aLx = -0.5 * k;
+          break;
+        }
+        case 'absorb': {
+          const k = Math.sin(e * Math.PI);
+          r.upper.position.y -= 0.1 * k;
+          r.upper.rotation.x -= 0.15 * k;
+          aLx = -1.15;
+          aRx = -1.15;
+          aLz = 0.35;
+          aRz = -0.35;
+          break;
+        }
       }
     }
-    // ---- COLPO SUBITO (dallo stato: hitFlash appena acceso)
+    // ---- COLPO SUBITO (dallo stato: hitFlash appena acceso; o con direzione nota: playHitFrom)
+    if (this.hitT > 0 && this.hitDir) {
+      const k = Math.sin((this.hitT / HIT_DUR) * Math.PI) * (this.hitBig ? 1 : 0.6);
+      const f = this.visualFacing;
+      const lx = this.hitDir.x * Math.cos(f) - this.hitDir.z * Math.sin(f);
+      const lz = this.hitDir.x * Math.sin(f) + this.hitDir.z * Math.cos(f);
+      // il busto cede nella direzione della spinta: si capisce DA DOVE e' arrivato il colpo
+      r.upper.rotation.x += lz * 0.55 * k;
+      r.upper.rotation.z -= lx * 0.55 * k;
+    } else if (this.hitT <= 0) this.hitDir = null;
     if (this.hitT > 0 && pres) {
       const k = Math.sin((this.hitT / HIT_DUR) * Math.PI) * (this.hitBig ? 1 : 0.6);
       switch (pres.hitStyle) {
@@ -728,6 +941,21 @@ export class ArenaEntity {
     r.armL.rotation.z = aLz;
     r.armR.rotation.z = aRz;
 
+    // ---- MOLLE: ogni articolazione INSEGUE la posa calcolata qui sopra. All'inizio di un'azione/colpo diventano rigide
+    // (attacco veloce, "snap"), poi tornano al peso del personaggio (recupero morbido, un filo di rimbalzo).
+    if (this.joints.length === 0) this.initJoints();
+    const mo = pres?.motion ?? { stiffness: 260, damping: 22 };
+    const snap = (this.actionT > 0 && this.actionT > this.actionDur * 0.6) || this.hitT > HIT_DUR * 0.6 || this.abilityT > ABILITY_DUR * 0.8;
+    const kk = snap ? mo.stiffness * 3.2 : mo.stiffness;
+    const cc = snap ? mo.damping * 1.8 : mo.damping;
+    const ddt = Math.min(dt, 0.1);
+    for (const j of this.joints) j.node.rotation[j.axis] = j.s.step(j.node.rotation[j.axis], kk, cc, ddt);
+
+    // ---- MOVIMENTO SECONDARIO: gli accessori seguono il corpo con ritardo (molla poco smorzata, eccitata da passo, curve e colpi)
+    const jTarget = clampN(this.accelSm * 0.012 + this.angVelSm * 0.08 * speedFrac + bob * 6, -1, 1);
+    this.jiggle.step(jTarget, 90, 6, ddt);
+    for (const sc of r.secondary) sc.node.rotation[sc.axis] = sc.base + clampN(this.jiggle.x, -1.2, 1.2) * sc.amp;
+
     // Stordimento: squash + tremore
     if (p.stunTime > 0) {
       const shake = Math.sin(now * 0.06) * 0.06;
@@ -736,8 +964,25 @@ export class ArenaEntity {
     } else {
       this.root.rotation.z = 0;
       if (!(this.abilityT > 0 && pres?.abilityStyle === 'focus')) {
-        const s = p.dashing ? 1.08 : 1;
-        this.root.scaling.set(p.dashing ? 0.94 : s, p.dashing ? 0.94 : s, p.dashing ? 1.1 : s);
+        // squash & stretch: anticipo del dash (compresso) -> dash (allungato); atterraggio, frenata, colpo (compressi);
+        // salita del salto (allungato). Volume circa costante: piu' basso = piu' largo.
+        this.dashStartT = Math.max(0, this.dashStartT - dt);
+        this.landT = Math.max(0, this.landT - dt);
+        this.stopT = Math.max(0, this.stopT - dt);
+        this.squashT = Math.max(0, this.squashT - dt);
+        let sy = 1;
+        let sz = 1;
+        if (this.dashStartT > 0) sy = 0.84;
+        else if (p.dashing) {
+          sy = 0.94;
+          sz = 1.12;
+        }
+        if (this.landT > 0) sy = Math.min(sy, 1 - 0.16 * Math.sin((this.landT / 0.18) * Math.PI));
+        if (this.stopT > 0) sy = Math.min(sy, 1 - 0.08 * Math.sin((this.stopT / 0.16) * Math.PI));
+        if (this.squashT > 0) sy = Math.min(sy, 0.86);
+        if (p.y > 0.08 && vy > 0.5 && !p.falling) sy = Math.max(sy, 1.08);
+        const sxz = 1 / Math.sqrt(sy);
+        this.root.scaling.set(sxz, sy, sxz * sz);
       }
     }
 
@@ -753,7 +998,7 @@ export class ArenaEntity {
 
     // Particelle: scia in dash e, piu' rada, mentre vieni sbalzato via da un colpo (si vede chi vola e in che direzione)
     const knocked = p.stunTime > 0.12 && speed > 6.5;
-    this.dashFx.emitRate = p.dashing ? 90 : knocked ? 60 : 0;
+    this.dashFx.emitRate = p.dashing ? 90 : knocked ? 60 : (p.dodgeTime ?? 0) > 0 ? 70 : 0;
 
     // Caduta: spin
     if (p.falling) {
@@ -766,15 +1011,45 @@ export class ArenaEntity {
     this.updateFx(dt);
   }
 
+  /** Le articolazioni animate a molla (create al primo frame, partono dalla posa attuale). */
+  private initJoints(): void {
+    const r = this.rig;
+    const add = (node: TransformNode, axis: 'x' | 'y' | 'z'): void => {
+      this.joints.push({ node, axis, s: new Spring(node.rotation[axis]) });
+    };
+    add(r.armL, 'x');
+    add(r.armL, 'z');
+    add(r.armR, 'x');
+    add(r.armR, 'z');
+    add(r.legL, 'x');
+    add(r.legR, 'x');
+    add(r.upper, 'x');
+    add(r.upper, 'y');
+    add(r.upper, 'z');
+    add(r.head, 'x');
+    add(r.head, 'y');
+    add(r.head, 'z');
+  }
+
   private updateFx(dt: number): void {
+    // LEGGIBILITA' A DISTANZA: niente zoom della camera, crescono solo le scritte/simboli sopra la testa
+    const cam = this.root.getScene().activeCamera;
+    if (cam) {
+      const d = Vector3.Distance(cam.globalPosition, this.root.position);
+      this.viewScale += (clampN(d / 15, 1, 1.9) - this.viewScale) * Math.min(1, dt * 4);
+      if (this.nameplate) {
+        const ns = clampN(d / 18, 1, 1.45);
+        this.nameplate.scaling.setAll(ns);
+      }
+    }
     // popup (nome abilita' / battuta): sale piano e sfuma alla fine
     if (this.popupT > 0) {
       this.popupT -= dt;
       const life = 1 - this.popupT / this.popupDur;
-      this.popup.position.y = this.nameplateY + 0.85 + life * 0.25;
+      this.popup.position.y = this.nameplateY + 0.4 + 0.45 * this.viewScale + life * 0.25; // sopra la targhetta anche se cresce
       this.popup.visibility = this.popupT < 0.3 ? Math.max(0, this.popupT / 0.3) : Math.min(1, life * 8);
       const pop = life < 0.12 ? 0.7 + (life / 0.12) * 0.3 : 1;
-      this.popup.scaling.setAll(pop);
+      this.popup.scaling.setAll(pop * this.viewScale);
       if (this.popupT <= 0) this.popup.isVisible = false;
     }
     // simbolo dell'abilita'
@@ -782,7 +1057,7 @@ export class ArenaEntity {
       this.symbolT -= dt;
       const life = 1 - this.symbolT / 0.95;
       this.symbol.position.set(0.55, this.rig.topY + 0.1 + life * 0.9, 0);
-      this.symbol.scaling.setAll(life < 0.15 ? 0.4 + (life / 0.15) * 0.8 : 1.2 - life * 0.3);
+      this.symbol.scaling.setAll((life < 0.15 ? 0.4 + (life / 0.15) * 0.8 : 1.2 - life * 0.3) * this.viewScale);
       this.symbol.visibility = this.symbolT < 0.3 ? Math.max(0, this.symbolT / 0.3) : 1;
       if (this.symbolT <= 0) this.symbol.isVisible = false;
     }
