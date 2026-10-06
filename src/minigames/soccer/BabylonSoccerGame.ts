@@ -317,7 +317,7 @@ export class BabylonSoccerGame {
             this.phase = 'goldenGoal';
             this.goldenTime = GOLDEN_GOAL_SECONDS;
             this.hud.setNote('⚡ GOLDEN GOAL — il primo gol vince', '#fbbf24');
-            this.hud.setCountdown('GOLDEN GOAL', '#fbbf24');
+            this.hud.banner('GOLDEN GOAL', 'IL PRIMO GOL VINCE', '#fbbf24', 1600);
             this.timeOutClearCountdown();
           } else {
             this.startEnd();
@@ -744,10 +744,11 @@ export class BabylonSoccerGame {
     this.camera.shake(0.55, 360);
     this.burstConfetti(team);
     this.shocks.spawn(team === 'red' ? FIELD_HALF_W - 1 : -FIELD_HALF_W + 1, this.ball.z, TEAM_COLOR[team], 1.6);
-    this.hud.setCountdown(ownGoal ? 'AUTOGOL!' : 'GOOOL!', TEAM_COLOR[team]);
-    this.timeOutClearCountdown(1500);
-    const label = say(ownGoal ? 'ownGoal' : 'goal', true) ?? (ownGoal ? 'AUTOGOL! 😱' : 'GOOOOL!');
-    this.hud.feedMessage(`${label} ${TEAM_LABEL[team]} ${this.redScore} — ${this.blueScore}`, team === 'red' ? '#f87171' : '#60a5fa', 3000);
+    // annuncio grande e BREVE con chi ha segnato (o l'autogol) + punteggio; la frase del telecronista va nel feed
+    const scorer = kicker ? kicker.name.toUpperCase() : TEAM_LABEL[team];
+    this.hud.banner(ownGoal ? 'AUTOGOL!' : 'GOOOL!', `${ownGoal ? `${scorer} (AUTOGOL)` : scorer} · ROSSI ${this.redScore} — ${this.blueScore} BLU`, TEAM_COLOR[team], 1500);
+    const label = say(ownGoal ? 'ownGoal' : 'goal', true);
+    if (label) this.hud.feedMessage(label, team === 'red' ? '#f87171' : '#60a5fa', 2600);
     for (const p of this.players) this.ctx.vibrate(p.id, team === p.team ? 160 : 80);
     this.ctx.signal(null, { type: 'goal', team });
     this.env.goal(team === 'red' ? 1 : -1); // la rete si gonfia, gli amici dietro la recinzione esultano (solo spettacolo)

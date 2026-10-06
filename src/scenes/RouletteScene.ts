@@ -6,15 +6,18 @@ import { MINIGAME_DEFINITIONS, getMinigame } from '../../shared/minigames';
 import { getCharacter } from '../../shared/characters';
 import type { MinigameDefinition, PlayerPublic } from '../../shared/types';
 import { THEME, sceneIn } from '../core/theme';
+import { UI, hexToInt } from '../core/uiTokens';
+import { PlayerBadge, displayText, infoText, pill } from '../core/uiPhaser';
 import { confetti } from './confetti';
 import { addBackdrop } from './backdrops';
 import type { Backdrop } from './backdrops';
+import { FONT_BODY } from '../core/uiTokens';
 
 const FONT = THEME.title;
 const CARD_W = 240;
 const CARD_H = 230;
 const STEP = 270; // larghezza carta + spazio
-const REEL_Y = 245;
+const REEL_Y = 270;
 const SPIN_MS = 4000; // rallentamento progressivo
 const SETTLE_MS = 500; // ultimo piccolo movimento
 const START_DELAY_MS = 300;
@@ -43,6 +46,8 @@ interface Card {
  */
 export class RouletteScene extends Phaser.Scene {
   private backdrop: Backdrop | null = null;
+  private standings: Phaser.GameObjects.GameObject[] = [];
+  private lastText: Phaser.GameObjects.Text | null = null;
 
   constructor() {
     super('RouletteScene');
@@ -50,6 +55,8 @@ export class RouletteScene extends Phaser.Scene {
 
   create(): void {
     sceneIn(this);
+    this.standings = [];
+    this.lastText = null;
     this.backdrop = addBackdrop(this, 'roulette'); // scenografia: studio + sala giochi (solo sfondo)
     const pick = gm.pendingMinigame;
     if (!pick) {
@@ -79,27 +86,16 @@ export class RouletteScene extends Phaser.Scene {
     for (let i = 0; i < TARGET_INDEX + 5; i++) seq.push(eligible[(i + offset) % n]);
 
     // ---- testata ----
-    this.add
-      .text(24, 20, `ROUND ${state?.round ?? 1}`, { fontFamily: FONT, fontSize: '26px', color: '#9ca3af' })
-      .setOrigin(0, 0);
-    this.add
-      .text(1256, 20, `OBIETTIVO ${state?.targetScore ?? '?'} PT`, { fontFamily: FONT, fontSize: '26px', color: '#fbbf24' })
-      .setOrigin(1, 0);
-    const title = this.add
-      .text(640, 66, '🎰 IL RULLO DECIDE…', { fontFamily: FONT, fontSize: '40px', color: '#ffffff' })
-      .setOrigin(0.5);
+    pill(this, UI.safe.x, UI.safe.y + 18, `ROUND ${state?.round ?? 1}`, UI.color.textDim, UI.size.S, 0);
+    pill(this, 1280 - UI.safe.x, UI.safe.y + 18, `🎯 OBIETTIVO ${state?.targetScore ?? '?'}`, UI.color.accent, UI.size.S, 1);
+    const title = displayText(this, 640, 80, '🎰 IL RULLO DECIDE…', UI.size.L, UI.color.text);
     // ultimo minigioco giocato + chi l'ha vinto (dal secondo round in poi)
     const lastDef = state?.lastPlayedMinigameId ? getMinigame(state.lastPlayedMinigameId) : undefined;
     if (lastDef) {
       const winId = state?.lastRound?.minigameId === lastDef.id ? state.lastRound.winnerId : null;
       const winName = state?.players.find((p) => p.id === winId)?.displayName;
-      this.add
-        .text(640, 26, `ULTIMO GIOCO: ${lastDef.icon ?? ''} ${lastDef.name}${winName ? `  ·  🥇 ${winName}` : ''}`, {
-          fontFamily: THEME.body,
-          fontSize: '17px',
-          color: THEME.muted
-        })
-        .setOrigin(0.5);
+      // secondario: piccolo, e sparisce allo stop (gerarchia: la carta uscita e' l'unica cosa grande)
+      this.lastText = infoText(this, 640, UI.safe.y + 6, `ULTIMO: ${lastDef.icon ?? ''} ${lastDef.name}${winName ? `  ·  🥇 ${winName}` : ''}`, UI.size.XS, UI.color.muted);
     }
 
     // ---- rullo ----
@@ -114,13 +110,13 @@ export class RouletteScene extends Phaser.Scene {
       const name = this.add
         .text(0, 38, def.name, {
           fontFamily: FONT,
-          fontSize: def.name.length > 22 ? '18px' : '22px',
+          fontSize: def.name.length > 22 ? '20px' : '24px',
           color: '#ffffff',
           align: 'center',
           wordWrap: { width: CARD_W - 24 }
         })
         .setOrigin(0.5);
-      const cat = this.add.text(0, 92, def.category, { fontFamily: FONT, fontSize: '15px', color }).setOrigin(0.5);
+      const cat = this.add.text(0, 92, def.category, { fontFamily: FONT, fontSize: `${UI.size.XS}px`, color }).setOrigin(0.5);
       const box = this.add.container(i * STEP, 0, [frame, icon, name, cat]);
       strip.add(box);
       cards.push({ box, frame, icon });
@@ -219,7 +215,9 @@ export class RouletteScene extends Phaser.Scene {
     audio.gameSting(minigameId, minigameId === 'fps' || minigameId === 'kart3d');
     this.cameras.main.flash(140, 255, 240, 180, false);
     this.cameras.main.shake(220, 0.004);
-    title.setText('IL PROSSIMO GIOCO È…').setColor('#fbbf24');
+    title.setText('IL PROSSIMO GIOCO È…').setColor(UI.color.accent);
+    this.lastText?.destroy();
+    this.tweens.add({ targets: this.standings, alpha: 1, duration: UI.motion.reveal });
     confetti(this, 640, REEL_Y);
 
     if (chosen) {
@@ -237,90 +235,67 @@ export class RouletteScene extends Phaser.Scene {
     });
 
     const def = getMinigame(minigameId);
-    const size = Math.max(28, Math.min(54, Math.floor(1180 / (name.length * 0.72))));
-    const nameText = this.add
-      .text(640, 442, name, { fontFamily: FONT, fontSize: `${size}px`, color: '#ffffff', align: 'center', wordWrap: { width: 1180 } })
-      .setOrigin(0.5)
-      .setAlpha(0)
-      .setScale(0.8);
-    this.tweens.add({ targets: nameText, alpha: 1, scale: 1, duration: 350, ease: 'Back.easeOut' });
+    const size = Math.max(36, Math.min(UI.size.XL, Math.floor(1100 / (name.length * 0.66))));
+    const nameText = displayText(this, 640, 456, name, size, UI.color.text).setAlpha(0).setScale(0.8);
+    this.tweens.add({ targets: nameText, alpha: 1, scale: 1, duration: UI.motion.reveal, ease: 'Back.easeOut' });
 
     if (def?.description) {
-      const d = this.add
-        .text(640, 492, def.description, { fontFamily: 'Arial, sans-serif', fontSize: '24px', color: '#d1d5db', align: 'center', wordWrap: { width: 1100 } })
-        .setOrigin(0.5)
-        .setAlpha(0);
+      // UNA riga sola: se la descrizione e' lunga si taglia sulla prima frase
+      const one = def.description.split(/(?<=[.!?])\s/)[0];
+      const d = infoText(this, 640, 502, one, UI.size.S + 2, UI.color.textDim).setAlpha(0);
+      while (d.width > 1120 && d.text.length > 10) d.setText(`${d.text.slice(0, -2)}…`);
       this.tweens.add({ targets: d, alpha: 1, duration: 400, delay: 350 });
     }
 
     if (modifierId && modifierName) {
-      const m = this.add
-        .text(640, 528, `MODIFICATORE: ${modifierName}${modifierDescription ? ` — ${modifierDescription}` : ''}`, {
-          fontFamily: 'Arial, sans-serif',
-          fontSize: '20px',
-          color: '#f87171',
-          align: 'center',
-          wordWrap: { width: 1100 }
-        })
-        .setOrigin(0.5)
-        .setAlpha(0);
+      const m = pill(this, 640, 540, `⚠ ${modifierName}${modifierDescription ? ` — ${modifierDescription}` : ''}`, UI.color.warning, UI.size.XS + 2).setAlpha(0);
       this.tweens.add({ targets: m, alpha: 1, duration: 400, delay: 700 });
     }
 
     this.time.delayedCall(1300, () => {
-      const go = this.add
-        .text(640, 574, 'PREPARATEVI!', { fontFamily: FONT, fontSize: '34px', color: '#4ade80' })
-        .setOrigin(0.5);
+      const go = displayText(this, 640, modifierId ? 576 : 552, 'PREPARATEVI!', UI.size.M + 4, UI.color.success);
       audio.select();
       this.tweens.add({ targets: go, scale: 1.08, duration: 420, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
     });
   }
 
-  /** Classifica compatta: una scheda per giocatore (ordinata per punti) con barra verso l'obiettivo. */
+  /** Classifica compatta (badge del design system): piu' tenue durante il giro, piena allo stop. */
   private drawStandings(players: PlayerPublic[], target: number): void {
     if (players.length === 0) return;
     const sorted = players.map((p, i) => ({ p, i })).sort((a, b) => b.p.score - a.p.score || a.i - b.i);
     const topScore = sorted[0]?.p.score ?? 0;
-    const w = 228;
+    const n = sorted.length;
     const gap = 12;
-    const total = sorted.length * w + (sorted.length - 1) * gap;
-    const x0 = (1280 - total) / 2 + w / 2;
-    const y = 662;
+    const w = Math.min(232, Math.floor((1280 - UI.safe.x * 2 - gap * (n - 1)) / n));
+    const x0 = 640 - ((n - 1) * (w + gap)) / 2;
+    const y = 720 - UI.safe.y - 42;
+    const objs: Phaser.GameObjects.GameObject[] = [];
     sorted.forEach(({ p }, rank) => {
-      let avatar = '🎲';
-      let color = '#9ca3af';
+      let color: string = UI.color.muted;
       if (p.characterId) {
         try {
-          const c = getCharacter(p.characterId);
-          avatar = c.avatar;
-          color = c.color;
+          color = getCharacter(p.characterId).color;
         } catch {
           /* personaggio sconosciuto: fallback */
         }
       }
-      const colorInt = Phaser.Display.Color.HexStringToColor(color).color;
-      const cx = x0 + rank * (w + gap);
-      this.add.rectangle(cx, y, w, 84, 0x111426, 0.95).setStrokeStyle(2, colorInt, p.connected ? 1 : 0.35);
-      this.add
-        .text(cx - w / 2 + 12, y - 26, `${topScore > 0 && p.score === topScore ? '👑' : `${rank + 1}°`} ${avatar} ${p.displayName}`, {
-          fontFamily: FONT,
-          fontSize: '19px',
-          color: p.connected ? color : '#6b7280'
-        })
-        .setOrigin(0, 0.5);
-      this.add
-        .text(cx - w / 2 + 12, y + 2, `${p.score} / ${target} pt`, { fontFamily: 'Arial, sans-serif', fontSize: '18px', color: '#e5e7eb' })
-        .setOrigin(0, 0.5);
+      const b = new PlayerBadge(this, x0 + rank * (w + gap), y, { id: p.id, displayName: p.displayName, characterId: p.characterId, color }, w, 76);
+      const lead = topScore > 0 && p.score === topScore;
+      b.setValue(`${p.score}`, lead ? UI.color.accent : UI.color.text);
       const d = gm.state?.lastRound?.deltas[p.id] ?? 0;
-      if (d > 0) {
-        this.add
-          .text(cx + w / 2 - 12, y + 2, `+${d}`, { fontFamily: FONT, fontSize: '16px', color: THEME.green })
-          .setOrigin(1, 0.5);
-      }
-      const barW = w - 24;
-      this.add.rectangle(cx - w / 2 + 12, y + 28, barW, 8, 0x1f2937).setOrigin(0, 0.5);
+      const left = Math.max(0, target - p.score);
+      b.setStatus(`${lead ? '👑 ' : ''}${left > 0 ? `MANCANO ${left}` : '🎯 OBIETTIVO!'}`, left > 0 && left <= Math.max(5, target * 0.1) ? UI.color.accent : UI.color.textDim);
+      // punti appena presi: piccolo e verde sopra la scheda (non ruba spazio al nome)
+      if (d > 0) objs.push(this.add.text(b.root.x + w / 2 - 6, y - 40, `+${d}`, { fontFamily: UI.font.display, fontSize: `${UI.size.XS}px`, color: UI.color.success }).setOrigin(1, 1).setStroke('#000000', 3));
+      if (!p.connected) b.setState('offline');
+      // barra verso l'obiettivo
+      const barW = w - 20;
       const frac = target > 0 ? Math.max(0, Math.min(1, p.score / target)) : 0;
-      if (frac > 0) this.add.rectangle(cx - w / 2 + 12, y + 28, barW * frac, 8, colorInt).setOrigin(0, 0.5);
+      const bar = this.add.rectangle(b.root.x - barW / 2, y + 44, barW, 6, hexToInt(UI.color.line)).setOrigin(0, 0.5);
+      const fill = this.add.rectangle(b.root.x - barW / 2, y + 44, Math.max(2, barW * frac), 6, hexToInt(color)).setOrigin(0, 0.5);
+      objs.push(b.root, bar, fill);
     });
+    this.standings = objs;
+    for (const o of objs) (o as unknown as { setAlpha(a: number): void }).setAlpha(0.55);
   }
 }

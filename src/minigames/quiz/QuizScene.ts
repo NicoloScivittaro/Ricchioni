@@ -9,7 +9,11 @@ import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 import { debugEnabled, registerDebugSection } from '../../core/debug';
 import { addBackdrop } from '../../scenes/backdrops';
+import { UI, hexToInt } from '../../core/uiTokens';
+import { displayText } from '../../core/uiPhaser';
+import { addPortrait } from '../../core/portraits';
 import type { Backdrop } from '../../scenes/backdrops';
+import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 const OPTION_COLORS = [0xef4444, 0x3b82f6, 0x22c55e, 0xf59e0b];
@@ -113,67 +117,56 @@ export class QuizScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#1e1b2e');
     this.backdrop = addBackdrop(this, 'quiz'); // scenografia: quiz TV che diventa assurdo (solo sfondo)
 
-    this.add
-      .text(640, 16, '📚 CHI CAZZO LO SA?', {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '34px',
-        color: '#ffffff'
-      })
-      .setOrigin(0.5, 0);
-
+    // TESTATA: titolo del gioco piccolo, poi DOMANDA n/10, livello e valore come pillole discrete
+    displayText(this, 640, UI.safe.y + 14, '📚 CHI CAZZO LO SA?', UI.size.M, UI.color.text);
     this.headerText = this.add
-      .text(640, 66, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '22px', color: '#93c5fd' })
-      .setOrigin(0.5, 0);
+      .text(640, 86, '', { fontFamily: UI.font.display, fontSize: `${UI.size.S + 2}px`, color: UI.color.info })
+      .setOrigin(0.5);
     this.starsText = this.add
-      .text(400, 66, '', { fontFamily: 'Arial, sans-serif', fontSize: '22px', color: '#fbbf24' })
-      .setOrigin(0.5, 0);
+      .text(UI.safe.x + 120, 86, '', { fontFamily: UI.font.display, fontSize: `${UI.size.XS}px`, color: UI.color.accent })
+      .setOrigin(0.5);
     this.valueText = this.add
-      .text(880, 66, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '20px', color: '#4ade80' })
-      .setOrigin(0.5, 0);
+      .text(1280 - UI.safe.x - 120, 86, '', { fontFamily: UI.font.display, fontSize: `${UI.size.S}px`, color: UI.color.success })
+      .setOrigin(0.5);
     this.categoryText = this.add
-      .text(640, 96, '', { fontFamily: 'Arial, sans-serif', fontSize: '17px', color: '#c4b5fd' })
-      .setOrigin(0.5, 0);
+      .text(640, 114, '', { fontFamily: UI.font.body, fontStyle: 'bold', fontSize: `${UI.size.XS}px`, color: '#c4b5fd' })
+      .setOrigin(0.5);
     this.finalBanner = this.add
-      .text(640, 120, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '20px', color: '#f87171' })
-      .setOrigin(0.5, 0);
+      .text(640, 138, '', { fontFamily: UI.font.display, fontSize: `${UI.size.S}px`, color: UI.color.danger })
+      .setOrigin(0.5);
 
+    // DOMANDA: la cosa piu' grande dello schermo
     this.questionText = this.add
-      .text(640, 155, '', {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '28px',
-        color: '#ffffff',
-        align: 'center',
-        wordWrap: { width: 1080 }
-      })
-      .setOrigin(0.5, 0);
+      .text(640, 160, '', { fontFamily: UI.font.display, fontSize: `${UI.size.L - 4}px`, color: UI.color.text, align: 'center', wordWrap: { width: 1100 } })
+      .setOrigin(0.5, 0)
+      .setStroke(UI.outline.color, UI.outline.thin)
+      .setShadow(0, UI.shadow.y, UI.shadow.color, UI.shadow.blur, true, true);
 
+    // RISPOSTE 2x2: stessa misura, stesso peso, nessun indizio grafico sulla corretta (fino alla rivelazione)
     for (let i = 0; i < 4; i++) {
-      const x = 320 + i * 220;
-      const box = this.add.rectangle(x, 400, 200, 120, OPTION_COLORS[i], 0.92).setStrokeStyle(4, 0xffffff);
+      const x = i % 2 === 0 ? 352 : 928;
+      const y = i < 2 ? 330 : 438;
+      const box = this.add.rectangle(x, y, 548, 94, OPTION_COLORS[i], 0.92).setStrokeStyle(4, 0xffffff);
+      this.add.circle(x - 232, y, 30, 0xffffff, 0.95).setDepth(1);
       const letter = this.add
-        .text(x, 320, LETTERS[i], { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '30px', color: '#000000' })
-        .setOrigin(0.5);
+        .text(x - 232, y, LETTERS[i], { fontFamily: UI.font.display, fontSize: `${UI.size.M}px`, color: '#0b0b14' })
+        .setOrigin(0.5)
+        .setDepth(2);
       const t = this.add
-        .text(x, 405, '', {
-          fontFamily: 'Arial, sans-serif',
-          fontSize: '17px',
-          color: '#000000',
-          align: 'center',
-          wordWrap: { width: 180 }
-        })
-        .setOrigin(0.5);
+        .text(x - 186, y, '', { fontFamily: UI.font.display, fontSize: `${UI.size.M - 2}px`, color: '#0b0b14', align: 'left', wordWrap: { width: 440 } })
+        .setOrigin(0, 0.5)
+        .setDepth(2);
       this.optionBoxes.push(box);
       this.optionLetters.push(letter);
       this.optionTexts.push(t);
     }
 
-    this.countdownText = this.add
-      .text(640, 480, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '30px', color: '#f87171' })
-      .setOrigin(0.5);
+    // TIMER: grande e centrato sotto le risposte
+    this.countdownText = displayText(this, 640, 534, '', UI.size.L, UI.color.text);
 
     this.explanationText = this.add
       .text(640, 400, '', {
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: FONT_BODY,
         fontSize: '22px',
         color: '#e5e7eb',
         align: 'center',
@@ -183,25 +176,25 @@ export class QuizScene extends Phaser.Scene {
 
     this.buildPlayerRows();
 
-    this.leaderboardPanel = this.add.rectangle(640, 360, 620, 420, 0x0b0b14, 0.94).setStrokeStyle(3, 0xfbbf24).setVisible(false);
+    this.leaderboardPanel = this.add.rectangle(640, 340, 680, 400, hexToInt(UI.color.panel), 0.95).setStrokeStyle(3, hexToInt(UI.color.accent)).setVisible(false);
     this.leaderboardTitle = this.add
-      .text(640, 180, 'CLASSIFICA QUIZ', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '30px', color: '#fbbf24' })
+      .text(640, 180, 'CLASSIFICA QUIZ', { fontFamily: UI.font.display, fontSize: `${UI.size.L - 8}px`, color: UI.color.accent })
       .setOrigin(0.5)
       .setVisible(false);
     for (let i = 0; i < 5; i++) {
       const line = this.add
-        .text(640, 235 + i * 48, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '22px', color: '#ffffff' })
+        .text(640, 240 + i * 52, '', { fontFamily: UI.font.display, fontSize: `${UI.size.M - 2}px`, color: '#ffffff' })
         .setOrigin(0.5)
         .setVisible(false);
       this.leaderboardLines.push(line);
     }
 
     // Banner "nome abilità a schermo" quando un giocatore la usa (vale per tutti e 5 i personaggi).
-    this.abilityFlashBg = this.add.rectangle(640, 445, 760, 74, 0x000000, 0.8).setStrokeStyle(3, 0xfacc15).setVisible(false);
+    this.abilityFlashBg = this.add.rectangle(640, 534, 760, 74, 0x000000, 0.85).setDepth(20).setStrokeStyle(3, 0xfacc15).setVisible(false);
     this.abilityFlashText = this.add
-      .text(640, 445, '', {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '26px',
+      .text(640, 534, '', {
+        fontFamily: UI.font.display,
+        fontSize: `${UI.size.M - 2}px`,
         color: '#facc15',
         align: 'center',
         wordWrap: { width: 720 }
@@ -221,22 +214,28 @@ export class QuizScene extends Phaser.Scene {
 
   private buildPlayerRows(): void {
     const n = this.ctx.players.length;
-    const rowW = Math.min(240, Math.floor(1240 / Math.max(1, n)));
+    const gap = 10;
+    const rowW = Math.min(244, Math.floor((1280 - UI.safe.x * 2 - gap * (n - 1)) / Math.max(1, n)));
+    const x0 = 640 - ((n - 1) * (rowW + gap)) / 2;
+    const y = 720 - UI.safe.y - 46;
     this.ctx.players.forEach((p, i) => {
-      const x = 20 + i * rowW + rowW / 2;
-      const bg = this.add.rectangle(x, 660, rowW - 10, 80, 0x000000, 0.35).setStrokeStyle(2, Phaser.Display.Color.HexStringToColor(p.color).color);
+      const x = x0 + i * (rowW + gap);
+      const bg = this.add.rectangle(x, y, rowW, 92, hexToInt(UI.color.panel), UI.color.panelAlpha).setStrokeStyle(2, Phaser.Display.Color.HexStringToColor(p.color).color);
+      addPortrait(this, x - rowW / 2 + 32, y - 14, p.characterId, 46);
+      const left = x - rowW / 2 + 62;
       const name = this.add
-        .text(x, 630, `${p.avatar} ${p.displayName}`, { fontFamily: 'Arial, sans-serif', fontSize: '14px', color: p.color })
-        .setOrigin(0.5);
-      const status = this.add
-        .text(x, 650, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '15px', color: '#9ca3af' })
-        .setOrigin(0.5);
+        .text(left, y - 36, p.displayName.toUpperCase(), { fontFamily: UI.font.display, fontSize: `${UI.size.XS + 1}px`, color: p.color })
+        .setOrigin(0, 0);
+      while (name.width > rowW - 70 && name.text.length > 4) name.setText(`${name.text.slice(0, -2)}…`);
       const points = this.add
-        .text(x, 670, '0 pt', { fontFamily: 'Arial, sans-serif', fontSize: '13px', color: '#e5e7eb' })
-        .setOrigin(0.5);
+        .text(left, y - 12, '0 pt', { fontFamily: UI.font.display, fontSize: `${UI.size.S}px`, color: UI.color.text })
+        .setOrigin(0, 0);
+      const status = this.add
+        .text(x, y + 22, '', { fontFamily: UI.font.display, fontSize: `${UI.size.XS}px`, color: UI.color.muted })
+        .setOrigin(0.5, 0.5);
       const ability = this.add
-        .text(x, 690, '', { fontFamily: 'Arial, sans-serif', fontSize: '12px', color: '#a78bfa' })
-        .setOrigin(0.5);
+        .text(x, y + 40, '', { fontFamily: UI.font.body, fontStyle: 'bold', fontSize: `${UI.size.XS - 2}px`, color: '#a78bfa' })
+        .setOrigin(0.5, 0.5);
       this.playerRows.set(p.id, { bg, name, status, points, ability });
     });
   }
@@ -403,7 +402,8 @@ export class QuizScene extends Phaser.Scene {
 
     this.headerText.setText(`DOMANDA ${qNum}/10`);
     this.backdrop?.setAbsurd((qNum - 1) / 9);
-    this.starsText.setText('★'.repeat(q.difficulty) + '☆'.repeat(10 - q.difficulty));
+    // livello 1..10: elegante, non enorme (forma + numero, non solo colore)
+    this.starsText.setText(`LIVELLO ${'●'.repeat(q.difficulty)}${'○'.repeat(10 - q.difficulty)} ${q.difficulty}/10`);
     this.valueText.setText(`${qNum} PUNT${qNum === 1 ? 'O' : 'I'}`);
     this.categoryText.setText(q.category.toUpperCase());
     this.finalBanner.setText(isFinal && (phase === 'intro' || phase === 'question') ? 'DOMANDA FINALE — DIFFICOLTÀ MASSIMA' : '');
@@ -431,8 +431,8 @@ export class QuizScene extends Phaser.Scene {
     this.countdownText.setVisible(phase === 'question');
     if (phase === 'question') {
       const remain = m.timeRemaining();
-      this.countdownText.setText(`${remain.toFixed(1)}s`);
-      this.countdownText.setColor(remain <= 3 ? '#f87171' : '#e5e7eb');
+      this.countdownText.setText(`⏱ ${remain.toFixed(1)}`);
+      this.countdownText.setColor(remain <= 3 ? UI.color.danger : remain <= 5 ? UI.color.accent : UI.color.text);
       // tensione: un tic per ogni secondo degli ultimi 5 (piu' urgente negli ultimi 3). Nessun suono per la risposta del
       // singolo giocatore: nessuna informazione privata passa dall'audio.
       const sec = Math.ceil(remain);

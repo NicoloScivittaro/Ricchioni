@@ -16,6 +16,7 @@ import { getTimeScale } from '../../core/impact';
 import { setGameIntensity } from '../../core/musicDirector';
 import { responseCurve } from '../../input/padMath';
 import type { BabylonFpsGame, FpsLocalPlayer, FpsRenderSnapshot } from './BabylonFpsGame';
+import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
 
 /**
  * MIRA COL CONTROLLER (Milestone 6.1) — TUTTI i parametri della mira in un solo posto, per poterli ritoccare
@@ -157,13 +158,13 @@ export class FpsScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#0b1220');
 
     this.graphics = this.add.graphics();
-    this.add.text(640, 24, '🔫 SPARATORIA DEI DISAGIATI', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '34px', color: '#ffffff' }).setOrigin(0.5);
-    this.add.text(640, 58, 'RADAR / REGIA — i giocatori guardano il telefono', { fontFamily: 'Arial, sans-serif', fontSize: '16px', color: '#9ca3af' }).setOrigin(0.5);
-    this.timerText = this.add.text(640, 90, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '26px', color: '#fbbf24' }).setOrigin(0.5);
-    this.add.text(BOARD_X, 136, 'CLASSIFICA', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '22px', color: '#94a3b8' });
+    this.add.text(640, 24, '🔫 SPARATORIA DEI DISAGIATI', { fontFamily: FONT_DISPLAY, fontSize: '34px', color: '#ffffff' }).setOrigin(0.5);
+    this.add.text(640, 58, 'RADAR / REGIA — i giocatori guardano il telefono', { fontFamily: FONT_BODY, fontSize: '16px', color: '#9ca3af' }).setOrigin(0.5);
+    this.timerText = this.add.text(640, 90, '', { fontFamily: FONT_DISPLAY, fontSize: '26px', color: '#fbbf24' }).setOrigin(0.5);
+    this.add.text(BOARD_X, 136, 'CLASSIFICA', { fontFamily: FONT_DISPLAY, fontSize: '22px', color: '#94a3b8' });
     this.ctx.players.forEach((_, i) => {
       this.rankTexts.push(
-        this.add.text(BOARD_X, 176 + i * 92, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '30px', color: '#ffffff', lineSpacing: 6 })
+        this.add.text(BOARD_X, 176 + i * 92, '', { fontFamily: FONT_DISPLAY, fontSize: '30px', color: '#ffffff', lineSpacing: 6 })
       );
     });
 
@@ -672,8 +673,8 @@ export class FpsScene extends Phaser.Scene {
       let tag = this.radarTags[i];
       let nameTag = this.radarNames[i];
       if (!tag) {
-        tag = this.add.text(0, 0, p.initial, { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '15px', color: '#ffffff', stroke: '#0b1220', strokeThickness: 3 }).setOrigin(0.5).setDepth(3);
-        nameTag = this.add.text(0, 0, p.name.slice(0, 6).toUpperCase(), { fontFamily: 'Arial, sans-serif', fontSize: '11px', fontStyle: 'bold', color: '#e2e8f0', stroke: '#0b1220', strokeThickness: 3 }).setOrigin(0.5).setDepth(3);
+        tag = this.add.text(0, 0, p.initial, { fontFamily: FONT_DISPLAY, fontSize: '15px', color: '#ffffff', stroke: '#0b1220', strokeThickness: 3 }).setOrigin(0.5).setDepth(3);
+        nameTag = this.add.text(0, 0, p.name.slice(0, 6).toUpperCase(), { fontFamily: FONT_BODY, fontSize: '11px', fontStyle: 'bold', color: '#e2e8f0', stroke: '#0b1220', strokeThickness: 3 }).setOrigin(0.5).setDepth(3);
         this.radarTags[i] = tag;
         this.radarNames[i] = nameTag;
       }

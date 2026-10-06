@@ -276,14 +276,14 @@ function cultura(scene: Phaser.Scene): Partial<Backdrop> {
     g.fillRect(0, H - 156, W, 8);
     // LAVAGNA dietro la domanda (cornice di legno)
     g.fillStyle(0x7a4e2a, 1);
-    g.fillRoundedRect(110, 112, 1060, 300, 14);
+    g.fillRoundedRect(110, 130, 1060, 286, 14);
     g.fillStyle(0x1f3a2e, 1);
-    g.fillRoundedRect(126, 128, 1028, 268, 8);
+    g.fillRoundedRect(126, 146, 1028, 254, 8);
     // segni di gesso cancellato
     const r = rnd(9);
     for (let i = 0; i < 26; i++) {
       g.fillStyle(0xffffff, 0.025);
-      g.fillRoundedRect(140 + r() * 900, 140 + r() * 230, 60 + r() * 140, 10 + r() * 16, 6);
+      g.fillRoundedRect(140 + r() * 900, 156 + r() * 220, 60 + r() * 140, 10 + r() * 16, 6);
     }
     // poster ai lati
     g.fillStyle(0xf1e6c8, 1);

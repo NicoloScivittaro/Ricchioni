@@ -2,9 +2,15 @@ import Phaser from 'phaser';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
 import { MAX_PLAYERS, MIN_PLAYERS, SCORE_PRESETS, TARGET_SCORE_MAX, TARGET_SCORE_MIN, estimateGameMinutes } from '../../shared/types';
+import { UI, hexToInt } from '../core/uiTokens';
+import { displayText, infoText, uiPanel } from '../core/uiPhaser';
 
 const CUSTOM_IDX = SCORE_PRESETS.length;
 
+/**
+ * CONFIGURAZIONE DELLA SERATA (prima della stanza): due scelte grandi (quanti siete, quanto dura) e un solo pulsante.
+ * I tasti sono mostrati come tasti, non come istruzioni tecniche. Lo stato del server compare solo se c'e' un problema.
+ */
 export class LobbyScene extends Phaser.Scene {
   private count = 2;
   private presetIdx = 2; // NORMALE
@@ -12,6 +18,7 @@ export class LobbyScene extends Phaser.Scene {
 
   private countText!: Phaser.GameObjects.Text;
   private targetText!: Phaser.GameObjects.Text;
+  private targetSub!: Phaser.GameObjects.Text;
   private statusText!: Phaser.GameObjects.Text;
   private connText!: Phaser.GameObjects.Text;
 
@@ -20,70 +27,37 @@ export class LobbyScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor('#0b0b14');
-    this.add.image(640, 360, 'bg').setAlpha(0.22).setDisplaySize(1280, 720);
+    this.cameras.main.setBackgroundColor(UI.color.bg);
+    this.add.image(640, 360, 'bg').setAlpha(0.3).setDisplaySize(1280, 720);
+    this.add.rectangle(640, 360, 1280, 720, 0x0b0b14, 0.35);
 
-    this.add
-      .text(640, 80, 'RICCHIONI PARTY', {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '72px',
-        color: '#fbbf24'
-      })
-      .setOrigin(0.5)
-      .setShadow(0, 4, '#000000', 8);
+    displayText(this, 640, 96, 'RICCHIONI PARTY', 84, UI.color.accent);
+    infoText(this, 640, 156, 'IL PARTY GAME DELLA SERATA', UI.size.S, UI.color.text);
 
-    this.add
-      .text(640, 180, 'GIOCATORI   (← →)', {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '24px',
-        color: '#93c5fd'
-      })
-      .setOrigin(0.5);
-    this.countText = this.add
-      .text(640, 235, String(this.count), {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '64px',
-        color: '#ffffff'
-      })
-      .setOrigin(0.5);
+    // scheda centrale con le due scelte
+    uiPanel(this, 640, 372, 760, 300, UI.color.line, true);
+    const row = (y: number, label: string, keys: string): void => {
+      infoText(this, 640, y - 52, label, UI.size.S, UI.color.info);
+      this.keycap(640 - 300, y + 4, keys === 'lr' ? '◀' : '▲');
+      this.keycap(640 + 300, y + 4, keys === 'lr' ? '▶' : '▼');
+    };
+    row(286, 'QUANTI SIETE', 'lr');
+    this.countText = displayText(this, 640, 290, String(this.count), UI.size.XL, UI.color.text);
+    row(436, 'QUANTO DURA LA SERATA', 'ud');
+    this.targetText = displayText(this, 640, 432, '', UI.size.L, UI.color.text);
+    this.targetSub = infoText(this, 640, 476, '', UI.size.S, UI.color.textDim);
 
-    this.add
-      .text(640, 340, 'PUNTEGGIO OBIETTIVO   (↑ ↓)   [+ / - per il valore personalizzato]', {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '22px',
-        color: '#93c5fd'
-      })
-      .setOrigin(0.5);
-    this.targetText = this.add
-      .text(640, 395, '', {
-        fontFamily: '"Arial Black", Arial, sans-serif',
-        fontSize: '46px',
-        color: '#ffffff'
-      })
-      .setOrigin(0.5);
+    // START
+    this.add.rectangle(640, 594, 520, 66, hexToInt(UI.color.success), 1).setStrokeStyle(3, 0xbbf7d0);
+    this.statusText = displayText(this, 640, 594, 'INVIO  ·  CREA LA PARTITA', UI.size.M, '#062012').setStroke('#062012', 0).setShadow(0, 0, '#000', 0);
+    this.tweens.add({ targets: this.statusText, scale: 1.04, duration: UI.motion.pulse, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
 
-    this.statusText = this.add
-      .text(640, 560, 'Premi INVIO per CREARE LA PARTITA', {
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '26px',
-        color: '#4ade80'
-      })
-      .setOrigin(0.5);
-
-    this.connText = this.add
-      .text(640, 615, '', {
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '18px',
-        color: '#9ca3af'
-      })
-      .setOrigin(0.5);
+    // stato del server: visibile SOLO se qualcosa non va
+    this.connText = infoText(this, 640, 660, '', UI.size.S, UI.color.danger);
 
     const updateConn = (status: unknown): void => {
-      if (status === 'error') {
-        this.connText.setText('⚠️ Server non raggiungibile — verifica VITE_SERVER_URL').setColor('#f87171');
-      } else {
-        this.connText.setText('● Server connesso').setColor('#4ade80');
-      }
+      if (status === 'error') this.connText.setText('⚠ NON RIESCO A COLLEGARMI AL SERVER — controlla che sia acceso').setColor(UI.color.danger);
+      else this.connText.setText('');
     };
     updateConn(gm.connected ? 'ok' : 'error');
     const offConn = gm.events.on('connection', updateConn);
@@ -129,6 +103,13 @@ export class LobbyScene extends Phaser.Scene {
     });
   }
 
+  /** Tasto disegnato come tasto (non come testo "(← →)"). */
+  private keycap(x: number, y: number, label: string): void {
+    this.add.rectangle(x, y + 4, 64, 58, 0x6b7280, 1);
+    this.add.rectangle(x, y, 64, 58, 0xe5e7eb, 1);
+    this.add.text(x, y, label, { fontFamily: UI.font.display, fontSize: `${UI.size.M}px`, color: '#0b0b14' }).setOrigin(0.5);
+  }
+
   private currentTarget(): number {
     return this.presetIdx < SCORE_PRESETS.length ? SCORE_PRESETS[this.presetIdx].points : this.customScore;
   }
@@ -137,9 +118,11 @@ export class LobbyScene extends Phaser.Scene {
     this.countText.setText(String(this.count));
     if (this.presetIdx < SCORE_PRESETS.length) {
       const p = SCORE_PRESETS[this.presetIdx];
-      this.targetText.setText(`${p.label} · ${p.points} punti · ~${estimateGameMinutes(p.points)} min`);
+      this.targetText.setText(p.label);
+      this.targetSub.setText(`${p.points} PUNTI · ~${estimateGameMinutes(p.points)} MIN`);
     } else {
-      this.targetText.setText(`PERSONALIZZATA · ${this.customScore} punti · ~${estimateGameMinutes(this.customScore)} min`);
+      this.targetText.setText('PERSONALIZZATA');
+      this.targetSub.setText(`${this.customScore} PUNTI · ~${estimateGameMinutes(this.customScore)} MIN   ·   + / −  per cambiare`);
     }
   }
 
@@ -148,13 +131,14 @@ export class LobbyScene extends Phaser.Scene {
   private async start(): Promise<void> {
     if (this.creating) return; // evita doppie stanze con doppio click
     this.creating = true;
-    this.statusText.setText('Creo la stanza...').setColor('#fbbf24');
+    this.statusText.setText('CREO LA STANZA…');
     const ack = await gm.createRoom(this.count, this.currentTarget());
     if (ack.ok && ack.roomCode) {
       this.scene.start('RoomScene');
     } else {
       this.creating = false;
-      this.statusText.setText(ack.error ?? 'Errore durante la creazione della stanza').setColor('#f87171');
+      this.statusText.setText('INVIO  ·  CREA LA PARTITA');
+      this.connText.setText(`⚠ ${ack.error ?? 'Non sono riuscito a creare la stanza'}`).setColor(UI.color.danger);
     }
   }
 }

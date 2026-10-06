@@ -8,6 +8,7 @@ import type { TrackSpline } from './track';
 import { itemLabel } from './items';
 import { MAX_SPEED, DRIFT_THRESHOLDS } from './kartPhysics';
 import { DRIFT_LEVEL_COLORS, driftLevelOf } from './kartEntity';
+import { FONT_DISPLAY } from '../../core/uiTokens';
 
 export interface ViewportRect {
   x: number;
@@ -347,6 +348,8 @@ export class KartHud {
     let first = true;
     for (const e of this.entries.values()) {
       e.countdownText.text = text;
+      // stesso linguaggio di tutti i giochi: numeri oro, VIA! verde (hud/hudKit.ts)
+      e.countdownText.color = text === 'VIA!' ? '#4ade80' : '#fbbf24';
       if (text) popCountdown(e.countdownText, this.scene, first && text === 'VIA!');
       first = false;
     }
@@ -358,8 +361,8 @@ export class KartHud {
 
     const adt = AdvancedDynamicTexture.CreateFullscreenUI(`kartHud_${playerId}`, true, this.scene);
     const countdownText = new TextBlock(`countdown_${playerId}`, '');
-    countdownText.fontFamily = '"Arial Black", Arial, sans-serif';
-    countdownText.fontSize = 96;
+    countdownText.fontFamily = FONT_DISPLAY;
+    countdownText.fontSize = 120;
     countdownText.color = '#ffffff';
     countdownText.outlineColor = '#000000';
     countdownText.outlineWidth = 8;
@@ -368,43 +371,48 @@ export class KartHud {
     adt.addControl(countdownText);
 
     const panel = new Rectangle(`hudPanel_${playerId}`);
-    panel.width = '150px';
-    panel.height = '150px';
-    panel.thickness = 0;
-    panel.background = 'rgba(8,10,18,0.55)';
-    panel.cornerRadius = 10;
+    panel.width = '178px';
+    panel.height = '158px';
+    panel.thickness = 2;
+    panel.color = 'rgba(255,255,255,0.16)';
+    panel.background = 'rgba(11,11,20,0.78)';
+    panel.cornerRadius = 14;
     panel.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
     panel.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
-    panel.left = '10px';
-    panel.top = '10px';
+    panel.left = '14px';
+    panel.top = '14px';
     adt.addControl(panel);
 
     const posText = new TextBlock('posText', '1°/1');
     posText.color = colorHex;
-    posText.fontFamily = '"Arial Black", Arial, sans-serif';
-    posText.fontSize = 26;
-    posText.top = '-20px';
-    posText.height = '32px';
+    posText.fontFamily = FONT_DISPLAY;
+    posText.fontSize = 40;
+    posText.outlineColor = '#000000';
+    posText.outlineWidth = 4;
+    posText.top = '-46px';
+    posText.height = '48px';
     panel.addControl(posText);
 
     const lapText = new TextBlock('lapText', 'GIRO 1/3');
     lapText.color = '#e5e7eb';
-    lapText.fontSize = 14;
-    lapText.top = '8px';
-    lapText.height = '18px';
+    lapText.fontFamily = FONT_DISPLAY;
+    lapText.fontSize = 18;
+    lapText.top = '-12px';
+    lapText.height = '24px';
     panel.addControl(lapText);
 
     const itemText = new TextBlock('itemText', '');
     itemText.color = '#fbbf24';
-    itemText.fontSize = 13;
-    itemText.top = '26px';
-    itemText.height = '18px';
+    itemText.fontFamily = FONT_DISPLAY;
+    itemText.fontSize = 16;
+    itemText.top = '12px';
+    itemText.height = '22px';
     panel.addControl(itemText);
 
     const driftBar = new Rectangle('driftBar');
-    driftBar.width = '120px';
-    driftBar.height = '8px';
-    driftBar.top = '38px';
+    driftBar.width = '140px';
+    driftBar.height = '10px';
+    driftBar.top = '32px';
     driftBar.thickness = 1;
     driftBar.color = '#00000055';
     driftBar.background = '#1f2430';
@@ -413,7 +421,7 @@ export class KartHud {
 
     const driftFill = new Rectangle('driftFill');
     driftFill.width = '0px';
-    driftFill.height = '6px';
+    driftFill.height = '8px';
     driftFill.thickness = 0;
     driftFill.background = '#4ade80';
     driftFill.cornerRadius = 3;
@@ -424,25 +432,26 @@ export class KartHud {
     for (const th of [DRIFT_THRESHOLDS[0], DRIFT_THRESHOLDS[1]]) {
       const tick = new Rectangle();
       tick.width = '2px';
-      tick.height = '8px';
+      tick.height = '10px';
       tick.thickness = 0;
       tick.background = 'rgba(255,255,255,0.85)';
       tick.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
-      tick.left = `${Math.round((th / DRIFT_THRESHOLDS[2]) * 118)}px`;
+      tick.left = `${Math.round((th / DRIFT_THRESHOLDS[2]) * 138)}px`;
       driftBar.addControl(tick);
     }
 
     const abilityLabel = new TextBlock('abilityLabel', '');
     abilityLabel.color = '#c4b5fd';
-    abilityLabel.fontSize = 11;
+    abilityLabel.fontFamily = FONT_DISPLAY;
+    abilityLabel.fontSize = 14;
     abilityLabel.top = '48px';
-    abilityLabel.height = '14px';
+    abilityLabel.height = '18px';
     panel.addControl(abilityLabel);
 
     const abilityBar = new Rectangle('abilityBar');
-    abilityBar.width = '120px';
-    abilityBar.height = '7px';
-    abilityBar.top = '62px';
+    abilityBar.width = '140px';
+    abilityBar.height = '9px';
+    abilityBar.top = '64px';
     abilityBar.thickness = 1;
     abilityBar.color = '#00000055';
     abilityBar.background = '#1f2430';
@@ -451,7 +460,7 @@ export class KartHud {
 
     const abilityFill = new Rectangle('abilityFill');
     abilityFill.width = '0px';
-    abilityFill.height = '5px';
+    abilityFill.height = '7px';
     abilityFill.thickness = 0;
     abilityFill.background = '#a78bfa';
     abilityFill.cornerRadius = 3;
@@ -461,16 +470,16 @@ export class KartHud {
 
     const debtText = new TextBlock('debtText', '');
     debtText.color = '#f472b6';
-    debtText.fontFamily = '"Arial Black", Arial, sans-serif';
-    debtText.fontSize = 11;
-    debtText.top = '78px';
-    debtText.height = '14px';
+    debtText.fontFamily = FONT_DISPLAY;
+    debtText.fontSize = 13;
+    debtText.top = '64px';
+    debtText.height = '16px';
     debtText.isVisible = false;
     panel.addControl(debtText);
 
     const flashText = new TextBlock(`flash_${playerId}`, '');
-    flashText.fontFamily = '"Arial Black", Arial, sans-serif';
-    flashText.fontSize = 30;
+    flashText.fontFamily = FONT_DISPLAY;
+    flashText.fontSize = 36;
     flashText.color = '#fbbf24';
     flashText.outlineColor = '#000000';
     flashText.outlineWidth = 6;
@@ -563,7 +572,7 @@ export class KartHud {
 
     const maxCharge = driftT[2];
     const frac = state.drifting ? Math.min(1, state.driftCharge / maxCharge) : 0;
-    e.driftFill.width = `${Math.round(frac * 118)}px`;
+    e.driftFill.width = `${Math.round(frac * 138)}px`;
     e.driftFill.background = cssOf(driftLevelOf(state.driftCharge) === 0 ? [0.3, 0.87, 0.5] : DRIFT_LEVEL_COLORS[driftLevelOf(state.driftCharge)]);
     e.driftBar.isVisible = state.drifting;
 
@@ -573,7 +582,7 @@ export class KartHud {
     e.abilityLabel.isVisible = hasMeter || hasCharges;
     if (hasMeter) {
       const ready = state.abilityMeter >= 1;
-      e.abilityFill.width = `${Math.round(Math.min(1, state.abilityMeter) * 118)}px`;
+      e.abilityFill.width = `${Math.round(Math.min(1, state.abilityMeter) * 138)}px`;
       e.abilityFill.background = ready ? '#facc15' : '#a78bfa';
       e.abilityLabel.text = ready ? '⭐ ABILITÀ PRONTA' : 'ABILITÀ';
       e.abilityLabel.color = ready ? '#facc15' : '#c4b5fd';

@@ -202,7 +202,7 @@ export class BabylonVolleyballGame {
     this.ballShadow.isPickable = false;
 
     this.hud.setScore(0, 0);
-    this.hud.setTimer(0);
+    this.hud.setCenter(`A ${WIN_SCORE}`); // niente timer in pallavolo: al centro i punti per vincere
     this.showTeamIntro();
 
     applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
@@ -739,7 +739,7 @@ export class BabylonVolleyballGame {
       if (best) this.entities.get(best.id)?.react('victory');
     } else if (this.redScore >= MATCH_POINT_AT || this.blueScore >= MATCH_POINT_AT) {
       this.hud.setNote('🔥 MATCH POINT', '#fbbf24');
-      this.hud.feedMessage('🔥 MATCH POINT!', '#fbbf24', 2000);
+      if (!this.matchPointAnnounced) this.hud.banner('MATCH POINT', `ROSSI ${this.redScore} — ${this.blueScore} BLU`, '#fbbf24', 1500);
       if (!this.matchPointAnnounced) {
         this.matchPointAnnounced = true;
         audio.announcer('MATCH_POINT');

@@ -21,6 +21,7 @@ import { getQualityLevel } from '../core/quality';
 import Phaser from 'phaser';
 import { addBackdrop } from '../scenes/backdrops';
 import type { BackdropKind } from '../scenes/backdrops';
+import { FONT_BODY } from '../core/uiTokens';
 
 /**
  * GALLERIA AMBIENTI — SOLO SVILUPPO (`npm run dev`) o `?debug=1`, aperta con `?environments=1`. Niente HUD, niente
@@ -113,7 +114,7 @@ function preview2d(parent: HTMLElement, kind: BackdropKind, absurd: number): Pha
         [0xd94040, 0x3b7de0, 0x22b55e, 0xe2900e].forEach((c, i) => this.add.rectangle(340 + i * 234, 425, 214, 128, c).setStrokeStyle(4, 0xffffff));
       } else if (kind === 'cultura') {
         T(640, 60, 'ROUND 1/8 · BIOLOGIA', 40, '#fbbf24');
-        this.add.text(640, 250, '"Quale animale possiede tre cuori?"', { fontFamily: 'Arial', fontSize: '30px', color: '#ffffff' }).setOrigin(0.5);
+        this.add.text(640, 250, '"Quale animale possiede tre cuori?"', { fontFamily: FONT_BODY, fontSize: '30px', color: '#ffffff' }).setOrigin(0.5);
         T(640, 500, 'INVENTATE UNA CAZZATA CREDIBILE', 22, '#c4b5fd');
       } else {
         T(640, 70, 'IL RULLO DECIDE...', 48);

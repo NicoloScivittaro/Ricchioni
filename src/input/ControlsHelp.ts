@@ -5,6 +5,7 @@ import { getMinigame } from '../../shared/minigames';
 import { pads } from './GamepadManager';
 import { profileFor } from './profiles';
 import { bindingLabel, padFamily, type PadFamily } from './padTypes';
+import { ensureUiCss } from '../core/uiDom';
 
 /**
  * SCHERMATA CONTROLLI (host). Compare dopo l'intro e PRIMA del countdown 3-2-1-VIA di ogni minigioco giocato col controller, e per
@@ -28,26 +29,12 @@ export function setControlHelpMs(ms: number): void {
 
 const esc = (s: string): string => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
+// stile: design system comune (core/uiDom.ts) + poche regole proprie
 const CSS = `
-#pad-controls{position:fixed;inset:0;z-index:95000;display:flex;align-items:center;justify-content:center;background:rgba(3,6,18,.92);font-family:Arial,Helvetica,sans-serif;color:#e5e7eb}
-#pad-controls .cc-card{width:min(760px,92vw);padding:28px 34px 22px;border-radius:22px;background:#0b1224;border:3px solid #fbbf24;text-align:center;box-shadow:0 20px 80px rgba(0,0,0,.6)}
-#pad-controls .cc-icon{font-size:64px;line-height:1;margin-bottom:6px}
-#pad-controls .cc-title{font-size:38px;font-weight:900;letter-spacing:1px;color:#fbbf24}
-#pad-controls .cc-sub{margin:6px 0 18px;font-size:22px;font-weight:800;color:#93c5fd;letter-spacing:2px}
-#pad-controls .cc-row{display:flex;align-items:center;gap:18px;margin:10px 0;padding:10px 16px;border-radius:14px;background:#111a30;text-align:left}
-#pad-controls .cc-key{min-width:210px;text-align:center;padding:8px 14px;border-radius:12px;background:#1e293b;border:2px solid #475569;font-size:26px;font-weight:900;color:#fff;white-space:nowrap}
-#pad-controls .cc-lab{font-size:28px;font-weight:800}
-#pad-controls .cc-note{margin-top:14px;font-size:16px;color:#94a3b8}
-#pad-controls .cc-big{margin:24px 0 8px;font-size:46px;font-weight:900;color:#fff}
-#pad-controls .cc-bar{height:6px;margin-top:18px;border-radius:3px;background:#1e293b;overflow:hidden}
-#pad-controls .cc-bar i{display:block;height:100%;width:100%;background:#fbbf24;transform-origin:left;animation:cc-shrink linear forwards}
-@keyframes cc-shrink{from{transform:scaleX(1)}to{transform:scaleX(0)}}
-#pad-retake{position:fixed;left:50%;top:9vh;transform:translateX(-50%);z-index:95000;pointer-events:none;font-family:Arial,Helvetica,sans-serif;color:#e5e7eb}
-#pad-retake .cc-card{width:min(640px,90vw);padding:22px 30px 18px;border-radius:22px;background:#0b1224;border:3px solid #34d399;text-align:center;box-shadow:0 20px 80px rgba(0,0,0,.6)}
-#pad-retake .cc-icon{font-size:52px;line-height:1;margin-bottom:4px}
-#pad-retake .cc-title{font-size:28px;font-weight:900;color:#fbbf24}
-#pad-retake .cc-big{margin:16px 0 6px;font-size:42px;font-weight:900;color:#fff}
-#pad-retake .cc-sub{font-size:18px;font-weight:800;color:#93c5fd;letter-spacing:2px}
+#pad-controls{z-index:95000}
+#pad-controls .ui-card{animation:ui-in .22s cubic-bezier(.2,1.4,.4,1)}
+#pad-retake{position:fixed;left:50%;top:8vh;transform:translateX(-50%);z-index:95000;pointer-events:none;font-family:var(--ui-body);color:var(--ui-text)}
+#pad-retake .ui-card{border-color:var(--ui-success);width:min(680px,86vw)}
 `;
 
 let root: HTMLDivElement | null = null;
@@ -64,25 +51,27 @@ function families(): PadFamily[] {
 /** Intestazione comune a TUTTE le schermate (controller, telefoni, ripresa controller): icona, nome. Un solo layout per ogni gioco. */
 function header(minigameId: string): string {
   const def = getMinigame(minigameId);
-  return `${def?.icon ? `<div class="cc-icon">${esc(def.icon)}</div>` : ''}<div class="cc-title">${esc(def?.name ?? minigameId)}</div>`;
+  return `${def?.icon ? `<div class="ui-icon">${esc(def.icon)}</div>` : ''}<div class="ui-title">${esc(def?.name ?? minigameId)}</div>`;
 }
 
 function build(minigameId: string, mode: 'pad' | 'phone'): string {
-  const bar = `<div class="cc-bar"><i style="animation-duration:${helpMs}ms"></i></div>`;
+  const bar = `<div class="ui-bar"><i style="animation-duration:${helpMs}ms"></i></div>`;
   if (mode === 'phone') {
-    return `<div class="cc-card">${header(minigameId)}<div class="cc-big">📱 PRENDETE I TELEFONI</div><div class="cc-sub">SERVONO PER SCRIVERE E VOTARE</div>${bar}</div>`;
+    return `<div class="ui-card">${header(minigameId)}<div class="ui-big">📱 PRENDETE I TELEFONI</div><div class="ui-sub">SERVONO PER SCRIVERE E VOTARE</div>${bar}</div>`;
   }
   const profile = profileFor(minigameId)!;
   const fams = families();
   const rows = profile.controls
     .map((c) => {
       const labels = [...new Set(fams.map((f) => bindingLabel(c.binding, f)))].join(' / ');
-      return `<div class="cc-row"><span class="cc-key">${esc(labels)}</span><span class="cc-lab">${esc(c.label)}</span></div>`;
+      // tasto disegnato come tasto + azione breve (massimo 6: profiles.ts ne definisce gia' pochi)
+      return `<div class="ui-key"><span class="ui-cap">${esc(labels)}</span><span class="ui-act">${esc(c.label)}</span></div>`;
     })
+    .slice(0, 6)
     .join('');
   const someoneWithoutPad = (gm.state?.players ?? []).some((p) => !(p as { pad?: string }).pad);
-  const note = someoneWithoutPad ? '<div class="cc-note">Chi non ha il controller gioca col telefono (📱 modalità fallback)</div>' : '';
-  return `<div class="cc-card">${header(minigameId)}<div class="cc-sub">🎮 CONTROLLI</div>${rows}${note}${bar}</div>`;
+  const note = someoneWithoutPad ? '<div class="ui-note">📱 Chi non ha il controller gioca col telefono</div>' : '';
+  return `<div class="ui-card">${header(minigameId)}<div class="ui-sub">🎮 CONTROLLI</div><div class="ui-keys">${rows}</div>${note}${bar}</div>`;
 }
 
 /**
@@ -101,6 +90,7 @@ export function showControlsHelp(minigameId: string): Promise<void> {
   ensureStyle();
   root = document.createElement('div');
   root.id = 'pad-controls';
+  root.className = 'ui-overlay';
   root.innerHTML = build(minigameId, mode);
   document.body.appendChild(root);
   if (mode === 'pad') pads.beginControls();
@@ -136,12 +126,25 @@ export function showControlsHelp(minigameId: string): Promise<void> {
   return active;
 }
 
+/** SOLO galleria UI (?ui=1): la schermata CONTROLLI anche senza controller collegati, con lo stesso markup. */
+export function previewControls(minigameId: string, mode: 'pad' | 'phone'): void {
+  ensureStyle();
+  document.getElementById('pad-controls')?.remove();
+  const el = document.createElement('div');
+  el.id = 'pad-controls';
+  el.className = 'ui-overlay';
+  el.innerHTML = build(minigameId, mode);
+  document.body.appendChild(el);
+  window.setTimeout(() => el.remove(), 60000);
+}
+
 /** Chiude subito la schermata (usato dai test e allo smontaggio forzato). */
 export function dismissControlsHelp(): void {
   finish?.();
 }
 
 function ensureStyle(): void {
+  ensureUiCss();
   if (styled) return;
   const st = document.createElement('style');
   st.textContent = CSS;
@@ -159,7 +162,7 @@ function showRetakeControllers(minigameId: string): void {
   document.getElementById('pad-retake')?.remove();
   const el = document.createElement('div');
   el.id = 'pad-retake';
-  el.innerHTML = `<div class="cc-card">${header(minigameId)}<div class="cc-big">🎮 RIPRENDETE I CONTROLLER</div><div class="cc-sub">I TELEFONI TORNANO SUL TAVOLO</div></div>`;
+  el.innerHTML = `<div class="ui-card">${header(minigameId)}<div class="ui-big">🎮 RIPRENDETE I CONTROLLER</div><div class="ui-sub">I TELEFONI TORNANO SUL TAVOLO</div></div>`;
   document.body.appendChild(el);
   window.clearTimeout(retakeTimer);
   retakeTimer = window.setTimeout(() => el.remove(), helpMs);

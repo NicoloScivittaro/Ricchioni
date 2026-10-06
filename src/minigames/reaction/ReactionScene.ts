@@ -7,6 +7,9 @@ import { debugEnabled, registerDebugSection } from '../../core/debug';
 import type { MinigameContext } from '../types';
 import type { PlayerSnapshot } from '../../../shared/types';
 import { addBackdrop } from '../../scenes/backdrops';
+import { UI } from '../../core/uiTokens';
+import { PlayerBadge, badgeRow } from '../../core/uiPhaser';
+import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
 
 // BOTTA AL VOLO — 5 round, 5 abilità, tempi in ms, classifica cumulativa.
 // Regola: nessuna abilità regala un tempo migliore.
@@ -42,7 +45,8 @@ interface PState {
   /** Dottore e Ciro: abilita' UNA volta a partita (le altre si rinnovano a ogni round) */
   gameUsed: boolean;
   roundTimes: number[];
-  card: Phaser.GameObjects.Text;
+  /** badge del giocatore (`card.text` = cio' che si vede) */
+  card: PlayerBadge;
 }
 
 let sessionRecord: { ms: number; name: string } | null = null;
@@ -125,17 +129,11 @@ export class ReactionScene extends Phaser.Scene {
     this.flashRect = this.add.rectangle(640, 360, 1280, 720, 0xffffff, 0).setDepth(60);
     this.core = this.add.circle(640, 290, 110, 0x14182b).setStrokeStyle(6, 0x6366f1).setDepth(5).setVisible(false);
 
-    const n = this.ctx.players.length;
-    this.ctx.players.forEach((p, i) => {
-      const x = n > 1 ? 170 + i * (940 / (n - 1)) : 640;
-      const card = this.add
-        .text(x, 580, '', {
-          fontFamily: '"Arial Black", Arial, sans-serif',
-          fontSize: '18px',
-          color: p.color,
-          align: 'center'
-        })
-        .setOrigin(0.5, 0);
+    // quasi niente UI: una fila di badge in basso (tempo / FALSA PARTENZA), il centro resta ad ATTENDI… / VIA!
+    const badges = badgeRow(this, this.ctx.players.map((p) => ({ id: p.id, displayName: p.displayName, characterId: p.characterId, color: p.color })), 720 - UI.safe.y - 40, undefined, 76);
+    this.ctx.players.forEach((p) => {
+      const card = badges.get(p.id)!;
+      card.root.setDepth(8);
       this.players.push({
         snap: p,
         status: 'ready',
@@ -153,11 +151,11 @@ export class ReactionScene extends Phaser.Scene {
     });
 
     this.centerText = this.add
-      .text(640, 320, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '110px', color: '#ffffff' })
+      .text(640, 320, '', { fontFamily: FONT_DISPLAY, fontSize: '110px', color: '#ffffff' })
       .setOrigin(0.5)
       .setDepth(10);
     this.subText = this.add
-      .text(640, 430, '', { fontFamily: 'Arial, sans-serif', fontSize: '28px', color: '#9ca3af', align: 'center' })
+      .text(640, 430, '', { fontFamily: FONT_BODY, fontSize: '28px', color: '#9ca3af', align: 'center' })
       .setOrigin(0.5)
       .setDepth(10);
 
@@ -374,7 +372,7 @@ export class ReactionScene extends Phaser.Scene {
     this.flashRect.setFillStyle(0x4ade80, 1).setAlpha(0.15);
     this.tweens.add({ targets: this.flashRect, alpha: 0, duration: 180, onComplete: () => (this.fakeActive = false) });
     const v = this.add
-      .text(640, 320, 'V', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '100px', color: '#4ade80' })
+      .text(640, 320, 'V', { fontFamily: FONT_DISPLAY, fontSize: '100px', color: '#4ade80' })
       .setOrigin(0.5)
       .setDepth(11)
       .setAlpha(0);
@@ -480,7 +478,7 @@ export class ReactionScene extends Phaser.Scene {
     if (sessionRecord) {
       this.add
         .text(640, 70, `⚡ RECORD SERATA: ${sessionRecord.ms} ms (${sessionRecord.name})`, {
-          fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '22px', color: '#fbbf24'
+          fontFamily: FONT_DISPLAY, fontSize: '22px', color: '#fbbf24'
         })
         .setOrigin(0.5)
         .setDepth(20);
@@ -509,7 +507,7 @@ export class ReactionScene extends Phaser.Scene {
       confetti(this, 640, 250);
       const win = this.add
         .text(640, 210, `🏆 VINCITORE · ${this.totalTime(p)} ms`, {
-          fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '44px', color: '#fbbf24'
+          fontFamily: FONT_DISPLAY, fontSize: '44px', color: '#fbbf24'
         })
         .setOrigin(0.5)
         .setDepth(16)
@@ -534,7 +532,7 @@ export class ReactionScene extends Phaser.Scene {
       status = `${p.timeMs} ms`;
       color = '#4ade80';
     } else if (p.status === 'falseStart') {
-      status = 'FALSA PARTENZA 💀';
+      status = 'FALSA PARTENZA';
       color = '#f87171';
     } else {
       status = 'NESSUNA RISPOSTA';
@@ -542,15 +540,17 @@ export class ReactionScene extends Phaser.Scene {
     }
     const abName = REACTION_ABILITIES[p.snap.characterId ?? '']?.name ?? 'ABILITÀ';
     const ability = p.abilityUsed ? '⭐ usata' : `⭐ ${abName}`;
-    p.card.setText(`${p.snap.avatar}\n${p.snap.displayName}\n${status}\n${ability}`).setColor(
-      p.status === 'ready' ? p.snap.color : color
-    );
+    // valore = tempo (💀 / — se non c'e'), riga sotto = cosa e' successo o l'abilita'
+    const val = p.status === 'pressed' ? status : p.status === 'falseStart' ? '💀' : p.status === 'ready' ? '' : '—';
+    const line = p.status === 'falseStart' ? 'FALSA PARTENZA' : p.status === 'ready' ? ability : p.status === 'pressed' ? ability : 'NESSUNA RISPOSTA';
+    p.card.setValue(val, color).setStatus(line, p.status === 'falseStart' ? UI.color.danger : p.abilityUsed ? UI.color.muted : '#c4b5fd');
+    p.card.setState(p.status === 'falseStart' ? 'out' : 'normal');
   }
 
   private showAbilityBanner(p: PState, text: string): void {
     const b = this.add
       .text(640, 500, `${p.snap.avatar} ${text}`, {
-        fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '24px', color: p.snap.color
+        fontFamily: FONT_DISPLAY, fontSize: '24px', color: p.snap.color
       })
       .setOrigin(0.5)
       .setDepth(30)

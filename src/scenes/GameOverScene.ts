@@ -4,12 +4,13 @@ import { audio } from '../core/AudioManager';
 import { getCharacter } from '../../shared/characters';
 import type { PlayerPublic } from '../../shared/types';
 import { THEME, titleText, bodyText, panel, hexInt, sceneIn } from '../core/theme';
+import { UI } from '../core/uiTokens';
 import { confetti } from './confetti';
 import { addPortrait, portraitKey } from '../core/portraits';
 import { bark, presentationOf } from '../../shared/characterPresentation';
 
 const KEY_LOCK_MS = 1500; // ignora tasti residui della schermata precedente
-const BASE_Y = 585; // base del podio
+const BASE_Y = 618; // base del podio (sotto: solo la riga RIVINCITA)
 const COL_W = 176;
 // colonne del podio: [posizione, x, altezza, colore]
 const PODIUM: { place: number; x: number; h: number; color: number }[] = [
@@ -71,13 +72,13 @@ export class GameOverScene extends Phaser.Scene {
     const header = titleText(this, 640, 56, 'CLASSIFICA FINALE', 48, THEME.text);
     bodyText(this, 640, 100, `dopo ${gm.roundLog.length || st.round} minigiochi · target ${st.targetScore} punti`, 20, THEME.muted);
 
-    // 4° e 5°: chip a sinistra, rivelati per primi (dall'ultimo)
+    // 4° e 5°: presenti ma non protagonisti — chip sotto le statistiche, a destra (rivelati per primi, dall'ultimo)
     const others = ranked.slice(3);
     others.reverse().forEach((p, i) => {
       const place = ranked.indexOf(p) + 1;
       const c = p.characterId ? getCharacter(p.characterId) : null;
-      const y = 655 - i * 0;
-      const x = 200 + i * 300;
+      const y = 560 + (others.length - 1 - i) * 64;
+      const x = 1030;
       const chip = this.add.container(x, y).setAlpha(0);
       chip.add(panel(this, 0, 0, 270, 56, { stroke: hexInt(c?.color ?? '#ffffff') }));
       chip.add(this.add.text(-108, 0, `${place}°`, { fontFamily: THEME.title, fontSize: '26px', color: THEME.muted }).setOrigin(0.5));
@@ -85,7 +86,9 @@ export class GameOverScene extends Phaser.Scene {
       const face = addPortrait(this, -62, 0, p.characterId, 44);
       if ('setTint' in face) face.setTint(0xa0a4ad);
       chip.add(face);
-      chip.add(this.add.text(-34, 0, p.displayName, { fontFamily: THEME.body, fontSize: '20px', color: c?.color ?? '#fff' }).setOrigin(0, 0.5));
+      const nm = this.add.text(-34, 0, p.displayName.toUpperCase(), { fontFamily: THEME.title, fontSize: '18px', color: c?.color ?? '#fff' }).setOrigin(0, 0.5);
+      while (nm.width > 140 && nm.text.length > 4) nm.setText(`${nm.text.replace(/…$/, '').slice(0, -1)}…`);
+      chip.add(nm);
       chip.add(this.add.text(122, 0, `${p.score}`, { fontFamily: THEME.title, fontSize: '22px', color: '#ffffff' }).setOrigin(1, 0.5));
       this.time.delayedCall(400 + i * 600, () => {
         this.tweens.add({ targets: chip, alpha: 1, y: y - 8, duration: THEME.normal });
@@ -110,11 +113,12 @@ export class GameOverScene extends Phaser.Scene {
     const winAt = startAt + (order.length - 1) * 1100;
     if (stats.length > 0) {
       const px = 1030;
-      const h = 40 + stats.length * 92;
+      const h = 40 + stats.length * 78;
+      const cy = 160 + h / 2;
       const objs: Phaser.GameObjects.GameObject[] = [
-        panel(this, px, 330, 400, h, { stroke: THEME.goldInt, alpha: 0.9 }),
-        titleText(this, px, 330 - h / 2 + 30, 'LA SERATA IN NUMERI', 22, THEME.gold),
-        ...stats.map((line, i) => bodyText(this, px, 330 - h / 2 + 92 + i * 88, line, 20, THEME.text))
+        panel(this, px, cy, 400, h, { stroke: THEME.goldInt, alpha: 0.9 }),
+        titleText(this, px, cy - h / 2 + 28, 'LA SERATA IN NUMERI', 22, THEME.gold),
+        ...stats.map((line, i) => bodyText(this, px, cy - h / 2 + 82 + i * 74, line, 19, THEME.text))
       ];
       for (const o of objs) (o as Phaser.GameObjects.Text).setAlpha(0);
       this.time.delayedCall(winAt + 900, () => {
@@ -122,10 +126,11 @@ export class GameOverScene extends Phaser.Scene {
       });
     }
 
+    // RIVINCITA: solo da tastiera dell'host (R / INVIO) — un tasto del controller non puo' farla partire per sbaglio
     const hint = this.add
-      .text(640, 700, 'R = NUOVA PARTITA (stessa squadra, punteggi a zero) · INVIO = nuova configurazione', {
-        fontFamily: THEME.body,
-        fontSize: '20px',
+      .text(640, 720 - UI.safe.y - 14, 'R · RIVINCITA (stessa squadra, punti a zero)      INVIO · NUOVA SERATA', {
+        fontFamily: THEME.title,
+        fontSize: `${UI.size.S}px`,
         color: THEME.green
       })
       .setOrigin(0.5)
@@ -182,7 +187,7 @@ export class GameOverScene extends Phaser.Scene {
       const pKey = portraitKey(textureKey);
       if (pKey && this.textures.exists(pKey)) {
         // ritratto (testa del personaggio, ritaglio unico) + reazione: il 1° esulta a lungo, 2° e 3° piu' composti
-        const img = this.add.image(col.x, cy, pKey).setDisplaySize(isWinner ? 120 : 104, isWinner ? 120 : 104);
+        const img = this.add.image(col.x, isWinner ? cy - 14 : cy, pKey).setDisplaySize(isWinner ? 150 : 96, isWinner ? 150 : 96);
         img.setAlpha(0);
         this.tweens.add({ targets: img, alpha: 1, duration: THEME.normal });
         if (isWinner) {
@@ -193,9 +198,11 @@ export class GameOverScene extends Phaser.Scene {
         }
       }
       const name = this.add
-        .text(col.x, cy - 78, p.displayName, { fontFamily: THEME.title, fontSize: isWinner ? '34px' : '26px', color })
+        .text(col.x, isWinner ? cy - 104 : cy - 70, p.displayName.toUpperCase(), { fontFamily: THEME.title, fontSize: isWinner ? '40px' : '24px', color })
         .setOrigin(0.5)
         .setAlpha(0);
+      // nomi lunghi: si riducono finche' stanno nella colonna
+      for (let fs = isWinner ? 40 : 24; name.width > (isWinner ? 300 : 200) && fs > 16; fs--) name.setFontSize(fs - 1);
       const pts = this.add
         .text(col.x, top + 24, `${p.score} PT`, { fontFamily: THEME.title, fontSize: isWinner ? '34px' : '28px', color: '#111827' })
         .setOrigin(0.5)
@@ -216,7 +223,7 @@ export class GameOverScene extends Phaser.Scene {
             .setAlpha(0);
           this.tweens.add({ targets: bubble, alpha: 1, scale: 1, delay: 700, duration: 300, ease: 'Back.easeOut' });
         }
-        if (alias) bodyText(this, col.x, cy - 108, `${alias}!`, 18, THEME.gold).setAlpha(0.9);
+        if (alias) bodyText(this, col.x, cy - 142, `${alias}!`, 20, THEME.gold).setAlpha(0.9);
         this.tweens.add({ targets: name, scale: 1.18, duration: 500, yoyo: true, ease: 'Sine.easeInOut' });
         confetti(this, 640, -30);
         this.time.delayedCall(700, () => confetti(this, 300, -30));

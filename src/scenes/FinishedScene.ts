@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
 import { getCharacter } from '../../shared/characters';
+import { FONT_DISPLAY } from '../core/uiTokens';
 
 /**
  * Breve stacco "MINIGIOCO FINITO!" — mostra anche chi ha vinto QUESTO
@@ -18,7 +19,7 @@ export class FinishedScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#0b0b14');
     this.add
       .text(640, 300, '🏁 MINIGIOCO FINITO!', {
-        fontFamily: '"Arial Black", Arial, sans-serif',
+        fontFamily: FONT_DISPLAY,
         fontSize: '64px',
         color: '#ffffff'
       })
@@ -33,7 +34,7 @@ export class FinishedScene extends Phaser.Scene {
       const c = winner.characterId ? getCharacter(winner.characterId) : null;
       this.add
         .text(640, 400, `🏆 ${c?.avatar ?? '🎮'} ${winner.displayName} ha vinto!`, {
-          fontFamily: '"Arial Black", Arial, sans-serif',
+          fontFamily: FONT_DISPLAY,
           fontSize: '32px',
           color: c?.color ?? '#fbbf24'
         })

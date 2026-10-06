@@ -12,6 +12,9 @@ import { MEMORY_TILES, MEMORY_SEQ_LENS, MEMORY_ROUNDS, isMemoryOver } from '../.
 import type { MinigameContext } from '../types';
 import type { PlayerSnapshot } from '../../../shared/types';
 import { addBackdrop } from '../../scenes/backdrops';
+import { UI } from '../../core/uiTokens';
+import { PlayerBadge, badgeColumns, displayText } from '../../core/uiPhaser';
+import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
 
 // MEMORIA DA UBRIACO — 5 round a eliminazione, sequenze 3-4-5-6-7.
 // OSSERVA → RIPETI. Chi arriva più avanti nella sequenza vince; a parità conta
@@ -56,7 +59,8 @@ interface PState {
   pausedUntil: number;
   rateArmed: boolean;
   resolved: boolean;
-  card: Phaser.GameObjects.Text;
+  /** scheda del giocatore (badge del design system: ritratto, nome, progresso, abilita'). `card.text` = cio' che si vede */
+  card: PlayerBadge;
 }
 
 function hex(color: string): number {
@@ -121,12 +125,9 @@ export class MemoryScene extends Phaser.Scene {
       .setDepth(50)
       .setAlpha(0);
 
-    this.centerText = this.add
-      .text(640, 74, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '72px', color: '#ffffff' })
-      .setOrigin(0.5)
-      .setDepth(20);
+    this.centerText = displayText(this, 640, 84, '', UI.size.XL, UI.color.text).setDepth(20);
     this.subText = this.add
-      .text(640, 126, '', { fontFamily: 'Arial, sans-serif', fontSize: '24px', color: '#9ca3af', align: 'center' })
+      .text(640, 128, '', { fontFamily: UI.font.display, fontSize: `${UI.size.S}px`, color: UI.color.textDim, align: 'center' })
       .setOrigin(0.5)
       .setDepth(20);
 
@@ -156,7 +157,7 @@ export class MemoryScene extends Phaser.Scene {
         .setOrigin(0.5)
         .setDepth(7);
       const label = this.add
-        .text(x, y + 68, `${ARROWS[i]} ${t.label}`, { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '20px', color: '#ffffff' })
+        .text(x, y + 68, `${ARROWS[i]} ${t.label}`, { fontFamily: UI.font.display, fontSize: `${UI.size.S}px`, color: '#ffffff' })
         .setOrigin(0.5)
         .setDepth(7);
       this.tileRects.push(rect);
@@ -165,12 +166,11 @@ export class MemoryScene extends Phaser.Scene {
       this.tileLabels.push(label);
     }
 
-    const n = this.ctx.players.length;
-    this.ctx.players.forEach((p, i) => {
-      const x = n > 1 ? 640 - ((n - 1) * 230) / 2 + i * 230 : 640;
-      const card = this.add
-        .text(x, 656, '', { fontFamily: 'Arial, sans-serif', fontSize: '15px', color: p.color, align: 'center', lineSpacing: 3 })
-        .setOrigin(0.5, 0);
+    // giocatori: due colonne compatte ai lati del rombo (le tessere restano il centro e non coprono nessuna scheda)
+    const badges = badgeColumns(this, this.ctx.players.map((p) => ({ id: p.id, displayName: p.displayName, characterId: p.characterId, color: p.color })), 250, 232, 92, 84);
+    this.ctx.players.forEach((p) => {
+      const card = badges.get(p.id)!;
+      card.root.setDepth(8);
       this.players.push({
         snap: p,
         alive: true,
@@ -575,7 +575,7 @@ export class MemoryScene extends Phaser.Scene {
   private showBanner(p: PState, text: string): void {
     const b = this.add
       .text(640, 646, `${p.snap.avatar} ${text}`, {
-        fontFamily: '"Arial Black", Arial, sans-serif',
+        fontFamily: FONT_DISPLAY,
         fontSize: '22px',
         color: p.snap.color
       })
@@ -590,21 +590,23 @@ export class MemoryScene extends Phaser.Scene {
     let status: string;
     let color: string;
     if (!p.alive) {
-      status = `💀 ELIMINATO (mossa ${p.progress})`;
+      status = `💀 FUORI (${p.progress})`;
       color = '#f87171';
     } else if (p.resolved) {
       status = '✅ FATTO';
       color = '#4ade80';
     } else if (this.phase === 'observe' || this.phase === 'title') {
-      status = '👀 osserva';
+      status = '👀 OSSERVA';
       color = p.snap.color;
     } else {
-      status = `⏳ ${p.inputIndex}/${seqLen}`;
+      status = `${p.inputIndex}/${seqLen}`;
       color = p.snap.color;
     }
     const abName = MEMORY_ABILITIES[p.snap.characterId ?? '']?.name ?? 'ABILITÀ';
     const ability = p.abilityUsed ? '⭐ usata' : `⭐ ${abName}`;
-    p.card.setText(`${p.snap.avatar} ${p.snap.displayName}\n${status}\n${ability}`).setColor(color);
+    // SOLO stato aggregato (privacy in TOCCA): progresso, ✅ o 💀 — mai quale tessera
+    p.card.setValue(status, color).setStatus(ability, p.abilityUsed ? UI.color.muted : '#c4b5fd');
+    p.card.setState(!p.alive ? 'out' : p.resolved ? 'done' : 'normal');
   }
 
   private applyDrunk(): void {

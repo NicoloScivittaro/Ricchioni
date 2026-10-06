@@ -25,16 +25,18 @@ import { GameOverScene } from '../scenes/GameOverScene';
 /**
  * NITIDEZZA DEL TESTO. Il canvas resta 1280x720 logico (nessuna coordinata cambia), ma su TV 1080p/4K e schermi HiDPI il browser lo
  * ingrandisce e i testi (rasterizzati a risoluzione 1) sfocano. Ogni Text viene quindi creato a risoluzione 2 quando ogni pixel
- * logico occupa piu' di ~1.2 pixel fisici; su un monitor 720p resta 1 (nessun costo). Tetto a 2: memoria e prestazioni invariate.
- * Override di prova: `?textres=1|2`.
+ * logico occupa piu' di ~1.2 pixel fisici, a risoluzione 3 su 4K; su un monitor 720p resta 1 (nessun costo).
+ * Override di prova: `?textres=1|2|3`.
  */
 function textResolution(): number {
   try {
     const forced = Number(new URLSearchParams(location.search).get('textres'));
-    if (forced === 1 || forced === 2) return forced;
+    if (forced === 1 || forced === 2 || forced === 3) return forced;
     const canvas = document.querySelector('#app canvas') as HTMLCanvasElement | null;
     const shown = canvas ? canvas.getBoundingClientRect().width : GAME_CONFIG.width;
-    return (shown / GAME_CONFIG.width) * (window.devicePixelRatio || 1) > 1.2 ? 2 : 1;
+    // 720p: 1 · 1080p/1440p: 2 · 4K (o HiDPI molto denso): 3. Solo i testi, mai il canvas intero.
+    const ratio = (shown / GAME_CONFIG.width) * (window.devicePixelRatio || 1);
+    return ratio > 2.6 ? 3 : ratio > 1.2 ? 2 : 1;
   } catch {
     return 1;
   }
@@ -120,3 +122,5 @@ if (debugEnabled() && new URLSearchParams(location.search).get('impact') === '1'
 if (debugEnabled() && new URLSearchParams(location.search).get('audiolab') === '1') void import('../dev/audioLab').then((m) => m.openAudioLab());
 // Galleria AMBIENTI: SOLO sviluppo o ?debug=1, aperta con ?environments=1 (src/dev/environmentGallery.ts): ogni ambiente senza HUD, vista di gioco o panoramica, test in grigi.
 if (debugEnabled() && new URLSearchParams(location.search).get('environments') === '1') void import('../dev/environmentGallery').then((m) => m.openEnvironmentGallery());
+// Galleria UI: SOLO sviluppo o ?debug=1, aperta con ?ui=1 (src/dev/uiGallery.ts): tutte le schermate con dati finti (5 giocatori, nomi lunghi).
+if (debugEnabled() && new URLSearchParams(location.search).get('ui') === '1') void import('../dev/uiGallery').then((m) => m.openUiGallery());

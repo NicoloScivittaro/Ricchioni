@@ -219,7 +219,8 @@ export class BabylonDodgeballGame {
     }
     this.shocks = new ShockRings(this.scene);
 
-    this.hud.setAlive(n);
+    this.hud.setPlayers(ctx.players.map((s) => ({ id: s.id, name: s.displayName, characterId: s.characterId, color: s.color }))); // striscia giocatori in basso
+    this.hud.setAlive(n, n);
     this.hud.setCountdown('3');
 
     // Schermata CONTROLLI: finche' e' su, countdown/fisica/timer restano fermi (vedi step()); alla fine gli input sono azzerati.
@@ -870,7 +871,8 @@ export class BabylonDodgeballGame {
     this.ctx.signal(p.id, { type: 'eliminated', by: thrower?.name ?? null });
     this.env.cheer(1); // la tribunetta salta (solo spettacolo)
     const aliveNow = this.players.filter((x) => x.alive).length;
-    this.hud.setAlive(aliveNow);
+    this.hud.setAlive(aliveNow, this.players.length);
+    this.hud.setPlayerOut(p.id, true);
     const duel = aliveNow === 2 && this.players.length > 2 ? say('lastTwo', true) : null;
     if (duel) this.hud.feedMessage(duel, '#fbbf24', 2200);
     if (aliveNow === 2 && this.players.length > 2) setGameIntensity(2);

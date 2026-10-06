@@ -1132,7 +1132,7 @@ function updateCulturaUI(s: CulturaState): void {
       <div class="cultura-q">"${s.question}"</div>
       ${s.myBluff
         ? `<div class="cultura-done">✍️ RISPOSTA INVIATA ✅<br><span>${s.myBluff}</span></div>`
-        : `<input id="cultura-bluff" class="cultura-input" placeholder="Scrivi una risposta falsa credibile..." maxlength="40" autocomplete="off" />
+        : `<input id="cultura-bluff" class="cultura-input" placeholder="Scrivi una risposta falsa credibile..." maxlength="40" autocomplete="off" autocapitalize="sentences" enterkeyhint="send" />
            <button id="cultura-confirm" class="cultura-btn">CONFERMA</button>`}
       <p class="cultura-hint">Scrivi una risposta falsa che possa sembrare vera.</p>`;
     const inp = root.querySelector<HTMLInputElement>('#cultura-bluff');
@@ -1152,6 +1152,8 @@ function updateCulturaUI(s: CulturaState): void {
       inp.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') submit();
       });
+      // la tastiera del telefono non deve coprire CONFERMA: quando compare, il pulsante viene portato in vista
+      inp.addEventListener('focus', () => window.setTimeout(() => btn.scrollIntoView({ block: 'end', behavior: 'smooth' }), 320));
     }
     return;
   }
@@ -2211,17 +2213,23 @@ function renderQuizPadPrivateInfo(data: QuizStatePayload, mg: NonNullable<RoomSt
         (letter, i) => `<div class="quiz-breakdown-row"><span>${letter}</span><span>${data.ciroBreakdown![i]}</span></div>`
       ).join('')}</div>`
     : '';
-  app.innerHTML = `
-    <div class="screen pad-screen">
+  if (!quizPadPrivateShown) vibrate([60, 40, 60]);
+  const html = `
+    <div class="screen pad-screen pad-private">
       <div class="pad-icon">📱</div>
       <h1>INFO PRIVATA</h1>
-      <p class="pad-look">🔒 SOLO PER TE</p>
+      <p class="pad-look">🔒 SOLO PER TE · NON FARLA VEDERE</p>
       <p class="pad-game">${def?.icon ?? ''} ${mg.name}</p>
       ${hint}
       ${breakdown}
       <p class="pad-look" style="margin-top:16px">RIGUARDA LA TV · USA IL CONTROLLER</p>
     </div>`;
+  // stesso contenuto = niente ridisegno (l'animazione d'ingresso parte una volta sola, non a ogni aggiornamento del quiz)
+  if (html === lastPrivateHtml && app.querySelector('.pad-private')) return;
+  lastPrivateHtml = html;
+  app.innerHTML = html;
 }
+let lastPrivateHtml = '';
 
 /** Chiamata ad ogni quizState: decide se mostrare/nascondere la schermata privata per chi gioca col controller. */
 function syncQuizPadPrivateInfo(data: QuizStatePayload): void {
@@ -2234,8 +2242,8 @@ function syncQuizPadPrivateInfo(data: QuizStatePayload): void {
   }
   const hasPrivateInfo = !!data.hintText || !!data.ciroBreakdown;
   if (hasPrivateInfo) {
-    quizPadPrivateShown = true;
     renderQuizPadPrivateInfo(data, mg);
+    quizPadPrivateShown = true;
   } else if (quizPadPrivateShown) {
     quizPadPrivateShown = false;
     renderPadScreen(mg, me);
@@ -2337,7 +2345,21 @@ function renderWait(state: RoomState): void {
 
 // ---- avvio ----
 
-if (reconnectToken) {
+/** SOLO sviluppo / ?debug=1: anteprima di una schermata del telefono con dati finti (galleria UI della TV, ?ui=1). */
+function renderPreview(kind: string): void {
+  const mg = (id: string, name: string): NonNullable<RoomState['currentMinigame']> => ({ minigameId: id, name } as NonNullable<RoomState['currentMinigame']>);
+  if (kind === 'passive') renderPadScreen(mg('arena', 'ARENA DEL DISAGIO'), { pad: 'Xbox' } as PlayerPublic);
+  else if (kind === 'private') renderQuizPadPrivateInfo({ hintText: 'La risposta giusta NON è la B', ciroBreakdown: null } as unknown as QuizStatePayload, mg('quiz', 'CHI CAZZO LO SA?'));
+  else if (kind === 'cultura') {
+    renderCulturaController();
+    updateCulturaUI({ phase: 'bluff', round: 2, totalRounds: 8, category: 'Biologia', question: 'Quale animale possiede tre cuori?', myBluff: null, options: [], myVote: null, isSecchione: false, isAdvocate: false } as unknown as CulturaState);
+  } else renderJoin();
+}
+const previewKind = import.meta.env.DEV || new URLSearchParams(location.search).get('debug') === '1' ? new URLSearchParams(location.search).get('preview') : null;
+
+if (previewKind) {
+  renderPreview(previewKind);
+} else if (reconnectToken) {
   renderReconnecting();
   if (socket.connected) rejoinWithToken(); // altrimenti ci pensa l'handler 'connect'
 } else {

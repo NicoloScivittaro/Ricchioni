@@ -16,6 +16,7 @@ import { audio } from '../../core/AudioManager';
 import { getQualityLevel } from '../../core/quality';
 import { CHAR_ICONS, drawIcon, iconDataUrl } from '../../../shared/charIcons';
 import { Image as GuiImage } from '@babylonjs/gui';
+import { FONT_DISPLAY } from '../../core/uiTokens';
 
 /** Chi ha una finestra nello split-screen: identita' visiva = nome + colore del giocatore, mai l'indice del controller. */
 export interface FpsLocalPlayer {
@@ -180,7 +181,10 @@ export class BabylonFpsGame {
   private hud = new Map<PlayerId, HudEntry>();
   private disposed = false;
   private paused = false;
-  private onResize = (): void => this.engine.resize();
+  private onResize = (): void => {
+    this.engine.resize();
+    this.layoutHud();
+  };
   private localPlayerIds: PlayerId[];
   private perfLowSince = 0;
   private perfFrames = 0;
@@ -236,15 +240,39 @@ export class BabylonFpsGame {
       this.hud.set(pid, this.buildHud(i, rects.length, name, color, characterId ?? null));
     });
     this.scene.activeCameras = this.cams.map((c) => c.camera);
+    this.layoutHud();
     registerEnvScene(this.scene);
 
     applyQuality(this.engine, this.scene);
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed || this.paused) return;
+      this.layoutHud(); // economico (confronta solo le misure): Babylon riporta l'HUD a schermo intero dopo un resize
       this.scene.render();
       if (this.debug) this.checkPerf();
     }));
     window.addEventListener('resize', this.onResize);
+  }
+
+  /**
+   * HUD di ogni finestra: la texture del GUI ha la misura della SUA finestra (niente testo schiacciato a 2 giocatori,
+   * dove la finestra e' larga mezzo schermo) e le misure sono in unita' di progetto (altezza ideale): stessa leggibilita'
+   * a 720p e a 4K, e da 3 finestre in su l'HUD si riduce un po' ma resta leggibile (non "scalato al 50%").
+   */
+  private layoutHud(): void {
+    const rects = splitScreenLayout(this.cams.length);
+    const rw = this.engine.getRenderWidth();
+    const rh = this.engine.getRenderHeight();
+    this.cams.forEach((c, i) => {
+      const h = this.hud.get(c.playerId);
+      const r = rects[i];
+      if (!h || !r) return;
+      const vpW = Math.max(2, Math.round(r.w * rw));
+      const vpH = Math.max(2, Math.round(r.h * rh));
+      const size = h.adt.getSize();
+      if (size.width !== vpW || size.height !== vpH) h.adt.scaleTo(vpW, vpH);
+      const idealH = 720 * r.h * (this.cams.length >= 3 ? 1.25 : 1);
+      if (h.adt.idealHeight !== idealH) h.adt.idealHeight = idealH;
+    });
   }
 
   /** SOLO DEBUG: FPS host sotto soglia per qualche secondo E auto-quality gia' al minimo (livello LOW, scala massima). */
@@ -372,8 +400,8 @@ export class BabylonFpsGame {
     // di chi e' questa finestra: nome nel colore del giocatore, in alto a sinistra (in 2x2 nessuno deve chiedersi "quale sono?")
     const nameTag = new TextBlock(`fpsName_${index}`, name.toUpperCase());
     nameTag.color = color;
-    nameTag.fontFamily = '"Arial Black", Arial, sans-serif';
-    nameTag.fontSize = total >= 4 ? 18 : 22;
+    nameTag.fontFamily = FONT_DISPLAY;
+    nameTag.fontSize = 22;
     nameTag.outlineColor = '#000000';
     nameTag.outlineWidth = 4;
     nameTag.resizeToFit = true;
@@ -381,45 +409,47 @@ export class BabylonFpsGame {
     nameTag.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
     nameTag.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
     const iconSrc = characterId ? iconDataUrl(CHAR_ICONS[characterId]) : '';
-    nameTag.left = iconSrc ? '44px' : '12px';
-    nameTag.top = '10px';
+    nameTag.left = iconSrc ? '50px' : '16px';
+    nameTag.top = '14px';
     adt.addControl(nameTag);
     if (iconSrc) {
       // icona vettoriale del personaggio (niente emoji del sistema)
       const icon = new GuiImage(`fpsIcon_${index}`, iconSrc);
-      icon.width = '28px';
-      icon.height = '28px';
+      icon.width = '30px';
+      icon.height = '30px';
       icon.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
       icon.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
-      icon.left = '10px';
-      icon.top = '8px';
+      icon.left = '14px';
+      icon.top = '12px';
       adt.addControl(icon);
     }
 
     const panel = new Rectangle(`fpsPanel_${index}`);
-    panel.width = '190px';
-    panel.height = '58px';
+    panel.width = '236px';
+    panel.height = '84px';
     panel.thickness = 0;
-    panel.background = 'rgba(8,10,18,0.6)';
-    panel.cornerRadius = 10;
+    panel.background = 'rgba(11,11,20,0.82)';
+    panel.thickness = 2;
+    panel.color = 'rgba(255,255,255,0.16)';
+    panel.cornerRadius = 14;
     panel.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
     panel.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
-    panel.left = '12px';
-    panel.top = '-12px';
+    panel.left = '16px';
+    panel.top = '-16px';
     adt.addControl(panel);
 
     const hpBar = new Rectangle('hpBar');
-    hpBar.width = '160px';
-    hpBar.height = '14px';
-    hpBar.top = '-14px';
+    hpBar.width = '208px';
+    hpBar.height = '20px';
+    hpBar.top = '-22px';
     hpBar.thickness = 1;
     hpBar.color = '#00000055';
     hpBar.background = '#1f2430';
     hpBar.cornerRadius = 4;
     panel.addControl(hpBar);
     const hpFill = new Rectangle('hpFill');
-    hpFill.width = '156px';
-    hpFill.height = '10px';
+    hpFill.width = '204px';
+    hpFill.height = '16px';
     hpFill.thickness = 0;
     hpFill.background = '#4ade80';
     hpFill.cornerRadius = 3;
@@ -428,26 +458,34 @@ export class BabylonFpsGame {
     hpBar.addControl(hpFill);
     const hpText = new TextBlock('hpText', '100');
     hpText.color = '#ffffff';
-    hpText.fontSize = 11;
+    hpText.fontSize = 15;
+    hpText.fontFamily = FONT_DISPLAY;
+    hpText.outlineColor = '#000000';
+    hpText.outlineWidth = 3;
     hpBar.addControl(hpText);
 
     const ammoText = new TextBlock('ammoText', '');
     ammoText.color = '#e5e7eb';
-    ammoText.fontFamily = '"Arial Black", Arial, sans-serif';
-    ammoText.fontSize = 15;
-    ammoText.top = '6px';
-    ammoText.height = '18px';
+    ammoText.fontFamily = FONT_DISPLAY;
+    ammoText.fontSize = 22;
+    ammoText.top = '8px';
+    ammoText.height = '28px';
+    ammoText.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    ammoText.left = '14px';
     panel.addControl(ammoText);
 
     const killText = new TextBlock('killText', '0 kill');
     killText.color = '#facc15';
-    killText.fontSize = 11;
-    killText.top = '20px';
-    killText.height = '14px';
+    killText.fontSize = 17;
+    killText.fontFamily = FONT_DISPLAY;
+    killText.top = '10px';
+    killText.height = '24px';
+    killText.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
+    killText.left = '-14px';
     panel.addControl(killText);
 
     const hitmarker = new TextBlock(`fpsHitmarker_${index}`, '✕');
-    hitmarker.fontSize = total >= 4 ? 34 : 44;
+    hitmarker.fontSize = 44;
     hitmarker.color = '#ffffff';
     hitmarker.outlineColor = '#000000';
     hitmarker.outlineWidth = 4;
@@ -459,15 +497,15 @@ export class BabylonFpsGame {
     const vignette = new Rectangle(`fpsVignette_${index}`);
     vignette.width = '100%';
     vignette.height = '100%';
-    vignette.thickness = total >= 4 ? 40 : 70;
+    vignette.thickness = 60;
     vignette.color = '#ef4444';
     vignette.alpha = 0;
     vignette.isHitTestVisible = false;
     adt.addControl(vignette);
 
     const centerText = new TextBlock(`fpsCenter_${index}`, '');
-    centerText.fontFamily = '"Arial Black", Arial, sans-serif';
-    centerText.fontSize = total >= 4 ? 26 : 36;
+    centerText.fontFamily = FONT_DISPLAY;
+    centerText.fontSize = 36;
     centerText.color = '#f87171';
     centerText.outlineColor = '#000000';
     centerText.outlineWidth = 6;
@@ -479,7 +517,7 @@ export class BabylonFpsGame {
     const dmgInds: { box: Rectangle; t: number }[] = [];
     for (let k = 0; k < 3; k++) {
       const box = new Rectangle(`fpsDmgInd_${index}_${k}`);
-      box.width = total >= 4 ? '150px' : '210px';
+      box.width = '220px';
       box.height = box.width;
       box.thickness = 0;
       box.alpha = 0;
@@ -488,7 +526,7 @@ export class BabylonFpsGame {
       arrow.color = '#ef4444';
       arrow.outlineColor = '#000000';
       arrow.outlineWidth = 3;
-      arrow.fontSize = total >= 4 ? 26 : 34;
+      arrow.fontSize = 36;
       arrow.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
       box.addControl(arrow);
       adt.addControl(box);
@@ -869,7 +907,7 @@ export class BabylonFpsGame {
       const h = this.hud.get(snap.id);
       if (!h) continue;
       const frac = Math.max(0, Math.min(1, snap.hp / snap.maxHp));
-      h.hpFill.width = `${Math.round(frac * 156)}px`;
+      h.hpFill.width = `${Math.round(frac * 204)}px`;
       h.hpFill.background = frac > 0.4 ? '#4ade80' : '#f87171';
       h.hpText.text = `${Math.max(0, Math.round(snap.hp))}`;
       const w = getWeapon(snap.weaponId);

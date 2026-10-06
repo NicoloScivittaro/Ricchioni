@@ -3,6 +3,7 @@ import { game as gm } from './GameManager';
 import { audio } from './AudioManager';
 import { telemetry } from './telemetry';
 import type { InputManager } from '../network/InputManager';
+import { FONT_DISPLAY, FONT_BODY } from './uiTokens';
 
 type MenuMode = 'none' | 'main' | 'confirmRestart' | 'confirmLobby' | 'confirmSkip';
 
@@ -102,13 +103,13 @@ export class PauseMenu {
     mk(this.scene.add.rectangle(640, 360, 1280, 720, 0x000000, 0.72).setDepth(90));
     mk(
       this.scene.add
-        .text(640, 160, this.title, { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '40px', color: '#fbbf24' })
+        .text(640, 160, this.title, { fontFamily: FONT_DISPLAY, fontSize: '40px', color: '#fbbf24' })
         .setOrigin(0.5)
         .setDepth(91)
     );
     mk(
       this.scene.add
-        .text(640, 208, 'PAUSA', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '28px', color: '#ffffff' })
+        .text(640, 208, 'PAUSA', { fontFamily: FONT_DISPLAY, fontSize: '28px', color: '#ffffff' })
         .setOrigin(0.5)
         .setDepth(91)
     );
@@ -131,7 +132,7 @@ export class PauseMenu {
             : 'Tornare alla lobby? Il minigioco viene annullato e i punteggi ripartono da zero, ma restano tutti in stanza.';
       mk(
         this.scene.add
-          .text(640, 270, msg, { fontFamily: 'Arial, sans-serif', fontSize: '22px', color: '#e5e7eb', align: 'center', wordWrap: { width: 720 } })
+          .text(640, 270, msg, { fontFamily: FONT_BODY, fontSize: '22px', color: '#e5e7eb', align: 'center', wordWrap: { width: 720 } })
           .setOrigin(0.5)
           .setDepth(91)
       );
@@ -140,7 +141,7 @@ export class PauseMenu {
     if (this.mode === 'main') {
       mk(
         this.scene.add
-          .text(640, 660, 'V = VOLUMI (generale · musica · effetti · telecronista)   ·   M = muto', { fontFamily: 'Arial, sans-serif', fontSize: '18px', color: '#9ca3af' })
+          .text(640, 660, 'V = VOLUMI (generale · musica · effetti · telecronista)   ·   M = muto', { fontFamily: FONT_BODY, fontSize: '18px', color: '#9ca3af' })
           .setOrigin(0.5)
           .setDepth(91)
       );
@@ -156,7 +157,7 @@ export class PauseMenu {
       );
       mk(
         this.scene.add
-          .text(640, y, label, { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '24px', color: sel ? '#111827' : '#ffffff' })
+          .text(640, y, label, { fontFamily: FONT_DISPLAY, fontSize: '24px', color: sel ? '#111827' : '#ffffff' })
           .setOrigin(0.5)
           .setDepth(92)
       );

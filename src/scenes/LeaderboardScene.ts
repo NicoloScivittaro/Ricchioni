@@ -4,6 +4,8 @@ import { audio } from '../core/AudioManager';
 import { getCharacter } from '../../shared/characters';
 import { addPortrait } from '../core/portraits';
 import { THEME, panel, titleText, bodyText, hexInt, sceneIn } from '../core/theme';
+import { UI } from '../core/uiTokens';
+import { displayText, pill } from '../core/uiPhaser';
 
 const ROW_H = 84;
 const ROW_W = 1040;
@@ -29,8 +31,8 @@ export class LeaderboardScene extends Phaser.Scene {
     const out = st.lastResults;
     const target = Math.max(1, st.targetScore);
 
-    titleText(this, 640, 50, 'CLASSIFICA GENERALE', 46, THEME.blue);
-    bodyText(this, 640, 100, `🎯 TARGET ${st.targetScore} PUNTI`, 24, THEME.gold);
+    displayText(this, 640, 60, 'CLASSIFICA GENERALE', UI.size.XL - 14, UI.color.text);
+    pill(this, 640, 116, `🎯 OBIETTIVO ${st.targetScore} PUNTI`, UI.color.accent, UI.size.S);
 
     // posizione PRIMA di questo round (per le frecce ▲▼): stessi punteggi meno i punti appena assegnati
     const before = [...st.players]
@@ -58,7 +60,7 @@ export class LeaderboardScene extends Phaser.Scene {
       row.add(this.add.text(-ROW_W / 2 + 44, 0, `${i + 1}`, { fontFamily: THEME.title, fontSize: '34px', color: i === 0 ? THEME.gold : THEME.muted }).setOrigin(0.5));
       row.add(addPortrait(this, -ROW_W / 2 + 112, 0, p.characterId, Math.min(56, ROW_H - 8)));
       row.add(
-        this.add.text(-ROW_W / 2 + 160, -14, p.displayName, { fontFamily: THEME.title, fontSize: '27px', color }).setOrigin(0, 0.5)
+        this.add.text(-ROW_W / 2 + 160, -14, p.displayName.toUpperCase(), { fontFamily: THEME.title, fontSize: p.displayName.length > 14 ? '22px' : '27px', color }).setOrigin(0, 0.5)
       );
 
       // barra di avanzamento verso il target
@@ -86,15 +88,18 @@ export class LeaderboardScene extends Phaser.Scene {
         row.add(this.add.text(ROW_W / 2 - 230, -4, `+${delta}`, { fontFamily: THEME.title, fontSize: '26px', color: THEME.green }).setOrigin(0, 0.5));
       }
       // distanza dal target
-      row.add(
-        this.add
-          .text(ROW_W / 2 - 250, 26, reached ? '🎯 TARGET RAGGIUNTO' : `mancano ${target - p.score}`, {
-            fontFamily: THEME.body,
-            fontSize: '16px',
-            color: reached ? THEME.gold : THEME.muted
-          })
-          .setOrigin(1, 0.5)
-      );
+      // distanza dall'obiettivo: se e' VICINO si legge da lontano ("MANCANO 3!")
+      const left = target - p.score;
+      const close = !reached && left <= Math.max(5, Math.round(target * 0.12));
+      const dist = this.add
+        .text(ROW_W / 2 - 250, 28, reached ? '🎯 OBIETTIVO RAGGIUNTO' : close ? `MANCANO ${left}!` : `mancano ${left}`, {
+          fontFamily: close || reached ? THEME.title : THEME.body,
+          fontSize: close || reached ? '22px' : '17px',
+          color: reached || close ? THEME.gold : THEME.muted
+        })
+        .setOrigin(1, 0.5);
+      row.add(dist);
+      if (close) this.tweens.add({ targets: dist, scale: 1.1, duration: UI.motion.pulse, yoyo: true, repeat: 3, delay: 900 });
       // freccia di posizione
       if (move !== 0) {
         row.add(

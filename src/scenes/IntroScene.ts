@@ -4,6 +4,9 @@ import { audio } from '../core/AudioManager';
 import { getMinigame } from '../../shared/minigames';
 import { FLOW_TIMING } from '../../shared/types';
 import { THEME, titleText, bodyText, sceneIn } from '../core/theme';
+import { UI } from '../core/uiTokens';
+import { pill } from '../core/uiPhaser';
+import { pads } from '../input/GamepadManager';
 
 /**
  * INTRO del minigioco: icona, nome, categoria, frase e "PREPARATE I TELEFONI" con barra di avanzamento.
@@ -25,17 +28,19 @@ export class IntroScene extends Phaser.Scene {
     const def = getMinigame(pick.minigameId);
 
     const icon = this.add.text(640, 150, def?.icon ?? '🎮', { fontSize: '96px' }).setOrigin(0.5).setScale(0.5).setAlpha(0);
-    const name = titleText(this, 640, 265, pick.name, pick.name.length > 26 ? 52 : 68, THEME.text).setAlpha(0);
-    const cat = titleText(this, 640, 335, pick.category, 30, THEME.gold).setAlpha(0);
-    const desc = bodyText(this, 640, 395, def?.description ?? 'Usa il telefono per giocare', 24, THEME.textDim).setAlpha(0);
+    const name = titleText(this, 640, 265, pick.name, pick.name.length > 26 ? 52 : UI.size.XL + 4, THEME.text).setStroke(UI.outline.color, UI.outline.thick).setAlpha(0);
+    const cat = pill(this, 640, 336, pick.category, THEME.gold, UI.size.S).setAlpha(0);
+    const desc = bodyText(this, 640, 396, def?.description ?? 'Usa il telefono per giocare', UI.size.S + 4, THEME.textDim).setWordWrapWidth(1080).setAlpha(0);
     this.tweens.add({ targets: icon, alpha: 1, scale: 1, duration: THEME.normal, ease: 'Back.easeOut' });
     this.tweens.add({ targets: [name, cat, desc], alpha: 1, duration: THEME.normal, delay: 120 });
 
     if (pick.modifierId) {
-      bodyText(this, 640, 445, `⚠️ ${pick.modifierName}${pick.modifierDescription ? ` — ${pick.modifierDescription}` : ''}`, 20, THEME.red);
+      pill(this, 640, 452, `⚠ ${pick.modifierName}${pick.modifierDescription ? ` — ${pick.modifierDescription}` : ''}`, UI.color.warning, UI.size.S);
     }
 
-    const label = titleText(this, 640, 545, '📱 PREPARATE I TELEFONI', 40, THEME.text);
+    // cosa prendere in mano: il CONTROLLER se c'e' (e il gioco lo usa), il telefono solo dove serve davvero
+    const usePads = pads.pairedCount() > 0 && def?.inputMode === 'GAMEPAD';
+    const label = titleText(this, 640, 545, def?.inputMode === 'PHONE_TEXT' ? '📱 PRENDETE I TELEFONI' : usePads ? '🎮 PRENDETE I CONTROLLER' : '📱 PREPARATE I TELEFONI', UI.size.L, THEME.text);
     this.tweens.add({ targets: label, scale: 1.05, duration: 420, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
 
     // barra che si riempie fino al VIA

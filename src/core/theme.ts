@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import { FONT_BODY, FONT_DISPLAY, UI } from './uiTokens';
+import { MINIGAME_DEFINITIONS } from '../../shared/minigames';
 
 /**
  * DESIGN SYSTEM dell'host (PC): un solo set di colori, font, pannelli e tempi per tutte le scene
@@ -25,8 +27,8 @@ export const THEME = {
   textDim: '#d1d5db',
   muted: '#9ca3af',
   // font
-  title: '"Arial Black", Arial, sans-serif',
-  body: 'Arial, sans-serif',
+  title: FONT_DISPLAY,
+  body: FONT_BODY,
   // durate standard (ms): brevi, mai bloccanti
   fast: 160,
   normal: 280,
@@ -62,7 +64,7 @@ export function bodyText(
   size = 22,
   color: string = THEME.textDim
 ): Phaser.GameObjects.Text {
-  return scene.add.text(x, y, text, { fontFamily: THEME.body, fontSize: `${size}px`, color, align: 'center' }).setOrigin(0.5);
+  return scene.add.text(x, y, text, { fontFamily: THEME.body, fontStyle: 'bold', fontSize: `${Math.max(UI.size.XS, size)}px`, color, align: 'center' }).setOrigin(0.5);
 }
 
 /** Pannello rettangolare con bordo (stile unico per righe, card, chip, modali). */
@@ -91,18 +93,20 @@ export function sceneIn(scene: Phaser.Scene): void {
 }
 
 /**
- * Schermata di CARICAMENTO standard per i minigiochi 3D (asset/motore in arrivo): titolo, nome del gioco,
- * puntini animati e barra indeterminata. Restituisce una funzione che la rimuove.
+ * Schermata di CARICAMENTO standard per i minigiochi 3D (asset/motore in arrivo): icona, nome del gioco, barra
+ * indeterminata (nessuna percentuale inventata) e UNA riga utile (cosa si fa nel gioco).
  */
 export function showLoading(scene: Phaser.Scene, icon: string, name: string): () => void {
   const objs: Phaser.GameObjects.GameObject[] = [];
-  objs.push(titleText(scene, 640, 250, `${icon}`, 84, THEME.text));
-  objs.push(titleText(scene, 640, 340, name, 40, THEME.gold));
-  const dots = bodyText(scene, 640, 410, 'CARICAMENTO', 24, THEME.muted);
+  const def = MINIGAME_DEFINITIONS.find((d) => d.name.toUpperCase().startsWith(name.toUpperCase()));
+  objs.push(titleText(scene, 640, 236, `${icon}`, 96, THEME.text));
+  objs.push(titleText(scene, 640, 342, name, UI.size.XL - 8, THEME.gold).setStroke(UI.outline.color, UI.outline.thick));
+  const dots = bodyText(scene, 640, 410, 'CARICAMENTO', UI.size.S, THEME.muted);
   objs.push(dots);
-  const barBg = scene.add.rectangle(640, 460, 360, 10, THEME.line).setOrigin(0.5);
-  const bar = scene.add.rectangle(460, 460, 90, 10, THEME.goldInt).setOrigin(0, 0.5);
+  const barBg = scene.add.rectangle(640, 450, 360, 10, THEME.line).setOrigin(0.5);
+  const bar = scene.add.rectangle(460, 450, 90, 10, THEME.goldInt).setOrigin(0, 0.5);
   objs.push(barBg, bar);
+  if (def?.description) objs.push(bodyText(scene, 640, 520, `💡 ${def.description}`, UI.size.S, THEME.textDim).setWordWrapWidth(1000));
   let n = 0;
   const ev = scene.time.addEvent({
     delay: 320,

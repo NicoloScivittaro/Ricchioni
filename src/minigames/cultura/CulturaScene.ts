@@ -7,6 +7,8 @@ import type { CulturaQuestion } from '../../../shared/culturaQuestions';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 import { addBackdrop } from '../../scenes/backdrops';
+import { phaseStepper } from '../../core/uiPhaser';
+import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
 
 // CULTURA O CAZZATA? — bluff culturale a round.
 // Fasi: intro domanda → bluff (telefono) → opzioni → voto → reveal → spiegazione.
@@ -53,6 +55,7 @@ export class CulturaScene extends Phaser.Scene {
   private questions: CulturaQuestion[] = [];
   private round = 0;
   private phase: Phase = 'intro';
+  private stepper!: ReturnType<typeof phaseStepper>;
   private holdForControls = false;
   private gameTime = 0;
   private phaseEndsAt = 0;
@@ -100,13 +103,15 @@ export class CulturaScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#12082a');
 
     addBackdrop(this, 'cultura'); // scenografia: quiz da bar, lavagna dietro la domanda (solo sfondo)
-    this.add.rectangle(640, 360, 1240, 680, 0x1a0f3a, 0).setStrokeStyle(3, 0xfbbf24);
-    this.titleText = this.add.text(640, 60, '🧠 CULTURA O CAZZATA?', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '40px', color: '#fbbf24' }).setOrigin(0.5);
-    this.mainText = this.add.text(640, 250, '', { fontFamily: 'Arial, sans-serif', fontSize: '26px', color: '#ffffff', align: 'center', wordWrap: { width: 1100 } }).setOrigin(0.5);
-    this.subText = this.add.text(640, 470, '', { fontFamily: 'Arial, sans-serif', fontSize: '20px', color: '#c4b5fd', align: 'center', wordWrap: { width: 1100 } }).setOrigin(0.5);
-    this.scoreText = this.add.text(30, 100, '', { fontFamily: 'Arial, sans-serif', fontSize: '18px', color: '#9ca3af' }).setOrigin(0, 0);
-    this.timerText = this.add.text(1210, 62, '', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '38px', color: '#fbbf24' }).setOrigin(1, 0.5);
-    this.statusText = this.add.text(640, 648, '', { fontFamily: 'Arial, sans-serif', fontSize: '24px', color: '#c4b5fd', align: 'center', wordWrap: { width: 1150 } }).setOrigin(0.5);
+    this.titleText = this.add.text(640, 58, '🧠 CULTURA O CAZZATA?', { fontFamily: FONT_DISPLAY, fontSize: '36px', color: '#fbbf24' }).setOrigin(0.5).setStroke('#000000', 3);
+    // fasi sempre visibili: si capisce cosa fare senza leggere spiegazioni
+    this.stepper = phaseStepper(this, 106, ['SCRIVI LA CAZZATA', 'SCEGLI', 'RIVELAZIONE', 'RISPOSTA VERA']);
+    this.stepper.set(-1);
+    this.mainText = this.add.text(640, 250, '', { fontFamily: FONT_BODY, fontSize: '26px', color: '#ffffff', align: 'center', wordWrap: { width: 1100 } }).setOrigin(0.5);
+    this.subText = this.add.text(640, 470, '', { fontFamily: FONT_BODY, fontStyle: 'bold', fontSize: '22px', color: '#c4b5fd', align: 'center', wordWrap: { width: 1100 } }).setOrigin(0.5);
+    this.scoreText = this.add.text(30, 100, '', { fontFamily: FONT_BODY, fontSize: '18px', color: '#9ca3af' }).setOrigin(0, 0);
+    this.timerText = this.add.text(1232, 58, '', { fontFamily: FONT_DISPLAY, fontSize: '40px', color: '#fbbf24' }).setOrigin(1, 0.5).setStroke('#000000', 3);
+    this.statusText = this.add.text(640, 648, '', { fontFamily: FONT_DISPLAY, fontSize: '22px', color: '#c4b5fd', align: 'center', wordWrap: { width: 1150 } }).setOrigin(0.5);
 
     this.ctx.players.forEach((p) => this.scores.set(p.id, { cultura: 0, furbizia: 0, correct: 0, deceived: 0, deceivedOthers: 0 }));
     // Prepara le domande senza ripetizioni.
@@ -185,6 +190,7 @@ export class CulturaScene extends Phaser.Scene {
   private enterBluff(): void {
     this.earlyBluff = false;
     this.phase = 'bluff';
+    this.stepper.set(0);
     this.phaseEndsAt = this.gameTime + BLUFF_S;
   }
 
@@ -229,6 +235,7 @@ export class CulturaScene extends Phaser.Scene {
     }
 
     this.phase = 'options';
+    this.stepper.set(1);
     this.phaseEndsAt = this.gameTime + OPTIONS_S;
     this.renderOptions();
     this.broadcastState();
@@ -250,6 +257,7 @@ export class CulturaScene extends Phaser.Scene {
     }
     this.resolveScoring();
     this.phase = 'reveal';
+    this.stepper.set(2);
     this.phaseEndsAt = this.gameTime + REVEAL_S;
     this.revealStep = 0;
     this.revealTimer = 0;
@@ -298,6 +306,7 @@ export class CulturaScene extends Phaser.Scene {
       audio.bluffReveal(o.ownerId ? this.ctx.players.find((pl) => pl.id === o.ownerId)?.characterId === 'ciro' : false); // ogni cazzata: piccolo stinger (quella di Ciro con la monetina)
     } else {
       const winners = [...this.votes.entries()].filter(([, idx]) => idx === this.options.indexOf(correctOpt)).map(([pid]) => this.playerName(pid));
+      this.stepper.set(3);
       this.mainText.setText(`✅ ${correctOpt.text.toUpperCase()}`).setFontSize(44).setColor('#4ade80');
       this.subText.setText(`RISPOSTA CORRETTA.\n${winners.length > 0 ? 'L\'HANNO SCELTA: ' + winners.join(', ') : 'NESSUNO L\'HA TROVATA!'}`);
       audio.culturaCorrect(); // la risposta vera: stinger piu' importante
@@ -307,6 +316,7 @@ export class CulturaScene extends Phaser.Scene {
 
   private enterExplanation(): void {
     this.phase = 'explanation';
+    this.stepper.set(3);
     this.phaseEndsAt = this.gameTime + EXPLANATION_S;
     this.mainText.setText(`📚 PERCHÉ?\n\n${this.currentQuestion.explanation}`).setFontSize(22).setColor('#ffffff');
     this.subText.setText(this.currentQuestion.funFact ? `💡 CURIOSITÀ\n${this.currentQuestion.funFact}` : '');
@@ -318,6 +328,7 @@ export class CulturaScene extends Phaser.Scene {
     this.round++;
     if (this.round >= this.questions.length || this.round >= TOTAL_ROUNDS) {
       this.phase = 'results';
+      this.stepper.set(-1);
       this.finished = true;
       this.renderResults();
       this.broadcastState();
@@ -326,6 +337,7 @@ export class CulturaScene extends Phaser.Scene {
     }
     if (this.round % 2 === 0) {
       this.phase = 'ranking';
+      this.stepper.set(-1);
       this.phaseEndsAt = this.gameTime + RANKING_S;
       this.renderRanking();
     } else {

@@ -5,6 +5,8 @@ import { getCharacter } from '../../shared/characters';
 import { FLOW_TIMING } from '../../shared/types';
 import type { PlayerResult, RoundResults } from '../../shared/types';
 import { THEME, medal, panel, titleText, bodyText, hexInt, sceneIn } from '../core/theme';
+import { UI } from '../core/uiTokens';
+import { displayText, infoText, pill } from '../core/uiPhaser';
 import { confetti } from './confetti';
 import { addPortrait } from '../core/portraits';
 import { bark } from '../../shared/characterPresentation';
@@ -31,10 +33,10 @@ export class ResultsScene extends Phaser.Scene {
       return;
     }
 
-    titleText(this, 640, 50, 'RISULTATI', 50, THEME.text);
+    displayText(this, 640, 62, 'RISULTATI', UI.size.XL - 8, UI.color.text);
     const gameName = st.currentMinigame?.name;
-    if (gameName) bodyText(this, 640, 98, gameName, 22, THEME.muted);
-    if (out.double) bodyText(this, 640, 124, '⚡ PUNTI DOPPI', 20, THEME.gold);
+    if (gameName) infoText(this, 640, 112, gameName, UI.size.S, UI.color.muted);
+    if (out.double) pill(this, 1280 - UI.safe.x, UI.safe.y + 18, '⚡ PUNTI DOPPI', UI.color.accent, UI.size.S, 1);
 
     // Rivelazione dall'ultimo al primo.
     const revealOrder = [...out.results].sort((a, b) => b.placement - a.placement);
@@ -73,14 +75,17 @@ export class ResultsScene extends Phaser.Scene {
       .setOrigin(0.5);
     const avatar = addPortrait(this, -ROW_W / 2 + 130, 0, player?.characterId, isWinner ? 72 : 64);
     const name = this.add
-      .text(-ROW_W / 2 + 190, isWinner ? -14 : -12, player?.displayName ?? r.playerId, {
+      .text(-ROW_W / 2 + 190, isWinner ? -14 : -12, (player?.displayName ?? r.playerId).toUpperCase(), {
         fontFamily: THEME.title,
         fontSize: isWinner ? '32px' : '28px',
         color
       })
       .setOrigin(0, 0.5);
+    // nomi lunghi: si riducono, non escono dalla riga
+    while (name.width > 460 && Number.parseInt(String(name.style.fontSize), 10) > 18) name.setFontSize(Number.parseInt(String(name.style.fontSize), 10) - 1);
     const stats = this.add
-      .text(-ROW_W / 2 + 190, isWinner ? 20 : 19, (r.stats ?? []).join('   ·   '), {
+      // UNA statistica (la piu' importante), non dieci
+      .text(-ROW_W / 2 + 190, isWinner ? 20 : 19, (r.stats ?? []).slice(0, 2).join('   ·   '), {
         fontFamily: THEME.body,
         fontSize: '19px',
         color: THEME.textDim
@@ -94,7 +99,7 @@ export class ResultsScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
     const ptLabel = this.add
-      .text(ROW_W / 2 - 60, isWinner ? 30 : 26, 'PUNTI', { fontFamily: THEME.body, fontSize: '13px', color: THEME.muted })
+      .text(ROW_W / 2 - 60, isWinner ? 31 : 28, 'PUNTI', { fontFamily: THEME.body, fontStyle: 'bold', fontSize: '15px', color: THEME.muted })
       .setOrigin(0.5);
 
     row.add([bg, place, avatar, name, stats, plus, ptLabel]);

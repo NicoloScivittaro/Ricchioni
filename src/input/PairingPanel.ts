@@ -5,6 +5,7 @@ import { pads } from './GamepadManager';
 import { portraitCss } from '../core/portraits';
 import { audio } from '../core/AudioManager';
 import { PAD_CONTROLS, padFamily, padLabel } from './padTypes';
+import { ensureUiCss } from '../core/uiDom';
 
 /**
  * PANNELLO "🎮 COLLEGA I CONTROLLER" (host, DOM sopra il canvas: nessuna scena Phaser toccata).
@@ -52,42 +53,45 @@ let toasts: HTMLDivElement;
 let open = false;
 let dismissed = false;
 let testView = false;
+/** impostazioni per giocatore (vibrazione, mira FPS, Y invertita): nascoste finche' non servono */
+let showOpts = false;
 let started = false;
 
 const css = `
-#pad-root{position:fixed;inset:0;z-index:90000;display:none;align-items:center;justify-content:center;background:rgba(3,6,18,.93);font-family:Arial,Helvetica,sans-serif;color:#e5e7eb}
-#pad-root .box{width:min(880px,94vw);max-height:92vh;overflow:auto;padding:22px 26px;border-radius:18px;background:#0b1224;border:2px solid #334155}
-#pad-root h2{margin:0 0 4px;font-size:28px;letter-spacing:1px}
-#pad-root .hint{margin:0 0 14px;color:#fbbf24;font-weight:700;font-size:18px}
+#pad-root{position:fixed;inset:0;z-index:90000;display:none;align-items:center;justify-content:center;background:rgba(5,6,14,.92);font-family:var(--ui-body);color:var(--ui-text)}
+#pad-root .box{width:min(900px,92vw);max-height:90vh;overflow:auto;padding:clamp(16px,2.6vh,30px) clamp(20px,2.6vw,34px);border-radius:var(--ui-r-l);background:var(--ui-panel);border:3px solid var(--ui-accent);box-shadow:0 24px 90px rgba(0,0,0,.65)}
+#pad-root h2{margin:0 0 4px;font-family:var(--ui-display);font-size:clamp(22px,3.4vh,40px);letter-spacing:.02em;white-space:nowrap}
+#pad-root.open ~ #pad-toasts{top:auto;bottom:4vh}
+#pad-root .hint{margin:0 0 14px;color:var(--ui-accent);font-family:var(--ui-display);font-size:clamp(16px,2.6vh,28px)}
 #pad-root .row{display:flex;align-items:center;gap:12px;padding:10px 12px;margin:6px 0;border-radius:12px;background:#111a30;border:2px solid transparent;cursor:pointer}
 #pad-root .row.target{border-color:#fbbf24}
 #pad-root .row.cursor{border-color:#38bdf8}
 #pad-root .dot{width:14px;height:14px;border-radius:50%;flex:none}
 #pad-root .who{flex:1;min-width:0}
-#pad-root .who b{display:block;font-size:21px}
-#pad-root .who span{font-size:13px;color:#94a3b8}
+#pad-root .who b{display:block;font-family:var(--ui-display);font-size:clamp(18px,2.8vh,30px)}
+#pad-root .who span{font-size:clamp(13px,1.8vh,18px);color:#94a3b8}
 #pad-root .ava{font-size:36px;line-height:1;flex:none;width:44px;text-align:center}
-#pad-root .st{font-weight:900;font-size:18px;text-align:right;flex:none}
+#pad-root .st{font-family:var(--ui-display);font-size:clamp(16px,2.4vh,26px);text-align:right;flex:none}
 #pad-root .st small{display:block;font-size:12px;font-weight:700;color:#94a3b8;margin-top:2px}
 #pad-root .head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-#pad-root .ready{font-size:30px;font-weight:900;color:#fff;white-space:nowrap}
-#pad-root .note{margin:12px 0 0;font-size:14px;color:#93c5fd}
+#pad-root .ready{font-family:var(--ui-display);font-size:clamp(24px,4vh,44px);color:#fff;white-space:nowrap}
+#pad-root .note{margin:12px 0 0;font-size:clamp(14px,2vh,20px);color:var(--ui-info);font-weight:700}
 #pad-root .note.warn{color:#f87171}
-#pad-root .foot .main{font-size:16px;padding:10px 22px;background:#16a34a;color:#fff}
+#pad-root .foot .main{font-family:var(--ui-display);font-size:clamp(16px,2.4vh,26px);padding:10px 26px;background:var(--ui-success);color:#062012}
 #pad-root .foot .dbg{margin-left:auto;background:transparent;color:#64748b;font-weight:600}
 #pad-root .ok{color:#34d399}.warn{color:#f87171}.none{color:#94a3b8}.cur{color:#38bdf8}
 #pad-root button{font:700 13px Arial;border:0;border-radius:8px;padding:6px 10px;background:#1e293b;color:#e5e7eb;cursor:pointer}
 #pad-root button:hover{background:#334155}
 #pad-root .foot{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-#pad-root .set{display:flex;gap:6px;align-items:center;font-size:12px;color:#94a3b8;margin-top:6px;flex-wrap:wrap}
+#pad-root .set{display:none;gap:6px;align-items:center;font-size:13px;color:#94a3b8;margin-top:6px;flex-wrap:wrap}
+#pad-root.opts .set{display:flex}
 #pad-root .set b{display:inline;font-size:13px;color:#e5e7eb}
 #pad-root table{width:100%;border-collapse:collapse;font:12px ui-monospace,Menlo,Consolas,monospace}
 #pad-root td,#pad-root th{padding:4px 6px;text-align:left;border-bottom:1px solid #1e293b;vertical-align:top}
-#pad-badge{position:fixed;left:12px;bottom:12px;z-index:89000;padding:6px 12px;border-radius:999px;background:rgba(15,23,42,.85);color:#cbd5e1;font:700 13px Arial;cursor:pointer;display:none}
-#pad-alert{position:fixed;left:0;right:0;top:0;z-index:99000;padding:10px 16px;text-align:center;background:#b91c1c;color:#fff;font:800 22px Arial;display:none}
-#pad-focus{position:fixed;left:0;right:0;bottom:0;z-index:99000;padding:10px 16px;text-align:center;background:#b45309;color:#fff;font:800 20px Arial;display:none}
-#pad-toasts{position:fixed;left:50%;transform:translateX(-50%);top:14px;z-index:99500;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
-#pad-toasts div{padding:10px 18px;border-radius:12px;background:rgba(15,23,42,.95);border:2px solid #475569;color:#fff;font:800 20px Arial}
+#pad-badge{position:fixed;left:3.75vw;bottom:4.5vh;z-index:89000;padding:.4em 1em;border-radius:999px;background:rgba(11,11,20,.88);border:2px solid var(--ui-line);color:#e5e7eb;font-family:var(--ui-display);font-size:clamp(14px,2vh,22px);cursor:pointer;display:none}
+#pad-alert{z-index:99000;display:none;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+#pad-focus{z-index:99000;display:none;top:auto;bottom:4.5vh}
+#pad-toasts{position:fixed;left:50%;transform:translateX(-50%);top:12vh;z-index:99500;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
 `;
 
 function phase(): string {
@@ -122,6 +126,8 @@ function render(): void {
   } else alertBar.style.display = 'none';
 
   root.style.display = open ? 'flex' : 'none';
+  root.classList.toggle('opts', showOpts);
+  root.classList.toggle('open', open); // pannello aperto: i messaggi brevi vanno in basso (non sopra il titolo)
   if (!open) return;
   root.innerHTML = testView ? renderTest() : renderPairing();
 }
@@ -168,7 +174,7 @@ function renderPairing(): string {
   const note = `<p class="note">Tutti i giochi si giocano col controller${phoneGames.length ? ` · solo ${esc(phoneGames.join(', '))} usa il telefono` : ''}. Il controller resta di quella persona per tutta la serata.</p>`;
   const noExp = pads.detected < slots.length && pads.detected > 0 && !free.length ? `<p class="note warn">Il browser vede ${pads.detected} controller su ${slots.length} giocatori: gli altri giocano col telefono.</p>` : '';
   return `<div class="box"><div class="head"><h2>🎮 COLLEGA I CONTROLLER</h2><div class="ready">${esc(readySummary())}</div></div><p class="hint">${esc(hint)}</p>${rows || '<p>Nessun giocatore nella stanza.</p>'}${note}${noExp}
-  <div class="foot"><button data-act="close" class="main">PRONTI (G)</button><button data-act="test" class="dbg">🧪 test controller</button></div></div>`;
+  <div class="foot"><button data-act="close" class="main">PRONTI (G)</button><button data-act="opts">⚙ IMPOSTAZIONI</button><button data-act="test" class="dbg">🧪 test controller</button></div></div>`;
 }
 
 function renderTest(): string {
@@ -207,8 +213,12 @@ function onClick(e: MouseEvent): void {
 }
 
 function toast(message: string, ms: number): void {
+  // sotto l'avviso fisso in alto (mai sopra la striscia dei giocatori); se l'avviso dice gia' la stessa cosa il toast resta
+  // nel DOM (lo leggono i test e le tecnologie assistive) ma non si vede: niente doppione a schermo
   const d = document.createElement('div');
+  d.className = `ui-toast ${/DISCONNESS|PERSO|ERRORE/.test(message) ? 'warn' : /RICONNESS|COLLEGATO|CONNESSO/.test(message) ? 'ok' : ''}`;
   d.textContent = message;
+  if (/DISCONNESS/.test(message) && alertBar.style.display === 'block') d.style.visibility = 'hidden';
   toasts.appendChild(d);
   window.setTimeout(() => d.remove(), ms);
   while (toasts.children.length > 3) toasts.firstElementChild?.remove();
@@ -217,6 +227,7 @@ function toast(message: string, ms: number): void {
 export function initPairingPanel(): void {
   if (started) return;
   started = true;
+  ensureUiCss();
   const style = document.createElement('style');
   style.textContent = css;
   document.head.appendChild(style);
@@ -226,10 +237,12 @@ export function initPairingPanel(): void {
   badge.id = 'pad-badge';
   alertBar = document.createElement('div');
   alertBar.id = 'pad-alert';
+  alertBar.className = 'ui-alert';
   toasts = document.createElement('div');
   toasts.id = 'pad-toasts';
   focusBar = document.createElement('div');
   focusBar.id = 'pad-focus';
+  focusBar.className = 'ui-alert warn';
   document.body.append(root, badge, alertBar, toasts, focusBar);
   root.addEventListener('click', onClick);
   badge.addEventListener('click', () => {
