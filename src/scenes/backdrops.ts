@@ -249,7 +249,8 @@ function quiz(scene: Phaser.Scene): Partial<Backdrop> {
   const duck = scene.add.text(1188, 640, '🦆', { fontSize: '44px' }).setOrigin(0.5).setDepth(-97).setAlpha(0);
   const disco = scene.add.text(640, 10, '🪩', { fontSize: '52px' }).setOrigin(0.5, 0).setDepth(-97).setAlpha(0);
   const flamingo = scene.add.text(92, 640, '🦩', { fontSize: '44px' }).setOrigin(0.5).setDepth(-97).setAlpha(0);
-  const disc = scene.add.circle(640, 190, 340, 0xff5fb0, 0).setDepth(-99);
+  // invisibile (non solo trasparente) finche' non serve: un cerchio a riempimento 0 viene comunque disegnato a ogni frame
+  const disc = scene.add.circle(640, 190, 340, 0xff5fb0, 0).setDepth(-99).setVisible(false);
   let absurd = -1;
   return {
     setAbsurd(k: number): void {
@@ -263,7 +264,8 @@ function quiz(scene: Phaser.Scene): Partial<Backdrop> {
       }
       if (lvl >= 3) {
         scene.tweens.add({ targets: flamingo, alpha: 1, duration: 600 });
-        scene.tweens.add({ targets: disc, alpha: 0.08, duration: 900, yoyo: true, repeat: -1 });
+        disc.setVisible(true);
+        scene.tweens.add({ targets: disc, fillAlpha: 0.08, duration: 900, yoyo: true, repeat: -1 });
       }
     }
   };
@@ -358,7 +360,7 @@ function roulette(scene: Phaser.Scene): Partial<Backdrop> {
     vignette(g, 0.5);
   });
   // tinta del gioco uscito (sopra lo sfondo, sotto le carte)
-  const wash = scene.add.rectangle(640, 360, W, H, 0xffffff, 0).setDepth(-90);
+  const wash = scene.add.rectangle(640, 360, W, H, 0xffffff, 0).setDepth(-90).setVisible(false); // visibile solo durante la tinta
   // bagliore che respira dietro la finestra del rullo
   const halo = scene.add.ellipse(640, 255, 900, 340, 0x7a5aff, 0.06).setDepth(-95);
   scene.tweens.add({ targets: halo, alpha: 0.12, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
@@ -366,8 +368,8 @@ function roulette(scene: Phaser.Scene): Partial<Backdrop> {
     tint(minigameId: string): void {
       const c = GAME_TINT[minigameId];
       if (c === undefined) return;
-      wash.setFillStyle(c, 0);
-      scene.tweens.add({ targets: wash, fillAlpha: 0.3, duration: 260, yoyo: true, hold: 1100, ease: 'Sine.easeOut' });
+      wash.setFillStyle(c, 0).setVisible(true);
+      scene.tweens.add({ targets: wash, fillAlpha: 0.3, duration: 260, yoyo: true, hold: 1100, ease: 'Sine.easeOut', onComplete: () => wash.setVisible(false) });
       halo.setFillStyle(c, 0.18);
     }
   };

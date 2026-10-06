@@ -207,11 +207,17 @@ try {
     check(p2Dead.alive === false && p2Dead.deaths === 1, 'la vittima muore, una sola morte contata (nessuna doppia morte)');
     // HUD: il kill count aggiornato deve comparire nell'HUD di P1 (mappato per playerId, mai per indice viewport) e
     // NON in quello del vicino (P2) — "niente HUD del player sbagliato".
-    const huds = await F(page, (g, a) => {
+    // l'HUD si aggiorna al PROSSIMO frame disegnato: in headless un frame a piu' finestre puo' durare piu' di 150 ms
+    const readHuds = () => F(page, (g, a) => {
       const h1 = g.splitScreen?.hud?.get(a.p1);
       const h2 = g.splitScreen?.hud?.get(a.p2);
       return { p1Kill: h1?.killText.text ?? null, p2Kill: h2?.killText.text ?? null };
     }, { p1: pids[0], p2: pids[1] });
+    let huds = await readHuds();
+    for (let t = 0; t < 30 && huds.p1Kill !== `${p1AfterKill.kills} kill`; t++) {
+      await sleep(100);
+      huds = await readHuds();
+    }
     check(huds.p1Kill === `${p1AfterKill.kills} kill`, `HUD di P1 mostra il SUO kill count (${huds.p1Kill})`);
     check(huds.p2Kill !== huds.p1Kill, `HUD di P2 non mostra il kill count di P1 (P2: ${huds.p2Kill})`);
     // colpisce ANCORA il cadavere: nessuna seconda kill (applyDamage ritorna false su bersaglio non vivo)
