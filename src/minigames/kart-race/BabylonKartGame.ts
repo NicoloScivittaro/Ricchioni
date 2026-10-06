@@ -33,6 +33,9 @@ import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
 import { buildTrackGuides } from './trackGuides';
+import { buildKartWorld } from './kartEnvironment';
+import type { KartWorld } from './kartEnvironment';
+import { registerEnvScene } from '../env/envDebug';
 import { telemetry } from '../../core/telemetry';
 
 const KART_S_RADIUS = 2.6;
@@ -58,6 +61,7 @@ export class BabylonKartGame {
   private disposed = false;
   private paused = false;
   private onResize = (): void => this.engine.resize();
+  private world: KartWorld;
   private trackAngleAt = (d: number): number => this.spline.tangentAngleAt(d);
   /** false finche' la schermata CONTROLLI e' visibile: countdown/gara restano fermi (vedi step()). */
   private controlsDone = false;
@@ -70,28 +74,15 @@ export class BabylonKartGame {
   ) {
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
-    this.scene.clearColor = new Color4(0.55, 0.8, 0.94, 1);
-    this.buildSky();
-
-    const hemi = new HemisphericLight('hemi', new Vector3(0.1, 1, 0.15), this.scene);
-    hemi.intensity = 0.68;
-    hemi.groundColor = new Color3(0.45, 0.42, 0.38);
-    const sun = new DirectionalLight('sun', new Vector3(-0.55, -1, -0.35), this.scene);
-    sun.intensity = 0.85;
-    sun.position = new Vector3(160, 160, 160);
-    const shadowGen = new ShadowGenerator(1024, sun);
+    this.spline = buildTrack();
+    // Mondo intorno alla pista (cielo, luce, mare, i 4 settori coi landmark): kartEnvironment.ts. Bagliore solo su neon e luci.
+    this.world = buildKartWorld(this.scene, this.spline);
+    const shadowGen = new ShadowGenerator(1024, this.world.sun);
     shadowGen.usePoissonSampling = true;
     shadowGen.bias = 0.002;
-
-    // Bloom economico: un GlowLayer illumina solo i materiali emissivi (item
-    // box, effetto turbo, lampioni) invece di un bloom globale su tutta la
-    // scena — molto più leggero con 5 viewport attive contemporaneamente.
-    const glow = new GlowLayer('glow', this.scene, { mainTextureRatio: 0.5 });
-    glow.intensity = 0.55;
-
-    this.spline = buildTrack();
     buildTrackVisuals(this.scene, this.spline);
     buildTrackGuides(this.scene, this.spline); // cartelli e frecce prima delle curve, portali dei checkpoint
+    registerEnvScene(this.scene);
     this.checkpoints = buildCheckpoints(this.spline);
     const boxPlacements = buildItemBoxes(this.spline);
 
@@ -147,6 +138,7 @@ export class BabylonKartGame {
       if (this.paused) return; // menu ESC del telefono/host: nessun input processato, gara ferma
       // Sotto-passi in tempo reale: timer/countdown/durata non dipendono dagli FPS (vedi core/frameClock).
       runSteps(this.engine.getDeltaTime(), (dt) => this.step(dt));
+      this.world.update(performance.now());
       this.scene.render();
     }));
     window.addEventListener('resize', this.onResize);
@@ -441,30 +433,6 @@ export class BabylonKartGame {
       const k = this.karts.get(ev.playerId);
       if (k) this.abilities.addMeter(k, 0.18);
     }
-  }
-
-  /** Cupola del cielo con gradiente verticale (canvas) invece del colore piatto di prima. */
-  private buildSky(): void {
-    const dome = MeshBuilder.CreateSphere('skyDome', { diameter: 850, segments: 12, sideOrientation: Mesh.BACKSIDE }, this.scene);
-    dome.infiniteDistance = true;
-
-    const dt = new DynamicTexture('skyTex', { width: 4, height: 256 }, this.scene, false);
-    const c = dt.getContext() as unknown as CanvasRenderingContext2D;
-    const grad = c.createLinearGradient(0, 0, 0, 256);
-    grad.addColorStop(0, '#1f7fd4');
-    grad.addColorStop(0.55, '#a9e2ff');
-    grad.addColorStop(1, '#eef8ff');
-    c.fillStyle = grad;
-    c.fillRect(0, 0, 4, 256);
-    dt.update();
-
-    const mat = new StandardMaterial('skyMat', this.scene);
-    mat.diffuseTexture = dt;
-    mat.emissiveColor = new Color3(1, 1, 1);
-    mat.disableLighting = true;
-    mat.backFaceCulling = false;
-    dome.material = mat;
-    dome.isPickable = false;
   }
 
   dispose(): void {

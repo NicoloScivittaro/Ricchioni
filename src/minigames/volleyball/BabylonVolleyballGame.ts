@@ -49,6 +49,7 @@ import { ArenaCamera } from '../arena/arenaCamera';
 import { ShockRings, makeBallTrail, tintBallTrail } from '../arena/impactFx';
 import { SoccerHud } from '../soccer/soccerHud';
 import { buildVolleyballEnvironment } from './volleyballEnvironment';
+import { registerEnvScene } from '../env/envDebug';
 import { VolleyballAbilities, JAGER_POWER_MULT, JUDOKA_ACCEL_MULT, JUDOKA_HIT_MULT } from './volleyballAbilities';
 import type { VolleyballAbilityFeedback } from './volleyballAbilities';
 import { VOLLEYBALL_ABILITIES } from '../../../shared/volleyballAbilities';
@@ -131,6 +132,7 @@ export class BabylonVolleyballGame {
     this.scene.clearColor = new Color4(0.6, 0.82, 0.95, 1);
 
     this.env = buildVolleyballEnvironment(this.scene);
+    registerEnvScene(this.scene);
     this.camera = new ArenaCamera(this.scene, canvas);
     this.hud = new SoccerHud(this.scene, '🏐 PALLAVOLO DEI DISAGIATI');
     this.hud.setNote(ctx.modifier?.name ? `⚠️ ${ctx.modifier.name}` : '');

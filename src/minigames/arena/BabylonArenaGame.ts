@@ -25,6 +25,7 @@ import {
 import type { ArenaPlayer } from './arenaTypes';
 import { ArenaEntity } from './arenaEntity';
 import { buildEnvironment } from './arenaEnvironment';
+import { registerEnvScene } from '../env/envDebug';
 import { ArenaCamera } from './arenaCamera';
 import { ArenaHud } from './arenaHud';
 import { ArenaAbilities, abilityDescription } from './arenaAbilities';
@@ -93,6 +94,7 @@ export class BabylonArenaGame {
     this.scene.clearColor = new Color4(0.07, 0.04, 0.12, 1);
 
     this.env = buildEnvironment(this.scene);
+    registerEnvScene(this.scene);
     this.camera = new ArenaCamera(this.scene, canvas);
     this.hud = new ArenaHud(this.scene);
     this.hud.setModifier(ctx.modifier?.name ?? null);
@@ -163,6 +165,7 @@ export class BabylonArenaGame {
       } else if (this.countdown <= 0) {
         this.phase = 'playing';
         this.hud.setCountdown('VIA!', '#4ade80');
+        this.env.show('start'); // maxischermo (solo spettacolo)
         audio.go();
         this.ctx.signal(null, { type: 'countdown', value: 0 });
         this.timeOutClearCountdown();
@@ -456,6 +459,7 @@ export class BabylonArenaGame {
     this.camera.shake(0.42, 280);
     this.hitStop = Math.max(this.hitStop, 0.08);
     this.hud.feedMessage(feed, '#f87171');
+    this.env.show('ko', p.name.toUpperCase()); // maxischermo + folla (solo spettacolo)
     this.ctx.signal(p.id, { type: 'eliminated', by: pusher?.name ?? null, how });
     if (pusher) {
       this.ctx.signal(pusher.id, { type: 'kill', name: p.name });
@@ -465,7 +469,10 @@ export class BabylonArenaGame {
     this.hud.setAlive(aliveNow);
     const duel = aliveNow === 2 && this.players.length > 2 ? say('lastTwo', true) : null;
     if (duel) this.hud.feedMessage(duel, '#fbbf24', 2200);
-    if (aliveNow === 2 && this.players.length > 2) setGameIntensity(2); // resa dei conti: strato musicale finale
+    if (aliveNow === 2 && this.players.length > 2) {
+      setGameIntensity(2);
+      this.env.show('last2');
+    } // resa dei conti: strato musicale finale
   }
 
   /** Pan stereo dalla posizione (sinistra/destra dell'arena vista dalla TV). */
@@ -493,6 +500,7 @@ export class BabylonArenaGame {
     for (const other of standing.slice(1)) this.entities.get(other.id)?.playDefeat();
     if (winner) {
       winner.vy = 6; // salto di vittoria
+      this.env.show('winner', winner.name.toUpperCase());
       audio.fanfare();
       audio.duck(0.5, 1300);
       this.hud.feedMessage(winnerFeed(winner.avatar, winner.name, winner.characterId), '#fbbf24', 4000);

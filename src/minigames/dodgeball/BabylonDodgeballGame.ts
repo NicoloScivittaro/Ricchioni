@@ -53,6 +53,7 @@ import { ShockRings, makeBallTrail, tintBallTrail } from '../arena/impactFx';
 import { ArenaCamera } from '../arena/arenaCamera';
 import { ArenaHud } from '../arena/arenaHud';
 import { buildDodgeballEnvironment } from './dodgeballEnvironment';
+import { registerEnvScene } from '../env/envDebug';
 import { DodgeballAbilities } from './dodgeballAbilities';
 import type { DodgeballAbilityFeedback } from './dodgeballAbilities';
 import { readMove } from '../moveInput';
@@ -137,6 +138,7 @@ export class BabylonDodgeballGame {
     this.scene.clearColor = new Color4(0.05, 0.08, 0.16, 1);
 
     this.env = buildDodgeballEnvironment(this.scene);
+    registerEnvScene(this.scene);
     this.camera = new ArenaCamera(this.scene, canvas);
     this.hud = new ArenaHud(this.scene, '🎯 DODGEBALL DEI COGLIONI');
     this.hud.setModifier(ctx.modifier?.name ?? null);
@@ -866,6 +868,7 @@ export class BabylonDodgeballGame {
         : `${p.avatar} ${p.name.toUpperCase()} È FUORI!`;
     this.hud.feedMessage(feed, '#f87171');
     this.ctx.signal(p.id, { type: 'eliminated', by: thrower?.name ?? null });
+    this.env.cheer(1); // la tribunetta salta (solo spettacolo)
     const aliveNow = this.players.filter((x) => x.alive).length;
     this.hud.setAlive(aliveNow);
     const duel = aliveNow === 2 && this.players.length > 2 ? say('lastTwo', true) : null;

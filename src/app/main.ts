@@ -118,3 +118,5 @@ if (debugEnabled() && new URLSearchParams(location.search).get('characters') ===
 if (debugEnabled() && new URLSearchParams(location.search).get('impact') === '1') void import('../dev/impactLab').then((m) => m.openImpactLab());
 // Audio Lab: SOLO sviluppo o ?debug=1, aperto con ?audiolab=1 (src/dev/audioLab.ts): tutti i suoni e le musiche a portata di click.
 if (debugEnabled() && new URLSearchParams(location.search).get('audiolab') === '1') void import('../dev/audioLab').then((m) => m.openAudioLab());
+// Galleria AMBIENTI: SOLO sviluppo o ?debug=1, aperta con ?environments=1 (src/dev/environmentGallery.ts): ogni ambiente senza HUD, vista di gioco o panoramica, test in grigi.
+if (debugEnabled() && new URLSearchParams(location.search).get('environments') === '1') void import('../dev/environmentGallery').then((m) => m.openEnvironmentGallery());

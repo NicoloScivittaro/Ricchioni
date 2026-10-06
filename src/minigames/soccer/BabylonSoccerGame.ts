@@ -46,6 +46,7 @@ import { ArenaCamera } from '../arena/arenaCamera';
 import { ShockRings, makeBallTrail } from '../arena/impactFx';
 import { SoccerHud } from './soccerHud';
 import { buildSoccerEnvironment } from './soccerEnvironment';
+import { registerEnvScene } from '../env/envDebug';
 import { SoccerAbilities } from './soccerAbilities';
 import { readMove } from '../moveInput';
 import type { SoccerAbilityFeedback } from './soccerAbilities';
@@ -119,6 +120,7 @@ export class BabylonSoccerGame {
     this.scene.clearColor = new Color4(0.05, 0.1, 0.08, 1);
 
     this.env = buildSoccerEnvironment(this.scene);
+    registerEnvScene(this.scene);
     this.camera = new ArenaCamera(this.scene, canvas);
     this.hud = new SoccerHud(this.scene);
     this.hud.setNote(ctx.modifier?.name ? `⚠️ ${ctx.modifier.name}` : '');
@@ -748,6 +750,7 @@ export class BabylonSoccerGame {
     this.hud.feedMessage(`${label} ${TEAM_LABEL[team]} ${this.redScore} — ${this.blueScore}`, team === 'red' ? '#f87171' : '#60a5fa', 3000);
     for (const p of this.players) this.ctx.vibrate(p.id, team === p.team ? 160 : 80);
     this.ctx.signal(null, { type: 'goal', team });
+    this.env.goal(team === 'red' ? 1 : -1); // la rete si gonfia, gli amici dietro la recinzione esultano (solo spettacolo)
     // ESULTANZA PERSONALE: chi segna fa la sua (il Goblin da stadio, l'ippon del Judoka...), i compagni la breve, gli altri ci restano male
     const pause = GOAL_PAUSE_SECONDS - 0.2;
     for (const p of this.players) {

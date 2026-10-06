@@ -1,7 +1,8 @@
 import { Engine, Scene, Color4, Color3, StandardMaterial, MeshBuilder, Mesh, UniversalCamera, Viewport, Vector3, TransformNode, DynamicTexture, HemisphericLight, DirectionalLight } from '@babylonjs/core';
 import { AdvancedDynamicTexture, TextBlock, Rectangle, Control } from '@babylonjs/gui';
 import type { PlayerId } from '../../../shared/types';
-import { buildFpsWorld } from '../../controller/fpsWorld';
+import { buildFpsWorld, buildFpsLights } from '../../controller/fpsWorld';
+import { registerEnvScene } from '../env/envDebug';
 import { splitScreenLayout } from '../kart-race/cameraHud';
 import { getWeapon } from '../../../shared/fpsWeapons';
 import { guardLoop, safely } from '../../core/loopGuard';
@@ -208,13 +209,7 @@ export class BabylonFpsGame {
     this.scene.clearColor = new Color4(0.07, 0.08, 0.12, 1);
     // LUCI: le stesse del client telefono (fpsClient). buildFpsWorld non ne crea: senza queste, sulla TV mondo e
     // personaggi erano neri (bug di M6: lo split-screen non aveva luci, il telefono si').
-    const hemi = new HemisphericLight('hemi', new Vector3(0.1, 1, 0.1), this.scene);
-    hemi.intensity = 0.85;
-    hemi.diffuse = new Color3(1, 0.98, 0.94);
-    hemi.groundColor = new Color3(0.4, 0.38, 0.36);
-    const sun = new DirectionalLight('sun', new Vector3(-0.4, -1, -0.3), this.scene);
-    sun.intensity = 0.7;
-    sun.diffuse = new Color3(1, 0.95, 0.85);
+    buildFpsLights(this.scene); // luci uniformi della Sparatoria (stesse su TV e telefono: fpsWorld)
     buildFpsWorld(this.scene);
 
     const rects = splitScreenLayout(locals.length);
@@ -241,6 +236,7 @@ export class BabylonFpsGame {
       this.hud.set(pid, this.buildHud(i, rects.length, name, color, characterId ?? null));
     });
     this.scene.activeCameras = this.cams.map((c) => c.camera);
+    registerEnvScene(this.scene);
 
     applyQuality(this.engine, this.scene);
     this.engine.runRenderLoop(guardLoop(() => {

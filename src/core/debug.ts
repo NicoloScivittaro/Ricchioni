@@ -4,6 +4,7 @@
  *
  *   F3  mostra / nasconde l'overlay      Q  cambia qualità 3D (si applica al prossimo minigioco)
  *   T   rallentatore 1x / 0.5x / 0.25x (giochi 3D e Sparatoria: grafica e gameplay insieme)
+ *   G   scala di grigi negli ambienti 3D (test dei valori: giocatori e oggetti di gioco devono restare leggibili)
  *
  * Mostra: fase, round/roundId, minigioco, scene Phaser attive (deve essere 1), canvas, timer JS vivi,
  * FPS + frame time medio/peggiore, heap JS (Chrome), connessione, ping, giocatori, qualità.
@@ -205,6 +206,11 @@ let overlay: DebugOverlay | null = null;
 /** true in sviluppo o con `?debug=1`: abilita le statistiche di bilanciamento (pallavolo) e simili. In produzione e' false. */
 export function debugEnabled(): boolean {
   return allowed();
+}
+
+/** Overlay F3 aperto (i tasti di debug extra, es. G = scala di grigi negli ambienti, valgono solo cosi'). */
+export function isDebugOverlayVisible(): boolean {
+  return overlay?.isVisible() ?? false;
 }
 
 function qualityLabel(): string {

@@ -16,7 +16,7 @@ import { audio } from '../core/AudioManager';
 import { applyQuality, engineOptions, getQualityLevel } from '../core/quality';
 import * as sfx from './fpsAudio';
 import { FpsViewmodel, recoilOf } from './fpsViewmodel';
-import { buildFpsWorld, makeBlobShadow } from './fpsWorld';
+import { buildFpsWorld, buildFpsLights, makeBlobShadow } from './fpsWorld';
 import { presentationOf } from '../../shared/characterPresentation';
 import { decorateHead, makeCharMaterials } from '../minigames/characters/characterModel';
 
@@ -187,13 +187,7 @@ export class FpsClient {
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
 
-    const hemi = new HemisphericLight('hemi', new Vector3(0.1, 1, 0.1), this.scene);
-    hemi.intensity = 0.85;
-    hemi.diffuse = new Color3(1, 0.98, 0.94);
-    hemi.groundColor = new Color3(0.4, 0.38, 0.36);
-    const sun = new DirectionalLight('sun', new Vector3(-0.4, -1, -0.3), this.scene);
-    sun.intensity = 0.7;
-    sun.diffuse = new Color3(1, 0.95, 0.85);
+    buildFpsLights(this.scene); // luci uniformi della Sparatoria (stesse su TV e telefono: fpsWorld)
 
     this.camera = new UniversalCamera('fpsCam', new Vector3(0, EYE_HEIGHT, 0), this.scene);
     this.camera.minZ = 0.05;
