@@ -4,7 +4,7 @@
 //   GAMES=arena,kart3d  (sottoinsieme)
 // Scrive OUT/<TAG>-<gioco>-<WxH>.png e OUT/<TAG>-stats-<WxH>.json. Le misure di draw call sono quelle di UN frame.
 import { launch, createRoomOnHost, addPhone, hostEval, hostSnapshot, sleep } from './lib.mjs';
-import { XBOX, DS, GENERIC, installMock, add, tap, until, finishNow } from './padmock.mjs';
+import { XBOX, DS, GENERIC, installMock, add, tap, until } from './padmock.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -82,7 +82,11 @@ try {
       await sleep(300);
       await page.keyboard.press('Enter');
     }
-    await until(async () => (await hostSnapshot(page)).phase === 'MINIGAME_PLAYING', 120000, `${id} PLAYING`);
+    await until(async () => (await hostSnapshot(page)).phase === 'MINIGAME_PLAYING', 120000, `${id} PLAYING`).catch(async (e) => {
+      const sn = await hostSnapshot(page);
+      console.log(`STATO al timeout: fase ${sn.phase}, gioco ${sn.minigameId ?? sn.currentMinigame ?? '?'}`);
+      throw e;
+    });
     // via la schermata CONTROLLI, poi qualche secondo di gioco "vuoto"
     const ctrlShown = () => page.evaluate(() => !!document.getElementById('pad-controls'));
     await until(ctrlShown, 12000, 'controlli su').catch(() => {});
@@ -92,7 +96,12 @@ try {
     stats[id] = await probe(page, key);
     await page.screenshot({ path: path.join(OUT, `${TAG}-${id}-${VP}.png`) });
     console.log(id, JSON.stringify(stats[id]), `${Math.round((Date.now() - t0) / 1000)}s`);
-    await finishNow(page);
+    // vincitore a rotazione: con 10 giochi nessuno arriva all'obiettivo (prima la serata finiva prima del rullo)
+    await hostEval(page, (gm, k) => {
+      const ctx = gm.minigameContext;
+      const n = ctx.players.length;
+      ctx.finish({ results: ctx.players.map((pl, i) => ({ playerId: pl.id, placement: ((i + k) % n) + 1, score: 0 })) });
+    }, GAMES.indexOf(id));
     await until(async () => ['ROUND_RESULTS', 'GLOBAL_LEADERBOARD', 'NEXT_ROUND'].includes((await hostSnapshot(page)).phase), 30000, 'risultati');
     await sleep(500);
   }

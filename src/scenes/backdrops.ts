@@ -122,22 +122,12 @@ function memory(scene: Phaser.Scene): Partial<Backdrop> {
     g.fillRect(0, H - 120, W, 120);
     g.fillStyle(0x7a4e30, 1);
     g.fillRect(0, H - 128, W, 14);
-    g.fillStyle(0xc9a050, 0.9); // corrimano d'ottone
-    g.fillRect(0, H - 60, W, 5);
     // sgabelli e tavolini storti agli angoli
     for (const [x, a] of [[110, -0.2], [1170, 0.25]] as const) {
       g.fillStyle(0x24160f, 1);
       g.fillEllipse(x, H - 150 + a * 30, 150, 26);
       g.fillRect(x - 6, H - 150, 12, 90);
     }
-    // quadri storti sulla parete (gag)
-    g.lineStyle(6, 0x8a6a3a, 1);
-    g.strokeRect(390, 40, 90, 64);
-    g.strokeRect(800, 34, 74, 92);
-    g.fillStyle(0x3a4a5a, 1);
-    g.fillRect(393, 43, 84, 58);
-    g.fillStyle(0x5a3a3a, 1);
-    g.fillRect(803, 37, 68, 86);
     // centro calmo: alone scuro dietro le tessere
     for (let i = 0; i < 10; i++) {
       g.fillStyle(0x0a0606, 0.06);
@@ -158,7 +148,7 @@ function memory(scene: Phaser.Scene): Partial<Backdrop> {
       scene.time.delayedCall(230, () => neon.setAlpha(1));
     }
   });
-  const lamp = scene.add.container(640, 0).setDepth(-99);
+  const lamp = scene.add.container(440, 0).setDepth(-99); // di lato: al centro c'e' il titolo OSSERVA / TOCCA
   const wire = scene.add.rectangle(0, 0, 3, 34, 0x111111).setOrigin(0.5, 0);
   const shade = scene.add.triangle(0, 34, -26, 22, 26, 22, 0, 0, 0x3a5a3a).setOrigin(0.5, 0);
   const bulb = scene.add.circle(0, 58, 7, 0xffe2a0);
