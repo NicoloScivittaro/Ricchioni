@@ -554,6 +554,14 @@ export class AudioManager {
     if (input) this.tone(f * 2, 0.12, 'sine', 0.025, 0.005);
   }
 
+  /**
+   * Memoria, fase TOCCA: tic NEUTRO per ogni tessera premuta, identico per tutte (nessuna altezza legata alla tessera): la TV
+   * non rivela le scelte dei giocatori. Le note specifiche restano solo in OSSERVA.
+   */
+  memoryInputTick(): void {
+    this.noiseBurst(0.025, 2600, 2200, 0.03, 0, 3, undefined, 'ui');
+  }
+
   /** Errore inequivocabile (Memoria, risposta sbagliata): ronzio basso doppio, impossibile confonderlo con una nota. */
   error(): void {
     this.tone(110, 0.16, 'sawtooth', 0.07, 0, 'sfx', undefined, true);

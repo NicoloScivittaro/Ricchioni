@@ -1,5 +1,10 @@
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
+import { pads } from '../../input/GamepadManager';
+import { HAPTIC } from '../../core/haptics';
+
+/** Impulso generico a ogni tessera premuta (stesso per tutte: non rivela quale). */
+const HAPTIC_TILE = 14;
 import { confetti } from '../../scenes/confetti';
 import { PauseMenu } from '../../core/PauseMenu';
 import { MEMORY_ABILITIES } from '../../../shared/memoryAbilities';
@@ -327,8 +332,12 @@ export class MemoryScene extends Phaser.Scene {
   }
 
   private handleTilePress(p: PState, c: number, seq: number[]): void {
-    audio.tileTone(c, true); // stessa nota dell'osservazione, appena piu' brillante
-    this.flashTile(c);
+    // PRIVACY: in TOCCA la TV non deve rivelare QUALE tessera e' stata premuta (chi e' piu' lento copierebbe a occhio o a
+    // orecchio). Niente lampeggio della tessera, niente nota specifica: solo un tic neutro, identico per tutte e quattro.
+    // La TV mostra soltanto il progresso (scheda: ⏳ 3/6, ✅, 💀).
+    audio.memoryInputTick();
+    // controller: impulso generico, uguale per ogni tessera (il telefono vibra gia' da se' al tocco, sul proprio schermo)
+    if (pads.slotOf(p.snap.id)?.state === 'paired') this.ctx.vibrate(p.snap.id, HAPTIC_TILE);
 
     if (c === seq[p.inputIndex]) {
       p.inputIndex++;
@@ -378,6 +387,8 @@ export class MemoryScene extends Phaser.Scene {
     p.alive = false;
     p.progress = p.inputIndex;
     audio.error(); // errore inequivocabile, mai confondibile con una nota
+    // feedback DIVERSO solo per chi ha sbagliato: vibrazione lunga sul suo controller
+    if (pads.slotOf(p.snap.id)?.state === 'paired') this.ctx.vibrate(p.snap.id, HAPTIC.HEAVY);
     this.ctx.signal(p.snap.id, { type: 'eliminated', at: p.inputIndex + 1 });
     this.showBanner(p, reason);
     this.updateCard(p);

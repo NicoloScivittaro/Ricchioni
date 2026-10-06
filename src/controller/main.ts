@@ -2023,7 +2023,8 @@ function renderMemoryController(): void {
     btn.addEventListener('pointerdown', (e) => {
       e.preventDefault();
       if (btn.disabled) return;
-      vibrate(15);
+      vibrate(15); // vibrazione generica, uguale per ogni tessera
+      highlightMemTile(t.index, 160); // riscontro VISIVO solo su questo telefono (la TV non mostra piu' la tessera premuta)
       sendInput({ kind: 'action', controlId: `c${t.index}` });
     });
     grid.appendChild(btn);
