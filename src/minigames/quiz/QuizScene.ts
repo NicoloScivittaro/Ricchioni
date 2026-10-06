@@ -8,6 +8,8 @@ import { abilityNameFor, abilityDescriptionFor } from './abilities';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 import { debugEnabled, registerDebugSection } from '../../core/debug';
+import { addBackdrop } from '../../scenes/backdrops';
+import type { Backdrop } from '../../scenes/backdrops';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 const OPTION_COLORS = [0xef4444, 0x3b82f6, 0x22c55e, 0xf59e0b];
@@ -48,6 +50,7 @@ interface PlayerRow {
  */
 export class QuizScene extends Phaser.Scene {
   private ctx!: MinigameContext;
+  private backdrop: Backdrop | null = null;
   private manager!: QuizRoundManager;
   private resultsSent = false;
   private quizStateTimer = 0;
@@ -108,6 +111,7 @@ export class QuizScene extends Phaser.Scene {
     this.manager = new QuizRoundManager(this.ctx, (ev) => this.onHudEvent(ev));
 
     this.cameras.main.setBackgroundColor('#1e1b2e');
+    this.backdrop = addBackdrop(this, 'quiz'); // scenografia: quiz TV che diventa assurdo (solo sfondo)
 
     this.add
       .text(640, 16, '📚 CHI CAZZO LO SA?', {
@@ -398,6 +402,7 @@ export class QuizScene extends Phaser.Scene {
     const isFinal = qNum === 10;
 
     this.headerText.setText(`DOMANDA ${qNum}/10`);
+    this.backdrop?.setAbsurd((qNum - 1) / 9);
     this.starsText.setText('★'.repeat(q.difficulty) + '☆'.repeat(10 - q.difficulty));
     this.valueText.setText(`${qNum} PUNT${qNum === 1 ? 'O' : 'I'}`);
     this.categoryText.setText(q.category.toUpperCase());

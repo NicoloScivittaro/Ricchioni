@@ -11,6 +11,7 @@ import { MEMORY_ABILITIES } from '../../../shared/memoryAbilities';
 import { MEMORY_TILES, MEMORY_SEQ_LENS, MEMORY_ROUNDS, isMemoryOver } from '../../../shared/memoryTiles';
 import type { MinigameContext } from '../types';
 import type { PlayerSnapshot } from '../../../shared/types';
+import { addBackdrop } from '../../scenes/backdrops';
 
 // MEMORIA DA UBRIACO — 5 round a eliminazione, sequenze 3-4-5-6-7.
 // OSSERVA → RIPETI. Chi arriva più avanti nella sequenza vince; a parità conta
@@ -112,6 +113,7 @@ export class MemoryScene extends Phaser.Scene {
 
     audio.unlock();
     this.cameras.main.setBackgroundColor('#0f172a');
+    addBackdrop(this, 'memory'); // scenografia: pub fuori controllo (solo sfondo)
     this.cameras.main.setRotation(0);
 
     this.drunkTint = this.add

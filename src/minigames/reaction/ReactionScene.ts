@@ -6,6 +6,7 @@ import { REACTION_ABILITIES } from '../../../shared/reactionAbilities';
 import { debugEnabled, registerDebugSection } from '../../core/debug';
 import type { MinigameContext } from '../types';
 import type { PlayerSnapshot } from '../../../shared/types';
+import { addBackdrop } from '../../scenes/backdrops';
 
 // BOTTA AL VOLO — 5 round, 5 abilità, tempi in ms, classifica cumulativa.
 // Regola: nessuna abilità regala un tempo migliore.
@@ -119,6 +120,7 @@ export class ReactionScene extends Phaser.Scene {
 
     audio.unlock();
     this.cameras.main.setBackgroundColor('#0d0f1e');
+    addBackdrop(this, 'reaction'); // scenografia: studio TV (solo sfondo)
 
     this.flashRect = this.add.rectangle(640, 360, 1280, 720, 0xffffff, 0).setDepth(60);
     this.core = this.add.circle(640, 290, 110, 0x14182b).setStrokeStyle(6, 0x6366f1).setDepth(5).setVisible(false);

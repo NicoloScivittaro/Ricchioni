@@ -7,6 +7,8 @@ import { getCharacter } from '../../shared/characters';
 import type { MinigameDefinition, PlayerPublic } from '../../shared/types';
 import { THEME, sceneIn } from '../core/theme';
 import { confetti } from './confetti';
+import { addBackdrop } from './backdrops';
+import type { Backdrop } from './backdrops';
 
 const FONT = THEME.title;
 const CARD_W = 240;
@@ -40,12 +42,15 @@ interface Card {
  * che la carta all'indice TARGET_INDEX sia sempre quella scelta, e il tween finisce esattamente lì.
  */
 export class RouletteScene extends Phaser.Scene {
+  private backdrop: Backdrop | null = null;
+
   constructor() {
     super('RouletteScene');
   }
 
   create(): void {
     sceneIn(this);
+    this.backdrop = addBackdrop(this, 'roulette'); // scenografia: studio + sala giochi (solo sfondo)
     const pick = gm.pendingMinigame;
     if (!pick) {
       this.scene.start('RoomScene');
@@ -209,6 +214,7 @@ export class RouletteScene extends Phaser.Scene {
     // STOP: clunk meccanico, la musica del rullo si chiude, parte lo stinger DEL GIOCO uscito (piu' spettacolare per i giochi
     // lunghi come Sparatoria e Kart, senza effetto "jackpot": le probabilita' del rullo non cambiano)
     audio.rouletteClunk();
+    this.backdrop?.tint(minigameId); // per un attimo lo studio prende i colori del gioco uscito (nessun effetto sui tempi)
     music.stop(0.25, 'roulette');
     audio.gameSting(minigameId, minigameId === 'fps' || minigameId === 'kart3d');
     this.cameras.main.flash(140, 255, 240, 180, false);

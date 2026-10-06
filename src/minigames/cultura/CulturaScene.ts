@@ -6,6 +6,7 @@ import { CULTURA_QUESTIONS } from '../../../shared/culturaQuestions';
 import type { CulturaQuestion } from '../../../shared/culturaQuestions';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
+import { addBackdrop } from '../../scenes/backdrops';
 
 // CULTURA O CAZZATA? — bluff culturale a round.
 // Fasi: intro domanda → bluff (telefono) → opzioni → voto → reveal → spiegazione.
@@ -98,7 +99,8 @@ export class CulturaScene extends Phaser.Scene {
     audio.unlock();
     this.cameras.main.setBackgroundColor('#12082a');
 
-    this.add.rectangle(640, 360, 1240, 680, 0x1a0f3a, 1).setStrokeStyle(3, 0xfbbf24);
+    addBackdrop(this, 'cultura'); // scenografia: quiz da bar, lavagna dietro la domanda (solo sfondo)
+    this.add.rectangle(640, 360, 1240, 680, 0x1a0f3a, 0).setStrokeStyle(3, 0xfbbf24);
     this.titleText = this.add.text(640, 60, '🧠 CULTURA O CAZZATA?', { fontFamily: '"Arial Black", Arial, sans-serif', fontSize: '40px', color: '#fbbf24' }).setOrigin(0.5);
     this.mainText = this.add.text(640, 250, '', { fontFamily: 'Arial, sans-serif', fontSize: '26px', color: '#ffffff', align: 'center', wordWrap: { width: 1100 } }).setOrigin(0.5);
     this.subText = this.add.text(640, 470, '', { fontFamily: 'Arial, sans-serif', fontSize: '20px', color: '#c4b5fd', align: 'center', wordWrap: { width: 1100 } }).setOrigin(0.5);
