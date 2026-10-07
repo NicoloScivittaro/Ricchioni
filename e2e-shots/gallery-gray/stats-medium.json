@@ -1,0 +1,30 @@
+{
+  "dodgeball-game": {
+    "meshes": 163,
+    "visibleMeshes": 150,
+    "instances": 0,
+    "thinInstances": 148,
+    "activeMeshes": 149,
+    "materials": 81,
+    "textures": 32,
+    "dupTextures": 14,
+    "lights": 3,
+    "particleSystems": 12,
+    "collidable": 0,
+    "drawCalls": 153
+  },
+  "volleyball-game": {
+    "meshes": 169,
+    "visibleMeshes": 156,
+    "instances": 0,
+    "thinInstances": 195,
+    "activeMeshes": 150,
+    "materials": 91,
+    "textures": 30,
+    "dupTextures": 14,
+    "lights": 3,
+    "particleSystems": 12,
+    "collidable": 0,
+    "drawCalls": 302
+  }
+}

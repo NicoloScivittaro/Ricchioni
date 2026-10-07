@@ -1,0 +1,72 @@
+{
+  "arena-game": {
+    "meshes": 154,
+    "visibleMeshes": 141,
+    "instances": 0,
+    "thinInstances": 231,
+    "activeMeshes": 139,
+    "materials": 75,
+    "textures": 30,
+    "dupTextures": 14,
+    "lights": 2,
+    "particleSystems": 12,
+    "collidable": 0,
+    "drawCalls": 280
+  },
+  "soccer-game": {
+    "meshes": 169,
+    "visibleMeshes": 156,
+    "instances": 0,
+    "thinInstances": 73,
+    "activeMeshes": 156,
+    "materials": 88,
+    "textures": 34,
+    "dupTextures": 14,
+    "lights": 2,
+    "particleSystems": 12,
+    "collidable": 0,
+    "drawCalls": 161
+  },
+  "volleyball-game": {
+    "meshes": 169,
+    "visibleMeshes": 156,
+    "instances": 0,
+    "thinInstances": 184,
+    "activeMeshes": 150,
+    "materials": 91,
+    "textures": 30,
+    "dupTextures": 14,
+    "lights": 2,
+    "particleSystems": 12,
+    "collidable": 0,
+    "drawCalls": 155
+  },
+  "kart1-game": {
+    "meshes": 246,
+    "visibleMeshes": 234,
+    "instances": 0,
+    "thinInstances": 671,
+    "activeMeshes": 138,
+    "materials": 115,
+    "textures": 39,
+    "dupTextures": 7,
+    "lights": 2,
+    "particleSystems": 15,
+    "collidable": 0,
+    "drawCalls": 277
+  },
+  "fps-center-game": {
+    "meshes": 142,
+    "visibleMeshes": 132,
+    "instances": 0,
+    "thinInstances": 18,
+    "activeMeshes": 115,
+    "materials": 88,
+    "textures": 33,
+    "dupTextures": 9,
+    "lights": 2,
+    "particleSystems": 9,
+    "collidable": 0,
+    "drawCalls": 115
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "fps": {
+    "meshes": 236,
+    "visibleMeshes": 111,
+    "instances": 0,
+    "activeMeshes": 70,
+    "materials": 132,
+    "textures": 19,
+    "dupTextureNames": 4,
+    "lights": 2,
+    "particleSystems": 0,
+    "effectLayers": 0,
+    "collidable": 0,
+    "cameras": 4,
+    "drawCalls": 300,
+    "fps": 2
+  },
+  "kart3d": {
+    "meshes": 296,
+    "visibleMeshes": 280,
+    "instances": 0,
+    "activeMeshes": 149,
+    "materials": 134,
+    "textures": 45,
+    "dupTextureNames": 8,
+    "lights": 3,
+    "particleSystems": 20,
+    "effectLayers": 1,
+    "collidable": 0,
+    "cameras": 4,
+    "drawCalls": 797,
+    "fps": 2
+  }
+}
