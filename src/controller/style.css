@@ -1474,8 +1474,10 @@ button.char:disabled {
   color: #fbbf24;
 }
 
+/* tutto maiuscolo come sulla TV: i bluff arrivano in minuscolo, la risposta vera no — col testo grezzo si riconosceva */
 .cultura-opt-text {
   flex: 1;
+  text-transform: uppercase;
 }
 
 .cultura-opt-text em {
@@ -1507,6 +1509,7 @@ button.char:disabled {
 .cultura-advocate {
   font-size: 15px;
   font-weight: 800;
+  text-transform: uppercase; /* stesso motivo di .cultura-opt-text: il maiuscolo non deve dire se la risposta e' vera */
   color: #facc15;
   text-align: center;
   background: rgba(250, 204, 21, 0.1);

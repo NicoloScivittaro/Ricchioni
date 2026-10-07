@@ -2,8 +2,8 @@ import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
 import { confetti } from '../../scenes/confetti';
 import { PauseMenu } from '../../core/PauseMenu';
-import { CULTURA_QUESTIONS } from '../../../shared/culturaQuestions';
 import type { CulturaQuestion } from '../../../shared/culturaQuestions';
+import { selectCulturaQuestions } from './selection';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 import { addBackdrop } from '../../scenes/backdrops';
@@ -66,7 +66,6 @@ export class CulturaScene extends Phaser.Scene {
   private votes = new Map<PlayerId, number>();
   private scores = new Map<PlayerId, PScore>();
   private usedIds = new Set<string>();
-  private lastCategory = '';
   private currentQuestion!: CulturaQuestion;
 
   private teConoscoUsed = new Set<PlayerId>();
@@ -127,17 +126,8 @@ export class CulturaScene extends Phaser.Scene {
   }
 
   private prepareQuestions(): void {
-    const pool = [...CULTURA_QUESTIONS];
-    const picked: CulturaQuestion[] = [];
-    while (picked.length < TOTAL_ROUNDS && pool.length > 0) {
-      // categoria diversa dal round precedente se possibile
-      let idx = pool.findIndex((q) => q.category !== this.lastCategory);
-      if (idx < 0) idx = 0;
-      const q = pool.splice(idx, 1)[0];
-      this.lastCategory = q.category;
-      picked.push(q);
-    }
-    this.questions = picked;
+    // mescolate con l'rng della partita, senza ripetere le domande recenti, categorie diverse fra i round (selection.ts)
+    this.questions = selectCulturaQuestions(this.ctx.rng, TOTAL_ROUNDS);
   }
 
   private total(p: PScore): number {
@@ -196,6 +186,7 @@ export class CulturaScene extends Phaser.Scene {
 
   private endBluff(): void {
     // Raccogli bluff (fallback decoy per chi non ha risposto / duplicati / risposta vera).
+    // `used` confronta i testi normalizzati: un bluff "sette" e il decoy "Sette" sono la stessa opzione, non due.
     const used = new Set<string>();
     const decoys = [...this.currentQuestion.fallbackDecoys];
     for (const p of this.ctx.players) {
@@ -204,9 +195,9 @@ export class CulturaScene extends Phaser.Scene {
       if (text.length === 0 || used.has(text) || isCorrect) {
         // sostituisci con un decoy
         text = decoys.shift() ?? `${this.currentQuestion.correctAnswer} (ma sbagliato)`;
-        while (used.has(text) && decoys.length > 0) text = decoys.shift()!;
+        while (used.has(this.normalize(text)) && decoys.length > 0) text = decoys.shift()!;
       }
-      used.add(text);
+      used.add(this.normalize(text));
       this.bluffs.set(p.id, text);
     }
     // Costruisci opzioni: bluff + risposta vera + eventuali decoy fino a 5-6.
@@ -218,7 +209,7 @@ export class CulturaScene extends Phaser.Scene {
     let di = 0;
     while (this.options.length < 5 && di < this.currentQuestion.fallbackDecoys.length) {
       const d = this.currentQuestion.fallbackDecoys[di++];
-      if (!this.options.some((o) => o.text === d)) this.options.push({ text: d, ownerId: null, isCorrect: false });
+      if (!this.options.some((o) => this.isSame(o.text, d))) this.options.push({ text: d, ownerId: null, isCorrect: false });
     }
     // Shuffle
     for (let i = this.options.length - 1; i > 0; i--) {
