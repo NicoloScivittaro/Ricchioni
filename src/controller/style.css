@@ -1622,6 +1622,7 @@ button.char:disabled {
 .cc-row { display: flex; align-items: center; gap: 10px; padding: 3px 0; }
 .cc-cap { flex: none; min-width: 5.4em; text-align: center; padding: 2px 8px; border-radius: 8px; background: #e5e7eb; color: #0b0b14; font: 900 14px "Arial Black", Arial, sans-serif; white-space: nowrap; }
 .cc-act { font: 800 15px Arial, sans-serif; color: #f3f4f6; }
+.cc-ok { margin: 0; text-align: center; font: 800 13px Arial, sans-serif; color: #34d399; }
 .cc-look { margin: 2px 0 0; text-align: center; font: 800 13px Arial, sans-serif; letter-spacing: .06em; opacity: .75; }
 #ability-flash { position: fixed; left: 0; right: 0; top: 22%; z-index: 9200; display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; animation: af-in 1.3s ease-out forwards; }
 #ability-flash .af-name { padding: 8px 20px; border-radius: 16px; background: #facc15; color: #111827; font: 900 28px "Arial Black", Arial, sans-serif; text-align: center; max-width: 92vw; }
@@ -1649,3 +1650,12 @@ button.char:disabled {
 }
 .fps-ability span { font-size: 11px; font-weight: 900; letter-spacing: 0.02em; }
 .fps-ability:active { transform: scale(0.94); filter: brightness(1.12); }
+
+/* Cultura: abilita' di personaggio e conferma del voto */
+.cultura-abtn { width: 100%; padding: 10px 12px; border-radius: 14px; border: 2px solid #facc15; background: rgba(250, 204, 21, 0.14); color: #fff; text-align: left; display: flex; flex-direction: column; gap: 2px; font-family: Arial, sans-serif; }
+.cultura-abtn b { font: 900 17px "Arial Black", Arial, sans-serif; color: #fde047; }
+.cultura-abtn small { font: 700 13px Arial, sans-serif; opacity: .9; }
+.cultura-ab-on { padding: 8px 12px; border-radius: 12px; background: #92400e; color: #fde68a; font: 900 14px "Arial Black", Arial, sans-serif; }
+.cultura-ab-off { padding: 6px 12px; border-radius: 12px; background: rgba(255, 255, 255, .06); color: #9ca3af; font: 800 13px Arial, sans-serif; }
+.cultura-sent { padding: 6px 12px; border-radius: 12px; background: #14532d; color: #bbf7d0; font: 800 14px Arial, sans-serif; text-align: center; }
+.cultura-opt.out { opacity: .35; text-decoration: line-through; }

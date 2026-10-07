@@ -19,6 +19,8 @@ import { FpsViewmodel, recoilOf } from './fpsViewmodel';
 import { buildFpsWorld, buildFpsLights, makeBlobShadow } from './fpsWorld';
 import { presentationOf } from '../../shared/characterPresentation';
 import { decorateHead, makeCharMaterials } from '../minigames/characters/characterModel';
+import { stateLabel, abilityFor } from '../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../shared/abilityCatalog';
 
 /**
  * CLIENT DELLA SPARATORIA (telefono): rendering in prima persona.
@@ -47,6 +49,11 @@ export interface FpsPlayerState {
   magazine?: number;
   reloading?: boolean;
   dashing?: boolean;
+  /** ABILITA' (stato pubblicato dall'host: il telefono disegna soltanto) */
+  ability?: AbilityStatus;
+  guard?: boolean;
+  wall?: boolean;
+  locked?: boolean;
 }
 
 export interface FpsStatePayload {
@@ -59,6 +66,8 @@ interface RemoteEntity {
   head: Mesh;
   nameTag: Mesh;
   blob: Mesh;
+  /** fantasma a raggi X (Dottore): acceso solo mentre chi gioca su QUESTO telefono ha M'HO SVEJATO */
+  ghost: Mesh;
   flash: Mesh;
   flashT: number;
   x: number;
@@ -158,6 +167,11 @@ export class FpsClient {
   private ammoEl!: HTMLElement;
   private reloadWrapEl!: HTMLElement;
   private reloadFillEl!: HTMLElement;
+  private abilityEl!: HTMLElement;
+  private guardEl!: HTMLElement;
+  private lockEl!: HTMLElement;
+  private selfWall = false;
+  private abilityName = '';
   private timerEl!: HTMLElement;
   private feedEl!: HTMLElement;
   private deathEl!: HTMLElement;
@@ -292,6 +306,10 @@ export class FpsClient {
     this.weaponEl = mk('color:#fbbf24;font:800 12px Arial;letter-spacing:.04em;', '', weapon);
     this.ammoEl = mk('color:#fff;font:900 28px "Arial Black",Arial;line-height:1.05;', '', weapon);
 
+    // ABILITA': riga di stato sotto l'arma (nome + PRONTA / ATTIVA 3,2 s / RICARICA), cornice del giubbotto e avviso BLOCCATO
+    this.abilityEl = mk(`position:absolute;left:14px;top:112px;z-index:30;font:900 13px "Arial Black",Arial;letter-spacing:.03em;color:#e5e7eb;max-width:46vw;${text}`);
+    this.guardEl = mk('position:absolute;inset:0;z-index:23;pointer-events:none;opacity:0;border:8px solid #38bdf8;box-sizing:border-box;transition:opacity 120ms;');
+    this.lockEl = mk(`position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);z-index:34;pointer-events:none;opacity:0;color:#fbbf24;font:900 26px "Arial Black",Arial;white-space:nowrap;${text}`, '✋ BLOCCATO!');
     this.timerEl = mk(`position:absolute;left:50%;top:10px;transform:translateX(-50%);color:#fbbf24;font:800 24px Arial;z-index:30;${text}`);
     this.feedEl = mk(`position:absolute;right:12px;top:10px;color:#fff;font:700 13px Arial;z-index:30;text-align:right;${text}`);
 
@@ -749,6 +767,19 @@ export class FpsClient {
         if (ps.reloading && !this.reloading && ps.alive) this.startReloadUi(getWeapon(this.weaponId).reload, this.weaponId);
         else if (ps.reloading === false && this.reloading && this.reloadT > 0.25) this.finishReload();
         this.setHp(ps.hp);
+        // ABILITA': stato, giubbotto, blocco, raggi X (tutto deciso dall'host)
+        this.selfWall = !!ps.wall && ps.alive;
+        if (!this.abilityName) this.abilityName = abilityFor('fps', this.characterOf(this.selfId))?.name ?? '';
+        if (ps.ability) {
+          const a = ps.ability;
+          const col = a.state === 'READY' ? '#4ade80' : a.state === 'ACTIVE' ? '#facc15' : a.state === 'COOLDOWN' ? '#9ca3af' : '#6b7280';
+          const t = `${a.state === 'SPENT' ? '✕' : a.state === 'COOLDOWN' ? '⌛' : '⚡'} ${this.abilityName} · ${stateLabel(a)}`;
+          if (this.abilityEl.textContent !== t) this.abilityEl.textContent = t;
+          this.abilityEl.style.color = col;
+        }
+        this.guardEl.style.opacity = ps.guard && ps.alive ? '0.6' : '0';
+        this.lockEl.style.opacity = ps.locked && ps.alive ? '1' : '0';
+        for (const re of this.remotes.values()) re.ghost.isVisible = this.selfWall && re.alive;
         if (!ps.alive) this.showDeath('💀 ELIMINATO');
         else this.hideDeath();
         if (ps.alive && !ps.firing) this.setFirePressed(false);
@@ -779,6 +810,7 @@ export class FpsClient {
         e.body.isVisible = true;
         e.head.isVisible = true;
         e.nameTag.isVisible = ps.alive;
+        e.ghost.isVisible = this.selfWall && ps.alive;
       }
     }
   }
@@ -808,11 +840,26 @@ export class FpsClient {
     flash.isVisible = false;
     flash.isPickable = false;
 
+    // fantasma "raggi X": parente del corpo, un filo piu' grande, senza luci e disegnato dopo tutto con la profondita' azzerata
+    const ghostMat = new StandardMaterial('ghostMat', this.scene);
+    ghostMat.emissiveColor = Color3.FromHexString(ps.color);
+    ghostMat.diffuseColor = new Color3(0, 0, 0);
+    ghostMat.disableLighting = true;
+    ghostMat.alpha = 0.55;
+    const ghost = MeshBuilder.CreateBox('ghost', { width: 1.05, height: 2.0, depth: 1.05 }, this.scene);
+    ghost.material = ghostMat;
+    ghost.parent = body;
+    ghost.position.set(0, 0.3, 0);
+    ghost.renderingGroupId = 1;
+    ghost.isPickable = false;
+    ghost.isVisible = false;
+
     const e: RemoteEntity = {
       body,
       head,
       nameTag: tag,
       blob: makeBlobShadow(this.scene),
+      ghost,
       flash,
       flashT: 0,
       x: ps.x,

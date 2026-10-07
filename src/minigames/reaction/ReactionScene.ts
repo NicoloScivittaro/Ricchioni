@@ -3,6 +3,9 @@ import { audio } from '../../core/AudioManager';
 import { confetti } from '../../scenes/confetti';
 import { PauseMenu } from '../../core/PauseMenu';
 import { REACTION_ABILITIES } from '../../../shared/reactionAbilities';
+import { AB, stateLabel } from '../../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../../shared/abilityCatalog';
+import { abilityHub } from '../../core/abilityHub';
 import { debugEnabled, registerDebugSection } from '../../core/debug';
 import type { MinigameContext } from '../types';
 import type { PlayerSnapshot } from '../../../shared/types';
@@ -23,6 +26,11 @@ const FAKEOUT_CHANCE = 0.4;
 const RESPONSE_TIMEOUT_S = 3;
 const ROUND_RESULT_S = 2.2;
 const RESULTS_HOLD_S = 5;
+
+/** numeri delle abilita': shared/abilityCatalog.ts (AB.reaction) — la stessa fonte della card sul telefono e della schermata CONTROLLI */
+const SECOND_CHANCE_PENALTY_MS = AB.reaction.buttafuori.p.penaltyMs;
+const FOCUS_S = AB.reaction.dottore.p.focus;
+const FAKE_RESET_S = AB.reaction.judoka.p.reset;
 
 const FALSE_START_PENALTY = 1000;
 const DNF_PENALTY = 2000;
@@ -161,6 +169,8 @@ export class ReactionScene extends Phaser.Scene {
 
     this.pauseMenu = new PauseMenu(this, '⚡ BOTTA AL VOLO', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
 
+    abilityHub.begin('reaction', this.ctx);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => abilityHub.end());
     debugRows.clear();
     for (const p of this.ctx.players) debugRows.set(p.id, { name: p.displayName, goAt: null, pressAt: null, frameMs: 0 });
     ensureReactionDebugSection();
@@ -237,8 +247,11 @@ export class ReactionScene extends Phaser.Scene {
     }
 
     for (const p of this.players) {
-      if (p.status !== 'ready') continue;
       const input = this.ctx.input.get(p.snap.id);
+      if (p.status !== 'ready') {
+        if (input.justPressed('ability')) abilityHub.failed(p.snap.id, 'NON ORA'); // gia' partito/eliminato in questo round
+        continue;
+      }
       if (input.justPressed('action')) {
         this.checkFalseStart(p);
       } else if (input.justPressed('ability')) {
@@ -250,6 +263,7 @@ export class ReactionScene extends Phaser.Scene {
     for (const p of this.players) {
       if (p.focusOpen && this.gameTime > p.focusUntil) {
         p.focusOpen = false;
+        abilityHub.wasted(p.snap.id);
         this.ctx.signal(p.snap.id, { type: 'focusMiss' });
         this.showAbilityBanner(p, "M'HO SVEJATO — FOCUS sprecato");
       }
@@ -262,11 +276,13 @@ export class ReactionScene extends Phaser.Scene {
     // Buttafuori: "MO HO CAPITO" — seconda chance con penalità
     if (p.snap.characterId === 'buttafuori' && !p.abilityUsed) {
       p.abilityUsed = true;
-      p.penaltyMs = 120;
+      p.penaltyMs = SECOND_CHANCE_PENALTY_MS;
+      abilityHub.activated(p.snap.id);
+      abilityHub.succeeded(p.snap.id, 'seconde chance');
       audio.select();
       this.ctx.signal(p.snap.id, { type: 'abilityUsed', name: 'MO HO CAPITO' });
       this.ctx.signal(p.snap.id, { type: 'secondChance' });
-      this.showAbilityBanner(p, 'MO HO CAPITO! (+120 ms)');
+      this.showAbilityBanner(p, `MO HO CAPITO! (+${SECOND_CHANCE_PENALTY_MS} ms)`);
       this.updateCard(p);
       return;
     }
@@ -279,12 +295,15 @@ export class ReactionScene extends Phaser.Scene {
   }
 
   private useAbility(p: PState): void {
-    if (p.abilityUsed || this.phase !== 'waiting') return;
     const cid = p.snap.characterId ?? '';
+    // premuta ma non partita: avviso privato, mai silenzio
+    if (this.phase !== 'waiting') return void abilityHub.failed(p.snap.id, 'SOLO NELL\'ATTESA');
     // Buttafuori ha un'abilità PASSIVA (scatta da sola sulla falsa partenza):
     // il pulsante abilità sul suo telefono non deve consumarla.
-    if (!['goblin', 'dottore', 'judoka', 'ciro'].includes(cid)) return;
+    if (!['goblin', 'dottore', 'judoka', 'ciro'].includes(cid)) return void abilityHub.failed(p.snap.id, 'SCATTA DA SOLA');
+    if (p.abilityUsed) return void abilityHub.failed(p.snap.id, p.gameUsed ? 'ESAURITA' : 'USATA IN QUESTO ROUND');
     p.abilityUsed = true;
+    abilityHub.activated(p.snap.id);
     const once = cid === 'dottore' || cid === 'ciro';
     if (once) p.gameUsed = true;
     this.ctx.signal(p.snap.id, { type: 'abilityUsed', name: REACTION_ABILITIES[cid]?.name, permanent: once });
@@ -312,9 +331,11 @@ export class ReactionScene extends Phaser.Scene {
       this.fakeActive = false;
       this.viaDeadline = this.gameTime + MIN_WAIT_S + Math.random() * (MAX_WAIT_S - MIN_WAIT_S);
       audio.select();
+      abilityHub.succeeded(p.snap.id, 'finti VIA annullati');
       this.ctx.signal(p.snap.id, { type: 'ability', name: 'NCULO!' });
       this.showAbilityBanner(p, 'NCULO! — fake-out annullato, nuovo timer');
     } else {
+      abilityHub.wasted(p.snap.id);
       this.ctx.signal(p.snap.id, { type: 'drunk' });
       this.showAbilityBanner(p, 'NCULO! — troppo presto... (effetto ubriaco)');
     }
@@ -325,11 +346,11 @@ export class ReactionScene extends Phaser.Scene {
    * il telefono vibra e la TV annuncia la diagnosi esatta, altrimenti l'abilita' e' sprecata. Il tempo parte sempre dal VIA vero.
    */
   private abilityDottore(p: PState): void {
-    p.focusUntil = this.gameTime + 2;
+    p.focusUntil = this.gameTime + FOCUS_S;
     p.focusOpen = true;
     audio.select();
-    this.ctx.signal(p.snap.id, { type: 'focus', ms: 2000 });
-    this.showAbilityBanner(p, "M'HO SVEJATO — FOCUS aperto (2 s)");
+    this.ctx.signal(p.snap.id, { type: 'focus', ms: FOCUS_S * 1000 });
+    this.showAbilityBanner(p, `M'HO SVEJATO — FOCUS aperto (${FOCUS_S} s)`);
   }
 
   private abilityJudoka(p: PState): void {
@@ -339,8 +360,9 @@ export class ReactionScene extends Phaser.Scene {
     this.flashRect.setFillStyle(0xffffff, 1).setAlpha(0.55);
     this.tweens.add({ targets: this.flashRect, alpha: 0, duration: 500 });
     this.centerText.setText('RESET...').setFontSize(72).setColor('#ffffff');
-    this.viaDeadline = this.gameTime + 1.4 + MIN_WAIT_S + Math.random() * (MAX_WAIT_S - MIN_WAIT_S);
-    this.time.delayedCall(1000, () => {
+    abilityHub.succeeded(p.snap.id, 'finti reset');
+    this.viaDeadline = this.gameTime + FAKE_RESET_S + 0.4 + MIN_WAIT_S + Math.random() * (MAX_WAIT_S - MIN_WAIT_S);
+    this.time.delayedCall(FAKE_RESET_S * 1000, () => {
       if (this.phase === 'waiting') this.centerText.setText('ATTENDI...').setColor('#e0e7ff');
     });
   }
@@ -351,6 +373,7 @@ export class ReactionScene extends Phaser.Scene {
    */
   private abilityCiro(p: PState): void {
     p.armed = true;
+    abilityHub.impact(p.snap.id, 'round in guardia');
     audio.select();
     this.ctx.signal(p.snap.id, { type: 'armed' });
     this.showAbilityBanner(p, 'ULTIMO SECONDO — in guardia per questo round');
@@ -360,6 +383,7 @@ export class ReactionScene extends Phaser.Scene {
   private calmArmed(why: 'fake' | 'false', except?: PState): void {
     for (const c of this.players) {
       if (!c.armed || c === except || c.status !== 'ready') continue;
+      abilityHub.succeeded(c.snap.id, 'avvisi ricevuti');
       this.ctx.signal(c.snap.id, { type: 'calm', why });
       this.showAbilityBanner(c, why === 'fake' ? 'ULTIMO SECONDO — FALSO ALLARME, non è ancora finita' : 'ULTIMO SECONDO — qualcuno ha sbagliato, non è ancora finita');
     }
@@ -406,6 +430,7 @@ export class ReactionScene extends Phaser.Scene {
     for (const p of this.players) {
       if (p.snap.characterId === 'dottore' && p.focusOpen) {
         p.focusOpen = false;
+        abilityHub.succeeded(p.snap.id, 'VIA nel focus');
         this.ctx.signal(p.snap.id, { type: 'focusHit' });
         this.showAbilityBanner(p, "M'HO SVEJATO — DIAGNOSI ESATTA: il VIA è nel FOCUS");
       }
@@ -522,6 +547,17 @@ export class ReactionScene extends Phaser.Scene {
     return p.roundTimes.reduce((a, b) => a + b, 0);
   }
 
+  /** Stato PRESENTAZIONALE dell'abilita' (card sul telefono e riga del badge), calcolato dallo stato vero del giocatore. */
+  private abilityStatus(p: PState): AbilityStatus {
+    const cid = p.snap.characterId ?? '';
+    if (cid === 'dottore' && p.focusOpen) return { state: 'ACTIVE', remaining: Math.max(0, p.focusUntil - this.gameTime), note: 'FOCUS APERTO' };
+    if (cid === 'ciro' && p.armed) return { state: 'ACTIVE', note: 'IN GUARDIA' };
+    if (p.abilityUsed) return { state: 'SPENT', note: p.gameUsed ? 'ESAURITA' : 'USATA · TORNA AL PROSSIMO ROUND' };
+    if (cid === 'buttafuori') return { state: 'READY', note: 'ATTIVA DA SOLA' };
+    if (cid === 'goblin' && this.phase === 'waiting' && this.fakeActive) return { state: 'READY', note: 'FINTO VIA! PREMI ORA' };
+    return { state: 'READY', note: this.phase === 'waiting' ? 'PRONTA · PREMI ORA' : 'PRONTA · NELL\'ATTESA' };
+  }
+
   private updateCard(p: PState): void {
     let status: string;
     let color: string;
@@ -539,11 +575,12 @@ export class ReactionScene extends Phaser.Scene {
       color = '#64748b';
     }
     const abName = REACTION_ABILITIES[p.snap.characterId ?? '']?.name ?? 'ABILITÀ';
-    const ability = p.abilityUsed ? '⭐ usata' : `⭐ ${abName}`;
+    const ab = this.abilityStatus(p);
+    const ability = ab.state === 'SPENT' ? '⭐ usata' : ab.state === 'ACTIVE' ? `⭐ ${abName} · ${stateLabel(ab)}` : `⭐ ${abName}`;
     // valore = tempo (💀 / — se non c'e'), riga sotto = cosa e' successo o l'abilita'
     const val = p.status === 'pressed' ? status : p.status === 'falseStart' ? '💀' : p.status === 'ready' ? '' : '—';
     const line = p.status === 'falseStart' ? 'FALSA PARTENZA' : p.status === 'ready' ? ability : p.status === 'pressed' ? ability : 'NESSUNA RISPOSTA';
-    p.card.setValue(val, color).setStatus(line, p.status === 'falseStart' ? UI.color.danger : p.abilityUsed ? UI.color.muted : '#c4b5fd');
+    p.card.setValue(val, color).setStatus(line, p.status === 'falseStart' ? UI.color.danger : ab.state === 'SPENT' ? UI.color.muted : ab.state === 'ACTIVE' ? '#facc15' : '#c4b5fd');
     p.card.setState(p.status === 'falseStart' ? 'out' : 'normal');
   }
 
@@ -588,6 +625,11 @@ export class ReactionScene extends Phaser.Scene {
     }
     const dt = Math.min(delta, 250) / 1000; // tempo reale fino a ~4 FPS
     this.gameTime += dt;
+    for (const p of this.players) {
+      abilityHub.setStatus(p.snap.id, this.abilityStatus(p)); // card sul telefono (solo presentazione)
+      // fuori dall'ATTESA l'abilita' non fa niente: ma lo si dice (una pressione nel VIA non deve restare muta)
+      if (this.phase !== 'waiting' && this.phase !== 'title' && this.ctx.input.get(p.snap.id).justPressed('ability')) abilityHub.failed(p.snap.id, 'SOLO NELL\'ATTESA');
+    }
     if (debugSectionReady) for (const row of debugRows.values()) row.frameMs = delta;
 
     switch (this.phase) {

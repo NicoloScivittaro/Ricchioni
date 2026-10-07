@@ -1123,9 +1123,13 @@ function renderCulturaController(): void {
   app.innerHTML = `<div class="cultura-shell" id="cultura-shell"></div>`;
 }
 
+/** Opzione scelta da QUESTO telefono (solo grafica: il voto vero lo conta l'host; si puo' cambiare finche' il tempo non scade). */
+let culturaPicked: number | null = null;
+
 function updateCulturaUI(s: CulturaState): void {
   const root = app.querySelector<HTMLElement>('#cultura-shell') ?? app;
   const letters = 'ABCDE';
+  if (s.phase === 'intro' || s.phase === 'bluff') culturaPicked = null; // nuovo round: nessun voto precedente
 
   if (s.phase === 'intro' || s.phase === 'bluff') {
     root.innerHTML = `
@@ -1160,20 +1164,35 @@ function updateCulturaUI(s: CulturaState): void {
   }
 
   if (s.phase === 'options' || s.phase === 'vote') {
+    const counts = s.voteCounts ?? null;
+    const picked = s.myVote ?? culturaPicked;
     const opts = s.options
       .map((o, i) => {
         const locked = o.disabled || s.myVote !== null;
-        return `<button class="cultura-opt ${o.disabled ? 'mine' : ''} ${s.myVote === i ? 'picked' : ''}" data-i="${i}" ${locked ? 'disabled' : ''}>
+        const tag = o.thrownOut ? ' <em>(BUTTATA FUORI)</em>' : o.disabled ? ' <em>(LA TUA CAZZATA)</em>' : counts ? ` <em>(${counts[i] ?? 0} ${(counts[i] ?? 0) === 1 ? 'voto' : 'voti'})</em>` : '';
+        return `<button class="cultura-opt ${o.disabled ? 'mine' : ''} ${o.thrownOut ? 'out' : ''} ${picked === i ? 'picked' : ''}" data-i="${i}" ${locked ? 'disabled' : ''}>
           <span class="cultura-opt-letter">${letters[i]}</span>
-          <span class="cultura-opt-text">${o.text}${o.disabled ? ' <em>(LA TUA CAZZATA)</em>' : ''}</span>
+          <span class="cultura-opt-text">${o.text}${tag}</span>
         </button>`;
       })
       .join('');
+    // ABILITA' DI PERSONAGGIO: pronta = bottone con cosa fa; attiva/usata = riga di stato (l'effetto e' privato)
+    const ab = s.ability;
+    const abilityHtml = !ab
+      ? ''
+      : ab.state === 'READY'
+        ? `<button id="cultura-abtn" class="cultura-abtn"><b>⚡ ${ab.name}</b><small>${ab.short}</small></button>`
+        : ab.state === 'ACTIVE'
+          ? `<div class="cultura-ab-on">⚡ ${ab.name}${ab.note ? ` · ${ab.note}` : ''}</div>`
+          : `<div class="cultura-ab-off">⚡ ${ab.name} · usata</div>`;
     root.innerHTML = `
       <div class="cultura-top">🔥 SCEGLI LA RISPOSTA VERA</div>
       <div class="cultura-q">"${s.question}"</div>
       <div class="cultura-opts">${opts}</div>
-      ${s.myVote !== null ? '<div class="cultura-done">🔒 RISPOSTA BLOCCATA</div>' : ''}
+      ${s.myVote !== null ? '<div class="cultura-done">🔒 RISPOSTA BLOCCATA</div>' : picked !== null ? '<div class="cultura-sent">✅ VOTO INVIATO · puoi ancora cambiarlo</div>' : ''}
+      ${s.hint ? `<div class="cultura-secret">💡 ${s.hint}</div>` : ''}
+      ${s.wager ? '<div class="cultura-secret">🎲 ALL-IN: se scegli la vera vinci di più, se ti fai fregare perdi punti</div>' : ''}
+      ${abilityHtml}
       ${s.isSecchione ? `<div class="cultura-secret">🤓 SEI IL SECCHIONE INFAME.<br>RISPOSTA VERA: ${s.correctAnswer ?? ''}</div>` : ''}
       ${s.isAdvocate && s.defendText ? `<div class="cultura-advocate">🎤 DIFENDI QUESTA RISPOSTA: ${s.defendText}</div>` : ''}
       ${s.teConoscoReveal ? `<div class="cultura-secret">👁️ ${s.teConoscoReveal}</div>` : ''}
@@ -1183,8 +1202,16 @@ function updateCulturaUI(s: CulturaState): void {
       b.addEventListener('pointerdown', (e) => {
         e.preventDefault();
         if (b.disabled || s.myVote !== null) return;
+        culturaPicked = Number(b.dataset.i ?? '0');
         sendText('vote', b.dataset.i ?? '0');
+        // conferma immediata sul telefono (prima non cambiava niente: nessun segno che il voto fosse partito)
+        root.querySelectorAll<HTMLButtonElement>('.cultura-opt').forEach((o) => o.classList.toggle('picked', o === b));
+        if (!root.querySelector('.cultura-sent') && !root.querySelector('.cultura-done')) b.closest('.cultura-opts')?.insertAdjacentHTML('afterend', '<div class="cultura-sent">✅ VOTO INVIATO · puoi ancora cambiarlo</div>');
       });
+    });
+    root.querySelector<HTMLButtonElement>('#cultura-abtn')?.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      sendText('ability', 'use'); // l'host decide se parte (e dice il motivo se non puo')
     });
     const te = root.querySelector<HTMLButtonElement>('#cultura-teconosco');
     if (te) {
@@ -1626,8 +1653,13 @@ interface CulturaState {
   myScore: number;
   ranking: { name: string; avatar: string; score: number }[];
   myBluff?: string;
-  options: { text: string; isMine: boolean; disabled: boolean }[];
+  options: { text: string; isMine: boolean; disabled: boolean; thrownOut?: boolean }[];
   myVote: number | null;
+  /** ABILITA' DI PERSONAGGIO (una volta a partita, si usa quando si vota): stato e testi dal catalogo, effetti privati */
+  ability?: { name: string; short: string; full: string; state: string; note: string } | null;
+  hint?: string | null;
+  voteCounts?: number[] | null;
+  wager?: boolean;
   canTeConosco: boolean;
   teConoscoTargets: { id: string; name: string }[];
   teConoscoReveal: string | null;

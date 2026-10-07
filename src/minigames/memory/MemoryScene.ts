@@ -8,6 +8,9 @@ const HAPTIC_TILE = 14;
 import { confetti } from '../../scenes/confetti';
 import { PauseMenu } from '../../core/PauseMenu';
 import { MEMORY_ABILITIES } from '../../../shared/memoryAbilities';
+import { AB, stateLabel } from '../../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../../shared/abilityCatalog';
+import { abilityHub } from '../../core/abilityHub';
 import { MEMORY_TILES, MEMORY_SEQ_LENS, MEMORY_ROUNDS, isMemoryOver } from '../../../shared/memoryTiles';
 import type { MinigameContext } from '../types';
 import type { PlayerSnapshot } from '../../../shared/types';
@@ -30,13 +33,15 @@ const ROUND_RESULT_S = 2.4;
 // (osserva ~40% più rapido, stacchi più corti) così i round "da soli" non annoiano.
 const SOLO_SPEED = 0.6;
 const SOLO_ROUND_RESULT_S = 1.0;
-const REPLAY_TILE_S = 0.42; // replay veloce (Goblin)
+const REPLAY_TILE_S = AB.memory.goblin.p.replayTile; // replay veloce (Goblin)
 const REPLAY_POST_S = 0.4;
 // Abilita' che toccano il TEMPO del giocatore (lo spareggio e' la somma dei tempi di completamento)
-const PEEK_PENALTY_MS = 800; // M'HO SVEJATO: costo dello sbirciare
-const PEEK_SHOW_MS = 1200;
-const PAUSE_S = 2; // NO, ASPETTA!: tempo fermo
-const RATE_CREDIT_MS = 1500; // A RATE: sconto sul tempo a meta' sequenza
+// numeri delle abilita': shared/abilityCatalog.ts (AB.memory) — la stessa fonte della card sul telefono e della schermata CONTROLLI
+const PEEK_PENALTY_MS = AB.memory.dottore.p.penaltyMs; // M'HO SVEJATO: costo dello sbirciare
+const PEEK_SHOW_MS = AB.memory.dottore.p.peekMs;
+const PAUSE_S = AB.memory.judoka.p.pause; // NO, ASPETTA!: tempo fermo
+const RATE_CREDIT_MS = AB.memory.ciro.p.creditMs; // A RATE: sconto sul tempo a meta' sequenza
+const SECOND_CHANCE_PENALTY_MS = AB.memory.buttafuori.p.penaltyMs; // MO HO CAPITO: costo della seconda chance
 
 const JUDOKA_SHOUTS = ['EH?! MA DAI!', 'NO, ASPETTA!', 'NON È COSÌ!', 'CASA MIA, REGOLE MIE!'];
 
@@ -190,6 +195,8 @@ export class MemoryScene extends Phaser.Scene {
       });
     });
 
+    abilityHub.begin('memory', this.ctx);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => abilityHub.end());
     this.sequences = MEMORY_SEQ_LENS.map((len) => Array.from({ length: len }, () => Math.floor(this.ctx.rng.next() * 4)));
 
     this.pauseMenu = new PauseMenu(this, '🧠 MEMORIA DA UBRIACO', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
@@ -373,11 +380,13 @@ export class MemoryScene extends Phaser.Scene {
     // Buttafuori "MO HO CAPITO": una seconda chance (penalità tempo).
     if (p.snap.characterId === 'buttafuori' && !p.abilityUsed) {
       p.abilityUsed = true;
-      p.penaltyMs += 1200;
+      p.penaltyMs += SECOND_CHANCE_PENALTY_MS;
+      abilityHub.activated(p.snap.id);
+      abilityHub.succeeded(p.snap.id, 'errori perdonati');
       audio.select();
       this.ctx.signal(p.snap.id, { type: 'abilityUsed', name: 'MO HO CAPITO' });
       this.ctx.signal(p.snap.id, { type: 'secondChance' });
-      this.showBanner(p, '🥊 MO HO CAPITO — seconda chance (+1200 ms)');
+      this.showBanner(p, `🥊 MO HO CAPITO — seconda chance (+${SECOND_CHANCE_PENALTY_MS} ms)`);
       this.updateCard(p);
       return;
     }
@@ -397,15 +406,19 @@ export class MemoryScene extends Phaser.Scene {
   }
 
   private handleAbility(p: PState): void {
-    if (p.abilityUsed || !p.alive) return;
+    if (!p.alive) return;
     const cid = p.snap.characterId ?? '';
     const ab = MEMORY_ABILITIES[cid];
     if (!ab) return;
-    if (ab.phase === 'observe' && this.phase !== 'observe') return;
-    if (ab.phase === 'repeat' && this.phase !== 'repeat') return;
-    if (ab.phase === 'passive') return; // Buttafuori: scatta da sola sull'errore
+    // premuta ma non partita: avviso privato, mai silenzio
+    if (p.abilityUsed) return void abilityHub.failed(p.snap.id, 'ESAURITA');
+    if (ab.phase === 'passive') return void abilityHub.failed(p.snap.id, 'SCATTA DA SOLA'); // Buttafuori: scatta da sola sull'errore
+    if (ab.phase === 'observe' && this.phase !== 'observe') return void abilityHub.failed(p.snap.id, 'SOLO MENTRE GUARDI');
+    if (ab.phase === 'repeat' && this.phase !== 'repeat') return void abilityHub.failed(p.snap.id, 'SOLO MENTRE RIPETI');
+    if (ab.phase === 'repeat' && p.resolved) return void abilityHub.failed(p.snap.id, 'HAI GIÀ FINITO'); // in OSSERVA `resolved` e' ancora quello del round scorso
 
     p.abilityUsed = true;
+    abilityHub.activated(p.snap.id);
     this.ctx.signal(p.snap.id, { type: 'abilityUsed', name: ab.name });
     audio.select();
 
@@ -425,6 +438,7 @@ export class MemoryScene extends Phaser.Scene {
         break;
       }
       case 'judoka': {
+        abilityHub.impact(p.snap.id, 'secondi fermati', PAUSE_S);
         // Tempo fermo: la scadenza slitta, lo spareggio non conta la pausa, i tasti restano bloccati 2 s, poi si riprende SUBITO
         p.deadline += PAUSE_S;
         p.pauseMs += PAUSE_S * 1000;
@@ -585,6 +599,21 @@ export class MemoryScene extends Phaser.Scene {
     this.tweens.add({ targets: b, alpha: 1, duration: 150, yoyo: true, hold: 900, onComplete: () => b.destroy() });
   }
 
+  /** Stato PRESENTAZIONALE dell'abilita' (HUD/card), calcolato dallo stato vero del giocatore. */
+  private abilityStatus(p: PState): AbilityStatus {
+    if (!p.alive) return { state: 'SPENT', note: 'FUORI' };
+    if (p.abilityUsed) {
+      if (p.snap.characterId === 'judoka' && this.gameTime < p.pausedUntil) return { state: 'ACTIVE', remaining: p.pausedUntil - this.gameTime, note: 'TEMPO FERMO' };
+      if (p.snap.characterId === 'ciro' && p.rateArmed) return { state: 'ACTIVE', note: 'PAUSA A META\' SEQUENZA' };
+      if (p.snap.characterId === 'goblin' && this.goblinReplayPending) return { state: 'ACTIVE', note: 'REPLAY IN ARRIVO' };
+      return { state: 'SPENT' };
+    }
+    const ph = MEMORY_ABILITIES[p.snap.characterId ?? '']?.phase;
+    if (ph === 'passive') return { state: 'READY', note: 'ATTIVA DA SOLA' };
+    if (ph === 'observe') return { state: 'READY', note: this.phase === 'observe' ? 'PRONTA · PREMI ORA' : 'PRONTA · MENTRE GUARDI' };
+    return { state: 'READY', note: this.phase === 'repeat' ? 'PRONTA · PREMI ORA' : 'PRONTA · MENTRE RIPETI' };
+  }
+
   private updateCard(p: PState): void {
     const seqLen = this.sequences[this.round]?.length ?? 0;
     let status: string;
@@ -603,9 +632,10 @@ export class MemoryScene extends Phaser.Scene {
       color = p.snap.color;
     }
     const abName = MEMORY_ABILITIES[p.snap.characterId ?? '']?.name ?? 'ABILITÀ';
-    const ability = p.abilityUsed ? '⭐ usata' : `⭐ ${abName}`;
+    const ab = this.abilityStatus(p);
+    const ability = ab.state === 'SPENT' ? '⭐ usata' : ab.state === 'ACTIVE' ? `⭐ ${abName} · ${stateLabel(ab)}` : `⭐ ${abName}`;
     // SOLO stato aggregato (privacy in TOCCA): progresso, ✅ o 💀 — mai quale tessera
-    p.card.setValue(status, color).setStatus(ability, p.abilityUsed ? UI.color.muted : '#c4b5fd');
+    p.card.setValue(status, color).setStatus(ability, ab.state === 'SPENT' ? UI.color.muted : ab.state === 'ACTIVE' ? '#facc15' : '#c4b5fd');
     p.card.setState(!p.alive ? 'out' : p.resolved ? 'done' : 'normal');
   }
 
@@ -637,6 +667,11 @@ export class MemoryScene extends Phaser.Scene {
     const dt = Math.min(delta, 250) / 1000; // tempo reale fino a ~4 FPS
     this.gameTime += dt;
     this.applyDrunk();
+    for (const p of this.players) {
+      abilityHub.setStatus(p.snap.id, this.abilityStatus(p)); // card sul telefono (solo presentazione)
+      // fuori da OSSERVA / RIPETI il tasto non fa niente: ma lo si dice
+      if (this.phase !== 'observe' && this.phase !== 'repeat' && p.alive && this.ctx.input.get(p.snap.id).justPressed('ability')) abilityHub.failed(p.snap.id, 'NON ORA');
+    }
 
     switch (this.phase) {
       case 'title':

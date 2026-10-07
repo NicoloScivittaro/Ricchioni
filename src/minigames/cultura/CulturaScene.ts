@@ -7,8 +7,11 @@ import { selectCulturaQuestions } from './selection';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 import { addBackdrop } from '../../scenes/backdrops';
-import { phaseStepper } from '../../core/uiPhaser';
+import { phaseStepper, pill } from '../../core/uiPhaser';
 import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
+import { AB, abilityFor } from '../../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../../shared/abilityCatalog';
+import { abilityHub } from '../../core/abilityHub';
 
 // CULTURA O CAZZATA? — bluff culturale a round.
 // Fasi: intro domanda → bluff (telefono) → opzioni → voto → reveal → spiegazione.
@@ -69,6 +72,15 @@ export class CulturaScene extends Phaser.Scene {
   private currentQuestion!: CulturaQuestion;
 
   private teConoscoUsed = new Set<PlayerId>();
+  // ABILITA' DI PERSONAGGIO (una volta a partita, nella fase di scelta): distinte da TE CONOSCO (di tutti), Secchione e Avvocato (ruoli del round)
+  private abilityUsed = new Set<PlayerId>();
+  private wager = new Set<PlayerId>(); // Goblin: ha puntato forte su questo round
+  private hidden = new Map<PlayerId, number>(); // Buttafuori: opzione buttata fuori (solo per lui)
+  private hints = new Map<PlayerId, string>(); // Dottore: intuizione sulla risposta vera
+  private peeking = new Set<PlayerId>(); // Ciro: vede i voti in tempo reale
+  private earlyBlocked = false; // Judoka: il voto non si chiude in anticipo
+  private lastPeekAt = 0;
+  private voteBonus = 0; // Judoka: secondi in piu' al voto (se usata prima che il voto parta)
   private secchioneId: PlayerId | null = null;
   private advocate: { pid: PlayerId; optIndex: number } | null = null;
 
@@ -95,8 +107,17 @@ export class CulturaScene extends Phaser.Scene {
     this.scores = new Map();
     this.usedIds = new Set();
     this.teConoscoUsed = new Set();
+    this.abilityUsed = new Set();
+    this.wager = new Set();
+    this.hidden = new Map();
+    this.hints = new Map();
+    this.peeking = new Set();
+    this.earlyBlocked = false;
+    this.voteBonus = 0;
     this.secchioneId = null;
     this.advocate = null;
+    abilityHub.begin('cultura', this.ctx);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => abilityHub.end());
 
     audio.unlock();
     this.cameras.main.setBackgroundColor('#12082a');
@@ -142,6 +163,12 @@ export class CulturaScene extends Phaser.Scene {
     this.bluffs = new Map();
     this.votes = new Map();
     this.advocate = null;
+    this.wager = new Set(); // le scommesse e gli effetti valgono per il round in cui si usano
+    this.hidden = new Map();
+    this.hints = new Map();
+    this.peeking = new Set();
+    this.earlyBlocked = false;
+    this.voteBonus = 0;
     this.phaseEndsAt = this.gameTime + INTRO_S;
     // I testi dei telefoni persistono tra un round e l'altro: senza questo chi non rispondeva riusava il
     // bluff (o il voto!) del round precedente.
@@ -235,7 +262,7 @@ export class CulturaScene extends Phaser.Scene {
   private enterVote(): void {
     this.earlyVote = false;
     this.phase = 'vote';
-    this.phaseEndsAt = this.gameTime + VOTE_S;
+    this.phaseEndsAt = this.gameTime + VOTE_S + this.voteBonus;
     this.renderOptions();
     this.broadcastState();
   }
@@ -262,6 +289,21 @@ export class CulturaScene extends Phaser.Scene {
   private resolveScoring(): void {
     const finalRound = this.round === TOTAL_ROUNDS - 1;
     const points = finalRound ? FINAL_BONUS : 3;
+    // GOBLIN — N'CULO!: la puntata si risolve col voto FINALE (dopo i punti normali, che restano invariati)
+    for (const pid of this.wager) {
+      const idx = this.votes.get(pid);
+      const s = this.scores.get(pid);
+      if (!s || idx === undefined) continue; // niente voto: nessuna vincita e nessuna perdita
+      if (this.options[idx]?.isCorrect) {
+        s.cultura += AB.cultura.goblin.p.bonus;
+        abilityHub.succeeded(pid, 'punti vinti', AB.cultura.goblin.p.bonus);
+      } else {
+        const lost = Math.min(s.cultura + s.furbizia, AB.cultura.goblin.p.penalty);
+        s.cultura = Math.max(0, s.cultura - AB.cultura.goblin.p.penalty);
+        abilityHub.wasted(pid);
+        abilityHub.impact(pid, 'punti persi', lost);
+      }
+    }
     for (const o of this.options) {
       if (o.isCorrect) {
         for (const [pid, idx] of this.votes) {
@@ -396,6 +438,115 @@ export class CulturaScene extends Phaser.Scene {
     return this.normalize(a) === this.normalize(b);
   }
 
+  // ---- Abilità di personaggio ----
+
+  /** Legge le richieste di abilita' dai telefoni (il tasto manda un testo 'ability'): una pressione = un tentativo. */
+  private handleAbilityRequests(): void {
+    for (const p of this.ctx.players) {
+      const inp = this.ctx.input.get(p.id);
+      if (inp.text('ability')) {
+        inp.clearText('ability');
+        const why = this.useAbility(p.id);
+        if (why) abilityHub.failed(p.id, why); // premuta ma non partita: avviso privato col motivo
+      }
+      abilityHub.setStatus(p.id, this.abilityStatus(p.id)); // card/HUD (solo presentazione)
+    }
+  }
+
+  /** null = partita; altrimenti il motivo (breve, in maiuscolo) per cui non puo' partire ora. */
+  private useAbility(pid: PlayerId): string | null {
+    if (this.abilityUsed.has(pid)) return 'ESAURITA';
+    if (this.phase !== 'options' && this.phase !== 'vote') return "SOLO QUANDO SI VOTA";
+    const player = this.ctx.players.find((x) => x.id === pid);
+    const cid = player?.characterId;
+    if (!player || !cid) return 'NON ORA';
+    const sc = this.scores.get(pid)!;
+    switch (cid) {
+      case 'goblin':
+        if (this.secchioneId === pid) return 'SEI IL SECCHIONE';
+        this.wager.add(pid);
+        break;
+      case 'buttafuori': {
+        const cand = this.options.map((o, i) => ({ o, i })).filter(({ o, i }) => !o.isCorrect && o.ownerId !== pid && !this.hidden.has(pid) && i !== this.hidden.get(pid));
+        if (cand.length === 0) return 'NIENTE DA BUTTARE';
+        this.hidden.set(pid, cand[Math.floor(this.ctx.rng.next() * cand.length)].i);
+        abilityHub.succeeded(pid, 'risposte buttate fuori');
+        break;
+      }
+      case 'judoka': {
+        const extra = AB.cultura.judoka.p.extra;
+        this.earlyBlocked = true;
+        if (this.phase === 'vote') this.phaseEndsAt = Math.max(this.phaseEndsAt, this.gameTime) + extra;
+        else this.voteBonus += extra;
+        abilityHub.succeeded(pid, 'secondi aggiunti', extra);
+        break;
+      }
+      case 'dottore': {
+        if (this.secchioneId === pid) return 'SAI GIÀ LA RISPOSTA';
+        const correct = this.currentQuestion.correctAnswer.trim();
+        const words = correct.split(/\s+/).filter(Boolean);
+        const article = /^(il|lo|la|le|gli|i|un|uno|una|l'|un')$/i;
+        let main = words.find((w, i) => !(article.test(w) && i < words.length - 1)) ?? words[0] ?? correct;
+        main = main.replace(/^[a-zà-ú]'/i, '');
+        this.hints.set(pid, `INIZIA PER "${main.charAt(0).toUpperCase()}" · ${words.length} ${words.length === 1 ? 'PAROLA' : 'PAROLE'}`);
+        // la parcella: costa punti, ma mai sotto zero
+        const cost = AB.cultura.dottore.p.cost;
+        if (sc.cultura >= cost) sc.cultura -= cost;
+        else if (sc.furbizia >= cost) sc.furbizia -= cost;
+        abilityHub.impact(pid, 'parcelle pagate', cost);
+        break;
+      }
+      case 'ciro': {
+        this.peeking.add(pid);
+        if (this.phase === 'vote') this.phaseEndsAt = Math.max(this.phaseEndsAt, this.gameTime + AB.cultura.ciro.p.extra);
+        abilityHub.impact(pid, 'round con i voti in vista');
+        break;
+      }
+      default:
+        return 'NON ORA';
+    }
+    this.abilityUsed.add(pid);
+    abilityHub.activated(pid);
+    audio.select();
+    const def = abilityFor('cultura', cid);
+    // sulla TV si vede CHE e' partita (nome sopra), mai l'effetto privato
+    const tag = pill(this, 640, 596, `${player.avatar} ${player.name.toUpperCase()} — ${def?.name ?? 'ABILITÀ'}!`, player.color, 26).setDepth(950);
+    this.tweens.add({ targets: tag, alpha: 0, y: 576, delay: 1100, duration: 400, onComplete: () => tag.destroy() });
+    this.ctx.vibrate(pid, 80);
+    this.ctx.sendPrivate(pid, this.buildPhoneState(pid));
+    if (cid === 'judoka') this.broadcastState(); // il timer di tutti e' cambiato
+    return null;
+  }
+
+  /** Conteggio dei voti correnti per opzione, senza i nomi e senza il proprio (per ULTIMO GIORNO UTILE). */
+  private peekCounts(pid: PlayerId): number[] {
+    const counts = this.options.map(() => 0);
+    for (const p of this.ctx.players) {
+      if (p.id === pid) continue;
+      const idx = parseInt(this.ctx.input.get(p.id).text('vote'), 10);
+      if (!Number.isNaN(idx) && idx >= 0 && idx < counts.length) counts[idx]++;
+    }
+    return counts;
+  }
+
+  /** Stato PRESENTAZIONALE dell'abilita' (telefono e card), calcolato dallo stato vero. */
+  private abilityStatus(pid: PlayerId): AbilityStatus {
+    if (this.wager.has(pid) && this.phase !== 'intro' && this.phase !== 'bluff') return { state: 'ACTIVE', note: `ALL-IN: +${AB.cultura.goblin.p.bonus} / −${AB.cultura.goblin.p.penalty}` };
+    if (this.peeking.has(pid) && this.phase === 'vote') return { state: 'ACTIVE', note: 'VEDI I VOTI' };
+    if (this.hints.has(pid) && (this.phase === 'options' || this.phase === 'vote')) return { state: 'ACTIVE', note: 'INTUIZIONE ARRIVATA' };
+    if (this.hidden.has(pid) && (this.phase === 'options' || this.phase === 'vote')) return { state: 'ACTIVE', note: 'UNA RISPOSTA BUTTATA FUORI' };
+    if (this.abilityUsed.has(pid)) return { state: 'SPENT' };
+    return { state: 'READY', note: this.phase === 'vote' ? 'PRONTA · PREMI ORA' : 'PRONTA · QUANDO SI VOTA' };
+  }
+
+  private abilityPayload(pid: PlayerId): { name: string; short: string; full: string; state: string; note: string } | null {
+    const p = this.ctx.players.find((x) => x.id === pid);
+    const def = abilityFor('cultura', p?.characterId);
+    if (!def) return null;
+    const st = this.abilityStatus(pid);
+    return { name: def.name, short: def.short, full: def.full, state: st.state, note: st.note ?? '' };
+  }
+
   // ---- Stato ai telefoni ----
 
   private broadcastState(): void {
@@ -423,7 +574,7 @@ export class CulturaScene extends Phaser.Scene {
       // bluff
       myBluff,
       // voto
-      options: this.phase === 'vote' || this.phase === 'options' ? this.options.map((o, i) => ({ text: o.text, isMine: o.ownerId === pid, disabled: o.ownerId === pid })) : [],
+      options: this.phase === 'vote' || this.phase === 'options' ? this.options.map((o, i) => ({ text: o.text, isMine: o.ownerId === pid, disabled: o.ownerId === pid || this.hidden.get(pid) === i, thrownOut: this.hidden.get(pid) === i })) : [],
       myVote: myVote ?? null,
       canTeConosco: this.phase === 'vote' && !this.teConoscoUsed.has(pid),
       teConoscoTargets: this.ctx.players.filter((x) => x.id !== pid).map((x) => ({ id: x.id, name: x.name })),
@@ -434,6 +585,11 @@ export class CulturaScene extends Phaser.Scene {
       // avvocato
       isAdvocate,
       defendText: isAdvocate && this.advocate ? this.options[this.advocate.optIndex]?.text ?? '' : undefined,
+      // ABILITA' DI PERSONAGGIO (solo per questo giocatore: l'effetto resta privato)
+      ability: this.abilityPayload(pid),
+      hint: this.hints.get(pid) ?? null,
+      voteCounts: this.peeking.has(pid) ? this.peekCounts(pid) : null,
+      wager: this.wager.has(pid),
       // reveal
       reveal: this.revealFor(pid)
     };
@@ -463,6 +619,7 @@ export class CulturaScene extends Phaser.Scene {
     }
     const dt = Math.min(delta, 250) / 1000; // tempo reale fino a ~4 FPS
     this.gameTime += dt;
+    this.handleAbilityRequests();
 
     switch (this.phase) {
       case 'intro':
@@ -491,7 +648,12 @@ export class CulturaScene extends Phaser.Scene {
             }
           }
         }
-        if (!this.earlyVote && this.ctx.players.every((p) => this.hasValidVote(p.id))) {
+        // CIRO (ULTIMO GIORNO UTILE): i conteggi dei voti si aggiornano in tempo reale solo sul suo telefono
+        if (this.peeking.size > 0 && this.gameTime - this.lastPeekAt >= 0.5) {
+          this.lastPeekAt = this.gameTime;
+          for (const pid of this.peeking) this.ctx.sendPrivate(pid, this.buildPhoneState(pid));
+        }
+        if (!this.earlyVote && !this.earlyBlocked && this.ctx.players.every((p) => this.hasValidVote(p.id))) {
           this.earlyVote = true; // tutti hanno votato
           this.phaseEndsAt = Math.min(this.phaseEndsAt, this.gameTime + EARLY_GRACE_S);
         }

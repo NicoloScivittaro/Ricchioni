@@ -3,6 +3,8 @@ import type { Rng } from '../../../shared/rng';
 import type { MinigameContext } from '../types';
 import { selectQuizQuestions, rerollQuestion } from './selection';
 import type { QuizQuestion } from './questions';
+import { AB } from '../../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../../shared/abilityCatalog';
 
 export type QuizPhase = 'intro' | 'question' | 'reveal' | 'explanation' | 'leaderboard' | 'results';
 
@@ -14,9 +16,12 @@ const REVEAL_DURATION = 3.2;
 const EXPLANATION_DURATION = 4.2;
 const LEADERBOARD_DURATION = 4.5;
 const LEADERBOARD_AFTER_QUESTIONS = new Set([3, 6, 9]);
-const SECOND_CHANCE_GRACE = 4; // Buttafuori: finestra per attivare MO HO CAPITO dopo una risposta sbagliata
-const CIRO_EXTRA_TIME = 4; // Ciro: secondi extra dopo lo scadere del timer normale, per rispondere dopo aver visto il riepilogo
-const DOTTORE_HINT_SCORE_FACTOR = 0.7; // M'HO SVEJATO: usare l'indizio riduce il punteggio se poi si indovina
+// numeri delle abilita': shared/abilityCatalog.ts (AB.quiz) — la stessa fonte della card sul telefono e della schermata CONTROLLI
+const SECOND_CHANCE_GRACE = AB.quiz.buttafuori.p.retry; // Buttafuori: finestra per attivare MO HO CAPITO dopo una risposta sbagliata
+const CIRO_EXTRA_TIME = AB.quiz.ciro.p.extra; // Ciro: secondi extra dopo lo scadere del timer normale, per rispondere dopo aver visto il riepilogo
+const DOTTORE_HINT_SCORE_FACTOR = AB.quiz.dottore.p.points; // M'HO SVEJATO: usare l'indizio riduce il punteggio se poi si indovina
+const JUDOKA_EXTRA_TIME = AB.quiz.judoka.p.extra; // NO, ASPETTA!: secondi in piu' per cambiare risposta
+const SECOND_CHANCE_POINTS = AB.quiz.buttafuori.p.halfPoints; // MO HO CAPITO: quota di punti se il secondo tentativo e' giusto
 
 const TIMER_BY_DIFFICULTY: Record<number, number> = {
   1: 12, 2: 12, 3: 12,
@@ -209,7 +214,7 @@ export class QuizRoundManager {
     const value = this.questionIndex + 1; // Q1=1 .. Q10=10
     if (isSecondChance) {
       if (correct) {
-        p.points += Math.ceil(value / 2);
+        p.points += Math.ceil(value * SECOND_CHANCE_POINTS);
         p.correctCount++;
       }
       return;
@@ -230,11 +235,16 @@ export class QuizRoundManager {
     }
   }
 
-  /** Tasto ABILITÀ sul telefono. */
-  useAbility(pid: PlayerId): void {
+  /**
+   * Tasto ABILITÀ sul telefono / controller. Ritorna `null` se l'abilita' e' partita, altrimenti il MOTIVO (breve, in maiuscolo) per cui
+   * non puo' partire ora: la scena lo mostra in privato al giocatore invece di ignorare la pressione in silenzio.
+   */
+  useAbility(pid: PlayerId): string | null {
     const p = this.players.get(pid);
-    if (!p || p.abilityUsed || !this.abilitiesAllowedNow()) return;
-
+    if (!p) return 'NON ORA';
+    if (p.abilityUsed && !(p.characterId === 'buttafuori' && p.secondChanceArmed)) return 'ESAURITA';
+    if (!this.abilitiesAllowedNow()) return 'NON NELL\'ULTIMA';
+    const before = p.abilityUsed;
     switch (p.characterId) {
       case 'goblin':
         this.useGoblinNculo(p);
@@ -252,7 +262,62 @@ export class QuizRoundManager {
         this.useButtafuoriSecondChance(p);
         break;
       default:
-        break;
+        return 'NON ORA';
+    }
+    // l'abilita' e' partita se ha consumato l'uso o armato il secondo tentativo del Buttafuori
+    if (p.abilityUsed !== before || (p.characterId === 'buttafuori' && p.secondChanceArmed)) return null;
+    return this.whyNot(p);
+  }
+
+  /** Perche' l'abilita' di `p` non parte in questo momento (testo breve per il feedback privato). */
+  private whyNot(p: QuizPlayerState): string {
+    switch (p.characterId) {
+      case 'goblin':
+      case 'dottore':
+      case 'ciro':
+        if (p.hasAnsweredFinal) return 'HAI GIÀ RISPOSTO';
+        return 'NON ORA';
+      case 'judoka':
+        if (!p.hasAnsweredFinal) return 'RISPONDI PRIMA';
+        return 'NON ORA';
+      case 'buttafuori':
+        return p.inSecondChanceGrace ? 'NON ORA' : 'SERVE UN ERRORE';
+      default:
+        return 'NON ORA';
+    }
+  }
+
+  /**
+   * Stato PRESENTAZIONALE dell'abilita' (HUD sulla TV, card sul telefono), calcolato dallo stato vero del giocatore: nessuna seconda
+   * simulazione. READY porta una nota che dice QUANDO conviene premere.
+   */
+  abilityStatus(pid: PlayerId): AbilityStatus {
+    const p = this.players.get(pid);
+    if (!p) return { state: 'SPENT' };
+    if (p.characterId === 'buttafuori' && p.inSecondChanceGrace) {
+      return p.secondChanceArmed ? { state: 'ACTIVE', note: 'RIPROVA!' } : { state: 'ACTIVE', remaining: Math.max(0, p.secondChanceGraceTimer), note: 'PREMI ABILITÀ: RIPROVA!' };
+    }
+    if (p.characterId === 'ciro' && p.ciroWaiting && !p.hasAnsweredFinal) {
+      const left = this.effectiveDeadline() - this.questionElapsed;
+      return left > 0 ? { state: 'ACTIVE', remaining: left, note: 'ASPETTA LA FINE DEL TEMPO' } : { state: 'ACTIVE', note: 'RISPONDI ORA!' };
+    }
+    if (p.characterId === 'dottore' && p.dottoreHintActive && this.phase === 'question') return { state: 'ACTIVE', note: 'INDIZIO ATTIVO' };
+    if (p.characterId === 'judoka' && p.rethinkUsedThisQuestion && !p.hasAnsweredFinal && this.phase === 'question') return { state: 'ACTIVE', note: 'CAMBIA RISPOSTA' };
+    if (p.abilityUsed) return { state: 'SPENT' };
+    if (!this.abilitiesAllowedNow()) return { state: 'SPENT', note: 'NON NELL\'ULTIMA' };
+    switch (p.characterId) {
+      case 'goblin':
+        return { state: 'READY', note: 'PRONTA · PRIMA DI RISPONDERE' };
+      case 'dottore':
+        return { state: 'READY', note: 'PRONTA · SE SEI BLOCCATO' };
+      case 'judoka':
+        return { state: 'READY', note: 'PRONTA · DOPO AVER RISPOSTO' };
+      case 'ciro':
+        return { state: 'READY', note: 'PRONTA · PRIMA DI RISPONDERE' };
+      case 'buttafuori':
+        return { state: 'READY', note: 'PRONTA · DOPO UN ERRORE' };
+      default:
+        return { state: 'SPENT' };
     }
   }
 
@@ -303,7 +368,7 @@ export class QuizRoundManager {
     p.lastCorrect = null;
     p.rethinkUsedThisQuestion = true;
     p.abilityUsed = true;
-    p.personalExtraDeadline += 3;
+    p.personalExtraDeadline += JUDOKA_EXTRA_TIME;
     this.onEvent({ type: 'rethink', playerId: p.playerId });
     this.onEvent({ type: 'ability_used', playerId: p.playerId });
   }

@@ -5,6 +5,8 @@ import { PauseMenu } from '../../core/PauseMenu';
 import { QuizRoundManager } from './QuizRoundManager';
 import type { QuizHudEvent, QuizPhase, QuizPlayerState } from './QuizRoundManager';
 import { abilityNameFor, abilityDescriptionFor } from './abilities';
+import { abilityHub } from '../../core/abilityHub';
+import { stateLabel } from '../../../shared/abilityCatalog';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
 import { debugEnabled, registerDebugSection } from '../../core/debug';
@@ -112,6 +114,8 @@ export class QuizScene extends Phaser.Scene {
     this.padSelectResetPhase = null;
 
     audio.unlock();
+    abilityHub.begin('quiz', this.ctx);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => abilityHub.end());
     this.manager = new QuizRoundManager(this.ctx, (ev) => this.onHudEvent(ev));
 
     this.cameras.main.setBackgroundColor('#1e1b2e');
@@ -268,7 +272,10 @@ export class QuizScene extends Phaser.Scene {
         if (ev.playerId) this.ctx.vibrate(ev.playerId, 60);
         break;
       case 'ability_used':
-        if (ev.playerId) this.flashAbilityName(ev.playerId);
+        if (ev.playerId) {
+          this.flashAbilityName(ev.playerId);
+          abilityHub.activated(ev.playerId);
+        }
         break;
       case 'final_question':
         audio.announcer('FINAL_ROUND');
@@ -326,7 +333,12 @@ export class QuizScene extends Phaser.Scene {
       if (input.justPressed('selectNext')) this.padSelected.set(pid, ((this.padSelected.get(pid) ?? 0) + 1) % 4);
       if (input.justPressed('confirm')) this.manager.submitAnswer(pid, this.padSelected.get(pid) ?? 0);
 
-      if (input.justPressed('ability')) this.manager.useAbility(pid);
+      if (input.justPressed('ability')) {
+        // premuta ma non partita: avviso privato col motivo, mai silenzio
+        const why = this.manager.useAbility(pid);
+        if (why) abilityHub.failed(pid, why);
+      }
+      abilityHub.setStatus(pid, this.manager.abilityStatus(pid)); // card sul telefono (solo presentazione)
     }
 
     this.manager.update(dt);
@@ -478,7 +490,10 @@ export class QuizScene extends Phaser.Scene {
       }
 
       row.points.setText(`${ps.points} pt`);
-      if (ps.abilityUsed) row.ability.setText(`${abilityNameFor(p.characterId)} · usata`).setColor('#6b7280');
+      // riga ABILITA' (stesso stato che vede il telefono): nome + PRONTA / ATTIVA / usata
+      const ab = m.abilityStatus(p.id);
+      if (ab.state === 'SPENT') row.ability.setText(`${abilityNameFor(p.characterId)} · usata`).setColor('#6b7280');
+      else if (ab.state === 'ACTIVE') row.ability.setText(`⚡ ${abilityNameFor(p.characterId)} · ${stateLabel(ab)}`).setColor('#facc15');
       else row.ability.setText(abilityNameFor(p.characterId)).setColor('#a78bfa');
     }
   }

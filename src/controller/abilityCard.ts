@@ -174,6 +174,7 @@ export function companionHtml(minigameId: string, me: PlayerPublic, minigameName
         <div class="cc-title">COMANDI</div>
         ${rows}
       </div>
-      <p class="cc-look">${minigameId === 'fps' ? 'GUARDA LA TUA FINESTRA SULLA TV' : 'GUARDA LA TV'} · ✅ ${esc(me.pad ?? 'CONTROLLER')}</p>
+      <p class="cc-look">🎮 USA IL CONTROLLER · ${minigameId === 'fps' ? 'GUARDA LA TUA FINESTRA SULLA TV' : 'GUARDA LA TV'}</p>
+      <p class="cc-ok">✅ CONTROLLER CONNESSO${me.pad ? ` · ${esc(me.pad)}` : ''}</p>
     </div>`;
 }
