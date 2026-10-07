@@ -27,7 +27,10 @@ try {
   await sleep(500);
   for (let k = 0; k < 2; k++) {
     await page.evaluate((id) => window.__pads.setTarget(id), pids[k]);
-    await tap(page, k, 'A');
+    for (let t = 0; t < 6 && (await page.evaluate(() => window.__pads.pairedCount())) < k + 1; t++) {
+      await tap(page, k, 'A');
+      await sleep(500);
+    }
   }
   await page.evaluate(() => window.__pads.setTarget(null));
   check((await page.evaluate(() => window.__pads.pairedCount())) === 2, 'P1 (Xbox) e P2 (DualSense) col controller, P3 col telefono');
@@ -54,8 +57,8 @@ try {
   await until(async () => await page.evaluate(() => window.__cc.hiddenAt !== null), 8000, 'fine CONTROLLI');
   const cc = await page.evaluate(() => window.__cc);
   const dur = cc.hiddenAt - cc.shownAt;
-  check(dur >= 2500 && dur <= 3100, `durata CONTROLLI ${Math.round(dur)} ms`);
-  check(/PALLAVOLO DEI DISAGIATI/.test(cc.text) && /LEFT STICK MUOVITI/.test(cc.text) && /X \/ □ SALTA/.test(cc.text) && /A \/ ✕ COLPISCI \/ SMASH/.test(cc.text) && /B \/ ◯ ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 170)}"`);
+  check(dur >= 4700 && dur <= 5700, `durata CONTROLLI ${Math.round(dur)} ms`);
+  check(/PALLAVOLO DEI DISAGIATI/.test(cc.text) && /LEFT STICK MUOVITI/.test(cc.text) && /X \/ □ SALTA/.test(cc.text) && /A \/ ✕ COLPISCI \/ SMASH/.test(cc.text) && /◯ ⚡ ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 170)}"`);
   await until(async () => (await G(page, (g) => g.phase)) === 'playing', 40000, 'via');
   await sleep(700);
   const ghost = await G(page, (g, a) => ({ st: g.ball.state, y1: g.players.find((p) => p.id === a[0]).y, y2: g.players.find((p) => p.id === a[1]).y }), [P1, P2]);

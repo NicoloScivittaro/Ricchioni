@@ -60,8 +60,8 @@ async function run(browser) {
   await until(async () => await page.evaluate(() => window.__cc.hiddenAt !== null), 8000, 'fine CONTROLLI');
   const cc = await page.evaluate(() => window.__cc);
   const dur = cc.hiddenAt - cc.shownAt;
-  check(dur >= 2500 && dur <= 3100, `durata CONTROLLI ${Math.round(dur)} ms`);
-  check(/RIBALTATI/.test(cc.text) && /LEFT STICK STERZA/.test(cc.text) && /RT \/ R2 ACCELERA/.test(cc.text) && /LT \/ L2 FRENA \/ RETROMARCIA/.test(cc.text) && /A \/ ✕ DRIFT/.test(cc.text) && /X \/ □ USA ITEM/.test(cc.text) && /Y \/ △ ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 220)}"`);
+  check(dur >= 4700 && dur <= 5700, `durata CONTROLLI ${Math.round(dur)} ms`);
+  check(/RIBALTATI/.test(cc.text) && /LEFT STICK STERZA/.test(cc.text) && /RT \/ R2 ACCELERA/.test(cc.text) && /LT \/ L2 FRENA \/ RETROMARCIA/.test(cc.text) && /A \/ ✕ DRIFT/.test(cc.text) && /X \/ □ USA ITEM/.test(cc.text) && /Y \/ △ ⚡ ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 220)}"`);
   check(!/GUARDA DIETRO|REAR/i.test(cc.text), 'nessuna voce "guarda dietro" (il gioco non la supporta: non e\' stata inventata)');
 
   // ------------------------------------------------------------ COUNTDOWN 3-2-1: RT tenuto funziona al VIA, drift tenuto NO

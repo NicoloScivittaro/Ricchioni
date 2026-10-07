@@ -55,8 +55,8 @@ try {
   await until(async () => await page.evaluate(() => window.__cc.hiddenAt !== null), 8000, 'fine CONTROLLI');
   const cc = await page.evaluate(() => window.__cc);
   const dur = cc.hiddenAt - cc.shownAt;
-  check(dur >= 2500 && dur <= 3100, `durata CONTROLLI ${Math.round(dur)} ms`);
-  check(/MEMORIA DA UBRIACO/.test(cc.text) && /Y \/ △ TESSERA IN ALTO/.test(cc.text) && /B \/ ◯ TESSERA A DESTRA/.test(cc.text) && /A \/ ✕ TESSERA IN BASSO/.test(cc.text) && /X \/ □ TESSERA A SINISTRA/.test(cc.text) && /RB \/ R1 ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 220)}"`);
+  check(dur >= 4700 && dur <= 5700, `durata CONTROLLI ${Math.round(dur)} ms`);
+  check(/MEMORIA DA UBRIACO/.test(cc.text) && /Y \/ △ TESSERA IN ALTO/.test(cc.text) && /B \/ ◯ TESSERA A DESTRA/.test(cc.text) && /A \/ ✕ TESSERA IN BASSO/.test(cc.text) && /X \/ □ TESSERA A SINISTRA/.test(cc.text) && /RB \/ R1 ⚡ ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 220)}"`);
   await btn(page, 0, 'Y', false);
   await sleep(400);
   const t1 = await phoneText(phones[0]);

@@ -143,7 +143,7 @@ try {
   const cc = await page.evaluate(() => window.__cc);
   const dur = cc.hiddenAt - cc.shownAt;
   check(dur >= 4700 && dur <= 5600, `durata della schermata: ${Math.round(dur)} ms (default 5000: tasti + abilita' dei personaggi)`);
-  check(/ABILIT/.test(cc.text) && /⚡/.test(cc.text), 'la schermata CONTROLLI mostra il comando speciale ABILITA' in evidenza');
+  check(/ABILIT/.test(cc.text) && /⚡/.test(cc.text), 'la schermata CONTROLLI mostra il comando speciale ABILITÀ in evidenza');
   check(/CONTROLLI/.test(cc.text) && /LEFT STICK/.test(cc.text) && /MUOVITI/.test(cc.text), `mostra i CONTROLLI reali: "${cc.text.slice(0, 120)}"`);
   check(/A \/ ✕/.test(cc.text) && /DASH \/ SPINTA/.test(cc.text) && /B \/ ◯/.test(cc.text) && /ABILITÀ/.test(cc.text), 'famiglie MISTE: A / ✕ per il dash, B / ◯ per l\'abilità (Xbox + PlayStation)');
   // dopo la schermata parte il countdown 3-2-1-VIA e A TENUTO non fa dash
@@ -243,7 +243,7 @@ try {
   const c2 = await page.evaluate(() => window.__cc);
   check(/PRENDETE I TELEFONI/.test(c2.text) && !/CONTROLLI|STICK/.test(c2.text), `Cultura: "${c2.text.slice(0, 80)}" (nessun comando del gamepad)`);
   const d2 = c2.hiddenAt - c2.shownAt;
-  check(d2 >= 2500 && d2 <= 3100, `Cultura: durata ${Math.round(d2)} ms`);
+  check(d2 >= 4700 && d2 <= 5700, `Cultura: durata ${Math.round(d2)} ms`);
   await sleep(1500);
   const t2 = await hostEval(page, (gm) => gm.game.scene.getScene('cultura')?.gameTime);
   check(t2 > 0.5, `Cultura: dopo la schermata il gioco parte (gameTime ${t2?.toFixed(2)})`);

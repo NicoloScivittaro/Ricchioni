@@ -87,7 +87,7 @@ try {
     check(!/\b(PRIMARY|SECONDARY|ACTION)\b/.test(cc) && /A \/ ✕/.test(cc), `CONTROLLI: simboli coerenti per Xbox + PlayStation + generico ("A / ✕", mai nomi tecnici): "${cc.slice(0, 110)}"`);
     await until(async () => await page.evaluate(() => window.__cc.hiddenAt !== null), 8000, 'fine CONTROLLI');
     const dur = await page.evaluate(() => window.__cc.hiddenAt - window.__cc.shownAt);
-    check(dur >= 2400 && dur <= 3300, `durata CONTROLLI uniforme (${Math.round(dur)} ms)`);
+    check(dur >= 4700 && dur <= 5700, `durata CONTROLLI uniforme (${Math.round(dur)} ms)`);
     await until(started, 60000, `${id} via`);
     await sleep(900);
     check(await ghost(), `A tenuto da rullo + intro + CONTROLLI: nessuna azione fantasma in ${title}`);

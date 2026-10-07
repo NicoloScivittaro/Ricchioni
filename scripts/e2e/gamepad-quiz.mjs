@@ -66,13 +66,13 @@ try {
   await until(async () => await page.evaluate(() => window.__cc.hiddenAt !== null), 8000, 'fine CONTROLLI');
   const cc = await page.evaluate(() => window.__cc);
   const dur = cc.hiddenAt - cc.shownAt;
-  check(dur >= 2500 && dur <= 3100, `durata CONTROLLI ${Math.round(dur)} ms`);
+  check(dur >= 4700 && dur <= 5700, `durata CONTROLLI ${Math.round(dur)} ms`);
   check(
     /CHI CAZZO LO SA/.test(cc.text) &&
       /⬅ RISPOSTA PRECEDENTE/.test(cc.text) &&
       /➡ RISPOSTA SUCCESSIVA/.test(cc.text) &&
       /A \/ ✕ CONFERMA RISPOSTA/.test(cc.text) &&
-      /RB \/ R1 ABILITÀ/.test(cc.text),
+      /RB \/ R1 ⚡ ABILITÀ/.test(cc.text),
     `mostra: "${cc.text.slice(0, 220)}"`
   );
   await btn(page, 0, 'LEFT', false);

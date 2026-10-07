@@ -47,8 +47,8 @@ try {
   await until(async () => await page.evaluate(() => window.__cc.hiddenAt !== null), 8000, 'fine CONTROLLI');
   const cc = await page.evaluate(() => window.__cc);
   const dur = cc.hiddenAt - cc.shownAt;
-  check(dur >= 2500 && dur <= 3100, `durata CONTROLLI ${Math.round(dur)} ms`);
-  check(/BOTTA AL VOLO/.test(cc.text) && /A \/ ✕ PREMI SOLO QUANDO VEDI VIA!/.test(cc.text) && /RB \/ R1 ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 200)}"`);
+  check(dur >= 4700 && dur <= 5700, `durata CONTROLLI ${Math.round(dur)} ms`);
+  check(/BOTTA AL VOLO/.test(cc.text) && /A \/ ✕ PREMI SOLO QUANDO VEDI VIA!/.test(cc.text) && /RB \/ R1 ⚡ ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 200)}"`);
   const t1 = await phoneText(phones[0]);
   check(/USA IL CONTROLLER/.test(t1) && /BOTTA AL VOLO/.test(t1), `telefono P1: "${t1.slice(0, 55)}"`);
   check(await phones[2].page.evaluate(() => !!document.getElementById('pad-fallback-badge')), 'P3 (senza controller): 📱 MODALITÀ FALLBACK');

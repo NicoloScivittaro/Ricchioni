@@ -56,8 +56,8 @@ async function run(browser, n) {
   await until(async () => await page.evaluate(() => window.__cc.hiddenAt !== null), 8000, 'fine CONTROLLI');
   const cc = await page.evaluate(() => window.__cc);
   const dur = cc.hiddenAt - cc.shownAt;
-  check(dur >= 2500 && dur <= 3100, `durata CONTROLLI ${Math.round(dur)} ms`);
-  check(/CALCIO DEI DISAGIATI/.test(cc.text) && /LEFT STICK MUOVITI/.test(cc.text) && /RT \/ R2 CARICA E TIRA/.test(cc.text) && /A \/ ✕ PASSA/.test(cc.text) && /X \/ □ DASH \/ TACKLE/.test(cc.text) && /Y \/ △ ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 170)}"`);
+  check(dur >= 4700 && dur <= 5700, `durata CONTROLLI ${Math.round(dur)} ms`);
+  check(/CALCIO DEI DISAGIATI/.test(cc.text) && /LEFT STICK MUOVITI/.test(cc.text) && /RT \/ R2 CARICA E TIRA/.test(cc.text) && /A \/ ✕ PASSA/.test(cc.text) && /X \/ □ DASH \/ TACKLE/.test(cc.text) && /Y \/ △ ⚡ ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 170)}"`);
   await until(async () => (await G(page, (g) => g.phase)) === 'playing', 40000, 'via');
   await G(page, (g) => { g.matchTime = 1e6; }); // il test dura piu' di 60 s di gioco
   await sleep(500);

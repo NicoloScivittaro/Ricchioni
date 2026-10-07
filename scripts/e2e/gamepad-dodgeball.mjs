@@ -29,7 +29,10 @@ try {
   await sleep(500);
   for (let k = 0; k < 2; k++) {
     await page.evaluate((id) => window.__pads.setTarget(id), pids[k]);
-    await tap(page, k, 'A');
+    for (let t = 0; t < 6 && (await page.evaluate(() => window.__pads.pairedCount())) < k + 1; t++) {
+      await tap(page, k, 'A');
+      await sleep(500);
+    }
   }
   await page.evaluate(() => window.__pads.setTarget(null));
   check((await page.evaluate(() => window.__pads.pairedCount())) === 2, 'P1 (Xbox) e P2 (DualSense) col controller, P3 col telefono');
@@ -63,8 +66,8 @@ try {
   await until(async () => await page.evaluate(() => window.__cc.hiddenAt !== null), 8000, 'fine CONTROLLI');
   const cc = await page.evaluate(() => window.__cc);
   const dur = cc.hiddenAt - cc.shownAt;
-  check(dur >= 2500 && dur <= 3100, `durata CONTROLLI ${Math.round(dur)} ms`);
-  check(/DODGEBALL DEI COGLIONI/.test(cc.text) && /LEFT STICK MUOVITI/.test(cc.text) && /RT \/ R2 LANCIA/.test(cc.text) && /A \/ ✕ SCHIVA/.test(cc.text) && /B \/ ◯ ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 150)}"`);
+  check(dur >= 4700 && dur <= 5700, `durata CONTROLLI ${Math.round(dur)} ms`);
+  check(/DODGEBALL DEI COGLIONI/.test(cc.text) && /LEFT STICK MUOVITI/.test(cc.text) && /RT \/ R2 LANCIA/.test(cc.text) && /A \/ ✕ SCHIVA/.test(cc.text) && /◯ ⚡ ABILITÀ/.test(cc.text), `mostra: "${cc.text.slice(0, 150)}"`);
   check(/Chi non ha il controller gioca col telefono/.test(cc.text), 'avviso per chi gioca col telefono (P3)');
   await until(async () => (await gameEval(page, 'dodgeball', (g) => g.phase)) === 'playing', 30000, 'via');
   // il test dura piu' dei 45 s di gioco: si allunga il limite di tempo (solo nel test) per non arrivare ai risultati a meta'
