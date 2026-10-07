@@ -2,6 +2,7 @@ import { game as gm } from './GameManager';
 import { debugEnabled } from './debug';
 import { MINIGAME_DEFINITIONS } from '../../shared/minigames';
 import { pads } from '../input/GamepadManager';
+import type { AbilityRow } from './abilityHub';
 
 /**
  * TELEMETRIA LOCALE DI SESSIONE (solo host, solo debug: `?debug=1` o `npm run dev`). NON invia niente fuori dal browser, non usa servizi
@@ -32,6 +33,7 @@ interface Rec {
   skipped: boolean;
   errors: string[];
   metrics: Record<string, unknown>;
+  abilities: AbilityRow[];
   open: boolean;
 }
 
@@ -192,6 +194,46 @@ export function balanceFlags(recs: Rec[] = records): string[] {
   return flags;
 }
 
+/**
+ * ABILITA' (solo debug): per ogni abilita' di ogni gioco giocato — USATA? quante volte? riuscita? impatto osservato. Serve a trovare
+ * quelle che nessuno usa o che non cambiano mai niente. L'impatto e' la metrica specifica del gioco (parate, kill, posizioni...):
+ * dove non esiste una misura sensata resta solo usi / riuscite. Nessun valore viene corretto in automatico.
+ */
+function abilitySection(recs: Rec[] = records): string[] {
+  const L = ['', '=== ABILITÀ ==='];
+  const played = recs.filter((r) => !r.skipped && r.abilities.length);
+  if (!played.length) {
+    L.push('(nessun dato: nessun gioco con abilità concluso)');
+    return L;
+  }
+  // per combinazione gioco/personaggio: somma su tutti i round
+  const agg = new Map<string, { game: string; name: string; character: string; players: number; uses: number; ok: number; ko: number; impact: Record<string, number>; roundsUsed: number; rounds: number }>();
+  for (const r of played) {
+    for (const a of r.abilities) {
+      const key = `${r.game}/${a.characterId ?? '?'}`;
+      const e = agg.get(key) ?? { game: r.name, name: a.abilityName, character: a.characterId ?? '?', players: 0, uses: 0, ok: 0, ko: 0, impact: {}, roundsUsed: 0, rounds: 0 };
+      e.players++;
+      e.rounds++;
+      e.uses += a.uses;
+      e.ok += a.successes;
+      e.ko += a.failures;
+      if (a.uses > 0) e.roundsUsed++;
+      for (const [k, v] of Object.entries(a.impact)) e.impact[k] = (e.impact[k] ?? 0) + v;
+      agg.set(key, e);
+    }
+  }
+  const never: string[] = [];
+  for (const [key, e] of [...agg.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+    const rate = e.uses > 0 ? `${Math.round((e.ok / e.uses) * 100)}%` : '—';
+    const imp = Object.entries(e.impact).map(([k, v]) => `${k} ${v}`).join(' · ');
+    L.push(`  ${e.game.padEnd(28)} ${e.character.padEnd(10)} ${e.name.padEnd(24)} usata ${e.roundsUsed}/${e.rounds} round · ${e.uses} volte · riuscite ${e.ok} (${rate}) · fallite/sprecate ${e.ko}${imp ? ` · impatto: ${imp}` : ''}`);
+    if (e.uses === 0) never.push(`${e.character} (${e.game})`);
+    void key;
+  }
+  if (never.length) L.push(`⚠ MAI USATE: ${never.join(', ')}`);
+  return L;
+}
+
 export function buildReport(): string {
   const now = Date.now();
   const totalSec = Math.max(1, Math.round((now - sessionStart) / 1000));
@@ -224,6 +266,7 @@ export function buildReport(): string {
     if (Object.keys(r.metrics).length) L.push(`  Gameplay: ${fmtMetrics(r.metrics)}`);
   }
 
+  L.push(...abilitySection());
   L.push(...inputSection());
   L.push(hr, '', '=== POTENTIAL BALANCE FLAGS ===');
   const flags = balanceFlags();
@@ -267,6 +310,7 @@ function tick(): void {
       skipped: false,
       errors: [],
       metrics: {},
+      abilities: [],
       open: true
     };
     records.push(cur);
@@ -401,6 +445,7 @@ export function initTelemetry(): void {
   w.__sessionReport = printReport;
   w.__balanceFlags = balanceFlags;
   w.__copyReport = copyReport;
+  w.__abilityReport = (): string => abilitySection().join('\n');
   w.__session = { records, totals, input: { players: inputStats, totals: inputTotals } };
 }
 
@@ -415,6 +460,12 @@ export const telemetry = {
       totals.skips++;
       if (cur) cur.skipped = true;
     } else totals.lobbyReturns++;
+  },
+  /** statistiche delle abilita' di fine round (le consegna AbilityHub.end()). */
+  abilities(game: string, rows: AbilityRow[]): void {
+    if (!active) return;
+    const r = [...records].reverse().find((x) => x.game === game);
+    if (r) r.abilities = rows;
   },
   /** metriche di bilanciamento di fine gioco (i giochi le calcolano gia': qui vengono solo raccolte). */
   metrics(game: string, values: Record<string, unknown>): void {

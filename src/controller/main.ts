@@ -18,6 +18,7 @@ import type { FpsClient, FpsStatePayload } from './fpsClient';
 import type { VirtualJoystick } from './joystick';
 import { audio } from '../core/AudioManager';
 import { initMobileDebug } from './mobileDebug';
+import { companionHtml, failAbility, flashAbility, isAbilityFailMsg, isAbilityMsg, isAbilityUsedMsg, onAbilityMessage, resetAbilityLive } from './abilityCard';
 import './style.css';
 
 const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
@@ -1339,6 +1340,7 @@ function renderFpsController(): void {
       </div>
       <div class="fps-btns">
         <button id="fps-fire" class="fps-fire">🔫<span>SPARA</span></button>
+        <button id="fps-ability" class="fps-ability">⚡<span>ABILITÀ</span></button>
         <button id="fps-dash" class="fps-dash">💨<span>DASH</span></button>
         <button id="fps-reload" class="arena-ability fps-reload">🔄<span>RICARICA</span></button>
       </div>
@@ -1413,6 +1415,11 @@ function renderFpsController(): void {
     e.preventDefault();
     if (fpsReloadBtn!.disabled) return;
     sendInput({ kind: 'action', controlId: 'reload' });
+  });
+  // ABILITA' del personaggio (Sparatoria): prima non c'era; il valore e lo stato li decide l'host
+  app.querySelector<HTMLButtonElement>('#fps-ability')?.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    sendInput({ kind: 'action', controlId: 'ability' });
   });
 
   // Client FPS (Babylon, caricato lazy)
@@ -1636,6 +1643,21 @@ function isCulturaState(data: unknown): data is CulturaState {
 }
 
 socket.on(EVT.privateData, (data) => {
+  // ABILITA': stato live per la Companion Card, lampo di attivazione, avviso "non ora" — solo presentazione, mai gameplay
+  if (isAbilityMsg(data)) {
+    onAbilityMessage(data);
+    return;
+  }
+  if (isAbilityUsedMsg(data)) {
+    const meNow = state?.players.find((p) => p.id === playerId);
+    // chi gioca col telefono ha gia' il suo feedback nel controller del gioco: il lampo e' per chi usa il controller fisico
+    if (meNow && state && padModeFor(state, meNow) === 'pad') flashAbility(data, meNow.characterId ?? null, vibrate);
+    return;
+  }
+  if (isAbilityFailMsg(data)) {
+    failAbility(data, vibrate);
+    return;
+  }
   if (isInfoLine(data)) {
     lastInfo = data;
     renderInfoLine();
@@ -1686,6 +1708,7 @@ function render(): void {
   }
 
   syncPadBadge(state, me);
+  if (state.phase !== 'MINIGAME_PLAYING') resetAbilityLive(); // la card non porta stato da un round all'altro
   keepAwake(!!me.pad); // controller collegato = telefono sul tavolo: lo schermo non deve spegnersi
   switch (state.phase) {
     case 'LOBBY':
@@ -1782,6 +1805,7 @@ function renderCharacterSelect(state: RoomState, me: PlayerPublic): void {
         const pr = presentationOf(myChar);
         return pr ? `<p class="char-tag" style="border-color:${pr.accent}"><b style="color:${pr.accent}">${iconSvg(CHAR_ICONS[pr.id], 20)} ${pr.displayName}</b><br><i>“${pr.tagline}”</i></p>` : '';
       })()}
+      <p class="ability-discovery">⚡ Le abilità cambiano in ogni minigioco.</p>
       <button id="ready" class="big ${me.ready ? 'ready' : ''}">${me.ready ? 'PRONTO ✅' : 'PRONTO'}</button>
       <p class="sub">${state.players.length}/${state.playerCount} giocatori</p>
     </div>`;
@@ -1903,6 +1927,12 @@ function renderPadScreen(mg: NonNullable<RoomState['currentMinigame']>, me: Play
   disposeFps();
   quizPadPrivateShown = false; // torniamo alla schermata normale: nessuna informazione privata restante a schermo
   const def = getMinigame(mg.minigameId);
+  // COMPANION CARD: ritratto + abilita' (cosa fa, tasto, stato live) + comandi. Se il catalogo non ha l'abilita' resta la schermata semplice.
+  const card = companionHtml(mg.minigameId, me, mg.name);
+  if (card) {
+    app.innerHTML = card;
+    return;
+  }
   app.innerHTML = `
     <div class="screen pad-screen">
       <div class="pad-icon">🎮</div>

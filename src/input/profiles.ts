@@ -143,13 +143,14 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
   // telefono (touch-drag, posizione assoluta): i due controlId restano distinti apposta, non si tocca il telefono.
   // A = dash (stesso PRIMARY delle altre azioni "principale non di fuoco" del progetto: dodge/hit/dash...), il gioco
   // non ha un salto quindi non se ne aggiunge uno. X = ricarica. LT non serve ancora (nessuna mira secondaria in
-  // M6): non e' nel profilo, non fa nulla. RB resta RISERVATO alle abilita' personaggio: non e' nel profilo.
+  // M6): non e' nel profilo, non fa nulla. RB = ABILITA' del personaggio (ABILITY OVERHAUL: prima era riservato e non faceva nulla).
   fps: defineProfile('fps', [
     { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI' },
     { action: 'LOOK', binding: 'RIGHT_STICK', control: 'lookStick', label: 'MIRA / GUARDA' },
     { action: 'FIRE', binding: 'RT', control: 'fire', label: 'SPARA' },
     { action: 'DASH', binding: 'PRIMARY', control: 'dash', label: 'SCATTO' },
-    { action: 'RELOAD', binding: 'LEFT', control: 'reload', label: 'RICARICA' }
+    { action: 'RELOAD', binding: 'LEFT', control: 'reload', label: 'RICARICA' },
+    { action: 'ABILITY', binding: 'RB', control: 'ability', label: 'ABILITÀ' }
   ])
 };
 

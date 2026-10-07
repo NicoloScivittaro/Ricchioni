@@ -139,10 +139,11 @@ try {
   check(ctxNow === 'CONTROLS', `contesto durante la schermata: ${ctxNow}`);
   check(smp.length >= 3 && smp.every((x) => x.c === smp[0].c && x.t === 0), `timer e countdown FERMI durante la schermata (${smp.length} campioni, countdown ${smp[0]?.c?.toFixed(2)} → ${smp[smp.length - 1]?.c?.toFixed(2)})`);
   check(ax1.x === 0 && ax1.y === 0, `input di gameplay ignorato durante la schermata (stick a fondo → move ${ax1.x},${ax1.y})`);
-  await until(async () => await page.evaluate(() => window.__cc.hiddenAt !== null), 8000, 'fine schermata CONTROLLI');
+  await until(async () => await page.evaluate(() => window.__cc.hiddenAt !== null), 12000, 'fine schermata CONTROLLI');
   const cc = await page.evaluate(() => window.__cc);
   const dur = cc.hiddenAt - cc.shownAt;
-  check(dur >= 2500 && dur <= 3100, `durata della schermata: ${Math.round(dur)} ms (default 2700)`);
+  check(dur >= 4700 && dur <= 5600, `durata della schermata: ${Math.round(dur)} ms (default 5000: tasti + abilita' dei personaggi)`);
+  check(/ABILIT/.test(cc.text) && /⚡/.test(cc.text), 'la schermata CONTROLLI mostra il comando speciale ABILITA' in evidenza');
   check(/CONTROLLI/.test(cc.text) && /LEFT STICK/.test(cc.text) && /MUOVITI/.test(cc.text), `mostra i CONTROLLI reali: "${cc.text.slice(0, 120)}"`);
   check(/A \/ ✕/.test(cc.text) && /DASH \/ SPINTA/.test(cc.text) && /B \/ ◯/.test(cc.text) && /ABILITÀ/.test(cc.text), 'famiglie MISTE: A / ✕ per il dash, B / ◯ per l\'abilità (Xbox + PlayStation)');
   // dopo la schermata parte il countdown 3-2-1-VIA e A TENUTO non fa dash

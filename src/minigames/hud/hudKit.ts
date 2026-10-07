@@ -3,6 +3,8 @@ import type { Scene } from '@babylonjs/core';
 import { UI } from '../../core/uiTokens';
 import { popCountdown } from '../../core/countdownFx';
 import { CHAR_ICONS, iconDataUrl } from '../../../shared/charIcons';
+import { stateLabel } from '../../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../../shared/abilityCatalog';
 
 /**
  * KIT HUD dei giochi 3D (Babylon GUI): gli stessi pezzi per Arena, Dodgeball, Calcio, Pallavolo (e in parte Kart/Sparatoria).
@@ -332,11 +334,25 @@ export class GameHud {
   }
 
   /** Giocatore fuori: scheda spenta e barrata (forma + testo, non solo colore). */
+  private out = new Set<string>();
   setPlayerOut(id: string, out: boolean, label = '✕ FUORI'): void {
     const e = this.strip.get(id);
     if (!e) return;
+    if (out) this.out.add(id);
+    else this.out.delete(id);
     e.box.alpha = out ? 0.55 : 1;
     if (out) this.setPlayerStatus(id, label, UI.color.danger);
+  }
+
+  /**
+   * STATO DELL'ABILITA' del giocatore nella sua scheda (PRONTA / ATTIVA 4,2 s / RICARICA 6 s / ESAURITA): lo pubblica il gioco con
+   * AbilityHub, qui si disegna soltanto. Simbolo + parola + colore, mai solo il colore. Un giocatore fuori mostra FUORI, non l'abilita'.
+   */
+  setAbility(id: string, s: AbilityStatus): void {
+    if (this.out.has(id)) return;
+    const color = s.state === 'READY' ? UI.color.success : s.state === 'ACTIVE' ? UI.color.accent : s.state === 'CHARGING' ? UI.color.info : s.state === 'COOLDOWN' ? UI.color.textDim : UI.color.muted;
+    const mark = s.state === 'READY' ? '⚡' : s.state === 'ACTIVE' ? '⚡' : s.state === 'CHARGING' ? '⚡' : s.state === 'COOLDOWN' ? '⌛' : '✕';
+    this.setPlayerStatus(id, `${mark} ${stateLabel(s)}`, color);
   }
 
   dispose(): void {

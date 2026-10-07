@@ -6,6 +6,10 @@ import { pads } from './GamepadManager';
 import { profileFor } from './profiles';
 import { bindingLabel, padFamily, type PadFamily } from './padTypes';
 import { ensureUiCss } from '../core/uiDom';
+import { abilityFor } from '../../shared/abilityCatalog';
+import { CHARACTERS } from '../../shared/characters';
+import { presentationOf } from '../../shared/characterPresentation';
+import { ABILITY_SYMBOLS, iconSvg } from '../../shared/charIcons';
 
 /**
  * SCHERMATA CONTROLLI (host). Compare dopo l'intro e PRIMA del countdown 3-2-1-VIA di ogni minigioco giocato col controller, e per
@@ -19,8 +23,11 @@ import { ensureUiCss } from '../core/uiDom';
  *  - nessun giocatore puo' saltarla. Solo in debug/dev l'host puo' premere Invio.
  */
 
-/** Durata predefinita della schermata, in millisecondi (una sola costante: nessuna scena la ripete). */
-export const CONTROL_HELP_MS = 2700;
+/**
+ * Durata predefinita della schermata, in millisecondi (una sola costante: nessuna scena la ripete). 5 s: oltre ai tasti ci sono le
+ * ABILITA' dei personaggi presenti (nome + una riga), che in 2,7 s non si leggono. Il gioco resta fermo per tutto il tempo.
+ */
+export const CONTROL_HELP_MS = 5000;
 let helpMs = CONTROL_HELP_MS;
 
 export function setControlHelpMs(ms: number): void {
@@ -33,6 +40,15 @@ const esc = (s: string): string => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', 
 const CSS = `
 #pad-controls{z-index:95000}
 #pad-controls .ui-card{animation:ui-in .22s cubic-bezier(.2,1.4,.4,1)}
+#pad-controls .ui-key.special{border-color:var(--ui-accent);background:rgba(251,191,36,.14)}
+#pad-controls .ui-key.special .ui-act{color:var(--ui-accent)}
+.ui-abil{margin-top:clamp(10px,1.8vh,20px);padding:clamp(8px,1.4vh,16px) clamp(12px,1.6vw,22px);border-radius:var(--ui-r-m);background:var(--ui-panel-strong);border:2px solid var(--ui-accent);text-align:left}
+.ui-abil-title{font-family:var(--ui-display);font-size:clamp(15px,2.3vh,26px);letter-spacing:.1em;color:var(--ui-accent);display:flex;align-items:center;gap:.6em;margin-bottom:.35em}
+.ui-abil-row{display:flex;align-items:center;gap:.7em;padding:.18em 0;font-size:clamp(14px,2.1vh,24px);line-height:1.2}
+.ui-abil-row svg{flex:none;width:1.7em;height:1.7em}
+.ui-abil-who{flex:none;font-family:var(--ui-display);min-width:5.6em}
+.ui-abil-name{flex:none;font-family:var(--ui-display);color:var(--ui-text)}
+.ui-abil-short{color:var(--ui-dim);font-weight:700}
 #pad-retake{position:fixed;left:50%;top:8vh;transform:translateX(-50%);z-index:95000;pointer-events:none;font-family:var(--ui-body);color:var(--ui-text)}
 #pad-retake .ui-card{border-color:var(--ui-success);width:min(680px,86vw)}
 `;
@@ -57,21 +73,46 @@ function header(minigameId: string): string {
 function build(minigameId: string, mode: 'pad' | 'phone'): string {
   const bar = `<div class="ui-bar"><i style="animation-duration:${helpMs}ms"></i></div>`;
   if (mode === 'phone') {
-    return `<div class="ui-card">${header(minigameId)}<div class="ui-big">📱 PRENDETE I TELEFONI</div><div class="ui-sub">SERVONO PER SCRIVERE E VOTARE</div>${bar}</div>`;
+    return `<div class="ui-card">${header(minigameId)}<div class="ui-big">📱 PRENDETE I TELEFONI</div><div class="ui-sub">SERVONO PER SCRIVERE E VOTARE</div>${abilityBlock(minigameId, '⚡ SUL TELEFONO')}${bar}</div>`;
   }
   const profile = profileFor(minigameId)!;
   const fams = families();
-  const rows = profile.controls
+  // l'ABILITA' e' il comando speciale: sempre presente (anche se i comandi fossero piu' di 6) e disegnata in evidenza
+  const ordered = [...profile.controls.filter((c) => c.action !== 'ABILITY').slice(0, 5), ...profile.controls.filter((c) => c.action === 'ABILITY')];
+  const labelsOf = (c: (typeof ordered)[number]): string => [...new Set(fams.map((f) => bindingLabel(c.binding, f)))].join(' / ');
+  const rows = ordered
     .map((c) => {
-      const labels = [...new Set(fams.map((f) => bindingLabel(c.binding, f)))].join(' / ');
-      // tasto disegnato come tasto + azione breve (massimo 6: profiles.ts ne definisce gia' pochi)
-      return `<div class="ui-key"><span class="ui-cap">${esc(labels)}</span><span class="ui-act">${esc(c.label)}</span></div>`;
+      // tasto disegnato come tasto + azione breve
+      return `<div class="ui-key${c.action === 'ABILITY' ? ' special' : ''}"><span class="ui-cap">${esc(labelsOf(c))}</span><span class="ui-act">${c.action === 'ABILITY' ? '⚡ ' : ''}${esc(c.label)}</span></div>`;
     })
-    .slice(0, 6)
     .join('');
+  const abilityKey = ordered.find((c) => c.action === 'ABILITY');
   const someoneWithoutPad = (gm.state?.players ?? []).some((p) => !(p as { pad?: string }).pad);
   const note = someoneWithoutPad ? '<div class="ui-note">📱 Chi non ha il controller gioca col telefono</div>' : '';
-  return `<div class="ui-card">${header(minigameId)}<div class="ui-sub">🎮 CONTROLLI</div><div class="ui-keys">${rows}</div>${note}${bar}</div>`;
+  return `<div class="ui-card">${header(minigameId)}<div class="ui-sub">🎮 CONTROLLI</div><div class="ui-keys">${rows}</div>${abilityBlock(minigameId, abilityKey ? `⚡ ABILITÀ · ${labelsOf(abilityKey)}` : '⚡ ABILITÀ')}${note}${bar}</div>`;
+}
+
+/**
+ * Blocco ABILITA' della schermata: una riga per ogni personaggio in stanza (icona, chi, nome dell'abilita', cosa fa in una riga).
+ * Testi dal catalogo (shared/abilityCatalog.ts): la stessa fonte della card sul telefono e dell'HUD. Vuoto se nessuno ha abilita'.
+ */
+function abilityBlock(minigameId: string, title: string): string {
+  const seen = new Set<string>();
+  const rows: string[] = [];
+  for (const p of gm.state?.players ?? []) {
+    const cid = p.characterId;
+    if (!cid || seen.has(cid)) continue;
+    seen.add(cid);
+    const ab = abilityFor(minigameId, cid);
+    const ch = CHARACTERS[cid];
+    if (!ab || !ch) continue;
+    const accent = presentationOf(cid)?.accent ?? ch.color;
+    rows.push(
+      `<div class="ui-abil-row">${iconSvg(ABILITY_SYMBOLS[cid], 32)}<span class="ui-abil-who" style="color:${accent}">${esc(ch.roleTitle.replace(/^IL /, ''))}</span><span class="ui-abil-name">${esc(ab.name)}</span><span class="ui-abil-short">${esc(ab.short)}</span></div>`
+    );
+  }
+  if (!rows.length) return '';
+  return `<div class="ui-abil"><div class="ui-abil-title">${esc(title)}</div>${rows.join('')}</div>`;
 }
 
 /**
