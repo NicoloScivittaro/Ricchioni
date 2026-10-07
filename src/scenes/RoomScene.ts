@@ -52,7 +52,6 @@ export class RoomScene extends Phaser.Scene {
     this.known = new Set((gm.state?.players ?? []).map((p) => p.id));
     this.lastKey = '';
     this.cameras.main.setBackgroundColor(UI.color.bg);
-    if (this.textures.exists('bg')) this.add.image(640, 360, 'bg').setAlpha(0.12).setDisplaySize(1280, 720);
     const code = gm.roomCode || '?????';
 
     // ---- 1) ENTRA: codice grande + QR (colonna sinistra)

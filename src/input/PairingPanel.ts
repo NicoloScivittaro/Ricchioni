@@ -59,7 +59,7 @@ let started = false;
 
 const css = `
 #pad-root{position:fixed;inset:0;z-index:90000;display:none;align-items:center;justify-content:center;background:rgba(5,6,14,.92);font-family:var(--ui-body);color:var(--ui-text)}
-#pad-root .box{width:min(900px,92vw);max-height:90vh;overflow:auto;padding:clamp(16px,2.6vh,30px) clamp(20px,2.6vw,34px);border-radius:var(--ui-r-l);background:var(--ui-panel);border:3px solid var(--ui-accent);box-shadow:0 24px 90px rgba(0,0,0,.65)}
+#pad-root .box{width:min(900px,92vw);max-height:90vh;overflow:auto;padding:clamp(16px,2.6vh,30px) clamp(20px,2.6vw,34px);border-radius:var(--ui-r-l);background:var(--ui-panel);border:3px solid var(--ui-accent)}
 #pad-root h2{margin:0 0 4px;font-family:var(--ui-display);font-size:clamp(22px,3.4vh,40px);letter-spacing:.02em;white-space:nowrap}
 #pad-root.open ~ #pad-toasts{top:auto;bottom:4vh}
 #pad-root .hint{margin:0 0 14px;color:var(--ui-accent);font-family:var(--ui-display);font-size:clamp(16px,2.6vh,28px)}
