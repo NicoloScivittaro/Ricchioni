@@ -61,14 +61,15 @@ export interface KartState {
   accelMultiplier: number; // 1 = normale
   driftChargeRateMultiplier: number; // 1 = normale
 
-  // Judoka — MI SO' CADUTI GLI OCCHIALI!: rallenta temporaneamente i rivali
-  // vicini davanti a sé (speedCapMultiplier/speedCapTimer, letti dalla fisica
-  // senza sapere "perché"), poi verifica se ne ha superato almeno uno.
+  // Judoka — CARICO E SCARICO: kart-camion. Chi tocca viene spinto di lato e rallentato (speedCapMultiplier/speedCapTimer sul
+  // BERSAGLIO, letti dalla fisica senza sapere "perche'"); il camion sterza peggio (steerMultiplier) e non perde velocita' negli urti.
   speedCapMultiplier: number; // 1 = normale
-  speedCapTimer: number; // durata residua del rallentamento subito (se bersaglio di Judoka)
-  judokaPending: boolean; // in attesa dell'esito del proprio tentativo
-  judokaResolveTimer: number;
-  judokaTargets: PlayerId[];
+  speedCapTimer: number; // durata residua del rallentamento subito (se bersaglio di un camion)
+  truckMode: boolean;
+  steerMultiplier: number; // 1 = normale
+
+  // Buttafuori — RIBALTATO MA NON MORTO: dopo uno schianto grave si apre una finestra in cui premere ABILITA' per tornare in pista.
+  recoverWindow: number; // secondi rimasti per premere (0 = nessuna finestra)
 
   // Ciro — PAGO DOPO: posticipa l'effetto di un item subito; scade dopo
   // qualche secondo e la penalità viene applicata comunque ("DEBITO").
@@ -76,6 +77,10 @@ export interface KartState {
   debtTimer: number;
   debtStun: number;
   debtDisturb: number;
+  // ...e retroattivo: subito DOPO un colpo (refundTimer) premere ABILITA' lo trasforma in debito (refundStun/Disturb = cosa annullare).
+  refundTimer: number;
+  refundStun: number;
+  refundDisturb: number;
 }
 
 export function createKartState(playerId: PlayerId, characterId: string | null, colorHex: string, avatar: string): KartState {
@@ -123,12 +128,15 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     driftChargeRateMultiplier: 1,
     speedCapMultiplier: 1,
     speedCapTimer: 0,
-    judokaPending: false,
-    judokaResolveTimer: 0,
-    judokaTargets: [],
+    truckMode: false,
+    steerMultiplier: 1,
+    recoverWindow: 0,
     debtPending: false,
     debtTimer: 0,
     debtStun: 0,
-    debtDisturb: 0
+    debtDisturb: 0,
+    refundTimer: 0,
+    refundStun: 0,
+    refundDisturb: 0
   };
 }

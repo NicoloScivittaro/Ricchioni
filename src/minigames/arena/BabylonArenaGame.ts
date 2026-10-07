@@ -28,13 +28,12 @@ import { buildEnvironment } from './arenaEnvironment';
 import { registerEnvScene } from '../env/envDebug';
 import { ArenaCamera } from './arenaCamera';
 import { ArenaHud } from './arenaHud';
-import { ArenaAbilities, abilityDescription } from './arenaAbilities';
-import type { ArenaAbilityFeedback } from './arenaAbilities';
+import { ArenaAbilities, abilityDescription, ARENA_ACTIVATIONS } from './arenaAbilities';
+import type { ArenaAbilityFeedback, ArenaPressResult } from './arenaAbilities';
 import { ARENA_ABILITIES } from '../../../shared/arenaAbilities';
 import { abilityLabel, winnerFeed } from '../characters/reactions';
+import { abilityHub } from '../../core/abilityHub';
 
-/** Eventi che sono l'ATTIVAZIONE di un'abilita' (posa + VFX + nome sopra la testa); gli altri sono esiti e restano solo nel feed. */
-const ARENA_ACTIVATIONS = new Set<ArenaAbilityFeedback['type']>(['goblin_nculo', 'buttafuori_impegno', 'dottore_light', 'judoka_ippon', 'ciro_arm']);
 import { readMove } from '../moveInput';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
@@ -56,6 +55,7 @@ export class BabylonArenaGame {
   private camera: ArenaCamera;
   private hud: ArenaHud;
   private abilities: ArenaAbilities;
+  private unsubAbility: () => void = () => undefined;
   private order: PlayerId[];
 
   private phase: Phase = 'countdown';
@@ -108,12 +108,18 @@ export class BabylonArenaGame {
     dc.fill();
     dotTex.update();
 
-    this.abilities = new ArenaAbilities((target, kx, kz, power, source) => this.applyKnockback(target, kx, kz, power, source));
+    this.abilities = new ArenaAbilities(
+      (target, kx, kz, power, source) => this.applyKnockback(target, kx, kz, power, source),
+      (x, z, color, scale) => this.shocks.spawn(x, z, color, scale)
+    );
+    abilityHub.begin('arena', ctx);
+    this.unsubAbility = abilityHub.onStatus((id, st) => this.hud.setAbility(id, st));
 
     this.order = [...ctx.playerIds];
     const n = this.order.length;
     ctx.players.forEach((snap, i) => {
       const p = createArenaPlayer(snap.id, snap.characterId, snap.color, snap.avatar, snap.name);
+      this.abilities.init(p);
       const ang = (Math.PI * 2 * i) / n - Math.PI / 2;
       p.x = Math.cos(ang) * ARENA_R * 0.5;
       p.z = Math.sin(ang) * ARENA_R * 0.5;
@@ -204,6 +210,7 @@ export class BabylonArenaGame {
     this.shocks.update(dt);
     this.camera.update(dt, this.players, now);
     this.env.update(now);
+    for (const p of this.players) abilityHub.setStatus(p.id, this.abilities.status(p)); // HUD + Companion Card (solo presentazione)
 
     if (!held) this.ctx.input.update();
   }
@@ -305,9 +312,10 @@ export class BabylonArenaGame {
       this.ctx.signal(p.id, { type: 'dash_used', cooldownMs: Math.round(DASH_COOLDOWN * 1000) });
     }
 
-    // Abilità
-    if (!stunned && input.justPressed('ability')) {
-      this.abilities.onAbilityPress(p, this.players, (f) => this.onAbilityFeedback(p, f));
+    // Abilità (premuta ma non partita: avviso privato, mai silenzio)
+    if (input.justPressed('ability')) {
+      const res: ArenaPressResult = stunned ? 'stunned' : this.abilities.onAbilityPress(p, this.players, (f) => this.onAbilityFeedback(p, f));
+      if (res !== 'ok') abilityHub.failed(p.id, res === 'cooldown' ? 'IN RICARICA' : res === 'spent' ? 'ESAURITA' : 'NON ORA');
     }
 
     if (p.dashing) {
@@ -353,8 +361,9 @@ export class BabylonArenaGame {
       target.lastHitBy = source.id;
       target.lastHitAt = this.gameTime;
     }
-    const k = this.abilities.shieldIncoming(target, kx * power, kz * power);
-    if (k.x === 0 && k.z === 0) return; // Ciro: rimandata
+    const k = this.abilities.shieldIncoming(target, kx * power, kz * power, source, (f) => this.onAbilityFeedback(target, f));
+    if (k.x === 0 && k.z === 0) return; // parata del Goblin / schivata del Dottore: nessun colpo a segno
+    if (source && source.id !== target.id) this.abilities.onPushLanded(source, (f) => this.onAbilityFeedback(source, f)); // Ciro: spinta a segno = debito saldato
     target.vx += k.x;
     target.vz += k.z;
     target.vy = this.gravityLow ? 5 : 3;
@@ -424,6 +433,7 @@ export class BabylonArenaGame {
     for (const p of this.players) {
       if (!p.alive || p.falling) continue;
       if (Math.hypot(p.x, p.z) > this.currentRadius) {
+        if (this.abilities.tryRescue(p, this.currentRadius, (f) => this.onAbilityFeedback(p, f))) continue; // Ciro: PAGO DOMANI, il bordo non ti elimina (ancora)
         this.eliminate(p);
       }
     }
@@ -541,43 +551,102 @@ export class BabylonArenaGame {
   // ---- Feedback abilità ----
 
   private onAbilityFeedback(p: ArenaPlayer, f: ArenaAbilityFeedback): void {
-    if (ARENA_ACTIVATIONS.has(f.type)) this.entities.get(p.id)?.playAbility(abilityLabel(ARENA_ABILITIES, p.characterId));
+    const name = abilityLabel(ARENA_ABILITIES, p.characterId) ?? 'ABILITÀ';
+    if (ARENA_ACTIVATIONS.has(f.type)) {
+      this.entities.get(p.id)?.playAbility(f.type === 'judoka_whiff' ? 'A VUOTO!' : name);
+      abilityHub.activated(p.id);
+    }
+    // i telefoni che giocano col telefono hanno il loro feedback nel controller (segnale 'ability'); la TV mostra sempre il feed
+    const shout = (text: string, color: string, vib = 80): void => {
+      this.hud.feedMessage(`${p.avatar} ${text}`, color);
+      this.ctx.vibrate(p.id, vib);
+    };
     switch (f.type) {
       case 'goblin_nculo':
-        this.hud.feedMessage(`${p.avatar} NCULO!`, '#10b981');
-        this.ctx.signal(p.id, { type: 'ability', name: 'NCULO!' });
-        audio.boost();
-        this.ctx.vibrate(p.id, 80);
+        this.ctx.signal(p.id, { type: 'ability', name });
+        audio.select();
+        shout(`${name}`, '#10b981', 60);
+        break;
+      case 'goblin_parry':
+        abilityHub.succeeded(p.id, 'parate');
+        this.hud.feedMessage(`${p.avatar} PARATA! RIPIGLIATELA!`, '#a3e635');
+        this.shocks.spawn(p.x, p.z, p.color, 1.5);
+        audio.hit();
+        this.camera.shake(0.2, 220);
+        this.ctx.vibrate(p.id, 110);
+        break;
+      case 'goblin_whiff':
+        abilityHub.wasted(p.id);
+        this.hud.feedMessage(`${p.avatar} PARATA A VUOTO...`, '#9ca3af', 1800);
         break;
       case 'buttafuori_impegno':
-        this.hud.feedMessage(`${p.avatar} MO M'IMPEGNO!`, '#f97316');
-        this.ctx.signal(p.id, { type: 'ability', name: "MO M'IMPEGNO" });
+        this.ctx.signal(p.id, { type: 'ability', name });
         audio.select();
-        this.ctx.vibrate(p.id, 80);
+        shout(`${name}!`, '#f97316', 70);
         break;
-      case 'dottore_light':
-        this.hud.feedMessage(`${p.avatar} 20 KG IN UN MESE!`, '#22d3ee');
-        this.ctx.signal(p.id, { type: 'ability', name: '20 KG IN UN MESE' });
-        audio.select();
-        this.ctx.vibrate(p.id, 80);
+      case 'buttafuori_release':
+        if (f.power > 0) {
+          abilityHub.succeeded(p.id, 'restituito', Math.round(f.power));
+          this.hud.feedMessage(`${p.avatar} RESTITUISCE TUTTO!`, '#f97316');
+          this.abilities.releasePulse(p, this.players, f.power);
+          audio.hit();
+          this.camera.shake(0.25, 250);
+          this.ctx.vibrate(p.id, 120);
+        } else {
+          abilityHub.wasted(p.id);
+          this.hud.feedMessage(`${p.avatar} NESSUNO HA PROVATO A SPINGERLO`, '#9ca3af', 1800);
+        }
         break;
       case 'judoka_ippon':
+        this.ctx.signal(p.id, { type: 'ability', name });
+        abilityHub.succeeded(p.id, 'prese');
         this.hud.feedMessage(`${p.avatar} IPPON!`, '#facc15');
-        this.ctx.signal(p.id, { type: 'ability', name: 'IPPON' });
+        this.camera.shake(0.18, 200);
         audio.hit();
         this.ctx.vibrate(p.id, 110);
         break;
-      case 'ciro_arm':
-        this.hud.feedMessage(`${p.avatar} PAGO DOPO!`, '#a78bfa');
-        this.ctx.signal(p.id, { type: 'ability', name: 'PAGO DOPO' });
-        audio.select();
-        this.ctx.vibrate(p.id, 70);
+      case 'judoka_whiff':
+        abilityHub.wasted(p.id);
+        this.hud.feedMessage(`${p.avatar} NO, ASPETTA! ...ERA LONTANO`, '#9ca3af', 1800);
         break;
-      case 'ciro_due':
-        this.hud.feedMessage(`${p.avatar} DEBITO RISCOSSO!`, '#f472b6');
+      case 'dottore_awake':
+        this.ctx.signal(p.id, { type: 'ability', name });
+        audio.select();
+        shout(`${name}!`, '#22d3ee', 70);
+        break;
+      case 'dottore_dodge':
+        abilityHub.succeeded(p.id, 'schivate');
+        this.hud.feedMessage(`${p.avatar} SCHIVATO DA SVEGLIO!`, '#22d3ee');
+        audio.boost(this.pan(p.x));
+        this.ctx.vibrate(p.id, 100);
+        break;
+      case 'dottore_drowsy':
+        abilityHub.wasted(p.id);
+        this.hud.feedMessage(`${p.avatar} SI È RIADDORMENTATO...`, '#9ca3af', 1800);
+        break;
+      case 'ciro_arm':
+        this.ctx.signal(p.id, { type: 'ability', name });
+        audio.select();
+        shout(`${name}!`, '#a78bfa', 70);
+        break;
+      case 'ciro_saved':
+        abilityHub.impact(p.id, 'salvato dal bordo');
+        this.hud.feedMessage(`${p.avatar} SALVO... MA HA UN DEBITO!`, '#a78bfa', 3000);
+        this.shocks.spawn(p.x, p.z, p.color, 1.6);
+        audio.thump(0.8, this.pan(p.x));
+        this.ctx.vibrate(p.id, 120);
+        break;
+      case 'ciro_paid':
+        abilityHub.succeeded(p.id, 'debiti saldati');
+        this.hud.feedMessage(`${p.avatar} DEBITO SALDATO!`, '#4ade80');
+        audio.go();
+        this.ctx.vibrate(p.id, 80);
+        break;
+      case 'ciro_collect':
+        abilityHub.wasted(p.id);
+        this.hud.feedMessage(`${p.avatar} È ARRIVATO L'ESATTORE!`, '#f472b6');
         this.ctx.signal(p.id, { type: 'ciro_due' });
-        audio.hit();
-        this.ctx.vibrate(p.id, 90);
+        if (p.alive && !p.falling) this.eliminate(p);
         break;
     }
   }
@@ -588,6 +657,8 @@ export class BabylonArenaGame {
     if (this.disposed) return;
     this.disposed = true;
     window.removeEventListener('resize', this.onResize);
+    this.unsubAbility();
+    abilityHub.end(); // statistiche del round + card spenta sui telefoni
     safely('entities', () => {
       for (const e of this.entities.values()) e.dispose();
     });

@@ -17,6 +17,8 @@ import { getQualityLevel } from '../../core/quality';
 import { CHAR_ICONS, drawIcon, iconDataUrl } from '../../../shared/charIcons';
 import { Image as GuiImage } from '@babylonjs/gui';
 import { FONT_DISPLAY } from '../../core/uiTokens';
+import { stateLabel, abilityFor } from '../../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../../shared/abilityCatalog';
 
 /** Chi ha una finestra nello split-screen: identita' visiva = nome + colore del giocatore, mai l'indice del controller. */
 export interface FpsLocalPlayer {
@@ -61,6 +63,17 @@ export interface FpsRenderSnapshot {
   weaponId: string;
   magazine: number;
   reloading: boolean;
+  /** stato dell'abilita' (da FpsScene via fpsAbilities: il disegno legge solo questo) */
+  ability?: AbilityStatus;
+  /** giubbotto del Buttafuori attivo */
+  guard?: boolean;
+  /** il Dottore vede tutti attraverso i muri */
+  wall?: boolean;
+  /** NO, ASPETTA! subito: non puo' sparare ne' ricaricare */
+  locked?: boolean;
+  /** avanzamento della ricarica 0..1 e inizio della zona verde del Goblin (null = nessuna barra) */
+  reloadFrac?: number;
+  sweetFrom?: number | null;
 }
 
 // Layer HUD: stessa tecnica di kart-race (bit su layerMask), scena separata quindi nessuna collisione possibile
@@ -70,6 +83,10 @@ const HUD_LAYER_BIT0 = 20; // 20..24: HUD di ciascun giocatore
 // camera lo toglie dalla propria maschera (non vede la propria capsula da vicino), le altre camere lo mantengono
 // (la vedono normalmente). Fascia separata dall'HUD (10..14, mai 20..24): nessuna collisione, fino a 5 giocatori.
 const AVATAR_LAYER_BIT0 = 10;
+// Bit "vista a raggi X" (Dottore, M'HO SVEJATO): 5..9, uno per finestra. La camera i vede SOLO il proprio bit (tolti tutti gli altri dalla
+// sua maschera); i "fantasmi" degli avversari portano il bit di chi sta vedendo attraverso i muri, e sono disegnati senza test di profondita'.
+const WALL_LAYER_BIT0 = 5;
+const wallBit = (i: number): number => 1 << (WALL_LAYER_BIT0 + i);
 const DEFAULT_LAYER_MASK = 0x0fffffff;
 const hudBit = (i: number): number => 1 << (HUD_LAYER_BIT0 + i);
 // Bit "viewmodel" (arma in prima persona): 15..19, uno per finestra. L'arma e' figlia della SUA camera: le altre non devono
@@ -153,6 +170,8 @@ interface AvatarRig {
   deathT: number;
   /** sussulto quando viene colpito */
   hitT: number;
+  /** fantasma "a raggi X" (Dottore): visibile solo alle finestre che lo stanno usando */
+  ghost: Mesh;
 }
 
 interface HudEntry {
@@ -171,6 +190,12 @@ interface HudEntry {
   /** frecce "da dove arriva il colpo" (pool di 3, ruotano attorno al centro) */
   dmgInds: { box: Rectangle; t: number }[];
   dmgIdx: number;
+  /** ABILITA': riga di stato (nome + PRONTA/ATTIVA/RICARICA), barra ricarica con zona verde (Goblin), cornice giubbotto, avviso bloccato */
+  abilityText: TextBlock;
+  reloadBar: Rectangle;
+  reloadFill: Rectangle;
+  guardFrame: Rectangle;
+  lockText: TextBlock;
 }
 
 export class BabylonFpsGame {
@@ -186,6 +211,8 @@ export class BabylonFpsGame {
     this.layoutHud();
   };
   private localPlayerIds: PlayerId[];
+  /** nome dell'abilita' di ogni giocatore con una finestra (per la riga di stato nell'HUD) */
+  private abilityName = new Map<PlayerId, string>();
   private perfLowSince = 0;
   private perfFrames = 0;
   private perfEl: HTMLDivElement | null = null;
@@ -208,6 +235,7 @@ export class BabylonFpsGame {
     locals: FpsLocalPlayer[] // ordine stabile: chi ha il controller ALL'AVVIO del round, nell'ordine dei giocatori
   ) {
     this.localPlayerIds = locals.map((l) => l.id);
+    for (const l of locals) this.abilityName.set(l.id, abilityFor('fps', l.characterId ?? null)?.name ?? '');
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.07, 0.08, 0.12, 1);
@@ -230,7 +258,7 @@ export class BabylonFpsGame {
       // Maschera camera: tutto per default, il PROPRIO gruppo HUD al posto di tutti i gruppi HUD, MAI la propria
       // capsula (avatarBit(i) tolto qui e solo qui — le altre camere lo mantengono, la vedono normalmente), e solo la
       // PROPRIA arma in prima persona.
-      camera.layerMask = (DEFAULT_LAYER_MASK & ~(0x1f << HUD_LAYER_BIT0) & ~(0x1f << VM_LAYER_BIT0) & ~avatarBit(i)) | hudBit(i) | vmBit(i);
+      camera.layerMask = (DEFAULT_LAYER_MASK & ~(0x1f << HUD_LAYER_BIT0) & ~(0x1f << VM_LAYER_BIT0) & ~(0x1f << WALL_LAYER_BIT0) & ~avatarBit(i)) | hudBit(i) | vmBit(i) | wallBit(i);
       const vm = new FpsViewmodel(this.scene, camera, false, vmBit(i));
       vm.aspect = (rects[i].w * cw) / Math.max(1, rects[i].h * ch);
       vm.scale = locals.length >= 3 ? 0.5 : 0.58;
@@ -353,7 +381,20 @@ export class BabylonFpsGame {
     parts.push(flash);
     const ownIndex = this.cams.find((c) => c.playerId === pid)?.index;
     if (ownIndex !== undefined) for (const m of parts) m.layerMask = avatarBit(ownIndex);
-    rig = { body, gun, bodyMat: mat, flash, flashT: 0, parts, wasAlive: true, deathT: 0, hitT: 0 };
+    // fantasma a raggi X: stessa sagoma, un filo piu' grande, senza luci e SENZA test di profondita' (gruppo di rendering 1: la
+    // profondita' viene azzerata prima, quindi si vede dietro ai muri). layerMask 0 = invisibile a tutti finche' qualcuno non la usa.
+    const gmat = new StandardMaterial(`fpsGhostMat_${pid}`, this.scene);
+    gmat.emissiveColor = Color3.FromHexString(color);
+    gmat.diffuseColor = new Color3(0, 0, 0);
+    gmat.disableLighting = true;
+    gmat.alpha = 0.55;
+    const ghost = MeshBuilder.CreateCapsule(`fpsGhost_${pid}`, { height: 1.95, radius: 0.5 }, this.scene);
+    ghost.material = gmat;
+    ghost.isPickable = false;
+    ghost.renderingGroupId = 1;
+    ghost.layerMask = 0;
+    ghost.isVisible = false;
+    rig = { body, gun, bodyMat: mat, flash, flashT: 0, parts, wasAlive: true, deathT: 0, hitT: 0, ghost };
     this.avatars.set(pid, rig);
     return rig;
   }
@@ -533,7 +574,80 @@ export class BabylonFpsGame {
       dmgInds.push({ box, t: 0 });
     }
 
-    return { adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText, hitKill: false, dmgInds, dmgIdx: 0 };
+    // ---- ABILITA' ----
+    const abilityText = new TextBlock(`fpsAbility_${index}`, '');
+    abilityText.fontFamily = FONT_DISPLAY;
+    abilityText.fontSize = 17;
+    abilityText.color = '#e5e7eb';
+    abilityText.outlineColor = '#000000';
+    abilityText.outlineWidth = 4;
+    abilityText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    abilityText.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
+    abilityText.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    abilityText.left = '18px';
+    abilityText.top = '-108px';
+    abilityText.height = '24px';
+    abilityText.width = '420px';
+    adt.addControl(abilityText);
+
+    // barra ricarica del Goblin: la zona verde e' dove premere RB (N'CULO!) per la ricarica perfetta
+    const reloadBar = new Rectangle(`fpsReloadBar_${index}`);
+    reloadBar.width = '236px';
+    reloadBar.height = '14px';
+    reloadBar.thickness = 1;
+    reloadBar.color = '#00000066';
+    reloadBar.background = '#1f2430';
+    reloadBar.cornerRadius = 4;
+    reloadBar.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    reloadBar.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
+    reloadBar.left = '16px';
+    reloadBar.top = '-134px';
+    reloadBar.isVisible = false;
+    adt.addControl(reloadBar);
+    const sweet = new Rectangle(`fpsReloadSweet_${index}`);
+    sweet.height = '12px';
+    sweet.thickness = 0;
+    sweet.background = 'rgba(74,222,128,0.55)';
+    sweet.cornerRadius = 3;
+    sweet.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    reloadBar.addControl(sweet);
+    const reloadFill = new Rectangle(`fpsReloadFill_${index}`);
+    reloadFill.width = '0px';
+    reloadFill.height = '10px';
+    reloadFill.thickness = 0;
+    reloadFill.background = '#facc15';
+    reloadFill.cornerRadius = 3;
+    reloadFill.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    reloadFill.left = '1px';
+    reloadBar.addControl(reloadFill);
+    // la zona verde: posizione fissa nella barra (si legge dal catalogo via snapshot.sweetFrom)
+    reloadBar.metadata = { sweet };
+
+    // cornice azzurra del giubbotto del Buttafuori
+    const guardFrame = new Rectangle(`fpsGuard_${index}`);
+    guardFrame.width = '100%';
+    guardFrame.height = '100%';
+    guardFrame.thickness = 10;
+    guardFrame.color = '#38bdf8';
+    guardFrame.background = '';
+    guardFrame.alpha = 0;
+    guardFrame.isHitTestVisible = false;
+    adt.addControl(guardFrame);
+
+    // NO, ASPETTA! subito: "BLOCCATO" (forma + testo, non solo colore)
+    const lockText = new TextBlock(`fpsLock_${index}`, '');
+    lockText.fontFamily = FONT_DISPLAY;
+    lockText.fontSize = 30;
+    lockText.color = '#fbbf24';
+    lockText.outlineColor = '#000000';
+    lockText.outlineWidth = 6;
+    lockText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
+    lockText.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
+    lockText.top = '-70px';
+    lockText.isVisible = false;
+    adt.addControl(lockText);
+
+    return { adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText, hitKill: false, dmgInds, dmgIdx: 0, abilityText, reloadBar, reloadFill, guardFrame, lockText };
   }
 
   /** Pool di effetti condivisi (visibili a tutte le finestre): traccianti, proiettili, esplosioni, detriti. Nessuna allocazione per colpo. */
@@ -772,6 +886,23 @@ export class BabylonFpsGame {
     sfx.boom({ gain: Number.isFinite(nearest) ? Math.max(0.2, 1 - nearest / 45) : 0.5 });
   }
 
+  /** NO, ASPETTA! (Judoka): onda davanti a lui, senza botto ne' detriti (e' una spinta, non un'esplosione). */
+  notifyShove(pid: PlayerId, x: number, z: number, yaw: number): void {
+    if (this.disposed) return;
+    const b = this.booms.find((q) => !q.on) ?? this.booms[0];
+    b.on = true;
+    b.t = 0;
+    b.r = 6;
+    const cx = x + Math.sin(yaw) * 2.5;
+    const cz = z + Math.cos(yaw) * 2.5;
+    b.core.position.set(cx, 0.6, cz);
+    b.ring.position.set(cx, 0.12, cz);
+    b.core.isVisible = false;
+    b.ring.isVisible = true;
+    const cam = this.cams.find((c) => c.playerId === pid);
+    if (cam) cam.shake = Math.min(1, cam.shake + 0.35);
+  }
+
   /** Compatibilita': un colpo confermato (hitmarker) o un danno subito (vignetta) senza dettagli. */
   notifyHit(shooterId: PlayerId | null, targetId: PlayerId | null): void {
     if (shooterId) this.onSignal(shooterId, { type: 'hit', dmg: 10, kill: false });
@@ -934,9 +1065,50 @@ export class BabylonFpsGame {
         h.vignetteTimer -= dt;
         h.vignette.alpha = Math.max(0, Math.min(0.85, h.vignetteTimer / 0.35));
       }
+      // ---- ABILITA' ----
+      const ab = snap.ability;
+      if (ab) {
+        const name = this.abilityName.get(snap.id) ?? '';
+        const color = ab.state === 'READY' ? '#4ade80' : ab.state === 'ACTIVE' ? '#facc15' : ab.state === 'CHARGING' ? '#c4b5fd' : ab.state === 'COOLDOWN' ? '#9ca3af' : '#6b7280';
+        const t = `${ab.state === 'SPENT' ? '✕' : ab.state === 'COOLDOWN' ? '⌛' : '⚡'} ${name} · ${stateLabel(ab)}`;
+        if (h.abilityText.text !== t) h.abilityText.text = t;
+        h.abilityText.color = color;
+      }
+      const showBar = snap.alive && snap.reloading && snap.sweetFrom !== null && snap.sweetFrom !== undefined;
+      h.reloadBar.isVisible = showBar;
+      if (showBar) {
+        const sweetBox = (h.reloadBar.metadata as { sweet: Rectangle }).sweet;
+        const from = snap.sweetFrom ?? 0.45;
+        sweetBox.left = `${Math.round(from * 234)}px`;
+        sweetBox.width = `${Math.round((1 - from) * 234)}px`;
+        h.reloadFill.width = `${Math.round(Math.max(0, Math.min(1, snap.reloadFrac ?? 0)) * 232)}px`;
+        h.reloadFill.background = (snap.reloadFrac ?? 0) >= from ? '#4ade80' : '#facc15';
+      }
+      h.guardFrame.alpha = snap.guard && snap.alive ? 0.55 : 0;
+      const lockOn = !!snap.locked && snap.alive;
+      h.lockText.isVisible = lockOn;
+      if (lockOn) h.lockText.text = '✋ BLOCCATO!';
       h.centerText.isVisible = !snap.alive || h.centerText.text.length > 0;
       if (!snap.alive && h.centerText.text.length === 0) h.centerText.text = '💀 RESPAWN…';
       if (snap.alive && h.centerText.text === '💀 RESPAWN…') h.centerText.text = '';
+    }
+    this.updateGhosts(players);
+  }
+
+  /** Vista a raggi X del Dottore: a ogni avversario vivo si accende il fantasma per le finestre di chi sta vedendo attraverso i muri. */
+  private updateGhosts(players: FpsRenderSnapshot[]): void {
+    const viewers = this.cams.map((c) => ({ id: c.playerId, bit: wallBit(c.index), on: !!players.find((q) => q.id === c.playerId)?.wall && !!players.find((q) => q.id === c.playerId)?.alive }));
+    for (const snap of players) {
+      const rig = this.avatars.get(snap.id);
+      if (!rig) continue;
+      let mask = 0;
+      if (snap.alive) for (const v of viewers) if (v.on && v.id !== snap.id) mask |= v.bit;
+      rig.ghost.layerMask = mask;
+      rig.ghost.isVisible = mask !== 0;
+      if (mask !== 0) {
+        rig.ghost.position.set(snap.x, 0.98, snap.z);
+        rig.ghost.rotation.y = snap.yaw;
+      }
     }
   }
 

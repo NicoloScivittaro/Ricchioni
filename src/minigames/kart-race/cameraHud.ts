@@ -9,6 +9,8 @@ import { itemLabel } from './items';
 import { MAX_SPEED, DRIFT_THRESHOLDS } from './kartPhysics';
 import { DRIFT_LEVEL_COLORS, driftLevelOf } from './kartEntity';
 import { FONT_DISPLAY } from '../../core/uiTokens';
+import { stateLabel } from '../../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../../shared/abilityCatalog';
 
 export interface ViewportRect {
   x: number;
@@ -183,6 +185,8 @@ interface HudEntry {
   abilityBar: Rectangle;
   abilityFill: Rectangle;
   abilityLabel: TextBlock;
+  /** stato dell'abilita' pubblicato dal gioco (AbilityHub): il disegno legge solo questo */
+  abilityStatus: AbilityStatus | null;
   debtText: TextBlock;
   flashText: TextBlock;
   flashTimer: number;
@@ -521,7 +525,7 @@ export class KartHud {
       adt.addControl(l);
       speedLines.push(l);
     }
-    e = { mapBox, dots: new Map(), adt, countdownText, panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, debtText, flashText, flashTimer: 0, speedLines, speedT: 0 };
+    e = { mapBox, dots: new Map(), adt, countdownText, panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, abilityStatus: null, debtText, flashText, flashTimer: 0, speedLines, speedT: 0 };
     this.entries.set(playerId, e);
     return e;
   }
@@ -563,6 +567,12 @@ export class KartHud {
     });
   }
 
+  /** Il gioco pubblica lo stato dell'abilita' del giocatore (da AbilityHub). */
+  setAbility(playerId: PlayerId, status: AbilityStatus): void {
+    const e = this.entries.get(playerId);
+    if (e) e.abilityStatus = status;
+  }
+
   update(playerId: PlayerId, state: KartState, total: number, laps: number, driftT: [number, number, number], dt: number): void {
     const e = this.entries.get(playerId);
     if (!e) return;
@@ -576,19 +586,20 @@ export class KartHud {
     e.driftFill.background = cssOf(driftLevelOf(state.driftCharge) === 0 ? [0.3, 0.87, 0.5] : DRIFT_LEVEL_COLORS[driftLevelOf(state.driftCharge)]);
     e.driftBar.isVisible = state.drifting;
 
+    // ABILITA': solo lettura dello stato pubblicato dal gioco (PRONTA / IN CARICA / ATTIVA / ESAURITA). La barra c'e' per chi ha la
+    // barra (Goblin, Dottore, Judoka); Buttafuori e Ciro mostrano solo la riga di stato (con "PREMI ORA!" nella finestra giusta).
+    const st = e.abilityStatus;
     const hasMeter = state.characterId === 'goblin' || state.characterId === 'dottore' || state.characterId === 'judoka';
-    const hasCharges = state.characterId === 'buttafuori' || state.characterId === 'ciro';
     e.abilityBar.isVisible = hasMeter;
-    e.abilityLabel.isVisible = hasMeter || hasCharges;
-    if (hasMeter) {
-      const ready = state.abilityMeter >= 1;
-      e.abilityFill.width = `${Math.round(Math.min(1, state.abilityMeter) * 138)}px`;
-      e.abilityFill.background = ready ? '#facc15' : '#a78bfa';
-      e.abilityLabel.text = ready ? '⭐ ABILITÀ PRONTA' : 'ABILITÀ';
-      e.abilityLabel.color = ready ? '#facc15' : '#c4b5fd';
-    } else if (hasCharges) {
-      e.abilityLabel.text = state.abilityCharges > 0 ? '⚡ ABILITÀ PRONTA' : 'ABILITÀ USATA';
-      e.abilityLabel.color = state.abilityCharges > 0 ? '#4ade80' : '#6b7280';
+    e.abilityLabel.isVisible = st !== null;
+    if (st) {
+      const color = st.state === 'READY' ? '#4ade80' : st.state === 'ACTIVE' ? '#facc15' : st.state === 'CHARGING' ? '#c4b5fd' : '#6b7280';
+      e.abilityLabel.text = `${st.state === 'SPENT' ? '✕' : '⚡'} ${stateLabel(st)}`;
+      e.abilityLabel.color = color;
+      if (hasMeter) {
+        e.abilityFill.width = `${Math.round((st.state === 'READY' || st.state === 'ACTIVE' ? 1 : Math.min(1, st.meter ?? 0)) * 138)}px`;
+        e.abilityFill.background = st.state === 'ACTIVE' ? '#facc15' : st.state === 'READY' ? '#4ade80' : '#a78bfa';
+      }
     }
 
     if (state.debtPending) {

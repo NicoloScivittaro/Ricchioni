@@ -157,7 +157,7 @@ const A = {
 };
 A.goblin.full = `Premi un attimo PRIMA dell'urto: per ${sec(A.goblin.p.window)} chi ti colpisce vola via con una spinta molto più forte e resta stordito. Se sbagli tempo, perdi ${sec(A.goblin.p.whiff)} e vai fuori equilibrio.`;
 A.buttafuori.full = `Per ${sec(A.buttafuori.p.duration)} le spinte ti spostano appena. Quello che assorbi si accumula e alla fine lo restituisci in un'onda d'urto attorno a te. Più botte prendi, più forte torna.`;
-A.judoka.full = `Premi quando un avversario è a un passo davanti a te: lo afferri e lo scaraventi dietro di te. Se non c'è nessuno a portata, perdi ${sec(A.judoka.p.whiff)} a vuoto.`;
+A.judoka.full = `Premi quando un avversario è a un passo davanti a te: lo afferri e lo scaraventi via con una spinta enorme. Se non c'è nessuno a portata, perdi ${sec(A.judoka.p.whiff)} a vuoto.`;
 A.dottore.full = `Per ${sec(A.dottore.p.window)} schivi in automatico il primo scatto diretto contro di te e chi ti ha attaccato inciampa. Se nessuno ti attacca, ti riaddormenti e per ${sec(A.dottore.p.drowsy)} sei lento.`;
 A.ciro.full = `Premi prima di finire sul bordo (resta armata ${sec(A.ciro.p.arm)}). Se stai per cadere fuori, ti salvi ma hai un DEBITO di ${sec(A.ciro.p.debt)}: spingi un avversario prima che scada, o cadi davvero.`;
 
@@ -238,7 +238,7 @@ const D = {
 };
 D.goblin.full = `Premi quando la palla sta per colpirti: per ${sec(D.goblin.p.parry)} la pari e la rimandi più veloce a chi l'ha lanciata. Se sbagli il momento, vieni colpito normalmente.`;
 D.buttafuori.full = `Per ${sec(D.buttafuori.p.aim)} vedi la linea esatta del tuo lancio (la vedono tutti). Il primo tiro parte ${D.buttafuori.p.speed.toString().replace('.', ',')}× più veloce e dritto. Usalo quando sai chi colpire.`;
-D.judoka.full = `Dopo un attimo di segnale acustico parti col camion per ${sec(D.judoka.p.truck)}: raccogli fino a ${D.judoka.p.balls} palle sulla strada. Poi le scarichi a raffica. Contro un muro ti stordisci.`;
+D.judoka.full = `Dopo ${sec(D.judoka.p.beep)} di segnale acustico parti col camion per ${sec(D.judoka.p.truck)}: raccogli fino a ${D.judoka.p.balls} palle sulla strada. Poi le scarichi a raffica. Contro un muro ti stordisci.`;
 D.dottore.full = `Per ${sec(D.dottore.p.vision)} vedi dove arriveranno le palle lanciate verso di te e la schivata si ricarica in un attimo (e ti protegge più a lungo). Usala quando il campo è pieno di palle.`;
 D.ciro.full = `Premi prima di essere colpito (resta armata ${sec(D.ciro.p.arm)}): il colpo che ti eliminerebbe diventa un DEBITO di ${sec(D.ciro.p.debt)}. Colpisci un avversario prima che scada e sei salvo, altrimenti sei fuori.`;
 
@@ -875,7 +875,7 @@ const C = {
       cooldown: 0,
       limit: '1 uso a partita',
       p: { extra: 6 },
-      short: 'Ferma il voto: +6 secondi per tutti e puoi cambiare il tuo.',
+      short: 'Ferma il voto: +6 secondi per tutti, non si chiude in anticipo.',
       full: ''
     })
   ),
@@ -890,7 +890,7 @@ const C = {
       cooldown: 0,
       limit: '1 uso a partita',
       p: { cost: 1 },
-      short: 'Intuizione: iniziale e parole della risposta vera.',
+      short: 'Intuizione: iniziale e numero di parole della vera.',
       full: ''
     })
   ),
@@ -905,16 +905,16 @@ const C = {
       cooldown: 0,
       limit: '1 uso a partita',
       p: { extra: 5 },
-      short: 'Voti per ultimo e vedi quanti voti ha ogni risposta.',
+      short: 'Vedi quanti voti ha ogni risposta, in tempo reale.',
       full: ''
     })
   )
 };
 C.goblin.full = `Premi prima di votare: se scegli la risposta vera prendi +${C.goblin.p.bonus} punti in più. Se ti fai fregare da una cazzata perdi ${C.goblin.p.penalty} punti. Una volta a partita.`;
 C.buttafuori.full = `Premi durante il voto: una risposta FALSA a caso sparisce dal tuo telefono. Non cancella mai quella vera. Una volta a partita.`;
-C.judoka.full = `Premi durante il voto: il timer si allunga di ${sec(C.judoka.p.extra)} per tutti e tu puoi cambiare il tuo voto fino alla fine. Una volta a partita.`;
-C.dottore.full = `Premi durante il voto: ti arriva solo un'intuizione sulla risposta vera (iniziale e numero di parole). Costa ${C.dottore.p.cost} punto di "parcella". Una volta a partita.`;
-C.ciro.full = `Premi durante il voto: voti per ultimo, negli ultimi ${sec(C.ciro.p.extra)}, e vedi quanti voti ha preso ogni risposta (non chi li ha dati). Una volta a partita.`;
+C.judoka.full = `Premi durante il voto: il timer si allunga di ${sec(C.judoka.p.extra)} per tutti e il voto non si chiude in anticipo, nemmeno se tutti hanno già votato. Una volta a partita.`;
+C.dottore.full = `Premi durante il voto: ti arriva solo un'intuizione sulla risposta vera (iniziale della parola principale e numero di parole). Costa ${C.dottore.p.cost} punto di "parcella". Una volta a partita.`;
+C.ciro.full = `Premi durante il voto: vedi in tempo reale quanti voti ha preso ogni risposta (non chi li ha dati) e hai almeno ${sec(C.ciro.p.extra)} per scegliere. Una volta a partita.`;
 
 /** Tutte le abilita' (50). */
 export const ABILITY_CATALOG: readonly AbilityDef[] = Object.values(R).flatMap((byChar) => Object.values(byChar));

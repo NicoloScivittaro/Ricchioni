@@ -221,7 +221,7 @@ export function stepKartPhysics(
 
   // --- Sterzata: velocità angolare ASSOLUTA (vedi commento sopra la funzione) ---
   const speedFracForSteer = Math.min(1, Math.abs(k.speed) / C.maxSpeed);
-  const turnRate = C.maxTurnRate * (1 - C.highSpeedSteerLoss * speedFracForSteer * speedFracForSteer);
+  const turnRate = C.maxTurnRate * (1 - C.highSpeedSteerLoss * speedFracForSteer * speedFracForSteer) * k.steerMultiplier; // steerMultiplier: camion del Judoka
   if (!stunned) {
     k.absHeading += steerDir * turnRate * dt;
     if (k.drifting) k.absHeading += k.driftDir * C.driftExtraRate * dt;

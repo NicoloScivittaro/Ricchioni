@@ -57,15 +57,20 @@ export interface ArenaPlayer {
   stunTime: number;
   hitFlash: number;
 
-  // Abilità (una volta a partita + eventuali buff temporizzati)
-  abilityUsed: boolean;
-  abilityTimer: number;
+  // Abilità (cariche, ricarica e stato dell'effetto: la logica e' in arenaAbilities.ts, i numeri in shared/abilityCatalog.ts)
+  abCharges: number;
+  abCooldown: number;
+  parryTime: number; // Goblin: finestra di parata
+  whiffTime: number; // Goblin: fuori equilibrio dopo una parata a vuoto
+  stanceTime: number; // Buttafuori: postura
+  stored: number; // Buttafuori: spinta assorbita, da restituire
+  awareTime: number; // Dottore: finestra "sveglio"
+  drowsyTime: number; // Dottore: riaddormentato (lento)
+  armTime: number; // Ciro: postura armata
+  debtTime: number; // Ciro: debito in corso
   knockbackResist: number; // moltiplicatore knockback SUBITO (0..1; <1 = resiste)
-  speedMult: number; // moltiplicatore velocità/accelerazione
+  speedMult: number; // moltiplicatore velocita'/accelerazione
   knockMult: number; // moltiplicatore knockback INFLITTO
-  deferArmed: boolean; // Ciro: prossima spinta rimandata
-  deferredKnock: { x: number; z: number } | null;
-  deferTimer: number;
 
   /** CHI: ultimo giocatore che ti ha spinto e QUANDO (secondi di gioco): decide di chi e' l'eliminazione. */
   lastHitBy: PlayerId | null;
@@ -106,14 +111,19 @@ export function createArenaPlayer(
     dashCooldown: 0,
     stunTime: 0,
     hitFlash: 0,
-    abilityUsed: false,
-    abilityTimer: 0,
+    abCharges: 0,
+    abCooldown: 0,
+    parryTime: 0,
+    whiffTime: 0,
+    stanceTime: 0,
+    stored: 0,
+    awareTime: 0,
+    drowsyTime: 0,
+    armTime: 0,
+    debtTime: 0,
     knockbackResist: 1,
     speedMult: 1,
     knockMult: 1,
-    deferArmed: false,
-    deferredKnock: null,
-    deferTimer: 0,
     lastHitBy: null,
     lastHitAt: -99,
     eliminations: 0,

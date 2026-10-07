@@ -27,8 +27,9 @@ import { ItemManager, itemLabel, itemDescription } from './items';
 import { RaceManager } from './race';
 import type { RaceHudEvent } from './race';
 import { CameraManager, KartHud } from './cameraHud';
-import { CharacterAbilities, abilityDescription } from './abilities';
-import type { AbilityFeedback } from './abilities';
+import { CharacterAbilities, abilityDescription, KART_TRUCK } from './abilities';
+import type { AbilityFeedback, KartPressResult } from './abilities';
+import { abilityHub } from '../../core/abilityHub';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
@@ -54,6 +55,12 @@ export class BabylonKartGame {
   private cameraManager: CameraManager;
   private hud: KartHud;
   private abilities: CharacterAbilities;
+  private unsubAbility: () => void = () => undefined;
+  /** impatto delle abilita' (solo statistica debug): posizione all'attivazione e quando valutare le posizioni guadagnate */
+  private rankWatch = new Map<PlayerId, { start: number; until: number }>();
+  /** urti del camion del Judoka in questo uso, e ultimo urto per coppia (per non contare ogni frame di contatto) */
+  private truckBumps = new Map<PlayerId, number>();
+  private lastBumpAt = new Map<string, number>();
   private order: PlayerId[];
   private firstFinishPlayed = false;
   private resultsSent = false;
@@ -87,11 +94,13 @@ export class BabylonKartGame {
     const boxPlacements = buildItemBoxes(this.spline);
 
     this.abilities = new CharacterAbilities();
+    abilityHub.begin('kart3d', ctx);
     this.items = new ItemManager(this.scene, boxPlacements, this.spline, ctx.rng, this.abilities, (pid, f) =>
       this.onAbilityFeedback(pid, f)
     );
     this.cameraManager = new CameraManager(this.scene);
     this.hud = new KartHud(this.scene, this.engine);
+    this.unsubAbility = abilityHub.onStatus((id, st) => this.hud.setAbility(id, st));
     this.hud.setTrack(this.spline, this.checkpoints); // minimappa (prima di ensure(): ogni viewport ne riceve una)
     this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), this.trackAngleAt, (ev) => this.onRaceEvent(ev));
 
@@ -189,7 +198,12 @@ export class BabylonKartGame {
           this.sendInfoLine(pid, state);
         }
         if (pin.justPressed('ability')) {
-          this.abilities.onAbilityPress(state, kartsList, (f) => this.onAbilityFeedback(pid, f));
+          // premuta ma non partita: avviso privato, mai silenzio
+          const res: KartPressResult = this.abilities.onAbilityPress(state, kartsList, (f) => this.onAbilityFeedback(pid, f), this.trackAngleAt);
+          if (res !== 'ok') {
+            const text = res === 'notready' ? 'BARRA NON PIENA' : res === 'spent' ? 'ESAURITA' : state.characterId === 'buttafuori' ? 'NIENTE DA RECUPERARE' : 'NON ORA';
+            abilityHub.failed(pid, text);
+          }
         }
 
         const wasDrifting = state.drifting;
@@ -238,6 +252,12 @@ export class BabylonKartGame {
     }
 
     for (const [pid, state] of this.karts) {
+      abilityHub.setStatus(pid, this.abilities.status(state)); // HUD + Companion Card (solo presentazione)
+      const watch = this.rankWatch.get(pid);
+      if (watch && this.race.raceTime >= watch.until) {
+        this.rankWatch.delete(pid);
+        abilityHub.impact(pid, 'posizioni guadagnate', watch.start - this.race.rankOf(kartsList, pid)); // durante e subito dopo l'abilita'
+      }
       const throttle = this.race.phase === 'racing' && this.ctx.input.get(pid).pressed('up') ? 1 : 0;
       this.entities.get(pid)?.updateVisual(state, this.spline, throttle);
       this.trackFeedback(pid, state);
@@ -296,6 +316,22 @@ export class BabylonKartGame {
     fx.boost = state.boostTimer;
   }
 
+  /** Il camion del Judoka tocca un altro kart: spinta laterale in piu' e rallentamento (visto dalla fisica come speedCap generico). */
+  private truckBump(truck: KartState, other: KartState, away: number): void {
+    other.lateral += away * KART_TRUCK.p.shove * 0.1;
+    other.speedCapMultiplier = Math.min(other.speedCapMultiplier, KART_TRUCK.p.slow);
+    other.speedCapTimer = Math.max(other.speedCapTimer, KART_TRUCK.p.slowTime);
+    const key = `${truck.playerId}>${other.playerId}`;
+    const last = this.lastBumpAt.get(key) ?? -99;
+    if (this.race.raceTime - last > 1.2) {
+      this.truckBumps.set(truck.playerId, (this.truckBumps.get(truck.playerId) ?? 0) + 1);
+      abilityHub.impact(truck.playerId, 'rivali spinti');
+      this.hud.flash(other.playerId, 'TI HA INVESTITO UN CAMION!', '#facc15', 0.9);
+      this.entities.get(truck.playerId)?.playAbility();
+    }
+    this.lastBumpAt.set(key, this.race.raceTime);
+  }
+
   private resolveKartCollisions(): void {
     const list = [...this.karts.values()].filter((k) => !k.finished && k.respawnTimer <= 0);
     for (let i = 0; i < list.length; i++) {
@@ -308,11 +344,15 @@ export class BabylonKartGame {
           const overlap = KART_LAT_RADIUS * 2 - Math.abs(dl);
           const dir = dl === 0 ? (Math.random() < 0.5 ? -1 : 1) : Math.sign(dl);
           // Dottore in "20 KG IN UN MESE": leggerissimo, viene scaraventato molto più lontano.
-          const aShare = a.lightMode && !b.lightMode ? 0.88 : b.lightMode && !a.lightMode ? 0.12 : 0.5;
+          // Judoka in "CARICO E SCARICO": camion — chi tocca viene spinto via e rallentato, il camion non perde velocita'.
+          const aTruck = a.truckMode && !b.truckMode;
+          const bTruck = b.truckMode && !a.truckMode;
+          const aShare = aTruck ? 0.08 : bTruck ? 0.92 : a.lightMode && !b.lightMode ? 0.88 : b.lightMode && !a.lightMode ? 0.12 : 0.5;
           a.lateral += dir * overlap * aShare;
           b.lateral -= dir * overlap * (1 - aShare);
-          a.speed *= a.lightMode ? 0.86 : 0.93;
-          b.speed *= b.lightMode ? 0.86 : 0.93;
+          a.speed *= a.truckMode ? 1 : a.lightMode ? 0.86 : 0.93;
+          b.speed *= b.truckMode ? 1 : b.lightMode ? 0.86 : 0.93;
+          if (aTruck || bTruck) this.truckBump(aTruck ? a : b, aTruck ? b : a, aTruck ? -dir : dir);
           // Solo feedback (nessun effetto fisico aggiuntivo): mancava del tutto, anche sul telefono. Intensità proporzionale
           // alla sovrapposizione, come chiesto per il rumble delle collisioni tra kart.
           const bump = 15 + Math.min(1, overlap / (KART_LAT_RADIUS * 2)) * 35;
@@ -339,9 +379,12 @@ export class BabylonKartGame {
   }
 
   private onAbilityFeedback(playerId: PlayerId, f: AbilityFeedback): void {
-    // attivazioni (non gli esiti): posa del pilota + simbolo del personaggio sopra il kart
+    const state = this.karts.get(playerId);
+    // attivazioni (non gli esiti): posa del pilota + simbolo del personaggio sopra il kart + conteggio d'uso
     if (f.type === 'so_guidare_start' || f.type === 'dottore_light_start' || f.type === 'judoka_activate' || f.type === 'ciro_debt_start' || f.type === 'buttafuori_recovery') {
       this.entities.get(playerId)?.playAbility();
+      abilityHub.activated(playerId);
+      if (state) this.rankWatch.set(playerId, { start: this.race.rankOf([...this.karts.values()], playerId), until: this.race.raceTime + (state.abilityTimer || 0) + 3 });
     }
     switch (f.type) {
       case 'so_guidare_start':
@@ -350,14 +393,24 @@ export class BabylonKartGame {
         this.ctx.vibrate(playerId, 100);
         break;
       case 'so_guidare_fail':
+        abilityHub.wasted(playerId);
         this.hud.flash(playerId, 'EH SÌ, GUIDI BENISSIMO.', '#9ca3af');
         audio.wrong();
         this.ctx.vibrate(playerId, 60);
         break;
+      case 'buttafuori_window':
+        this.hud.flash(playerId, 'PREMI ABILITÀ: RIBALTATO MA NON MORTO!', '#f97316', 1.4);
+        audio.select();
+        this.ctx.vibrate(playerId, 60);
+        break;
       case 'buttafuori_recovery':
+        abilityHub.succeeded(playerId, 'recuperi');
         this.hud.flash(playerId, 'RIBALTATO MA NON MORTO!', '#f97316');
         audio.hit();
         this.ctx.vibrate(playerId, 130);
+        break;
+      case 'buttafuori_missed':
+        abilityHub.impact(playerId, 'finestre perse');
         break;
       case 'dottore_light_start':
         this.hud.flash(playerId, '20 KG IN UN MESE!', '#22d3ee');
@@ -365,18 +418,27 @@ export class BabylonKartGame {
         this.ctx.vibrate(playerId, 90);
         break;
       case 'judoka_activate':
-        this.hud.flash(playerId, "MI SO' CADUTI GLI OCCHIALI!", '#facc15');
+        this.truckBumps.set(playerId, 0);
+        this.hud.flash(playerId, 'CARICO E SCARICO!', '#facc15');
         audio.hit();
         this.ctx.vibrate(playerId, 90);
         break;
-      case 'judoka_success':
+      case 'judoka_end':
+        if ((this.truckBumps.get(playerId) ?? 0) > 0) abilityHub.succeeded(playerId, 'camion con urti');
+        else abilityHub.wasted(playerId);
         break;
       case 'judoka_fail':
-        this.hud.flash(playerId, 'MANNAGGIA, NIENTE SORPASSO...', '#9ca3af');
+        abilityHub.wasted(playerId);
+        this.hud.flash(playerId, 'CAMION FERMO: HAI SBATTUTO...', '#9ca3af');
         audio.wrong();
         this.ctx.vibrate(playerId, 50);
         break;
+      case 'ciro_armed':
+        this.hud.flash(playerId, 'PAGO DOPO… (ARMATO PER UN ATTIMO)', '#a78bfa', 0.8);
+        audio.tick();
+        break;
       case 'ciro_debt_start':
+        abilityHub.succeeded(playerId, 'colpi rimandati');
         this.hud.flash(playerId, 'PAGO DOPO!', '#a78bfa');
         audio.select();
         this.ctx.vibrate(playerId, 70);
@@ -438,6 +500,8 @@ export class BabylonKartGame {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    this.unsubAbility();
+    abilityHub.end(); // statistiche del round + card spenta sui telefoni
     window.removeEventListener('resize', this.onResize);
     safely('entities', () => {
       for (const e of this.entities.values()) e.dispose();

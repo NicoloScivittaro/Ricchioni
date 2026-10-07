@@ -1,149 +1,311 @@
 import type { ArenaPlayer } from './arenaTypes';
-import { DASH_TIME, DASH_COOLDOWN, STUN_TIME } from './arenaTypes';
+import { AB } from '../../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../../shared/abilityCatalog';
 
-const BUTTAFUORI_DURATION = 5;
-const BUTTAFUORI_RESIST = 0.3;
-const DOTTORE_DURATION = 5;
-const DOTTORE_SPEED = 1.4;
-const DOTTORE_TAKEN = 2.0;
-const JUDOKA_RADIUS = 5.5;
-const JUDOKA_POWER = 15;
-const GOBLIN_KNOCK_MULT = 1.85;
-const CIRO_ARM_WINDOW = 4;
-const CIRO_DEBT_DELAY = 2;
+/**
+ * Abilità di ARENA DEL DISAGIO. Numeri e testi: shared/abilityCatalog.ts (AB.arena) — qui solo la logica. La fisica non sa "perché":
+ * legge i flag generici su ArenaPlayer (knockbackResist, speedMult, knockMult) che questa classe imposta e ripristina.
+ *
+ *  GOBLIN     N'CULO!           parata a tempo: chi ti colpisce nella finestra vola via più forte; a vuoto, sei fuori equilibrio
+ *  BUTTAFUORI MO M'IMPEGNO      reggi le spinte e le accumuli; alla fine le restituisci in un'onda d'urto
+ *  JUDOKA     IPPON             presa su chi hai davanti e lancio; a vuoto perdi il tempo
+ *  DOTTORE    M'HO SVEJATO      schivi da sveglio il primo scatto diretto contro di te; se nessuno attacca ti riaddormenti
+ *  CIRO       PAGO DOMANI       il bordo non ti elimina: debito, o spingi qualcuno in tempo o cadi davvero
+ */
+const G = AB.arena.goblin;
+const B = AB.arena.buttafuori;
+const J = AB.arena.judoka;
+const D = AB.arena.dottore;
+const C = AB.arena.ciro;
 
 export type ArenaAbilityFeedback =
   | { type: 'goblin_nculo' }
+  | { type: 'goblin_parry' }
+  | { type: 'goblin_whiff' }
   | { type: 'buttafuori_impegno' }
-  | { type: 'dottore_light' }
+  | { type: 'buttafuori_release'; power: number }
   | { type: 'judoka_ippon' }
+  | { type: 'judoka_whiff' }
+  | { type: 'dottore_awake' }
+  | { type: 'dottore_dodge' }
+  | { type: 'dottore_drowsy' }
   | { type: 'ciro_arm' }
-  | { type: 'ciro_due' };
+  | { type: 'ciro_saved' }
+  | { type: 'ciro_paid' }
+  | { type: 'ciro_collect' };
+
+/** Eventi che sono l'ATTIVAZIONE (posa + VFX + nome sopra la testa); gli altri sono esiti e restano solo nel feed. */
+export const ARENA_ACTIVATIONS = new Set<ArenaAbilityFeedback['type']>(['goblin_nculo', 'buttafuori_impegno', 'judoka_ippon', 'judoka_whiff', 'dottore_awake', 'ciro_arm']);
+
+/** Esito della pressione del tasto: 'ok' = partita; altrimenti il motivo per cui NON e' partita (feedback privato al giocatore). */
+export type ArenaPressResult = 'ok' | 'cooldown' | 'spent' | 'busy' | 'stunned';
 
 export function abilityDescription(characterId: string | null): string {
-  switch (characterId) {
-    case 'goblin':
-      return 'NCULO!: dash sporco con traiettoria storta e knockback potenziato.';
-    case 'buttafuori':
-      return "MO M'IMPEGNO: per 5s resisti molto meglio ai knockback.";
-    case 'dottore':
-      return '20 KG IN UN MESE: per 5s sei più veloce ma molto più facile da sbalzare.';
-    case 'judoka':
-      return 'IPPON: onda d\'urto che spinge via con forza chi ti sta vicino.';
-    case 'ciro':
-      return 'PAGO DOPO: arma per 4s il rinvio della prossima spinta subita (torna dopo 2s).';
-    default:
-      return '';
-  }
+  const d = characterId ? AB.arena[characterId as keyof typeof AB.arena] : null;
+  return d ? `${d.name}: ${d.short}` : '';
 }
 
-/**
- * Abilità di ARENA DEL DISAGIO. La fisica resta ignara del "perché": legge solo
- * i flag generici su ArenaPlayer (knockbackResist, speedMult, knockMult,
- * deferArmed, deferredKnock) che questa classe imposta e ripristina.
- */
 export class ArenaAbilities {
-  constructor(private onKnock: (target: ArenaPlayer, kx: number, kz: number, power: number, source?: ArenaPlayer) => void) {}
+  constructor(
+    private onKnock: (target: ArenaPlayer, kx: number, kz: number, power: number, source?: ArenaPlayer) => void,
+    private spawnPulse: (x: number, z: number, color: string, scale: number) => void
+  ) {}
 
-  onAbilityPress(p: ArenaPlayer, players: ArenaPlayer[], onFeedback: (f: ArenaAbilityFeedback) => void): void {
-    if (p.abilityUsed || !p.alive || p.falling) return;
+  /** Cariche iniziali: lette dal catalogo, una volta per round. */
+  init(p: ArenaPlayer): void {
+    const d = p.characterId ? AB.arena[p.characterId as keyof typeof AB.arena] : null;
+    p.abCharges = d?.charges ?? 0;
+  }
+
+  /** L'abilita' e' in corso (finestra, postura, consapevolezza, armata, debito)? */
+  private active(p: ArenaPlayer): boolean {
+    return p.parryTime > 0 || p.stanceTime > 0 || p.awareTime > 0 || p.armTime > 0 || p.debtTime > 0;
+  }
+
+  /** Stato PRESENTAZIONALE per HUD e telefono, calcolato dallo stato vero del giocatore (nessuna seconda simulazione). */
+  status(p: ArenaPlayer): AbilityStatus {
+    const cid = p.characterId;
+    if (!cid) return { state: 'SPENT' };
+    const max = AB.arena[cid as keyof typeof AB.arena].charges;
+    if (p.debtTime > 0) return { state: 'ACTIVE', remaining: p.debtTime, note: `DEBITO ${p.debtTime.toFixed(1).replace('.', ',')} s` };
+    if (p.armTime > 0) return { state: 'ACTIVE', remaining: p.armTime, note: `ARMATA ${Math.ceil(p.armTime)} s` };
+    if (p.stanceTime > 0) return { state: 'ACTIVE', remaining: p.stanceTime };
+    if (p.awareTime > 0) return { state: 'ACTIVE', remaining: p.awareTime };
+    if (p.parryTime > 0) return { state: 'ACTIVE', remaining: p.parryTime };
+    if (p.abCharges <= 0) return { state: 'SPENT' };
+    if (p.abCooldown > 0) return { state: 'COOLDOWN', remaining: p.abCooldown, charges: max > 1 ? p.abCharges : undefined };
+    return { state: 'READY', charges: max > 1 ? p.abCharges : undefined };
+  }
+
+  onAbilityPress(p: ArenaPlayer, players: ArenaPlayer[], onFeedback: (f: ArenaAbilityFeedback) => void): ArenaPressResult {
+    if (!p.alive || p.falling) return 'busy';
+    // Buttafuori: premere di nuovo durante la postura RESTITUISCE subito (decidi tu quando)
+    if (p.characterId === 'buttafuori' && p.stanceTime > 0) {
+      this.endStance(p, onFeedback);
+      return 'ok';
+    }
+    if (this.active(p) || p.whiffTime > 0) return 'busy';
+    if (p.abCharges <= 0) return 'spent';
+    if (p.abCooldown > 0) return 'cooldown';
 
     switch (p.characterId) {
       case 'goblin': {
-        p.abilityUsed = true;
-        // Dash "sporco": direzione storta + knockback potenziato.
-        const jitter = (Math.random() - 0.5) * 0.7;
-        p.facing += jitter;
-        p.dashing = true;
-        p.dashTime = DASH_TIME * 1.25;
-        p.dashCooldown = DASH_COOLDOWN;
-        p.knockMult = GOBLIN_KNOCK_MULT;
-        p.abilityTimer = DASH_TIME * 1.25 + 0.1; // ripristina knockMult a fine dash
-        const fx = Math.sin(p.facing);
-        const fz = Math.cos(p.facing);
-        p.vx = fx * 17;
-        p.vz = fz * 17;
+        p.abCharges--;
+        p.abCooldown = G.cooldown;
+        p.parryTime = G.p.window;
         onFeedback({ type: 'goblin_nculo' });
-        break;
+        return 'ok';
       }
       case 'buttafuori': {
-        p.abilityUsed = true;
-        p.knockbackResist = BUTTAFUORI_RESIST;
-        p.abilityTimer = BUTTAFUORI_DURATION;
+        p.abCharges--;
+        p.abCooldown = B.cooldown;
+        p.stanceTime = B.p.duration;
+        p.stored = 0;
+        p.knockbackResist = B.p.resist;
+        p.speedMult = B.p.speed;
         onFeedback({ type: 'buttafuori_impegno' });
-        break;
-      }
-      case 'dottore': {
-        p.abilityUsed = true;
-        p.speedMult = DOTTORE_SPEED;
-        p.knockbackResist = DOTTORE_TAKEN;
-        p.abilityTimer = DOTTORE_DURATION;
-        onFeedback({ type: 'dottore_light' });
-        break;
+        return 'ok';
       }
       case 'judoka': {
-        p.abilityUsed = true;
-        for (const other of players) {
-          if (other.id === p.id || !other.alive || other.falling) continue;
-          const dx = other.x - p.x;
-          const dz = other.z - p.z;
+        p.abCharges--;
+        p.abCooldown = J.cooldown;
+        // bersaglio: il piu' vicino entro `reach` e davanti a te (cono di ~±70°)
+        const fx = Math.sin(p.facing);
+        const fz = Math.cos(p.facing);
+        let best: ArenaPlayer | null = null;
+        let bestD = J.p.reach;
+        for (const o of players) {
+          if (o.id === p.id || !o.alive || o.falling) continue;
+          const dx = o.x - p.x;
+          const dz = o.z - p.z;
           const d = Math.hypot(dx, dz);
-          if (d < JUDOKA_RADIUS && d > 0.001) {
-            this.onKnock(other, dx / d, dz / d, JUDOKA_POWER, p);
-          }
+          if (d > bestD || d < 0.001) continue;
+          if ((dx * fx + dz * fz) / d < 0.35) continue;
+          best = o;
+          bestD = d;
         }
-        onFeedback({ type: 'judoka_ippon' });
-        break;
+        if (best) {
+          const dx = best.x - p.x;
+          const dz = best.z - p.z;
+          const d = Math.hypot(dx, dz) || 1;
+          best.stunTime = Math.max(best.stunTime, J.p.stun);
+          best.dashing = false;
+          this.onKnock(best, dx / d, dz / d, J.p.throw, p);
+          p.stunTime = Math.max(p.stunTime, 0.25); // il gesto costa un attimo anche a te
+          onFeedback({ type: 'judoka_ippon' });
+        } else {
+          p.stunTime = Math.max(p.stunTime, J.p.whiff);
+          onFeedback({ type: 'judoka_whiff' });
+        }
+        return 'ok';
+      }
+      case 'dottore': {
+        p.abCharges--;
+        p.awareTime = D.p.window;
+        onFeedback({ type: 'dottore_awake' });
+        return 'ok';
       }
       case 'ciro': {
-        p.abilityUsed = true;
-        p.deferArmed = true;
-        p.abilityTimer = CIRO_ARM_WINDOW;
+        p.abCharges--;
+        p.armTime = C.p.arm;
         onFeedback({ type: 'ciro_arm' });
-        break;
+        return 'ok';
       }
     }
+    return 'busy';
   }
 
   /**
-   * Applicato prima di far subire un knockback a `p`: gestisce il rinvio di Ciro
-   * e la resistenza/vulnerabilità di Buttafuori/Dottore. Ritorna il knockback da applicare ORA.
+   * Applicato prima di far subire un knockback a `target`. Ritorna il knockback da applicare ORA ({0,0} = assorbito/parato/schivato).
+   * Qui vivono le tre reazioni: parata del Goblin, postura del Buttafuori, schivata del Dottore.
    */
-  shieldIncoming(p: ArenaPlayer, kx: number, kz: number): { x: number; z: number } {
-    if (p.deferArmed && !p.falling && p.alive) {
-      p.deferArmed = false;
-      p.deferredKnock = { x: kx * 0.55, z: kz * 0.55 };
-      p.deferTimer = CIRO_DEBT_DELAY;
-      return { x: 0, z: 0 };
+  shieldIncoming(target: ArenaPlayer, kx: number, kz: number, source: ArenaPlayer | undefined, onFeedback: (f: ArenaAbilityFeedback) => void): { x: number; z: number } {
+    if (target.alive && !target.falling) {
+      // GOBLIN: parata riuscita — nessuna spinta per te, chi ti ha colpito vola via piu' forte e resta stordito
+      if (target.parryTime > 0 && source && source.id !== target.id) {
+        target.parryTime = 0;
+        onFeedback({ type: 'goblin_parry' });
+        source.stunTime = Math.max(source.stunTime, G.p.stun);
+        source.dashing = false;
+        const len = Math.hypot(kx, kz) || 1;
+        this.onKnock(source, -kx / len, -kz / len, len * G.p.reflect, target);
+        return { x: 0, z: 0 };
+      }
+      // DOTTORE: schivata da sveglio del primo scatto diretto contro di lui; chi attaccava inciampa
+      if (target.awareTime > 0 && source && source.id !== target.id && source.dashing) {
+        target.awareTime = 0;
+        const len = Math.hypot(kx, kz) || 1;
+        // un passo laterale, verso il centro dell'arena (mai verso il vuoto)
+        const px = -kz / len;
+        const pz = kx / len;
+        const side = (px * -target.x + pz * -target.z) >= 0 ? 1 : -1;
+        target.x += px * side * 1.7;
+        target.z += pz * side * 1.7;
+        source.stunTime = Math.max(source.stunTime, D.p.stun);
+        source.dashing = false;
+        source.vx *= 0.2;
+        source.vz *= 0.2;
+        onFeedback({ type: 'dottore_dodge' });
+        return { x: 0, z: 0 };
+      }
+      // BUTTAFUORI: reggi e accumuli quello che hai assorbito
+      if (target.stanceTime > 0) {
+        const absorbed = Math.hypot(kx, kz) * (1 - target.knockbackResist);
+        target.stored += absorbed;
+      }
     }
-    return { x: kx * p.knockbackResist, z: kz * p.knockbackResist };
+    return { x: kx * target.knockbackResist, z: kz * target.knockbackResist };
+  }
+
+  /**
+   * CIRO — il bordo non ti elimina: se `p` sta per cadere e ha la postura armata, si salva e parte il DEBITO.
+   * Ritorna true se l'eliminazione e' evitata (il gioco non deve eliminarlo).
+   */
+  tryRescue(p: ArenaPlayer, radius: number, onFeedback: (f: ArenaAbilityFeedback) => void): boolean {
+    if (p.characterId !== 'ciro' || p.armTime <= 0 || p.debtTime > 0) return false;
+    p.armTime = 0;
+    p.debtTime = C.p.debt;
+    const d = Math.hypot(p.x, p.z) || 1;
+    p.x = (p.x / d) * radius * 0.72;
+    p.z = (p.z / d) * radius * 0.72;
+    p.vx = 0;
+    p.vz = 0;
+    p.vy = 4;
+    p.dashing = false;
+    p.stunTime = Math.max(p.stunTime, 0.5);
+    onFeedback({ type: 'ciro_saved' });
+    return true;
+  }
+
+  /** Chi ha SPINTO qualcuno: se Ciro e' in debito, il debito e' saldato. */
+  onPushLanded(source: ArenaPlayer, onFeedback: (f: ArenaAbilityFeedback) => void): void {
+    if (source.characterId === 'ciro' && source.debtTime > 0) {
+      source.debtTime = 0;
+      onFeedback({ type: 'ciro_paid' });
+    }
+  }
+
+  private endStance(p: ArenaPlayer, onFeedback: (f: ArenaAbilityFeedback) => void): void {
+    const power = Math.min(B.p.pulseMax, p.stored * 0.8);
+    p.stanceTime = 0;
+    p.knockbackResist = 1;
+    p.speedMult = 1;
+    const stored = p.stored;
+    p.stored = 0;
+    if (stored < 3) {
+      onFeedback({ type: 'buttafuori_release', power: 0 }); // niente da restituire: nessuno ha colpito
+      return;
+    }
+    onFeedback({ type: 'buttafuori_release', power });
+  }
+
+  /** Onda di restituzione del Buttafuori: spinge chi gli sta intorno (il gioco passa i giocatori). */
+  releasePulse(p: ArenaPlayer, players: ArenaPlayer[], power: number): void {
+    if (power <= 0) return;
+    this.spawnPulse(p.x, p.z, p.color, 1.4 + power / 15);
+    for (const o of players) {
+      if (o.id === p.id || !o.alive || o.falling) continue;
+      const dx = o.x - p.x;
+      const dz = o.z - p.z;
+      const d = Math.hypot(dx, dz);
+      if (d < B.p.pulseRadius && d > 0.001) this.onKnock(o, dx / d, dz / d, power, p);
+    }
   }
 
   update(p: ArenaPlayer, dt: number, onFeedback: (f: ArenaAbilityFeedback) => void): void {
-    // Buff temporizzati (Buttafuori/Dottore/Goblin): allo scadere ripristina i flag.
-    if (p.abilityTimer > 0) {
-      p.abilityTimer -= dt;
-      if (p.abilityTimer <= 0) {
-        p.abilityTimer = 0;
-        p.knockbackResist = 1;
+    p.abCooldown = Math.max(0, p.abCooldown - dt);
+
+    // Goblin: la finestra di parata scade senza aver parato niente → fuori equilibrio
+    if (p.parryTime > 0) {
+      p.parryTime -= dt;
+      if (p.parryTime <= 0) {
+        p.parryTime = 0;
+        p.whiffTime = G.p.whiff;
+        p.speedMult = 0.6;
+        p.knockbackResist = 1.4;
+        onFeedback({ type: 'goblin_whiff' });
+      }
+    }
+    if (p.whiffTime > 0) {
+      p.whiffTime -= dt;
+      if (p.whiffTime <= 0) {
+        p.whiffTime = 0;
         p.speedMult = 1;
-        p.knockMult = 1;
+        p.knockbackResist = 1;
       }
     }
 
-    // Ciro: il DEBITO scade → la spinta rimandata arriva (più debole).
-    if (p.deferredKnock) {
-      p.deferTimer -= dt;
-      if (p.deferTimer <= 0) {
-        const k = p.deferredKnock;
-        p.deferredKnock = null;
-        if (p.alive && !p.falling) {
-          p.vx += k.x;
-          p.vz += k.z;
-          p.vy += 2;
-          p.stunTime = Math.max(p.stunTime, STUN_TIME * 0.7);
-          onFeedback({ type: 'ciro_due' });
-        }
+    // Buttafuori: la postura finisce da sola e restituisce
+    if (p.stanceTime > 0) {
+      p.stanceTime -= dt;
+      if (p.stanceTime <= 0) this.endStance(p, onFeedback);
+    }
+
+    // Dottore: nessuno ti ha attaccato → ti riaddormenti, lento per un po'
+    if (p.awareTime > 0) {
+      p.awareTime -= dt;
+      if (p.awareTime <= 0) {
+        p.awareTime = 0;
+        p.drowsyTime = D.p.drowsy;
+        p.speedMult = D.p.drowsySpeed;
+        onFeedback({ type: 'dottore_drowsy' });
+      }
+    }
+    if (p.drowsyTime > 0) {
+      p.drowsyTime -= dt;
+      if (p.drowsyTime <= 0) {
+        p.drowsyTime = 0;
+        p.speedMult = 1;
+      }
+    }
+
+    // Ciro: la postura armata scade da sola (usa persa); il DEBITO scaduto viene riscosso (il gioco elimina)
+    if (p.armTime > 0) p.armTime = Math.max(0, p.armTime - dt);
+    if (p.debtTime > 0) {
+      p.debtTime -= dt;
+      if (p.debtTime <= 0) {
+        p.debtTime = 0;
+        onFeedback({ type: 'ciro_collect' });
       }
     }
   }

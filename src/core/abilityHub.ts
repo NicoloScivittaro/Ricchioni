@@ -4,6 +4,7 @@ import { abilityFor } from '../../shared/abilityCatalog';
 import type { AbilityGameId, AbilityStatus } from '../../shared/abilityCatalog';
 import { HAPTIC } from './haptics';
 import { telemetry } from './telemetry';
+import { debugEnabled } from './debug';
 
 /**
  * ABILITY HUB (host). NON simula niente: ogni minigioco resta l'unica autorita' sullo stato della propria abilita' e qui lo
@@ -188,3 +189,6 @@ class AbilityHub {
 }
 
 export const abilityHub = new AbilityHub();
+
+// Solo debug (?debug=1 o dev): maniglia per i test nel browser e per ispezionare gli stati dalla console.
+if (typeof window !== 'undefined' && debugEnabled()) (window as unknown as Record<string, unknown>).__abilityHub = abilityHub;

@@ -127,16 +127,13 @@ export interface VolleyballPlayer {
   jumpMult: number;
   hitCooldownMult: number;
 
-  // Abilità (una volta a partita)
-  abilityUsed: boolean;
-  jagerBomb: boolean; // Goblin: prossimo smash perfetto potenziato
-  muroTime: number; // Buttafuori: zona di caduta precisa
-  lightTime: number; // Dottore: salto+velocità
-  judokaCharge: boolean; // Judoka: accelerazione laterale
-  judokaTime: number; // Judoka: finestra della carica
-  deferArmed: boolean; // Ciro: salvataggio disperato
-  armTimer: number;
-  muroStableDone: boolean; // Buttafuori: prima ricezione stabile usata
+  // Abilità (cariche e stato dell'effetto: logica in volleyballAbilities.ts, numeri in shared/abilityCatalog.ts)
+  abCharges: number;
+  jagerTime: number; // Goblin: smash armato
+  muroTime: number; // Buttafuori: muro a rete
+  lucidTime: number; // Dottore: lucido (salto/corsa, smash guidato)
+  dizzyTime: number; // Dottore: dopo, gli gira la testa
+  armTime: number; // Ciro: armato (prima palla a terra rimbalza)
 
   // MVP
   points: number;
@@ -179,15 +176,12 @@ export function createVolleyballPlayer(
     speedMult: handicapped ? HANDICAP.speedMult : 1,
     jumpMult: handicapped ? HANDICAP.jumpMult : 1,
     hitCooldownMult: handicapped ? HANDICAP.hitCooldownMult : 1,
-    abilityUsed: false,
-    jagerBomb: false,
+    abCharges: 0,
+    jagerTime: 0,
     muroTime: 0,
-    lightTime: 0,
-    judokaCharge: false,
-    judokaTime: 0,
-    deferArmed: false,
-    armTimer: 0,
-    muroStableDone: false,
+    lucidTime: 0,
+    dizzyTime: 0,
+    armTime: 0,
     points: 0,
     smashes: 0,
     receives: 0,
@@ -208,7 +202,6 @@ export interface VolleyballBall {
   lastTouchId: PlayerId | null;
   teamTouches: number; // tocchi consecutivi della squadra (per MVP, non fault)
   crossedNet: boolean;
-  frozenTimer: number; // Ciro: salvataggio disperato
 }
 
 export function createBall(): VolleyballBall {
@@ -223,7 +216,6 @@ export function createBall(): VolleyballBall {
     holderId: null,
     lastTouchId: null,
     teamTouches: 0,
-    crossedNet: false,
-    frozenTimer: 0
+    crossedNet: false
   };
 }

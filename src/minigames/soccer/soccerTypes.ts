@@ -52,15 +52,8 @@ export const GOLDEN_GOAL_SECONDS = 15;
 export const INTRO_SECONDS = 3.2;
 export const GOAL_PAUSE_SECONDS = 2.2;
 
-// Abilità
-export const AIM_TIME = 5; // Buttafuori
-export const AIM_KICK_MULT = 1.3;
-export const LIGHT_TIME = 5; // Dottore
-export const LIGHT_SPEED = 1.35;
-export const CIRO_ARM_WINDOW = 4;
-export const CURVE_RATE = 1.6; // Goblin: curvatura (rad/s)
-export const JUDOKA_CHARGE_SPEED = 17;
-export const JUDOKA_CHARGE_POWER = 11;
+// Abilità: i numeri delle meccaniche stanno in shared/abilityCatalog.ts (AB.soccer); qui solo la fisica di base
+export const CURVE_RATE = 1.6; // curvatura base del tiro a giro (rad/s); il Goblin la moltiplica con AB.soccer.goblin.p.curve
 
 /**
  * Handicap della squadra in superiorità numerica (parametrico). Scelto con scripts/soccer-team-balance.ts (bot "umani", 1500 partite):
@@ -110,17 +103,16 @@ export interface SoccerPlayer {
   dashCooldownMult: number;
   /** Tackle in scivolata in corso (il dash puo' ancora rubare la palla al contatto). */
   lunge: boolean;
-  lungeCharge: boolean;
 
-  // Abilità (una volta a partita)
-  abilityUsed: boolean;
-  curveNext: boolean; // Goblin: prossimo tiro a effetto
-  aimTime: number; // Buttafuori: finestra mira
-  aimThrown: boolean;
-  lightTime: number; // Dottore: leggero/rapido
-  judokaCharge: boolean; // Judoka: carica ruba-palla
-  deferArmed: boolean; // Ciro: trattiene la palla al primo contrasto
-  armTimer: number;
+  // Abilità (cariche e stato dell'effetto: logica in soccerAbilities.ts, numeri in shared/abilityCatalog.ts)
+  abCharges: number;
+  abCooldown: number;
+  perfectTime: number; // Goblin: finestra del tiro perfetto
+  stanceTime: number; // Buttafuori: postura
+  lucidTime: number; // Dottore: finestra di lucidita'
+  slowTime: number; // Dottore: dopo, lento
+  armTime: number; // Ciro: armato (primo contrasto rimandato)
+  debtTime: number; // Ciro: debito
 
   // MVP
   goals: number;
@@ -168,15 +160,14 @@ export function createSoccerPlayer(
     kickMult: handicapped ? HANDICAP.kickMult : 1,
     dashCooldownMult: handicapped ? HANDICAP.dashCooldownMult : 1,
     lunge: false,
-    lungeCharge: false,
-    abilityUsed: false,
-    curveNext: false,
-    aimTime: 0,
-    aimThrown: false,
-    lightTime: 0,
-    judokaCharge: false,
-    deferArmed: false,
-    armTimer: 0,
+    abCharges: 0,
+    abCooldown: 0,
+    perfectTime: 0,
+    stanceTime: 0,
+    lucidTime: 0,
+    slowTime: 0,
+    armTime: 0,
+    debtTime: 0,
     goals: 0,
     assists: 0,
     tackles: 0,
@@ -194,9 +185,11 @@ export interface SoccerBall {
   lastKickerId: PlayerId | null;
   prevKickerId: PlayerId | null;
   curve: number; // tasso di curvatura residuo (Goblin)
+  /** chi ha calciato con un'ABILITA' (tiro perfetto / intuizione): se e' gol, e' un successo dell'abilita' */
+  abilityKickerId: PlayerId | null;
   freeGrace: number; // dopo un tiro, la palla non è raccoglibile per un attimo
 }
 
 export function createBall(): SoccerBall {
-  return { x: 0, z: 0, vx: 0, vz: 0, ownerId: null, lastKickerId: null, prevKickerId: null, curve: 0, freeGrace: 0 };
+  return { x: 0, z: 0, vx: 0, vz: 0, ownerId: null, lastKickerId: null, prevKickerId: null, curve: 0, abilityKickerId: null, freeGrace: 0 };
 }

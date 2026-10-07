@@ -38,6 +38,8 @@ import {
   PARRY_RADIUS,
   REFLECT_SPEED_MULT,
   AIM_THROW_SPEED_MULT,
+  VISION_DODGE_CD_MULT,
+  VISION_INVULN_MULT,
   AIM_BOUNCE_DAMP,
   TRUCK_SPEED,
   TRUCK_PICKUP_RADIUS,
@@ -55,7 +57,8 @@ import { ArenaHud } from '../arena/arenaHud';
 import { buildDodgeballEnvironment } from './dodgeballEnvironment';
 import { registerEnvScene } from '../env/envDebug';
 import { DodgeballAbilities } from './dodgeballAbilities';
-import type { DodgeballAbilityFeedback } from './dodgeballAbilities';
+import type { DodgeballAbilityFeedback, DodgeballPressResult } from './dodgeballAbilities';
+import { abilityHub } from '../../core/abilityHub';
 import { readMove } from '../moveInput';
 import { DODGEBALL_ABILITIES } from '../../../shared/dodgeballAbilities';
 import { abilityLabel, winnerFeed } from '../characters/reactions';
@@ -91,6 +94,7 @@ export class BabylonDodgeballGame {
   private camera: ArenaCamera;
   private hud: ArenaHud;
   private abilities: DodgeballAbilities;
+  private unsubAbility: () => void = () => undefined;
   private order: PlayerId[];
 
   private aimDots: Mesh[] = [];
@@ -152,6 +156,8 @@ export class BabylonDodgeballGame {
     dotTex.update();
 
     this.abilities = new DodgeballAbilities();
+    abilityHub.begin('dodgeball', ctx);
+    this.unsubAbility = abilityHub.onStatus((id, st) => this.hud.setAbility(id, st));
 
     // Pallini di traiettoria (mira Buttafuori + visione Dottore)
     this.aimMat = new StandardMaterial('aimMat', this.scene);
@@ -184,6 +190,7 @@ export class BabylonDodgeballGame {
     const n = this.order.length;
     ctx.players.forEach((snap, i) => {
       const p = createDodgeballPlayer(snap.id, snap.characterId, snap.color, snap.avatar, snap.name);
+      this.abilities.init(p);
       const t = n > 1 ? -1 + (2 * i) / (n - 1) : 0;
       p.x = t * (ARENA_HALF_W - 3);
       p.z = ARENA_HALF_D - 2;
@@ -294,6 +301,7 @@ export class BabylonDodgeballGame {
     this.syncBallMeshes(now);
     this.shocks.update(dt);
     this.updateTrajectories(now);
+    for (const p of this.players) abilityHub.setStatus(p.id, this.abilities.status(p)); // HUD + Companion Card (solo presentazione)
     this.camera.update(dt, this.players, now);
     this.env.update(now);
 
@@ -379,8 +387,11 @@ export class BabylonDodgeballGame {
       p.dodgeTime = DODGE_TIME;
       dodging = true; // vale gia' in QUESTO passo: prima la velocita' del dash veniva subito tagliata al tetto di corsa (9 invece di 16)
       p.dashing = true;
-      p.dodgeCooldown = DODGE_COOLDOWN;
-      p.invulnTime = DODGE_INVULN;
+      // TRE MESI DOPO (Dottore): mentre vede le traiettorie la schivata si ricarica subito e protegge piu' a lungo
+      const lucid = p.characterId === 'dottore' && p.visionTime > 0;
+      p.dodgeCooldown = DODGE_COOLDOWN * (lucid ? VISION_DODGE_CD_MULT : 1);
+      p.invulnTime = DODGE_INVULN * (lucid ? VISION_INVULN_MULT : 1);
+      if (lucid) abilityHub.impact(p.id, 'schivate lucide');
       p.vx = dirX * DODGE_SPEED;
       p.vz = dirZ * DODGE_SPEED;
       audio.dodge(this.pan(p.x));
@@ -388,11 +399,12 @@ export class BabylonDodgeballGame {
       this.ctx.signal(p.id, { type: 'dodged', cooldownMs: Math.round(DODGE_COOLDOWN * 1000) });
     }
 
-    // Abilità
-    if (!stunned && input.justPressed('ability')) {
+    // Abilità (premuta ma non partita: avviso privato, mai silenzio)
+    if (input.justPressed('ability')) {
       const dirX = mag > 0.15 ? ax : Math.sin(p.facing);
       const dirZ = mag > 0.15 ? az : Math.cos(p.facing);
-      this.abilities.onAbilityPress(p, dirX, dirZ, (f) => this.onAbilityFeedback(p, f));
+      const res: DodgeballPressResult = stunned ? 'busy' : this.abilities.onAbilityPress(p, dirX, dirZ, (f) => this.onAbilityFeedback(p, f));
+      if (res !== 'ok') abilityHub.failed(p.id, res === 'cooldown' ? 'IN RICARICA' : res === 'spent' ? 'ESAURITA' : 'NON ORA');
     }
 
     // Tiro (palloni del camion O palla normale)
@@ -1034,7 +1046,10 @@ export class BabylonDodgeballGame {
   // ---- Feedback abilità ----
 
   private onAbilityFeedback(p: DodgeballPlayer, f: DodgeballAbilityFeedback): void {
-    if (DODGEBALL_ACTIVATIONS.has(f.type)) this.entities.get(p.id)?.playAbility(abilityLabel(DODGEBALL_ABILITIES, p.characterId));
+    if (DODGEBALL_ACTIVATIONS.has(f.type)) {
+      this.entities.get(p.id)?.playAbility(abilityLabel(DODGEBALL_ABILITIES, p.characterId));
+      abilityHub.activated(p.id);
+    }
     switch (f.type) {
       case 'goblin_parry':
         this.hud.feedMessage(`${p.avatar} N'CULO, RIPIGLIATELA!`, '#10b981');
@@ -1043,10 +1058,12 @@ export class BabylonDodgeballGame {
         this.ctx.vibrate(p.id, 60);
         break;
       case 'goblin_reflect':
+        abilityHub.succeeded(p.id, 'palle rimandate');
         this.hud.feedMessage(`${p.avatar} RIPIGLIATELA! → rimandata!`, '#10b981');
         this.ctx.signal(p.id, { type: 'parry_ok' });
         break;
       case 'goblin_whiff':
+        abilityHub.wasted(p.id);
         this.ctx.signal(p.id, { type: 'parry_miss' });
         break;
       case 'buttafuori_aim':
@@ -1056,6 +1073,7 @@ export class BabylonDodgeballGame {
         this.ctx.vibrate(p.id, 70);
         break;
       case 'buttafuori_charged':
+        abilityHub.succeeded(p.id, 'tiri da poligono');
         this.ctx.signal(p.id, { type: 'charged' });
         audio.boost();
         break;
@@ -1066,6 +1084,7 @@ export class BabylonDodgeballGame {
         this.ctx.vibrate(p.id, 70);
         break;
       case 'dottore_hit_anyway':
+        abilityHub.wasted(p.id);
         this.hud.feedMessage(`${p.avatar} ERA SOLO UN PERIODO.`, '#22d3ee');
         this.ctx.signal(p.id, { type: 'era_solo' });
         break;
@@ -1080,10 +1099,12 @@ export class BabylonDodgeballGame {
         audio.boost();
         break;
       case 'judoka_scarica':
+        abilityHub.succeeded(p.id, 'consegne');
         this.hud.feedMessage(`${p.avatar} SCARICA!`, '#facc15');
         this.ctx.signal(p.id, { type: 'scarica' });
         break;
       case 'judoka_wall':
+        abilityHub.wasted(p.id);
         this.hud.feedMessage(`${p.avatar} CONSEGNA FALLITA 💀`, '#f87171');
         this.ctx.signal(p.id, { type: 'truck_fail' });
         audio.hit();
@@ -1096,17 +1117,20 @@ export class BabylonDodgeballGame {
         this.ctx.vibrate(p.id, 70);
         break;
       case 'ciro_debt':
+        abilityHub.impact(p.id, 'colpi trasformati in debito');
         this.hud.feedMessage(`${p.avatar} DEBITO! Colpisci qualcuno!`, '#a78bfa');
         this.ctx.signal(p.id, { type: 'debt' });
         audio.hit();
         this.ctx.vibrate(p.id, 110);
         break;
       case 'ciro_debt_cancelled':
+        abilityHub.succeeded(p.id, 'debiti saldati');
         this.hud.feedMessage(`${p.avatar} DEBITO SALDATO!`, '#4ade80');
         this.ctx.signal(p.id, { type: 'debt_ok' });
         audio.select();
         break;
       case 'ciro_debt_due':
+        abilityHub.wasted(p.id);
         this.hud.feedMessage(`${p.avatar} ESATTORE! DEBITO RISCOSSO 💀`, '#f472b6');
         this.ctx.signal(p.id, { type: 'debt_due' });
         audio.wrong();
@@ -1176,6 +1200,8 @@ export class BabylonDodgeballGame {
     if (this.disposed) return;
     this.disposed = true;
     window.removeEventListener('resize', this.onResize);
+    this.unsubAbility();
+    abilityHub.end(); // statistiche del round + card spenta sui telefoni
     safely('entities', () => {
       for (const e of this.entities.values()) e.dispose();
     });

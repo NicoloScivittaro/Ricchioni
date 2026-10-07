@@ -17,6 +17,11 @@ import { setGameIntensity } from '../../core/musicDirector';
 import { responseCurve } from '../../input/padMath';
 import type { BabylonFpsGame, FpsLocalPlayer, FpsRenderSnapshot } from './BabylonFpsGame';
 import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
+import { AB, stateLabel } from '../../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../../shared/abilityCatalog';
+import { abilityHub } from '../../core/abilityHub';
+import { FpsAbilities, FPS_MAX_HP } from './fpsAbilities';
+import type { FpsAbilityFeedback } from './fpsAbilities';
 
 /**
  * MIRA COL CONTROLLER (Milestone 6.1) — TUTTI i parametri della mira in un solo posto, per poterli ritoccare
@@ -60,7 +65,7 @@ const DASH_TIME = 0.18;
 const DASH_COOLDOWN = 4;
 const RESPAWN_TIME = 2.5;
 const SPAWN_PROTECTION = 1.5;
-const MAX_HP = 100;
+const MAX_HP = FPS_MAX_HP; // stesso valore usato dalle abilita' (giubbotto, debito)
 // Layout host (1280x720): intestazione in alto, radar a sinistra (sotto l'intestazione), classifica live a destra.
 const RADAR_SCALE = 10; // px per unita' mondo
 const RADAR_CX = 460;
@@ -102,6 +107,20 @@ interface FpsPlayer {
   bag: string[];
   burstLeft: number;
   burstTimer: number;
+  characterId: string | null;
+  // ABILITA' (cariche, ricarica e stato dell'effetto: logica in fpsAbilities.ts, numeri in shared/abilityCatalog.ts)
+  abCharges: number;
+  abCd: number;
+  buffShots: number; // Goblin: colpi rimasti col danno extra
+  guardTime: number; // Buttafuori: giubbotto
+  guardAbsorbed: number; // Buttafuori: danno assorbito, in parte restituito come vita
+  wallTime: number; // Dottore: vede tutti
+  drowsyTime: number; // Dottore: dopo, la mira trema
+  armTime: number; // Ciro: armato
+  debtTime: number; // Ciro: debito (resta a 1 di vita)
+  lockTime: number; // Judoka (subito): non puoi sparare ne' ricaricare
+  stunTime: number; // Judoka IPPON (subito): a terra, non ti muovi
+  abKills: number; // kill fatte durante la finestra dell'abilita' (statistica)
 }
 
 /** Proiettile lento (bombarda): esplode dopo il tempo di volo nel punto d'impatto calcolato allo sparo. */
@@ -128,6 +147,7 @@ export class FpsScene extends Phaser.Scene {
   private radarTags: Phaser.GameObjects.Text[] = [];
   private radarNames: Phaser.GameObjects.Text[] = [];
   private blasts: Blast[] = [];
+  private fpsAb = new FpsAbilities();
   private clock = 0; // secondi di gioco (tempi di esplosione)
 
   /** false finche' la schermata CONTROLLI (chi ha il controller) e' visibile: vedi update(). */
@@ -202,9 +222,24 @@ export class FpsScene extends Phaser.Scene {
         firing: false,
         bag: [],
         burstLeft: 0,
-        burstTimer: 0
+        burstTimer: 0,
+        characterId: snap.characterId,
+        abCharges: 0,
+        abCd: 0,
+        buffShots: 0,
+        guardTime: 0,
+        guardAbsorbed: 0,
+        wallTime: 0,
+        drowsyTime: 0,
+        armTime: 0,
+        debtTime: 0,
+        lockTime: 0,
+        stunTime: 0,
+        abKills: 0
       });
     });
+    abilityHub.begin('fps', this.ctx);
+    for (const p of this.players) this.fpsAb.init(p);
 
     for (const p of this.players) this.equipNext(p); // prima arma di ognuno (dal sacchetto)
 
@@ -238,6 +273,7 @@ export class FpsScene extends Phaser.Scene {
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.disposeSplitScreen, this);
     this.events.once(Phaser.Scenes.Events.DESTROY, this.disposeSplitScreen, this);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => abilityHub.end());
   }
 
   private async bootSplitScreen(locals: FpsLocalPlayer[]): Promise<void> {
@@ -287,7 +323,13 @@ export class FpsScene extends Phaser.Scene {
       kills: p.kills,
       weaponId: p.weaponId,
       magazine: p.magazine,
-      reloading: p.reloading
+      reloading: p.reloading,
+      ability: this.fpsAb.status(p, getWeapon(p.weaponId)),
+      guard: p.guardTime > 0,
+      wall: p.wallTime > 0,
+      locked: p.lockTime > 0 || p.stunTime > 0,
+      reloadFrac: p.reloading ? Math.max(0, Math.min(1, 1 - p.reloadTimer / getWeapon(p.weaponId).reload)) : 0,
+      sweetFrom: p.characterId === 'goblin' ? AB.fps.goblin.p.from : null
     };
   }
 
@@ -338,6 +380,7 @@ export class FpsScene extends Phaser.Scene {
       this.stepBlasts();
     }
 
+    for (const q of this.players) abilityHub.setStatus(q.id, this.fpsAb.status(q, getWeapon(q.weaponId))); // HUD + Companion Card (solo presentazione)
     this.renderRadar();
     this.renderBoard();
     if (this.splitScreen) this.splitScreen.update(dt, this.players.map((p) => this.toRenderSnapshot(p)));
@@ -360,6 +403,10 @@ export class FpsScene extends Phaser.Scene {
     p.fireCooldown = Math.max(0, p.fireCooldown - dt);
     p.dashCooldown = Math.max(0, p.dashCooldown - dt);
     p.spawnProtection = Math.max(0, p.spawnProtection - dt);
+    this.fpsAb.update(p, dt, (f) => this.onAbilityFeedback(p, f));
+    if (!p.alive) return; // l'esattore di Ciro puo' averlo appena eliminato
+    const stunned = p.stunTime > 0; // IPPON del Judoka: a terra, non muove ne' spara
+    const noFire = stunned || p.lockTime > 0; // NO, ASPETTA!: niente spari e niente ricarica
 
     // Reload
     if (p.reloading) {
@@ -371,7 +418,12 @@ export class FpsScene extends Phaser.Scene {
     }
 
     const input = this.ctx.input.get(p.id);
-    const mv = input.axis('move');
+    // ABILITA' (premuta ma non partita: avviso privato, mai silenzio)
+    if (input.justPressed('ability')) {
+      const res = this.fpsAb.onAbilityPress(p, weapon, this.players, (f) => this.onAbilityFeedback(p, f));
+      if (res !== 'ok') abilityHub.failed(p.id, res === 'cooldown' ? 'IN RICARICA' : res === 'spent' ? 'ESAURITA' : res === 'notreloading' ? 'RICARICA PRIMA' : res === 'nobody' ? 'NESSUNO DAVANTI' : 'NON ORA');
+    }
+    const mv = stunned ? { x: 0, y: 0 } : input.axis('move');
     // Movimento relativo alla visuale (yaw): su = avanti, destra = strafe destra.
     const forwardIn = -mv.y; // joystick su (y negativo) = avanti
     const strafeIn = mv.x; // destra = strafe destra
@@ -407,7 +459,7 @@ export class FpsScene extends Phaser.Scene {
     }
 
     // Dash
-    if (input.justPressed('dash') && p.dashCooldown <= 0 && p.dashTime <= 0) {
+    if (!stunned && input.justPressed('dash') && p.dashCooldown <= 0 && p.dashTime <= 0) {
       p.dashTime = DASH_TIME;
       p.dashCooldown = DASH_COOLDOWN;
       p.dashDirX = mag > 0.15 ? ax : Math.sin(p.yaw);
@@ -422,8 +474,9 @@ export class FpsScene extends Phaser.Scene {
       p.x += p.dashDirX * DASH_SPEED * dt;
       p.z += p.dashDirZ * DASH_SPEED * dt;
     } else if (mag > 0.15) {
-      p.x += ax * PLAYER_SPEED * weapon.movementModifier * dt;
-      p.z += az * PLAYER_SPEED * weapon.movementModifier * dt;
+      const sp = PLAYER_SPEED * weapon.movementModifier * this.fpsAb.speedFactor(p);
+      p.x += ax * sp * dt;
+      p.z += az * sp * dt;
     }
 
     const res = resolveCollisions(p.x, p.z, PLAYER_RADIUS, FPS_MAP.obstacles);
@@ -433,9 +486,10 @@ export class FpsScene extends Phaser.Scene {
     p.z = Math.max(-FPS_MAP.halfSize + PLAYER_RADIUS, Math.min(FPS_MAP.halfSize - PLAYER_RADIUS, p.z));
 
     // Ricarica manuale (pulsante): serve per non restare a secco nel momento sbagliato
-    if (input.justPressed('reload') && !p.reloading && p.magazine < weapon.magazine) this.startReload(p, weapon);
+    if (!noFire && input.justPressed('reload') && !p.reloading && p.magazine < weapon.magazine) this.startReload(p, weapon);
 
     // Raffica in corso: i colpi successivi partono a intervalli fissi
+    if (noFire) p.burstLeft = 0;
     if (p.burstLeft > 0) {
       p.burstTimer -= dt;
       if (p.burstTimer <= 0) {
@@ -450,7 +504,7 @@ export class FpsScene extends Phaser.Scene {
     }
 
     // Spara (hold)
-    p.firing = input.pressed('fire');
+    p.firing = !noFire && input.pressed('fire');
     if (p.firing && p.fireCooldown <= 0 && !p.reloading && p.burstLeft <= 0) {
       if (p.magazine > 0) {
         const burst = weapon.burst ?? 1;
@@ -465,7 +519,7 @@ export class FpsScene extends Phaser.Scene {
   }
 
   private startReload(p: FpsPlayer, weapon: WeaponConfig): void {
-    if (p.reloading) return;
+    if (p.reloading || p.lockTime > 0 || p.stunTime > 0) return;
     p.reloading = true;
     p.reloadTimer = weapon.reload;
     p.burstLeft = 0;
@@ -509,11 +563,13 @@ export class FpsScene extends Phaser.Scene {
     const oy = EYE_HEIGHT;
     const oz = p.z;
     const pellets = weapon.pellets ?? 1;
+    const spread = weapon.spread * this.fpsAb.spreadFactor(p); // Dottore dopo M'HO SVEJATO: la mira trema
+    const dmgMult = this.fpsAb.damageFactor(p); // Goblin dopo la ricarica perfetta: piu' danno
     const damageBy = new Map<FpsPlayer, number>(); // un solo hit/danno per bersaglio per colpo, anche con 8 pallini
     for (let i = 0; i < pellets; i++) {
       // Dispersione
-      const yaw = p.yaw + (Math.random() - 0.5) * 2 * weapon.spread;
-      const pitch = p.pitch + (Math.random() - 0.5) * 2 * weapon.spread;
+      const yaw = p.yaw + (Math.random() - 0.5) * 2 * spread;
+      const pitch = p.pitch + (Math.random() - 0.5) * 2 * spread;
       const dx = Math.sin(yaw) * Math.cos(pitch);
       const dy = Math.sin(pitch);
       const dz = Math.cos(yaw) * Math.cos(pitch);
@@ -536,9 +592,9 @@ export class FpsScene extends Phaser.Scene {
       }
 
       if (weapon.splashRadius > 0) {
-        this.launchBlast(p, weapon, ox, oy, oz, dx, dy, dz, bestT);
+        this.launchBlast(p, weapon, ox, oy, oz, dx, dy, dz, bestT, dmgMult);
       } else if (hitPlayer) {
-        damageBy.set(hitPlayer, (damageBy.get(hitPlayer) ?? 0) + weapon.damage);
+        damageBy.set(hitPlayer, (damageBy.get(hitPlayer) ?? 0) + weapon.damage * dmgMult);
       }
       segs.push({ ox, oy, oz, ex: ox + dx * bestT, ey: oy + dy * bestT, ez: oz + dz * bestT });
     }
@@ -546,18 +602,19 @@ export class FpsScene extends Phaser.Scene {
     this.splitScreen?.notifyShot(p.id, weapon.id, segs);
 
     let connected = false;
-    for (const [victim, dmg] of damageBy) if (this.applyDamage(victim, dmg, p)) connected = true;
+    for (const [victim, dmg] of damageBy) if (this.applyDamage(victim, Math.round(dmg), p)) connected = true;
     if (connected) p.shotsHit++;
+    this.fpsAb.onShotFired(p); // Goblin: un colpo del bonus in meno
     if (p.magazine <= 0) this.startReload(p, weapon); // caricatore vuoto: ricarica automatica
   }
 
   /** Bombarda: il proiettile vola (visibile sui telefoni) e la SUA esplosione fa danno ad area nel punto calcolato allo sparo. */
-  private launchBlast(p: FpsPlayer, weapon: WeaponConfig, ox: number, oy: number, oz: number, dx: number, dy: number, dz: number, t: number): void {
+  private launchBlast(p: FpsPlayer, weapon: WeaponConfig, ox: number, oy: number, oz: number, dx: number, dy: number, dz: number, t: number, dmgMult = 1): void {
     const tx = ox + dx * t;
     const ty = Math.max(0.2, oy + dy * t);
     const tz = oz + dz * t;
     const dur = t / (weapon.projectileSpeed || 20);
-    this.blasts.push({ x: tx, y: ty, z: tz, at: this.clock + dur, owner: p.id, dmg: weapon.damage, radius: weapon.splashRadius });
+    this.blasts.push({ x: tx, y: ty, z: tz, at: this.clock + dur, owner: p.id, dmg: weapon.damage * dmgMult, radius: weapon.splashRadius });
     this.ctx.signal(null, { type: 'proj', ox, oy: oy - 0.25, oz, tx, ty, tz, dur });
   }
 
@@ -583,9 +640,18 @@ export class FpsScene extends Phaser.Scene {
   /** Applica il danno; ritorna false se non e' stato inflitto (bersaglio protetto). L'hit al tiratore parte SOLO da qui: conferma reale. */
   private applyDamage(target: FpsPlayer, damage: number, source: FpsPlayer): boolean {
     if (!target.alive || target.spawnProtection > 0) return false;
+    // BUTTAFUORI: il giubbotto assorbe parte del danno (che poi in parte torna come vita)
+    const taken = this.fpsAb.reduceDamage(target, damage);
+    damage = taken;
     target.hp -= damage;
     source.damageDealt += damage;
     this.ctx.signal(target.id, { type: 'damaged', amount: damage, from: source.id });
+    // CIRO: il colpo che ti ucciderebbe diventa un debito (resti a 1 di vita) se avevi armato PAGO DOMANI
+    if (target.hp <= 0 && this.fpsAb.rescue(target, (f) => this.onAbilityFeedback(target, f))) {
+      target.hp = 1;
+      this.ctx.signal(source.id, { type: 'hit', dmg: damage, kill: false });
+      return true;
+    }
     this.ctx.signal(source.id, { type: 'hit', dmg: damage, kill: target.hp <= 0 });
     if (target.hp <= 0) this.kill(target, source);
     return true;
@@ -597,11 +663,78 @@ export class FpsScene extends Phaser.Scene {
     target.respawnTimer = RESPAWN_TIME;
     target.deaths++;
     killer.kills++;
+    this.fpsAb.onKill(killer, (f) => this.onAbilityFeedback(killer, f), (hp) => (killer.hp = Math.min(MAX_HP, killer.hp + hp)));
+    this.fpsAb.onDeath(target); // le finestre aperte non sopravvivono alla morte (le cariche restano com'erano)
     audio.wrong();
     this.ctx.vibrate(target.id, HAPTIC.HEAVY);
     this.ctx.vibrate(killer.id, HAPTIC.SUCCESS);
     this.ctx.signal(target.id, { type: 'eliminated', by: killer.id });
     this.ctx.signal(killer.id, { type: 'killed', name: target.name });
+  }
+
+  /** Esiti delle abilita' (i numeri e il perche' sono in fpsAbilities.ts): qui feedback, statistiche e consegna ai telefoni. */
+  private onAbilityFeedback(p: FpsPlayer, f: FpsAbilityFeedback): void {
+    const name = AB.fps[(p.characterId ?? 'goblin') as keyof typeof AB.fps].name;
+    switch (f.type) {
+      case 'activated':
+        abilityHub.activated(p.id);
+        this.ctx.signal(p.id, { type: 'abilityFx', name });
+        break;
+      case 'perfect_reload':
+        abilityHub.succeeded(p.id, 'ricariche perfette');
+        audio.boost();
+        this.ctx.vibrate(p.id, HAPTIC.MEDIUM);
+        break;
+      case 'early_reload':
+        abilityHub.wasted(p.id);
+        break;
+      case 'guard_end':
+        if (f.healed > 0) abilityHub.succeeded(p.id, 'vita restituita', Math.round(f.healed));
+        else abilityHub.wasted(p.id);
+        break;
+      case 'shove': {
+        abilityHub.succeeded(p.id, f.ippon ? 'IPPON' : 'interruzioni', f.hit);
+        this.splitScreen?.notifyShove(p.id, p.x, p.z, p.yaw);
+        audio.hit();
+        break;
+      }
+      case 'wall_end':
+        abilityHub.impact(p.id, 'kill mentre vedeva', f.kills);
+        if (f.kills === 0) abilityHub.wasted(p.id);
+        break;
+      case 'debt_start':
+        abilityHub.impact(p.id, 'morti evitate');
+        audio.thump(0.9);
+        this.ctx.vibrate(p.id, HAPTIC.HEAVY);
+        break;
+      case 'debt_paid':
+        abilityHub.succeeded(p.id, 'debiti saldati');
+        audio.go();
+        break;
+      case 'debt_collect':
+        abilityHub.wasted(p.id);
+        this.collectDebt(p);
+        break;
+      case 'buff_kill':
+        abilityHub.impact(p.id, 'kill col bonus');
+        break;
+      case 'arm_expired':
+        abilityHub.wasted(p.id);
+        break;
+    }
+  }
+
+  /** L'esattore: il debito di Ciro scade e muore (senza regalare una kill a nessuno). */
+  private collectDebt(p: FpsPlayer): void {
+    if (!p.alive) return;
+    p.hp = 0;
+    p.alive = false;
+    p.respawnTimer = RESPAWN_TIME;
+    p.deaths++;
+    this.fpsAb.onDeath(p);
+    audio.wrong();
+    this.ctx.vibrate(p.id, HAPTIC.HEAVY);
+    this.ctx.signal(p.id, { type: 'eliminated', by: 'ESATTORE' });
   }
 
   private respawn(p: FpsPlayer): void {
@@ -613,6 +746,7 @@ export class FpsScene extends Phaser.Scene {
     p.hp = MAX_HP;
     p.alive = true;
     p.spawnProtection = SPAWN_PROTECTION;
+    this.fpsAb.onDeath(p);
     this.equipNext(p); // a ogni vita un'arma diversa
     this.ctx.signal(p.id, { type: 'respawn' });
   }
@@ -639,7 +773,11 @@ export class FpsScene extends Phaser.Scene {
         firing: p.firing,
         magazine: p.magazine,
         reloading: p.reloading,
-        dashing: p.dashTime > 0
+        dashing: p.dashTime > 0,
+        ability: this.fpsAb.status(p, getWeapon(p.weaponId)),
+        guard: p.guardTime > 0,
+        wall: p.wallTime > 0,
+        locked: p.lockTime > 0 || p.stunTime > 0
       }))
     });
   }
@@ -709,7 +847,8 @@ export class FpsScene extends Phaser.Scene {
       const row = this.rankTexts[i];
       if (!row) return;
       const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}°`;
-      const t = `${medal} ${p.avatar} ${p.name} ${getWeapon(p.weaponId).icon}${p.alive ? '' : '  💀'}\n      ${p.kills} kill · ${p.deaths} morti`;
+      const ab = this.fpsAb.status(p, getWeapon(p.weaponId));
+      const t = `${medal} ${p.avatar} ${p.name} ${getWeapon(p.weaponId).icon}${p.alive ? '' : '  💀'}\n      ${p.kills} kill · ${p.deaths} morti · ⚡ ${stateLabel(ab)}`;
       if (row.text !== t) row.setText(t);
       row.setColor(p.color);
     });
@@ -739,6 +878,7 @@ export class FpsScene extends Phaser.Scene {
       deaths: this.players.reduce((a, p) => a + p.deaths, 0),
       accuracyPct: Math.round((this.players.reduce((a, p) => a + p.shotsHit, 0) / Math.max(1, this.players.reduce((a, p) => a + p.shotsFired, 0))) * 100)
     });
+    abilityHub.end();
     this.ctx.signal(null, { type: 'fpsEnd', players: sorted.map((p) => ({ id: p.id, name: p.name, kills: p.kills, deaths: p.deaths })) });
     this.ctx.finish({ results });
   }

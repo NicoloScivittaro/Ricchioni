@@ -56,7 +56,7 @@ console.log('=== TEST 1: GOBLIN — SO GUIDARE IO (drift boost potenziato, annul
   assert(!k.abilityActive && k.driftBoostMultiplier === 1, 'la finestra scade naturalmente dopo la durata prevista');
 }
 
-console.log('\n=== TEST 2: BUTTAFUORI — RIBALTATO MA NON MORTO (recupero automatico, 1 volta a gara) ===');
+console.log('\n=== TEST 2: BUTTAFUORI — RIBALTATO MA NON MORTO (REATTIVA: premi nella finestra dopo lo schianto, 1 volta a gara) ===');
 {
   const abilities = new CharacterAbilities();
   const k = createKartState('p0' as PlayerId, 'buttafuori', '#fff', '🥊');
@@ -66,18 +66,36 @@ console.log('\n=== TEST 2: BUTTAFUORI — RIBALTATO MA NON MORTO (recupero autom
   const { events, onFeedback } = collectFeedback();
 
   assert(k.abilityCharges === 1, 'Buttafuori parte con 1 carica fissa (non legata alla barra)');
+  assert(abilities.onAbilityPress(k, [k], onFeedback, flatAngle) === 'busy', 'premere senza uno schianto NON fa niente e non consuma la carica');
+  assert(k.abilityCharges === 1, 'la carica resta intatta se non c\'e\' niente da recuperare');
+
   abilities.update(0.016, k, [k], false, true, flatAngle, onFeedback); // respawnTriggeredThisFrame = true
-  assert(k.abilityCharges === 0, 'la carica viene consumata automaticamente al recupero');
+  assert(k.abilityCharges === 1 && k.distance === 5, 'lo schianto NON lo recupera piu\' da solo: apre solo la finestra');
+  assert(k.recoverWindow > 0 && events.some((e) => e.type === 'buttafuori_window'), 'si apre la finestra "PREMI ABILITÀ"');
+  assert(abilities.status(k).state === 'ACTIVE' && abilities.status(k).note === 'PREMI ORA!', 'lo stato pubblicato dice PREMI ORA!');
+
+  const res = abilities.onAbilityPress(k, [k], onFeedback, flatAngle);
+  assert(res === 'ok' && k.abilityCharges === 0, 'premendo nella finestra la carica viene consumata');
   assert(k.distance === 42 && k.speed >= 0, 'il kart torna subito in pista (respawn immediato, non dopo il countdown)');
   assert(k.boostTimer > 0, 'riceve un breve recovery boost');
   assert(events.some((e) => e.type === 'buttafuori_recovery'), '"RIBALTATO MA NON MORTO!" mostrato');
+  assert(k.recoverWindow === 0, 'la finestra si chiude dopo l\'uso');
 
-  // Con la carica esaurita, un secondo schianto grave non fa più nulla.
-  const distanceBefore = k.distance;
+  // Con la carica esaurita, un secondo schianto grave non apre piu' niente.
   k.distance = 5;
   abilities.update(0.016, k, [k], false, true, flatAngle, onFeedback);
-  assert(k.distance === 5, 'senza cariche residue un secondo schianto NON attiva più il recupero automatico');
-  void distanceBefore;
+  assert(k.recoverWindow === 0 && k.distance === 5, 'senza cariche residue un secondo schianto NON apre piu\' la finestra');
+  assert(abilities.onAbilityPress(k, [k], onFeedback, flatAngle) === 'spent', 'premere senza cariche: ESAURITA');
+}
+{
+  // finestra persa: nessuna carica consumata, si rialza come tutti
+  const abilities = new CharacterAbilities();
+  const k = createKartState('p0' as PlayerId, 'buttafuori', '#fff', '🥊');
+  const { events, onFeedback } = collectFeedback();
+  abilities.update(0.016, k, [k], false, true, flatAngle, onFeedback);
+  abilities.update(5, k, [k], false, false, flatAngle, onFeedback);
+  assert(k.recoverWindow === 0 && k.abilityCharges === 1, 'se non premi entro la finestra la carica NON si consuma');
+  assert(events.some((e) => e.type === 'buttafuori_missed'), 'finestra persa segnalata (solo statistica)');
 }
 
 console.log('\n=== TEST 3: DOTTORE — 20 KG IN UN MESE (leggerissimo: accelera meglio, deriva facile) ===');
@@ -94,40 +112,35 @@ console.log('\n=== TEST 3: DOTTORE — 20 KG IN UN MESE (leggerissimo: accelera 
   assert(!k.lightMode && k.accelMultiplier === 1 && k.driftChargeRateMultiplier === 1, "l'effetto rientra da solo alla scadenza");
 }
 
-console.log("\n=== TEST 4: JUDOKA — MI SO' CADUTI GLI OCCHIALI! (rallenta i rivali, verifica il sorpasso) ===");
+console.log('\n=== TEST 4: JUDOKA — CARICO E SCARICO (camion: sterza peggio, non perde velocita\' negli urti) ===');
 {
   const abilities = new CharacterAbilities();
-  const attacker = createKartState('p0' as PlayerId, 'judoka', '#fff', '🥋');
-  const rival = createKartState('p1' as PlayerId, null, '#000', '🎮');
-  rival.distance = attacker.distance + 4; // rivale vicino, davanti
+  const k = createKartState('p0' as PlayerId, 'judoka', '#fff', '🥋');
   const { events, onFeedback } = collectFeedback();
 
-  attacker.abilityMeter = 1;
-  abilities.onAbilityPress(attacker, [attacker, rival], onFeedback);
-  assert(attacker.judokaPending, "l'attivazione mette Judoka in attesa dell'esito");
-  assert(rival.speedCapMultiplier < 1 && rival.speedCapTimer > 0, 'il rivale vicino viene rallentato temporaneamente');
+  assert(abilities.onAbilityPress(k, [k], onFeedback) === 'notready', 'a barra vuota: BARRA NON PIENA, niente parte');
+  k.abilityMeter = 1;
+  assert(abilities.status(k).state === 'READY', 'barra piena: PRONTA');
+  abilities.onAbilityPress(k, [k], onFeedback);
+  assert(k.truckMode && k.steerMultiplier < 1 && k.abilityActive, 'a barra piena diventa un camion (sterza peggio)');
   assert(events.some((e) => e.type === 'judoka_activate'), 'annuncio di attivazione mostrato subito');
+  assert(abilities.status(k).state === 'ACTIVE', 'lo stato pubblicato e\' ATTIVA');
 
-  // Caso A: Judoka lo supera davvero entro la finestra -> nessuna penalità.
-  attacker.distance = rival.distance + 1;
-  abilities.update(10, attacker, [attacker, rival], false, false, flatAngle, onFeedback);
-  assert(!attacker.judokaPending, 'il tentativo si risolve dopo la finestra');
-  assert(events.some((e) => e.type === 'judoka_success'), 'sorpasso riuscito: nessuna penalità');
-  assert(attacker.stunTimer === 0, 'nessuna penalità se il sorpasso riesce');
+  // Uno schianto ferma il camion
+  k.stunTimer = 0.4;
+  abilities.update(0.016, k, [k], true, false, flatAngle, onFeedback);
+  assert(!k.truckMode && k.steerMultiplier === 1, 'uno schianto ferma il camion e rimette lo sterzo normale');
+  assert(events.some((e) => e.type === 'judoka_fail'), 'avviso "camion fermo"');
 }
 {
   const abilities = new CharacterAbilities();
-  const attacker = createKartState('p0' as PlayerId, 'judoka', '#fff', '🥋');
-  const rival = createKartState('p1' as PlayerId, null, '#000', '🎮');
-  rival.distance = attacker.distance + 4;
+  const k = createKartState('p0' as PlayerId, 'judoka', '#fff', '🥋');
   const { events, onFeedback } = collectFeedback();
-
-  attacker.abilityMeter = 1;
-  abilities.onAbilityPress(attacker, [attacker, rival], onFeedback);
-  // Caso B: NON lo supera -> piccola penalità.
-  abilities.update(10, attacker, [attacker, rival], false, false, flatAngle, onFeedback);
-  assert(events.some((e) => e.type === 'judoka_fail'), 'sorpasso fallito: evento di penalità emesso');
-  assert(attacker.stunTimer > 0, 'nessun sorpasso riuscito -> piccola penalità applicata');
+  k.abilityMeter = 1;
+  abilities.onAbilityPress(k, [k], onFeedback);
+  abilities.update(10, k, [k], false, false, flatAngle, onFeedback);
+  assert(!k.truckMode && k.steerMultiplier === 1 && !k.abilityActive, 'il camion rientra da solo alla scadenza');
+  assert(events.some((e) => e.type === 'judoka_end'), 'fine camion segnalata');
 }
 
 console.log('\n=== TEST 5: CIRO — PAGO DOPO (rimanda un colpo, poi il DEBITO viene riscosso) ===');
@@ -160,6 +173,39 @@ console.log('\n=== TEST 5: CIRO — PAGO DOPO (rimanda un colpo, poi il DEBITO v
   const delayed = abilities.tryDelayHit(k, { stun: 1.3 }, onFeedback);
   assert(!delayed, 'senza aver premuto ABILITÀ in anticipo il colpo non viene rimandato');
   assert(k.abilityCharges === 1, 'la carica non viene consumata se il rinvio non scatta');
+}
+
+console.log('\n=== TEST 5b: CIRO — PAGO DOPO retroattivo (dopo il colpo, entro la finestra, premi e diventa debito) ===');
+{
+  const abilities = new CharacterAbilities();
+  const k = createKartState('p0' as PlayerId, 'ciro', '#fff', '💸');
+  k.invulnTimer = 0;
+  const { events, onFeedback } = collectFeedback();
+  abilities.setRaceTime(20);
+  // il colpo arriva senza preavviso: stordimento subito + finestra aperta
+  hitKart(k, 1.3);
+  abilities.noteHit(k, { stun: 1.3 });
+  assert(k.stunTimer > 0 && k.refundTimer > 0, 'il colpo si subisce, ma si apre la finestra "PREMI ORA!"');
+  assert(abilities.status(k).note === 'PREMI ORA!', 'lo stato pubblicato dice PREMI ORA!');
+  const res = abilities.onAbilityPress(k, [k], onFeedback);
+  assert(res === 'ok' && k.stunTimer === 0 && k.debtPending && k.abilityCharges === 0, 'premendo nella finestra lo stordimento sparisce e parte il debito (carica consumata)');
+  assert(events.some((e) => e.type === 'ciro_debt_start'), '"PAGO DOPO!" mostrato');
+  abilities.update(4.1, k, [k], false, false, flatAngle, onFeedback);
+  assert(!k.debtPending && k.stunTimer > 0, 'il debito arriva comunque alla scadenza');
+}
+{
+  // finestra chiusa: premere non annulla piu' niente (arma solo il rinvio in anticipo)
+  const abilities = new CharacterAbilities();
+  const k = createKartState('p0' as PlayerId, 'ciro', '#fff', '💸');
+  k.invulnTimer = 0;
+  const { events, onFeedback } = collectFeedback();
+  hitKart(k, 1.3);
+  abilities.noteHit(k, { stun: 1.3 });
+  abilities.update(2, k, [k], false, false, flatAngle, onFeedback);
+  assert(k.refundTimer === 0, 'la finestra dopo il colpo si chiude da sola');
+  abilities.onAbilityPress(k, [k], onFeedback);
+  assert(k.abilityCharges === 1 && !k.debtPending, 'a finestra chiusa premere non toglie lo stordimento e non consuma la carica');
+  assert(events.some((e) => e.type === 'ciro_armed'), 'il tasto arma comunque il rinvio in anticipo (feedback "armato")');
 }
 
 console.log('\n=== TEST 6: la fisica di base resta invariata per un personaggio senza abilità attive ===');

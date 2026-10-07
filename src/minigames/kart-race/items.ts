@@ -329,6 +329,7 @@ export class ItemManager {
     if (this.abilities.tryDelayHit(k, effect, (f) => this.onFeedback(k.playerId, f))) return;
     if (effect.stun) hitKart(k, effect.stun);
     if (effect.disturb) k.disturbTimer = Math.max(k.disturbTimer, effect.disturb);
+    this.abilities.noteHit(k, effect); // Ciro: subito dopo il colpo puo' ancora premere ABILITA' e trasformarlo in debito
   }
 
   dispose(): void {

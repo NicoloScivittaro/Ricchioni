@@ -1,4 +1,5 @@
 import type { PlayerId } from '../../../shared/types';
+import { AB } from '../../../shared/abilityCatalog';
 
 /** Campo rettangolare (metà dimensioni, il campo è simmetrico attorno all'origine). */
 export const ARENA_HALF_W = 14; // metà larghezza (asse X)
@@ -30,30 +31,32 @@ export const GRAVITY = 26;
 export const BALL_COUNT_MAX = 3;
 
 // Goblin "N'CULO, RIPIGLIATELA!"
-export const PARRY_TIME = 0.42;
+export const PARRY_TIME = AB.dodgeball.goblin.p.parry;
 export const PARRY_RADIUS = 1.9;
 export const REFLECT_SPEED_MULT = 1.45;
 
 // Buttafuori "OCCHIO DA POLIGONO"
-export const AIM_TIME = 5;
-export const AIM_THROW_SPEED_MULT = 1.4;
+export const AIM_TIME = AB.dodgeball.buttafuori.p.aim;
+export const AIM_THROW_SPEED_MULT = AB.dodgeball.buttafuori.p.speed;
 export const AIM_BOUNCE_DAMP = 0.93;
 
 // Dottore "TRE MESI DOPO"
-export const VISION_TIME = 6;
+export const VISION_TIME = AB.dodgeball.dottore.p.vision;
+export const VISION_DODGE_CD_MULT = AB.dodgeball.dottore.p.dodgeCd; // schivata che si ricarica quasi subito
+export const VISION_INVULN_MULT = AB.dodgeball.dottore.p.invuln;
 
 // Judoka "CARICO E SCARICO"
-export const TRUCK_BEEP_TIME = 0.9;
-export const TRUCK_TIME = 1.4;
+export const TRUCK_BEEP_TIME = AB.dodgeball.judoka.p.beep;
+export const TRUCK_TIME = AB.dodgeball.judoka.p.truck;
 export const TRUCK_SPEED = 11;
 export const TRUCK_PICKUP_RADIUS = 2.3;
-export const TRUCK_MAX_BALLS = 2;
+export const TRUCK_MAX_BALLS = AB.dodgeball.judoka.p.balls;
 export const TRUCK_WALL_STUN = 0.5;
 export const TRUCK_PUSH_POWER = 6;
 
 // Ciro "PAGO DOMANI"
-export const CIRO_ARM_WINDOW = 4;
-export const CIRO_DEBT_TIME = 4;
+export const CIRO_ARM_WINDOW = AB.dodgeball.ciro.p.arm;
+export const CIRO_DEBT_TIME = AB.dodgeball.ciro.p.debt;
 
 export type BallState = 'free' | 'held' | 'flying';
 
@@ -99,8 +102,9 @@ export interface DodgeballPlayer {
   hitFlash: number;
   eliminations: number;
 
-  // Abilità (una volta a partita)
-  abilityUsed: boolean;
+  // Abilità (cariche e ricarica: numeri in shared/abilityCatalog.ts)
+  abCharges: number;
+  abCooldown: number;
   knockbackResist: number; // moltiplicatore knockback SUBITO (<1 = resiste)
 
   // Goblin: finestra di parata
@@ -158,7 +162,8 @@ export function createDodgeballPlayer(
     stunTime: 0,
     hitFlash: 0,
     eliminations: 0,
-    abilityUsed: false,
+    abCharges: 0,
+    abCooldown: 0,
     knockbackResist: 1,
     parryTime: 0,
     aimTime: 0,

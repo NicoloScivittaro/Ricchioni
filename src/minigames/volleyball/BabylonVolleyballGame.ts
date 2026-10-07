@@ -50,13 +50,12 @@ import { ShockRings, makeBallTrail, tintBallTrail } from '../arena/impactFx';
 import { SoccerHud } from '../soccer/soccerHud';
 import { buildVolleyballEnvironment } from './volleyballEnvironment';
 import { registerEnvScene } from '../env/envDebug';
-import { VolleyballAbilities, JAGER_POWER_MULT, JUDOKA_ACCEL_MULT, JUDOKA_HIT_MULT } from './volleyballAbilities';
-import type { VolleyballAbilityFeedback } from './volleyballAbilities';
+import { VolleyballAbilities, JAGER_POWER_MULT, VOLLEYBALL_ACTIVATIONS, VOLLEY_BUTTAFUORI, VOLLEY_JUDOKA, VOLLEY_DOTTORE, VOLLEY_CIRO } from './volleyballAbilities';
+import type { VolleyballAbilityFeedback, VolleyballPressResult } from './volleyballAbilities';
+import { abilityHub } from '../../core/abilityHub';
 import { VOLLEYBALL_ABILITIES } from '../../../shared/volleyballAbilities';
 import { abilityLabel } from '../characters/reactions';
 
-/** Eventi che sono l'ATTIVAZIONE di un'abilita' (posa + VFX + nome sopra la testa); gli esiti restano solo nel feed. */
-const VOLLEYBALL_ACTIVATIONS = new Set<VolleyballAbilityFeedback['type']>(['goblin_jager', 'buttafuori_muro', 'dottore_light', 'judoka_charge', 'ciro_arm']);
 import { readMove } from '../moveInput';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
@@ -69,7 +68,6 @@ import { telemetry } from '../../core/telemetry';
 const COUNTDOWN_S = 3.2;
 const INTRO_SECONDS = 3.4;
 const POINT_PAUSE_SECONDS = 2.0;
-const SAVE_RADIUS = 3.2;
 
 type Phase = 'intro' | 'countdown' | 'playing' | 'pointPause' | 'ended';
 
@@ -94,6 +92,12 @@ export class BabylonVolleyballGame {
   private camera: ArenaCamera;
   private hud: SoccerHud;
   private abilities = new VolleyballAbilities();
+  private unsubAbility: () => void = () => undefined;
+  /** NO, ASPETTA! (Judoka): palla ferma in aria. Lo stato e' qui (il gioco e' l'autorita'): la palla riparte con la velocita' che aveva. */
+  private freeze: { by: PlayerId; t: number; vx: number; vy: number; vz: number } | null = null;
+  /** PAGO DOMANI (Ciro): squadra con un debito aperto: se perde lo scambio, l'avversario fa punti doppi. */
+  private debtTeam: Team | null = null;
+  private debtOwner: PlayerId | null = null;
   private order: PlayerId[];
 
   private phase: Phase = 'intro';
@@ -156,11 +160,15 @@ export class BabylonVolleyballGame {
       const idx = this.order.indexOf(snap.id);
       const team: Team = idx < redCount ? 'red' : 'blue';
       const p = createVolleyballPlayer(snap.id, snap.characterId, snap.color, snap.avatar, snap.name, team, team === this.handicappedTeam);
+      this.abilities.init(p);
       this.players.push(p);
       const entity = new ArenaEntity(this.scene, dotTex, TEAM_COLOR[team], snap.characterId, snap.avatar, snap.displayName, team);
       this.entities.set(p.id, entity);
     });
 
+    abilityHub.begin('volleyball', ctx);
+    this.unsubAbility = abilityHub.onStatus((id, st) => this.hud.setAbility(id, st));
+    this.hud.playerStrip(this.players.map((q) => ({ id: q.id, name: q.name, characterId: q.characterId, color: TEAM_COLOR[q.team], team: q.team })));
     this.spawnTeams();
 
     // Palla
@@ -364,6 +372,7 @@ export class BabylonVolleyballGame {
     const shadowScale = Math.max(0.45, 1 - this.ball.y / 9);
     this.ballShadow.scaling.set(shadowScale, shadowScale, 1);
     this.updateLandingRing();
+    for (const p of this.players) abilityHub.setStatus(p.id, this.abilities.status(p, this.freeze?.by === p.id ? this.freeze.t : 0, this.debtOwner === p.id && this.debtTeam !== null)); // HUD + Companion Card
     const subjects = this.players.map((p) => ({ alive: p.alive, falling: p.falling, x: p.x, z: p.z }));
     subjects.push({ alive: true, falling: false, x: this.ball.x, z: this.ball.z });
     this.camera.update(dt, subjects, now);
@@ -391,7 +400,7 @@ export class BabylonVolleyballGame {
     p.hitCooldown = Math.max(0, p.hitCooldown - dt);
     p.stunTime = Math.max(0, p.stunTime - dt);
     p.hitFlash = Math.max(0, p.hitFlash - dt);
-    this.abilities.update(p, dt);
+    this.abilities.update(p, dt, (f) => this.onAbilityFeedback(p, f));
 
     const input = this.ctx.input.get(p.id);
     const mv = readMove(input);
@@ -403,15 +412,23 @@ export class BabylonVolleyballGame {
       az /= mag;
     }
 
-    const effSpeed = p.speedMult * (p.lightTime > 0 ? 1.3 : 1);
-    const effAccel = ACCEL * effSpeed * (p.judokaCharge ? JUDOKA_ACCEL_MULT : 1);
+    // NO, ASPETTA!: mentre la palla e' ferma solo il Judoka si muove (e piu' veloce); gli altri restano fermi dove sono
+    const frozenOut = this.freeze !== null && this.freeze.by !== p.id;
+    if (frozenOut) {
+      p.vx = 0;
+      p.vz = 0;
+      ax = 0;
+      az = 0;
+    }
+    const effSpeed = p.speedMult * this.abilities.speedFactor(p) * (this.freeze?.by === p.id ? VOLLEY_JUDOKA.p.speed : 1);
+    const effAccel = ACCEL * effSpeed;
     const effMax = MAX_SPEED * effSpeed;
 
     // Movimento (non attraversare la rete)
-    p.facing = mag > 0.15 ? Math.atan2(ax, az) : p.facing;
+    if (!frozenOut && mag > 0.15) p.facing = Math.atan2(ax, az);
     p.vx += ax * effAccel * dt;
     p.vz += az * effAccel * dt;
-    const damp = Math.exp(-FRICTION * dt * (p.lightTime > 0 ? 0.5 : 1));
+    const damp = Math.exp(-FRICTION * dt * (p.dizzyTime > 0 ? 0.35 : 1)); // Dottore dopo M'HO SVEJATO: scivola
     p.vx *= damp;
     p.vz *= damp;
     const sp = Math.hypot(p.vx, p.vz);
@@ -428,8 +445,8 @@ export class BabylonVolleyballGame {
     p.z = Math.max(-FIELD_HALF_D + PLAYER_RADIUS, Math.min(FIELD_HALF_D - PLAYER_RADIUS, p.z));
 
     // Salto
-    if (input.justPressed('jump') && p.y <= 0.01) {
-      p.vy = JUMP_VY * p.jumpMult * (p.lightTime > 0 ? 1.3 : 1);
+    if (!frozenOut && input.justPressed('jump') && p.y <= 0.01) {
+      p.vy = JUMP_VY * p.jumpMult * this.abilities.jumpFactor(p);
       p.y = 0.02;
       audio.select();
       this.ctx.vibrate(p.id, 20);
@@ -446,7 +463,7 @@ export class BabylonVolleyballGame {
     }
 
     // Colpo / servizio
-    if (input.justPressed('hit')) {
+    if (!frozenOut && input.justPressed('hit')) {
       if (this.ball.state === 'held' && this.ball.holderId === p.id) {
         this.serve(p);
       } else {
@@ -454,9 +471,10 @@ export class BabylonVolleyballGame {
       }
     }
 
-    // Abilità
+    // Abilità (premuta ma non partita: avviso privato, mai silenzio)
     if (input.justPressed('ability')) {
-      this.abilities.onAbilityPress(p, (f) => this.onAbilityFeedback(p, f));
+      const res: VolleyballPressResult = frozenOut ? 'busy' : this.abilities.onAbilityPress(p, this.ball.state === 'flying' && !this.freeze, (f) => this.onAbilityFeedback(p, f));
+      if (res !== 'ok') abilityHub.failed(p.id, res === 'spent' ? 'ESAURITA' : res === 'noball' ? 'SERVE LA PALLA IN ARIA' : 'NON ORA');
     }
   }
 
@@ -483,27 +501,40 @@ export class BabylonVolleyballGame {
   private tryHit(p: VolleyballPlayer): void {
     if (this.ball.state !== 'flying') return;
     if (p.hitCooldown > 0) return;
+    // MURO DEL POLIGONO: a rete le braccia del Buttafuori arrivano piu' lontano
+    const muroZone = p.muroTime > 0 && Math.abs(p.z) < VOLLEY_BUTTAFUORI.p.netZone;
     const dist = Math.hypot(this.ball.x - p.x, this.ball.z - p.z);
-    if (dist > HIT_RADIUS) return;
+    if (dist > HIT_RADIUS * (muroZone ? VOLLEY_BUTTAFUORI.p.reach : 1)) return;
     if (this.ball.y < p.y - 0.4 || this.ball.y > p.y + HIT_REACH) return;
 
     p.hitCooldown = HIT_COOLDOWN * p.hitCooldownMult;
     const incoming = Math.hypot(this.ball.vx, this.ball.vy, this.ball.vz); // solo per la posa di ricezione
 
-    // Salvataggio disperato (Ciro "PAGO DOMANI"): palla congelata vicino a terra.
-    if (this.ball.frozenTimer > 0) {
-      this.ball.frozenTimer = 0;
-      p.saves++;
-      if (p.characterId === 'ciro') this.onAbilityFeedback(p, { type: 'ciro_saved' });
-      else this.hud.feedMessage(`${p.avatar} SALVATAGGIO!`, '#4ade80', 1200);
+    // NO, ASPETTA!: il Judoka ha raggiunto la palla ferma: l'abilita' e' servita (palla recuperata), il tempo riparte
+    if (this.freeze && this.freeze.by === p.id) {
+      this.freeze = null;
+      abilityHub.succeeded(p.id, 'palle recuperate');
+      this.onAbilityFeedback(p, { type: 'judoka_resume' });
     }
 
-    const isSmash = p.y > 0.4 && this.ball.y > NET_HEIGHT * 0.8 && Math.abs(p.z) < 2.4;
+    const wall = muroZone && this.ball.y > 1.2; // muro: colpo in alto davanti alla rete
+    const isSmash = wall || (p.y > 0.4 && this.ball.y > NET_HEIGHT * 0.8 && Math.abs(p.z) < 2.4);
     const perfect = this.ball.y > p.y + 1.1 && this.ball.y < p.y + 2.2;
     const dirZ = p.team === 'red' ? 1 : -1;
     // Direzione orizzontale unitaria (avanti + lieve assist verso il centro): la velocità orizzontale
     // del colpo è quella nominale, non dipende più da dove si trova la palla.
-    const aim = hitDirection(this.ball.x, dirZ);
+    let aim = hitDirection(this.ball.x, dirZ);
+    // DOTTORE — M'HO SVEJATO: lo smash va da solo dove nessuno difende
+    if (isSmash && p.characterId === 'dottore' && p.lucidTime > 0) {
+      const t = this.lucidSmashTarget(p, dirZ);
+      const dx = t.x - this.ball.x;
+      const dz = t.z - this.ball.z;
+      const d = Math.hypot(dx, dz) || 1;
+      aim = { dx: dx / d, dz: dz / d };
+      p.lucidTime = 0;
+      p.dizzyTime = VOLLEY_DOTTORE.p.dizzy;
+      this.onAbilityFeedback(p, { type: 'dottore_shot' });
+    }
 
     let vx = aim.dx;
     let vy: number;
@@ -512,7 +543,13 @@ export class BabylonVolleyballGame {
     if (isSmash) {
       let speed = BALL_SMASH_SPEED;
       let down = BALL_SMASH_DOWN;
-      if (p.jagerBomb) {
+      if (wall) {
+        // MURO: la palla torna giu' dall'altra parte, secca
+        speed *= VOLLEY_BUTTAFUORI.p.speed;
+        down = VOLLEY_BUTTAFUORI.p.down;
+        this.onAbilityFeedback(p, { type: 'buttafuori_block' });
+      }
+      if (p.jagerTime > 0) {
         if (perfect) {
           speed *= JAGER_POWER_MULT;
           down *= 1.3;
@@ -520,13 +557,7 @@ export class BabylonVolleyballGame {
         } else {
           this.onAbilityFeedback(p, { type: 'goblin_jager_wasted' });
         }
-        p.jagerBomb = false;
-      }
-      if (p.judokaCharge) {
-        speed *= JUDOKA_HIT_MULT;
-        p.judokaCharge = false;
-        p.judokaTime = 0;
-        this.onAbilityFeedback(p, { type: 'judoka_strong' });
+        p.jagerTime = 0;
       }
       vx *= speed;
       vz *= speed;
@@ -536,22 +567,8 @@ export class BabylonVolleyballGame {
       this.camera.shake(0.25, 200);
       this.ctx.signal(p.id, { type: 'smash' });
     } else {
-      let up = BALL_NORMAL_UP;
-      let speed = BALL_NORMAL_SPEED;
-      if (p.muroTime > 0) {
-        up *= 1.1;
-        if (!p.muroStableDone) {
-          p.muroStableDone = true;
-          this.onAbilityFeedback(p, { type: 'buttafuori_stable' });
-        }
-      }
-      if (p.judokaCharge) {
-        speed *= JUDOKA_HIT_MULT;
-        up *= 1.2;
-        p.judokaCharge = false;
-        p.judokaTime = 0;
-        this.onAbilityFeedback(p, { type: 'judoka_strong' });
-      }
+      const up = BALL_NORMAL_UP;
+      const speed = BALL_NORMAL_SPEED;
       vx *= speed;
       vz *= speed;
       vy = up;
@@ -590,6 +607,27 @@ export class BabylonVolleyballGame {
     this.ctx.vibrate(p.id, perfect ? 80 : 40);
   }
 
+  /** Punto del campo avversario piu' lontano dai difensori (per lo smash del Dottore): massimizza la distanza minima da chi difende. */
+  private lucidSmashTarget(p: VolleyballPlayer, dirZ: number): { x: number; z: number } {
+    let best = { x: 0, z: dirZ * 5 };
+    let bestD = -1;
+    for (const x of [-8, -4, 0, 4, 8]) {
+      for (const depth of [3, 6]) {
+        const z = dirZ * depth;
+        let near = Infinity;
+        for (const q of this.players) {
+          if (q.team === p.team) continue;
+          near = Math.min(near, Math.hypot(q.x - x, q.z - z));
+        }
+        if (near > bestD) {
+          bestD = near;
+          best = { x, z };
+        }
+      }
+    }
+    return best;
+  }
+
   /** Pan stereo dalla posizione (larghezza del campo vista dalla TV). */
   private pan(x: number): number {
     return Math.max(-0.8, Math.min(0.8, x / 6));
@@ -608,14 +646,20 @@ export class BabylonVolleyballGame {
     const b = this.ball;
     if (b.state !== 'flying') return;
 
-    // Ciro: congelamento punto (salvataggio disperato)
-    if (b.frozenTimer > 0) {
-      b.frozenTimer -= dt;
-      b.vy = 0;
-      if (b.y < 0.15) b.y = 0.15;
-      if (b.frozenTimer <= 0) {
-        b.frozenTimer = 0;
-        this.scorePoint();
+    // JUDOKA — NO, ASPETTA!: la palla resta ferma in aria; scaduto il tempo riparte con la velocita' che aveva
+    if (this.freeze) {
+      this.freeze.t -= dt;
+      if (this.freeze.t <= 0) {
+        const f = this.freeze;
+        this.freeze = null;
+        b.vx = f.vx;
+        b.vy = f.vy;
+        b.vz = f.vz;
+        const owner = this.players.find((q) => q.id === f.by);
+        if (owner) {
+          abilityHub.wasted(f.by);
+          this.onAbilityFeedback(owner, { type: 'judoka_resume' });
+        }
       }
       return;
     }
@@ -663,16 +707,17 @@ export class BabylonVolleyballGame {
 
     // Terra: punto
     if (b.y <= 0) {
-      // Ciro: congelamento punto
-      const ciro = this.players.find((p) => p.deferArmed && p.team === this.landingTeam(b.z) && Math.hypot(p.x - b.x, p.z - b.z) < SAVE_RADIUS);
+      // CIRO — PAGO DOMANI: la prima palla a terra nel campo di Ciro rimbalza e lo scambio continua; il debito si paga dopo
+      const ciro = this.players.find((p) => p.armTime > 0 && p.team === this.landingTeam(b.z));
       if (ciro) {
-        ciro.deferArmed = false;
-        ciro.armTimer = 0;
-        b.y = 0.15;
-        b.vy = 0;
-        b.frozenTimer = 1.0;
-        this.hud.feedMessage(`${ciro.avatar} PAGO DOMANI — salvataggio disperato!`, '#a78bfa', 1600);
-        this.ctx.signal(ciro.id, { type: 'frozen' });
+        ciro.armTime = 0;
+        b.y = 0.3;
+        b.vy = 7;
+        b.vx *= 0.4;
+        b.vz *= 0.4;
+        this.debtTeam = ciro.team;
+        this.debtOwner = ciro.id;
+        this.onAbilityFeedback(ciro, { type: 'ciro_saved' });
         return;
       }
       this.scorePoint();
@@ -688,9 +733,22 @@ export class BabylonVolleyballGame {
     const landingTeam = this.landingTeam(landingZ);
     const scoringTeam: Team = landingTeam === 'red' ? 'blue' : 'red';
 
-    if (scoringTeam === 'red') this.redScore++;
-    else this.blueScore++;
+    // CIRO — il debito: se la squadra che ha usato PAGO DOMANI perde comunque lo scambio, l'avversario ne guadagna di piu'
+    let pts = 1;
+    if (this.debtTeam) {
+      const owner = this.players.find((q) => q.id === this.debtOwner);
+      if (scoringTeam !== this.debtTeam) {
+        pts += VOLLEY_CIRO.p.debtPoints;
+        if (owner) this.onAbilityFeedback(owner, { type: 'ciro_collect' });
+      } else if (owner) this.onAbilityFeedback(owner, { type: 'ciro_paid' });
+      this.debtTeam = null;
+      this.debtOwner = null;
+    }
+    if (scoringTeam === 'red') this.redScore += pts;
+    else this.blueScore += pts;
     this.hud.setScore(this.redScore, this.blueScore);
+    for (const q of this.players) this.abilities.clearEffects(q); // fine scambio: nessuna finestra aperta (le cariche restano com'erano)
+    this.freeze = null;
 
     // MVP: chi ha fatto il punto (ultimo tocco della squadra che segna) o errore.
     const last = this.ball.lastTouchId;
@@ -705,7 +763,7 @@ export class BabylonVolleyballGame {
     const rallyLen = this.rally;
     this.rally = 0;
     this.stats?.point(scoringTeam);
-    this.hud.feedMessage(`💥 PUNTO ${TEAM_LABEL[scoringTeam]}! ${this.redScore} — ${this.blueScore}${rallyLen >= 6 ? ` · scambio da ${rallyLen} colpi` : ''}`, scoringTeam === 'red' ? '#f87171' : '#60a5fa', 2600);
+    this.hud.feedMessage(`💥 PUNTO${pts > 1 ? ' DOPPIO' : ''} ${TEAM_LABEL[scoringTeam]}! ${this.redScore} — ${this.blueScore}${rallyLen >= 6 ? ` · scambio da ${rallyLen} colpi` : ''}`, scoringTeam === 'red' ? '#f87171' : '#60a5fa', 2600);
     for (const p of this.players) this.ctx.vibrate(p.id, p.team === scoringTeam ? 150 : 70);
     this.ctx.signal(null, { type: 'point', team: scoringTeam });
     // ESULTANZA DEL PUNTO: breve, nello stile di ciascuno (chi l'ha fatto un po' di piu'); chi l'ha subito ci resta male
@@ -751,7 +809,7 @@ export class BabylonVolleyballGame {
   private updateLandingRing(): void {
     const b = this.ball;
     // Visibile per TUTTO il volo (anche in salita): il ricevente ha subito dove andare.
-    if (b.state !== 'flying' || b.frozenTimer > 0) {
+    if (b.state !== 'flying' || this.freeze) {
       this.landingRing.isVisible = false;
       return;
     }
@@ -787,58 +845,90 @@ export class BabylonVolleyballGame {
   // ---- Feedback abilità ----
 
   private onAbilityFeedback(p: VolleyballPlayer, f: VolleyballAbilityFeedback): void {
-    if (VOLLEYBALL_ACTIVATIONS.has(f.type)) this.entities.get(p.id)?.playAbility(abilityLabel(VOLLEYBALL_ABILITIES, p.characterId));
+    const name = abilityLabel(VOLLEYBALL_ABILITIES, p.characterId) ?? 'ABILITÀ';
+    if (VOLLEYBALL_ACTIVATIONS.has(f.type)) {
+      this.entities.get(p.id)?.playAbility(name);
+      abilityHub.activated(p.id);
+    }
+    const shout = (text: string, color: string, vib = 70): void => {
+      this.hud.feedMessage(`${p.avatar} ${text}`, color);
+      this.ctx.vibrate(p.id, vib);
+    };
     switch (f.type) {
       case 'goblin_jager':
-        this.hud.feedMessage(`${p.avatar} JÄGER BOMB!`, '#10b981');
-        this.ctx.signal(p.id, { type: 'ability', name: 'JÄGER BOMB' });
+        this.ctx.signal(p.id, { type: 'ability', name });
         audio.select();
-        this.ctx.vibrate(p.id, 60);
+        shout(`${name} — SCHIACCIA A MEZZ'ARIA!`, '#10b981', 60);
         break;
       case 'goblin_jager_boom':
+        abilityHub.succeeded(p.id, 'bombe');
         this.hud.feedMessage(`${p.avatar} JÄGER BOMB! 💥 SMASH!`, '#10b981');
         this.ctx.signal(p.id, { type: 'jager_boom' });
+        this.camera.shake(0.35, 260);
         break;
       case 'goblin_jager_wasted':
+        abilityHub.wasted(p.id);
         this.hud.feedMessage(`${p.avatar} JÄGER BOMB sprecata...`, '#9ca3af');
         this.ctx.signal(p.id, { type: 'jager_wasted' });
         break;
-      case 'buttafuori_muro':
-        this.hud.feedMessage(`${p.avatar} MURO DEL POLIGONO!`, '#f97316');
-        this.ctx.signal(p.id, { type: 'ability', name: 'MURO DEL POLIGONO' });
-        audio.select();
-        this.ctx.vibrate(p.id, 70);
+      case 'goblin_jager_expired':
+        abilityHub.wasted(p.id);
         break;
-      case 'buttafuori_stable':
+      case 'buttafuori_muro':
+        this.ctx.signal(p.id, { type: 'ability', name });
+        audio.select();
+        shout(`${name}!`, '#f97316');
+        break;
+      case 'buttafuori_block':
+        abilityHub.succeeded(p.id, 'muri');
+        this.hud.feedMessage(`${p.avatar} MURO!`, '#f97316', 1400);
         this.ctx.signal(p.id, { type: 'stable' });
         break;
-      case 'dottore_light':
-        this.hud.feedMessage(`${p.avatar} 20 KG IN UN MESE!`, '#22d3ee');
-        this.ctx.signal(p.id, { type: 'ability', name: '20 KG IN UN MESE' });
+      case 'judoka_freeze': {
+        const b = this.ball;
+        this.freeze = { by: p.id, t: VOLLEY_JUDOKA.p.freeze, vx: b.vx, vy: b.vy, vz: b.vz };
+        this.ctx.signal(p.id, { type: 'ability', name });
         audio.select();
-        this.ctx.vibrate(p.id, 70);
+        shout(`${name}`, '#facc15', 90);
         break;
-      case 'judoka_charge':
-        this.hud.feedMessage(`${p.avatar} CARICO E SCARICO!`, '#facc15');
-        this.ctx.signal(p.id, { type: 'ability', name: 'CARICO E SCARICO' });
-        audio.select();
-        this.ctx.vibrate(p.id, 70);
-        break;
-      case 'judoka_strong':
-        this.hud.feedMessage(`${p.avatar} SCARICA! 💥`, '#facc15');
+      }
+      case 'judoka_resume':
         this.ctx.signal(p.id, { type: 'scarica' });
         break;
-      case 'ciro_arm':
-        this.hud.feedMessage(`${p.avatar} PAGO DOMANI!`, '#a78bfa');
-        this.ctx.signal(p.id, { type: 'ability', name: 'PAGO DOMANI' });
+      case 'dottore_awake':
+        this.ctx.signal(p.id, { type: 'ability', name });
         audio.select();
-        this.ctx.vibrate(p.id, 70);
+        shout(`${name}!`, '#22d3ee');
+        break;
+      case 'dottore_shot':
+        abilityHub.succeeded(p.id, 'smash intuiti');
+        this.hud.feedMessage(`${p.avatar} L'HA VISTO PRIMA!`, '#22d3ee');
+        break;
+      case 'dottore_dizzy':
+        abilityHub.wasted(p.id);
+        this.hud.feedMessage(`${p.avatar} GLI GIRA LA TESTA...`, '#9ca3af', 1800);
+        break;
+      case 'ciro_arm':
+        this.ctx.signal(p.id, { type: 'ability', name });
+        audio.select();
+        shout(`${name}!`, '#a78bfa');
         break;
       case 'ciro_saved':
-        this.hud.feedMessage(`${p.avatar} DEBITO SALDATO!`, '#4ade80');
+        abilityHub.impact(p.id, 'palle salvate');
+        this.hud.feedMessage(`${p.avatar} PAGO DOMANI — LA PALLA RIMBALZA! DEBITO APERTO`, '#a78bfa', 2600);
+        this.ctx.signal(p.id, { type: 'frozen' });
+        this.shocks.spawn(this.ball.x, this.ball.z, p.color, 1.4);
+        audio.bounce(0.9);
+        this.ctx.vibrate(p.id, 110);
+        break;
+      case 'ciro_paid':
+        abilityHub.succeeded(p.id, 'debiti saldati');
+        this.hud.feedMessage(`${p.avatar} DEBITO SALDATO! SCAMBIO VINTO`, '#4ade80', 2200);
         this.ctx.signal(p.id, { type: 'debt_ok' });
         break;
-      case 'ciro_failed':
+      case 'ciro_collect':
+        abilityHub.wasted(p.id);
+        this.hud.feedMessage(`${p.avatar} È ARRIVATO L'ESATTORE: PUNTO DOPPIO!`, '#f472b6', 2600);
         this.ctx.signal(p.id, { type: 'debt_fail' });
         break;
     }
@@ -849,6 +939,8 @@ export class BabylonVolleyballGame {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    this.unsubAbility();
+    abilityHub.end(); // statistiche del round + card spenta sui telefoni
     window.removeEventListener('resize', this.onResize);
     safely('entities', () => {
       for (const e of this.entities.values()) e.dispose();
