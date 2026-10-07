@@ -1723,7 +1723,7 @@ function render(): void {
 function renderJoin(): void {
   app.innerHTML = `
     <div class="screen">
-      <h1>🎲 RICCHIONI</h1>
+      <h1>🎲 PARTY GAME</h1>
       <p class="sub">Controller di gioco</p>
       <input id="code" placeholder="CODICE STANZA" maxlength="5" autocomplete="off" />
       <input id="name" placeholder="IL TUO NOME" maxlength="20" autocomplete="off" />

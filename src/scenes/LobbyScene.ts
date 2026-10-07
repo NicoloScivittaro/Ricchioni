@@ -31,7 +31,7 @@ export class LobbyScene extends Phaser.Scene {
     this.add.image(640, 360, 'bg').setAlpha(0.3).setDisplaySize(1280, 720);
     this.add.rectangle(640, 360, 1280, 720, 0x0b0b14, 0.35);
 
-    displayText(this, 640, 96, 'RICCHIONI PARTY', 84, UI.color.accent);
+    displayText(this, 640, 96, 'PARTY GAME', 84, UI.color.accent);
     infoText(this, 640, 156, 'IL PARTY GAME DELLA SERATA', UI.size.S, UI.color.text);
 
     // scheda centrale con le due scelte
