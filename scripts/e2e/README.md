@@ -20,6 +20,12 @@ Servono il server (`npm start`, porta 3001) e il client in dev (`npx vite --port
 | `debug.mjs` | Overlay F3/?debug=1, preset qualità 3D (LOW in headless) e precarico del gioco 3D durante il rullo |
 | `fps-spawn.mjs` | Sparatoria: ogni giocatore nasce girato verso il centro della mappa |
 | `controllers.mjs` | Audit dei controller su tutti i giochi in verticale/orizzontale/schermo piccolo: niente scroll, bottoni ≥ 44px e dentro lo schermo (screenshot in `e2e-shots/controllers`) |
+| `gamepad-fighter.mjs` | Botte sul Cornicione col controller: CONTROLLI (+3 consigli della prima volta), mappatura pad, risposta del gioco, Companion Card, fallback telefono |
+| `fighter-abilities.mjs` | Le 5 abilita' del Cornicione nel gioco vero (5 controller): valida/non valida, avviso privato, un uso per vita, privacy delle card, pulizia |
+| `fighter-session.mjs` | Cornicione -> risultati -> rullo -> Cornicione x4 -> menu ESC -> lobby: nessuna perdita (canvas/timer/oscillatori/listener/heap), AbilityHub vuoto |
+| `fighter-smoke.mjs` | Prova a vista con 2-5 bot (`node scripts/e2e/fighter-smoke.mjs 5 40`): screenshot in `e2e-shots/fighter/`, la camera tiene in quadro i combattenti |
+| `fighter-lab-shots.mjs` | Foto dei momenti chiave (spawn, hitbox, KO, indicatori, le 5 abilita') dal laboratorio `?fighter=1` |
+| `fighter-perf.mjs` | Budget del Cornicione: mesh, materiali, draw call (GPU reale da verificare) |
 | `shots.mjs` | Screenshot delle schermate host (1280x720; `VIEWPORT=1366x768` ecc. per i test di risoluzione) |
 
 Nota: in headless il GL è software (~4 fps): il tempo dei giochi 3D scorre più piano dell'orologio (`dt` ≤ 50 ms). Per questo

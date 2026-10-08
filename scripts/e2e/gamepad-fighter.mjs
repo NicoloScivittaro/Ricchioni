@@ -41,6 +41,8 @@ try {
   // ------------------------------------------------------------ CONTROLLI
   await startGame(page, 'cornicione');
   await until(async () => await page.evaluate(() => window.__cc.shownAt !== null), 60000, 'schermata CONTROLLI');
+  await sleep(500);
+  await page.screenshot({ path: 'e2e-shots/fighter/controls-screen.png' });
   const t0 = await G(page, (g) => g.sim.time);
   await btn(page, 0, 'A', true);
   await stick(page, 0, 1, 0);

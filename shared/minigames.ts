@@ -207,39 +207,6 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     }
   },
   {
-    id: 'cornicione',
-    icon: '🧱',
-    description: 'Picchia, schiva e rientra: più danno hai, più voli lontano. Fuori dal tetto = una vita in meno.',
-    name: 'BOTTE SUL CORNICIONE',
-    category: 'SKILL',
-    rarity: 'uncommon',
-    minPlayers: 2,
-    maxPlayers: 5,
-    // Platform fighter 2.5D a vite (3) e percentuale di danno: 150 s di limite + eventuale spareggio rapido (20 s).
-    durationSec: 150,
-    // Rete di sicurezza server (countdown + 150 s + spareggio 20 s + festeggiamenti). Larga: su un PC lento il tempo di gioco scorre piu' piano dell'orologio.
-    hardCapSec: 420,
-    compatibleModifiers: ['punti_doppi'],
-    sceneKey: 'cornicione',
-
-    inputMode: 'GAMEPAD',
-    // Chi NON ha il controller gioca con la croce + tasti sul telefono (layout generico); col controller il telefono mostra la Companion Card.
-    controllerLayout: {
-      type: 'dpad',
-      controls: [
-        { id: 'up', label: '▲', kind: 'hold' },
-        { id: 'down', label: '▼', kind: 'hold' },
-        { id: 'left', label: '◀', kind: 'hold' },
-        { id: 'right', label: '▶', kind: 'hold' },
-        { id: 'jump', label: 'SALTO', kind: 'hold', icon: '🦘' },
-        { id: 'light', label: 'LEGGERO', kind: 'button', icon: '👊' },
-        { id: 'heavy', label: 'PESANTE', kind: 'button', icon: '💥' },
-        { id: 'dodge', label: 'SCHIVA', kind: 'button', icon: '💨' },
-        { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
-      ]
-    }
-  },
-  {
     id: 'cultura',
     icon: '🎭',
     description: 'Inventa bugie credibili e smaschera quelle degli altri.',
@@ -283,6 +250,39 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // Controller dedicato: joystick + look touch + SPARA + DASH + ABILITÀ (renderFpsController()) — usato da chi
     // NON ha un controller fisico (fallback, badge automatico: vedi src/input/profiles.ts per il profilo pad).
     controllerLayout: { type: 'custom', id: 'fps-tv' }
+  },
+  {
+    id: 'cornicione',
+    icon: '🧱',
+    description: 'Picchia, schiva e rientra: più danno hai, più voli lontano. Fuori dal tetto = una vita in meno.',
+    name: 'BOTTE SUL CORNICIONE',
+    category: 'SKILL',
+    rarity: 'uncommon',
+    minPlayers: 2,
+    maxPlayers: 5,
+    // Platform fighter 2.5D a vite (3) e percentuale di danno: 150 s di limite + eventuale spareggio rapido (20 s).
+    durationSec: 150,
+    // Rete di sicurezza server (countdown + 150 s + spareggio 20 s + festeggiamenti). Larga: su un PC lento il tempo di gioco scorre piu' piano dell'orologio.
+    hardCapSec: 420,
+    compatibleModifiers: ['punti_doppi'],
+    sceneKey: 'cornicione',
+
+    inputMode: 'GAMEPAD',
+    // Chi NON ha il controller gioca con la croce + tasti sul telefono (layout generico); col controller il telefono mostra la Companion Card.
+    controllerLayout: {
+      type: 'dpad',
+      controls: [
+        { id: 'up', label: '▲', kind: 'hold' },
+        { id: 'down', label: '▼', kind: 'hold' },
+        { id: 'left', label: '◀', kind: 'hold' },
+        { id: 'right', label: '▶', kind: 'hold' },
+        { id: 'jump', label: 'SALTO', kind: 'hold', icon: '🦘' },
+        { id: 'light', label: 'LEGGERO', kind: 'button', icon: '👊' },
+        { id: 'heavy', label: 'PESANTE', kind: 'button', icon: '💥' },
+        { id: 'dodge', label: 'SCHIVA', kind: 'button', icon: '💨' },
+        { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
+      ]
+    }
   }
 ];
 

@@ -1,6 +1,6 @@
 # ABILITÀ — come funziona il sistema
 
-Le abilità sono una **feature centrale**: 5 personaggi × 10 minigiochi = 50 combinazioni, ognuna con la sua meccanica. La matrice completa (prima/dopo, voti) è in [ABILITY_MATRIX.md](ABILITY_MATRIX.md), generata da `scripts/ability-matrix.ts`.
+Le abilità sono una **feature centrale**: 5 personaggi × 11 minigiochi = 55 combinazioni, ognuna con la sua meccanica. La matrice completa (prima/dopo, voti) è in [ABILITY_MATRIX.md](ABILITY_MATRIX.md), generata da `scripts/ability-matrix.ts`.
 
 ## Una sola fonte: `shared/abilityCatalog.ts`
 
@@ -58,3 +58,5 @@ npx tsx scripts/kart-abilities-selftest.ts   # Kart (finestre reattive di Buttaf
 npx tsx scripts/ability-sim.ts               # Quiz con 5 bot di pari abilità, abilità ON/OFF: nessuna dominante
 node scripts/e2e/ability-companion.mjs       # browser vero: card, tasti per famiglia, stato live, avvisi privati, pulizia, Quiz, Sparatoria
 ```
+
+Nota: **BOTTE SUL CORNICIONE** (id `cornicione`) ha le sue 5 abilita' (valgono PER VITA e hanno il tasto RB/R1): vedi [CORNICIONE.md](CORNICIONE.md).

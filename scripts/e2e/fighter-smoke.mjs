@@ -26,6 +26,22 @@ try {
   await until(async () => (await gameEval(page, 'cornicione', (g) => g.phase)) === 'playing', 60000, 'via');
   await page.evaluate((ids) => ids.forEach((id) => window.__fighter.setBot(id, true)), pids);
   await page.evaluate(() => window.__fighter.setShowBoxes(false));
+  // la camera deve tenere in quadro tutti quelli che combattono (entro i limiti di inseguimento): campionamento ogni 100 ms nella pagina
+  await page.evaluate(() => {
+    window.__camAudit = { n: 0, bad: 0, worst: 0 };
+    window.__camTimer = setInterval(() => {
+      const g = window.__fighter;
+      if (!g) return;
+      const v = g.camera.view;
+      for (const f of g.sim.fighters) {
+        if (!f.inGame || f.dead || f.ab.vanishT > 0 || f.ab.windowT > 0 || Math.abs(f.x) > 26 || f.y < -12 || f.y > 20) continue;
+        window.__camAudit.n++;
+        const out = Math.max(Math.abs(f.x - v.cx) - v.hw, Math.abs(f.y + 1.1 - v.cy) - v.hh);
+        if (out > 0.5) window.__camAudit.bad++;
+        window.__camAudit.worst = Math.max(window.__camAudit.worst, out);
+      }
+    }, 100);
+  });
   const t0 = Date.now();
   let shot = 0;
   while ((Date.now() - t0) / 1000 < SECS) {
@@ -34,6 +50,8 @@ try {
   }
   const info = await gameEval(page, 'cornicione', (g) => ({ t: g.sim.time, phase: g.sim.phase, f: g.sim.fighters.map((f) => ({ x: f.x, y: f.y, pct: Math.round(f.percent), lives: f.lives, kos: f.stats.kos })) }));
   console.log(JSON.stringify(info));
+  const cam = await page.evaluate(() => { clearInterval(window.__camTimer); return window.__camAudit; });
+  check(cam.n > 20 && cam.bad / cam.n < 0.1, `camera: i combattenti restano in quadro (${cam.bad}/${cam.n} campioni fuori, peggiore ${cam.worst.toFixed(1)} m)`);
   check(info.t > 5, `la simulazione avanza (${info.t.toFixed(1)} s di gioco)`);
   check(info.f.some((f) => f.pct > 0), 'qualcuno ha preso dei colpi');
   check(info.f.every((f) => Number.isFinite(f.x) && Number.isFinite(f.y)), 'posizioni finite');

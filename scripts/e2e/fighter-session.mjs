@@ -187,6 +187,11 @@ try {
   check(last.heap < first.heap + 25, `heap stabile dopo ${rows.length} round (${first.heap.toFixed(1)} -> ${last.heap.toFixed(1)} MB)`);
   for (const t of Object.keys(last.lst)) check((last.lst[t] ?? 0) <= (first.lst[t] ?? 0) + 1, `listener window "${t}" stabili (${first.lst[t] ?? 0} -> ${last.lst[t]})`);
 
+  // report di sessione F4: sezione ABILITA' con le 5 abilita' del Cornicione e le metriche di gioco
+  const rep = await page.evaluate(() => (window.__abilityReport ? String(window.__abilityReport()) : ''));
+  check(/BOTTE SUL CORNICIONE/.test(rep) && /RIMONTA AL 90°/.test(rep) && /ANGORA CHE DICI\?/.test(rep) && /TAGLIO PESO EXPRESS/.test(rep), `report F4: sezione ABILITA' con le abilita' del Cornicione (${rep.length} caratteri)`);
+  console.log(rep.split(String.fromCharCode(10)).filter((l) => /BOTTE SUL CORNICIONE/.test(l)).slice(0, 6).join(String.fromCharCode(10)));
+
   // menu ESC -> TORNA ALLA LOBBY
   await startCornicione();
   try {

@@ -78,7 +78,7 @@ for (const abil of [true, false]) {
     const timeouts = runs.filter((r) => r.reason === 'timeout' || r.reason === 'suddenDeath').length;
     const koPct = runs.flatMap((r) => r.koPct);
     console.log(
-      `${n}p: durata media ${avg(dur).toFixed(0)}s (min ${Math.min(...dur).toFixed(0)}, max ${Math.max(...dur).toFixed(0)}) · scadenza ${timeouts}/${runs.length} · KO/partita ${avg(runs.map((r) => r.kos)).toFixed(1)} · % medio al KO ${avg(koPct).toFixed(0)} · recovery ${(100 * avg(runs.map((r) => r.recOk / Math.max(1, r.recAtt)))).toFixed(0)}% · combo max ${Math.max(...runs.map((r) => r.maxCombo))}`
+      `${n}p: durata media ${avg(dur).toFixed(0)}s (min ${Math.min(...dur).toFixed(0)}, max ${Math.max(...dur).toFixed(0)}) · scadenza ${timeouts}/${runs.length} · KO/partita ${avg(runs.map((r) => r.kos)).toFixed(1)} · % medio al KO ${avg(koPct).toFixed(0)} · rientri a partita ${avg(runs.map((r) => r.recOk)).toFixed(1)} (recovery attack ${avg(runs.map((r) => r.recAtt)).toFixed(1)}) · combo max ${Math.max(...runs.map((r) => r.maxCombo))}`
     );
     if (runs.some((r) => r.nan)) bad(`${n}p abil=${abil}: valori non finiti nella simulazione`);
     if (runs.some((r) => r.reason === null)) bad(`${n}p abil=${abil}: partita non terminata entro il limite (loop infinito?)`);

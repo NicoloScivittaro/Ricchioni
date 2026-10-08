@@ -49,6 +49,15 @@ const CSS = `
 .ui-abil-who{flex:none;font-family:var(--ui-display);min-width:5.6em}
 .ui-abil-name{flex:none;font-family:var(--ui-display);color:var(--ui-text)}
 .ui-abil-short{color:var(--ui-dim);font-weight:700}
+#pad-controls .ui-card.dense{width:min(1080px,94vw);padding-top:clamp(12px,2vh,26px);padding-bottom:clamp(12px,2vh,26px)}
+#pad-controls .ui-card.dense .ui-icon{display:none}
+#pad-controls .ui-card.dense .ui-title{font-size:clamp(24px,4.4vh,52px)}
+#pad-controls .ui-card.dense .ui-sub{margin:.15em 0 .5em}
+#pad-controls .ui-card.dense .ui-keys{grid-template-columns:repeat(3,1fr)}
+#pad-controls .ui-card.dense .ui-key{padding:clamp(6px,1.1vh,12px) 8px;gap:.2em}
+#pad-controls .ui-card.dense .ui-cap{font-size:clamp(16px,2.7vh,32px)}
+#pad-controls .ui-card.dense .ui-act{font-size:clamp(13px,2.1vh,24px)}
+#pad-controls .ui-card.dense .ui-bar{margin-top:clamp(8px,1.4vh,16px)}
 #pad-controls .ui-tips{margin-top:clamp(8px,1.4vh,16px);display:flex;flex-direction:column;gap:.2em;font-family:var(--ui-display);font-size:clamp(14px,2.1vh,24px);color:var(--ui-accent);letter-spacing:.04em}
 #pad-retake{position:fixed;left:50%;top:8vh;transform:translateX(-50%);z-index:95000;pointer-events:none;font-family:var(--ui-body);color:var(--ui-text)}
 #pad-retake .ui-card{border-color:var(--ui-success);width:min(680px,86vw)}
@@ -78,6 +87,8 @@ function header(minigameId: string): string {
 const FIRST_TIME_TIPS: Record<string, string[]> = {
   cornicione: ['PIÙ % HAI, PIÙ LONTANO VOLI.', 'CADI FUORI = PERDI UNA VITA.', 'SALTI + SCHIVATA + RECOVERY TI FANNO TORNARE.']
 };
+/** Giochi con 6 comandi + 5 abilita' + consigli: la scheda diventa compatta (3 colonne) per stare in 1280x720. */
+const DENSE_GAMES = new Set(['cornicione']);
 function takeFirstTimeTips(minigameId: string, consume: boolean): string {
   const tips = FIRST_TIME_TIPS[minigameId];
   if (!tips) return '';
@@ -112,7 +123,7 @@ function build(minigameId: string, mode: 'pad' | 'phone', consumeTips = true): s
   const abilityKey = ordered.find((c) => c.action === 'ABILITY');
   const someoneWithoutPad = (gm.state?.players ?? []).some((p) => !(p as { pad?: string }).pad);
   const note = someoneWithoutPad ? '<div class="ui-note">📱 Chi non ha il controller gioca col telefono</div>' : '';
-  return `<div class="ui-card">${header(minigameId)}<div class="ui-sub">🎮 CONTROLLI</div><div class="ui-keys">${rows}</div>${abilityBlock(minigameId, abilityKey ? `⚡ ABILITÀ · ${labelsOf(abilityKey)}` : '⚡ ABILITÀ')}${takeFirstTimeTips(minigameId, consumeTips)}${note}${bar}</div>`;
+  return `<div class="ui-card${DENSE_GAMES.has(minigameId) ? ' dense' : ''}">${header(minigameId)}<div class="ui-sub">🎮 CONTROLLI</div><div class="ui-keys">${rows}</div>${abilityBlock(minigameId, abilityKey ? `⚡ ABILITÀ · ${labelsOf(abilityKey)}` : '⚡ ABILITÀ')}${takeFirstTimeTips(minigameId, consumeTips)}${note}${bar}</div>`;
 }
 
 /**
