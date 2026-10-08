@@ -9,7 +9,8 @@ const LOADERS: Record<string, () => Promise<unknown>> = {
   dodgeball: () => import('./dodgeball/BabylonDodgeballGame'),
   kart3d: () => import('./kart-race/BabylonKartGame'),
   soccer: () => import('./soccer/BabylonSoccerGame'),
-  volleyball: () => import('./volleyball/BabylonVolleyballGame')
+  volleyball: () => import('./volleyball/BabylonVolleyballGame'),
+  cornicione: () => import('./cornicione/BabylonCornicioneGame')
 };
 
 const started = new Set<string>();

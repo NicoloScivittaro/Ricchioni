@@ -1,7 +1,7 @@
 /**
  * ABILITY SELFTEST — logica pura, senza browser:  npx tsx scripts/ability-selftest.ts
  *
- * 1. CATALOGO: 10 giochi x 5 personaggi = 50 abilita', tutte complete (nome, testi, limite, tipo, impatto, numeri), nessun testo con
+ * 1. CATALOGO: 11 giochi x 5 personaggi = 55 abilita', tutte complete (nome, testi, limite, tipo, impatto, numeri), nessun testo con
  *    segnaposto non risolti, e i NUMERI citati nella descrizione sono quelli veri (niente "il codice fa 6 secondi, il telefono dice 8").
  * 2. INPUT: ogni gioco col controller ha un tasto ABILITA' nel profilo (la stessa fonte usata dalla schermata CONTROLLI).
  * 3. BUDGET: l'impatto ALTO ha un limite (cariche, ricarica, barra) e il tipo e' coerente.
@@ -35,12 +35,12 @@ const ok = (c: boolean, m: string): void => {
 };
 const section = (t: string): void => console.log(`\n=== ${t} ===`);
 
-const GAMES: AbilityGameId[] = ['arena', 'dodgeball', 'soccer', 'volleyball', 'kart3d', 'fps', 'memory', 'reaction', 'quiz', 'cultura'];
+const GAMES: AbilityGameId[] = ['arena', 'dodgeball', 'soccer', 'volleyball', 'kart3d', 'fps', 'memory', 'reaction', 'quiz', 'cultura', 'cornicione'];
 const CHARS = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'] as const;
 
 // ----------------------------------------------------------------------------------------------------------- 1. catalogo
 section('1. CATALOGO — 50 abilita\' complete e coerenti');
-ok(ABILITY_CATALOG.length === 50, `50 abilita' nel catalogo (sono ${ABILITY_CATALOG.length})`);
+ok(ABILITY_CATALOG.length === 55, `55 abilita' nel catalogo (sono ${ABILITY_CATALOG.length})`);
 const ids = new Set<string>();
 for (const g of GAMES) {
   for (const c of CHARS) {
@@ -57,7 +57,7 @@ for (const g of GAMES) {
     ok(/\.$/.test(d.full.trim()), `${g}/${c}: la descrizione finisce con un punto`);
   }
 }
-ok(ids.size === 50, '50 combinazioni uniche');
+ok(ids.size === 55, '55 combinazioni uniche');
 
 // i numeri in secondi citati nella descrizione devono essere quelli del parametro (stessa fonte)
 const fmt = (n: number): string => (Number.isInteger(n) ? String(n) : String(n).replace('.', ','));

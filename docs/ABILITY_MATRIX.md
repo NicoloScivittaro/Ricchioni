@@ -1,10 +1,10 @@
-# MATRICE DELLE ABILITÀ — 5 personaggi × 10 minigiochi
+# MATRICE DELLE ABILITÀ — 5 personaggi × 11 minigiochi
 
 > Generata da `scripts/ability-matrix.ts`. La colonna **DOPO** viene dal catalogo (`shared/abilityCatalog.ts`), la stessa fonte di TV, telefono e HUD: non può divergere dal gioco. La colonna **PRIMA** è l'audit dello stato precedente.
 > Voti **S/Sk/C/Cl** = significativa / skill richiesta / counterplay / chiarezza, da 1 a 5 (giudizi di design, da confermare con le persone: non sono misure).
 > Tipo: TIMING · RISORSA LIMITATA · RISCHIO / PREMIO · REATTIVA · INFORMAZIONE · REGOLA PIEGATA. Impatto: BASSO / MEDIO / ALTO (le ALTE hanno pochi usi, una ricarica, una barra da riempire o un rischio).
 
-**50 combinazioni · 23 impatto ALTO · 27 MEDIO · 0 BASSO.**
+**55 combinazioni · 28 impatto ALTO · 27 MEDIO · 0 BASSO.**
 
 ## 🤼 ARENA DEL DISAGIO
 
@@ -14,7 +14,7 @@ Tasto abilità: **B / ◯** (profilo di input).
 |---|---|---|---|
 | **GOBLIN** | **NCULO!** — dash sporco con direzione CASUALE e spinta ×1,85 · tasto · 1 uso/round · nome sopra la testa<br>S/Sk/C/Cl 3/1/2/3 | **N'CULO!** — Premi un attimo PRIMA dell'urto: per 0,45 s chi ti colpisce vola via con una spinta molto più forte e resta stordito. Se sbagli tempo, perdi 0,7 s e vai fuori equilibrio.<br>S/Sk/C/Cl 4/5/4/4 | TIMING · **ALTO** · 2 usi · ricarica 6 s |
 | **BUTTAFUORI** | **MO M'IMPEGNO** — 5 s di resistenza (spinte al 30%) · tasto · 1 uso · effetto invisibile (solo il nome)<br>S/Sk/C/Cl 3/1/3/3 | **MO M'IMPEGNO** — Per 4 s le spinte ti spostano appena. Quello che assorbi si accumula e alla fine lo restituisci in un'onda d'urto attorno a te. Più botte prendi, più forte torna.<br>S/Sk/C/Cl 4/3/4/4 | REATTIVA · **MEDIO** · 1 uso |
-| **JUDOKA** | **IPPON** — onda d'urto AUTOMATICA attorno (5,5 m, forza 15) · tasto · 1 uso<br>S/Sk/C/Cl 3/1/2/4 | **IPPON** — Premi quando un avversario è a un passo davanti a te: lo afferri e lo scaraventi dietro di te. Se non c'è nessuno a portata, perdi 0,6 s a vuoto.<br>S/Sk/C/Cl 4/4/4/4 | TIMING · **ALTO** · 2 usi · ricarica 8 s |
+| **JUDOKA** | **IPPON** — onda d'urto AUTOMATICA attorno (5,5 m, forza 15) · tasto · 1 uso<br>S/Sk/C/Cl 3/1/2/4 | **IPPON** — Premi quando un avversario è a un passo davanti a te: lo afferri e lo scaraventi via con una spinta enorme. Se non c'è nessuno a portata, perdi 0,6 s a vuoto.<br>S/Sk/C/Cl 4/4/4/4 | TIMING · **ALTO** · 2 usi · ricarica 8 s |
 | **DOTTORE** | **20 KG IN UN MESE** — 5 s più veloce ma spinte ×2 · tasto · 1 uso · il nome non c'entra col DNA del personaggio<br>S/Sk/C/Cl 2/1/3/2 | **M'HO SVEJATO** — Per 4,5 s schivi in automatico il primo scatto diretto contro di te e chi ti ha attaccato inciampa. Se nessuno ti attacca, ti riaddormenti e per 1,5 s sei lento.<br>S/Sk/C/Cl 3/3/4/4 | REATTIVA · **MEDIO** · 1 uso |
 | **CIRO** | **PAGO DOPO** — arma 4 s: la prossima spinta subita arriva 2 s dopo più debole · tasto · 1 uso<br>S/Sk/C/Cl 3/2/3/3 | **PAGO DOMANI** — Premi prima di finire sul bordo (resta armata 8 s). Se stai per cadere fuori, ti salvi ma hai un DEBITO di 6 s: spingi un avversario prima che scada, o cadi davvero.<br>S/Sk/C/Cl 4/3/4/4 | RISCHIO / PREMIO · **ALTO** · 1 uso |
 
@@ -126,9 +126,21 @@ Tasto abilità: **telefono, quando si vota** (profilo di input).
 | **DOTTORE** | **—** — nessuna abilità di personaggio: solo TE CONOSCO (uguale per tutti) e i ruoli a caso Secchione / Avvocato<br>S/Sk/C/Cl 1/1/1/2 | **M'HO SVEJATO** — Premi durante il voto: ti arriva solo un'intuizione sulla risposta vera (iniziale della parola principale e numero di parole). Costa 1 punto di "parcella". Una volta a partita.<br>S/Sk/C/Cl 4/3/3/4 | INFORMAZIONE · **MEDIO** · 1 uso a partita |
 | **CIRO** | **—** — nessuna abilità di personaggio: solo TE CONOSCO (uguale per tutti) e i ruoli a caso Secchione / Avvocato<br>S/Sk/C/Cl 1/1/1/2 | **ULTIMO GIORNO UTILE** — Premi durante il voto: vedi in tempo reale quanti voti ha preso ogni risposta (non chi li ha dati) e hai almeno 5 s per scegliere. Una volta a partita.<br>S/Sk/C/Cl 4/3/3/4 | INFORMAZIONE · **ALTO** · 1 uso a partita |
 
+## 🧱 BOTTE SUL CORNICIONE
+
+Tasto abilità: **RB / R1** (profilo di input).
+
+| | PRIMA | DOPO | tipo · impatto · limite |
+|---|---|---|---|
+| **GOBLIN** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **RIMONTA AL 90°** — Premi in aria quando sei fuori dal palco, muovendo lo stick: scatto diagonale (non è un teletrasporto). Se rimetti piede sul palco entro 2,5 s hai 1,2 s per un attacco aereo speciale. Se lo sprechi, per questa vita è finita. Non funziona mentre sei in stordimento.<br>S/Sk/C/Cl 5/4/4/4 | RISCHIO / PREMIO · **ALTO** · 1 uso per vita |
+| **BUTTAFUORI** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **ULTIMO ACCESSO: 3 SETTIMANE FA** — Premi: per 1,1 s sparisci, non colpisci e non puoi essere colpito. Lo stick sceglie dove riappari (a circa 4.5 m): gli altri vedono il punto poco prima. Quando torni non puoi schivare per 0,5 s. Una volta per vita.<br>S/Sk/C/Cl 4/4/4/4 | REGOLA PIEGATA · **ALTO** · 1 uso per vita |
+| **JUDOKA** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **ANGORA CHE DICI?** — Premi: per 0,5 s sei in postura. Se in quel momento ti colpisce un attacco corpo a corpo, il colpo si annulla e lo afferri (pausa di 0,18 s): lo stick sceglie dove lo scagli (sinistra, destra, giù); più forte era il colpo, più forte il lancio. Se non ti colpiscono resti scoperto 0,55 s. Due usi per vita.<br>S/Sk/C/Cl 5/5/4/4 | REATTIVA · **ALTO** · 2 usi per vita |
+| **DOTTORE** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **TAGLIO PESO EXPRESS** — Premi: per 5 s sei più leggero: controllo aereo, salto e caduta molto migliori. Ma i colpi che prendi ti lanciano 1.9× più lontano: un colpo pesante a percentuale alta ti manda fuori. Una volta per vita.<br>S/Sk/C/Cl 4/4/4/4 | RISCHIO / PREMIO · **ALTO** · 1 uso per vita |
+| **CIRO** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **BONIFICO IN LAVORAZIONE** — Quando stai per finire fuori si apre per 0,6 s la finestra "BONIFICO?": premi per rinviare il KO e avere 2,5 s per rientrare. Se rientri paghi +25% di danno; se no, sei fuori. Se non premi, il KO è normale e l'abilità resta.<br>S/Sk/C/Cl 5/3/5/4 | REATTIVA · **ALTO** · 1 uso per vita |
+
 ## Riepilogo
 
-Media S/Sk/C/Cl: **prima 2.6/1.8/1.9/2.8** → **dopo 3.9/3.2/3.2/4.0**.
+Media S/Sk/C/Cl: **prima 2.4/1.8/1.8/2.6** → **dopo 4.0/3.3/3.3/4.0**.
 
 Cambiamenti principali: FPS e Cultura passano da nessuna abilità a una per personaggio; le abilità passive o automatiche (Buttafuori in Kart, Memoria e Botta al Volo, Ciro in Kart) restano tali solo dove la passività È il punto (Memoria, Botta al Volo) e diventano reattive con un tasto dove prima scattavano da sole (Kart); Calcio e Pallavolo non copiano più Arena/Dodgeball.
 

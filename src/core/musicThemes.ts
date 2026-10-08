@@ -18,6 +18,7 @@ export type ThemeId =
   | 'soccer'
   | 'volleyball'
   | 'kart3d'
+  | 'cornicione'
   | 'fps'
   | 'memory'
   | 'reaction'
@@ -139,6 +140,16 @@ export const THEMES: Record<ThemeId, Theme> = {
     chords: { wave: 'sawtooth', style: 'stab', stabs: 'x..x..x.........', octave: 0 },
     motif: [0, _, 4, _, 7, _, 4, _, 9, _, 7, _, 4, _, _, _, 0, _, 4, _, 7, _, 11, _, 9, _, 7, _, 6, _, _, _],
     lead: { wave: 'sawtooth', octave: 1 }, gain: 0.5
+  },
+  // BOTTE SUL CORNICIONE: tetto al tramonto, dorico funky e nervoso (platform fighter: ritmo spezzato, basso a ottavi, stab di chitarra sintetica)
+  cornicione: {
+    id: 'cornicione', bpm: 138, swing: 0.08, root: 50, scale: DORIAN, progression: [0, 0, 3, 3, 4, 4, 3, 5],
+    kick: 'x..x..x...x.x...', snare: '....x.......x..x', hat: 'x.x.x.x.x.x.x.xx', kickB: 'x..x.xx...x.x.x.',
+    perc: { kind: 'rim', pattern: '..x..x..x..x..x.' },
+    bass: { pattern: '1.1.8.1.1.1.8.5.', wave: 'sawtooth', octave: -2 },
+    chords: { wave: 'square', style: 'stab', stabs: 'x..x..x...x..x..', octave: 0 },
+    motif: [0, _, 2, _, 4, _, 7, _, 6, _, 4, _, 2, _, _, _, 0, _, 3, _, 4, _, 7, _, 9, _, 7, _, 4, _, _, _],
+    lead: { wave: 'square', octave: 1 }, gain: 0.7
   },
   // SPARATORIA: synth scuro, minore armonico, basso pulsante; basso volume (le armi vengono prima)
   fps: {

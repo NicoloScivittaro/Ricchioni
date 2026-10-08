@@ -35,7 +35,8 @@ export const GAME_TINT: Record<string, number> = {
   memory: 0x9a3a4a,
   reaction: 0x3a4aa8,
   quiz: 0x5a3ab8,
-  cultura: 0xa8683a
+  cultura: 0xa8683a,
+  cornicione: 0xc4527a
 };
 
 function rnd(seed: number): () => number {

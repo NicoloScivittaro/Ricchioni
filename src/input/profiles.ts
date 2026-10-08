@@ -94,6 +94,16 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'HIT', binding: 'PRIMARY', control: 'hit', label: 'COLPISCI / SMASH' },
     { action: 'ABILITY', binding: 'SECONDARY', control: 'ability', label: 'ABILITÀ' }
   ]),
+  // Botte sul Cornicione (platform fighter): lo stick e' tutto (corsa, salto-giu', direzione degli attacchi); A salta, X colpo
+  // leggero, Y colpo pesante, B schivata, RB abilita'. Tutti one-shot tranne il salto, di cui conta anche "tenuto" (salto corto).
+  cornicione: defineProfile('cornicione', [
+    { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI · ↓ SCENDI' },
+    { action: 'JUMP', binding: 'PRIMARY', control: 'jump', label: 'SALTO (2 VOLTE)' },
+    { action: 'LIGHT', binding: 'LEFT', control: 'light', label: 'ATTACCO LEGGERO' },
+    { action: 'HEAVY', binding: 'TOP', control: 'heavy', label: 'ATTACCO PESANTE · ↑ IN ARIA = RECOVERY' },
+    { action: 'DODGE', binding: 'SECONDARY', control: 'dodge', label: 'SCHIVATA' },
+    { action: 'ABILITY', binding: 'RB', control: 'ability', label: 'ABILITÀ' }
+  ]),
   // Kart: RT/LT sono TASTI (pressed/tenuto/rilasciato), come 'up'/'down' del telefono oggi — il gioco non ha un accel/frenata
   // analogici (accelerazione a valore fisso mentre il tasto e' giu'): introdurre una magnitudine cambierebbe la curva fisica,
   // quindi si adatta in modo compatibile ("RT+LT insieme": vince il throttle, identico a oggi con up/down). Lo STERZO invece

@@ -1039,6 +1039,7 @@ const GAME_STINGS: Record<string, { notes: number[]; step: number; len: number; 
   soccer: { notes: [60, 64, 67, 72, 76], step: 0.09, len: 0.2, wave: 'triangle' },
   volleyball: { notes: [67, 71, 74, 79], step: 0.08, len: 0.18, wave: 'triangle' },
   kart3d: { notes: [55, 62, 67, 74, 79], step: 0.07, len: 0.16, wave: 'sawtooth' },
+  cornicione: { notes: [52, 59, 64, 71, 76], step: 0.07, len: 0.15, wave: 'sawtooth' },
   fps: { notes: [50, 53, 57, 62], step: 0.1, len: 0.22, wave: 'square' },
   memory: { notes: [64, 59, 55, 50], step: 0.13, len: 0.22, wave: 'triangle' },
   reaction: { notes: [72, 72, 79], step: 0.11, len: 0.1, wave: 'square' },

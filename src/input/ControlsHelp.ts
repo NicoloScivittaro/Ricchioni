@@ -49,6 +49,7 @@ const CSS = `
 .ui-abil-who{flex:none;font-family:var(--ui-display);min-width:5.6em}
 .ui-abil-name{flex:none;font-family:var(--ui-display);color:var(--ui-text)}
 .ui-abil-short{color:var(--ui-dim);font-weight:700}
+#pad-controls .ui-tips{margin-top:clamp(8px,1.4vh,16px);display:flex;flex-direction:column;gap:.2em;font-family:var(--ui-display);font-size:clamp(14px,2.1vh,24px);color:var(--ui-accent);letter-spacing:.04em}
 #pad-retake{position:fixed;left:50%;top:8vh;transform:translateX(-50%);z-index:95000;pointer-events:none;font-family:var(--ui-body);color:var(--ui-text)}
 #pad-retake .ui-card{border-color:var(--ui-success);width:min(680px,86vw)}
 `;
@@ -70,7 +71,29 @@ function header(minigameId: string): string {
   return `${def?.icon ? `<div class="ui-icon">${esc(def.icon)}</div>` : ''}<div class="ui-title">${esc(def?.name ?? minigameId)}</div>`;
 }
 
-function build(minigameId: string, mode: 'pad' | 'phone'): string {
+/**
+ * Consigli della PRIMA volta (tre righe, mai di piu'): solo per i giochi che ne hanno bisogno. La prima volta che il gioco viene
+ * mostrato su questo host compaiono sotto i comandi; dopo non piu' (localStorage, mai bloccante se non disponibile).
+ */
+const FIRST_TIME_TIPS: Record<string, string[]> = {
+  cornicione: ['PIÙ % HAI, PIÙ LONTANO VOLI.', 'CADI FUORI = PERDI UNA VITA.', 'SALTI + SCHIVATA + RECOVERY TI FANNO TORNARE.']
+};
+function takeFirstTimeTips(minigameId: string, consume: boolean): string {
+  const tips = FIRST_TIME_TIPS[minigameId];
+  if (!tips) return '';
+  const key = `ricchioni.tips.${minigameId}`;
+  try {
+    if (consume) {
+      if (localStorage.getItem(key)) return '';
+      localStorage.setItem(key, '1');
+    }
+  } catch {
+    /* storage non disponibile: li mostra */
+  }
+  return `<div class="ui-tips">${tips.map((t) => `<div>👉 ${esc(t)}</div>`).join('')}</div>`;
+}
+
+function build(minigameId: string, mode: 'pad' | 'phone', consumeTips = true): string {
   const bar = `<div class="ui-bar"><i style="animation-duration:${helpMs}ms"></i></div>`;
   if (mode === 'phone') {
     return `<div class="ui-card">${header(minigameId)}<div class="ui-big">📱 PRENDETE I TELEFONI</div><div class="ui-sub">SERVONO PER SCRIVERE E VOTARE</div>${abilityBlock(minigameId, '⚡ SUL TELEFONO')}${bar}</div>`;
@@ -89,7 +112,7 @@ function build(minigameId: string, mode: 'pad' | 'phone'): string {
   const abilityKey = ordered.find((c) => c.action === 'ABILITY');
   const someoneWithoutPad = (gm.state?.players ?? []).some((p) => !(p as { pad?: string }).pad);
   const note = someoneWithoutPad ? '<div class="ui-note">📱 Chi non ha il controller gioca col telefono</div>' : '';
-  return `<div class="ui-card">${header(minigameId)}<div class="ui-sub">🎮 CONTROLLI</div><div class="ui-keys">${rows}</div>${abilityBlock(minigameId, abilityKey ? `⚡ ABILITÀ · ${labelsOf(abilityKey)}` : '⚡ ABILITÀ')}${note}${bar}</div>`;
+  return `<div class="ui-card">${header(minigameId)}<div class="ui-sub">🎮 CONTROLLI</div><div class="ui-keys">${rows}</div>${abilityBlock(minigameId, abilityKey ? `⚡ ABILITÀ · ${labelsOf(abilityKey)}` : '⚡ ABILITÀ')}${takeFirstTimeTips(minigameId, consumeTips)}${note}${bar}</div>`;
 }
 
 /**
@@ -174,7 +197,7 @@ export function previewControls(minigameId: string, mode: 'pad' | 'phone'): void
   const el = document.createElement('div');
   el.id = 'pad-controls';
   el.className = 'ui-overlay';
-  el.innerHTML = build(minigameId, mode);
+  el.innerHTML = build(minigameId, mode, false);
   document.body.appendChild(el);
   window.setTimeout(() => el.remove(), 60000);
 }

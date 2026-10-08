@@ -30,12 +30,14 @@ const GAMES: { id: AbilityGameId; title: string }[] = [
   { id: 'memory', title: 'MEMORIA DA UBRIACO' },
   { id: 'reaction', title: 'BOTTA AL VOLO' },
   { id: 'quiz', title: 'CHI CAZZO LO SA?' },
-  { id: 'cultura', title: 'CULTURA O CAZZATA?' }
+  { id: 'cultura', title: 'CULTURA O CAZZATA?' },
+  { id: 'cornicione', title: 'BOTTE SUL CORNICIONE' }
 ];
 const CHARS = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'] as const;
 const CHAR_LABEL: Record<(typeof CHARS)[number], string> = { goblin: 'GOBLIN', buttafuori: 'BUTTAFUORI', judoka: 'JUDOKA', dottore: 'DOTTORE', ciro: 'CIRO' };
 
 const NONE: Before = { name: '—', what: 'nessuna abilità di personaggio (RB riservato e senza effetto)', score: [1, 1, 1, 1] };
+const NEWGAME: Before = { name: '—', what: 'gioco nuovo: nessuna versione precedente', score: [1, 1, 1, 1] };
 const CULT: Before = { name: '—', what: 'nessuna abilità di personaggio: solo TE CONOSCO (uguale per tutti) e i ruoli a caso Secchione / Avvocato', score: [1, 1, 1, 2] };
 
 /** PRIMA: foto dell'audit (nome · effetto · trigger · usi · feedback) e voti [significativa, skill, counterplay, chiarezza]. */
@@ -97,7 +99,8 @@ const BEFORE: Record<AbilityGameId, Record<(typeof CHARS)[number], Before>> = {
     dottore: { name: "M'HO SVEJATO", what: 'indizio vero in privato, valgono il 70% dei punti · 1 uso', score: [4, 2, 1, 4] },
     ciro: { name: 'ULTIMO GIORNO UTILE', what: 'aspetti la fine del tempo e vedi come hanno risposto (+4 s) · 1 uso', score: [4, 3, 2, 4] }
   },
-  cultura: { goblin: CULT, buttafuori: CULT, judoka: CULT, dottore: CULT, ciro: CULT }
+  cultura: { goblin: CULT, buttafuori: CULT, judoka: CULT, dottore: CULT, ciro: CULT },
+  cornicione: { goblin: NEWGAME, buttafuori: NEWGAME, judoka: NEWGAME, dottore: NEWGAME, ciro: NEWGAME }
 };
 
 /** DOPO: voti di progetto (da confermare col playtest). Chiave `${gioco}/${personaggio}`; default sotto. */
@@ -126,7 +129,12 @@ const AFTER_SCORE: Record<string, Score> = {
   'kart3d/buttafuori': [4, 3, 3, 4],
   'kart3d/judoka': [4, 3, 4, 4],
   'kart3d/dottore': [4, 3, 4, 4],
-  'kart3d/ciro': [4, 3, 3, 4]
+  'kart3d/ciro': [4, 3, 3, 4],
+  'cornicione/goblin': [5, 4, 4, 4],
+  'cornicione/buttafuori': [4, 4, 4, 4],
+  'cornicione/judoka': [5, 5, 4, 4],
+  'cornicione/dottore': [4, 4, 4, 4],
+  'cornicione/ciro': [5, 3, 5, 4]
 };
 const AFTER_DEFAULT: Score = [4, 3, 3, 4];
 
@@ -148,7 +156,7 @@ function keyOf(gameId: AbilityGameId): string {
 let md = '';
 const out = (l = ''): void => void (md += l + '\n');
 
-out('# MATRICE DELLE ABILITÀ — 5 personaggi × 10 minigiochi');
+out('# MATRICE DELLE ABILITÀ — 5 personaggi × 11 minigiochi');
 out();
 out('> Generata da `scripts/ability-matrix.ts`. La colonna **DOPO** viene dal catalogo (`shared/abilityCatalog.ts`), la stessa fonte di TV, telefono e HUD: non può divergere dal gioco. La colonna **PRIMA** è l\'audit dello stato precedente.');
 out('> Voti **S/Sk/C/Cl** = significativa / skill richiesta / counterplay / chiarezza, da 1 a 5 (giudizi di design, da confermare con le persone: non sono misure).');
@@ -157,7 +165,7 @@ out();
 
 const high = ABILITY_CATALOG.filter((d) => d.impact === 'HIGH').length;
 const med = ABILITY_CATALOG.filter((d) => d.impact === 'MEDIUM').length;
-out(`**50 combinazioni · ${high} impatto ALTO · ${med} MEDIO · 0 BASSO.**`);
+out(`**55 combinazioni · ${high} impatto ALTO · ${med} MEDIO · 0 BASSO.**`);
 out();
 
 const allBefore: Score[] = [];
