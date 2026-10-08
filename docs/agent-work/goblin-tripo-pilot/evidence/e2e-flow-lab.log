@@ -1,0 +1,12 @@
+
+— CONTESTI DI GIOCO (host ?goblin=new, telefoni con il Goblin) —
+   screenshot e2e-shots/goblin/1600x900-cornicione-old.png
+✅ CORNICIONE: Goblin importato nel gioco reale (ossa 65, clip run.001~g1)
+   cornicione: {"speed":0,"frame":52.5,"hold":52.5,"offset":[-0.0258,0,0.4548]}
+   screenshot e2e-shots/goblin/1600x900-cornicione-new.png
+✅ CORNICIONE: nessun errore
+   screenshot e2e-shots/goblin/1600x900-impact-fps-old.png
+   screenshot e2e-shots/goblin/1600x900-impact-fps-new.png
+✅ SPARATORIA (lab): nessun errore
+
+TUTTO OK

@@ -1,0 +1,38 @@
+{
+  "fallback": {
+    "charge": true,
+    "kick": true,
+    "volley": true,
+    "returnNew": true,
+    "kartImport": null,
+    "kartTorso": true
+  },
+  "fps": {
+    "ownHidden": true,
+    "gunsVisible": true,
+    "dead": {
+      "name": "goblin.ko",
+      "seconds": 0.1667,
+      "speed": 5.092444444444444,
+      "duration": 0.45,
+      "priority": 100,
+      "loop": false,
+      "token": "goblin.ko",
+      "blend": 0.035,
+      "contactTime": null
+    },
+    "respawn": {
+      "name": "goblin.idle",
+      "seconds": 0.0896666679084301,
+      "speed": 1,
+      "duration": 15.33333333209157,
+      "priority": 0,
+      "loop": true,
+      "token": "goblin.idle",
+      "blend": 0.12,
+      "contactTime": null
+    },
+    "cameras": 5
+  },
+  "errors": []
+}

@@ -1,0 +1,33 @@
+✅ P1 (Xbox) e P2 (DualSense) col controller, P3 col telefono
+✅ durata CONTROLLI 4947 ms
+✅ comandi base: "BOTTE SUL CORNICIONE 🎮 CONTROLLI LEFT STICK MUOVITI · ↓ SCENDI A / ✕ SALTO (2 VOLTE) X / □ ATTACCO LEGGERO Y / △ ATTACCO PESANTE · ↑ IN ARIA = RECOVERY B / ◯ SCHIVATA RB / R1 ⚡ ABILITÀ ⚡ ABILITÀ · RB"
+✅ CONTROLLI: sezione ABILITÀ con la riga di ogni personaggio presente
+✅ CONTROLLI: i tre consigli della prima volta
+✅ gioco FERMO durante i CONTROLLI (tempo di gioco 0 -> 0)
+✅ A/✕ = SALTO
+✅ X/□ = ATTACCO LEGGERO
+✅ Y/△ = ATTACCO PESANTE
+✅ B/◯ = SCHIVATA
+✅ RB = ABILITÀ (Xbox)
+✅ R1 = ABILITÀ (DualSense)
+✅ stick sinistro -> asse move (0.75, -0.66)
+✅ stick destra: il personaggio corre (-8.0 -> 1.5)
+✅ stick sinistra: corre a sinistra
+✅ A: salta (quota massima 3.9)
+✅ doppio salto: due pressioni in aria (salti rimasti 0, y 6.1)
+✅ B: schivata (cooldown 0.64 s: niente spam)
+✅ X neutro = leggero neutro: danno 2.8 (atteso 2.8)
+✅ X + stick destra = leggero laterale: danno 4.5 (atteso 4.5)
+✅ Y + stick destra = pesante laterale: danno 13.0 (atteso 13)
+✅ RB del Goblin a terra: avviso privato "SOLO IN ARIA"
+✅ RB non partita: l'abilità non si consuma
+✅ RB/R1 del Buttafuori: ULTIMO ACCESSO parte
+✅ Companion Card DualSense: nome abilità e tasto R1 ("IL BUTTAFUORI RIBALTATO 🧱 BOTTE SUL CORNICIONE ULTIMO ACCESSO: 3 SETTIMANE FA R1 REGOLA PIEGATA · 1 uso per vita Premi:")
+✅ Companion Card Xbox: gioco, abilità e tasto RB ("GOBLIN MBRIACONE 🧱 BOTTE SUL CORNICIONE RIMONTA AL 90° RB RISCHIO / PREMIO · 1 uso per vita Premi in aria quando sei fu")
+✅ Companion Card: nessun tasto di gioco sul telefono col controller
+✅ Companion Card: indica che si gioca col controller
+✅ P3 (senza controller): croce e tasti sul telefono ("BOTTE SUL CORNICIONE ▲ ◀ ▶ ▼ 🦘 SALTO 👊 LEGGERO 💥 PESANTE 💨 SCHIVA ⭐ ABILITÀ")
+✅ P3 (telefono): la croce destra lo muove
+✅ controller scollegato: input a zero (nessun movimento fantasma)
+✅ nessun errore di pagina 
+✅ tutto ok

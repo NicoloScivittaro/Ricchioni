@@ -1,0 +1,46 @@
+import assert from 'node:assert/strict';
+import { GoblinAnimator, GOBLIN_CLIPS, GOBLIN_MOVES, attackSeconds, clipOf } from '../src/minigames/characters/goblinAnimator';
+import { ALL_MOVES, followMove } from '../src/minigames/cornicione/fighterData';
+const base={speedFrac:0,alive:true,falling:false,dashing:false,stunned:false,grounded:true};
+let checks=0;
+const check=(c:boolean,message:string)=>{assert.ok(c,message);checks++;};
+check(GOBLIN_CLIPS.length===28,'28 explicitly mapped clips');
+check(!GOBLIN_CLIPS.some(c=>c.index===22),'wrong soccer clip cannot be requested');
+for(const c of GOBLIN_CLIPS){check(c.from<c.to&&c.from>=0,`${c.name}: range`);check(c.duration>0,`${c.name}: duration`);}
+for(const move of [...ALL_MOVES,followMove(9)]){
+  const before=JSON.stringify(move),c=clipOf(GOBLIN_MOVES[move.id])!;
+  check(!!c,`${move.id}: mapped`);
+  const contactAt=move.startup+move.active*.35;
+  const a={id:move.id,elapsed:contactAt,startup:move.startup,active:move.active,recovery:move.recovery};
+  const candidate=move.id==='dL'?c.lowContact??c.contact:c.contact;
+  const expected=Math.max(c.from+.001,Math.min(c.to-.001,candidate??c.from+(c.to-c.from)*.4));
+  check(Math.abs(attackSeconds(c,a)-expected)<1e-7,`${move.id}: contact during active interval`);
+  const animator=new GoblinAnimator();
+  const out=animator.update(.016,{...base,attack:a});
+  check(out.name===c.name&&out.duration===move.startup+move.active+move.recovery,`${move.id}: authoritative timing`);
+  check(before===JSON.stringify(move),`${move.id}: gameplay untouched`);
+}
+const a=new GoblinAnimator();
+check(a.update(.016,base).name==='goblin.idle','idle');
+check(a.update(.016,{...base,speedFrac:1}).name==='goblin.run','run');
+check(a.update(.016,{...base,grounded:false,vy:12}).name==='goblin.jump','ascending uses jump');
+check(a.update(.016,{...base,grounded:false,vy:-12}).name==='goblin.fall','descending uses fall');
+check(a.update(.016,{...base,dodge:true}).name==='goblin.dodge','dodge');
+a.playAction('goblin.jab');a.playHitReaction('head');
+check(a.update(.016,{...base,speedFrac:1}).name==='goblin.hitHead','hit interrupts jab and locomotion');
+check(a.update(.016,{...base,alive:false}).name==='goblin.ko','KO has priority');
+a.playAction('goblin.jab');a.playAbility();
+check(a.update(.1,{...base,alive:false,speedFrac:1}).name==='goblin.ko','attack cannot interrupt KO');
+check(a.update(.016,base).name==='goblin.idle','respawn clears KO');
+check(a.update(.016,{...base,alive:false,falling:true}).name==='goblin.fall','ring-out never uses ground KO');
+a.playResult('victory');
+for(let i=0;i<90;i++)a.update(.1,base);
+const tail=a.update(.1,base);check(tail.name==='goblin.victory'&&!tail.loop&&tail.seconds===clipOf(tail.name)!.to,'victory holds tail');
+a.playResult(null);a.playAction('goblin.ballThrow',.36,true);
+check(a.update(0,base).seconds===clipOf('goblin.ballThrow')!.contact,'release contact at event instant');
+const state=Object.freeze({...base,speedFrac:1});a.update(.016,state);
+check(state.speedFrac===1,'read-only state');
+a.previewClip('goblin.jab',.5,true);check(a.update(.016,base).speed===.5,'preview independent speed');
+a.previewClip('SOCCER BALL KICK ANIMATION');check(a.update(.016,base).priority!==200,'excluded clip cannot preview');
+const b=new GoblinAnimator();b.playHitReaction('body');check(b.update(0,base).name==='goblin.hitBodyA','first body reaction');b.playHitReaction('body');check(b.update(0,base).name==='goblin.hitBodyB','deterministic alternate body reaction');
+console.log(`Goblin animation: ${checks} checks passed`);

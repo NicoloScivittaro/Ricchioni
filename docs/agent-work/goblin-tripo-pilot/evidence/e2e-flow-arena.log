@@ -1,0 +1,9 @@
+
+— CONTESTI DI GIOCO (host ?goblin=new, telefoni con il Goblin) —
+   arena: {"importedMeshes":2,"skeletons":1,"animationGroups":1,"goblins":[{"state":"ready","error":null,"bones":65,"meshes":2,"meshNames":["__root__~g1(0v)","tripo_node_cd7feb88-0f60-4be8-9c4a-973b69512c80~g1(33613v)"],"animation":"run.001~g1","animationPlaying":false,"animationSpeed":0,"animationFrame":52.5,"skeletonId":1057,"clipHipsOffset":[-0.0258,0,0.4548],"holdFrame":52.5,"restHips":[0.0019,0.4764,0.0172],"hipsNow":[0.0019,0.4364,0.0172],"height":2.3232399999999997,"width":0.9807193925886168,"depth":0.6276344626933739,"scale":2.3715457430899156,"vertices":33613}],"avatars":null}
+✅ ARENA: scena arena raggiunta
+✅ ARENA: modello importato presente nel render (mesh 2, avatar null)
+   screenshot e2e-shots/goblin/1600x900-arena-new.png
+✅ ARENA: nessun errore
+
+TUTTO OK

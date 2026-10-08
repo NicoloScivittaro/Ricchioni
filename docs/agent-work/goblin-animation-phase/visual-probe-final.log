@@ -1,0 +1,147 @@
+{
+  "initial": [
+    {
+      "animator": {
+        "name": "goblin.idle",
+        "seconds": 0.0916666679084301,
+        "speed": 1,
+        "duration": 15.33333333209157,
+        "priority": 0,
+        "loop": true,
+        "token": "goblin.idle",
+        "blend": 0.12,
+        "contactTime": null
+      },
+      "activeTracks": 195,
+      "sampleMs": 0.8000000007450581,
+      "clips": 36,
+      "state": "ready",
+      "error": null,
+      "bones": 65,
+      "meshes": 2,
+      "meshNames": [
+        "__root__~g1(0v)",
+        "tripo_node_b0d273b1-8976-4036-80dc-f482eea67419~g1(33613v)"
+      ],
+      "geometryIds": [
+        -1,
+        468
+      ],
+      "animation": "goblin.idle",
+      "animationPlaying": true,
+      "animationSpeed": 1,
+      "animationFrame": 5.500000074505806,
+      "skeletonId": 7729,
+      "clipHipsOffset": null,
+      "holdFrame": 0,
+      "seated": false,
+      "seatedApplied": false,
+      "restHips": [
+        0.0019,
+        0.4764,
+        0.0172
+      ],
+      "hipsNow": [
+        0.0019,
+        0.4757,
+        0.0172
+      ],
+      "joints": {
+        "Hips": [
+          -0.0019,
+          0.4757,
+          0.0172
+        ],
+        "Spine": [
+          -0.0014,
+          0.5139,
+          0.0127
+        ],
+        "Head": [
+          -0.0051,
+          0.7587,
+          0.0068
+        ],
+        "LeftUpLeg": [
+          -0.056,
+          0.4305,
+          0.0177
+        ],
+        "LeftLeg": [
+          -0.0694,
+          0.2674,
+          0.0201
+        ],
+        "LeftFoot": [
+          -0.0823,
+          0.0833,
+          -0.0115
+        ],
+        "RightUpLeg": [
+          0.0511,
+          0.4292,
+          0.0184
+        ],
+        "RightLeg": [
+          0.0654,
+          0.2675,
+          0.0387
+        ],
+        "RightFoot": [
+          0.0805,
+          0.088,
+          -0.0125
+        ],
+        "LeftHand": [
+          -0.1594,
+          0.4366,
+          0.02
+        ],
+        "RightHand": [
+          0.1587,
+          0.4476,
+          0.0162
+        ]
+      },
+      "height": 2.3232399999999997,
+      "width": 0.98071939261795,
+      "depth": 0.627634462739209,
+      "scale": 2.3715457430899156,
+      "vertices": 33613
+    },
+    null,
+    null,
+    null,
+    null
+  ],
+  "errors": []
+}
+{
+  "errors": [],
+  "stats": {
+    "meshes": 63,
+    "materials": 28,
+    "textures": 9,
+    "skeletons": 1,
+    "animationGroups": 36,
+    "geometries": 62
+  },
+  "idle": [
+    null,
+    {
+      "name": "goblin.idle",
+      "seconds": 1.1181666679084308,
+      "speed": 1,
+      "duration": 15.33333333209157,
+      "priority": 0,
+      "loop": true,
+      "token": "goblin.idle",
+      "blend": 0.12,
+      "contactTime": null
+    }
+  ],
+  "clips": [
+    null,
+    36
+  ]
+}

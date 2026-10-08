@@ -1,0 +1,9 @@
+
+— CONTESTI DI GIOCO (host ?goblin=new, telefoni con il Goblin) —
+   kart3d: {"importedMeshes":2,"skeletons":1,"animationGroups":1,"goblins":[{"state":"ready","error":null,"bones":65,"meshes":2,"meshNames":["__root__~g1(0v)","tripo_node_cd7feb88-0f60-4be8-9c4a-973b69512c80~g1(33613v)"],"animation":"run.001~g1","animationPlaying":false,"animationSpeed":0,"animationFrame":52.5,"skeletonId":1160,"clipHipsOffset":[-0.0258,0,0.4548],"holdFrame":52.5,"restHips":[0.0019,0.4764,0.0172],"hipsNow":[0.0019,0.4364,0.0172],"height":1.2253876280277813,"width":0.5380757177102156,"depth":0.9574142602776703,"scale":1.3780697444270806,"vertices":33613}],"avatars":null}
+✅ KART3D: scena kart3d raggiunta
+✅ KART3D: modello importato presente nel render (mesh 2, avatar null)
+   screenshot e2e-shots/goblin/1600x900-kart3d-new.png
+✅ KART3D: nessun errore
+
+TUTTO OK

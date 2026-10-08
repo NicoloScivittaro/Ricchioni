@@ -1,0 +1,11 @@
+{
+  "visible": 2,
+  "disposal": 0,
+  "counters": {
+    "liveInstances": 0,
+    "lateDisposedContainers": 0,
+    "abortedLoads": 0,
+    "lastLoadError": null
+  },
+  "errors": []
+}

@@ -1,4 +1,4 @@
-import { Engine, Scene, Color4, Color3, StandardMaterial, MeshBuilder, Mesh, UniversalCamera, Viewport, Vector3, TransformNode, DynamicTexture, HemisphericLight, DirectionalLight } from '@babylonjs/core';
+import { Engine, Scene, Color4, Color3, StandardMaterial, MeshBuilder, Mesh, UniversalCamera, Viewport, Vector3, TransformNode, DynamicTexture, HemisphericLight, DirectionalLight, AbstractMesh } from '@babylonjs/core';
 import { AdvancedDynamicTexture, TextBlock, Rectangle, Control } from '@babylonjs/gui';
 import type { PlayerId } from '../../../shared/types';
 import { buildFpsWorld, buildFpsLights } from '../../controller/fpsWorld';
@@ -10,6 +10,7 @@ import { applyQuality, engineOptions, getQualityInfo } from '../../core/quality'
 import { debugEnabled } from '../../core/debug';
 import { presentationOf } from '../../../shared/characterPresentation';
 import { decorateHead, makeCharMaterials } from '../characters/characterModel';
+import { GoblinVisualInstance, goblinNewEnabled, goblinTuning } from '../characters/goblinVisual';
 import { FpsViewmodel, recoilOf } from '../../controller/fpsViewmodel';
 import * as sfx from '../../controller/fpsAudio';
 import { audio } from '../../core/AudioManager';
@@ -32,6 +33,11 @@ export interface FpsLocalPlayer {
 // Avviso SOLO in debug (mai durante una serata normale): FPS sotto soglia per qualche secondo con l'auto-quality gia' al minimo.
 const PERF_WARN_FPS = 20;
 const PERF_WARN_AFTER_MS = 3000;
+/**
+ * Velocità di riferimento per la locomozione VISIVA del Goblin importato: è `PLAYER_SPEED` di FpsScene (9 u/s),
+ * usata solo per normalizzare lo spostamento fra due snapshot (0..1). Nessun effetto sul movimento di gioco.
+ */
+const GOBLIN_FPS_WALK_SPEED = 9;
 
 /**
  * SPLIT-SCREEN HOST per la Sparatoria dei Disagiati (Milestone 6). Una SOLA scena Babylon, più camere/viewport —
@@ -172,6 +178,8 @@ interface AvatarRig {
   hitT: number;
   /** fantasma "a raggi X" (Dottore): visibile solo alle finestre che lo stanno usando */
   ghost: Mesh;
+  /** GOBLIN TRIPO (pilota, solo DEV): modello importato al posto della capsula, stessa maschera per-camera */
+  goblin: GoblinVisualInstance | null;
 }
 
 interface HudEntry {
@@ -229,6 +237,8 @@ export class BabylonFpsGame {
   /** su LOW (e con 4-5 finestre) meno detriti/traccianti: stesso sistema di qualita', nessuno nuovo */
   private readonly fxLow: boolean;
   private readonly tmpV = new Vector3();
+  /** riusato a ogni frame (nessuna allocazione nel loop) per la locomozione del Goblin importato */
+  private readonly goblinPose = { speedFrac: 0, alive: true, falling: false, dashing: false, stunned: false,koDuration:.45 };
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -356,6 +366,9 @@ export class BabylonFpsGame {
     // la maschera di default: e' comunque visibile a tutte le camere split-screen, non ha una "propria" vista da
     // escludere in questo renderer.
     const parts: Mesh[] = [body, gun];
+    // mesh del modello procedurale da sostituire col Goblin importato (pilota, solo DEV): la capsula e i tratti
+    // del viso spariscono, mentre arma/targhetta/lampo restano (sono informazione di gioco).
+    const proceduralBody: AbstractMesh[] = [body];
     // IDENTITA': i tratti della testa del personaggio sulla calotta della capsula (aderenti: la sagoma e la hitbox non cambiano,
     // la hitbox e' comunque quella di FpsScene) + targhetta con icona e nome sopra la testa.
     const pres = presentationOf(characterId);
@@ -368,6 +381,7 @@ export class BabylonFpsGame {
       for (const m of head.getChildMeshes()) {
         m.isPickable = false;
         parts.push(m as Mesh);
+        proceduralBody.push(m);
       }
     }
     if (name) parts.push(this.buildTag(pid, body, name, pres?.accent ?? color, characterId, avatar));
@@ -394,7 +408,31 @@ export class BabylonFpsGame {
     ghost.renderingGroupId = 1;
     ghost.layerMask = 0;
     ghost.isVisible = false;
-    rig = { body, gun, bodyMat: mat, flash, flashT: 0, parts, wasAlive: true, deathT: 0, hitT: 0, ghost };
+
+    // GOBLIN TRIPO (pilota, solo DEV): il Goblin importato prende il posto della capsula e dei tratti del viso.
+    // L'arma, la targhetta e il lampo restano: sono le informazioni che gli avversari devono continuare a vedere.
+    // La maschera di layer è la STESSA dei pezzi sostituiti, quindi la propria finestra continua a non vedere il
+    // proprio corpo e le altre finestre continuano a vederlo. Nessuna mesh qui è pickable o usata dai raycast
+    // (il colpo della Sparatoria è un hitscan AABB in FpsScene, indipendente dal rendering).
+    let goblin: GoblinVisualInstance | null = null;
+    if (characterId === 'goblin' && goblinNewEnabled()) {
+      const tuning = goblinTuning();
+      const node = new TransformNode(`fpsGoblin_${pid}`, this.scene);
+      node.parent = body;
+      node.position.y = -0.9; // la capsula sta a 0,9: i piedi del modello tornano a terra
+      goblin = new GoblinVisualInstance(this.scene, node, {
+        height: 1.75,
+        yaw: tuning.yawDeg * (Math.PI / 180),
+        scaleMul: tuning.scaleMul,
+        onReady: (ok) => {
+          if (!ok) return;
+          for (const m of proceduralBody) m.isVisible = false;
+          if (ownIndex !== undefined) for (const m of goblin?.meshes ?? []) m.layerMask = avatarBit(ownIndex);
+        }
+      });
+    }
+
+    rig = { body, gun, bodyMat: mat, flash, flashT: 0, parts, wasAlive: true, deathT: 0, hitT: 0, ghost, goblin };
     this.avatars.set(pid, rig);
     return rig;
   }
@@ -801,7 +839,7 @@ export class BabylonFpsGame {
     } else if (type === 'damaged') {
       const amount = Number(msg.amount) || 10;
       const a = this.avatars.get(pid);
-      if (a) a.hitT = 0.22;
+      if (a) { a.hitT = 0.22; a.goblin?.playHitReaction('body',.22); }
       if (h) h.vignetteTimer = 0.35;
       if (cam) {
         cam.kickP += Math.min(0.09, 0.02 + amount * 0.0012);
@@ -1026,12 +1064,27 @@ export class BabylonFpsGame {
         rig.flashT -= dt;
         if (rig.flashT <= 0) rig.flash.isVisible = false;
       }
+      // GOBLIN TRIPO (pilota, solo DEV): la locomozione per la clip si deriva dallo spostamento REALE dello
+      // snapshot (nessun dato di gameplay nuovo): in corsa la clip avanza, da fermo/morto resta ferma.
+      const prevPos = this.lastPos.get(snap.id);
+      const speed = prevPos && dt > 0 ? Math.hypot(snap.x - prevPos.x, snap.z - prevPos.z) / dt : 0;
       this.lastPos.set(snap.id, { x: snap.x, z: snap.z });
       rig.body.setEnabled(snap.alive || rig.deathT > 0);
       if (snap.alive) {
         rig.body.position.x = snap.x;
         rig.body.position.z = snap.z;
         rig.body.rotation.y = snap.yaw;
+      }
+      if (rig.goblin) {
+        // Authored KO already collapses the body; do not compound it with capsule shrink/rotation.
+        if (rig.goblin.ready) { rig.body.rotation.x=0;rig.body.rotation.z=0;rig.body.scaling.setAll(1); }
+        const gp = this.goblinPose;
+        gp.speedFrac = Math.min(1, speed / GOBLIN_FPS_WALK_SPEED);
+        gp.alive = snap.alive;
+        gp.falling = false;
+        gp.dashing = false; // la Sparatoria non ha scatto in avanti: nessuna posa dedicata
+        gp.stunned = !snap.alive;
+        rig.goblin.update(dt, gp);
       }
       const cam = this.cams.find((c) => c.playerId === snap.id);
       if (cam) this.updateCam(cam, snap, dt);
@@ -1120,6 +1173,8 @@ export class BabylonFpsGame {
     this.perfEl?.remove();
     this.perfEl = null;
     for (const h of this.hud.values()) safely('fpsHud.dispose', () => h.adt.dispose());
+    // le istanze del Goblin importato hanno scheletro e clip PROPRIE: vanno rilasciate prima della scena
+    for (const rig of this.avatars.values()) safely('fpsGoblin.dispose', () => rig.goblin?.dispose());
     safely('fpsScene.dispose', () => this.scene.dispose());
     safely('fpsEngine.dispose', () => this.engine.dispose());
     this.hud.clear();

@@ -1,0 +1,23 @@
+{
+  "perf": {
+    "fps": 59.91611743567941,
+    "frameMsAvg": 20.37,
+    "frameMsP95": 18.4,
+    "drawCalls": 11,
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "vendor": "Google Inc. (NVIDIA)"
+  },
+  "cost": {
+    "engineAnimationMs": 0,
+    "samplerMs": 0.5999999977648258
+  },
+  "stats": {
+    "meshes": 161,
+    "materials": 64,
+    "textures": 22,
+    "skeletons": 5,
+    "animationGroups": 180,
+    "geometries": 152
+  },
+  "errors": []
+}

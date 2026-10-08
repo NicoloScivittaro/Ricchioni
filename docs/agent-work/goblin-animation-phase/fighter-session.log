@@ -1,0 +1,38 @@
+✅ 4 giocatori in stanza
+✅ R1: il gioco gira (3.9 s) e AbilityHub ha 4 righe
+R1: canvas 1 overlay3d 0 timer 7 osc 0 heap 30.7 MB · maniglia debug no · hub 0
+✅ R1: maniglia di debug rimossa e AbilityHub vuoto
+✅ R1: nessun overlay 3D / menu rimasto
+✅ R2: il gioco gira (4.2 s) e AbilityHub ha 4 righe
+R2: canvas 1 overlay3d 0 timer 7 osc 0 heap 32.4 MB · maniglia debug no · hub 0
+✅ R2: maniglia di debug rimossa e AbilityHub vuoto
+✅ R2: nessun overlay 3D / menu rimasto
+✅ canvas stabili (1 -> 1)
+✅ timer stabili (7 -> 7)
+✅ oscillatori audio stabili (0 -> 0)
+✅ heap stabile dopo 2 round (30.7 -> 32.4 MB)
+✅ listener window "keydown" stabili (7 -> 7)
+✅ listener window "beforeunload" stabili (1 -> 1)
+✅ listener window "pagehide" stabili (1 -> 1)
+✅ listener window "offline" stabili (1 -> 1)
+✅ listener window "keyup" stabili (1 -> 1)
+✅ listener window "mousedown" stabili (1 -> 1)
+✅ listener window "mouseup" stabili (1 -> 1)
+✅ listener window "resize" stabili (1 -> 1)
+✅ listener window "error" stabili (2 -> 2)
+✅ listener window "unhandledrejection" stabili (2 -> 2)
+✅ listener window "gamepadconnected" stabili (1 -> 1)
+✅ listener window "gamepaddisconnected" stabili (1 -> 1)
+✅ listener window "blur" stabili (1 -> 1)
+✅ listener window "focus" stabili (1 -> 1)
+✅ report F4: sezione ABILITA' con le abilita' del Cornicione (1334 caratteri)
+  BOTTE SUL CORNICIONE         buttafuori ULTIMO ACCESSO: 3 SETTIMANE FA usata 0/2 round · 0 volte · riuscite 0 (—) · fallite/sprecate 0
+  BOTTE SUL CORNICIONE         dottore    TAGLIO PESO EXPRESS      usata 0/2 round · 0 volte · riuscite 0 (—) · fallite/sprecate 0
+  BOTTE SUL CORNICIONE         goblin     RIMONTA AL 90°           usata 0/2 round · 0 volte · riuscite 0 (—) · fallite/sprecate 0
+  BOTTE SUL CORNICIONE         judoka     ANGORA CHE DICI?         usata 1/2 round · 1 volte · riuscite 1 (100%) · fallite/sprecate 1 · impatto: counter tentati 1 · counter riusciti 1
+⚠ MAI USATE: buttafuori (BOTTE SUL CORNICIONE), dottore (BOTTE SUL CORNICIONE), goblin (BOTTE SUL CORNICIONE), buttafuori (BOTTA AL VOLO), dottore (BOTTA AL VOLO), goblin (BOTTA AL VOLO), judoka (BOTTA AL VOLO)
+✅ menu ESC: bottone TORNA ALLA LOBBY presente
+✅ lobby: host in RoomScene pulita (LOBBY ["RoomScene"])
+✅ lobby: nessuno stato del gioco rimasto
+✅ nessun errore di pagina 
+✅ tutto ok

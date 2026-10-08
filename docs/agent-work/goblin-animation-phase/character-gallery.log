@@ -1,0 +1,22 @@
+✅ 1366x768: 5 personaggi nella galleria
+✅ 1366x768: vista colors
+✅ 1366x768: vista silhouette
+✅ 1366x768: vista teams
+✅ 1366x768: cambiare vista non accumula mesh (160 → 160)
+✅ 1366x768: GOBLIN OLD di default (modello procedurale, nessuna istanza importata)
+✅ 1366x768: GOBLIN NEW importato (65 ossa, 36 clip, idle reale, 195 tracce)
+✅ 1366x768: GOBLIN torna al procedurale dopo lo switch
+✅ 1366x768: nessun errore
+✅ 1366x768: senza ?characters=1 la galleria non compare
+✅ 1920x1080: 5 personaggi nella galleria
+✅ 1920x1080: vista colors
+✅ 1920x1080: vista silhouette
+✅ 1920x1080: vista teams
+✅ 1920x1080: cambiare vista non accumula mesh (160 → 160)
+✅ 1920x1080: GOBLIN OLD di default (modello procedurale, nessuna istanza importata)
+✅ 1920x1080: GOBLIN NEW importato (65 ossa, 36 clip, idle reale, 195 tracce)
+✅ 1920x1080: GOBLIN torna al procedurale dopo lo switch
+✅ 1920x1080: nessun errore
+✅ 1920x1080: senza ?characters=1 la galleria non compare
+
+TUTTO OK

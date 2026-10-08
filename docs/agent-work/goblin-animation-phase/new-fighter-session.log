@@ -1,0 +1,38 @@
+✅ 4 giocatori in stanza
+✅ R1: il gioco gira (4.4 s) e AbilityHub ha 4 righe
+R1: canvas 1 overlay3d 0 timer 8 osc 1 heap 36.2 MB · maniglia debug no · hub 0
+✅ R1: maniglia di debug rimossa e AbilityHub vuoto
+✅ R1: nessun overlay 3D / menu rimasto
+✅ R2: il gioco gira (4.5 s) e AbilityHub ha 4 righe
+R2: canvas 1 overlay3d 0 timer 8 osc 0 heap 42.3 MB · maniglia debug no · hub 0
+✅ R2: maniglia di debug rimossa e AbilityHub vuoto
+✅ R2: nessun overlay 3D / menu rimasto
+✅ canvas stabili (1 -> 1)
+✅ timer stabili (8 -> 8)
+✅ oscillatori audio stabili (1 -> 0)
+✅ heap stabile dopo 2 round (36.2 -> 42.3 MB)
+✅ listener window "keydown" stabili (7 -> 7)
+✅ listener window "beforeunload" stabili (1 -> 1)
+✅ listener window "pagehide" stabili (1 -> 1)
+✅ listener window "offline" stabili (1 -> 1)
+✅ listener window "keyup" stabili (1 -> 1)
+✅ listener window "mousedown" stabili (1 -> 1)
+✅ listener window "mouseup" stabili (1 -> 1)
+✅ listener window "resize" stabili (1 -> 1)
+✅ listener window "error" stabili (2 -> 2)
+✅ listener window "unhandledrejection" stabili (2 -> 2)
+✅ listener window "gamepadconnected" stabili (1 -> 1)
+✅ listener window "gamepaddisconnected" stabili (1 -> 1)
+✅ listener window "blur" stabili (1 -> 1)
+✅ listener window "focus" stabili (1 -> 1)
+✅ report F4: sezione ABILITA' con le abilita' del Cornicione (1403 caratteri)
+  BOTTE SUL CORNICIONE         buttafuori ULTIMO ACCESSO: 3 SETTIMANE FA usata 0/2 round · 0 volte · riuscite 0 (—) · fallite/sprecate 0
+  BOTTE SUL CORNICIONE         dottore    TAGLIO PESO EXPRESS      usata 2/2 round · 2 volte · riuscite 0 (0%) · fallite/sprecate 0
+  BOTTE SUL CORNICIONE         goblin     RIMONTA AL 90°           usata 0/2 round · 0 volte · riuscite 0 (—) · fallite/sprecate 0
+  BOTTE SUL CORNICIONE         judoka     ANGORA CHE DICI?         usata 2/2 round · 2 volte · riuscite 2 (100%) · fallite/sprecate 1 · impatto: counter tentati 2 · counter riusciti 2
+⚠ MAI USATE: buttafuori (BOTTE SUL CORNICIONE), goblin (BOTTE SUL CORNICIONE), buttafuori (RIBALTATI — CIRCUITO DEL LITORALE), dottore (RIBALTATI — CIRCUITO DEL LITORALE), goblin (RIBALTATI — CIRCUITO DEL LITORALE), judoka (RIBALTATI — CIRCUITO DEL LITORALE)
+✅ menu ESC: bottone TORNA ALLA LOBBY presente
+✅ lobby: host in RoomScene pulita (LOBBY ["RoomScene"])
+✅ lobby: nessuno stato del gioco rimasto
+✅ nessun errore di pagina 
+✅ tutto ok

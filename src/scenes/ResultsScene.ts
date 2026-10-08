@@ -10,6 +10,7 @@ import { displayText, infoText, pill } from '../core/uiPhaser';
 import { confetti } from './confetti';
 import { addPortrait } from '../core/portraits';
 import { bark } from '../../shared/characterPresentation';
+import { goblinNewEnabled } from '../minigames/characters/goblinVisualMode';
 
 const ROW_H = 84;
 const ROW_W = 980;
@@ -20,11 +21,17 @@ const TOP = 168;
  * (es. "7/10 corrette", "tempo 1:12.3 · miglior giro 0:24.1") e i punti partita assegnati.
  */
 export class ResultsScene extends Phaser.Scene {
+  private goblinPortraits: ReturnType<typeof import('../minigames/characters/goblinResults').goblinResultPortraits> | null = null;
+  private goblinPortraitReady: Promise<void> | null = null;
+  private goblinPortraitVersion = 0;
   constructor() {
     super('ResultsScene');
   }
 
   create(): void {
+    const portraitVersion=++this.goblinPortraitVersion;
+    this.goblinPortraits=null;
+    this.goblinPortraitReady=null;
     sceneIn(this);
     const st = gm.state;
     const out = st?.lastResults;
@@ -32,6 +39,12 @@ export class ResultsScene extends Phaser.Scene {
       this.scene.start('RoomScene');
       return;
     }
+    if(goblinNewEnabled()&&['arena','cornicione','dodgeball','soccer','volleyball','kart3d','fps'].includes(st.currentMinigame?.minigameId??'')&&st.players.some(p=>p.characterId==='goblin')) {
+      this.goblinPortraitReady=import('../minigames/characters/goblinResults').then(({goblinResultPortraits})=>{
+        if(this.sys.isActive()&&portraitVersion===this.goblinPortraitVersion)this.goblinPortraits=goblinResultPortraits(this);
+      }).catch(e=>console.warn('[goblin results] legacy portrait retained',e));
+    }
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN,()=>{this.goblinPortraitVersion++;this.goblinPortraits=null;this.goblinPortraitReady=null;});
 
     displayText(this, 640, 62, 'RISULTATI', UI.size.XL - 8, UI.color.text);
     const gameName = st.currentMinigame?.name;
@@ -103,6 +116,10 @@ export class ResultsScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     row.add([bg, place, avatar, name, stats, plus, ptLabel]);
+    if(player?.characterId==='goblin'&&this.goblinPortraitReady)void this.goblinPortraitReady.then(()=>{
+      if(!this.sys.isActive()||!row.scene||!this.goblinPortraits)return;
+      row.add(this.goblinPortraits.add(avatar.x,avatar.y,isWinner?72:64,isWinner?'victory':'defeat',avatar));
+    });
     this.tweens.add({ targets: row, alpha: 1, x: 640, duration: THEME.normal, ease: 'Cubic.easeOut' });
 
     // REAZIONE del personaggio: il primo esulta (rimbalzo + la sua battuta), l'ultimo ci resta male (ritratto spento e storto,

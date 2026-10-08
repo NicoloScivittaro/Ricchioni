@@ -1,0 +1,17 @@
+Copia dell'asset (byte per byte), verifica indipendente:
+
+sorgente : C:/Users/niluf.PC-NIKO/Downloads/green+goblin+3d+model.glb
+  bytes  : 
+6108164
+  sha256 : 
+E993184137CA316E8730957CBA75DECB2410B3640B48394661F91B0E1987293F
+
+destinazione: public/models/goblin-tripo/green_goblin_tripo.glb
+  bytes  : 
+6108164
+  sha256 : 
+E993184137CA316E8730957CBA75DECB2410B3640B48394661F91B0E1987293F
+
+hash identico: 
+True
+copia con Copy-Item (nessuna ricompressione, nessun LOD, nessuna modifica di texture)

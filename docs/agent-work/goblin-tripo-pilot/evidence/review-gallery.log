@@ -1,0 +1,94 @@
+
+— GALLERIA (?characters=1): OLD vs NEW —
+✅ OLD: 5 personaggi (5)
+✅ OLD: nessuna istanza importata (modello procedurale, default)
+✅ OLD: modalità = old
+   screenshot e2e-shots/goblin/1600x900-old-idle-wide.png
+   screenshot e2e-shots/goblin/1600x900-old-idle-front.png
+   screenshot e2e-shots/goblin/1600x900-old-idle-side.png
+   screenshot e2e-shots/goblin/1600x900-old-idle-back.png
+   screenshot e2e-shots/goblin/1600x900-old-idle-closeup.png
+   screenshot e2e-shots/goblin/1600x900-old-run-0.png
+   screenshot e2e-shots/goblin/1600x900-old-run-1.png
+   screenshot e2e-shots/goblin/1600x900-old-run-2.png
+   screenshot e2e-shots/goblin/1600x900-old-run-3.png
+   PERF OLD (5 personaggi, 1600x900, GL software): fps medio 6.1 · {"meshes":160,"materials":67,"textures":18,"skeletons":0,"animationGroups":0,"geometries":160}
+✅ OLD: nessun errore
+✅ NEW: caricamento completato (stato ready)
+✅ NEW: scheletro con 65 ossa (65)
+✅ NEW: clip run.001 selezionata (run.001~g1)
+✅ NEW: nessun autoplay al caricamento (velocità 0)
+✅ NEW: posa FERMA su un fotogramma reale della clip (frame 52.5 ≈ 52.5)
+✅ NEW: scostamento costante delle anche misurato dalla clip ([-0.0258,0,0.4548])
+✅ NEW: clip riportata "sul posto" (anche z 0.0172 ≈ riposo 0.0172)
+✅ NEW: altezza normalizzata sul rig procedurale (2.323)
+   PERF NEW (5 personaggi, 1600x900, GL software): fps medio 3.6 · load GLB 1620 ms · {"meshes":162,"materials":68,"textures":21,"skeletons":1,"animationGroups":1,"geometries":161}
+   PERF delta: mesh +2 · materiali +1 · texture +3 · geometrie +1 · fps 6.1 → 3.6
+   screenshot e2e-shots/goblin/1600x900-new-idle-wide.png
+   screenshot e2e-shots/goblin/1600x900-new-idle-front.png
+   screenshot e2e-shots/goblin/1600x900-new-idle-side.png
+   screenshot e2e-shots/goblin/1600x900-new-idle-back.png
+   screenshot e2e-shots/goblin/1600x900-new-idle-closeup.png
+   screenshot e2e-shots/goblin/1600x900-new-run-0.png
+   screenshot e2e-shots/goblin/1600x900-new-run-1.png
+   screenshot e2e-shots/goblin/1600x900-new-run-2.png
+   screenshot e2e-shots/goblin/1600x900-new-run-3.png
+✅ NEW: in corsa la clip avanza (velocità 2.14)
+   screenshot e2e-shots/goblin/1600x900-new-hit.png
+✅ NEW: negli stati non coperti la clip è FERMA (velocità 0)
+✅ NEW: la posa ferma è un fotogramma della clip, non la bind pose
+   screenshot e2e-shots/goblin/1600x900-new-victory.png
+✅ NEW: nessun errore
+✅ FALLBACK: asset mancante → stato error (error)
+✅ FALLBACK: la galleria resta viva con il rig procedurale
+   screenshot e2e-shots/goblin/1600x900-fallback-missing-asset.png
+✅ FALLBACK: nessun errore non gestito
+   switch: prima {"meshes":162,"materials":68,"textures":21,"skeletons":1,"animationGroups":1,"geometries":161} · dopo {"meshes":162,"materials":68,"textures":20,"skeletons":1,"animationGroups":1,"geometries":161}
+✅ SWITCH: mesh stabili (162 → 162)
+✅ SWITCH: materiali stabili (68 → 68)
+✅ SWITCH: texture stabili (21 → 20)
+✅ SWITCH: scheletri stabili (1)
+✅ SWITCH: gruppi di animazione stabili (1)
+✅ SWITCH: nessun errore
+   multi: [{"s":868,"a":"run.001~g1","f":"52.5"},{"s":1375,"a":"run.001~g2","f":"52.5"},{"s":1710,"a":"run.001~g3","f":"52.5"}]
+✅ MULTI: 3 scheletri distinti (uno per Goblin)
+✅ MULTI: 3 gruppi di animazione distinti
+✅ MULTI: in scena 3 scheletri e 3 clip (3/3)
+✅ MULTI: una sola geometria condivisa fra le mesh importate dei 3 Goblin (467)
+   MULTI: geometrie di scena 161 con 1 Goblin → 221 con 3 (le mesh importate non aggiungono geometrie)
+   frame: ["52.5","52.5","52.5"] → ["38.7","62.0","26.4"]
+✅ MULTI: tutte le clip si muovono (38.7, 62.0, 26.4)
+✅ MULTI: le tre clip sono in fasi diverse (38.7, 62.0, 26.4)
+   screenshot e2e-shots/goblin/1600x900-multi-goblins.png
+✅ MULTI: nessun errore
+✅ SELETTORE: taratura non valida ignorata, modello comunque pronto (h 2.32)
+✅ SELETTORE: ?goblin=old vince su un URL asset rotto (nessun caricamento)
+✅ SELETTORE: OLD non crea nessuna istanza importata
+✅ SELETTORE: nessun errore con URL rotto in modalità OLD
+✅ PULSANTI: partenza da ?goblin=old
+✅ PULSANTI: da ?goblin=old il pulsante NEW attiva il modello importato
+   screenshot e2e-shots/goblin/1600x900-buttons-from-old.png
+✅ PULSANTI (?goblin=old): nessun errore
+✅ PULSANTI: partenza da ?goblin=new
+✅ PULSANTI: da ?goblin=new il pulsante OLD sovrascrive la query (modello procedurale)
+✅ PULSANTI: la scelta a runtime ha precedenza sulla query
+✅ PULSANTI: il pulsante NEW riporta il modello importato
+   screenshot e2e-shots/goblin/1600x900-buttons-from-new.png
+✅ PULSANTI (?goblin=new): nessun errore
+✅ DISPOSAL: istanza viva mentre il load è in corso
+✅ DISPOSAL: nessuna istanza viva dopo lo switch a OLD
+✅ DISPOSAL: nessuna istanza creata dal load tardivo (0)
+✅ DISPOSAL: nessuna mesh/scheletro arrivato dopo (mesh 160 → 160, scheletri 0 → 0)
+✅ DISPOSAL: nessun errore
+   disposal scena (load in volo): container tardivi 0 → 0, abortiti 0 → 1, ultimo errore "scena disposta prima del caricamento", istanze 0
+✅ DISPOSAL (scena): nessuna istanza viva dopo la chiusura (0)
+✅ DISPOSAL (scena): il caricamento in volo non lascia nulla dietro (container tardivo buttato o load abortito)
+✅ DISPOSAL (scena): nessun errore
+   disposal scena (prima del load): abortiti 0 → 1, ultimo errore "scena disposta prima del caricamento", istanze 0
+✅ DISPOSAL (scena): il guard blocca il caricamento se la scena è già morta
+✅ DISPOSAL (scena): nessuna istanza viva (0)
+✅ DISPOSAL (scena, pre-load): nessun errore
+✅ EXIT: galleria chiusa durante il caricamento
+✅ EXIT: nessun errore dopo la chiusura
+
+TUTTO OK

@@ -1,0 +1,38 @@
+✅ P1 (Xbox) e P2 (DualSense) col controller, P3 col telefono
+✅ timer, fisica e countdown FERMI durante i CONTROLLI (14 campioni, countdown 3.20 → 3.20)
+✅ input ignorato durante i CONTROLLI (stick a fondo e RT premuto: move 0, throw non premuto)
+✅ durata CONTROLLI 4961 ms
+✅ mostra: "🏐 DODGEBALL DEI COGLIONI 🎮 CONTROLLI LEFT STICK MUOVITI RT / R2 LANCIA A / ✕ SCHIVA B / ◯ ⚡ ABILITÀ ⚡ ABILITÀ · B / ◯ GOBLIN MBRIACONE N'CULO, RIPIG"
+✅ avviso per chi gioca col telefono (P3)
+✅ RT e A tenuti durante i CONTROLLI: nessun lancio e nessuna schiva al VIA (bloccati fino al rilascio)
+✅ telefono P1: "GOBLIN MBRIACONE 🏐 DODGEBALL DEI COGLIONI N'CULO, RIPIGLIAT"
+✅ P1: nessun joystick touch e nessun badge fallback
+✅ P3 (senza controller): 📱 MODALITÀ FALLBACK con il joystick del telefono
+✅ 8 direzioni: il personaggio va dove punta lo stick (8/8)
+✅ diagonale normalizzata: accelerazione diag 9.4 / dritta 9.3 = 1.01 (non 1.41)
+✅ raccolta AUTOMATICA: avvicinandosi alla palla il giocatore la prende (nessun tasto)
+✅ RT a 0.2 (sotto soglia): nessun lancio
+✅ RT premuto a fondo = LANCIO (la palla parte e P1 non ce l ha piu)
+✅ RT tenuto: throw resta premuto (pressed/tenuto)
+✅ RT rilasciato: throw rilasciato
+✅ la palla colpisce P2: eliminato (una palla = sei fuori, bilanciamento invariato)
+   [rumble] P1 4 -> 6  P2 2 -> 3
+✅ rumble: il lanciatore (lancio) e chi e' colpito (colpo/eliminazione) sentono il controller
+✅ vibrazioni: il telefono di P1 (controller) ne riceve 0, quello di P3 (fallback) 7: il feedback va al controller
+✅ spam RT ×6: il gioco consuma 6 pressioni (una per pressione, nessuna perduta o doppia)
+✅ RT tenuto 1.6 s = UNA sola pressione (1)
+✅ A/✕ = SCHIVA: scatto in avanti di 4.9 u (cooldown residuo 0.01)
+✅ B/◯ = ABILITA': il gioco consuma la pressione
+✅ in pausa nessun input di gameplay (stick e RT ignorati)
+✅ RT tenuto durante la pausa e oltre la ripresa: nessun lancio fantasma (serve rilasciare)
+✅ dopo il rilascio RT torna attivo
+✅ P3 (telefono): il suo input entra nello stesso InputManager
+✅ P1 (controller): un evento del suo telefono (0,0) NON sovrascrive lo stick
+✅ controller di P1 caduto: input a zero
+✅ avviso TV: controller scollegato
+✅ il telefono di P1 passa da solo a 📱 CONTROLLER PERSO — USA TEMPORANEAMENTE IL TELEFONO
+✅ il controller torna: pairing recuperato
+✅ il telefono torna a "USA IL CONTROLLER"
+✅ RT tenuto da risultati + rullo + CONTROLLI: nessun lancio fantasma nel round dopo
+✅ stesse associazioni dopo risultati e rullo (nessuna riassociazione)
+✅ nessun errore di pagina 

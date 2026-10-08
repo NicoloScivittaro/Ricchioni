@@ -1,0 +1,17 @@
+R 1 reaction   heap host 23.6MB tel 2.3MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 21
+R 2 arena      heap host 28.2MB tel 2.3MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 3 soccer     heap host 29.3MB tel 2.3MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 4 FINALE (target raggiunto) → NUOVA PARTITA
+
+Giochi giocati: reaction, arena, soccer, reaction · NUOVE PARTITE dopo il target: 0
+✅ scene attive == 1 dopo ogni round
+✅ nessun canvas 3D residuo
+✅ nessun overlay DOM residuo
+✅ canvas stabili (crescita 0.0)
+✅ elementi in body stabili (crescita 0.0)
+✅ timer pendenti stabili (crescita 0.0)
+✅ oscillatori vivi al rullo (musica esclusa) ≤ 2 (max 0)
+✅ note della musica stabili (crescita -3.0, max 9)
+✅ listener su window stabili (crescita 1.0)
+✅ heap host: 24 → 29 MB (crescita 5.7 MB, 3 round)
+✅ heap telefono: 2 → 2 MB

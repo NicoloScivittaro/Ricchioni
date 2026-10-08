@@ -16,6 +16,8 @@
   "dependencies": {
     "@babylonjs/core": "^9.26.2",
     "@babylonjs/gui": "^9.26.2",
+    "@babylonjs/loaders": "9.26.2",
+    "babylonjs-gltf2interface": "9.26.2",
     "express": "^4.21.2",
     "phaser": "^3.90.0",
     "qrcode": "^1.5.4",

@@ -432,6 +432,13 @@ export function openImpactLab(): void {
       kart?.dispose();
       kart = null;
     },
+    /** (solo test) vista deterministica per fotografare un attore da un angolo scelto. */
+    setCamera: (alpha: number, beta: number, radius: number, tx: number, ty: number, tz: number) => {
+      cam.alpha = alpha;
+      cam.beta = beta;
+      cam.radius = radius;
+      cam.setTarget(new Vector3(tx, ty, tz));
+    },
     time: () => t,
     impactAt: () => impactAt
   };

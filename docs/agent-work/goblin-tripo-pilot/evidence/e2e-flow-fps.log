@@ -1,0 +1,16 @@
+
+— CONTESTI DI GIOCO (host ?goblin=new, telefoni con il Goblin) —
+✅ FPS: Goblin e avversario in partita (["goblin","buttafuori"])
+✅ FPS: split-screen a 2 finestre
+✅ FPS: Goblin importato sugli avversari (ready, ossa 65)
+✅ FPS: la finestra del Goblin NON vede il proprio corpo (maschera di layer)
+✅ FPS: le altre finestre vedono il Goblin ([true])
+✅ FPS: mesh importate con la stessa maschera della capsula ([1024,1024])
+   screenshot e2e-shots/goblin/1600x900-fps-new.png
+   screenshot e2e-shots/goblin/1600x900-fps-new-approach-0.png
+   screenshot e2e-shots/goblin/1600x900-fps-new-approach-1.png
+   screenshot e2e-shots/goblin/1600x900-fps-new-approach-2.png
+   screenshot e2e-shots/goblin/1600x900-fps-new-approach-3.png
+✅ FPS: nessun errore
+
+TUTTO OK

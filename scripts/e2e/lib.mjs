@@ -12,9 +12,9 @@ export async function launch() {
     headless: true,
     args: [
       '--no-sandbox',
-      '--use-gl=angle',
-      '--use-angle=swiftshader',
-      '--enable-unsafe-swiftshader',
+      ...(process.env.GOBLIN_GPU==='1'
+        ? ['--enable-gpu','--use-angle=d3d11']
+        : ['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']),
       '--ignore-gpu-blocklist',
       '--autoplay-policy=no-user-gesture-required',
       '--disable-background-timer-throttling',

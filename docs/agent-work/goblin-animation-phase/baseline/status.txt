@@ -1,0 +1,44 @@
+ M dist/index.html
+ M e2e-shots/characters/1366x768-colors-idle.png
+ M e2e-shots/characters/1366x768-silhouette-idle.png
+ M e2e-shots/characters/1366x768-state-ability.png
+ M e2e-shots/characters/1366x768-state-bark.png
+ M e2e-shots/characters/1366x768-state-dash.png
+ M e2e-shots/characters/1366x768-state-defeat.png
+ M e2e-shots/characters/1366x768-state-hit.png
+ M e2e-shots/characters/1366x768-state-idle.png
+ M e2e-shots/characters/1366x768-state-jump.png
+ M e2e-shots/characters/1366x768-state-run.png
+ M e2e-shots/characters/1366x768-state-stun.png
+ M e2e-shots/characters/1366x768-state-victory.png
+ M e2e-shots/characters/1366x768-teams-idle.png
+ M e2e-shots/characters/1920x1080-colors-idle.png
+ M e2e-shots/characters/1920x1080-silhouette-idle.png
+ M e2e-shots/characters/1920x1080-state-ability.png
+ M e2e-shots/characters/1920x1080-state-bark.png
+ M e2e-shots/characters/1920x1080-state-dash.png
+ M e2e-shots/characters/1920x1080-state-defeat.png
+ M e2e-shots/characters/1920x1080-state-hit.png
+ M e2e-shots/characters/1920x1080-state-idle.png
+ M e2e-shots/characters/1920x1080-state-jump.png
+ M e2e-shots/characters/1920x1080-state-run.png
+ M e2e-shots/characters/1920x1080-state-stun.png
+ M e2e-shots/characters/1920x1080-state-victory.png
+ M e2e-shots/characters/1920x1080-teams-idle.png
+ M node_modules/.package-lock.json
+ M node_modules/.vite/deps/_metadata.json
+ M package-lock.json
+ M package.json
+ M scripts/e2e/character-gallery.mjs
+ M src/dev/characterGallery.ts
+ M src/dev/impactLab.ts
+ M src/minigames/arena/arenaEntity.ts
+ M src/minigames/fps/BabylonFpsGame.ts
+ M src/minigames/kart-race/kartEntity.ts
+?? docs/agent-work/
+?? e2e-shots/characters/1366x768-goblin-new.png
+?? e2e-shots/characters/1920x1080-goblin-new.png
+?? e2e-shots/goblin/
+?? public/models/
+?? scripts/e2e/goblin-tripo.mjs
+?? src/minigames/characters/goblinVisual.ts

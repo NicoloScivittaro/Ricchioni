@@ -196,7 +196,7 @@ export class BabylonDodgeballGame {
       p.z = ARENA_HALF_D - 2;
       p.facing = Math.PI;
       this.players.push(p);
-      const entity = new ArenaEntity(this.scene, dotTex, snap.color, snap.characterId, snap.avatar, snap.displayName);
+      const entity = new ArenaEntity(this.scene, dotTex, snap.color, snap.characterId, snap.avatar, snap.displayName,null,{context:'dodgeball'});
       this.entities.set(p.id, entity);
     });
 
@@ -736,6 +736,8 @@ export class BabylonDodgeballGame {
   }
 
   private reflectBall(ball: Ball, goblin: DodgeballPlayer): void {
+    // Visual contact only: the existing reflection/release physics below remains immediate.
+    this.entities.get(goblin.id)?.playAbsorb();
     const target = this.reflectTarget(goblin, ball.throwerId);
     const dx = target.x - goblin.x;
     const dz = target.z - goblin.z;
@@ -1169,7 +1171,9 @@ export class BabylonDodgeballGame {
             const pos = holder.truckBalls.indexOf(i);
             off = pos * 0.45;
           }
-          mesh.position.set(holder.x + lx + off, holder.y + h.y, holder.z + lz + off * 0.3);
+          const importedHand=entity.handWorldAnchor;
+          if(importedHand) mesh.position.set(importedHand.x+off,importedHand.y,importedHand.z+off*.3);
+          else mesh.position.set(holder.x + lx + off, holder.y + h.y, holder.z + lz + off * 0.3);
         }
       } else if (ball.state === 'free') {
         // palla libera: ondeggia piano ("prendimi") e ha un anello a terra

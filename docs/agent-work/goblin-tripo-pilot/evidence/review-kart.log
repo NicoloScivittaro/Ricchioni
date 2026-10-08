@@ -1,0 +1,16 @@
+
+— CONTESTI DI GIOCO (host ?goblin=new, telefoni con il Goblin) —
+   kart3d: {"importedMeshes":2,"skeletons":1,"animationGroups":1,"goblins":[{"state":"ready","error":null,"bones":65,"meshes":2,"meshNames":["__root__~g1(0v)","tripo_node_cd7feb88-0f60-4be8-9c4a-973b69512c80~g1(33613v)"],"geometryIds":[-1,759],"animation":"run.001~g1","animationPlaying":false,"animationSpeed":1,"animationFrame":0,"skeletonId":1160,"clipHipsOffset":null,"holdFrame":0,"seated":true,"seatedApplied":true,"restHips":[0.0019,0.4764,0.0172],"hipsNow":[0.0019,0.4764,0.0172],"joints":{"Hips":[-0.0019,0.4764,0.0172],"Spine":[-0.0019,0.5149,0.0174],"Head":[-0.0056,0.7538,0.0706],"LeftUpLeg":[-0.0555,0.4308,0.0124],"LeftLeg":[-0.0619,0.3808,0.1681],"LeftFoot":[-0.062,0.1997,0.1204],"RightUpLeg":[0.0517,0.4308,0.0124],"RightLeg":[0.058,0.3808,0.1681],"RightFoot":[0.1382,0.2171,0.1251],"LeftHand":[0.0166,0.5015,0.1179],"RightHand":[0.0129,0.4924,0.1173]},"height":1.3357186095136018,"width":0.5452998088881835,"depth":0.42667884575514325,"scale":1.3780697444270806,"vertices":33613}],"avatars":null}
+✅ KART3D: scena kart3d raggiunta
+✅ KART3D: modello importato presente nel render (mesh 2, avatar null)
+   screenshot e2e-shots/goblin/1600x900-kart3d-new.png
+✅ KART: posa seduta applicata (true/true)
+✅ KART: la posa resta identica dopo più frame (deriva max 0.0000, 11 articolazioni)
+   kart: hips [-0.0019,0.4764,0.0172] · ginocchio [-0.0619,0.3808,0.1681] · piede [-0.062,0.1997,0.1204] · mano [0.0166,0.5015,0.1179] · testa [-0.0056,0.7538,0.0706]
+✅ KART: ginocchio e piede AVANTI rispetto al bacino (Δz 0.151 / 0.103)
+✅ KART: i piedi stanno SOTTO il bacino (Δy -0.277)
+✅ KART: busto sopra il bacino e mani avanti (Δy testa 0.277, Δz mano 0.101)
+✅ KART: gambe/mani verso il centro del kart (x ginocchio -0.0619, x mano 0.0166)
+✅ KART3D: nessun errore
+
+TUTTO OK

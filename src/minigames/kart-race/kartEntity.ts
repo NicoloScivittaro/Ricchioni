@@ -21,6 +21,7 @@ import { audio, EngineSound } from '../../core/AudioManager';
 import { MAX_SPEED, DRIFT_THRESHOLDS } from './kartPhysics';
 import { presentationOf } from '../../../shared/characterPresentation';
 import { decorateHead, makeCharMaterials, makeSymbolPlane } from '../characters/characterModel';
+import { GoblinVisualInstance, goblinNewEnabled, goblinTuning } from '../characters/goblinVisual';
 
 /** Colore del mini-turbo per livello (0 = nessuno): stesso codice colore di scintille, fanali e barra della HUD. */
 export const DRIFT_LEVEL_COLORS: [number, number, number][] = [
@@ -29,6 +30,17 @@ export const DRIFT_LEVEL_COLORS: [number, number, number][] = [
   [1, 0.58, 0.15],
   [0.78, 0.4, 1]
 ];
+
+/**
+ * GOBLIN TRIPO (pilota, solo DEV): statura e punto di seduta del modello importato usato come pilota del Kart.
+ * `DRIVER_HEIGHT` = statura in piedi del rig Tripo (la scala si calcola in posa di bind); il nodo di seduta sta
+ * sul bordo superiore della carrozzeria, dove poggia il bacino del vecchio pilota procedurale.
+ */
+const GOBLIN_DRIVER_HEIGHT = 1.35;
+/** Il bacino poggia sul bordo alto dell'abitacolo (`kartCabin` sta a y 0,78): così il busto esce dal kart come
+ *  faceva il pilota procedurale, mentre gambe e mani restano dentro il volume della carrozzeria. */
+const GOBLIN_DRIVER_SEAT_Y = 0.78;
+const GOBLIN_DRIVER_SEAT_Z = -0.22;
 export function driftLevelOf(driftCharge: number): number {
   return driftCharge >= DRIFT_THRESHOLDS[2] ? 3 : driftCharge >= DRIFT_THRESHOLDS[1] ? 2 : driftCharge >= DRIFT_THRESHOLDS[0] ? 1 : 0;
 }
@@ -98,6 +110,9 @@ export class KartEntity {
   /** pilota (busto + testa) per inclinarlo in curva/derapata */
   private driverTorso: Mesh | null = null;
   private driverHead: TransformNode | null = null;
+  /** GOBLIN TRIPO (pilota, solo DEV): pilota importato al posto del mini-rig disegnato, con posa seduta. */
+  private goblinDriver: GoblinVisualInstance | null = null;
+  private goblinDriverSeat: TransformNode | null = null;
   private lean = 0;
 
   constructor(scene: Scene, colorHex: string, private readonly characterId: string | null = null) {
@@ -300,6 +315,30 @@ export class KartEntity {
       this.symbol = makeSymbolPlane(scene, pres.symbol, 0.7, pres.id);
       this.symbol.parent = this.root;
     }
+
+    // GOBLIN TRIPO (pilota, solo DEV): il Goblin importato PRENDE IL POSTO del mini-rig disegnato (che resta
+    // vivo per fallback/abilità). Posa seduta esplicita: nessuna animazione, nessun collider/hitbox toccato.
+    // No authored driving clip. The seated experiment remains explicitly opt-in in DEV;
+    // normal NEW mode keeps the proven legacy driver until a steering-wheel pose is accepted.
+    if (characterId === 'goblin' && goblinNewEnabled() && new URLSearchParams(location.search).get('goblinDriver') === '1') {
+      const tuning = goblinTuning();
+      const seat = new TransformNode('goblinDriverSeat', scene);
+      seat.parent = this.root;
+      seat.position.set(0, GOBLIN_DRIVER_SEAT_Y, GOBLIN_DRIVER_SEAT_Z);
+      this.goblinDriverSeat = seat;
+      this.goblinDriver = new GoblinVisualInstance(scene, seat, {
+        height: GOBLIN_DRIVER_HEIGHT,
+        yaw: tuning.yawDeg * (Math.PI / 180),
+        scaleMul: tuning.scaleMul,
+        seated: true,
+        onReady: (ok) => {
+          if (!ok) return;
+          this.driverTorso?.setEnabled(false);
+          this.driverHead?.setEnabled(false);
+          for (const arm of this.driverArms) arm.setEnabled(false);
+        }
+      });
+    }
   }
 
   /** Dettaglio che distingue visivamente il kart di ogni personaggio, oltre a colore/sagoma. */
@@ -489,6 +528,8 @@ export class KartEntity {
       this.lean += (target - this.lean) * 0.2;
       if (this.driverTorso) this.driverTorso.rotation.z = this.lean;
       if (this.driverHead) this.driverHead.rotation.z = this.lean * 1.4;
+      // stesso movimento del pilota disegnato: il Goblin importato si piega in curva/derapata (solo posa)
+      if (this.goblinDriverSeat) this.goblinDriverSeat.rotation.z = this.lean;
     }
     const [armL, armR] = this.driverArms;
     if (armL && armR) {
@@ -520,7 +561,16 @@ export class KartEntity {
     this.boostFx.dispose();
     this.dustFx.dispose();
     this.engine.stop();
+    this.goblinDriver?.dispose();
+    this.goblinDriver = null;
+    this.goblinDriverSeat?.dispose(false, false);
+    this.goblinDriverSeat = null;
     for (const m of this.driverMats) m.dispose();
     this.root.dispose();
+  }
+
+  /** (solo DEBUG/E2E) stato del pilota importato del Goblin: `null` = si sta disegnando il mini-rig procedurale. */
+  goblinDebug(): import('../characters/goblinVisual').GoblinVisualInstanceDebug | null {
+    return this.goblinDriver?.debug() ?? null;
   }
 }

@@ -1,0 +1,52 @@
+[
+  {
+    "mode": "old",
+    "perf": {
+      "fps": 6.051437216338879,
+      "frameMsAvg": 161.71,
+      "frameMsP95": 305,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "vendor": "Google Inc. (Google)",
+      "drawCallsPerFrame": 144,
+      "drawCallSamples": 32
+    },
+    "stats": {
+      "meshes": 160,
+      "materials": 67,
+      "textures": 18,
+      "skeletons": 0,
+      "animationGroups": 0,
+      "geometries": 160
+    },
+    "asset": []
+  },
+  {
+    "mode": "new",
+    "perf": {
+      "fps": 3.77867066366017,
+      "frameMsAvg": 245.06,
+      "frameMsP95": 985.1,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "vendor": "Google Inc. (Google)",
+      "drawCallsPerFrame": 118.91666666666667,
+      "drawCallSamples": 24
+    },
+    "stats": {
+      "meshes": 162,
+      "materials": 68,
+      "textures": 21,
+      "skeletons": 1,
+      "animationGroups": 1,
+      "geometries": 161
+    },
+    "asset": [
+      {
+        "url": "/models/goblin-tripo/green_goblin_tripo.glb",
+        "state": "ready",
+        "error": null,
+        "loadMs": 3486.89999999851,
+        "instances": 1
+      }
+    ]
+  }
+]

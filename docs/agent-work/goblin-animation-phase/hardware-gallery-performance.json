@@ -1,0 +1,5312 @@
+{
+  "1-old": {
+    "triangles": null,
+    "rows": [
+      {
+        "perf": {
+          "fps": 59.98800239934135,
+          "frameMsAvg": 22.86,
+          "frameMsP95": 61.1,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158695847,
+          "frameMsAvg": 22.54,
+          "frameMsP95": 61.1,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903677,
+          "frameMsAvg": 22.29,
+          "frameMsP95": 53.3,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626589,
+          "frameMsAvg": 22.03,
+          "frameMsP95": 53.3,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005995,
+          "frameMsAvg": 21.79,
+          "frameMsP95": 53.3,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005995,
+          "frameMsAvg": 21.6,
+          "frameMsP95": 39,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.97600959625088,
+          "frameMsAvg": 21.39,
+          "frameMsP95": 39,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005995,
+          "frameMsAvg": 21.21,
+          "frameMsP95": 39,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005997,
+          "frameMsAvg": 21.03,
+          "frameMsP95": 32.2,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567936,
+          "frameMsAvg": 20.87,
+          "frameMsP95": 32.2,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.964021586958495,
+          "frameMsAvg": 20.74,
+          "frameMsP95": 32.2,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.90415335454348,
+          "frameMsAvg": 20.6,
+          "frameMsP95": 23.1,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.90415335454348,
+          "frameMsAvg": 20.47,
+          "frameMsP95": 23.1,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567935,
+          "frameMsAvg": 20.35,
+          "frameMsP95": 23.1,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626589,
+          "frameMsAvg": 20.23,
+          "frameMsP95": 21.8,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567935,
+          "frameMsAvg": 20.12,
+          "frameMsP95": 21.8,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.82053838484547,
+          "frameMsAvg": 20.04,
+          "frameMsP95": 21.8,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629671186,
+          "frameMsAvg": 19.13,
+          "frameMsP95": 17.6,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567935,
+          "frameMsAvg": 18.9,
+          "frameMsP95": 17.2,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567935,
+          "frameMsAvg": 17.53,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903677,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005997,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005997,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567936,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.9280862962659,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369036785,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.964021586958495,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005997,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948311,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.71337579635548,
+          "frameMsAvg": 16.69,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296711875,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948311,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.964021587405,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296711875,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.90415335454349,
+          "frameMsAvg": 16.69,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.964021586958495,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296711875,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.9280862962659,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.940059940059975,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948313,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 28,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      }
+    ]
+  },
+  "1-new": {
+    "triangles": 35624,
+    "rows": [
+      {
+        "perf": {
+          "fps": 59.9280862962659,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948313,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005999,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567938,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005999,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.90415335454353,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296265946,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903682,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 60.03602161305735,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.90415335454353,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948315,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296265946,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.916117435233616,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 60.00000000000007,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.88023952095816,
+          "frameMsAvg": 16.73,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006002,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626597,
+          "frameMsAvg": 16.75,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006003,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006003,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296711925,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369483176,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006004,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629671194,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948319,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948319,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948319,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006003,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626597,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.904153354543546,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006002,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567941,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.916117435679425,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567941,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006002,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567941,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296711925,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006002,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      }
+    ]
+  },
+  "2-old": {
+    "triangles": null,
+    "rows": [
+      {
+        "perf": {
+          "fps": 59.916117435233616,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369036835,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.97600959625095,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948315,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 60.168471720638536,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629671191,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006002,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158695856,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.916117435679425,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629671195,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006007,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006005,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006007,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567946,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369483226,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567946,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006008,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.940059940060095,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.976009596251,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.97600959625098,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.9520383694832,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743523366,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.964021586958594,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626602,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.940059940060095,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006007,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369036885,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158695861,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.9520383690369,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.9520383690369,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158695861,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626602,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626602,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.9520383694832,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006005,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.97600959625098,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006005,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 55,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      }
+    ]
+  },
+  "2-new": {
+    "triangles": 71248,
+    "rows": [
+      {
+        "perf": {
+          "fps": 59.964021587405064,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948319,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903686,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158695858,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158740508,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.976009595804285,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903688,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369036885,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.90415335454358,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296265995,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948319,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006003,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626597,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903685,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.97600959625096,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006004,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.3999999985098839
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903688,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629671196,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626602,
+          "frameMsAvg": 17.03,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369483226,
+          "frameMsAvg": 16.66,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.9520383694832,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006005,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006005,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629671195,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006007,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.9520383690369,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.940059940060095,
+          "frameMsAvg": 16.65,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626603,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369483226,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903691,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.2,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.88023952095823,
+          "frameMsAvg": 16.69,
+          "frameMsP95": 17.2,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.916117435679446,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.2,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.964021587405085,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.2,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626597,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.2,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369483176,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.2,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4000000022351742
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369483176,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.2,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296711925,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.2,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006004,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.2,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948319,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.2,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006004,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.2,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      }
+    ]
+  },
+  "5-old": {
+    "triangles": null,
+    "rows": [
+      {
+        "perf": {
+          "fps": 59.916117435679425,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17.2,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626597,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17.2,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.916117435679425,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17.2,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903686,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17.2,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948319,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17.2,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006004,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17.2,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006004,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17.1,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006005,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17.1,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006005,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17.1,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629671195,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17.1,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626598,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006004,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006003,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743523363,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.916117435679425,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006004,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626597,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296711925,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567941,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 17,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948316,
+          "frameMsAvg": 17.17,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006003,
+          "frameMsAvg": 16.65,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006003,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006004,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.916117435233645,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903688,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626598,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006003,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006003,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006003,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158695856,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626595,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006002,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006002,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903686,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903686,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006004,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158695856,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006003,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.90415335454357,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006005,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 16.9,
+          "drawCalls": 136,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      }
+    ]
+  },
+  "5-new": {
+    "triangles": 178120,
+    "rows": [
+      {
+        "perf": {
+          "fps": 59.92808629626601,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 16.9,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.916117435679446,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948321,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743567946,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.7999999970197678
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006007,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.3999999985098839
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.904153354543595,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4999999962747097
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369036885,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006007,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006008,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948321,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.3999999985098839
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.940059940060095,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.3999999985098839
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.940059940060095,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.98800239934149,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6000000014901161
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.940059940060095,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296266045,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6000000014901161
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626603,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4999999962747097
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.916117435679475,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158695861,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4000000022351742
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.952038369036885,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6999999992549419
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 60.000000000000135,
+          "frameMsAvg": 17.52,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4000000022351742
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006007,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4000000022351742
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.98800239978835,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.9520383690369,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5999999977648258
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.9520383690369,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6000000014901161
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006007,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.808612440458035,
+          "frameMsAvg": 16.69,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5000000037252903
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006008,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903691,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5000000037252903
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006008,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.3999999985098839
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.82053838484561,
+          "frameMsAvg": 16.69,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6000000014901161
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836903691,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626603,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.940059940060095,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006008,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.8000000007450581
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743523368,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4000000022351742
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.88023952095821,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006005,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 60.0000000000001,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158740508,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6000000014901161
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629671194,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.1,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      }
+    ]
+  }
+}

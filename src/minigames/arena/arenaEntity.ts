@@ -5,6 +5,9 @@ import { presentationOf, bark } from '../../../shared/characterPresentation';
 import type { CharacterPresentation, ReactionKind } from '../../../shared/characterPresentation';
 import { buildCharacterRig, makeCharMaterials, makeSymbolPlane } from '../characters/characterModel';
 import type { CharMaterials, CharRig } from '../characters/characterModel';
+import { GoblinVisualInstance, goblinNewEnabled, goblinTuning } from '../characters/goblinVisual';
+import { GOBLIN_ACTIONS } from '../characters/goblinAnimator';
+import type { GoblinAnimationState, GoblinAttack } from '../characters/goblinAnimator';
 import { audio } from '../../core/AudioManager';
 import { CHAR_ICONS, drawIcon } from '../../../shared/charIcons';
 
@@ -26,9 +29,15 @@ export interface VisualSubject {
   dodgeTime?: number;
   /** altezza dal SOSTEGNO (non dal mondo): serve a distinguere "in aria" da "fermo su una piattaforma" (platform fighter) */
   air?: number;
+  vy?: number;
+  grounded?: boolean;
+  attack?: GoblinAttack | null;
+  abilityActive?: boolean;
 }
 
 export interface EntityOptions {
+  context?: 'arena'|'cornicione'|'dodgeball'|'soccer'|'volley'|'gallery';
+  goblinMode?: 'old'|'new';
   /** test silhouette: tutto grigio, nessuna targhetta (si devono riconoscere dalla forma) */
   neutral?: boolean;
   /** targhetta col nome sopra la testa (default sì) */
@@ -151,6 +160,14 @@ export class ArenaEntity {
   private sizeMul = 1;
   private aura = false;
   private bodyMeshes: import('@babylonjs/core').AbstractMesh[] = [];
+  /** GOBLIN TRIPO (pilota, solo DEV): se presente SOSTITUISCE solo il disegno del corpo; il rig procedurale resta vivo. */
+  private goblinVisual: GoblinVisualInstance | null = null;
+  private importedBody = false;
+  private legacyAction = false;
+  private readonly visualContext: EntityOptions['context'];
+  private bodyWanted = true;
+  /** riusato a ogni frame (nessuna allocazione nel loop) per lo stato passato al modello importato */
+  private readonly goblinPose: GoblinAnimationState = { speedFrac: 0, alive: true, falling: false, dashing: false, stunned: false };
 
   constructor(
     scene: Scene,
@@ -163,6 +180,7 @@ export class ArenaEntity {
     team: 'red' | 'blue' | null = null,
     opts: EntityOptions = {}
   ) {
+    this.visualContext = opts.context ?? 'arena';
     this.root = new TransformNode('arenaChar', scene);
     this.bobSeed = Math.random() * 1000;
     this.pres = presentationOf(characterId);
@@ -223,6 +241,30 @@ export class ArenaEntity {
     } else this.ring = null;
     const skip = new Set<unknown>([this.popup, this.symbol, this.ring, this.nameplate, fxAnchor]);
     this.bodyMeshes = this.root.getChildMeshes().filter((m) => !skip.has(m));
+
+    // GOBLIN TRIPO (pilota): alternativa di RENDER al solo modello del Goblin. Se il GLB non arriva (o la
+    // scena muore prima) si continua a disegnare il rig procedurale, che NON viene mai spento in costruzione.
+    if (characterId === 'goblin' && opts.goblinMode !== 'old' && goblinNewEnabled()) {
+      const tuning = goblinTuning();
+      this.goblinVisual = new GoblinVisualInstance(scene, this.root, {
+        height: this.rig.topY,
+        yaw: tuning.yawDeg * (Math.PI / 180),
+        scaleMul: tuning.scaleMul,
+        onReady: (ok) => {
+          if (this.goblinVisual && ok) {
+            this.importedBody = true;
+            this.applyBodyVisibility();
+          }
+        }
+      });
+    }
+  }
+
+  /** Corpo procedurale e modello importato sono mutuamente esclusivi; la visibilità voluta resta una sola. */
+  private applyBodyVisibility(): void {
+    const useNew = this.importedBody && !this.legacyAction;
+    for (const m of this.bodyMeshes) m.setEnabled(this.bodyWanted && !useNew);
+    this.goblinVisual?.setEnabled(this.bodyWanted && useNew);
   }
 
   private buildNameplate(scene: Scene, avatar: string, name: string, characterId: string | null, team: 'red' | 'blue' | null): void {
@@ -315,12 +357,22 @@ export class ArenaEntity {
 
   /** Posizione locale della mano destra (per agganciare una palla tenuta in mano). */
   get handAnchor(): { x: number; y: number; z: number } {
+    const h = this.importedBody && !this.legacyAction ? this.goblinVisual?.attachment('RIGHT_HAND') : null;
+    if (h) return { x:h.x,y:h.y,z:h.z };
     return { x: this.rig.armR.position.x * 0.86, y: this.rig.hipY + this.rig.shoulderY - this.rig.armLen * 0.42, z: 0.3 };
+  }
+  /** Exact imported-hand position, including the actor's smoothed visual facing. */
+  get handWorldAnchor(): Vector3 | null {
+    return this.importedBody&&!this.legacyAction ? this.goblinVisual?.attachment('RIGHT_HAND',true)??null : null;
   }
 
   private startAction(kind: ActionKind, dur: number): void {
     this.actionKind = kind;
     this.actionT = this.actionDur = dur;
+    if (this.visualContext !== 'cornicione' && this.visualContext !== 'soccer' && this.visualContext !== 'volley') {
+      const name = GOBLIN_ACTIONS[kind];
+      if (name) this.goblinVisual?.playAction(name,dur,kind==='throw'||kind==='pickup'||kind==='absorb');
+    }
   }
 
   /** Tiro (dodgeball, servizio): torsione del busto, braccio che frusta in avanti, follow-through. Parte NELL'ISTANTE del lancio. */
@@ -369,13 +421,15 @@ export class ArenaEntity {
    * Colpo subito DA UNA DIREZIONE (x,z nel mondo = dove va la spinta): il busto cede da quella parte, schiacciamento breve.
    * `strength` 0..1 sceglie quanto e' forte la reazione (impatto leggero/medio/pesante).
    */
-  playHitFrom(dx: number, dz: number, strength = 0.6): void {
+  playHitFrom(dx: number, dz: number, strength = 0.6, hitHeight?: number): void {
     const l = Math.hypot(dx, dz) || 1;
     this.hitDir = { x: dx / l, z: dz / l };
     this.hitT = HIT_DUR;
     this.hitBig = strength >= 0.6;
     this.squashT = 0.08 + 0.06 * strength;
     this.jiggle.v += 4 + 6 * strength;
+    const side = Math.abs(dx*Math.cos(this.visualFacing)-dz*Math.sin(this.visualFacing)) > .65*l;
+    this.goblinVisual?.playHitReaction(strength>=.6?'knockback':hitHeight!==undefined&&hitHeight>=2?'head':hitHeight!==undefined&&hitHeight<=.7?'stomach':side?'side':'body',HIT_DUR);
   }
 
   /** Vicino al bordo (Arena): equilibrio precario, braccia a mulinello. `outX/outZ` = verso il vuoto; null = al sicuro. */
@@ -401,6 +455,8 @@ export class ArenaEntity {
     // firma sonora del personaggio (una sola, non tre suoni forti sovrapposti: il gioco aggiunge al massimo il suo effetto)
     audio.characterSting(this.pres?.id);
     audio.duck(0.2, 350);
+    // Cornicione reads the actual burst/attack window below; no guessed ability duration.
+    if (this.visualContext === 'gallery') this.goblinVisual?.playAbility(.3);
   }
 
   /** Mossa del platform fighter: `kind` e' la posa, `dur` la durata totale (anticipo incluso per le pose tenute). */
@@ -416,7 +472,8 @@ export class ArenaEntity {
 
   /** Mostra/nasconde SOLO il corpo (la targhetta resta): respawn lampeggiante, Buttafuori che sparisce. */
   setBodyVisible(v: boolean): void {
-    for (const m of this.bodyMeshes) m.setEnabled(v);
+    this.bodyWanted = v;
+    this.applyBodyVisibility();
   }
 
   /** Dimensione (1 = normale): il Dottore col peso tagliato e' un po' piu' snello. */
@@ -429,11 +486,25 @@ export class ArenaEntity {
     this.aura = on;
   }
 
+  /** (solo DEBUG/E2E) stato del modello importato del Goblin: `null` = si sta disegnando il rig procedurale. */
+  goblinDebug(): import('../characters/goblinVisual').GoblinVisualInstanceDebug | null {
+    return this.goblinVisual?.debug() ?? null;
+  }
+
+  /** (solo DEBUG/E2E) riferimenti vivi dell'istanza importata, per provare l'indipendenza di scheletro e clip. */
+  goblinHandle(): { skeleton: import('@babylonjs/core').Skeleton | null; group: import('@babylonjs/core').AnimationGroup | null; meshes: import('@babylonjs/core').AbstractMesh[] } | null {
+    return this.goblinVisual?.handle() ?? null;
+  }
+  goblinPreview(name:string|null,speed=1,loop=false): void { this.goblinVisual?.preview(name,speed,loop); }
+  goblinAttachment(key:import('../characters/goblinVisual').GoblinAttachment): Vector3|null { return this.goblinVisual?.attachment(key,true)??null; }
+  goblinJointLines(): Vector3[][] { return this.goblinVisual?.jointLines()??[]; }
+
   /** Posa di vittoria del personaggio: per `sec` secondi (gol, punto) o fino alla fine (fine round). */
   playVictory(sec = Infinity): void {
     this.celebration = 'victory';
     this.celebrateT = 0;
     this.celebrateUntil = sec;
+    this.goblinVisual?.playResult(sec>0?'victory':null);
   }
 
   /** Posa di sconfitta del personaggio: per `sec` secondi (gol subito, autogol) o fino alla fine (eliminato, fine round). */
@@ -441,6 +512,7 @@ export class ArenaEntity {
     this.celebration = 'defeat';
     this.celebrateT = 0;
     this.celebrateUntil = sec;
+    this.goblinVisual?.playResult(sec>0?'defeat':null);
   }
 
   /** Esultanza breve (gol, punto): vittoria per `sec` secondi, poi si torna a giocare. */
@@ -546,6 +618,7 @@ export class ArenaEntity {
       if (this.celebrateT > this.celebrateUntil) {
         this.celebration = null;
         this.celebrateUntil = Infinity;
+        this.goblinVisual?.playResult(null);
       }
     }
 
@@ -1181,6 +1254,35 @@ export class ArenaEntity {
 
     if (this.sizeMul !== 1) this.root.scaling.scaleInPlace(this.sizeMul);
     if (this.aura) this.dashFx.emitRate = Math.max(this.dashFx.emitRate, 28);
+
+    // GOBLIN TRIPO (pilota): la clip `run.001` segue SOLO lo stato di locomozione. Negli altri stati la posa resta
+    // ferma sul frame neutro del passo (il GLB non ha idle/salto/colpo): vedi docs/agent-work/goblin-tripo-pilot.
+    if (this.goblinVisual) {
+      const gp = this.goblinPose;
+      gp.speedFrac = speedFrac;
+      gp.alive = p.alive;
+      gp.falling = p.falling;
+      gp.dashing = p.dashing;
+      gp.stunned = p.stunTime > 0;
+      gp.grounded = p.grounded ?? (p.air ?? p.y) <= .02;
+      gp.vy = p.vy;
+      gp.dodge = (p.dodgeTime??0)>0;
+      gp.knockback = knocked;
+      gp.hitFlash = p.hitFlash;
+      gp.attack = p.attack;
+      gp.ability = p.abilityActive;
+      gp.result = this.celebration;
+      // The procedural lean/squash was tuned for its own rig. Do not add it to authored animation.
+      const unsupportedDownAir = p.attack?.id==='dAL'||p.attack?.id==='dAH';
+      this.legacyAction = unsupportedDownAir || this.charge>0 || (this.actionT>0 && (this.visualContext==='soccer'||this.visualContext==='volley'||(this.visualContext!=='cornicione'&&!GOBLIN_ACTIONS[this.actionKind])));
+      this.applyBodyVisibility();
+      if (this.importedBody && !this.legacyAction) {
+        this.root.rotation.x = 0;
+        this.root.rotation.z = 0;
+        this.root.scaling.setAll(this.sizeMul);
+      }
+      this.goblinVisual.update(dt, gp);
+    }
     this.updateFx(dt);
   }
 
@@ -1253,6 +1355,8 @@ export class ArenaEntity {
     this.dashFx.dispose();
     this.hitFx.dispose();
     this.abilityFx.dispose();
+    this.goblinVisual?.dispose();
+    this.goblinVisual = null;
     this.stingQueue = [];
     for (const m of this.mats.all) m.dispose();
     this.root.dispose(false, true);

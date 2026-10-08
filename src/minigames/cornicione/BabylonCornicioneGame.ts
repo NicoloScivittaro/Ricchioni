@@ -109,7 +109,7 @@ export class BabylonCornicioneGame {
     abilityHub.begin('cornicione', ctx);
     this.unsubAbility = abilityHub.onStatus(() => undefined); // lo stato arriva gia' dal gioco: l'HUD lo legge da qui (vedi syncHud)
     ctx.players.forEach((snap) => {
-      this.entities.set(snap.id, new ArenaEntity(this.scene, dotTex, snap.color, snap.characterId, snap.avatar, snap.displayName));
+      this.entities.set(snap.id, new ArenaEntity(this.scene, dotTex, snap.color, snap.characterId, snap.avatar, snap.displayName,null,{context:'cornicione'}));
       this.names.set(snap.id, snap.displayName);
       this.colors.set(snap.id, snap.color);
       this.chars.set(snap.id, snap.characterId ?? 'goblin');
@@ -382,7 +382,7 @@ export class BabylonCornicioneGame {
     if (e.impact === 'LIGHT') audio.hit();
     else audio.thump(e.impact === 'HEAVY' ? 1.1 + strength * 0.3 : 0.8, this.pan(e.x));
     const ve = this.ent(e.victim);
-    ve?.playHitFrom(e.dx, 0, Math.min(1, strength));
+    ve?.playHitFrom(e.dx, 0, Math.min(1, strength), a?.attack?.move.hit.y);
     if (e.impact !== 'LIGHT') ve?.burstHit();
     if (a) {
       const ae = this.ent(a.id);
@@ -601,7 +601,11 @@ export class BabylonCornicioneGame {
         stunTime: f.hitstun > 0 ? Math.min(f.hitstun, 0.6) : 0,
         hitFlash: f.hitFlash,
         dodgeTime: f.dodge && !f.dodge.air ? 1 : 0,
-        air: f.grounded ? 0 : 1
+        air: f.grounded ? 0 : 1,
+        grounded: f.grounded,
+        vy: f.vy,
+        attack: f.attack ? { id:f.attack.move.id,elapsed:f.attack.t,startup:f.attack.move.startup,active:f.attack.move.active,recovery:f.attack.move.recovery } : null,
+        abilityActive: f.ab.burstT>0
       };
       ent.updateVisual(vis, dt, now);
       if (f.ab.vanishT <= 0) this.fx.marker(`v_${f.id}`, false);

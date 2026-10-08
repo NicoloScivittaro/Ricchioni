@@ -1,0 +1,5312 @@
+{
+  "1-old": {
+    "triangles": null,
+    "rows": [
+      {
+        "perf": {
+          "fps": 4.876497402735079,
+          "frameMsAvg": 200.53,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.961035202679723,
+          "frameMsAvg": 197.36,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.0489750580632125,
+          "frameMsAvg": 194.14,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.110464659173563,
+          "frameMsAvg": 191.99,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.169640805697354,
+          "frameMsAvg": 189.96,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.243052954836306,
+          "frameMsAvg": 187.47,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.304554600329247,
+          "frameMsAvg": 185.45,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.3485469780709565,
+          "frameMsAvg": 184.04,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.323868677905945,
+          "frameMsAvg": 182.1,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.835667600372636,
+          "frameMsAvg": 180.17,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.736576411196162,
+          "frameMsAvg": 179.12,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.552650547145253,
+          "frameMsAvg": 178.06,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.414779652314855,
+          "frameMsAvg": 176.42,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.262263599552039,
+          "frameMsAvg": 175.63,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.957770763153363,
+          "frameMsAvg": 174.33,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 8.627631427587264,
+          "frameMsAvg": 172.99,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 8.387385372398166,
+          "frameMsAvg": 171.53,
+          "frameMsP95": 793.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 8.121717472519887,
+          "frameMsAvg": 170.58,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 8.094325877558205,
+          "frameMsAvg": 169.5,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 8.048073827660698,
+          "frameMsAvg": 168.72,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.98424442433123,
+          "frameMsAvg": 168.13,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.940078871456388,
+          "frameMsAvg": 167.33,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.9350384849303985,
+          "frameMsAvg": 166.25,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.885606140261738,
+          "frameMsAvg": 165.67,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.900558306121852,
+          "frameMsAvg": 164.59,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.878978884333509,
+          "frameMsAvg": 163.88,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.8394481028596665,
+          "frameMsAvg": 163.25,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.829627309737012,
+          "frameMsAvg": 162.37,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.867407951328508,
+          "frameMsAvg": 161.34,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.886849992111607,
+          "frameMsAvg": 160.44,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.874222420539053,
+          "frameMsAvg": 159.68,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.854842510406136,
+          "frameMsAvg": 159.15,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.833716315024419,
+          "frameMsAvg": 158.52,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.886642656216614,
+          "frameMsAvg": 157.68,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.936297981539575,
+          "frameMsAvg": 156.88,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.943442688062575,
+          "frameMsAvg": 156.16,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.926861491311558,
+          "frameMsAvg": 155.8,
+          "frameMsP95": 612.4,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.987645774533802,
+          "frameMsAvg": 155.1,
+          "frameMsP95": 414.9,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.985944737267172,
+          "frameMsAvg": 154.58,
+          "frameMsP95": 414.9,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.998933475536597,
+          "frameMsAvg": 153.91,
+          "frameMsP95": 414.9,
+          "drawCalls": 28,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 31,
+          "materials": 16,
+          "textures": 5,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 32
+        }
+      }
+    ]
+  },
+  "1-new": {
+    "triangles": 35624,
+    "rows": [
+      {
+        "perf": {
+          "fps": 6.9967581687163785,
+          "frameMsAvg": 157.04,
+          "frameMsP95": 414.9,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.9967581687163785,
+          "frameMsAvg": 157.04,
+          "frameMsP95": 414.9,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.7864090847430605,
+          "frameMsAvg": 157.96,
+          "frameMsP95": 414.9,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.7864090847430605,
+          "frameMsAvg": 157.96,
+          "frameMsP95": 414.9,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.658380681821486,
+          "frameMsAvg": 158.68,
+          "frameMsP95": 414.9,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.658380681821486,
+          "frameMsAvg": 158.68,
+          "frameMsP95": 414.9,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.56124926185839,
+          "frameMsAvg": 159.18,
+          "frameMsP95": 414.9,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.4463449224279525,
+          "frameMsAvg": 159.69,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.4463449224279525,
+          "frameMsAvg": 159.69,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.307158625039421,
+          "frameMsAvg": 160.32,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.307158625039421,
+          "frameMsAvg": 160.32,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.199371796992194,
+          "frameMsAvg": 160.76,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.1140888988535185,
+          "frameMsAvg": 161.06,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.1140888988535185,
+          "frameMsAvg": 161.06,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.038039649793701,
+          "frameMsAvg": 161.43,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.961962678110988,
+          "frameMsAvg": 161.73,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.890900522329099,
+          "frameMsAvg": 161.84,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.890900522329099,
+          "frameMsAvg": 161.84,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.824224892734665,
+          "frameMsAvg": 161.93,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.7651286584512595,
+          "frameMsAvg": 161.99,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.717770831744251,
+          "frameMsAvg": 162.16,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.717770831744251,
+          "frameMsAvg": 162.16,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.6557886997373545,
+          "frameMsAvg": 162.26,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.606952621250349,
+          "frameMsAvg": 162.33,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.606952621250349,
+          "frameMsAvg": 162.33,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.535361735890199,
+          "frameMsAvg": 162.54,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.481654728840065,
+          "frameMsAvg": 162.59,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.481654728840065,
+          "frameMsAvg": 162.59,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.541496573508714,
+          "frameMsAvg": 162.74,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.523844595838703,
+          "frameMsAvg": 162.92,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.3600142933714485,
+          "frameMsAvg": 162.99,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.44069640914037,
+          "frameMsAvg": 163.04,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.445436724026003,
+          "frameMsAvg": 163.14,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.445436724026003,
+          "frameMsAvg": 163.14,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999776482582
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.431830526887561,
+          "frameMsAvg": 163.42,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.431830526887561,
+          "frameMsAvg": 163.42,
+          "frameMsP95": 273,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.516835543133971,
+          "frameMsAvg": 163.66,
+          "frameMsP95": 250.7,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.470758794245505,
+          "frameMsAvg": 163.8,
+          "frameMsP95": 250.7,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.470758794245505,
+          "frameMsAvg": 163.8,
+          "frameMsP95": 250.7,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.4684651841049945,
+          "frameMsAvg": 163.97,
+          "frameMsP95": 250.7,
+          "drawCalls": 3,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 33,
+          "materials": 16,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 32
+        }
+      }
+    ]
+  },
+  "2-old": {
+    "triangles": null,
+    "rows": [
+      {
+        "perf": {
+          "fps": 6.444129398120378,
+          "frameMsAvg": 160.27,
+          "frameMsP95": 298.8,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.502514305529373,
+          "frameMsAvg": 160.07,
+          "frameMsP95": 298.8,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.577937597294363,
+          "frameMsAvg": 159.72,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.616382162229344,
+          "frameMsAvg": 159.58,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.678539626001783,
+          "frameMsAvg": 159.41,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.713061379754526,
+          "frameMsAvg": 159.29,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.764831893928573,
+          "frameMsAvg": 159.16,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.829668078129086,
+          "frameMsAvg": 158.99,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.879313903095749,
+          "frameMsAvg": 158.83,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.809978889064293,
+          "frameMsAvg": 159.35,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.040270346382533,
+          "frameMsAvg": 158.49,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.99953336444237,
+          "frameMsAvg": 159.04,
+          "frameMsP95": 273.6,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.244976816079403,
+          "frameMsAvg": 158.12,
+          "frameMsP95": 273.6,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.335860129600194,
+          "frameMsAvg": 157.86,
+          "frameMsP95": 273.6,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.615179591318694,
+          "frameMsAvg": 157.79,
+          "frameMsP95": 273.6,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.943863365550111,
+          "frameMsAvg": 157.69,
+          "frameMsP95": 273.6,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.634559104211731,
+          "frameMsAvg": 157.73,
+          "frameMsP95": 273.6,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.545271629778671,
+          "frameMsAvg": 157.79,
+          "frameMsP95": 273.6,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.479431563201196,
+          "frameMsAvg": 157.71,
+          "frameMsP95": 273.6,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.402837754472547,
+          "frameMsAvg": 157.65,
+          "frameMsP95": 273.6,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.142346975214788,
+          "frameMsAvg": 158.36,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.251281059655176,
+          "frameMsAvg": 157.23,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.251281059655176,
+          "frameMsAvg": 157.23,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.195279896390539,
+          "frameMsAvg": 157.13,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.226477814709216,
+          "frameMsAvg": 156.91,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.195970256656271,
+          "frameMsAvg": 156.81,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.171371883440022,
+          "frameMsAvg": 156.57,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.112544157047486,
+          "frameMsAvg": 156.48,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.090187180942823,
+          "frameMsAvg": 156.4,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.121323616684145,
+          "frameMsAvg": 156.14,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.06747078779237,
+          "frameMsAvg": 156.1,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.07697388597009,
+          "frameMsAvg": 155.97,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.077975698950097,
+          "frameMsAvg": 155.86,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.081317124985245,
+          "frameMsAvg": 155.77,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.088009450679264,
+          "frameMsAvg": 155.66,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.0771408351026155,
+          "frameMsAvg": 155.59,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.069969127800231,
+          "frameMsAvg": 155.41,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.2406053146029965,
+          "frameMsAvg": 155.34,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.041427062551341,
+          "frameMsAvg": 155.4,
+          "frameMsP95": 273,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 7.012786647656662,
+          "frameMsAvg": 155.27,
+          "frameMsP95": 257.5,
+          "drawCalls": 55,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 61,
+          "materials": 28,
+          "textures": 8,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 62
+        }
+      }
+    ]
+  },
+  "2-new": {
+    "triangles": 71248,
+    "rows": [
+      {
+        "perf": {
+          "fps": 5.8884723339950105,
+          "frameMsAvg": 159.42,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.8277322351287255,
+          "frameMsAvg": 159.62,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.8277322351287255,
+          "frameMsAvg": 159.62,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.726720879626769,
+          "frameMsAvg": 159.94,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.663476241719555,
+          "frameMsAvg": 160.18,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000447034836
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.663476241719555,
+          "frameMsAvg": 160.18,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000447034836
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.562972852695552,
+          "frameMsAvg": 160.5,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.562972852695552,
+          "frameMsAvg": 160.5,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.492191933800029,
+          "frameMsAvg": 160.8,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4000000022351742
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.492191933800029,
+          "frameMsAvg": 160.8,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4000000022351742
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.440795081519039,
+          "frameMsAvg": 160.99,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.349691501122723,
+          "frameMsAvg": 161.27,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.349691501122723,
+          "frameMsAvg": 161.27,
+          "frameMsP95": 273.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.287741253194676,
+          "frameMsAvg": 161.57,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4000000022351742
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.287741253194676,
+          "frameMsAvg": 161.57,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4000000022351742
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.221477678182925,
+          "frameMsAvg": 161.83,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.159692482327391,
+          "frameMsAvg": 162.08,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.159692482327391,
+          "frameMsAvg": 162.08,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.090872066386257,
+          "frameMsAvg": 162.4,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.090872066386257,
+          "frameMsAvg": 162.4,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.023947483003563,
+          "frameMsAvg": 162.7,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5999999977648258
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.973887092762992,
+          "frameMsAvg": 162.92,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.973887092762992,
+          "frameMsAvg": 162.92,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.929346040092013,
+          "frameMsAvg": 163.11,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.8999999985098839
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.929346040092013,
+          "frameMsAvg": 163.11,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.8999999985098839
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.84183344092963,
+          "frameMsAvg": 163.56,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.84183344092963,
+          "frameMsAvg": 163.56,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.746610129265455,
+          "frameMsAvg": 164.13,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999552965164
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.718613356820987,
+          "frameMsAvg": 164.32,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4999999962747097
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.718613356820987,
+          "frameMsAvg": 164.32,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4999999962747097
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.668897362072989,
+          "frameMsAvg": 164.52,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000074505806
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.621784008627328,
+          "frameMsAvg": 164.9,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.621784008627328,
+          "frameMsAvg": 164.9,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999925494194
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.57889434964385,
+          "frameMsAvg": 165.15,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.3999999985098839
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.57889434964385,
+          "frameMsAvg": 165.15,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.3999999985098839
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.813091609176959,
+          "frameMsAvg": 165.37,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5999999977648258
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.658819144639186,
+          "frameMsAvg": 165.75,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6999999992549419
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.658819144639186,
+          "frameMsAvg": 165.75,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6999999992549419
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.504301608035169,
+          "frameMsAvg": 166.08,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.504301608035169,
+          "frameMsAvg": 166.08,
+          "frameMsP95": 273,
+          "drawCalls": 5,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 65,
+          "materials": 28,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 62
+        }
+      }
+    ]
+  },
+  "5-old": {
+    "triangles": null,
+    "rows": [
+      {
+        "perf": {
+          "fps": 4.922471080482401,
+          "frameMsAvg": 167.86,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.967298617435217,
+          "frameMsAvg": 167.86,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.036345627610083,
+          "frameMsAvg": 167.7,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.073223526229842,
+          "frameMsAvg": 167.67,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.101780521401321,
+          "frameMsAvg": 167.66,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.2011997434088215,
+          "frameMsAvg": 167.51,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.297264845587516,
+          "frameMsAvg": 167.5,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.341309689134357,
+          "frameMsAvg": 167.45,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.404236921747373,
+          "frameMsAvg": 167.31,
+          "frameMsP95": 273,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.481254110941327,
+          "frameMsAvg": 167.27,
+          "frameMsP95": 273,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.535566011624685,
+          "frameMsAvg": 167.23,
+          "frameMsP95": 273,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.58461624378866,
+          "frameMsAvg": 167.2,
+          "frameMsP95": 273,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.29999999701976776,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.800015466705401,
+          "frameMsAvg": 167.75,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.534097096681791,
+          "frameMsAvg": 167.64,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.544502617801042,
+          "frameMsAvg": 167.27,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.373621704303413,
+          "frameMsAvg": 167.14,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.451057973509718,
+          "frameMsAvg": 166.99,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.4513354264343,
+          "frameMsAvg": 166.91,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.419721384094996,
+          "frameMsAvg": 166.87,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.406970784210159,
+          "frameMsAvg": 166.77,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.546359133263108,
+          "frameMsAvg": 166.71,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.391818472355379,
+          "frameMsAvg": 166.68,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.399999999999993,
+          "frameMsAvg": 166.63,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.41011944189022,
+          "frameMsAvg": 166.57,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.373892536172843,
+          "frameMsAvg": 166.83,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.425496369591468,
+          "frameMsAvg": 166.98,
+          "frameMsP95": 273.6,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.425909266159104,
+          "frameMsAvg": 165.08,
+          "frameMsP95": 273,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.436939449854177,
+          "frameMsAvg": 165.51,
+          "frameMsP95": 273,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.44482158585782,
+          "frameMsAvg": 162.74,
+          "frameMsP95": 269.8,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.4890119397830075,
+          "frameMsAvg": 163.19,
+          "frameMsP95": 269.8,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.502232433134318,
+          "frameMsAvg": 163.7,
+          "frameMsP95": 269.8,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.470677048507461,
+          "frameMsAvg": 159.58,
+          "frameMsP95": 257.5,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.520038250886841,
+          "frameMsAvg": 158.4,
+          "frameMsP95": 250.8,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.540650140625033,
+          "frameMsAvg": 158.92,
+          "frameMsP95": 250.8,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.547359231776509,
+          "frameMsAvg": 159.4,
+          "frameMsP95": 250.8,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.542219120723617,
+          "frameMsAvg": 159.61,
+          "frameMsP95": 250.8,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.587615283267451,
+          "frameMsAvg": 159.67,
+          "frameMsP95": 250.8,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.61623624374105,
+          "frameMsAvg": 159.78,
+          "frameMsP95": 250.8,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.651147322913197,
+          "frameMsAvg": 159.88,
+          "frameMsP95": 250.8,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 6.700616456715127,
+          "frameMsAvg": 159.93,
+          "frameMsP95": 250.8,
+          "drawCalls": 136,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 151,
+          "materials": 64,
+          "textures": 17,
+          "skeletons": 0,
+          "animationGroups": 0,
+          "geometries": 152
+        }
+      }
+    ]
+  },
+  "5-new": {
+    "triangles": 178120,
+    "rows": [
+      {
+        "perf": {
+          "fps": 5.079150088885123,
+          "frameMsAvg": 167.29,
+          "frameMsP95": 283.6,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6999999992549419
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.079150088885123,
+          "frameMsAvg": 167.29,
+          "frameMsP95": 283.6,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6999999992549419
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 5.079150088885123,
+          "frameMsAvg": 167.29,
+          "frameMsP95": 283.6,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6999999992549419
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.881223560039047,
+          "frameMsAvg": 168.44,
+          "frameMsP95": 298.8,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 34.099999997764826
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.644178522222926,
+          "frameMsAvg": 169.88,
+          "frameMsP95": 306.5,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4999999962747097
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.644178522222926,
+          "frameMsAvg": 169.88,
+          "frameMsP95": 306.5,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4999999962747097
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.644178522222926,
+          "frameMsAvg": 169.88,
+          "frameMsP95": 306.5,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4999999962747097
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.538577912254158,
+          "frameMsAvg": 170.57,
+          "frameMsP95": 306.5,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5999999977648258
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.538577912254158,
+          "frameMsAvg": 170.57,
+          "frameMsP95": 306.5,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5999999977648258
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.3925151541768,
+          "frameMsAvg": 171.59,
+          "frameMsP95": 346.4,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.3925151541768,
+          "frameMsAvg": 171.59,
+          "frameMsP95": 346.4,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.3925151541768,
+          "frameMsAvg": 171.59,
+          "frameMsP95": 346.4,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.259064709389365,
+          "frameMsAvg": 172.64,
+          "frameMsP95": 350.5,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 1.4999999962747097
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.259064709389365,
+          "frameMsAvg": 172.64,
+          "frameMsP95": 350.5,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 1.4999999962747097
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.259064709389365,
+          "frameMsAvg": 172.64,
+          "frameMsP95": 350.5,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 1.4999999962747097
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.1241648566169555,
+          "frameMsAvg": 173.69,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5999999977648258
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.1241648566169555,
+          "frameMsAvg": 173.69,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5999999977648258
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.1241648566169555,
+          "frameMsAvg": 173.69,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5999999977648258
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.016333087890754,
+          "frameMsAvg": 174.58,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.9000000022351742
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.016333087890754,
+          "frameMsAvg": 174.58,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.9000000022351742
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 4.016333087890754,
+          "frameMsAvg": 174.58,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.9000000022351742
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.8936766690890208,
+          "frameMsAvg": 175.61,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.5999999940395355
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.8936766690890208,
+          "frameMsAvg": 175.61,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.5999999940395355
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.8936766690890208,
+          "frameMsAvg": 175.61,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.5999999940395355
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.7973241522470227,
+          "frameMsAvg": 176.58,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 1
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.7973241522470227,
+          "frameMsAvg": 176.58,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 1
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.7973241522470227,
+          "frameMsAvg": 176.58,
+          "frameMsP95": 369.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 1
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.6925349252261657,
+          "frameMsAvg": 177.57,
+          "frameMsP95": 380.1,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.8000000007450581
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.6925349252261657,
+          "frameMsAvg": 177.57,
+          "frameMsP95": 380.1,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.8000000007450581
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.6925349252261657,
+          "frameMsAvg": 177.57,
+          "frameMsP95": 380.1,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.8000000007450581
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.5967772875500317,
+          "frameMsAvg": 178.41,
+          "frameMsP95": 380.1,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.8000000007450581
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.5967772875500317,
+          "frameMsAvg": 178.41,
+          "frameMsP95": 380.1,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.8000000007450581
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.5967772875500317,
+          "frameMsAvg": 178.41,
+          "frameMsP95": 380.1,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.8000000007450581
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.4887371934266125,
+          "frameMsAvg": 179.53,
+          "frameMsP95": 380.2,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6999999992549419
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.4887371934266125,
+          "frameMsAvg": 179.53,
+          "frameMsP95": 380.2,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6999999992549419
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.4887371934266125,
+          "frameMsAvg": 179.53,
+          "frameMsP95": 380.2,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6999999992549419
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.402209167819348,
+          "frameMsAvg": 180.48,
+          "frameMsP95": 380.2,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 1.0999999977648258
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.402209167819348,
+          "frameMsAvg": 180.48,
+          "frameMsP95": 380.2,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.09999999776482582,
+          "samplerMs": 1.0999999977648258
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.322443103161856,
+          "frameMsAvg": 181.5,
+          "frameMsP95": 380.2,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.4999999925494194
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      },
+      {
+        "perf": {
+          "fps": 3.2436640429039065,
+          "frameMsAvg": 182.44,
+          "frameMsP95": 380.2,
+          "drawCalls": 11,
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.8999999985098839
+        },
+        "stats": {
+          "meshes": 161,
+          "materials": 64,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 152
+        }
+      }
+    ]
+  }
+}

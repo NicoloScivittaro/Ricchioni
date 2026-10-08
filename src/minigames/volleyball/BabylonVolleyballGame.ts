@@ -162,7 +162,7 @@ export class BabylonVolleyballGame {
       const p = createVolleyballPlayer(snap.id, snap.characterId, snap.color, snap.avatar, snap.name, team, team === this.handicappedTeam);
       this.abilities.init(p);
       this.players.push(p);
-      const entity = new ArenaEntity(this.scene, dotTex, TEAM_COLOR[team], snap.characterId, snap.avatar, snap.displayName, team);
+      const entity = new ArenaEntity(this.scene, dotTex, TEAM_COLOR[team], snap.characterId, snap.avatar, snap.displayName, team,{context:'volley'});
       this.entities.set(p.id, entity);
     });
 

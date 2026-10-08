@@ -55,6 +55,26 @@ for (const [w, h] of [[1366, 768], [1920, 1080]]) {
     await sleep(300);
     const meshes1 = await page.evaluate(() => window.__gallery.meshes());
     check(meshes1 <= meshes0, `${w}x${h}: cambiare vista non accumula mesh (${meshes0} → ${meshes1})`);
+    // GOBLIN TRIPO (pilota, solo DEV): il selettore OLD/NEW vive nella stessa galleria, stesso posto e stessa luce.
+    // Default = OLD (nessuna istanza importata); NEW = modello importato pronto, con la clip run.001 e 65 ossa.
+    check(
+      await page.evaluate(() => window.__gallery.goblins().every((g) => g === null)),
+      `${w}x${h}: GOBLIN OLD di default (modello procedurale, nessuna istanza importata)`
+    );
+    await page.evaluate(() => window.__gallery.setGoblin('new'));
+    await page.waitForFunction(() => {
+      const g = window.__gallery.goblins()[0];
+      return !!g && (g.state === 'ready' || g.state === 'error');
+    }, { timeout: 60000 });
+    const gNew = await page.evaluate(() => window.__gallery.goblins()[0]);
+    check(gNew?.state === 'ready' && gNew?.bones === 65 && gNew?.clips===36 && gNew?.activeTracks===195 && gNew?.animator?.name==='goblin.idle', `${w}x${h}: GOBLIN NEW importato (65 ossa, 36 clip, idle reale, 195 tracce)`);
+    await shot('goblin-new');
+    await page.evaluate(() => window.__gallery.setGoblin('old'));
+    await sleep(500);
+    check(
+      await page.evaluate(() => window.__gallery.goblins().every((g) => g === null)),
+      `${w}x${h}: GOBLIN torna al procedurale dopo lo switch`
+    );
     check(errs.length === 0, `${w}x${h}: nessun errore${errs.length ? ' ' + errs.join(' | ') : ''}`);
     // senza ?characters=1 la galleria non c'e'
     const page2 = await browser.newPage();
