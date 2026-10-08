@@ -4,7 +4,7 @@ process.env.HOST_URL = (process.env.HOST_URL ?? 'http://localhost:5173/') + '?de
 const { launch, createRoomOnHost, addPhone, hostEval, hostSnapshot, sleep } = await import('./lib.mjs');
 
 const GAME = process.env.GAME ?? 'soccer';
-const CHUNK = { soccer: 'BabylonSoccerGame', kart3d: 'BabylonKartGame', arena: 'BabylonArenaGame', dodgeball: 'BabylonDodgeballGame', volleyball: 'BabylonVolleyballGame' }[GAME];
+const CHUNK = { soccer: 'BabylonSoccerGame', kart3d: 'BabylonKartGame', arena: 'BabylonArenaGame', dodgeball: 'BabylonDodgeballGame', volleyball: 'BabylonVolleyballGame', cornicione: 'BabylonCornicioneGame' }[GAME];
 
 const browser = await launch();
 let fails = 0;

@@ -1,7 +1,7 @@
 // Per OGNI minigioco del registry: rullo → intro → gioco (host + 2 telefoni reali) → fine → risultati → rullo. Nessun refresh.
 import { launch, createRoomOnHost, addPhone, hostEval, hostSnapshot, phoneView, sleep, installTrace, readTrace } from './lib.mjs';
 
-const GAMES = (process.env.GAMES ?? 'quiz,reaction,memory,arena,dodgeball,soccer,volleyball,kart3d,cultura,fps').split(',');
+const GAMES = (process.env.GAMES ?? 'quiz,reaction,memory,arena,dodgeball,soccer,volleyball,kart3d,cultura,fps,cornicione').split(',');
 const report = [];
 
 async function until(fn, ms, what) {

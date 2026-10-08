@@ -454,7 +454,7 @@ export class FighterAbilities {
       case 'goblin':
         if (a.burstT > 0) return { state: 'ACTIVE', note: 'RIMONTA!' };
         if (a.returnT > 0) return { state: 'ACTIVE', remaining: a.returnT, note: `RIENTRA! ${s1(a.returnT)} s` };
-        if (a.followT > 0) return { state: 'ACTIVE', remaining: a.followT, note: `ATTACCO SPECIALE ${s1(a.followT)} s` };
+        if (a.followT > 0) return { state: 'ACTIVE', remaining: a.followT, note: `SPECIALE ${s1(a.followT)} s` };
         return a.charges > 0 ? { state: 'READY', note: f.grounded || !this.w.offstage(f) ? 'PRONTA' : 'PRONTA · RB ORA' } : { state: 'SPENT' };
       case 'buttafuori':
         if (a.vanishT > 0) return { state: 'ACTIVE', remaining: a.vanishT, note: `ASSENTE ${s1(a.vanishT)} s` };

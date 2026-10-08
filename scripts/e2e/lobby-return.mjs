@@ -3,8 +3,8 @@
 //   GAMES=quiz,arena node scripts/e2e/lobby-return.mjs
 import { launch, createRoomOnHost, addPhone, hostEval, hostSnapshot, sleep } from './lib.mjs';
 
-const GAMES = (process.env.GAMES ?? 'quiz,reaction,memory,arena,dodgeball,soccer,volleyball,kart3d,cultura,fps').split(',');
-const HTML_MENU = new Set(['arena', 'dodgeball', 'soccer', 'volleyball', 'kart3d']);
+const GAMES = (process.env.GAMES ?? 'quiz,reaction,memory,arena,dodgeball,soccer,volleyball,kart3d,cultura,fps,cornicione').split(',');
+const HTML_MENU = new Set(['arena', 'dodgeball', 'soccer', 'volleyball', 'kart3d', 'cornicione']);
 let fails = 0;
 for (const id of GAMES) {
   const browser = await launch();

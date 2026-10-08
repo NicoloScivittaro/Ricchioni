@@ -191,6 +191,16 @@ export function balanceFlags(recs: Rec[] = records): string[] {
   // dodgeball
   const dur = recs.filter((r) => r.game === 'dodgeball').map((r) => num(r.metrics.durationSec)).filter((x): x is number => x !== null);
   if (dur.length && avgOf(dur) < 30) flags.push(`Dodgeball: partite molto corte, durata media ${Math.round(avgOf(dur))} s su ${dur.length} (soglia 30 s) -> il tiro potrebbe essere troppo forte${small(dur.length)}`);
+  // botte sul cornicione: partite quasi sempre allo scadere o KO troppo tardivi = colpi poco letali; troppo corte = troppo letali
+  const cor = recs.filter((r) => r.game === 'cornicione');
+  if (cor.length) {
+    const timedOut = cor.filter((r) => r.metrics.endReason === 'timeout' || r.metrics.endReason === 'suddenDeath').length;
+    const dp = cor.map((r) => num(r.metrics.avgDeathPercent)).filter((x): x is number => x !== null && x > 0);
+    const durC = cor.map((r) => num(r.metrics.durationSec)).filter((x): x is number => x !== null);
+    if (cor.length >= 2 && timedOut / cor.length > 0.7) flags.push(`Cornicione: ${Math.round((timedOut / cor.length) * 100)}% delle partite finisce allo scadere (${timedOut}/${cor.length}, soglia 70%) -> i colpi potrebbero essere poco letali${small(cor.length)}`);
+    if (dp.length && avgOf(dp) > 220) flags.push(`Cornicione: percentuale media al KO ${Math.round(avgOf(dp))}% (soglia 220%) -> si muore troppo tardi${small(dp.length)}`);
+    if (durC.length && avgOf(durC) < 40) flags.push(`Cornicione: partite molto corte, durata media ${Math.round(avgOf(durC))} s (soglia 40 s) -> colpi troppo letali o stage troppo piccolo${small(durC.length)}`);
+  }
   return flags;
 }
 

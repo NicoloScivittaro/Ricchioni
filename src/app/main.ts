@@ -118,6 +118,8 @@ gm.connect(serverUrl || (import.meta.env.DEV ? `http://${location.hostname}:3001
 if (debugEnabled() && new URLSearchParams(location.search).get('characters') === '1') void import('../dev/characterGallery').then((m) => m.openCharacterGallery());
 // Impact Lab: SOLO sviluppo o ?debug=1, aperto con ?impact=1 (src/dev/impactLab.ts): feedback delle azioni a confronto, anche al rallentatore.
 if (debugEnabled() && new URLSearchParams(location.search).get('impact') === '1') void import('../dev/impactLab').then((m) => m.openImpactLab());
+// Fighter Lab: SOLO sviluppo o ?debug=1, aperto con ?fighter=1 (src/dev/fighterLab.ts): BOTTE SUL CORNICIONE con spawn, % di danno, fuori dal palco, hitbox, rallentatore.
+if (debugEnabled() && new URLSearchParams(location.search).get('fighter') === '1') void import('../dev/fighterLab').then((m) => m.openFighterLab());
 // Audio Lab: SOLO sviluppo o ?debug=1, aperto con ?audiolab=1 (src/dev/audioLab.ts): tutti i suoni e le musiche a portata di click.
 if (debugEnabled() && new URLSearchParams(location.search).get('audiolab') === '1') void import('../dev/audioLab').then((m) => m.openAudioLab());
 // Galleria AMBIENTI: SOLO sviluppo o ?debug=1, aperta con ?environments=1 (src/dev/environmentGallery.ts): ogni ambiente senza HUD, vista di gioco o panoramica, test in grigi.

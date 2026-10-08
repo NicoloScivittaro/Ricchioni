@@ -357,6 +357,12 @@ export class BabylonCornicioneGame {
     }
   }
 
+  /** Punto portato dentro il quadro: gli effetti di cio' che accade OLTRE l'inquadratura (KO, bonifico) si vedono sul bordo. */
+  private inView(x: number, y: number): { x: number; y: number } {
+    const v = this.camera.view;
+    return { x: Math.max(v.cx - v.hw + 2, Math.min(v.cx + v.hw - 2, x)), y: Math.max(v.cy - v.hh + 2, Math.min(v.cy + v.hh - 2, y)) };
+  }
+
   private lightAnim(m: MoveDef): 'jab' | 'side' | 'up' | 'down' | 'air' {
     if (m.air && m.dir === 'n') return 'air';
     return m.dir === 'n' ? 'jab' : m.dir === 's' ? 'side' : m.dir === 'u' ? 'up' : 'down';
@@ -519,7 +525,7 @@ export class BabylonCornicioneGame {
         break;
       case 'bonifico_open':
         this.hud.announce('BONIFICO?', 'PREMI RB / R1', '#a78bfa', 650, 96);
-        this.fx.ring(Math.max(-30, Math.min(30, f.x)), f.y, '#a78bfa', 5);
+        this.fx.ring(this.inView(f.x, f.y).x, this.inView(f.x, f.y).y, '#a78bfa', 5);
         audio.edgeWarn(pan);
         this.hitStop = Math.max(this.hitStop, 0.05);
         break;
