@@ -1,0 +1,64 @@
+{
+  "result": {
+    "dodge": {
+      "active": true,
+      "clip": "goblin.dodge"
+    },
+    "dash": {
+      "air": true,
+      "clip": "goblin.dash"
+    },
+    "wall": {
+      "side": -1,
+      "charges": 1,
+      "events": [
+        "wall"
+      ],
+      "clip": "goblin.fall"
+    },
+    "wallJump": {
+      "events": [
+        "wallJump"
+      ],
+      "vx": 5.680000000000001,
+      "vy": 15.36,
+      "clip": "goblin.jump"
+    },
+    "fall": {
+      "clip": "goblin.fall",
+      "y": -3.0876799999999998,
+      "hips": [
+        0.0019,
+        0.4764,
+        0.0172
+      ],
+      "rest": [
+        0.0019,
+        0.4764,
+        0.0172
+      ]
+    },
+    "ringout": {
+      "events": [
+        "ko"
+      ],
+      "dead": true,
+      "lives": 2,
+      "visible": false
+    },
+    "respawn": {
+      "events": [
+        "respawn"
+      ],
+      "dead": false,
+      "visible": true,
+      "y": 12,
+      "clip": "goblin.fall"
+    },
+    "landing": {
+      "grounded": true,
+      "clip": "goblin.idle"
+    }
+  },
+  "errors": []
+}

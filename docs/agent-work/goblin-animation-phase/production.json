@@ -1,0 +1,128 @@
+{
+  "origin": "http://localhost:3001/",
+  "rows": [
+    {
+      "query": "",
+      "gallery": false,
+      "debug": false,
+      "models": []
+    },
+    {
+      "query": "?characters=1&goblin=new",
+      "gallery": false,
+      "debug": false,
+      "models": []
+    }
+  ],
+  "imported": {
+    "animator": {
+      "name": "goblin.idle",
+      "seconds": 0.10786666790768504,
+      "speed": 1,
+      "duration": 15.33333333209157,
+      "priority": 0,
+      "loop": true,
+      "token": "goblin.idle",
+      "blend": 0.12,
+      "contactTime": null
+    },
+    "activeTracks": 195,
+    "sampleMs": 0.4000000022351742,
+    "clips": 36,
+    "state": "ready",
+    "error": null,
+    "bones": 65,
+    "meshes": 2,
+    "meshNames": [
+      "__root__~g1(0v)",
+      "tripo_node_b0d273b1-8976-4036-80dc-f482eea67419~g1(33613v)"
+    ],
+    "geometryIds": [
+      -1,
+      468
+    ],
+    "animation": "goblin.idle",
+    "animationPlaying": true,
+    "animationSpeed": 1,
+    "animationFrame": 6.472000074461103,
+    "skeletonId": 7729,
+    "clipHipsOffset": null,
+    "holdFrame": 0,
+    "seated": false,
+    "seatedApplied": false,
+    "restHips": [
+      0.0019,
+      0.4764,
+      0.0172
+    ],
+    "hipsNow": [
+      0.0019,
+      0.4755,
+      0.0172
+    ],
+    "joints": {
+      "Hips": [
+        -0.0019,
+        0.4755,
+        0.0172
+      ],
+      "Spine": [
+        -0.0013,
+        0.5137,
+        0.0124
+      ],
+      "Head": [
+        -0.0061,
+        0.7584,
+        0.0072
+      ],
+      "LeftUpLeg": [
+        -0.0562,
+        0.4305,
+        0.0179
+      ],
+      "LeftLeg": [
+        -0.064,
+        0.2671,
+        0.021
+      ],
+      "LeftFoot": [
+        -0.0709,
+        0.0821,
+        -0.0072
+      ],
+      "RightUpLeg": [
+        0.0509,
+        0.4288,
+        0.0188
+      ],
+      "RightLeg": [
+        0.0596,
+        0.2676,
+        0.0453
+      ],
+      "RightFoot": [
+        0.0705,
+        0.0887,
+        -0.009
+      ],
+      "LeftHand": [
+        -0.1524,
+        0.4334,
+        0.0201
+      ],
+      "RightHand": [
+        0.1515,
+        0.4442,
+        0.0157
+      ]
+    },
+    "height": 2.3232399999999997,
+    "width": 0.9807193925886168,
+    "depth": 0.6276344626933739,
+    "scale": 2.3715457430899156,
+    "vertices": 33613
+  },
+  "oldNewToggle": true,
+  "errors": []
+}

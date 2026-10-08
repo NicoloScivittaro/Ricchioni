@@ -1,0 +1,11 @@
+✅ host di produzione caricato (canvas Phaser presente)
+✅ stanza creata (NDBMW)
+✅ 2 telefoni entrati e pronti
+✅ l'overlay di debug non esiste in produzione
+   fasi viste dal telefono: 6s "PROSSIMO GIOCO..." → 13s "BOTTE SUL CORNICIONE"
+✅ il telefono ha mostrato rullo/preparazione
+✅ il gioco scelto è partito sui telefoni (13s)
+   chunk giochi 3D richiesti: BabylonCornicioneGame@5.9s
+✅ il chunk del gioco 3D è stato scaricato
+✅ precarico: chunk richiesto 7.3s PRIMA che il gioco parta (durante rullo/intro)
+✅ nessun errore di pagina in produzione 
