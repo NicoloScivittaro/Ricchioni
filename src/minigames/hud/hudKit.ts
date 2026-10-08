@@ -55,9 +55,9 @@ export interface HudPlayer {
 export class GameHud {
   readonly adt: AdvancedDynamicTexture;
   private countdownText: TextBlock;
-  private feed: StackPanel;
+  protected feed: StackPanel;
   private feedTimers: number[] = [];
-  private bannerBox: Rectangle;
+  protected bannerBox: Rectangle;
   private bannerText: TextBlock;
   private bannerSub: TextBlock;
   private bannerTimer = 0;
@@ -169,7 +169,9 @@ export class GameHud {
   }
 
   /** Annuncio grande e breve (non resta sullo schermo: max ~1.6 s). */
-  banner(text: string, sub = '', color: string = UI.color.accent, ms = 1500): void {
+  banner(text: string, sub = '', color: string = UI.color.accent, ms = 1500, size = 104, top = 0): void {
+    this.bannerText.fontSize = size;
+    this.bannerBox.top = `${top}px`;
     this.bannerText.text = text;
     this.bannerText.color = color;
     this.bannerSub.text = sub;

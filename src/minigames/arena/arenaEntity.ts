@@ -24,6 +24,8 @@ export interface VisualSubject {
   hitFlash: number;
   /** dodgeball: schivata in corso (solo per la posa) */
   dodgeTime?: number;
+  /** altezza dal SOSTEGNO (non dal mondo): serve a distinguere "in aria" da "fermo su una piattaforma" (platform fighter) */
+  air?: number;
 }
 
 export interface EntityOptions {
@@ -33,7 +35,30 @@ export interface EntityOptions {
   nameplate?: boolean;
 }
 
-type ActionKind = 'throw' | 'kick' | 'spike' | 'recoil' | 'pickup' | 'absorb';
+export type ActionKind =
+  | 'throw'
+  | 'kick'
+  | 'spike'
+  | 'recoil'
+  | 'pickup'
+  | 'absorb'
+  // BOTTE SUL CORNICIONE (platform fighter): colpi leggeri/pesanti, aerei, recovery, schivata, counter, presa e lancio
+  | 'jab'
+  | 'side'
+  | 'up'
+  | 'down'
+  | 'smashWind'
+  | 'smash'
+  | 'upHeavy'
+  | 'sweepHeavy'
+  | 'air'
+  | 'airSpike'
+  | 'recovery'
+  | 'follow'
+  | 'dodge'
+  | 'brace'
+  | 'grab'
+  | 'fling';
 
 /** Molla smorzata per UNA articolazione: le pose non scattano da un angolo all'altro, ci arrivano (con un filo di rimbalzo). */
 class Spring {
@@ -112,6 +137,7 @@ export class ArenaEntity {
   private prevFacing = 0;
   private angVelSm = 0;
   private prevY = 0;
+  private prevAir = 0;
   private prevDashing = false;
   private dashStartT = 0;
   private landT = 0;
@@ -121,6 +147,10 @@ export class ArenaEntity {
   private nameplate: Mesh | null = null;
   /** >1 quando la camera e' lontana (Arena): popup, simbolo e targhetta crescono per restare leggibili dalla TV */
   private viewScale = 1;
+  /** moltiplicatore di dimensione (Dottore leggero) e aura continua: solo grafica */
+  private sizeMul = 1;
+  private aura = false;
+  private bodyMeshes: import('@babylonjs/core').AbstractMesh[] = [];
 
   constructor(
     scene: Scene,
@@ -191,6 +221,8 @@ export class ArenaEntity {
       this.ring.isVisible = false;
       this.ring.isPickable = false;
     } else this.ring = null;
+    const skip = new Set<unknown>([this.popup, this.symbol, this.ring, this.nameplate, fxAnchor]);
+    this.bodyMeshes = this.root.getChildMeshes().filter((m) => !skip.has(m));
   }
 
   private buildNameplate(scene: Scene, avatar: string, name: string, characterId: string | null, team: 'red' | 'blue' | null): void {
@@ -371,6 +403,32 @@ export class ArenaEntity {
     audio.duck(0.2, 350);
   }
 
+  /** Mossa del platform fighter: `kind` e' la posa, `dur` la durata totale (anticipo incluso per le pose tenute). */
+  playMove(kind: ActionKind, dur: number): void {
+    this.startAction(kind, Math.max(0.12, dur));
+    if (kind === 'smash' || kind === 'upHeavy' || kind === 'sweepHeavy' || kind === 'follow') this.jiggle.v += 4;
+  }
+
+  /** Fumetto con una frase libera sopra la testa (battuta del personaggio). */
+  say(text: string): void {
+    this.showPopup(text, 'bark');
+  }
+
+  /** Mostra/nasconde SOLO il corpo (la targhetta resta): respawn lampeggiante, Buttafuori che sparisce. */
+  setBodyVisible(v: boolean): void {
+    for (const m of this.bodyMeshes) m.setEnabled(v);
+  }
+
+  /** Dimensione (1 = normale): il Dottore col peso tagliato e' un po' piu' snello. */
+  setSizeMul(k: number): void {
+    this.sizeMul = k;
+  }
+
+  /** Aura continua (particelle del colore del personaggio): effetti di abilita' che durano. */
+  setAura(on: boolean): void {
+    this.aura = on;
+  }
+
   /** Posa di vittoria del personaggio: per `sec` secondi (gol, punto) o fino alla fine (fine round). */
   playVictory(sec = Infinity): void {
     this.celebration = 'victory';
@@ -521,8 +579,10 @@ export class ArenaEntity {
       if (this.accelSm < -28 && speedFrac < 0.35 && this.stopT <= 0) this.stopT = 0.16;
     }
     const vy = (p.y - this.prevY) / dts;
-    if (this.prevY > 0.08 && p.y <= 0.03 && p.alive && !p.falling) this.landT = 0.18; // atterraggio
+    const air = p.air ?? p.y;
+    if (this.prevAir > 0.08 && air <= 0.03 && p.alive && !p.falling) this.landT = 0.18; // atterraggio
     this.prevY = p.y;
+    this.prevAir = air;
     if (p.dashing && !this.prevDashing) this.dashStartT = 0.07; // anticipo dello scatto: un attimo di compressione
     this.prevDashing = p.dashing;
 
@@ -619,7 +679,7 @@ export class ArenaEntity {
 
     // ---- SALTO (pallavolo): gambe raccolte; in salita il busto si inarca e il braccio si carica dietro la testa (anticipo
     // della schiacciata), in discesa si apre
-    if (p.alive && !p.falling && p.y > 0.08) {
+    if (p.alive && !p.falling && air > 0.08) {
       r.legL.rotation.x = -0.7;
       r.legR.rotation.x = 0.35;
       const rising = vy > 0.5;
@@ -714,6 +774,115 @@ export class ArenaEntity {
           aRx = -1.45;
           break;
         }
+        case 'jab':
+          aRx = -1.7 + 0.25 * e;
+          aLx = 0.25;
+          r.upper.rotation.y = -0.2 * follow;
+          break;
+        case 'side':
+          aRx = -1.75 + 0.3 * e;
+          aLx = 0.4;
+          r.upper.rotation.y = -0.4 * follow;
+          r.upper.rotation.x += 0.12 * follow;
+          break;
+        case 'up':
+          aRx = -3.05 + 0.4 * e;
+          aLx = -2.5 + 0.4 * e;
+          r.upper.rotation.x -= 0.16 * follow;
+          break;
+        case 'down':
+          r.legR.rotation.x = -1.25 * follow;
+          r.legL.rotation.x = 0.3;
+          r.upper.rotation.x += 0.28 * follow;
+          aLz = -0.7;
+          aRz = 0.7;
+          break;
+        case 'smashWind':
+          // anticipo tenuto: braccio indietro, busto ruotato, leggermente accovacciato
+          aRx = 1.35;
+          aLx = -0.9;
+          r.upper.rotation.y = -0.65;
+          r.upper.position.y -= 0.1;
+          break;
+        case 'smash':
+          aRx = -2.15 + 0.6 * e;
+          aLx = 0.3;
+          r.upper.rotation.y = 0.55 * (1 - e * 0.5);
+          r.upper.rotation.x += 0.32 * follow;
+          break;
+        case 'upHeavy':
+          aRx = -3.1;
+          aLx = -3.1;
+          r.upper.rotation.x -= 0.34 * follow;
+          r.upper.position.y += 0.12 * follow;
+          break;
+        case 'sweepHeavy':
+          r.legR.rotation.x = -1.55 * follow;
+          r.upper.rotation.x += 0.34 * follow;
+          aLz = -1.3;
+          aRz = 1.3;
+          aLx = -0.6;
+          aRx = -0.6;
+          break;
+        case 'air':
+          aLx = -1.25;
+          aRx = -1.25;
+          aLz = -1.15;
+          aRz = 1.15;
+          r.legL.rotation.x = -0.9;
+          r.legR.rotation.x = -0.4;
+          break;
+        case 'airSpike':
+          aLx = 0.9;
+          aRx = 0.9;
+          r.legR.rotation.x = -1.0;
+          r.legL.rotation.x = -0.6;
+          r.upper.rotation.x += 0.5 * follow;
+          break;
+        case 'recovery':
+          aLx = -3.1;
+          aRx = -3.1;
+          r.legL.rotation.x = -0.9;
+          r.legR.rotation.x = -0.4;
+          r.upper.rotation.x -= 0.25 * follow;
+          break;
+        case 'follow':
+          aRx = -2.5;
+          aLx = -1.6;
+          r.upper.rotation.x += 0.42 * follow;
+          r.upper.rotation.y = -0.35 * follow;
+          break;
+        case 'dodge':
+          r.upper.rotation.x += 0.7 * Math.sin(Math.min(1, e * 1.4) * Math.PI * 0.6);
+          r.upper.position.y -= 0.2;
+          aLx = -1.1;
+          aRx = -1.1;
+          aLz = 0.5;
+          aRz = -0.5;
+          break;
+        case 'brace':
+          // postura di contrattacco: gambe basse, braccia avanti larghe
+          aLx = -1.4;
+          aRx = -1.4;
+          aLz = -0.6;
+          aRz = 0.6;
+          r.upper.position.y -= 0.16;
+          r.legL.rotation.x = 0.3;
+          r.legR.rotation.x = -0.3;
+          break;
+        case 'grab':
+          aLx = -1.6;
+          aRx = -1.6;
+          aLz = -0.12;
+          aRz = 0.12;
+          r.upper.rotation.x += 0.2;
+          break;
+        case 'fling':
+          aRx = -3.05 * (1 - e) + -0.4 * e;
+          aLx = -2.2 * (1 - e);
+          r.upper.rotation.x += 0.55 * follow;
+          r.upper.rotation.y = 0.5 * follow;
+          break;
         case 'pickup': {
           const k = Math.sin(e * Math.PI);
           r.upper.position.y -= 0.14 * k;
@@ -982,7 +1151,7 @@ export class ArenaEntity {
         if (this.landT > 0) sy = Math.min(sy, 1 - 0.16 * Math.sin((this.landT / 0.18) * Math.PI));
         if (this.stopT > 0) sy = Math.min(sy, 1 - 0.08 * Math.sin((this.stopT / 0.16) * Math.PI));
         if (this.squashT > 0) sy = Math.min(sy, 0.86);
-        if (p.y > 0.08 && vy > 0.5 && !p.falling) sy = Math.max(sy, 1.08);
+        if (air > 0.08 && vy > 0.5 && !p.falling) sy = Math.max(sy, 1.08);
         const sxz = 1 / Math.sqrt(sy);
         this.root.scaling.set(sxz, sy, sxz * sz);
       }
@@ -1010,6 +1179,8 @@ export class ArenaEntity {
       if (p.y < -22 && this.root.isEnabled()) this.root.setEnabled(false); // caduto nel vuoto: non si disegna piu'
     }
 
+    if (this.sizeMul !== 1) this.root.scaling.scaleInPlace(this.sizeMul);
+    if (this.aura) this.dashFx.emitRate = Math.max(this.dashFx.emitRate, 28);
     this.updateFx(dt);
   }
 
