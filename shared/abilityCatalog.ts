@@ -10,7 +10,7 @@
  * qui: lo decide ogni gioco (unica autorita') e lo pubblica con AbilityStatus (src/core/abilityHub.ts) — il catalogo e' solo statico.
  */
 
-export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura';
+export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione';
 export type AbilityCharacterId = 'goblin' | 'buttafuori' | 'judoka' | 'dottore' | 'ciro';
 
 /** I 6 tipi di abilita' del progetto: ogni voce ne ha UNO principale. */
@@ -916,7 +916,94 @@ C.judoka.full = `Premi durante il voto: il timer si allunga di ${sec(C.judoka.p.
 C.dottore.full = `Premi durante il voto: ti arriva solo un'intuizione sulla risposta vera (iniziale della parola principale e numero di parole). Costa ${C.dottore.p.cost} punto di "parcella". Una volta a partita.`;
 C.ciro.full = `Premi durante il voto: vedi in tempo reale quanti voti ha preso ogni risposta (non chi li ha dati) e hai almeno ${sec(C.ciro.p.extra)} per scegliere. Una volta a partita.`;
 
-/** Tutte le abilita' (50). */
+// ============================================================================================================================
+// BOTTE SUL CORNICIONE — platform fighter 2.5D: percentuale di danno, 3 vite, recovery e edge guard. Le abilita' valgono PER VITA
+// (tornano pronte a ogni respawn). Nessuna differenza di statistiche fra i personaggi: l'unica differenza e' questa.
+// ============================================================================================================================
+const CO = {
+  goblin: add(
+    def({
+      game: 'cornicione',
+      character: 'goblin',
+      name: 'RIMONTA AL 90°',
+      kind: 'RISK_REWARD',
+      impact: 'HIGH',
+      charges: 1,
+      cooldown: 0,
+      limit: '1 uso per vita',
+      p: { burst: 24, burstTime: 0.3, outX: 12.2, returnWindow: 2.5, followWindow: 1.2, followDmg: 9 },
+      short: 'Fuori dal palco, in aria: scatto diagonale di recupero.',
+      full: ''
+    })
+  ),
+  buttafuori: add(
+    def({
+      game: 'cornicione',
+      character: 'buttafuori',
+      name: 'ULTIMO ACCESSO: 3 SETTIMANE FA',
+      kind: 'RULE_BEND',
+      impact: 'HIGH',
+      charges: 1,
+      cooldown: 0,
+      limit: '1 uso per vita',
+      p: { vanish: 1.1, dist: 4.5, telegraph: 0.45, lockDodge: 0.5 },
+      short: 'Sparisci un attimo e riappari lì vicino: nessuno ti tocca.',
+      full: ''
+    })
+  ),
+  judoka: add(
+    def({
+      game: 'cornicione',
+      character: 'judoka',
+      name: 'ANGORA CHE DICI?',
+      kind: 'REACTIVE',
+      impact: 'HIGH',
+      charges: 2,
+      cooldown: 0,
+      limit: '2 usi per vita',
+      p: { window: 0.5, whiff: 0.55, freeze: 0.18, throwBase: 14, throwScale: 0.35, throwCap: 32, throwDmg: 8 },
+      short: 'Postura di contrattacco: se ti colpiscono corpo a corpo, li proietti.',
+      full: ''
+    })
+  ),
+  dottore: add(
+    def({
+      game: 'cornicione',
+      character: 'dottore',
+      name: 'TAGLIO PESO EXPRESS',
+      kind: 'RISK_REWARD',
+      impact: 'HIGH',
+      charges: 1,
+      cooldown: 0,
+      limit: '1 uso per vita',
+      p: { duration: 5, knock: 1.9, airAccel: 1.6, airSpeed: 1.25, jump: 1.12, gravity: 0.6 },
+      short: 'Leggerissimo per qualche secondo: agile, ma voli via molto di più.',
+      full: ''
+    })
+  ),
+  ciro: add(
+    def({
+      game: 'cornicione',
+      character: 'ciro',
+      name: 'BONIFICO IN LAVORAZIONE',
+      kind: 'REACTIVE',
+      impact: 'HIGH',
+      charges: 1,
+      cooldown: 0,
+      limit: '1 uso per vita',
+      p: { window: 0.6, pending: 2.5, debt: 25 },
+      short: 'Sul punto di morire premi: il KO è rinviato, ma poi si paga.',
+      full: ''
+    })
+  )
+};
+CO.goblin.full = `Premi in aria quando sei fuori dal palco, muovendo lo stick: scatto diagonale (non è un teletrasporto). Se rimetti piede sul palco entro ${sec(CO.goblin.p.returnWindow)} hai ${sec(CO.goblin.p.followWindow)} per un attacco aereo speciale. Se lo sprechi, per questa vita è finita. Non funziona mentre sei in stordimento.`;
+CO.buttafuori.full = `Premi: per ${sec(CO.buttafuori.p.vanish)} sparisci, non colpisci e non puoi essere colpito. Lo stick sceglie dove riappari (a circa ${CO.buttafuori.p.dist} m): gli altri vedono il punto poco prima. Quando torni non puoi schivare per ${sec(CO.buttafuori.p.lockDodge)}. Una volta per vita.`;
+CO.judoka.full = `Premi: per ${sec(CO.judoka.p.window)} sei in postura. Se in quel momento ti colpisce un attacco corpo a corpo, il colpo si annulla e lo afferri: lo stick sceglie dove lo scagli (sinistra, destra, giù); più forte era il colpo, più forte il lancio. Se non ti colpiscono resti scoperto ${sec(CO.judoka.p.whiff)}. Due usi per vita.`;
+CO.dottore.full = `Premi: per ${sec(CO.dottore.p.duration)} sei più leggero: controllo aereo, salto e caduta molto migliori. Ma i colpi che prendi ti lanciano ${CO.dottore.p.knock}× più lontano: un colpo pesante a percentuale alta ti manda fuori. Una volta per vita.`;
+CO.ciro.full = `Quando stai per finire fuori si apre per ${sec(CO.ciro.p.window)} la finestra "BONIFICO?": premi per rinviare il KO e avere ${sec(CO.ciro.p.pending)} per rientrare. Se rientri paghi +${CO.ciro.p.debt}% di danno; se no, sei fuori. Se non premi, il KO è normale e l'abilità resta.`;
+
+/** Tutte le abilita' (55). */
 export const ABILITY_CATALOG: readonly AbilityDef[] = Object.values(R).flatMap((byChar) => Object.values(byChar));
 
 export function abilityFor(game: string | null | undefined, character: string | null | undefined): AbilityDef | null {
@@ -935,7 +1022,7 @@ export function abilityParam(game: AbilityGameId, character: AbilityCharacterId,
 export const CHARACTER_ORDER_ABILITY: AbilityCharacterId[] = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'];
 
 /** Accesso tipizzato ai numeri: `AB.arena.goblin.p.window`. Letto dai giochi. */
-export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C } as const;
+export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO } as const;
 
 /**
  * Tabella {personaggio: {name, desc}} di un gioco, nella forma che i vecchi file shared/<gioco>Abilities.ts esportavano. Quei file ora
