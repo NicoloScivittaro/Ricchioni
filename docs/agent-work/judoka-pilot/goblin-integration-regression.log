@@ -1,0 +1,77 @@
+PASS both full rigs imported
+PASS independent skeletons
+PASS shared geometry
+PASS independent locomotion speeds
+PASS IDLE: finite pose
+PASS JUMP: finite pose
+PASS DASH: finite pose
+PASS HIT: finite pose
+PASS STUN: finite pose
+PASS ATTACK: finite pose
+PASS VICTORY: finite pose
+PASS DEFEAT: finite pose
+PASS diagnostic toggles have no errors
+PASS goblin.jumpDown: sampled skinning
+PASS goblin.grab: sampled skinning
+PASS goblin.hitHead: sampled skinning
+PASS goblin.jab: sampled skinning
+PASS goblin.frontKick: sampled skinning
+PASS goblin.dash: sampled skinning
+PASS goblin.pickup: sampled skinning
+PASS goblin.roundhouse: sampled skinning
+PASS goblin.uppercut: sampled skinning
+PASS goblin.victory: sampled skinning
+PASS goblin.judoThrow: sampled skinning
+PASS goblin.heavy: sampled skinning
+PASS goblin.idle: sampled skinning
+PASS goblin.hitSide: sampled skinning
+PASS goblin.jump: sampled skinning
+PASS goblin.hitBodyB: sampled skinning
+PASS goblin.knockback: sampled skinning
+PASS goblin.block: sampled skinning
+PASS goblin.run: sampled skinning
+PASS goblin.hitBodyA: sampled skinning
+PASS goblin.hitStomach: sampled skinning
+PASS goblin.ballCatch: sampled skinning
+PASS goblin.defeat: sampled skinning
+PASS goblin.fall: sampled skinning
+PASS goblin.hook: sampled skinning
+PASS goblin.dodge: sampled skinning
+PASS goblin.ballThrow: sampled skinning
+PASS goblin.ko: sampled skinning
+PASS gallery disposal releases every instance
+PASS bad asset keeps legacy fallback
+PASS live jump and double jump
+PASS nL: contact in authoritative active interval
+PASS nL: root stays neutral
+PASS sL: contact in authoritative active interval
+PASS sL: root stays neutral
+PASS uL: contact in authoritative active interval
+PASS uL: root stays neutral
+PASS dL: contact in authoritative active interval
+PASS dL: root stays neutral
+PASS sH: contact in authoritative active interval
+PASS sH: root stays neutral
+PASS uH: contact in authoritative active interval
+PASS uH: root stays neutral
+PASS dH: contact in authoritative active interval
+PASS dH: root stays neutral
+PASS nAL: contact in authoritative active interval
+PASS nAL: root stays neutral
+PASS sAL: contact in authoritative active interval
+PASS sAL: root stays neutral
+PASS uAL: contact in authoritative active interval
+PASS uAL: root stays neutral
+PASS dAL: contact in authoritative active interval
+PASS dAL: root stays neutral
+PASS sAH: contact in authoritative active interval
+PASS sAH: root stays neutral
+PASS dAH: contact in authoritative active interval
+PASS dAH: root stays neutral
+PASS uAH: contact in authoritative active interval
+PASS uAH: root stays neutral
+PASS follow: contact in authoritative active interval
+PASS follow: root stays neutral
+PASS real Rimonta ability activates its existing burst/return windows
+PASS browser has no runtime errors: 
+76 integration checks passed

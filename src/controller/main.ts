@@ -35,6 +35,8 @@ let state: RoomState | null = null;
 let lastMinigameId: string | null = null;
 /** Controller attivo (per instradare i segnali): 'memory' | 'quiz' | null. */
 let activeController: string | null = null;
+const heldControls = new Set<string>();
+const activeAxes = new Set<string>();
 
 const LS = { pid: 'ricchioni.pid', tok: 'ricchioni.tok' };
 
@@ -166,12 +168,15 @@ socket.on('connect', () => {
   setOfflineBanner(false);
   rejoinWithToken();
 });
-socket.on('disconnect', () => setOfflineBanner(true));
+socket.on('disconnect', () => { setOfflineBanner(true); releaseControllerInput(); });
 // Telefono tornato in primo piano (schermo riacceso / cambio app): il join col token è idempotente e
 // fa ripartire uno snapshot completo dal server, così la UI si riallinea senza refresh.
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible' && socket.connected) rejoinWithToken();
+  else if (document.visibilityState === 'hidden') releaseControllerInput();
 });
+window.addEventListener('blur', releaseControllerInput);
+window.addEventListener('pagehide', releaseControllerInput);
 
 /** Overlay PAUSA (ESC sull'host): sta sopra al controller senza toccarne il DOM. */
 function syncPauseOverlay(s: RoomState | null): void {
@@ -1254,6 +1259,7 @@ function updateCulturaUI(s: CulturaState): void {
 // ---- SPARATORIA DEI DISAGIATI (controller FPS completo su telefono) ----
 
 let fpsClient: FpsClient | null = null;
+let fpsJoy: VirtualJoystick | null = null;
 // Modalita' test sul telefono (solo con ?debug=1): FPS, ping, qualita', latenza del tocco, vibrazione, audio
 initMobileDebug(socket, () => fpsClient?.getDebugStats() ?? null);
 let fpsPendingState: FpsStatePayload | null = null;
@@ -1323,6 +1329,8 @@ function handleFpsSignal(s: SignalPayload): void {
 
 /** Libera il motore Babylon del telefono (senza, ogni round FPS lascia un engine vivo in background). */
 function disposeFps(): void {
+  fpsJoy?.destroy();
+  fpsJoy = null;
   const c = fpsClient;
   fpsClient = null;
   fpsPendingState = null;
@@ -1382,7 +1390,7 @@ function renderFpsController(): void {
   const thumbEl = app.querySelector<HTMLElement>('.arena-joy-thumb')!;
 
   // Joystick movimento
-  mountJoystick(baseEl, thumbEl, () => fpsLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
+  fpsJoy = mountJoystick(baseEl, thumbEl, () => fpsLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
 
   // Look touch (trascina per guardare)
   let lastX = -1;
@@ -2041,7 +2049,7 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   }
   activeController = null;
   app.innerHTML = `
-    <div class="screen">
+    <div class="screen${layout.type === 'dpad' ? ' dpad-screen' : ''}">
       <h1>${mg.name}</h1>
       <p id="info-line" class="sub info-line"></p>
       <div id="ctl"></div>
@@ -2312,18 +2320,33 @@ function syncQuizPadPrivateInfo(data: QuizStatePayload): void {
   }
 }
 
+/** Losing a touch stream must release both network state and the local pointer ownership. */
+function releaseControllerInput(): void {
+  arenaJoy?.reset(); dbJoy?.reset(); soccerJoy?.reset(); volleyJoy?.reset(); fpsJoy?.reset();
+  fpsClient?.setFirePressed(false);
+  endSoccerCharge();
+  for (const controlId of [...heldControls]) sendInput({ kind: 'up', controlId });
+  for (const controlId of [...activeAxes]) sendInput({ kind: 'axis', controlId, x: 0, y: 0 });
+  heldControls.clear(); activeAxes.clear();
+}
+
 function sendInput(ev: InputEvent): void {
+  // Socket.IO buffers while offline. Stale gestures must never replay on rejoining a live round.
+  if (!socket.connected) return;
   switch (ev.kind) {
     case 'down':
+      heldControls.add(ev.controlId);
       socket.emit(EVT.inputDown, { controlId: ev.controlId });
       break;
     case 'up':
+      heldControls.delete(ev.controlId);
       socket.emit(EVT.inputUp, { controlId: ev.controlId });
       break;
     case 'action':
       socket.emit(EVT.inputAction, { controlId: ev.controlId });
       break;
     case 'axis':
+      if (ev.x || ev.y) activeAxes.add(ev.controlId); else activeAxes.delete(ev.controlId);
       socket.emit(EVT.inputAxis, { controlId: ev.controlId, x: ev.x, y: ev.y });
       break;
   }

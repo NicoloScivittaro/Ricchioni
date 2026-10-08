@@ -29,8 +29,8 @@ export const CHARACTERS: Record<string, CharacterDefinition> = {
   },
   buttafuori: {
     id: 'buttafuori',
-    name: 'Christian',
-    roleTitle: 'IL BUTTAFUORI RIBALTATO',
+    name: 'BOSCHI',
+    roleTitle: 'BOSCHI',
     subtitle: 'Tu Qua Non Entri! | Akatsuki della Sicurezza',
     avatar: '🥊',
     image: '/characters/christian.jpg',
@@ -77,8 +77,8 @@ export const CHARACTERS: Record<string, CharacterDefinition> = {
   },
   judoka: {
     id: 'judoka',
-    name: 'Il Judoka',
-    roleTitle: 'IL JUDOKA ROMPICOGLIONI',
+    name: 'Carbo',
+    roleTitle: 'Carbo',
     subtitle: 'Granita, Judo e Lamentele | Qui Comando Io!',
     avatar: '🥋',
     image: '/characters/judoka.jpg',

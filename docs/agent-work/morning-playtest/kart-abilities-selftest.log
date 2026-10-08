@@ -1,0 +1,66 @@
+=== TEST 1: GOBLIN — SO GUIDARE IO (drift boost potenziato, annullato da uno schianto) ===
+  ✅ SO GUIDARE IO si attiva a barra piena e potenzia il drift boost
+  ✅ evento di feedback di attivazione emesso
+  ✅ uno schianto durante l'effetto annulla subito il bonus
+  ✅ "EH SÌ, GUIDI BENISSIMO." mostrato dopo lo schianto
+  ✅ la finestra scade naturalmente dopo la durata prevista
+
+=== TEST 2: BUTTAFUORI — RIBALTATO MA NON MORTO (REATTIVA: premi nella finestra dopo lo schianto, 1 volta a gara) ===
+  ✅ Buttafuori parte con 1 carica fissa (non legata alla barra)
+  ✅ premere senza uno schianto NON fa niente e non consuma la carica
+  ✅ la carica resta intatta se non c'e' niente da recuperare
+  ✅ lo schianto NON lo recupera piu' da solo: apre solo la finestra
+  ✅ si apre la finestra "PREMI ABILITÀ"
+  ✅ lo stato pubblicato dice PREMI ORA!
+  ✅ premendo nella finestra la carica viene consumata
+  ✅ il kart torna subito in pista (respawn immediato, non dopo il countdown)
+  ✅ riceve un breve recovery boost
+  ✅ "RIBALTATO MA NON MORTO!" mostrato
+  ✅ la finestra si chiude dopo l'uso
+  ✅ senza cariche residue un secondo schianto NON apre piu' la finestra
+  ✅ premere senza cariche: ESAURITA
+  ✅ se non premi entro la finestra la carica NON si consuma
+  ✅ finestra persa segnalata (solo statistica)
+
+=== TEST 3: DOTTORE — 20 KG IN UN MESE (leggerissimo: accelera meglio, deriva facile) ===
+  ✅ 20 KG IN UN MESE attiva leggerezza + accelerazione + drift più facile
+  ✅ l'effetto rientra da solo alla scadenza
+
+=== TEST 4: JUDOKA — CARICO E SCARICO (camion: sterza peggio, non perde velocita' negli urti) ===
+  ✅ a barra vuota: BARRA NON PIENA, niente parte
+  ✅ barra piena: PRONTA
+  ✅ a barra piena diventa un camion (sterza peggio)
+  ✅ annuncio di attivazione mostrato subito
+  ✅ lo stato pubblicato e' ATTIVA
+  ✅ uno schianto ferma il camion e rimette lo sterzo normale
+  ✅ avviso "camion fermo"
+  ✅ il camion rientra da solo alla scadenza
+  ✅ fine camion segnalata
+
+=== TEST 5: CIRO — PAGO DOPO (rimanda un colpo, poi il DEBITO viene riscosso) ===
+  ✅ PAGO DOPO rimanda il colpo se ABILITÀ è stata premuta di recente
+  ✅ il colpo NON si sente subito: continua normalmente (DEBITO in sospeso)
+  ✅ la carica viene consumata al rinvio
+  ✅ "PAGO DOPO!" mostrato subito
+  ✅ il DEBITO scade e la penalità viene applicata comunque, dopo qualche secondo
+  ✅ "DEBITO RISCOSSO!" mostrato alla scadenza
+  ✅ senza aver premuto ABILITÀ in anticipo il colpo non viene rimandato
+  ✅ la carica non viene consumata se il rinvio non scatta
+
+=== TEST 5b: CIRO — PAGO DOPO retroattivo (dopo il colpo, entro la finestra, premi e diventa debito) ===
+  ✅ il colpo si subisce, ma si apre la finestra "PREMI ORA!"
+  ✅ lo stato pubblicato dice PREMI ORA!
+  ✅ premendo nella finestra lo stordimento sparisce e parte il debito (carica consumata)
+  ✅ "PAGO DOPO!" mostrato
+  ✅ il debito arriva comunque alla scadenza
+  ✅ la finestra dopo il colpo si chiude da sola
+  ✅ a finestra chiusa premere non toglie lo stordimento e non consuma la carica
+  ✅ il tasto arma comunque il rinvio in anticipo (feedback "armato")
+
+=== TEST 6: la fisica di base resta invariata per un personaggio senza abilità attive ===
+  ✅ un kart neutro accelera normalmente entro il tetto massimo (velocità: 33.9)
+  ✅ hitKart senza scudo/invulnerabilità applica normalmente lo stordimento
+  ✅ uno scudo blocca il colpo e si consuma
+  ✅ respawnKart riporta il kart al checkpoint valido con velocità azzerata
+
+=== RISULTATO: TUTTI I TEST PASSATI ✅ ===

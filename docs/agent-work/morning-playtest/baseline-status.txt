@@ -1,0 +1,81 @@
+ M dist/index.html
+ M docs/agent-work/goblin-animation-phase/integration.json
+ M docs/agent-work/goblin-animation-phase/visual-probe.json
+ M e2e-shots/goblin-animations/cornicione-dAH-contact.png
+ M e2e-shots/goblin-animations/cornicione-dAL-contact.png
+ M e2e-shots/goblin-animations/cornicione-dH-contact.png
+ M e2e-shots/goblin-animations/cornicione-defeat.png
+ M e2e-shots/goblin-animations/cornicione-idle.png
+ M e2e-shots/goblin-animations/cornicione-knockback.png
+ M e2e-shots/goblin-animations/cornicione-nL-contact.png
+ M e2e-shots/goblin-animations/cornicione-rimonta.png
+ M e2e-shots/goblin-animations/cornicione-sH-contact.png
+ M e2e-shots/goblin-animations/cornicione-uAH-contact.png
+ M e2e-shots/goblin-animations/cornicione-victory.png
+ M e2e-shots/goblin-animations/gallery-ballThrow.png
+ M e2e-shots/goblin-animations/gallery-defeat.png
+ M e2e-shots/goblin-animations/gallery-fall.png
+ M e2e-shots/goblin-animations/gallery-frontKick.png
+ M e2e-shots/goblin-animations/gallery-heavy.png
+ M e2e-shots/goblin-animations/gallery-jab.png
+ M e2e-shots/goblin-animations/gallery-ko.png
+ M e2e-shots/goblin-animations/gallery-pickup.png
+ M e2e-shots/goblin-animations/gallery-roundhouse.png
+ M e2e-shots/goblin-animations/gallery-victory.png
+ M e2e-shots/goblin-animations/legacy-tripo-idle.png
+ M e2e-shots/goblin-animations/skeleton-attachments.png
+ M scripts/e2e/goblin-animation.mjs
+ M src/dev/characterGallery.ts
+ M src/dev/fighterLab.ts
+ M src/dev/goblinAnimationPanel.ts
+ M src/minigames/arena/arenaEntity.ts
+ M src/minigames/characters/goblinAnimator.ts
+ M src/minigames/characters/goblinResults.ts
+ M src/minigames/characters/goblinRigAnimator.ts
+ M src/minigames/characters/goblinVisual.ts
+ M src/minigames/fps/BabylonFpsGame.ts
+ M src/scenes/ResultsScene.ts
+?? docs/agent-work/buttafuori-animation-phase/
+?? docs/agent-work/detailed-character-pilot/
+?? docs/agent-work/judoka-pilot/
+?? docs/agent-work/man-character-pilot/
+?? docs/agent-work/morning-playtest/
+?? e2e-shots/buttafuori-animations/
+?? e2e-shots/detailed-character/
+?? e2e-shots/judoka/
+?? e2e-shots/man-character/
+?? public/models/detailed-tripo/
+?? public/models/judoka-tripo/
+?? public/models/man-tripo/
+?? scripts/buttafuori-animation-selftest.ts
+?? scripts/ciro-animation-selftest.ts
+?? scripts/e2e/buttafuori-animated-contexts.mjs
+?? scripts/e2e/buttafuori-animated-fallback.mjs
+?? scripts/e2e/buttafuori-animated-jump.mjs
+?? scripts/e2e/buttafuori-animated-production.mjs
+?? scripts/e2e/buttafuori-animation.mjs
+?? scripts/e2e/buttafuori-contexts.mjs
+?? scripts/e2e/buttafuori-fallback.mjs
+?? scripts/e2e/buttafuori-jump.mjs
+?? scripts/e2e/buttafuori-pilot.mjs
+?? scripts/e2e/buttafuori-production.mjs
+?? scripts/e2e/ciro-contexts.mjs
+?? scripts/e2e/ciro-fallback.mjs
+?? scripts/e2e/ciro-jump.mjs
+?? scripts/e2e/ciro-pilot.mjs
+?? scripts/e2e/ciro-production.mjs
+?? scripts/e2e/judoka-contexts.mjs
+?? scripts/e2e/judoka-jump.mjs
+?? scripts/e2e/judoka-pilot.mjs
+?? scripts/e2e/judoka-production.mjs
+?? scripts/e2e/man-asset.mjs
+?? src/minigames/characters/buttafuoriClips.json
+?? src/minigames/characters/buttafuoriProfile.ts
+?? src/minigames/characters/buttafuoriVisualMode.ts
+?? src/minigames/characters/ciroClips.json
+?? src/minigames/characters/ciroProfile.ts
+?? src/minigames/characters/ciroVisualMode.ts
+?? src/minigames/characters/judokaClips.json
+?? src/minigames/characters/judokaProfile.ts
+?? src/minigames/characters/judokaVisualMode.ts
+?? src/minigames/characters/proceduralSkinAnimator.ts

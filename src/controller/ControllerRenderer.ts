@@ -62,7 +62,10 @@ function makeDpad(controls: ControlDef[], send: SendInput): HTMLElement {
   }
   wrap.appendChild(grid);
 
-  for (const def of extra) wrap.appendChild(makeControl(def, send));
+  const actions = document.createElement('div');
+  actions.className = 'dpad-actions';
+  for (const def of extra) actions.appendChild(makeControl(def, send));
+  if (extra.length) wrap.appendChild(actions);
 
   return wrap;
 }

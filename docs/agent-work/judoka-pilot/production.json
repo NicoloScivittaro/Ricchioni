@@ -1,0 +1,129 @@
+{
+  "origin": "http://localhost:3001/",
+  "rows": [
+    {
+      "query": "",
+      "gallery": false,
+      "debug": false,
+      "models": []
+    },
+    {
+      "query": "?characters=1&judoka=new",
+      "gallery": false,
+      "debug": false,
+      "models": []
+    }
+  ],
+  "imported": {
+    "character": "judoka",
+    "animator": {
+      "name": "judoka.idle",
+      "seconds": 0.11456666790693998,
+      "speed": 1,
+      "duration": 15.33333333209157,
+      "priority": 0,
+      "loop": true,
+      "token": "judoka.idle",
+      "blend": 0.12,
+      "contactTime": null
+    },
+    "activeTracks": 195,
+    "sampleMs": 0.30000000447034836,
+    "clips": 37,
+    "state": "ready",
+    "error": null,
+    "bones": 65,
+    "meshes": 2,
+    "meshNames": [
+      "__root__~g1(0v)",
+      "tripo_node_785ac5da-8807-47d0-94eb-fe4ce43e1b76~g1(24403v)"
+    ],
+    "geometryIds": [
+      -1,
+      469
+    ],
+    "animation": "judoka.idle",
+    "animationPlaying": true,
+    "animationSpeed": 1,
+    "animationFrame": 6.874000074416399,
+    "skeletonId": 7928,
+    "clipHipsOffset": null,
+    "holdFrame": 0,
+    "seated": false,
+    "seatedApplied": false,
+    "restHips": [
+      0.0057,
+      0.4989,
+      0.0096
+    ],
+    "hipsNow": [
+      0.0057,
+      0.4978,
+      0.0096
+    ],
+    "joints": {
+      "Hips": [
+        -0.0057,
+        0.4978,
+        0.0096
+      ],
+      "Spine": [
+        -0.005,
+        0.5399,
+        0.0122
+      ],
+      "Head": [
+        -0.0068,
+        0.8415,
+        0.0033
+      ],
+      "LeftUpLeg": [
+        -0.0633,
+        0.4833,
+        0.0056
+      ],
+      "LeftLeg": [
+        -0.0661,
+        0.2558,
+        0.0091
+      ],
+      "LeftFoot": [
+        -0.0674,
+        0.0525,
+        -0.0199
+      ],
+      "RightUpLeg": [
+        0.0552,
+        0.4813,
+        0.0067
+      ],
+      "RightLeg": [
+        0.0606,
+        0.2563,
+        0.0409
+      ],
+      "RightFoot": [
+        0.0657,
+        0.061,
+        -0.0237
+      ],
+      "LeftHand": [
+        -0.1634,
+        0.4485,
+        0.0182
+      ],
+      "RightHand": [
+        0.1639,
+        0.456,
+        0.0139
+      ]
+    },
+    "height": 2.06988,
+    "width": 0.9903304860316418,
+    "depth": 0.43979536921741186,
+    "scale": 2.1150858908608683,
+    "vertices": 24403
+  },
+  "oldNewToggle": true,
+  "errors": []
+}

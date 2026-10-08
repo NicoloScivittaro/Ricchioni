@@ -1,0 +1,3207 @@
+{
+  "result": {
+    "samples": [
+      {
+        "phase": "ground",
+        "grounded": true,
+        "vy": 0,
+        "y": 0,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.idle",
+          "seconds": 1.7895666679069395,
+          "speed": 1,
+          "duration": 15.33333333209157,
+          "priority": 0,
+          "loop": true,
+          "token": "buttafuori.idle",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4972,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "jump",
+        "grounded": false,
+        "vy": 17.36,
+        "y": 0.28032,
+        "jumps": 1,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.041667,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 16.72,
+        "y": 0.5504,
+        "jumps": 1,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.057667,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 16.08,
+        "y": 0.81024,
+        "jumps": 1,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.07366700000000001,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 15.439999999999998,
+        "y": 1.05984,
+        "jumps": 1,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.08966700000000001,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 14.799999999999997,
+        "y": 1.2992,
+        "jumps": 1,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.10566700000000001,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 14.159999999999997,
+        "y": 1.52832,
+        "jumps": 1,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.121667,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 13.519999999999996,
+        "y": 1.7471999999999999,
+        "jumps": 1,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.137667,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 12.879999999999995,
+        "y": 1.9558399999999998,
+        "jumps": 1,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.153667,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 12.239999999999995,
+        "y": 2.1542399999999997,
+        "jumps": 1,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.169667,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "double-jump",
+        "grounded": false,
+        "vy": 15.86,
+        "y": 2.4105599999999994,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.18566700000000003,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 15.219999999999999,
+        "y": 2.6566399999999994,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.20166700000000004,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 14.579999999999998,
+        "y": 2.8924799999999995,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.21766700000000003,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 13.939999999999998,
+        "y": 3.1180799999999995,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.23366700000000007,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 13.299999999999997,
+        "y": 3.3334399999999995,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.2496670000000001,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 12.659999999999997,
+        "y": 3.5385599999999995,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.2656670000000001,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 12.019999999999996,
+        "y": 3.7334399999999994,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.2816670000000001,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 11.379999999999995,
+        "y": 3.9180799999999993,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.2976670000000001,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 10.739999999999995,
+        "y": 4.092479999999999,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.31366700000000014,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 10.099999999999994,
+        "y": 4.256639999999999,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.32966700000000015,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 9.459999999999994,
+        "y": 4.410559999999999,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.34566700000000017,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 8.819999999999993,
+        "y": 4.554239999999999,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.3616670000000002,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 8.179999999999993,
+        "y": 4.6876799999999985,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.3776670000000002,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 7.539999999999992,
+        "y": 4.810879999999998,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.3936670000000002,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 6.8999999999999915,
+        "y": 4.923839999999998,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.4096670000000002,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 6.259999999999991,
+        "y": 5.026559999999999,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.4256670000000003,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 5.61999999999999,
+        "y": 5.119039999999998,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.44166700000000025,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 4.97999999999999,
+        "y": 5.201279999999998,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.45766700000000027,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 4.339999999999989,
+        "y": 5.273279999999998,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.4736670000000002,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 3.699999999999989,
+        "y": 5.3350399999999985,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.4896670000000003,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 3.0599999999999894,
+        "y": 5.386559999999998,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.5056670000000003,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 2.4199999999999897,
+        "y": 5.427839999999997,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.5216670000000003,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 1.7799999999999898,
+        "y": 5.458879999999997,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.5376670000000003,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 1.1399999999999897,
+        "y": 5.479679999999997,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.5536670000000004,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "ascent",
+        "grounded": false,
+        "vy": 0.4999999999999896,
+        "y": 5.490239999999997,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jump",
+          "seconds": 0.5696670000000004,
+          "speed": 1,
+          "duration": 0.666666,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.jump",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -0.1400000000000104,
+        "y": 5.490559999999997,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.25,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -0.7800000000000105,
+        "y": 5.480639999999997,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.266,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -1.4200000000000106,
+        "y": 5.460479999999997,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.28200000000000003,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -2.0600000000000107,
+        "y": 5.430079999999997,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.298,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -2.7000000000000104,
+        "y": 5.389439999999996,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.314,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -3.34000000000001,
+        "y": 5.338559999999996,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.33,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -3.9800000000000098,
+        "y": 5.277439999999996,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.346,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -4.62000000000001,
+        "y": 5.2060799999999965,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.362,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -5.2600000000000104,
+        "y": 5.124479999999996,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.378,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -5.900000000000011,
+        "y": 5.032639999999995,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.394,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -6.540000000000012,
+        "y": 4.930559999999995,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.41000000000000003,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -7.180000000000012,
+        "y": 4.818239999999996,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.42600000000000005,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -7.820000000000013,
+        "y": 4.695679999999995,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.44200000000000006,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -8.460000000000013,
+        "y": 4.5628799999999945,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.4580000000000001,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -9.100000000000014,
+        "y": 4.419839999999994,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.4740000000000001,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -9.740000000000014,
+        "y": 4.266559999999995,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.4900000000000001,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -10.380000000000015,
+        "y": 4.103039999999994,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.5060000000000001,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -11.020000000000016,
+        "y": 3.9292799999999932,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.5220000000000001,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -11.660000000000016,
+        "y": 3.745279999999993,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.5380000000000001,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -12.300000000000017,
+        "y": 3.551039999999993,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.5540000000000002,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -12.940000000000017,
+        "y": 3.3465599999999927,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.5700000000000002,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -13.580000000000018,
+        "y": 3.1318399999999924,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.5860000000000002,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -14.220000000000018,
+        "y": 2.906879999999992,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.6020000000000002,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -14.860000000000019,
+        "y": 2.671679999999992,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.6180000000000002,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -15.50000000000002,
+        "y": 2.4262399999999915,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.6340000000000002,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -16.14000000000002,
+        "y": 2.170559999999991,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.6500000000000002,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -16.78000000000002,
+        "y": 1.9046399999999908,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.6660000000000003,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -17.42000000000002,
+        "y": 1.6284799999999906,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.6820000000000003,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -18.06000000000002,
+        "y": 1.3420799999999904,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.6980000000000003,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -18.70000000000002,
+        "y": 1.0454399999999902,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.7140000000000003,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -19.34000000000002,
+        "y": 0.7385599999999898,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.7300000000000003,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -19.98000000000002,
+        "y": 0.4214399999999894,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.7460000000000003,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": false,
+        "vy": -20.620000000000022,
+        "y": 0.09407999999998898,
+        "jumps": 0,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.fall",
+          "seconds": 0.7620000000000003,
+          "speed": 1,
+          "duration": 0.625,
+          "priority": 15,
+          "loop": false,
+          "token": "buttafuori.fall",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "descent",
+        "grounded": true,
+        "vy": 0,
+        "y": 0,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.idle",
+          "seconds": 2.8775666679069403,
+          "speed": 1,
+          "duration": 15.33333333209157,
+          "priority": 0,
+          "loop": true,
+          "token": "buttafuori.idle",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4984,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "landing",
+        "grounded": true,
+        "vy": 0,
+        "y": 0,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.idle",
+          "seconds": 2.8935666679069403,
+          "speed": 1,
+          "duration": 15.33333333209157,
+          "priority": 0,
+          "loop": true,
+          "token": "buttafuori.idle",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "hips": [
+          -0.0134,
+          0.4982,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "dAL",
+        "grounded": false,
+        "vy": -2,
+        "y": 3,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.frontKick",
+          "seconds": 1.625,
+          "speed": 8.333333333333334,
+          "duration": 0.28,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.frontKick:attack1",
+          "blend": 0.05,
+          "contactTime": 0.088
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "dAH",
+        "grounded": false,
+        "vy": -2,
+        "y": 3,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.roundhouse",
+          "seconds": 1.5,
+          "speed": 1.9906666666666664,
+          "duration": 0.8200000000000001,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.roundhouse:attack2",
+          "blend": 0.05,
+          "contactTime": 0.34199999999999997
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "nL",
+        "grounded": true,
+        "vy": 0,
+        "y": 0,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jab",
+          "seconds": 1,
+          "speed": 7.608695652173913,
+          "duration": 0.22999999999999998,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.jab:attack3",
+          "blend": 0.05,
+          "contactTime": 0.07100000000000001
+        },
+        "hips": [
+          -0.0134,
+          0.48,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "sL",
+        "grounded": true,
+        "vy": 0,
+        "y": 0,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.hook",
+          "seconds": 1,
+          "speed": 5.913870967741936,
+          "duration": 0.31000000000000005,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.hook:attack4",
+          "blend": 0.05,
+          "contactTime": 0.0945
+        },
+        "hips": [
+          -0.0134,
+          0.4727,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "uL",
+        "grounded": true,
+        "vy": 0,
+        "y": 0,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.uppercut",
+          "seconds": 0.5417,
+          "speed": 5.9141935483870975,
+          "duration": 0.31,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.uppercut:attack5",
+          "blend": 0.05,
+          "contactTime": 0.0915
+        },
+        "hips": [
+          -0.0134,
+          0.4685,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "dL",
+        "grounded": true,
+        "vy": 0,
+        "y": 0,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.frontKick",
+          "seconds": 1.7916999999999998,
+          "speed": 8.333333333333334,
+          "duration": 0.30000000000000004,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.frontKick:attack6",
+          "blend": 0.05,
+          "contactTime": 0.08449999999999999
+        },
+        "hips": [
+          -0.0134,
+          0.4629,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "sH",
+        "grounded": true,
+        "vy": 0,
+        "y": 0,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.heavy",
+          "seconds": 0.625,
+          "speed": 3.025714285714286,
+          "duration": 0.8400000000000001,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.heavy:attack7",
+          "blend": 0.05,
+          "contactTime": 0.3315
+        },
+        "hips": [
+          -0.0134,
+          0.4435,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "uH",
+        "grounded": true,
+        "vy": 0,
+        "y": 0,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.uppercut",
+          "seconds": 0.5417,
+          "speed": 5.9141935483870975,
+          "duration": 0.8300000000000001,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.uppercut:attack8",
+          "blend": 0.05,
+          "contactTime": 0.2985
+        },
+        "hips": [
+          -0.0134,
+          0.4486,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "dH",
+        "grounded": true,
+        "vy": 0,
+        "y": 0,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.roundhouse",
+          "seconds": 1.5,
+          "speed": 1.9906666666666664,
+          "duration": 0.9,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.roundhouse:attack9",
+          "blend": 0.05,
+          "contactTime": 0.322
+        },
+        "hips": [
+          -0.0134,
+          0.4662,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "nAL",
+        "grounded": false,
+        "vy": -2,
+        "y": 3,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.jab",
+          "seconds": 1,
+          "speed": 7.608695652173913,
+          "duration": 0.24000000000000002,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.jab:attack10",
+          "blend": 0.05,
+          "contactTime": 0.075
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "sAL",
+        "grounded": false,
+        "vy": -2,
+        "y": 3,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.frontKick",
+          "seconds": 1.625,
+          "speed": 8.333333333333334,
+          "duration": 0.28,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.frontKick:attack11",
+          "blend": 0.05,
+          "contactTime": 0.088
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "uAL",
+        "grounded": false,
+        "vy": -2,
+        "y": 3,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.uppercut",
+          "seconds": 0.5417,
+          "speed": 5.9141935483870975,
+          "duration": 0.27,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.uppercut:attack12",
+          "blend": 0.05,
+          "contactTime": 0.0815
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "dAL",
+        "grounded": false,
+        "vy": -2,
+        "y": 3,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.frontKick",
+          "seconds": 1.625,
+          "speed": 8.333333333333334,
+          "duration": 0.28,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.frontKick:attack13",
+          "blend": 0.05,
+          "contactTime": 0.088
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "sAH",
+        "grounded": false,
+        "vy": -2,
+        "y": 3,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.heavy",
+          "seconds": 0.625,
+          "speed": 3.025714285714286,
+          "duration": 0.74,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.heavy:attack14",
+          "blend": 0.05,
+          "contactTime": 0.295
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "dAH",
+        "grounded": false,
+        "vy": -2,
+        "y": 3,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.roundhouse",
+          "seconds": 1.5,
+          "speed": 1.9906666666666664,
+          "duration": 0.8200000000000001,
+          "priority": 40,
+          "loop": false,
+          "token": "buttafuori.roundhouse:attack15",
+          "blend": 0.05,
+          "contactTime": 0.34199999999999997
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      },
+      {
+        "phase": "uAH",
+        "grounded": false,
+        "vy": -2,
+        "y": 3,
+        "jumps": 2,
+        "legacy": false,
+        "visible": true,
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "sameMaterials": true,
+        "physicsUnchanged": true,
+        "clips": 43,
+        "tracks": 195,
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.uppercut",
+          "seconds": 0.5417,
+          "speed": 5.9141935483870975,
+          "duration": 0.56,
+          "priority": 60,
+          "loop": false,
+          "token": "buttafuori.uppercut:attack16",
+          "blend": 0.05,
+          "contactTime": 0.13
+        },
+        "hips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "rest": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ]
+      }
+    ],
+    "skeletonId": 9731,
+    "meshIds": [
+      9666
+    ],
+    "materialIds": [
+      1097
+    ],
+    "skin": [
+      {
+        "vertices": 28141,
+        "finite": true,
+        "bounds": [
+          0.2463262677192688,
+          0.4889700679465605,
+          0.22789575159549713
+        ]
+      }
+    ]
+  },
+  "errors": []
+}

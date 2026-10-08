@@ -1,0 +1,1512 @@
+{
+  "mixed": [
+    {
+      "character": "goblin",
+      "procedural": false,
+      "animator": {
+        "name": "goblin.idle",
+        "seconds": 0.3058666679114103,
+        "speed": 1,
+        "duration": 15.33333333209157,
+        "priority": 0,
+        "loop": true,
+        "token": "goblin.idle",
+        "blend": 0.12,
+        "contactTime": null
+      },
+      "activeTracks": 195,
+      "sampleMs": 0.10000000149011612,
+      "clips": 36,
+      "state": "ready",
+      "error": null,
+      "bones": 65,
+      "meshes": 2,
+      "meshNames": [
+        "__root__~g1(0v)",
+        "tripo_node_b0d273b1-8976-4036-80dc-f482eea67419~g1(33613v)"
+      ],
+      "geometryIds": [
+        -1,
+        470
+      ],
+      "animation": "goblin.idle",
+      "animationPlaying": true,
+      "animationSpeed": 1,
+      "animationFrame": 18.352000074684618,
+      "skeletonId": 15125,
+      "clipHipsOffset": null,
+      "holdFrame": 0,
+      "seated": false,
+      "seatedApplied": false,
+      "restHips": [
+        0.0019,
+        0.4764,
+        0.0172
+      ],
+      "hipsNow": [
+        0.0019,
+        0.4749,
+        0.0172
+      ],
+      "joints": {
+        "Hips": [
+          -0.0019,
+          0.4749,
+          0.0172
+        ],
+        "Spine": [
+          -0.0008,
+          0.513,
+          0.0117
+        ],
+        "Head": [
+          -0.01,
+          0.7573,
+          0.0089
+        ],
+        "LeftUpLeg": [
+          -0.0567,
+          0.4305,
+          0.0186
+        ],
+        "LeftLeg": [
+          -0.046,
+          0.2673,
+          0.0231
+        ],
+        "LeftFoot": [
+          -0.0331,
+          0.0813,
+          0.006
+        ],
+        "RightUpLeg": [
+          0.0504,
+          0.4276,
+          0.0198
+        ],
+        "RightLeg": [
+          0.0396,
+          0.2707,
+          0.065
+        ],
+        "RightFoot": [
+          0.0396,
+          0.0952,
+          -0.0002
+        ],
+        "LeftHand": [
+          -0.1279,
+          0.4248,
+          0.0184
+        ],
+        "RightHand": [
+          0.1265,
+          0.4346,
+          0.0123
+        ]
+      },
+      "height": 2.3232399999999997,
+      "width": 0.9807193925886168,
+      "depth": 0.6276344626933739,
+      "scale": 2.3715457430899156,
+      "vertices": 33613
+    },
+    {
+      "character": "buttafuori",
+      "procedural": false,
+      "animator": {
+        "name": "buttafuori.idle",
+        "seconds": 0.0916666679084301,
+        "speed": 1,
+        "duration": 15.33333333209157,
+        "priority": 0,
+        "loop": true,
+        "token": "buttafuori.idle",
+        "blend": 0.12,
+        "contactTime": null
+      },
+      "activeTracks": 195,
+      "sampleMs": 0.09999999403953552,
+      "clips": 43,
+      "state": "ready",
+      "error": null,
+      "bones": 65,
+      "meshes": 2,
+      "meshNames": [
+        "__root__~g2(0v)",
+        "tripo_node_0d1aa33e-dc6b-421c-b20f-e71fc6cae788~g2(28141v)"
+      ],
+      "geometryIds": [
+        -1,
+        29643
+      ],
+      "animation": "buttafuori.idle",
+      "animationPlaying": true,
+      "animationSpeed": 1,
+      "animationFrame": 5.500000074505806,
+      "skeletonId": 38277,
+      "clipHipsOffset": null,
+      "holdFrame": 0,
+      "seated": false,
+      "seatedApplied": false,
+      "restHips": [
+        -0.0134,
+        0.4985,
+        -0.0821
+      ],
+      "hipsNow": [
+        -0.0134,
+        0.4978,
+        -0.0821
+      ],
+      "joints": {
+        "Hips": [
+          0.0134,
+          0.4978,
+          -0.0821
+        ],
+        "Spine": [
+          0.018,
+          0.5548,
+          -0.0946
+        ],
+        "Head": [
+          0.0379,
+          0.8223,
+          -0.1357
+        ],
+        "LeftUpLeg": [
+          -0.0558,
+          0.4643,
+          -0.0781
+        ],
+        "LeftLeg": [
+          -0.0669,
+          0.259,
+          -0.0585
+        ],
+        "LeftFoot": [
+          -0.0732,
+          0.0823,
+          -0.0734
+        ],
+        "RightUpLeg": [
+          0.0778,
+          0.4668,
+          -0.062
+        ],
+        "RightLeg": [
+          0.092,
+          0.2604,
+          -0.0348
+        ],
+        "RightFoot": [
+          0.1024,
+          0.0893,
+          -0.0862
+        ],
+        "LeftHand": [
+          -0.1832,
+          0.5458,
+          -0.0845
+        ],
+        "RightHand": [
+          0.2425,
+          0.6152,
+          0.0756
+        ]
+      },
+      "height": 2.02568,
+      "width": 1.0204677682808627,
+      "depth": 0.944114775840266,
+      "scale": 2.071374234119159,
+      "vertices": 28141
+    },
+    {
+      "character": "judoka",
+      "procedural": false,
+      "animator": {
+        "name": "judoka.idle",
+        "seconds": 0.3058666679114103,
+        "speed": 1,
+        "duration": 15.33333333209157,
+        "priority": 0,
+        "loop": true,
+        "token": "judoka.idle",
+        "blend": 0.12,
+        "contactTime": null
+      },
+      "activeTracks": 195,
+      "sampleMs": 0,
+      "clips": 37,
+      "state": "ready",
+      "error": null,
+      "bones": 65,
+      "meshes": 2,
+      "meshNames": [
+        "__root__~g3(0v)",
+        "tripo_node_785ac5da-8807-47d0-94eb-fe4ce43e1b76~g3(24403v)"
+      ],
+      "geometryIds": [
+        -1,
+        646
+      ],
+      "animation": "judoka.idle",
+      "animationPlaying": true,
+      "animationSpeed": 1,
+      "animationFrame": 18.352000074684618,
+      "skeletonId": 22319,
+      "clipHipsOffset": null,
+      "holdFrame": 0,
+      "seated": false,
+      "seatedApplied": false,
+      "restHips": [
+        0.0057,
+        0.4989,
+        0.0096
+      ],
+      "hipsNow": [
+        0.0057,
+        0.4972,
+        0.0096
+      ],
+      "joints": {
+        "Hips": [
+          -0.0057,
+          0.4972,
+          0.0096
+        ],
+        "Spine": [
+          -0.0046,
+          0.5393,
+          0.0116
+        ],
+        "Head": [
+          -0.0103,
+          0.8405,
+          0.0047
+        ],
+        "LeftUpLeg": [
+          -0.0634,
+          0.4833,
+          0.0057
+        ],
+        "LeftLeg": [
+          -0.0485,
+          0.2562,
+          0.0107
+        ],
+        "LeftFoot": [
+          -0.0343,
+          0.0524,
+          -0.0093
+        ],
+        "RightUpLeg": [
+          0.055,
+          0.4801,
+          0.0071
+        ],
+        "RightLeg": [
+          0.0409,
+          0.2595,
+          0.0616
+        ],
+        "RightFoot": [
+          0.0417,
+          0.0694,
+          -0.0172
+        ],
+        "LeftHand": [
+          -0.1497,
+          0.4398,
+          0.0154
+        ],
+        "RightHand": [
+          0.1512,
+          0.4466,
+          0.0099
+        ]
+      },
+      "height": 2.06988,
+      "width": 0.9903304860214053,
+      "depth": 0.43979536919436135,
+      "scale": 2.1150858908608683,
+      "vertices": 24403
+    }
+  ],
+  "previews": [
+    {
+      "name": "buttafuori.soccerInstepCandidate",
+      "seconds": 0.42495,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:1",
+      "contactTime": null,
+      "duration": 4.4166
+    },
+    {
+      "name": "buttafuori.hitHead",
+      "seconds": 0.05000000000074506,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:2",
+      "contactTime": null,
+      "duration": 3.4166
+    },
+    {
+      "name": "buttafuori.hitSide",
+      "seconds": 0.09129999999999999,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:3",
+      "contactTime": null,
+      "duration": 2.4168000000000003
+    },
+    {
+      "name": "buttafuori.soccerKickCandidate",
+      "seconds": 0.05025000000074506,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:4",
+      "contactTime": null,
+      "duration": 5.9166
+    },
+    {
+      "name": "buttafuori.ballCatch",
+      "seconds": 0.6748999999992549,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:5",
+      "contactTime": null,
+      "duration": 4.1666
+    },
+    {
+      "name": "buttafuori.frontKick2",
+      "seconds": 0.0502,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:6",
+      "contactTime": null,
+      "duration": 2.75
+    },
+    {
+      "name": "buttafuori.cry",
+      "seconds": 0.3416500000014901,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:7",
+      "contactTime": null,
+      "duration": 14.5834
+    },
+    {
+      "name": "buttafuori.genericPunch",
+      "seconds": 1.05009999999851,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:8",
+      "contactTime": null,
+      "duration": 5
+    },
+    {
+      "name": "buttafuori.frontKick",
+      "seconds": 0.17500000000074506,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:9",
+      "contactTime": null,
+      "duration": 5
+    },
+    {
+      "name": "buttafuori.jab",
+      "seconds": 0.5063499999977649,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:10",
+      "contactTime": null,
+      "duration": 3.5
+    },
+    {
+      "name": "buttafuori.royalStrike",
+      "seconds": 0.2131999999985099,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:11",
+      "contactTime": null,
+      "duration": 6.9168
+    },
+    {
+      "name": "buttafuori.boxing1",
+      "seconds": 0.1341000000014901,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:12",
+      "contactTime": null,
+      "duration": 4.0834
+    },
+    {
+      "name": "buttafuori.hook",
+      "seconds": 0.5076499999985099,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:13",
+      "contactTime": null,
+      "duration": 3.6666
+    },
+    {
+      "name": "buttafuori.hitBodyA",
+      "seconds": 0.049850000002235176,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:14",
+      "contactTime": null,
+      "duration": 2.5831999999999997
+    },
+    {
+      "name": "buttafuori.fall",
+      "seconds": 0.2583499999977648,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:15",
+      "contactTime": null,
+      "duration": 1.25
+    },
+    {
+      "name": "buttafuori.dodge",
+      "seconds": 0.17310000000223516,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:16",
+      "contactTime": null,
+      "duration": 4.4166
+    },
+    {
+      "name": "buttafuori.boxing3",
+      "seconds": 0.25779999999701975,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:17",
+      "contactTime": null,
+      "duration": 4.3334
+    },
+    {
+      "name": "buttafuori.walk",
+      "seconds": 0.05021666790917516,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:18",
+      "contactTime": null,
+      "duration": 4.66666666418314
+    },
+    {
+      "name": "buttafuori.victory",
+      "seconds": 0.17485000000223516,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:19",
+      "contactTime": null,
+      "duration": 5.0832
+    },
+    {
+      "name": "buttafuori.zeusStrike",
+      "seconds": 0.13084999999776484,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:20",
+      "contactTime": null,
+      "duration": 5.3334
+    },
+    {
+      "name": "buttafuori.frontKick1",
+      "seconds": 0.09145000000223517,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:21",
+      "contactTime": null,
+      "duration": 4.9168
+    },
+    {
+      "name": "buttafuori.uppercut",
+      "seconds": 0.09149999999925494,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:22",
+      "contactTime": null,
+      "duration": 3.6668000000000003
+    },
+    {
+      "name": "buttafuori.defeat",
+      "seconds": 0.04505000000149012,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:23",
+      "contactTime": null,
+      "duration": 5.6666
+    },
+    {
+      "name": "buttafuori.ko",
+      "seconds": 0.17014999999925493,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:24",
+      "contactTime": null,
+      "duration": 4.5832
+    },
+    {
+      "name": "buttafuori.run",
+      "seconds": 0.04651666790992021,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:25",
+      "contactTime": null,
+      "duration": 2.4999999180436134
+    },
+    {
+      "name": "buttafuori.hitBodyB",
+      "seconds": 0.13130000000074507,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:26",
+      "contactTime": null,
+      "duration": 3.1666
+    },
+    {
+      "name": "buttafuori.soccerLegsCandidate",
+      "seconds": 0.5080999999977648,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:27",
+      "contactTime": null,
+      "duration": 4
+    },
+    {
+      "name": "buttafuori.footballSave",
+      "seconds": 0.1331000000014901,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:28",
+      "contactTime": null,
+      "duration": 5.75
+    },
+    {
+      "name": "buttafuori.soccerPowerCandidate",
+      "seconds": 0.7583500000014901,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:29",
+      "contactTime": null,
+      "duration": 3.9166
+    },
+    {
+      "name": "buttafuori.heartPose",
+      "seconds": 0.4669999999992549,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:30",
+      "contactTime": null,
+      "duration": 9.25
+    },
+    {
+      "name": "buttafuori.boxing2",
+      "seconds": 0.34135000000074506,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:31",
+      "contactTime": null,
+      "duration": 4.0834
+    },
+    {
+      "name": "buttafuori.idle",
+      "seconds": 0.0499166679084301,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:32",
+      "contactTime": null,
+      "duration": 30.66666666418314
+    },
+    {
+      "name": "buttafuori.jump",
+      "seconds": 0.044667000000000005,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:33",
+      "contactTime": null,
+      "duration": 1.333332
+    },
+    {
+      "name": "buttafuori.grab",
+      "seconds": 0.7961000000022351,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:34",
+      "contactTime": null,
+      "duration": 3.4166
+    },
+    {
+      "name": "buttafuori.ballThrow",
+      "seconds": 0.17504999999776483,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:35",
+      "contactTime": null,
+      "duration": 5
+    },
+    {
+      "name": "buttafuori.dash",
+      "seconds": 0.5916000000007451,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:36",
+      "contactTime": null,
+      "duration": 4.25
+    },
+    {
+      "name": "buttafuori.pickup",
+      "seconds": 0.3000500000014901,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:37",
+      "contactTime": null,
+      "duration": 4.6666
+    },
+    {
+      "name": "buttafuori.roundhouse",
+      "seconds": 0.7999999999970198,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:38",
+      "contactTime": null,
+      "duration": 3.5831999999999997
+    },
+    {
+      "name": "buttafuori.judoThrow",
+      "seconds": 0.17495,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:39",
+      "contactTime": null,
+      "duration": 4.9166
+    },
+    {
+      "name": "buttafuori.knockback",
+      "seconds": 0.09165000000149012,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:40",
+      "contactTime": null,
+      "duration": 4.9168
+    },
+    {
+      "name": "buttafuori.heavy",
+      "seconds": 0.17514999999925493,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:41",
+      "contactTime": null,
+      "duration": 5.0832
+    },
+    {
+      "name": "buttafuori.block",
+      "seconds": 0.38119999999925497,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:42",
+      "contactTime": null,
+      "duration": 4
+    },
+    {
+      "name": "buttafuori.footballCatch",
+      "seconds": 0.17249999999701976,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:43",
+      "contactTime": null,
+      "duration": 6
+    },
+    {
+      "name": "buttafuori.hitStomach",
+      "seconds": 0.13340000000223518,
+      "blend": 0.06,
+      "speed": 0.5,
+      "priority": 200,
+      "loop": true,
+      "token": "preview:44",
+      "contactTime": null,
+      "duration": 3.1666
+    }
+  ],
+  "five": {
+    "samples": [
+      {
+        "character": "buttafuori",
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.run",
+          "seconds": 0.6824842088866221,
+          "speed": 2.1449999999999996,
+          "duration": 1.2499999590218067,
+          "priority": 10,
+          "loop": true,
+          "token": "buttafuori.run",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "activeTracks": 195,
+        "sampleMs": 0.5,
+        "clips": 43,
+        "state": "ready",
+        "error": null,
+        "bones": 65,
+        "meshes": 2,
+        "meshNames": [
+          "__root__~g5(0v)",
+          "tripo_node_0d1aa33e-dc6b-421c-b20f-e71fc6cae788~g5(28141v)"
+        ],
+        "geometryIds": [
+          -1,
+          29643
+        ],
+        "animation": "buttafuori.run",
+        "animationPlaying": true,
+        "animationSpeed": 2.1449999999999996,
+        "animationFrame": 40.949052533197325,
+        "skeletonId": 56011,
+        "clipHipsOffset": null,
+        "holdFrame": 0,
+        "seated": false,
+        "seatedApplied": false,
+        "restHips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "hipsNow": [
+          -0.0134,
+          0.4245,
+          -0.0821
+        ],
+        "joints": {
+          "Hips": [
+            0.0134,
+            0.4245,
+            -0.0821
+          ],
+          "Spine": [
+            0.014,
+            0.4813,
+            -0.0682
+          ],
+          "Head": [
+            0.0561,
+            0.7199,
+            0.0492
+          ],
+          "LeftUpLeg": [
+            -0.0535,
+            0.3869,
+            -0.0891
+          ],
+          "LeftLeg": [
+            -0.0507,
+            0.1804,
+            -0.0863
+          ],
+          "LeftFoot": [
+            -0.0537,
+            0.1949,
+            -0.2631
+          ],
+          "RightUpLeg": [
+            0.0808,
+            0.3934,
+            -0.082
+          ],
+          "RightLeg": [
+            0.0765,
+            0.1973,
+            -0.0108
+          ],
+          "RightFoot": [
+            0.0455,
+            0.0672,
+            -0.1298
+          ],
+          "LeftHand": [
+            -0.1363,
+            0.4484,
+            -0.0739
+          ],
+          "RightHand": [
+            0.1825,
+            0.4149,
+            0.0699
+          ]
+        },
+        "height": 2.02568,
+        "width": 1.0204677682808627,
+        "depth": 0.944114775840266,
+        "scale": 2.071374234119159,
+        "vertices": 28141
+      },
+      {
+        "character": "buttafuori",
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.run",
+          "seconds": 0.6824842088866221,
+          "speed": 2.1449999999999996,
+          "duration": 1.2499999590218067,
+          "priority": 10,
+          "loop": true,
+          "token": "buttafuori.run",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "activeTracks": 195,
+        "sampleMs": 0.20000000298023224,
+        "clips": 43,
+        "state": "ready",
+        "error": null,
+        "bones": 65,
+        "meshes": 2,
+        "meshNames": [
+          "__root__~g6(0v)",
+          "tripo_node_0d1aa33e-dc6b-421c-b20f-e71fc6cae788~g6(28141v)"
+        ],
+        "geometryIds": [
+          -1,
+          29643
+        ],
+        "animation": "buttafuori.run",
+        "animationPlaying": true,
+        "animationSpeed": 2.1449999999999996,
+        "animationFrame": 40.949052533197325,
+        "skeletonId": 64577,
+        "clipHipsOffset": null,
+        "holdFrame": 0,
+        "seated": false,
+        "seatedApplied": false,
+        "restHips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "hipsNow": [
+          -0.0134,
+          0.4245,
+          -0.0821
+        ],
+        "joints": {
+          "Hips": [
+            0.0134,
+            0.4245,
+            -0.0821
+          ],
+          "Spine": [
+            0.014,
+            0.4813,
+            -0.0682
+          ],
+          "Head": [
+            0.0561,
+            0.7199,
+            0.0492
+          ],
+          "LeftUpLeg": [
+            -0.0535,
+            0.3869,
+            -0.0891
+          ],
+          "LeftLeg": [
+            -0.0507,
+            0.1804,
+            -0.0863
+          ],
+          "LeftFoot": [
+            -0.0537,
+            0.1949,
+            -0.2631
+          ],
+          "RightUpLeg": [
+            0.0808,
+            0.3934,
+            -0.082
+          ],
+          "RightLeg": [
+            0.0765,
+            0.1973,
+            -0.0108
+          ],
+          "RightFoot": [
+            0.0455,
+            0.0672,
+            -0.1298
+          ],
+          "LeftHand": [
+            -0.1363,
+            0.4484,
+            -0.0739
+          ],
+          "RightHand": [
+            0.1825,
+            0.4149,
+            0.0699
+          ]
+        },
+        "height": 2.02568,
+        "width": 1.0204677682808627,
+        "depth": 0.944114775840266,
+        "scale": 2.071374234119159,
+        "vertices": 28141
+      },
+      {
+        "character": "buttafuori",
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.run",
+          "seconds": 0.6824842088866221,
+          "speed": 2.1449999999999996,
+          "duration": 1.2499999590218067,
+          "priority": 10,
+          "loop": true,
+          "token": "buttafuori.run",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "activeTracks": 195,
+        "sampleMs": 0.10000000149011612,
+        "clips": 43,
+        "state": "ready",
+        "error": null,
+        "bones": 65,
+        "meshes": 2,
+        "meshNames": [
+          "__root__~g7(0v)",
+          "tripo_node_0d1aa33e-dc6b-421c-b20f-e71fc6cae788~g7(28141v)"
+        ],
+        "geometryIds": [
+          -1,
+          29643
+        ],
+        "animation": "buttafuori.run",
+        "animationPlaying": true,
+        "animationSpeed": 2.1449999999999996,
+        "animationFrame": 40.949052533197325,
+        "skeletonId": 73143,
+        "clipHipsOffset": null,
+        "holdFrame": 0,
+        "seated": false,
+        "seatedApplied": false,
+        "restHips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "hipsNow": [
+          -0.0134,
+          0.4245,
+          -0.0821
+        ],
+        "joints": {
+          "Hips": [
+            0.0134,
+            0.4245,
+            -0.0821
+          ],
+          "Spine": [
+            0.014,
+            0.4813,
+            -0.0682
+          ],
+          "Head": [
+            0.0561,
+            0.7199,
+            0.0492
+          ],
+          "LeftUpLeg": [
+            -0.0535,
+            0.3869,
+            -0.0891
+          ],
+          "LeftLeg": [
+            -0.0507,
+            0.1804,
+            -0.0863
+          ],
+          "LeftFoot": [
+            -0.0537,
+            0.1949,
+            -0.2631
+          ],
+          "RightUpLeg": [
+            0.0808,
+            0.3934,
+            -0.082
+          ],
+          "RightLeg": [
+            0.0765,
+            0.1973,
+            -0.0108
+          ],
+          "RightFoot": [
+            0.0455,
+            0.0672,
+            -0.1298
+          ],
+          "LeftHand": [
+            -0.1363,
+            0.4484,
+            -0.0739
+          ],
+          "RightHand": [
+            0.1825,
+            0.4149,
+            0.0699
+          ]
+        },
+        "height": 2.02568,
+        "width": 1.0204677682808627,
+        "depth": 0.944114775840266,
+        "scale": 2.071374234119159,
+        "vertices": 28141
+      },
+      {
+        "character": "buttafuori",
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.run",
+          "seconds": 0.6824842088866221,
+          "speed": 2.1449999999999996,
+          "duration": 1.2499999590218067,
+          "priority": 10,
+          "loop": true,
+          "token": "buttafuori.run",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "activeTracks": 195,
+        "sampleMs": 0,
+        "clips": 43,
+        "state": "ready",
+        "error": null,
+        "bones": 65,
+        "meshes": 2,
+        "meshNames": [
+          "__root__~g8(0v)",
+          "tripo_node_0d1aa33e-dc6b-421c-b20f-e71fc6cae788~g8(28141v)"
+        ],
+        "geometryIds": [
+          -1,
+          29643
+        ],
+        "animation": "buttafuori.run",
+        "animationPlaying": true,
+        "animationSpeed": 2.1449999999999996,
+        "animationFrame": 40.949052533197325,
+        "skeletonId": 81709,
+        "clipHipsOffset": null,
+        "holdFrame": 0,
+        "seated": false,
+        "seatedApplied": false,
+        "restHips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "hipsNow": [
+          -0.0134,
+          0.4245,
+          -0.0821
+        ],
+        "joints": {
+          "Hips": [
+            0.0134,
+            0.4245,
+            -0.0821
+          ],
+          "Spine": [
+            0.014,
+            0.4813,
+            -0.0682
+          ],
+          "Head": [
+            0.0561,
+            0.7199,
+            0.0492
+          ],
+          "LeftUpLeg": [
+            -0.0535,
+            0.3869,
+            -0.0891
+          ],
+          "LeftLeg": [
+            -0.0507,
+            0.1804,
+            -0.0863
+          ],
+          "LeftFoot": [
+            -0.0537,
+            0.1949,
+            -0.2631
+          ],
+          "RightUpLeg": [
+            0.0808,
+            0.3934,
+            -0.082
+          ],
+          "RightLeg": [
+            0.0765,
+            0.1973,
+            -0.0108
+          ],
+          "RightFoot": [
+            0.0455,
+            0.0672,
+            -0.1298
+          ],
+          "LeftHand": [
+            -0.1363,
+            0.4484,
+            -0.0739
+          ],
+          "RightHand": [
+            0.1825,
+            0.4149,
+            0.0699
+          ]
+        },
+        "height": 2.02568,
+        "width": 1.0204677682808627,
+        "depth": 0.944114775840266,
+        "scale": 2.071374234119159,
+        "vertices": 28141
+      },
+      {
+        "character": "buttafuori",
+        "procedural": false,
+        "animator": {
+          "name": "buttafuori.run",
+          "seconds": 0.6824842088866221,
+          "speed": 2.1449999999999996,
+          "duration": 1.2499999590218067,
+          "priority": 10,
+          "loop": true,
+          "token": "buttafuori.run",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "activeTracks": 195,
+        "sampleMs": 0.10000000149011612,
+        "clips": 43,
+        "state": "ready",
+        "error": null,
+        "bones": 65,
+        "meshes": 2,
+        "meshNames": [
+          "__root__~g9(0v)",
+          "tripo_node_0d1aa33e-dc6b-421c-b20f-e71fc6cae788~g9(28141v)"
+        ],
+        "geometryIds": [
+          -1,
+          29643
+        ],
+        "animation": "buttafuori.run",
+        "animationPlaying": true,
+        "animationSpeed": 2.1449999999999996,
+        "animationFrame": 40.949052533197325,
+        "skeletonId": 90275,
+        "clipHipsOffset": null,
+        "holdFrame": 0,
+        "seated": false,
+        "seatedApplied": false,
+        "restHips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "hipsNow": [
+          -0.0134,
+          0.4245,
+          -0.0821
+        ],
+        "joints": {
+          "Hips": [
+            0.0134,
+            0.4245,
+            -0.0821
+          ],
+          "Spine": [
+            0.014,
+            0.4813,
+            -0.0682
+          ],
+          "Head": [
+            0.0561,
+            0.7199,
+            0.0492
+          ],
+          "LeftUpLeg": [
+            -0.0535,
+            0.3869,
+            -0.0891
+          ],
+          "LeftLeg": [
+            -0.0507,
+            0.1804,
+            -0.0863
+          ],
+          "LeftFoot": [
+            -0.0537,
+            0.1949,
+            -0.2631
+          ],
+          "RightUpLeg": [
+            0.0808,
+            0.3934,
+            -0.082
+          ],
+          "RightLeg": [
+            0.0765,
+            0.1973,
+            -0.0108
+          ],
+          "RightFoot": [
+            0.0455,
+            0.0672,
+            -0.1298
+          ],
+          "LeftHand": [
+            -0.1363,
+            0.4484,
+            -0.0739
+          ],
+          "RightHand": [
+            0.1825,
+            0.4149,
+            0.0699
+          ]
+        },
+        "height": 2.02568,
+        "width": 1.0204677682808627,
+        "depth": 0.944114775840266,
+        "scale": 2.071374234119159,
+        "vertices": 28141
+      }
+    ],
+    "perf": {
+      "fps": 59.92808629626593,
+      "frameMsAvg": 17.44,
+      "frameMsP95": 17.9,
+      "drawCalls": 11,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "vendor": "Google Inc. (NVIDIA)"
+    }
+  },
+  "cornicione": {
+    "attack": {
+      "character": "buttafuori",
+      "procedural": false,
+      "animator": {
+        "name": "buttafuori.jab",
+        "seconds": 1,
+        "speed": 7.608695652173913,
+        "duration": 0.22999999999999998,
+        "priority": 40,
+        "loop": false,
+        "token": "buttafuori.jab:attack1",
+        "blend": 0.05,
+        "contactTime": 0.07100000000000001
+      },
+      "activeTracks": 195,
+      "sampleMs": 0,
+      "clips": 43,
+      "state": "ready",
+      "error": null,
+      "bones": 65,
+      "meshes": 2,
+      "meshNames": [
+        "__root__~g2(0v)",
+        "tripo_node_0d1aa33e-dc6b-421c-b20f-e71fc6cae788~g2(28141v)"
+      ],
+      "geometryIds": [
+        -1,
+        1096
+      ],
+      "animation": "buttafuori.jab",
+      "animationPlaying": true,
+      "animationSpeed": 7.608695652173913,
+      "animationFrame": 60,
+      "skeletonId": 9731,
+      "clipHipsOffset": null,
+      "holdFrame": 0,
+      "seated": false,
+      "seatedApplied": false,
+      "restHips": [
+        -0.0134,
+        0.4985,
+        -0.0821
+      ],
+      "hipsNow": [
+        -0.0134,
+        0.4405,
+        -0.0821
+      ],
+      "joints": {
+        "Hips": [
+          0.0134,
+          0.4405,
+          -0.0821
+        ],
+        "Spine": [
+          0.0133,
+          0.4981,
+          -0.0929
+        ],
+        "Head": [
+          0.0307,
+          0.7636,
+          -0.0867
+        ],
+        "LeftUpLeg": [
+          -0.0481,
+          0.4068,
+          -0.0504
+        ],
+        "LeftLeg": [
+          -0.1046,
+          0.2456,
+          0.0656
+        ],
+        "LeftFoot": [
+          -0.1081,
+          0.088,
+          -0.0159
+        ],
+        "RightUpLeg": [
+          0.0796,
+          0.4087,
+          -0.093
+        ],
+        "RightLeg": [
+          0.1939,
+          0.2348,
+          -0.0772
+        ],
+        "RightFoot": [
+          0.2122,
+          0.0814,
+          -0.1676
+        ],
+        "LeftHand": [
+          -0.1467,
+          0.7555,
+          0.1804
+        ],
+        "RightHand": [
+          0.1168,
+          0.649,
+          -0.0156
+        ]
+      },
+      "height": 2.02568,
+      "width": 1.0204677682808627,
+      "depth": 0.944114775840266,
+      "scale": 2.071374234119159,
+      "vertices": 28141
+    },
+    "importedJump": true,
+    "returnNew": true
+  },
+  "errors": [],
+  "counters": {
+    "liveInstances": 0,
+    "lateDisposedContainers": 0,
+    "abortedLoads": 0,
+    "lastLoadError": null
+  }
+}

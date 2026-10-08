@@ -9,7 +9,7 @@ const browser=await launch(),result={};
 try {
   const p=await browser.newPage(),errors=[];p.on('pageerror',e=>errors.push(String(e)));
   await p.goto(`${HOST_URL}?characters=1&goblin=new`,{waitUntil:'load'});
-  const ready=n=>p.waitForFunction(n=>window.__gallery.sample().filter(e=>e?.state==='ready').length===n,{timeout:60000},n);
+  const ready=n=>p.waitForFunction(n=>window.__gallery?.sample().filter(e=>e?.state==='ready').length===n,{timeout:60000},n).catch(async e=>{console.log(JSON.stringify(await p.evaluate(()=>({url:location.href,samples:window.__gallery?.sample(),errors:document.body.innerText.slice(0,800)})),null,2));throw e;});
   await ready(1);
   await p.evaluate(()=>window.__gallery.setLayout(2));await ready(2);
   const gs=await p.evaluate(()=>window.__gallery.sample());

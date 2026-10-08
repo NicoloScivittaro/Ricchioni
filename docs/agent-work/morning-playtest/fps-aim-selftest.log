@@ -1,0 +1,17 @@
+--- INDIPENDENZA DAL FRAME-RATE (stick tenuto fermo, 1s, deflessione piena) ---
+   30 FPS (30 frame): yaw 2.600000
+   60 FPS (60 frame): yaw 2.600000
+  120 FPS (120 frame): yaw 2.600000
+✅ stessa rotazione totale a 30/60/120 FPS (scarto max 4.88e-15)
+✅ il totale corrisponde a sensX (rotazione = stick * sensX * dt, integrata su 1s): 2.6000 ≈ 2.6
+
+--- STESSO TEST CON PITCH (stick in giu', clamp incluso) ---
+✅ stesso pitch finale a 30 e 120 FPS (-1.400000 vs -1.400000)
+✅ il pitch resta bloccato al limite (clamp indipendente dal frame-rate): -1.4
+
+--- SENSIBILITA' PER GIOCATORE (moltiplicatore gia' esistente in GamepadManager, ora usato) ---
+✅ sensibilita' 0.5x/2x scala linearmente il risultato (1.300 / 5.200)
+
+--- CURVA DI RISPOSTA A EXPONENT=1 (default): nessun cambio rispetto a prima di M6.1 ---
+✅ curveExponent di default e' lineare (identita'): la mira si comporta come prima di M6.1
+✅ a deflessione 0.5 (curva lineare) la rotazione e' esattamente meta': 1.3000

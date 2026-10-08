@@ -1,0 +1,137 @@
+{
+  "origin": "http://localhost:3001/",
+  "rows": [
+    {
+      "query": "",
+      "gallery": false,
+      "debug": false,
+      "models": []
+    },
+    {
+      "query": "?characters=1&ciro=new",
+      "gallery": false,
+      "debug": false,
+      "models": []
+    }
+  ],
+  "imported": {
+    "character": "ciro",
+    "procedural": false,
+    "animator": {
+      "name": "ciro.idle",
+      "seconds": 0.11176666790992022,
+      "speed": 1,
+      "duration": 15.33333333209157,
+      "priority": 0,
+      "loop": true,
+      "token": "ciro.idle",
+      "blend": 0.12,
+      "contactTime": null
+    },
+    "activeTracks": 195,
+    "sampleMs": 0.3999999985098839,
+    "clips": 46,
+    "state": "ready",
+    "error": null,
+    "bones": 65,
+    "meshes": 2,
+    "meshNames": [
+      "__root__~g1(0v)",
+      "tripo_node_b5d13cc9-fb76-4d5a-a893-9a1ea5350357~g1(29981v)"
+    ],
+    "geometryIds": [
+      -1,
+      471
+    ],
+    "animation": "ciro.idle",
+    "animationPlaying": true,
+    "animationSpeed": 1,
+    "animationFrame": 6.706000074595213,
+    "skeletonId": 9694,
+    "clipHipsOffset": null,
+    "holdFrame": 0,
+    "seated": false,
+    "seatedApplied": false,
+    "restHips": [
+      0.0096,
+      0.5064,
+      -0.0019
+    ],
+    "hipsNow": [
+      0.0096,
+      0.5054,
+      -0.0019
+    ],
+    "joints": {
+      "Hips": [
+        -0.0096,
+        0.5054,
+        -0.0019
+      ],
+      "Spine": [
+        -0.0085,
+        0.5664,
+        -0.0073
+      ],
+      "Head": [
+        -0.0131,
+        0.8529,
+        -0.0251
+      ],
+      "LeftUpLeg": [
+        -0.0752,
+        0.4723,
+        0.006
+      ],
+      "LeftLeg": [
+        -0.0736,
+        0.265,
+        0.0052
+      ],
+      "LeftFoot": [
+        -0.074,
+        0.0873,
+        -0.0151
+      ],
+      "RightUpLeg": [
+        0.0586,
+        0.4702,
+        0.0111
+      ],
+      "RightLeg": [
+        0.0613,
+        0.2641,
+        0.0365
+      ],
+      "RightFoot": [
+        0.0643,
+        0.0922,
+        -0.0144
+      ],
+      "LeftHand": [
+        -0.1588,
+        0.4989,
+        0.0015
+      ],
+      "RightHand": [
+        0.1485,
+        0.511,
+        0.0119
+      ]
+    },
+    "height": 2.3082,
+    "width": 0.9972113199081483,
+    "depth": 0.47393777911913565,
+    "scale": 2.3590696158289792,
+    "vertices": 29981
+  },
+  "association": {
+    "characters": [
+      "ciro"
+    ],
+    "ciroSelector": true,
+    "dottoreSelector": false
+  },
+  "oldNewToggle": true,
+  "errors": []
+}

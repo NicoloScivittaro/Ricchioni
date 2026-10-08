@@ -1,0 +1,39 @@
+{
+  "result": {
+    "imported": {
+      "character": "buttafuori",
+      "procedural": false,
+      "animator": null,
+      "activeTracks": 0,
+      "sampleMs": 0,
+      "clips": 0,
+      "state": "error",
+      "error": "Unable to load from /models/detailed-tripo/detailed_character_animated.glb: LoadFileError: Error status: 0  - Unable to load /models/detailed-tripo/detailed_character_animated.glb",
+      "bones": 0,
+      "meshes": 0,
+      "meshNames": [],
+      "geometryIds": [],
+      "animation": null,
+      "animationPlaying": false,
+      "animationSpeed": 0,
+      "animationFrame": null,
+      "skeletonId": null,
+      "clipHipsOffset": null,
+      "holdFrame": 0,
+      "seated": false,
+      "seatedApplied": false,
+      "restHips": null,
+      "hipsNow": null,
+      "joints": null,
+      "height": null,
+      "width": null,
+      "depth": null,
+      "scale": 1,
+      "vertices": 0
+    },
+    "fallbackVisible": true,
+    "hidden": true,
+    "restored": true
+  },
+  "errors": []
+}

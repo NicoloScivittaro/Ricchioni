@@ -23,9 +23,10 @@ import { goblinNewEnabled, goblinVisualMode } from './goblinVisualMode';
 import type { GoblinVisualMode } from './goblinVisualMode';
 export { goblinNewEnabled, goblinVisualMode, setGoblinVisualMode } from './goblinVisualMode';
 export type { GoblinVisualMode } from './goblinVisualMode';
+import { ProceduralSkinAnimator } from './proceduralSkinAnimator';
 import { GoblinRigAnimator } from './goblinRigAnimator';
 import { GOBLIN_CLIPS, GOBLIN_LODS, clipOf } from './goblinAnimator';
-import type { GoblinAnimationState, GoblinSample } from './goblinAnimator';
+import type { GoblinAnimationState, GoblinSample, GoblinClip } from './goblinAnimator';
 
 /** Copia byte-per-byte del GLB animato (`green+goblin+3d+model (2).glb`), nessuna compressione né LOD. */
 export const GOBLIN_TRIPO_URL = GOBLIN_LODS.LOD0.url;
@@ -268,6 +269,8 @@ const DEG = Math.PI / 180;
 // ------------------------------------------------------------------ istanza
 
 export interface GoblinVisualOptions {
+  /** Shared renderer, independent source clip ranges and semantic namespace. */
+  profile?: ImportedCharacterProfile;
   /** Altezza (unità mondo) che il modello deve raggiungere: di norma l'altezza del rig procedurale sostituito. */
   height?: number;
   /** Correzione di orientamento (radianti) attorno a Y: il GLB deve guardare dove guarda il modello procedurale. */
@@ -279,6 +282,7 @@ export interface GoblinVisualOptions {
   /** Chiamata UNA volta quando l'import è pronto (`true`) o definitivamente fallito (`false`). */
   onReady?: (ok: boolean) => void;
 }
+export interface ImportedCharacterProfile {namespace:string;url:string;clips:readonly GoblinClip[];procedural?:boolean}
 
 export interface GoblinPoseState extends GoblinAnimationState {}
 export const GOBLIN_ATTACHMENTS = {
@@ -288,6 +292,8 @@ export const GOBLIN_ATTACHMENTS = {
 export type GoblinAttachment = keyof typeof GOBLIN_ATTACHMENTS;
 
 export interface GoblinVisualInstanceDebug {
+  character: string;
+  procedural: boolean;
   animator: GoblinSample | null;
   activeTracks: number;
   sampleMs: number;
@@ -329,6 +335,7 @@ export class GoblinVisualInstance {
   private readonly root: TransformNode;
   private readonly opts: GoblinVisualOptions;
   private readonly url: string;
+  private readonly profile: ImportedCharacterProfile;
   private readonly assetReady: Promise<GoblinAsset>;
   private asset: GoblinAsset | null = null;
   private readonly id: number;
@@ -336,7 +343,7 @@ export class GoblinVisualInstance {
   private inner: TransformNode | null = null;
   private entries: InstantiatedEntries | null = null;
   private group: AnimationGroup | null = null;
-  private animator: GoblinRigAnimator | null = null;
+  private animator: GoblinRigAnimator | ProceduralSkinAnimator | null = null;
   private skeleton: Skeleton | null = null;
   private state: 'loading' | 'ready' | 'error' = 'loading';
   private error: string | null = null;
@@ -370,7 +377,8 @@ export class GoblinVisualInstance {
     this.scene = scene;
     this.root = root;
     this.opts = opts;
-    this.url = goblinAssetUrl();
+    this.profile=opts.profile??{namespace:'goblin',url:goblinAssetUrl(),clips:GOBLIN_CLIPS};
+    this.url = this.profile.url;
     this.id = ++instanceSeq;
     liveInstances++;
     this.assetReady = loadGoblinAsset(scene, this.url);
@@ -401,6 +409,8 @@ export class GoblinVisualInstance {
   get ready(): boolean {
     return this.state === 'ready';
   }
+  get character(): string { return this.profile.namespace; }
+  get procedural(): boolean { return !!this.profile.procedural; }
 
   get failed(): boolean {
     return this.state === 'error';
@@ -467,6 +477,8 @@ export class GoblinVisualInstance {
 
   debug(): GoblinVisualInstanceDebug {
     return {
+      character:this.profile.namespace,
+      procedural:this.procedural,
       animator: this.animator?.controller.last ?? null,
       activeTracks: this.animator?.activeTracks ?? 0,
       sampleMs: this.animator?.sampleMs ?? 0,
@@ -478,7 +490,7 @@ export class GoblinVisualInstance {
       meshNames: this.meshes.map((m) => `${m.name}(${m.getTotalVertices()}v)`),
       geometryIds: this.meshes.map((m) => m.geometry?.uniqueId ?? -1),
       animation: this.animator?.controller.last?.name ?? this.group?.name ?? null,
-      animationPlaying: this.animator?.controller.last ? (this.animator.controller.last.loop || this.animator.controller.last.seconds < (clipOf(this.animator.controller.last.name)?.to??0)-.001) : false,
+      animationPlaying: !this.procedural && this.animator?.controller.last ? (this.animator.controller.last.loop || this.animator.controller.last.seconds < (this.profile.clips.find(c=>c.name===this.animator!.controller.last!.name)?.to??0)-.001) : false,
       animationSpeed: this.animator ? this.speedRatio : this.group?.speedRatio ?? 0,
       animationFrame: this.animator ? (this.animator.controller.last?.seconds ?? 0)*60 : this.group?.getCurrentFrame() ?? null,
       skeletonId: this.skeleton?.uniqueId ?? null,
@@ -507,7 +519,7 @@ export class GoblinVisualInstance {
   playAbility(duration?:number): void { this.animator?.controller.playAbility(duration); }
   playResult(result:'victory'|'defeat'|null): void { this.animator?.controller.playResult(result); }
   preview(name:string|null,speed=1,loop=false): void { this.animator?.controller.previewClip(name,speed,loop); }
-  get clips(): typeof GOBLIN_CLIPS { return GOBLIN_CLIPS; }
+  get clips(): readonly GoblinClip[] { return this.profile.clips; }
   /** Visual-only attachment in the actor's local space or world space. */
   attachment(key:GoblinAttachment,world=false): Vector3|null {
     const target=this.poseTargets.get(GOBLIN_ATTACHMENTS[key])?.node;
@@ -599,15 +611,15 @@ export class GoblinVisualInstance {
       // se il proprietario ha già chiesto di nascondere il corpo (respawn, Buttafuori), il modello nasce nascosto
       pivot.setEnabled(this.enabled);
 
-      // CONTRATTO DELL'ASSET: senza scheletro vero e senza la clip `run.001` non si disegna nulla (si resta sul
-      // procedurale) — mai un gruppo qualunque, mai una clip con un altro nome.
+      // A real skin is always required. Authored profiles also require run.001 and
+      // their complete manifest; only explicit procedural profiles allow zero clips.
       this.skeleton = entries.skeletons[0] ?? null;
       if (!this.skeleton || this.skeleton.bones.length === 0) throw new Error('scheletro assente nel GLB');
       const expectedClip = `${GOBLIN_TRIPO_CLIP}~g${this.id}`;
       const run = entries.animationGroups.find((g) => g.name === expectedClip || g.name === GOBLIN_TRIPO_CLIP) ?? null;
-      if (!run) throw new Error(`clip ${GOBLIN_TRIPO_CLIP} non trovata nel GLB (${entries.animationGroups.map((g) => g.name).join(', ') || 'nessun gruppo'})`);
+      if (!run && !this.procedural) throw new Error(`clip ${GOBLIN_TRIPO_CLIP} non trovata nel GLB (${entries.animationGroups.map((g) => g.name).join(', ') || 'nessun gruppo'})`);
       this.group = run;
-      for (const c of GOBLIN_CLIPS) {
+      for (const c of this.profile.clips) {
         if (!entries.animationGroups.some(g=>g.name===c.original||g.name===`${c.original}~g${this.id}`)) throw new Error(`asset incompleto: ${c.name}`);
       }
 
@@ -640,7 +652,7 @@ export class GoblinVisualInstance {
       if (this.opts.seated) {
         // Statua seduta: NESSUNA clip avviata (niente che possa riscrivere la posa), posa sulle ossa/nodi e
         // aggancio col BACINO (non con i piedi) all'origine del nodo di seduta: è il bacino che poggia sul kart.
-        this.hipsTrack(run);
+        if(run)this.hipsTrack(run);
         this.applySeatedPose();
         const posed = measureLocalBounds(pivot, inner, true);
         const hipsTarget = this.poseTargets.get(HIPS_BONE)?.node;
@@ -653,9 +665,12 @@ export class GoblinVisualInstance {
         };
       } else {
         // Linked-node sampler owns locomotion/actions/reactions/results. Groups are immutable clip data.
-        this.hipsTrack(run);
+        if(run)this.hipsTrack(run);
         this.holdFrame = 0;
-        this.animator = new GoblinRigAnimator(entries.animationGroups,this.poseTargets.get(HIPS_BONE)?.node??null);
+        this.hipsTarget=this.poseTargets.get(HIPS_BONE)?.node??null;
+        this.animator = this.procedural
+          ? new ProceduralSkinAnimator(this.poseTargets,inner,this.profile.namespace)
+          : new GoblinRigAnimator(entries.animationGroups,this.poseTargets.get(HIPS_BONE)?.node??null,this.profile.clips,this.profile.namespace);
         this.animator.update(0,{speedFrac:0,alive:true,falling:false,dashing:false,stunned:false});
         this.size = { x: (bounds.max.x - bounds.min.x) * scale, y: rawHeight * scale, z: (bounds.max.z - bounds.min.z) * scale };
       }

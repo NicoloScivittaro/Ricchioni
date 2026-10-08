@@ -1,0 +1,136 @@
+{
+  "status": "STATIC ANALYSIS ONLY; Babylon import and game integration not executed",
+  "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\detailed+character+3d+model (1).glb",
+  "sha256": "b58a967f96e466a98a4734380c1b8cec352d01c5a4d64518d8df7aed32fab03d",
+  "bytes": 15831292,
+  "asset": {
+    "generator": "Tripo",
+    "version": "2.0"
+  },
+  "extensions_used": [],
+  "meshes": 1,
+  "primitives": 1,
+  "vertices": 28141,
+  "triangles": 31399,
+  "local_bounds_min": [
+    -0.24632640182971954,
+    -8.940696716308594e-08,
+    -0.22789576649665833
+  ],
+  "local_bounds_max": [
+    0.24632635712623596,
+    0.9779399633407593,
+    0.22789588570594788
+  ],
+  "local_dimensions": [
+    0.4926527589559555,
+    0.9779400527477264,
+    0.4557916522026062
+  ],
+  "invalid_indices": 0,
+  "nonfinite_positions": 0,
+  "skins": 1,
+  "joints": 65,
+  "finger_joints": 40,
+  "joint_names": [
+    "mixamorig:Hips",
+    "mixamorig:LeftUpLeg",
+    "mixamorig:LeftLeg",
+    "mixamorig:LeftFoot",
+    "mixamorig:LeftToeBase",
+    "mixamorig:LeftToe_End",
+    "mixamorig:RightUpLeg",
+    "mixamorig:RightLeg",
+    "mixamorig:RightFoot",
+    "mixamorig:RightToeBase",
+    "mixamorig:RightToe_End",
+    "mixamorig:Spine",
+    "mixamorig:Spine1",
+    "mixamorig:Spine2",
+    "mixamorig:LeftShoulder",
+    "mixamorig:LeftArm",
+    "mixamorig:LeftForeArm",
+    "mixamorig:LeftHand",
+    "mixamorig:LeftHandIndex1",
+    "mixamorig:LeftHandIndex2",
+    "mixamorig:LeftHandIndex3",
+    "mixamorig:LeftHandIndex4",
+    "mixamorig:LeftHandMiddle1",
+    "mixamorig:LeftHandMiddle2",
+    "mixamorig:LeftHandMiddle3",
+    "mixamorig:LeftHandMiddle4",
+    "mixamorig:LeftHandPinky1",
+    "mixamorig:LeftHandPinky2",
+    "mixamorig:LeftHandPinky3",
+    "mixamorig:LeftHandPinky4",
+    "mixamorig:LeftHandRing1",
+    "mixamorig:LeftHandRing2",
+    "mixamorig:LeftHandRing3",
+    "mixamorig:LeftHandRing4",
+    "mixamorig:LeftHandThumb1",
+    "mixamorig:LeftHandThumb2",
+    "mixamorig:LeftHandThumb3",
+    "mixamorig:LeftHandThumb4",
+    "mixamorig:Neck",
+    "mixamorig:Head",
+    "mixamorig:HeadTop_End",
+    "mixamorig:RightShoulder",
+    "mixamorig:RightArm",
+    "mixamorig:RightForeArm",
+    "mixamorig:RightHand",
+    "mixamorig:RightHandIndex1",
+    "mixamorig:RightHandIndex2",
+    "mixamorig:RightHandIndex3",
+    "mixamorig:RightHandIndex4",
+    "mixamorig:RightHandMiddle1",
+    "mixamorig:RightHandMiddle2",
+    "mixamorig:RightHandMiddle3",
+    "mixamorig:RightHandMiddle4",
+    "mixamorig:RightHandPinky1",
+    "mixamorig:RightHandPinky2",
+    "mixamorig:RightHandPinky3",
+    "mixamorig:RightHandPinky4",
+    "mixamorig:RightHandRing1",
+    "mixamorig:RightHandRing2",
+    "mixamorig:RightHandRing3",
+    "mixamorig:RightHandRing4",
+    "mixamorig:RightHandThumb1",
+    "mixamorig:RightHandThumb2",
+    "mixamorig:RightHandThumb3",
+    "mixamorig:RightHandThumb4"
+  ],
+  "invalid_joint_indices": 0,
+  "negative_weights": 0,
+  "nonfinite_weights": 0,
+  "max_weight_sum_error": 1.2665987014770508e-07,
+  "zero_weight_vertices": 0,
+  "nonfinite_inverse_bind_values": 0,
+  "inverse_bind_count": 65,
+  "morph_targets": 0,
+  "animations": [],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "tripo_mat_c7971491-faa7-4d60-b0d1-15ad8fe3021c",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicRoughnessTexture": {
+          "index": 2
+        }
+      }
+    }
+  ],
+  "texture_mime": "image/jpeg",
+  "texture_dimensions": [
+    4096,
+    4096
+  ],
+  "embedded_texture_bytes": 1425688,
+  "rgba8_base_memory_mib": 64.0,
+  "rgba8_with_full_mips_estimate_mib": 85.33333333333333
+}

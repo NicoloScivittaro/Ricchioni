@@ -1,0 +1,102 @@
+{
+  "errors": [],
+  "models": [
+    "http://localhost:3001/models/detailed-tripo/detailed_character_animated.glb",
+    "http://localhost:3001/models/goblin-tripo/green_goblin_animated.glb",
+    "http://localhost:3001/models/judoka-tripo/judo_figure.glb"
+  ],
+  "responses": [
+    {
+      "url": "http://localhost:3001/models/detailed-tripo/detailed_character_animated.glb",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:3001/models/goblin-tripo/green_goblin_animated.glb",
+      "status": 200
+    },
+    {
+      "url": "http://localhost:3001/models/judoka-tripo/judo_figure.glb",
+      "status": 200
+    }
+  ],
+  "room": {
+    "code": "Z847G",
+    "players": [
+      {
+        "name": "Nicolò",
+        "character": "goblin"
+      },
+      {
+        "name": "BOSCHI",
+        "character": "buttafuori"
+      },
+      {
+        "name": "Carbo",
+        "character": "judoka"
+      }
+    ],
+    "phase": "MINIGAME_PLAYING"
+  },
+  "naturalResults": {
+    "results": [
+      {
+        "playerId": "352816b4-6f6e-4167-8bbb-438a055a8a70",
+        "placement": 1,
+        "score": 0,
+        "stats": [
+          "ultimo in piedi"
+        ]
+      },
+      {
+        "playerId": "9ee5ea22-5fc5-445b-b085-7bcdbfced43c",
+        "placement": 2,
+        "score": 0,
+        "stats": [
+          "ultimo in piedi"
+        ]
+      },
+      {
+        "playerId": "2260be8d-7ff5-4159-bbb1-deb4c93dca19",
+        "placement": 3,
+        "score": 0,
+        "stats": [
+          "ultimo in piedi"
+        ]
+      }
+    ],
+    "ranking": [
+      "352816b4-6f6e-4167-8bbb-438a055a8a70",
+      "9ee5ea22-5fc5-445b-b085-7bcdbfced43c",
+      "2260be8d-7ff5-4159-bbb1-deb4c93dca19"
+    ],
+    "deltas": {
+      "352816b4-6f6e-4167-8bbb-438a055a8a70": 10,
+      "9ee5ea22-5fc5-445b-b085-7bcdbfced43c": 6,
+      "2260be8d-7ff5-4159-bbb1-deb4c93dca19": 3
+    },
+    "double": false
+  },
+  "gallery": [
+    {
+      "character": "goblin",
+      "bones": 65,
+      "clips": 36
+    },
+    {
+      "character": "buttafuori",
+      "bones": 65,
+      "clips": 43
+    },
+    {
+      "character": "judoka",
+      "bones": 65,
+      "clips": 37
+    },
+    {
+      "character": "ciro",
+      "bones": 65,
+      "clips": 46
+    }
+  ],
+  "oldNew": true
+}

@@ -1,0 +1,13 @@
+✅ quiz: P1:"📚 CHI CAZZO LO SA? 12 Domanda"/5el  P2:"📚 CHI CAZZO LO SA? 12 Domanda"/5el
+✅ reaction: P1:"BOTTA AL VOLO"/2el  P2:"BOTTA AL VOLO"/2el
+✅ memory: P1:"🧠 MEMORIA DA UBRIACO 👀 OSSER"/5el  P2:"🧠 MEMORIA DA UBRIACO 👀 OSSER"/5el
+✅ arena: P1:"🤼 ARENA DEL DISAGIO ⏱ 1 💨 DA"/2el  P2:"🤼 ARENA DEL DISAGIO ⏱ 1 💨 DA"/2el
+✅ dodgeball: P1:"🎯 DODGEBALL DEI COGLIONI ⏱ 1 "/3el  P2:"🎯 DODGEBALL DEI COGLIONI ⏱ 1 "/3el
+❌ soccer: ERR Error: Execution context was destroyed, most likely because of a navigation.
+✅ volleyball: P1:"🏐 PALLAVOLO DEI DISAGIATI 🔵 "/3el  P2:"🏐 PALLAVOLO DEI DISAGIATI 🔴 "/3el
+❌ kart3d: P1:"RIBALTATI — CIRCUITO DEL LITORALE"/7el  P2:"RIBALTATI — CIRCUITO DEL LITORALE"/7el  ERR Error: timeout: ROULETTE dopo i risultati
+✅ cultura: P1:"ROUND 1/8 · CURIOSITÀ "Come si"/2el  P2:"ROUND 1/8 · CURIOSITÀ "Come si"/2el
+✅ fps: P1:"❤️ 100 🔦 LASER DEL DISAGIO 5 "/5el  P2:"❤️ 100 💨 RAFFICA 3X 24 / 24 ⚡"/5el
+❌ cornicione: ERR TimeoutError: Waiting failed: 20000ms exceeded
+
+❌ 8/11 giochi OK

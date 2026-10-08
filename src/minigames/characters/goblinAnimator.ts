@@ -53,6 +53,12 @@ export function attackSeconds(c: GoblinClip, a: GoblinAttack): number {
 }
 
 export class GoblinAnimator {
+  private readonly clipsByName: Map<string, GoblinClip>;
+  constructor(clips: readonly GoblinClip[] = GOBLIN_CLIPS, private readonly namespace = 'goblin') {
+    this.clipsByName = new Map(clips.map(c=>[c.name,c]));
+  }
+  private name(name:string):string { return `${this.namespace}.${name.slice(name.indexOf('.')+1)}`; }
+  private clip(name:string):GoblinClip|undefined { return this.clipsByName.get(this.name(name)); }
   private action: Request | null = null;
   private reaction: Request | null = null;
   private special: Request | null = null;
@@ -72,11 +78,12 @@ export class GoblinAnimator {
   private attackToken = 0;
   last: GoblinSample | null = null;
   private request(name: string, duration: number, priority: number, contactNow = false): Request | null {
-    if (!clipOf(name)) return null;
+    name=this.name(name);
+    if (!this.clip(name)) return null;
     return { name, duration: Math.max(.001, duration), priority, contactNow, t: 0, token: ++this.sequence };
   }
-  playState(name: string | null): void { this.stateOverride=name&&clipOf(name)?name:null;this.previousState='';this.stateT=0; }
-  playAction(name: string, duration = clipOf(name)?.duration ?? .3, contactNow = false): void {
+  playState(name: string | null): void { this.stateOverride=name&&this.clip(name)?this.name(name):null;this.previousState='';this.stateT=0; }
+  playAction(name: string, duration = this.clip(name)?.duration ?? .3, contactNow = false): void {
     if (this.ko) return;
     this.action = this.request(name, duration, 40, contactNow);
   }
@@ -87,14 +94,15 @@ export class GoblinAnimator {
     this.reaction = this.request(name, duration, 80);
     this.action = null; this.special = null;
   }
-  playAbility(duration = .3): void { if (!this.ko) this.special = this.request('goblin.uppercut', duration, 60); }
+  private abilityPose(): string { return this.namespace==='judoka'||this.namespace==='buttafuori'?`${this.namespace}.block`:'goblin.uppercut'; }
+  playAbility(duration = .3): void { if (!this.ko) this.special = this.request(this.abilityPose(), duration, 60); }
   playResult(result: 'victory' | 'defeat' | null): void {
     this.result = result; this.stateT = 0; this.previousState = ''; this.ko = false;
     if (result) this.previousAlive = true;
     this.action = this.reaction = this.special = null;
   }
   previewClip(name: string | null, speed = 1, loop = false): void {
-    this.preview = name && clipOf(name) ? { name, speed: clamp(speed,.25,2), loop, t: 0, token: ++this.sequence } : null;
+    this.preview = name && this.clip(name) ? { name:this.name(name), speed: clamp(speed,.25,2), loop, t: 0, token: ++this.sequence } : null;
   }
   reset(): void {
     this.ko = false; this.action = this.reaction = this.special = null;
@@ -114,7 +122,7 @@ export class GoblinAnimator {
     }
     if (this.preview) {
       const p = this.preview; p.t += dt * p.speed;
-      const c = clipOf(p.name)!; const span = c.to - c.from;
+      const c = this.clip(p.name)!; const span = c.to - c.from;
       return this.last = { name:p.name, seconds:c.from+(p.loop?p.t%span:Math.min(span,p.t)), blend:.06,
         speed:p.speed, priority:200, loop:p.loop, token:`preview:${p.token}`,contactTime:null,duration:span/p.speed };
     }
@@ -127,27 +135,33 @@ export class GoblinAnimator {
     else if (s.attack && GOBLIN_MOVES[s.attack.id]) {
       external = s.attack; name = GOBLIN_MOVES[external.id]; priority = external.id==='follow'||external.id==='uAH'?60:40;
     } else if (this.special) { source = this.special; name = source.name; priority = 60; }
-    else if (s.ability) { name = 'goblin.uppercut'; priority = 60; }
+    else if (s.ability) { name = this.abilityPose(); priority = 60; }
     else if (this.action) { source = this.action; name = source.name; priority = 40; }
     else if (s.dodge) { name = 'goblin.dodge'; priority = 30; }
     else if (s.dashing) { name = 'goblin.dash'; priority = 25; }
     else if (s.falling || s.grounded===false) { name = (s.vy ?? -1)>0 ? 'goblin.jump' : 'goblin.fall'; priority = 15; }
     else if (s.speedFrac > .12) { name = 'goblin.run'; priority = 10; }
     if(priority<=15&&this.stateOverride)name=this.stateOverride;
+    name=this.name(name);
+    // Without a dedicated jump, hold the imported rig's early aerial pose on ascent.
+    // Descending starts its fall segment; gameplay still owns the vertical trajectory.
+    const holdAirbornePose=!this.clip(name)&&s.grounded===false&&(s.vy??0)>0;
+    if(!this.clip(name))name=this.name('goblin.fall');
     if (external) {
       if (external.id!==this.previousAttack || external.elapsed<this.previousAttackT) this.attackToken++;
       this.previousAttack = external.id; this.previousAttackT = external.elapsed;
     } else this.previousAttack = '';
-    const token = source ? `${name}:${source.token}` : external ? `${name}:attack${this.attackToken}` : name;
+    const token = source ? `${name}:${source.token}` : external ? `${name}:attack${this.attackToken}` : holdAirbornePose?`${name}:ascent`:name;
     if (token !== this.previousState) { this.previousState = token; this.stateT = 0; } else this.stateT += dt;
-    const c = clipOf(name)!;
-    let seconds: number, duration = source?.duration ?? (name==='goblin.ko'?s.koDuration??c.duration:c.duration);
-    const speed = name==='goblin.run' ? clamp(.7+s.speedFrac*1.7,.7,2.4) : (c.to-c.from)/duration;
+    const c = this.clip(name)!;
+    let seconds: number, duration = source?.duration ?? (name===this.name('goblin.ko')?s.koDuration??c.duration:c.duration);
+    const speed = name===this.name('goblin.run') ? clamp(.7+s.speedFrac*1.7,.7,2.4) : (c.to-c.from)/duration;
     if (external) { seconds = attackSeconds(c,external); duration = external.startup+external.active+external.recovery; }
     else if (source) {
       const from = source.contactNow ? clamp(c.contact ?? c.from,c.from,c.to) : c.from;
       seconds = from+(c.to-from)*clamp(source.t/source.duration,0,1);
-    } else if (c.loop) seconds = c.from+(this.clock*speed)%(c.to-c.from);
+    } else if (holdAirbornePose) seconds=c.from;
+    else if (c.loop) seconds = c.from+(this.clock*speed)%(c.to-c.from);
     else seconds = c.from+(c.to-c.from)*clamp(this.stateT/duration,0,1);
     return this.last = { name, seconds, speed, duration, priority, loop:c.loop, token,
       blend:priority>=80?.035:priority>=40?.05:priority>=25?.06:.12,

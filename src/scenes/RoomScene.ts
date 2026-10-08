@@ -11,6 +11,7 @@ import { addPortrait } from '../core/portraits';
 import { pads } from '../input/GamepadManager';
 import { UI, hexToInt } from '../core/uiTokens';
 import { displayText, infoText, uiPanel } from '../core/uiPhaser';
+import { controllerUrlForRoom } from '../../shared/controllerUrl';
 
 /** Minimo giocatori per avviare (deve coincidere con GameSession.MIN_TO_START sul server). */
 const MIN_TO_START = 2;
@@ -99,30 +100,34 @@ export class RoomScene extends Phaser.Scene {
   }
 
   private async controllerUrl(code: string): Promise<string> {
-    let url = `${location.origin}/controller.html?room=${code}`;
-    if (import.meta.env.DEV) {
+    let ips: string[] = [];
+    if (['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
       try {
-        const res = await fetch(`http://${location.hostname}:3001/api/network`);
-        const data = (await res.json()) as { ips: string[] };
-        const ip = data.ips?.[0];
-        if (ip) url = `http://${ip}:5173/controller.html?room=${code}`;
+        const serverOrigin = import.meta.env.DEV
+          ? (import.meta.env.VITE_SERVER_URL?.trim() || `http://${location.hostname}:3001`)
+          : location.origin;
+        const res = await fetch(new URL('/api/network', serverOrigin), { signal: AbortSignal.timeout(3000) });
+        if (res.ok) {
+          const data = (await res.json()) as { ips?: unknown };
+          if (Array.isArray(data.ips)) ips = data.ips.filter((ip): ip is string => typeof ip === 'string');
+        }
       } catch {
         /* resta same-origin */
       }
     }
-    return url;
+    return controllerUrlForRoom(location.origin, code, ips);
   }
 
   /** Genera URL + QR in background (non blocca il render della stanza). */
   private async setupQR(code: string): Promise<void> {
     const url = await this.controllerUrl(code);
-    if (!this.sys.isActive()) return;
+    if (!this.sys.isActive() || gm.roomCode !== code) return;
     try {
       const dataUrl = await QRCode.toDataURL(url, { width: 280, margin: 1, color: { dark: '#0b0b14', light: '#ffffff' } });
-      if (!this.sys.isActive()) return;
+      if (!this.sys.isActive() || gm.roomCode !== code) return;
       if (this.textures.exists('qr')) this.textures.remove('qr');
       this.textures.once(`${Phaser.Textures.Events.ADD_KEY}qr`, () => {
-        if (this.sys.isActive()) this.add.image(300, 370, 'qr').setDisplaySize(280, 280);
+        if (this.sys.isActive() && gm.roomCode === code) this.add.image(300, 370, 'qr').setDisplaySize(280, 280);
       });
       this.textures.addBase64('qr', dataUrl);
     } catch (e) {

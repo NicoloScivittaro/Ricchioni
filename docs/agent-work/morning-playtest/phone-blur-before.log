@@ -1,0 +1,10 @@
+Three rooms created/abandoned on the same host document: PASS
+file:///C:/Users/niluf.PC-NIKO/Desktop/Ricchioni/scripts/e2e/morning-playtest.mjs:11
+ throw new Error(`Timeout ${what}`);
+       ^
+
+Error: Timeout new joystick gesture after blur
+    at until (file:///C:/Users/niluf.PC-NIKO/Desktop/Ricchioni/scripts/e2e/morning-playtest.mjs:11:8)
+    at async file:///C:/Users/niluf.PC-NIKO/Desktop/Ricchioni/scripts/e2e/morning-playtest.mjs:71:5
+
+Node.js v24.18.0

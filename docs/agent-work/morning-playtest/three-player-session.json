@@ -1,0 +1,132 @@
+{
+  "rooms": [
+    "496MV",
+    "QWAEW",
+    "T3Q89"
+  ],
+  "games": [
+    {
+      "id": "arena",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:10,BOSCHI:6,Carbo:3",
+      "counters": {
+        "liveInstances": 0,
+        "lateDisposedContainers": 0,
+        "abortedLoads": 0,
+        "lastLoadError": null
+      }
+    },
+    {
+      "id": "cornicione",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:16,BOSCHI:9,Carbo:13",
+      "counters": {
+        "liveInstances": 0,
+        "lateDisposedContainers": 0,
+        "abortedLoads": 0,
+        "lastLoadError": null
+      }
+    },
+    {
+      "id": "dodgeball",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:19,BOSCHI:19,Carbo:19",
+      "counters": {
+        "liveInstances": 0,
+        "lateDisposedContainers": 0,
+        "abortedLoads": 0,
+        "lastLoadError": null
+      }
+    },
+    {
+      "id": "soccer",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:29,BOSCHI:25,Carbo:22",
+      "counters": {
+        "liveInstances": 0,
+        "lateDisposedContainers": 0,
+        "abortedLoads": 0,
+        "lastLoadError": null
+      }
+    },
+    {
+      "id": "volleyball",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:41,BOSCHI:31,Carbo:42",
+      "counters": {
+        "liveInstances": 0,
+        "lateDisposedContainers": 0,
+        "abortedLoads": 0,
+        "lastLoadError": null
+      }
+    },
+    {
+      "id": "kart3d",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:44,BOSCHI:41,Carbo:48",
+      "counters": {
+        "liveInstances": 0,
+        "lateDisposedContainers": 0,
+        "abortedLoads": 0,
+        "lastLoadError": null
+      }
+    },
+    {
+      "id": "fps",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:64,BOSCHI:53,Carbo:54",
+      "counters": {
+        "liveInstances": 0,
+        "lateDisposedContainers": 0,
+        "abortedLoads": 0,
+        "lastLoadError": null
+      }
+    },
+    {
+      "id": "quiz",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:70,BOSCHI:56,Carbo:64",
+      "counters": {
+        "liveInstances": 0,
+        "lateDisposedContainers": 0,
+        "abortedLoads": 0,
+        "lastLoadError": null
+      }
+    },
+    {
+      "id": "memory",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:73,BOSCHI:66,Carbo:70",
+      "counters": {
+        "liveInstances": 0,
+        "lateDisposedContainers": 0,
+        "abortedLoads": 0,
+        "lastLoadError": null
+      }
+    },
+    {
+      "id": "cultura",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:83,BOSCHI:72,Carbo:73",
+      "counters": {
+        "liveInstances": 0,
+        "lateDisposedContainers": 0,
+        "abortedLoads": 0,
+        "lastLoadError": null
+      }
+    },
+    {
+      "id": "reaction",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:93,BOSCHI:78,Carbo:76",
+      "counters": {
+        "liveInstances": 0,
+        "lateDisposedContainers": 0,
+        "abortedLoads": 0,
+        "lastLoadError": null
+      }
+    }
+  ],
+  "errors": [],
+  "qr": "http://192.168.1.79:5174/controller.html?room=T3Q89"
+}

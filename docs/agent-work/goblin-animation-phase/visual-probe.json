@@ -1,7 +1,7 @@
 {
   "stats": {
     "meshes": 63,
-    "materials": 28,
+    "materials": 29,
     "textures": 9,
     "skeletons": 1,
     "animationGroups": 36,
@@ -10,9 +10,10 @@
   "samples": [
     null,
     {
+      "character": "goblin",
       "animator": {
         "name": "goblin.idle",
-        "seconds": 1.1181666679084308,
+        "seconds": 1.1271666679084302,
         "speed": 1,
         "duration": 15.33333333209157,
         "priority": 0,
@@ -22,7 +23,7 @@
         "contactTime": null
       },
       "activeTracks": 195,
-      "sampleMs": 0.19999999925494194,
+      "sampleMs": 0.10000000149011612,
       "clips": 36,
       "state": "ready",
       "error": null,
@@ -34,13 +35,13 @@
       ],
       "geometryIds": [
         -1,
-        468
+        469
       ],
       "animation": "goblin.idle",
       "animationPlaying": true,
       "animationSpeed": 1,
-      "animationFrame": 67.09000007450585,
-      "skeletonId": 15095,
+      "animationFrame": 67.63000007450582,
+      "skeletonId": 15096,
       "clipHipsOffset": null,
       "holdFrame": 0,
       "seated": false,
@@ -97,14 +98,14 @@
           0.0641
         ],
         "RightFoot": [
-          0.0394,
+          0.0393,
           0.0953,
           -0.0008
         ],
         "LeftHand": [
           -0.1295,
           0.4223,
-          0.0062
+          0.0061
         ],
         "RightHand": [
           0.126,
@@ -120,9 +121,9 @@
     }
   ],
   "perf": {
-    "fps": 59.952038369483006,
-    "frameMsAvg": 26.13,
-    "frameMsP95": 90.5,
+    "fps": 59.94005994005994,
+    "frameMsAvg": 26.92,
+    "frameMsP95": 92.4,
     "drawCalls": 30,
     "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
     "vendor": "Google Inc. (NVIDIA)"
@@ -130,9 +131,10 @@
   "jab": [
     null,
     {
+      "character": "goblin",
       "animator": {
         "name": "goblin.jab",
-        "seconds": 1.0913499999996277,
+        "seconds": 1.0881250000000002,
         "blend": 0.06,
         "speed": 0.25,
         "priority": 200,
@@ -142,7 +144,7 @@
         "duration": 7
       },
       "activeTracks": 195,
-      "sampleMs": 0.19999999925494194,
+      "sampleMs": 0.10000000149011612,
       "clips": 36,
       "state": "ready",
       "error": null,
@@ -154,13 +156,13 @@
       ],
       "geometryIds": [
         -1,
-        468
+        469
       ],
       "animation": "goblin.jab",
       "animationPlaying": true,
       "animationSpeed": 0.25,
-      "animationFrame": 65.48099999997766,
-      "skeletonId": 15095,
+      "animationFrame": 65.28750000000001,
+      "skeletonId": 15096,
       "clipHipsOffset": null,
       "holdFrame": 0,
       "seated": false,
@@ -172,64 +174,64 @@
       ],
       "hipsNow": [
         0.0019,
-        0.4127,
+        0.4131,
         0.0172
       ],
       "joints": {
         "Hips": [
           -0.0019,
-          0.4127,
+          0.4131,
           0.0172
         ],
         "Spine": [
           -0.0026,
-          0.4511,
+          0.4514,
           0.0142
         ],
         "Head": [
-          0.0035,
-          0.6856,
-          0.0636
+          0.0037,
+          0.6859,
+          0.064
         ],
         "LeftUpLeg": [
-          -0.0526,
-          0.3676,
+          -0.0525,
+          0.3679,
           0.0365
         ],
         "LeftLeg": [
-          -0.1049,
-          0.2581,
-          0.1463
+          -0.1048,
+          0.2582,
+          0.1461
         ],
         "LeftFoot": [
-          -0.1168,
-          0.0834,
-          0.08
+          -0.1162,
+          0.0836,
+          0.0795
         ],
         "RightUpLeg": [
           0.0469,
-          0.3661,
+          0.3665,
           -0.0033
         ],
         "RightLeg": [
-          0.1435,
-          0.234,
-          -0.0019
+          0.1437,
+          0.2346,
+          -0.001
         ],
         "RightFoot": [
-          0.1624,
-          0.0989,
-          -0.13
+          0.1627,
+          0.0987,
+          -0.1285
         ],
         "LeftHand": [
-          -0.1016,
-          0.6511,
-          0.2123
+          -0.1017,
+          0.6521,
+          0.2152
         ],
         "RightHand": [
-          0.072,
-          0.5899,
-          0.0635
+          0.0721,
+          0.5902,
+          0.0634
         ]
       },
       "height": 2.3232399999999997,
@@ -242,9 +244,10 @@
   "heavy": [
     null,
     {
+      "character": "goblin",
       "animator": {
         "name": "goblin.heavy",
-        "seconds": 0.7622499999998138,
+        "seconds": 0.75492500000149,
         "blend": 0.06,
         "speed": 0.25,
         "priority": 200,
@@ -254,7 +257,7 @@
         "duration": 10.1664
       },
       "activeTracks": 195,
-      "sampleMs": 0.30000000074505806,
+      "sampleMs": 0.10000000149011612,
       "clips": 36,
       "state": "ready",
       "error": null,
@@ -266,13 +269,13 @@
       ],
       "geometryIds": [
         -1,
-        468
+        469
       ],
       "animation": "goblin.heavy",
       "animationPlaying": true,
       "animationSpeed": 0.25,
-      "animationFrame": 45.73499999998883,
-      "skeletonId": 15095,
+      "animationFrame": 45.2955000000894,
+      "skeletonId": 15096,
       "clipHipsOffset": null,
       "holdFrame": 0,
       "seated": false,
@@ -284,64 +287,64 @@
       ],
       "hipsNow": [
         0.0019,
-        0.3858,
+        0.385,
         0.0172
       ],
       "joints": {
         "Hips": [
           -0.0019,
-          0.3858,
+          0.385,
           0.0172
         ],
         "Spine": [
-          -0.0026,
-          0.4242,
-          0.0164
+          -0.0024,
+          0.4235,
+          0.0165
         ],
         "Head": [
-          -0.0543,
-          0.6588,
-          0.04
+          -0.0526,
+          0.6583,
+          0.0408
         ],
         "LeftUpLeg": [
-          -0.0495,
-          0.3388,
-          -0.0054
+          -0.0499,
+          0.3383,
+          -0.0049
         ],
         "LeftLeg": [
           -0.1451,
-          0.2598,
-          0.1013
+          0.2599,
+          0.1027
         ],
         "LeftFoot": [
-          -0.1619,
-          0.0741,
-          0.0836
+          -0.163,
+          0.0742,
+          0.0861
         ],
         "RightUpLeg": [
           0.0505,
-          0.3413,
-          0.0331
+          0.3403,
+          0.0324
         ],
         "RightLeg": [
-          0.1156,
-          0.1932,
-          0.0577
+          0.1169,
+          0.1918,
+          0.0502
         ],
         "RightFoot": [
-          0.1738,
-          0.133,
-          -0.1098
+          0.1753,
+          0.1321,
+          -0.1174
         ],
         "LeftHand": [
-          -0.1495,
-          0.5627,
-          -0.0018
+          -0.1488,
+          0.5604,
+          -0.0039
         ],
         "RightHand": [
-          -0.0705,
-          0.5227,
-          0.2132
+          -0.0744,
+          0.5288,
+          0.2183
         ]
       },
       "height": 2.3232399999999997,
@@ -354,9 +357,10 @@
   "frontKick": [
     null,
     {
+      "character": "goblin",
       "animator": {
         "name": "goblin.frontKick",
-        "seconds": 0.7575500000005592,
+        "seconds": 0.7547,
         "blend": 0.06,
         "speed": 0.25,
         "priority": 200,
@@ -366,7 +370,7 @@
         "duration": 10
       },
       "activeTracks": 195,
-      "sampleMs": 0,
+      "sampleMs": 0.09999999403953552,
       "clips": 36,
       "state": "ready",
       "error": null,
@@ -378,13 +382,13 @@
       ],
       "geometryIds": [
         -1,
-        468
+        469
       ],
       "animation": "goblin.frontKick",
       "animationPlaying": true,
       "animationSpeed": 0.25,
-      "animationFrame": 45.45300000003355,
-      "skeletonId": 15095,
+      "animationFrame": 45.282000000000004,
+      "skeletonId": 15096,
       "clipHipsOffset": null,
       "holdFrame": 0,
       "seated": false,
@@ -422,13 +426,13 @@
         ],
         "LeftLeg": [
           -0.0991,
-          0.223,
+          0.2229,
           0.0452
         ],
         "LeftFoot": [
           -0.1269,
           0.0754,
-          -0.0667
+          -0.0666
         ],
         "RightUpLeg": [
           0.0516,
@@ -436,9 +440,9 @@
           0.0208
         ],
         "RightLeg": [
-          0.1122,
-          0.2545,
-          0.1084
+          0.1123,
+          0.2546,
+          0.1085
         ],
         "RightFoot": [
           0.1598,
@@ -448,12 +452,12 @@
         "LeftHand": [
           -0.0311,
           0.5868,
-          0.1093
+          0.1091
         ],
         "RightHand": [
-          0.1008,
-          0.5885,
-          0.1123
+          0.1007,
+          0.5886,
+          0.1122
         ]
       },
       "height": 2.3232399999999997,
@@ -466,9 +470,10 @@
   "roundhouse": [
     null,
     {
+      "character": "goblin",
       "animator": {
         "name": "goblin.roundhouse",
-        "seconds": 1.3811749999996277,
+        "seconds": 1.3839749999985098,
         "blend": 0.06,
         "speed": 0.25,
         "priority": 200,
@@ -476,230 +481,6 @@
         "token": "preview:4",
         "contactTime": null,
         "duration": 7.166399999999999
-      },
-      "activeTracks": 195,
-      "sampleMs": 0.19999999925494194,
-      "clips": 36,
-      "state": "ready",
-      "error": null,
-      "bones": 65,
-      "meshes": 2,
-      "meshNames": [
-        "__root__~g2(0v)",
-        "tripo_node_b0d273b1-8976-4036-80dc-f482eea67419~g2(33613v)"
-      ],
-      "geometryIds": [
-        -1,
-        468
-      ],
-      "animation": "goblin.roundhouse",
-      "animationPlaying": true,
-      "animationSpeed": 0.25,
-      "animationFrame": 82.87049999997765,
-      "skeletonId": 15095,
-      "clipHipsOffset": null,
-      "holdFrame": 0,
-      "seated": false,
-      "seatedApplied": false,
-      "restHips": [
-        0.0019,
-        0.4764,
-        0.0172
-      ],
-      "hipsNow": [
-        0.0019,
-        0.4734,
-        0.0172
-      ],
-      "joints": {
-        "Hips": [
-          -0.0019,
-          0.4734,
-          0.0172
-        ],
-        "Spine": [
-          -0.0005,
-          0.504,
-          -0.006
-        ],
-        "Head": [
-          0.0296,
-          0.7255,
-          -0.0531
-        ],
-        "LeftUpLeg": [
-          -0.0352,
-          0.4643,
-          0.0788
-        ],
-        "LeftLeg": [
-          0.0125,
-          0.4804,
-          0.2344
-        ],
-        "LeftFoot": [
-          -0.1426,
-          0.3893,
-          0.2865
-        ],
-        "RightUpLeg": [
-          0.0202,
-          0.4072,
-          0.007
-        ],
-        "RightLeg": [
-          0.0682,
-          0.255,
-          0.043
-        ],
-        "RightFoot": [
-          0.0333,
-          0.0736,
-          0.0128
-        ],
-        "LeftHand": [
-          0.0025,
-          0.6681,
-          0.046
-        ],
-        "RightHand": [
-          0.1391,
-          0.6368,
-          -0.0569
-        ]
-      },
-      "height": 2.3232399999999997,
-      "width": 0.9807193925886168,
-      "depth": 0.6276344626933739,
-      "scale": 2.3715457430899156,
-      "vertices": 33613
-    }
-  ],
-  "ballThrow": [
-    null,
-    {
-      "animator": {
-        "name": "goblin.ballThrow",
-        "seconds": 0.7675250000001863,
-        "blend": 0.06,
-        "speed": 0.25,
-        "priority": 200,
-        "loop": false,
-        "token": "preview:5",
-        "contactTime": null,
-        "duration": 10
-      },
-      "activeTracks": 195,
-      "sampleMs": 0.19999999925494194,
-      "clips": 36,
-      "state": "ready",
-      "error": null,
-      "bones": 65,
-      "meshes": 2,
-      "meshNames": [
-        "__root__~g2(0v)",
-        "tripo_node_b0d273b1-8976-4036-80dc-f482eea67419~g2(33613v)"
-      ],
-      "geometryIds": [
-        -1,
-        468
-      ],
-      "animation": "goblin.ballThrow",
-      "animationPlaying": true,
-      "animationSpeed": 0.25,
-      "animationFrame": 46.05150000001118,
-      "skeletonId": 15095,
-      "clipHipsOffset": null,
-      "holdFrame": 0,
-      "seated": false,
-      "seatedApplied": false,
-      "restHips": [
-        0.0019,
-        0.4764,
-        0.0172
-      ],
-      "hipsNow": [
-        0.0019,
-        0.4515,
-        0.0172
-      ],
-      "joints": {
-        "Hips": [
-          -0.0019,
-          0.4515,
-          0.0172
-        ],
-        "Spine": [
-          -0.0018,
-          0.4893,
-          0.0107
-        ],
-        "Head": [
-          0.0236,
-          0.7309,
-          0.0102
-        ],
-        "LeftUpLeg": [
-          -0.0541,
-          0.4088,
-          0.0382
-        ],
-        "LeftLeg": [
-          -0.088,
-          0.25,
-          0.0583
-        ],
-        "LeftFoot": [
-          -0.1166,
-          0.0823,
-          -0.0199
-        ],
-        "RightUpLeg": [
-          0.047,
-          0.4026,
-          0.0033
-        ],
-        "RightLeg": [
-          0.094,
-          0.2522,
-          0.0476
-        ],
-        "RightFoot": [
-          0.0913,
-          0.0762,
-          -0.0162
-        ],
-        "LeftHand": [
-          -0.128,
-          0.4408,
-          0.0915
-        ],
-        "RightHand": [
-          0.1172,
-          0.4477,
-          0.0201
-        ]
-      },
-      "height": 2.3232399999999997,
-      "width": 0.9807193925886168,
-      "depth": 0.6276344626933739,
-      "scale": 2.3715457430899156,
-      "vertices": 33613
-    }
-  ],
-  "pickup": [
-    null,
-    {
-      "animator": {
-        "name": "goblin.pickup",
-        "seconds": 0.8855750000000007,
-        "blend": 0.06,
-        "speed": 0.25,
-        "priority": 200,
-        "loop": false,
-        "token": "preview:6",
-        "contactTime": null,
-        "duration": 9.3332
       },
       "activeTracks": 195,
       "sampleMs": 0.10000000149011612,
@@ -714,13 +495,13 @@
       ],
       "geometryIds": [
         -1,
-        468
+        469
       ],
-      "animation": "goblin.pickup",
+      "animation": "goblin.roundhouse",
       "animationPlaying": true,
       "animationSpeed": 0.25,
-      "animationFrame": 53.13450000000004,
-      "skeletonId": 15095,
+      "animationFrame": 83.03849999991058,
+      "skeletonId": 15096,
       "clipHipsOffset": null,
       "holdFrame": 0,
       "seated": false,
@@ -732,64 +513,290 @@
       ],
       "hipsNow": [
         0.0019,
-        0.4158,
+        0.4737,
         0.0172
       ],
       "joints": {
         "Hips": [
           -0.0019,
-          0.4158,
+          0.4737,
+          0.0172
+        ],
+        "Spine": [
+          -0.0004,
+          0.5042,
+          -0.0061
+        ],
+        "Head": [
+          0.0297,
+          0.7256,
+          -0.0531
+        ],
+        "LeftUpLeg": [
+          -0.0353,
+          0.4648,
+          0.0788
+        ],
+        "LeftLeg": [
+          0.0116,
+          0.4816,
+          0.2346
+        ],
+        "LeftFoot": [
+          -0.1421,
+          0.3919,
+          0.2928
+        ],
+        "RightUpLeg": [
+          0.0201,
+          0.4074,
+          0.0072
+        ],
+        "RightLeg": [
+          0.068,
+          0.2551,
+          0.0431
+        ],
+        "RightFoot": [
+          0.0332,
+          0.0737,
+          0.0127
+        ],
+        "LeftHand": [
+          0.0023,
+          0.668,
+          0.0458
+        ],
+        "RightHand": [
+          0.1396,
+          0.6365,
+          -0.0566
+        ]
+      },
+      "height": 2.3232399999999997,
+      "width": 0.9807193925886168,
+      "depth": 0.6276344626933739,
+      "scale": 2.3715457430899156,
+      "vertices": 33613
+    }
+  ],
+  "ballThrow": [
+    null,
+    {
+      "character": "goblin",
+      "animator": {
+        "name": "goblin.ballThrow",
+        "seconds": 0.7505750000000001,
+        "blend": 0.06,
+        "speed": 0.25,
+        "priority": 200,
+        "loop": false,
+        "token": "preview:5",
+        "contactTime": null,
+        "duration": 10
+      },
+      "activeTracks": 195,
+      "sampleMs": 0.10000000149011612,
+      "clips": 36,
+      "state": "ready",
+      "error": null,
+      "bones": 65,
+      "meshes": 2,
+      "meshNames": [
+        "__root__~g2(0v)",
+        "tripo_node_b0d273b1-8976-4036-80dc-f482eea67419~g2(33613v)"
+      ],
+      "geometryIds": [
+        -1,
+        469
+      ],
+      "animation": "goblin.ballThrow",
+      "animationPlaying": true,
+      "animationSpeed": 0.25,
+      "animationFrame": 45.03450000000001,
+      "skeletonId": 15096,
+      "clipHipsOffset": null,
+      "holdFrame": 0,
+      "seated": false,
+      "seatedApplied": false,
+      "restHips": [
+        0.0019,
+        0.4764,
+        0.0172
+      ],
+      "hipsNow": [
+        0.0019,
+        0.4532,
+        0.0172
+      ],
+      "joints": {
+        "Hips": [
+          -0.0019,
+          0.4532,
+          0.0172
+        ],
+        "Spine": [
+          -0.0016,
+          0.4912,
+          0.0111
+        ],
+        "Head": [
+          0.0219,
+          0.7332,
+          0.0121
+        ],
+        "LeftUpLeg": [
+          -0.055,
+          0.4103,
+          0.0351
+        ],
+        "LeftLeg": [
+          -0.0897,
+          0.2514,
+          0.0534
+        ],
+        "LeftFoot": [
+          -0.1176,
+          0.0813,
+          -0.0196
+        ],
+        "RightUpLeg": [
+          0.0478,
+          0.4046,
+          0.0052
+        ],
+        "RightLeg": [
+          0.0918,
+          0.2529,
+          0.0481
+        ],
+        "RightFoot": [
+          0.0907,
+          0.0766,
+          -0.0149
+        ],
+        "LeftHand": [
+          -0.1287,
+          0.4376,
+          0.0743
+        ],
+        "RightHand": [
+          0.1129,
+          0.4479,
+          0.0288
+        ]
+      },
+      "height": 2.3232399999999997,
+      "width": 0.9807193925886168,
+      "depth": 0.6276344626933739,
+      "scale": 2.3715457430899156,
+      "vertices": 33613
+    }
+  ],
+  "pickup": [
+    null,
+    {
+      "character": "goblin",
+      "animator": {
+        "name": "goblin.pickup",
+        "seconds": 0.8797750000011177,
+        "blend": 0.06,
+        "speed": 0.25,
+        "priority": 200,
+        "loop": false,
+        "token": "preview:6",
+        "contactTime": null,
+        "duration": 9.3332
+      },
+      "activeTracks": 195,
+      "sampleMs": 0.09999999403953552,
+      "clips": 36,
+      "state": "ready",
+      "error": null,
+      "bones": 65,
+      "meshes": 2,
+      "meshNames": [
+        "__root__~g2(0v)",
+        "tripo_node_b0d273b1-8976-4036-80dc-f482eea67419~g2(33613v)"
+      ],
+      "geometryIds": [
+        -1,
+        469
+      ],
+      "animation": "goblin.pickup",
+      "animationPlaying": true,
+      "animationSpeed": 0.25,
+      "animationFrame": 52.786500000067065,
+      "skeletonId": 15096,
+      "clipHipsOffset": null,
+      "holdFrame": 0,
+      "seated": false,
+      "seatedApplied": false,
+      "restHips": [
+        0.0019,
+        0.4764,
+        0.0172
+      ],
+      "hipsNow": [
+        0.0019,
+        0.417,
+        0.0172
+      ],
+      "joints": {
+        "Hips": [
+          -0.0019,
+          0.417,
           0.0172
         ],
         "Spine": [
           0.0006,
-          0.4503,
-          0.0339
+          0.4516,
+          0.0337
         ],
         "Head": [
-          0.0218,
-          0.5468,
-          0.252
+          0.0216,
+          0.5495,
+          0.2512
         ],
         "LeftUpLeg": [
           -0.0585,
-          0.3788,
-          -0.0029
+          0.3798,
+          -0.0027
         ],
         "LeftLeg": [
-          -0.0721,
-          0.2581,
-          0.1067
+          -0.0719,
+          0.2584,
+          0.1061
         ],
         "LeftFoot": [
           -0.05,
-          0.0815,
+          0.0816,
           0.0485
         ],
         "RightUpLeg": [
           0.0483,
-          0.3746,
-          -0.0104
+          0.3758,
+          -0.0103
         ],
         "RightLeg": [
-          0.0653,
-          0.2581,
-          0.1031
+          0.0652,
+          0.2584,
+          0.1025
         ],
         "RightFoot": [
           0.0666,
-          0.0807,
+          0.0808,
           0.0433
         ],
         "LeftHand": [
-          -0.0762,
-          0.2978,
-          0.1844
+          -0.0773,
+          0.2999,
+          0.1837
         ],
         "RightHand": [
-          0.1311,
-          0.2858,
-          0.1724
+          0.1314,
+          0.2885,
+          0.1711
         ]
       },
       "height": 2.3232399999999997,
@@ -802,9 +809,10 @@
   "victory": [
     null,
     {
+      "character": "goblin",
       "animator": {
         "name": "goblin.victory",
-        "seconds": 0.7536499999992555,
+        "seconds": 0.7548500000003724,
         "blend": 0.06,
         "speed": 0.25,
         "priority": 200,
@@ -826,13 +834,13 @@
       ],
       "geometryIds": [
         -1,
-        468
+        469
       ],
       "animation": "goblin.victory",
       "animationPlaying": true,
       "animationSpeed": 0.25,
-      "animationFrame": 45.21899999995533,
-      "skeletonId": 15095,
+      "animationFrame": 45.29100000002234,
+      "skeletonId": 15096,
       "clipHipsOffset": null,
       "holdFrame": 0,
       "seated": false,
@@ -855,28 +863,28 @@
         ],
         "Spine": [
           0.0054,
-          0.4828,
+          0.4827,
           0.0085
         ],
         "Head": [
-          0.0287,
-          0.7214,
-          -0.0079
+          0.0285,
+          0.7213,
+          -0.0082
         ],
         "LeftUpLeg": [
           -0.0575,
-          0.4056,
-          0.0014
+          0.4055,
+          0.0015
         ],
         "LeftLeg": [
-          -0.0606,
+          -0.0608,
           0.242,
-          -0.0034
+          -0.0033
         ],
         "LeftFoot": [
-          -0.0351,
-          0.0843,
-          -0.1009
+          -0.0353,
+          0.0845,
+          -0.1014
         ],
         "RightUpLeg": [
           0.0397,
@@ -884,24 +892,24 @@
           0.0456
         ],
         "RightLeg": [
-          0.0103,
-          0.267,
-          0.141
+          0.0106,
+          0.2663,
+          0.1403
         ],
         "RightFoot": [
-          0.0502,
-          0.1168,
-          0.0366
+          0.0501,
+          0.116,
+          0.036
         ],
         "LeftHand": [
           -0.1011,
-          0.6151,
-          0.0348
+          0.6149,
+          0.0347
         ],
         "RightHand": [
-          0.0758,
-          0.617,
-          0.0653
+          0.0756,
+          0.6169,
+          0.0654
         ]
       },
       "height": 2.3232399999999997,
@@ -914,9 +922,10 @@
   "defeat": [
     null,
     {
+      "character": "goblin",
       "animator": {
         "name": "goblin.defeat",
-        "seconds": 0.629800000000559,
+        "seconds": 0.6297749999992551,
         "blend": 0.06,
         "speed": 0.25,
         "priority": 200,
@@ -926,7 +935,7 @@
         "duration": 11.3332
       },
       "activeTracks": 195,
-      "sampleMs": 0,
+      "sampleMs": 0.20000000298023224,
       "clips": 36,
       "state": "ready",
       "error": null,
@@ -938,13 +947,13 @@
       ],
       "geometryIds": [
         -1,
-        468
+        469
       ],
       "animation": "goblin.defeat",
       "animationPlaying": true,
       "animationSpeed": 0.25,
-      "animationFrame": 37.78800000003354,
-      "skeletonId": 15095,
+      "animationFrame": 37.78649999995531,
+      "skeletonId": 15096,
       "clipHipsOffset": null,
       "holdFrame": 0,
       "seated": false,
@@ -1012,7 +1021,7 @@
         ],
         "RightHand": [
           0.3032,
-          0.6809,
+          0.681,
           -0.0457
         ]
       },
@@ -1026,9 +1035,10 @@
   "ko": [
     null,
     {
+      "character": "goblin",
       "animator": {
         "name": "goblin.ko",
-        "seconds": 0.7574249999996276,
+        "seconds": 0.7549499999999999,
         "blend": 0.06,
         "speed": 0.25,
         "priority": 200,
@@ -1038,7 +1048,7 @@
         "duration": 9.1664
       },
       "activeTracks": 195,
-      "sampleMs": 0.09999999776482582,
+      "sampleMs": 0.10000000149011612,
       "clips": 36,
       "state": "ready",
       "error": null,
@@ -1050,13 +1060,13 @@
       ],
       "geometryIds": [
         -1,
-        468
+        469
       ],
       "animation": "goblin.ko",
       "animationPlaying": true,
       "animationSpeed": 0.25,
-      "animationFrame": 45.445499999977656,
-      "skeletonId": 15095,
+      "animationFrame": 45.297,
+      "skeletonId": 15096,
       "clipHipsOffset": null,
       "holdFrame": 0,
       "seated": false,
@@ -1068,63 +1078,63 @@
       ],
       "hipsNow": [
         0.0019,
-        0.3705,
+        0.3712,
         0.0172
       ],
       "joints": {
         "Hips": [
           -0.0019,
-          0.3705,
+          0.3712,
           0.0172
         ],
         "Spine": [
-          -0.0048,
-          0.3891,
+          -0.0047,
+          0.3898,
           -0.0163
         ],
         "Head": [
-          0.0165,
-          0.4859,
+          0.0164,
+          0.4869,
           -0.2383
         ],
         "LeftUpLeg": [
           -0.0517,
-          0.3528,
-          0.064
+          0.3533,
+          0.0639
         ],
         "LeftLeg": [
-          -0.1199,
-          0.247,
-          0.1685
+          -0.1201,
+          0.2471,
+          0.1679
         ],
         "LeftFoot": [
-          -0.2013,
+          -0.2011,
           0.08,
-          0.1453
+          0.1443
         ],
         "RightUpLeg": [
           0.0526,
-          0.3362,
+          0.3368,
           0.046
         ],
         "RightLeg": [
-          0.1485,
-          0.242,
-          0.1393
+          0.1483,
+          0.2422,
+          0.139
         ],
         "RightFoot": [
-          0.0603,
-          0.0878,
-          0.0801
+          0.0608,
+          0.0881,
+          0.0787
         ],
         "LeftHand": [
-          -0.1572,
-          0.648,
-          -0.1489
+          -0.1573,
+          0.6486,
+          -0.1485
         ],
         "RightHand": [
-          0.1727,
-          0.5701,
+          0.1717,
+          0.5721,
           -0.1381
         ]
       },
@@ -1138,9 +1148,10 @@
   "fall": [
     null,
     {
+      "character": "goblin",
       "animator": {
         "name": "goblin.fall",
-        "seconds": 0.8423250000001866,
+        "seconds": 0.8420999999996274,
         "blend": 0.06,
         "speed": 0.25,
         "priority": 200,
@@ -1150,7 +1161,7 @@
         "duration": 2.5
       },
       "activeTracks": 195,
-      "sampleMs": 0.19999999925494194,
+      "sampleMs": 0.30000000447034836,
       "clips": 36,
       "state": "ready",
       "error": null,
@@ -1162,13 +1173,13 @@
       ],
       "geometryIds": [
         -1,
-        468
+        469
       ],
       "animation": "goblin.fall",
       "animationPlaying": true,
       "animationSpeed": 0.25,
-      "animationFrame": 50.539500000011195,
-      "skeletonId": 15095,
+      "animationFrame": 50.52599999997764,
+      "skeletonId": 15096,
       "clipHipsOffset": null,
       "holdFrame": 0,
       "seated": false,
@@ -1191,7 +1202,7 @@
         ],
         "Spine": [
           -0.0124,
-          0.4694,
+          0.4695,
           0.0124
         ],
         "Head": [
@@ -1225,17 +1236,17 @@
           -0.0316
         ],
         "RightFoot": [
-          0.1365,
+          0.1364,
           0.0781,
           -0.0968
         ],
         "LeftHand": [
           0.0193,
-          0.5338,
+          0.5337,
           0.1395
         ],
         "RightHand": [
-          0.1856,
+          0.1855,
           0.3883,
           0.0079
         ]

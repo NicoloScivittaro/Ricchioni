@@ -1,0 +1,21 @@
+
+=== 1. CATALOGO — 50 abilita' complete e coerenti ===
+
+=== 2. INPUT — ogni gioco col controller ha il tasto ABILITA' (stessa fonte della schermata CONTROLLI) ===
+
+=== 3. BUDGET — niente spam: l'impatto ALTO ha un limite ===
+  impatto: 28 ALTO · 27 MEDIO · 0 BASSO
+
+=== 4a. ARENA — 5 personaggi: trigger valido / invalido / doppia attivazione / pulizia ===
+
+=== 4b. DODGEBALL — trigger valido / invalido / stato / pulizia ===
+
+=== 4c. CALCIO — trigger valido / invalido / pulizia ===
+
+=== 4d. PALLAVOLO — trigger valido / invalido / pulizia ===
+
+=== 4e. SPARATORIA — trigger valido / invalido / pulizia alla morte ===
+
+=== 4f. STATO PRESENTAZIONALE — etichette leggibili ===
+
+✅ 929/929 controlli ok

@@ -11,6 +11,12 @@ import { debugEnabled } from '../../core/debug';
 import { presentationOf } from '../../../shared/characterPresentation';
 import { decorateHead, makeCharMaterials } from '../characters/characterModel';
 import { GoblinVisualInstance, goblinNewEnabled, goblinTuning } from '../characters/goblinVisual';
+import { JUDOKA_PROFILE } from '../characters/judokaProfile';
+import { judokaNewEnabled } from '../characters/judokaVisualMode';
+import { buttafuoriNewEnabled } from '../characters/buttafuoriVisualMode';
+import { BUTTAFUORI_PROFILE } from '../characters/buttafuoriProfile';
+import { CIRO_PROFILE } from '../characters/ciroProfile';
+import { ciroNewEnabled } from '../characters/ciroVisualMode';
 import { FpsViewmodel, recoilOf } from '../../controller/fpsViewmodel';
 import * as sfx from '../../controller/fpsAudio';
 import { audio } from '../../core/AudioManager';
@@ -415,12 +421,13 @@ export class BabylonFpsGame {
     // proprio corpo e le altre finestre continuano a vederlo. Nessuna mesh qui è pickable o usata dai raycast
     // (il colpo della Sparatoria è un hitscan AABB in FpsScene, indipendente dal rendering).
     let goblin: GoblinVisualInstance | null = null;
-    if (characterId === 'goblin' && goblinNewEnabled()) {
-      const tuning = goblinTuning();
+    if ((characterId === 'goblin' && goblinNewEnabled())||(characterId==='judoka'&&judokaNewEnabled())||(characterId==='buttafuori'&&buttafuoriNewEnabled())||(characterId==='ciro'&&ciroNewEnabled())) {
+      const tuning = characterId==='goblin'?goblinTuning():{yawDeg:0,scaleMul:1};
       const node = new TransformNode(`fpsGoblin_${pid}`, this.scene);
       node.parent = body;
       node.position.y = -0.9; // la capsula sta a 0,9: i piedi del modello tornano a terra
       goblin = new GoblinVisualInstance(this.scene, node, {
+        profile:characterId==='judoka'?JUDOKA_PROFILE:characterId==='buttafuori'?BUTTAFUORI_PROFILE:characterId==='ciro'?CIRO_PROFILE:undefined,
         height: 1.75,
         yaw: tuning.yawDeg * (Math.PI / 180),
         scaleMul: tuning.scaleMul,

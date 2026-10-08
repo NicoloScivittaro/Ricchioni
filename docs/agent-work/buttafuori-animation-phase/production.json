@@ -1,0 +1,130 @@
+{
+  "origin": "http://localhost:3001/",
+  "rows": [
+    {
+      "query": "",
+      "gallery": false,
+      "debug": false,
+      "models": []
+    },
+    {
+      "query": "?characters=1&buttafuori=new",
+      "gallery": false,
+      "debug": false,
+      "models": []
+    }
+  ],
+  "imported": {
+    "character": "buttafuori",
+    "procedural": false,
+    "animator": {
+      "name": "buttafuori.idle",
+      "seconds": 0.10846666790544987,
+      "speed": 1,
+      "duration": 15.33333333209157,
+      "priority": 0,
+      "loop": true,
+      "token": "buttafuori.idle",
+      "blend": 0.12,
+      "contactTime": null
+    },
+    "activeTracks": 195,
+    "sampleMs": 0.29999999701976776,
+    "clips": 43,
+    "state": "ready",
+    "error": null,
+    "bones": 65,
+    "meshes": 2,
+    "meshNames": [
+      "__root__~g1(0v)",
+      "tripo_node_0d1aa33e-dc6b-421c-b20f-e71fc6cae788~g1(28141v)"
+    ],
+    "geometryIds": [
+      -1,
+      470
+    ],
+    "animation": "buttafuori.idle",
+    "animationPlaying": true,
+    "animationSpeed": 1,
+    "animationFrame": 6.508000074326993,
+    "skeletonId": 9105,
+    "clipHipsOffset": null,
+    "holdFrame": 0,
+    "seated": false,
+    "seatedApplied": false,
+    "restHips": [
+      -0.0134,
+      0.4985,
+      -0.0821
+    ],
+    "hipsNow": [
+      -0.0134,
+      0.4975,
+      -0.0821
+    ],
+    "joints": {
+      "Hips": [
+        0.0134,
+        0.4975,
+        -0.0821
+      ],
+      "Spine": [
+        0.0182,
+        0.5544,
+        -0.095
+      ],
+      "Head": [
+        0.0372,
+        0.822,
+        -0.1358
+      ],
+      "LeftUpLeg": [
+        -0.056,
+        0.4643,
+        -0.0781
+      ],
+      "LeftLeg": [
+        -0.0608,
+        0.2586,
+        -0.0615
+      ],
+      "LeftFoot": [
+        -0.0627,
+        0.0818,
+        -0.0767
+      ],
+      "RightUpLeg": [
+        0.0777,
+        0.4664,
+        -0.0617
+      ],
+      "RightLeg": [
+        0.0857,
+        0.2605,
+        -0.0287
+      ],
+      "RightFoot": [
+        0.0923,
+        0.0905,
+        -0.0841
+      ],
+      "LeftHand": [
+        -0.1695,
+        0.5206,
+        -0.0944
+      ],
+      "RightHand": [
+        0.2414,
+        0.5789,
+        0.0455
+      ]
+    },
+    "height": 2.02568,
+    "width": 1.0204677682808627,
+    "depth": 0.944114775840266,
+    "scale": 2.071374234119159,
+    "vertices": 28141
+  },
+  "oldNewToggle": true,
+  "errors": []
+}

@@ -1,0 +1,35 @@
+✅ quiz       portrait  390x800 · bottoni 5
+✅ quiz       landscape 800x390 · bottoni 5
+✅ quiz       small     360x640 · bottoni 5
+✅ reaction   portrait  390x800 · bottoni 2
+✅ reaction   landscape 800x390 · bottoni 2
+✅ reaction   small     360x640 · bottoni 2
+✅ memory     portrait  390x800 · bottoni 1
+✅ memory     landscape 800x390 · bottoni 1
+✅ memory     small     360x640 · bottoni 5
+✅ arena      portrait  390x800 · bottoni 2
+✅ arena      landscape 800x390 · bottoni 2
+✅ arena      small     360x640 · bottoni 2
+✅ dodgeball  portrait  390x800 · bottoni 3
+✅ dodgeball  landscape 800x390 · bottoni 3
+✅ dodgeball  small     360x640 · bottoni 3
+✅ soccer     portrait  390x800 · bottoni 3
+✅ soccer     landscape 800x390 · bottoni 3
+✅ soccer     small     360x640 · bottoni 3
+✅ volleyball portrait  390x800 · bottoni 3
+✅ volleyball landscape 800x390 · bottoni 3
+✅ volleyball small     360x640 · bottoni 3
+✅ kart3d     portrait  390x800 · bottoni 7
+✅ kart3d     landscape 800x390 · bottoni 7
+✅ kart3d     small     360x640 · bottoni 7
+✅ cultura    portrait  390x800 · bottoni 2
+✅ cultura    landscape 800x390 · bottoni 2
+✅ cultura    small     360x640 · bottoni 2
+✅ fps        portrait  390x800 · bottoni 4
+⚠️  fps        landscape 800x390 · bottoni 4 · fuori schermo: 🔫SPARA(649,-4→777,124)
+✅ fps        small     360x640 · bottoni 4
+⚠️  cornicione portrait  390x800 · bottoni 9 · fuori schermo: ▲(145,-35→245,65) ⭐ ABILITÀ(96,814→294,921)
+⚠️  cornicione landscape 800x390 · bottoni 9 · fuori schermo: ▲(350,-240→450,-140) ◀(240,-130→340,-30) ▶(460,-130→560,-30) ▼(350,-20→450,80) 💥 PESANTE(289,355→511,462) 💨 SCHIVA(305,482→495,589)
+⚠️  cornicione small     360x640 · bottoni 9 · fuori schermo: ▲(130,-115→230,-15) ◀(20,-5→120,95) ▶(240,-5→340,95) 💨 SCHIVA(85,607→275,714) ⭐ ABILITÀ(81,734→279,841)
+
+4 segnalazioni (vedi ⚠️/❌; screenshot in docs/agent-work/morning-playtest/controllers)

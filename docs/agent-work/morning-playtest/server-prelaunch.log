@@ -1,0 +1,90 @@
+
+[1] Un solo giocatore non può avviare
+  ✔ stanza creata (FC2GF)
+  ✔ con 1 giocatore resta in LOBBY
+
+[2] Flusso completo con 3 giocatori (target 30)
+  ✔ stanza creata (F83R8)
+  ✔ doppio START ignorato (round=1)
+  ✔ roundId=1
+  ✔ gioco scelto valido: kart3d
+  ✔ risultato con roundId errato ignorato
+  ✔ pausa/ripresa propagata alla stanza
+  ✔ skip minigioco: nessun punto assegnato
+  ✔ skip → nuovo roundId (2)
+  ✔ ranking normalizzato: 3 giocatori unici
+  ✔ ordine: b, a, poi il mancante c
+  ✔ secondo risultato dello stesso round ignorato (punti invariati)
+  ✔ riconnessione telefono col token: stessa identità
+  ✔ nessun giocatore duplicato dopo la riconnessione
+  ✔ riconnessione host col token: stessa stanza
+  ✔ host riconnesso riceve lo stato
+  ✔ round 2: nessuna ripetizione immediata (reaction)
+  ✔ round 3: nessuna ripetizione immediata (cornicione)
+  ✔ partita finita dopo 3 minigiochi
+  ✔ qualcuno ha raggiunto il target (max 32)
+  ✔ vincitore = punteggio più alto
+  ✔ punti assegnati (totale 79)
+  ✔ varietà di giochi: volleyball, reaction, cornicione
+  ✔ NUOVA PARTITA: giocatori mantenuti
+  ✔ NUOVA PARTITA: punteggi azzerati
+
+[3] Partita con 2 giocatori
+  ✔ stanza creata (PLW3R)
+  ✔ ranking con 2 giocatori
+  ✔ punti validi (no NaN/negativi)
+  ✔ punti assegnati
+  ✔ flusso prosegue (rullo o finale)
+
+[4] Partita con 5 giocatori
+  ✔ stanza creata (BZKSL)
+  ✔ ranking con 5 giocatori
+  ✔ punti validi (no NaN/negativi)
+  ✔ punti assegnati
+  ✔ flusso prosegue (rullo o finale)
+
+[5] Disconnessione durante il rullo
+  ✔ stanza creata (7K2XK)
+  ✔ stanza viva dopo disconnessione nel rullo
+  ✔ il round parte comunque
+
+[6] Spareggio al target (deterministico, mai casuale)
+  ✔ stanza creata (WTNZT)
+  ✔ run 1: partita finita con vincitore
+  ✔ run 1: il vincitore è tra i primi a pari punti (1 a 36)
+  ✔ stanza creata (FENBW)
+  ✔ run 2: partita finita con vincitore
+  ✔ run 2: il vincitore è tra i primi a pari punti (2 a 32)
+  ✔ run 2: parità → vince chi ha il miglior piazzamento nell'ultimo minigioco
+  ✔ stanza creata (ES23B)
+  ✔ run 3: partita finita con vincitore
+  ✔ run 3: il vincitore è tra i primi a pari punti (2 a 32)
+  ✔ run 3: parità → vince chi ha il miglior piazzamento nell'ultimo minigioco
+
+[7] Rullo: 30 round, anti-ripetizione, gioco forzato one-shot
+  ✔ stanza creata (Z4ZXF)
+  ✔ primo round = gioco scelto dall'host
+  ✔ la scelta manuale vale UN round soltanto
+  ✔ nessuna ripetizione immediata su 27 round
+    distribuzione: {"reaction":5,"arena":2,"soccer":2,"kart3d":3,"volleyball":2,"fps":2,"cornicione":3,"memory":2,"cultura":2,"dodgeball":2,"quiz":2}
+  ✔ varietà: 11 giochi diversi su 27 round
+  ✔ tutti i giochi estratti sono validi/abilitati
+
+[8] Input: raffica di eventi dello stesso telefono non viene scartata
+  ✔ stanza creata (DDSEB)
+    arrivati: axis:move, down:accelerate, up:accelerate, down:drift, up:drift, axis:move
+  ✔ tutti e 6 gli eventi arrivano all'host (arrivati 6)
+  ✔ nessun "up" perso (niente tasti incastrati)
+  ✔ il rilascio del joystick (0,0) arriva sempre
+  ✔ l'ultimo valore di look (3) arriva sempre (1,3)
+  ✔ move e look sono indipendenti
+
+[9] Scelta manuale del prossimo gioco tra un round e l'altro
+  ✔ stanza creata (89SLR)
+  ✔ round 1 = gioco scelto in lobby
+  ✔ durante il gioco la scelta viene ignorata
+  ✔ tra un round e l'altro la scelta viene accettata
+  ✔ round 2 = gioco scelto dopo il round 1
+  ✔ la scelta ha valso UN solo round
+
+✅ PRELAUNCH OK (68 controlli)

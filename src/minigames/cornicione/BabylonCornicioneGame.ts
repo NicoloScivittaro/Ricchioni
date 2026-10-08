@@ -29,8 +29,8 @@ import { FighterHud } from './fighterHud';
 import { FighterFx } from './fighterFx';
 
 const COUNTDOWN_S = 3.2;
-const SHORT: Record<string, string> = { goblin: 'GOBLIN', buttafuori: 'BUTTAFUORI', judoka: 'JUDOKA', dottore: 'DOTTORE', ciro: 'CIRO' };
-const WITH_ARTICLE: Record<string, string> = { goblin: 'IL GOBLIN', buttafuori: 'IL BUTTAFUORI', judoka: 'IL JUDOKA', dottore: 'IL DOTTORE', ciro: 'CIRO' };
+const SHORT: Record<string, string> = { goblin: 'GOBLIN', buttafuori: 'BOSCHI', judoka: 'CARBO', dottore: 'DOTTORE', ciro: 'CIRO' };
+const WITH_ARTICLE: Record<string, string> = { goblin: 'IL GOBLIN', buttafuori: 'BOSCHI', judoka: 'CARBO', dottore: 'IL DOTTORE', ciro: 'CIRO' };
 const HIT_RGB = '#ffe9a8';
 
 type Phase = 'countdown' | 'playing' | 'celebrating';

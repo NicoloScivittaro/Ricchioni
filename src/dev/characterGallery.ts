@@ -9,6 +9,12 @@ import { goblinVisualCounters, goblinVisualDebug, goblinVisualMode, setGoblinVis
 import type { GoblinVisualMode } from '../minigames/characters/goblinVisual';
 import { SceneInstrumentation } from '@babylonjs/core';
 import { goblinAnimationPanel } from './goblinAnimationPanel';
+import { judokaVisualMode, setJudokaVisualMode } from '../minigames/characters/judokaVisualMode';
+import { buttafuoriVisualMode, setButtafuoriVisualMode } from '../minigames/characters/buttafuoriVisualMode';
+import { ciroVisualMode, setCiroVisualMode } from '../minigames/characters/ciroVisualMode';
+import { CIRO_PROFILE } from '../minigames/characters/ciroProfile';
+import { BUTTAFUORI_PROFILE } from '../minigames/characters/buttafuoriProfile';
+import { JUDOKA_PROFILE } from '../minigames/characters/judokaProfile';
 
 /**
  * GALLERIA PERSONAGGI — SOLO SVILUPPO (`npm run dev`) o `?debug=1`, aperta con `?characters=1`. Non esiste nella UX normale.
@@ -73,6 +79,7 @@ export function openCharacterGallery(): void {
   let entities: ArenaEntity[] = [];
   let subjects: VisualSubject[] = [];
   let layout: 'characters'|'compare'|1|2|5 = 'characters';
+  let layoutCharacter:'goblin'|'judoka'|'buttafuori'|'ciro'='goblin';
   let characterIds: (typeof CHARACTER_ORDER)[number][] = [];
   /** (solo test GOBLIN) moltiplicatori di velocità per ENTITÀ GOBLIN: fanno divergere le clip per provarne l'indipendenza. */
   let goblinSpeed = new Map<number, number>();
@@ -82,12 +89,12 @@ export function openCharacterGallery(): void {
     for (const e of entities) e.dispose();
     entities = [];
     subjects = [];
-    characterIds = layout==='characters'?[...CHARACTER_ORDER]:Array.from({length:layout==='compare'?2:layout},()=> 'goblin' as const);
+    characterIds = layout==='characters'?[...CHARACTER_ORDER]:Array.from({length:layout==='compare'?2:layout},()=>layoutCharacter);
     characterIds.forEach((id, i) => {
       const p = CHARACTER_PRESENTATION[id];
       const team = mode === 'teams' ? (i % 2 === 0 ? 'red' : 'blue') : null;
       const garment = team === 'red' ? '#ef4444' : team === 'blue' ? '#3b82f6' : p.accent;
-      const e = new ArenaEntity(scene, dot, garment, id, p.icon, layout==='compare'?(i===0?'LEGACY':'TRIPO'):p.shortName, team, { neutral: mode === 'silhouette',context:'gallery',goblinMode:layout==='compare'&&i===0?'old':undefined });
+      const e = new ArenaEntity(scene, dot, garment, id, p.icon, layout==='compare'?(i===0?'LEGACY':'TRIPO'):p.shortName, team, { neutral: mode === 'silhouette',context:'gallery',goblinMode:layout==='compare'&&i===0?'old':undefined,judokaMode:layout==='compare'&&i===0?'old':undefined,buttafuoriMode:layout==='compare'&&i===0?'old':undefined,ciroMode:layout==='compare'&&i===0?'old':undefined });
       entities.push(e);
       subjects.push({ x: (i - (characterIds.length-1)/2) * SPACING, y: 0, z: 0, vx: 0, vz: 0, facing: Math.PI, alive: true, falling: false, spin: 0, dashing: false, stunTime: 0, hitFlash: 0 });
     });
@@ -130,6 +137,15 @@ export function openCharacterGallery(): void {
     const bNew = btn('GOBLIN TRIPO', goblinVisualMode() === 'new', () => setGoblin('new'));
     bNew.id = 'goblin-new';
     bar.append(sep, bOld, bNew);
+    const jOld=btn('CARBO LEGACY',judokaVisualMode()==='old',()=>setJudoka('old'));
+    const jNew=btn('CARBO TRIPO',judokaVisualMode()==='new',()=>setJudoka('new'));
+    jOld.id='judoka-old';jNew.id='judoka-new';bar.append(jOld,jNew);
+    const bLegacy=btn('BOSCHI LEGACY',buttafuoriVisualMode()==='old',()=>setButtafuori('old'));
+    const bTripo=btn('BOSCHI TRIPO',buttafuoriVisualMode()==='new',()=>setButtafuori('new'));
+    bLegacy.id='buttafuori-old';bTripo.id='buttafuori-new';bar.append(bLegacy,bTripo);
+    const dLegacy=btn('CIRO LEGACY',ciroVisualMode()==='old',()=>setCiro('old'));
+    const dTripo=btn('CIRO TRIPO',ciroVisualMode()==='new',()=>setCiro('new'));
+    dLegacy.id='ciro-old';dTripo.id='ciro-new';bar.append(dLegacy,dTripo);
     const sep2 = document.createElement('span');
     sep2.style.cssText = 'width:12px';
     bar.append(sep2);
@@ -151,12 +167,24 @@ export function openCharacterGallery(): void {
     build();
     render();
   };
+  const setJudoka=(m:GoblinVisualMode):void=>{setJudokaVisualMode(m);build();render();};
 
+  const setButtafuori=(m:GoblinVisualMode):void=>{setButtafuoriVisualMode(m);build();render();};
+  const setCiro=(m:GoblinVisualMode):void=>{setCiroVisualMode(m);build();render();};
   build();
   const panel=goblinAnimationPanel(scene,wrap,()=>entities,(n)=>{
-    layout=n;setGoblinVisualMode('new');build();
+    layout=n;layoutCharacter='goblin';setGoblinVisualMode('new');build();
     cam.setTarget(new Vector3(0,1.35,0));cam.radius=n==='compare'?6.5:n===1?5:13.5;
   });
+  const leftPanels=document.createElement('div');leftPanels.style.cssText='position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:8px;max-height:65%;overflow:auto;z-index:2';wrap.append(leftPanels);
+  const judokaPanel=goblinAnimationPanel(scene,leftPanels,()=>entities,n=>{
+    layout=n;layoutCharacter='judoka';setJudokaVisualMode('new');build();
+    cam.setTarget(new Vector3(0,1.35,0));cam.radius=n==='compare'?6.5:n===1?5:13.5;
+  },JUDOKA_PROFILE.clips,'judoka');
+  const buttafuoriLayout=(n:'characters'|'compare'|1|2|5):void=>{layout=n;layoutCharacter='buttafuori';setButtafuoriVisualMode('new');build();cam.setTarget(new Vector3(0,1.35,0));cam.radius=n==='compare'?6.5:n===1?5:13.5;};
+  const buttafuoriPanel=goblinAnimationPanel(scene,leftPanels,()=>entities,buttafuoriLayout,BUTTAFUORI_PROFILE.clips,'buttafuori');
+  const ciroLayout=(n:'characters'|'compare'|1|2|5):void=>{layout=n;layoutCharacter='ciro';setCiroVisualMode('new');build();cam.setTarget(new Vector3(0,1.35,0));cam.radius=n==='compare'?6.5:n===1?5:13.5;};
+  const ciroPanel=goblinAnimationPanel(scene,leftPanels,()=>entities,ciroLayout,CIRO_PROFILE.clips,'ciro');
   const instrumentation=new SceneInstrumentation(scene);
   instrumentation.captureAnimationsTime=true;
   // MISURE DEV (per il pilota): frame time della finestra scorrevole + draw call e renderer dichiarati dal motore.
@@ -217,7 +245,7 @@ export function openCharacterGallery(): void {
       }
       entities[i].updateVisual(p, dt, now);
     });
-    panel.update();
+    panel.update();judokaPanel.update();buttafuoriPanel.update();ciroPanel.update();
     scene.render();
   });
   window.addEventListener('resize', () => engine.resize());
@@ -232,11 +260,22 @@ export function openCharacterGallery(): void {
     perf,
     preview: panel.preview,
     diagnostics: panel.diagnostics,
-    setLayout: (n:'characters'|'compare'|1|2|5)=>{layout=n;setGoblinVisualMode('new');build();cam.setTarget(new Vector3(0,1.35,0));cam.radius=n==='compare'?6.5:n===1?5:13.5;},
+    setLayout: (n:'characters'|'compare'|1|2|5)=>{layout=n;layoutCharacter='goblin';setGoblinVisualMode('new');build();cam.setTarget(new Vector3(0,1.35,0));cam.radius=n==='compare'?6.5:n===1?5:13.5;},
+    setJudokaLayout: (n:'characters'|'compare'|1|2|5)=>{layout=n;layoutCharacter='judoka';setJudokaVisualMode('new');build();cam.setTarget(new Vector3(0,1.35,0));cam.radius=n==='compare'?6.5:n===1?5:13.5;},
+    judokaPreview:judokaPanel.preview,
+    setButtafuoriLayout:buttafuoriLayout,
+    buttafuoriPreview:buttafuoriPanel.preview,
+    buttafuoriDiagnostics:buttafuoriPanel.diagnostics,
+    setCiroLayout:ciroLayout,
+    ciroPreview:ciroPanel.preview,
+    ciroDiagnostics:ciroPanel.diagnostics,
     sample:()=>entities.map(e=>e.goblinDebug()),
     animationCost:()=>({engineAnimationMs:instrumentation.animationsTimeCounter.current,samplerMs:entities.reduce((n,e)=>n+(e.goblinDebug()?.sampleMs??0),0)}),
     // --- GOBLIN TRIPO (pilota, solo DEV): selettore e letture per il confronto OLD/NEW
     setGoblin,
+    setJudoka,
+    setButtafuori,
+    setCiro,
     /** conteggi del pilota senza toccare la scena: usabile anche dopo la chiusura della galleria */
     goblinCounters: () => goblinVisualCounters(),
     /** (solo test) vista deterministica: fronte/lato/retro con la STESSA luce e lo STESSO posto. */

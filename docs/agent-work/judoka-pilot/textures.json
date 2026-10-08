@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Normal",
+    "mime": "image/png",
+    "dimensions": [
+      4096,
+      4096
+    ],
+    "bytes": 3503642,
+    "rgba8MipMiB": 85.33333333333333
+  },
+  {
+    "name": "Color",
+    "mime": "image/jpeg",
+    "dimensions": [
+      4096,
+      4096
+    ],
+    "bytes": 1479400,
+    "rgba8MipMiB": 85.33333333333333
+  },
+  {
+    "name": "judo_figure_3d_model_metallic-judo_figure_3d_model_roughness",
+    "mime": "image/png",
+    "dimensions": [
+      4096,
+      4096
+    ],
+    "bytes": 6871734,
+    "rgba8MipMiB": 85.33333333333333
+  }
+]

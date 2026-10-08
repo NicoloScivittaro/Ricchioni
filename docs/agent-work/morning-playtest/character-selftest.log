@@ -1,0 +1,60 @@
+✅ config di presentazione valida per 5 personaggi (0 problemi)
+✅ i 5 personaggi ufficiali hanno tutti una presentazione
+✅ id assente/sconosciuto = null (fallback neutro, nessun crash)
+✅ goblin: ritratto /characters/nicolo.jpg (520x693) con ritaglio testa 252,100 r92 dentro l'immagine
+✅ buttafuori: ritratto /characters/christian.jpg (520x780) con ritaglio testa 216,138 r82 dentro l'immagine
+✅ dottore: ritratto /characters/victor.jpg (520x780) con ritaglio testa 226,112 r84 dentro l'immagine
+✅ judoka: ritratto /characters/judoka.jpg (520x693) con ritaglio testa 204,82 r80 dentro l'immagine
+✅ ciro: ritratto /characters/ciro.jpg (520x693) con ritaglio testa 196,82 r80 dentro l'immagine
+✅ goblin: battute per "hit"
+✅ goblin: battute per "bigHit"
+✅ goblin: battute per "ability"
+✅ goblin: battute per "elimination"
+✅ goblin: battute per "victory"
+✅ goblin: battute per "defeat"
+✅ buttafuori: battute per "hit"
+✅ buttafuori: battute per "bigHit"
+✅ buttafuori: battute per "ability"
+✅ buttafuori: battute per "elimination"
+✅ buttafuori: battute per "victory"
+✅ buttafuori: battute per "defeat"
+✅ dottore: battute per "hit"
+✅ dottore: battute per "bigHit"
+✅ dottore: battute per "ability"
+✅ dottore: battute per "elimination"
+✅ dottore: battute per "victory"
+✅ dottore: battute per "defeat"
+✅ judoka: battute per "hit"
+✅ judoka: battute per "bigHit"
+✅ judoka: battute per "ability"
+✅ judoka: battute per "elimination"
+✅ judoka: battute per "victory"
+✅ judoka: battute per "defeat"
+✅ ciro: battute per "hit"
+✅ ciro: battute per "bigHit"
+✅ ciro: battute per "ability"
+✅ ciro: battute per "elimination"
+✅ ciro: battute per "victory"
+✅ ciro: battute per "defeat"
+✅ prima battuta concessa
+✅ una seconda battuta subito dopo (altro personaggio) viene scartata: mai due bolle insieme
+✅ lo stesso personaggio non parla di nuovo prima di 9 s
+✅ dopo il distacco globale un altro personaggio puo' parlare
+✅ la vittoria passa sempre (succede una volta per round)
+✅ mai la stessa battuta due volte di fila
+✅ nessuna battuta per giocatori senza personaggio
+✅ goblin: icona e simbolo d'abilita' vettoriali presenti
+✅ goblin: le icone non contengono emoji
+✅ buttafuori: icona e simbolo d'abilita' vettoriali presenti
+✅ buttafuori: le icone non contengono emoji
+✅ dottore: icona e simbolo d'abilita' vettoriali presenti
+✅ dottore: le icone non contengono emoji
+✅ judoka: icona e simbolo d'abilita' vettoriali presenti
+✅ judoka: le icone non contengono emoji
+✅ ciro: icona e simbolo d'abilita' vettoriali presenti
+✅ ciro: le icone non contengono emoji
+✅ ogni personaggio ha il "peso" delle pose (molle)
+✅ nessun file di gameplay/abilita' importa la presentazione
+✅ il server non usa la presentazione (nessun effetto su regole/punteggi)
+
+TUTTO OK

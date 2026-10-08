@@ -1,0 +1,9 @@
+file:///C:/Users/niluf.PC-NIKO/Desktop/Ricchioni/scripts/e2e/morning-playtest.mjs:11
+ throw new Error(`Timeout ${what}`);
+       ^
+
+Error: Timeout create next room
+    at until (file:///C:/Users/niluf.PC-NIKO/Desktop/Ricchioni/scripts/e2e/morning-playtest.mjs:11:8)
+    at async file:///C:/Users/niluf.PC-NIKO/Desktop/Ricchioni/scripts/e2e/morning-playtest.mjs:25:3
+
+Node.js v24.18.0

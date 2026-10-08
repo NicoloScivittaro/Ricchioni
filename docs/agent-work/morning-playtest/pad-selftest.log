@@ -1,0 +1,149 @@
+✅ sotto la deadzone (grandezza 0.14 < 0.16) = (0,0)
+✅ sull'asse, appena sotto la soglia = 0
+✅ appena sopra la soglia l'uscita parte da ~0 (nessuno scalino)
+✅ stick a fondo = 1
+✅ diagonale (0.9,0.9): grandezza clampata a 1 e direzione a 45°
+✅ cancello quadrato (1,1): la diagonale NON e' piu' veloce (grandezza 1, non 1.41)
+✅ a meta' corsa la grandezza e' rimappata (soglia..1)->(0..1)
+✅ la rimappatura conserva la direzione (nessuna distorsione per asse)
+✅ NaN/undefined => (0,0), niente crash
+✅ uscita monotona crescente con la grandezza
+✅ 8 direzioni a fondo corsa: stessa grandezza (1)
+✅ deadzone di un asse (grilletto): 0 sotto soglia, ±1 a fondo
+✅ grilletto analogico 0..1
+✅ grilletto solo-digitale (value 0 ma pressed) => 1
+✅ grilletto assente => 0
+✅ curva di mira: piccoli movimenti piu' precisi, fondo corsa = 1
+✅ bordo: prima pressione = pressed
+✅ bordo: tenuto = ne' pressed ne' released
+✅ bordo: rilascio = released
+✅ riconosce Xbox
+✅ riconosce DualSense
+✅ riconosce DualShock 4
+✅ sconosciuto = generico
+✅ simboli per famiglia (posizione, non nome)
+✅ nomi brevi (mai l'id grezzo)
+✅ id vuoto => "Controller"
+✅ quiz: inputMode dichiarato nel registry (GAMEPAD)
+✅ quiz: inputMode GAMEPAD => esiste il profilo di input
+✅ reaction: inputMode dichiarato nel registry (GAMEPAD)
+✅ reaction: inputMode GAMEPAD => esiste il profilo di input
+✅ memory: inputMode dichiarato nel registry (GAMEPAD)
+✅ memory: inputMode GAMEPAD => esiste il profilo di input
+✅ arena: inputMode dichiarato nel registry (GAMEPAD)
+✅ arena: inputMode GAMEPAD => esiste il profilo di input
+✅ dodgeball: inputMode dichiarato nel registry (GAMEPAD)
+✅ dodgeball: inputMode GAMEPAD => esiste il profilo di input
+✅ soccer: inputMode dichiarato nel registry (GAMEPAD)
+✅ soccer: inputMode GAMEPAD => esiste il profilo di input
+✅ volleyball: inputMode dichiarato nel registry (GAMEPAD)
+✅ volleyball: inputMode GAMEPAD => esiste il profilo di input
+✅ kart3d: inputMode dichiarato nel registry (GAMEPAD)
+✅ kart3d: inputMode GAMEPAD => esiste il profilo di input
+✅ cultura: inputMode dichiarato nel registry (PHONE_TEXT)
+✅ cultura: gioco da telefono => nessun profilo gamepad
+✅ fps: inputMode dichiarato nel registry (GAMEPAD)
+✅ fps: inputMode GAMEPAD => esiste il profilo di input
+✅ cornicione: inputMode dichiarato nel registry (GAMEPAD)
+✅ cornicione: inputMode GAMEPAD => esiste il profilo di input
+✅ profilo "arena" corrisponde a un minigioco del registry
+✅ profilo "dodgeball" corrisponde a un minigioco del registry
+✅ profilo "soccer" corrisponde a un minigioco del registry
+✅ profilo "volleyball" corrisponde a un minigioco del registry
+✅ profilo "cornicione" corrisponde a un minigioco del registry
+✅ profilo "kart3d" corrisponde a un minigioco del registry
+✅ profilo "memory" corrisponde a un minigioco del registry
+✅ profilo "reaction" corrisponde a un minigioco del registry
+✅ profilo "quiz" corrisponde a un minigioco del registry
+✅ profilo "fps" corrisponde a un minigioco del registry
+✅ Cultura o Cazzata resta PHONE_TEXT
+✅ arena: controlId ben formati e nessun tasto fisico usato due volte
+✅ dodgeball: controlId ben formati e nessun tasto fisico usato due volte
+✅ soccer: controlId ben formati e nessun tasto fisico usato due volte
+✅ volleyball: controlId ben formati e nessun tasto fisico usato due volte
+✅ cornicione: controlId ben formati e nessun tasto fisico usato due volte
+✅ kart3d: controlId ben formati e nessun tasto fisico usato due volte
+✅ memory: controlId ben formati e nessun tasto fisico usato due volte
+✅ reaction: controlId ben formati e nessun tasto fisico usato due volte
+✅ quiz: controlId ben formati e nessun tasto fisico usato due volte
+✅ fps: controlId ben formati e nessun tasto fisico usato due volte
+✅ "Xbox Wireless Controller" = Xbox (contiene "wireless controller" ma non è PlayStation)
+✅ DualShock 4 ("Wireless Controller", vendor 054c) = PlayStation
+✅ generico standard: A / B / X / Y (mai nomi tecnici tipo PRIMARY accanto ad "A" o "✕")
+✅ Xbox + generico nella stessa stanza: un solo "A"
+✅ Xbox + PlayStation: "RT / R2"
+✅ DualShock 4 (id con "Sony") = PlayStation
+✅ binding: LEFT STICK; RT = R2 su PlayStation, RT su Xbox
+✅ arena: ogni voce di controls produce esattamente un binding (3 voci, 3 binding)
+✅ arena: ogni controllo ha azione e testo per la schermata CONTROLLI
+✅ arena: il tasto PRIMARY -> "dash" e' lo STESSO mostrato nella schermata comandi
+✅ arena: il tasto SECONDARY -> "ability" e' lo STESSO mostrato nella schermata comandi
+✅ dodgeball: ogni voce di controls produce esattamente un binding (4 voci, 4 binding)
+✅ dodgeball: ogni controllo ha azione e testo per la schermata CONTROLLI
+✅ dodgeball: il tasto RT -> "throw" e' lo STESSO mostrato nella schermata comandi
+✅ dodgeball: il tasto PRIMARY -> "dodge" e' lo STESSO mostrato nella schermata comandi
+✅ dodgeball: il tasto SECONDARY -> "ability" e' lo STESSO mostrato nella schermata comandi
+✅ soccer: ogni voce di controls produce esattamente un binding (5 voci, 5 binding)
+✅ soccer: ogni controllo ha azione e testo per la schermata CONTROLLI
+✅ soccer: il tasto RT -> "shoot" e' lo STESSO mostrato nella schermata comandi
+✅ soccer: il tasto PRIMARY -> "shoot" e' lo STESSO mostrato nella schermata comandi
+✅ soccer: il tasto LEFT -> "dash" e' lo STESSO mostrato nella schermata comandi
+✅ soccer: il tasto TOP -> "ability" e' lo STESSO mostrato nella schermata comandi
+✅ volleyball: ogni voce di controls produce esattamente un binding (4 voci, 4 binding)
+✅ volleyball: ogni controllo ha azione e testo per la schermata CONTROLLI
+✅ volleyball: il tasto LEFT -> "jump" e' lo STESSO mostrato nella schermata comandi
+✅ volleyball: il tasto PRIMARY -> "hit" e' lo STESSO mostrato nella schermata comandi
+✅ volleyball: il tasto SECONDARY -> "ability" e' lo STESSO mostrato nella schermata comandi
+✅ cornicione: ogni voce di controls produce esattamente un binding (6 voci, 6 binding)
+✅ cornicione: ogni controllo ha azione e testo per la schermata CONTROLLI
+✅ cornicione: il tasto PRIMARY -> "jump" e' lo STESSO mostrato nella schermata comandi
+✅ cornicione: il tasto LEFT -> "light" e' lo STESSO mostrato nella schermata comandi
+✅ cornicione: il tasto TOP -> "heavy" e' lo STESSO mostrato nella schermata comandi
+✅ cornicione: il tasto SECONDARY -> "dodge" e' lo STESSO mostrato nella schermata comandi
+✅ cornicione: il tasto RB -> "ability" e' lo STESSO mostrato nella schermata comandi
+✅ kart3d: ogni voce di controls produce esattamente un binding (6 voci, 6 binding)
+✅ kart3d: ogni controllo ha azione e testo per la schermata CONTROLLI
+✅ kart3d: il tasto RT -> "up" e' lo STESSO mostrato nella schermata comandi
+✅ kart3d: il tasto LT -> "down" e' lo STESSO mostrato nella schermata comandi
+✅ kart3d: il tasto PRIMARY -> "drift" e' lo STESSO mostrato nella schermata comandi
+✅ kart3d: il tasto LEFT -> "item" e' lo STESSO mostrato nella schermata comandi
+✅ kart3d: il tasto TOP -> "ability" e' lo STESSO mostrato nella schermata comandi
+✅ memory: ogni voce di controls produce esattamente un binding (5 voci, 5 binding)
+✅ memory: ogni controllo ha azione e testo per la schermata CONTROLLI
+✅ memory: il tasto TOP -> "c0" e' lo STESSO mostrato nella schermata comandi
+✅ memory: il tasto SECONDARY -> "c1" e' lo STESSO mostrato nella schermata comandi
+✅ memory: il tasto PRIMARY -> "c2" e' lo STESSO mostrato nella schermata comandi
+✅ memory: il tasto LEFT -> "c3" e' lo STESSO mostrato nella schermata comandi
+✅ memory: il tasto RB -> "ability" e' lo STESSO mostrato nella schermata comandi
+✅ reaction: ogni voce di controls produce esattamente un binding (2 voci, 2 binding)
+✅ reaction: ogni controllo ha azione e testo per la schermata CONTROLLI
+✅ reaction: il tasto PRIMARY -> "action" e' lo STESSO mostrato nella schermata comandi
+✅ reaction: il tasto RB -> "ability" e' lo STESSO mostrato nella schermata comandi
+✅ quiz: ogni voce di controls produce esattamente un binding (4 voci, 4 binding)
+✅ quiz: ogni controllo ha azione e testo per la schermata CONTROLLI
+✅ quiz: il tasto DPAD_LEFT -> "selectPrev" e' lo STESSO mostrato nella schermata comandi
+✅ quiz: il tasto DPAD_RIGHT -> "selectNext" e' lo STESSO mostrato nella schermata comandi
+✅ quiz: il tasto PRIMARY -> "confirm" e' lo STESSO mostrato nella schermata comandi
+✅ quiz: il tasto RB -> "ability" e' lo STESSO mostrato nella schermata comandi
+✅ fps: ogni voce di controls produce esattamente un binding (6 voci, 6 binding)
+✅ fps: ogni controllo ha azione e testo per la schermata CONTROLLI
+✅ fps: il tasto RT -> "fire" e' lo STESSO mostrato nella schermata comandi
+✅ fps: il tasto PRIMARY -> "dash" e' lo STESSO mostrato nella schermata comandi
+✅ fps: il tasto LEFT -> "reload" e' lo STESSO mostrato nella schermata comandi
+✅ fps: il tasto RB -> "ability" e' lo STESSO mostrato nella schermata comandi
+✅ Arena: move = stick sinistro, dash = PRIMARY (A/✕), ability = SECONDARY (B/◯): i controlId che il gioco legge già
+✅ kart3d: profilo presente
+✅ Kart: sterzo = stick sinistro -> controlId "steer" (continuo, stessa deadzone centrale)
+✅ Kart: RT/LT NON sono grilletti analogici nel profilo (il gioco non ha un accel/frenata a magnitudine: adattamento compatibile)
+✅ Kart: RT -> "up", LT -> "down" (stessi controlId digitali del telefono)
+✅ Kart: SOLO RT e LT sono holdThrough (RT,LT)
+✅ Kart: drift/item/abilità NON sono holdThrough (restano azioni one-shot protette dal blocco)
+✅ arena: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)
+✅ dodgeball: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)
+✅ soccer: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)
+✅ volleyball: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)
+✅ cornicione: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)
+✅ memory: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)
+✅ reaction: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)
+✅ quiz: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)
+✅ fps: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)

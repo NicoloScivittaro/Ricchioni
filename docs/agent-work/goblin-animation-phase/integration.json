@@ -3,20 +3,20 @@
     "samples": [
       {
         "perf": {
-          "fps": 4.792944785276642,
-          "frameMsAvg": 213.78,
-          "frameMsP95": 379.2,
+          "fps": 59.904153354989006,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.2,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.30000000074505806
+          "samplerMs": 0.30000000447034836
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -25,34 +25,12 @@
       },
       {
         "perf": {
-          "fps": 4.816646329716647,
-          "frameMsAvg": 213.57,
-          "frameMsP95": 379.2,
+          "fps": 59.89219405088682,
+          "frameMsAvg": 16.83,
+          "frameMsP95": 17.2,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.29999999701976776
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.816646329716647,
-          "frameMsAvg": 213.57,
-          "frameMsP95": 379.2,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -60,7 +38,7 @@
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -69,166 +47,12 @@
       },
       {
         "perf": {
-          "fps": 4.806151874399229,
-          "frameMsAvg": 213.57,
-          "frameMsP95": 379.2,
+          "fps": 59.916117435233474,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.2,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0.09999999776482582,
-          "samplerMs": 0.19999999925494194
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.82516807668916,
-          "frameMsAvg": 213.35,
-          "frameMsP95": 379.2,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0.09999999776482582,
-          "samplerMs": 0.19999999925494194
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.82516807668916,
-          "frameMsAvg": 213.35,
-          "frameMsP95": 379.2,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0.09999999776482582,
-          "samplerMs": 0.19999999925494194
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.817651876477134,
-          "frameMsAvg": 213.3,
-          "frameMsP95": 379.2,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.10000000149011612
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.832162876104502,
-          "frameMsAvg": 213.05,
-          "frameMsP95": 379.2,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.09999999776482582
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.819431949620293,
-          "frameMsAvg": 213.06,
-          "frameMsP95": 379.2,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.10000000149011612
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.819431949620293,
-          "frameMsAvg": 213.06,
-          "frameMsP95": 379.2,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.10000000149011612
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.824547296643018,
-          "frameMsAvg": 212.86,
-          "frameMsP95": 379.2,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -236,7 +60,7 @@
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -245,12 +69,12 @@
       },
       {
         "perf": {
-          "fps": 4.824547296643018,
-          "frameMsAvg": 212.86,
-          "frameMsP95": 379.2,
+          "fps": 59.880239520958,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.2,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -258,7 +82,7 @@
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -267,56 +91,12 @@
       },
       {
         "perf": {
-          "fps": 4.831462483696131,
-          "frameMsAvg": 212.83,
-          "frameMsP95": 379.2,
+          "fps": 59.92808629715772,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.3,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0.09999999776482582,
-          "samplerMs": 0.19999999925494194
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.786673899863919,
-          "frameMsAvg": 213.41,
-          "frameMsP95": 310,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.19999999925494194
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.852092060361193,
-          "frameMsAvg": 212.59,
-          "frameMsP95": 310,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -324,7 +104,7 @@
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -333,12 +113,56 @@
       },
       {
         "perf": {
-          "fps": 4.852092060361193,
-          "frameMsAvg": 212.59,
-          "frameMsP95": 310,
+          "fps": 59.9640215865119,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.5,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999552965164
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.976009595804136,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.5,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999552965164
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005986,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.3,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -346,7 +170,7 @@
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -355,12 +179,56 @@
       },
       {
         "perf": {
-          "fps": 4.8483281348487495,
-          "frameMsAvg": 212.61,
-          "frameMsP95": 310,
+          "fps": 59.9280862962658,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.3,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 60.13229104046817,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.3,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999552965164
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158740489,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.2,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -368,7 +236,7 @@
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -377,12 +245,34 @@
       },
       {
         "perf": {
-          "fps": 4.8483281348487495,
-          "frameMsAvg": 212.61,
-          "frameMsP95": 310,
+          "fps": 59.96402158740489,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.2,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.10000000149011612
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.88023952095801,
+          "frameMsAvg": 16.83,
+          "frameMsP95": 17.4,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -390,7 +280,7 @@
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -399,20 +289,20 @@
       },
       {
         "perf": {
-          "fps": 4.85609763993596,
-          "frameMsAvg": 212.42,
-          "frameMsP95": 310,
+          "fps": 59.95203836948302,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.5,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.19999999925494194
+          "samplerMs": 0.10000000149011612
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -421,20 +311,20 @@
       },
       {
         "perf": {
-          "fps": 4.868233155911514,
-          "frameMsAvg": 212.19,
-          "frameMsP95": 310,
+          "fps": 59.92808629626582,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.4,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.30000000074505806
+          "samplerMs": 0.29999999701976776
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -443,20 +333,20 @@
       },
       {
         "perf": {
-          "fps": 4.861448711716091,
-          "frameMsAvg": 212.17,
-          "frameMsP95": 310,
+          "fps": 59.94005994005989,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.4,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.9000000022351742
+          "samplerMs": 0.20000000298023224
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -465,64 +355,20 @@
       },
       {
         "perf": {
-          "fps": 4.8866301798285825,
-          "frameMsAvg": 211.95,
-          "frameMsP95": 310,
+          "fps": 59.928086296265825,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.4,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0.10000000149011612,
-          "samplerMs": 0.19999999925494194
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.8866301798285825,
-          "frameMsAvg": 211.95,
-          "frameMsP95": 310,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0.10000000149011612,
-          "samplerMs": 0.19999999925494194
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.9139244238441595,
-          "frameMsAvg": 211.81,
-          "frameMsP95": 310,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 1.0999999977648258
+          "samplerMs": 0.29999999701976776
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -531,20 +377,20 @@
       },
       {
         "perf": {
-          "fps": 4.9139244238441595,
-          "frameMsAvg": 211.81,
-          "frameMsP95": 310,
+          "fps": 60.04803843056545,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.4,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 1.0999999977648258
+          "samplerMs": 0.19999999552965164
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -553,42 +399,20 @@
       },
       {
         "perf": {
-          "fps": 4.9198878265581545,
-          "frameMsAvg": 211.58,
-          "frameMsP95": 310,
+          "fps": 59.952038368590394,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.4,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0.09999999776482582,
-          "samplerMs": 0.3999999985098839
-        },
-        "stats": {
-          "meshes": 177,
-          "materials": 18,
-          "textures": 6,
-          "skeletons": 1,
-          "animationGroups": 36,
-          "geometries": 176
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.933155739726097,
-          "frameMsAvg": 211.5,
-          "frameMsP95": 310,
-          "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.30000000074505806
+          "samplerMs": 0.20000000298023224
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -597,20 +421,20 @@
       },
       {
         "perf": {
-          "fps": 4.933155739726097,
-          "frameMsAvg": 211.5,
-          "frameMsP95": 310,
+          "fps": 59.92808629626582,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.4,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.30000000074505806
+          "samplerMs": 0.29999999701976776
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -619,20 +443,20 @@
       },
       {
         "perf": {
-          "fps": 4.951393817357758,
-          "frameMsAvg": 211.41,
-          "frameMsP95": 310,
+          "fps": 59.928086296265825,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.5,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.4000000022351742
+          "samplerMs": 0.10000000149011612
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -641,20 +465,196 @@
       },
       {
         "perf": {
-          "fps": 5.0446451092146685,
-          "frameMsAvg": 211.21,
-          "frameMsP95": 310,
+          "fps": 59.95203836859038,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.5,
           "drawCalls": 3,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.19999999925494194
+          "samplerMs": 0.20000000298023224
         },
         "stats": {
           "meshes": 177,
-          "materials": 18,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.96402158651191,
+          "frameMsAvg": 16.82,
+          "frameMsP95": 17.5,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.99999999999996,
+          "frameMsAvg": 16.64,
+          "frameMsP95": 17.5,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.09999999403953552
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948305,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.5,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999552965164
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626582,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.5,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000447034836
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086297157755,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.5,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000447034836
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.880239520958035,
+          "frameMsAvg": 16.68,
+          "frameMsP95": 17.5,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000447034836
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.88023952095805,
+          "frameMsAvg": 16.69,
+          "frameMsP95": 17.5,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000447034836
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
+          "textures": 6,
+          "skeletons": 1,
+          "animationGroups": 36,
+          "geometries": 176
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296265825,
+          "frameMsAvg": 16.69,
+          "frameMsP95": 17.5,
+          "drawCalls": 3,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000447034836
+        },
+        "stats": {
+          "meshes": 177,
+          "materials": 19,
           "textures": 6,
           "skeletons": 1,
           "animationGroups": 36,
@@ -670,20 +670,20 @@
     "samples": [
       {
         "perf": {
-          "fps": 4.960809604125557,
-          "frameMsAvg": 211.4,
-          "frameMsP95": 379.2,
+          "fps": 59.91611743523352,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.8,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.20000000298023224
+          "samplerMs": 0.4999999925494194
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -692,20 +692,20 @@
       },
       {
         "perf": {
-          "fps": 4.944946264916644,
-          "frameMsAvg": 211.42,
-          "frameMsP95": 310,
+          "fps": 59.916117436125084,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.9,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.4000000022351742
+          "samplerMs": 0.30000000447034836
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -714,232 +714,12 @@
       },
       {
         "perf": {
-          "fps": 4.944946264916644,
-          "frameMsAvg": 211.42,
-          "frameMsP95": 310,
+          "fps": 59.91611743612507,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.8,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.4000000022351742
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.943479550471709,
-          "frameMsAvg": 211.36,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.30000000074505806
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.943479550471709,
-          "frameMsAvg": 211.36,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.30000000074505806
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.931047518862461,
-          "frameMsAvg": 211.31,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.30000000074505806
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.923682914820282,
-          "frameMsAvg": 211.39,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.20000000298023224
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.923682914820282,
-          "frameMsAvg": 211.39,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.20000000298023224
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.901560330038392,
-          "frameMsAvg": 211.42,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.29999999701976776
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.901560330038392,
-          "frameMsAvg": 211.42,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.29999999701976776
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.8914106828385515,
-          "frameMsAvg": 211.48,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.30000000074505806
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.8914106828385515,
-          "frameMsAvg": 211.48,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.30000000074505806
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.86989270003025,
-          "frameMsAvg": 211.48,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -947,7 +727,7 @@
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -956,20 +736,20 @@
       },
       {
         "perf": {
-          "fps": 4.885038754641376,
-          "frameMsAvg": 211.37,
-          "frameMsP95": 310,
+          "fps": 59.84440454764103,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.8,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.4000000022351742
+          "samplerMs": 0.5000000074505806
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -978,20 +758,20 @@
       },
       {
         "perf": {
-          "fps": 4.885038754641376,
-          "frameMsAvg": 211.37,
-          "frameMsP95": 310,
+          "fps": 59.856344772189935,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.8,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.4000000022351742
+          "samplerMs": 0.3999999985098839
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -1000,20 +780,20 @@
       },
       {
         "perf": {
-          "fps": 4.882335709405151,
-          "frameMsAvg": 211.24,
-          "frameMsP95": 310,
+          "fps": 60.15640665694945,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.8,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.19999999925494194
+          "samplerMs": 0.29999999701976776
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -1022,12 +802,34 @@
       },
       {
         "perf": {
-          "fps": 4.876066639577404,
-          "frameMsAvg": 211.28,
-          "frameMsP95": 310,
+          "fps": 59.97600959580415,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 60.01200240065893,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -1035,7 +837,7 @@
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -1044,12 +846,56 @@
       },
       {
         "perf": {
-          "fps": 4.876066639577404,
-          "frameMsAvg": 211.28,
-          "frameMsP95": 310,
+          "fps": 59.97600959669749,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086296265825,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.3999999985098839
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743523349,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -1057,7 +903,7 @@
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -1066,20 +912,350 @@
       },
       {
         "perf": {
-          "fps": 4.949269982677552,
-          "frameMsAvg": 211.15,
-          "frameMsP95": 310,
+          "fps": 59.90415335498903,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743523349,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948305,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.928086297157755,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.6,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.976009596697516,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948307,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743523354,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626587,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000447034836
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.98800239934135,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626588,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999552965164
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948307,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.91611743523353,
+          "frameMsAvg": 16.97,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999552965164
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.964021586511976,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.20000000298023224
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.90415335409788,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.19999999552965164
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626589,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 209,
+          "materials": 31,
+          "textures": 10,
+          "skeletons": 2,
+          "animationGroups": 72,
+          "geometries": 206
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.86828976323459,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
+          "drawCalls": 5,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
           "samplerMs": 0.3999999985098839
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -1088,20 +1264,20 @@
       },
       {
         "perf": {
-          "fps": 4.880508874390193,
-          "frameMsAvg": 211.07,
-          "frameMsP95": 310,
+          "fps": 59.940059940059975,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.3999999985098839
+          "samplerMs": 0.30000000447034836
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -1110,20 +1286,20 @@
       },
       {
         "perf": {
-          "fps": 4.880508874390193,
-          "frameMsAvg": 211.07,
-          "frameMsP95": 310,
+          "fps": 59.976009596697594,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.3999999985098839
+          "samplerMs": 0.29999999701976776
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -1132,196 +1308,20 @@
       },
       {
         "perf": {
-          "fps": 4.877890149914411,
-          "frameMsAvg": 211.12,
-          "frameMsP95": 310,
+          "fps": 59.964021587405,
+          "frameMsAvg": 16.96,
+          "frameMsP95": 17.7,
           "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.3999999985098839
+          "samplerMs": 0.29999999701976776
         },
         "stats": {
           "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.877890149914411,
-          "frameMsAvg": 211.12,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.3999999985098839
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.870683356874378,
-          "frameMsAvg": 211.04,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.30000000074505806
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.870683356874378,
-          "frameMsAvg": 211.04,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.30000000074505806
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.842536843636229,
-          "frameMsAvg": 211.09,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.3999999985098839
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.842536843636229,
-          "frameMsAvg": 211.09,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.3999999985098839
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.831773744142631,
-          "frameMsAvg": 211.17,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.10000000149011612
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.831773744142631,
-          "frameMsAvg": 211.17,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.10000000149011612
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
-          "textures": 10,
-          "skeletons": 2,
-          "animationGroups": 72,
-          "geometries": 206
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.825711390288028,
-          "frameMsAvg": 211.05,
-          "frameMsP95": 310,
-          "drawCalls": 5,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.3999999985098839
-        },
-        "stats": {
-          "meshes": 209,
-          "materials": 30,
+          "materials": 31,
           "textures": 10,
           "skeletons": 2,
           "animationGroups": 72,
@@ -1337,12 +1337,12 @@
     "samples": [
       {
         "perf": {
-          "fps": 4.46461790311779,
-          "frameMsAvg": 213.56,
-          "frameMsP95": 371.5,
+          "fps": 59.92808629626585,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -1350,7 +1350,7 @@
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1359,364 +1359,12 @@
       },
       {
         "perf": {
-          "fps": 4.6371435195919295,
-          "frameMsAvg": 214.27,
-          "frameMsP95": 371.5,
+          "fps": 60.024009603304656,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.6999999992549419
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.6371435195919295,
-          "frameMsAvg": 214.27,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.6999999992549419
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.6371435195919295,
-          "frameMsAvg": 214.27,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.6999999992549419
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.419238417912645,
-          "frameMsAvg": 215.11,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0.10000000149011612,
-          "samplerMs": 0.7000000029802322
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.419238417912645,
-          "frameMsAvg": 215.11,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0.10000000149011612,
-          "samplerMs": 0.7000000029802322
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.217392526779116,
-          "frameMsAvg": 215.91,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.6000000052154064
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.217392526779116,
-          "frameMsAvg": 215.91,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.6000000052154064
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.217392526779116,
-          "frameMsAvg": 215.91,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.6000000052154064
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.1322883235293535,
-          "frameMsAvg": 216.68,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.5000000037252903
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.1322883235293535,
-          "frameMsAvg": 216.68,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.5000000037252903
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.064655114013985,
-          "frameMsAvg": 217.43,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.6000000014901161
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.064655114013985,
-          "frameMsAvg": 217.43,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.6000000014901161
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.064655114013985,
-          "frameMsAvg": 217.43,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.6000000014901161
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 4.064655114013985,
-          "frameMsAvg": 217.43,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.6000000014901161
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 3.9873468194259574,
-          "frameMsAvg": 218.3,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.4000000022351742
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 3.9873468194259574,
-          "frameMsAvg": 218.3,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
-        },
-        "cost": {
-          "engineAnimationMs": 0,
-          "samplerMs": 0.4000000022351742
-        },
-        "stats": {
-          "meshes": 305,
-          "materials": 66,
-          "textures": 22,
-          "skeletons": 5,
-          "animationGroups": 180,
-          "geometries": 296
-        }
-      },
-      {
-        "perf": {
-          "fps": 3.9219274966352056,
-          "frameMsAvg": 219.09,
-          "frameMsP95": 371.5,
-          "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -1724,7 +1372,7 @@
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1733,12 +1381,12 @@
       },
       {
         "perf": {
-          "fps": 3.9219274966352056,
-          "frameMsAvg": 219.09,
-          "frameMsP95": 371.5,
+          "fps": 59.95203836859044,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -1746,7 +1394,7 @@
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1755,12 +1403,78 @@
       },
       {
         "perf": {
-          "fps": 3.8609541704751056,
-          "frameMsAvg": 219.77,
-          "frameMsP95": 371.5,
+          "fps": 59.92808629626589,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.7999999970197678
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836859047,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.77286311943363,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.29999999701976776
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.89219405088693,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -1768,7 +1482,7 @@
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1777,20 +1491,20 @@
       },
       {
         "perf": {
-          "fps": 3.8609541704751056,
-          "frameMsAvg": 219.77,
-          "frameMsP95": 371.5,
+          "fps": 59.916117436125134,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.5999999940395355
+          "samplerMs": 0.5000000074505806
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1799,20 +1513,20 @@
       },
       {
         "perf": {
-          "fps": 3.797804868785482,
-          "frameMsAvg": 220.42,
-          "frameMsP95": 371.5,
+          "fps": 59.988002400235096,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.8000000007450581
+          "samplerMs": 0.4000000059604645
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1821,20 +1535,20 @@
       },
       {
         "perf": {
-          "fps": 3.797804868785482,
-          "frameMsAvg": 220.42,
-          "frameMsP95": 371.5,
+          "fps": 59.976009595804236,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.8000000007450581
+          "samplerMs": 0.6999999955296516
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1843,20 +1557,20 @@
       },
       {
         "perf": {
-          "fps": 3.732085987260107,
-          "frameMsAvg": 221.13,
-          "frameMsP95": 371.5,
+          "fps": 60.09615384669205,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.6999999992549419
+          "samplerMs": 0.6000000014901161
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1865,20 +1579,20 @@
       },
       {
         "perf": {
-          "fps": 3.732085987260107,
-          "frameMsAvg": 221.13,
-          "frameMsP95": 371.5,
+          "fps": 59.964021587405014,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.3,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.6999999992549419
+          "samplerMs": 0.6000000014901161
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1887,20 +1601,20 @@
       },
       {
         "perf": {
-          "fps": 3.732085987260107,
-          "frameMsAvg": 221.13,
-          "frameMsP95": 371.5,
+          "fps": 60.0600600600601,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.4,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
-          "samplerMs": 0.6999999992549419
+          "samplerMs": 0.6999999955296516
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1909,12 +1623,210 @@
       },
       {
         "perf": {
-          "fps": 3.6813429539099216,
-          "frameMsAvg": 221.78,
-          "frameMsP95": 371.5,
+          "fps": 59.94005994006,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.4,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.6000000014901161
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994006,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.4,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.7999999970197678
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.9041533540979,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.4,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0.10000000149011612,
+          "samplerMs": 0.6999999955296516
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.964021587405014,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.4,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.95203836948313,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.4,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6999999955296516
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005997,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.5,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.30000000447034836
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.97600959669758,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.5,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.3999999985098839
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 60.02400960419949,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.6,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6999999955296516
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.940059940059975,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.7000000104308128
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.94005994005997,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -1922,7 +1834,7 @@
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1931,12 +1843,100 @@
       },
       {
         "perf": {
-          "fps": 3.6813429539099216,
-          "frameMsAvg": 221.78,
-          "frameMsP95": 371.5,
+          "fps": 59.94005994005995,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.7,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626589,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5000000074505806
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.92808629626589,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.7,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6000000014901161
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.98800239934136,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.8,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
+        },
+        "cost": {
+          "engineAnimationMs": 0,
+          "samplerMs": 0.5
+        },
+        "stats": {
+          "meshes": 305,
+          "materials": 67,
+          "textures": 22,
+          "skeletons": 5,
+          "animationGroups": 180,
+          "geometries": 296
+        }
+      },
+      {
+        "perf": {
+          "fps": 59.916117436125134,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.8,
+          "drawCalls": 11,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
           "engineAnimationMs": 0,
@@ -1944,7 +1944,7 @@
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1953,20 +1953,20 @@
       },
       {
         "perf": {
-          "fps": 3.6303350799282033,
-          "frameMsAvg": 222.4,
-          "frameMsP95": 371.5,
+          "fps": 59.94005994005997,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.8,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
-          "engineAnimationMs": 0.10000000149011612,
-          "samplerMs": 0.7999999932944775
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6000000014901161
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -1975,20 +1975,20 @@
       },
       {
         "perf": {
-          "fps": 3.6303350799282033,
-          "frameMsAvg": 222.4,
-          "frameMsP95": 371.5,
+          "fps": 59.940059940059975,
+          "frameMsAvg": 17.45,
+          "frameMsP95": 17.8,
           "drawCalls": 11,
-          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-          "vendor": "Google Inc. (Google)"
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "vendor": "Google Inc. (NVIDIA)"
         },
         "cost": {
-          "engineAnimationMs": 0.10000000149011612,
-          "samplerMs": 0.7999999932944775
+          "engineAnimationMs": 0,
+          "samplerMs": 0.6000000014901161
         },
         "stats": {
           "meshes": 305,
-          "materials": 66,
+          "materials": 67,
           "textures": 22,
           "skeletons": 5,
           "animationGroups": 180,
@@ -2004,6 +2004,7 @@
     {
       "id": "nL",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.jab",
           "seconds": 1,
@@ -2016,7 +2017,7 @@
           "contactTime": 0.07100000000000001
         },
         "activeTracks": 195,
-        "sampleMs": 0.09999999776482582,
+        "sampleMs": 0.10000000149011612,
         "clips": 36,
         "state": "ready",
         "error": null,
@@ -2028,13 +2029,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.jab",
         "animationPlaying": true,
         "animationSpeed": 7.608695652173913,
         "animationFrame": 60,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -2136,22 +2137,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          0.14572365581989288,
+          0.1457231044769287,
           1.4095959663391113,
           -0.2222403734922409
         ],
         "LEFT_HAND": [
-          0.6771301627159119,
+          0.6771295666694641,
           1.5734366178512573,
           0.2392066866159439
         ],
         "RIGHT_FOOT": [
-          -0.17930634319782257,
+          -0.17930689454078674,
           0.19274073839187622,
           -0.4526970684528351
         ],
         "LEFT_FOOT": [
-          0.1631162017583847,
+          0.16311563551425934,
           0.20709596574306488,
           0.1922265887260437
         ]
@@ -2160,6 +2161,7 @@
     {
       "id": "sL",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.hook",
           "seconds": 0.9583,
@@ -2184,13 +2186,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.hook",
         "animationPlaying": true,
         "animationSpeed": 5.913870967741936,
         "animationFrame": 57.498000000000005,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -2293,22 +2295,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          0.049417644739151,
+          0.04941709339618683,
           1.4362398386001587,
           -0.34748706221580505
         ],
         "LEFT_HAND": [
-          0.5578225255012512,
+          0.5578219890594482,
           1.546406626701355,
           0.14996124804019928
         ],
         "RIGHT_FOOT": [
-          -0.07326813787221909,
+          -0.07326869666576385,
           0.18523067235946655,
           -0.44181346893310547
         ],
         "LEFT_FOOT": [
-          0.13725034892559052,
+          0.13724981248378754,
           0.3127683997154236,
           0.46431371569633484
         ]
@@ -2317,6 +2319,7 @@
     {
       "id": "uL",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.uppercut",
           "seconds": 0.5417,
@@ -2329,7 +2332,7 @@
           "contactTime": 0.0915
         },
         "activeTracks": 195,
-        "sampleMs": 0.10000000149011612,
+        "sampleMs": 0,
         "clips": 36,
         "state": "ready",
         "error": null,
@@ -2341,13 +2344,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.uppercut",
         "animationPlaying": true,
         "animationSpeed": 5.9141935483870975,
         "animationFrame": 32.501999999999995,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -2449,22 +2452,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          0.45777779817581177,
+          0.4577772617340088,
           1.7090342044830322,
           0.025190822780132294
         ],
         "LEFT_HAND": [
-          -0.004470143932849169,
+          -0.004470695275813341,
           1.6575642824172974,
           0.02569180354475975
         ],
         "RIGHT_FOOT": [
-          -0.03405164182186127,
+          -0.03405219316482544,
           0.2630337178707123,
           -0.5045772194862366
         ],
         "LEFT_FOOT": [
-          -0.010370281524956226,
+          -0.010370836593210697,
           0.18522678315639496,
           0.2720916271209717
         ]
@@ -2473,6 +2476,7 @@
     {
       "id": "dL",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.frontKick",
           "seconds": 1.7916999999999998,
@@ -2497,13 +2501,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.frontKick",
         "animationPlaying": true,
         "animationSpeed": 8.333333333333334,
         "animationFrame": 107.502,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -2605,22 +2609,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          -0.017918478697538376,
+          -0.017919044941663742,
           1.42803156375885,
           -0.16312366724014282
         ],
         "LEFT_HAND": [
-          0.16039924323558807,
+          0.1603986918926239,
           1.450929880142212,
           0.18975168466567993
         ],
         "RIGHT_FOOT": [
-          -0.029674772173166275,
+          -0.02967533841729164,
           0.17918457090854645,
           -0.12235917896032333
         ],
         "LEFT_FOOT": [
-          0.49998998641967773,
+          0.49998944997787476,
           0.6754016280174255,
           -0.18149156868457794
         ]
@@ -2629,6 +2633,7 @@
     {
       "id": "sH",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.heavy",
           "seconds": 0.625,
@@ -2641,7 +2646,7 @@
           "contactTime": 0.3315
         },
         "activeTracks": 195,
-        "sampleMs": 0.10000000149011612,
+        "sampleMs": 0,
         "clips": 36,
         "state": "ready",
         "error": null,
@@ -2653,13 +2658,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.heavy",
         "animationPlaying": true,
         "animationSpeed": 3.025714285714286,
         "animationFrame": 37.5,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -2762,22 +2767,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          0.7025173306465149,
+          0.7025167942047119,
           1.4309097528457642,
           0.09564368426799774
         ],
         "LEFT_HAND": [
-          0.03288603201508522,
+          0.03288548067212105,
           1.3902146816253662,
           0.2549933195114136
         ],
         "RIGHT_FOOT": [
-          -0.36277148127555847,
+          -0.36277204751968384,
           0.22777992486953735,
           -0.469375878572464
         ],
         "LEFT_FOOT": [
-          0.3125397861003876,
+          0.3125392198562622,
           0.19050902128219604,
           0.41257962584495544
         ]
@@ -2786,6 +2791,7 @@
     {
       "id": "uH",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.uppercut",
           "seconds": 0.5417,
@@ -2798,7 +2804,7 @@
           "contactTime": 0.2985
         },
         "activeTracks": 195,
-        "sampleMs": 0,
+        "sampleMs": 0.10000000149011612,
         "clips": 36,
         "state": "ready",
         "error": null,
@@ -2810,13 +2816,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.uppercut",
         "animationPlaying": true,
         "animationSpeed": 5.9141935483870975,
         "animationFrame": 32.501999999999995,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -2918,22 +2924,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          0.45777779817581177,
+          0.4577772617340088,
           1.7090342044830322,
           0.025190822780132294
         ],
         "LEFT_HAND": [
-          -0.004470143932849169,
+          -0.004470695275813341,
           1.6575642824172974,
           0.02569180354475975
         ],
         "RIGHT_FOOT": [
-          -0.03405164182186127,
+          -0.03405219316482544,
           0.2630337178707123,
           -0.5045772194862366
         ],
         "LEFT_FOOT": [
-          -0.010370281524956226,
+          -0.010370836593210697,
           0.18522678315639496,
           0.2720916271209717
         ]
@@ -2942,6 +2948,7 @@
     {
       "id": "dH",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.roundhouse",
           "seconds": 1.5,
@@ -2966,13 +2973,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.roundhouse",
         "animationPlaying": true,
         "animationSpeed": 1.9906666666666664,
         "animationFrame": 90,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -3075,22 +3082,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          -0.09017260372638702,
+          -0.09017316997051239,
           1.4730145931243896,
           -0.3971283733844757
         ],
         "LEFT_HAND": [
-          0.09990350157022476,
+          0.09990295022726059,
           1.581977128982544,
           -0.03945358470082283
         ],
         "RIGHT_FOOT": [
-          0.025243213400244713,
+          0.02524266205728054,
           0.1820029467344284,
           -0.11989206820726395
         ],
         "LEFT_FOOT": [
-          1.006717562675476,
+          1.0067169666290283,
           1.1620805263519287,
           0.10401991754770279
         ]
@@ -3099,6 +3106,7 @@
     {
       "id": "nAL",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.jab",
           "seconds": 1,
@@ -3111,7 +3119,7 @@
           "contactTime": 0.075
         },
         "activeTracks": 195,
-        "sampleMs": 0.10000000149011612,
+        "sampleMs": 0.09999999403953552,
         "clips": 36,
         "state": "ready",
         "error": null,
@@ -3123,13 +3131,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.jab",
         "animationPlaying": true,
         "animationSpeed": 7.608695652173913,
         "animationFrame": 60,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -3233,22 +3241,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          0.14572365581989288,
+          0.1457231044769287,
           4.534264087677002,
           -0.2222403734922409
         ],
         "LEFT_HAND": [
-          0.6771301627159119,
+          0.6771295666694641,
           4.6981048583984375,
           0.2392066866159439
         ],
         "RIGHT_FOOT": [
-          -0.17930634319782257,
+          -0.17930689454078674,
           3.317409038543701,
           -0.4526970684528351
         ],
         "LEFT_FOOT": [
-          0.1631162017583847,
+          0.16311563551425934,
           3.3317644596099854,
           0.1922265887260437
         ]
@@ -3257,6 +3265,7 @@
     {
       "id": "sAL",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.frontKick",
           "seconds": 1.625,
@@ -3281,13 +3290,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.frontKick",
         "animationPlaying": true,
         "animationSpeed": 8.333333333333334,
         "animationFrame": 97.5,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -3390,22 +3399,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          -0.010613743215799332,
+          -0.010614309459924698,
           4.463674545288086,
           -0.1829192042350769
         ],
         "LEFT_HAND": [
-          0.15387317538261414,
+          0.15387262403964996,
           4.489466667175293,
           0.19942396879196167
         ],
         "RIGHT_FOOT": [
-          -0.04452162981033325,
+          -0.044522181153297424,
           3.270113706588745,
           -0.12730209529399872
         ],
         "LEFT_FOOT": [
-          0.7258012294769287,
+          0.725800633430481,
           4.200409889221191,
           -0.2102508693933487
         ]
@@ -3414,6 +3423,7 @@
     {
       "id": "uAL",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.uppercut",
           "seconds": 0.5417,
@@ -3426,7 +3436,7 @@
           "contactTime": 0.0815
         },
         "activeTracks": 195,
-        "sampleMs": 0,
+        "sampleMs": 0.10000000149011612,
         "clips": 36,
         "state": "ready",
         "error": null,
@@ -3438,13 +3448,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.uppercut",
         "animationPlaying": true,
         "animationSpeed": 5.9141935483870975,
         "animationFrame": 32.501999999999995,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -3547,22 +3557,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          0.45777779817581177,
+          0.4577772617340088,
           4.792534351348877,
           0.025190822780132294
         ],
         "LEFT_HAND": [
-          -0.004470143932849169,
+          -0.004470695275813341,
           4.74106502532959,
           0.02569180354475975
         ],
         "RIGHT_FOOT": [
-          -0.03405164182186127,
+          -0.03405219316482544,
           3.346534490585327,
           -0.5045772194862366
         ],
         "LEFT_FOOT": [
-          -0.010370281524956226,
+          -0.010370836593210697,
           3.2687275409698486,
           0.2720916271209717
         ]
@@ -3571,6 +3581,7 @@
     {
       "id": "dAL",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.frontKick",
           "seconds": 1.625,
@@ -3595,13 +3606,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.frontKick",
         "animationPlaying": true,
         "animationSpeed": 8.333333333333334,
         "animationFrame": 97.5,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -3704,22 +3715,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          -0.010613743215799332,
+          -0.010614309459924698,
           4.463674545288086,
           -0.1829192042350769
         ],
         "LEFT_HAND": [
-          0.15387317538261414,
+          0.15387262403964996,
           4.489466667175293,
           0.19942396879196167
         ],
         "RIGHT_FOOT": [
-          -0.04452162981033325,
+          -0.044522181153297424,
           3.270113706588745,
           -0.12730209529399872
         ],
         "LEFT_FOOT": [
-          0.7258012294769287,
+          0.725800633430481,
           4.200409889221191,
           -0.2102508693933487
         ]
@@ -3728,6 +3739,7 @@
     {
       "id": "sAH",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.heavy",
           "seconds": 0.625,
@@ -3740,7 +3752,7 @@
           "contactTime": 0.295
         },
         "activeTracks": 195,
-        "sampleMs": 0.19999999925494194,
+        "sampleMs": 0,
         "clips": 36,
         "state": "ready",
         "error": null,
@@ -3752,13 +3764,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.heavy",
         "animationPlaying": true,
         "animationSpeed": 3.025714285714286,
         "animationFrame": 37.5,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -3861,22 +3873,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          0.7025173306465149,
+          0.7025167942047119,
           4.637949466705322,
           0.09564368426799774
         ],
         "LEFT_HAND": [
-          0.03288603201508522,
+          0.03288548067212105,
           4.597254276275635,
           0.2549933195114136
         ],
         "RIGHT_FOOT": [
-          -0.36277148127555847,
+          -0.36277204751968384,
           3.4348196983337402,
           -0.469375878572464
         ],
         "LEFT_FOOT": [
-          0.3125397861003876,
+          0.3125392198562622,
           3.3975486755371094,
           0.41257962584495544
         ]
@@ -3885,6 +3897,7 @@
     {
       "id": "dAH",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.roundhouse",
           "seconds": 1.5,
@@ -3909,13 +3922,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.roundhouse",
         "animationPlaying": true,
         "animationSpeed": 1.9906666666666664,
         "animationFrame": 90,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -4018,22 +4031,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          -0.09017260372638702,
+          -0.09017316997051239,
           4.4625701904296875,
           -0.3971283733844757
         ],
         "LEFT_HAND": [
-          0.09990350157022476,
+          0.09990295022726059,
           4.571532726287842,
           -0.03945358470082283
         ],
         "RIGHT_FOOT": [
-          0.025243213400244713,
+          0.02524266205728054,
           3.1715586185455322,
           -0.11989206820726395
         ],
         "LEFT_FOOT": [
-          1.006717562675476,
+          1.0067169666290283,
           4.151636600494385,
           0.10401991754770279
         ]
@@ -4042,6 +4055,7 @@
     {
       "id": "uAH",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.uppercut",
           "seconds": 0.5417,
@@ -4066,13 +4080,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.uppercut",
         "animationPlaying": true,
         "animationSpeed": 5.9141935483870975,
         "animationFrame": 32.501999999999995,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -4175,22 +4189,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          0.45777779817581177,
+          0.4577772617340088,
           4.792534351348877,
           0.025190822780132294
         ],
         "LEFT_HAND": [
-          -0.004470143932849169,
+          -0.004470695275813341,
           4.74106502532959,
           0.02569180354475975
         ],
         "RIGHT_FOOT": [
-          -0.03405164182186127,
+          -0.03405219316482544,
           3.346534490585327,
           -0.5045772194862366
         ],
         "LEFT_FOOT": [
-          -0.010370281524956226,
+          -0.010370836593210697,
           3.2687275409698486,
           0.2720916271209717
         ]
@@ -4199,6 +4213,7 @@
     {
       "id": "follow",
       "debug": {
+        "character": "goblin",
         "animator": {
           "name": "goblin.heavy",
           "seconds": 0.625,
@@ -4223,13 +4238,13 @@
         ],
         "geometryIds": [
           -1,
-          1094
+          1096
         ],
         "animation": "goblin.heavy",
         "animationPlaying": true,
         "animationSpeed": 3.025714285714286,
         "animationFrame": 37.5,
-        "skeletonId": 8355,
+        "skeletonId": 8357,
         "clipHipsOffset": null,
         "holdFrame": 0,
         "seated": false,
@@ -4332,22 +4347,22 @@
       },
       "attachments": {
         "RIGHT_HAND": [
-          0.7025173306465149,
+          0.7025167942047119,
           4.637949466705322,
           0.09564368426799774
         ],
         "LEFT_HAND": [
-          0.03288603201508522,
+          0.03288548067212105,
           4.597254276275635,
           0.2549933195114136
         ],
         "RIGHT_FOOT": [
-          -0.36277148127555847,
+          -0.36277204751968384,
           3.4348196983337402,
           -0.469375878572464
         ],
         "LEFT_FOOT": [
-          0.3125397861003876,
+          0.3125392198562622,
           3.3975486755371094,
           0.41257962584495544
         ]

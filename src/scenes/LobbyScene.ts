@@ -27,6 +27,7 @@ export class LobbyScene extends Phaser.Scene {
   }
 
   create(): void {
+    this.creating = false;
     this.cameras.main.setBackgroundColor(UI.color.bg);
     this.add.image(640, 360, 'bg').setAlpha(0.3).setDisplaySize(1280, 720);
     this.add.rectangle(640, 360, 1280, 720, 0x0b0b14, 0.35);

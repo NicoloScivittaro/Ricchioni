@@ -11,6 +11,9 @@ import { confetti } from './confetti';
 import { addPortrait } from '../core/portraits';
 import { bark } from '../../shared/characterPresentation';
 import { goblinNewEnabled } from '../minigames/characters/goblinVisualMode';
+import { judokaNewEnabled } from '../minigames/characters/judokaVisualMode';
+import { buttafuoriNewEnabled } from '../minigames/characters/buttafuoriVisualMode';
+import { ciroNewEnabled } from '../minigames/characters/ciroVisualMode';
 
 const ROW_H = 84;
 const ROW_W = 980;
@@ -39,7 +42,7 @@ export class ResultsScene extends Phaser.Scene {
       this.scene.start('RoomScene');
       return;
     }
-    if(goblinNewEnabled()&&['arena','cornicione','dodgeball','soccer','volleyball','kart3d','fps'].includes(st.currentMinigame?.minigameId??'')&&st.players.some(p=>p.characterId==='goblin')) {
+    if(['arena','cornicione','dodgeball','soccer','volleyball','kart3d','fps'].includes(st.currentMinigame?.minigameId??'')&&st.players.some(p=>(p.characterId==='goblin'&&goblinNewEnabled())||(p.characterId==='judoka'&&judokaNewEnabled())||(p.characterId==='buttafuori'&&buttafuoriNewEnabled())||(p.characterId==='ciro'&&ciroNewEnabled()))) {
       this.goblinPortraitReady=import('../minigames/characters/goblinResults').then(({goblinResultPortraits})=>{
         if(this.sys.isActive()&&portraitVersion===this.goblinPortraitVersion)this.goblinPortraits=goblinResultPortraits(this);
       }).catch(e=>console.warn('[goblin results] legacy portrait retained',e));
@@ -116,9 +119,10 @@ export class ResultsScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     row.add([bg, place, avatar, name, stats, plus, ptLabel]);
-    if(player?.characterId==='goblin'&&this.goblinPortraitReady)void this.goblinPortraitReady.then(()=>{
+    if(((player?.characterId==='goblin'&&goblinNewEnabled())||(player?.characterId==='judoka'&&judokaNewEnabled())||(player?.characterId==='buttafuori'&&buttafuoriNewEnabled())||(player?.characterId==='ciro'&&ciroNewEnabled()))&&this.goblinPortraitReady)void this.goblinPortraitReady.then(async()=>{
+      const profile=player?.characterId==='judoka'?(await import('../minigames/characters/judokaProfile')).JUDOKA_PROFILE:player?.characterId==='buttafuori'?(await import('../minigames/characters/buttafuoriProfile')).BUTTAFUORI_PROFILE:player?.characterId==='ciro'?(await import('../minigames/characters/ciroProfile')).CIRO_PROFILE:undefined;
       if(!this.sys.isActive()||!row.scene||!this.goblinPortraits)return;
-      row.add(this.goblinPortraits.add(avatar.x,avatar.y,isWinner?72:64,isWinner?'victory':'defeat',avatar));
+      row.add(this.goblinPortraits.add(avatar.x,avatar.y,isWinner?72:64,isWinner?'victory':'defeat',avatar,profile));
     });
     this.tweens.add({ targets: row, alpha: 1, x: 640, duration: THEME.normal, ease: 'Cubic.easeOut' });
 

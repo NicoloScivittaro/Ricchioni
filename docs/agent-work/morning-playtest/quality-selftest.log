@@ -1,0 +1,24 @@
+
+AUTO-QUALITY — sessione che parte da HIGH
+
+✅ nessuna scelta manuale: auto-quality attiva
+✅ parte da HIGH (glow acceso)
+✅ sotto 24 FPS da 1.5 s: ancora HIGH (serve 2 s continui)
+✅ dopo ~2 s scende a MEDIUM (glow spento, ombre accese) — medium scala 1 ombre true particelle true glow false
+✅ nel cooldown (3 s) non scende ancora
+✅ FPS ancora bassi: LOW (ombre/particelle spente) — low scala 1.5 ombre false particelle false glow false
+✅ a LOW e ancora bassi sale la scala di rendering (2)
+✅ il livello raggiunto resta per i minigiochi successivi della sessione
+✅ nuovo minigioco: riparte da LOW (livello di sessione)
+✅ fra 24 e 57 FPS non cambia nulla per 40 s (isteresi)
+✅ 60 FPS da 7 s: ancora LOW (serve 8 s stabili)
+✅ dopo 8 s stabili sale a MEDIUM — medium scala 1 ombre true particelle true glow false
+✅ nel cooldown non sale ancora
+✅ poi HIGH (desktop) — high scala 1 ombre true particelle true glow true
+✅ HIGH non regge: torna a MEDIUM
+✅ anche con 60 FPS per 60 s NON riprova HIGH (bloccato per la sessione: niente altalena)
+✅ setQualityLevel: da ora scelta manuale
+✅ a mano LOW: neppure con 60 FPS l'auto-quality alza il livello
+
+Tutto ok
+

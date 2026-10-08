@@ -1,6 +1,7 @@
 import { Quaternion, Vector3 } from '@babylonjs/core';
 import type { AnimationGroup, Bone, TransformNode } from '@babylonjs/core';
-import { clipOf, GoblinAnimator } from './goblinAnimator';
+import { GOBLIN_CLIPS, GoblinAnimator } from './goblinAnimator';
+import type { GoblinClip } from './goblinAnimator';
 import type { GoblinAnimationState } from './goblinAnimator';
 
 type Target = TransformNode | Bone;
@@ -9,7 +10,8 @@ interface Track { target: Target; property: 'position' | 'rotationQuaternion' | 
 interface Pose { p: Vector3; q: Quaternion | null; s: Vector3 }
 /** One sampler per instance. Groups are data; no engine autoplay or overlapping full-body animatables. */
 export class GoblinRigAnimator {
-  readonly controller = new GoblinAnimator();
+  readonly controller: GoblinAnimator;
+  private readonly specs: Map<string,GoblinClip>;
   private tracks = new Map<string, Track[]>();
   private nodes = new Set<Target>();
   private from = new Map<Target, Pose>();
@@ -22,7 +24,9 @@ export class GoblinRigAnimator {
   private seamV = Vector3.Zero();
   private seamQ = Quaternion.Identity();
   sampleMs = 0;
-  constructor(groups: readonly AnimationGroup[], hips: Target | null) {
+  constructor(groups: readonly AnimationGroup[], hips: Target | null, clips:readonly GoblinClip[]=GOBLIN_CLIPS, namespace='goblin') {
+    this.controller=new GoblinAnimator(clips,namespace);
+    this.specs=new Map(clips.map(c=>[c.name,c]));
     this.hips = hips; this.restHips = hips?.position.clone() ?? null;
     for (const group of groups) {
       group.stop();
@@ -49,7 +53,7 @@ export class GoblinRigAnimator {
     else Vector3.LerpToRef(track.values[a] as Vector3,track.values[b] as Vector3,k,out as Vector3);
   }
   update(dt: number, state: GoblinAnimationState): void {
-    const begin=performance.now(), sample=this.controller.update(dt,state), spec=clipOf(sample.name)!;
+    const begin=performance.now(), sample=this.controller.update(dt,state), spec=this.specs.get(sample.name)!;
     const tracks=this.tracks.get(spec.original);
     if(!tracks) return;
     if(sample.token!==this.token) {
@@ -86,5 +90,5 @@ export class GoblinRigAnimator {
     }
     this.sampleMs=performance.now()-begin;
   }
-  get activeTracks(): number { return this.controller.last?this.tracks.get(clipOf(this.controller.last.name)!.original)?.length??0:0; }
+  get activeTracks(): number { return this.controller.last?this.tracks.get(this.specs.get(this.controller.last.name)!.original)?.length??0:0; }
 }

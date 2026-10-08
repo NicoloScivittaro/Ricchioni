@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Normal",
+    "mime": "image/png",
+    "dimensions": [
+      4096,
+      4096
+    ],
+    "bytes": 2497322,
+    "rgba8MipMiB": 85.33333333333333
+  },
+  {
+    "name": "Color",
+    "mime": "image/jpeg",
+    "dimensions": [
+      4096,
+      4096
+    ],
+    "bytes": 1130625,
+    "rgba8MipMiB": 85.33333333333333
+  },
+  {
+    "name": "man_3d_model_metallic-man_3d_model_roughness",
+    "mime": "image/png",
+    "dimensions": [
+      4096,
+      4096
+    ],
+    "bytes": 8488435,
+    "rgba8MipMiB": 85.33333333333333
+  }
+]

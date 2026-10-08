@@ -20,7 +20,7 @@ const CHAR_IDS = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'];
 function makeSnapshots(n: number, first: string): PlayerSnapshot[] {
   const start = Math.max(0, CHAR_IDS.indexOf(first));
   return Array.from({ length: n }, (_, i) => {
-    const cid = first==='all-goblin'?'goblin':CHAR_IDS[(start + i) % CHAR_IDS.length];
+    const cid = first==='all-goblin'?'goblin':first==='all-judoka'?'judoka':first==='all-buttafuori'?'buttafuori':first==='all-ciro'?'ciro':CHAR_IDS[(start + i) % CHAR_IDS.length];
     const ch = CHARACTERS[cid];
     return { id: `lab${i + 1}`, displayName: ch.name, characterId: cid, name: ch.name, roleTitle: ch.roleTitle, avatar: ch.avatar, color: ch.color, quote: ch.quote, score: 0 };
   });

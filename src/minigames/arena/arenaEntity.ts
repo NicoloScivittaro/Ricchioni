@@ -7,6 +7,12 @@ import { buildCharacterRig, makeCharMaterials, makeSymbolPlane } from '../charac
 import type { CharMaterials, CharRig } from '../characters/characterModel';
 import { GoblinVisualInstance, goblinNewEnabled, goblinTuning } from '../characters/goblinVisual';
 import { GOBLIN_ACTIONS } from '../characters/goblinAnimator';
+import { JUDOKA_PROFILE } from '../characters/judokaProfile';
+import { judokaNewEnabled } from '../characters/judokaVisualMode';
+import { buttafuoriNewEnabled } from '../characters/buttafuoriVisualMode';
+import { BUTTAFUORI_PROFILE } from '../characters/buttafuoriProfile';
+import { CIRO_PROFILE } from '../characters/ciroProfile';
+import { ciroNewEnabled } from '../characters/ciroVisualMode';
 import type { GoblinAnimationState, GoblinAttack } from '../characters/goblinAnimator';
 import { audio } from '../../core/AudioManager';
 import { CHAR_ICONS, drawIcon } from '../../../shared/charIcons';
@@ -38,6 +44,9 @@ export interface VisualSubject {
 export interface EntityOptions {
   context?: 'arena'|'cornicione'|'dodgeball'|'soccer'|'volley'|'gallery';
   goblinMode?: 'old'|'new';
+  judokaMode?: 'old'|'new';
+  buttafuoriMode?: 'old'|'new';
+  ciroMode?: 'old'|'new';
   /** test silhouette: tutto grigio, nessuna targhetta (si devono riconoscere dalla forma) */
   neutral?: boolean;
   /** targhetta col nome sopra la testa (default sì) */
@@ -244,9 +253,12 @@ export class ArenaEntity {
 
     // GOBLIN TRIPO (pilota): alternativa di RENDER al solo modello del Goblin. Se il GLB non arriva (o la
     // scena muore prima) si continua a disegnare il rig procedurale, che NON viene mai spento in costruzione.
-    if (characterId === 'goblin' && opts.goblinMode !== 'old' && goblinNewEnabled()) {
-      const tuning = goblinTuning();
+    // Sports keep their existing kick/serve/spike poses until those imported animations are accepted.
+    const importedContext = opts.context !== 'soccer' && opts.context !== 'volley';
+    if (importedContext && ((characterId === 'goblin' && opts.goblinMode !== 'old' && goblinNewEnabled()) || (characterId==='judoka'&&opts.judokaMode!=='old'&&judokaNewEnabled()) || (characterId==='buttafuori'&&opts.buttafuoriMode!=='old'&&buttafuoriNewEnabled()) || (characterId==='ciro'&&opts.ciroMode!=='old'&&ciroNewEnabled()))) {
+      const tuning = characterId==='goblin'?goblinTuning():{yawDeg:0,scaleMul:1};
       this.goblinVisual = new GoblinVisualInstance(scene, this.root, {
+        profile:characterId==='judoka'?JUDOKA_PROFILE:characterId==='buttafuori'?BUTTAFUORI_PROFILE:characterId==='ciro'?CIRO_PROFILE:undefined,
         height: this.rig.topY,
         yaw: tuning.yawDeg * (Math.PI / 180),
         scaleMul: tuning.scaleMul,
@@ -1273,8 +1285,9 @@ export class ArenaEntity {
       gp.ability = p.abilityActive;
       gp.result = this.celebration;
       // The procedural lean/squash was tuned for its own rig. Do not add it to authored animation.
-      const unsupportedDownAir = p.attack?.id==='dAL'||p.attack?.id==='dAH';
-      this.legacyAction = unsupportedDownAir || this.charge>0 || (this.actionT>0 && (this.visualContext==='soccer'||this.visualContext==='volley'||(this.visualContext!=='cornicione'&&!GOBLIN_ACTIONS[this.actionKind])));
+      // Keep the imported skin through charging and aerial moves, even without a dedicated clip.
+      // Loading failures still use the procedural body; physics and action timing stay authoritative.
+      this.legacyAction = false;
       this.applyBodyVisibility();
       if (this.importedBody && !this.legacyAction) {
         this.root.rotation.x = 0;

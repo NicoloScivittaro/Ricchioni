@@ -1,0 +1,60 @@
+
+[QUIZ] 10 domande
+  ✔ il quiz termina da solo (275s simulati)
+  ✔ currentQuestion() è valida in OGNI istante, anche ai risultati (bug: questions[10] → crash a ogni frame, finish() mai chiamato)
+  ✔ l'indice resta sull'ultima domanda ai risultati
+  ✔ eseguite esattamente 10 domande (0..9): 0,1,2,3,4,5,6,7,8,9
+  ✔ un solo "intro" per domanda: 10 in totale
+  ✔ evento "results" emesso una volta sola
+  ✔ update() dopo la fine viene ignorato (nessun round in più)
+  ✔ risultati per tutti e 3 i giocatori
+
+[MEMORIA] 5 round (sequenze 3-4-5-6-7)
+  ✔ la configurazione prevede 5 round
+  ✔ tutti vivi: 5 round esatti (i round 1-4 NON chiudono il gioco, il 5° sì)
+  ✔ 2 giocatori in gara: 5 round
+  ✔ un solo superstite dal round 3: si giocano comunque tutti e 5 i round (bug: finiva al round 3)
+  ✔ 2 giocatori, uno sbaglia al round 2: il superstite arriva al round 5
+  ✔ tutti eliminati al round 3: il gioco finisce lì (nessuna condizione valida per continuare)
+  ✔ sesto round mai raggiunto: dopo il round 5 è sempre finito
+
+[TETTO SERVER] copre la durata REALE massima di ogni gioco (con ≥25% di margine)
+  ✔ quiz: ha una stima di durata massima
+  ✔ quiz: tetto 480s ≥ 1.25 × 290s
+  ✔ reaction: ha una stima di durata massima
+  ✔ reaction: tetto 180s ≥ 1.25 × 75s
+  ✔ memory: ha una stima di durata massima
+  ✔ memory: tetto 240s ≥ 1.25 × 105s
+  ✔ arena: ha una stima di durata massima
+  ✔ arena: tetto 240s ≥ 1.25 × 58s
+  ✔ dodgeball: ha una stima di durata massima
+  ✔ dodgeball: tetto 240s ≥ 1.25 × 58s
+  ✔ soccer: ha una stima di durata massima
+  ✔ soccer: tetto 360s ≥ 1.25 × 115s
+  ✔ volleyball: ha una stima di durata massima
+  ✔ volleyball: tetto 720s ≥ 1.25 × 420s
+  ✔ kart3d: ha una stima di durata massima
+  ✔ kart3d: tetto 480s ≥ 1.25 × 185s
+  ✔ cultura: ha una stima di durata massima
+  ✔ cultura: tetto 900s ≥ 1.25 × 430s
+  ✔ fps: ha una stima di durata massima
+  ✔ fps: tetto 300s ≥ 1.25 × 112s
+  ✔ cornicione: ha una stima di durata massima
+  ✔ cornicione: tetto 420s ≥ 1.25 × 185s
+  ✔ Cultura: il vecchio tetto durationSec+20 era troppo corto (bug)
+  ✔ Pallavolo: idem (con scambi più lunghi il vecchio tetto avrebbe troncato la partita)
+
+[FRAME-RATE] il tempo di gioco segue l'orologio, non i frame
+  ✔ 120 FPS: un solo passo con il dt reale
+  ✔ 30 FPS: un solo passo (nessun cambiamento di comportamento)
+  ✔ 10 FPS: 2 sotto-passi ≤ 50ms
+  ✔ 4 FPS: 5 sotto-passi
+  ✔ blocco lungo (3s): recupera al massimo 250ms, poi rallenta invece di saltare
+  ✔ delta non valido → un passo di sicurezza
+  ✔ 4 FPS: 45s reali → 45.00s di gioco (durata identica)
+  ✔ 10 FPS: 45s reali → 45.00s di gioco (durata identica)
+  ✔ 30 FPS: 45s reali → 45.00s di gioco (durata identica)
+  ✔ 60 FPS: 45s reali → 45.00s di gioco (durata identica)
+  ✔ 120 FPS: 45s reali → 45.00s di gioco (durata identica)
+
+✅ ROUNDS SELFTEST OK (50 controlli)
