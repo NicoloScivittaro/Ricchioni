@@ -43,7 +43,15 @@
       "Bash(git stash *)",
       "Bash(OUTP=e2e-shots/characters/fps-before.png node scripts/e2e/_tmp_fps.mjs)",
       "Bash(OUTP=e2e-shots/characters/fps-mine.png node scripts/e2e/_tmp_fps.mjs)",
-      "Bash(OUTP=e2e-shots/characters/fps-close.png node scripts/e2e/_tmp_fps.mjs)"
+      "Bash(OUTP=e2e-shots/characters/fps-close.png node scripts/e2e/_tmp_fps.mjs)",
+      "Bash(python \"C:/Users/NILUF~1.PC-/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/reaction_patch.py\")",
+      "Bash(python \"C:/Users/NILUF~1.PC-/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/quiz_patch.py\")",
+      "Bash(python \"C:/Users/NILUF~1.PC-/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/cultura_patch.py\")",
+      "Bash(python \"C:/Users/NILUF~1.PC-/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/cultura_patch2.py\")",
+      "Bash(GAMES=400 timeout 280 npx tsx scripts/ability-sim.ts)",
+      "Bash(timeout 300 node scripts/e2e/_dbg.mjs)",
+      "Bash(grep -n \"2500\\\\|3100\\\\|durata CONTROLLI\\\\|ABILITÀ/\\\\|ABILITÀ'\" scripts/e2e/*.mjs)",
+      "Bash(node --check scripts/e2e/ability-actions.mjs)"
     ]
   }
 }
