@@ -1,3 +1,4 @@
+import { PartyBots } from '../bots/PartyBots';
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
 import { pads } from '../../input/GamepadManager';
@@ -73,6 +74,7 @@ function hex(color: string): number {
 }
 
 export class MemoryScene extends Phaser.Scene {
+  private soloBots!: PartyBots;
   private ctx!: MinigameContext;
   private players: PState[] = [];
   private sequences: number[][] = [];
@@ -103,6 +105,7 @@ export class MemoryScene extends Phaser.Scene {
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    this.soloBots = new PartyBots(this.ctx);
     // RICOMINCIA riusa la stessa istanza: azzera tutto.
     this.players = [];
     this.sequences = [];
@@ -666,6 +669,7 @@ export class MemoryScene extends Phaser.Scene {
 
     const dt = Math.min(delta, 250) / 1000; // tempo reale fino a ~4 FPS
     this.gameTime += dt;
+    this.soloBots.memory(dt, this.phase, this.round, (this.sequences[this.round] ?? []).slice(0, this.nextFlashIndex), this.players, this.gameTime);
     this.applyDrunk();
     for (const p of this.players) {
       abilityHub.setStatus(p.snap.id, this.abilityStatus(p)); // card sul telefono (solo presentazione)

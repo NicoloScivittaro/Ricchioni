@@ -1,3 +1,4 @@
+import { MotionBots } from '../bots/MotionBots';
 import {
   Engine,
   Scene,
@@ -84,6 +85,7 @@ type Phase = 'countdown' | 'playing' | 'celebrating';
 
 /** Orchestratore del minigioco 3D DODGEBALL DEI COGLIONI (Babylon.js). */
 export class BabylonDodgeballGame {
+  private soloBots: MotionBots;
   private engine: Engine;
   private scene: Scene;
   private players: DodgeballPlayer[] = [];
@@ -137,6 +139,7 @@ export class BabylonDodgeballGame {
     this.invert = ctx.modifier?.id === 'controlli_invertiti';
     this.gravityLow = ctx.modifier?.id === 'gravita_bassa';
 
+    this.soloBots = new MotionBots(ctx);
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.05, 0.08, 0.16, 1);
@@ -281,6 +284,7 @@ export class BabylonDodgeballGame {
         held = true;
       } else {
         this.gameTime += dt;
+        this.soloBots.dodgeball(dt, this.players, this.balls);
         for (const p of this.players) this.stepPlayer(p, dt);
         this.resolvePlayerCollisions();
         this.updateBalls(dt);

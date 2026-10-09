@@ -1,3 +1,4 @@
+import { Rng } from '../../../shared/rng';
 import { Engine, Scene, Color4, DynamicTexture, MeshBuilder, StandardMaterial, Color3 } from '@babylonjs/core';
 import type { Mesh } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
@@ -70,6 +71,7 @@ export class BabylonCornicioneGame {
   private lastAbilitySnap = new Map<PlayerId, { ok: number; fail: number; impact: Record<string, number> }>();
   private lastEndReason = '';
   // debug (solo ?debug=1 / dev)
+  private botRng = new Rng();
   private bots = new Map<PlayerId, FighterBot>();
   private boxes: Mesh[] = [];
   private showBoxes = false;
@@ -92,6 +94,7 @@ export class BabylonCornicioneGame {
       characters: ctx.players.map((p) => p.characterId ?? 'goblin'),
       rng: () => ctx.rng.next()
     });
+    for (const p of ctx.players) if (p.bot) this.setBot(p.id, true);
     this.env = buildCornicioneEnvironment(this.scene, 0);
     registerEnvScene(this.scene);
     this.camera = new FighterCamera(this.scene, canvas);
@@ -781,7 +784,7 @@ export class BabylonCornicioneGame {
 
   setBot(id: PlayerId, on: boolean): void {
     if (!on) this.bots.delete(id);
-    else this.bots.set(id, new FighterBot(id, () => this.ctx.rng.next(), 0.7));
+    else this.bots.set(id, new FighterBot(id, () => this.botRng.next(), 0.7));
   }
 
   // ------------------------------------------------------------------ ciclo di vita

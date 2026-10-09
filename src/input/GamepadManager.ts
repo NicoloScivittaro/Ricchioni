@@ -72,7 +72,7 @@ interface RoomLike {
   phase: string;
   paused?: boolean;
   roomCode?: string;
-  players: { id: string; displayName: string; characterId: string | null; connected: boolean; pad?: string | null }[];
+  players: { id: string; displayName: string; characterId: string | null; connected: boolean; bot?: boolean; pad?: string | null }[];
   currentMinigame: { minigameId: string } | null;
 }
 
@@ -141,7 +141,7 @@ export class GamepadManager {
       this.restorePairs();
     }
     // giocatori: una casella per ciascuno (ordine di ingresso)
-    const ids = s.players.map((p) => p.id);
+    const ids = s.players.filter((p) => !p.bot).map((p) => p.id);
     for (const id of ids) if (!this.slots.has(id)) this.slots.set(id, { playerId: id, state: 'none', padIndex: null, padId: '' });
     for (const id of [...this.slots.keys()]) {
       if (!ids.includes(id)) {

@@ -1,3 +1,4 @@
+import { MotionBots } from '../bots/MotionBots';
 import Phaser from 'phaser';
 import { splitFrameDelta } from '../../core/frameClock';
 import { audio } from '../../core/AudioManager';
@@ -135,6 +136,7 @@ interface Blast {
 }
 
 export class FpsScene extends Phaser.Scene {
+  private soloBots!: MotionBots;
   private ctx!: MinigameContext;
   private players: FpsPlayer[] = [];
   private matchTime = 0;
@@ -163,6 +165,7 @@ export class FpsScene extends Phaser.Scene {
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    this.soloBots = new MotionBots(this.ctx);
     this.players = [];
     this.finished = false;
     this.broadcastAcc = 0;
@@ -376,6 +379,7 @@ export class FpsScene extends Phaser.Scene {
 
     for (const sub of steps) {
       this.clock += sub;
+      this.soloBots.fps(sub, this.players);
       for (const p of this.players) this.stepPlayer(p, sub);
       this.stepBlasts();
     }

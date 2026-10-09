@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+import { CHARACTERS } from '../shared/characters';
 import { Emitter } from '../shared/events';
 import { Rng } from '../shared/rng';
 import { ScoreManager } from '../shared/scoring';
@@ -100,7 +102,7 @@ export class GameSession {
     const clean: Record<PlayerId, string> = {};
     if (pads && typeof pads === 'object') {
       for (const [id, name] of Object.entries(pads)) {
-        if (this.getPlayer(id) && typeof name === 'string' && name.trim()) clean[id] = name.trim().slice(0, 24);
+        if (this.getPlayer(id) && !this.getPlayer(id)!.bot && typeof name === 'string' && name.trim()) clean[id] = name.trim().slice(0, 24);
       }
     }
     if (JSON.stringify(clean) === JSON.stringify(this.gamepads)) return false;
@@ -124,18 +126,18 @@ export class GameSession {
     return this.players.length >= this.playerCount;
   }
 
-  /** Minimo di giocatori per iniziare una partita vera. */
-  static readonly MIN_TO_START = 2;
+  /** Basta un giocatore reale pronto: i posti restanti sono bot solo in solitaria. */
+  static readonly MIN_TO_START = 1;
 
   allReady(): boolean {
     return (
-      this.players.length >= GameSession.MIN_TO_START && this.players.every((p) => p.ready && p.characterId)
+      this.players.length >= GameSession.MIN_TO_START && this.players.some((p) => !p.bot) && this.players.every((p) => p.connected && p.ready && p.characterId && Object.hasOwn(CHARACTERS, p.characterId))
     );
   }
 
   selectCharacter(playerId: PlayerId, characterId: string): void {
     const p = this.getPlayer(playerId);
-    if (!p || this.phase !== 'LOBBY') return;
+    if (!p || p.bot || !Object.hasOwn(CHARACTERS, characterId) || this.phase !== 'LOBBY') return;
     if (this.charactersLocked.includes(characterId) && p.characterId !== characterId) return;
     if (p.characterId && p.characterId !== characterId) {
       this.charactersLocked = this.charactersLocked.filter((c) => c !== p.characterId);
@@ -175,12 +177,25 @@ export class GameSession {
   startGame(): void {
     // Guard anti doppio START (tasto tenuto premuto / doppio click): solo dalla LOBBY.
     if (this.phase !== 'LOBBY' || !this.allReady()) return;
+    // Fill only an actual solo lobby. Disconnected friends are not replaced.
+    if (this.players.length === 1 && !this.players[0].bot) {
+      const available = ['goblin', 'buttafuori', 'judoka', 'ciro', 'dottore']
+        .filter((id) => !this.charactersLocked.includes(id));
+      for (const characterId of available.slice(0, this.playerCount - 1)) {
+        const bot = new PlayerSession(`bot:${randomUUID()}`, `BOT ${CHARACTERS[characterId].name}`, '');
+        bot.bot = true;
+        bot.characterId = characterId;
+        bot.ready = true;
+        this.players.push(bot);
+        this.charactersLocked.push(characterId);
+      }
+    }
     this.round = 1;
     this.pickAndEnterRoulette();
   }
 
   /**
-   * Risultati di un minigioco sanificati: solo giocatori veri, nessun duplicato,
+   * Risultati di un minigioco sanificati: solo partecipanti della stanza, nessun duplicato,
    * placement finiti; chi manca (disconnesso/non piazzato) va in coda. Restituisce
    * SEMPRE una classifica completa 1..N, mai placement undefined.
    */
@@ -333,6 +348,9 @@ export class GameSession {
   restartMatch(): void {
     log('ROOM', this.roomCode, 'nuova partita: punteggi azzerati, stessi giocatori');
     this.clearTimer();
+    this.players = this.players.filter((p) => !p.bot);
+    this.charactersLocked = this.players.flatMap((p) => p.characterId ? [p.characterId] : []);
+    this.gamepads = Object.fromEntries(Object.entries(this.gamepads).filter(([id]) => !!this.getPlayer(id)));
     for (const p of this.players) {
       p.score = 0;
       p.ready = false;

@@ -1,3 +1,4 @@
+import { MotionBots } from '../bots/MotionBots';
 import { Engine, Scene, Color4, DynamicTexture } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
@@ -47,6 +48,7 @@ type Phase = 'countdown' | 'playing' | 'celebrating';
 
 /** Orchestratore del minigioco 3D ARENA DEL DISAGIO (Babylon.js su canvas dedicato). */
 export class BabylonArenaGame {
+  private soloBots: MotionBots;
   private engine: Engine;
   private scene: Scene;
   private players: ArenaPlayer[] = [];
@@ -89,6 +91,7 @@ export class BabylonArenaGame {
     this.invert = ctx.modifier?.id === 'controlli_invertiti';
     this.gravityLow = ctx.modifier?.id === 'gravita_bassa';
 
+    this.soloBots = new MotionBots(ctx);
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.07, 0.04, 0.12, 1);
@@ -189,6 +192,7 @@ export class BabylonArenaGame {
       } else {
         this.gameTime += dt;
         this.updateShrink();
+        this.soloBots.arena(dt, this.players, this.currentRadius);
         for (const p of this.players) this.stepPlayer(p, dt);
         this.resolveCollisions();
         this.checkEliminations();

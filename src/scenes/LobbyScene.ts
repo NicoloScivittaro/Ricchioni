@@ -42,7 +42,8 @@ export class LobbyScene extends Phaser.Scene {
       this.keycap(640 - 300, y + 4, keys === 'lr' ? '◀' : '▲');
       this.keycap(640 + 300, y + 4, keys === 'lr' ? '▶' : '▼');
     };
-    row(286, 'QUANTI SIETE', 'lr');
+    row(286, 'POSTI IN PARTITA', 'lr');
+    infoText(this, 640, 352, 'SE ENTRI DA SOLO, GLI ALTRI POSTI SONO BOT', UI.size.XS, UI.color.textDim);
     this.countText = displayText(this, 640, 290, String(this.count), UI.size.XL, UI.color.text);
     row(436, 'QUANTO DURA LA SERATA', 'ud');
     this.targetText = displayText(this, 640, 432, '', UI.size.L, UI.color.text);

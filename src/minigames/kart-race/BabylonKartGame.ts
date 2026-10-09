@@ -1,3 +1,4 @@
+import { MotionBots } from '../bots/MotionBots';
 import {
   Engine,
   Scene,
@@ -44,6 +45,7 @@ const KART_LAT_RADIUS = 1.7;
 
 /** Orchestratore del minigioco 3D: una sola scena Babylon, più camere/viewport. */
 export class BabylonKartGame {
+  private soloBots: MotionBots;
   private engine: Engine;
   private scene: Scene;
   private spline: TrackSpline;
@@ -79,6 +81,7 @@ export class BabylonKartGame {
     private canvas: HTMLCanvasElement,
     private ctx: MinigameContext
   ) {
+    this.soloBots = new MotionBots(ctx);
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.spline = buildTrack();
@@ -104,7 +107,7 @@ export class BabylonKartGame {
     this.hud.setTrack(this.spline, this.checkpoints); // minimappa (prima di ensure(): ogni viewport ne riceve una)
     this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), this.trackAngleAt, (ev) => this.onRaceEvent(ev));
 
-    this.order = [...ctx.playerIds];
+    this.order = ctx.players.filter((p) => !p.bot).map((p) => p.id);
     // Griglia equa: chi è in testa alla classifica parte dietro, gli ultimi davanti; a parità decide il caso
     // (prima la pole andava sempre a chi era entrato per primo in stanza). L'ordine dei viewport resta invariato.
     const gridSlot = new Map(
@@ -129,8 +132,10 @@ export class BabylonKartGame {
       for (const mesh of entity.root.getChildMeshes()) shadowGen.addShadowCaster(mesh, false);
 
       const camStart = this.spline.worldPoint(state.distance, state.lateral, 3.5);
-      this.cameraManager.ensure(p.id, camStart);
-      this.hud.ensure(p.id, p.color);
+      if (!p.bot) {
+        this.cameraManager.ensure(p.id, camStart);
+        this.hud.ensure(p.id, p.color);
+      }
     });
 
     this.cameraManager.applyLayout(this.order);
@@ -172,6 +177,7 @@ export class BabylonKartGame {
     }
 
     if (this.race.phase === 'racing') {
+      this.soloBots.kart(dt, kartsList, this.spline);
       for (const [pid, state] of this.karts) {
         if (state.finished) continue;
         const pin = this.ctx.input.get(pid);

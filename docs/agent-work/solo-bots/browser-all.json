@@ -1,0 +1,367 @@
+{
+  "games": [
+    {
+      "id": "arena",
+      "before": [
+        {
+          "id": "74d7e2aa-303e-468e-9eec-210b3578aa0c",
+          "x": 4.286263797015736e-16,
+          "z": -7
+        },
+        {
+          "id": "bot:dec3dee4-0e9c-467e-9341-397c2d352da3",
+          "x": 4.971380566300834,
+          "z": -2.028619433699167
+        },
+        {
+          "id": "bot:36ac2fee-38c0-450d-81f0-5a83ae32f1e6",
+          "x": -2.0286194336991668,
+          "z": 4.971380566300834
+        },
+        {
+          "id": "bot:5b1fe0bd-f7f7-45f6-82b5-9f437624cb12",
+          "x": -4.971380566300834,
+          "z": 2.028619433699168
+        }
+      ],
+      "last": {
+        "phase": "celebrating",
+        "resultsSent": true,
+        "ball": null,
+        "players": [
+          {
+            "id": "74d7e2aa-303e-468e-9eec-210b3578aa0c",
+            "x": -113.75144034342745,
+            "z": -255.41064901889447,
+            "alive": false,
+            "eliminations": 0
+          },
+          {
+            "id": "bot:dec3dee4-0e9c-467e-9341-397c2d352da3",
+            "x": -4.416768684604651,
+            "z": -3.5322875435090544,
+            "alive": true,
+            "eliminations": 1
+          },
+          {
+            "id": "bot:36ac2fee-38c0-450d-81f0-5a83ae32f1e6",
+            "x": -3.9410721592019886,
+            "z": -1.5244522195283199,
+            "alive": true,
+            "eliminations": 0
+          },
+          {
+            "id": "bot:5b1fe0bd-f7f7-45f6-82b5-9f437624cb12",
+            "x": -3.798323128001694,
+            "z": 0.5706904281430457,
+            "alive": true,
+            "eliminations": 0
+          }
+        ],
+        "actions": {
+          "dash": 175,
+          "hold:dash": 175,
+          "ability": 12,
+          "hold:ability": 12
+        }
+      },
+      "results": {
+        "results": [
+          {
+            "playerId": "bot:5b1fe0bd-f7f7-45f6-82b5-9f437624cb12",
+            "placement": 1,
+            "score": 0,
+            "stats": [
+              "ultimo in piedi"
+            ]
+          },
+          {
+            "playerId": "bot:36ac2fee-38c0-450d-81f0-5a83ae32f1e6",
+            "placement": 2,
+            "score": 0,
+            "stats": [
+              "ultimo in piedi"
+            ]
+          },
+          {
+            "playerId": "bot:dec3dee4-0e9c-467e-9341-397c2d352da3",
+            "placement": 3,
+            "score": 0,
+            "stats": [
+              "ultimo in piedi",
+              "1 buttato fuori"
+            ]
+          },
+          {
+            "playerId": "74d7e2aa-303e-468e-9eec-210b3578aa0c",
+            "placement": 4,
+            "score": 0,
+            "stats": [
+              "caduto dopo 7s"
+            ]
+          }
+        ],
+        "ranking": [
+          "bot:5b1fe0bd-f7f7-45f6-82b5-9f437624cb12",
+          "bot:36ac2fee-38c0-450d-81f0-5a83ae32f1e6",
+          "bot:dec3dee4-0e9c-467e-9341-397c2d352da3",
+          "74d7e2aa-303e-468e-9eec-210b3578aa0c"
+        ],
+        "deltas": {
+          "bot:5b1fe0bd-f7f7-45f6-82b5-9f437624cb12": 10,
+          "bot:36ac2fee-38c0-450d-81f0-5a83ae32f1e6": 7,
+          "bot:dec3dee4-0e9c-467e-9341-397c2d352da3": 4,
+          "74d7e2aa-303e-468e-9eec-210b3578aa0c": 2
+        },
+        "double": false
+      },
+      "simulated": 50,
+      "counters": {
+        "liveInstances": 1,
+        "abortedLoads": 0,
+        "lateDisposedContainers": 0,
+        "modules": [
+          "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791579464818"
+        ]
+      }
+    },
+    {
+      "id": "cornicione",
+      "before": [
+        {
+          "id": "74d7e2aa-303e-468e-9eec-210b3578aa0c",
+          "x": -10
+        },
+        {
+          "id": "bot:22f84859-06dc-47d4-b9b3-9532f220eaaf",
+          "x": -7.97912859997298
+        },
+        {
+          "id": "bot:66ebacc7-7c00-449e-aaa6-537f64068862",
+          "x": 5.05427690110302
+        },
+        {
+          "id": "bot:a01a14f0-d9fa-44f2-ae2f-db954349ed07",
+          "x": 7.047526487493633
+        }
+      ],
+      "last": {
+        "phase": "celebrating",
+        "resultsSent": true,
+        "ball": null,
+        "players": [
+          {
+            "id": "74d7e2aa-303e-468e-9eec-210b3578aa0c",
+            "x": 13.975631621451555,
+            "alive": false
+          },
+          {
+            "id": "bot:22f84859-06dc-47d4-b9b3-9532f220eaaf",
+            "x": 13.994,
+            "alive": true
+          },
+          {
+            "id": "bot:66ebacc7-7c00-449e-aaa6-537f64068862",
+            "x": 13.62,
+            "alive": false
+          },
+          {
+            "id": "bot:a01a14f0-d9fa-44f2-ae2f-db954349ed07",
+            "x": 34.079379039625856,
+            "alive": false
+          }
+        ],
+        "actions": {}
+      },
+      "results": {
+        "results": [
+          {
+            "playerId": "bot:22f84859-06dc-47d4-b9b3-9532f220eaaf",
+            "placement": 1,
+            "score": 5,
+            "stats": [
+              "5 KO",
+              "643% danno",
+              "4 recuperi"
+            ]
+          },
+          {
+            "playerId": "bot:a01a14f0-d9fa-44f2-ae2f-db954349ed07",
+            "placement": 2,
+            "score": 3,
+            "stats": [
+              "3 KO",
+              "339% danno",
+              "10 recuperi"
+            ]
+          },
+          {
+            "playerId": "bot:66ebacc7-7c00-449e-aaa6-537f64068862",
+            "placement": 3,
+            "score": 1,
+            "stats": [
+              "1 KO",
+              "278% danno",
+              "5 counter"
+            ]
+          },
+          {
+            "playerId": "74d7e2aa-303e-468e-9eec-210b3578aa0c",
+            "placement": 4,
+            "score": 0,
+            "stats": [
+              "0 KO"
+            ]
+          }
+        ],
+        "ranking": [
+          "bot:22f84859-06dc-47d4-b9b3-9532f220eaaf",
+          "bot:a01a14f0-d9fa-44f2-ae2f-db954349ed07",
+          "bot:66ebacc7-7c00-449e-aaa6-537f64068862",
+          "74d7e2aa-303e-468e-9eec-210b3578aa0c"
+        ],
+        "deltas": {
+          "bot:22f84859-06dc-47d4-b9b3-9532f220eaaf": 10,
+          "bot:a01a14f0-d9fa-44f2-ae2f-db954349ed07": 7,
+          "bot:66ebacc7-7c00-449e-aaa6-537f64068862": 4,
+          "74d7e2aa-303e-468e-9eec-210b3578aa0c": 2
+        },
+        "double": false
+      },
+      "simulated": 135,
+      "counters": {
+        "liveInstances": 1,
+        "abortedLoads": 0,
+        "lateDisposedContainers": 0,
+        "modules": [
+          "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791579464818"
+        ]
+      }
+    },
+    {
+      "id": "dodgeball",
+      "before": [
+        {
+          "id": "74d7e2aa-303e-468e-9eec-210b3578aa0c",
+          "x": -11,
+          "z": 7
+        },
+        {
+          "id": "bot:1ccf61fc-1ffe-4bd4-a3c9-645bedf80421",
+          "x": -3.153956857412365,
+          "z": 8
+        },
+        {
+          "id": "bot:56d659df-6769-4dd4-883a-e7a96e11da0b",
+          "x": 3.153956857412364,
+          "z": 8
+        },
+        {
+          "id": "bot:4273001b-6c44-40dc-aa7e-3b0d911d248c",
+          "x": 11.810764305993859,
+          "z": 8
+        }
+      ],
+      "last": {
+        "phase": "celebrating",
+        "resultsSent": true,
+        "ball": null,
+        "players": [
+          {
+            "id": "74d7e2aa-303e-468e-9eec-210b3578aa0c",
+            "x": -11,
+            "z": 7,
+            "alive": true,
+            "eliminations": 0
+          },
+          {
+            "id": "bot:1ccf61fc-1ffe-4bd4-a3c9-645bedf80421",
+            "x": -3.1627781380089006,
+            "z": 8,
+            "alive": true,
+            "eliminations": 0
+          },
+          {
+            "id": "bot:56d659df-6769-4dd4-883a-e7a96e11da0b",
+            "x": 3.1627781379920803,
+            "z": 8,
+            "alive": true,
+            "eliminations": 0
+          },
+          {
+            "id": "bot:4273001b-6c44-40dc-aa7e-3b0d911d248c",
+            "x": 13,
+            "z": 8,
+            "alive": true,
+            "eliminations": 0
+          }
+        ],
+        "actions": {}
+      },
+      "results": {
+        "results": [
+          {
+            "playerId": "74d7e2aa-303e-468e-9eec-210b3578aa0c",
+            "placement": 1,
+            "score": 0,
+            "stats": [
+              "0 eliminazioni",
+              "ultimo in piedi"
+            ]
+          },
+          {
+            "playerId": "bot:1ccf61fc-1ffe-4bd4-a3c9-645bedf80421",
+            "placement": 2,
+            "score": 0,
+            "stats": [
+              "0 eliminazioni",
+              "ultimo in piedi"
+            ]
+          },
+          {
+            "playerId": "bot:56d659df-6769-4dd4-883a-e7a96e11da0b",
+            "placement": 3,
+            "score": 0,
+            "stats": [
+              "0 eliminazioni",
+              "ultimo in piedi"
+            ]
+          },
+          {
+            "playerId": "bot:4273001b-6c44-40dc-aa7e-3b0d911d248c",
+            "placement": 4,
+            "score": 0,
+            "stats": [
+              "0 eliminazioni",
+              "ultimo in piedi"
+            ]
+          }
+        ],
+        "ranking": [
+          "74d7e2aa-303e-468e-9eec-210b3578aa0c",
+          "bot:1ccf61fc-1ffe-4bd4-a3c9-645bedf80421",
+          "bot:56d659df-6769-4dd4-883a-e7a96e11da0b",
+          "bot:4273001b-6c44-40dc-aa7e-3b0d911d248c"
+        ],
+        "deltas": {
+          "74d7e2aa-303e-468e-9eec-210b3578aa0c": 10,
+          "bot:1ccf61fc-1ffe-4bd4-a3c9-645bedf80421": 7,
+          "bot:56d659df-6769-4dd4-883a-e7a96e11da0b": 4,
+          "bot:4273001b-6c44-40dc-aa7e-3b0d911d248c": 2
+        },
+        "double": false
+      },
+      "simulated": 45,
+      "counters": {
+        "liveInstances": 1,
+        "abortedLoads": 0,
+        "lateDisposedContainers": 0,
+        "modules": [
+          "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791579464818"
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "failure": "AssertionError [ERR_ASSERTION]: dodgeball bots issued commands"
+}

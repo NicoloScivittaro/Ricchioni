@@ -14,7 +14,7 @@ import { displayText, infoText, uiPanel } from '../core/uiPhaser';
 import { controllerUrlForRoom } from '../../shared/controllerUrl';
 
 /** Minimo giocatori per avviare (deve coincidere con GameSession.MIN_TO_START sul server). */
-const MIN_TO_START = 2;
+const MIN_TO_START = 1;
 const SLOT_X0 = 598;
 const SLOT_W = 120;
 const SLOT_Y = 300;
@@ -193,7 +193,7 @@ export class RoomScene extends Phaser.Scene {
   private tryStart(): void {
     const st = gm.state;
     if (!st) return;
-    if (st.players.length >= MIN_TO_START && st.players.every((p) => p.ready && p.characterId)) {
+    if (st.players.length >= MIN_TO_START && st.players.every((p) => p.connected && p.ready && p.characterId)) {
       audio.ui('confirm');
       gm.startGame();
     }
@@ -236,7 +236,7 @@ export class RoomScene extends Phaser.Scene {
       const pr = presentationOf(cid);
       this.portraits[i].setAlpha(p ? 1 : 0.22);
       if (p) {
-        const dev = pads.slotOf(p.id)?.state === 'paired' ? '🎮' : '📱';
+        const dev = p.bot ? '🤖' : pads.slotOf(p.id)?.state === 'paired' ? '🎮' : '📱';
         const status = !p.connected ? '⚠ OFFLINE' : p.ready ? `✅ PRONTO ${dev}` : `… SCEGLIE ${dev}`;
         this.names[i].setText(p.displayName.toUpperCase()).setColor(c.color).setFontSize(UI.size.XS + 1);
         // nomi lunghi: si riducono e poi si accorciano, non escono mai dalla scheda
@@ -257,18 +257,18 @@ export class RoomScene extends Phaser.Scene {
     this.countText.setText(`${n} / ${st.playerCount} GIOCATORI`);
     // riepilogo dispositivi, leggibile a colpo d'occhio: "4 🎮 + 1 📱" oppure "5 🎮"
     const phone = n - withPad;
-    this.devText.setText(n === 0 ? 'ASPETTO I GIOCATORI…' : withPad === 0 ? `${n} 📱 TELEFONI` : phone ? `${withPad} 🎮 + ${phone} 📱` : `${withPad} 🎮`);
+    this.devText.setText(n === 1 ? `SE SEI SOLO: ${st.playerCount - 1} BOT AL VIA` : n === 0 ? 'ASPETTO I GIOCATORI…' : withPad === 0 ? `${n} 📱 TELEFONI` : phone ? `${withPad} 🎮 + ${phone} 📱` : `${withPad} 🎮`);
 
-    const canStart = n >= MIN_TO_START && st.players.every((p) => p.ready && p.characterId);
+    const canStart = n >= MIN_TO_START && st.players.every((p) => p.connected && p.ready && p.characterId);
     this.tweens.killTweensOf(this.startText);
     this.startText.setScale(1);
     if (canStart) {
-      this.startText.setText('INVIO  ·  INIZIA LA SERATA').setColor('#062012').setStroke('#062012', 0);
+      this.startText.setText(n === 1 ? `INVIO  ·  GIOCA SOLO + ${st.playerCount - 1} BOT` : 'INVIO  ·  INIZIA LA SERATA').setColor('#062012').setStroke('#062012', 0);
       this.startBar.setFillStyle(hexToInt(UI.color.success), 1).setStrokeStyle(3, hexToInt('#bbf7d0'));
       this.tweens.add({ targets: this.startText, scale: 1.04, duration: UI.motion.pulse, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
     } else {
       this.startText
-        .setText(n < MIN_TO_START ? `SERVONO ALMENO ${MIN_TO_START} GIOCATORI` : 'ASPETTO CHE TUTTI SIANO PRONTI…')
+        .setText(n < MIN_TO_START ? 'ENTRA E SCEGLI IL PERSONAGGIO' : 'ASPETTO CHE TUTTI SIANO PRONTI…')
         .setColor(UI.color.muted)
         .setStroke(UI.outline.color, UI.outline.thin);
       this.startBar.setFillStyle(hexToInt(UI.color.panel), 0.92).setStrokeStyle(3, hexToInt(UI.color.line));

@@ -1,0 +1,5 @@
+{
+  "games": [],
+  "errors": [],
+  "failure": "AssertionError [ERR_ASSERTION]: volleyball naturally completes within 500 simulated seconds: {\"phase\":\"playing\",\"resultsSent\":false,\"red\":1,\"blue\":0,\"ball\":{\"state\":\"flying\",\"holder\":null},\"players\":[{\"id\":\"59d8ba87-1f18-45a0-8f11-2343af6fe1d7\",\"x\":-8.399999999999999,\"z\":-6,\"alive\":true},{\"id\":\"bot:55125051-ce42-4a80-b2ad-b1385a3e2b18\",\"x\":4.1472796944994955e-102,\"z\":-4.401992413058237,\"alive\":true},{\"id\":\"bot:e4e6c546-2cc9-42ca-805b-692bd9de06b2\",\"x\":1.1793968816832242e-101,\"z\":2.902959657118611,\"alive\":true},{\"id\":\"bot:cd2ec9ed-9cfe-4a3c-816b-72c47df9aa38\",\"x\":1.1793968816832242e-101,\"z\":2.902959657118611,\"alive\":true}],\"actions\":{\"hit\":663,\"hold:hit\":663,\"jump\":590,\"hold:jump\":590,\"ability\":145,\"hold:ability\":145},\"texts\":[{\"id\":\"bot:55125051-ce42-4a80-b2ad-b1385a3e2b18\",\"bluff\":\"\",\"vote\":\"\"},{\"id\":\"bot:e4e6c546-2cc9-42ca-805b-692bd9de06b2\",\"bluff\":\"\",\"vote\":\"\"},{\"id\":\"bot:cd2ec9ed-9cfe-4a3c-816b-72c47df9aa38\",\"bluff\":\"\",\"vote\":\"\"}]}"
+}

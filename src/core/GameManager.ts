@@ -281,9 +281,10 @@ export class GameManager {
     const c = p.characterId ? getCharacter(p.characterId) : null;
     return {
       id: p.id,
+      bot: p.bot,
       displayName: p.displayName,
       characterId: p.characterId,
-      name: c?.name ?? p.displayName,
+      name: p.bot ? p.displayName : c?.name ?? p.displayName,
       roleTitle: c?.roleTitle ?? '',
       avatar: c?.avatar ?? '🎮',
       color: c?.color ?? '#ffffff',

@@ -1,3 +1,4 @@
+import { Rng } from '../../../shared/rng';
 import { ArcRotateCamera, Color3, DynamicTexture, Engine, Matrix, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
@@ -112,6 +113,7 @@ export class CasaCarboGame {
   private names = new Map<PlayerId, string>();
   private colors = new Map<PlayerId, string>();
   private chars = new Map<PlayerId, string>();
+  private botRng = new Rng();
   private bots = new Map<PlayerId, CCBot>();
 
   private phase: Phase = 'countdown';
@@ -147,6 +149,7 @@ export class CasaCarboGame {
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.world = new CasaCarboWorld({ ids: ctx.players.map((p) => p.id), characters: ctx.players.map((p) => p.characterId ?? 'goblin'), rng: () => ctx.rng.next() });
+    for (const p of ctx.players) if (p.bot) this.setBot(p.id, true);
     this.env = buildCasaCarboEnvironment(this.scene);
     this.interiorMask = new Uint8Array(this.world.h.length);
     for (const k of this.world.grid.interiorCells) this.interiorMask[k] = 1;
@@ -742,7 +745,7 @@ export class CasaCarboGame {
     if (!on) this.bots.delete(id);
     else {
       const i = this.ctx.players.findIndex((p) => p.id === id);
-      this.bots.set(id, new CCBot(id, () => this.ctx.rng.next(), botRoles(this.ctx.players.length)[Math.max(0, i)] ?? 'bucket'));
+      this.bots.set(id, new CCBot(id, () => this.botRng.next(), botRoles(this.ctx.players.length)[Math.max(0, i)] ?? 'bucket'));
     }
   }
 

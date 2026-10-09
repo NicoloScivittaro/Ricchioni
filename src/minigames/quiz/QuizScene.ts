@@ -1,3 +1,4 @@
+import { PartyBots } from '../bots/PartyBots';
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
 import { setGameIntensity } from '../../core/musicDirector';
@@ -55,6 +56,7 @@ interface PlayerRow {
  * si disegna, e si inoltrano gli input del telefono al manager.
  */
 export class QuizScene extends Phaser.Scene {
+  private soloBots!: PartyBots;
   private ctx!: MinigameContext;
   private backdrop: Backdrop | null = null;
   private manager!: QuizRoundManager;
@@ -99,6 +101,7 @@ export class QuizScene extends Phaser.Scene {
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    this.soloBots = new PartyBots(this.ctx);
     // RICOMINCIA riusa la stessa istanza di scena: azzera tutto lo stato custom.
     this.resultsSent = false;
     this.quizStateTimer = 0;
@@ -320,6 +323,8 @@ export class QuizScene extends Phaser.Scene {
     if (this.manager.phase === 'intro' && this.padSelectResetPhase !== 'intro') this.padSelected.clear();
     this.padSelectResetPhase = this.manager.phase;
 
+    const botQuestion = this.manager.currentQuestion();
+    this.soloBots.quiz(dt, this.manager.phase, `${this.manager.questionIndex}:${botQuestion.id}`, botQuestion.difficulty, botQuestion.correctAnswerIndex);
     for (const pid of this.ctx.playerIds) {
       const input = this.ctx.input.get(pid);
       if (input.justPressed('answerA')) this.manager.submitAnswer(pid, 0);

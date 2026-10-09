@@ -5,7 +5,7 @@ import type { CCInput, CCPlayer } from './ccTypes';
 import type { CasaCarboWorld } from './waterCore';
 
 /**
- * BOT DI TEST di Casa Carbo: non sono giocatori furbi, servono a simulazioni e regressioni. Ruoli semplici: SECCHIO (raccoglie la
+ * BOT di Casa Carbo per solitaria e simulazioni. Ruoli semplici: SECCHIO (raccoglie la
  * pozza piu' grossa e la porta allo scarico piu' vicino), TIRACQUA (spinge l'acqua verso lo scarico del bagno seguendo la discesa),
  * PORTA (contiene l'ingresso). Reagiscono agli eventi (scarico intasato, TV) e usano l'abilita' in momenti plausibili.
  */

@@ -1,0 +1,299 @@
+{
+  "games": [
+    {
+      "id": "dodgeball",
+      "before": [
+        {
+          "id": "b952f8c4-98ee-47a3-96bb-7920f2939dba",
+          "x": -11,
+          "z": 7
+        },
+        {
+          "id": "bot:b1730147-4a79-4dc3-8170-777543675fa5",
+          "x": -4.519542133536107,
+          "z": 4.732862683005287
+        },
+        {
+          "id": "bot:cfb25683-419d-4df7-a2e6-304e116f6d2d",
+          "x": 4.519542133536106,
+          "z": 4.732862683005288
+        },
+        {
+          "id": "bot:f613e5b1-b0f7-4a4a-98d4-9a729eabd543",
+          "x": 9.649753529477795,
+          "z": 4.988994618371182
+        }
+      ],
+      "last": {
+        "phase": "celebrating",
+        "resultsSent": true,
+        "ball": null,
+        "players": [
+          {
+            "id": "b952f8c4-98ee-47a3-96bb-7920f2939dba",
+            "x": -16.69028773568453,
+            "z": 12.895397055756334,
+            "alive": false,
+            "eliminations": 0
+          },
+          {
+            "id": "bot:b1730147-4a79-4dc3-8170-777543675fa5",
+            "x": -8.742819375707496,
+            "z": 4.746422948396551,
+            "alive": false,
+            "eliminations": 1
+          },
+          {
+            "id": "bot:cfb25683-419d-4df7-a2e6-304e116f6d2d",
+            "x": 3.3633509309014276,
+            "z": 1.4412231414898278,
+            "alive": true,
+            "eliminations": 2
+          },
+          {
+            "id": "bot:f613e5b1-b0f7-4a4a-98d4-9a729eabd543",
+            "x": 15.351457317816159,
+            "z": 4.897005164523049,
+            "alive": false,
+            "eliminations": 0
+          }
+        ],
+        "actions": {
+          "throw": 4,
+          "hold:throw": 4
+        },
+        "texts": [
+          {
+            "id": "bot:b1730147-4a79-4dc3-8170-777543675fa5",
+            "bluff": "",
+            "vote": ""
+          },
+          {
+            "id": "bot:cfb25683-419d-4df7-a2e6-304e116f6d2d",
+            "bluff": "",
+            "vote": ""
+          },
+          {
+            "id": "bot:f613e5b1-b0f7-4a4a-98d4-9a729eabd543",
+            "bluff": "",
+            "vote": ""
+          }
+        ]
+      },
+      "results": {
+        "results": [
+          {
+            "playerId": "bot:cfb25683-419d-4df7-a2e6-304e116f6d2d",
+            "placement": 1,
+            "score": 2,
+            "stats": [
+              "2 eliminazioni",
+              "ultimo in piedi"
+            ]
+          },
+          {
+            "playerId": "bot:b1730147-4a79-4dc3-8170-777543675fa5",
+            "placement": 2,
+            "score": 1,
+            "stats": [
+              "1 eliminazione",
+              "fuori dopo 4s"
+            ]
+          },
+          {
+            "playerId": "bot:f613e5b1-b0f7-4a4a-98d4-9a729eabd543",
+            "placement": 3,
+            "score": 0,
+            "stats": [
+              "0 eliminazioni",
+              "fuori dopo 3s"
+            ]
+          },
+          {
+            "playerId": "b952f8c4-98ee-47a3-96bb-7920f2939dba",
+            "placement": 4,
+            "score": 0,
+            "stats": [
+              "0 eliminazioni",
+              "fuori dopo 3s"
+            ]
+          }
+        ],
+        "ranking": [
+          "bot:cfb25683-419d-4df7-a2e6-304e116f6d2d",
+          "bot:b1730147-4a79-4dc3-8170-777543675fa5",
+          "bot:f613e5b1-b0f7-4a4a-98d4-9a729eabd543",
+          "b952f8c4-98ee-47a3-96bb-7920f2939dba"
+        ],
+        "deltas": {
+          "bot:cfb25683-419d-4df7-a2e6-304e116f6d2d": 10,
+          "bot:b1730147-4a79-4dc3-8170-777543675fa5": 7,
+          "bot:f613e5b1-b0f7-4a4a-98d4-9a729eabd543": 4,
+          "b952f8c4-98ee-47a3-96bb-7920f2939dba": 2
+        },
+        "double": false
+      },
+      "simulated": 5,
+      "counters": {
+        "liveInstances": 1,
+        "abortedLoads": 0,
+        "lateDisposedContainers": 0,
+        "modules": [
+          "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791579464818"
+        ]
+      }
+    },
+    {
+      "id": "soccer",
+      "before": [
+        {
+          "id": "b952f8c4-98ee-47a3-96bb-7920f2939dba",
+          "x": 8.8,
+          "z": 3
+        },
+        {
+          "id": "bot:7abacf4e-0d60-4e91-a74a-cc9a1533cc1e",
+          "x": -8.8,
+          "z": 3
+        },
+        {
+          "id": "bot:f82b95ff-70d6-4096-91f2-03476cc030fd",
+          "x": -10,
+          "z": -3
+        },
+        {
+          "id": "bot:7878fd9b-27ae-4234-b15b-3e793384e8c1",
+          "x": 10,
+          "z": -3
+        }
+      ],
+      "last": {
+        "phase": "ended",
+        "resultsSent": true,
+        "red": 7,
+        "blue": 0,
+        "ball": {},
+        "players": [
+          {
+            "id": "b952f8c4-98ee-47a3-96bb-7920f2939dba",
+            "x": 8.8,
+            "z": 3,
+            "alive": true,
+            "goals": 0
+          },
+          {
+            "id": "bot:7abacf4e-0d60-4e91-a74a-cc9a1533cc1e",
+            "x": 4.797795774369653,
+            "z": 0.4541255347465849,
+            "alive": true,
+            "goals": 5
+          },
+          {
+            "id": "bot:f82b95ff-70d6-4096-91f2-03476cc030fd",
+            "x": 6.822454449126228,
+            "z": 0.44233202765000074,
+            "alive": true,
+            "goals": 2
+          },
+          {
+            "id": "bot:7878fd9b-27ae-4234-b15b-3e793384e8c1",
+            "x": 5.944688639191043,
+            "z": 0.3775406562194626,
+            "alive": true,
+            "goals": 0
+          }
+        ],
+        "actions": {
+          "throw": 4,
+          "hold:throw": 4,
+          "dash": 99,
+          "hold:dash": 99,
+          "hold:shoot": 14,
+          "ability": 8,
+          "hold:ability": 8
+        },
+        "texts": [
+          {
+            "id": "bot:7abacf4e-0d60-4e91-a74a-cc9a1533cc1e",
+            "bluff": "",
+            "vote": ""
+          },
+          {
+            "id": "bot:f82b95ff-70d6-4096-91f2-03476cc030fd",
+            "bluff": "",
+            "vote": ""
+          },
+          {
+            "id": "bot:7878fd9b-27ae-4234-b15b-3e793384e8c1",
+            "bluff": "",
+            "vote": ""
+          }
+        ]
+      },
+      "results": {
+        "results": [
+          {
+            "playerId": "bot:7abacf4e-0d60-4e91-a74a-cc9a1533cc1e",
+            "placement": 1,
+            "score": 26,
+            "stats": [
+              "5 gol · 0 assist",
+              "11 contrasti"
+            ]
+          },
+          {
+            "playerId": "bot:f82b95ff-70d6-4096-91f2-03476cc030fd",
+            "placement": 2,
+            "score": 17,
+            "stats": [
+              "2 gol · 0 assist",
+              "11 contrasti"
+            ]
+          },
+          {
+            "playerId": "bot:7878fd9b-27ae-4234-b15b-3e793384e8c1",
+            "placement": 3,
+            "score": 22,
+            "stats": [
+              "0 gol · 0 assist",
+              "22 contrasti"
+            ]
+          },
+          {
+            "playerId": "b952f8c4-98ee-47a3-96bb-7920f2939dba",
+            "placement": 4,
+            "score": 0,
+            "stats": [
+              "0 gol · 0 assist",
+              "0 contrasti"
+            ]
+          }
+        ],
+        "ranking": [
+          "bot:7abacf4e-0d60-4e91-a74a-cc9a1533cc1e",
+          "bot:f82b95ff-70d6-4096-91f2-03476cc030fd",
+          "bot:7878fd9b-27ae-4234-b15b-3e793384e8c1",
+          "b952f8c4-98ee-47a3-96bb-7920f2939dba"
+        ],
+        "deltas": {
+          "bot:7abacf4e-0d60-4e91-a74a-cc9a1533cc1e": 10,
+          "bot:f82b95ff-70d6-4096-91f2-03476cc030fd": 7,
+          "bot:7878fd9b-27ae-4234-b15b-3e793384e8c1": 4,
+          "b952f8c4-98ee-47a3-96bb-7920f2939dba": 2
+        },
+        "double": false
+      },
+      "simulated": 75,
+      "counters": {
+        "liveInstances": 1,
+        "abortedLoads": 0,
+        "lateDisposedContainers": 0,
+        "modules": [
+          "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791579464818"
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "failure": "Error: Execution context was destroyed, most likely because of a navigation."
+}

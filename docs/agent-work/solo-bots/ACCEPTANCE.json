@@ -1,0 +1,551 @@
+{
+  "games": [
+    {
+      "id": "arena",
+      "evidence": "browser-arena-final.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 50,
+      "ranking": [
+        {
+          "playerId": "bot:ab49d134-2f8e-405d-9c88-28efb7de1da0",
+          "placement": 1,
+          "score": 0,
+          "stats": [
+            "ultimo in piedi"
+          ]
+        },
+        {
+          "playerId": "bot:82c9b099-8d5b-4cd9-9719-724dcc500628",
+          "placement": 2,
+          "score": 0,
+          "stats": [
+            "ultimo in piedi"
+          ]
+        },
+        {
+          "playerId": "bot:d20efb6d-fb31-4e05-80fe-7991d2964b78",
+          "placement": 3,
+          "score": 0,
+          "stats": [
+            "ultimo in piedi",
+            "1 buttato fuori"
+          ]
+        },
+        {
+          "playerId": "5a5a5d21-3f3a-4d83-8fa0-f52a82e1a319",
+          "placement": 4,
+          "score": 0,
+          "stats": [
+            "caduto dopo 7s"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cornicione",
+      "evidence": "browser-arena-final.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 130,
+      "ranking": [
+        {
+          "playerId": "bot:b09e113d-f1ad-49ac-8381-513b13539ff9",
+          "placement": 1,
+          "score": 4,
+          "stats": [
+            "4 KO",
+            "492% danno",
+            "8 recuperi"
+          ]
+        },
+        {
+          "playerId": "bot:dc3e9439-3e81-4043-aec7-0f81bfe0aacc",
+          "placement": 2,
+          "score": 3,
+          "stats": [
+            "3 KO",
+            "400% danno",
+            "6 recuperi"
+          ]
+        },
+        {
+          "playerId": "bot:ad0af6fd-a2b5-4ad4-b76e-b8dc93567e37",
+          "placement": 3,
+          "score": 1,
+          "stats": [
+            "1 KO",
+            "515% danno",
+            "3 counter"
+          ]
+        },
+        {
+          "playerId": "5a5a5d21-3f3a-4d83-8fa0-f52a82e1a319",
+          "placement": 4,
+          "score": 0,
+          "stats": [
+            "0 KO"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dodgeball",
+      "evidence": "browser-remaining.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 5,
+      "ranking": [
+        {
+          "playerId": "bot:cfb25683-419d-4df7-a2e6-304e116f6d2d",
+          "placement": 1,
+          "score": 2,
+          "stats": [
+            "2 eliminazioni",
+            "ultimo in piedi"
+          ]
+        },
+        {
+          "playerId": "bot:b1730147-4a79-4dc3-8170-777543675fa5",
+          "placement": 2,
+          "score": 1,
+          "stats": [
+            "1 eliminazione",
+            "fuori dopo 4s"
+          ]
+        },
+        {
+          "playerId": "bot:f613e5b1-b0f7-4a4a-98d4-9a729eabd543",
+          "placement": 3,
+          "score": 0,
+          "stats": [
+            "0 eliminazioni",
+            "fuori dopo 3s"
+          ]
+        },
+        {
+          "playerId": "b952f8c4-98ee-47a3-96bb-7920f2939dba",
+          "placement": 4,
+          "score": 0,
+          "stats": [
+            "0 eliminazioni",
+            "fuori dopo 3s"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "soccer",
+      "evidence": "browser-remaining.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 75,
+      "ranking": [
+        {
+          "playerId": "bot:7abacf4e-0d60-4e91-a74a-cc9a1533cc1e",
+          "placement": 1,
+          "score": 26,
+          "stats": [
+            "5 gol Â· 0 assist",
+            "11 contrasti"
+          ]
+        },
+        {
+          "playerId": "bot:f82b95ff-70d6-4096-91f2-03476cc030fd",
+          "placement": 2,
+          "score": 17,
+          "stats": [
+            "2 gol Â· 0 assist",
+            "11 contrasti"
+          ]
+        },
+        {
+          "playerId": "bot:7878fd9b-27ae-4234-b15b-3e793384e8c1",
+          "placement": 3,
+          "score": 22,
+          "stats": [
+            "0 gol Â· 0 assist",
+            "22 contrasti"
+          ]
+        },
+        {
+          "playerId": "b952f8c4-98ee-47a3-96bb-7920f2939dba",
+          "placement": 4,
+          "score": 0,
+          "stats": [
+            "0 gol Â· 0 assist",
+            "0 contrasti"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "volleyball",
+      "evidence": "browser-remaining3.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 60,
+      "ranking": [
+        {
+          "playerId": "bot:762095b7-0a00-4533-a057-1f49b19736e4",
+          "placement": 1,
+          "score": 20,
+          "stats": [
+            "4 punti Â· 0 smash",
+            "12 ricezioni",
+            "2 errori"
+          ]
+        },
+        {
+          "playerId": "a2ce1096-de31-4476-9ea8-fb88370f0655",
+          "placement": 2,
+          "score": 3,
+          "stats": [
+            "1 punti Â· 0 smash",
+            "0 ricezioni"
+          ]
+        },
+        {
+          "playerId": "bot:c4084d3a-e698-401f-a97c-75c645dee42c",
+          "placement": 3,
+          "score": 16,
+          "stats": [
+            "2 punti Â· 0 smash",
+            "10 ricezioni"
+          ]
+        },
+        {
+          "playerId": "bot:d0d08bcd-9fa3-451d-876e-da5d59b998b6",
+          "placement": 4,
+          "score": 0,
+          "stats": [
+            "0 punti Â· 0 smash",
+            "0 ricezioni"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kart3d",
+      "evidence": "browser-remaining3.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 70,
+      "ranking": [
+        {
+          "playerId": "bot:b591e190-8f23-46ba-a794-53e5c4a2c8a4",
+          "placement": 1,
+          "score": 60335,
+          "stats": [
+            "tempo 1:00.3",
+            "miglior giro 0:16.3"
+          ]
+        },
+        {
+          "playerId": "bot:8b0fa9b2-cc36-4945-b80b-f3f2dd080abf",
+          "placement": 2,
+          "score": 62102,
+          "stats": [
+            "tempo 1:02.1",
+            "miglior giro 0:17.2"
+          ]
+        },
+        {
+          "playerId": "bot:e29aaeec-4220-49fa-b440-05f0cb327f2c",
+          "placement": 3,
+          "score": 62602,
+          "stats": [
+            "tempo 1:02.6",
+            "miglior giro 0:17.5"
+          ]
+        },
+        {
+          "playerId": "a2ce1096-de31-4476-9ea8-fb88370f0655",
+          "placement": 4,
+          "score": 72319,
+          "stats": [
+            "fermo al giro 1/3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fps",
+      "evidence": "browser-remaining3.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 95,
+      "ranking": [
+        {
+          "playerId": "bot:89e4b258-fe42-4f95-a677-1a459b8ad3e7",
+          "placement": 1,
+          "score": 13,
+          "stats": [
+            "13 kill Â· 4 morti",
+            "precisione 44%"
+          ]
+        },
+        {
+          "playerId": "bot:63b7b279-734a-4fae-96a3-f256e86c97b2",
+          "placement": 2,
+          "score": 11,
+          "stats": [
+            "11 kill Â· 8 morti",
+            "precisione 54%"
+          ]
+        },
+        {
+          "playerId": "bot:353c228a-c218-4adb-97e6-1e1a4be8630d",
+          "placement": 3,
+          "score": 9,
+          "stats": [
+            "9 kill Â· 11 morti",
+            "precisione 40%"
+          ]
+        },
+        {
+          "playerId": "a2ce1096-de31-4476-9ea8-fb88370f0655",
+          "placement": 4,
+          "score": 0,
+          "stats": [
+            "0 kill Â· 10 morti",
+            "nessun colpo sparato"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "casacarbo",
+      "evidence": "browser-remaining3.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 120,
+      "ranking": [
+        {
+          "playerId": "bot:7929af3d-0579-4f8f-aa11-d2722301dc9b",
+          "placement": 1,
+          "score": 67,
+          "stats": [
+            "67 punti contributo",
+            "L'UNICO CHE HA LAVORATO",
+            "66.6 acqua tolta"
+          ]
+        },
+        {
+          "playerId": "bot:e6e11015-732b-45c8-a7c6-30e160a7f0d7",
+          "placement": 2,
+          "score": 20,
+          "stats": [
+            "20 punti contributo",
+            "IL BAGNINO",
+            "0 acqua tolta"
+          ]
+        },
+        {
+          "playerId": "bot:1cadacae-b4a4-4e23-b9a3-29eebcb237f2",
+          "placement": 3,
+          "score": 4,
+          "stats": [
+            "4 punti contributo",
+            "0 acqua tolta"
+          ]
+        },
+        {
+          "playerId": "a2ce1096-de31-4476-9ea8-fb88370f0655",
+          "placement": 4,
+          "score": 0,
+          "stats": [
+            "0 punti contributo",
+            "PRESENTE MA INUTILE",
+            "0 acqua tolta"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz",
+      "evidence": "browser-remaining3.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 170,
+      "ranking": [
+        {
+          "playerId": "bot:57b56ac3-cdcf-4985-a9e4-7e8f1f20f847",
+          "placement": 1,
+          "score": 45,
+          "stats": [
+            "8/10 corrette",
+            "4.5s di media"
+          ]
+        },
+        {
+          "playerId": "bot:d2adb35c-5e35-4ce5-aeb1-80dc9d7e27c3",
+          "placement": 2,
+          "score": 44,
+          "stats": [
+            "8/10 corrette",
+            "4.7s di media"
+          ]
+        },
+        {
+          "playerId": "a2ce1096-de31-4476-9ea8-fb88370f0655",
+          "placement": 3,
+          "score": 29,
+          "stats": [
+            "5/10 corrette",
+            "0.5s di media"
+          ]
+        },
+        {
+          "playerId": "bot:f3cc6c02-51fa-4f05-88d8-50fa13b242a8",
+          "placement": 4,
+          "score": 29,
+          "stats": [
+            "6/10 corrette",
+            "4.1s di media"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "memory",
+      "evidence": "browser-remaining3.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 270,
+      "ranking": [
+        {
+          "playerId": "a2ce1096-de31-4476-9ea8-fb88370f0655",
+          "placement": 1,
+          "score": 25,
+          "stats": [
+            "5/5 sequenze",
+            "25 mosse esatte"
+          ]
+        },
+        {
+          "playerId": "bot:4d7bb879-f3fe-4fff-98a7-1b78ec40f65e",
+          "placement": 2,
+          "score": 25,
+          "stats": [
+            "5/5 sequenze",
+            "25 mosse esatte"
+          ]
+        },
+        {
+          "playerId": "bot:0a0d6aaf-1f40-4829-a699-ee36bdff0ffa",
+          "placement": 3,
+          "score": 25,
+          "stats": [
+            "5/5 sequenze",
+            "25 mosse esatte"
+          ]
+        },
+        {
+          "playerId": "bot:34bfda76-aa25-460c-b007-e07db62ecfc1",
+          "placement": 4,
+          "score": 8,
+          "stats": [
+            "2/5 sequenze",
+            "8 mosse esatte"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cultura",
+      "evidence": "browser-remaining3.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 270,
+      "ranking": [
+        {
+          "playerId": "bot:40fa083a-5a10-49f2-9bbb-95c655678b31",
+          "placement": 1,
+          "score": 28,
+          "stats": [
+            "7 risposte esatte",
+            "5 persone fregate"
+          ]
+        },
+        {
+          "playerId": "bot:ba27309d-1e2e-4f74-b26b-53d57c6b1c34",
+          "placement": 2,
+          "score": 15,
+          "stats": [
+            "4 risposte esatte",
+            "3 persone fregate"
+          ]
+        },
+        {
+          "playerId": "a2ce1096-de31-4476-9ea8-fb88370f0655",
+          "placement": 3,
+          "score": 14,
+          "stats": [
+            "3 risposte esatte",
+            "3 persone fregate"
+          ]
+        },
+        {
+          "playerId": "bot:56303ec8-2ea8-4160-bfeb-e016ad4efa4e",
+          "placement": 4,
+          "score": 11,
+          "stats": [
+            "1 risposte esatte",
+            "6 persone fregate"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reaction",
+      "evidence": "browser-remaining3.json",
+      "naturalResult": true,
+      "participants": 4,
+      "simulatedSecondsAdvanced": 425,
+      "ranking": [
+        {
+          "playerId": "a2ce1096-de31-4476-9ea8-fb88370f0655",
+          "placement": 1,
+          "score": 250,
+          "stats": [
+            "50 ms di media",
+            "miglior tempo 50 ms"
+          ]
+        },
+        {
+          "playerId": "bot:5fa81fb2-7077-42ec-9dc5-ef5250efa926",
+          "placement": 2,
+          "score": 2450,
+          "stats": [
+            "490 ms di media",
+            "miglior tempo 350 ms"
+          ]
+        },
+        {
+          "playerId": "bot:a8baf895-43db-46a9-a36c-e0a73d939333",
+          "placement": 3,
+          "score": 2550,
+          "stats": [
+            "510 ms di media",
+            "miglior tempo 400 ms"
+          ]
+        },
+        {
+          "playerId": "bot:a001fa4e-745a-488c-82f1-96446c764267",
+          "placement": 4,
+          "score": 3000,
+          "stats": [
+            "600 ms di media",
+            "miglior tempo 400 ms"
+          ]
+        }
+      ]
+    }
+  ],
+  "production": "production.json",
+  "network": "scripts/solo-bots-network.ts",
+  "pureSimulation": "scripts/solo-bots-selftest.ts",
+  "build": "npm run build passed; 3727 modules, 3m20s",
+  "errorsInAcceptedSamples": 0
+}

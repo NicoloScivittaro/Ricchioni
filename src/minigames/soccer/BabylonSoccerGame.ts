@@ -1,3 +1,4 @@
+import { MotionBots } from '../bots/MotionBots';
 import { Engine, Scene, Color4, DynamicTexture, MeshBuilder, StandardMaterial, Color3, Mesh, ParticleSystem, Vector3 } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
@@ -63,6 +64,7 @@ const BALL_HEIGHT = 0.35;
 type Phase = 'intro' | 'countdown' | 'playing' | 'goalPause' | 'goldenGoal' | 'ended';
 
 export class BabylonSoccerGame {
+  private soloBots: MotionBots;
   private engine: Engine;
   private scene: Scene;
   private players: SoccerPlayer[] = [];
@@ -113,6 +115,7 @@ export class BabylonSoccerGame {
     private canvas: HTMLCanvasElement,
     private ctx: MinigameContext
   ) {
+    this.soloBots = new MotionBots(ctx);
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.05, 0.1, 0.08, 1);
@@ -377,6 +380,7 @@ export class BabylonSoccerGame {
   }
 
   private updateGameplay(dt: number, now: number): void {
+    this.soloBots.soccer(dt, this.players, this.ball);
     for (const p of this.players) this.stepPlayer(p, dt);
     this.updateBall(dt);
     void now;

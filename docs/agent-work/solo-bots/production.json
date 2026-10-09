@@ -1,0 +1,67 @@
+{
+  "errors": [],
+  "models": [
+    "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+    "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb"
+  ],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+      "status": 200
+    }
+  ],
+  "players": [
+    {
+      "id": "9fee314d-2b5f-4256-8cb5-e8325ab3b945",
+      "displayName": "Solo Niko",
+      "characterId": "goblin",
+      "ready": true,
+      "connected": true,
+      "score": 0
+    },
+    {
+      "id": "bot:ed505f55-1381-4a09-8f2c-2075be75148a",
+      "displayName": "BOT BOSCHI",
+      "characterId": "buttafuori",
+      "ready": true,
+      "connected": true,
+      "score": 0,
+      "bot": true
+    }
+  ],
+  "room": "2FF23",
+  "results": {
+    "results": [
+      {
+        "playerId": "bot:ed505f55-1381-4a09-8f2c-2075be75148a",
+        "placement": 1,
+        "score": 0,
+        "stats": [
+          "ultimo in piedi",
+          "1 buttato fuori"
+        ]
+      },
+      {
+        "playerId": "9fee314d-2b5f-4256-8cb5-e8325ab3b945",
+        "placement": 2,
+        "score": 0,
+        "stats": [
+          "caduto dopo 7s"
+        ]
+      }
+    ],
+    "ranking": [
+      "bot:ed505f55-1381-4a09-8f2c-2075be75148a",
+      "9fee314d-2b5f-4256-8cb5-e8325ab3b945"
+    ],
+    "deltas": {
+      "bot:ed505f55-1381-4a09-8f2c-2075be75148a": 10,
+      "9fee314d-2b5f-4256-8cb5-e8325ab3b945": 5
+    },
+    "double": false
+  }
+}

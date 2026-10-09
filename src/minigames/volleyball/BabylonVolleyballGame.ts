@@ -1,3 +1,4 @@
+import { MotionBots } from '../bots/MotionBots';
 import {
   Engine,
   Scene,
@@ -72,6 +73,7 @@ const POINT_PAUSE_SECONDS = 2.0;
 type Phase = 'intro' | 'countdown' | 'playing' | 'pointPause' | 'ended';
 
 export class BabylonVolleyballGame {
+  private soloBots: MotionBots;
   private engine: Engine;
   private scene: Scene;
   private players: VolleyballPlayer[] = [];
@@ -131,6 +133,7 @@ export class BabylonVolleyballGame {
   ) {
     this.gravityScale = ctx.modifier?.id === 'gravita_bassa' ? 0.5 : 1;
 
+    this.soloBots = new MotionBots(ctx);
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.6, 0.82, 0.95, 1);
@@ -388,6 +391,7 @@ export class BabylonVolleyballGame {
   }
 
   private updateGameplay(dt: number, now: number): void {
+    this.soloBots.volleyball(dt, this.players, this.ball);
     this.stats?.tick(dt);
     for (const p of this.players) this.stepPlayer(p, dt);
     this.updateBall(dt);

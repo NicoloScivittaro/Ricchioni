@@ -34,7 +34,7 @@ try {
  }
  console.log(`\nGioco pronto: ${origin}/`);
  for(const ip of data.ips)console.log(`Telefoni sulla stessa Wi-Fi: http://${ip}:3001/controller.html`);
- console.log('Scegli 3 giocatori; per la prima prova usa BREVE (40 punti). Nella stanza inquadrate il QR e premete PRONTO.\n');
+ console.log('Scegli 2–5 posti; se entri da solo, gli altri posti sono bot. Per la prima prova usa BREVE (40 punti). Inquadra il QR, scegli il personaggio e premi PRONTO.\n');
  if(!process.argv.includes('--check')&&process.platform==='win32'){
   const browser=spawn('powershell.exe',['-NoProfile','-Command',"Start-Process 'http://localhost:3001/'"],{windowsHide:true,stdio:'ignore'});
   browser.on('error',()=>console.log(`Apri manualmente ${origin}/`));browser.unref();

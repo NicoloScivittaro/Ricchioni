@@ -123,6 +123,8 @@ export interface PlayerState {
 
 /** Vista pubblica di un giocatore inviata a host e telefoni. */
 export interface PlayerPublic {
+  /** Server-created solo opponent; never owns a socket/controller. */
+  bot?: boolean;
   id: PlayerId;
   displayName: string;
   characterId: CharacterId | null;
@@ -135,6 +137,7 @@ export interface PlayerPublic {
 
 /** Snapshot arricchito (con dati del personaggio) usato dai minigiochi sull'host. */
 export interface PlayerSnapshot {
+  bot?: boolean;
   id: PlayerId;
   displayName: string;
   characterId: CharacterId | null;

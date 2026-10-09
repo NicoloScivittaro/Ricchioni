@@ -4,9 +4,9 @@ import { NO_INPUT } from './fighterTypes';
 import type { Fighter, FighterInput } from './fighterTypes';
 
 /**
- * BOT DI TEST. Non sono un'IA "intelligente": servono a simulazioni e regressioni (si muovono, saltano, attaccano, schivano,
+ * BOT di Cornicione, usati in solitaria e nelle simulazioni (si muovono, saltano, attaccano, schivano,
  * recuperano, fanno edge guard, usano l'abilita'). Stessa interfaccia del giocatore vero: restituiscono un FighterInput per passo.
- * Usati da scripts/fighter-sim.ts, dai self test e (solo in debug) dai test nel browser.
+ * Stesse regole di movimento, attacco e recupero dei giocatori reali.
  */
 export class FighterBot {
   private cd = 0; // tempo fino alla prossima decisione di attacco

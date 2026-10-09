@@ -1,3 +1,4 @@
+import { PartyBots } from '../bots/PartyBots';
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
 import { confetti } from '../../scenes/confetti';
@@ -89,6 +90,7 @@ function ensureReactionDebugSection(): void {
 }
 
 export class ReactionScene extends Phaser.Scene {
+  private soloBots!: PartyBots;
   private ctx!: MinigameContext;
   private players: PState[] = [];
   private phase: Phase = 'title';
@@ -117,6 +119,7 @@ export class ReactionScene extends Phaser.Scene {
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    this.soloBots = new PartyBots(this.ctx);
     // RICOMINCIA riusa la stessa istanza: azzera TUTTO lo stato custom.
     this.players = [];
     this.phase = 'title';
@@ -625,6 +628,7 @@ export class ReactionScene extends Phaser.Scene {
     }
     const dt = Math.min(delta, 250) / 1000; // tempo reale fino a ~4 FPS
     this.gameTime += dt;
+    this.soloBots.reaction(dt, this.phase, this.round);
     for (const p of this.players) {
       abilityHub.setStatus(p.snap.id, this.abilityStatus(p)); // card sul telefono (solo presentazione)
       // fuori dall'ATTESA l'abilita' non fa niente: ma lo si dice (una pressione nel VIA non deve restare muta)

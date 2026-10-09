@@ -1,3 +1,4 @@
+import { PartyBots } from '../bots/PartyBots';
 import Phaser from 'phaser';
 import { audio } from '../../core/AudioManager';
 import { confetti } from '../../scenes/confetti';
@@ -54,6 +55,7 @@ interface PScore {
 }
 
 export class CulturaScene extends Phaser.Scene {
+  private soloBots!: PartyBots;
   private ctx!: MinigameContext;
   private questions: CulturaQuestion[] = [];
   private round = 0;
@@ -98,6 +100,7 @@ export class CulturaScene extends Phaser.Scene {
 
   create(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    this.soloBots = new PartyBots(this.ctx);
     this.round = 0;
     this.phase = 'intro';
     this.gameTime = 0;
@@ -619,6 +622,7 @@ export class CulturaScene extends Phaser.Scene {
     }
     const dt = Math.min(delta, 250) / 1000; // tempo reale fino a ~4 FPS
     this.gameTime += dt;
+    this.soloBots.cultura(dt, this.phase, this.round, this.currentQuestion.fallbackDecoys, this.options, this.hidden);
     this.handleAbilityRequests();
 
     switch (this.phase) {

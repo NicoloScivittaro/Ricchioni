@@ -10,6 +10,7 @@ export class PlayerSession {
   displayName: string;
   reconnectToken: string;
   characterId: CharacterId | null = null;
+  bot = false;
   ready = false;
   connected = true;
   score = 0;
@@ -37,7 +38,8 @@ export class PlayerSession {
       characterId: this.characterId,
       ready: this.ready,
       connected: this.connected,
-      score: this.score
+      score: this.score,
+      ...(this.bot ? { bot: true } : {})
     };
   }
 }
