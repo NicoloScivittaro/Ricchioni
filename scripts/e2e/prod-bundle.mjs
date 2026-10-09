@@ -2,14 +2,14 @@
 // Verifica: il build parte e crea la stanza, i telefoni entrano, rullo/intro/gioco partono senza errori di pagina, l'overlay
 // di debug NON esiste, e il chunk del gioco 3D estratto viene scaricato DURANTE rullo/intro (precarico), non al via.
 //   npm run build && npm start   (in un altro terminale)   →   node scripts/e2e/prod-bundle.mjs
-//   PROD_PICK=4 (default: 4 = arena; 5 dodgeball, 6 soccer, 7 volleyball, 8 kart3d, 11 cornicione, 1 quiz, 2 reaction, 3 memory, 0 = rullo)
+//   PROD_PICK=4 (default: 4 = arena; 5 dodgeball, 6 soccer, 7 volleyball, 8 kart3d, 11 cornicione, 12 casacarbo, 1 quiz, 2 reaction, 3 memory, 0 = rullo)
 // Nota: dopo `npm run build` ripristina `git checkout dist/index.html` SOLO dopo il test (l'index committato ha gli hash vecchi).
 process.env.CTRL_URL = process.env.CTRL_URL ?? 'http://localhost:3001/controller.html';
 const { launch, addPhone, phoneView, sleep } = await import('./lib.mjs');
 
 const HOST = process.env.PROD_HOST ?? 'http://localhost:3001/';
 const PICK = Number(process.env.PROD_PICK ?? 4);
-const GAME_LABEL = { 4: /ARENA/, 5: /DODGEBALL/, 6: /CALCIO/, 7: /PALLAVOLO/, 8: /RIBALTATI/, 1: /CHI CAZZO/, 2: /BOTTA/, 3: /MEMORIA/, 11: /CORNICIONE/ }[PICK];
+const GAME_LABEL = { 4: /ARENA/, 5: /DODGEBALL/, 6: /CALCIO/, 7: /PALLAVOLO/, 8: /RIBALTATI/, 1: /CHI CAZZO/, 2: /BOTTA/, 3: /MEMORIA/, 11: /CORNICIONE/, 12: /CASA CARBO/ }[PICK];
 const browser = await launch();
 let fails = 0;
 const check = (c, m) => {

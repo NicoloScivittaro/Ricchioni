@@ -26,6 +26,11 @@ Servono il server (`npm start`, porta 3001) e il client in dev (`npx vite --port
 | `fighter-smoke.mjs` | Prova a vista con 2-5 bot (`node scripts/e2e/fighter-smoke.mjs 5 40`): screenshot in `e2e-shots/fighter/`, la camera tiene in quadro i combattenti |
 | `fighter-lab-shots.mjs` | Foto dei momenti chiave (spawn, hitbox, KO, indicatori, le 5 abilita') dal laboratorio `?fighter=1` |
 | `fighter-perf.mjs` | Budget del Cornicione: mesh, materiali, draw call (GPU reale da verificare) |
+| `gamepad-casacarbo.mjs` | Casa Carbo col controller: CONTROLLI, mappatura (X tiracqua, Y secchio, A scatto, B interagisci, RB abilita'), risposta del gioco, Companion Card, fallback telefono |
+| `casacarbo-abilities.mjs` | Le 5 abilita' di Casa Carbo nel gioco vero (5 controller): valida/non valida, avvisi privati, soffiata di Victor solo sulla sua card, pulizia |
+| `casacarbo-session.mjs` | Casa Carbo -> risultati -> rullo -> Casa Carbo x4 -> menu ESC -> lobby: nessuna perdita, AbilityHub vuoto |
+| `casacarbo-smoke.mjs` | Prova a vista con 2-5 bot (`node scripts/e2e/casacarbo-smoke.mjs 5 30 1` = fino al finale col vicino): screenshot in `e2e-shots/casacarbo/`, camera sempre in quadro |
+| `casacarbo-perf.mjs` | Budget di Casa Carbo: mesh, draw call, costo CPU di simulazione e texture dell'acqua |
 | `shots.mjs` | Screenshot delle schermate host (1280x720; `VIEWPORT=1366x768` ecc. per i test di risoluzione) |
 
 Nota: in headless il GL è software (~4 fps): il tempo dei giochi 3D scorre più piano dell'orologio (`dt` ≤ 50 ms). Per questo
