@@ -1,10 +1,10 @@
-# MATRICE DELLE ABILITÀ — 5 personaggi × 11 minigiochi
+# MATRICE DELLE ABILITÀ — 5 personaggi × 12 minigiochi
 
 > Generata da `scripts/ability-matrix.ts`. La colonna **DOPO** viene dal catalogo (`shared/abilityCatalog.ts`), la stessa fonte di TV, telefono e HUD: non può divergere dal gioco. La colonna **PRIMA** è l'audit dello stato precedente.
 > Voti **S/Sk/C/Cl** = significativa / skill richiesta / counterplay / chiarezza, da 1 a 5 (giudizi di design, da confermare con le persone: non sono misure).
 > Tipo: TIMING · RISORSA LIMITATA · RISCHIO / PREMIO · REATTIVA · INFORMAZIONE · REGOLA PIEGATA. Impatto: BASSO / MEDIO / ALTO (le ALTE hanno pochi usi, una ricarica, una barra da riempire o un rischio).
 
-**55 combinazioni · 28 impatto ALTO · 27 MEDIO · 0 BASSO.**
+**60 combinazioni · 30 impatto ALTO · 30 MEDIO · 0 BASSO.**
 
 ## 🤼 ARENA DEL DISAGIO
 
@@ -104,7 +104,7 @@ Tasto abilità: **RB / R1** (profilo di input).
 
 ## 🧠 CHI CAZZO LO SA?
 
-Tasto abilità: **RB / R1** (profilo di input).
+Tasto abilità: **—** (profilo di input).
 
 | | PRIMA | DOPO | tipo · impatto · limite |
 |---|---|---|---|
@@ -138,9 +138,21 @@ Tasto abilità: **RB / R1** (profilo di input).
 | **DOTTORE** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **TAGLIO PESO EXPRESS** — Premi: per 5 s sei più leggero: controllo aereo, salto e caduta molto migliori. Ma i colpi che prendi ti lanciano 1.9× più lontano: un colpo pesante a percentuale alta ti manda fuori. Una volta per vita.<br>S/Sk/C/Cl 4/4/4/4 | RISCHIO / PREMIO · **ALTO** · 1 uso per vita |
 | **CIRO** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **BONIFICO IN LAVORAZIONE** — Quando stai per finire fuori si apre per 0,6 s la finestra "BONIFICO?": premi per rinviare il KO e avere 2,5 s per rientrare. Se rientri paghi +25% di danno; se no, sei fuori. Se non premi, il KO è normale e l'abilità resta.<br>S/Sk/C/Cl 5/3/5/4 | REATTIVA · **ALTO** · 1 uso per vita |
 
+## 🌧️ CASA CARBO
+
+Tasto abilità: **RB / R1** (profilo di input).
+
+| | PRIMA | DOPO | tipo · impatto · limite |
+|---|---|---|---|
+| **GOBLIN** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **N'CULO, MO ASCIUGO IO!** — Premi guardando dove vuoi spingere: dopo 0,5 s di carica parte un'onda che sposta tutta l'acqua davanti a te per 5 m (e spinge chi c'e' in mezzo). Se mirata male rimanda l'acqua in una stanza pulita. Due usi, ricarica 9 s.<br>S/Sk/C/Cl 4/4/3/4 | RISCHIO / PREMIO · **ALTO** · 2 usi · ricarica 9 s |
+| **BUTTAFUORI** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **TU QUA NON ENTRI!** — Premi davanti a una delle due porte: per 6 s entra solo un decimo della pioggia. Intanto non puoi muoverti ne' pulire, e quando molli meta' dell'acqua trattenuta fuori entra tutta insieme. Una volta a partita.<br>S/Sk/C/Cl 4/3/3/4 | RISORSA LIMITATA · **ALTO** · 1 uso a partita |
+| **JUDOKA** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **NO, ASPETTA!** — Premi: piazzi davanti a te una diga lunga 3 m che ferma l'acqua (ma non le persone) per 15 s. Se dietro si accumula troppa acqua cede e la libera tutta insieme. Due usi a partita.<br>S/Sk/C/Cl 4/4/3/4 | RISCHIO / PREMIO · **MEDIO** · 2 usi a partita |
+| **DOTTORE** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **M'HO SVEJATO** — Premi: se nei prossimi 25 s arriva una raffica, sul tuo telefono vedi quale porta e quando, prima degli altri. Se non arriva niente l'uso e' sprecato. Due usi a partita.<br>S/Sk/C/Cl 3/3/2/4 | INFORMAZIONE · **MEDIO** · 2 usi a partita |
+| **CIRO** | **—** — gioco nuovo: nessuna versione precedente<br>S/Sk/C/Cl 1/1/1/1 | **PAGO DOMANI** — Premi: il prossimo secchio contiene il doppio. Appena supera la capienza normale hai 6 s per svuotarlo in uno scarico, se no ne rovesci meta' per terra. Due usi a partita.<br>S/Sk/C/Cl 4/4/3/4 | RISCHIO / PREMIO · **MEDIO** · 2 usi a partita |
+
 ## Riepilogo
 
-Media S/Sk/C/Cl: **prima 2.4/1.8/1.8/2.6** → **dopo 4.0/3.3/3.3/4.0**.
+Media S/Sk/C/Cl: **prima 2.3/1.7/1.7/2.5** → **dopo 4.0/3.3/3.3/4.0**.
 
 Cambiamenti principali: FPS e Cultura passano da nessuna abilità a una per personaggio; le abilità passive o automatiche (Buttafuori in Kart, Memoria e Botta al Volo, Ciro in Kart) restano tali solo dove la passività È il punto (Memoria, Botta al Volo) e diventano reattive con un tasto dove prima scattavano da sole (Kart); Calcio e Pallavolo non copiano più Arena/Dodgeball.
 

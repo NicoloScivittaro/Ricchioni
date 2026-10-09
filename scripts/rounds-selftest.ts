@@ -90,7 +90,8 @@ console.log('\n[TETTO SERVER] copre la durata REALE massima di ogni gioco (con â
     kart3d: 185, // countdown + gara (cap durationSec) + arrivo
     cultura: 430, // 8 round Ã— ~51s (bluff 20 + voto 12 + reveal ~9 + spiegazione 5.5) + 3 classifiche; con fine anticipata ~5 min
     fps: 112, // match 100s + countdown/risultati
-    cornicione: 185 // countdown + 150s + spareggio 20s + festeggiamenti + risultati
+    cornicione: 185, // countdown + 150s + spareggio 20s + festeggiamenti + risultati
+    casacarbo: 140 // CONTROLLI 5s + countdown + 120s di temporale + finale col vicino 6,5s + risultati
   };
   for (const def of MINIGAME_DEFINITIONS) {
     const worst = WORST_CASE_SEC[def.id];

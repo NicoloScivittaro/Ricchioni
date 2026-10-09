@@ -60,3 +60,4 @@ node scripts/e2e/ability-companion.mjs       # browser vero: card, tasti per fam
 ```
 
 Nota: **BOTTE SUL CORNICIONE** (id `cornicione`) ha le sue 5 abilita' (valgono PER VITA e hanno il tasto RB/R1): vedi [CORNICIONE.md](CORNICIONE.md).
+Nota: **CASA CARBO** (id `casacarbo`) ha le sue 5 abilita' a PARTITA (tasto RB/R1; l'avviso di Victor compare solo sul suo telefono): vedi [CASA_CARBO.md](CASA_CARBO.md).
