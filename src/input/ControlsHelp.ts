@@ -107,7 +107,8 @@ function takeFirstTimeTips(minigameId: string, consume: boolean): string {
 function build(minigameId: string, mode: 'pad' | 'phone', consumeTips = true): string {
   const bar = `<div class="ui-bar"><i style="animation-duration:${helpMs}ms"></i></div>`;
   if (mode === 'phone') {
-    return `<div class="ui-card">${header(minigameId)}<div class="ui-big">📱 PRENDETE I TELEFONI</div><div class="ui-sub">SERVONO PER SCRIVERE E VOTARE</div>${abilityBlock(minigameId, '⚡ SUL TELEFONO')}${bar}</div>`;
+    const instruction = minigameId === 'quiz' ? 'LEGGETE LA DOMANDA E TOCCATE LA RISPOSTA' : 'SERVONO PER SCRIVERE E VOTARE';
+    return `<div class="ui-card">${header(minigameId)}<div class="ui-big">📱 PRENDETE I TELEFONI</div><div class="ui-sub">${instruction}</div>${abilityBlock(minigameId, '⚡ SUL TELEFONO')}${bar}</div>`;
   }
   const profile = profileFor(minigameId)!;
   const fams = families();

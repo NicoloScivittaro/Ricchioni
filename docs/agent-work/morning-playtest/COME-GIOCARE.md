@@ -10,6 +10,8 @@ Il QR legge l'indirizzo LAN attuale. Alla verifica era `192.168.1.79`; se cambia
 
 Durante la partita: **ESC** apre pausa/ripresa, ricomincia minigioco e salta gioco senza punti. **M** disattiva/riattiva l'audio; **V** apre i volumi. Nel finale **R** prepara una nuova partita conservando i giocatori e azzerando i punti.
 
+Nel **Quiz** leggete la domanda e le quattro risposte sul telefono e toccate quella scelta. Anche l'abilità si attiva dal telefono; vale anche per chi ha un gamepad associato. Le associazioni dei controller rimangono disponibili per gli altri giochi.
+
 I nuovi corpi di Goblin, BOSCHI, Carbo e Ciro sono predefiniti in Arena, Cornicione, Dodgeball e FPS. Dottore conserva il modello originale. Calcio/Volley e piloti Kart conservano la resa collaudata; i giochi sono tutti disponibili. Se un GLB non carica, torna il corpo procedurale. Una precedente scelta OLD nella Gallery/sessione rimane rispettata; per forzare tutti i nuovi modelli usa `?goblin=new&buttafuori=new&judoka=new&ciro=new` sull'host.
 
 Prima della prova con gli amici:

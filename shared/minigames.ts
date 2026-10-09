@@ -10,7 +10,7 @@ import type { MinigameDefinition } from './types';
  * 2. crea la cartella src/minigames/<id>/ con la scena Phaser.
  */
 // INPUT: GAMEPAD = si gioca col controller (telefono sul tavolo); PHONE_TEXT = serve il telefono; GAMEPAD_OR_PHONE = telefono come sempre.
-// OBIETTIVO: tutti GAMEPAD tranne cultura (PHONE_TEXT); un gioco passa a GAMEPAD solo quando ha il profilo in src/input/profiles.ts (lo verifica pad-selftest).
+// Quiz e Cultura si giocano sul telefono; gli altri giochi GAMEPAD hanno il profilo in src/input/profiles.ts (lo verifica pad-selftest).
 export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id: 'quiz',
@@ -35,7 +35,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'quiz',
 
-    inputMode: 'GAMEPAD',
+    inputMode: 'PHONE_TEXT',
     // UI "TV quiz show" bespoke (timer circolare, card domanda, risposte colorate,
     // footer con avatar/punteggio/abilità): vedi QuizScene.sendQuizState() per il
     // payload live e src/controller/main.ts renderQuizController() per il render.

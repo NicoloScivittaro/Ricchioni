@@ -84,6 +84,7 @@ for (const m of MINIGAME_DEFINITIONS) {
 }
 for (const id of Object.keys(PAD_PROFILES)) ok(ids.has(id), `profilo "${id}" corrisponde a un minigioco del registry`);
 ok(MINIGAME_DEFINITIONS.find((m) => m.id === 'cultura')?.inputMode === 'PHONE_TEXT', 'Cultura o Cazzata resta PHONE_TEXT');
+ok(MINIGAME_DEFINITIONS.find((m) => m.id === 'quiz')?.inputMode === 'PHONE_TEXT', 'Quiz si legge e si risponde sul telefono anche con un gamepad collegato');
 // ogni controlId dei profili e' dichiarato nel layout? (i giochi custom non elencano i controlli: si verifica solo la forma)
 for (const p of Object.values(PAD_PROFILES)) {
   const all = [...p.sticks.map((s) => s.control), ...p.buttons.map((b) => b.control)];

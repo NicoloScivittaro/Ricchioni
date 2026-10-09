@@ -1,0 +1,834 @@
+=== TEST 1: database domande ===
+  ✅ almeno 100 domande nel database (trovate 240)
+  ✅ tutti gli id sono univoci
+  ✅ difficoltà 1: almeno 1 domanda disponibile (trovate 24)
+  ✅ difficoltà 2: almeno 1 domanda disponibile (trovate 24)
+  ✅ difficoltà 3: almeno 1 domanda disponibile (trovate 24)
+  ✅ difficoltà 4: almeno 1 domanda disponibile (trovate 24)
+  ✅ difficoltà 5: almeno 1 domanda disponibile (trovate 24)
+  ✅ difficoltà 6: almeno 1 domanda disponibile (trovate 24)
+  ✅ difficoltà 7: almeno 1 domanda disponibile (trovate 24)
+  ✅ difficoltà 8: almeno 1 domanda disponibile (trovate 24)
+  ✅ difficoltà 9: almeno 1 domanda disponibile (trovate 24)
+  ✅ difficoltà 10: almeno 1 domanda disponibile (trovate 24)
+  ✅ [q001] ha esattamente 4 risposte
+  ✅ [q001] correctAnswerIndex valido (0-3)
+  ✅ [q001] domanda e spiegazione non vuote
+  ✅ [q002] ha esattamente 4 risposte
+  ✅ [q002] correctAnswerIndex valido (0-3)
+  ✅ [q002] domanda e spiegazione non vuote
+  ✅ [q003] ha esattamente 4 risposte
+  ✅ [q003] correctAnswerIndex valido (0-3)
+  ✅ [q003] domanda e spiegazione non vuote
+  ✅ [q004] ha esattamente 4 risposte
+  ✅ [q004] correctAnswerIndex valido (0-3)
+  ✅ [q004] domanda e spiegazione non vuote
+  ✅ [q005] ha esattamente 4 risposte
+  ✅ [q005] correctAnswerIndex valido (0-3)
+  ✅ [q005] domanda e spiegazione non vuote
+  ✅ [q006] ha esattamente 4 risposte
+  ✅ [q006] correctAnswerIndex valido (0-3)
+  ✅ [q006] domanda e spiegazione non vuote
+  ✅ [q007] ha esattamente 4 risposte
+  ✅ [q007] correctAnswerIndex valido (0-3)
+  ✅ [q007] domanda e spiegazione non vuote
+  ✅ [q008] ha esattamente 4 risposte
+  ✅ [q008] correctAnswerIndex valido (0-3)
+  ✅ [q008] domanda e spiegazione non vuote
+  ✅ [q009] ha esattamente 4 risposte
+  ✅ [q009] correctAnswerIndex valido (0-3)
+  ✅ [q009] domanda e spiegazione non vuote
+  ✅ [q010] ha esattamente 4 risposte
+  ✅ [q010] correctAnswerIndex valido (0-3)
+  ✅ [q010] domanda e spiegazione non vuote
+  ✅ [q011] ha esattamente 4 risposte
+  ✅ [q011] correctAnswerIndex valido (0-3)
+  ✅ [q011] domanda e spiegazione non vuote
+  ✅ [q012] ha esattamente 4 risposte
+  ✅ [q012] correctAnswerIndex valido (0-3)
+  ✅ [q012] domanda e spiegazione non vuote
+  ✅ [q121] ha esattamente 4 risposte
+  ✅ [q121] correctAnswerIndex valido (0-3)
+  ✅ [q121] domanda e spiegazione non vuote
+  ✅ [q122] ha esattamente 4 risposte
+  ✅ [q122] correctAnswerIndex valido (0-3)
+  ✅ [q122] domanda e spiegazione non vuote
+  ✅ [q123] ha esattamente 4 risposte
+  ✅ [q123] correctAnswerIndex valido (0-3)
+  ✅ [q123] domanda e spiegazione non vuote
+  ✅ [q124] ha esattamente 4 risposte
+  ✅ [q124] correctAnswerIndex valido (0-3)
+  ✅ [q124] domanda e spiegazione non vuote
+  ✅ [q125] ha esattamente 4 risposte
+  ✅ [q125] correctAnswerIndex valido (0-3)
+  ✅ [q125] domanda e spiegazione non vuote
+  ✅ [q126] ha esattamente 4 risposte
+  ✅ [q126] correctAnswerIndex valido (0-3)
+  ✅ [q126] domanda e spiegazione non vuote
+  ✅ [q127] ha esattamente 4 risposte
+  ✅ [q127] correctAnswerIndex valido (0-3)
+  ✅ [q127] domanda e spiegazione non vuote
+  ✅ [q128] ha esattamente 4 risposte
+  ✅ [q128] correctAnswerIndex valido (0-3)
+  ✅ [q128] domanda e spiegazione non vuote
+  ✅ [q129] ha esattamente 4 risposte
+  ✅ [q129] correctAnswerIndex valido (0-3)
+  ✅ [q129] domanda e spiegazione non vuote
+  ✅ [q130] ha esattamente 4 risposte
+  ✅ [q130] correctAnswerIndex valido (0-3)
+  ✅ [q130] domanda e spiegazione non vuote
+  ✅ [q131] ha esattamente 4 risposte
+  ✅ [q131] correctAnswerIndex valido (0-3)
+  ✅ [q131] domanda e spiegazione non vuote
+  ✅ [q132] ha esattamente 4 risposte
+  ✅ [q132] correctAnswerIndex valido (0-3)
+  ✅ [q132] domanda e spiegazione non vuote
+  ✅ [q013] ha esattamente 4 risposte
+  ✅ [q013] correctAnswerIndex valido (0-3)
+  ✅ [q013] domanda e spiegazione non vuote
+  ✅ [q014] ha esattamente 4 risposte
+  ✅ [q014] correctAnswerIndex valido (0-3)
+  ✅ [q014] domanda e spiegazione non vuote
+  ✅ [q015] ha esattamente 4 risposte
+  ✅ [q015] correctAnswerIndex valido (0-3)
+  ✅ [q015] domanda e spiegazione non vuote
+  ✅ [q016] ha esattamente 4 risposte
+  ✅ [q016] correctAnswerIndex valido (0-3)
+  ✅ [q016] domanda e spiegazione non vuote
+  ✅ [q017] ha esattamente 4 risposte
+  ✅ [q017] correctAnswerIndex valido (0-3)
+  ✅ [q017] domanda e spiegazione non vuote
+  ✅ [q018] ha esattamente 4 risposte
+  ✅ [q018] correctAnswerIndex valido (0-3)
+  ✅ [q018] domanda e spiegazione non vuote
+  ✅ [q020] ha esattamente 4 risposte
+  ✅ [q020] correctAnswerIndex valido (0-3)
+  ✅ [q020] domanda e spiegazione non vuote
+  ✅ [q021] ha esattamente 4 risposte
+  ✅ [q021] correctAnswerIndex valido (0-3)
+  ✅ [q021] domanda e spiegazione non vuote
+  ✅ [q022] ha esattamente 4 risposte
+  ✅ [q022] correctAnswerIndex valido (0-3)
+  ✅ [q022] domanda e spiegazione non vuote
+  ✅ [q023] ha esattamente 4 risposte
+  ✅ [q023] correctAnswerIndex valido (0-3)
+  ✅ [q023] domanda e spiegazione non vuote
+  ✅ [q024] ha esattamente 4 risposte
+  ✅ [q024] correctAnswerIndex valido (0-3)
+  ✅ [q024] domanda e spiegazione non vuote
+  ✅ [q069] ha esattamente 4 risposte
+  ✅ [q069] correctAnswerIndex valido (0-3)
+  ✅ [q069] domanda e spiegazione non vuote
+  ✅ [q133] ha esattamente 4 risposte
+  ✅ [q133] correctAnswerIndex valido (0-3)
+  ✅ [q133] domanda e spiegazione non vuote
+  ✅ [q134] ha esattamente 4 risposte
+  ✅ [q134] correctAnswerIndex valido (0-3)
+  ✅ [q134] domanda e spiegazione non vuote
+  ✅ [q135] ha esattamente 4 risposte
+  ✅ [q135] correctAnswerIndex valido (0-3)
+  ✅ [q135] domanda e spiegazione non vuote
+  ✅ [q136] ha esattamente 4 risposte
+  ✅ [q136] correctAnswerIndex valido (0-3)
+  ✅ [q136] domanda e spiegazione non vuote
+  ✅ [q137] ha esattamente 4 risposte
+  ✅ [q137] correctAnswerIndex valido (0-3)
+  ✅ [q137] domanda e spiegazione non vuote
+  ✅ [q138] ha esattamente 4 risposte
+  ✅ [q138] correctAnswerIndex valido (0-3)
+  ✅ [q138] domanda e spiegazione non vuote
+  ✅ [q139] ha esattamente 4 risposte
+  ✅ [q139] correctAnswerIndex valido (0-3)
+  ✅ [q139] domanda e spiegazione non vuote
+  ✅ [q140] ha esattamente 4 risposte
+  ✅ [q140] correctAnswerIndex valido (0-3)
+  ✅ [q140] domanda e spiegazione non vuote
+  ✅ [q141] ha esattamente 4 risposte
+  ✅ [q141] correctAnswerIndex valido (0-3)
+  ✅ [q141] domanda e spiegazione non vuote
+  ✅ [q142] ha esattamente 4 risposte
+  ✅ [q142] correctAnswerIndex valido (0-3)
+  ✅ [q142] domanda e spiegazione non vuote
+  ✅ [q143] ha esattamente 4 risposte
+  ✅ [q143] correctAnswerIndex valido (0-3)
+  ✅ [q143] domanda e spiegazione non vuote
+  ✅ [q144] ha esattamente 4 risposte
+  ✅ [q144] correctAnswerIndex valido (0-3)
+  ✅ [q144] domanda e spiegazione non vuote
+  ✅ [q025] ha esattamente 4 risposte
+  ✅ [q025] correctAnswerIndex valido (0-3)
+  ✅ [q025] domanda e spiegazione non vuote
+  ✅ [q026] ha esattamente 4 risposte
+  ✅ [q026] correctAnswerIndex valido (0-3)
+  ✅ [q026] domanda e spiegazione non vuote
+  ✅ [q027] ha esattamente 4 risposte
+  ✅ [q027] correctAnswerIndex valido (0-3)
+  ✅ [q027] domanda e spiegazione non vuote
+  ✅ [q028] ha esattamente 4 risposte
+  ✅ [q028] correctAnswerIndex valido (0-3)
+  ✅ [q028] domanda e spiegazione non vuote
+  ✅ [q029] ha esattamente 4 risposte
+  ✅ [q029] correctAnswerIndex valido (0-3)
+  ✅ [q029] domanda e spiegazione non vuote
+  ✅ [q030] ha esattamente 4 risposte
+  ✅ [q030] correctAnswerIndex valido (0-3)
+  ✅ [q030] domanda e spiegazione non vuote
+  ✅ [q031] ha esattamente 4 risposte
+  ✅ [q031] correctAnswerIndex valido (0-3)
+  ✅ [q031] domanda e spiegazione non vuote
+  ✅ [q032] ha esattamente 4 risposte
+  ✅ [q032] correctAnswerIndex valido (0-3)
+  ✅ [q032] domanda e spiegazione non vuote
+  ✅ [q033] ha esattamente 4 risposte
+  ✅ [q033] correctAnswerIndex valido (0-3)
+  ✅ [q033] domanda e spiegazione non vuote
+  ✅ [q034] ha esattamente 4 risposte
+  ✅ [q034] correctAnswerIndex valido (0-3)
+  ✅ [q034] domanda e spiegazione non vuote
+  ✅ [q035] ha esattamente 4 risposte
+  ✅ [q035] correctAnswerIndex valido (0-3)
+  ✅ [q035] domanda e spiegazione non vuote
+  ✅ [q036] ha esattamente 4 risposte
+  ✅ [q036] correctAnswerIndex valido (0-3)
+  ✅ [q036] domanda e spiegazione non vuote
+  ✅ [q145] ha esattamente 4 risposte
+  ✅ [q145] correctAnswerIndex valido (0-3)
+  ✅ [q145] domanda e spiegazione non vuote
+  ✅ [q146] ha esattamente 4 risposte
+  ✅ [q146] correctAnswerIndex valido (0-3)
+  ✅ [q146] domanda e spiegazione non vuote
+  ✅ [q147] ha esattamente 4 risposte
+  ✅ [q147] correctAnswerIndex valido (0-3)
+  ✅ [q147] domanda e spiegazione non vuote
+  ✅ [q148] ha esattamente 4 risposte
+  ✅ [q148] correctAnswerIndex valido (0-3)
+  ✅ [q148] domanda e spiegazione non vuote
+  ✅ [q149] ha esattamente 4 risposte
+  ✅ [q149] correctAnswerIndex valido (0-3)
+  ✅ [q149] domanda e spiegazione non vuote
+  ✅ [q150] ha esattamente 4 risposte
+  ✅ [q150] correctAnswerIndex valido (0-3)
+  ✅ [q150] domanda e spiegazione non vuote
+  ✅ [q151] ha esattamente 4 risposte
+  ✅ [q151] correctAnswerIndex valido (0-3)
+  ✅ [q151] domanda e spiegazione non vuote
+  ✅ [q152] ha esattamente 4 risposte
+  ✅ [q152] correctAnswerIndex valido (0-3)
+  ✅ [q152] domanda e spiegazione non vuote
+  ✅ [q153] ha esattamente 4 risposte
+  ✅ [q153] correctAnswerIndex valido (0-3)
+  ✅ [q153] domanda e spiegazione non vuote
+  ✅ [q154] ha esattamente 4 risposte
+  ✅ [q154] correctAnswerIndex valido (0-3)
+  ✅ [q154] domanda e spiegazione non vuote
+  ✅ [q155] ha esattamente 4 risposte
+  ✅ [q155] correctAnswerIndex valido (0-3)
+  ✅ [q155] domanda e spiegazione non vuote
+  ✅ [q156] ha esattamente 4 risposte
+  ✅ [q156] correctAnswerIndex valido (0-3)
+  ✅ [q156] domanda e spiegazione non vuote
+  ✅ [q037] ha esattamente 4 risposte
+  ✅ [q037] correctAnswerIndex valido (0-3)
+  ✅ [q037] domanda e spiegazione non vuote
+  ✅ [q038] ha esattamente 4 risposte
+  ✅ [q038] correctAnswerIndex valido (0-3)
+  ✅ [q038] domanda e spiegazione non vuote
+  ✅ [q039] ha esattamente 4 risposte
+  ✅ [q039] correctAnswerIndex valido (0-3)
+  ✅ [q039] domanda e spiegazione non vuote
+  ✅ [q040] ha esattamente 4 risposte
+  ✅ [q040] correctAnswerIndex valido (0-3)
+  ✅ [q040] domanda e spiegazione non vuote
+  ✅ [q041] ha esattamente 4 risposte
+  ✅ [q041] correctAnswerIndex valido (0-3)
+  ✅ [q041] domanda e spiegazione non vuote
+  ✅ [q042] ha esattamente 4 risposte
+  ✅ [q042] correctAnswerIndex valido (0-3)
+  ✅ [q042] domanda e spiegazione non vuote
+  ✅ [q043] ha esattamente 4 risposte
+  ✅ [q043] correctAnswerIndex valido (0-3)
+  ✅ [q043] domanda e spiegazione non vuote
+  ✅ [q044] ha esattamente 4 risposte
+  ✅ [q044] correctAnswerIndex valido (0-3)
+  ✅ [q044] domanda e spiegazione non vuote
+  ✅ [q045] ha esattamente 4 risposte
+  ✅ [q045] correctAnswerIndex valido (0-3)
+  ✅ [q045] domanda e spiegazione non vuote
+  ✅ [q046] ha esattamente 4 risposte
+  ✅ [q046] correctAnswerIndex valido (0-3)
+  ✅ [q046] domanda e spiegazione non vuote
+  ✅ [q047] ha esattamente 4 risposte
+  ✅ [q047] correctAnswerIndex valido (0-3)
+  ✅ [q047] domanda e spiegazione non vuote
+  ✅ [q048] ha esattamente 4 risposte
+  ✅ [q048] correctAnswerIndex valido (0-3)
+  ✅ [q048] domanda e spiegazione non vuote
+  ✅ [q084] ha esattamente 4 risposte
+  ✅ [q084] correctAnswerIndex valido (0-3)
+  ✅ [q084] domanda e spiegazione non vuote
+  ✅ [q157] ha esattamente 4 risposte
+  ✅ [q157] correctAnswerIndex valido (0-3)
+  ✅ [q157] domanda e spiegazione non vuote
+  ✅ [q158] ha esattamente 4 risposte
+  ✅ [q158] correctAnswerIndex valido (0-3)
+  ✅ [q158] domanda e spiegazione non vuote
+  ✅ [q159] ha esattamente 4 risposte
+  ✅ [q159] correctAnswerIndex valido (0-3)
+  ✅ [q159] domanda e spiegazione non vuote
+  ✅ [q160] ha esattamente 4 risposte
+  ✅ [q160] correctAnswerIndex valido (0-3)
+  ✅ [q160] domanda e spiegazione non vuote
+  ✅ [q161] ha esattamente 4 risposte
+  ✅ [q161] correctAnswerIndex valido (0-3)
+  ✅ [q161] domanda e spiegazione non vuote
+  ✅ [q162] ha esattamente 4 risposte
+  ✅ [q162] correctAnswerIndex valido (0-3)
+  ✅ [q162] domanda e spiegazione non vuote
+  ✅ [q163] ha esattamente 4 risposte
+  ✅ [q163] correctAnswerIndex valido (0-3)
+  ✅ [q163] domanda e spiegazione non vuote
+  ✅ [q164] ha esattamente 4 risposte
+  ✅ [q164] correctAnswerIndex valido (0-3)
+  ✅ [q164] domanda e spiegazione non vuote
+  ✅ [q165] ha esattamente 4 risposte
+  ✅ [q165] correctAnswerIndex valido (0-3)
+  ✅ [q165] domanda e spiegazione non vuote
+  ✅ [q166] ha esattamente 4 risposte
+  ✅ [q166] correctAnswerIndex valido (0-3)
+  ✅ [q166] domanda e spiegazione non vuote
+  ✅ [q167] ha esattamente 4 risposte
+  ✅ [q167] correctAnswerIndex valido (0-3)
+  ✅ [q167] domanda e spiegazione non vuote
+  ✅ [q049] ha esattamente 4 risposte
+  ✅ [q049] correctAnswerIndex valido (0-3)
+  ✅ [q049] domanda e spiegazione non vuote
+  ✅ [q050] ha esattamente 4 risposte
+  ✅ [q050] correctAnswerIndex valido (0-3)
+  ✅ [q050] domanda e spiegazione non vuote
+  ✅ [q051] ha esattamente 4 risposte
+  ✅ [q051] correctAnswerIndex valido (0-3)
+  ✅ [q051] domanda e spiegazione non vuote
+  ✅ [q052] ha esattamente 4 risposte
+  ✅ [q052] correctAnswerIndex valido (0-3)
+  ✅ [q052] domanda e spiegazione non vuote
+  ✅ [q053] ha esattamente 4 risposte
+  ✅ [q053] correctAnswerIndex valido (0-3)
+  ✅ [q053] domanda e spiegazione non vuote
+  ✅ [q054] ha esattamente 4 risposte
+  ✅ [q054] correctAnswerIndex valido (0-3)
+  ✅ [q054] domanda e spiegazione non vuote
+  ✅ [q055] ha esattamente 4 risposte
+  ✅ [q055] correctAnswerIndex valido (0-3)
+  ✅ [q055] domanda e spiegazione non vuote
+  ✅ [q056] ha esattamente 4 risposte
+  ✅ [q056] correctAnswerIndex valido (0-3)
+  ✅ [q056] domanda e spiegazione non vuote
+  ✅ [q057] ha esattamente 4 risposte
+  ✅ [q057] correctAnswerIndex valido (0-3)
+  ✅ [q057] domanda e spiegazione non vuote
+  ✅ [q058] ha esattamente 4 risposte
+  ✅ [q058] correctAnswerIndex valido (0-3)
+  ✅ [q058] domanda e spiegazione non vuote
+  ✅ [q059] ha esattamente 4 risposte
+  ✅ [q059] correctAnswerIndex valido (0-3)
+  ✅ [q059] domanda e spiegazione non vuote
+  ✅ [q060] ha esattamente 4 risposte
+  ✅ [q060] correctAnswerIndex valido (0-3)
+  ✅ [q060] domanda e spiegazione non vuote
+  ✅ [q168] ha esattamente 4 risposte
+  ✅ [q168] correctAnswerIndex valido (0-3)
+  ✅ [q168] domanda e spiegazione non vuote
+  ✅ [q169] ha esattamente 4 risposte
+  ✅ [q169] correctAnswerIndex valido (0-3)
+  ✅ [q169] domanda e spiegazione non vuote
+  ✅ [q170] ha esattamente 4 risposte
+  ✅ [q170] correctAnswerIndex valido (0-3)
+  ✅ [q170] domanda e spiegazione non vuote
+  ✅ [q171] ha esattamente 4 risposte
+  ✅ [q171] correctAnswerIndex valido (0-3)
+  ✅ [q171] domanda e spiegazione non vuote
+  ✅ [q172] ha esattamente 4 risposte
+  ✅ [q172] correctAnswerIndex valido (0-3)
+  ✅ [q172] domanda e spiegazione non vuote
+  ✅ [q173] ha esattamente 4 risposte
+  ✅ [q173] correctAnswerIndex valido (0-3)
+  ✅ [q173] domanda e spiegazione non vuote
+  ✅ [q174] ha esattamente 4 risposte
+  ✅ [q174] correctAnswerIndex valido (0-3)
+  ✅ [q174] domanda e spiegazione non vuote
+  ✅ [q175] ha esattamente 4 risposte
+  ✅ [q175] correctAnswerIndex valido (0-3)
+  ✅ [q175] domanda e spiegazione non vuote
+  ✅ [q176] ha esattamente 4 risposte
+  ✅ [q176] correctAnswerIndex valido (0-3)
+  ✅ [q176] domanda e spiegazione non vuote
+  ✅ [q177] ha esattamente 4 risposte
+  ✅ [q177] correctAnswerIndex valido (0-3)
+  ✅ [q177] domanda e spiegazione non vuote
+  ✅ [q178] ha esattamente 4 risposte
+  ✅ [q178] correctAnswerIndex valido (0-3)
+  ✅ [q178] domanda e spiegazione non vuote
+  ✅ [q179] ha esattamente 4 risposte
+  ✅ [q179] correctAnswerIndex valido (0-3)
+  ✅ [q179] domanda e spiegazione non vuote
+  ✅ [q061] ha esattamente 4 risposte
+  ✅ [q061] correctAnswerIndex valido (0-3)
+  ✅ [q061] domanda e spiegazione non vuote
+  ✅ [q062] ha esattamente 4 risposte
+  ✅ [q062] correctAnswerIndex valido (0-3)
+  ✅ [q062] domanda e spiegazione non vuote
+  ✅ [q063] ha esattamente 4 risposte
+  ✅ [q063] correctAnswerIndex valido (0-3)
+  ✅ [q063] domanda e spiegazione non vuote
+  ✅ [q064] ha esattamente 4 risposte
+  ✅ [q064] correctAnswerIndex valido (0-3)
+  ✅ [q064] domanda e spiegazione non vuote
+  ✅ [q065] ha esattamente 4 risposte
+  ✅ [q065] correctAnswerIndex valido (0-3)
+  ✅ [q065] domanda e spiegazione non vuote
+  ✅ [q066] ha esattamente 4 risposte
+  ✅ [q066] correctAnswerIndex valido (0-3)
+  ✅ [q066] domanda e spiegazione non vuote
+  ✅ [q067] ha esattamente 4 risposte
+  ✅ [q067] correctAnswerIndex valido (0-3)
+  ✅ [q067] domanda e spiegazione non vuote
+  ✅ [q068] ha esattamente 4 risposte
+  ✅ [q068] correctAnswerIndex valido (0-3)
+  ✅ [q068] domanda e spiegazione non vuote
+  ✅ [q070] ha esattamente 4 risposte
+  ✅ [q070] correctAnswerIndex valido (0-3)
+  ✅ [q070] domanda e spiegazione non vuote
+  ✅ [q071] ha esattamente 4 risposte
+  ✅ [q071] correctAnswerIndex valido (0-3)
+  ✅ [q071] domanda e spiegazione non vuote
+  ✅ [q072] ha esattamente 4 risposte
+  ✅ [q072] correctAnswerIndex valido (0-3)
+  ✅ [q072] domanda e spiegazione non vuote
+  ✅ [q103] ha esattamente 4 risposte
+  ✅ [q103] correctAnswerIndex valido (0-3)
+  ✅ [q103] domanda e spiegazione non vuote
+  ✅ [q180] ha esattamente 4 risposte
+  ✅ [q180] correctAnswerIndex valido (0-3)
+  ✅ [q180] domanda e spiegazione non vuote
+  ✅ [q181] ha esattamente 4 risposte
+  ✅ [q181] correctAnswerIndex valido (0-3)
+  ✅ [q181] domanda e spiegazione non vuote
+  ✅ [q182] ha esattamente 4 risposte
+  ✅ [q182] correctAnswerIndex valido (0-3)
+  ✅ [q182] domanda e spiegazione non vuote
+  ✅ [q183] ha esattamente 4 risposte
+  ✅ [q183] correctAnswerIndex valido (0-3)
+  ✅ [q183] domanda e spiegazione non vuote
+  ✅ [q184] ha esattamente 4 risposte
+  ✅ [q184] correctAnswerIndex valido (0-3)
+  ✅ [q184] domanda e spiegazione non vuote
+  ✅ [q185] ha esattamente 4 risposte
+  ✅ [q185] correctAnswerIndex valido (0-3)
+  ✅ [q185] domanda e spiegazione non vuote
+  ✅ [q186] ha esattamente 4 risposte
+  ✅ [q186] correctAnswerIndex valido (0-3)
+  ✅ [q186] domanda e spiegazione non vuote
+  ✅ [q187] ha esattamente 4 risposte
+  ✅ [q187] correctAnswerIndex valido (0-3)
+  ✅ [q187] domanda e spiegazione non vuote
+  ✅ [q188] ha esattamente 4 risposte
+  ✅ [q188] correctAnswerIndex valido (0-3)
+  ✅ [q188] domanda e spiegazione non vuote
+  ✅ [q189] ha esattamente 4 risposte
+  ✅ [q189] correctAnswerIndex valido (0-3)
+  ✅ [q189] domanda e spiegazione non vuote
+  ✅ [q190] ha esattamente 4 risposte
+  ✅ [q190] correctAnswerIndex valido (0-3)
+  ✅ [q190] domanda e spiegazione non vuote
+  ✅ [q191] ha esattamente 4 risposte
+  ✅ [q191] correctAnswerIndex valido (0-3)
+  ✅ [q191] domanda e spiegazione non vuote
+  ✅ [q073] ha esattamente 4 risposte
+  ✅ [q073] correctAnswerIndex valido (0-3)
+  ✅ [q073] domanda e spiegazione non vuote
+  ✅ [q074] ha esattamente 4 risposte
+  ✅ [q074] correctAnswerIndex valido (0-3)
+  ✅ [q074] domanda e spiegazione non vuote
+  ✅ [q075] ha esattamente 4 risposte
+  ✅ [q075] correctAnswerIndex valido (0-3)
+  ✅ [q075] domanda e spiegazione non vuote
+  ✅ [q076] ha esattamente 4 risposte
+  ✅ [q076] correctAnswerIndex valido (0-3)
+  ✅ [q076] domanda e spiegazione non vuote
+  ✅ [q077] ha esattamente 4 risposte
+  ✅ [q077] correctAnswerIndex valido (0-3)
+  ✅ [q077] domanda e spiegazione non vuote
+  ✅ [q078] ha esattamente 4 risposte
+  ✅ [q078] correctAnswerIndex valido (0-3)
+  ✅ [q078] domanda e spiegazione non vuote
+  ✅ [q079] ha esattamente 4 risposte
+  ✅ [q079] correctAnswerIndex valido (0-3)
+  ✅ [q079] domanda e spiegazione non vuote
+  ✅ [q080] ha esattamente 4 risposte
+  ✅ [q080] correctAnswerIndex valido (0-3)
+  ✅ [q080] domanda e spiegazione non vuote
+  ✅ [q081] ha esattamente 4 risposte
+  ✅ [q081] correctAnswerIndex valido (0-3)
+  ✅ [q081] domanda e spiegazione non vuote
+  ✅ [q082] ha esattamente 4 risposte
+  ✅ [q082] correctAnswerIndex valido (0-3)
+  ✅ [q082] domanda e spiegazione non vuote
+  ✅ [q083] ha esattamente 4 risposte
+  ✅ [q083] correctAnswerIndex valido (0-3)
+  ✅ [q083] domanda e spiegazione non vuote
+  ✅ [q114] ha esattamente 4 risposte
+  ✅ [q114] correctAnswerIndex valido (0-3)
+  ✅ [q114] domanda e spiegazione non vuote
+  ✅ [q116] ha esattamente 4 risposte
+  ✅ [q116] correctAnswerIndex valido (0-3)
+  ✅ [q116] domanda e spiegazione non vuote
+  ✅ [q192] ha esattamente 4 risposte
+  ✅ [q192] correctAnswerIndex valido (0-3)
+  ✅ [q192] domanda e spiegazione non vuote
+  ✅ [q193] ha esattamente 4 risposte
+  ✅ [q193] correctAnswerIndex valido (0-3)
+  ✅ [q193] domanda e spiegazione non vuote
+  ✅ [q194] ha esattamente 4 risposte
+  ✅ [q194] correctAnswerIndex valido (0-3)
+  ✅ [q194] domanda e spiegazione non vuote
+  ✅ [q195] ha esattamente 4 risposte
+  ✅ [q195] correctAnswerIndex valido (0-3)
+  ✅ [q195] domanda e spiegazione non vuote
+  ✅ [q196] ha esattamente 4 risposte
+  ✅ [q196] correctAnswerIndex valido (0-3)
+  ✅ [q196] domanda e spiegazione non vuote
+  ✅ [q197] ha esattamente 4 risposte
+  ✅ [q197] correctAnswerIndex valido (0-3)
+  ✅ [q197] domanda e spiegazione non vuote
+  ✅ [q198] ha esattamente 4 risposte
+  ✅ [q198] correctAnswerIndex valido (0-3)
+  ✅ [q198] domanda e spiegazione non vuote
+  ✅ [q199] ha esattamente 4 risposte
+  ✅ [q199] correctAnswerIndex valido (0-3)
+  ✅ [q199] domanda e spiegazione non vuote
+  ✅ [q200] ha esattamente 4 risposte
+  ✅ [q200] correctAnswerIndex valido (0-3)
+  ✅ [q200] domanda e spiegazione non vuote
+  ✅ [q201] ha esattamente 4 risposte
+  ✅ [q201] correctAnswerIndex valido (0-3)
+  ✅ [q201] domanda e spiegazione non vuote
+  ✅ [q202] ha esattamente 4 risposte
+  ✅ [q202] correctAnswerIndex valido (0-3)
+  ✅ [q202] domanda e spiegazione non vuote
+  ✅ [q085] ha esattamente 4 risposte
+  ✅ [q085] correctAnswerIndex valido (0-3)
+  ✅ [q085] domanda e spiegazione non vuote
+  ✅ [q086] ha esattamente 4 risposte
+  ✅ [q086] correctAnswerIndex valido (0-3)
+  ✅ [q086] domanda e spiegazione non vuote
+  ✅ [q087] ha esattamente 4 risposte
+  ✅ [q087] correctAnswerIndex valido (0-3)
+  ✅ [q087] domanda e spiegazione non vuote
+  ✅ [q088] ha esattamente 4 risposte
+  ✅ [q088] correctAnswerIndex valido (0-3)
+  ✅ [q088] domanda e spiegazione non vuote
+  ✅ [q089] ha esattamente 4 risposte
+  ✅ [q089] correctAnswerIndex valido (0-3)
+  ✅ [q089] domanda e spiegazione non vuote
+  ✅ [q090] ha esattamente 4 risposte
+  ✅ [q090] correctAnswerIndex valido (0-3)
+  ✅ [q090] domanda e spiegazione non vuote
+  ✅ [q091] ha esattamente 4 risposte
+  ✅ [q091] correctAnswerIndex valido (0-3)
+  ✅ [q091] domanda e spiegazione non vuote
+  ✅ [q092] ha esattamente 4 risposte
+  ✅ [q092] correctAnswerIndex valido (0-3)
+  ✅ [q092] domanda e spiegazione non vuote
+  ✅ [q093] ha esattamente 4 risposte
+  ✅ [q093] correctAnswerIndex valido (0-3)
+  ✅ [q093] domanda e spiegazione non vuote
+  ✅ [q094] ha esattamente 4 risposte
+  ✅ [q094] correctAnswerIndex valido (0-3)
+  ✅ [q094] domanda e spiegazione non vuote
+  ✅ [q095] ha esattamente 4 risposte
+  ✅ [q095] correctAnswerIndex valido (0-3)
+  ✅ [q095] domanda e spiegazione non vuote
+  ✅ [q096] ha esattamente 4 risposte
+  ✅ [q096] correctAnswerIndex valido (0-3)
+  ✅ [q096] domanda e spiegazione non vuote
+  ✅ [q203] ha esattamente 4 risposte
+  ✅ [q203] correctAnswerIndex valido (0-3)
+  ✅ [q203] domanda e spiegazione non vuote
+  ✅ [q204] ha esattamente 4 risposte
+  ✅ [q204] correctAnswerIndex valido (0-3)
+  ✅ [q204] domanda e spiegazione non vuote
+  ✅ [q205] ha esattamente 4 risposte
+  ✅ [q205] correctAnswerIndex valido (0-3)
+  ✅ [q205] domanda e spiegazione non vuote
+  ✅ [q206] ha esattamente 4 risposte
+  ✅ [q206] correctAnswerIndex valido (0-3)
+  ✅ [q206] domanda e spiegazione non vuote
+  ✅ [q207] ha esattamente 4 risposte
+  ✅ [q207] correctAnswerIndex valido (0-3)
+  ✅ [q207] domanda e spiegazione non vuote
+  ✅ [q208] ha esattamente 4 risposte
+  ✅ [q208] correctAnswerIndex valido (0-3)
+  ✅ [q208] domanda e spiegazione non vuote
+  ✅ [q209] ha esattamente 4 risposte
+  ✅ [q209] correctAnswerIndex valido (0-3)
+  ✅ [q209] domanda e spiegazione non vuote
+  ✅ [q210] ha esattamente 4 risposte
+  ✅ [q210] correctAnswerIndex valido (0-3)
+  ✅ [q210] domanda e spiegazione non vuote
+  ✅ [q211] ha esattamente 4 risposte
+  ✅ [q211] correctAnswerIndex valido (0-3)
+  ✅ [q211] domanda e spiegazione non vuote
+  ✅ [q212] ha esattamente 4 risposte
+  ✅ [q212] correctAnswerIndex valido (0-3)
+  ✅ [q212] domanda e spiegazione non vuote
+  ✅ [q213] ha esattamente 4 risposte
+  ✅ [q213] correctAnswerIndex valido (0-3)
+  ✅ [q213] domanda e spiegazione non vuote
+  ✅ [q214] ha esattamente 4 risposte
+  ✅ [q214] correctAnswerIndex valido (0-3)
+  ✅ [q214] domanda e spiegazione non vuote
+  ✅ [q097] ha esattamente 4 risposte
+  ✅ [q097] correctAnswerIndex valido (0-3)
+  ✅ [q097] domanda e spiegazione non vuote
+  ✅ [q098] ha esattamente 4 risposte
+  ✅ [q098] correctAnswerIndex valido (0-3)
+  ✅ [q098] domanda e spiegazione non vuote
+  ✅ [q099] ha esattamente 4 risposte
+  ✅ [q099] correctAnswerIndex valido (0-3)
+  ✅ [q099] domanda e spiegazione non vuote
+  ✅ [q100] ha esattamente 4 risposte
+  ✅ [q100] correctAnswerIndex valido (0-3)
+  ✅ [q100] domanda e spiegazione non vuote
+  ✅ [q101] ha esattamente 4 risposte
+  ✅ [q101] correctAnswerIndex valido (0-3)
+  ✅ [q101] domanda e spiegazione non vuote
+  ✅ [q102] ha esattamente 4 risposte
+  ✅ [q102] correctAnswerIndex valido (0-3)
+  ✅ [q102] domanda e spiegazione non vuote
+  ✅ [q104] ha esattamente 4 risposte
+  ✅ [q104] correctAnswerIndex valido (0-3)
+  ✅ [q104] domanda e spiegazione non vuote
+  ✅ [q105] ha esattamente 4 risposte
+  ✅ [q105] correctAnswerIndex valido (0-3)
+  ✅ [q105] domanda e spiegazione non vuote
+  ✅ [q106] ha esattamente 4 risposte
+  ✅ [q106] correctAnswerIndex valido (0-3)
+  ✅ [q106] domanda e spiegazione non vuote
+  ✅ [q107] ha esattamente 4 risposte
+  ✅ [q107] correctAnswerIndex valido (0-3)
+  ✅ [q107] domanda e spiegazione non vuote
+  ✅ [q108] ha esattamente 4 risposte
+  ✅ [q108] correctAnswerIndex valido (0-3)
+  ✅ [q108] domanda e spiegazione non vuote
+  ✅ [q215] ha esattamente 4 risposte
+  ✅ [q215] correctAnswerIndex valido (0-3)
+  ✅ [q215] domanda e spiegazione non vuote
+  ✅ [q216] ha esattamente 4 risposte
+  ✅ [q216] correctAnswerIndex valido (0-3)
+  ✅ [q216] domanda e spiegazione non vuote
+  ✅ [q217] ha esattamente 4 risposte
+  ✅ [q217] correctAnswerIndex valido (0-3)
+  ✅ [q217] domanda e spiegazione non vuote
+  ✅ [q218] ha esattamente 4 risposte
+  ✅ [q218] correctAnswerIndex valido (0-3)
+  ✅ [q218] domanda e spiegazione non vuote
+  ✅ [q219] ha esattamente 4 risposte
+  ✅ [q219] correctAnswerIndex valido (0-3)
+  ✅ [q219] domanda e spiegazione non vuote
+  ✅ [q220] ha esattamente 4 risposte
+  ✅ [q220] correctAnswerIndex valido (0-3)
+  ✅ [q220] domanda e spiegazione non vuote
+  ✅ [q221] ha esattamente 4 risposte
+  ✅ [q221] correctAnswerIndex valido (0-3)
+  ✅ [q221] domanda e spiegazione non vuote
+  ✅ [q222] ha esattamente 4 risposte
+  ✅ [q222] correctAnswerIndex valido (0-3)
+  ✅ [q222] domanda e spiegazione non vuote
+  ✅ [q223] ha esattamente 4 risposte
+  ✅ [q223] correctAnswerIndex valido (0-3)
+  ✅ [q223] domanda e spiegazione non vuote
+  ✅ [q224] ha esattamente 4 risposte
+  ✅ [q224] correctAnswerIndex valido (0-3)
+  ✅ [q224] domanda e spiegazione non vuote
+  ✅ [q225] ha esattamente 4 risposte
+  ✅ [q225] correctAnswerIndex valido (0-3)
+  ✅ [q225] domanda e spiegazione non vuote
+  ✅ [q226] ha esattamente 4 risposte
+  ✅ [q226] correctAnswerIndex valido (0-3)
+  ✅ [q226] domanda e spiegazione non vuote
+  ✅ [q227] ha esattamente 4 risposte
+  ✅ [q227] correctAnswerIndex valido (0-3)
+  ✅ [q227] domanda e spiegazione non vuote
+  ✅ [q109] ha esattamente 4 risposte
+  ✅ [q109] correctAnswerIndex valido (0-3)
+  ✅ [q109] domanda e spiegazione non vuote
+  ✅ [q110] ha esattamente 4 risposte
+  ✅ [q110] correctAnswerIndex valido (0-3)
+  ✅ [q110] domanda e spiegazione non vuote
+  ✅ [q111] ha esattamente 4 risposte
+  ✅ [q111] correctAnswerIndex valido (0-3)
+  ✅ [q111] domanda e spiegazione non vuote
+  ✅ [q112] ha esattamente 4 risposte
+  ✅ [q112] correctAnswerIndex valido (0-3)
+  ✅ [q112] domanda e spiegazione non vuote
+  ✅ [q113] ha esattamente 4 risposte
+  ✅ [q113] correctAnswerIndex valido (0-3)
+  ✅ [q113] domanda e spiegazione non vuote
+  ✅ [q115] ha esattamente 4 risposte
+  ✅ [q115] correctAnswerIndex valido (0-3)
+  ✅ [q115] domanda e spiegazione non vuote
+  ✅ [q117] ha esattamente 4 risposte
+  ✅ [q117] correctAnswerIndex valido (0-3)
+  ✅ [q117] domanda e spiegazione non vuote
+  ✅ [q118] ha esattamente 4 risposte
+  ✅ [q118] correctAnswerIndex valido (0-3)
+  ✅ [q118] domanda e spiegazione non vuote
+  ✅ [q119] ha esattamente 4 risposte
+  ✅ [q119] correctAnswerIndex valido (0-3)
+  ✅ [q119] domanda e spiegazione non vuote
+  ✅ [q120] ha esattamente 4 risposte
+  ✅ [q120] correctAnswerIndex valido (0-3)
+  ✅ [q120] domanda e spiegazione non vuote
+  ✅ [q228] ha esattamente 4 risposte
+  ✅ [q228] correctAnswerIndex valido (0-3)
+  ✅ [q228] domanda e spiegazione non vuote
+  ✅ [q229] ha esattamente 4 risposte
+  ✅ [q229] correctAnswerIndex valido (0-3)
+  ✅ [q229] domanda e spiegazione non vuote
+  ✅ [q230] ha esattamente 4 risposte
+  ✅ [q230] correctAnswerIndex valido (0-3)
+  ✅ [q230] domanda e spiegazione non vuote
+  ✅ [q231] ha esattamente 4 risposte
+  ✅ [q231] correctAnswerIndex valido (0-3)
+  ✅ [q231] domanda e spiegazione non vuote
+  ✅ [q232] ha esattamente 4 risposte
+  ✅ [q232] correctAnswerIndex valido (0-3)
+  ✅ [q232] domanda e spiegazione non vuote
+  ✅ [q233] ha esattamente 4 risposte
+  ✅ [q233] correctAnswerIndex valido (0-3)
+  ✅ [q233] domanda e spiegazione non vuote
+  ✅ [q234] ha esattamente 4 risposte
+  ✅ [q234] correctAnswerIndex valido (0-3)
+  ✅ [q234] domanda e spiegazione non vuote
+  ✅ [q235] ha esattamente 4 risposte
+  ✅ [q235] correctAnswerIndex valido (0-3)
+  ✅ [q235] domanda e spiegazione non vuote
+  ✅ [q236] ha esattamente 4 risposte
+  ✅ [q236] correctAnswerIndex valido (0-3)
+  ✅ [q236] domanda e spiegazione non vuote
+  ✅ [q237] ha esattamente 4 risposte
+  ✅ [q237] correctAnswerIndex valido (0-3)
+  ✅ [q237] domanda e spiegazione non vuote
+  ✅ [q238] ha esattamente 4 risposte
+  ✅ [q238] correctAnswerIndex valido (0-3)
+  ✅ [q238] domanda e spiegazione non vuote
+  ✅ [q239] ha esattamente 4 risposte
+  ✅ [q239] correctAnswerIndex valido (0-3)
+  ✅ [q239] domanda e spiegazione non vuote
+  ✅ [q240] ha esattamente 4 risposte
+  ✅ [q240] correctAnswerIndex valido (0-3)
+  ✅ [q240] domanda e spiegazione non vuote
+  ✅ [q241] ha esattamente 4 risposte
+  ✅ [q241] correctAnswerIndex valido (0-3)
+  ✅ [q241] domanda e spiegazione non vuote
+
+=== TEST 2: selezione domande (1 per difficoltà, 10 totali) ===
+  ✅ selectQuizQuestions restituisce esattamente 10 domande
+  ✅ copre esattamente le difficoltà 1..10, una ciascuna
+  ✅ nessuna domanda ripetuta nella stessa selezione
+
+=== TEST 3: algoritmo anti-ripetizione ===
+  ✅ seconda selezione condivide poche domande con la prima (0/10 in comune)
+
+=== TEST 4: punteggio massimo 55 senza abilità (tutte corrette, nessuna abilità) ===
+  ✅ con tutte le risposte corrette e nessuna abilità il punteggio è 55 (trovato 55)
+
+=== TEST 5: pareggio risolto dal tie-break sul tempo ===
+  ✅ entrambi i giocatori totalizzano lo stesso punteggio (55 vs 55)
+  ✅ a parità di punti vince chi ha risposto più velocemente (tie-break sul tempo)
+
+=== TEST 6: timeout (nessuna risposta) non blocca la partita ===
+
+--- nessuno risponde mai (3 giocatori) ---
+  ✅ la partita termina entro il tetto di sicurezza (nessun blocco/loop infinito)
+  ✅ ctx.finish() viene chiamato con dei risultati
+  ✅ i risultati contengono 3 giocatori
+  ✅ i piazzamenti sono 1..3 senza buchi né duplicati
+  ✅ con zero risposte in assoluto la partita termina comunque (nessun blocco)
+  ✅ nessuna risposta -> punteggio totale 0 per tutti
+
+=== TEST 7: disconnessione (giocatore rimosso a metà non deve far crashare il manager) ===
+  ✅ nessuna eccezione lanciata quando un giocatore "sparisce" a metà partita
+  ✅ il giocatore disconnesso resta comunque nei risultati finali (con 0 punti dalle domande perse)
+
+=== TEST 8: domanda 10 (climax) ===
+  ✅ la partita attraversa la decima domanda (indice 9) prima di terminare
+
+=== TEST 9: abilità — GOBLIN (NCULO! rifiuta la domanda, stessa difficoltà per tutti) ===
+  ✅ p1 ha risposto prima del rifiuto
+  ✅ NCULO! sostituisce la domanda (q132 -> q122)
+  ✅ la nuova domanda ha la STESSA difficoltà (1)
+  ✅ dopo NCULO! si torna alla fase intro (nuova domanda da presentare)
+  ✅ la risposta di p1 sulla vecchia domanda viene azzerata (la domanda è cambiata per tutti)
+  ✅ l'abilità risulta usata dopo l'attivazione
+  ✅ una seconda pressione di ABILITÀ non ha alcun effetto (una sola volta a partita)
+
+=== TEST 10: abilità — BUTTAFUORI (secondo tentativo dopo risposta sbagliata) ===
+  ✅ una risposta sbagliata apre la finestra di grazia per MO HO CAPITO
+  ✅ la risposta NON è ancora bloccata durante la finestra di grazia
+  ✅ premendo ABILITÀ il secondo tentativo si arma
+  ✅ il secondo tentativo corretto viene registrato come corretto
+  ✅ il secondo tentativo corretto vale il 50% arrotondato per eccesso (1, trovato 1)
+
+=== TEST 11: abilità — JUDOKA (cambia risposta prima della rivelazione) ===
+  ✅ prima risposta (sbagliata) registrata come definitiva
+  ✅ NO, ASPETTA! riapre la risposta
+  ✅ il tempo residuo aumenta di 3 secondi dopo NO, ASPETTA!
+  ✅ la nuova risposta corretta viene registrata regolarmente
+  ✅ NO, ASPETTA! non altera il valore normale della domanda
+
+=== TEST 12: abilità — CIRO (ULTIMO GIORNO UTILE: aspetta, vede il riepilogo, risponde dopo) ===
+  ✅ ULTIMO GIORNO UTILE mette Ciro in attesa
+  ✅ l'abilità risulta usata subito
+  ✅ il riepilogo non è ancora visibile prima dello scadere del timer normale
+  ✅ il riepilogo mostra il conteggio delle risposte altrui ([0,1,0,0])
+  ✅ la domanda resta aperta durante i 4 secondi extra di Ciro
+  ✅ Ciro può ancora rispondere correttamente entro il tempo extra
+  ✅ ULTIMO GIORNO UTILE non altera il punteggio normale della domanda
+  ✅ il riepilogo sparisce una volta che Ciro ha risposto
+
+=== TEST 13: abilità — DOTTORE (M'HO SVEJATO: indizio vero, 70% dei punti se indovina) ===
+  ✅ M'HO SVEJATO mostra l'indizio vero della domanda corrente
+  ✅ l'abilità risulta usata subito
+  ✅ risposta corretta con indizio vale il 70% arrotondato (1, trovato 1)
+  ✅ la partita è avanzata alla domanda successiva
+  ✅ l'indizio non è più attivo sulla domanda successiva
+  ✅ senza indizio attivo la domanda successiva vale il punteggio pieno (+2, trovato +2)
+
+=== TEST 14: 2, 3, 4, 5 giocatori — partita completa senza crash ===
+
+--- mix vincitori/perdenti (2 giocatori) ---
+  ✅ la partita termina entro il tetto di sicurezza (nessun blocco/loop infinito)
+  ✅ ctx.finish() viene chiamato con dei risultati
+  ✅ i risultati contengono 2 giocatori
+  ✅ i piazzamenti sono 1..2 senza buchi né duplicati
+
+--- mix vincitori/perdenti (3 giocatori) ---
+  ✅ la partita termina entro il tetto di sicurezza (nessun blocco/loop infinito)
+  ✅ ctx.finish() viene chiamato con dei risultati
+  ✅ i risultati contengono 3 giocatori
+  ✅ i piazzamenti sono 1..3 senza buchi né duplicati
+
+--- mix vincitori/perdenti (4 giocatori) ---
+  ✅ la partita termina entro il tetto di sicurezza (nessun blocco/loop infinito)
+  ✅ ctx.finish() viene chiamato con dei risultati
+  ✅ i risultati contengono 4 giocatori
+  ✅ i piazzamenti sono 1..4 senza buchi né duplicati
+
+--- mix vincitori/perdenti (5 giocatori) ---
+  ✅ la partita termina entro il tetto di sicurezza (nessun blocco/loop infinito)
+  ✅ ctx.finish() viene chiamato con dei risultati
+  ✅ i risultati contengono 5 giocatori
+  ✅ i piazzamenti sono 1..5 senza buchi né duplicati
+
+=== RISULTATO: TUTTI I TEST PASSATI ✅ ===

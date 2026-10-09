@@ -1,0 +1,38 @@
+{
+  "errors": [],
+  "phones": [
+    {
+      "name": "Nicolò",
+      "question": "Qual è la capitale della Francia?",
+      "answers": [
+        "Nizza",
+        "Marsiglia",
+        "Lione",
+        "Parigi"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "name": "Christian",
+      "question": "Qual è la capitale della Francia?",
+      "answers": [
+        "Nizza",
+        "Marsiglia",
+        "Lione",
+        "Parigi"
+      ],
+      "answerIndex": 1
+    },
+    {
+      "name": "Carbo",
+      "question": "Qual è la capitale della Francia?",
+      "answers": [
+        "Nizza",
+        "Marsiglia",
+        "Lione",
+        "Parigi"
+      ],
+      "answerIndex": 1
+    }
+  ]
+}

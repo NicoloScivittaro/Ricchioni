@@ -201,7 +201,7 @@ function syncPauseOverlay(s: RoomState | null): void {
 /** Chi gioca col controller tiene il telefono sul tavolo: le vibrazioni (anche quelle di inizio/fine gioco mandate dal server) vanno al controller. */
 /**
  * Telefono "sul tavolo": il giocatore ha un controller E il gioco in corso non e' da telefono. Durante un gioco PHONE_TEXT
- * (Cultura o Cazzata) il telefono e' in mano anche a chi ha un controller: lì la vibrazione deve arrivare al telefono — prima
+ * (Quiz, Cultura o Cazzata) il telefono e' in mano anche a chi ha un controller: lì la vibrazione deve arrivare al telefono — prima
  * veniva soppressa e, non avendo quel gioco un profilo controller, il giocatore non riceveva nessun feedback aptico.
  */
 function phoneIsOnTable(): boolean {
@@ -2170,6 +2170,7 @@ function renderQuizController(): void {
   QUIZ_LETTERS.forEach((letter, i) => {
     const btn = document.createElement('button');
     btn.className = `quiz-answer quiz-ans-${letter.toLowerCase()}`;
+    btn.disabled = true; // attendi una domanda attiva prima di accettare risposte
     const badge = document.createElement('span');
     badge.className = 'quiz-answer-letter';
     badge.textContent = letter;
@@ -2218,7 +2219,7 @@ function updateQuizUI(): void {
   hintEl.textContent = s.hintText ? `💡 ${s.hintText}` : '';
   hintEl.style.display = s.hintText ? '' : 'none';
 
-  const locked = s.phase === 'reveal' || s.phase === 'explanation' || s.phase === 'leaderboard';
+  const locked = s.phase !== 'question';
   quizAnswerEls.forEach((el, i) => {
     el.text.textContent = s.answers[i] ?? '';
     el.letter.textContent = QUIZ_LETTERS[i];
@@ -2367,7 +2368,8 @@ function renderPreGame(state: RoomState): void {
       return;
     }
     if (def?.inputMode === 'PHONE_TEXT') {
-      app.innerHTML = `<div class="screen pad-screen"><div class="pad-icon">📱</div><h1>PRENDI IL TELEFONO</h1><p class="pad-game">${def.icon ?? ''} ${mg!.name}</p><p class="pad-look">SERVE PER SCRIVERE E VOTARE</p></div>`;
+      const instruction = mg!.minigameId === 'quiz' ? 'LEGGI LA DOMANDA E TOCCA LA RISPOSTA' : 'SERVE PER SCRIVERE E VOTARE';
+      app.innerHTML = `<div class="screen pad-screen"><div class="pad-icon">📱</div><h1>PRENDI IL TELEFONO</h1><p class="pad-game">${def.icon ?? ''} ${mg!.name}</p><p class="pad-look">${instruction}</p></div>`;
       return;
     }
     if (def?.inputMode === 'GAMEPAD' && meNow.pad) {

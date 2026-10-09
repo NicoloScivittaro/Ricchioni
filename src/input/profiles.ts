@@ -137,16 +137,6 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'REACTION', binding: 'PRIMARY', control: 'action', label: 'PREMI SOLO QUANDO VEDI VIA!' },
     { action: 'ABILITY', binding: 'RB', control: 'ability', label: 'ABILITÀ' }
   ]),
-  // Quiz: le 4 risposte restano PUBBLICHE sulla TV (come sempre), quello che resta privato e' QUALE le stai
-  // scorrendo — nessun cursore in TV ne' sul telefono, "selectPrev"/"selectNext" spostano solo un indice
-  // locale nella scena (vedi QuizScene). CONFERMA chiama submitAnswer esattamente come un tocco sul telefono:
-  // nessuna nuova regola di gioco, solo un modo diverso di scegliere l'indice da passargli.
-  quiz: defineProfile('quiz', [
-    { action: 'SELECT_PREV', binding: 'DPAD_LEFT', control: 'selectPrev', label: 'RISPOSTA PRECEDENTE' },
-    { action: 'SELECT_NEXT', binding: 'DPAD_RIGHT', control: 'selectNext', label: 'RISPOSTA SUCCESSIVA' },
-    { action: 'CONFIRM', binding: 'PRIMARY', control: 'confirm', label: 'CONFERMA RISPOSTA' },
-    { action: 'ABILITY', binding: 'RB', control: 'ability', label: 'ABILITÀ' }
-  ]),
   // Sparatoria: stick sinistro = 'move' (identico agli altri giochi, il gioco lo legge gia'). Lo stick destro e'
   // NUOVO (nessun altro gioco mira in prima persona): controlId separato 'lookStick', letto come VELOCITA' angolare
   // (integrata in yaw/pitch da FpsScene, vedi LOOK_SENS_*), mai come posizione assoluta — a differenza di 'look' del

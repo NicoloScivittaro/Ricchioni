@@ -470,6 +470,7 @@ button.char:disabled {
   flex-direction: column;
   padding: 14px 14px 10px;
   gap: 10px;
+  overflow-y: auto;
   background:
     radial-gradient(circle at 20% -10%, rgba(168, 85, 247, 0.18), transparent 55%),
     radial-gradient(circle at 90% 0%, rgba(56, 189, 248, 0.14), transparent 50%),
@@ -634,8 +635,23 @@ button.char:disabled {
   flex-direction: column;
   gap: 8px;
   flex: 1;
-  min-height: 0;
+  min-height: max-content;
   justify-content: center;
+}
+
+.quiz-topbar,
+.quiz-card,
+.quiz-breakdown,
+.quiz-footer,
+.quiz-ability-desc {
+  flex-shrink: 0;
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .quiz-answers {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .quiz-answer {

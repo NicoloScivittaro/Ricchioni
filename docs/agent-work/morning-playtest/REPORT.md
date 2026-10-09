@@ -32,3 +32,11 @@ Evidenze nella stessa cartella: `three-player-session.log/json`, `server-prelaun
 Nessun minigioco disabilitato. Nessun cambiamento a hitbox, collider, danni, bilanciamento, formato room o networking. Nessuna compressione GLB/texture, nuovo retarget, dipendenza aggiunta, commit/push/deploy.
 
 Calcio/Volley e Kart usano ancora i corpi/driver procedurali nelle partite: le animazioni sportive e la posa al volante dei nuovi modelli restano da approvare. Dottore non ha un nuovo GLB. Le prove sono su Chrome nel PC con GPU reale; i due telefoni fisici, il Wi-Fi e una serata naturale completa richiedono i tre controlli in `COME-GIOCARE.md`. Il warning dei chunk grandi è preesistente.
+
+## Aggiornamento richiesto: Quiz sul telefono
+
+Quiz impostato su `PHONE_TEXT`: domanda, quattro risposte e abilità sul telefono, anche con gamepad associati. Il profilo gamepad del Quiz è rimosso; i controller restano associati per gli altri giochi. Istruzioni intro/CONTROLLI aggiornate. Risposte bloccate finché la domanda non è attiva; layout orizzontale su due colonne e scorrimento disponibile per contenuti lunghi. TV, regole, timer e punteggio conservati.
+
+PASS: test con tre telefoni e due gamepad simulati, risposte via tocco, gamepad esclusi dal Quiz, indizio privato Dottore e riepilogo Ciro, nuova domanda, pausa/ripresa e pairing conservato. Tre dimensioni dello schermo verificate anche a vista. Selftest Quiz e pad PASS; build aggiornata PASS (3m52s). Produzione senza debug sulla porta 3001: tre telefoni leggono la stessa domanda/risposte e l'host conferma ciascun tocco; nessun errore pagina.
+
+Evidenze: `quiz-phone.log`, `quiz-phone-selftest.log`, `pad-quiz-phone.log`, `build-quiz-phone.log`, `quiz-phone-production.log/json`; screenshot in `quiz-phone/`. Per una pagina già aperta ricaricare PC e telefoni prima di creare la stanza.
