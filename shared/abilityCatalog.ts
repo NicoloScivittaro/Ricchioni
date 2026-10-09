@@ -10,7 +10,7 @@
  * qui: lo decide ogni gioco (unica autorita') e lo pubblica con AbilityStatus (src/core/abilityHub.ts) — il catalogo e' solo statico.
  */
 
-export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione';
+export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione' | 'casacarbo';
 export type AbilityCharacterId = 'goblin' | 'buttafuori' | 'judoka' | 'dottore' | 'ciro';
 
 /** I 6 tipi di abilita' del progetto: ogni voce ne ha UNO principale. */
@@ -1003,7 +1003,93 @@ CO.judoka.full = `Premi: per ${sec(CO.judoka.p.window)} sei in postura. Se in qu
 CO.dottore.full = `Premi: per ${sec(CO.dottore.p.duration)} sei più leggero: controllo aereo, salto e caduta molto migliori. Ma i colpi che prendi ti lanciano ${CO.dottore.p.knock}× più lontano: un colpo pesante a percentuale alta ti manda fuori. Una volta per vita.`;
 CO.ciro.full = `Quando stai per finire fuori si apre per ${sec(CO.ciro.p.window)} la finestra "BONIFICO?": premi per rinviare il KO e avere ${sec(CO.ciro.p.pending)} per rientrare. Se rientri paghi +${CO.ciro.p.debt}% di danno; se no, sei fuori. Se non premi, il KO è normale e l'abilità resta.`;
 
-/** Tutte le abilita' (55). */
+// ============================================================================================================================
+// CASA CARBO — si allaga casa di Carbo: tiracqua, secchi, tre scarichi, la pioggia entra SOLO dalle due porte dei giardini.
+// Si gareggia sul contributo (acqua tolta davvero dalla casa), con un obiettivo comune (75% di casa asciutta). Abilita' a PARTITA.
+// ============================================================================================================================
+const CC = {
+  goblin: add(
+    def({
+      game: 'casacarbo',
+      character: 'goblin',
+      name: "N'CULO, MO ASCIUGO IO!",
+      kind: 'RISK_REWARD',
+      impact: 'HIGH',
+      charges: 2,
+      cooldown: 9,
+      p: { windup: 0.5, length: 5, width: 2.6, push: 5 },
+      short: "Spazzata caricata: un'onda d'acqua davanti a te.",
+      full: ''
+    })
+  ),
+  buttafuori: add(
+    def({
+      game: 'casacarbo',
+      character: 'buttafuori',
+      name: 'TU QUA NON ENTRI!',
+      kind: 'LIMITED_RESOURCE',
+      impact: 'HIGH',
+      charges: 1,
+      cooldown: 0,
+      limit: '1 uso a partita',
+      p: { duration: 6, block: 0.9, range: 1.8, backlog: 0.5, release: 2 },
+      short: 'Davanti a una porta: blocchi quasi tutta la pioggia.',
+      full: ''
+    })
+  ),
+  dottore: add(
+    def({
+      game: 'casacarbo',
+      character: 'dottore',
+      name: "M'HO SVEJATO",
+      kind: 'INFORMATION',
+      impact: 'MEDIUM',
+      charges: 2,
+      cooldown: 0,
+      limit: '2 usi a partita',
+      p: { window: 25 },
+      short: 'Sai in anticipo quale porta prendera\' la prossima raffica.',
+      full: ''
+    })
+  ),
+  judoka: add(
+    def({
+      game: 'casacarbo',
+      character: 'judoka',
+      name: 'NO, ASPETTA!',
+      kind: 'RISK_REWARD',
+      impact: 'MEDIUM',
+      charges: 2,
+      cooldown: 0,
+      limit: '2 usi a partita',
+      p: { duration: 15, length: 3, distance: 1.4, capacity: 9 },
+      short: "Diga improvvisata: devia l'acqua, ma puo' cedere.",
+      full: ''
+    })
+  ),
+  ciro: add(
+    def({
+      game: 'casacarbo',
+      character: 'ciro',
+      name: 'PAGO DOMANI',
+      kind: 'RISK_REWARD',
+      impact: 'MEDIUM',
+      charges: 2,
+      cooldown: 0,
+      limit: '2 usi a partita',
+      p: { mult: 2, deadline: 6, loss: 0.5 },
+      short: 'Il prossimo secchio porta il doppio, ma hai poco tempo.',
+      full: ''
+    })
+  )
+};
+CC.goblin.full = `Premi guardando dove vuoi spingere: dopo ${sec(CC.goblin.p.windup)} di carica parte un'onda che sposta tutta l'acqua davanti a te per ${CC.goblin.p.length} m (e spinge chi c'e' in mezzo). Se mirata male rimanda l'acqua in una stanza pulita. Due usi, ricarica ${sec(CC.goblin.cooldown)}.`;
+CC.buttafuori.full = `Premi davanti a una delle due porte: per ${sec(CC.buttafuori.p.duration)} entra solo un decimo della pioggia. Intanto non puoi muoverti ne' pulire, e quando molli meta' dell'acqua trattenuta fuori entra tutta insieme. Una volta a partita.`;
+CC.dottore.full = `Premi: se nei prossimi ${sec(CC.dottore.p.window)} arriva una raffica, sul tuo telefono vedi quale porta e quando, prima degli altri. Se non arriva niente l'uso e' sprecato. Due usi a partita.`;
+CC.judoka.full = `Premi: piazzi davanti a te una diga lunga ${CC.judoka.p.length} m che ferma l'acqua (ma non le persone) per ${sec(CC.judoka.p.duration)}. Se dietro si accumula troppa acqua cede e la libera tutta insieme. Due usi a partita.`;
+CC.ciro.full = `Premi: il prossimo secchio contiene il doppio. Appena supera la capienza normale hai ${sec(CC.ciro.p.deadline)} per svuotarlo in uno scarico, se no ne rovesci meta' per terra. Due usi a partita.`;
+
+/** Tutte le abilita' (60). */
 export const ABILITY_CATALOG: readonly AbilityDef[] = Object.values(R).flatMap((byChar) => Object.values(byChar));
 
 export function abilityFor(game: string | null | undefined, character: string | null | undefined): AbilityDef | null {
@@ -1022,7 +1108,7 @@ export function abilityParam(game: AbilityGameId, character: AbilityCharacterId,
 export const CHARACTER_ORDER_ABILITY: AbilityCharacterId[] = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'];
 
 /** Accesso tipizzato ai numeri: `AB.arena.goblin.p.window`. Letto dai giochi. */
-export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO } as const;
+export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO, casacarbo: CC } as const;
 
 /**
  * Tabella {personaggio: {name, desc}} di un gioco, nella forma che i vecchi file shared/<gioco>Abilities.ts esportavano. Quei file ora
