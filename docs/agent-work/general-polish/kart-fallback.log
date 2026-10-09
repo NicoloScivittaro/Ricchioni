@@ -1,0 +1,1 @@
+PASS: all four failed Kart imports retain procedural drivers; immediate disposal before delayed imports leaves no live instance or page error

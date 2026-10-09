@@ -1,0 +1,1865 @@
+{
+  "status": "STATIC ANALYSIS ONLY; Babylon import and game integration not executed",
+  "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\detailed+character+3d+model (3).glb",
+  "sha256": "763ebedbd024b214b36f98ec93f282c9155f85b6e865580f006142ad74067e7e",
+  "bytes": 20169284,
+  "asset": {
+    "generator": "Tripo",
+    "version": "2.0"
+  },
+  "extensions_used": [],
+  "meshes": 1,
+  "primitives": 1,
+  "vertices": 28141,
+  "triangles": 31399,
+  "local_bounds_min": [
+    -0.24632640182971954,
+    -8.940696716308594e-08,
+    -0.22789576649665833
+  ],
+  "local_bounds_max": [
+    0.24632635712623596,
+    0.9779399633407593,
+    0.22789588570594788
+  ],
+  "local_dimensions": [
+    0.4926527589559555,
+    0.9779400527477264,
+    0.4557916522026062
+  ],
+  "invalid_indices": 0,
+  "nonfinite_positions": 0,
+  "skins": 1,
+  "joints": 65,
+  "finger_joints": 40,
+  "joint_names": [
+    "mixamorig:Hips",
+    "mixamorig:LeftUpLeg",
+    "mixamorig:LeftLeg",
+    "mixamorig:LeftFoot",
+    "mixamorig:LeftToeBase",
+    "mixamorig:LeftToe_End",
+    "mixamorig:RightUpLeg",
+    "mixamorig:RightLeg",
+    "mixamorig:RightFoot",
+    "mixamorig:RightToeBase",
+    "mixamorig:RightToe_End",
+    "mixamorig:Spine",
+    "mixamorig:Spine1",
+    "mixamorig:Spine2",
+    "mixamorig:LeftShoulder",
+    "mixamorig:LeftArm",
+    "mixamorig:LeftForeArm",
+    "mixamorig:LeftHand",
+    "mixamorig:LeftHandIndex1",
+    "mixamorig:LeftHandIndex2",
+    "mixamorig:LeftHandIndex3",
+    "mixamorig:LeftHandIndex4",
+    "mixamorig:LeftHandMiddle1",
+    "mixamorig:LeftHandMiddle2",
+    "mixamorig:LeftHandMiddle3",
+    "mixamorig:LeftHandMiddle4",
+    "mixamorig:LeftHandPinky1",
+    "mixamorig:LeftHandPinky2",
+    "mixamorig:LeftHandPinky3",
+    "mixamorig:LeftHandPinky4",
+    "mixamorig:LeftHandRing1",
+    "mixamorig:LeftHandRing2",
+    "mixamorig:LeftHandRing3",
+    "mixamorig:LeftHandRing4",
+    "mixamorig:LeftHandThumb1",
+    "mixamorig:LeftHandThumb2",
+    "mixamorig:LeftHandThumb3",
+    "mixamorig:LeftHandThumb4",
+    "mixamorig:Neck",
+    "mixamorig:Head",
+    "mixamorig:HeadTop_End",
+    "mixamorig:RightShoulder",
+    "mixamorig:RightArm",
+    "mixamorig:RightForeArm",
+    "mixamorig:RightHand",
+    "mixamorig:RightHandIndex1",
+    "mixamorig:RightHandIndex2",
+    "mixamorig:RightHandIndex3",
+    "mixamorig:RightHandIndex4",
+    "mixamorig:RightHandMiddle1",
+    "mixamorig:RightHandMiddle2",
+    "mixamorig:RightHandMiddle3",
+    "mixamorig:RightHandMiddle4",
+    "mixamorig:RightHandPinky1",
+    "mixamorig:RightHandPinky2",
+    "mixamorig:RightHandPinky3",
+    "mixamorig:RightHandPinky4",
+    "mixamorig:RightHandRing1",
+    "mixamorig:RightHandRing2",
+    "mixamorig:RightHandRing3",
+    "mixamorig:RightHandRing4",
+    "mixamorig:RightHandThumb1",
+    "mixamorig:RightHandThumb2",
+    "mixamorig:RightHandThumb3",
+    "mixamorig:RightHandThumb4"
+  ],
+  "invalid_joint_indices": 0,
+  "negative_weights": 0,
+  "nonfinite_weights": 0,
+  "max_weight_sum_error": 1.2665987014770508e-07,
+  "zero_weight_vertices": 0,
+  "nonfinite_inverse_bind_values": 0,
+  "inverse_bind_count": 65,
+  "morph_targets": 0,
+  "animations": [
+    {
+      "name": "PURE SOCCER INSTep KICK ANIMATION.\n\nCreate a realistic stylized",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.030048299580812454,
+        0.46724414825439453,
+        -0.05487193539738655
+      ],
+      "hips_translation_max": [
+        -0.030048293992877007,
+        0.49443623423576355,
+        -0.05487193539738655
+      ],
+      "hips_first": [
+        -0.030048295855522156,
+        0.4837275445461273,
+        -0.05487193539738655
+      ],
+      "hips_last": [
+        -0.030048295855522156,
+        0.48379695415496826,
+        -0.05487193539738655
+      ]
+    },
+    {
+      "name": "A cartoon humanoid character interacting with an imaginary obje",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.01819782517850399,
+        0.47395509481430054,
+        -0.09119162708520889
+      ],
+      "hips_translation_max": [
+        -0.018197817727923393,
+        0.49307116866111755,
+        -0.09119162708520889
+      ],
+      "hips_first": [
+        -0.01819782145321369,
+        0.4923016428947449,
+        -0.09119162708520889
+      ],
+      "hips_last": [
+        -0.01819782145321369,
+        0.49288704991340637,
+        -0.09119162708520889
+      ]
+    },
+    {
+      "name": "hit_to_head.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 1.875,
+      "span_seconds": 1.83333333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.01337033323943615,
+        0.44137096405029297,
+        -0.08213162422180176
+      ],
+      "hips_translation_max": [
+        -0.013370329514145851,
+        0.49958568811416626,
+        -0.08213162422180176
+      ],
+      "hips_first": [
+        -0.013370331376791,
+        0.4561903774738312,
+        -0.08213162422180176
+      ],
+      "hips_last": [
+        -0.013370331376791,
+        0.4561903774738312,
+        -0.08213162422180176
+      ]
+    },
+    {
+      "name": "A funny cartoon humanoid character suddenly slipping on a wet f",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.014423388056457043,
+        0.4374551475048065,
+        -0.11392337083816528
+      ],
+      "hips_translation_max": [
+        -0.01442338339984417,
+        0.49347984790802,
+        -0.1139233410358429
+      ],
+      "hips_first": [
+        -0.014423387125134468,
+        0.49118849635124207,
+        -0.11392334848642349
+      ],
+      "hips_last": [
+        -0.014423386193811893,
+        0.48766931891441345,
+        -0.11392337083816528
+      ]
+    },
+    {
+      "name": "hit_to_side.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 1.2916666269302368,
+      "span_seconds": 1.2499999590218067,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.01337033323943615,
+        0.44302135705947876,
+        -0.08213162422180176
+      ],
+      "hips_translation_max": [
+        -0.013370328582823277,
+        0.46736982464790344,
+        -0.08213162422180176
+      ],
+      "hips_first": [
+        -0.013370331376791,
+        0.44302135705947876,
+        -0.08213162422180176
+      ],
+      "hips_last": [
+        -0.013370331376791,
+        0.44302135705947876,
+        -0.08213162422180176
+      ]
+    },
+    {
+      "name": "Stylized competitive soccer kick animation.\n\nThe character star",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.012110473588109016,
+        0.469370573759079,
+        -0.08956364542245865
+      ],
+      "hips_translation_max": [
+        -0.012110472656786442,
+        0.4768107235431671,
+        -0.08956364542245865
+      ],
+      "hips_first": [
+        -0.012110473588109016,
+        0.47364673018455505,
+        -0.08956364542245865
+      ],
+      "hips_last": [
+        -0.012110473588109016,
+        0.4735824167728424,
+        -0.08956364542245865
+      ]
+    },
+    {
+      "name": "Stylized competitive dodgeball catch animation.\n\nThe character ",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.014929980970919132,
+        0.4355626404285431,
+        -0.08485064655542374
+      ],
+      "hips_translation_max": [
+        -0.014929978176951408,
+        0.4734266996383667,
+        -0.08485064655542374
+      ],
+      "hips_first": [
+        -0.014929980039596558,
+        0.46433112025260925,
+        -0.08485064655542374
+      ],
+      "hips_last": [
+        -0.014929979108273983,
+        0.467499703168869,
+        -0.08485064655542374
+      ]
+    },
+    {
+      "name": "front_kick_02.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 1.4166666269302368,
+      "span_seconds": 1.3749999590218067,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.011675728484988213,
+        0.4495824873447418,
+        -0.07943805307149887
+      ],
+      "hips_translation_max": [
+        -0.011675719171762466,
+        0.5210082530975342,
+        -0.07943805307149887
+      ],
+      "hips_first": [
+        -0.01167572382837534,
+        0.47462454438209534,
+        -0.07943805307149887
+      ],
+      "hips_last": [
+        -0.01167572382837534,
+        0.4894700348377228,
+        -0.07943805307149887
+      ]
+    },
+    {
+      "name": "cry.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 7.916666507720947,
+      "span_seconds": 7.874999839812517,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.01337033323943615,
+        0.5068974494934082,
+        -0.08213162422180176
+      ],
+      "hips_translation_max": [
+        -0.013370329514145851,
+        0.5096887946128845,
+        -0.08213162422180176
+      ],
+      "hips_first": [
+        -0.013370331376791,
+        0.5074006915092468,
+        -0.08213162422180176
+      ],
+      "hips_last": [
+        -0.013370331376791,
+        0.5074006915092468,
+        -0.08213162422180176
+      ]
+    },
+    {
+      "name": "punch.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 5.0,
+      "span_seconds": 4.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.014995338395237923,
+        0.4207422137260437,
+        -0.07859279215335846
+      ],
+      "hips_translation_max": [
+        -0.014995337463915348,
+        0.4605192244052887,
+        -0.07859279215335846
+      ],
+      "hips_first": [
+        -0.014995337463915348,
+        0.45691752433776855,
+        -0.07859279215335846
+      ],
+      "hips_last": [
+        -0.014995337463915348,
+        0.4582630395889282,
+        -0.07859279215335846
+      ]
+    },
+    {
+      "name": "A seamless looping in-place walking animation of a cartoon huma",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.014769649133086205,
+        0.42725512385368347,
+        -0.11284710466861725
+      ],
+      "hips_translation_max": [
+        -0.014769645407795906,
+        0.4970955550670624,
+        -0.11284708976745605
+      ],
+      "hips_first": [
+        -0.014769647270441055,
+        0.46620142459869385,
+        -0.11284709721803665
+      ],
+      "hips_last": [
+        -0.014769647270441055,
+        0.4969508647918701,
+        -0.11284708976745605
+      ]
+    },
+    {
+      "name": "Stylized fighting game front kick animation.\n\nThe character sta",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.024405445903539658,
+        0.4040147662162781,
+        -0.05637967213988304
+      ],
+      "hips_translation_max": [
+        -0.02440543659031391,
+        0.48341554403305054,
+        -0.056379664689302444
+      ],
+      "hips_first": [
+        -0.02440544031560421,
+        0.4420948028564453,
+        -0.056379664689302444
+      ],
+      "hips_last": [
+        -0.02440544217824936,
+        0.43201693892478943,
+        -0.056379664689302444
+      ]
+    },
+    {
+      "name": "Fast stylized fighting game jab punch animation.\n\nThe character",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.02221340499818325,
+        0.4222080111503601,
+        -0.10838973522186279
+      ],
+      "hips_translation_max": [
+        -0.022213399410247803,
+        0.4506588280200958,
+        -0.10838973522186279
+      ],
+      "hips_first": [
+        -0.0222134031355381,
+        0.4429631531238556,
+        -0.10838973522186279
+      ],
+      "hips_last": [
+        -0.022213399410247803,
+        0.44501617550849915,
+        -0.10838973522186279
+      ]
+    },
+    {
+      "name": "A funny cartoon humanoid character getting up from lying on his",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.00116630457341671,
+        0.04549574851989746,
+        -0.07944849133491516
+      ],
+      "hips_translation_max": [
+        -0.0011662992183119059,
+        0.4896608889102936,
+        -0.07944847643375397
+      ],
+      "hips_first": [
+        -0.0011663028271868825,
+        0.045951664447784424,
+        -0.07944848388433456
+      ],
+      "hips_last": [
+        -0.001166301197372377,
+        0.4896608889102936,
+        -0.07944849133491516
+      ]
+    },
+    {
+      "name": "A seamless looping animation of a cartoon humanoid character pu",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 5.0,
+      "span_seconds": 4.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.0025251845363527536,
+        0.45344629883766174,
+        -0.05672234669327736
+      ],
+      "hips_translation_max": [
+        -0.002525169402360916,
+        0.5005826354026794,
+        -0.056722287088632584
+      ],
+      "hips_first": [
+        -0.0025251773186028004,
+        0.49685147404670715,
+        -0.05672232434153557
+      ],
+      "hips_last": [
+        -0.002525179646909237,
+        0.5005826354026794,
+        -0.056722287088632584
+      ]
+    },
+    {
+      "name": "Side-view fighting game attack animation.\n\nA powerful regal mal",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 5.0,
+      "span_seconds": 4.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        0.003945136908441782,
+        0.40427613258361816,
+        -0.07310113310813904
+      ],
+      "hips_translation_max": [
+        0.003945142030715942,
+        0.4509733021259308,
+        -0.07310113310813904
+      ],
+      "hips_first": [
+        0.003945137839764357,
+        0.450315922498703,
+        -0.07310113310813904
+      ],
+      "hips_last": [
+        0.003945137374103069,
+        0.4468066990375519,
+        -0.07310113310813904
+      ]
+    },
+    {
+      "name": "box_01.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 2.25,
+      "span_seconds": 2.20833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013370335102081299,
+        0.3994329273700714,
+        -0.08213162422180176
+      ],
+      "hips_translation_max": [
+        -0.013370327651500702,
+        0.47209638357162476,
+        -0.08213162422180176
+      ],
+      "hips_first": [
+        -0.013370331376791,
+        0.44739049673080444,
+        -0.08213162422180176
+      ],
+      "hips_last": [
+        -0.013370331376791,
+        0.447390615940094,
+        -0.08213162422180176
+      ]
+    },
+    {
+      "name": "Stylized fighting game hook punch animation.\n\nThe character sta",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.002029537223279476,
+        0.4350071847438812,
+        -0.10266070067882538
+      ],
+      "hips_translation_max": [
+        -0.002029534662142396,
+        0.45720893144607544,
+        -0.10266070067882538
+      ],
+      "hips_first": [
+        -0.002029536059126258,
+        0.44518551230430603,
+        -0.10266070067882538
+      ],
+      "hips_last": [
+        -0.002029536757618189,
+        0.4553828835487366,
+        -0.10266070067882538
+      ]
+    },
+    {
+      "name": "hit_to_body_01.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 1.3333333730697632,
+      "span_seconds": 1.291666705161333,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013370332308113575,
+        0.44321560859680176,
+        -0.08213162422180176
+      ],
+      "hips_translation_max": [
+        -0.013370331376791,
+        0.47195965051651,
+        -0.08213162422180176
+      ],
+      "hips_first": [
+        -0.013370331376791,
+        0.44321560859680176,
+        -0.08213162422180176
+      ],
+      "hips_last": [
+        -0.013370331376791,
+        0.44321560859680176,
+        -0.08213162422180176
+      ]
+    },
+    {
+      "name": "fall.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0416667461395264,
+      "span_seconds": 3.0000000782310963,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013874276541173458,
+        0.12363100051879883,
+        -0.08113402128219604
+      ],
+      "hips_translation_max": [
+        -0.013874244876205921,
+        0.4609280526638031,
+        -0.08113400638103485
+      ],
+      "hips_first": [
+        -0.013874256052076817,
+        0.42998501658439636,
+        -0.08113401383161545
+      ],
+      "hips_last": [
+        -0.013874245807528496,
+        0.14138418436050415,
+        -0.08113400638103485
+      ]
+    },
+    {
+      "name": "Fast stylized fighting game dodge animation.\n\nThe character sta",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.04382263123989105,
+        0.41651421785354614,
+        -0.08493099361658096
+      ],
+      "hips_translation_max": [
+        -0.043822597712278366,
+        0.4760664105415344,
+        -0.08493097871541977
+      ],
+      "hips_first": [
+        -0.04382260888814926,
+        0.4760664105415344,
+        -0.08493098616600037
+      ],
+      "hips_last": [
+        -0.043822623789310455,
+        0.47298288345336914,
+        -0.08493097871541977
+      ]
+    },
+    {
+      "name": "box_03.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 2.5833332538604736,
+      "span_seconds": 2.5416665859520435,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013370334170758724,
+        0.40859702229499817,
+        -0.08213162422180176
+      ],
+      "hips_translation_max": [
+        -0.013370329514145851,
+        0.46659475564956665,
+        -0.08213162422180176
+      ],
+      "hips_first": [
+        -0.013370331376791,
+        0.4472360908985138,
+        -0.08213162422180176
+      ],
+      "hips_last": [
+        -0.013370331376791,
+        0.4472336769104004,
+        -0.08213162422180176
+      ]
+    },
+    {
+      "name": "A cartoon humanoid character collecting water from the floor us",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 5.0,
+      "span_seconds": 4.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.009216979146003723,
+        0.3713698089122772,
+        -0.05397262051701546
+      ],
+      "hips_translation_max": [
+        -0.009216978214681149,
+        0.4959278702735901,
+        -0.05397261306643486
+      ],
+      "hips_first": [
+        -0.009216979146003723,
+        0.4947279095649719,
+        -0.05397262051701546
+      ],
+      "hips_last": [
+        -0.009216979146003723,
+        0.4949156641960144,
+        -0.05397262051701546
+      ]
+    },
+    {
+      "name": "A cartoon humanoid character loses balance and falls backward o",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.019278509542346,
+        0.016700685024261475,
+        -0.09274819493293762
+      ],
+      "hips_translation_max": [
+        -0.019278502091765404,
+        0.4928440749645233,
+        -0.09274816513061523
+      ],
+      "hips_first": [
+        -0.019278505817055702,
+        0.4928440749645233,
+        -0.09274818748235703
+      ],
+      "hips_last": [
+        -0.019278502091765404,
+        0.016700685024261475,
+        -0.09274819493293762
+      ]
+    },
+    {
+      "name": "A cartoon humanoid character collecting water from the floo.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.011020936071872711,
+        0.3736686110496521,
+        -0.05791337415575981
+      ],
+      "hips_translation_max": [
+        -0.011020935140550137,
+        0.49280470609664917,
+        -0.05791337043046951
+      ],
+      "hips_first": [
+        -0.011020935140550137,
+        0.49280470609664917,
+        -0.05791337043046951
+      ],
+      "hips_last": [
+        -0.011020935140550137,
+        0.49227651953697205,
+        -0.05791337043046951
+      ]
+    },
+    {
+      "name": "walk.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 2.375,
+      "span_seconds": 2.33333333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013370286673307419,
+        0.476371169090271,
+        -0.08213174343109131
+      ],
+      "hips_translation_max": [
+        -0.013370283879339695,
+        0.4962185025215149,
+        -0.08213168382644653
+      ],
+      "hips_first": [
+        -0.01337028481066227,
+        0.4914388060569763,
+        -0.08213169127702713
+      ],
+      "hips_last": [
+        -0.01337028481066227,
+        0.49144378304481506,
+        -0.08213174343109131
+      ]
+    },
+    {
+      "name": "Stylized videogame victory celebration for a competitive athlet",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.029188476502895355,
+        0.4364469349384308,
+        -0.05621995031833649
+      ],
+      "hips_translation_max": [
+        -0.02918846532702446,
+        0.4949008822441101,
+        -0.05621993541717529
+      ],
+      "hips_first": [
+        -0.029188472777605057,
+        0.4949008822441101,
+        -0.05621994659304619
+      ],
+      "hips_last": [
+        -0.029188476502895355,
+        0.4923296272754669,
+        -0.05621993541717529
+      ]
+    },
+    {
+      "name": "ANTICIPATION\n\nZeus shifts slightly into the strike.\nRight shoul",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        0.006894121412187815,
+        0.3684137165546417,
+        -0.08255059272050858
+      ],
+      "hips_translation_max": [
+        0.006894158665090799,
+        0.5049230456352234,
+        -0.0825505331158638
+      ],
+      "hips_first": [
+        0.0068941302597522736,
+        0.4895705580711365,
+        -0.08255057781934738
+      ],
+      "hips_last": [
+        0.006894121877849102,
+        0.49813637137413025,
+        -0.08255057781934738
+      ]
+    },
+    {
+      "name": "front_kick_01.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 2.5416667461395264,
+      "span_seconds": 2.5000000782310963,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.01167578250169754,
+        0.4637919068336487,
+        -0.07943807542324066
+      ],
+      "hips_translation_max": [
+        -0.011675752699375153,
+        0.5409938097000122,
+        -0.07943807542324066
+      ],
+      "hips_first": [
+        -0.011675767600536346,
+        0.47692862153053284,
+        -0.07943807542324066
+      ],
+      "hips_last": [
+        -0.011675765737891197,
+        0.4827516973018646,
+        -0.07943807542324066
+      ]
+    },
+    {
+      "name": "Stylized fighting game uppercut animation.\n\nThe character start",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.027659304440021515,
+        0.45178452134132385,
+        -0.09524105489253998
+      ],
+      "hips_translation_max": [
+        -0.027659302577376366,
+        0.47097620368003845,
+        -0.09524105489253998
+      ],
+      "hips_first": [
+        -0.027659304440021515,
+        0.4573047459125519,
+        -0.09524105489253998
+      ],
+      "hips_last": [
+        -0.027659302577376366,
+        0.45938411355018616,
+        -0.09524105489253998
+      ]
+    },
+    {
+      "name": "Stylized videogame defeat animation for a competitive athletic ",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.01466465089470148,
+        0.4766310155391693,
+        -0.09510385990142822
+      ],
+      "hips_translation_max": [
+        -0.014664649032056332,
+        0.4957234561443329,
+        -0.09510385990142822
+      ],
+      "hips_first": [
+        -0.014664649963378906,
+        0.48245397210121155,
+        -0.09510385990142822
+      ],
+      "hips_last": [
+        -0.014664649963378906,
+        0.4915246069431305,
+        -0.09510385990142822
+      ]
+    },
+    {
+      "name": "Stylized fighting game knockout animation.\n\nThe character recei",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.02503487840294838,
+        0.015615166164934635,
+        -0.10647851228713989
+      ],
+      "hips_translation_max": [
+        -0.025034869089722633,
+        0.44613727927207947,
+        -0.1064784824848175
+      ],
+      "hips_first": [
+        -0.02503487467765808,
+        0.4454008638858795,
+        -0.1064785048365593
+      ],
+      "hips_last": [
+        -0.02503487654030323,
+        0.015615166164934635,
+        -0.10647851228713989
+      ]
+    },
+    {
+      "name": "run.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 1.2916666269302368,
+      "span_seconds": 1.2499999590218067,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.041886307299137115,
+        0.4210847020149231,
+        0.41966676712036133
+      ],
+      "hips_translation_max": [
+        -0.04188630357384682,
+        0.45441874861717224,
+        0.4196668863296509
+      ],
+      "hips_first": [
+        -0.041886307299137115,
+        0.4210847020149231,
+        0.4196668267250061
+      ],
+      "hips_last": [
+        -0.04188630357384682,
+        0.42776399850845337,
+        0.41966676712036133
+      ]
+    },
+    {
+      "name": "A cartoon humanoid character emptying an imaginary bucket of wa",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.011315520852804184,
+        0.3582795262336731,
+        -0.05110790580511093
+      ],
+      "hips_translation_max": [
+        -0.01131551805883646,
+        0.49700459837913513,
+        -0.05110790580511093
+      ],
+      "hips_first": [
+        -0.011315518990159035,
+        0.4955093562602997,
+        -0.05110790580511093
+      ],
+      "hips_last": [
+        -0.011315518990159035,
+        0.49466270208358765,
+        -0.05110790580511093
+      ]
+    },
+    {
+      "name": "hit_to_body_02.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 1.75,
+      "span_seconds": 1.70833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013370337896049023,
+        0.42401227355003357,
+        -0.08213162422180176
+      ],
+      "hips_translation_max": [
+        -0.013370324857532978,
+        0.49341803789138794,
+        -0.08213162422180176
+      ],
+      "hips_first": [
+        -0.013370331376791,
+        0.4483581483364105,
+        -0.08213162422180176
+      ],
+      "hips_last": [
+        -0.013370331376791,
+        0.4483581483364105,
+        -0.08213162422180176
+      ]
+    },
+    {
+      "name": "SOCCER BALL KICK ANIMATION \u2014 LEGS ONLY.\n\nCreate a clear assoc",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.019853103905916214,
+        0.46095365285873413,
+        -0.08347611129283905
+      ],
+      "hips_translation_max": [
+        -0.019853094592690468,
+        0.49393296241760254,
+        -0.08347611129283905
+      ],
+      "hips_first": [
+        -0.019853098317980766,
+        0.4797629117965698,
+        -0.08347611129283905
+      ],
+      "hips_last": [
+        -0.019853096455335617,
+        0.4645649194717407,
+        -0.08347611129283905
+      ]
+    },
+    {
+      "name": "football_save.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.3333332538604736,
+      "span_seconds": 3.2916665859520435,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013370349071919918,
+        0.38848817348480225,
+        -0.08213162422180176
+      ],
+      "hips_translation_max": [
+        -0.013370320200920105,
+        0.5129477977752686,
+        -0.08213162422180176
+      ],
+      "hips_first": [
+        -0.013370331376791,
+        0.5072099566459656,
+        -0.08213162422180176
+      ],
+      "hips_last": [
+        -0.013370340690016747,
+        0.4863312244415283,
+        -0.08213162422180176
+      ]
+    },
+    {
+      "name": "Stylized competitive soccer power shot animation.\n\nThe characte",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.024260368198156357,
+        0.4554358124732971,
+        -0.08680422604084015
+      ],
+      "hips_translation_max": [
+        -0.02426036074757576,
+        0.48226821422576904,
+        -0.08680422604084015
+      ],
+      "hips_first": [
+        -0.024260366335511208,
+        0.48190736770629883,
+        -0.08680422604084015
+      ],
+      "hips_last": [
+        -0.024260368198156357,
+        0.4814474880695343,
+        -0.08680422604084015
+      ]
+    },
+    {
+      "name": "heart_pose.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 5.416666507720947,
+      "span_seconds": 5.374999839812517,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013678587973117828,
+        0.3849736154079437,
+        -0.08248984068632126
+      ],
+      "hips_translation_max": [
+        -0.013678577728569508,
+        0.4990004003047943,
+        -0.08248984068632126
+      ],
+      "hips_first": [
+        -0.013678580522537231,
+        0.4973014295101166,
+        -0.08248984068632126
+      ],
+      "hips_last": [
+        -0.013678581453859806,
+        0.4990004003047943,
+        -0.08248984068632126
+      ]
+    },
+    {
+      "name": "box_02.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 2.8333332538604736,
+      "span_seconds": 2.7916665859520435,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013370286673307419,
+        0.38690051436424255,
+        -0.08213157206773758
+      ],
+      "hips_translation_max": [
+        -0.013370276428759098,
+        0.46302518248558044,
+        -0.08213157206773758
+      ],
+      "hips_first": [
+        -0.013370279222726822,
+        0.3912930190563202,
+        -0.08213157206773758
+      ],
+      "hips_last": [
+        -0.013370278291404247,
+        0.4418957531452179,
+        -0.08213157206773758
+      ]
+    },
+    {
+      "name": "idle.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 15.375,
+      "span_seconds": 15.33333333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013370340690016747,
+        0.4897477626800537,
+        -0.08213161677122116
+      ],
+      "hips_translation_max": [
+        -0.013370332308113575,
+        0.4985486567020416,
+        -0.08213161677122116
+      ],
+      "hips_first": [
+        -0.013370332308113575,
+        0.4966432750225067,
+        -0.08213161677122116
+      ],
+      "hips_last": [
+        -0.013370332308113575,
+        0.496645450592041,
+        -0.08213161677122116
+      ]
+    },
+    {
+      "name": "jump.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 2.25,
+      "span_seconds": 2.20833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013883405365049839,
+        0.4282233417034149,
+        -0.07428686320781708
+      ],
+      "hips_translation_max": [
+        -0.013883396983146667,
+        0.6893990635871887,
+        -0.07428686320781708
+      ],
+      "hips_first": [
+        -0.013883402571082115,
+        0.46990224719047546,
+        -0.07428686320781708
+      ],
+      "hips_last": [
+        -0.01388340163975954,
+        0.47961342334747314,
+        -0.07428686320781708
+      ]
+    },
+    {
+      "name": "Stylized fighting game grab animation.\n\nThe character starts fr",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.009491512551903725,
+        0.39894601702690125,
+        -0.05109827592968941
+      ],
+      "hips_translation_max": [
+        -0.009491506963968277,
+        0.4514891505241394,
+        -0.051098261028528214
+      ],
+      "hips_first": [
+        -0.009491508826613426,
+        0.44481292366981506,
+        -0.05109827592968941
+      ],
+      "hips_last": [
+        -0.009491508826613426,
+        0.4339858293533325,
+        -0.051098261028528214
+      ]
+    },
+    {
+      "name": "Stylized competitive dodgeball overhand throw animation.\n\nThe c",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.025033902376890182,
+        0.43372198939323425,
+        -0.09637457132339478
+      ],
+      "hips_translation_max": [
+        -0.025033900514245033,
+        0.48956942558288574,
+        -0.09637457132339478
+      ],
+      "hips_first": [
+        -0.025033902376890182,
+        0.48927322030067444,
+        -0.09637457132339478
+      ],
+      "hips_last": [
+        -0.025033902376890182,
+        0.48956942558288574,
+        -0.09637457132339478
+      ]
+    },
+    {
+      "name": "Fast stylized fighting game forward dash animation.\n\nThe charac",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.02218584716320038,
+        0.05416330695152283,
+        -0.05462062731385231
+      ],
+      "hips_translation_max": [
+        -0.02218572422862053,
+        0.45515239238739014,
+        -0.05462050810456276
+      ],
+      "hips_first": [
+        -0.02218576706945896,
+        0.45081809163093567,
+        -0.054620567709207535
+      ],
+      "hips_last": [
+        -0.022185837849974632,
+        0.4381876587867737,
+        -0.05462050810456276
+      ]
+    },
+    {
+      "name": "Stylized videogame object pickup animation.\n\nThe character star",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.019355181604623795,
+        0.3183182179927826,
+        -0.05354161188006401
+      ],
+      "hips_translation_max": [
+        -0.019355179741978645,
+        0.4993492066860199,
+        -0.053541604429483414
+      ],
+      "hips_first": [
+        -0.019355181604623795,
+        0.4967595636844635,
+        -0.053541604429483414
+      ],
+      "hips_last": [
+        -0.019355181604623795,
+        0.49601051211357117,
+        -0.053541604429483414
+      ]
+    },
+    {
+      "name": "A bulky cartoon humanoid character firmly blocking an imaginary",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.02187460847198963,
+        0.4076194167137146,
+        -0.09282150119543076
+      ],
+      "hips_translation_max": [
+        -0.021874602884054184,
+        0.49040108919143677,
+        -0.09282150119543076
+      ],
+      "hips_first": [
+        -0.021874604746699333,
+        0.49040108919143677,
+        -0.09282150119543076
+      ],
+      "hips_last": [
+        -0.021874606609344482,
+        0.4877302348613739,
+        -0.09282150119543076
+      ]
+    },
+    {
+      "name": "Stylized fighting game roundhouse kick animation.\n\nThe characte",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.01541572529822588,
+        0.45600616931915283,
+        -0.07238496094942093
+      ],
+      "hips_translation_max": [
+        -0.015415715985000134,
+        0.5033788084983826,
+        -0.07238496094942093
+      ],
+      "hips_first": [
+        -0.01541572343558073,
+        0.47284767031669617,
+        -0.07238496094942093
+      ],
+      "hips_last": [
+        -0.01541572343558073,
+        0.4621340036392212,
+        -0.07238496094942093
+      ]
+    },
+    {
+      "name": "Stylized fighting game judo throw animation.\n\nThe character beg",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.019545460119843483,
+        0.4167051613330841,
+        -0.05305846408009529
+      ],
+      "hips_translation_max": [
+        -0.019545456394553185,
+        0.4963870048522949,
+        -0.05305846408009529
+      ],
+      "hips_first": [
+        -0.019545458257198334,
+        0.49308913946151733,
+        -0.05305846408009529
+      ],
+      "hips_last": [
+        -0.019545458257198334,
+        0.49259763956069946,
+        -0.05305846408009529
+      ]
+    },
+    {
+      "name": "A cartoon humanoid character interacting with an imaginary .001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.015559857711195946,
+        0.4059683680534363,
+        -0.05336232855916023
+      ],
+      "hips_translation_max": [
+        -0.015559850260615349,
+        0.49365752935409546,
+        -0.05336231365799904
+      ],
+      "hips_first": [
+        -0.015559853054583073,
+        0.4931142330169678,
+        -0.053362321108579636
+      ],
+      "hips_last": [
+        -0.015559853054583073,
+        0.49332764744758606,
+        -0.053362321108579636
+      ]
+    },
+    {
+      "name": "Stylized fighting game heavy knockback animation.\n\nThe characte",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.0326351672410965,
+        0.43255525827407837,
+        -0.09785735607147217
+      ],
+      "hips_translation_max": [
+        -0.032635148614645004,
+        0.4750157594680786,
+        -0.09785735607147217
+      ],
+      "hips_first": [
+        -0.0326351597905159,
+        0.4750157594680786,
+        -0.09785735607147217
+      ],
+      "hips_last": [
+        -0.0326351635158062,
+        0.46799400448799133,
+        -0.09785735607147217
+      ]
+    },
+    {
+      "name": "Powerful stylized fighting game heavy haymaker punch animation.",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        0.0047498117201030254,
+        0.3934287130832672,
+        -0.07183581590652466
+      ],
+      "hips_translation_max": [
+        0.004749830812215805,
+        0.4633161425590515,
+        -0.07183578610420227
+      ],
+      "hips_first": [
+        0.004749827552586794,
+        0.4548768103122711,
+        -0.07183580100536346
+      ],
+      "hips_last": [
+        0.004749826155602932,
+        0.4421756863594055,
+        -0.07183581590652466
+      ]
+    },
+    {
+      "name": "Stylized fighting game defensive block and counter stance anima",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.0,
+      "span_seconds": 2.95833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.021055327728390694,
+        0.44734084606170654,
+        -0.08206617087125778
+      ],
+      "hips_translation_max": [
+        -0.021055322140455246,
+        0.46710142493247986,
+        -0.08206617087125778
+      ],
+      "hips_first": [
+        -0.021055325865745544,
+        0.4651556611061096,
+        -0.08206617087125778
+      ],
+      "hips_last": [
+        -0.021055325865745544,
+        0.4654025733470917,
+        -0.08206617087125778
+      ]
+    },
+    {
+      "name": "football_catch.001",
+      "channels": 195,
+      "target_nodes": 65,
+      "start_seconds": 0.0416666679084301,
+      "end_seconds": 3.5,
+      "span_seconds": 3.45833333209157,
+      "interpolation": [
+        "LINEAR",
+        "STEP"
+      ],
+      "hips_translation_min": [
+        -0.013370349071919918,
+        0.36438852548599243,
+        -0.08213162422180176
+      ],
+      "hips_translation_max": [
+        -0.01337032113224268,
+        0.7562437057495117,
+        -0.08213162422180176
+      ],
+      "hips_first": [
+        -0.013370331376791,
+        0.4888504445552826,
+        -0.08213162422180176
+      ],
+      "hips_last": [
+        -0.013370331376791,
+        0.4679705798625946,
+        -0.08213162422180176
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "tripo_mat_15d71480-45c9-4b21-9e34-83df28c07d0d",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicRoughnessTexture": {
+          "index": 2
+        }
+      }
+    }
+  ],
+  "texture_mime": "image/jpeg",
+  "texture_dimensions": [
+    4096,
+    4096
+  ],
+  "embedded_texture_bytes": 1425688,
+  "rgba8_base_memory_mib": 64.0,
+  "rgba8_with_full_mips_estimate_mib": 85.33333333333333
+}

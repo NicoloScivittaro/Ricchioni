@@ -48,7 +48,7 @@ try{
   await p.evaluate(()=>{window.__probe.capture=true;});
   await p.waitForFunction(()=>window.__probe.rows.length>=35,{timeout:90000});
   report[`${kind}-${mode}`]=await p.evaluate(()=>window.__probe.rows);
-  if(mode==='new')await p.screenshot({path:`e2e-shots/man-character/${kind}-5goblins.png`});
+  if(mode==='new')await p.screenshot({path:`docs/agent-work/ciro-animation-update/shots/${kind}-5goblins.png`});
   if(kind==='dodgeball'&&mode==='new'){
    report.dodgeball=await p.evaluate(()=>{
     const {g}=window.__probe;g.setPaused(true);const player=g.players[0],e=g.entities.get(player.id);
@@ -63,14 +63,14 @@ try{
    });
    assert.equal(report.dodgeball.pickup.animator.contactTime,0);assert.equal(report.dodgeball.throw.animator.contactTime,0);
    assert.equal(report.dodgeball.catch.animator.name,'ciro.ballCatch');assert.ok(report.dodgeball.heldError<1e-5,'held ball follows actual hand while facing is smoothed');
-   await p.screenshot({path:'e2e-shots/man-character/dodgeball-throw.png'});
+   await p.screenshot({path:'docs/agent-work/ciro-animation-update/shots/dodgeball-throw.png'});
    await p.evaluate(()=>{const {g}=window.__probe,e=[...g.entities.values()][0];e.playPickup();e.updateVisual(g.players[0],0,performance.now());g.scene.render();});
-   await p.screenshot({path:'e2e-shots/man-character/dodgeball-pickup.png'});
+   await p.screenshot({path:'docs/agent-work/ciro-animation-update/shots/dodgeball-pickup.png'});
   }
   const counters=await p.evaluate(async()=>{const q=window.__probe;q.g.dispose();q.canvas.remove();q.ins.dispose();window.__probe=null;const {goblinVisualCounters}=await import('/src/minigames/characters/goblinVisual.ts');return goblinVisualCounters();});
   assert.equal(counters.liveInstances,0,`${kind} ${mode} instance disposal`);
   console.log(`${kind} ${mode}: ${report[`${kind}-${mode}`].length} samples, disposed`);
  }
  assert.equal(errors.length,0,errors.join(';'));report.errors=errors;
- writeFileSync(`docs/agent-work/man-character-pilot/${process.env.GOBLIN_GPU==='1'?'hardware-':''}context-performance.json`,JSON.stringify(report,null,2));
+ writeFileSync(`docs/agent-work/ciro-animation-update/${process.env.GOBLIN_GPU==='1'?'hardware-':''}context-performance.json`,JSON.stringify(report,null,2));
 }finally{await browser.close();}

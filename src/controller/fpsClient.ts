@@ -9,6 +9,7 @@ import {
   Scene,
   StandardMaterial,
   UniversalCamera,
+  TransformNode,
   Vector3
 } from '@babylonjs/core';
 import { getWeapon } from '../../shared/fpsWeapons';
@@ -19,6 +20,8 @@ import { FpsViewmodel, recoilOf } from './fpsViewmodel';
 import { buildFpsWorld, buildFpsLights, makeBlobShadow } from './fpsWorld';
 import { presentationOf } from '../../shared/characterPresentation';
 import { decorateHead, makeCharMaterials } from '../minigames/characters/characterModel';
+import { GoblinVisualInstance, goblinTuning } from '../minigames/characters/goblinVisual';
+import { importedCharacterEnabled, importedCharacterProfile } from '../minigames/characters/importedCharacters';
 import { stateLabel, abilityFor } from '../../shared/abilityCatalog';
 import type { AbilityStatus } from '../../shared/abilityCatalog';
 
@@ -62,6 +65,9 @@ export interface FpsStatePayload {
 }
 
 interface RemoteEntity {
+  tripo: GoblinVisualInstance | null;
+  tripoRoot: TransformNode | null;
+  dashing: boolean;
   body: Mesh;
   head: Mesh;
   nameTag: Mesh;
@@ -115,6 +121,7 @@ export class FpsClient {
   private remotes = new Map<string, RemoteEntity>();
   private lastPos = new Map<string, { x: number; z: number }>();
   private remoteFlashMat: StandardMaterial;
+  private readonly onResize = (): void => this.engine.resize();
   private tmpTarget = new Vector3();
   private tmpStart = new Vector3();
 
@@ -186,7 +193,7 @@ export class FpsClient {
     private container: HTMLElement,
     selfId: string,
     private onLook: (yaw: number, pitch: number) => void,
-    /** personaggio di un giocatore (dallo stato della stanza): solo per disegnare i tratti della testa degli avversari */
+    /** Character from room state, used only to render other players. */
     private characterOf: (id: string) => string | null = () => null
   ) {
     this.selfId = selfId;
@@ -260,8 +267,7 @@ export class FpsClient {
 
     applyQuality(this.engine, this.scene);
 
-    const onResize = (): void => this.engine.resize();
-    window.addEventListener('resize', onResize);
+    window.addEventListener('resize', this.onResize);
 
     this.engine.runRenderLoop(() => {
       const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.05) || 0.016;
@@ -501,6 +507,14 @@ export class FpsClient {
         e.body.rotation.x = Math.min(1.4, e.body.rotation.x + 0.08);
         e.body.position.y = Math.max(0.3, e.body.position.y - 0.05);
         e.head.position.y = Math.max(0.3, e.head.position.y - 0.05);
+      }
+      if (e.tripo && e.tripoRoot) {
+        e.tripoRoot.position.set(e.body.position.x, 0, e.body.position.z);
+        e.tripoRoot.rotation.y = e.yaw;
+        e.tripo.update(dt, {
+          speedFrac: Math.min(1, Math.hypot(e.body.position.x - cx, e.body.position.z - cz) / Math.max(dt, .001) / 10),
+          alive: e.alive, falling: false, dashing: e.dashing, stunned: !e.alive, grounded: true, koDuration: .45
+        });
       }
       // spari dei nemici: lampo + suono attenuato dalla distanza e spostato a destra/sinistra (si sente da dove arrivano)
       if (e.firing && e.alive) {
@@ -791,10 +805,14 @@ export class FpsClient {
         e.x = ps.x;
         e.z = ps.z;
         e.yaw = ps.yaw;
-        if (ps.hp < e.hp) e.flinch = 1; // ha subito danno
+        if (ps.hp < e.hp) {
+          e.flinch = 1;
+          if (ps.alive) e.tripo?.playHitReaction('body', .22);
+        }
         e.hp = ps.hp;
         e.weaponId = ps.weaponId;
         e.firing = ps.firing;
+        e.dashing = !!ps.dashing;
         const wasAlive = e.alive;
         e.alive = ps.alive;
         if (wasAlive && !ps.alive) {
@@ -807,8 +825,9 @@ export class FpsClient {
           e.body.position.y = 0.7;
           e.head.position.y = 1.55;
         }
-        e.body.isVisible = true;
+        e.body.isVisible = !e.tripo?.ready;
         e.head.isVisible = true;
+        e.head.setEnabled(!e.tripo?.ready);
         e.nameTag.isVisible = ps.alive;
         e.ghost.isVisible = this.selfWall && ps.alive;
       }
@@ -855,6 +874,7 @@ export class FpsClient {
     ghost.isVisible = false;
 
     const e: RemoteEntity = {
+      tripo: null, tripoRoot: null, dashing: false,
       body,
       head,
       nameTag: tag,
@@ -872,6 +892,23 @@ export class FpsClient {
       firing: false,
       fireAcc: 0
     };
+    const character = this.characterOf(ps.id);
+    const profile = importedCharacterProfile(character);
+    if (profile && importedCharacterEnabled(character)) {
+      const root = new TransformNode(`remoteTripo_${ps.id}`, this.scene);
+      root.position.set(ps.x, 0, ps.z);
+      root.rotation.y = ps.yaw;
+      e.tripoRoot = root;
+      const tuning = character === 'goblin' ? goblinTuning() : { yawDeg: 0, scaleMul: 1 };
+      e.tripo = new GoblinVisualInstance(this.scene, root, {
+        profile, height: 1.8, yaw: tuning.yawDeg * Math.PI / 180, scaleMul: tuning.scaleMul,
+        onReady: ok => {
+          if (!ok) return;
+          body.isVisible = false;
+          head.setEnabled(false); // includes the decorated legacy head; X-ray ghost stays independent
+        }
+      });
+    }
     this.remotes.set(ps.id, e);
     return e;
   }
@@ -916,6 +953,9 @@ export class FpsClient {
   dispose(): void {
     const t0 = performance.now();
     this.engine.stopRenderLoop();
+    window.removeEventListener('resize', this.onResize);
+    for (const e of this.remotes.values()) { e.tripo?.dispose(); e.tripoRoot?.dispose(); }
+    this.remotes.clear();
     const t1 = performance.now();
     this.vm.dispose();
     const t2 = performance.now();

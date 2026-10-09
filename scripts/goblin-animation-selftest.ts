@@ -4,8 +4,8 @@ import { ALL_MOVES, followMove } from '../src/minigames/cornicione/fighterData';
 const base={speedFrac:0,alive:true,falling:false,dashing:false,stunned:false,grounded:true};
 let checks=0;
 const check=(c:boolean,message:string)=>{assert.ok(c,message);checks++;};
-check(GOBLIN_CLIPS.length===28,'28 explicitly mapped clips');
-check(!GOBLIN_CLIPS.some(c=>c.index===22),'wrong soccer clip cannot be requested');
+check(GOBLIN_CLIPS.length===52,'52 native clips available for preview');
+check(!Object.values(GOBLIN_MOVES).some(name=>name.includes('Candidate')),'preview candidates cannot replace gameplay moves');
 for(const c of GOBLIN_CLIPS){check(c.from<c.to&&c.from>=0,`${c.name}: range`);check(c.duration>0,`${c.name}: duration`);}
 for(const move of [...ALL_MOVES,followMove(9)]){
   const before=JSON.stringify(move),c=clipOf(GOBLIN_MOVES[move.id])!;

@@ -54,7 +54,7 @@ try {
   assert.ok(result.samples.some(s=>s.phase==='descent'&&s.vy<0));
   assert.ok(result.samples.some(s=>s.phase==='landing'&&s.grounded));
   for(const s of result.samples){
-    assert.equal(s.clips,46);assert.equal(s.tracks,195);assert.equal(s.procedural,false);
+    assert.equal(s.clips,59);assert.equal(s.tracks,195);assert.equal(s.procedural,false);
     assert.equal(s.legacy,false,`${s.phase}: imported body retained`);assert.equal(s.visible,true,`${s.phase}: visible`);
     assert.ok(s.sameSkeleton&&s.sameMeshes&&s.sameMaterials,`${s.phase}: same rig, mesh and skin`);
     assert.equal(s.physicsUnchanged,true,`${s.phase}: visual update cannot change physics`);
@@ -62,7 +62,7 @@ try {
   }
   assert.ok(result.skin.every(s=>s.finite&&s.vertices===29981),'skinned vertices stay finite');
   assert.equal(errors.length,0,errors.join(';'));
-  await page.screenshot({path:'e2e-shots/man-character/jump-tripo.png'});
-  writeFileSync('docs/agent-work/man-character-pilot/jump.json',JSON.stringify({result,errors},null,2));
+  await page.screenshot({path:'docs/agent-work/ciro-animation-update/shots/jump-tripo.png'});
+  writeFileSync('docs/agent-work/ciro-animation-update/jump.json',JSON.stringify({result,errors},null,2));
   console.log(`Ciro: ${result.samples.length} frames, same Tripo mesh/material/skeleton through jump, double jump, descent, landing and all 14 moves; finite deformed skin; physics untouched: PASS`);
 }finally{await browser.close();}

@@ -13,12 +13,14 @@ export interface GoblinAnimationState {
   grounded?: boolean; vy?: number; dodge?: boolean; knockback?: boolean; hitFlash?: number;
   attack?: GoblinAttack | null; ability?: boolean; result?: 'victory' | 'defeat' | null;
   koDuration?: number;
+  /** Held soccer wind-up, read only. The actual kick event still owns ball contact. */
+  charge?: number;
 }
 export type GoblinClip = (typeof manifest)[number];
 export const GOBLIN_CLIPS: readonly GoblinClip[] = manifest;
 const byName = new Map(manifest.map(c => [c.name, c]));
 export const clipOf = (name: string): GoblinClip | undefined => byName.get(name);
-export const GOBLIN_LODS = { LOD0: {url:'/models/goblin-tripo/green_goblin_animated.glb',triangles:35624,textureSize:4096}, LOD1: null, LOD2: null } as const;
+export const GOBLIN_LODS = { LOD0: {url:'/models/goblin-tripo/green_goblin_casacarbo.glb',triangles:35624,textureSize:4096}, LOD1: null, LOD2: null } as const;
 
 /** All fourteen existing move IDs, plus the existing ability follow-up. */
 export const GOBLIN_MOVES: Readonly<Record<string, string>> = {
@@ -33,7 +35,8 @@ export const GOBLIN_ACTIONS: Readonly<Record<string, string>> = {
   sweepHeavy: 'goblin.roundhouse', air: 'goblin.jab', airSpike: 'goblin.roundhouse',
   recovery: 'goblin.uppercut', follow: 'goblin.heavy', dodge: 'goblin.dodge',
   brace: 'goblin.block', grab: 'goblin.grab', fling: 'goblin.judoThrow',
-  throw: 'goblin.ballThrow', pickup: 'goblin.pickup', absorb: 'goblin.ballCatch'
+  throw: 'goblin.ballThrow', pickup: 'goblin.pickup', absorb: 'goblin.ballCatch',
+  kick: 'goblin.frontKick', spike: 'goblin.ballThrow', recoil: 'goblin.knockback'
 };
 const clamp = (v: number, a: number, b: number): number => Math.max(a, Math.min(b, v));
 interface Request { name: string; t: number; duration: number; contactNow: boolean; priority: number; token: number }
@@ -104,6 +107,11 @@ export class GoblinAnimator {
   previewClip(name: string | null, speed = 1, loop = false): void {
     this.preview = name && this.clip(name) ? { name:this.name(name), speed: clamp(speed,.25,2), loop, t: 0, token: ++this.sequence } : null;
   }
+  /** Scene-specific visual gesture. Duration changes playback only, never an action's simulation timer. */
+  overrideClip(name: string | null, duration?: number, loop = false): void {
+    const c = name ? this.clip(name) : undefined;
+    this.preview = c ? { name: this.name(name!), speed: duration && duration > 0 ? (c.to-c.from)/duration : 1, loop, t: 0, token: ++this.sequence } : null;
+  }
   reset(): void {
     this.ko = false; this.action = this.reaction = this.special = null;
     this.previousState = ''; this.stateT = 0; this.previousHit = 0;
@@ -141,7 +149,9 @@ export class GoblinAnimator {
     else if (s.dashing) { name = 'goblin.dash'; priority = 25; }
     else if (s.falling || s.grounded===false) { name = (s.vy ?? -1)>0 ? 'goblin.jump' : 'goblin.fall'; priority = 15; }
     else if (s.speedFrac > .12) { name = 'goblin.run'; priority = 10; }
-    if(priority<=15&&this.stateOverride)name=this.stateOverride;
+    const charging=priority<=15&&(s.charge??0)>0&&!!this.clip('goblin.frontKick');
+    if(charging) { name='goblin.frontKick';priority=20; }
+    else if(priority<=15&&this.stateOverride)name=this.stateOverride;
     name=this.name(name);
     // Without a dedicated jump, hold the imported rig's early aerial pose on ascent.
     // Descending starts its fall segment; gameplay still owns the vertical trajectory.
@@ -151,16 +161,17 @@ export class GoblinAnimator {
       if (external.id!==this.previousAttack || external.elapsed<this.previousAttackT) this.attackToken++;
       this.previousAttack = external.id; this.previousAttackT = external.elapsed;
     } else this.previousAttack = '';
-    const token = source ? `${name}:${source.token}` : external ? `${name}:attack${this.attackToken}` : holdAirbornePose?`${name}:ascent`:name;
+    const token = source ? `${name}:${source.token}` : external ? `${name}:attack${this.attackToken}` : charging?`${name}:charge`:holdAirbornePose?`${name}:ascent`:name;
     if (token !== this.previousState) { this.previousState = token; this.stateT = 0; } else this.stateT += dt;
     const c = this.clip(name)!;
     let seconds: number, duration = source?.duration ?? (name===this.name('goblin.ko')?s.koDuration??c.duration:c.duration);
-    const speed = name===this.name('goblin.run') ? clamp(.7+s.speedFrac*1.7,.7,2.4) : (c.to-c.from)/duration;
+    const speed = charging?0:name===this.name('goblin.run') ? clamp(.7+s.speedFrac*1.7,.7,2.4) : (c.to-c.from)/duration;
     if (external) { seconds = attackSeconds(c,external); duration = external.startup+external.active+external.recovery; }
     else if (source) {
       const from = source.contactNow ? clamp(c.contact ?? c.from,c.from,c.to) : c.from;
       seconds = from+(c.to-from)*clamp(source.t/source.duration,0,1);
-    } else if (holdAirbornePose) seconds=c.from;
+    } else if (charging) seconds=c.from+(clamp(c.contact??c.to,c.from,c.to)-c.from)*clamp(s.charge??0,0,1);
+    else if (holdAirbornePose) seconds=c.from;
     else if (c.loop) seconds = c.from+(this.clock*speed)%(c.to-c.from);
     else seconds = c.from+(c.to-c.from)*clamp(this.stateT/duration,0,1);
     return this.last = { name, seconds, speed, duration, priority, loop:c.loop, token,

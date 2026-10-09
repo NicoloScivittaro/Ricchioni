@@ -1,0 +1,1448 @@
+{
+  "report": {
+    "rows": [
+      {
+        "phase": "idle",
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.idle",
+            "seconds": 1.5516666679084308,
+            "speed": 1,
+            "duration": 15.33333333209157,
+            "priority": 0,
+            "loop": true,
+            "token": "ciro.idle",
+            "blend": 0.12,
+            "contactTime": null
+          },
+          "activeTracks": 195,
+          "sampleMs": 0,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            829
+          ],
+          "animation": "ciro.idle",
+          "animationPlaying": true,
+          "animationSpeed": 1,
+          "animationFrame": 93.10000007450584,
+          "skeletonId": 27242,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.5051,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.5051,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0081,
+              0.566,
+              -0.0083
+            ],
+            "Head": [
+              -0.0165,
+              0.8522,
+              -0.0269
+            ],
+            "LeftUpLeg": [
+              -0.0754,
+              0.4725,
+              0.0065
+            ],
+            "LeftLeg": [
+              -0.0621,
+              0.2657,
+              0.0094
+            ],
+            "LeftFoot": [
+              -0.0502,
+              0.088,
+              -0.0073
+            ],
+            "RightUpLeg": [
+              0.0583,
+              0.4697,
+              0.0117
+            ],
+            "RightLeg": [
+              0.0457,
+              0.2679,
+              0.0586
+            ],
+            "RightFoot": [
+              0.0459,
+              0.1024,
+              -0.0104
+            ],
+            "LeftHand": [
+              -0.1334,
+              0.4885,
+              -0.0216
+            ],
+            "RightHand": [
+              0.1206,
+              0.5011,
+              -0.0016
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "visible": true,
+        "finite": true,
+        "physicsUnchanged": true,
+        "bucketY": 0.9921728383385022
+      },
+      {
+        "phase": "bucketWalk",
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.bucketWalk",
+            "seconds": 0.44166666666666665,
+            "blend": 0.06,
+            "speed": 1,
+            "priority": 200,
+            "loop": true,
+            "token": "preview:1",
+            "contactTime": null,
+            "duration": 2.9583333333333335
+          },
+          "activeTracks": 195,
+          "sampleMs": 0,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            829
+          ],
+          "animation": "ciro.bucketWalk",
+          "animationPlaying": true,
+          "animationSpeed": 1,
+          "animationFrame": 26.5,
+          "skeletonId": 27242,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.4431,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.4431,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0025,
+              0.5032,
+              -0.0118
+            ],
+            "Head": [
+              0.0134,
+              0.7775,
+              -0.0663
+            ],
+            "LeftUpLeg": [
+              -0.0783,
+              0.4163,
+              0.0024
+            ],
+            "LeftLeg": [
+              -0.0788,
+              0.2183,
+              0.0636
+            ],
+            "LeftFoot": [
+              -0.0637,
+              0.0837,
+              -0.0532
+            ],
+            "RightUpLeg": [
+              0.0537,
+              0.4035,
+              0.0199
+            ],
+            "RightLeg": [
+              0.072,
+              0.2634,
+              0.172
+            ],
+            "RightFoot": [
+              0.075,
+              0.0847,
+              0.1866
+            ],
+            "LeftHand": [
+              -0.1267,
+              0.6661,
+              0.0758
+            ],
+            "RightHand": [
+              0.042,
+              0.628,
+              0.0941
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "visible": true,
+        "finite": true,
+        "physicsUnchanged": true,
+        "bucketY": 1.291538958017623
+      },
+      {
+        "phase": "scoopB",
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.scoopB",
+            "seconds": 0.44166666666666665,
+            "blend": 0.06,
+            "speed": 1,
+            "priority": 200,
+            "loop": true,
+            "token": "preview:2",
+            "contactTime": null,
+            "duration": 4.958333333333333
+          },
+          "activeTracks": 195,
+          "sampleMs": 0,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            829
+          ],
+          "animation": "ciro.scoopB",
+          "animationPlaying": true,
+          "animationSpeed": 1,
+          "animationFrame": 26.5,
+          "skeletonId": 27242,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.499,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.499,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0103,
+              0.5593,
+              0.0085
+            ],
+            "Head": [
+              -0.0131,
+              0.8102,
+              0.1228
+            ],
+            "LeftUpLeg": [
+              -0.0741,
+              0.463,
+              -0.0029
+            ],
+            "LeftLeg": [
+              -0.0953,
+              0.2646,
+              0.0531
+            ],
+            "LeftFoot": [
+              -0.0953,
+              0.0863,
+              0.0393
+            ],
+            "RightUpLeg": [
+              0.0596,
+              0.4636,
+              0.0018
+            ],
+            "RightLeg": [
+              0.0865,
+              0.2637,
+              0.0509
+            ],
+            "RightFoot": [
+              0.0927,
+              0.0851,
+              0.0354
+            ],
+            "LeftHand": [
+              -0.1412,
+              0.5162,
+              0.0934
+            ],
+            "RightHand": [
+              0.144,
+              0.533,
+              0.0802
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "visible": true,
+        "finite": true,
+        "physicsUnchanged": true,
+        "bucketY": 1.067497858940937
+      },
+      {
+        "phase": "squeegee",
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.squeegee",
+            "seconds": 0.44166666666666665,
+            "blend": 0.06,
+            "speed": 1,
+            "priority": 200,
+            "loop": true,
+            "token": "preview:3",
+            "contactTime": null,
+            "duration": 4.958333333333333
+          },
+          "activeTracks": 195,
+          "sampleMs": 0,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            829
+          ],
+          "animation": "ciro.squeegee",
+          "animationPlaying": true,
+          "animationSpeed": 1,
+          "animationFrame": 26.5,
+          "skeletonId": 27242,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.4956,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.4956,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0144,
+              0.5565,
+              -0.0066
+            ],
+            "Head": [
+              0,
+              0.8313,
+              0.0285
+            ],
+            "LeftUpLeg": [
+              -0.0718,
+              0.456,
+              0.0021
+            ],
+            "LeftLeg": [
+              -0.0993,
+              0.2572,
+              0.0539
+            ],
+            "LeftFoot": [
+              -0.111,
+              0.0917,
+              -0.0129
+            ],
+            "RightUpLeg": [
+              0.061,
+              0.4672,
+              0.0143
+            ],
+            "RightLeg": [
+              0.047,
+              0.2611,
+              0.0344
+            ],
+            "RightFoot": [
+              0.0346,
+              0.0865,
+              -0.0046
+            ],
+            "LeftHand": [
+              -0.124,
+              0.7345,
+              0.0334
+            ],
+            "RightHand": [
+              -0.026,
+              0.5531,
+              0.1096
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "visible": true,
+        "finite": true,
+        "physicsUnchanged": true,
+        "bucketY": 1.1148113311943155
+      },
+      {
+        "phase": "floodBlock",
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.floodBlock",
+            "seconds": 0.44166666666666665,
+            "blend": 0.06,
+            "speed": 1,
+            "priority": 200,
+            "loop": true,
+            "token": "preview:4",
+            "contactTime": null,
+            "duration": 2.9583333333333335
+          },
+          "activeTracks": 195,
+          "sampleMs": 0.10000000149011612,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            829
+          ],
+          "animation": "ciro.floodBlock",
+          "animationPlaying": true,
+          "animationSpeed": 1,
+          "animationFrame": 26.5,
+          "skeletonId": 27242,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.4536,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.4536,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0051,
+              0.5145,
+              -0.007
+            ],
+            "Head": [
+              0.0284,
+              0.7935,
+              0.0094
+            ],
+            "LeftUpLeg": [
+              -0.0763,
+              0.4228,
+              -0.01
+            ],
+            "LeftLeg": [
+              -0.1443,
+              0.2294,
+              0.0206
+            ],
+            "LeftFoot": [
+              -0.1169,
+              0.0835,
+              -0.079
+            ],
+            "RightUpLeg": [
+              0.0521,
+              0.4162,
+              0.0272
+            ],
+            "RightLeg": [
+              0.1278,
+              0.2622,
+              0.144
+            ],
+            "RightFoot": [
+              0.1413,
+              0.0907,
+              0.0935
+            ],
+            "LeftHand": [
+              -0.1481,
+              0.6776,
+              -0.1169
+            ],
+            "RightHand": [
+              -0.0012,
+              0.5445,
+              0.0979
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "visible": true,
+        "finite": true,
+        "physicsUnchanged": true,
+        "bucketY": 1.0944083847864596
+      },
+      {
+        "phase": "bucketEmpty",
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.bucketEmpty",
+            "seconds": 2.1931818181818183,
+            "blend": 0.06,
+            "speed": 5.378787878787879,
+            "priority": 200,
+            "loop": false,
+            "token": "preview:5",
+            "contactTime": null,
+            "duration": 0.55
+          },
+          "activeTracks": 195,
+          "sampleMs": 0,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            829
+          ],
+          "animation": "ciro.bucketEmpty",
+          "animationPlaying": true,
+          "animationSpeed": 5.378787878787879,
+          "animationFrame": 131.5909090909091,
+          "skeletonId": 27242,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.4981,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.4981,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0088,
+              0.5593,
+              -0.0059
+            ],
+            "Head": [
+              -0.0086,
+              0.8434,
+              -0.0366
+            ],
+            "LeftUpLeg": [
+              -0.0747,
+              0.4647,
+              0.0078
+            ],
+            "LeftLeg": [
+              -0.103,
+              0.2613,
+              0.0365
+            ],
+            "LeftFoot": [
+              -0.1137,
+              0.0858,
+              0.004
+            ],
+            "RightUpLeg": [
+              0.0591,
+              0.4628,
+              0.0076
+            ],
+            "RightLeg": [
+              0.0801,
+              0.2573,
+              0.0281
+            ],
+            "RightFoot": [
+              0.0722,
+              0.0845,
+              -0.019
+            ],
+            "LeftHand": [
+              -0.087,
+              0.6346,
+              0.0883
+            ],
+            "RightHand": [
+              0.1406,
+              0.6117,
+              0.04
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "visible": true,
+        "finite": true,
+        "physicsUnchanged": true,
+        "bucketY": 1.2529539619099075
+      },
+      {
+        "phase": "slip",
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.fallBackward",
+            "seconds": 2.0138888888888893,
+            "blend": 0.06,
+            "speed": 4.930555555555556,
+            "priority": 200,
+            "loop": false,
+            "token": "preview:6",
+            "contactTime": null,
+            "duration": 0.6
+          },
+          "activeTracks": 195,
+          "sampleMs": 0.09999999776482582,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            829
+          ],
+          "animation": "ciro.fallBackward",
+          "animationPlaying": true,
+          "animationSpeed": 4.930555555555556,
+          "animationFrame": 120.83333333333336,
+          "skeletonId": 27242,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.0418,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.0418,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0122,
+              0.0268,
+              -0.0613
+            ],
+            "Head": [
+              -0.0165,
+              0.0252,
+              -0.3476
+            ],
+            "LeftUpLeg": [
+              -0.0676,
+              0.0767,
+              0.0277
+            ],
+            "LeftLeg": [
+              -0.1505,
+              0.2155,
+              0.1575
+            ],
+            "LeftFoot": [
+              -0.2307,
+              0.2303,
+              0.3167
+            ],
+            "RightUpLeg": [
+              0.0599,
+              0.0362,
+              0.0326
+            ],
+            "RightLeg": [
+              0.1995,
+              0.0538,
+              0.1853
+            ],
+            "RightFoot": [
+              0.1576,
+              0.0514,
+              0.3596
+            ],
+            "LeftHand": [
+              -0.3379,
+              0.0032,
+              -0.4124
+            ],
+            "RightHand": [
+              0.268,
+              0.0154,
+              -0.3936
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "visible": true,
+        "finite": true,
+        "physicsUnchanged": true,
+        "bucketY": 0.19
+      },
+      {
+        "phase": "getUp",
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.getUp",
+            "seconds": 2.9999999999999996,
+            "blend": 0.06,
+            "speed": 7.395833333333333,
+            "priority": 200,
+            "loop": false,
+            "token": "preview:7",
+            "contactTime": null,
+            "duration": 0.4
+          },
+          "activeTracks": 195,
+          "sampleMs": 0,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            829
+          ],
+          "animation": "ciro.getUp",
+          "animationPlaying": false,
+          "animationSpeed": 7.395833333333333,
+          "animationFrame": 179.99999999999997,
+          "skeletonId": 27242,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.4976,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.4976,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0092,
+              0.558,
+              -0.012
+            ],
+            "Head": [
+              -0.0241,
+              0.8354,
+              -0.0596
+            ],
+            "LeftUpLeg": [
+              -0.0684,
+              0.4683,
+              0.0318
+            ],
+            "LeftLeg": [
+              -0.0778,
+              0.2613,
+              0.038
+            ],
+            "LeftFoot": [
+              -0.0936,
+              0.0864,
+              0.004
+            ],
+            "RightUpLeg": [
+              0.0578,
+              0.46,
+              -0.0118
+            ],
+            "RightLeg": [
+              0.0709,
+              0.2537,
+              -0.0316
+            ],
+            "RightFoot": [
+              0.0573,
+              0.0861,
+              -0.0939
+            ],
+            "LeftHand": [
+              -0.1366,
+              0.4755,
+              0.0121
+            ],
+            "RightHand": [
+              0.0974,
+              0.4772,
+              -0.0673
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "visible": true,
+        "finite": true,
+        "physicsUnchanged": true,
+        "bucketY": 0.9357540638440489
+      },
+      {
+        "phase": "dash",
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.dash",
+            "seconds": 2.7083,
+            "speed": 7.083333333333334,
+            "duration": 0.3,
+            "priority": 25,
+            "loop": false,
+            "token": "ciro.dash",
+            "blend": 0.06,
+            "contactTime": null
+          },
+          "activeTracks": 195,
+          "sampleMs": 0.09999999776482582,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            829
+          ],
+          "animation": "ciro.dash",
+          "animationPlaying": false,
+          "animationSpeed": 7.083333333333334,
+          "animationFrame": 162.498,
+          "skeletonId": 27242,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.4157,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.4157,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0088,
+              0.4752,
+              -0.0167
+            ],
+            "Head": [
+              -0.0378,
+              0.7542,
+              -0.0022
+            ],
+            "LeftUpLeg": [
+              -0.0744,
+              0.3803,
+              -0.0031
+            ],
+            "LeftLeg": [
+              -0.1878,
+              0.2339,
+              0.0901
+            ],
+            "LeftFoot": [
+              -0.1663,
+              0.0971,
+              -0.0231
+            ],
+            "RightUpLeg": [
+              0.0548,
+              0.387,
+              0.0309
+            ],
+            "RightLeg": [
+              0.164,
+              0.267,
+              0.1605
+            ],
+            "RightFoot": [
+              0.2058,
+              0.097,
+              0.1215
+            ],
+            "LeftHand": [
+              -0.0773,
+              0.6551,
+              0.0591
+            ],
+            "RightHand": [
+              0.1558,
+              0.6738,
+              0.1627
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "visible": true,
+        "finite": true,
+        "physicsUnchanged": true,
+        "bucketY": 1.3995718183476504
+      },
+      {
+        "phase": "idle-return",
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.idle",
+            "seconds": 5.2016666679084205,
+            "speed": 1,
+            "duration": 15.33333333209157,
+            "priority": 0,
+            "loop": true,
+            "token": "ciro.idle",
+            "blend": 0.12,
+            "contactTime": null
+          },
+          "activeTracks": 195,
+          "sampleMs": 0.09999999776482582,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            829
+          ],
+          "animation": "ciro.idle",
+          "animationPlaying": true,
+          "animationSpeed": 1,
+          "animationFrame": 312.1000000745052,
+          "skeletonId": 27242,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.5056,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.5056,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0114,
+              0.5668,
+              -0.0049
+            ],
+            "Head": [
+              -0.0345,
+              0.8531,
+              0.0004
+            ],
+            "LeftUpLeg": [
+              -0.073,
+              0.4694,
+              0.0094
+            ],
+            "LeftLeg": [
+              -0.0547,
+              0.2634,
+              0.0235
+            ],
+            "LeftFoot": [
+              -0.0395,
+              0.086,
+              0.0059
+            ],
+            "RightUpLeg": [
+              0.0607,
+              0.473,
+              0.0046
+            ],
+            "RightLeg": [
+              0.0687,
+              0.2677,
+              0.0339
+            ],
+            "RightFoot": [
+              0.0765,
+              0.0916,
+              0.001
+            ],
+            "LeftHand": [
+              -0.1378,
+              0.4893,
+              0.0058
+            ],
+            "RightHand": [
+              0.1207,
+              0.5067,
+              -0.0163
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "visible": true,
+        "finite": true,
+        "physicsUnchanged": true,
+        "bucketY": 1.005412970085954
+      },
+      {
+        "phase": "victory",
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.victory",
+            "seconds": 0.5166999999999999,
+            "speed": 1,
+            "duration": 2.5416,
+            "priority": 90,
+            "loop": false,
+            "token": "ciro.victory",
+            "blend": 0.035,
+            "contactTime": null
+          },
+          "activeTracks": 195,
+          "sampleMs": 0,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            829
+          ],
+          "animation": "ciro.victory",
+          "animationPlaying": true,
+          "animationSpeed": 1,
+          "animationFrame": 31.001999999999995,
+          "skeletonId": 27242,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.4904,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.4904,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0032,
+              0.5509,
+              -0.0097
+            ],
+            "Head": [
+              0.037,
+              0.8337,
+              -0.0031
+            ],
+            "LeftUpLeg": [
+              -0.0777,
+              0.4619,
+              -0.0053
+            ],
+            "LeftLeg": [
+              -0.0761,
+              0.2548,
+              0.0039
+            ],
+            "LeftFoot": [
+              -0.0521,
+              0.0885,
+              -0.0572
+            ],
+            "RightUpLeg": [
+              0.0522,
+              0.4519,
+              0.0255
+            ],
+            "RightLeg": [
+              0.0232,
+              0.3823,
+              0.2188
+            ],
+            "RightFoot": [
+              0.0668,
+              0.2634,
+              0.0919
+            ],
+            "LeftHand": [
+              -0.1475,
+              0.6975,
+              0.0845
+            ],
+            "RightHand": [
+              0.0371,
+              0.6717,
+              0.115
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "sameSkeleton": true,
+        "sameMeshes": true,
+        "visible": true,
+        "finite": true,
+        "physicsUnchanged": true,
+        "bucketY": 1.394495443410674
+      }
+    ],
+    "clockContinues": true,
+    "other": [
+      {
+        "character": "judoka",
+        "procedural": false,
+        "animator": {
+          "name": "judoka.idle",
+          "seconds": 5.601666667908419,
+          "speed": 1,
+          "duration": 15.33333333209157,
+          "priority": 0,
+          "loop": true,
+          "token": "judoka.idle",
+          "blend": 0.12,
+          "contactTime": null
+        },
+        "activeTracks": 195,
+        "sampleMs": 0.10000000149011612,
+        "clips": 37,
+        "state": "ready",
+        "error": null,
+        "bones": 65,
+        "meshes": 2,
+        "meshNames": [
+          "__root__~g2(0v)",
+          "tripo_node_785ac5da-8807-47d0-94eb-fe4ce43e1b76~g2(24403v)"
+        ],
+        "geometryIds": [
+          -1,
+          689
+        ],
+        "animation": "judoka.idle",
+        "animationPlaying": true,
+        "animationSpeed": 1,
+        "animationFrame": 336.10000007450515,
+        "skeletonId": 19852,
+        "clipHipsOffset": null,
+        "holdFrame": 0,
+        "seated": false,
+        "seatedApplied": false,
+        "restHips": [
+          0.0057,
+          0.4989,
+          0.0096
+        ],
+        "hipsNow": [
+          0.0057,
+          0.498,
+          0.0096
+        ],
+        "joints": {
+          "Hips": [
+            -0.0057,
+            0.498,
+            0.0096
+          ],
+          "Spine": [
+            -0.0074,
+            0.5398,
+            0.0151
+          ],
+          "Head": [
+            -0.0358,
+            0.84,
+            0.0395
+          ],
+          "LeftUpLeg": [
+            -0.0624,
+            0.48,
+            0.009
+          ],
+          "LeftLeg": [
+            -0.0414,
+            0.254,
+            0.0266
+          ],
+          "LeftFoot": [
+            -0.0233,
+            0.0511,
+            0.0013
+          ],
+          "RightUpLeg": [
+            0.0557,
+            0.4859,
+            0.0009
+          ],
+          "RightLeg": [
+            0.0817,
+            0.2615,
+            0.0295
+          ],
+          "RightFoot": [
+            0.1026,
+            0.0576,
+            0.0115
+          ],
+          "LeftHand": [
+            -0.1517,
+            0.4338,
+            0.0266
+          ],
+          "RightHand": [
+            0.156,
+            0.4606,
+            -0.0079
+          ]
+        },
+        "height": 2.06988,
+        "width": 0.9903304860214053,
+        "depth": 0.43979536919436135,
+        "scale": 2.1150858908608683,
+        "vertices": 24403
+      }
+    ],
+    "perf": 0
+  },
+  "counters": {
+    "liveInstances": 0,
+    "lateDisposedContainers": 0,
+    "abortedLoads": 0,
+    "lastLoadError": null
+  },
+  "errors": []
+}

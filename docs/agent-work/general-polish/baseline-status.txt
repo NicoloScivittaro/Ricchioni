@@ -1,0 +1,40 @@
+ M dist/index.html
+ M scripts/buttafuori-animation-selftest.ts
+ M scripts/ciro-animation-selftest.ts
+ M scripts/e2e/buttafuori-animated-jump.mjs
+ M scripts/e2e/ciro-contexts.mjs
+ M scripts/e2e/ciro-fallback.mjs
+ M scripts/e2e/ciro-jump.mjs
+ M scripts/e2e/ciro-pilot.mjs
+ M scripts/e2e/ciro-production.mjs
+ M scripts/goblin-animation-selftest.ts
+ M src/minigames/arena/arenaEntity.ts
+ M src/minigames/casaCarbo/CasaCarboGame.ts
+ M src/minigames/characters/buttafuoriClips.json
+ M src/minigames/characters/buttafuoriProfile.ts
+ M src/minigames/characters/ciroClips.json
+ M src/minigames/characters/ciroProfile.ts
+ M src/minigames/characters/goblinAnimator.ts
+ M src/minigames/characters/goblinClips.json
+ M src/minigames/characters/goblinVisual.ts
+ M src/minigames/characters/judokaClips.json
+ M src/minigames/characters/judokaProfile.ts
+?? docs/agent-work/characters-animation-update/
+?? docs/agent-work/ciro-animation-update/
+?? docs/agent-work/general-polish/
+?? public/models/detailed-tripo/detailed_character_casacarbo.glb
+?? public/models/goblin-tripo/green_goblin_casacarbo.glb
+?? public/models/judoka-tripo/judo_figure_casacarbo.glb
+?? public/models/man-tripo/man_animated.glb
+?? scripts/characters-animation-selftest.ts
+?? scripts/ciro-casacarbo-selftest.ts
+?? scripts/e2e/characters-animation-update.mjs
+?? scripts/e2e/characters-casacarbo.mjs
+?? scripts/e2e/characters-contexts.mjs
+?? scripts/e2e/characters-gallery-fallback.mjs
+?? scripts/e2e/characters-jump.mjs
+?? scripts/e2e/characters-production.mjs
+?? scripts/e2e/ciro-animation-update.mjs
+?? scripts/e2e/ciro-casacarbo.mjs
+?? src/minigames/casaCarbo/casaCarboAnimation.ts
+?? src/minigames/casaCarbo/ciroCasaCarboAnimation.ts

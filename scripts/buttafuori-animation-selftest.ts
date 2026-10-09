@@ -6,7 +6,7 @@ import { ALL_MOVES } from '../src/minigames/cornicione/fighterData';
 const base = { speedFrac:0, alive:true, falling:false, dashing:false, stunned:false, grounded:true };
 let checks=0;
 const check=(value:boolean,message:string):void=>{assert.ok(value,message);checks++;};
-check(clips.length===44 && new Set(clips.map(c=>c.original)).size===43,'43 source clips plus explicit stomach alias');
+check(clips.length===55 && new Set(clips.map(c=>c.original)).size===54,'54 source clips plus explicit stomach alias');
 check(new Set(clips.map(c=>c.name)).size===clips.length,'semantic names unique');
 for(const c of clips){check(c.from>=0&&c.from<c.to&&c.duration>0,`${c.name}: valid range and duration`);}
 for(const move of ALL_MOVES){

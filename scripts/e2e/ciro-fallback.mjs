@@ -8,7 +8,7 @@ try {
   await page.goto(`${HOST_URL}?debug=1&ciro=new`, { waitUntil: 'load' });
   await page.waitForSelector('#app canvas');
   await page.setRequestInterception(true);
-  page.on('request', req => /man\.glb/.test(req.url()) ? req.abort('failed') : req.continue());
+  page.on('request', req => /man_animated\.glb/.test(req.url()) ? req.abort('failed') : req.continue());
   await page.evaluate(async () => {
     const { ArenaEntity } = await import('/src/minigames/arena/arenaEntity.ts');
     const coreUrl = performance.getEntriesByType('resource').map(e => e.name).find(n => /\/@babylonjs_core\.js\?/.test(n));
@@ -33,6 +33,6 @@ try {
   assert.equal(result.imported.state, 'error'); assert.equal(result.imported.bones, 0);
   assert.ok(result.fallbackVisible && result.hidden && result.restored);
   assert.equal(errors.length, 0, errors.join(';'));
-  writeFileSync('docs/agent-work/man-character-pilot/fallback.json', JSON.stringify({ result, errors }, null, 2));
+  writeFileSync('docs/agent-work/ciro-animation-update/fallback.json', JSON.stringify({ result, errors }, null, 2));
   console.log('Failed import retains functional Legacy body/visibility without gameplay writes: PASS');
 } finally { await browser.close(); }

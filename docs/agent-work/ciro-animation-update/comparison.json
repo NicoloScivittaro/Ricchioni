@@ -1,0 +1,604 @@
+{
+  "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\man+3d+model (1).glb",
+  "bytes": 18829088,
+  "sha256": "4a00b680701e36e25507305d53332837337101a850095e5e6e026fb0f0e76743",
+  "oldSha256": "f4a5bd9c74526faa625902b0b43f3bccaebaf2ee0ae648e9d6fd73ade651abe5",
+  "sameGeometryAndSkinAttributes": true,
+  "sameTextures": true,
+  "sameBindMatrices": true,
+  "sameBoneNames": true,
+  "clips": [
+    {
+      "index": 0,
+      "original": "Stylized competitive soccer kick animation.\n\nThe character star",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.soccerKickCandidate",
+      "unchanged": true
+    },
+    {
+      "index": 1,
+      "original": "ANTICIPATION\n\nZeus shifts slightly into the strike.\nRight shoul",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.zeusStrike",
+      "unchanged": true
+    },
+    {
+      "index": 2,
+      "original": "jump.001",
+      "start": 0.041666666666666664,
+      "end": 2.25,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.jump",
+      "unchanged": true
+    },
+    {
+      "index": 3,
+      "original": "run.001",
+      "start": 0.041666666666666664,
+      "end": 1.2916666666666667,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.run",
+      "unchanged": true
+    },
+    {
+      "index": 4,
+      "original": "A cartoon humanoid character interacting with an imaginary obje",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 5,
+      "original": "Stylized fighting game uppercut animation.\n\nThe character start",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.uppercut",
+      "unchanged": true
+    },
+    {
+      "index": 6,
+      "original": "Stylized fighting game defensive block and counter stance anima",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.block",
+      "unchanged": true
+    },
+    {
+      "index": 7,
+      "original": "Side-view fighting game attack animation.\n\nA powerful regal mal",
+      "start": 0.041666666666666664,
+      "end": 5,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.royalStrike",
+      "unchanged": true
+    },
+    {
+      "index": 8,
+      "original": "A bulky cartoon humanoid character firmly blocking an imaginary",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 9,
+      "original": "hit_to_body_02.001",
+      "start": 0.041666666666666664,
+      "end": 1.75,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.hitBodyB",
+      "unchanged": true
+    },
+    {
+      "index": 10,
+      "original": "hit_to_side.001",
+      "start": 0.041666666666666664,
+      "end": 1.2916666666666667,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.hitSide",
+      "unchanged": true
+    },
+    {
+      "index": 11,
+      "original": "box_02.001",
+      "start": 0.041666666666666664,
+      "end": 2.8333333333333335,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.boxing2",
+      "unchanged": true
+    },
+    {
+      "index": 12,
+      "original": "hit_to_stomach.001",
+      "start": 0.041666666666666664,
+      "end": 1.5833333333333333,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.hitStomach",
+      "unchanged": true
+    },
+    {
+      "index": 13,
+      "original": "Stylized competitive dodgeball overhand throw animation.\n\nThe c",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.ballThrow",
+      "unchanged": true
+    },
+    {
+      "index": 14,
+      "original": "front_kick_01.001",
+      "start": 0.041666666666666664,
+      "end": 2.5416666666666665,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.frontKick1",
+      "unchanged": true
+    },
+    {
+      "index": 15,
+      "original": "Stylized fighting game heavy knockback animation.\n\nThe characte",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.knockback",
+      "unchanged": true
+    },
+    {
+      "index": 16,
+      "original": "wait.001",
+      "start": 0.041666666666666664,
+      "end": 6.041666666666667,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.wait",
+      "unchanged": true
+    },
+    {
+      "index": 17,
+      "original": "Fast stylized fighting game jab punch animation.\n\nThe character",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.jab",
+      "unchanged": true
+    },
+    {
+      "index": 18,
+      "original": "A cartoon humanoid character collecting water from the floor us",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 19,
+      "original": "Powerful stylized fighting game heavy haymaker punch animation.",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.heavy",
+      "unchanged": true
+    },
+    {
+      "index": 20,
+      "original": "box_01.001",
+      "start": 0.041666666666666664,
+      "end": 2.25,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.boxing1",
+      "unchanged": true
+    },
+    {
+      "index": 21,
+      "original": "box_03.001",
+      "start": 0.041666666666666664,
+      "end": 2.5833333333333335,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.boxing3",
+      "unchanged": true
+    },
+    {
+      "index": 22,
+      "original": "PURE SOCCER INSTep KICK ANIMATION.\n\nCreate a realistic stylized",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.soccerInstepCandidate",
+      "unchanged": true
+    },
+    {
+      "index": 23,
+      "original": "Stylized fighting game front kick animation.\n\nThe character sta",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.frontKick",
+      "unchanged": true
+    },
+    {
+      "index": 24,
+      "original": "A seamless looping in-place walking animation of a cartoon huma",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 25,
+      "original": "football_catch.001",
+      "start": 0.041666666666666664,
+      "end": 3.5,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.footballCatch",
+      "unchanged": true
+    },
+    {
+      "index": 26,
+      "original": "A cartoon humanoid character collecting water from the floo.001",
+      "start": 0.041666666666666664,
+      "end": 5,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 27,
+      "original": "A cartoon humanoid character quickly building an improvised flo",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 28,
+      "original": "A cartoon humanoid character emptying an imaginary bucket of wa",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 29,
+      "original": "A funny cartoon humanoid character getting up from lying on his",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 30,
+      "original": "frightened.001",
+      "start": 0.041666666666666664,
+      "end": 3.4166666666666665,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.frightened",
+      "unchanged": true
+    },
+    {
+      "index": 31,
+      "original": "Stylized competitive dodgeball catch animation.\n\nThe character ",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.ballCatch",
+      "unchanged": true
+    },
+    {
+      "index": 32,
+      "original": "hit_to_head.001",
+      "start": 0.041666666666666664,
+      "end": 1.875,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.hitHead",
+      "unchanged": true
+    },
+    {
+      "index": 33,
+      "original": "A seamless looping animation of a cartoon humanoid character pu",
+      "start": 0.041666666666666664,
+      "end": 5,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 34,
+      "original": "Stylized videogame defeat animation for a competitive athletic ",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.defeat",
+      "unchanged": true
+    },
+    {
+      "index": 35,
+      "original": "hit_to_body_01.001",
+      "start": 0.041666666666666664,
+      "end": 1.3333333333333333,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.hitBodyA",
+      "unchanged": true
+    },
+    {
+      "index": 36,
+      "original": "Stylized videogame victory celebration for a competitive athlet",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.victory",
+      "unchanged": true
+    },
+    {
+      "index": 37,
+      "original": "Stylized fighting game roundhouse kick animation.\n\nThe characte",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.roundhouse",
+      "unchanged": true
+    },
+    {
+      "index": 38,
+      "original": "defeat_02.001",
+      "start": 0.041666666666666664,
+      "end": 8.5,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.defeat2",
+      "unchanged": true
+    },
+    {
+      "index": 39,
+      "original": "Fast stylized fighting game dodge animation.\n\nThe character sta",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.dodge",
+      "unchanged": true
+    },
+    {
+      "index": 40,
+      "original": "SOCCER BALL KICK ANIMATION \u2014 LEGS ONLY.\n\nCreate a clear assoc",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": true
+    },
+    {
+      "index": 41,
+      "original": "A cartoon humanoid character interacting with an imaginary .001",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 42,
+      "original": "Stylized fighting game hook punch animation.\n\nThe character sta",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.hook",
+      "unchanged": true
+    },
+    {
+      "index": 43,
+      "original": "football_pass.001",
+      "start": 0.041666666666666664,
+      "end": 11.041666666666666,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.footballPass",
+      "unchanged": true
+    },
+    {
+      "index": 44,
+      "original": "Stylized fighting game judo throw animation.\n\nThe character beg",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.judoThrow",
+      "unchanged": true
+    },
+    {
+      "index": 45,
+      "original": "A seamless looping animation of a funny cartoon humanoid charac",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 46,
+      "original": "Fast stylized fighting game forward dash animation.\n\nThe charac",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.dash",
+      "unchanged": true
+    },
+    {
+      "index": 47,
+      "original": "Stylized fighting game grab animation.\n\nThe character starts fr",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.grab",
+      "unchanged": true
+    },
+    {
+      "index": 48,
+      "original": "Stylized fighting game knockout animation.\n\nThe character recei",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.ko",
+      "unchanged": true
+    },
+    {
+      "index": 49,
+      "original": "Stylized videogame object pickup animation.\n\nThe character star",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.pickup",
+      "unchanged": true
+    },
+    {
+      "index": 50,
+      "original": "A funny cartoon humanoid character suddenly slipping on a wet f",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 51,
+      "original": "walk.001",
+      "start": 0.041666666666666664,
+      "end": 2.375,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.walk",
+      "unchanged": true
+    },
+    {
+      "index": 52,
+      "original": "fall.001",
+      "start": 0.041666666666666664,
+      "end": 3.0416666666666665,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.fall",
+      "unchanged": true
+    },
+    {
+      "index": 53,
+      "original": "front_kick_02.001",
+      "start": 0.041666666666666664,
+      "end": 1.4166666666666667,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.frontKick2",
+      "unchanged": true
+    },
+    {
+      "index": 54,
+      "original": "idle.001",
+      "start": 0.041666666666666664,
+      "end": 15.375,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.idle",
+      "unchanged": true
+    },
+    {
+      "index": 55,
+      "original": "Stylized competitive soccer power shot animation.\n\nThe characte",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.soccerPowerCandidate",
+      "unchanged": true
+    },
+    {
+      "index": 56,
+      "original": "football_save.001",
+      "start": 0.041666666666666664,
+      "end": 3.3333333333333335,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.footballSave",
+      "unchanged": true
+    },
+    {
+      "index": 57,
+      "original": "A cartoon humanoid character loses balance and falls backward o",
+      "start": 0.041666666666666664,
+      "end": 3,
+      "channels": 195,
+      "bones": 65,
+      "existing": null,
+      "unchanged": null
+    },
+    {
+      "index": 58,
+      "original": "punch.001",
+      "start": 0.041666666666666664,
+      "end": 5,
+      "channels": 195,
+      "bones": 65,
+      "existing": "ciro.genericPunch",
+      "unchanged": true
+    }
+  ],
+  "sameMaterialParameters": true,
+  "materialNamesChanged": true
+}

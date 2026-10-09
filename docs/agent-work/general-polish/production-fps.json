@@ -1,0 +1,86 @@
+{
+  "games": [
+    {
+      "id": "fps",
+      "characters": [
+        "goblin",
+        "buttafuori",
+        "judoka",
+        "ciro"
+      ],
+      "downloads": [
+        {
+          "url": "http://127.0.0.1:3001/models/man-tripo/man_animated.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:3001/models/judoka-tripo/judo_figure_casacarbo.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:3001/models/judoka-tripo/judo_figure_casacarbo.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:3001/models/judoka-tripo/judo_figure_casacarbo.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:3001/models/man-tripo/man_animated.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:3001/models/man-tripo/man_animated.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+          "status": 200
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "hashes": [
+    {
+      "path": "/models/goblin-tripo/green_goblin_casacarbo.glb",
+      "bytes": 10754744,
+      "sha": "0e6ce217ccca7ef90423584a5700d6ef0064f7a43d5ee32a976cb147c5059fa7"
+    },
+    {
+      "path": "/models/detailed-tripo/detailed_character_casacarbo.glb",
+      "bytes": 20169284,
+      "sha": "763ebedbd024b214b36f98ec93f282c9155f85b6e865580f006142ad74067e7e"
+    },
+    {
+      "path": "/models/judoka-tripo/judo_figure_casacarbo.glb",
+      "bytes": 17324312,
+      "sha": "6ef81e531783afca7f882ae56b28de0fbf4b685b4c47aceb12813913353f8490"
+    },
+    {
+      "path": "/models/man-tripo/man_animated.glb",
+      "bytes": 18829088,
+      "sha": "4a00b680701e36e25507305d53332837337101a850095e5e6e026fb0f0e76743"
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "origin": "http://localhost:3001/",
+  "rows": [
+    {
+      "query": "",
+      "gallery": false,
+      "debug": false,
+      "models": []
+    },
+    {
+      "query": "?characters=1&ciro=new",
+      "gallery": false,
+      "debug": false,
+      "models": []
+    }
+  ],
+  "normalGame": {
+    "players": [
+      {
+        "name": "Ciro",
+        "character": "ciro"
+      },
+      {
+        "name": "Carbo",
+        "character": "judoka"
+      }
+    ],
+    "game": "casacarbo",
+    "downloads": [
+      {
+        "url": "http://localhost:3001/models/man-tripo/man_animated.glb",
+        "status": 200
+      }
+    ]
+  },
+  "imported": {
+    "character": "ciro",
+    "procedural": false,
+    "animator": {
+      "name": "ciro.idle",
+      "seconds": 0.0916666679084301,
+      "speed": 1,
+      "duration": 15.33333333209157,
+      "priority": 0,
+      "loop": true,
+      "token": "ciro.idle",
+      "blend": 0.12,
+      "contactTime": null
+    },
+    "activeTracks": 195,
+    "sampleMs": 0.5,
+    "clips": 59,
+    "state": "ready",
+    "error": null,
+    "bones": 65,
+    "meshes": 2,
+    "meshNames": [
+      "__root__~g1(0v)",
+      "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g1(29981v)"
+    ],
+    "geometryIds": [
+      -1,
+      471
+    ],
+    "animation": "ciro.idle",
+    "animationPlaying": true,
+    "animationSpeed": 1,
+    "animationFrame": 5.500000074505806,
+    "skeletonId": 12242,
+    "clipHipsOffset": null,
+    "holdFrame": 0,
+    "seated": false,
+    "seatedApplied": false,
+    "restHips": [
+      0.0096,
+      0.5064,
+      -0.0019
+    ],
+    "hipsNow": [
+      0.0096,
+      0.5057,
+      -0.0019
+    ],
+    "joints": {
+      "Hips": [
+        -0.0096,
+        0.5057,
+        -0.0019
+      ],
+      "Spine": [
+        -0.0088,
+        0.5667,
+        -0.0069
+      ],
+      "Head": [
+        -0.012,
+        0.8533,
+        -0.0251
+      ],
+      "LeftUpLeg": [
+        -0.075,
+        0.4722,
+        0.0059
+      ],
+      "LeftLeg": [
+        -0.0783,
+        0.265,
+        0.0024
+      ],
+      "LeftFoot": [
+        -0.084,
+        0.0875,
+        -0.0194
+      ],
+      "RightUpLeg": [
+        0.0587,
+        0.4707,
+        0.0107
+      ],
+      "RightLeg": [
+        0.067,
+        0.2638,
+        0.0259
+      ],
+      "RightFoot": [
+        0.0737,
+        0.09,
+        -0.0175
+      ],
+      "LeftHand": [
+        -0.1684,
+        0.5027,
+        0.0033
+      ],
+      "RightHand": [
+        0.1586,
+        0.5162,
+        0.0178
+      ]
+    },
+    "height": 2.3082,
+    "width": 0.9972113199081483,
+    "depth": 0.47393777911913565,
+    "scale": 2.3590696158289792,
+    "vertices": 29981
+  },
+  "association": {
+    "characters": [
+      "ciro"
+    ],
+    "ciroSelector": true,
+    "dottoreSelector": false
+  },
+  "oldNewToggle": true,
+  "errors": []
+}

@@ -1,0 +1,20 @@
+Three rooms created/abandoned on the same host document: PASS
+arena: four controllers, complete placements, results and disposal: PASS
+cornicione: four controllers, complete placements, results and disposal: PASS
+dodgeball: four controllers, complete placements, results and disposal: PASS
+soccer: four controllers, complete placements, results and disposal: PASS
+volleyball: four controllers, complete placements, results and disposal: PASS
+kart3d: four controllers, complete placements, results and disposal: PASS
+file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/common/WaitTask.js:46
+            this.#timeoutError = new TimeoutError(`Waiting failed: ${options.timeout}ms exceeded`);
+                                 ^
+
+TimeoutError: Waiting failed: 60000ms exceeded
+    at new WaitTask (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/common/WaitTask.js:46:34)
+    at IsolatedWorld.waitForFunction (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/api/Realm.js:49:26)
+    at CdpFrame.waitForFunction (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/api/Frame.js:585:43)
+    at CdpFrame.<anonymous> (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/util/decorators.js:101:27)
+    at CdpPage.waitForFunction (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/api/Page.js:1537:37)
+    at file:///C:/Users/niluf.PC-NIKO/Desktop/Ricchioni/scripts/e2e/tripo-four-player-session.mjs:63:54
+
+Node.js v24.18.0

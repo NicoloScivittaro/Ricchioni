@@ -1,0 +1,41 @@
+✅ P1 (Xbox) e P2 (DualSense) col controller, P3 col telefono
+✅ gara FERMA durante i CONTROLLI (fase countdown)
+✅ input ignorato durante i CONTROLLI (stick a fondo e RT premuto: steer 0, throttle non premuto)
+✅ durata CONTROLLI 4968 ms
+✅ mostra: "🏎️ RIBALTATI — CIRCUITO DEL LITORALE 🎮 CONTROLLI LEFT STICK STERZA RT / R2 ACCELERA LT / L2 FRENA / RETROMARCIA A / ✕ DRIFT X / □ USA ITEM Y / △ ⚡ ABILITÀ ⚡ ABILITÀ · Y / △ GOBLIN MBRIACONE SO GUIDARE IO Drift perfetti"
+✅ nessuna voce "guarda dietro" (il gioco non la supporta: non e' stata inventata)
+✅ P1: RT tenuto da prima del countdown accelera SUBITO al VIA senza rilasciare (velocità 9.3)
+✅ P2: A/✕ (drift) tenuto da prima del countdown NON parte in automatico al VIA (serve rilasciare e ripremere)
+✅ telefono P1: "GOBLIN MBRIACONE 🏎️ RIBALTATI — CIRCUITO DEL LITORALE "
+✅ P3 (senza controller): 📱 MODALITÀ FALLBACK
+✅ steer -1: il PROFILO legge esattamente -1
+✅ steer +1: il PROFILO legge esattamente 1
+✅ sterzo -1 e +1 curvano in direzioni opposte (heading -1.37 vs 1.24)
+✅ sterzo 0.3 curva MENO di 1.0 (proporzionale, non digitale): 0.3 -> 0.124 rad, 1.0 -> 0.740 rad
+✅ diagonale: il PROFILO legge un valore ridotto dalla deadzone RADIALE centrale (x=0.70, non 1.0 e non un crash)
+✅ RT 0.0: nessun acceleratore
+✅ RT 0.5 e RT 1.0 danno lo STESSO throttle (adattamento digitale: il gioco non ha un accel a magnitudine) — 0.5=true, 1.0=true
+✅ LT 0.5: freno/retromarcia attivo (sopra soglia)
+✅ RT+LT insieme: vince il throttle (velocità 21.8 > 0, come l'if/else-if già esistente)
+✅ A/✕ press: la deriva parte
+✅ A/✕ hold: la carica sale (1.77)
+✅ A/✕ release: la deriva finisce
+✅ rilascio con carica: mini-turbo assegnato (boostTimer 0.39)
+✅ rumble durante drift/mini-turbo
+✅ X/□ tenuto 1.2s: UN solo uso item (0 -> 1), nessuno spam
+✅ item consumato
+✅ Y/△ = ABILITÀ: il gioco consuma la pressione
+✅ in pausa nessun input di gameplay (steer e throttle azzerati)
+✅ la deriva viene ANNULLATA in pausa SENZA assegnare il mini-turbo (nessun boost fantasma dalla pausa)
+✅ P2: RT tenuto durante tutta la pausa torna attivo DA SOLO alla ripresa (holdThrough: come un pedale lasciato premuto)
+✅ P1: A (drift) tenuto durante la pausa resta BLOCCATO alla ripresa: serve rilasciare e ripremere
+✅ disconnessione: steer/throttle/freno a zero
+✅ disconnessione con drift carico: deriva annullata SENZA mini-turbo (nessun boost fantasma dal reset)
+✅ avviso TV: controller scollegato
+✅ il telefono di P1 passa da solo a 📱 CONTROLLER PERSO — USA TEMPORANEAMENTE IL TELEFONO
+✅ il controller torna: pairing recuperato
+✅ il telefono torna a "USA IL CONTROLLER" senza refresh
+✅ P1 (controller): un evento del suo telefono NON sovrascrive lo sterzo
+✅ P3 (telefono, fallback): il suo input entra regolarmente nello stesso InputManager
+✅ stesse associazioni dopo risultati e rullo (nessuna riassociazione)
+✅ nessun errore di pagina 

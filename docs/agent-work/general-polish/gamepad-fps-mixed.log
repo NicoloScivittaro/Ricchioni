@@ -1,0 +1,27 @@
+✅ 4 controller associati (P1-P4), P5 resta col telefono
+✅ una sola scena 'fps' attiva sull'host (["fps"])
+✅ tutti e 5 i giocatori nella STESSA simulazione, nessun duplicato (5)
+✅ split-screen: 4 camere (solo chi ha il controller), P5 nessuna camera qui (4)
+✅ P5 (telefono) NON ha una camera nello split-screen (corretto: gioca dal telefono)
+✅ le 4 camere sono esattamente P1-P4, in ordine di stanza
+✅ P1-P4 vedono P5: la sua capsula esiste nella scena split-screen (aggiornata dallo stato condiviso)
+✅ telefono P1 (ha il controller): "USA IL CONTROLLER" + "GUARDA LA TUA FINESTRA SULLA TV" ("GOBLIN MBRIACONE 🔫 SPARATORIA DEI DISAGIATI N'CULO! RB TIMING · illim")
+✅ telefono P1: nessun contenitore #fps-canvas (renderFpsController mai chiamato)
+✅ telefono P1: nessun <canvas> (nessun render loop Babylon, nessun consumo GPU inutile): 0
+✅ telefono P2 (ha il controller): "USA IL CONTROLLER" + "GUARDA LA TUA FINESTRA SULLA TV" ("BOSCHI 🔫 SPARATORIA DEI DISAGIATI TU QUA NON ENTRI R1 REATTIVA · illi")
+✅ telefono P2: nessun contenitore #fps-canvas (renderFpsController mai chiamato)
+✅ telefono P2: nessun <canvas> (nessun render loop Babylon, nessun consumo GPU inutile): 0
+✅ telefono P3 (ha il controller): "USA IL CONTROLLER" + "GUARDA LA TUA FINESTRA SULLA TV" ("IL DOTTORE SCEMO 🔫 SPARATORIA DEI DISAGIATI M'HO SVEJATO RB INFORMAZI")
+✅ telefono P3: nessun contenitore #fps-canvas (renderFpsController mai chiamato)
+✅ telefono P3: nessun <canvas> (nessun render loop Babylon, nessun consumo GPU inutile): 0
+✅ telefono P4 (ha il controller): "USA IL CONTROLLER" + "GUARDA LA TUA FINESTRA SULLA TV" ("Carbo 🔫 SPARATORIA DEI DISAGIATI NO, ASPETTA! RB TIMING · illimitata ")
+✅ telefono P4: nessun contenitore #fps-canvas (renderFpsController mai chiamato)
+✅ telefono P4: nessun <canvas> (nessun render loop Babylon, nessun consumo GPU inutile): 0
+✅ telefono P5 (nessun controller): NON mostra "USA IL CONTROLLER" ("❤️ 100 🔦 LASER DEL DISAGIO 5 / 5 ⚡ PAGO")
+✅ telefono P5: renderer 3D presente come sempre (1 canvas)
+✅ P5 (telefono) colpisce P1 (controller): danno applicato (HP 70)
+✅ P1 (controller) colpisce/uccide P5 (telefono): morte contata una volta sola (viva false, morti 1)
+✅ kill attribution corretta anche verso un player col telefono: P1 +1 kill (1)
+✅ respawn corretto anche per il player col telefono (HP 100)
+✅ timer e classifica condivisi da tutti e 5 (matchTime 95.0, giocatori in classifica 5)
+✅ nessun errore di pagina 

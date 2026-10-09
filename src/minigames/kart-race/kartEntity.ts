@@ -21,7 +21,8 @@ import { audio, EngineSound } from '../../core/AudioManager';
 import { MAX_SPEED, DRIFT_THRESHOLDS } from './kartPhysics';
 import { presentationOf } from '../../../shared/characterPresentation';
 import { decorateHead, makeCharMaterials, makeSymbolPlane } from '../characters/characterModel';
-import { GoblinVisualInstance, goblinNewEnabled, goblinTuning } from '../characters/goblinVisual';
+import { GoblinVisualInstance, goblinTuning } from '../characters/goblinVisual';
+import { importedCharacterProfile, importedCharacterEnabled } from '../characters/importedCharacters';
 
 /** Colore del mini-turbo per livello (0 = nessuno): stesso codice colore di scintille, fanali e barra della HUD. */
 export const DRIFT_LEVEL_COLORS: [number, number, number][] = [
@@ -32,7 +33,7 @@ export const DRIFT_LEVEL_COLORS: [number, number, number][] = [
 ];
 
 /**
- * GOBLIN TRIPO (pilota, solo DEV): statura e punto di seduta del modello importato usato come pilota del Kart.
+ * TRIPO: statura e punto di seduta del modello importato usato come pilota del Kart.
  * `DRIVER_HEIGHT` = statura in piedi del rig Tripo (la scala si calcola in posa di bind); il nodo di seduta sta
  * sul bordo superiore della carrozzeria, dove poggia il bacino del vecchio pilota procedurale.
  */
@@ -45,9 +46,10 @@ export function driftLevelOf(driftCharge: number): number {
   return driftCharge >= DRIFT_THRESHOLDS[2] ? 3 : driftCharge >= DRIFT_THRESHOLDS[1] ? 2 : driftCharge >= DRIFT_THRESHOLDS[0] ? 1 : 0;
 }
 
-let dotTexture: Texture | null = null;
+const dotTextures = new WeakMap<Scene,Texture>();
 function getDotTexture(scene: Scene): Texture {
-  if (dotTexture) return dotTexture;
+  const cached=dotTextures.get(scene);
+  if (cached) return cached;
   const dt = new DynamicTexture('particleDot', 16, scene, false);
   const ctx = dt.getContext();
   ctx.fillStyle = 'white';
@@ -55,7 +57,8 @@ function getDotTexture(scene: Scene): Texture {
   ctx.arc(8, 8, 7, 0, Math.PI * 2);
   ctx.fill();
   dt.update();
-  dotTexture = dt;
+  dotTextures.set(scene,dt);
+  scene.onDisposeObservable.addOnce(()=>dotTextures.delete(scene));
   return dt;
 }
 
@@ -110,7 +113,7 @@ export class KartEntity {
   /** pilota (busto + testa) per inclinarlo in curva/derapata */
   private driverTorso: Mesh | null = null;
   private driverHead: TransformNode | null = null;
-  /** GOBLIN TRIPO (pilota, solo DEV): pilota importato al posto del mini-rig disegnato, con posa seduta. */
+  /** TRIPO: pilota importato al posto del mini-rig disegnato, con posa seduta. */
   private goblinDriver: GoblinVisualInstance | null = null;
   private goblinDriverSeat: TransformNode | null = null;
   private lean = 0;
@@ -316,17 +319,16 @@ export class KartEntity {
       this.symbol.parent = this.root;
     }
 
-    // GOBLIN TRIPO (pilota, solo DEV): il Goblin importato PRENDE IL POSTO del mini-rig disegnato (che resta
-    // vivo per fallback/abilità). Posa seduta esplicita: nessuna animazione, nessun collider/hitbox toccato.
-    // No authored driving clip. The seated experiment remains explicitly opt-in in DEV;
-    // normal NEW mode keeps the proven legacy driver until a steering-wheel pose is accepted.
-    if (characterId === 'goblin' && goblinNewEnabled() && new URLSearchParams(location.search).get('goblinDriver') === '1') {
-      const tuning = goblinTuning();
+    // Four original Tripo skins use a seated rig. The complete procedural driver remains as load fallback.
+    const profile=importedCharacterProfile(characterId);
+    if (profile && importedCharacterEnabled(characterId)) {
+      const tuning = characterId==='goblin'?goblinTuning():{yawDeg:0,scaleMul:1};
       const seat = new TransformNode('goblinDriverSeat', scene);
       seat.parent = this.root;
       seat.position.set(0, GOBLIN_DRIVER_SEAT_Y, GOBLIN_DRIVER_SEAT_Z);
       this.goblinDriverSeat = seat;
       this.goblinDriver = new GoblinVisualInstance(scene, seat, {
+        profile,
         height: GOBLIN_DRIVER_HEIGHT,
         yaw: tuning.yawDeg * (Math.PI / 180),
         scaleMul: tuning.scaleMul,
@@ -336,6 +338,11 @@ export class KartEntity {
           this.driverTorso?.setEnabled(false);
           this.driverHead?.setEnabled(false);
           for (const arm of this.driverArms) arm.setEnabled(false);
+          for(const light of scene.lights) {
+            const shadows=light.getShadowGenerator();
+            const list=shadows?.getShadowMap()?.renderList;
+            if(list)for(const mesh of this.goblinDriver?.meshes??[])if(mesh.getTotalVertices()>0&&!list.includes(mesh))list.push(mesh);
+          }
         }
       });
     }

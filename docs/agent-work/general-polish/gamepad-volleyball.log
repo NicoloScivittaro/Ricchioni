@@ -1,0 +1,30 @@
+✅ P1 (Xbox) e P2 (DualSense) col controller, P3 col telefono
+✅ gioco FERMO durante i CONTROLLI (14 campioni: fase intro, palla held)
+✅ input ignorato durante i CONTROLLI (stick a fondo: move 0)
+✅ durata CONTROLLI 5021 ms
+✅ mostra: "🏖️ PALLAVOLO DEI DISAGIATI 🎮 CONTROLLI LEFT STICK MUOVITI X / □ SALTA A / ✕ COLPISCI / SMASH B / ◯ ⚡ ABILITÀ ⚡ ABILITÀ · B / ◯ GOBLIN MBRIACONE JÄGER BOMB Smash perfett"
+✅ A e X tenuti durante i CONTROLLI: nessun servizio, colpo o salto al VIA (bloccati fino al rilascio)
+✅ telefono P1: "GOBLIN MBRIACONE 🏖️ PALLAVOLO DEI DISAGIATI JÄGER BOMB"
+✅ P3 (senza controller): 📱 MODALITÀ FALLBACK col joystick del telefono
+✅ 8 direzioni: il personaggio va dove punta lo stick (8/8)
+✅ SERVIZIO: A/✕ con la palla in mano batte il servizio
+✅ X/□ = SALTA (quota massima 1.99)
+✅ A/✕ = COLPO a terra: ricezione registrata (vy 0.2)
+✅ rumble su servizio/salto/colpo
+✅ DIREZIONE + SALTO + COLPO insieme: SMASH registrato (smash 1, vy -4.7: la palla va verso il basso)
+✅ la direzione tenuta non e' stata cancellata da salto e colpo (move.x 1.00)
+✅ B/◯ = ABILITA': il gioco consuma la pressione
+✅ P3 (telefono): il suo input entra nello stesso InputManager
+✅ P2 (controller): un evento del suo telefono (0,0) NON sovrascrive lo stick
+✅ A e X tenuti in pausa e oltre la ripresa: nessun servizio ne' salto fantasma
+✅ controller caduto: input a zero e nessun colpo/servizio fantasma
+✅ avviso TV + 📱 MODALITÀ FALLBACK sul telefono di P1
+✅ il controller torna: pairing recuperato
+✅ PUNTO assegnato
+✅ dopo il punto si riparte col servizio (palla held)
+✅ dopo il reset i controller rispondono ancora
+✅ MATCH POINT (4-1) -> punto decisivo: partita finita
+✅ fine partita: il controller resta associato
+✅ A tenuto da risultati + rullo + CONTROLLI: nessun servizio fantasma nel round dopo
+✅ stesse associazioni dopo risultati e rullo (nessuna riassociazione)
+✅ nessun errore di pagina 

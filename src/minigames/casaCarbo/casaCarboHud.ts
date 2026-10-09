@@ -45,6 +45,7 @@ export class CasaCarboHud extends GameHud {
   private sayWho: TextBlock;
   private sayText: TextBlock;
   private sayT = 0;
+  private ending = false;
 
   constructor(scene: Scene) {
     super(scene, 'casaCarboHud', '🌧️ CASA CARBO');
@@ -105,6 +106,7 @@ export class CasaCarboHud extends GameHud {
     this.sayText.width = '1000px';
     this.sayBox.addControl(this.sayText);
     scene.onBeforeRenderObservable.add(() => {
+      this.feed.isVisible = this.ending || !this.bannerBox.isVisible; // urgent announcements must not overlap the contribution feed
       if (this.sayT <= 0) return;
       this.sayT -= scene.getEngine().getDeltaTime();
       if (this.sayT <= 0) this.sayBox.isVisible = false;
@@ -123,16 +125,17 @@ export class CasaCarboHud extends GameHud {
 
   /** Finale: i titoli comici scendono sotto il banner dell'esito (che resta su fino alla fine). */
   endingLayout(): void {
+    this.ending = true;
     this.feed.top = `${UI.safe.y + 200}px`;
   }
 
   /** Annuncio del temporale: in alto, sotto il timer (la casa resta visibile). */
   announce(text: string, sub = '', color = '#fbbf24', ms = 1600, size = 64): void {
-    this.banner(text, sub, color, ms, Math.min(size, 46), -205);
-    this.bannerBox.height = '128px';
-    this.bannerText.top = '-16px';
-    this.bannerSub.top = '34px';
-    this.bannerSub.fontSize = UI.size.S;
+    this.banner(text, sub, color, ms, Math.min(size, 34), -206);
+    this.bannerBox.height = '90px';
+    this.bannerText.top = '-14px';
+    this.bannerSub.top = '20px';
+    this.bannerSub.fontSize = UI.size.XS;
   }
 
   setTime(sec: number): void {

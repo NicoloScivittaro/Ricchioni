@@ -1,4 +1,4 @@
-import { ArcRotateCamera, Color3, DynamicTexture, Engine, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
+import { ArcRotateCamera, Color3, DynamicTexture, Engine, Matrix, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { AB } from '../../../shared/abilityCatalog';
@@ -22,6 +22,7 @@ import { DOORS, DRAINS, TV_POINT, toWorldX, toWorldZ } from './mapData';
 import { buildCasaCarboEnvironment } from './casaCarboEnvironment';
 import { CasaCarboHud } from './casaCarboHud';
 import { contribution, drainedOf, titles } from './scoring';
+import { CasaCarboAnimation, hasCasaCarboAnimations } from './casaCarboAnimation';
 
 const COUNTDOWN_S = 3.2;
 const ENDING_S = 6.5;
@@ -103,6 +104,7 @@ export class CasaCarboGame {
   private entities = new Map<PlayerId, ArenaEntity>();
   private buckets = new Map<PlayerId, Mesh>();
   private squeegees = new Map<PlayerId, Mesh>();
+  private characterAnimations = new Map<PlayerId, CasaCarboAnimation>();
   private doorLabels = new Map<string, Label>();
   private drainLabels = new Map<string, Label>();
   private tvLabel: Label;
@@ -177,6 +179,7 @@ export class CasaCarboGame {
       const e = new ArenaEntity(this.scene, dotTex, snap.color, snap.characterId, snap.avatar, snap.displayName, null, { context: 'casacarbo' });
       e.setSizeMul(SIZE);
       this.entities.set(snap.id, e);
+      if (hasCasaCarboAnimations(snap.characterId)) this.characterAnimations.set(snap.id,new CasaCarboAnimation(snap.characterId));
       this.names.set(snap.id, snap.displayName);
       this.colors.set(snap.id, snap.color);
       this.chars.set(snap.id, snap.characterId ?? 'goblin');
@@ -402,6 +405,10 @@ export class CasaCarboGame {
         break;
       case 'drain': {
         const p = this.player(e.id);
+        if(e.via==='bucket' && this.characterAnimations.has(e.id)) {
+          this.characterAnimations.get(e.id)!.emptyBucket();
+          this.entities.get(e.id)?.overrideImportedAnimation(null); // each actual pour starts a new visual gesture
+        }
         if (p) {
           this.hud.feedMessage(`💧 ${this.label(e.id)} +${Math.round(e.amount * 10) / 10} (${DRAIN_NAME[e.drain]})`, '#93c5fd', 1400);
           audio.pickupPop(this.pan(p.x));
@@ -480,9 +487,11 @@ export class CasaCarboGame {
     const ent = this.entities.get(e.id);
     switch (e.a) {
       case 'goblin_windup':
+        this.characterAnimations.get(e.id)?.showExistingAbility(AB.casacarbo.goblin.p.windup);
         ent?.playMove('smashWind', AB.casacarbo.goblin.p.windup);
         break;
       case 'goblin_wave':
+        this.characterAnimations.get(e.id)?.showExistingAbility(.4);
         ent?.playMove('smash', 0.4);
         this.hud.announce("N'CULO, MO ASCIUGO IO!", (e.amount ?? 0) > 3 ? 'ONDA!' : 'ONDA... A VUOTO', '#10b981', 1300, 50);
         audio.smash();
@@ -502,6 +511,7 @@ export class CasaCarboGame {
         this.hud.feedMessage(`💡 ${who}: M'HO SVEJATO... ma non arriva niente`, '#9ca3af', 1800);
         break;
       case 'carbo_dam':
+        this.characterAnimations.get(e.id)?.buildBarrier();
         this.hud.announce('NO, ASPETTA!', `${who} FA UNA DIGA`, '#f59e0b', 1300, 56);
         audio.thump(0.5);
         break;
@@ -531,6 +541,11 @@ export class CasaCarboGame {
     for (const p of this.world.players) {
       const ent = this.entities.get(p.id);
       if (!ent) continue;
+      const animator=this.characterAnimations.get(p.id);
+      if(animator) {
+        const pose=this.phase==='playing'?animator.update(dt,p):null;
+        ent.overrideImportedAnimation(pose?.name??null,pose?.duration,pose?.loop??false);
+      }
       const vis: VisualSubject = {
         x: toWorldX(p.x),
         y: 0,
@@ -552,6 +567,14 @@ export class CasaCarboGame {
       this.squeegees.get(p.id)!.isVisible = p.squeegee;
       const b = this.buckets.get(p.id)!;
       b.scaling.setAll(p.ab.bigBucket ? 1.35 : 1);
+      if(animator) {
+        const hand=ent.goblinAttachment('RIGHT_HAND');
+        if(hand) {
+          const local=Vector3.TransformCoordinates(hand,Matrix.Invert(ent.root.computeWorldMatrix(true)));
+          const halfHeight=.19*b.scaling.y;
+          b.position.set(local.x,Math.max(halfHeight,local.y-halfHeight),local.z+.07);
+        }
+      }
     }
     if (this.neighbor) {
       this.neighbor.updateVisual({ x: toWorldX(847), y: 0, z: toWorldZ(118), vx: 0, vz: 0, facing: Math.PI, alive: true, falling: false, spin: 0, dashing: false, stunTime: 0, hitFlash: 0 }, dt, now);

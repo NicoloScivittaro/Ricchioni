@@ -253,9 +253,7 @@ export class ArenaEntity {
 
     // GOBLIN TRIPO (pilota): alternativa di RENDER al solo modello del Goblin. Se il GLB non arriva (o la
     // scena muore prima) si continua a disegnare il rig procedurale, che NON viene mai spento in costruzione.
-    // Sports keep their existing kick/serve/spike poses until those imported animations are accepted.
-    const importedContext = opts.context !== 'soccer' && opts.context !== 'volley';
-    if (importedContext && ((characterId === 'goblin' && opts.goblinMode !== 'old' && goblinNewEnabled()) || (characterId==='judoka'&&opts.judokaMode!=='old'&&judokaNewEnabled()) || (characterId==='buttafuori'&&opts.buttafuoriMode!=='old'&&buttafuoriNewEnabled()) || (characterId==='ciro'&&opts.ciroMode!=='old'&&ciroNewEnabled()))) {
+    if ((characterId === 'goblin' && opts.goblinMode !== 'old' && goblinNewEnabled()) || (characterId==='judoka'&&opts.judokaMode!=='old'&&judokaNewEnabled()) || (characterId==='buttafuori'&&opts.buttafuoriMode!=='old'&&buttafuoriNewEnabled()) || (characterId==='ciro'&&opts.ciroMode!=='old'&&ciroNewEnabled())) {
       const tuning = characterId==='goblin'?goblinTuning():{yawDeg:0,scaleMul:1};
       this.goblinVisual = new GoblinVisualInstance(scene, this.root, {
         profile:characterId==='judoka'?JUDOKA_PROFILE:characterId==='buttafuori'?BUTTAFUORI_PROFILE:characterId==='ciro'?CIRO_PROFILE:undefined,
@@ -381,9 +379,9 @@ export class ArenaEntity {
   private startAction(kind: ActionKind, dur: number): void {
     this.actionKind = kind;
     this.actionT = this.actionDur = dur;
-    if (this.visualContext !== 'cornicione' && this.visualContext !== 'soccer' && this.visualContext !== 'volley') {
+    if (this.visualContext !== 'cornicione') {
       const name = GOBLIN_ACTIONS[kind];
-      if (name) this.goblinVisual?.playAction(name,dur,kind==='throw'||kind==='pickup'||kind==='absorb');
+      if (name) this.goblinVisual?.playAction(name,dur,kind==='throw'||kind==='pickup'||kind==='absorb'||kind==='kick'||kind==='spike');
     }
   }
 
@@ -508,6 +506,8 @@ export class ArenaEntity {
     return this.goblinVisual?.handle() ?? null;
   }
   goblinPreview(name:string|null,speed=1,loop=false): void { this.goblinVisual?.preview(name,speed,loop); }
+  /** Native scene-specific gesture; render only, procedural fallback stays available. */
+  overrideImportedAnimation(name:string|null,duration?:number,loop=false): void { this.goblinVisual?.overrideAnimation(name,duration,loop); }
   goblinAttachment(key:import('../characters/goblinVisual').GoblinAttachment): Vector3|null { return this.goblinVisual?.attachment(key,true)??null; }
   goblinJointLines(): Vector3[][] { return this.goblinVisual?.jointLines()??[]; }
 
@@ -1283,6 +1283,7 @@ export class ArenaEntity {
       gp.hitFlash = p.hitFlash;
       gp.attack = p.attack;
       gp.ability = p.abilityActive;
+      gp.charge = this.visualContext==='soccer'?this.charge:0;
       gp.result = this.celebration;
       // The procedural lean/squash was tuned for its own rig. Do not add it to authored animation.
       // Keep the imported skin through charging and aerial moves, even without a dedicated clip.

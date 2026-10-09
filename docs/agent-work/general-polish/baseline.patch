@@ -1,0 +1,2769 @@
+diff --git a/dist/index.html b/dist/index.html
+index 8975f06..789e81f 100644
+--- a/dist/index.html
++++ b/dist/index.html
+@@ -19,8 +19,8 @@
+         height: 100%;
+       }
+     </style>
+-    <script type="module" crossorigin src="/assets/main-j4BEQso8.js"></script>
+-    <link rel="modulepreload" crossorigin href="/assets/padTypes-6JsdAksh.js">
++    <script type="module" crossorigin src="/assets/main-fDSInHu_.js"></script>
++    <link rel="modulepreload" crossorigin href="/assets/padTypes-CXSJYIDc.js">
+     <link rel="modulepreload" crossorigin href="/assets/fpsWeapons-B1XNyZXJ.js">
+   </head>
+   <body>
+diff --git a/scripts/buttafuori-animation-selftest.ts b/scripts/buttafuori-animation-selftest.ts
+index 4d8ce94..87b4804 100644
+--- a/scripts/buttafuori-animation-selftest.ts
++++ b/scripts/buttafuori-animation-selftest.ts
+@@ -6,7 +6,7 @@ import { ALL_MOVES } from '../src/minigames/cornicione/fighterData';
+ const base = { speedFrac:0, alive:true, falling:false, dashing:false, stunned:false, grounded:true };
+ let checks=0;
+ const check=(value:boolean,message:string):void=>{assert.ok(value,message);checks++;};
+-check(clips.length===44 && new Set(clips.map(c=>c.original)).size===43,'43 source clips plus explicit stomach alias');
++check(clips.length===55 && new Set(clips.map(c=>c.original)).size===54,'54 source clips plus explicit stomach alias');
+ check(new Set(clips.map(c=>c.name)).size===clips.length,'semantic names unique');
+ for(const c of clips){check(c.from>=0&&c.from<c.to&&c.duration>0,`${c.name}: valid range and duration`);}
+ for(const move of ALL_MOVES){
+diff --git a/scripts/ciro-animation-selftest.ts b/scripts/ciro-animation-selftest.ts
+index 05afdff..b215126 100644
+--- a/scripts/ciro-animation-selftest.ts
++++ b/scripts/ciro-animation-selftest.ts
+@@ -6,7 +6,7 @@ import { ALL_MOVES } from '../src/minigames/cornicione/fighterData';
+ const base = { speedFrac:0, alive:true, falling:false, dashing:false, stunned:false, grounded:true };
+ let checks=0;
+ const check=(value:boolean,message:string):void=>{assert.ok(value,message);checks++;};
+-check(clips.length===46 && new Set(clips.map(c=>c.original)).size===46,'46 distinct original clips');
++check(clips.length===59 && new Set(clips.map(c=>c.original)).size===59,'59 distinct original clips');
+ check(new Set(clips.map(c=>c.name)).size===clips.length,'semantic names unique');
+ for(const c of clips){check(c.from>=0&&c.from<c.to&&c.duration>0,`${c.name}: valid range and duration`);}
+ for(const move of ALL_MOVES){
+diff --git a/scripts/e2e/buttafuori-animated-jump.mjs b/scripts/e2e/buttafuori-animated-jump.mjs
+index 3b181b5..16f474a 100644
+--- a/scripts/e2e/buttafuori-animated-jump.mjs
++++ b/scripts/e2e/buttafuori-animated-jump.mjs
+@@ -54,7 +54,7 @@ try {
+   assert.ok(result.samples.some(s=>s.phase==='descent'&&s.vy<0));
+   assert.ok(result.samples.some(s=>s.phase==='landing'&&s.grounded));
+   for(const s of result.samples){
+-    assert.equal(s.clips,43);assert.equal(s.tracks,195);assert.equal(s.procedural,false);
++    assert.equal(s.clips,54);assert.equal(s.tracks,195);assert.equal(s.procedural,false);
+     assert.equal(s.legacy,false,`${s.phase}: imported body retained`);assert.equal(s.visible,true,`${s.phase}: visible`);
+     assert.ok(s.sameSkeleton&&s.sameMeshes&&s.sameMaterials,`${s.phase}: same rig, mesh and skin`);
+     assert.equal(s.physicsUnchanged,true,`${s.phase}: visual update cannot change physics`);
+diff --git a/scripts/e2e/ciro-contexts.mjs b/scripts/e2e/ciro-contexts.mjs
+index e940696..6b44b63 100644
+--- a/scripts/e2e/ciro-contexts.mjs
++++ b/scripts/e2e/ciro-contexts.mjs
+@@ -48,7 +48,7 @@ try{
+   await p.evaluate(()=>{window.__probe.capture=true;});
+   await p.waitForFunction(()=>window.__probe.rows.length>=35,{timeout:90000});
+   report[`${kind}-${mode}`]=await p.evaluate(()=>window.__probe.rows);
+-  if(mode==='new')await p.screenshot({path:`e2e-shots/man-character/${kind}-5goblins.png`});
++  if(mode==='new')await p.screenshot({path:`docs/agent-work/ciro-animation-update/shots/${kind}-5goblins.png`});
+   if(kind==='dodgeball'&&mode==='new'){
+    report.dodgeball=await p.evaluate(()=>{
+     const {g}=window.__probe;g.setPaused(true);const player=g.players[0],e=g.entities.get(player.id);
+@@ -63,14 +63,14 @@ try{
+    });
+    assert.equal(report.dodgeball.pickup.animator.contactTime,0);assert.equal(report.dodgeball.throw.animator.contactTime,0);
+    assert.equal(report.dodgeball.catch.animator.name,'ciro.ballCatch');assert.ok(report.dodgeball.heldError<1e-5,'held ball follows actual hand while facing is smoothed');
+-   await p.screenshot({path:'e2e-shots/man-character/dodgeball-throw.png'});
++   await p.screenshot({path:'docs/agent-work/ciro-animation-update/shots/dodgeball-throw.png'});
+    await p.evaluate(()=>{const {g}=window.__probe,e=[...g.entities.values()][0];e.playPickup();e.updateVisual(g.players[0],0,performance.now());g.scene.render();});
+-   await p.screenshot({path:'e2e-shots/man-character/dodgeball-pickup.png'});
++   await p.screenshot({path:'docs/agent-work/ciro-animation-update/shots/dodgeball-pickup.png'});
+   }
+   const counters=await p.evaluate(async()=>{const q=window.__probe;q.g.dispose();q.canvas.remove();q.ins.dispose();window.__probe=null;const {goblinVisualCounters}=await import('/src/minigames/characters/goblinVisual.ts');return goblinVisualCounters();});
+   assert.equal(counters.liveInstances,0,`${kind} ${mode} instance disposal`);
+   console.log(`${kind} ${mode}: ${report[`${kind}-${mode}`].length} samples, disposed`);
+  }
+  assert.equal(errors.length,0,errors.join(';'));report.errors=errors;
+- writeFileSync(`docs/agent-work/man-character-pilot/${process.env.GOBLIN_GPU==='1'?'hardware-':''}context-performance.json`,JSON.stringify(report,null,2));
++ writeFileSync(`docs/agent-work/ciro-animation-update/${process.env.GOBLIN_GPU==='1'?'hardware-':''}context-performance.json`,JSON.stringify(report,null,2));
+ }finally{await browser.close();}
+diff --git a/scripts/e2e/ciro-fallback.mjs b/scripts/e2e/ciro-fallback.mjs
+index 01f0ad8..8a2b03d 100644
+--- a/scripts/e2e/ciro-fallback.mjs
++++ b/scripts/e2e/ciro-fallback.mjs
+@@ -8,7 +8,7 @@ try {
+   await page.goto(`${HOST_URL}?debug=1&ciro=new`, { waitUntil: 'load' });
+   await page.waitForSelector('#app canvas');
+   await page.setRequestInterception(true);
+-  page.on('request', req => /man\.glb/.test(req.url()) ? req.abort('failed') : req.continue());
++  page.on('request', req => /man_animated\.glb/.test(req.url()) ? req.abort('failed') : req.continue());
+   await page.evaluate(async () => {
+     const { ArenaEntity } = await import('/src/minigames/arena/arenaEntity.ts');
+     const coreUrl = performance.getEntriesByType('resource').map(e => e.name).find(n => /\/@babylonjs_core\.js\?/.test(n));
+@@ -33,6 +33,6 @@ try {
+   assert.equal(result.imported.state, 'error'); assert.equal(result.imported.bones, 0);
+   assert.ok(result.fallbackVisible && result.hidden && result.restored);
+   assert.equal(errors.length, 0, errors.join(';'));
+-  writeFileSync('docs/agent-work/man-character-pilot/fallback.json', JSON.stringify({ result, errors }, null, 2));
++  writeFileSync('docs/agent-work/ciro-animation-update/fallback.json', JSON.stringify({ result, errors }, null, 2));
+   console.log('Failed import retains functional Legacy body/visibility without gameplay writes: PASS');
+ } finally { await browser.close(); }
+diff --git a/scripts/e2e/ciro-jump.mjs b/scripts/e2e/ciro-jump.mjs
+index 091a1e5..7609074 100644
+--- a/scripts/e2e/ciro-jump.mjs
++++ b/scripts/e2e/ciro-jump.mjs
+@@ -54,7 +54,7 @@ try {
+   assert.ok(result.samples.some(s=>s.phase==='descent'&&s.vy<0));
+   assert.ok(result.samples.some(s=>s.phase==='landing'&&s.grounded));
+   for(const s of result.samples){
+-    assert.equal(s.clips,46);assert.equal(s.tracks,195);assert.equal(s.procedural,false);
++    assert.equal(s.clips,59);assert.equal(s.tracks,195);assert.equal(s.procedural,false);
+     assert.equal(s.legacy,false,`${s.phase}: imported body retained`);assert.equal(s.visible,true,`${s.phase}: visible`);
+     assert.ok(s.sameSkeleton&&s.sameMeshes&&s.sameMaterials,`${s.phase}: same rig, mesh and skin`);
+     assert.equal(s.physicsUnchanged,true,`${s.phase}: visual update cannot change physics`);
+@@ -62,7 +62,7 @@ try {
+   }
+   assert.ok(result.skin.every(s=>s.finite&&s.vertices===29981),'skinned vertices stay finite');
+   assert.equal(errors.length,0,errors.join(';'));
+-  await page.screenshot({path:'e2e-shots/man-character/jump-tripo.png'});
+-  writeFileSync('docs/agent-work/man-character-pilot/jump.json',JSON.stringify({result,errors},null,2));
++  await page.screenshot({path:'docs/agent-work/ciro-animation-update/shots/jump-tripo.png'});
++  writeFileSync('docs/agent-work/ciro-animation-update/jump.json',JSON.stringify({result,errors},null,2));
+   console.log(`Ciro: ${result.samples.length} frames, same Tripo mesh/material/skeleton through jump, double jump, descent, landing and all 14 moves; finite deformed skin; physics untouched: PASS`);
+ }finally{await browser.close();}
+diff --git a/scripts/e2e/ciro-pilot.mjs b/scripts/e2e/ciro-pilot.mjs
+index 9537dd1..ca5cac8 100644
+--- a/scripts/e2e/ciro-pilot.mjs
++++ b/scripts/e2e/ciro-pilot.mjs
+@@ -10,18 +10,18 @@ try {
+   assert.equal(await p.evaluate(async()=>{const {CHARACTER_ORDER}=await import('/shared/characters.ts');return window.__gallery.sample()[CHARACTER_ORDER.indexOf('dottore')];}),null,'Dottore keeps its original body');
+   assert.equal(await p.$('#dottore-new'),null,'no accidental Dottore model selector');
+   assert.ok(await p.$('#ciro-new'),'Ciro selector present');
+-  assert.ok(mixed.some(s=>s.character==='goblin'&&s.clips===36));assert.ok(mixed.some(s=>s.character==='ciro'&&s.clips===46));assert.ok(mixed.some(s=>s.character==='judoka'&&s.clips===37));assert.ok(mixed.some(s=>s.character==='buttafuori'&&s.clips===43));out.mixed=mixed;
++  assert.ok(mixed.some(s=>s.character==='goblin'&&s.clips===52));assert.ok(mixed.some(s=>s.character==='ciro'&&s.clips===59));assert.ok(mixed.some(s=>s.character==='judoka'&&s.clips===49));assert.ok(mixed.some(s=>s.character==='buttafuori'&&s.clips===54));out.mixed=mixed;
+   await p.evaluate(()=>{window.__gallery.setCiroLayout('compare');window.__gallery.setCamera(-Math.PI/2,1.32,6.5);});
+   await p.waitForFunction(()=>window.__gallery.sample().filter(s=>s?.state==='ready').length===1,{timeout:60000});await sleep(700);
+-  await p.screenshot({path:'e2e-shots/man-character/legacy-tripo.png'});
++  await p.screenshot({path:'docs/agent-work/ciro-animation-update/shots/legacy-tripo.png'});
+   const names=await p.evaluate(async()=>{const {CIRO_PROFILE}=await import('/src/minigames/characters/ciroProfile.ts');return CIRO_PROFILE.clips.map(c=>c.name);});
+   out.previews=[];
+   for(const name of names){
+     await p.evaluate(n=>window.__gallery.ciroPreview(n,.5,true),name);
+     await p.waitForFunction(n=>window.__gallery.sample().find(s=>s?.character==='ciro')?.animator?.name===n,{timeout:15000},name);
+     const s=await p.evaluate(()=>window.__gallery.sample().find(s=>s?.character==='ciro'));
+-    if(['idle','run','jump','fall','frontKick','jab','hook','uppercut','roundhouse','heavy','block','victory','defeat','ko'].includes(name.split('.')[1])){await sleep(250);await p.screenshot({path:`e2e-shots/man-character/preview-${name.split('.')[1]}.png`});}
+-    assert.equal(s.procedural,false);assert.equal(s.clips,46);assert.equal(s.bones,65);assert.equal(s.activeTracks,195);assert.ok(Object.values(s.joints).flat().every(Number.isFinite));out.previews.push(s.animator);
++    if(['idle','run','jump','fall','frontKick','jab','hook','uppercut','roundhouse','heavy','block','victory','defeat','ko'].includes(name.split('.')[1])){await sleep(250);await p.screenshot({path:`docs/agent-work/ciro-animation-update/shots/preview-${name.split('.')[1]}.png`});}
++    assert.equal(s.procedural,false);assert.equal(s.clips,59);assert.equal(s.bones,65);assert.equal(s.activeTracks,195);assert.ok(Object.values(s.joints).flat().every(Number.isFinite));out.previews.push(s.animator);
+   }
+   await p.evaluate(()=>{window.__gallery.setCiroLayout(5);window.__gallery.setState('RUN');});
+   await p.waitForFunction(()=>window.__gallery.sample().filter(s=>s?.state==='ready').length===5,{timeout:60000});await sleep(800);
+@@ -43,7 +43,7 @@ try {
+     f.y=0;f.grounded=true;f.vy=0;g.updateVisuals(.016,performance.now());const returnNew=!e.legacyAction;g.scene.render();
+     return {attack,importedJump,returnNew};
+   });assert.equal(out.cornicione.attack.animator.name,'ciro.jab');assert.equal(out.cornicione.importedJump,true);assert.equal(out.cornicione.returnNew,true);
+-  await p.screenshot({path:'e2e-shots/man-character/cornicione.png'});
++  await p.screenshot({path:'docs/agent-work/ciro-animation-update/shots/cornicione.png'});
+   const resultAssets=[];p.on('request',r=>{if(/\.glb(?:\?|$)/.test(r.url()))resultAssets.push(r.url());});
+   await p.goto(`${HOST_URL}?debug=1&ciro=new`,{waitUntil:'load'});
+   await hostEval(p,gm=>{
+@@ -52,11 +52,11 @@ try {
+     gm.game.scene.stop('LobbyScene');gm.game.scene.start('ResultsScene');
+   });
+   await p.waitForFunction(async()=>{const u=performance.getEntriesByType('resource').find(e=>/GameManager\.ts/.test(e.name))?.name;if(!u)return false;const {game:gm}=await import(u);return gm.game.scene.getScene('ResultsScene').children.list.filter(x=>x.type==='Container').flatMap(c=>c.list).filter(x=>x.texture?.key?.startsWith('goblin-results')&&x.visible).length===2;},{timeout:60000});
+-  await sleep(900);await p.keyboard.press('F3');await p.screenshot({path:'e2e-shots/man-character/results.png'});
+-  assert.ok(resultAssets.some(u=>u.endsWith('/models/man-tripo/man.glb')),'results use Ciro asset');
++  await sleep(900);await p.keyboard.press('F3');await p.screenshot({path:'docs/agent-work/ciro-animation-update/shots/results.png'});
++  assert.ok(resultAssets.some(u=>u.endsWith('/models/man-tripo/man_animated.glb')),'results use updated Ciro asset');
+   assert.ok(!resultAssets.some(u=>u.includes('/models/goblin-tripo/')),'results cannot use Goblin default');
+   await hostEval(p,gm=>gm.game.scene.stop('ResultsScene'));
+   const counters=await p.evaluate(async()=>{const m=await import('/src/minigames/characters/goblinVisual.ts');return m.goblinVisualCounters();});assert.equal(counters.liveInstances,0);
+   assert.equal(errors.length,0,errors.join(';'));out.errors=errors;out.counters=counters;
+-  writeFileSync('docs/agent-work/man-character-pilot/integration.json',JSON.stringify(out,null,2));console.log('Ciro: mixed models, all 46 original clip previews, five independent rigs, OLD/NEW, Cornicione timing and imported jump, results and disposal: PASS');
++  writeFileSync('docs/agent-work/ciro-animation-update/integration.json',JSON.stringify(out,null,2));console.log('Ciro: mixed models, all 59 original clip previews, five independent rigs, OLD/NEW, Cornicione timing and imported jump, results and disposal: PASS');
+ }finally{await b.close();}
+diff --git a/scripts/e2e/ciro-production.mjs b/scripts/e2e/ciro-production.mjs
+index 1b5554b..b286751 100644
+--- a/scripts/e2e/ciro-production.mjs
++++ b/scripts/e2e/ciro-production.mjs
+@@ -1,6 +1,7 @@
+ import assert from 'node:assert/strict';
+ import { writeFileSync } from 'node:fs';
+-import { launch, sleep } from './lib.mjs';
++process.env.CTRL_URL=process.env.PROD_CTRL??'http://localhost:3001/controller.html';
++const { launch, sleep, addPhone } = await import('./lib.mjs');
+ 
+ const origin=process.env.PROD_HOST??'http://localhost:3001/';
+ const browser=await launch();
+@@ -19,10 +20,34 @@ try {
+     assert.equal(state.gallery,false);assert.equal(state.debug,false);assert.equal(models.length,0);
+     rows.push({query,...state,models});
+   }
+-  await page.goto(origin+'?characters=1&ciro=new&debug=1',{waitUntil:'load'});
++  const context=await browser.createBrowserContext(),host=await context.newPage();
++  let state=null;const downloads=[];
++  host.on('pageerror',e=>errors.push(String(e)));
++  host.on('response',r=>{if(r.url().endsWith('/models/man-tripo/man_animated.glb'))downloads.push({url:r.url(),status:r.status()});});
++  const cdp=await host.createCDPSession();await cdp.send('Network.enable');
++  cdp.on('Network.webSocketFrameReceived',({response})=>{
++    const raw=response.payloadData??'';if(!raw.startsWith('42'))return;
++    try{const [event,data]=JSON.parse(raw.slice(2));if(event==='room:state')state=data;}catch{}
++  });
++  const until=async(fn,what,ms=60000)=>{const start=Date.now();while(Date.now()-start<ms){if(await fn())return;await sleep(120);}throw new Error(`Timeout ${what}`);};
++  await host.goto(origin,{waitUntil:'load'});await host.waitForSelector('#app canvas');await sleep(1600);
++  await host.keyboard.press('Enter');await until(()=>state?.roomCode,'normal room');
++  const ciro=await addPhone(browser,state.roomCode,'Ciro',4),carbo=await addPhone(browser,state.roomCode,'Carbo',3);
++  for(const p of [ciro,carbo])p.page.on('pageerror',e=>errors.push(String(e)));
++  await until(()=>state.players.length===2&&state.players.every(p=>p.ready),'two ready phones');
++  await host.keyboard.press('ArrowLeft');await sleep(180);await host.keyboard.press('Enter');
++  await until(()=>state.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='casacarbo','normal Casa Carbo');
++  await until(()=>downloads.some(r=>r.status===200),'new Ciro default model');
++  await ciro.page.waitForFunction(()=>document.querySelector('h1')?.textContent.includes('CASA CARBO'));
++  await sleep(5000);
++  await host.screenshot({path:'docs/agent-work/ciro-animation-update/shots/production-casacarbo.png'});
++  const normalGame={players:state.players.map(p=>({name:p.displayName,character:p.characterId})),game:state.currentMinigame.minigameId,downloads};
++  assert.equal(await host.evaluate(()=>!!window.__casacarbo),false,'no DEV hook in normal production');
++  await host.close();
++  await page.goto(origin+'?characters=1&ciro=new&goblin=old&judoka=old&buttafuori=old&debug=1',{waitUntil:'load'});
+   await page.waitForFunction(()=>window.__gallery?.sample().some(s=>s?.state==='ready'),{timeout:60000});
+   const imported=await page.evaluate(()=>window.__gallery.sample().find(s=>s?.state==='ready'));
+-  assert.equal(imported.clips,46);assert.equal(imported.bones,65);
++  assert.equal(imported.clips,59);assert.equal(imported.bones,65);
+   const association=await page.evaluate(()=>({
+     characters:window.__gallery.sample().filter(Boolean).map(s=>s.character),
+     ciroSelector:!!document.querySelector('#ciro-new'),
+@@ -35,6 +60,6 @@ try {
+   await page.evaluate(()=>window.__gallery.setCiro('new'));
+   await page.waitForFunction(()=>window.__gallery.sample().some(s=>s?.state==='ready'),{timeout:60000});
+   assert.equal(errors.length,0,errors.join(';'));
+-  writeFileSync('docs/agent-work/man-character-pilot/production.json',JSON.stringify({origin,rows,imported,association,oldNewToggle:true,errors},null,2));
+-  console.log('Production: normal Legacy gate, no GLB download; explicit debug imports 65 bones / 46 embedded clips; OLD/NEW switch works; no page errors: PASS');
++  writeFileSync('docs/agent-work/ciro-animation-update/production.json',JSON.stringify({origin,rows,normalGame,imported,association,oldNewToggle:true,errors},null,2));
++  console.log('Production: normal Casa Carbo with Ciro/Carbo and default new asset HTTP 200; Gallery 65 bones / 59 clips; OLD/NEW works; no page errors: PASS');
+ } finally {await browser.close();}
+diff --git a/scripts/goblin-animation-selftest.ts b/scripts/goblin-animation-selftest.ts
+index df3a712..894c3fd 100644
+--- a/scripts/goblin-animation-selftest.ts
++++ b/scripts/goblin-animation-selftest.ts
+@@ -4,8 +4,8 @@ import { ALL_MOVES, followMove } from '../src/minigames/cornicione/fighterData';
+ const base={speedFrac:0,alive:true,falling:false,dashing:false,stunned:false,grounded:true};
+ let checks=0;
+ const check=(c:boolean,message:string)=>{assert.ok(c,message);checks++;};
+-check(GOBLIN_CLIPS.length===28,'28 explicitly mapped clips');
+-check(!GOBLIN_CLIPS.some(c=>c.index===22),'wrong soccer clip cannot be requested');
++check(GOBLIN_CLIPS.length===52,'52 native clips available for preview');
++check(!Object.values(GOBLIN_MOVES).some(name=>name.includes('Candidate')),'preview candidates cannot replace gameplay moves');
+ for(const c of GOBLIN_CLIPS){check(c.from<c.to&&c.from>=0,`${c.name}: range`);check(c.duration>0,`${c.name}: duration`);}
+ for(const move of [...ALL_MOVES,followMove(9)]){
+   const before=JSON.stringify(move),c=clipOf(GOBLIN_MOVES[move.id])!;
+diff --git a/src/minigames/arena/arenaEntity.ts b/src/minigames/arena/arenaEntity.ts
+index 5b1b99f..ef5b2c3 100644
+--- a/src/minigames/arena/arenaEntity.ts
++++ b/src/minigames/arena/arenaEntity.ts
+@@ -508,6 +508,8 @@ export class ArenaEntity {
+     return this.goblinVisual?.handle() ?? null;
+   }
+   goblinPreview(name:string|null,speed=1,loop=false): void { this.goblinVisual?.preview(name,speed,loop); }
++  /** Native scene-specific gesture; render only, procedural fallback stays available. */
++  overrideImportedAnimation(name:string|null,duration?:number,loop=false): void { this.goblinVisual?.overrideAnimation(name,duration,loop); }
+   goblinAttachment(key:import('../characters/goblinVisual').GoblinAttachment): Vector3|null { return this.goblinVisual?.attachment(key,true)??null; }
+   goblinJointLines(): Vector3[][] { return this.goblinVisual?.jointLines()??[]; }
+ 
+diff --git a/src/minigames/casaCarbo/CasaCarboGame.ts b/src/minigames/casaCarbo/CasaCarboGame.ts
+index 95be3df..f3e2c9f 100644
+--- a/src/minigames/casaCarbo/CasaCarboGame.ts
++++ b/src/minigames/casaCarbo/CasaCarboGame.ts
+@@ -1,4 +1,4 @@
+-import { ArcRotateCamera, Color3, DynamicTexture, Engine, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
++import { ArcRotateCamera, Color3, DynamicTexture, Engine, Matrix, Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
+ import type { PlayerId, PlayerResult } from '../../../shared/types';
+ import type { MinigameContext } from '../types';
+ import { AB } from '../../../shared/abilityCatalog';
+@@ -22,6 +22,7 @@ import { DOORS, DRAINS, TV_POINT, toWorldX, toWorldZ } from './mapData';
+ import { buildCasaCarboEnvironment } from './casaCarboEnvironment';
+ import { CasaCarboHud } from './casaCarboHud';
+ import { contribution, drainedOf, titles } from './scoring';
++import { CasaCarboAnimation, hasCasaCarboAnimations } from './casaCarboAnimation';
+ 
+ const COUNTDOWN_S = 3.2;
+ const ENDING_S = 6.5;
+@@ -103,6 +104,7 @@ export class CasaCarboGame {
+   private entities = new Map<PlayerId, ArenaEntity>();
+   private buckets = new Map<PlayerId, Mesh>();
+   private squeegees = new Map<PlayerId, Mesh>();
++  private characterAnimations = new Map<PlayerId, CasaCarboAnimation>();
+   private doorLabels = new Map<string, Label>();
+   private drainLabels = new Map<string, Label>();
+   private tvLabel: Label;
+@@ -177,6 +179,7 @@ export class CasaCarboGame {
+       const e = new ArenaEntity(this.scene, dotTex, snap.color, snap.characterId, snap.avatar, snap.displayName, null, { context: 'casacarbo' });
+       e.setSizeMul(SIZE);
+       this.entities.set(snap.id, e);
++      if (hasCasaCarboAnimations(snap.characterId)) this.characterAnimations.set(snap.id,new CasaCarboAnimation(snap.characterId));
+       this.names.set(snap.id, snap.displayName);
+       this.colors.set(snap.id, snap.color);
+       this.chars.set(snap.id, snap.characterId ?? 'goblin');
+@@ -402,6 +405,10 @@ export class CasaCarboGame {
+         break;
+       case 'drain': {
+         const p = this.player(e.id);
++        if(e.via==='bucket' && this.characterAnimations.has(e.id)) {
++          this.characterAnimations.get(e.id)!.emptyBucket();
++          this.entities.get(e.id)?.overrideImportedAnimation(null); // each actual pour starts a new visual gesture
++        }
+         if (p) {
+           this.hud.feedMessage(`💧 ${this.label(e.id)} +${Math.round(e.amount * 10) / 10} (${DRAIN_NAME[e.drain]})`, '#93c5fd', 1400);
+           audio.pickupPop(this.pan(p.x));
+@@ -480,9 +487,11 @@ export class CasaCarboGame {
+     const ent = this.entities.get(e.id);
+     switch (e.a) {
+       case 'goblin_windup':
++        this.characterAnimations.get(e.id)?.showExistingAbility(AB.casacarbo.goblin.p.windup);
+         ent?.playMove('smashWind', AB.casacarbo.goblin.p.windup);
+         break;
+       case 'goblin_wave':
++        this.characterAnimations.get(e.id)?.showExistingAbility(.4);
+         ent?.playMove('smash', 0.4);
+         this.hud.announce("N'CULO, MO ASCIUGO IO!", (e.amount ?? 0) > 3 ? 'ONDA!' : 'ONDA... A VUOTO', '#10b981', 1300, 50);
+         audio.smash();
+@@ -502,6 +511,7 @@ export class CasaCarboGame {
+         this.hud.feedMessage(`💡 ${who}: M'HO SVEJATO... ma non arriva niente`, '#9ca3af', 1800);
+         break;
+       case 'carbo_dam':
++        this.characterAnimations.get(e.id)?.buildBarrier();
+         this.hud.announce('NO, ASPETTA!', `${who} FA UNA DIGA`, '#f59e0b', 1300, 56);
+         audio.thump(0.5);
+         break;
+@@ -531,6 +541,11 @@ export class CasaCarboGame {
+     for (const p of this.world.players) {
+       const ent = this.entities.get(p.id);
+       if (!ent) continue;
++      const animator=this.characterAnimations.get(p.id);
++      if(animator) {
++        const pose=this.phase==='playing'?animator.update(dt,p):null;
++        ent.overrideImportedAnimation(pose?.name??null,pose?.duration,pose?.loop??false);
++      }
+       const vis: VisualSubject = {
+         x: toWorldX(p.x),
+         y: 0,
+@@ -552,6 +567,14 @@ export class CasaCarboGame {
+       this.squeegees.get(p.id)!.isVisible = p.squeegee;
+       const b = this.buckets.get(p.id)!;
+       b.scaling.setAll(p.ab.bigBucket ? 1.35 : 1);
++      if(animator) {
++        const hand=ent.goblinAttachment('RIGHT_HAND');
++        if(hand) {
++          const local=Vector3.TransformCoordinates(hand,Matrix.Invert(ent.root.computeWorldMatrix(true)));
++          const halfHeight=.19*b.scaling.y;
++          b.position.set(local.x,Math.max(halfHeight,local.y-halfHeight),local.z+.07);
++        }
++      }
+     }
+     if (this.neighbor) {
+       this.neighbor.updateVisual({ x: toWorldX(847), y: 0, z: toWorldZ(118), vx: 0, vz: 0, facing: Math.PI, alive: true, falling: false, spin: 0, dashing: false, stunTime: 0, hitFlash: 0 }, dt, now);
+diff --git a/src/minigames/characters/buttafuoriClips.json b/src/minigames/characters/buttafuoriClips.json
+index 20ff8ef..aad3eb3 100644
+--- a/src/minigames/characters/buttafuoriClips.json
++++ b/src/minigames/characters/buttafuoriClips.json
+@@ -15,7 +15,7 @@
+   },
+   {
+     "name": "buttafuori.hitHead",
+-    "index": 1,
++    "index": 2,
+     "original": "hit_to_head.001",
+     "originalDuration": 1.833333,
+     "from": 0.0417,
+@@ -29,7 +29,7 @@
+   },
+   {
+     "name": "buttafuori.hitSide",
+-    "index": 2,
++    "index": 4,
+     "original": "hit_to_side.001",
+     "originalDuration": 1.25,
+     "from": 0.0833,
+@@ -43,7 +43,7 @@
+   },
+   {
+     "name": "buttafuori.soccerKickCandidate",
+-    "index": 3,
++    "index": 5,
+     "original": "Stylized competitive soccer kick animation.\n\nThe character star",
+     "originalDuration": 2.958333,
+     "from": 0.0417,
+@@ -57,7 +57,7 @@
+   },
+   {
+     "name": "buttafuori.ballCatch",
+-    "index": 4,
++    "index": 6,
+     "original": "Stylized competitive dodgeball catch animation.\n\nThe character ",
+     "originalDuration": 2.958333,
+     "from": 0.6667,
+@@ -71,7 +71,7 @@
+   },
+   {
+     "name": "buttafuori.frontKick2",
+-    "index": 5,
++    "index": 7,
+     "original": "front_kick_02.001",
+     "originalDuration": 1.375,
+     "from": 0.0417,
+@@ -85,7 +85,7 @@
+   },
+   {
+     "name": "buttafuori.cry",
+-    "index": 6,
++    "index": 8,
+     "original": "cry.001",
+     "originalDuration": 7.875,
+     "from": 0.3333,
+@@ -99,7 +99,7 @@
+   },
+   {
+     "name": "buttafuori.genericPunch",
+-    "index": 7,
++    "index": 9,
+     "original": "punch.001",
+     "originalDuration": 4.958333,
+     "from": 1.0417,
+@@ -113,7 +113,7 @@
+   },
+   {
+     "name": "buttafuori.frontKick",
+-    "index": 8,
++    "index": 11,
+     "original": "Stylized fighting game front kick animation.\n\nThe character sta",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -127,7 +127,7 @@
+   },
+   {
+     "name": "buttafuori.jab",
+-    "index": 9,
++    "index": 12,
+     "original": "Fast stylized fighting game jab punch animation.\n\nThe character",
+     "originalDuration": 2.958333,
+     "from": 0.5,
+@@ -141,7 +141,7 @@
+   },
+   {
+     "name": "buttafuori.royalStrike",
+-    "index": 10,
++    "index": 15,
+     "original": "Side-view fighting game attack animation.\n\nA powerful regal mal",
+     "originalDuration": 4.958333,
+     "from": 0.2083,
+@@ -155,7 +155,7 @@
+   },
+   {
+     "name": "buttafuori.boxing1",
+-    "index": 11,
++    "index": 16,
+     "original": "box_01.001",
+     "originalDuration": 2.208333,
+     "from": 0.125,
+@@ -169,7 +169,7 @@
+   },
+   {
+     "name": "buttafuori.hook",
+-    "index": 12,
++    "index": 17,
+     "original": "Stylized fighting game hook punch animation.\n\nThe character sta",
+     "originalDuration": 2.958333,
+     "from": 0.5,
+@@ -183,7 +183,7 @@
+   },
+   {
+     "name": "buttafuori.hitBodyA",
+-    "index": 13,
++    "index": 18,
+     "original": "hit_to_body_01.001",
+     "originalDuration": 1.291667,
+     "from": 0.0417,
+@@ -197,7 +197,7 @@
+   },
+   {
+     "name": "buttafuori.fall",
+-    "index": 14,
++    "index": 19,
+     "original": "fall.001",
+     "originalDuration": 3.0,
+     "from": 0.25,
+@@ -211,7 +211,7 @@
+   },
+   {
+     "name": "buttafuori.dodge",
+-    "index": 15,
++    "index": 20,
+     "original": "Fast stylized fighting game dodge animation.\n\nThe character sta",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -225,7 +225,7 @@
+   },
+   {
+     "name": "buttafuori.boxing3",
+-    "index": 16,
++    "index": 21,
+     "original": "box_03.001",
+     "originalDuration": 2.541667,
+     "from": 0.25,
+@@ -239,7 +239,7 @@
+   },
+   {
+     "name": "buttafuori.walk",
+-    "index": 17,
++    "index": 25,
+     "original": "walk.001",
+     "originalDuration": 2.333333,
+     "from": 0.0416666679084301,
+@@ -253,7 +253,7 @@
+   },
+   {
+     "name": "buttafuori.victory",
+-    "index": 18,
++    "index": 26,
+     "original": "Stylized videogame victory celebration for a competitive athlet",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -267,7 +267,7 @@
+   },
+   {
+     "name": "buttafuori.zeusStrike",
+-    "index": 19,
++    "index": 27,
+     "original": "ANTICIPATION\n\nZeus shifts slightly into the strike.\nRight shoul",
+     "originalDuration": 2.958333,
+     "from": 0.125,
+@@ -281,7 +281,7 @@
+   },
+   {
+     "name": "buttafuori.frontKick1",
+-    "index": 20,
++    "index": 28,
+     "original": "front_kick_01.001",
+     "originalDuration": 2.5,
+     "from": 0.0833,
+@@ -295,7 +295,7 @@
+   },
+   {
+     "name": "buttafuori.uppercut",
+-    "index": 21,
++    "index": 29,
+     "original": "Stylized fighting game uppercut animation.\n\nThe character start",
+     "originalDuration": 2.958333,
+     "from": 0.0833,
+@@ -309,7 +309,7 @@
+   },
+   {
+     "name": "buttafuori.defeat",
+-    "index": 22,
++    "index": 30,
+     "original": "Stylized videogame defeat animation for a competitive athletic ",
+     "originalDuration": 2.958333,
+     "from": 0.0417,
+@@ -323,7 +323,7 @@
+   },
+   {
+     "name": "buttafuori.ko",
+-    "index": 23,
++    "index": 31,
+     "original": "Stylized fighting game knockout animation.\n\nThe character recei",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -337,7 +337,7 @@
+   },
+   {
+     "name": "buttafuori.run",
+-    "index": 24,
++    "index": 32,
+     "original": "run.001",
+     "originalDuration": 1.25,
+     "from": 0.0416666679084301,
+@@ -351,7 +351,7 @@
+   },
+   {
+     "name": "buttafuori.hitBodyB",
+-    "index": 25,
++    "index": 34,
+     "original": "hit_to_body_02.001",
+     "originalDuration": 1.708333,
+     "from": 0.125,
+@@ -365,7 +365,7 @@
+   },
+   {
+     "name": "buttafuori.soccerLegsCandidate",
+-    "index": 26,
++    "index": 35,
+     "original": "SOCCER BALL KICK ANIMATION \u2014 LEGS ONLY.\n\nCreate a clear assoc",
+     "originalDuration": 2.958333,
+     "from": 0.5,
+@@ -379,7 +379,7 @@
+   },
+   {
+     "name": "buttafuori.footballSave",
+-    "index": 27,
++    "index": 36,
+     "original": "football_save.001",
+     "originalDuration": 3.291667,
+     "from": 0.125,
+@@ -393,7 +393,7 @@
+   },
+   {
+     "name": "buttafuori.soccerPowerCandidate",
+-    "index": 28,
++    "index": 37,
+     "original": "Stylized competitive soccer power shot animation.\n\nThe characte",
+     "originalDuration": 2.958333,
+     "from": 0.75,
+@@ -407,7 +407,7 @@
+   },
+   {
+     "name": "buttafuori.heartPose",
+-    "index": 29,
++    "index": 38,
+     "original": "heart_pose.001",
+     "originalDuration": 5.375,
+     "from": 0.4583,
+@@ -421,7 +421,7 @@
+   },
+   {
+     "name": "buttafuori.boxing2",
+-    "index": 30,
++    "index": 39,
+     "original": "box_02.001",
+     "originalDuration": 2.791667,
+     "from": 0.3333,
+@@ -435,7 +435,7 @@
+   },
+   {
+     "name": "buttafuori.idle",
+-    "index": 31,
++    "index": 40,
+     "original": "idle.001",
+     "originalDuration": 15.333333,
+     "from": 0.0416666679084301,
+@@ -449,7 +449,7 @@
+   },
+   {
+     "name": "buttafuori.jump",
+-    "index": 32,
++    "index": 41,
+     "original": "jump.001",
+     "originalDuration": 2.208333,
+     "from": 0.041667,
+@@ -463,7 +463,7 @@
+   },
+   {
+     "name": "buttafuori.grab",
+-    "index": 33,
++    "index": 42,
+     "original": "Stylized fighting game grab animation.\n\nThe character starts fr",
+     "originalDuration": 2.958333,
+     "from": 0.7917,
+@@ -477,7 +477,7 @@
+   },
+   {
+     "name": "buttafuori.ballThrow",
+-    "index": 34,
++    "index": 43,
+     "original": "Stylized competitive dodgeball overhand throw animation.\n\nThe c",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -491,7 +491,7 @@
+   },
+   {
+     "name": "buttafuori.dash",
+-    "index": 35,
++    "index": 44,
+     "original": "Fast stylized fighting game forward dash animation.\n\nThe charac",
+     "originalDuration": 2.958333,
+     "from": 0.5833,
+@@ -505,7 +505,7 @@
+   },
+   {
+     "name": "buttafuori.pickup",
+-    "index": 36,
++    "index": 45,
+     "original": "Stylized videogame object pickup animation.\n\nThe character star",
+     "originalDuration": 2.958333,
+     "from": 0.2917,
+@@ -519,7 +519,7 @@
+   },
+   {
+     "name": "buttafuori.roundhouse",
+-    "index": 37,
++    "index": 47,
+     "original": "Stylized fighting game roundhouse kick animation.\n\nThe characte",
+     "originalDuration": 2.958333,
+     "from": 0.7917,
+@@ -533,7 +533,7 @@
+   },
+   {
+     "name": "buttafuori.judoThrow",
+-    "index": 38,
++    "index": 48,
+     "original": "Stylized fighting game judo throw animation.\n\nThe character beg",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -547,7 +547,7 @@
+   },
+   {
+     "name": "buttafuori.knockback",
+-    "index": 39,
++    "index": 50,
+     "original": "Stylized fighting game heavy knockback animation.\n\nThe characte",
+     "originalDuration": 2.958333,
+     "from": 0.0833,
+@@ -561,7 +561,7 @@
+   },
+   {
+     "name": "buttafuori.heavy",
+-    "index": 40,
++    "index": 51,
+     "original": "Powerful stylized fighting game heavy haymaker punch animation.",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -575,7 +575,7 @@
+   },
+   {
+     "name": "buttafuori.block",
+-    "index": 41,
++    "index": 52,
+     "original": "Stylized fighting game defensive block and counter stance anima",
+     "originalDuration": 2.958333,
+     "from": 0.375,
+@@ -589,7 +589,7 @@
+   },
+   {
+     "name": "buttafuori.footballCatch",
+-    "index": 42,
++    "index": 53,
+     "original": "football_catch.001",
+     "originalDuration": 3.458333,
+     "from": 0.1667,
+@@ -603,7 +603,7 @@
+   },
+   {
+     "name": "buttafuori.hitStomach",
+-    "index": 25,
++    "index": 34,
+     "original": "hit_to_body_02.001",
+     "originalDuration": 1.708333,
+     "from": 0.125,
+@@ -614,5 +614,159 @@
+     "loop": false,
+     "fps": 60,
+     "contactVerified": false
++  },
++  {
++    "name": "buttafuori.interactionA",
++    "index": 1,
++    "original": "A cartoon humanoid character interacting with an imaginary obje",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "buttafuori.slip",
++    "index": 3,
++    "original": "A funny cartoon humanoid character suddenly slipping on a wet f",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "buttafuori.bucketWalk",
++    "index": 10,
++    "original": "A seamless looping in-place walking animation of a cartoon huma",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "buttafuori.getUp",
++    "index": 13,
++    "original": "A funny cartoon humanoid character getting up from lying on his",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "buttafuori.squeegee",
++    "index": 14,
++    "original": "A seamless looping animation of a cartoon humanoid character pu",
++    "originalDuration": 4.958333333333333,
++    "from": 0.041666666666666664,
++    "to": 5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 4.958333333333333,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "buttafuori.scoopA",
++    "index": 22,
++    "original": "A cartoon humanoid character collecting water from the floor us",
++    "originalDuration": 4.958333333333333,
++    "from": 0.041666666666666664,
++    "to": 5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 4.958333333333333,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "buttafuori.fallBackward",
++    "index": 23,
++    "original": "A cartoon humanoid character loses balance and falls backward o",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "buttafuori.scoopB",
++    "index": 24,
++    "original": "A cartoon humanoid character collecting water from the floo.001",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "buttafuori.bucketEmpty",
++    "index": 33,
++    "original": "A cartoon humanoid character emptying an imaginary bucket of wa",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "buttafuori.floodBlock",
++    "index": 46,
++    "original": "A bulky cartoon humanoid character firmly blocking an imaginary",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "buttafuori.interactionB",
++    "index": 49,
++    "original": "A cartoon humanoid character interacting with an imaginary .001",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
+   }
+-]
+\ No newline at end of file
++]
+diff --git a/src/minigames/characters/buttafuoriProfile.ts b/src/minigames/characters/buttafuoriProfile.ts
+index fd8dee5..bd55a9f 100644
+--- a/src/minigames/characters/buttafuoriProfile.ts
++++ b/src/minigames/characters/buttafuoriProfile.ts
+@@ -1,6 +1,6 @@
+ import clips from './buttafuoriClips.json';
+ import type { ImportedCharacterProfile } from './goblinVisual';
+-/** Same original geometry/textures, 65 bones and 43 authored embedded clips. */
++/** Original geometry/textures, 65 bones and 54 authored embedded clips. Previous export retained. */
+ export const BUTTAFUORI_PROFILE: ImportedCharacterProfile = {
+-  namespace: 'buttafuori', url: '/models/detailed-tripo/detailed_character_animated.glb', clips
++  namespace: 'buttafuori', url: '/models/detailed-tripo/detailed_character_casacarbo.glb', clips
+ };
+diff --git a/src/minigames/characters/ciroClips.json b/src/minigames/characters/ciroClips.json
+index 88867e6..4a1c8bc 100644
+--- a/src/minigames/characters/ciroClips.json
++++ b/src/minigames/characters/ciroClips.json
+@@ -5,7 +5,7 @@
+     "original": "Stylized competitive soccer kick animation.\n\nThe character star",
+     "originalDuration": 2.958333,
+     "from": 0.0417,
+-    "to": 3.0,
++    "to": 3,
+     "contact": 2.3333,
+     "lowContact": null,
+     "duration": 2.9583,
+@@ -56,8 +56,22 @@
+     "contactVerified": false
+   },
+   {
+-    "name": "ciro.uppercut",
++    "name": "ciro.interactionA",
+     "index": 4,
++    "original": "A cartoon humanoid character interacting with an imaginary obje",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "ciro.uppercut",
++    "index": 5,
+     "original": "Stylized fighting game uppercut animation.\n\nThe character start",
+     "originalDuration": 2.958333,
+     "from": 0.0833,
+@@ -71,21 +85,21 @@
+   },
+   {
+     "name": "ciro.block",
+-    "index": 5,
++    "index": 6,
+     "original": "Stylized fighting game defensive block and counter stance anima",
+     "originalDuration": 2.958333,
+     "from": 0.375,
+     "to": 2.375,
+     "contact": 0.5833,
+     "lowContact": null,
+-    "duration": 2.0,
++    "duration": 2,
+     "loop": false,
+     "fps": 60,
+     "contactVerified": false
+   },
+   {
+     "name": "ciro.royalStrike",
+-    "index": 6,
++    "index": 7,
+     "original": "Side-view fighting game attack animation.\n\nA powerful regal mal",
+     "originalDuration": 4.958333,
+     "from": 0.2083,
+@@ -97,9 +111,23 @@
+     "fps": 60,
+     "contactVerified": false
+   },
++  {
++    "name": "ciro.floodBlock",
++    "index": 8,
++    "original": "A bulky cartoon humanoid character firmly blocking an imaginary",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
+   {
+     "name": "ciro.hitBodyB",
+-    "index": 7,
++    "index": 9,
+     "original": "hit_to_body_02.001",
+     "originalDuration": 1.708333,
+     "from": 0.125,
+@@ -113,7 +141,7 @@
+   },
+   {
+     "name": "ciro.hitSide",
+-    "index": 8,
++    "index": 10,
+     "original": "hit_to_side.001",
+     "originalDuration": 1.25,
+     "from": 0.0833,
+@@ -127,7 +155,7 @@
+   },
+   {
+     "name": "ciro.boxing2",
+-    "index": 9,
++    "index": 11,
+     "original": "box_02.001",
+     "originalDuration": 2.791667,
+     "from": 0.3333,
+@@ -141,7 +169,7 @@
+   },
+   {
+     "name": "ciro.hitStomach",
+-    "index": 10,
++    "index": 12,
+     "original": "hit_to_stomach.001",
+     "originalDuration": 1.541667,
+     "from": 0.0417,
+@@ -155,7 +183,7 @@
+   },
+   {
+     "name": "ciro.ballThrow",
+-    "index": 11,
++    "index": 13,
+     "original": "Stylized competitive dodgeball overhand throw animation.\n\nThe c",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -169,12 +197,12 @@
+   },
+   {
+     "name": "ciro.frontKick1",
+-    "index": 12,
++    "index": 14,
+     "original": "front_kick_01.001",
+     "originalDuration": 2.5,
+     "from": 0.0833,
+     "to": 2.5417,
+-    "contact": 1.0,
++    "contact": 1,
+     "lowContact": null,
+     "duration": 2.4584,
+     "loop": false,
+@@ -183,7 +211,7 @@
+   },
+   {
+     "name": "ciro.knockback",
+-    "index": 13,
++    "index": 15,
+     "original": "Stylized fighting game heavy knockback animation.\n\nThe characte",
+     "originalDuration": 2.958333,
+     "from": 0.0833,
+@@ -197,9 +225,9 @@
+   },
+   {
+     "name": "ciro.wait",
+-    "index": 14,
++    "index": 16,
+     "original": "wait.001",
+-    "originalDuration": 6.0,
++    "originalDuration": 6,
+     "from": 0.125,
+     "to": 5.25,
+     "contact": null,
+@@ -211,21 +239,35 @@
+   },
+   {
+     "name": "ciro.jab",
+-    "index": 15,
++    "index": 17,
+     "original": "Fast stylized fighting game jab punch animation.\n\nThe character",
+     "originalDuration": 2.958333,
+     "from": 0.5,
+     "to": 2.25,
+-    "contact": 1.0,
++    "contact": 1,
+     "lowContact": null,
+     "duration": 0.23,
+     "loop": false,
+     "fps": 60,
+     "contactVerified": false
+   },
++  {
++    "name": "ciro.scoopA",
++    "index": 18,
++    "original": "A cartoon humanoid character collecting water from the floor us",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
+   {
+     "name": "ciro.heavy",
+-    "index": 16,
++    "index": 19,
+     "original": "Powerful stylized fighting game heavy haymaker punch animation.",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -239,7 +281,7 @@
+   },
+   {
+     "name": "ciro.boxing1",
+-    "index": 17,
++    "index": 20,
+     "original": "box_01.001",
+     "originalDuration": 2.208333,
+     "from": 0.125,
+@@ -253,7 +295,7 @@
+   },
+   {
+     "name": "ciro.boxing3",
+-    "index": 18,
++    "index": 21,
+     "original": "box_03.001",
+     "originalDuration": 2.541667,
+     "from": 0.25,
+@@ -267,7 +309,7 @@
+   },
+   {
+     "name": "ciro.soccerInstepCandidate",
+-    "index": 19,
++    "index": 22,
+     "original": "PURE SOCCER INSTep KICK ANIMATION.\n\nCreate a realistic stylized",
+     "originalDuration": 2.958333,
+     "from": 0.4167,
+@@ -281,7 +323,7 @@
+   },
+   {
+     "name": "ciro.frontKick",
+-    "index": 20,
++    "index": 23,
+     "original": "Stylized fighting game front kick animation.\n\nThe character sta",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -293,23 +335,93 @@
+     "fps": 60,
+     "contactVerified": false
+   },
++  {
++    "name": "ciro.bucketWalk",
++    "index": 24,
++    "original": "A seamless looping in-place walking animation of a cartoon huma",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
+   {
+     "name": "ciro.footballCatch",
+-    "index": 21,
++    "index": 25,
+     "original": "football_catch.001",
+     "originalDuration": 3.458333,
+     "from": 0.1667,
+     "to": 3.1667,
+     "contact": null,
+     "lowContact": null,
+-    "duration": 3.0,
++    "duration": 3,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "ciro.scoopB",
++    "index": 26,
++    "original": "A cartoon humanoid character collecting water from the floo.001",
++    "originalDuration": 4.958333333333333,
++    "from": 0.041666666666666664,
++    "to": 5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 4.958333333333333,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "ciro.floodBarrier",
++    "index": 27,
++    "original": "A cartoon humanoid character quickly building an improvised flo",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "ciro.bucketEmpty",
++    "index": 28,
++    "original": "A cartoon humanoid character emptying an imaginary bucket of wa",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "ciro.getUp",
++    "index": 29,
++    "original": "A funny cartoon humanoid character getting up from lying on his",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
+     "loop": false,
+     "fps": 60,
+     "contactVerified": false
+   },
+   {
+     "name": "ciro.frightened",
+-    "index": 22,
++    "index": 30,
+     "original": "frightened.001",
+     "originalDuration": 3.375,
+     "from": 0.0417,
+@@ -323,7 +435,7 @@
+   },
+   {
+     "name": "ciro.ballCatch",
+-    "index": 23,
++    "index": 31,
+     "original": "Stylized competitive dodgeball catch animation.\n\nThe character ",
+     "originalDuration": 2.958333,
+     "from": 0.6667,
+@@ -337,7 +449,7 @@
+   },
+   {
+     "name": "ciro.hitHead",
+-    "index": 24,
++    "index": 32,
+     "original": "hit_to_head.001",
+     "originalDuration": 1.833333,
+     "from": 0.0417,
+@@ -349,9 +461,23 @@
+     "fps": 60,
+     "contactVerified": false
+   },
++  {
++    "name": "ciro.squeegee",
++    "index": 33,
++    "original": "A seamless looping animation of a cartoon humanoid character pu",
++    "originalDuration": 4.958333333333333,
++    "from": 0.041666666666666664,
++    "to": 5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 4.958333333333333,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
+   {
+     "name": "ciro.defeat",
+-    "index": 25,
++    "index": 34,
+     "original": "Stylized videogame defeat animation for a competitive athletic ",
+     "originalDuration": 2.958333,
+     "from": 0.0417,
+@@ -365,7 +491,7 @@
+   },
+   {
+     "name": "ciro.hitBodyA",
+-    "index": 26,
++    "index": 35,
+     "original": "hit_to_body_01.001",
+     "originalDuration": 1.291667,
+     "from": 0.0417,
+@@ -379,7 +505,7 @@
+   },
+   {
+     "name": "ciro.victory",
+-    "index": 27,
++    "index": 36,
+     "original": "Stylized videogame victory celebration for a competitive athlet",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -393,7 +519,7 @@
+   },
+   {
+     "name": "ciro.roundhouse",
+-    "index": 28,
++    "index": 37,
+     "original": "Stylized fighting game roundhouse kick animation.\n\nThe characte",
+     "originalDuration": 2.958333,
+     "from": 0.7917,
+@@ -407,7 +533,7 @@
+   },
+   {
+     "name": "ciro.defeat2",
+-    "index": 29,
++    "index": 38,
+     "original": "defeat_02.001",
+     "originalDuration": 8.458333,
+     "from": 1.25,
+@@ -421,7 +547,7 @@
+   },
+   {
+     "name": "ciro.dodge",
+-    "index": 30,
++    "index": 39,
+     "original": "Fast stylized fighting game dodge animation.\n\nThe character sta",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -435,26 +561,40 @@
+   },
+   {
+     "name": "ciro.soccerLegsCandidate",
+-    "index": 31,
+-    "original": "SOCCER BALL KICK ANIMATION \u2014 LEGS ONLY.\n\nCreate a clear assoc",
++    "index": 40,
++    "original": "SOCCER BALL KICK ANIMATION — LEGS ONLY.\n\nCreate a clear assoc",
+     "originalDuration": 2.958333,
+     "from": 0.5,
+     "to": 2.5,
+     "contact": 1.3333,
+     "lowContact": null,
+-    "duration": 2.0,
++    "duration": 2,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "ciro.interactionB",
++    "index": 41,
++    "original": "A cartoon humanoid character interacting with an imaginary .001",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
+     "loop": false,
+     "fps": 60,
+     "contactVerified": false
+   },
+   {
+     "name": "ciro.hook",
+-    "index": 32,
++    "index": 42,
+     "original": "Stylized fighting game hook punch animation.\n\nThe character sta",
+     "originalDuration": 2.958333,
+     "from": 0.5,
+     "to": 2.3333,
+-    "contact": 1.0,
++    "contact": 1,
+     "lowContact": null,
+     "duration": 0.31,
+     "loop": false,
+@@ -463,9 +603,9 @@
+   },
+   {
+     "name": "ciro.footballPass",
+-    "index": 33,
++    "index": 43,
+     "original": "football_pass.001",
+-    "originalDuration": 11.0,
++    "originalDuration": 11,
+     "from": 0.3333,
+     "to": 10.8333,
+     "contact": null,
+@@ -477,7 +617,7 @@
+   },
+   {
+     "name": "ciro.judoThrow",
+-    "index": 34,
++    "index": 44,
+     "original": "Stylized fighting game judo throw animation.\n\nThe character beg",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -489,9 +629,23 @@
+     "fps": 60,
+     "contactVerified": false
+   },
++  {
++    "name": "ciro.floodLoop",
++    "index": 45,
++    "original": "A seamless looping animation of a funny cartoon humanoid charac",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
+   {
+     "name": "ciro.dash",
+-    "index": 35,
++    "index": 46,
+     "original": "Fast stylized fighting game forward dash animation.\n\nThe charac",
+     "originalDuration": 2.958333,
+     "from": 0.5833,
+@@ -505,7 +659,7 @@
+   },
+   {
+     "name": "ciro.grab",
+-    "index": 36,
++    "index": 47,
+     "original": "Stylized fighting game grab animation.\n\nThe character starts fr",
+     "originalDuration": 2.958333,
+     "from": 0.7917,
+@@ -519,7 +673,7 @@
+   },
+   {
+     "name": "ciro.ko",
+-    "index": 37,
++    "index": 48,
+     "original": "Stylized fighting game knockout animation.\n\nThe character recei",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -533,7 +687,7 @@
+   },
+   {
+     "name": "ciro.pickup",
+-    "index": 38,
++    "index": 49,
+     "original": "Stylized videogame object pickup animation.\n\nThe character star",
+     "originalDuration": 2.958333,
+     "from": 0.2917,
+@@ -545,9 +699,23 @@
+     "fps": 60,
+     "contactVerified": false
+   },
++  {
++    "name": "ciro.slip",
++    "index": 50,
++    "original": "A funny cartoon humanoid character suddenly slipping on a wet f",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
+   {
+     "name": "ciro.walk",
+-    "index": 39,
++    "index": 51,
+     "original": "walk.001",
+     "originalDuration": 2.333333,
+     "from": 0.0416666679084301,
+@@ -561,9 +729,9 @@
+   },
+   {
+     "name": "ciro.fall",
+-    "index": 40,
++    "index": 52,
+     "original": "fall.001",
+-    "originalDuration": 3.0,
++    "originalDuration": 3,
+     "from": 0.25,
+     "to": 0.875,
+     "contact": null,
+@@ -575,7 +743,7 @@
+   },
+   {
+     "name": "ciro.frontKick2",
+-    "index": 41,
++    "index": 53,
+     "original": "front_kick_02.001",
+     "originalDuration": 1.375,
+     "from": 0.0417,
+@@ -589,7 +757,7 @@
+   },
+   {
+     "name": "ciro.idle",
+-    "index": 42,
++    "index": 54,
+     "original": "idle.001",
+     "originalDuration": 15.333333,
+     "from": 0.0416666679084301,
+@@ -603,7 +771,7 @@
+   },
+   {
+     "name": "ciro.soccerPowerCandidate",
+-    "index": 43,
++    "index": 55,
+     "original": "Stylized competitive soccer power shot animation.\n\nThe characte",
+     "originalDuration": 2.958333,
+     "from": 0.75,
+@@ -617,11 +785,11 @@
+   },
+   {
+     "name": "ciro.footballSave",
+-    "index": 44,
++    "index": 56,
+     "original": "football_save.001",
+     "originalDuration": 3.291667,
+     "from": 0.125,
+-    "to": 3.0,
++    "to": 3,
+     "contact": null,
+     "lowContact": null,
+     "duration": 2.875,
+@@ -629,9 +797,23 @@
+     "fps": 60,
+     "contactVerified": false
+   },
++  {
++    "name": "ciro.fallBackward",
++    "index": 57,
++    "original": "A cartoon humanoid character loses balance and falls backward o",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
+   {
+     "name": "ciro.genericPunch",
+-    "index": 45,
++    "index": 58,
+     "original": "punch.001",
+     "originalDuration": 4.958333,
+     "from": 1.0417,
+@@ -643,4 +825,4 @@
+     "fps": 60,
+     "contactVerified": false
+   }
+-]
+\ No newline at end of file
++]
+diff --git a/src/minigames/characters/ciroProfile.ts b/src/minigames/characters/ciroProfile.ts
+index edd6f81..3f9d058 100644
+--- a/src/minigames/characters/ciroProfile.ts
++++ b/src/minigames/characters/ciroProfile.ts
+@@ -1,6 +1,6 @@
+ import clips from './ciroClips.json';
+ import type { ImportedCharacterProfile } from './goblinVisual';
+-/** Original Tripo mesh, PBR textures and 46 embedded animations. */
++/** Original Tripo mesh and PBR textures; 46 previous clips plus 13 Casa Carbo gestures. */
+ export const CIRO_PROFILE: ImportedCharacterProfile = {
+-  namespace: 'ciro', url: '/models/man-tripo/man.glb', clips
++  namespace: 'ciro', url: '/models/man-tripo/man_animated.glb', clips
+ };
+diff --git a/src/minigames/characters/goblinAnimator.ts b/src/minigames/characters/goblinAnimator.ts
+index a2218aa..a7a90ae 100644
+--- a/src/minigames/characters/goblinAnimator.ts
++++ b/src/minigames/characters/goblinAnimator.ts
+@@ -18,7 +18,7 @@ export type GoblinClip = (typeof manifest)[number];
+ export const GOBLIN_CLIPS: readonly GoblinClip[] = manifest;
+ const byName = new Map(manifest.map(c => [c.name, c]));
+ export const clipOf = (name: string): GoblinClip | undefined => byName.get(name);
+-export const GOBLIN_LODS = { LOD0: {url:'/models/goblin-tripo/green_goblin_animated.glb',triangles:35624,textureSize:4096}, LOD1: null, LOD2: null } as const;
++export const GOBLIN_LODS = { LOD0: {url:'/models/goblin-tripo/green_goblin_casacarbo.glb',triangles:35624,textureSize:4096}, LOD1: null, LOD2: null } as const;
+ 
+ /** All fourteen existing move IDs, plus the existing ability follow-up. */
+ export const GOBLIN_MOVES: Readonly<Record<string, string>> = {
+@@ -104,6 +104,11 @@ export class GoblinAnimator {
+   previewClip(name: string | null, speed = 1, loop = false): void {
+     this.preview = name && this.clip(name) ? { name:this.name(name), speed: clamp(speed,.25,2), loop, t: 0, token: ++this.sequence } : null;
+   }
++  /** Scene-specific visual gesture. Duration changes playback only, never an action's simulation timer. */
++  overrideClip(name: string | null, duration?: number, loop = false): void {
++    const c = name ? this.clip(name) : undefined;
++    this.preview = c ? { name: this.name(name!), speed: duration && duration > 0 ? (c.to-c.from)/duration : 1, loop, t: 0, token: ++this.sequence } : null;
++  }
+   reset(): void {
+     this.ko = false; this.action = this.reaction = this.special = null;
+     this.previousState = ''; this.stateT = 0; this.previousHit = 0;
+diff --git a/src/minigames/characters/goblinClips.json b/src/minigames/characters/goblinClips.json
+index 9ac89e5..5d2e88a 100644
+--- a/src/minigames/characters/goblinClips.json
++++ b/src/minigames/characters/goblinClips.json
+@@ -57,7 +57,7 @@
+   },
+   {
+     "name": "goblin.frontKick",
+-    "index": 4,
++    "index": 7,
+     "original": "Stylized fighting game front kick animation.\n\nThe character sta",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -71,7 +71,7 @@
+   },
+   {
+     "name": "goblin.dash",
+-    "index": 5,
++    "index": 8,
+     "original": "Fast stylized fighting game forward dash animation.\n\nThe charac",
+     "originalDuration": 2.958333,
+     "from": 0.5833,
+@@ -85,7 +85,7 @@
+   },
+   {
+     "name": "goblin.pickup",
+-    "index": 6,
++    "index": 9,
+     "original": "Stylized videogame object pickup animation.\n\nThe character star",
+     "originalDuration": 2.958333,
+     "from": 0.2917,
+@@ -99,7 +99,7 @@
+   },
+   {
+     "name": "goblin.roundhouse",
+-    "index": 8,
++    "index": 12,
+     "original": "Stylized fighting game roundhouse kick animation.\n\nThe characte",
+     "originalDuration": 2.958333,
+     "from": 0.7917,
+@@ -113,7 +113,7 @@
+   },
+   {
+     "name": "goblin.uppercut",
+-    "index": 9,
++    "index": 14,
+     "original": "Stylized fighting game uppercut animation.\n\nThe character start",
+     "originalDuration": 2.958333,
+     "from": 0.0833,
+@@ -127,7 +127,7 @@
+   },
+   {
+     "name": "goblin.victory",
+-    "index": 12,
++    "index": 17,
+     "original": "Stylized videogame victory celebration for a competitive athlet",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -141,7 +141,7 @@
+   },
+   {
+     "name": "goblin.judoThrow",
+-    "index": 13,
++    "index": 19,
+     "original": "Stylized fighting game judo throw animation.\n\nThe character beg",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -155,7 +155,7 @@
+   },
+   {
+     "name": "goblin.heavy",
+-    "index": 14,
++    "index": 20,
+     "original": "Powerful stylized fighting game heavy haymaker punch animation.",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -169,7 +169,7 @@
+   },
+   {
+     "name": "goblin.idle",
+-    "index": 16,
++    "index": 23,
+     "original": "idle.001",
+     "originalDuration": 15.333333,
+     "from": 0.0416666679084301,
+@@ -183,7 +183,7 @@
+   },
+   {
+     "name": "goblin.hitSide",
+-    "index": 17,
++    "index": 24,
+     "original": "hit_to_side.001",
+     "originalDuration": 1.25,
+     "from": 0.0833,
+@@ -197,7 +197,7 @@
+   },
+   {
+     "name": "goblin.jump",
+-    "index": 18,
++    "index": 25,
+     "original": "jump.001",
+     "originalDuration": 2.208333,
+     "from": 0.041667,
+@@ -211,7 +211,7 @@
+   },
+   {
+     "name": "goblin.hitBodyB",
+-    "index": 19,
++    "index": 29,
+     "original": "hit_to_body_02.001",
+     "originalDuration": 1.708333,
+     "from": 0.125,
+@@ -225,7 +225,7 @@
+   },
+   {
+     "name": "goblin.knockback",
+-    "index": 20,
++    "index": 31,
+     "original": "Stylized fighting game heavy knockback animation.\n\nThe characte",
+     "originalDuration": 2.958333,
+     "from": 0.0833,
+@@ -239,7 +239,7 @@
+   },
+   {
+     "name": "goblin.block",
+-    "index": 23,
++    "index": 34,
+     "original": "Stylized fighting game defensive block and counter stance anima",
+     "originalDuration": 2.958333,
+     "from": 0.375,
+@@ -253,7 +253,7 @@
+   },
+   {
+     "name": "goblin.run",
+-    "index": 24,
++    "index": 35,
+     "original": "run.001",
+     "originalDuration": 1.25,
+     "from": 0.0416666679084301,
+@@ -267,7 +267,7 @@
+   },
+   {
+     "name": "goblin.hitBodyA",
+-    "index": 25,
++    "index": 36,
+     "original": "hit_to_body_01.001",
+     "originalDuration": 1.291667,
+     "from": 0.0417,
+@@ -281,7 +281,7 @@
+   },
+   {
+     "name": "goblin.hitStomach",
+-    "index": 26,
++    "index": 38,
+     "original": "hit_to_stomach.001",
+     "originalDuration": 1.541667,
+     "from": 0.0417,
+@@ -295,7 +295,7 @@
+   },
+   {
+     "name": "goblin.ballCatch",
+-    "index": 27,
++    "index": 41,
+     "original": "Stylized competitive dodgeball catch animation.\n\nThe character ",
+     "originalDuration": 2.958333,
+     "from": 0.6667,
+@@ -309,7 +309,7 @@
+   },
+   {
+     "name": "goblin.defeat",
+-    "index": 28,
++    "index": 42,
+     "original": "Stylized videogame defeat animation for a competitive athletic ",
+     "originalDuration": 2.958333,
+     "from": 0.0417,
+@@ -323,7 +323,7 @@
+   },
+   {
+     "name": "goblin.fall",
+-    "index": 29,
++    "index": 43,
+     "original": "fall.001",
+     "originalDuration": 3.0,
+     "from": 0.25,
+@@ -337,7 +337,7 @@
+   },
+   {
+     "name": "goblin.hook",
+-    "index": 31,
++    "index": 45,
+     "original": "Stylized fighting game hook punch animation.\n\nThe character sta",
+     "originalDuration": 2.958333,
+     "from": 0.5,
+@@ -351,7 +351,7 @@
+   },
+   {
+     "name": "goblin.dodge",
+-    "index": 33,
++    "index": 47,
+     "original": "Fast stylized fighting game dodge animation.\n\nThe character sta",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -365,7 +365,7 @@
+   },
+   {
+     "name": "goblin.ballThrow",
+-    "index": 34,
++    "index": 49,
+     "original": "Stylized competitive dodgeball overhand throw animation.\n\nThe c",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -379,7 +379,7 @@
+   },
+   {
+     "name": "goblin.ko",
+-    "index": 35,
++    "index": 51,
+     "original": "Stylized fighting game knockout animation.\n\nThe character recei",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -390,5 +390,341 @@
+     "loop": false,
+     "fps": 60,
+     "contactVerified": false
++  },
++  {
++    "name": "goblin.scared",
++    "index": 4,
++    "original": "scared_01.001",
++    "originalDuration": 3.291666666666667,
++    "from": 0.041666666666666664,
++    "to": 3.3333333333333335,
++    "contact": null,
++    "lowContact": null,
++    "duration": 3.291666666666667,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.defeatAlternate",
++    "index": 5,
++    "original": "defeat_02.001",
++    "originalDuration": 8.458333333333334,
++    "from": 0.041666666666666664,
++    "to": 8.5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 8.458333333333334,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.interactionA",
++    "index": 6,
++    "original": "A cartoon humanoid character interacting with an imaginary obje",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.dribbleCandidate",
++    "index": 10,
++    "original": "dribble.001",
++    "originalDuration": 9.291666666666668,
++    "from": 0.041666666666666664,
++    "to": 9.333333333333334,
++    "contact": null,
++    "lowContact": null,
++    "duration": 9.291666666666668,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.squeegee",
++    "index": 11,
++    "original": "A seamless looping animation of a cartoon humanoid character pu",
++    "originalDuration": 4.958333333333333,
++    "from": 0.041666666666666664,
++    "to": 5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 4.958333333333333,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.footballPassCandidate",
++    "index": 13,
++    "original": "football_pass.001",
++    "originalDuration": 11.0,
++    "from": 0.041666666666666664,
++    "to": 11.041666666666666,
++    "contact": null,
++    "lowContact": null,
++    "duration": 11.0,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.regalAttackCandidate",
++    "index": 15,
++    "original": "Side-view fighting game attack animation.\n\nA powerful regal mal",
++    "originalDuration": 4.958333333333333,
++    "from": 0.041666666666666664,
++    "to": 5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 4.958333333333333,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.diveCandidate",
++    "index": 16,
++    "original": "dive.001",
++    "originalDuration": 2.7083333333333335,
++    "from": 0.041666666666666664,
++    "to": 2.75,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.7083333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.getUp",
++    "index": 18,
++    "original": "A funny cartoon humanoid character getting up from lying on his",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.jumpRopeCandidate",
++    "index": 21,
++    "original": "jump_rope_01.001",
++    "originalDuration": 9.666666666666668,
++    "from": 0.041666666666666664,
++    "to": 9.708333333333334,
++    "contact": null,
++    "lowContact": null,
++    "duration": 9.666666666666668,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.scoopA",
++    "index": 22,
++    "original": "A cartoon humanoid character collecting water from the floor us",
++    "originalDuration": 4.958333333333333,
++    "from": 0.041666666666666664,
++    "to": 5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 4.958333333333333,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.bucketWalk",
++    "index": 26,
++    "original": "A seamless looping in-place walking animation of a cartoon huma",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.fallBackward",
++    "index": 27,
++    "original": "A cartoon humanoid character loses balance and falls backward o",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.bucketEmpty",
++    "index": 28,
++    "original": "A cartoon humanoid character emptying an imaginary bucket of wa",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.slip",
++    "index": 30,
++    "original": "A funny cartoon humanoid character suddenly slipping on a wet f",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.box3Candidate",
++    "index": 32,
++    "original": "box_03.001",
++    "originalDuration": 2.541666666666667,
++    "from": 0.041666666666666664,
++    "to": 2.5833333333333335,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.541666666666667,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.soccerLegsCandidate",
++    "index": 33,
++    "original": "SOCCER BALL KICK ANIMATION \u2014 LEGS ONLY.\n\nCreate a clear assoc",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.interactionB",
++    "index": 37,
++    "original": "A cartoon humanoid character interacting with an imaginary .001",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.walkCandidate",
++    "index": 39,
++    "original": "walk.001",
++    "originalDuration": 2.3333333333333335,
++    "from": 0.041666666666666664,
++    "to": 2.375,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.3333333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.scoopB",
++    "index": 40,
++    "original": "A cartoon humanoid character collecting water from the floo.001",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.box2Candidate",
++    "index": 44,
++    "original": "box_02.001",
++    "originalDuration": 2.791666666666667,
++    "from": 0.041666666666666664,
++    "to": 2.8333333333333335,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.791666666666667,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.waveGoodbye",
++    "index": 46,
++    "original": "wave_goodbye_02.001",
++    "originalDuration": 5.875,
++    "from": 0.041666666666666664,
++    "to": 5.916666666666667,
++    "contact": null,
++    "lowContact": null,
++    "duration": 5.875,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.frontKick2Candidate",
++    "index": 48,
++    "original": "front_kick_02.001",
++    "originalDuration": 1.375,
++    "from": 0.041666666666666664,
++    "to": 1.4166666666666667,
++    "contact": null,
++    "lowContact": null,
++    "duration": 1.375,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "goblin.frontKick1Candidate",
++    "index": 50,
++    "original": "front_kick_01.001",
++    "originalDuration": 2.5,
++    "from": 0.041666666666666664,
++    "to": 2.5416666666666665,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.5,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
+   }
+-]
+\ No newline at end of file
++]
+diff --git a/src/minigames/characters/goblinVisual.ts b/src/minigames/characters/goblinVisual.ts
+index 0812f09..2a7b47a 100644
+--- a/src/minigames/characters/goblinVisual.ts
++++ b/src/minigames/characters/goblinVisual.ts
+@@ -1,11 +1,11 @@
+ /**
+- * GOBLIN TRIPO — VARIANTE DI RENDER (PILOTA, SOLO DEV/DEBUG).
++ * GOBLIN TRIPO — VARIANTE DI RENDER CON FALLBACK PROCEDURALE.
+  *
+- * Il Goblin procedurale resta il modello ufficiale; questo modulo aggiunge un'ALTERNATIVA di render
+- * (GLB riggato Tripo/Mixamo, 36 clip) selezionabile a mano in sviluppo:
++ * Il Goblin procedurale resta disponibile; questo modulo aggiunge un'alternativa di render
++ * (GLB riggato Tripo/Mixamo, 52 clip) selezionabile anche nella Gallery:
+  *
+  *   `?goblin=new`  (oppure `setGoblinVisualMode('new')` da console/dev) → modello importato
+- *   `?goblin=old`  (default)                                             → modello procedurale
++ *   `?goblin=old`                                                      → modello procedurale
+  *   `?goblinUrl=...` (solo test)                                         → forza un URL diverso (fallback su errore)
+  *
+  * Regole del pilota:
+@@ -28,9 +28,9 @@ import { GoblinRigAnimator } from './goblinRigAnimator';
+ import { GOBLIN_CLIPS, GOBLIN_LODS, clipOf } from './goblinAnimator';
+ import type { GoblinAnimationState, GoblinSample, GoblinClip } from './goblinAnimator';
+ 
+-/** Copia byte-per-byte del GLB animato (`green+goblin+3d+model (2).glb`), nessuna compressione né LOD. */
++/** Copia byte-per-byte del GLB animato (`green+goblin+3d+model (3).glb`), nessuna compressione né LOD. */
+ export const GOBLIN_TRIPO_URL = GOBLIN_LODS.LOD0.url;
+-/** Clip obbligatoria di locomozione (una delle 36 clip; 195 canali × 65 nodi). */
++/** Clip obbligatoria di locomozione (una delle 52 clip; 195 canali × 65 nodi). */
+ export const GOBLIN_TRIPO_CLIP = 'run.001';
+ /** Osso radice dello scheletro: tutte le altre ossa sono sue discendenti. */
+ const HIPS_BONE = 'mixamorig:Hips';
+@@ -344,6 +344,7 @@ export class GoblinVisualInstance {
+   private entries: InstantiatedEntries | null = null;
+   private group: AnimationGroup | null = null;
+   private animator: GoblinRigAnimator | ProceduralSkinAnimator | null = null;
++  private overrideKey = '';
+   private skeleton: Skeleton | null = null;
+   private state: 'loading' | 'ready' | 'error' = 'loading';
+   private error: string | null = null;
+@@ -519,6 +520,15 @@ export class GoblinVisualInstance {
+   playAbility(duration?:number): void { this.animator?.controller.playAbility(duration); }
+   playResult(result:'victory'|'defeat'|null): void { this.animator?.controller.playResult(result); }
+   preview(name:string|null,speed=1,loop=false): void { this.animator?.controller.previewClip(name,speed,loop); }
++  /** Repeated scene updates preserve the gesture clock. A late import gets the current gesture on its next update. */
++  overrideAnimation(name:string|null,duration?:number,loop=false): void {
++    if (!this.animator) return;
++    if (name && !this.profile.clips.some(c=>c.name===name)) name=null;
++    const key = name ? `${name}:${duration ?? 'native'}:${loop}` : '';
++    if (key===this.overrideKey) return;
++    this.overrideKey=key;
++    this.animator.controller.overrideClip(name,duration,loop);
++  }
+   get clips(): readonly GoblinClip[] { return this.profile.clips; }
+   /** Visual-only attachment in the actor's local space or world space. */
+   attachment(key:GoblinAttachment,world=false): Vector3|null {
+diff --git a/src/minigames/characters/judokaClips.json b/src/minigames/characters/judokaClips.json
+index 9bec891..5936cc7 100644
+--- a/src/minigames/characters/judokaClips.json
++++ b/src/minigames/characters/judokaClips.json
+@@ -57,7 +57,7 @@
+   },
+   {
+     "name": "judoka.uppercut",
+-    "index": 7,
++    "index": 8,
+     "original": "Stylized fighting game uppercut animation.\n\nThe character start",
+     "originalDuration": 2.958333,
+     "from": 0.0833,
+@@ -71,7 +71,7 @@
+   },
+   {
+     "name": "judoka.pickup",
+-    "index": 8,
++    "index": 9,
+     "original": "Stylized videogame object pickup animation.\n\nThe character star",
+     "originalDuration": 2.958333,
+     "from": 0.2917,
+@@ -85,7 +85,7 @@
+   },
+   {
+     "name": "judoka.judoThrow",
+-    "index": 9,
++    "index": 10,
+     "original": "Stylized fighting game judo throw animation.\n\nThe character beg",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -99,7 +99,7 @@
+   },
+   {
+     "name": "judoka.idle",
+-    "index": 11,
++    "index": 12,
+     "original": "idle.001",
+     "originalDuration": 15.333333,
+     "from": 0.0416666679084301,
+@@ -113,7 +113,7 @@
+   },
+   {
+     "name": "judoka.heavy",
+-    "index": 12,
++    "index": 13,
+     "original": "Powerful stylized fighting game heavy haymaker punch animation.",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -127,7 +127,7 @@
+   },
+   {
+     "name": "judoka.roundhouse",
+-    "index": 13,
++    "index": 14,
+     "original": "Stylized fighting game roundhouse kick animation.\n\nThe characte",
+     "originalDuration": 2.958333,
+     "from": 0.7917,
+@@ -141,7 +141,7 @@
+   },
+   {
+     "name": "judoka.defeat",
+-    "index": 16,
++    "index": 19,
+     "original": "Stylized videogame defeat animation for a competitive athletic ",
+     "originalDuration": 2.958333,
+     "from": 0.0417,
+@@ -155,7 +155,7 @@
+   },
+   {
+     "name": "judoka.hook",
+-    "index": 18,
++    "index": 22,
+     "original": "Stylized fighting game hook punch animation.\n\nThe character sta",
+     "originalDuration": 2.958333,
+     "from": 0.5,
+@@ -169,7 +169,7 @@
+   },
+   {
+     "name": "judoka.dash",
+-    "index": 19,
++    "index": 24,
+     "original": "Fast stylized fighting game forward dash animation.\n\nThe charac",
+     "originalDuration": 2.958333,
+     "from": 0.5833,
+@@ -183,7 +183,7 @@
+   },
+   {
+     "name": "judoka.hitStomach",
+-    "index": 20,
++    "index": 25,
+     "original": "hit_to_stomach.001",
+     "originalDuration": 1.541667,
+     "from": 0.0417,
+@@ -197,7 +197,7 @@
+   },
+   {
+     "name": "judoka.knockback",
+-    "index": 21,
++    "index": 26,
+     "original": "Stylized fighting game heavy knockback animation.\n\nThe characte",
+     "originalDuration": 2.958333,
+     "from": 0.0833,
+@@ -211,7 +211,7 @@
+   },
+   {
+     "name": "judoka.grab",
+-    "index": 22,
++    "index": 28,
+     "original": "Stylized fighting game grab animation.\n\nThe character starts fr",
+     "originalDuration": 2.958333,
+     "from": 0.7917,
+@@ -225,7 +225,7 @@
+   },
+   {
+     "name": "judoka.hitBodyB",
+-    "index": 23,
++    "index": 29,
+     "original": "hit_to_body_02.001",
+     "originalDuration": 1.708333,
+     "from": 0.125,
+@@ -239,7 +239,7 @@
+   },
+   {
+     "name": "judoka.block",
+-    "index": 24,
++    "index": 32,
+     "original": "Stylized fighting game defensive block and counter stance anima",
+     "originalDuration": 2.958333,
+     "from": 0.375,
+@@ -253,7 +253,7 @@
+   },
+   {
+     "name": "judoka.jab",
+-    "index": 26,
++    "index": 36,
+     "original": "Fast stylized fighting game jab punch animation.\n\nThe character",
+     "originalDuration": 2.958333,
+     "from": 0.5,
+@@ -267,7 +267,7 @@
+   },
+   {
+     "name": "judoka.run",
+-    "index": 27,
++    "index": 37,
+     "original": "run.001",
+     "originalDuration": 1.25,
+     "from": 0.0416666679084301,
+@@ -281,7 +281,7 @@
+   },
+   {
+     "name": "judoka.hitSide",
+-    "index": 29,
++    "index": 40,
+     "original": "hit_to_side.001",
+     "originalDuration": 1.25,
+     "from": 0.0833,
+@@ -295,7 +295,7 @@
+   },
+   {
+     "name": "judoka.hitHead",
+-    "index": 30,
++    "index": 41,
+     "original": "hit_to_head.001",
+     "originalDuration": 1.833333,
+     "from": 0.0417,
+@@ -309,7 +309,7 @@
+   },
+   {
+     "name": "judoka.ballCatch",
+-    "index": 31,
++    "index": 42,
+     "original": "Stylized competitive dodgeball catch animation.\n\nThe character ",
+     "originalDuration": 2.958333,
+     "from": 0.6667,
+@@ -323,7 +323,7 @@
+   },
+   {
+     "name": "judoka.dodge",
+-    "index": 32,
++    "index": 43,
+     "original": "Fast stylized fighting game dodge animation.\n\nThe character sta",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -337,7 +337,7 @@
+   },
+   {
+     "name": "judoka.bow",
+-    "index": 33,
++    "index": 44,
+     "original": "bow.001",
+     "originalDuration": 6.0,
+     "from": 0.2917,
+@@ -351,7 +351,7 @@
+   },
+   {
+     "name": "judoka.ko",
+-    "index": 34,
++    "index": 45,
+     "original": "Stylized fighting game knockout animation.\n\nThe character recei",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -365,7 +365,7 @@
+   },
+   {
+     "name": "judoka.victory",
+-    "index": 36,
++    "index": 47,
+     "original": "Stylized videogame victory celebration for a competitive athlet",
+     "originalDuration": 2.958333,
+     "from": 0.1667,
+@@ -376,5 +376,313 @@
+     "loop": false,
+     "fps": 60,
+     "contactVerified": false
++  },
++  {
++    "name": "judoka.box2Candidate",
++    "index": 1,
++    "original": "box_02.001",
++    "originalDuration": 2.791666666666667,
++    "from": 0.041666666666666664,
++    "to": 2.8333333333333335,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.791666666666667,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.soccerInstepCandidate",
++    "index": 5,
++    "original": "PURE SOCCER INSTep KICK ANIMATION.\n\nCreate a realistic stylized",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.box1Candidate",
++    "index": 6,
++    "original": "box_01.001",
++    "originalDuration": 2.2083333333333335,
++    "from": 0.041666666666666664,
++    "to": 2.25,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.2083333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.interactionA",
++    "index": 7,
++    "original": "A cartoon humanoid character interacting with an imaginary obje",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.regalAttackCandidate",
++    "index": 11,
++    "original": "Side-view fighting game attack animation.\n\nA powerful regal mal",
++    "originalDuration": 4.958333333333333,
++    "from": 0.041666666666666664,
++    "to": 5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 4.958333333333333,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.soccerPowerCandidate",
++    "index": 15,
++    "original": "Stylized competitive soccer power shot animation.\n\nThe characte",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.floodBarrier",
++    "index": 16,
++    "original": "A cartoon humanoid character quickly building an improvised flo",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.bucketEmpty",
++    "index": 17,
++    "original": "A cartoon humanoid character emptying an imaginary bucket of wa",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.soccerKickCandidate",
++    "index": 18,
++    "original": "Stylized competitive soccer kick animation.\n\nThe character star",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.spellCandidate",
++    "index": 20,
++    "original": "cast_a_spell.001",
++    "originalDuration": 5.375,
++    "from": 0.041666666666666664,
++    "to": 5.416666666666667,
++    "contact": null,
++    "lowContact": null,
++    "duration": 5.375,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.squeegee",
++    "index": 21,
++    "original": "A seamless looping animation of a cartoon humanoid character pu",
++    "originalDuration": 4.958333333333333,
++    "from": 0.041666666666666664,
++    "to": 5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 4.958333333333333,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.bucketWalk",
++    "index": 23,
++    "original": "A seamless looping in-place walking animation of a cartoon huma",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.scoopA",
++    "index": 27,
++    "original": "A cartoon humanoid character collecting water from the floor us",
++    "originalDuration": 4.958333333333333,
++    "from": 0.041666666666666664,
++    "to": 5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 4.958333333333333,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.fallBackward",
++    "index": 30,
++    "original": "A cartoon humanoid character loses balance and falls backward o",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.floodBlock",
++    "index": 31,
++    "original": "A bulky cartoon humanoid character firmly blocking an imaginary",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.interactionB",
++    "index": 33,
++    "original": "A cartoon humanoid character interacting with an imaginary .001",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.regalAnticipationCandidate",
++    "index": 34,
++    "original": "ANTICIPATION\n\nZeus shifts slightly into the strike.\nRight shoul",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.getUp",
++    "index": 35,
++    "original": "A funny cartoon humanoid character getting up from lying on his",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.scoopB",
++    "index": 38,
++    "original": "A cartoon humanoid character collecting water from the floo.001",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": true,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.soccerLegsCandidate",
++    "index": 39,
++    "original": "SOCCER BALL KICK ANIMATION \u2014 LEGS ONLY.\n\nCreate a clear assoc",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.punchCandidate",
++    "index": 46,
++    "original": "punch.001",
++    "originalDuration": 4.958333333333333,
++    "from": 0.041666666666666664,
++    "to": 5,
++    "contact": null,
++    "lowContact": null,
++    "duration": 4.958333333333333,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
++  },
++  {
++    "name": "judoka.slip",
++    "index": 48,
++    "original": "A funny cartoon humanoid character suddenly slipping on a wet f",
++    "originalDuration": 2.9583333333333335,
++    "from": 0.041666666666666664,
++    "to": 3,
++    "contact": null,
++    "lowContact": null,
++    "duration": 2.9583333333333335,
++    "loop": false,
++    "fps": 60,
++    "contactVerified": false
+   }
+-]
+\ No newline at end of file
++]
+diff --git a/src/minigames/characters/judokaProfile.ts b/src/minigames/characters/judokaProfile.ts
+index 7589a81..c27da1f 100644
+--- a/src/minigames/characters/judokaProfile.ts
++++ b/src/minigames/characters/judokaProfile.ts
+@@ -2,5 +2,5 @@ import clips from './judokaClips.json';
+ import type { ImportedCharacterProfile } from './goblinVisual';
+ /** Original GLB, original PBR textures; no retarget, compression or LOD. */
+ export const JUDOKA_PROFILE:ImportedCharacterProfile={
+-  namespace:'judoka',url:'/models/judoka-tripo/judo_figure.glb',clips
++  namespace:'judoka',url:'/models/judoka-tripo/judo_figure_casacarbo.glb',clips
+ };

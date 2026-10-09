@@ -1,0 +1,89 @@
+{
+  "rooms": [
+    "P2W5Z",
+    "URJVL",
+    "DTSCU"
+  ],
+  "games": [
+    {
+      "id": "arena",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:10,BOSCHI:7,Carbo:4,Ciro:2",
+      "counters": {
+        "liveInstances": 0,
+        "abortedLoads": 0,
+        "lateDisposedContainers": 0,
+        "modules": [
+          "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791578192193"
+        ]
+      }
+    },
+    {
+      "id": "cornicione",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:17,BOSCHI:11,Carbo:6,Ciro:12",
+      "counters": {
+        "liveInstances": 0,
+        "abortedLoads": 0,
+        "lateDisposedContainers": 0,
+        "modules": [
+          "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791578192193"
+        ]
+      }
+    },
+    {
+      "id": "dodgeball",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:21,BOSCHI:13,Carbo:16,Ciro:19",
+      "counters": {
+        "liveInstances": 0,
+        "abortedLoads": 0,
+        "lateDisposedContainers": 0,
+        "modules": [
+          "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791578192193"
+        ]
+      }
+    },
+    {
+      "id": "soccer",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:23,BOSCHI:23,Carbo:23,Ciro:23",
+      "counters": {
+        "liveInstances": 0,
+        "abortedLoads": 0,
+        "lateDisposedContainers": 0,
+        "modules": [
+          "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791578192193"
+        ]
+      }
+    },
+    {
+      "id": "volleyball",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:33,BOSCHI:30,Carbo:27,Ciro:25",
+      "counters": {
+        "liveInstances": 0,
+        "abortedLoads": 0,
+        "lateDisposedContainers": 0,
+        "modules": [
+          "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791578192193"
+        ]
+      }
+    },
+    {
+      "id": "kart3d",
+      "phase": "MINIGAME_ROULETTE",
+      "scores": "Nicolò:40,BOSCHI:34,Carbo:29,Ciro:35",
+      "counters": {
+        "liveInstances": 0,
+        "abortedLoads": 0,
+        "lateDisposedContainers": 0,
+        "modules": [
+          "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791578192193"
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "qr": "http://192.168.1.79:5174/controller.html?room=DTSCU"
+}

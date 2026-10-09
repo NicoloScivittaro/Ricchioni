@@ -1,14 +1,14 @@
 /**
- * GOBLIN TRIPO — VARIANTE DI RENDER (PILOTA, SOLO DEV/DEBUG).
+ * GOBLIN TRIPO — VARIANTE DI RENDER CON FALLBACK PROCEDURALE.
  *
- * Il Goblin procedurale resta il modello ufficiale; questo modulo aggiunge un'ALTERNATIVA di render
- * (GLB riggato Tripo/Mixamo, 36 clip) selezionabile a mano in sviluppo:
+ * Il Goblin procedurale resta disponibile; questo modulo aggiunge un'alternativa di render
+ * (GLB riggato Tripo/Mixamo, 52 clip) selezionabile anche nella Gallery:
  *
  *   `?goblin=new`  (oppure `setGoblinVisualMode('new')` da console/dev) → modello importato
- *   `?goblin=old`  (default)                                             → modello procedurale
+ *   `?goblin=old` (DEV oppure con debug=1)                             → confronto col procedurale
  *   `?goblinUrl=...` (solo test)                                         → forza un URL diverso (fallback su errore)
  *
- * Regole del pilota:
+ * Regole del render importato:
  * - l'import è SOLO grafico: legge stato e tempi, non scrive mai posizione, velocità, collider o hitbox;
  * - ogni istanza ha scheletro e animazioni PROPRIE (i materiali/testure sono condivisi per scena);
  * - il modello procedurale resta vivo e viene solo nascosto: ancoraggi FX, targhetta e popup continuano a usarlo;
@@ -28,9 +28,9 @@ import { GoblinRigAnimator } from './goblinRigAnimator';
 import { GOBLIN_CLIPS, GOBLIN_LODS, clipOf } from './goblinAnimator';
 import type { GoblinAnimationState, GoblinSample, GoblinClip } from './goblinAnimator';
 
-/** Copia byte-per-byte del GLB animato (`green+goblin+3d+model (2).glb`), nessuna compressione né LOD. */
+/** Copia byte-per-byte del GLB animato (`green+goblin+3d+model (3).glb`), nessuna compressione né LOD. */
 export const GOBLIN_TRIPO_URL = GOBLIN_LODS.LOD0.url;
-/** Clip obbligatoria di locomozione (una delle 36 clip; 195 canali × 65 nodi). */
+/** Clip obbligatoria di locomozione (una delle 52 clip; 195 canali × 65 nodi). */
 export const GOBLIN_TRIPO_CLIP = 'run.001';
 /** Osso radice dello scheletro: tutte le altre ossa sono sue discendenti. */
 const HIPS_BONE = 'mixamorig:Hips';
@@ -158,8 +158,8 @@ function assetsOf(scene: Scene): Map<string, GoblinAsset> {
 
 /**
  * Caricamento condiviso per scena. Il loader glTF è importato SOLO qui, in modo dinamico: in produzione il
- * selettore è sempre OLD, quindi il peso del loader (una fetta a parte nel bundle) non viene mai scaricato dalle
- * partite normali — nessun costo per chi non attiva il pilota.
+ * selettore usa Tripo nelle partite normali. Il loader viene scaricato al primo personaggio importato,
+ * mai nella lobby; il container e i materiali restano condivisi tra istanze della stessa scena.
  */
 async function loadGoblinAsset(scene: Scene, url: string): Promise<GoblinAsset> {
   const map = assetsOf(scene);
@@ -344,6 +344,7 @@ export class GoblinVisualInstance {
   private entries: InstantiatedEntries | null = null;
   private group: AnimationGroup | null = null;
   private animator: GoblinRigAnimator | ProceduralSkinAnimator | null = null;
+  private overrideKey = '';
   private skeleton: Skeleton | null = null;
   private state: 'loading' | 'ready' | 'error' = 'loading';
   private error: string | null = null;
@@ -519,6 +520,15 @@ export class GoblinVisualInstance {
   playAbility(duration?:number): void { this.animator?.controller.playAbility(duration); }
   playResult(result:'victory'|'defeat'|null): void { this.animator?.controller.playResult(result); }
   preview(name:string|null,speed=1,loop=false): void { this.animator?.controller.previewClip(name,speed,loop); }
+  /** Repeated scene updates preserve the gesture clock. A late import gets the current gesture on its next update. */
+  overrideAnimation(name:string|null,duration?:number,loop=false): void {
+    if (!this.animator) return;
+    if (name && !this.profile.clips.some(c=>c.name===name)) name=null;
+    const key = name ? `${name}:${duration ?? 'native'}:${loop}` : '';
+    if (key===this.overrideKey) return;
+    this.overrideKey=key;
+    this.animator.controller.overrideClip(name,duration,loop);
+  }
   get clips(): readonly GoblinClip[] { return this.profile.clips; }
   /** Visual-only attachment in the actor's local space or world space. */
   attachment(key:GoblinAttachment,world=false): Vector3|null {
@@ -710,7 +720,28 @@ export class GoblinVisualInstance {
       // la posa va scritta sull'oggetto che lo scheletro ricopia ogni frame (il nodo), non solo sull'osso
       target.node.rotationQuaternion = q;
     }
+    // Tripo exports have different arm bind rotations. Aim the actual child joints in model space,
+    // so the steering pose does not inherit a raised arm from an individual export.
+    for (const side of ['Left', 'Right']) {
+      this.alignSeatedJoint(`mixamorig:${side}Arm`, `mixamorig:${side}ForeArm`, new Vector3(side === 'Left' ? -.05 : .05, -.6, .8));
+      this.alignSeatedJoint(`mixamorig:${side}ForeArm`, `mixamorig:${side}Hand`, new Vector3(side === 'Left' ? .12 : -.12, .08, .99));
+    }
     this.skeleton.prepare();
+  }
+
+  private alignSeatedJoint(joint: string, child: string, direction: Vector3): void {
+    const node = this.poseTargets.get(joint)?.node;
+    const next = this.poseTargets.get(child)?.node;
+    if (!(node instanceof TransformNode) || !(next instanceof TransformNode) || !node.parent || !node.rotationQuaternion || !this.pivot) return;
+    const inverse = Matrix.Invert(node.parent.computeWorldMatrix(true));
+    node.computeWorldMatrix(true);
+    next.computeWorldMatrix(true);
+    const from = Vector3.TransformNormal(next.getAbsolutePosition().subtract(node.getAbsolutePosition()), inverse).normalize();
+    const to = Vector3.TransformNormal(Vector3.TransformNormal(direction, this.pivot.computeWorldMatrix(true)), inverse).normalize();
+    const delta = Quaternion.FromUnitVectorsToRef(from, to, new Quaternion());
+    node.rotationQuaternion = delta.multiply(node.rotationQuaternion).normalize();
+    node.computeWorldMatrix(true);
+    next.computeWorldMatrix(true);
   }
 }
 

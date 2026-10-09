@@ -1,0 +1,13 @@
+{
+  "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\man+3d+model (1).glb",
+  "bytes": 18829088,
+  "sha256": "4a00b680701e36e25507305d53332837337101a850095e5e6e026fb0f0e76743",
+  "oldSha256": "f4a5bd9c74526faa625902b0b43f3bccaebaf2ee0ae648e9d6fd73ade651abe5",
+  "sameGeometryAndSkinAttributes": true,
+  "sameTextures": true,
+  "sameBindMatrices": true,
+  "sameBoneNames": true,
+  "sameMaterialParameters": true,
+  "materialNamesChanged": true
+}
+Clips: 59, existing unchanged: 46, new: 13
