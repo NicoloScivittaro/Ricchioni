@@ -23,7 +23,7 @@ try {
   const t0 = Date.now();
   const chunkReq = []; // richieste dei chunk dei giochi 3D con il tempo
   page.on('request', (r) => {
-    const m = /assets\/(Babylon\w+Game)-[\w-]+\.js/.exec(r.url());
+    const m = /assets\/(Babylon\w+Game|CasaCarboGame)-[\w-]+\.js/.exec(r.url());
     if (m) chunkReq.push({ name: m[1], t: Date.now() - t0 });
   });
   // il codice stanza si legge dai frame WebSocket (in produzione non ci sono hook di test)
@@ -75,7 +75,7 @@ try {
   check(trail.some((x) => /PROSSIMO GIOCO/.test(x)), 'il telefono ha mostrato rullo/preparazione');
   if (GAME_LABEL) check(tGame !== null, `il gioco scelto è partito sui telefoni (${((tGame ?? 0) / 1000).toFixed(0)}s)`);
   console.log('   chunk giochi 3D richiesti:', chunkReq.length ? chunkReq.map((c) => `${c.name}@${(c.t / 1000).toFixed(1)}s`).join(', ') : 'nessuno (gioco 2D o rullo)');
-  if ((PICK >= 4 && PICK <= 8) || PICK === 11) {
+  if ((PICK >= 4 && PICK <= 8) || PICK === 11 || PICK === 12) {
     check(chunkReq.length > 0, 'il chunk del gioco 3D è stato scaricato');
     if (chunkReq.length > 0 && tGame !== null) {
       const lead = (tGame - chunkReq[0].t) / 1000;
