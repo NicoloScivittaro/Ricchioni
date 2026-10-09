@@ -88,7 +88,7 @@ const FIRST_TIME_TIPS: Record<string, string[]> = {
   cornicione: ['PIÙ % HAI, PIÙ LONTANO VOLI.', 'CADI FUORI = PERDI UNA VITA.', 'SALTI + SCHIVATA + RECOVERY TI FANNO TORNARE.']
 };
 /** Giochi con 6 comandi + 5 abilita' + consigli: la scheda diventa compatta (3 colonne) per stare in 1280x720. */
-const DENSE_GAMES = new Set(['cornicione']);
+const DENSE_GAMES = new Set(['cornicione', 'casacarbo']);
 function takeFirstTimeTips(minigameId: string, consume: boolean): string {
   const tips = FIRST_TIME_TIPS[minigameId];
   if (!tips) return '';

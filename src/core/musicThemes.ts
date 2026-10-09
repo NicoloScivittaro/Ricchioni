@@ -19,6 +19,7 @@ export type ThemeId =
   | 'volleyball'
   | 'kart3d'
   | 'cornicione'
+  | 'casacarbo'
   | 'fps'
   | 'memory'
   | 'reaction'
@@ -150,6 +151,16 @@ export const THEMES: Record<ThemeId, Theme> = {
     chords: { wave: 'square', style: 'stab', stabs: 'x..x..x...x..x..', octave: 0 },
     motif: [0, _, 2, _, 4, _, 7, _, 6, _, 4, _, 2, _, _, _, 0, _, 3, _, 4, _, 7, _, 9, _, 7, _, 4, _, _, _],
     lead: { wave: 'square', octave: 1 }, gain: 0.7
+  },
+  // CASA CARBO: temporale in casa, minore con un passo da comica (pizzicato), basso che "sgocciola"
+  casacarbo: {
+    id: 'casacarbo', bpm: 118, swing: 0.12, root: 45, scale: MINOR, progression: [0, 0, 5, 5, 3, 3, 4, 4],
+    kick: 'x...x..x..x.x...', snare: '....x.......x...', hat: 'x.x.x.x.x.x.x.x.', kickB: 'x...x..xx.x.x...',
+    perc: { kind: 'shaker', pattern: 'xoxoxoxoxoxoxoxo' },
+    bass: { pattern: '1.5.1.5.1.5.8.5.', wave: 'triangle', octave: -2 },
+    chords: { wave: 'triangle', style: 'stab', stabs: '..x...x...x...x.', octave: 0 },
+    motif: [0, _, 2, _, 3, _, 5, _, 3, _, 2, _, 0, _, _, _, 7, _, 5, _, 3, _, 2, _, 3, _, 2, _, 0, _, _, _],
+    lead: { wave: 'triangle', octave: 1 }, gain: 0.7
   },
   // SPARATORIA: synth scuro, minore armonico, basso pulsante; basso volume (le armi vengono prima)
   fps: {

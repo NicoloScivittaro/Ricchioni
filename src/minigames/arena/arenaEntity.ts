@@ -42,7 +42,7 @@ export interface VisualSubject {
 }
 
 export interface EntityOptions {
-  context?: 'arena'|'cornicione'|'dodgeball'|'soccer'|'volley'|'gallery';
+  context?: 'arena'|'cornicione'|'dodgeball'|'soccer'|'volley'|'gallery'|'casacarbo';
   goblinMode?: 'old'|'new';
   judokaMode?: 'old'|'new';
   buttafuoriMode?: 'old'|'new';

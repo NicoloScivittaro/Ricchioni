@@ -283,6 +283,39 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
       ]
     }
+  },
+  {
+    id: 'casacarbo',
+    icon: '🌧️',
+    description: "Il temporale allaga casa di Carbo: tiracqua, secchi e scarichi. Asciugate almeno il 75% e dimostrate chi ha lavorato di più.",
+    name: 'CASA CARBO',
+    category: 'SKILL',
+    rarity: 'uncommon',
+    minPlayers: 2,
+    maxPlayers: 5,
+    // 120 s di temporale + scena finale col vicino (~6,5 s).
+    durationSec: 120,
+    // Rete di sicurezza server (countdown + 120 s + finale + margine per un PC host lento).
+    hardCapSec: 300,
+    compatibleModifiers: ['punti_doppi'],
+    sceneKey: 'casacarbo',
+
+    inputMode: 'GAMEPAD',
+    // Chi NON ha il controller usa croce + tasti sul telefono (layout generico); col controller il telefono mostra la Companion Card.
+    controllerLayout: {
+      type: 'dpad',
+      controls: [
+        { id: 'up', label: '▲', kind: 'hold' },
+        { id: 'down', label: '▼', kind: 'hold' },
+        { id: 'left', label: '◀', kind: 'hold' },
+        { id: 'right', label: '▶', kind: 'hold' },
+        { id: 'squeegee', label: 'TIRACQUA', kind: 'hold', icon: '🧹' },
+        { id: 'bucket', label: 'SECCHIO', kind: 'hold', icon: '🪣' },
+        { id: 'dash', label: 'SCATTO', kind: 'button', icon: '💨' },
+        { id: 'interact', label: 'INTERAGISCI', kind: 'hold', icon: '✋' },
+        { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
+      ]
+    }
   }
 ];
 

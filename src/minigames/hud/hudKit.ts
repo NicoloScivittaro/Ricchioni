@@ -58,11 +58,11 @@ export class GameHud {
   protected feed: StackPanel;
   private feedTimers: number[] = [];
   protected bannerBox: Rectangle;
-  private bannerText: TextBlock;
-  private bannerSub: TextBlock;
+  protected bannerText: TextBlock;
+  protected bannerSub: TextBlock;
   private bannerTimer = 0;
   private modifier: TextBlock;
-  private chip!: Rectangle;
+  protected chip!: Rectangle;
   private right: TextBlock;
   private teamBar: { red: TextBlock; blue: TextBlock; timer: TextBlock; note: TextBlock } | null = null;
   private strip: Map<string, { box: Rectangle; name: TextBlock; status: TextBlock; icon: GuiImage | null }> = new Map();

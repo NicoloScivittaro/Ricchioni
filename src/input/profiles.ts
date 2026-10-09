@@ -104,6 +104,16 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'DODGE', binding: 'SECONDARY', control: 'dodge', label: 'SCHIVATA' },
     { action: 'ABILITY', binding: 'RB', control: 'ability', label: 'ABILITÀ' }
   ]),
+  // Casa Carbo: X tenuto = tiracqua (spinge l'acqua dove cammini), Y = secchio (tenuto raccoglie, premuto vicino a uno scarico svuota),
+  // A = scatto, B tenuto = interagisci (contenere una porta, liberare uno scarico, salvare la TV), RB = abilita'.
+  casacarbo: defineProfile('casacarbo', [
+    { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI' },
+    { action: 'SQUEEGEE', binding: 'LEFT', control: 'squeegee', label: 'TIRACQUA (TIENI)' },
+    { action: 'BUCKET', binding: 'TOP', control: 'bucket', label: 'SECCHIO: RACCOGLI / SVUOTA' },
+    { action: 'DASH', binding: 'PRIMARY', control: 'dash', label: 'SCATTO' },
+    { action: 'INTERACT', binding: 'SECONDARY', control: 'interact', label: 'PORTE · SCARICHI · TV (TIENI)' },
+    { action: 'ABILITY', binding: 'RB', control: 'ability', label: 'ABILITÀ' }
+  ]),
   // Kart: RT/LT sono TASTI (pressed/tenuto/rilasciato), come 'up'/'down' del telefono oggi — il gioco non ha un accel/frenata
   // analogici (accelerazione a valore fisso mentre il tasto e' giu'): introdurre una magnitudine cambierebbe la curva fisica,
   // quindi si adatta in modo compatibile ("RT+LT insieme": vince il throttle, identico a oggi con up/down). Lo STERZO invece

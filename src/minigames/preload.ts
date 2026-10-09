@@ -10,7 +10,8 @@ const LOADERS: Record<string, () => Promise<unknown>> = {
   kart3d: () => import('./kart-race/BabylonKartGame'),
   soccer: () => import('./soccer/BabylonSoccerGame'),
   volleyball: () => import('./volleyball/BabylonVolleyballGame'),
-  cornicione: () => import('./cornicione/BabylonCornicioneGame')
+  cornicione: () => import('./cornicione/BabylonCornicioneGame'),
+  casacarbo: () => import('./casaCarbo/CasaCarboGame')
 };
 
 const started = new Set<string>();
