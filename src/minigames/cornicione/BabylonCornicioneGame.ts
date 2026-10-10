@@ -45,6 +45,7 @@ export class BabylonCornicioneGame {
   private engine: Engine;
   private scene: Scene;
   private world: FighterWorld;
+  private projectionPoses = new Map<string,number>();
   private entities = new Map<PlayerId, ArenaEntity>();
   private camera: FighterCamera;
   private hud: FighterHud;
@@ -232,7 +233,8 @@ export class BabylonCornicioneGame {
       lightPressed: inp.justPressed('light'),
       heavyPressed: inp.justPressed('heavy'),
       dodgePressed: inp.justPressed('dodge'),
-      abilityPressed: inp.justPressed('ability')
+      abilityPressed: inp.justPressed('ability'),
+      kickPressed:inp.justPressed('kick'),grabPressed:inp.justPressed('grab'),parryPressed:inp.justPressed('parry')
     };
   }
 
@@ -260,16 +262,32 @@ export class BabylonCornicioneGame {
 
   private handle(e: FighterEvent): void {
     switch (e.t) {
+      case 'parry': {
+        const f=this.fighter(e.id);if(!f)break;
+        if(e.state==='start'){this.ent(e.id)?.playMove('brace',.43);this.fx.ring(f.x,f.y+1,'#67e8f9',1.6);}
+        if(e.state==='success'){this.fx.spark(f.x,f.y+1.2,'#67e8f9',2);this.ent(e.id)?.say('PARATA!');this.hud.feedMessage('PARATA! CONTRATTACCA','#67e8f9',1000);audio.select();this.ctx.vibrate(e.id,60);}
+        break;
+      }
+      case 'grab': {
+        const f=this.fighter(e.id),v=this.fighter(e.victim);if(!f||!v)break;
+        if(e.state==='caught'){this.ent(e.id)?.playMove('grab',.22);this.ent(e.victim)?.say('PRESO!');this.fx.ring(v.x,v.y+1,'#fbbf24',1.2);audio.thump(.5,this.pan(f.x));}
+        if(e.state==='thrown'){this.projectionPoses.set(e.id,.30);this.ent(e.id)?.playMove('fling',.3);this.fx.slash(v.x,v.y+1,Math.atan2(v.vy,v.vx),2,'#fbbf24');this.hud.feedMessage('PROIEZIONE!','#fbbf24',900);}
+        if(e.state==='escaped')this.ent(e.victim)?.say('LIBERO!');
+        break;
+      }
       case 'attack': {
         const ent = this.ent(e.id);
         if (!ent) break;
         const m = e.move;
         if (e.phase === 'start') {
-          if (m.kind === 'heavy') {
+          if(m.kind==='kick')ent.playMove('brace',m.startup);
+          else if(m.kind==='grab')ent.playMove('grab',this.moveDur(m));
+          else if (m.kind === 'heavy') {
             ent.playMove('smashWind', m.startup + 0.02); // anticipo leggibile: si vede arrivare
           } else ent.playMove(m.anim === 'follow' ? 'follow' : this.lightAnim(m), this.moveDur(m));
           if (m.kind === 'light') audio.bump(this.pan(this.fighter(e.id)?.x ?? 0));
         } else {
+          if(m.kind==='kick'){ent.playMove('kick',m.active+m.recovery);const f=this.fighter(e.id);if(f)this.fx.slash(f.x+f.facing*1.3,f.y+(m.air&&m.dir==='d'?0:1),m.dir==='d'?-Math.PI/3:0,2,this.colorOf(e.id));audio.bump(this.pan(f?.x??0));}
           if (m.kind === 'heavy') {
             ent.playMove(m.anim === 'smash' ? 'smash' : m.anim === 'upHeavy' ? 'upHeavy' : m.anim === 'sweepHeavy' ? 'sweepHeavy' : m.anim === 'spike' ? 'airSpike' : 'smash', m.active + m.recovery);
             audio.smash(this.pan(this.fighter(e.id)?.x ?? 0));
@@ -584,12 +602,14 @@ export class BabylonCornicioneGame {
       if (!ent) continue;
       const gone = f.dead || !f.inGame || f.ab.vanishT > 0;
       ent.root.setEnabled(!gone);
-      if (gone) continue;
+      if (gone) {this.projectionPoses.delete(f.id);continue;}
       const blink = f.invuln > 0 && Math.floor(now / 90) % 2 === 0 && f.hover <= 0;
       ent.setBodyVisible(!blink);
       const light = f.ab.weightT > 0;
       ent.setSizeMul(light ? 0.88 : 1);
       ent.setAura(light || f.percent >= 120 || f.ab.pendingT > 0 || f.ab.followT > 0);
+      const projection=Math.max(0,(this.projectionPoses.get(f.id)??0)-dt);this.projectionPoses.set(f.id,projection);
+      const pose=f.hitstun>0?null:projection>0?{id:'projection',elapsed:.30-projection,startup:.025,active:.12,recovery:.155}:f.parry?{id:'parry',elapsed:f.parry.t,startup:.025,active:.12,recovery:.28}:null;
       const vis: VisualSubject = {
         x: f.x,
         y: f.y,
@@ -607,7 +627,7 @@ export class BabylonCornicioneGame {
         air: f.grounded ? 0 : 1,
         grounded: f.grounded,
         vy: f.vy,
-        attack: f.attack ? { id:f.attack.move.id,elapsed:f.attack.t,startup:f.attack.move.startup,active:f.attack.move.active,recovery:f.attack.move.recovery } : null,
+        attack: pose ?? (f.attack ? { id:f.attack.move.id,elapsed:f.attack.t,startup:f.attack.move.startup,active:f.attack.move.active,recovery:f.attack.move.recovery+(f.attack.hit.size===0?f.attack.move.whiffRecovery??0:0) } : null),
         abilityActive: f.ab.burstT>0
       };
       ent.updateVisual(vis, dt, now);

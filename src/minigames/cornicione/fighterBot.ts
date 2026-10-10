@@ -26,7 +26,7 @@ export class FighterBot {
   input(w: FighterWorld, dt: number): FighterInput {
     const f = w.byId.get(this.id);
     if (!f || !f.inGame || f.dead) return NO_INPUT;
-    const out: FighterInput = { mx: 0, my: 0, jumpPressed: false, jumpHeld: false, lightPressed: false, heavyPressed: false, dodgePressed: false, abilityPressed: false };
+    const out: FighterInput = { ...NO_INPUT, mx: 0, my: 0, jumpPressed: false, jumpHeld: false, lightPressed: false, heavyPressed: false, dodgePressed: false, abilityPressed: false };
     this.cd -= dt;
     this.abilityTry -= dt;
     this.hold.jump = Math.max(0, this.hold.jump - dt);
@@ -60,7 +60,8 @@ export class FighterBot {
       else if (f.characterId === 'buttafuori' && f.ab.charges > 0 && f.percent > 70 && this.rnd() < 0.4) {
         out.abilityPressed = true;
         out.mx = -Math.sign(dx);
-      } else out.dodgePressed = true;
+      } else if(f.grounded && f.parryCd<=0 && this.rnd()<.35)out.parryPressed=true;
+      else out.dodgePressed = true;
     }
     this.lastAttackerPhase = threat;
 
@@ -90,7 +91,9 @@ export class FighterBot {
     // attacco
     if (!this.passive && this.cd <= 0 && dist < 2.4 && Math.abs(dy) < 2.6 && !f.attack && !f.dodge) {
       const heavy = this.rnd() < 0.3;
-      if (heavy) out.heavyPressed = true;
+      if(f.grounded && dist<1.7 && e.parry && this.rnd()<.5)out.grabPressed=true;
+      else if(dist>1.8 && this.rnd()<.4)out.kickPressed=true;
+      else if (heavy) out.heavyPressed = true;
       else out.lightPressed = true;
       if (dy > 1.4) out.my = 1;
       else if (dy < -1.6 && !f.grounded) out.my = -1;

@@ -102,6 +102,9 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'LIGHT', binding: 'LEFT', control: 'light', label: 'ATTACCO LEGGERO' },
     { action: 'HEAVY', binding: 'TOP', control: 'heavy', label: 'ATTACCO PESANTE · ↑ IN ARIA = RECOVERY' },
     { action: 'DODGE', binding: 'SECONDARY', control: 'dodge', label: 'SCHIVATA' },
+    { action: 'KICK', binding: 'RT', control: 'kick', label: 'CALCIO · ↓ IN ARIA = DALL’ALTO' },
+    { action: 'GRAB', binding: 'LB', control: 'grab', label: 'PRESA · STICK = PROIEZIONE' },
+    { action: 'PARRY', binding: 'LT', control: 'parry', label: 'PARATA A TEMPO' },
     { action: 'ABILITY', binding: 'RB', control: 'ability', label: 'ABILITÀ' }
   ]),
   // Casa Carbo: X tenuto = tiracqua (spinge l'acqua dove cammini), Y = secchio (tenuto raccoglie, premuto vicino a uno scarico svuota),

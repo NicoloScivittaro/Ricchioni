@@ -1,0 +1,19 @@
+
+=== Abilità ON ===
+2p: durata media 148s (min 141, max 150) · scadenza 4/5 · KO/partita 3.6 · % medio al KO 186 · rientri a partita 14.8 (recovery attack 7.8) · combo max 5
+3p: durata media 140s (min 119, max 150) · scadenza 2/5 · KO/partita 7.2 · % medio al KO 162 · rientri a partita 19.8 (recovery attack 15.6) · combo max 6
+4p: durata media 118s (min 112, max 126) · scadenza 0/5 · KO/partita 10.8 · % medio al KO 147 · rientri a partita 22.6 (recovery attack 25.4) · combo max 6
+5p: durata media 148s (min 143, max 150) · scadenza 3/5 · KO/partita 13.2 · % medio al KO 159 · rientri a partita 37.2 (recovery attack 36.2) · combo max 8
+   goblin      usi/partita 2.80 · riusciti 14 · falliti 1 · vittorie 2/5
+   buttafuori  usi/partita 1.80 · riusciti 9 · falliti 0 · vittorie 0/5
+   judoka      usi/partita 2.80 · riusciti 12 · falliti 2 · vittorie 0/5
+   dottore     usi/partita 3.00 · riusciti 2 · falliti 0 · vittorie 2/5
+   ciro        usi/partita 2.80 · riusciti 12 · falliti 2 · vittorie 1/5
+
+=== Abilità OFF ===
+2p: durata media 150s (min 150, max 150) · scadenza 5/5 · KO/partita 3.6 · % medio al KO 187 · rientri a partita 14.8 (recovery attack 7.6) · combo max 6
+3p: durata media 129s (min 110, max 150) · scadenza 1/5 · KO/partita 7.8 · % medio al KO 143 · rientri a partita 23.8 (recovery attack 20.2) · combo max 6
+4p: durata media 121s (min 94, max 146) · scadenza 0/5 · KO/partita 10.6 · % medio al KO 123 · rientri a partita 24.4 (recovery attack 29.8) · combo max 6
+5p: durata media 124s (min 99, max 150) · scadenza 1/5 · KO/partita 13.4 · % medio al KO 144 · rientri a partita 32.8 (recovery attack 30.0) · combo max 7
+
+✅ nessun problema evidente (indicativo: i bot non sono giocatori)

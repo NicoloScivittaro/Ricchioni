@@ -113,7 +113,7 @@ function build(minigameId: string, mode: 'pad' | 'phone', consumeTips = true): s
   const profile = profileFor(minigameId)!;
   const fams = families();
   // l'ABILITA' e' il comando speciale: sempre presente (anche se i comandi fossero piu' di 6) e disegnata in evidenza
-  const ordered = [...profile.controls.filter((c) => c.action !== 'ABILITY').slice(0, 5), ...profile.controls.filter((c) => c.action === 'ABILITY')];
+  const ordered = [...profile.controls.filter((c) => c.action !== 'ABILITY').slice(0, minigameId === 'cornicione' ? 8 : 5), ...profile.controls.filter((c) => c.action === 'ABILITY')];
   const labelsOf = (c: (typeof ordered)[number]): string => [...new Set(fams.map((f) => bindingLabel(c.binding, f)))].join(' / ');
   const rows = ordered
     .map((c) => {

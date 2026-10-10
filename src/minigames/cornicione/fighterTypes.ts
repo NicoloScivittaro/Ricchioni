@@ -10,9 +10,12 @@ export interface FighterInput {
   heavyPressed: boolean;
   dodgePressed: boolean;
   abilityPressed: boolean;
+  kickPressed?: boolean;
+  grabPressed?: boolean;
+  parryPressed?: boolean;
 }
 
-export const NO_INPUT: FighterInput = { mx: 0, my: 0, jumpPressed: false, jumpHeld: false, lightPressed: false, heavyPressed: false, dodgePressed: false, abilityPressed: false };
+export const NO_INPUT: FighterInput = { kickPressed:false,grabPressed:false,parryPressed:false, mx: 0, my: 0, jumpPressed: false, jumpHeld: false, lightPressed: false, heavyPressed: false, dodgePressed: false, abilityPressed: false };
 
 export type AbilityResult = 'ok' | 'spent' | 'busy' | 'notAir' | 'notOffstage' | 'stunned' | 'notNow' | 'disabled';
 
@@ -113,6 +116,12 @@ export interface Fighter {
   heavyBuf: number;
   dodgeBuf: number;
   // azioni
+  kickBuf: number; grabBuf: number; parryBuf: number;
+  parry: {t:number} | null;
+  parryCd: number;
+  grab: {victim:string;t:number} | null;
+  grabbedBy: string | null;
+  grabProtect: number;
   attack: AttackState | null;
   dodge: DodgeState | null;
   dodgeCd: number;
@@ -165,6 +174,8 @@ export type FighterEvent =
   | { t: 'bounce'; id: string }
   | { t: 'ability'; id: string; a: AbilityEventName; x?: number; y?: number; extra?: number }
   | { t: 'abilityPress'; id: string; res: AbilityResult }
+  | { t: 'grab'; id:string; victim:string; state:'caught'|'thrown'|'escaped' }
+  | { t: 'parry'; id:string; state:'start'|'success'|'miss'; attacker?:string }
   | { t: 'end'; reason: 'lastStanding' | 'timeout' | 'suddenDeath' };
 
 export type AbilityEventName =

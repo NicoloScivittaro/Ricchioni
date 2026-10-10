@@ -142,9 +142,9 @@ export function spawnPoints(n: number): { x: number; y: number }[] {
 
 // ------------------------------------------------------------------ mosse
 export type MoveDir = 'n' | 's' | 'u' | 'd';
-export type MoveKind = 'light' | 'heavy' | 'recovery' | 'follow';
+export type MoveKind = 'light' | 'heavy' | 'recovery' | 'follow' | 'kick' | 'grab';
 export type ImpactName = 'LIGHT' | 'MEDIUM' | 'HEAVY';
-export type MoveAnim = 'jab' | 'side' | 'up' | 'down' | 'smash' | 'upHeavy' | 'sweepHeavy' | 'air' | 'spike' | 'recovery' | 'follow';
+export type MoveAnim = 'jab' | 'side' | 'up' | 'down' | 'smash' | 'upHeavy' | 'sweepHeavy' | 'air' | 'spike' | 'recovery' | 'follow' | 'kick' | 'grab';
 
 export interface MoveDef {
   id: string;
@@ -155,6 +155,8 @@ export interface MoveDef {
   startup: number;
   active: number;
   recovery: number;
+  /** Extra recovery if the new spacing move misses. Original moves are unchanged. */
+  whiffRecovery?: number;
   dmg: number;
   /** knockback = bkb + percentuale_vittima * kbs (m/s) */
   bkb: number;
@@ -218,3 +220,17 @@ export const ALL_MOVES: MoveDef[] = [...Object.values(GROUND_MOVES), ...Object.v
 
 /** Soglie di lettura dello stick. */
 export const STICK = { dead: 0.2, dir: 0.55, side: 0.45, drop: 0.7, fastFall: 0.6 } as const;
+
+
+/** New options: same data for all five characters. No changes to the fourteen original moves. */
+export const STRATEGY = {
+ parry:{startup:.025,active:.12,recovery:.28,cooldown:.95,punish:.28},
+ grab:{hold:.22,protect:1.0,maxSpeed:30}
+} as const;
+export const STRATEGY_MOVES = {
+ kick:m({id:'kick',kind:'kick',air:false,dir:'s',startup:.18,active:.10,recovery:.30,whiffRecovery:.18,dmg:4.5,bkb:6,kbs:.055,angle:30,hit:{x:2.35,y:1.1,w:2.3,h:1.0},impact:'LIGHT',anim:'kick'}),
+ airKick:m({id:'airKick',kind:'kick',air:true,dir:'s',startup:.14,active:.12,recovery:.28,whiffRecovery:.15,dmg:4.5,bkb:6,kbs:.055,angle:35,hit:{x:2.1,y:1.1,w:2.4,h:1.1},landLag:.22,impact:'LIGHT',anim:'kick'}),
+ airDownKick:m({id:'airDownKick',kind:'kick',air:true,dir:'d',startup:.16,active:.11,recovery:.32,whiffRecovery:.15,dmg:4,bkb:6,kbs:.05,angle:-55,hit:{x:.85,y:-.3,w:2.1,h:1.6},landLag:.28,impact:'LIGHT',anim:'kick'}),
+ grab:m({id:'grab',kind:'grab',air:false,dir:'s',startup:.16,active:.05,recovery:.43,dmg:3,bkb:8,kbs:.10,angle:28,hit:{x:.9,y:1.1,w:.8,h:1.6},impact:'MEDIUM',anim:'grab'})
+};
+export function pickKick(air:boolean,down:boolean):MoveDef {return air?(down?STRATEGY_MOVES.airDownKick:STRATEGY_MOVES.airKick):STRATEGY_MOVES.kick;}

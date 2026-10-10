@@ -148,7 +148,7 @@ export function companionHtml(minigameId: string, me: PlayerPublic, minigameName
   const accent = pres?.accent ?? ch.color;
   const rows = (profile?.controls ?? [])
     .filter((c) => c.action !== 'ABILITY')
-    .slice(0, 6)
+    .slice(0, minigameId === 'cornicione' ? 8 : 6)
     .map((c) => `<div class="cc-row"><span class="cc-cap">${esc(bindingLabel(c.binding, fam))}</span><span class="cc-act">${esc(c.label)}</span></div>`)
     .join('');
   const s = current();

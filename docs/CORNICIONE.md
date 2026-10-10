@@ -101,3 +101,22 @@ node scripts/e2e/fighter-lab-shots.mjs         # foto dei momenti chiave in e2e-
 ## Da verificare con persone e controller veri (NON fatto)
 
 Il feeling di salto/colpo/schivata, i tempi (anticipo/recupero), la letalità reale, la leggibilità con 5 persone sul divano, il peso delle abilità (nessun bilanciamento fine automatico: i bot non sono giocatori), le prestazioni su GPU reale.
+
+## Espansione strategica dopo il playtest (ottobre 2026)
+
+Le quattordici mosse precedenti, schivate, salti, recovery, anti-mash, anti-combo e cinque abilità sono conservati. Si aggiungono quattro mosse alla tabella separata STRATEGY_MOVES e una difesa attiva, identiche per tutti i personaggi:
+
+| comando | scelta | vantaggio e rischio |
+|---|---|---|
+| RT / R2 | calcio | portata maggiore del pugno, stesso danno del laterale leggero (4,5); anticipo 0,18 s e recupero 0,30 s, più 0,18 s a vuoto |
+| RT / R2 in aria | calcio aereo | spazio davanti, anticipo 0,14 s, recupero e penalità all'atterraggio; ↓ + RT/R2 calcia dall'alto, non dà una recovery aggiuntiva |
+| LB / L1 | presa a terra | portata corta, anticipo 0,16 s, attivo 0,05 s, tiene 0,22 s; scegli con stick sinistra/destra/su/giù la proiezione, 3 danni, velocità limitata a 30 m/s; recupero 0,43 s |
+| LT / L2 | parata a tempo | solo a terra, anticipo 0,025 s, finestra frontale 0,12 s; successo annulla un colpo e scopre chi attacca per 0,28 s; errore 0,28 s di recupero; ricarica 0,95 s |
+
+Contromosse: schivare una presa, colpire chi afferra per liberare il compagno, prendere chi usa la parata. Un bersaglio stordito non può essere afferrato; dopo rilascio/proiezione ha un secondo di protezione dalla sola presa. Può ancora subire colpi normali. Parata riuscita non rende invulnerabili agli altri avversari e non lancia né assegna danni gratuiti. L'abilità di Carbo mantiene finestra, proiezione e cariche proprie e può intercettare anche una presa comune.
+
+I binding provengono da `src/input/profiles.ts`, come gli altri: nuovo elenco completo in CONTROLLI e nella Companion Card. Telefono: CALCIO, PRESA, PARATA, accanto ai cinque pulsanti precedenti. Controller generico standard: RT, LB, LT nelle stesse posizioni. Salto A/✕, leggero X/□, pesante Y/△, schiva B/◯, RB/R1 abilità e ↑+Y/△ recovery non cambiano. I buffer seguono InputManager e azioni a fronte, non navigator.getGamepads diretto.
+
+Animazioni: calci, presa, proiezione e blocco usano le clip semantiche già disponibili dei quattro modelli Tripo; tempi di contatto letti dalla simulazione. Il Dottore conserva il rig procedurale. Calcio aereo e presa interrotta usano per ora clip riadattate e movimento/effetti leggibili; per rifinirli servono in futuro un calcio aereo dedicato, una lotta della vittima afferrata e una transizione parata/contrattacco. Nessuna sostituzione di skin o modifica dei collider legata all'animazione.
+
+Test aggiuntivi: `scripts/fighter-strategy-selftest.ts`, `scripts/e2e/post-playtest-fighter.mjs`, `scripts/e2e/post-playtest-fighter-production.mjs`. Tempi e vantaggi delle nuove scelte richiedono playtest umano; non sono bilanciamento definitivo.

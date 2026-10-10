@@ -1,0 +1,81 @@
+{
+  "errors": [],
+  "accelerated": false,
+  "players": [
+    {
+      "id": "8ca4cfa1-425c-4d3f-b8c2-c94016a3b9d8",
+      "bot": false,
+      "character": "goblin"
+    },
+    {
+      "id": "bot:a1cc2347-58c8-40f2-9945-a588d7a502d7",
+      "bot": true,
+      "character": "buttafuori"
+    },
+    {
+      "id": "bot:0fb0cc5f-d7bf-4679-a585-af00fea8e230",
+      "bot": true,
+      "character": "judoka"
+    },
+    {
+      "id": "bot:05adc3a7-8e69-49df-a204-0e0628b2a92a",
+      "bot": true,
+      "character": "ciro"
+    },
+    {
+      "id": "bot:5ed71cce-16c7-4d87-a804-f0059d253d4a",
+      "bot": true,
+      "character": "dottore"
+    }
+  ],
+  "results": [
+    {
+      "playerId": "bot:05adc3a7-8e69-49df-a204-0e0628b2a92a",
+      "placement": 1,
+      "score": 6,
+      "stats": [
+        "6 KO",
+        "524% danno",
+        "9 recuperi"
+      ]
+    },
+    {
+      "playerId": "bot:5ed71cce-16c7-4d87-a804-f0059d253d4a",
+      "placement": 2,
+      "score": 2,
+      "stats": [
+        "2 KO",
+        "433% danno",
+        "7 recuperi"
+      ]
+    },
+    {
+      "playerId": "bot:a1cc2347-58c8-40f2-9945-a588d7a502d7",
+      "placement": 3,
+      "score": 3,
+      "stats": [
+        "3 KO",
+        "339% danno",
+        "7 recuperi"
+      ]
+    },
+    {
+      "playerId": "bot:0fb0cc5f-d7bf-4679-a585-af00fea8e230",
+      "placement": 4,
+      "score": 1,
+      "stats": [
+        "1 KO",
+        "332% danno",
+        "4 counter"
+      ]
+    },
+    {
+      "playerId": "8ca4cfa1-425c-4d3f-b8c2-c94016a3b9d8",
+      "placement": 5,
+      "score": 0,
+      "stats": [
+        "0 KO"
+      ]
+    }
+  ]
+}

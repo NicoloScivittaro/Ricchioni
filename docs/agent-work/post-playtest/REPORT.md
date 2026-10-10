@@ -60,6 +60,20 @@
 
 **Limiti/playtest umano:** leggibilità del tutorial con cinque persone, soddisfazione e valore dei tre pool, soglia della camera, incidenti fra secchi pieni. Le emergenze di TV/camera scattano su acqua reale nella zona: possono non verificarsi se nessuno la lascia arrivare lì. Nessuna nuova animazione indispensabile: gesti e clip già esistenti, effetti limitati; nessuna compressione Tripo. Build aggiornata passata dopo la correzione visiva. Produzione: un telefono e quattro bot, 120 secondi a tempo reale senza debug/accelerazione, input del telefono, cinque risultati con contributi reali e zero pageerror.
 
+## 5. Botte sul Cornicione — implementato e verificato
+
+**Problema/causa:** i quattordici attacchi originali avevano varianti direzionali, ma mancavano scelte esplicite con distanza/rischio, presa e difesa a tempo. La schermata e il telefono elencavano solo le cinque azioni precedenti.
+
+**Prima/dopo:** quattordici mosse mantenute; calci separati di terra/aria, calcio verso il basso, recupero aggiuntivo se a vuoto e lag di atterraggio; danni di base comparabili al leggero. Presa corta rischiosa, proiezione con lo stick, interruzione da terzi e protezione dalle prese concatenate. Parata frontale: 25 ms di avvio, 120 ms utili, 280 ms di recupero e 950 ms di cooldown; successo interrompe l'attaccante e permette contrattacco, errore lascia vulnerabili, presa la supera. Schivata conserva invulnerabilità; test ha individuato e corretto una finestra della presa che durava oltre la schivata. Le cinque abilità conservano regole/cariche, incluso il counter speciale di Carbo. Bot usano le nuove opzioni.
+
+**Controlli:** RT/R2 calcio, LB/L1 presa (stick per proiettare), LT/L2 parata; telefono tre pulsanti equivalenti. CONTROLLI e Companion aggiornati solo per Cornicione. Animazioni originali delle quattro skin Tripo riutilizzate con sei ID semantici; Dottore procedurale mantiene pose leggibili. Nessuna modifica ai collider dei modelli.
+
+**File:** fighterTypes/Data/Core/Bot, BabylonCornicioneGame in src/minigames/cornicione; goblinAnimator, profili input, ControlsHelp, abilityCard e registry condiviso per i tre controlli, docs/CORNICIONE.md e test dedicati.
+
+**Test passati:** typecheck/build; 165 controlli originali, 82 abilità, nuovi test di distanza/recupero/aria/prese/direzioni/interruzioni/protezione/parata/frontale/cooldown/input; tutte quattro le librerie Tripo contengono i sei movimenti usati. Simulazioni 2–5 ON/OFF senza NaN o stalli. Suite pad Xbox/DualSense/telefono, cinque abilità/privacy, 431 controlli clip personaggi. Browser cinque giocatori e tre famiglie pad: input reali RT/LB/LT, danno da calcio a distanza, presa e proiezione a sinistra, parata e finestra di contrattacco, pulsante telefono; CONTROLLI/Companion e schermo mobile verificati. Pausa/reload, round naturale a 100,5 s simulati, cinque risultati, lobby con zero istanze Tripo residue e un canvas, zero pageerror. Screenshot TV/telefono/partita visionati. Un server di test conservava il registry precedente: riavvio a freddo e prova ripetuta passata. Produzione: un telefono e quattro bot, round completo a tempo reale senza debug/accelerazione, calcio dal telefono, cinque risultati e zero pageerror.
+
+**Da playtest/animazioni:** portata e recupero dei calci, rischio della presa e timing della parata richiedono mani umane; nessun bilanciamento fine degli attacchi originali. Da creare per rifinitura: calcio aereo dedicato, reazione del prigioniero e transizione parata–contrattacco. Le clip adattate rendono già riconoscibili le meccaniche; non bloccano il gioco.
+
 ## Fasi successive
 
-Cornicione e Calcio non ancora implementati né dichiarati verificati. Regressione completa ancora da eseguire. Quiz: commit locale `fc1731f`; Arena: `8b8eb70`; Kart: `27776fe`.
+Resta Calcio, poi regressione completa. Commit locali: Quiz fc1731f, Arena 8b8eb70, Kart 27776fe, Casa Carbo b8d7f7a; Cornicione in creazione. Nessun push.

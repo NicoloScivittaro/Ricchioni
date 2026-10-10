@@ -1,4 +1,4 @@
-import { PHYS, DODGE, WALL, RECOVERY, DMG, KO, MATCH, STAGE, STICK, spawnPoints, pickMove } from './fighterData';
+import { PHYS, DODGE, WALL, RECOVERY, DMG, KO, MATCH, STAGE, STICK, spawnPoints, pickMove, pickKick, STRATEGY, STRATEGY_MOVES } from './fighterData';
 import type { MoveDef, MoveDir } from './fighterData';
 import { NO_INPUT, freshAbilityState } from './fighterTypes';
 import type { Fighter, FighterEvent, FighterInput, FighterStats, MatchPhase } from './fighterTypes';
@@ -80,6 +80,7 @@ export class FighterWorld {
         lightBuf: 0,
         heavyBuf: 0,
         dodgeBuf: 0,
+        kickBuf:0,grabBuf:0,parryBuf:0,parry:null,parryCd:0,grab:null,grabbedBy:null,grabProtect:0,
         attack: null,
         dodge: null,
         dodgeCd: 0,
@@ -139,7 +140,7 @@ export class FighterWorld {
 
   /** Il bersaglio e' colpibile ora? */
   hittable(f: Fighter): boolean {
-    return f.inGame && !f.dead && f.invuln <= 0 && f.intang <= 0 && f.ab.vanishT <= 0 && f.ab.windowT <= 0 && f.frozenT <= 0;
+    return f.inGame && !f.dead && f.invuln <= 0 && f.intang <= 0 && f.ab.vanishT <= 0 && f.ab.windowT <= 0 && f.frozenT <= 0 && !f.grabbedBy;
   }
 
   // ------------------------------------------------------------------ passo
@@ -159,7 +160,7 @@ export class FighterWorld {
     this.time += dt;
     for (const f of this.fighters) {
       const raw = get(f.id);
-      const inp: FighterInput = first ? raw : { ...raw, jumpPressed: false, lightPressed: false, heavyPressed: false, dodgePressed: false, abilityPressed: false };
+      const inp: FighterInput = first ? raw : { ...raw, jumpPressed: false, lightPressed: false, heavyPressed: false, dodgePressed: false, abilityPressed: false, kickPressed:false, grabPressed:false, parryPressed:false };
       this.stepFighter(f, inp, dt);
     }
     this.resolveHits();
@@ -176,6 +177,8 @@ export class FighterWorld {
       return;
     }
     // timer comuni
+    f.kickBuf=Math.max(0,f.kickBuf-dt);f.grabBuf=Math.max(0,f.grabBuf-dt);f.parryBuf=Math.max(0,f.parryBuf-dt);
+    f.parryCd=Math.max(0,f.parryCd-dt);f.grabProtect=Math.max(0,f.grabProtect-dt);
     f.jumpBuf = Math.max(0, f.jumpBuf - dt);
     f.lightBuf = Math.max(0, f.lightBuf - dt);
     f.heavyBuf = Math.max(0, f.heavyBuf - dt);
@@ -196,13 +199,16 @@ export class FighterWorld {
     const sy = dead(inp.my);
     f.lastStick.x = sx;
     f.lastStick.y = sy;
+    if(inp.kickPressed)f.kickBuf=PHYS.buffer;
+    if(inp.grabPressed)f.grabBuf=PHYS.buffer;
+    if(inp.parryPressed)f.parryBuf=PHYS.buffer;
     if (inp.jumpPressed) f.jumpBuf = PHYS.buffer;
     if (inp.lightPressed) f.lightBuf = PHYS.buffer;
     if (inp.heavyPressed) f.heavyBuf = PHYS.buffer;
     if (inp.dodgePressed) f.dodgeBuf = PHYS.buffer;
 
     // abilita': timer, finestre, pressione
-    if (inp.abilityPressed) this.emit({ t: 'abilityPress', id: f.id, res: this.abil.press(f, sx, sy) });
+    if (inp.abilityPressed) this.emit({ t: 'abilityPress', id: f.id, res: f.grab || f.grabbedBy || f.parry ? 'busy' : this.abil.press(f, sx, sy) });
     this.abil.update(f, dt);
     if (!f.inGame || f.dead) return;
 
@@ -212,6 +218,13 @@ export class FighterWorld {
       f.frozenT -= dt;
       return;
     }
+
+    if(f.grabbedBy){
+      const holder=this.byId.get(f.grabbedBy);
+      if(holder?.grab?.victim===f.id && holder.inGame && !holder.dead){f.x=holder.x+holder.facing*.85;f.y=holder.y+.08;f.vx=f.vy=0;return;}
+      f.grabbedBy=null;f.grabProtect=STRATEGY.grab.protect;
+    }
+    if(f.grab)this.progressGrab(f,dt);
 
     const prevX = f.x;
     const prevY = f.y;
@@ -237,6 +250,11 @@ export class FighterWorld {
 
   private actions(f: Fighter, inp: FighterInput, sx: number, sy: number, dt: number): void {
     const locked = this.abil.locks(f);
+    if(f.grab)return;
+    if(f.parry){
+      f.parry.t+=dt;
+      if(f.parry.t>=STRATEGY.parry.startup+STRATEGY.parry.active+STRATEGY.parry.recovery){f.parry=null;this.emit({t:'parry',id:f.id,state:'miss'});}
+    }
     if (f.attack) this.progressAttack(f, dt, sx);
     if (f.dodge) this.progressDodge(f, dt);
     if (f.landLag > 0) f.landLag = Math.max(0, f.landLag - dt);
@@ -244,7 +262,7 @@ export class FighterWorld {
       f.hover -= dt;
       if (f.jumpBuf > 0 || f.lightBuf > 0 || f.heavyBuf > 0 || f.dodgeBuf > 0) f.hover = 0;
     }
-    const free = !f.attack && !f.dodge && f.landLag <= 0 && !locked;
+    const free = !f.parry && !f.attack && !f.dodge && f.landLag <= 0 && !locked;
     if (free && Math.abs(sx) > 0.3) f.facing = sx > 0 ? 1 : -1;
 
     // discesa dalla piattaforma: ↓ tenuto
@@ -263,8 +281,39 @@ export class FighterWorld {
     if (!free) return;
     if (f.jumpBuf > 0 && this.tryJump(f, sx)) f.jumpBuf = 0;
     if (f.dodgeBuf > 0 && f.ab.lockDodge <= 0 && this.tryDodge(f, sx, sy)) f.dodgeBuf = 0;
+    else if(f.parryBuf>0 && f.grounded && f.parryCd<=0){f.parryBuf=0;f.parry={t:0};f.parryCd=STRATEGY.parry.cooldown;f.invuln=0;f.hover=0;this.emit({t:'parry',id:f.id,state:'start'});}
+    else if(f.grabBuf>0 && f.grounded && this.startStrategy(f,STRATEGY_MOVES.grab,sx)){f.grabBuf=0;}
+    else if(f.kickBuf>0 && this.startStrategy(f,pickKick(!f.grounded,sy < -STICK.dir),sx)){f.kickBuf=0;}
     else if (f.heavyBuf > 0 && this.tryAttack(f, 'heavy', sx, sy)) f.heavyBuf = 0;
     else if (f.lightBuf > 0 && this.tryAttack(f, 'light', sx, sy)) f.lightBuf = 0;
+  }
+
+  private startStrategy(f:Fighter,move:MoveDef,sx:number):boolean {
+    if(Math.abs(sx)>.3)f.facing=sx>0?1:-1;
+    f.attack={move,t:0,hit:new Set(),phase:0};f.invuln=0;f.hover=0;f.dropHold=0;
+    this.emit({t:'attack',id:f.id,move,phase:'start'});return true;
+  }
+  private releaseGrab(f:Fighter):void {
+    if(!f.grab)return;
+    const v=this.byId.get(f.grab.victim);
+    if(v && v.grabbedBy===f.id){v.grabbedBy=null;v.grabProtect=STRATEGY.grab.protect;this.emit({t:'grab',id:f.id,victim:v.id,state:'escaped'});}
+    f.grab=null;
+  }
+  private progressGrab(f:Fighter,dt:number):void {
+    const g=f.grab!,v=this.byId.get(g.victim);
+    if(!v || !v.inGame || v.dead || !f.inGame || f.dead){this.releaseGrab(f);return;}
+    g.t+=dt;f.vx=f.vy=0;
+    if(g.t<STRATEGY.grab.hold)return;
+    f.grab=null;v.grabbedBy=null;v.grabProtect=STRATEGY.grab.protect;
+    const dir=Math.abs(f.lastStick.x)>.3?Math.sign(f.lastStick.x):f.facing;
+    const angle=f.lastStick.y>.55?75:f.lastStick.y<-.55?-55:28;
+    const move=STRATEGY_MOVES.grab,damage=move.dmg*this.staleMul(f,v,move);
+    const speed=Math.min(STRATEGY.grab.maxSpeed,(move.bkb+move.kbs*(v.percent+damage))*this.abil.kbMult(v));
+    this.launch(v,speed,angle,dir,f,'grab',damage);
+    v.recentHits.push({attacker:f.id,move:'grab'});if(v.recentHits.length>DMG.staleMemory)v.recentHits.shift();
+    if(f.attack){f.attack.phase=2;f.attack.t=move.startup+move.active;}
+    f.landLag=Math.max(f.landLag,move.recovery);
+    this.emit({t:'grab',id:f.id,victim:v.id,state:'thrown'});
   }
 
   private tryJump(f: Fighter, sx: number): boolean {
@@ -398,7 +447,7 @@ export class FighterWorld {
       this.emit({ t: 'attack', id: f.id, move: m, phase: 'active' });
     }
     if (a.phase === 1 && a.t >= m.startup + m.active) a.phase = 2;
-    if (a.t >= m.startup + m.active + m.recovery) f.attack = null;
+    if (a.t >= m.startup + m.active + m.recovery + (a.hit.size===0 ? m.whiffRecovery??0 : 0)) f.attack = null;
   }
 
   private markRecovering(f: Fighter): void {
@@ -426,7 +475,7 @@ export class FighterWorld {
       f.y += f.vy * dt;
       return;
     }
-    const canSteer = !locked && f.landLag <= 0 && !f.dodge;
+    const canSteer = !f.parry && !f.grab && !locked && f.landLag <= 0 && !f.dodge;
     if (f.grounded) {
       if (canSteer && !f.attack) f.vx = approach(f.vx, sx * PHYS.runSpeed, PHYS.groundAccel * dt);
       else if (!f.dodge) f.vx = approach(f.vx, 0, PHYS.groundFriction * dt);
@@ -499,7 +548,7 @@ export class FighterWorld {
     f.dropHold = 0;
     if (f.dodge?.air) f.dodge = null;
     if (f.attack?.move.air) {
-      f.landLag = Math.max(f.landLag, f.attack.move.landLag ?? 0.1);
+      f.landLag = Math.max(f.landLag, (f.attack.move.landLag ?? 0.1) + (f.attack.hit.size===0 ? f.attack.move.whiffRecovery??0 : 0));
       f.attack = null;
     }
     this.emit({ t: 'land', id: f.id, hard: impactVy < -14 });
@@ -613,6 +662,12 @@ export class FighterWorld {
         }
         if (!this.hittable(v)) continue;
         a.attack.hit.add(v.id);
+        if(m.kind==='grab'){
+          if(v.hitstun>0 || v.grabProtect>0 || v.grab || v.grabbedBy)continue;
+          if(this.abil.interceptHit(a,v,m,this.launchSpeed(m,v.percent+m.dmg,v)))break;
+          this.interrupt(v);v.grabbedBy=a.id;v.vx=v.vy=0;a.grab={victim:v.id,t:0};a.vx=a.vy=0;
+          this.emit({t:'grab',id:a.id,victim:v.id,state:'caught'});break;
+        }
         this.applyHit(a, v, m);
         if (!a.attack) break;
       }
@@ -641,6 +696,10 @@ export class FighterWorld {
   }
 
   private applyHit(a: Fighter, v: Fighter, m: MoveDef): void {
+    if(v.parry && v.parry.t>=STRATEGY.parry.startup && v.parry.t<STRATEGY.parry.startup+STRATEGY.parry.active && (a.x-v.x)*v.facing>=-.1){
+      v.parry=null;v.landLag=0;this.interrupt(a);a.hitstun=STRATEGY.parry.punish;a.hitstunTotal=a.hitstun;a.vx=a.vy=0;
+      this.emit({t:'parry',id:v.id,state:'success',attacker:a.id});return;
+    }
     const stale = this.staleMul(a, v, m);
     const dmg = m.dmg * stale;
     // contrattacco / altre intercettazioni (il colpo si annulla)
@@ -699,6 +758,10 @@ export class FighterWorld {
 
   /** Cancella le azioni in corso (colpito, afferrato...). */
   interrupt(v: Fighter): void {
+    this.releaseGrab(v);
+    if(v.grabbedBy){const a=this.byId.get(v.grabbedBy);if(a)this.releaseGrab(a);v.grabbedBy=null;}
+    v.parry=null;
+    v.kickBuf=v.grabBuf=v.parryBuf=0;
     v.attack = null;
     v.dodge = null;
     v.landLag = 0;
@@ -809,6 +872,7 @@ export class FighterWorld {
     f.intang = 0;
     f.hitstun = 0;
     f.dodgeCd = 0;
+    f.parryCd=0;f.grabProtect=0;
     f.comboCount = 0;
     f.recentHits = [];
     f.lastHitBy = null;

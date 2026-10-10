@@ -1,0 +1,19 @@
+{
+  "errors": [],
+  "accelerated": true,
+  "kick": {
+    "damage": 4.5,
+    "clip": "goblin.frontKick"
+  },
+  "grab": true,
+  "parry": {
+    "damage": 0,
+    "stunned": true
+  },
+  "round": {
+    "phase": "over",
+    "time": 100.49660000001278,
+    "reason": "lastStanding",
+    "finite": true
+  }
+}
