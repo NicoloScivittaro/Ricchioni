@@ -1,4 +1,6 @@
 import type { KartState } from './raceTypes';
+import { MIN_RACE_DISTANCE } from './raceTypes';
+import { KART_HALF_WIDTH, KART_HALF_LENGTH } from './kartCollisions';
 
 export interface KartInputSnapshot {
   left: boolean;
@@ -226,6 +228,8 @@ export function stepKartPhysics(
     k.absHeading += steerDir * turnRate * dt;
     if (k.drifting) k.absHeading += k.driftDir * C.driftExtraRate * dt;
   }
+  k.absHeading += k.collisionYawVelocity * dt;
+  k.collisionYawVelocity *= Math.exp(-4 * dt);
 
   let relHeading = wrapAngle(k.absHeading - trackAngleAt(k.distance));
 
@@ -252,21 +256,29 @@ export function stepKartPhysics(
   // avanzi di meno e scivoli di più verso il bordo — esattamente l'effetto
   // "serve sterzare in curva" richiesto.
   k.distance += k.speed * Math.cos(relHeading) * dt;
-  k.lateral += k.speed * Math.sin(relHeading) * dt;
-  if (k.distance < 0) k.distance = 0;
+  k.lateral += (k.speed * Math.sin(relHeading) + k.slipVelocity) * dt;
+  k.slipVelocity *= Math.exp(-(k.offRoad ? 2.5 : 4.5) * dt);
+  k.distance = Math.max(MIN_RACE_DISTANCE, k.distance);
 
   // Collisione con le barriere: al bordo del cordolo, non 6 unità più in là.
-  const wallLimit = half + C.wallMargin;
+  const bodyExtent = KART_HALF_WIDTH * Math.abs(Math.cos(relHeading)) + KART_HALF_LENGTH * Math.abs(Math.sin(relHeading));
+  const wallLimit = Math.max(1, half + C.wallMargin - bodyExtent);
+  if (Math.abs(k.lateral) < wallLimit - .08) k.wallContact = false;
   if (Math.abs(k.lateral) > wallLimit) {
-    const overshoot = Math.abs(k.lateral) - wallLimit;
-    k.lateral = Math.sign(k.lateral) * wallLimit;
-    k.speed *= 0.5;
-    const straighten = relHeading * 0.6;
-    k.absHeading -= straighten;
-    k.heading -= straighten;
-    if (overshoot > 0.15 && k.invulnTimer <= 0) {
-      k.stunTimer = Math.max(k.stunTimer, WALL_HIT_STUN);
+    const side = Math.sign(k.lateral);
+    const outward = (k.speed * Math.sin(relHeading) + k.slipVelocity) * side;
+    k.lateral = side * wallLimit;
+    if (!k.wallContact && outward > .5) {
+      // Perdita della componente verso il muro una volta sola: sfiorare non equivale a frenare a ogni frame.
+      k.speed *= Math.max(.3, Math.abs(Math.cos(relHeading)));
+      const straighten = relHeading * .7;
+      k.absHeading -= straighten;
+      k.heading -= straighten;
+      if (outward > 6 && k.invulnTimer <= 0) k.stunTimer = Math.max(k.stunTimer, WALL_HIT_STUN);
     }
+    k.slipVelocity = -k.speed * Math.sin(k.heading); // reazione normale: conserva lo scorrimento lungo il bordo
+    k.collisionYawVelocity *= .35;
+    k.wallContact = true;
   }
 
   // Fuori pista / bloccato troppo a lungo → richiedi respawn.
@@ -293,6 +305,9 @@ export function respawnKart(k: KartState, trackAngleAt: (distance: number) => nu
   k.absHeading = trackAngleAt(k.distance);
   k.heading = 0;
   k.speed = 0;
+  k.slipVelocity = 0;
+  k.collisionYawVelocity = 0;
+  k.wallContact = false;
   k.driftCharge = 0;
   k.drifting = false;
   k.boostTimer = 0;

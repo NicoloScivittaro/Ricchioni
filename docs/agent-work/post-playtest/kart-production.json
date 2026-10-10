@@ -1,0 +1,77 @@
+{
+  "errors": [],
+  "accelerated": false,
+  "players": [
+    {
+      "id": "5b2438f0-c4c5-467d-b28e-8ea30391cc65",
+      "bot": false,
+      "character": "goblin"
+    },
+    {
+      "id": "bot:72fb797d-5124-4ec4-873b-45582b1de347",
+      "bot": true,
+      "character": "buttafuori"
+    },
+    {
+      "id": "bot:a8ff87a1-616e-42fe-91e3-8b3e8c574e2d",
+      "bot": true,
+      "character": "judoka"
+    },
+    {
+      "id": "bot:97816015-a774-4931-a136-0161c4e295eb",
+      "bot": true,
+      "character": "ciro"
+    },
+    {
+      "id": "bot:762f7aba-e185-4b2e-8483-83466ff75c6d",
+      "bot": true,
+      "character": "dottore"
+    }
+  ],
+  "results": [
+    {
+      "playerId": "bot:72fb797d-5124-4ec4-873b-45582b1de347",
+      "placement": 1,
+      "score": 51179,
+      "stats": [
+        "tempo 0:51.2",
+        "miglior giro 0:17.0"
+      ]
+    },
+    {
+      "playerId": "bot:a8ff87a1-616e-42fe-91e3-8b3e8c574e2d",
+      "placement": 2,
+      "score": 54149,
+      "stats": [
+        "tempo 0:54.1",
+        "miglior giro 0:17.2"
+      ]
+    },
+    {
+      "playerId": "bot:762f7aba-e185-4b2e-8483-83466ff75c6d",
+      "placement": 3,
+      "score": 54283,
+      "stats": [
+        "tempo 0:54.3",
+        "miglior giro 0:17.3"
+      ]
+    },
+    {
+      "playerId": "bot:97816015-a774-4931-a136-0161c4e295eb",
+      "placement": 4,
+      "score": 54566,
+      "stats": [
+        "tempo 0:54.6",
+        "miglior giro 0:17.2"
+      ]
+    },
+    {
+      "playerId": "5b2438f0-c4c5-467d-b28e-8ea30391cc65",
+      "placement": 5,
+      "score": 63175,
+      "stats": [
+        "fermo al giro 1/3"
+      ]
+    }
+  ]
+}

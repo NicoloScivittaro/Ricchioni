@@ -1,0 +1,7 @@
+✅ pulsante ACCELERA presente sul telefono
+✅ il kart va veloce con l'input reale del telefono (44.0 u/s)
+✅ DRIFT + sterzo: il kart deriva (input reali)
+✅ la derapata carica il mini-turbo (carica 1.33s, livello 1 a 0.55s)
+✅ al rilascio parte il boost del mini-turbo (0.72s)
+✅ nessun errore di pagina 
+   screenshot in docs/agent-work/post-playtest/kart-feel

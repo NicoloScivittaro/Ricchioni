@@ -1,0 +1,79 @@
+{
+  "errors": [],
+  "accelerated": true,
+  "probes": {
+    "proximity": [
+      44,
+      44
+    ],
+    "gentle": [
+      44,
+      44,
+      2.002000000000012
+    ],
+    "rear": [
+      30.56612107863178,
+      33.43603889002418
+    ],
+    "side": [
+      42.05494289223109,
+      45.94505710776891,
+      -9.017578233663363,
+      9.790424621580618,
+      0.1834725764806298,
+      -0.19919698796831256
+    ]
+  },
+  "race": {
+    "phase": "ended",
+    "time": 52.413399999999584,
+    "players": [
+      {
+        "id": "60456ae9-18a1-49c9-86c8-f08cf07e5d54",
+        "lap": 3,
+        "finished": true,
+        "speed": 44,
+        "slip": 5.8095481336378065e-49,
+        "yaw": 0,
+        "placement": 1
+      },
+      {
+        "id": "162ccff4-946d-4062-996c-4f10de5bfb77",
+        "lap": 3,
+        "finished": true,
+        "speed": 44,
+        "slip": 3.55458955802692e-8,
+        "yaw": 1.0428374128025732e-8,
+        "placement": 2
+      },
+      {
+        "id": "d247c269-4fd1-45ca-90fd-94fe0c58f1bf",
+        "lap": 3,
+        "finished": true,
+        "speed": 44,
+        "slip": 3.161393704783443e-7,
+        "yaw": -1.0561968084840241e-7,
+        "placement": 5
+      },
+      {
+        "id": "2d59d431-a882-4c94-b7c1-4bebbded9c97",
+        "lap": 3,
+        "finished": true,
+        "speed": 44,
+        "slip": -2.4344159636012906e-7,
+        "yaw": 5.957286068207186e-7,
+        "placement": 3
+      },
+      {
+        "id": "0fba65ed-e5a1-4bf9-bfb9-8d9df62be4ab",
+        "lap": 3,
+        "finished": true,
+        "speed": 44,
+        "slip": -2.6252743802394597e-7,
+        "yaw": 1.0035240571247812e-7,
+        "placement": 4
+      }
+    ],
+    "finite": true
+  }
+}

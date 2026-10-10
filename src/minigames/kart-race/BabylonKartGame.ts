@@ -40,8 +40,7 @@ import type { KartWorld } from './kartEnvironment';
 import { registerEnvScene } from '../env/envDebug';
 import { telemetry } from '../../core/telemetry';
 
-const KART_S_RADIUS = 2.6;
-const KART_LAT_RADIUS = 1.7;
+import { resolveKartContact } from './kartCollisions';
 
 /** Orchestratore del minigioco 3D: una sola scena Babylon, più camere/viewport. */
 export class BabylonKartGame {
@@ -344,32 +343,35 @@ export class BabylonKartGame {
       for (let j = i + 1; j < list.length; j++) {
         const a = list[i];
         const b = list[j];
-        const ds = a.distance - b.distance;
-        const dl = a.lateral - b.lateral;
-        if (Math.abs(ds) < KART_S_RADIUS && Math.abs(dl) < KART_LAT_RADIUS * 2) {
-          const overlap = KART_LAT_RADIUS * 2 - Math.abs(dl);
-          const dir = dl === 0 ? (Math.random() < 0.5 ? -1 : 1) : Math.sign(dl);
-          // Dottore in "20 KG IN UN MESE": leggerissimo, viene scaraventato molto più lontano.
-          // Judoka in "CARICO E SCARICO": camion — chi tocca viene spinto via e rallentato, il camion non perde velocita'.
-          const aTruck = a.truckMode && !b.truckMode;
-          const bTruck = b.truckMode && !a.truckMode;
-          const aShare = aTruck ? 0.08 : bTruck ? 0.92 : a.lightMode && !b.lightMode ? 0.88 : b.lightMode && !a.lightMode ? 0.12 : 0.5;
-          a.lateral += dir * overlap * aShare;
-          b.lateral -= dir * overlap * (1 - aShare);
-          a.speed *= a.truckMode ? 1 : a.lightMode ? 0.86 : 0.93;
-          b.speed *= b.truckMode ? 1 : b.lightMode ? 0.86 : 0.93;
-          if (aTruck || bTruck) this.truckBump(aTruck ? a : b, aTruck ? b : a, aTruck ? -dir : dir);
-          // Solo feedback (nessun effetto fisico aggiuntivo): mancava del tutto, anche sul telefono. Intensità proporzionale
-          // alla sovrapposizione, come chiesto per il rumble delle collisioni tra kart.
-          const bump = 15 + Math.min(1, overlap / (KART_LAT_RADIUS * 2)) * 35;
-          audio.kartBump((bump - 15) / 35); // urto piccolo = colpetto, grosso = botta (con dedupe nello stesso istante)
-          this.ctx.vibrate(a.playerId, bump);
-          this.ctx.vibrate(b.playerId, bump);
-          // urto piccolo = solo vibrazione; urto grosso = anche una breve scossa di camera (mai a ogni sfioramento)
-          if (bump > 38) {
-            this.cameraManager.shake(a.playerId, 0.12);
-            this.cameraManager.shake(b.playerId, 0.12);
+        const frame = (k: KartState) => {
+          const pos = this.spline.worldPoint(k.distance, k.lateral);
+          return { x: pos.x, y: pos.y, z: pos.z, trackAngle: this.trackAngleAt(k.distance) };
+        };
+        const aStun = a.stunTimer, bStun = b.stunTimer;
+        const contact = resolveKartContact(a, b, frame(a), frame(b));
+        if (!contact) continue;
+        const aTruck = a.truckMode && !b.truckMode;
+        const bTruck = b.truckMode && !a.truckMode;
+        if (aTruck || bTruck) {
+          const truck = aTruck ? a : b, other = aTruck ? b : a;
+          const right = this.spline.rightAt(other.distance);
+          const away = (contact.nx * right.x + contact.nz * right.z) * (aTruck ? 1 : -1);
+          this.truckBump(truck, other, Math.sign(away) || 1);
+        }
+        for (const [kart, previousStun] of [[a, aStun], [b, bStun]] as const) {
+          if (previousStun <= 0 && kart.stunTimer > 0) {
+            this.abilities.reactToCrash(kart, true, false, this.trackAngleAt, f => this.onAbilityFeedback(kart.playerId, f));
           }
+        }
+        if (contact.closingSpeed <= .5) continue; // nessun rumble continuo per due kart affiancati alla stessa velocità
+        const heavy = Math.min(1, contact.closingSpeed / 30);
+        const bump = 15 + heavy * 35;
+        audio.kartBump(heavy);
+        this.ctx.vibrate(a.playerId, bump);
+        this.ctx.vibrate(b.playerId, bump);
+        if (heavy > .65) {
+          this.cameraManager.shake(a.playerId, .12);
+          this.cameraManager.shake(b.playerId, .12);
         }
       }
     }

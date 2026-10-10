@@ -1,0 +1,83 @@
+✅ P1 (Xbox) e P2 (DualSense) col controller, P3 col telefono
+✅ gara FERMA durante i CONTROLLI (fase countdown)
+✅ input ignorato durante i CONTROLLI (stick a fondo e RT premuto: steer 0, throttle non premuto)
+✅ durata CONTROLLI 4969 ms
+✅ mostra: "🏎️ RIBALTATI — CIRCUITO DEL LITORALE 🎮 CONTROLLI LEFT STICK STERZA RT / R2 ACCELERA LT / L2 FRENA / RETROMARCIA A / ✕ DRIFT X / □ USA ITEM Y / △ ⚡ ABILITÀ ⚡ ABILITÀ · Y / △ GOBLIN MBRIACONE SO GUIDARE IO Drift perfetti"
+✅ nessuna voce "guarda dietro" (il gioco non la supporta: non e' stata inventata)
+✅ P1: RT tenuto da prima del countdown accelera SUBITO al VIA senza rilasciare (velocità 4.6)
+✅ P2: A/✕ (drift) tenuto da prima del countdown NON parte in automatico al VIA (serve rilasciare e ripremere)
+✅ telefono P1: "GOBLIN MBRIACONE 🏎️ RIBALTATI — CIRCUITO DEL LITORALE "
+✅ P3 (senza controller): 📱 MODALITÀ FALLBACK
+✅ steer -1: il PROFILO legge esattamente -1
+✅ steer +1: il PROFILO legge esattamente 1
+✅ sterzo -1 e +1 curvano in direzioni opposte (heading -1.38 vs 1.24)
+✅ sterzo 0.3 curva MENO di 1.0 (proporzionale, non digitale): 0.3 -> 0.123 rad, 1.0 -> 0.740 rad
+✅ diagonale: il PROFILO legge un valore ridotto dalla deadzone RADIALE centrale (x=0.70, non 1.0 e non un crash)
+✅ RT 0.0: nessun acceleratore
+✅ RT 0.5 e RT 1.0 danno lo STESSO throttle (adattamento digitale: il gioco non ha un accel a magnitudine) — 0.5=true, 1.0=true
+✅ LT 0.5: freno/retromarcia attivo (sopra soglia)
+✅ RT+LT insieme: vince il throttle (velocità 25.9 > 0, come l'if/else-if già esistente)
+✅ A/✕ press: la deriva parte
+✅ A/✕ hold: la carica sale (0.48)
+✅ A/✕ release: la deriva finisce
+✅ rilascio con carica: mini-turbo assegnato (boostTimer 0.00)
+✅ rumble durante drift/mini-turbo
+✅ X/□ tenuto 1.2s: UN solo uso item (0 -> 1), nessuno spam
+✅ item consumato
+✅ Y/△ = ABILITÀ: il gioco consuma la pressione
+✅ in pausa nessun input di gameplay (steer e throttle azzerati)
+✅ la deriva viene ANNULLATA in pausa SENZA assegnare il mini-turbo (nessun boost fantasma dalla pausa)
+✅ P2: RT tenuto durante tutta la pausa torna attivo DA SOLO alla ripresa (holdThrough: come un pedale lasciato premuto)
+✅ P1: A (drift) tenuto durante la pausa resta BLOCCATO alla ripresa: serve rilasciare e ripremere
+✅ disconnessione: steer/throttle/freno a zero
+✅ disconnessione con drift carico: deriva annullata SENZA mini-turbo (nessun boost fantasma dal reset)
+✅ avviso TV: controller scollegato
+✅ il telefono di P1 passa da solo a 📱 CONTROLLER PERSO — USA TEMPORANEAMENTE IL TELEFONO
+✅ il controller torna: pairing recuperato
+✅ il telefono torna a "USA IL CONTROLLER" senza refresh
+✅ P1 (controller): un evento del suo telefono NON sovrascrive lo sterzo
+✅ P3 (telefono, fallback): il suo input entra regolarmente nello stesso InputManager
+✅ stesse associazioni dopo risultati e rullo (nessuna riassociazione)
+✅ nessun errore di pagina 
+
+=== KART split-screen, 2 giocatori/controller ===
+✅ 2 controller associati in ordine inverso: [1,0]
+✅ 2p: ogni giocatore ha una viewport propria
+✅ 2p: 2 viewport diverse, nessuna sovrapposta (split-screen intatto)
+   pad #1 -> giocatore 1: sterzata 1.230 rad, altri max 0.025
+   pad #0 -> giocatore 2: sterzata 1.231 rad, altri max 0.005
+✅ 2 controller: ognuno sterza esattamente il proprio kart (nessun input incrociato)
+✅ 2 telefoni su "USA IL CONTROLLER" (sul tavolo)
+
+=== KART split-screen, 3 giocatori/controller ===
+✅ 3 controller associati in ordine inverso: [2,1,0]
+✅ 3p: ogni giocatore ha una viewport propria
+✅ 3p: 3 viewport diverse, nessuna sovrapposta (split-screen intatto)
+   pad #2 -> giocatore 1: sterzata 1.230 rad, altri max 0.037
+   pad #1 -> giocatore 2: sterzata 1.181 rad, altri max 0.025
+   pad #0 -> giocatore 3: sterzata 1.231 rad, altri max 0.023
+✅ 3 controller: ognuno sterza esattamente il proprio kart (nessun input incrociato)
+✅ 3 telefoni su "USA IL CONTROLLER" (sul tavolo)
+
+=== KART split-screen, 4 giocatori/controller ===
+✅ 4 controller associati in ordine inverso: [3,2,1,0]
+✅ 4p: ogni giocatore ha una viewport propria
+✅ 4p: 4 viewport diverse, nessuna sovrapposta (split-screen intatto)
+   pad #3 -> giocatore 1: sterzata 1.199 rad, altri max 0.038
+   pad #2 -> giocatore 2: sterzata 1.208 rad, altri max 0.039
+   pad #1 -> giocatore 3: sterzata 1.168 rad, altri max 0.036
+   pad #0 -> giocatore 4: sterzata 1.220 rad, altri max 0.032
+✅ 4 controller: ognuno sterza esattamente il proprio kart (nessun input incrociato)
+✅ 4 telefoni su "USA IL CONTROLLER" (sul tavolo)
+
+=== KART split-screen, 5 giocatori/controller ===
+✅ 5 controller associati in ordine inverso: [4,3,2,1,0]
+✅ 5p: ogni giocatore ha una viewport propria
+✅ 5p: 5 viewport diverse, nessuna sovrapposta (split-screen intatto)
+   pad #4 -> giocatore 1: sterzata 1.147 rad, altri max 0.052
+   pad #3 -> giocatore 2: sterzata 1.098 rad, altri max 0.039
+   pad #2 -> giocatore 3: sterzata 1.093 rad, altri max 0.044
+   pad #1 -> giocatore 4: sterzata 1.167 rad, altri max 0.044
+   pad #0 -> giocatore 5: sterzata 1.110 rad, altri max 0.043
+✅ 5 controller: ognuno sterza esattamente il proprio kart (nessun input incrociato)
+✅ 5 telefoni su "USA IL CONTROLLER" (sul tavolo)

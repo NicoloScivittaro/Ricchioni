@@ -1,0 +1,8 @@
+PASS vicinanza 3 m: zero contatti/penalità, mentre il vecchio volume largo 3,4 m la considerava collisione
+PASS contatto leggero a velocità uguale: separazione, nessuna frenata per frame
+PASS tamponamento: trasferimento di impulso alla vettura davanti, nessun arresto
+PASS urto laterale: scivolata/imbardata determinate da direzione e velocità
+PASS urto violento: impulso limitato, perdita di controllo breve e finestra BOSCHI conservata
+PASS collisione reale tra giri diversi, nessuna collisione fra quote separate
+PASS partenza: cinque kart mantengono le file dietro lo zero, nessun ammasso sulla linea
+PASS muro a 30/60/120 FPS: strisciata senza freno esponenziale; respawn azzera gli impulsi

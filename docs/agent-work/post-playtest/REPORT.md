@@ -34,6 +34,18 @@
 
 **Produzione e controller:** cinque telefoni e Arena completa a tempo reale, senza debug/accelerazione: sudden death dopo almeno 44 secondi dal VIA, nessun risultato alla semplice scadenza, conclusione naturale e vincitore coerente con superstite/spareggio. Zero pageerror. Suite `gamepad` intera passata con cinque partecipanti (giri supplementari SMALL disattivati): quattro pad, fallback, disconnessioni/riconnessioni ambigue, pairing attraverso più giochi, Quiz PHONE_TEXT, pausa e tasti tenuti senza input fantasma. Build produzione passata.
 
+## 3. Ribaltati — implementato e verificato
+
+**Causa:** hitbox rettangolari più larghi del modello applicavano `speed *= .93` a ogni frame, anche a pari velocità; i muri dimezzavano ripetutamente la velocità. La fisica portava inoltre le distanze negative della griglia a zero, sovrapponendo le file alla partenza.
+
+**Modifiche/prima-dopo:** contatti fra scatole orientate coerenti con la carrozzeria, separazione e impulso secondo velocità relativa e normale del contatto. Sfiorarsi a pari velocità non frena. Tamponare trasferisce slancio, urti laterali producono scivolamento e rotazione controllabili, quelli forti una breve perdita di controllo. Limiti e smorzamento evitano velocità/rotazioni permanenti. Muri: perdita della componente normale al primo impatto, poi scorrimento senza dimezzamenti ripetuti. Partenze negative conservate; contatti nello spazio reale anche tra giri diversi e nessun urto tra livelli separati. Guida, accelerazione, drift, turbo, item, pista, tre giri e cinque abilità conservati, compresi camion, modalità leggera, recupero BOSCHI e invulnerabilità di respawn.
+
+**File:** `raceTypes.ts`, `kartPhysics.ts`, `BabylonKartGame.ts`, nuovo `kartCollisions.ts` in `src/minigames/kart-race`; selftest contatti e prove browser dedicate.
+
+**Test passati:** typecheck/build; selftest abilità e contatti (prossimità, tocchi ripetuti, impulso conservato, laterali, urti violenti, partenza a cinque, muri a 30/60/120 Hz, respawn); simulazioni di guida completano i tre giri. Suite controller Kart: Xbox, DualSense, telefono, acceleratore analogico, drift/turbo/item/abilità, pause e reconnect, split screen da due a cinque. Telefono reale nel browser: accelerazione 44 u/s, derapata e mini-turbo. Cinque piloti simulati attraverso input ordinari hanno completato i tre giri e prodotto i risultati senza sostituire `finish`; tempo accelerato. Rejoin in pausa, ritorno lobby, zero istanze Tripo residue, un canvas e zero pageerror. Screenshot di cinque viewport visionato. Produzione senza debug: un telefono e quattro bot reali, gara a tempo reale, risultati naturali per cinque, almeno un arrivo ai tre giri, zero pageerror.
+
+**Da playtest:** feeling del contatto laterale, forza degli urti e recupero. Nessuna animazione o asset nuovo richiesto. Rimane l'avviso di build sui chunk Babylon grandi, già presente.
+
 ## Fasi successive
 
-Kart, Casa Carbo, Cornicione e Calcio non ancora implementati né dichiarati verificati. Regressione completa e commit da registrare a fine di ciascuna fase. Quiz: commit locale `fc1731f`.
+Casa Carbo, Cornicione e Calcio non ancora implementati né dichiarati verificati. Regressione completa ancora da eseguire. Quiz: commit locale `fc1731f`; Arena: `8b8eb70`.

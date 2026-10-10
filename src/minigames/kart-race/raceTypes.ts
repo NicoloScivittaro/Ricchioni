@@ -1,4 +1,6 @@
 import type { PlayerId } from '../../../shared/types';
+/** La griglia parte dietro lo zero della pista: non collassare le file sulla linea al VIA. */
+export const MIN_RACE_DISTANCE = -12;
 
 /** I 6 oggetti originali (nessun riferimento Nintendo). */
 export type ItemId = 'turbo' | 'sfera' | 'olio' | 'scudo' | 'super_turbo' | 'disturbo';
@@ -14,6 +16,9 @@ export interface KartState {
   absHeading: number; // imbardata assoluta persistente (rad) — NON si resetta con la tangente locale
   heading: number; // derivato ogni frame: absHeading - angolo tangente pista (per rendering/telecamera)
   speed: number; // velocità lungo il percorso (unità/s)
+  slipVelocity: number; // impulso laterale reale degli urti, smorzato dal grip
+  collisionYawVelocity: number; // imbardata deterministica da contatto
+  wallContact: boolean; // evita di ripetere la perdita d'urto mentre si striscia sullo stesso muro
 
   lap: number;
   lapStartTime: number; // raceTime all'inizio del giro corrente (statistica: miglior giro)
@@ -94,6 +99,9 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     absHeading: 0,
     heading: 0,
     speed: 0,
+    slipVelocity: 0,
+    collisionYawVelocity: 0,
+    wallContact: false,
     lap: 0,
     lapStartTime: 0,
     bestLapTime: Infinity,
