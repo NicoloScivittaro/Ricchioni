@@ -106,3 +106,19 @@ node scripts/e2e/casacarbo-perf.mjs              # mesh, draw call, costo CPU de
 
 Prima versione completa. **I numeri sono iniziali**: con i bot la casa si salva a filo (≈73–84% asciutta a seconda dei giocatori,
 ≈51–59% se nessuno lavora), ma il bilanciamento vero va fatto con un playtest reale con i controller.
+
+## Miglioramenti dopo il playtest (ottobre 2026)
+
+Dopo CONTROLLI parte una prova interattiva locale di massimo 18 secondi: spingi con X/□, raccogli tenendo Y/△ e premi Y/△ allo scarico. La simulazione di prova riceve acqua dalle stesse due porte e usa gli stessi comandi; il breve trasferimento al tombino serve a provare lo svuotamento. Acqua, punteggio, tempo e cariche non passano al round dei 120 secondi. Nessun controllo degli altri giochi cambia.
+
+Acqua: texture orientata correttamente alla planimetria (prima era specchiata sull'asse verticale), superficie con altezza proporzionata all'accumulo, onde direzionali e spruzzi in pool limitati. Etichette compatte dei secchi, feedback di quantità raccolta/scaricata e punti. I tre scarichi sono visibili anche durante la prova; il secchio pieno indica il prossimo tratto del percorso più breve verso uno scarico libero, usando la stessa navigazione con ingombro del corpo dei bot. Urti frontali trasferiscono parte dello slancio; sfioramenti senza velocità relativa non fanno perdere acqua. Le scivolate e i rovesciamenti già presenti mantengono i propri limiti.
+
+Tre **emergenze competitive**, una attiva alla volta, con quattro secondi di separazione:
+
+- **SALVA LA TV:** pericolo reale del salotto, 12 secondi. B/◯ vicino alla TV; salvatore +6 come prima, eventuali aiutanti dividono un pool massimo +3 secondo il tempo di aiuto.
+- **LA CAMERA SI ALLAGA:** acqua media oltre 0,12 dopo 20 secondi; togli il 35% entro 20 secondi. Pool +8 diviso per acqua raccolta in camera e poi effettivamente scaricata; le spazzate accreditano solo acqua finita nello scarico. Il solo spostamento, un secchio rovesciato e il flusso passivo non generano bonus. Una volta nel round.
+- **FERMATE QUELL'ACQUA:** preavviso di una raffica alla porta, B/◯ per contenere. Pool +6 proporzionale al flusso davvero fermato se raggiunge il 30% della massa della raffica. Abilità di BOSCHI contribuisce mantenendo la sua restituzione di acqua. La pioggia continua dopo. Una raffica viene rinviata se un'altra emergenza è attiva.
+
+Gli eventi ambientali precedenti (pioggia intensa, tappeto, scarico intasato) restano: non sono obiettivi competitivi aggiuntivi. Fasi della pioggia, capienza, velocità di pulizia, mappa, due sorgenti, tre scarichi, cinque abilità e due finali conservati. La navigazione è condivisa in `ccNavigation.ts`. I nuovi pool e la soglia della camera sono in `ccTuning.ts`: richiedono un playtest umano, non costituiscono bilanciamento definitivo.
+
+Test aggiuntivi: `npx tsx scripts/carbo-objectives-selftest.ts`, `node scripts/e2e/post-playtest-carbo.mjs`, `node scripts/e2e/post-playtest-carbo-production.mjs`. Prove e misure in `docs/agent-work/post-playtest`.

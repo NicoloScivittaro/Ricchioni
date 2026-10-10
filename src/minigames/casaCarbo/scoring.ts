@@ -18,7 +18,7 @@ export function stoppedPoints(s: CCStats): number {
 }
 
 export function contribution(s: CCStats): number {
-  return drainedOf(s) + stoppedPoints(s) + s.tvSaved * CC.points.tv + s.unclogged * CC.points.unclog;
+  return s.emergencyBonus + drainedOf(s) + stoppedPoints(s) + s.tvSaved * CC.points.tv + s.unclogged * CC.points.unclog;
 }
 
 export interface CCTitleInput {

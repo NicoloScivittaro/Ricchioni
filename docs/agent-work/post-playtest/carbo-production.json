@@ -1,0 +1,81 @@
+{
+  "errors": [],
+  "accelerated": false,
+  "players": [
+    {
+      "id": "f1c4c669-f37a-4332-91ff-7752a361b56b",
+      "bot": false,
+      "character": "goblin"
+    },
+    {
+      "id": "bot:7bdcf338-7f8a-45aa-8a85-4cdd48deb56b",
+      "bot": true,
+      "character": "buttafuori"
+    },
+    {
+      "id": "bot:65f72821-b31e-459f-82a8-92c8b8ecb592",
+      "bot": true,
+      "character": "judoka"
+    },
+    {
+      "id": "bot:65fc4201-5454-4f70-94c8-3c586dd2f2ce",
+      "bot": true,
+      "character": "ciro"
+    },
+    {
+      "id": "bot:f10e385f-23e7-44ee-b09d-55a887ee1ba2",
+      "bot": true,
+      "character": "dottore"
+    }
+  ],
+  "results": [
+    {
+      "playerId": "bot:65fc4201-5454-4f70-94c8-3c586dd2f2ce",
+      "placement": 1,
+      "score": 87,
+      "stats": [
+        "87 punti contributo",
+        "L'UNICO CHE HA LAVORATO",
+        "83.1 acqua tolta"
+      ]
+    },
+    {
+      "playerId": "bot:65f72821-b31e-459f-82a8-92c8b8ecb592",
+      "placement": 2,
+      "score": 26,
+      "stats": [
+        "26 punti contributo",
+        "IL BAGNINO",
+        "0 acqua tolta"
+      ]
+    },
+    {
+      "playerId": "bot:f10e385f-23e7-44ee-b09d-55a887ee1ba2",
+      "placement": 3,
+      "score": 0,
+      "stats": [
+        "0 punti contributo",
+        "0.2 acqua tolta"
+      ]
+    },
+    {
+      "playerId": "bot:7bdcf338-7f8a-45aa-8a85-4cdd48deb56b",
+      "placement": 4,
+      "score": 0,
+      "stats": [
+        "0 punti contributo",
+        "0 acqua tolta"
+      ]
+    },
+    {
+      "playerId": "f1c4c669-f37a-4332-91ff-7752a361b56b",
+      "placement": 5,
+      "score": 0,
+      "stats": [
+        "0 punti contributo",
+        "PRESENTE MA INUTILE",
+        "0 acqua tolta"
+      ]
+    }
+  ]
+}

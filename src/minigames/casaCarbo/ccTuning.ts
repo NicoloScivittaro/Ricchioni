@@ -83,6 +83,9 @@ export const CC = {
   // ---------------------------------------------------------------- punteggio interno
   points: { tv: 6, unclog: 4 },
 
+  // Bonus di obiettivi nuovi, limitati a un pool per evento, da verificare nel playtest.
+  emergency: { bedroomDepth: 0.12, bedroomDuration: 20, bedroomPool: 8, doorPool: 6, tvAssistPool: 3 },
+
   // ---------------------------------------------------------------- eventi
   events: {
     announce: 3,

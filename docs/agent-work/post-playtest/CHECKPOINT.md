@@ -1,6 +1,8 @@
 # Avanzamento
 
-- Baseline pulita verificata; documentazione generale e piano letti.
-- Quiz completato: typecheck, selftest, controller e browser 5 telefoni/10 domande, cinque abilità, produzione a tempo reale e build passati. Commit `fc1731f`.
-- Arena, Kart, Casa Carbo, Cornicione, Calcio e regressione: da svolgere, in questo ordine.
-- Arena completata: selftest, controller, browser cinque giocatori, sudden death/pressione/spareggio, produzione a tempo reale e build passati. Commit locale in creazione. Kart prossima fase; poi Casa Carbo, Cornicione, Calcio e regressione. Nessun push.
+- Baseline pulita `11ce7dc`, root senza Flash autorizzato; nessun push.
+- Quiz completato, verifiche sviluppo/produzione e build: `fc1731f`.
+- Arena completata, ultimo sopravvissuto/spareggio, sviluppo/produzione/build: `8b8eb70`.
+- Kart completato, contatti/guida/5 viewport, sviluppo/produzione/build: `27776fe`.
+- Casa Carbo completata: tutorial, acqua orientata correttamente, tre emergenze, feedback e guida. Selftest, simulazioni, cinque pad/abilità/browser, performance, produzione a tempo reale e build passati. Commit locale in creazione.
+- Restano nell'ordine Cornicione, Calcio e regressione dei dodici giochi. Report in REPORT.md.

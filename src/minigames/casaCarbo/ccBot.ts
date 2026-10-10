@@ -11,59 +11,9 @@ import type { CasaCarboWorld } from './waterCore';
  */
 export type BotRole = 'bucket' | 'squeegee' | 'door';
 
+import { bfs } from './ccNavigation';
+export { __roomy } from './ccNavigation';
 const N = COLS * ROWS;
-
-/** Celle in cui il CORPO ci sta davvero (centro abbastanza lontano da muri e mobili): i bot camminano solo su queste. */
-let roomy: Uint8Array | null = null;
-function roomyGrid(w: CasaCarboWorld): Uint8Array {
-  if (roomy) return roomy;
-  const g = new Uint8Array(N);
-  const solids = [...WALLS, ...FURNITURE.map((f) => f.r)];
-  for (let k = 0; k < N; k++) {
-    if (!w.grid.walk[k]) continue;
-    const c = cellCenterPx(k);
-    let ok = true;
-    for (const r of solids) {
-      const cx = Math.max(r[0], Math.min(r[2], c.x));
-      const cy = Math.max(r[1], Math.min(r[3], c.y));
-      if (Math.hypot(c.x - cx, c.y - cy) < CC.radius + 1) {
-        ok = false;
-        break;
-      }
-    }
-    if (ok) g[k] = 1;
-  }
-  roomy = g;
-  return g;
-}
-
-/** solo test/diagnostica */
-export const __roomy = (): Uint8Array | null => roomy;
-
-function bfs(w: CasaCarboWorld, sources: number[], floorOnly: boolean): Int32Array {
-  const room = roomyGrid(w);
-  const dist = new Int32Array(N).fill(-1);
-  const q = new Int32Array(N);
-  let head = 0;
-  let tail = 0;
-  for (const s of sources) {
-    if (s < 0) continue;
-    dist[s] = 0;
-    q[tail++] = s;
-  }
-  const ok = (k: number): boolean => (floorOnly ? w.grid.floor[k] === 1 && !w.blocked[k] && room[k] === 1 : room[k] === 1);
-  while (head < tail) {
-    const k = q[head++];
-    const i = k % COLS;
-    const nb = [i > 0 ? k - 1 : -1, i < COLS - 1 ? k + 1 : -1, k - COLS, k + COLS];
-    for (const m of nb) {
-      if (m < 0 || m >= N || dist[m] >= 0 || !ok(m)) continue;
-      dist[m] = dist[k] + 1;
-      q[tail++] = m;
-    }
-  }
-  return dist;
-}
 
 export class CCBot {
   private plan = 0;

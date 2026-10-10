@@ -1,0 +1,13 @@
+{
+  "errors": [],
+  "accelerated": true,
+  "round": {
+    "time": 120.0090666666618,
+    "phase": "ending",
+    "dry": 0.7870445344129555,
+    "inflow": 143.0967968399797,
+    "drained": 71.55225890624986,
+    "mesh": 289,
+    "finite": true
+  }
+}

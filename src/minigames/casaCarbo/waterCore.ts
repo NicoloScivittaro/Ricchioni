@@ -69,9 +69,16 @@ export class CasaCarboWorld {
   private dynRects: Rect[] = [];
   private readonly staticSolids: Rect[] = [...WALLS, ...FURNITURE.map((f) => f.r)];
   private drainBuf = new Map<string, number>();
+  emergency: {kind:'tv'|'bedroom'|'door'; until:number; door?:DoorId; baseline:number; progress:number; contributions:Map<string,number>} | null = null;
+  private bedroomDone = false;
+  private nextEmergencyAt = 0;
+  private bedroomBuckets = new Map<string,number>();
+  private actionBuf = new Map<string,number>();
+  private emergenciesOn = true;
   private lastBump = new Map<string, number>();
 
   constructor(opts: CCWorldOptions) {
+    this.emergenciesOn = opts.events !== false;
     this.rng = opts.rng;
     this.duration = opts.duration ?? CC.duration;
     this.rainOn = opts.rain !== false;
@@ -210,8 +217,12 @@ export class CasaCarboWorld {
 
   private updateSchedule(): void {
     for (const ev of this.schedule) {
+      if (!ev.announced && ev.kind === 'raffica' && this.time >= ev.at - CC.events.announce && (this.emergency || this.time < this.nextEmergencyAt)) {
+        ev.at = Math.max(this.emergency?.until ?? 0, this.nextEmergencyAt) + CC.events.announce + 1;
+      }
       if (!ev.announced && (ev.kind === 'raffica' || ev.kind === 'pioggia') && this.time >= ev.at - CC.events.announce) {
         ev.announced = true;
+        if(ev.kind==='raffica') this.startEmergency('door',ev.at+CC.events.raffica.duration,0,ev.door);
         this.emit({ t: 'announce', kind: ev.kind, door: ev.door, at: ev.at });
       }
       if (!ev.started && this.time >= ev.at) {
@@ -301,6 +312,8 @@ export class CasaCarboWorld {
       this.diffuse(sub);
       this.bathPassive(sub);
       this.updateTv(sub);
+      this.updateEmergency();
+      this.flushActions(false);
       this.autoUnclog();
       this.flushDrainEvents(false);
       if (this.time >= this.duration) this.finish();
@@ -319,6 +332,8 @@ export class CasaCarboWorld {
   private finish(): void {
     if (this.over) return;
     this.flushDrainEvents(true);
+    this.flushActions(true);
+    if(this.emergency)this.endEmergency(false);
     this.over = true;
     const dry = this.dryFraction();
     this.emit({ t: 'end', dry, saved: dry >= CC.saveThreshold });
@@ -379,6 +394,7 @@ export class CasaCarboWorld {
 
   private creditStopped(p: CCPlayer, units: number): void {
     p.stats.stopped += units;
+    if(this.emergency?.kind==='door' && this.emergency.door===(p.containing ?? p.ab.blockDoor)) this.addEmergency(p.id,units);
   }
 
   // ------------------------------------------------------------------ acqua: livellamento e scarico passivo
@@ -564,9 +580,11 @@ export class CasaCarboWorld {
     if (this.tv === 'danger' && Math.hypot(p.x - TV_POINT.cx, p.y - TV_POINT.cy) <= CC.interactRadius + 10) {
       this.setContaining(p, null);
       this.hold(p, 'tv', dt);
+      if(this.emergency?.kind==='tv')this.addEmergency(p.id,dt);
       if (p.holdT >= CC.tvTime) {
         this.tv = 'saved';
         p.stats.tvSaved++;
+        this.endEmergency(true,p.id);
         this.emit({ t: 'tv', state: 'saved', by: p.id });
       }
       return;
@@ -624,6 +642,7 @@ export class CasaCarboWorld {
 
   private blade(p: CCPlayer, dt: number): void {
     const frac = Math.min(0.9, CC.bladeRate * dt);
+    let moved=0;
     for (const { k } of this.bladeCells(p, CC.bladeNear, CC.bladeFar, CC.bladeHalf)) {
       const m = this.h[k] * frac;
       if (m < 1e-6) continue;
@@ -633,11 +652,15 @@ export class CasaCarboWorld {
       if (this.bathCells.has(t) && !this.clogged.has('bagno')) {
         this.h[k] -= m;
         this.credit(p, 'bagno', m, 'squeegee');
+        moved+=m;
+        if(this.emergency?.kind==='bedroom' && this.inBedroom(k))this.addEmergency(p.id,m);
       } else if (this.grid.floor[t] && !this.blocked[t]) {
         this.h[k] -= m;
         this.h[t] += m;
+        moved+=m;
       }
     }
+    this.bufferAction(p.id,'push',moved);
   }
 
   /** Sposta TUTTA l'acqua di un'area davanti al giocatore fino in fondo (onda del Goblin). Restituisce l'acqua spostata. */
@@ -697,8 +720,10 @@ export class CasaCarboWorld {
     for (const k of cells) {
       const take = (this.h[k] / avail) * want;
       this.h[k] -= take;
+      if(this.emergency?.kind==='bedroom' && this.inBedroom(k))this.bedroomBuckets.set(p.id,(this.bedroomBuckets.get(p.id)??0)+take);
     }
     p.bucket += want;
+    this.bufferAction(p.id,'scoop',want);
   }
 
   nearestDrain(p: { x: number; y: number }, radius: number, squeegeeOnly: boolean): DrainDef | null {
@@ -707,7 +732,7 @@ export class CasaCarboWorld {
     for (const d of DRAINS) {
       if (squeegeeOnly && !d.squeegee) continue;
       const dist = Math.hypot(p.x - d.cx, p.y - d.cy);
-      if (dist <= bd) {
+      if (dist <= bd && this.reachableDirect(p.x,p.y,d.cx,d.cy)) {
         bd = dist;
         best = d;
       }
@@ -717,6 +742,8 @@ export class CasaCarboWorld {
 
   private emptyBucket(p: CCPlayer, d: DrainDef): void {
     const amount = p.bucket;
+    if(this.emergency?.kind==='bedroom')this.addEmergency(p.id,this.bedroomBuckets.get(p.id)??0);
+    this.bedroomBuckets.delete(p.id);
     p.bucket = 0;
     this.credit(p, d.id, amount, 'bucket');
     this.flushDrainEvents(true);
@@ -748,6 +775,7 @@ export class CasaCarboWorld {
     const amount = p.bucket * fraction;
     if (amount <= 0) return;
     p.bucket -= amount;
+    this.bedroomBuckets.set(p.id,(this.bedroomBuckets.get(p.id)??0)*(1-fraction));
     p.stats.spilled += amount;
     const cells: number[] = [];
     for (let y = p.y - 30; y <= p.y + 30; y += CELL_PX) {
@@ -816,15 +844,21 @@ export class CasaCarboWorld {
         const dx = b.x - a.x;
         const dy = b.y - a.y;
         const d = Math.hypot(dx, dy);
-        if (d >= R * 2 || d < 1e-6) continue;
-        const nx = dx / d;
-        const ny = dy / d;
+        if (d >= R * 2) continue;
+        const nx = d>1e-6 ? dx / d : 1;
+        const ny = d>1e-6 ? dy / d : 0;
         const push = (R * 2 - d) / 2;
         a.x -= nx * push;
         a.y -= ny * push;
         b.x += nx * push;
         b.y += ny * push;
         const rel = (a.vx - b.vx) * nx + (a.vy - b.vy) * ny;
+        // Transfer closing momentum once; parallel contact does not repeatedly brake or spill.
+        if (rel > 20) {
+          const impulse = Math.min(160, rel * 0.5);
+          a.vx -= nx * impulse; a.vy -= ny * impulse;
+          b.vx += nx * impulse; b.vy += ny * impulse;
+        }
         if (rel > CC.bumpSpeed) {
           for (const q of [a, b]) {
             if (q.bucket > 0.01 && this.time - (this.lastBump.get(q.id) ?? -9) >= CC.bumpCooldown) {
@@ -848,8 +882,9 @@ export class CasaCarboWorld {
   private updateTv(dt: number): void {
     const T = CC.events.tv;
     if (this.tv === 'none') {
-      if (this.time >= T.after && this.tvMean() > T.depth) {
+      if (!this.emergency && this.time >= this.nextEmergencyAt && this.time >= T.after && this.tvMean() > T.depth) {
         this.tv = 'danger';
+        this.startEmergency('tv',this.time+T.ruinAfter,0);
         this.emit({ t: 'tv', state: 'danger' });
       }
     } else if (this.tv === 'danger') {
@@ -857,6 +892,7 @@ export class CasaCarboWorld {
       this.tvWetT += dt;
       if (this.tvWetT >= T.ruinAfter) {
         this.tv = 'ruined';
+        this.endEmergency(false);
         this.emit({ t: 'tv', state: 'ruined' });
       }
     }
@@ -867,6 +903,53 @@ export class CasaCarboWorld {
       const since = this.clogSince.get(id) ?? this.time;
       if (this.time - since >= CC.events.intasato.autoClear) this.clogged.delete(id);
     }
+  }
+
+  private reachableDirect(x:number,y:number,tx:number,ty:number):boolean {
+    const n=Math.max(1,Math.ceil(Math.hypot(tx-x,ty-y)/8));
+    for(let i=1;i<n;i++) for(const r of [...this.staticSolids,...this.dynRects])
+      if(this.distToRect(x+(tx-x)*i/n,y+(ty-y)*i/n,r)<CC.radius)return false;
+    return true;
+  }
+  private inBedroom(k:number):boolean {const c=cellCenterPx(k);return c.x>=85&&c.x<778&&c.y>=175&&c.y<392;}
+  bedroomWater():number {let sum=0;for(const k of this.grid.interiorCells)if(this.inBedroom(k))sum+=this.h[k];return sum;}
+  private bedroomDepth():number {let n=0;for(const k of this.grid.interiorCells)if(this.inBedroom(k))n++;return this.bedroomWater()/Math.max(1,n);}
+  private startEmergency(kind:'tv'|'bedroom'|'door',until:number,baseline:number,door?:DoorId):void {
+    if(this.emergency)return;
+    this.emergency={kind,until,baseline,door,progress:0,contributions:new Map()};
+    this.bedroomBuckets.clear();
+    this.emit({t:'emergency',kind,state:'start',door});
+  }
+  private addEmergency(id:string,amount:number):void {
+    if(this.emergency && amount>0)this.emergency.contributions.set(id,(this.emergency.contributions.get(id)??0)+amount);
+  }
+  private endEmergency(won:boolean,tvWinner?:string):void {
+    const e=this.emergency;if(!e)return;
+    const rewards:Record<string,number>={};
+    const entries=[...e.contributions].filter(([id])=>id!==tvWinner);
+    const sum=entries.reduce((a,[,v])=>a+v,0);
+    const pool=e.kind==='tv'?CC.emergency.tvAssistPool:e.kind==='bedroom'?CC.emergency.bedroomPool:CC.emergency.doorPool;
+    if(won && sum>0)for(const [id,v] of entries){const p=this.byId.get(id);if(p){const bonus=pool*v/sum;p.stats.emergencyBonus+=bonus;rewards[id]=bonus;}}
+    this.emit({t:'emergency',kind:e.kind,state:won?'won':'lost',door:e.door,rewards});
+    this.emergency=null;this.nextEmergencyAt=this.time+4;this.bedroomBuckets.clear();
+  }
+  private updateEmergency():void {
+    const e=this.emergency;
+    if(e){
+      if(e.kind==='bedroom'){
+        e.progress=Math.max(0,Math.min(1,(e.baseline-this.bedroomWater())/(e.baseline*.35)));
+        // Only water permanently drained earns a bonus; moving it back and forth does not.
+        if(e.progress>=1 && e.contributions.size>0){this.endEmergency(true);return;}
+      } else if(e.kind==='door')e.progress=Math.min(1,[...e.contributions.values()].reduce((a,v)=>a+v,0)/(CC.events.raffica.amount*.3));
+      else e.progress=Math.max(0,...this.players.map(p=>p.holdKey==='tv'?p.holdT/CC.tvTime:0));
+      if(this.time>=e.until)this.endEmergency(e.kind==='door'&&e.progress>=1);
+    } else if(this.emergenciesOn && !this.bedroomDone && this.time>=20 && this.time>=this.nextEmergencyAt && this.bedroomDepth()>=CC.emergency.bedroomDepth){
+      this.bedroomDone=true;this.startEmergency('bedroom',this.time+CC.emergency.bedroomDuration,this.bedroomWater());
+    }
+  }
+  private bufferAction(id:string,via:'push'|'scoop',amount:number):void {if(amount>0){const k=id+'|'+via;this.actionBuf.set(k,(this.actionBuf.get(k)??0)+amount);}}
+  private flushActions(all:boolean):void {
+    for(const [key,amount] of this.actionBuf)if(all||amount>=.35){const [id,via]=key.split('|');this.emit({t:'waterAction',id,via:via as 'push'|'scoop',amount});this.actionBuf.delete(key);}
   }
 
   // ------------------------------------------------------------------ risultati

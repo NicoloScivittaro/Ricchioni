@@ -46,6 +46,10 @@ export class CasaCarboHud extends GameHud {
   private sayText: TextBlock;
   private sayT = 0;
   private ending = false;
+  private tutorialBox: Rectangle;
+  private tutorialText: TextBlock;
+  private tutorialSub: TextBlock;
+  private objectiveText: TextBlock;
 
   constructor(scene: Scene) {
     super(scene, 'casaCarboHud', '🌧️ CASA CARBO');
@@ -86,6 +90,13 @@ export class CasaCarboHud extends GameHud {
     this.dryText.outlineWidth = 3;
     top.addControl(this.dryText);
 
+    this.tutorialBox=hudPanel('ccTutorial','1000px','96px','#93c5fd');
+    this.tutorialBox.verticalAlignment=Control.VERTICAL_ALIGNMENT_BOTTOM;
+    this.tutorialBox.top='-30px';this.tutorialBox.isVisible=false;this.adt.addControl(this.tutorialBox);
+    this.tutorialText=hudText('ccTutorialText','',27,'#ffffff');this.tutorialText.top='-17px';this.tutorialText.height='40px';this.tutorialBox.addControl(this.tutorialText);
+    this.tutorialSub=hudText('ccTutorialSub','',18,'#93c5fd');this.tutorialSub.top='23px';this.tutorialSub.height='30px';this.tutorialBox.addControl(this.tutorialSub);
+    this.objectiveText=hudText('ccObjective','',18,'#ffffff');this.objectiveText.verticalAlignment=Control.VERTICAL_ALIGNMENT_BOTTOM;this.objectiveText.top='-7px';this.objectiveText.height='28px';this.adt.addControl(this.objectiveText);
+
     this.chip.isVisible = false; // il nome del gioco lo dice gia' la casa: spazio alla classifica
     this.feed.top = `${UI.safe.y + 92}px`;
 
@@ -112,6 +123,9 @@ export class CasaCarboHud extends GameHud {
       if (this.sayT <= 0) this.sayBox.isVisible = false;
     });
   }
+
+  tutorial(text:string,sub:string):void {this.tutorialBox.isVisible=!!text;this.tutorialText.text=text;this.tutorialSub.text=sub;}
+  objective(text:string):void {this.objectiveText.text=this.ending?'':text;}
 
   /** Battuta di un personaggio (finale): chi parla in piccolo, la frase grande, in basso. */
   say(who: string, text: string, color: string, ms = 2200): void {
@@ -237,7 +251,7 @@ export class CasaCarboHud extends GameHud {
     fill.background = '#4fb3ff';
     fill.width = '0%';
     root.addControl(fill);
-    const text = hudText(`ccTagText_${id}`, '', UI.size.XS, color, true);
+    const text = hudText(`ccTagText_${id}`, '', 14, color, true);
     text.resizeToFit = true;
     text.outlineWidth = 3;
     text.isVisible = false;
@@ -250,7 +264,7 @@ export class CasaCarboHud extends GameHud {
   setTag(id: string, bucket: number, label: string): void {
     const t = this.tags.get(id);
     if (!t) return;
-    const show = bucket > 0.02;
+    const show = bucket > 0.02 || !!label;
     if (t.root.isVisible !== show) t.root.isVisible = show;
     if (show) {
       t.fill.width = `${Math.round(Math.min(1, bucket) * 100)}%`;

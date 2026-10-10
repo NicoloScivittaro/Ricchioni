@@ -1,0 +1,5 @@
+{"meshes":271,"materials":123,"textures":51,"lights":2,"particleSystems":16}
+draw call medie 98.1 (max 108) · mesh attive 100.1 · triangoli 150259.2 · FPS headless 59.8
+CPU: world.step 0.19 ms/passo · texture acqua 0.28 ms/aggiornamento · frame mediano 17 ms (p95 19 ms)
+✅ nessun errore di pagina
+NOTA: SwiftShader (CPU) — i numeri di FPS NON rappresentano una GPU vera; contano mesh/materiali/draw call e il costo CPU.

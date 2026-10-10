@@ -15,6 +15,7 @@ import { ArenaEntity } from '../arena/arenaEntity';
 import type { VisualSubject } from '../arena/arenaEntity';
 import { registerEnvScene } from '../env/envDebug';
 import { CasaCarboWorld } from './waterCore';
+import { drainRoute } from './ccNavigation';
 import { CCBot, botRoles } from './ccBot';
 import { CC } from './ccTuning';
 import { CC_NO_INPUT } from './ccTypes';
@@ -32,7 +33,7 @@ const DOOR_NAME: Record<string, string> = { front: 'PORTA DAVANTI', back: 'PORTA
 const DRAIN_NAME: Record<string, string> = { bagno: 'SCARICO DEL BAGNO', lavello: 'LAVELLO', tombino: 'TOMBINO' };
 const SIZE = 0.86;
 
-type Phase = 'countdown' | 'playing' | 'ending';
+type Phase = 'tutorial' | 'countdown' | 'playing' | 'ending';
 
 let activeGame: CasaCarboGame | null = null;
 let debugRegistered = false;
@@ -109,6 +110,7 @@ export class CasaCarboGame {
   private doorLabels = new Map<string, Label>();
   private drainLabels = new Map<string, Label>();
   private tvLabel: Label;
+  private emergencyLabel: Label;
   private neighbor: ArenaEntity | null = null;
   private names = new Map<PlayerId, string>();
   private colors = new Map<PlayerId, string>();
@@ -116,7 +118,13 @@ export class CasaCarboGame {
   private botRng = new Rng();
   private bots = new Map<PlayerId, CCBot>();
 
-  private phase: Phase = 'countdown';
+  private phase: Phase = 'tutorial';
+  private matchWorld: CasaCarboWorld | null = null;
+  private tutorialT = 0;
+  private tutorialStage = 0;
+  private tutorialStarted = false;
+  private guidance = new Map<string,Label>();
+  private actionFeedback = new Map<string,{text:string;until:number}>();
   private controlsDone = false;
   private countdown = COUNTDOWN_S;
   private lastCountInt = 4;
@@ -206,6 +214,7 @@ export class CasaCarboGame {
       handle.isPickable = false;
       this.squeegees.set(snap.id, blade);
       this.hud.attachTag(snap.id, e.root, snap.color);
+      this.guidance.set(snap.id,new Label(this.scene,'ccGuide_'+snap.id,0,.2,0,1.8,.5));
     }
     this.hud.buildBoard(ctx.players.map((s) => ({ id: s.id, label: SHORT[s.characterId ?? ''] ?? s.displayName.toUpperCase(), characterId: s.characterId, color: s.color })));
     for (const d of DOORS) {
@@ -215,7 +224,10 @@ export class CasaCarboGame {
     for (const d of DRAINS) this.drainLabels.set(d.id, new Label(this.scene, `ccDrainLabel_${d.id}`, toWorldX(d.cx), 1.9, toWorldZ(d.cy), 2.4, 0.6));
     this.tvLabel = new Label(this.scene, 'ccTvLabel', toWorldX(TV_POINT.cx + 40), 2.3, toWorldZ(TV_POINT.cy), 2.6, 0.7);
     this.tvLabel.set('', '#ffffff');
-    this.hud.setCountdown('3');
+    this.emergencyLabel=new Label(this.scene,'ccBedroomLabel',toWorldX(420),2.2,toWorldZ(260),3.2,.8);
+    this.emergencyLabel.set('','#fff');
+    this.hud.clearCountdown();
+    if(opts.lab)this.phase='countdown';
     this.hud.setTime(this.world.duration);
     this.hud.setDry(1);
 
@@ -260,7 +272,9 @@ export class CasaCarboGame {
 
   private step(dt: number): void {
     const now = performance.now();
-    if (this.phase === 'countdown') {
+    if (this.phase === 'tutorial') {
+      if(this.controlsDone)this.stepTutorial(dt);
+    } else if (this.phase === 'countdown') {
       if (!this.controlsDone) dt = 0;
       this.countdown -= dt;
       const n = Math.ceil(this.countdown);
@@ -321,6 +335,39 @@ export class CasaCarboGame {
     this.ctx.input.update();
   }
 
+  /** Short interactive rehearsal uses a separate simulator: no water, points, or ability charges carry into the match. */
+  private stepTutorial(dt:number):void {
+    if(!this.tutorialStarted){
+      this.tutorialStarted=true;this.matchWorld=this.world;
+      const practiceRng=new Rng(127);
+      this.world=new CasaCarboWorld({ids:this.ctx.players.map(p=>p.id),characters:this.ctx.players.map(p=>p.characterId??'goblin'),rng:()=>practiceRng.next(),events:false,duration:60});
+      for(let i=0;i<15*60;i++)this.world.step(1/60,{});
+      this.world.drainEvents();
+      const spots=[[712,675],[675,660],[750,660],[847,205],[815,225]];
+      this.world.players.forEach((p,i)=>{[p.x,p.y]=spots[i];p.fx=0;p.fy=i<3?1:-1;});
+    }
+    this.tutorialT+=dt;
+    const inputs=new Map<PlayerId,CCInput>();
+    for(const p of this.ctx.players)inputs.set(p.id,this.readInput(p.id,dt));
+    this.world.step(dt,inputs);
+    for(const e of this.world.drainEvents()){
+      if(this.tutorialStage===0 && e.t==='waterAction' && e.via==='push')this.tutorialStage=1;
+      else if(this.tutorialStage===1 && e.t==='waterAction' && e.via==='scoop'){
+        this.tutorialStage=2;
+        // Rehearsal shortcut: show the drain gesture without spending the tutorial crossing the house.
+        this.world.players.forEach((p,i)=>{p.x=820+i*29;p.y=790;p.vx=p.vy=0;});
+      } else if(this.tutorialStage===2 && e.t==='drain')this.tutorialStage=3;
+      if(e.t==='drain'||e.t==='waterAction'||e.t==='spill')this.handle(e);
+    }
+    const instructions=['X / □ — SPINGI L’ACQUA DAVANTI A TE','Y / △ — TIENI PER RACCOGLIERE COL SECCHIO','Y / △ — PREMI VICINO AL TOMBINO PER SVUOTARE','PROVA RIUSCITA! ACQUA SCARICATA = PUNTI'];
+    this.hud.tutorial(instructions[this.tutorialStage],`PROVA LIBERA · ${Math.max(0,Math.ceil(18-this.tutorialT))}s · B / ◯ contiene una porta · RB / R1 abilità`);
+    if(this.tutorialT>=18 || this.tutorialStage===3){
+      this.world=this.matchWorld!;this.matchWorld=null;this.phase='countdown';this.ctx.input.reset();
+      this.actionFeedback.clear();this.hud.tutorial('','');this.hud.setCountdown('3');
+      this.hud.feedMessage('SCARICA = +PUNTI · SOLO SPOSTARE = 0 · ASCIUTTA ALMENO 75%', '#93c5fd',3500);
+    }
+  }
+
   // ------------------------------------------------------------------ input
 
   private readInput(id: PlayerId, dt: number): CCInput {
@@ -366,6 +413,19 @@ export class CasaCarboGame {
 
   private handle(e: CCEvent): void {
     switch (e.t) {
+      case 'waterAction': {
+        const p=this.player(e.id);if(p){
+          this.env.waterFeedback(p.x+p.fx*30,p.y+p.fy*30,e.via==='push'?p.fx:0,e.via==='push'?p.fy:0);
+          this.actionFeedback.set(e.id,{text:e.via==='scoop'?`RACCOLTO ${e.amount.toFixed(1)} L`:'SPINGO → · 0 PT',until:this.gameTime+.5});
+        }
+        break;
+      }
+      case 'emergency': {
+        const names={tv:'SALVA LA TV!',bedroom:'LA CAMERA SI ALLAGA!',door:'FERMATE QUELL’ACQUA!'};
+        if(e.state==='start')this.hud.announce(names[e.kind],e.kind==='tv'?'B / ◯ vicino alla TV · bonus a chi aiuta':e.kind==='bedroom'?'Togli il 35%: raccogli in camera e SCARICA':'B / ◯ vicino alla porta segnalata · contiene la raffica','#fbbf24',1800);
+        else{this.hud.feedMessage(e.state==='won'?'OBIETTIVO RIUSCITO!':'EMERGENZA SCADUTA',e.state==='won'?'#4ade80':'#f87171',1800);for(const [id,pts] of Object.entries(e.rewards??{}))this.actionFeedback.set(id,{text:`BONUS +${pts.toFixed(1)}`,until:this.gameTime+2});}
+        break;
+      }
       case 'phase':
         if (e.name === 'forte') this.hud.announce('PIOVE FORTE!', 'L\'ACQUA ENTRA DALLE PORTE', '#93c5fd', 1500, 56);
         if (e.name === 'raffiche') this.hud.announce('RAFFICHE!', 'GUARDATE LE PORTE', '#fbbf24', 1500, 56);
@@ -399,7 +459,7 @@ export class CasaCarboGame {
         break;
       case 'tv':
         if (e.state === 'danger') {
-          this.hud.announce('LA TV, PORCO DUE!', 'PORTATELA IN SALVO (INTERAGISCI VICINO ALLA TV)', '#f87171', 2000, 54);
+          this.hud.announce('SALVA LA TV!', 'PORTATELA IN SALVO (INTERAGISCI VICINO ALLA TV)', '#f87171', 2000, 54);
           audio.edgeWarn(0.6);
         } else if (e.state === 'saved') {
           this.hud.feedMessage(`📺 ${this.label(e.by ?? '')} HA SALVATO LA TV (+${CC.points.tv})`, '#4ade80', 2400);
@@ -413,6 +473,8 @@ export class CasaCarboGame {
           this.entities.get(e.id)?.overrideImportedAnimation(null); // each actual pour starts a new visual gesture
         }
         if (p) {
+          this.env.waterFeedback(p.x,p.y,0,0);
+          this.actionFeedback.set(e.id,{text:`SCARICATI ${e.amount.toFixed(1)} L · +${e.amount.toFixed(1)} PT`,until:this.gameTime+1.8});
           this.hud.feedMessage(`💧 ${this.label(e.id)} +${Math.round(e.amount * 10) / 10} (${DRAIN_NAME[e.drain]})`, '#93c5fd', 1400);
           audio.pickupPop(this.pan(p.x));
           this.ctx.vibrate(e.id, 40);
@@ -546,7 +608,7 @@ export class CasaCarboGame {
       if (!ent) continue;
       const animator=this.characterAnimations.get(p.id);
       if(animator) {
-        const pose=this.phase==='playing'?animator.update(dt,p):null;
+        const pose=(this.phase==='playing'||this.phase==='tutorial')?animator.update(dt,p):null;
         ent.overrideImportedAnimation(pose?.name??null,pose?.duration,pose?.loop??false);
       }
       const vis: VisualSubject = {
@@ -593,18 +655,19 @@ export class CasaCarboGame {
       const contained = w.players.some((p) => p.containing === d.id);
       const rate = w.doorRate[d.id];
       const bars = '▮'.repeat(Math.max(1, Math.min(5, Math.round(rate * 2.4))));
-      if (this.phase !== 'playing') l.set('', '#fff');
+      if (this.phase === 'ending') l.set('', '#fff');
       else if (gust) l.set(`⚠ RAFFICA! ${bars}`, '#fbbf24');
       else if (blocked) l.set('🚫 PORTA CHIUSA', '#f97316');
       else if (contained) l.set(`✋ CONTENUTA ${bars}`, '#a3e635');
-      else l.set(`🌧 ${bars}`, rate > 1.2 ? '#f87171' : '#93c5fd');
+      else l.set(`ENTRA ACQUA ${bars}`, rate > 1.2 ? '#f87171' : '#93c5fd');
     }
     for (const d of DRAINS) {
       const l = this.drainLabels.get(d.id)!;
-      if (this.phase !== 'playing') l.set('', '#fff');
+      if (this.phase === 'ending') l.set('', '#fff');
       else if (w.clogged.has(d.id)) l.set('⛔ INTASATO', '#f87171');
       else l.set(d.id === 'bagno' ? '💧 SCARICO' : d.id === 'lavello' ? '🚰 LAVELLO' : '⭕ TOMBINO', '#93c5fd');
     }
+    this.emergencyLabel.set(w.emergency?.kind==='bedroom'?'CAMERA: RACCOGLI E SCARICA':'','#fbbf24');
     if (w.tv === 'danger') this.tvLabel.set('⚠ LA TV!', '#f87171');
     else if (w.tv === 'saved') this.tvLabel.set('✅ TV SALVA', '#4ade80');
     else if (w.tv === 'ruined') this.tvLabel.set('💀 TV ANDATA', '#9ca3af');
@@ -628,11 +691,22 @@ export class CasaCarboGame {
       else if (p.holdKey.startsWith('unclog')) label = `SBLOCCO ${Math.round((p.holdT / CC.unclogTime) * 100)}%`;
       else if (p.holdKey === 'tv') label = `TV ${Math.round((p.holdT / CC.tvTime) * 100)}%`;
       else if (p.holdKey === 'rug') label = `TAPPETO ${Math.round((p.holdT / CC.rugTime) * 100)}%`;
-      else if (p.scooping) label = 'RACCOLGO';
+      else if(p.scooping && w.waterAt(p.x,p.y)<.01)label='POZZA VUOTA';
+      else if (p.scooping) label = `RACCOLGO ${p.bucket.toFixed(1)}/${w.bucketCap(p)} L`;
       else if (p.bucket >= w.bucketCap(p) - 0.01) label = 'PIENO: ALLO SCARICO';
+      else if(p.bucket<.02)label=p.squeegee?'SPINGO →':'VUOTO · Y / △';
+      const feedback=this.actionFeedback.get(p.id);if(feedback && feedback.until>this.gameTime)label=feedback.text;
+      const guide=this.guidance.get(p.id)!;
+      if(p.bucket>=w.bucketCap(p)*.9 && this.phase!=='ending'){
+        const route=drainRoute(w,p);
+        if(route){const dx=route.x-p.x,dy=route.y-p.y,l=Math.hypot(dx,dy)||1;guide.mesh.position.set(toWorldX(p.x+dx/l*55),.25,toWorldZ(p.y+dy/l*55));guide.set(route.steps===0?'Y / △ SVUOTA':`→ ${route.id.toUpperCase()}`,'#fbbf24');}
+        else guide.set('NESSUNO SCARICO LIBERO','#f87171');
+      }else guide.set('','#fff');
       if (this.phase === 'ending') this.hud.setTag(p.id, 0, ''); // nel finale parlano banner, titoli e vicino
       else this.hud.setTag(p.id, p.bucket / CC.bucketCap, label);
     }
+    const em=w.emergency;
+    this.hud.objective(em?`${em.kind==='tv'?'SALVA LA TV':em.kind==='bedroom'?'CAMERA: -35% ACQUA':'CONTIENI LA '+DOOR_NAME[em.door??'front']} · ${Math.ceil(Math.max(0,em.until-w.time))}s · ${Math.round(em.progress*100)}%`:'X / □ SPINGI   ·   Y / △ RACCOGLI / SCARICA   ·   B / ◯ INTERAGISCI');
     void this.lastCount;
     void this.lastPeakWarned;
   }
@@ -737,7 +811,7 @@ export class CasaCarboGame {
   }
 
   get sim(): CasaCarboWorld {
-    return this.world;
+    return this.matchWorld ?? this.world;
   }
 
   /** Bot di test (solo debug / laboratorio). */
@@ -761,7 +835,7 @@ export class CasaCarboGame {
       this.neighbor?.dispose();
     });
     safely('labels', () => {
-      for (const l of [...this.doorLabels.values(), ...this.drainLabels.values(), this.tvLabel]) l.dispose();
+      for (const l of [...this.doorLabels.values(), ...this.drainLabels.values(), ...this.guidance.values(), this.tvLabel, this.emergencyLabel]) l.dispose();
     });
     safely('hud.dispose', () => this.hud.dispose());
     safely('engine.stopRenderLoop', () => this.engine.stopRenderLoop());

@@ -1,4 +1,4 @@
-import { Color3, Color4, DynamicTexture, Mesh, MeshBuilder, ParticleSystem, Scene, StandardMaterial, Texture, Vector3 } from '@babylonjs/core';
+import { Color3, Color4, DynamicTexture, Mesh, MeshBuilder, ParticleSystem, Scene, StandardMaterial, Texture, Vector3, VertexBuffer } from '@babylonjs/core';
 import type { HemisphericLight } from '@babylonjs/core';
 import { EnvKit, PAL, SIGN_FONT, mixHex, seeded } from '../env/envKit';
 import { CELL_PX, COLS, DOORS, DRAINS, FURNITURE, GARDENS, GRID_X0, GRID_Y0, INNER_DOORS, INTERIOR, ROWS, WALLS, toWorldX, toWorldZ } from './mapData';
@@ -16,6 +16,7 @@ export interface CasaCarboEnvironment {
   /** ridisegna l'acqua dalla griglia (chiamarlo qualche volta al secondo) */
   updateWater(h: Float32Array, interior: Uint8Array, blocked: Uint8Array): void;
   /** lampo del temporale (0..1) */
+  waterFeedback(x:number,y:number,dx:number,dy:number):void;
   flash(k: number): void;
   setRain(intensity: number): void;
   update(dt: number): void;
@@ -254,11 +255,19 @@ export function buildCasaCarboEnvironment(scene: Scene): CasaCarboEnvironment & 
   waterMat.backFaceCulling = false;
   const gw = (COLS * CELL_PX) / 40;
   const gd = (ROWS * CELL_PX) / 40;
-  const water = MeshBuilder.CreateGround('ccWater', { width: gw, height: gd }, scene);
+  const water = MeshBuilder.CreateGround('ccWater', { width: gw, height: gd, subdivisions: 68, updatable: true }, scene);
   water.position.set(wx(GRID_X0) + gw / 2, 0.035, wz(GRID_Y0) - gd / 2);
   water.material = waterMat;
   water.isPickable = false;
   kit.excludeFromGlow(water);
+
+  const positions=water.getVerticesData(VertexBuffer.PositionKind)!;
+  // Bounded pool: directional ripples and splash, no per-action mesh or texture allocation.
+  const rippleMat=kit.mat('#8eeaff',{emissive:.8,dynamic:true});
+  const ripples=Array.from({length:20},(_,i)=>{const mesh=MeshBuilder.CreateTorus('ccRipple'+i,{diameter:.65,thickness:.045,tessellation:12},scene);mesh.material=rippleMat;mesh.isVisible=false;mesh.isPickable=false;return {mesh,t:0,dx:0,dy:0};});
+  const drops=Array.from({length:15},(_,i)=>{const mesh=MeshBuilder.CreateSphere('ccSplash'+i,{diameter:.09,segments:3},scene);mesh.material=rippleMat;mesh.isPickable=false;mesh.isVisible=false;return {mesh,t:0,x:0,z:0,vx:0,vz:0};});
+  let dropIndex=0;
+  let rippleIndex=0;
 
   // ---- tappeto spostato (ostacolo temporaneo)
   const movedRug = MeshBuilder.CreateBox('ccMovedRug', { width: 1, height: 0.35, depth: 1 }, scene);
@@ -305,6 +314,10 @@ export function buildCasaCarboEnvironment(scene: Scene): CasaCarboEnvironment & 
   let flashK = 0;
   return {
     hemi,
+    waterFeedback(x:number,y:number,dx:number,dy:number):void {
+      const r=ripples[rippleIndex++%ripples.length];r.t=.5;r.dx=dx;r.dy=dy;r.mesh.position.set(wx(x),.12,wz(y));r.mesh.scaling.setAll(1);r.mesh.isVisible=true;
+      for(let i=0;i<3;i++){const d=drops[dropIndex++%drops.length];d.t=.45;d.x=wx(x);d.z=wz(y);const a=i*Math.PI*2/3;d.vx=Math.cos(a)*.5+dx;d.vz=Math.sin(a)*.5-dy;d.mesh.isVisible=true;}
+    },
     updateWater(h: Float32Array, interior: Uint8Array, blocked: Uint8Array): void {
       const d = img.data;
       for (let k = 0; k < COLS * ROWS; k++) {
@@ -320,8 +333,14 @@ export function buildCasaCarboEnvironment(scene: Scene): CasaCarboEnvironment & 
         d[o + 2] = Math.round(255 - 25 * depth);
         d[o + 3] = Math.round(255 * Math.min(0.9, 0.5 + 0.55 * depth));
       }
+      for(let i=0;i<positions.length;i+=3){
+        const col=Math.max(0,Math.min(COLS-1,Math.floor((positions[i]/gw+.5)*COLS)));
+        const row=Math.max(0,Math.min(ROWS-1,Math.floor((.5-positions[i+2]/gd)*ROWS)));
+        const k=row*COLS+col;positions[i+1]=interior[k]&&!blocked[k]?Math.min(.24,h[k]*.18):0;
+      }
+      water.updateVerticesData(VertexBuffer.PositionKind,positions);
       wctx.putImageData(img, 0, 0);
-      waterTex.update(false);
+      waterTex.update(true); // Ground UV v=1 at the front edge: canvas row 0 must map to that edge.
     },
     flash(k: number): void {
       flashK = Math.max(flashK, k);
@@ -330,6 +349,9 @@ export function buildCasaCarboEnvironment(scene: Scene): CasaCarboEnvironment & 
       rain.emitRate = 150 + 650 * Math.max(0, Math.min(1, intensity));
     },
     update(dt: number): void {
+      for(const d of drops)if(d.t>0){d.t-=dt;const age=.45-d.t;d.mesh.isVisible=d.t>0;d.mesh.position.set(d.x+d.vx*age,.09+age*1.8-age*age*4,d.z+d.vz*age);}
+      for(const r of ripples)if(r.t>0){r.t-=dt;r.mesh.isVisible=r.t>0;r.mesh.position.x+=r.dx*dt*1.8;r.mesh.position.z-=r.dy*dt*1.8;r.mesh.position.y=.12+Math.sin(Math.max(0,r.t)*Math.PI*2)*.07;r.mesh.scaling.setAll(1+(1-r.t/.5)*1.5);}
+
       if (flashK > 0) flashK = Math.max(0, flashK - dt * 3);
       hemi.intensity = baseHemi + flashK * 1.2;
       lights.sun.intensity = baseKey + flashK * 0.8;
