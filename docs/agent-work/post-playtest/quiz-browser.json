@@ -1,0 +1,56 @@
+{
+  "questions": [
+    {
+      "number": 1,
+      "question": "In quale città si tiene il Festival della canzone italiana?",
+      "fivePhones": true
+    },
+    {
+      "number": 2,
+      "question": "Chi fu il primo imperatore romano?",
+      "fivePhones": true
+    },
+    {
+      "number": 3,
+      "question": "Qual è il deserto caldo più esteso del mondo?",
+      "fivePhones": true
+    },
+    {
+      "number": 4,
+      "question": "Qual è il pianeta più vicino al Sole?",
+      "fivePhones": true
+    },
+    {
+      "number": 5,
+      "question": "Come si chiama la tecnica del salto in alto \"di schiena\", resa celebre alle Olimpiadi del 1968?",
+      "fivePhones": true
+    },
+    {
+      "number": 6,
+      "question": "In quale paese si trova il deserto di Atacama, uno dei luoghi più aridi della Terra?",
+      "fivePhones": true
+    },
+    {
+      "number": 7,
+      "question": "Da quale lingua viene la parola \"robot\"?",
+      "fivePhones": true
+    },
+    {
+      "number": 8,
+      "question": "In quale anno l'Italia vinse il suo primo Campionato del Mondo di calcio?",
+      "fivePhones": true
+    },
+    {
+      "number": 9,
+      "question": "Chi coniò la parola inglese \"serendipity\", da cui viene la nostra \"serendipità\"?",
+      "fivePhones": true
+    },
+    {
+      "number": 10,
+      "question": "Nella mitologia norrena, come si chiama la nave costruita con le unghie dei morti, che salperà durante il Ragnarök?",
+      "fivePhones": true
+    }
+  ],
+  "errors": [],
+  "acceleratedIntermissions": true
+}

@@ -122,6 +122,7 @@ socket.on(EVT.roomState, (payload) => {
   const t0 = performance.now();
   state = payload as RoomState;
   render();
+  if (activeController === 'quiz') updateQuizUI();
   if (PHASE_DBG) phaseTiming.push({ kind: 'roomState', phase: state.phase, recvAt, renderMs: +(performance.now() - t0).toFixed(1) });
 });
 
@@ -1622,6 +1623,12 @@ function isInfoLine(data: unknown): data is InfoLineData {
 
 interface QuizStatePayload {
   type: 'quizState';
+  roundId: number;
+  questionKey: string;
+  answerRevision: number;
+  canAnswer: boolean;
+  answerTimeRemaining: number;
+  answerStatus: 'open' | 'confirmed' | 'waiting' | 'grace' | 'retry';
   phase: string;
   questionNumber: number;
   totalQuestions: number;
@@ -1650,6 +1657,7 @@ function isQuizState(data: unknown): data is QuizStatePayload {
 let lastInfo: InfoLineData | null = null;
 let lastQuizState: QuizStatePayload | null = null;
 let quizSelectedLocal: number | null = null;
+let quizPending = false;
 
 interface CulturaState {
   type: 'cultura';
@@ -1704,7 +1712,10 @@ socket.on(EVT.privateData, (data) => {
     return;
   }
   if (isQuizState(data)) {
-    if (data.phase === 'intro') quizSelectedLocal = null;
+    if (state?.currentMinigame?.minigameId !== 'quiz' || data.roundId !== state.roundId) return;
+    const changed = !lastQuizState || data.roundId !== lastQuizState.roundId || data.questionKey !== lastQuizState.questionKey || data.answerRevision !== lastQuizState.answerRevision;
+    if (changed) { quizSelectedLocal = null; quizPending = false; }
+    if (!data.canAnswer || data.myAnswerIndex === quizSelectedLocal) quizPending = false;
     lastQuizState = data;
     updateQuizUI();
     syncQuizPadPrivateInfo(data);
@@ -2124,8 +2135,6 @@ let quizAnswerEls: { root: HTMLButtonElement; letter: HTMLSpanElement; text: HTM
 
 /** Controller "TV quiz show" dedicato a CHI CAZZO LO SA? (layout custom: quiz-tv). */
 function renderQuizController(): void {
-  lastQuizState = null;
-  quizSelectedLocal = null;
 
   app.innerHTML = `
     <div class="quiz-shell">
@@ -2148,6 +2157,8 @@ function renderQuizController(): void {
         <p id="quiz-hint" class="quiz-hint"></p>
       </div>
       <div id="quiz-answers" class="quiz-answers"></div>
+      <button id="quiz-confirm" class="quiz-confirm" disabled>CONFERMA RISPOSTA</button>
+      <p id="quiz-status" class="quiz-status" role="status" aria-live="polite">In attesa della domanda…</p>
       <div id="quiz-breakdown" class="quiz-breakdown"></div>
       <div class="quiz-footer">
         <div class="quiz-player">
@@ -2181,25 +2192,32 @@ function renderQuizController(): void {
       e.preventDefault();
       if (btn.disabled) return;
       quizSelectedLocal = i;
-      sendInput({ kind: 'action', controlId: `answer${letter}` });
       updateQuizUI();
     });
     answersRoot.appendChild(btn);
     quizAnswerEls.push({ root: btn, letter: badge, text });
   });
 
+  app.querySelector<HTMLButtonElement>('#quiz-confirm')!.addEventListener('click', () => {
+    const s = lastQuizState;
+    if (!socket.connected || state?.paused || !s?.canAnswer || quizSelectedLocal === null || quizPending) return;
+    quizPending = true;
+    socket.emit(EVT.inputText, { controlId: 'quizAnswer', text: JSON.stringify([s.roundId, s.questionKey, s.answerRevision, quizSelectedLocal]) });
+    updateQuizUI();
+  });
   const abilityBtn = app.querySelector<HTMLButtonElement>('#quiz-ability-btn')!;
   abilityBtn.addEventListener('pointerdown', (e) => {
     e.preventDefault();
     if (abilityBtn.disabled) return;
     sendInput({ kind: 'action', controlId: 'ability' });
   });
+  updateQuizUI(); // Non perdere lo stato arrivato prima del montaggio della vista.
 }
 
 function updateQuizUI(): void {
   const s = lastQuizState;
   const root = app.querySelector('.quiz-shell');
-  if (!s || !root) return;
+  if (!s || !root || s.roundId !== state?.roundId) return;
 
   root.querySelector('#quiz-qnum')!.textContent = `Domanda ${s.questionNumber}/${s.totalQuestions}`;
 
@@ -2220,19 +2238,32 @@ function updateQuizUI(): void {
   hintEl.style.display = s.hintText ? '' : 'none';
 
   const locked = s.phase !== 'question';
+  const canPick = s.canAnswer && !quizPending && !state?.paused && socket.connected;
   quizAnswerEls.forEach((el, i) => {
     el.text.textContent = s.answers[i] ?? '';
     el.letter.textContent = QUIZ_LETTERS[i];
     el.root.classList.remove('selected', 'correct', 'wrong');
-    el.root.disabled = locked;
+    el.root.disabled = !canPick;
 
     if (locked && s.correctIndex !== null) {
       if (i === s.correctIndex) el.root.classList.add('correct');
       else if (i === s.myAnswerIndex) el.root.classList.add('wrong');
-    } else if (s.myAnswerIndex === i || quizSelectedLocal === i) {
+    } else if ((s.myAnswerIndex ?? quizSelectedLocal) === i) {
       el.root.classList.add('selected');
     }
   });
+
+  const confirm = root.querySelector<HTMLButtonElement>('#quiz-confirm')!;
+  confirm.disabled = !canPick || quizSelectedLocal === null;
+  confirm.textContent = quizSelectedLocal === null ? 'CONFERMA RISPOSTA' : `CONFERMA ${QUIZ_LETTERS[quizSelectedLocal]}`;
+  root.querySelector('#quiz-status')!.textContent = quizPending ? 'Invio della risposta…' :
+    s.answerStatus === 'confirmed' ? 'Risposta confermata · aspetta gli altri' :
+    s.answerStatus === 'grace' ? 'Puoi usare MO HO CAPITO per riprovare' :
+    s.answerStatus === 'waiting' && !s.canAnswer ? 'Aspetta la fine del tempo per il riepilogo privato' :
+    s.phase === 'intro' ? 'Leggi la domanda · tra poco puoi rispondere' :
+    s.phase !== 'question' ? 'Risposte chiuse · guarda il risultato' :
+    !s.canAnswer ? 'Tempo scaduto · attendi il risultato' :
+    quizSelectedLocal === null ? 'Scegli una risposta e poi conferma' : `Hai selezionato ${QUIZ_LETTERS[quizSelectedLocal]} · premi CONFERMA`;
 
   const breakdownEl = root.querySelector<HTMLElement>('#quiz-breakdown')!;
   if (s.ciroBreakdown) {
@@ -2249,7 +2280,7 @@ function updateQuizUI(): void {
   const timerNum = root.querySelector('#quiz-timer-num')!;
   if (s.phase === 'question' && s.totalTime > 0) {
     timerEl.style.display = '';
-    timerNum.textContent = Math.max(0, Math.ceil(s.timeRemaining)).toString();
+    timerNum.textContent = Math.max(0, Math.ceil(s.timeRemaining || s.answerTimeRemaining)).toString();
     const frac = Math.max(0, Math.min(1, s.timeRemaining / s.totalTime));
     timerEl.style.setProperty('--pct', `${frac * 360}deg`);
     timerEl.classList.toggle('urgent', s.timeRemaining <= 3);

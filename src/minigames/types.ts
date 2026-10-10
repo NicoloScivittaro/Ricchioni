@@ -15,6 +15,8 @@ import type { InputManager } from '../network/InputManager';
  * input tramite ctx.input (InputManager) e termina con ctx.finish(ranking).
  */
 export interface MinigameContext {
+  /** Identità server del round, anche per rifiutare risposte private tardive. */
+  roundId?: number;
   players: PlayerSnapshot[];
   playerIds: PlayerId[];
   rng: Rng;

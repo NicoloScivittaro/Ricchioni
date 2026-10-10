@@ -430,5 +430,30 @@ for (const n of [2, 3, 4, 5]) {
   });
 }
 
+console.log('\n=== TEST 15: scadenze personali, identità e doppie conferme ===');
+{
+  const mgr = new QuizRoundManager(makeCtx(makePlayers(5, ['ciro', 'judoka', 'buttafuori', 'dottore', 'goblin'])), () => {});
+  mgr.update(3);
+  const q = mgr.currentQuestion();
+  const oldKey = mgr.questionKey();
+  mgr.useAbility('p0');
+  mgr.submitAnswer('p0', q.correctAnswerIndex);
+  assert(mgr.players.get('p0')!.answerIndex === null, 'Ciro attende il riepilogo: niente risposta anticipata');
+  mgr.submitAnswer('p1', q.correctAnswerIndex);
+  mgr.useAbility('p1');
+  mgr.submitAnswer('p1', q.correctAnswerIndex, oldKey, 0);
+  assert(mgr.players.get('p1')!.answerIndex === null, 'vecchia conferma non riusata dopo NO, ASPETTA');
+  mgr.submitAnswer('p1', q.correctAnswerIndex, oldKey, 1);
+  mgr.submitAnswer('p1', q.correctAnswerIndex, oldKey, 1);
+  assert(mgr.players.get('p1')!.points === 1, 'cambio e duplicati non raddoppiano i punti');
+  mgr.update(12.1);
+  mgr.submitAnswer('p3', q.correctAnswerIndex);
+  assert(mgr.players.get('p3')!.answerIndex === null, 'nessuna risposta fuori tempo mentre un altro ha secondi extra');
+  mgr.useAbility('p4');
+  mgr.update(3);
+  mgr.submitAnswer('p3', mgr.currentQuestion().correctAnswerIndex, oldKey, 0);
+  assert(mgr.players.get('p3')!.answerIndex === null, 'risposta della domanda rifiutata ignorata');
+}
+
 console.log(`\n=== RISULTATO: ${failures === 0 ? 'TUTTI I TEST PASSATI ✅' : `${failures} TEST FALLITI ❌`} ===`);
 process.exit(failures === 0 ? 0 : 1);

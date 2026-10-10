@@ -251,6 +251,7 @@ export class GameManager {
     let submitted = false;
 
     return {
+      roundId,
       players: snapshots,
       playerIds: snapshots.map((p) => p.id),
       rng: new Rng(),

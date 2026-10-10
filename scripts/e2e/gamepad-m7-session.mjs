@@ -124,28 +124,27 @@ try {
   await padGame('memory', 'MEMORIA', async () => (await S('memory', (g) => g.phase)) === 'repeat', async () => (await S('memory', (g, id) => g.players.find((p) => p.snap.id === id).inputIndex, P1)) === 0);
   await padGame('reaction', 'BOTTA AL VOLO', async () => (await S('reaction', (g) => g.phase)) === 'waiting', async () => (await S('reaction', (g, id) => g.players.find((p) => p.snap.id === id).status, P1)) === 'ready');
 
-  // QUIZ: oltre al fantasma, l'INFO PRIVATA del Dottore (P1) compare SOLO sul suo telefono e poi torna da sola a "USA IL CONTROLLER"
-  await padGame('quiz', 'CHI CAZZO LO SA', async () => (await S('quiz', (g) => g.manager.phase)) === 'question', async () => {
-    const p = await S('quiz', (g, id) => { const q = g.manager.players.get(id); return { a: q.answerIndex, f: q.hasAnsweredFinal }; }, P1);
-    return p.a === null && p.f === false;
-  }, async () => {
-    await tap(page, 0, 'RB', 250);
-    await until(async () => /INFO PRIVATA/.test(await phoneText(phones[0])), 8000, 'info privata P1');
-    check(/INFO PRIVATA/.test(await phoneText(phones[0])) && !/INFO PRIVATA/.test(await phoneText(phones[1])), 'Quiz: "📱 INFO PRIVATA" solo sul telefono del Dottore (P1), non sugli altri');
-    // domanda successiva (tutti rispondono, fasi fisse accorciate SOLO nel test): l'indizio scade e il telefono torna passivo
-    let guard = 0;
-    // (il Buttafuori con risposta sbagliata entra nella finestra di grazia di 4s: si aspetta che scada da sola)
-    while ((await S('quiz', (g) => g.manager.questionIndex)) === 0 && guard++ < 150) {
-      await S('quiz', (g) => {
-        const m = g.manager;
-        if (m.phase === 'question') { for (const p of m.players.values()) if (!p.hasAnsweredFinal) m.submitAnswer(p.playerId, 0); }
-        else m.phaseTimer = -1;
-      });
-      await sleep(120);
-    }
-    await until(async () => /USA IL CONTROLLER/.test(await phoneText(phones[0])), 8000, 'P1 torna passivo');
-    check(true, 'Quiz: alla domanda successiva il telefono di P1 torna da solo a "USA IL CONTROLLER" (nessun refresh)');
-  });
+  // QUIZ solo telefono: nessuna pressione sul pad può scegliere una risposta.
+  await btn(page, 0, 'A', true);
+  await resetControlsWatch(page);
+  await hostEval(page, gm => gm.selectMinigame('quiz'));
+  await until(async () => (await phaseNow()) === 'MINIGAME_PLAYING', 120000, 'Quiz');
+  await until(async () => await S('quiz', g => g.manager.phase === 'question'), 30000, 'domanda');
+  check((await page.evaluate(() => window.__pads.contextNow())) === 'PHONE_TEXT', 'Quiz: pad ignorato');
+  for (const p of phones) {
+    await p.page.waitForSelector('#quiz-question');
+    check(!/USA IL CONTROLLER/.test(await phoneText(p)), 'Quiz: domanda sul telefono');
+  }
+  await btn(page, 0, 'A', false);
+  await phones[0].page.click('#quiz-ability-btn');
+  await until(async () => !!(await phones[0].page.$eval('#quiz-hint', el => el.textContent)), 5000, 'indizio privato');
+  check(await phones[1].page.$eval('#quiz-hint', el => el.textContent) === '', 'indizio solo Dottore');
+  await phones[0].page.click('.quiz-ans-a');
+  await phones[0].page.click('#quiz-confirm');
+  await until(async () => await S('quiz', (g,id) => g.manager.players.get(id).answerIndex === 0, P1), 5000, 'conferma telefono');
+  await finishRound();
+  await goNext(false);
+  check((await slots(page)) === pairing0, 'Quiz conserva pairing');
 
   await padGame('fps', 'SPARATORIA', async () => (await S('fps', (g) => g.controlsDone && (g.splitScreen?.cams.length ?? 0) === 3)) === true, async () => (await S('fps', (g, id) => g.players.find((p) => p.id === id).dashCooldown, P1)) === 0);
 

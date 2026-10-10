@@ -50,6 +50,8 @@ function clampInt(v: unknown, min: number, max: number, fallback: number): numbe
  */
 export class RoomManager {
   private rooms = new Map<RoomCode, GameSession>();
+  // Solo snapshot Quiz: privati per giocatore, limitati al round e liberati con la stanza.
+  private quizSnapshots = new WeakMap<GameSession, Map<string, { roundId: number; data: unknown }>>();
 
   /** Solo con FLOW_TRACE=1 (vedi index.ts): ultimi eventi di flusso della stanza. */
   flowTraceOf(code: string): unknown[] | null {
@@ -165,6 +167,11 @@ export class RoomManager {
           const ack: JoinAck & AckResponse = { ok: true, playerId: player.id, reconnectToken: player.reconnectToken };
           cb?.(ack);
           this.broadcast(room.roomCode);
+          const quiz = this.quizSnapshots.get(room)?.get(player.id);
+          const current = room.toRoomState();
+          if (quiz && current.phase === 'MINIGAME_PLAYING' && current.currentMinigame?.minigameId === 'quiz' && quiz.roundId === current.roundId) {
+            socket.emit(EVT.privateData, quiz.data);
+          }
           return;
         }
       }
@@ -316,6 +323,13 @@ export class RoomManager {
     const room = this.roomOfHost(socket);
     if (!room) return;
     const player = room.getPlayer(p.playerId);
+    const data = p.data as { type?: string; roundId?: number } | null;
+    const current = room.toRoomState();
+    if (player && data?.type === 'quizState' && data.roundId === current.roundId && current.phase === 'MINIGAME_PLAYING' && current.currentMinigame?.minigameId === 'quiz') {
+      let snapshots = this.quizSnapshots.get(room);
+      if (!snapshots) this.quizSnapshots.set(room, snapshots = new Map());
+      snapshots.set(player.id, { roundId: data.roundId!, data: p.data });
+    }
     if (player?.connectionId) this.io.to(player.connectionId).emit(EVT.privateData, p.data);
   }
 
@@ -423,6 +437,7 @@ export class RoomManager {
     const room = this.rooms.get(roomCode);
     if (!room) return;
     const state = room.toRoomState();
+    if (state.phase !== 'MINIGAME_PLAYING' || state.currentMinigame?.minigameId !== 'quiz') this.quizSnapshots.delete(room);
     if (room.hostConnectionId) this.io.to(room.hostConnectionId).emit(EVT.roomState, state);
     for (const p of room.players) {
       if (p.connectionId) this.io.to(p.connectionId).emit(EVT.roomState, state);

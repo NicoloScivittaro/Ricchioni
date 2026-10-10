@@ -4,13 +4,12 @@ import { audio } from '../../core/AudioManager';
 import { setGameIntensity } from '../../core/musicDirector';
 import { PauseMenu } from '../../core/PauseMenu';
 import { QuizRoundManager } from './QuizRoundManager';
-import type { QuizHudEvent, QuizPhase, QuizPlayerState } from './QuizRoundManager';
+import type { QuizHudEvent, QuizPhase } from './QuizRoundManager';
 import { abilityNameFor, abilityDescriptionFor } from './abilities';
 import { abilityHub } from '../../core/abilityHub';
 import { stateLabel } from '../../../shared/abilityCatalog';
 import type { MinigameContext } from '../types';
 import type { PlayerId } from '../../../shared/types';
-import { debugEnabled, registerDebugSection } from '../../core/debug';
 import { addBackdrop } from '../../scenes/backdrops';
 import { UI, hexToInt } from '../../core/uiTokens';
 import { displayText } from '../../core/uiPhaser';
@@ -21,25 +20,6 @@ import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
 const LETTERS = ['A', 'B', 'C', 'D'];
 const OPTION_COLORS = [0xef4444, 0x3b82f6, 0x22c55e, 0xf59e0b];
 const ABILITY_FLASH_DURATION = 2.2;
-
-// F3 (solo debug): "selected"/"locked" per giocatore col controller — il D-PAD sposta un indice mentale
-// che non arriva MAI alla TV ne' al telefono (vedi padSelected in QuizScene); qui esiste solo per chi
-// preme F3 sull'host durante lo sviluppo, non e' visibile durante il gioco normale.
-let quizDebugSectionReady = false;
-let quizDebugRef: { players: Map<PlayerId, QuizPlayerState>; padSelected: Map<PlayerId, number> } | null = null;
-function ensureQuizDebugSection(): void {
-  if (quizDebugSectionReady || !debugEnabled()) return;
-  quizDebugSectionReady = true;
-  registerDebugSection(() => {
-    if (!quizDebugRef) return [];
-    const lines = ['QUIZ · dpad = selezione mentale (mai in TV/telefono)'];
-    for (const ps of quizDebugRef.players.values()) {
-      const sel = quizDebugRef.padSelected.get(ps.playerId);
-      lines.push(`  ${ps.displayName}: selected ${sel === undefined ? '—' : LETTERS[sel]} · locked ${ps.hasAnsweredFinal ? 'SI' : 'no'} · ability ${ps.abilityUsed ? 'usata' : 'no'}`);
-    }
-    return lines;
-  });
-}
 
 interface PlayerRow {
   bg: Phaser.GameObjects.Rectangle;
@@ -64,13 +44,6 @@ export class QuizScene extends Phaser.Scene {
   private quizStateTimer = 0;
   private lastSentPhase: QuizPhase | null = null;
   private controlsDone = false;
-  // Selezione col D-PAD (gamepad): indice 0-3 tenuto "a mente" per giocatore, MAI mandato alla TV
-  // ne' al telefono (nessun cursore pubblico) — CONFERMA (PRIMARY) chiama submitAnswer come farebbe
-  // il tocco sul telefono. Azzerata a ogni nuova domanda (stesso momento in cui il telefono azzera
-  // quizSelectedLocal: fase 'intro').
-  private padSelected = new Map<PlayerId, number>();
-  private padSelectResetPhase: QuizPhase | null = null;
-
   private headerText!: Phaser.GameObjects.Text;
   private starsText!: Phaser.GameObjects.Text;
   private valueText!: Phaser.GameObjects.Text;
@@ -113,8 +86,6 @@ export class QuizScene extends Phaser.Scene {
     this.leaderboardLines = [];
     this.abilityFlashTimer = 0;
     this.controlsDone = false;
-    this.padSelected = new Map();
-    this.padSelectResetPhase = null;
 
     audio.unlock();
     abilityHub.begin('quiz', this.ctx);
@@ -215,8 +186,6 @@ export class QuizScene extends Phaser.Scene {
     if (this.ctx.showControls) void this.ctx.showControls().then(() => { this.controlsDone = true; });
     else this.controlsDone = true;
 
-    quizDebugRef = { players: this.manager.players, padSelected: this.padSelected };
-    ensureQuizDebugSection();
   }
 
   private buildPlayerRows(): void {
@@ -317,36 +286,40 @@ export class QuizScene extends Phaser.Scene {
       return;
     }
     const dt = Math.min(deltaMs, 250) / 1000; // tempo reale fino a ~4 FPS
-
-    // Nuova domanda (compresa quella ri-estratta da NCULO!): stesso momento in cui il telefono azzera
-    // quizSelectedLocal — via' anche la selezione "mentale" del D-pad, mai visibile a nessuno schermo.
-    if (this.manager.phase === 'intro' && this.padSelectResetPhase !== 'intro') this.padSelected.clear();
-    this.padSelectResetPhase = this.manager.phase;
+    // La scadenza viene applicata prima di consumare gli input di questo frame.
+    this.manager.update(dt);
 
     const botQuestion = this.manager.currentQuestion();
     this.soloBots.quiz(dt, this.manager.phase, `${this.manager.questionIndex}:${botQuestion.id}`, botQuestion.difficulty, botQuestion.correctAnswerIndex);
     for (const pid of this.ctx.playerIds) {
       const input = this.ctx.input.get(pid);
-      if (input.justPressed('answerA')) this.manager.submitAnswer(pid, 0);
-      else if (input.justPressed('answerB')) this.manager.submitAnswer(pid, 1);
-      else if (input.justPressed('answerC')) this.manager.submitAnswer(pid, 2);
-      else if (input.justPressed('answerD')) this.manager.submitAnswer(pid, 3);
-
-      // Gamepad: D-PAD sposta la selezione SOLO localmente (nessun evento in giro, nessun cursore in TV),
-      // CONFERMA (PRIMARY) manda la stessa identica chiamata che farebbe un tocco sul telefono.
-      if (input.justPressed('selectPrev')) this.padSelected.set(pid, ((this.padSelected.get(pid) ?? 0) + 3) % 4);
-      if (input.justPressed('selectNext')) this.padSelected.set(pid, ((this.padSelected.get(pid) ?? 0) + 1) % 4);
-      if (input.justPressed('confirm')) this.manager.submitAnswer(pid, this.padSelected.get(pid) ?? 0);
+      const phoneAnswer = input.text('quizAnswer');
+      input.clearText('quizAnswer');
+      if (phoneAnswer) {
+        try {
+          const [roundId, questionKey, revision, index] = JSON.parse(phoneAnswer);
+          if (roundId === (this.ctx.roundId ?? 0) && typeof questionKey === 'string' && Number.isInteger(revision)) {
+            this.manager.submitAnswer(pid, index, questionKey, revision);
+          }
+        } catch { /* input non valido: nessuna risposta */ }
+        this.quizStateTimer = 0;
+      }
+      // Gli input A/B/C/D sono riservati ai bot locali; i telefoni confermano con identità della domanda.
+      const isBot = this.ctx.players.find(p => p.id === pid)?.bot;
+      if (isBot && input.justPressed('answerA')) this.manager.submitAnswer(pid, 0);
+      else if (isBot && input.justPressed('answerB')) this.manager.submitAnswer(pid, 1);
+      else if (isBot && input.justPressed('answerC')) this.manager.submitAnswer(pid, 2);
+      else if (isBot && input.justPressed('answerD')) this.manager.submitAnswer(pid, 3);
 
       if (input.justPressed('ability')) {
         // premuta ma non partita: avviso privato col motivo, mai silenzio
         const why = this.manager.useAbility(pid);
         if (why) abilityHub.failed(pid, why);
+        this.quizStateTimer = 0;
       }
       abilityHub.setStatus(pid, this.manager.abilityStatus(pid)); // card sul telefono (solo presentazione)
     }
 
-    this.manager.update(dt);
     this.render();
     this.syncQuizState(dt);
 
@@ -387,6 +360,12 @@ export class QuizScene extends Phaser.Scene {
       if (!ps) continue;
       this.ctx.sendPrivate(p.id, {
         type: 'quizState',
+        roundId: this.ctx.roundId ?? 0,
+        questionKey: m.questionKey(),
+        answerRevision: ps.answerRevision,
+        canAnswer: m.canAnswer(p.id),
+        answerTimeRemaining: m.answerTimeRemaining(p.id),
+        answerStatus: ps.hasAnsweredFinal ? 'confirmed' : ps.inSecondChanceGrace ? (ps.secondChanceArmed ? 'retry' : 'grace') : ps.ciroWaiting ? 'waiting' : 'open',
         phase,
         questionNumber: qNum,
         totalQuestions: 10,

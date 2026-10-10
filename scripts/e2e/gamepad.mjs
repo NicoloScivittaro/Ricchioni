@@ -304,7 +304,7 @@ async function fullRun(browser) {
   const t2 = await phoneText(phoneOfA);
   check(/RULLO IN CORSO|GUARDA|PROSSIMO|ROUND/.test(t2), `telefono durante rullo/risultati: "${t2.slice(0, 50)}"`);
 
-  // ---- QUIZ (col controller da M5c: D-PAD + A, nessuno stick): lo stick tenuto non produce nulla, il telefono resta passivo
+  // ---- QUIZ solo telefono: pairing conservato, gamepad ignorato
   await hostEval(page, (gm, id) => gm.selectMinigame(id), 'quiz');
   await sleep(300);
   await until(async () => (await hostSnapshot(page)).phase === 'MINIGAME_PLAYING', 90000, 'quiz PLAYING');
@@ -312,7 +312,8 @@ async function fullRun(browser) {
   await sleep(500);
   check((await axisOf(page, A)).x === 0, 'Quiz: lo stick (non usato dal profilo) non invia nulla (nessun input fantasma)');
   const qt = await phoneText(phoneOfA);
-  check(/USA IL CONTROLLER/.test(qt), `Quiz: il telefono di chi ha il controller resta passivo ("${qt.slice(0, 40)}")`);
+  check(!/USA IL CONTROLLER/.test(qt) && !!(await phoneOfA.page.$('.quiz-shell')), 'Quiz: telefono attivo anche con gamepad associato');
+  check((await pads(page, () => window.__pads.contextNow())) === 'PHONE_TEXT', 'Quiz: pad ignorato');
   await stick(page, holdPad, 0, 0);
   await btn(page, holdPad, 'A', false);
   await finishNow(page);

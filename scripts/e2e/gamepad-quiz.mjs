@@ -4,7 +4,7 @@ import { mkdirSync } from 'node:fs';
 import { launch, createRoomOnHost, addPhone, hostEval, sleep } from './lib.mjs';
 import { XBOX, DS, installMock, add, tap, until, slots, phoneText, watchControls, startGame, sceneEval } from './padmock.mjs';
 
-const out = 'docs/agent-work/morning-playtest/quiz-phone';
+const out = 'docs/agent-work/post-playtest/quiz-phone-layouts';
 mkdirSync(out, { recursive: true });
 const browser = await launch();
 const errors = [];
@@ -75,14 +75,17 @@ try {
   assert.ok(await phones[0].page.$('.quiz-answers'), 'indizio non sostituisce le risposte');
   assert.equal(await phones[1].page.$eval('#quiz-hint', el => el.textContent), '', 'indizio resta privato');
   await phones[0].page.click(`.quiz-ans-${'abcd'[q.correctAnswerIndex]}`);
+  await phones[0].page.click('#quiz-confirm');
   await until(async () => await G(page, (g, id) => g.manager.players.get(id).answerIndex === g.manager.currentQuestion().correctAnswerIndex, ids[0]), 5000, 'risposta da telefono');
   await phones[2].page.click(`.quiz-ans-${'abcd'[q.correctAnswerIndex]}`);
+  await phones[2].page.click('#quiz-confirm');
   await phones[1].page.click('#quiz-ability-btn');
   await until(async () => await G(page, (g, id) => g.manager.players.get(id).ciroWaiting, ids[1]), 5000, 'abilità Ciro');
   await G(page, g => { g.manager.questionElapsed = g.manager.effectiveDeadline() + 0.1; });
   await until(async () => await phones[1].page.$$('.quiz-breakdown-row').then(es => es.length === 4), 5000, 'riepilogo privato Ciro');
   assert.ok(await phones[1].page.$('.quiz-answers'));
   await phones[1].page.click(`.quiz-ans-${'abcd'[q.correctAnswerIndex]}`);
+  await phones[1].page.click('#quiz-confirm');
   await until(async () => await G(page, g => g.manager.phase === 'reveal'), 10000, 'reveal');
   await phones[0].page.waitForFunction(() => document.querySelectorAll('.quiz-answer:disabled').length === 4 && !!document.querySelector('.quiz-answer.correct'));
   console.log('PASS: gamepad esclusi, risposte/abilità sul telefono, indizio Dottore e riepilogo Ciro privati');
@@ -102,6 +105,7 @@ try {
   await phones[0].page.waitForFunction(() => !document.querySelector('#pause-overlay'));
   const answer = await G(page, g => g.manager.currentQuestion().correctAnswerIndex);
   await phones[0].page.click(`.quiz-ans-${'abcd'[answer]}`);
+  await phones[0].page.click('#quiz-confirm');
   await until(async () => await G(page, (g, id) => g.manager.players.get(id).answerIndex !== null, ids[0]), 5000, 'risposta dopo pausa');
   assert.equal(await slots(page), pairing, 'associazioni gamepad conservate per gli altri giochi');
   assert.deepEqual(errors, []);

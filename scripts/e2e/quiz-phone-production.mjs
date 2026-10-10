@@ -47,6 +47,7 @@ try {
     assert.equal(q.correctIndex, null);
     assert.equal(await p.page.$('#pad-fallback-badge'), null);
     await p.page.click('.quiz-ans-b');
+  await p.page.click('#quiz-confirm');
     await until(() => p.quizState.myAnswerIndex === 1, `${p.name}: risposta ricevuta dall'host`, 5000);
     report.phones.push({ name: p.name, question: q.question, answers: q.answers, answerIndex: p.quizState.myAnswerIndex });
   }

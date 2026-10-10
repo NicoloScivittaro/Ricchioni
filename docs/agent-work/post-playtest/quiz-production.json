@@ -1,0 +1,57 @@
+{
+  "phones": 5,
+  "questions": [
+    {
+      "number": 1,
+      "question": "Quanti giorni ci sono in una settimana?",
+      "fivePhonesConfirmed": true
+    },
+    {
+      "number": 2,
+      "question": "Qual è l'ingrediente principale del guacamole?",
+      "fivePhonesConfirmed": true
+    },
+    {
+      "number": 3,
+      "question": "Quante ossa ha approssimativamente lo scheletro di un adulto umano?",
+      "fivePhonesConfirmed": true
+    },
+    {
+      "number": 4,
+      "question": "Quale artista ha reso famose le lattine di zuppa Campbell?",
+      "fivePhonesConfirmed": true
+    },
+    {
+      "number": 5,
+      "question": "Chi ha scritto \"Cent'anni di solitudine\"?",
+      "fivePhonesConfirmed": true
+    },
+    {
+      "number": 6,
+      "question": "In quale cittadina dell'Indiana è ambientata \"Stranger Things\"?",
+      "fivePhonesConfirmed": true
+    },
+    {
+      "number": 7,
+      "question": "Che pH ha l'acqua pura a 25 °C?",
+      "fivePhonesConfirmed": true
+    },
+    {
+      "number": 8,
+      "question": "In quale città si corre la \"500 Miglia\", su un circuito soprannominato \"il cortile di mattoni\"?",
+      "fivePhonesConfirmed": true
+    },
+    {
+      "number": 9,
+      "question": "Chi è stato il primo calciatore africano a vincere il Pallone d'oro?",
+      "fivePhonesConfirmed": true
+    },
+    {
+      "number": 10,
+      "question": "Chi scrisse il monumentale e incompiuto romanzo \"L'uomo senza qualità\"?",
+      "fivePhonesConfirmed": true
+    }
+  ],
+  "errors": [],
+  "accelerated": false
+}

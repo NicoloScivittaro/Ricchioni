@@ -44,6 +44,7 @@ export interface QuizPlayerState {
   abilityUsed: boolean;
 
   answerIndex: number | null;
+  answerRevision: number;
   hasAnsweredFinal: boolean;
   answeredElapsed: number | null;
   lastCorrect: boolean | null; // esito dell'ultima domanda (per la rivelazione), null = non ha risposto
@@ -72,6 +73,7 @@ export interface QuizHudEvent {
 
 function freshPerQuestionState(p: QuizPlayerState): void {
   p.answerIndex = null;
+  p.answerRevision = 0;
   p.hasAnsweredFinal = false;
   p.answeredElapsed = null;
   p.lastCorrect = null;
@@ -121,6 +123,7 @@ export class QuizRoundManager {
         correctCount: 0,
         abilityUsed: false,
         answerIndex: null,
+        answerRevision: 0,
         hasAnsweredFinal: false,
         answeredElapsed: null,
         lastCorrect: null,
@@ -162,11 +165,32 @@ export class QuizRoundManager {
 
   // ---- Input dai giocatori ----
 
-  submitAnswer(pid: PlayerId, index: number): void {
-    if (this.phase !== 'question') return;
-    if (index < 0 || index > 3) return;
+  questionKey(): string {
+    return `${this.questionIndex}:${this.currentQuestion().id}`;
+  }
+
+  /** Le estensioni appartengono al giocatore che le ha guadagnate. */
+  answerTimeRemaining(pid: PlayerId): number {
+    const p = this.players.get(pid);
+    if (!p || this.phase !== 'question') return 0;
+    if (p.inSecondChanceGrace) return Math.max(0, p.secondChanceGraceTimer);
+    const deadline = p.ciroWaiting ? this.effectiveDeadline() + CIRO_EXTRA_TIME : this.baseTimer() + p.personalExtraDeadline;
+    return Math.max(0, deadline - this.questionElapsed);
+  }
+
+  canAnswer(pid: PlayerId): boolean {
+    const p = this.players.get(pid);
+    if (!p || this.phase !== 'question' || p.hasAnsweredFinal || this.answerTimeRemaining(pid) <= 0) return false;
+    if (p.inSecondChanceGrace) return p.secondChanceArmed;
+    return !p.ciroWaiting || this.questionElapsed >= this.effectiveDeadline();
+  }
+
+  submitAnswer(pid: PlayerId, index: number, questionKey = this.questionKey(), revision?: number): void {
+    if (questionKey !== this.questionKey() || !this.canAnswer(pid)) return;
+    if (!Number.isInteger(index) || index < 0 || index > 3) return;
     const p = this.players.get(pid);
     if (!p) return;
+    if (revision !== undefined && revision !== p.answerRevision) return;
 
     if (p.inSecondChanceGrace) {
       // Buttafuori: il secondo tentativo conta solo dopo aver premuto ABILITÀ
@@ -345,6 +369,7 @@ export class QuizRoundManager {
     if (!p.inSecondChanceGrace || p.secondChanceArmed) return;
     p.secondChanceArmed = true;
     p.answerIndex = null;
+    p.answerRevision++;
     this.onEvent({ type: 'second_chance', playerId: p.playerId });
     this.onEvent({ type: 'ability_used', playerId: p.playerId });
   }
@@ -363,7 +388,15 @@ export class QuizRoundManager {
   private useJudokaRethink(p: QuizPlayerState): void {
     if (this.phase !== 'question') return;
     if (!p.hasAnsweredFinal || p.rethinkUsedThisQuestion) return;
+    if (this.questionElapsed >= this.baseTimer() + p.personalExtraDeadline) return;
+    // Sostituzione, non un secondo accredito della stessa domanda.
+    if (p.lastCorrect) {
+      p.points -= this.questionIndex + 1;
+      p.correctCount--;
+      p.correctTimeSum -= p.answeredElapsed ?? 0;
+    }
     p.hasAnsweredFinal = false;
+    p.answerRevision++;
     p.answerIndex = null;
     p.lastCorrect = null;
     p.rethinkUsedThisQuestion = true;
