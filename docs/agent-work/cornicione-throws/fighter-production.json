@@ -1,0 +1,396 @@
+{
+  "errors": [],
+  "accelerated": false,
+  "throwSignals": [
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 0,
+      "charge": 0.14175000000186264,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 0,
+      "charge": 0.29184999999962735,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 0,
+      "charge": 0.3586500000003724,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 5.875,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 5.758100000001495,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 5.607900000002241,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 5.457800000000754,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 5.30750000000001,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 5.15740000000225,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 5.007300000000763,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 4.857000000000022,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 4.740400000002259,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 4.590100000001515,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 4.440100000001518,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 4.289900000002268,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 4.139300000004507,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 3.989200000003019,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 3.8228000000045093,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 3.6725000000037635,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 3.522300000004509,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 3.3724000000022736,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 3.239100000001528,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 3.1203000000045087,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 2.955500000003764,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 2.8054000000022743,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 2.688000000000039,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 2.537800000000785,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 2.4044000000022763,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 2.253800000000786,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 2.1037000000030206,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 1.9369000000022751,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 1.8037000000030199,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 1.653600000001529,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 1.536900000002274,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 1.3868000000045089,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 1.236700000003018,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 1.0865000000037623,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 0.9364000000022716,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 0.7858000000045073,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 0.6861000000015269,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 0.5361000000015275,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 0.38610000000152755,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 0.2694000000022726,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    },
+    {
+      "type": "objectThrowStatus",
+      "cooldown": 0.1193000000007825,
+      "charge": null,
+      "objectName": "JÄGERMEISTER",
+      "available": true
+    }
+  ],
+  "players": [
+    {
+      "id": "ab960d0b-533a-438d-890e-7c73086fe595",
+      "bot": false,
+      "character": "goblin"
+    },
+    {
+      "id": "bot:42bc5251-31a0-41a5-9fc8-589eb4c7c73c",
+      "bot": true,
+      "character": "buttafuori"
+    },
+    {
+      "id": "bot:a11ad643-2804-4181-b9a2-9aabba7484c3",
+      "bot": true,
+      "character": "judoka"
+    },
+    {
+      "id": "bot:687aa5bd-ecd1-4b43-855d-0aa14f5d9f73",
+      "bot": true,
+      "character": "ciro"
+    },
+    {
+      "id": "bot:c92eda37-ec0b-4315-a1d5-c730d2547fe9",
+      "bot": true,
+      "character": "dottore"
+    }
+  ],
+  "throw": true,
+  "results": [
+    {
+      "playerId": "bot:a11ad643-2804-4181-b9a2-9aabba7484c3",
+      "placement": 1,
+      "score": 2,
+      "stats": [
+        "2 KO",
+        "529% danno",
+        "5 counter"
+      ]
+    },
+    {
+      "playerId": "bot:687aa5bd-ecd1-4b43-855d-0aa14f5d9f73",
+      "placement": 2,
+      "score": 4,
+      "stats": [
+        "4 KO",
+        "414% danno",
+        "13 recuperi"
+      ]
+    },
+    {
+      "playerId": "bot:42bc5251-31a0-41a5-9fc8-589eb4c7c73c",
+      "placement": 3,
+      "score": 4,
+      "stats": [
+        "4 KO",
+        "430% danno",
+        "11 recuperi"
+      ]
+    },
+    {
+      "playerId": "ab960d0b-533a-438d-890e-7c73086fe595",
+      "placement": 4,
+      "score": 0,
+      "stats": [
+        "0 KO"
+      ]
+    },
+    {
+      "playerId": "bot:c92eda37-ec0b-4315-a1d5-c730d2547fe9",
+      "placement": 5,
+      "score": 2,
+      "stats": [
+        "2 KO",
+        "417% danno",
+        "11 recuperi"
+      ]
+    }
+  ],
+  "assets": [
+    "/assets/main-ukOBYsE7.js",
+    "/assets/BabylonCornicioneGame-7_F1M27W.js"
+  ]
+}

@@ -484,6 +484,26 @@ export class AudioManager {
     this.sweep('triangle', 240 * power, 520 * power, 0.09, 0.04, 0, pan);
   }
 
+  /** Cosmetic Cornicione impacts, using the existing bounded SFX bus. */
+  objectImpact(characterId: string, pan?: number): void {
+    if(characterId==='ciro') {
+      this.tone(1040,.10,'triangle',.055,0,'sfx',pan);
+      this.tone(1560,.08,'triangle',.045,.035,'sfx',pan);
+    } else if(characterId==='goblin') {
+      this.noiseBurst(.12,2000,4200,.07,0,.8,pan);
+      this.tone(1450,.08,'triangle',.045,0,'sfx',pan);
+    } else if(characterId==='buttafuori') {
+      this.noiseBurst(.22,1600,550,.065,0,.7,pan);
+      this.sweep('sine',460,200,.08,.055,0,pan);
+    } else if(characterId==='judoka') {
+      this.noiseBurst(.16,1100,250,.075,0,.5,pan);
+      this.sweep('sine',600,140,.11,.04,0,pan);
+    } else {
+      this.noiseBurst(.19,650,150,.075,0,.5,pan);
+      this.tone(220,.11,'triangle',.05,0,'sfx',pan);
+    }
+  }
+
   /** Presa di una palla/oggetto: pop asciutto. */
   pickupPop(pan?: number): void {
     this.sweep('sine', 380, 760, 0.09, 0.08, 0, pan);

@@ -24,7 +24,7 @@ export const GOBLIN_LODS = { LOD0: {url:'/models/goblin-tripo/green_goblin_casac
 
 /** All fourteen existing move IDs, plus the existing ability follow-up. */
 export const GOBLIN_MOVES: Readonly<Record<string, string>> = {
-  kick:'goblin.frontKick',airKick:'goblin.frontKick',airDownKick:'goblin.roundhouse',grab:'goblin.grab',projection:'goblin.judoThrow',parry:'goblin.block',
+  kick:'goblin.frontKick',airKick:'goblin.frontKick',airDownKick:'goblin.roundhouse',objectCharge:'goblin.ballThrow',objectThrow:'goblin.ballThrow',parry:'goblin.block',
   nL: 'goblin.jab', sL: 'goblin.hook', uL: 'goblin.uppercut', dL: 'goblin.frontKick',
   sH: 'goblin.heavy', uH: 'goblin.uppercut', dH: 'goblin.roundhouse',
   nAL: 'goblin.jab', sAL: 'goblin.frontKick', uAL: 'goblin.uppercut', dAL: 'goblin.frontKick',

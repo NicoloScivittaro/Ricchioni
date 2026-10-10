@@ -1,0 +1,66 @@
+{
+  "errors": [],
+  "accelerated": true,
+  "kick": {
+    "damage": 4.5,
+    "clip": "goblin.frontKick"
+  },
+  "chargeClip": "goblin.ballThrow",
+  "charged": {
+    "id": 1,
+    "owner": "d6cbb149-0207-4f5b-aea5-a75f7ad1e0c8",
+    "characterId": "goblin",
+    "x": 0.9,
+    "y": 1.25,
+    "dx": 1,
+    "dy": 0,
+    "charge": 0.6593500000014901,
+    "age": 0,
+    "speed": 25.912200000017883,
+    "life": 0.747805000000447
+  },
+  "quickAim": true,
+  "pauseCancelsCharge": true,
+  "cosmetics": [
+    {
+      "character": "goblin",
+      "on": true,
+      "pieces": 5
+    },
+    {
+      "character": "buttafuori",
+      "on": true,
+      "pieces": 4
+    },
+    {
+      "character": "dottore",
+      "on": true,
+      "pieces": 4
+    },
+    {
+      "character": "judoka",
+      "on": true,
+      "pieces": 4
+    },
+    {
+      "character": "ciro",
+      "on": true,
+      "pieces": 7
+    }
+  ],
+  "parry": {
+    "damage": 0,
+    "stunned": true
+  },
+  "phoneCharge": true,
+  "phoneCancel": true,
+  "phoneBlurRejoin": true,
+  "multiTouchCapturedAim": true,
+  "padLossCancels": true,
+  "round": {
+    "phase": "over",
+    "time": 150.00280000001445,
+    "reason": "timeout",
+    "finite": true
+  }
+}

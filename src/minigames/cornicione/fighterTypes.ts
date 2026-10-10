@@ -11,11 +11,14 @@ export interface FighterInput {
   dodgePressed: boolean;
   abilityPressed: boolean;
   kickPressed?: boolean;
-  grabPressed?: boolean;
+  throwPressed?: boolean;
+  throwHeld?: boolean;
+  throwReleased?: boolean;
+  throwCancelled?: boolean;
   parryPressed?: boolean;
 }
 
-export const NO_INPUT: FighterInput = { kickPressed:false,grabPressed:false,parryPressed:false, mx: 0, my: 0, jumpPressed: false, jumpHeld: false, lightPressed: false, heavyPressed: false, dodgePressed: false, abilityPressed: false };
+export const NO_INPUT: FighterInput = { kickPressed:false,throwPressed:false,throwHeld:false,throwReleased:false,parryPressed:false, mx: 0, my: 0, jumpPressed: false, jumpHeld: false, lightPressed: false, heavyPressed: false, dodgePressed: false, abilityPressed: false };
 
 export type AbilityResult = 'ok' | 'spent' | 'busy' | 'notAir' | 'notOffstage' | 'stunned' | 'notNow' | 'disabled';
 
@@ -116,12 +119,11 @@ export interface Fighter {
   heavyBuf: number;
   dodgeBuf: number;
   // azioni
-  kickBuf: number; grabBuf: number; parryBuf: number;
+  kickBuf: number; parryBuf: number;
   parry: {t:number} | null;
   parryCd: number;
-  grab: {victim:string;t:number} | null;
-  grabbedBy: string | null;
-  grabProtect: number;
+  objectThrow: { charge: number; releaseT: number | null; dx: number; dy: number } | null;
+  throwCd: number;
   attack: AttackState | null;
   dodge: DodgeState | null;
   dodgeCd: number;
@@ -174,9 +176,17 @@ export type FighterEvent =
   | { t: 'bounce'; id: string }
   | { t: 'ability'; id: string; a: AbilityEventName; x?: number; y?: number; extra?: number }
   | { t: 'abilityPress'; id: string; res: AbilityResult }
-  | { t: 'grab'; id:string; victim:string; state:'caught'|'thrown'|'escaped' }
+  | { t: 'objectThrow'; id: string; projectile: FighterProjectile }
+  | { t: 'objectImpact'; projectile: FighterProjectile; reason: 'hit' | 'parry' | 'wall' | 'expired' }
   | { t: 'parry'; id:string; state:'start'|'success'|'miss'; attacker?:string }
   | { t: 'end'; reason: 'lastStanding' | 'timeout' | 'suddenDeath' };
+
+/** Character ID is cosmetic only: no character-specific flight or collision data. */
+export interface FighterProjectile {
+  id: number; owner: string; characterId: string;
+  x: number; y: number; dx: number; dy: number;
+  speed: number; age: number; life: number; charge: number;
+}
 
 export type AbilityEventName =
   | 'goblin_burst'

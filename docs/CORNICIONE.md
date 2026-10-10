@@ -102,21 +102,26 @@ node scripts/e2e/fighter-lab-shots.mjs         # foto dei momenti chiave in e2e-
 
 Il feeling di salto/colpo/schivata, i tempi (anticipo/recupero), la letalità reale, la leggibilità con 5 persone sul divano, il peso delle abilità (nessun bilanciamento fine automatico: i bot non sono giocatori), le prestazioni su GPU reale.
 
-## Espansione strategica dopo il playtest (ottobre 2026)
+## Oggetti e calci strategici (ottobre 2026)
 
-Le quattordici mosse precedenti, schivate, salti, recovery, anti-mash, anti-combo e cinque abilità sono conservati. Si aggiungono quattro mosse alla tabella separata STRATEGY_MOVES e una difesa attiva, identiche per tutti i personaggi:
+La presa comune è stata rimossa integralmente. La proiezione dell'abilità RB/R1 di Carbo resta disponibile. Restano le 14 mosse originali, salti, schivate, parata, recovery, anti-mash, anti-combo, vite e cinque abilità.
 
 | comando | scelta | vantaggio e rischio |
 |---|---|---|
-| RT / R2 | calcio | portata maggiore del pugno, stesso danno del laterale leggero (4,5); anticipo 0,18 s e recupero 0,30 s, più 0,18 s a vuoto |
-| RT / R2 in aria | calcio aereo | spazio davanti, anticipo 0,14 s, recupero e penalità all'atterraggio; ↓ + RT/R2 calcia dall'alto, non dà una recovery aggiuntiva |
-| LB / L1 | presa a terra | portata corta, anticipo 0,16 s, attivo 0,05 s, tiene 0,22 s; scegli con stick sinistra/destra/su/giù la proiezione, 3 danni, velocità limitata a 30 m/s; recupero 0,43 s |
-| LT / L2 | parata a tempo | solo a terra, anticipo 0,025 s, finestra frontale 0,12 s; successo annulla un colpo e scopre chi attacca per 0,28 s; errore 0,28 s di recupero; ricarica 0,95 s |
+| LB / L1 / LANCIO sul telefono | lancio | Tocca e rilascia per tiro veloce; tieni fino a 1 s per caricare, poi rilascia. Stick/croce mira in due dimensioni, anche in aria. Neutro = avanti. 6 s di ricarica dal lancio, .10 s anticipo al rilascio, .28 s recupero. |
+| RT / R2 | calcio laterale | Portata geometrica +35% rispetto al pugno laterale, stesso danno 4.5. Spinta base 8 invece di 5.5, crescita .075 invece di .05; anticipo .18 s, attivo .10 s, recupero .30 s + .18 s se manca. |
+| RT / R2 in aria | calcio aereo | Portata +35% rispetto al laterale aereo, danno 4.5; anticipo .14 s, attivo .12 s, recupero .28 s + .15 s a vuoto. Atterraggio .22 s (+ .15 s a vuoto). |
+| ↓ + RT / R2 in aria | calcio dall'alto | 4 danni e maggiore spinta verso il basso: anticipo .16 s, recupero .32 s + .15 s a vuoto, landing .28 s. Intercetta la risalita; non concede altri salti o recovery. |
+| LT / L2 | parata a tempo | A terra, anticipo .025 s, finestra frontale .12 s, errore .28 s recupero e ricarica .95 s. Contro corpo a corpo annulla e stordisce l'attaccante .28 s. Contro oggetto lo distrugge senza stordire a distanza il tiratore. |
 
-Contromosse: schivare una presa, colpire chi afferra per liberare il compagno, prendere chi usa la parata. Un bersaglio stordito non può essere afferrato; dopo rilascio/proiezione ha un secondo di protezione dalla sola presa. Può ancora subire colpi normali. Parata riuscita non rende invulnerabili agli altri avversari e non lancia né assegna danni gratuiti. L'abilità di Carbo mantiene finestra, proiezione e cariche proprie e può intercettare anche una presa comune.
+Il tiro non segue il bersaglio: la direzione è fissata al rilascio. Velocità 18–30 m/s e durata .55–.85 s: percorre 9.9–25.5 m dall'origine del proiettile. Danno 4, knockback base 5 + percentuale × .045 e raggio .26 m restano uguali con ogni carica/personaggio. Si applicano ancora anti-mash, combo, DI, invulnerabilità e credito KO. Il singolo oggetto colpisce soltanto il primo bersaglio valido. La collisione continua evita attraversamenti alle alte velocità. Il tetto blocca i tiri sotto il piano; le piattaforme one-way non diventano barriere agli attacchi.
 
-I binding provengono da `src/input/profiles.ts`, come gli altri: nuovo elenco completo in CONTROLLI e nella Companion Card. Telefono: CALCIO, PRESA, PARATA, accanto ai cinque pulsanti precedenti. Controller generico standard: RT, LB, LT nelle stesse posizioni. Salto A/✕, leggero X/□, pesante Y/△, schiva B/◯, RB/R1 abilità e ↑+Y/△ recovery non cambiano. I buffer seguono InputManager e azioni a fronte, non navigator.getGamepads diretto.
+Ciro lancia monete; Carbo una granita; BOSCHI una lattina di birra; Goblin una bottiglietta di Jägermeister; Victor uno shaker proteico. Monete sparse, schizzi rosa, schiuma, frammenti verdi e liquido proteico sono cosmetici, così come i suoni. Non esiste alcun collider legato alla forma degli oggetti: soltanto le abilità RB/R1 differenziano il gameplay dei personaggi. I frammenti durano .45 s, poi spariscono; non lasciano ostacoli.
 
-Animazioni: calci, presa, proiezione e blocco usano le clip semantiche già disponibili dei quattro modelli Tripo; tempi di contatto letti dalla simulazione. Il Dottore conserva il rig procedurale. Calcio aereo e presa interrotta usano per ora clip riadattate e movimento/effetti leggibili; per rifinirli servono in futuro un calcio aereo dedicato, una lotta della vittima afferrata e una transizione parata/contrattacco. Nessuna sostituzione di skin o modifica dei collider legata all'animazione.
+La carica si può annullare usando un'altra mossa o una schivata. Colpo subito, KO, pausa, perdita pad, disconnessione/blur del telefono e pointercancel annullano senza tiro fantasma. Il rilascio impegna anticipo e recupero; una nuova pressione durante cooldown non viene accodata per sparare da sola alla scadenza. La ricarica persiste attraverso il respawn. Proiettili del giocatore KO e tutti i proiettili a fine round/spareggio vengono rimossi.
 
-Test aggiuntivi: `scripts/fighter-strategy-selftest.ts`, `scripts/e2e/post-playtest-fighter.mjs`, `scripts/e2e/post-playtest-fighter-production.mjs`. Tempi e vantaggi delle nuove scelte richiedono playtest umano; non sono bilanciamento definitivo.
+L'abilità di Carbo conserva cariche, tempi, proiezione e intercettazione corpo a corpo. Gli oggetti si difendono con la parata comune o la schivata: il counter non afferra un tiratore distante.
+
+CONTROLLI e Companion Card leggono gli stessi binding del gioco. Il telefono ha LANCIO tenuto con cattura del dito, così un altro dito può mirare sulla croce; card e TV mostrano carica/ricarica. I quattro rig Tripo usano le rispettive clip ballThrow/frontKick/roundhouse/block; Victor mantiene il personaggio procedurale e la posa di lancio. Le animazioni non cambiano hitbox né tempi di gioco. Il laboratorio ?fighter=1 aggiunge K calcio, T lancio tenuto, P parata.
+
+Test: fighter-projectile-selftest.ts, fighter-strategy-selftest.ts, suite core/abilità/pad/animazioni; post-playtest-fighter.mjs (5 giocatori, pad misti + telefono, pause/rejoin/cancellazioni, round naturale accelerato); post-playtest-fighter-production.mjs (1 telefono + 4 bot, build di produzione, tempo reale). Report ed evidenze aggiornate in docs/agent-work/cornicione-throws/. La taratura finale di cooldown, spinta e recupero richiede playtest umano.

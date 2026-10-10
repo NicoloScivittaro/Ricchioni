@@ -3,6 +3,7 @@ import { Engine, Scene, Color4, DynamicTexture, MeshBuilder, StandardMaterial, C
 import type { Mesh } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
+import type { PlayerInput } from '../../network/PlayerInput';
 import { AB } from '../../../shared/abilityCatalog';
 import { audio } from '../../core/AudioManager';
 import { setGameIntensity } from '../../core/musicDirector';
@@ -21,17 +22,18 @@ import { registerEnvScene } from '../env/envDebug';
 import { FighterWorld } from './fighterCore';
 import { FighterBot } from './fighterBot';
 import { IMPACT_KEYS } from './fighterAbilities';
-import { KO, PHYS, STAGE } from './fighterData';
+import { KO, PHYS, STAGE, OBJECT_THROW } from './fighterData';
 import type { MoveDef } from './fighterData';
 import type { Fighter, FighterEvent, FighterInput } from './fighterTypes';
 import { buildCornicioneEnvironment } from './cornicioneEnvironment';
 import { FighterCamera } from './fighterCamera';
 import { FighterHud } from './fighterHud';
 import { FighterFx } from './fighterFx';
+import { FighterObjects, OBJECT_SKINS } from './fighterObjects';
 
 const COUNTDOWN_S = 3.2;
-const SHORT: Record<string, string> = { goblin: 'GOBLIN', buttafuori: 'BOSCHI', judoka: 'CARBO', dottore: 'DOTTORE', ciro: 'CIRO' };
-const WITH_ARTICLE: Record<string, string> = { goblin: 'IL GOBLIN', buttafuori: 'BOSCHI', judoka: 'CARBO', dottore: 'IL DOTTORE', ciro: 'CIRO' };
+const SHORT: Record<string, string> = { goblin: 'GOBLIN', buttafuori: 'BOSCHI', judoka: 'CARBO', dottore: 'VICTOR', ciro: 'CIRO' };
+const WITH_ARTICLE: Record<string, string> = { goblin: 'IL GOBLIN', buttafuori: 'BOSCHI', judoka: 'CARBO', dottore: 'VICTOR', ciro: 'CIRO' };
 const HIT_RGB = '#ffe9a8';
 
 type Phase = 'countdown' | 'playing' | 'celebrating';
@@ -45,11 +47,14 @@ export class BabylonCornicioneGame {
   private engine: Engine;
   private scene: Scene;
   private world: FighterWorld;
-  private projectionPoses = new Map<string,number>();
+  private throwPoses = new Map<string,number>();
   private entities = new Map<PlayerId, ArenaEntity>();
   private camera: FighterCamera;
   private hud: FighterHud;
   private fx: FighterFx;
+  private objects: FighterObjects;
+  private throwStatusT = 0;
+  private inputVersions = new Map<string, { input: PlayerInput; version: number }>();
   private env: ReturnType<typeof buildCornicioneEnvironment>;
   private unsubAbility: () => void = () => undefined;
   private order: PlayerId[];
@@ -101,6 +106,7 @@ export class BabylonCornicioneGame {
     this.camera = new FighterCamera(this.scene, canvas);
     this.hud = new FighterHud(this.scene);
     this.fx = new FighterFx(this.scene);
+    this.objects = new FighterObjects(this.scene, this.world.fighters);
 
     const dotTex = new DynamicTexture('cornicioneDot', 16, this.scene, false);
     const dc = dotTex.getContext() as unknown as CanvasRenderingContext2D;
@@ -150,6 +156,7 @@ export class BabylonCornicioneGame {
 
   setPaused(paused: boolean): void {
     this.paused = paused;
+    if (paused) this.world.cancelObjectThrows();
   }
 
   // ------------------------------------------------------------------ loop
@@ -200,6 +207,8 @@ export class BabylonCornicioneGame {
     this.updateVisuals(dt, now);
     this.camera.update(dt, this.cameraSubjects(), now);
     this.fx.update(dt, now);
+    this.objects.update(this.world.fighters,this.world.projectiles,dt);
+    this.syncThrowStatus(dt);
     this.env.update(now);
     this.syncHud();
     if (this.showBoxes) this.updateBoxes();
@@ -213,6 +222,9 @@ export class BabylonCornicioneGame {
     const bot = this.bots.get(id);
     if (bot) return bot.input(this.world, dt);
     const inp = this.ctx.input.get(id);
+    const previous = this.inputVersions.get(id);
+    const cancelled = !!previous && (previous.input !== inp || previous.version !== inp.cancellationVersion);
+    this.inputVersions.set(id, { input: inp, version: inp.cancellationVersion });
     const ax = inp.axis('move');
     let mx = ax.x;
     let my = -ax.y;
@@ -234,7 +246,8 @@ export class BabylonCornicioneGame {
       heavyPressed: inp.justPressed('heavy'),
       dodgePressed: inp.justPressed('dodge'),
       abilityPressed: inp.justPressed('ability'),
-      kickPressed:inp.justPressed('kick'),grabPressed:inp.justPressed('grab'),parryPressed:inp.justPressed('parry')
+      kickPressed:inp.justPressed('kick'),parryPressed:inp.justPressed('parry'),
+      throwPressed:inp.justPressed('throw'),throwHeld:inp.pressed('throw'),throwReleased:inp.justReleased('throw'),throwCancelled:(cancelled&&!inp.justPressed('throw'))||inp.justPressed('throwCancel')
     };
   }
 
@@ -268,11 +281,20 @@ export class BabylonCornicioneGame {
         if(e.state==='success'){this.fx.spark(f.x,f.y+1.2,'#67e8f9',2);this.ent(e.id)?.say('PARATA!');this.hud.feedMessage('PARATA! CONTRATTACCA','#67e8f9',1000);audio.select();this.ctx.vibrate(e.id,60);}
         break;
       }
-      case 'grab': {
-        const f=this.fighter(e.id),v=this.fighter(e.victim);if(!f||!v)break;
-        if(e.state==='caught'){this.ent(e.id)?.playMove('grab',.22);this.ent(e.victim)?.say('PRESO!');this.fx.ring(v.x,v.y+1,'#fbbf24',1.2);audio.thump(.5,this.pan(f.x));}
-        if(e.state==='thrown'){this.projectionPoses.set(e.id,.30);this.ent(e.id)?.playMove('fling',.3);this.fx.slash(v.x,v.y+1,Math.atan2(v.vy,v.vx),2,'#fbbf24');this.hud.feedMessage('PROIEZIONE!','#fbbf24',900);}
-        if(e.state==='escaped')this.ent(e.victim)?.say('LIBERO!');
+      case 'objectThrow': {
+        this.throwPoses.set(e.id, OBJECT_THROW.recovery);
+        this.ent(e.id)?.playThrow();
+        this.fx.slash(e.projectile.x,e.projectile.y,Math.atan2(e.projectile.dy,e.projectile.dx),1.2,OBJECT_SKINS[e.projectile.characterId]?.color ?? '#ffffff');
+        audio.throwWhoosh(.6+e.projectile.charge*.6,this.pan(e.projectile.x));this.ctx.vibrate(e.id,25);
+        break;
+      }
+      case 'objectImpact': {
+        this.objects.impact(e.projectile,e.reason!=='expired');
+        if(e.reason!=='expired') {
+          const skin=OBJECT_SKINS[e.projectile.characterId];
+          this.fx.spark(e.projectile.x,e.projectile.y,skin?.color??'#ffffff',.8);
+          audio.objectImpact(e.projectile.characterId,this.pan(e.projectile.x));
+        }
         break;
       }
       case 'attack': {
@@ -281,7 +303,6 @@ export class BabylonCornicioneGame {
         const m = e.move;
         if (e.phase === 'start') {
           if(m.kind==='kick')ent.playMove('brace',m.startup);
-          else if(m.kind==='grab')ent.playMove('grab',this.moveDur(m));
           else if (m.kind === 'heavy') {
             ent.playMove('smashWind', m.startup + 0.02); // anticipo leggibile: si vede arrivare
           } else ent.playMove(m.anim === 'follow' ? 'follow' : this.lightAnim(m), this.moveDur(m));
@@ -602,14 +623,19 @@ export class BabylonCornicioneGame {
       if (!ent) continue;
       const gone = f.dead || !f.inGame || f.ab.vanishT > 0;
       ent.root.setEnabled(!gone);
-      if (gone) {this.projectionPoses.delete(f.id);continue;}
+      if (gone) {this.throwPoses.delete(f.id);continue;}
       const blink = f.invuln > 0 && Math.floor(now / 90) % 2 === 0 && f.hover <= 0;
       ent.setBodyVisible(!blink);
       const light = f.ab.weightT > 0;
       ent.setSizeMul(light ? 0.88 : 1);
       ent.setAura(light || f.percent >= 120 || f.ab.pendingT > 0 || f.ab.followT > 0);
-      const projection=Math.max(0,(this.projectionPoses.get(f.id)??0)-dt);this.projectionPoses.set(f.id,projection);
-      const pose=f.hitstun>0?null:projection>0?{id:'projection',elapsed:.30-projection,startup:.025,active:.12,recovery:.155}:f.parry?{id:'parry',elapsed:f.parry.t,startup:.025,active:.12,recovery:.28}:null;
+      const thrown=Math.max(0,(this.throwPoses.get(f.id)??0)-dt);this.throwPoses.set(f.id,thrown);
+      const charging=f.objectThrow;
+      const pose=f.hitstun>0?null:charging?{
+        id:charging.releaseT===null?'objectCharge':'objectThrow',
+        elapsed:charging.releaseT===null?charging.charge*.65:charging.releaseT,
+        startup:charging.releaseT===null?1:OBJECT_THROW.startup,active:0,recovery:OBJECT_THROW.recovery
+      }:thrown>0?{id:'objectThrow',elapsed:OBJECT_THROW.startup+OBJECT_THROW.recovery-thrown,startup:OBJECT_THROW.startup,active:0,recovery:OBJECT_THROW.recovery}:f.parry?{id:'parry',elapsed:f.parry.t,startup:.025,active:.12,recovery:.28}:null;
       const vis: VisualSubject = {
         x: f.x,
         y: f.y,
@@ -635,12 +661,25 @@ export class BabylonCornicioneGame {
     }
   }
 
+  private syncThrowStatus(dt: number): void {
+    this.throwStatusT -= dt;
+    if (this.throwStatusT > 0) return;
+    this.throwStatusT = .15;
+    for (const f of this.world.fighters) {
+      if (this.bots.has(f.id)) continue;
+      this.ctx.signal(f.id, { type: 'objectThrowStatus', cooldown: f.throwCd,
+        charge: f.objectThrow?.charge ?? null, objectName: OBJECT_SKINS[f.characterId]?.name ?? 'OGGETTO',
+        available: this.phase === 'playing' && f.inGame && !f.dead });
+    }
+  }
+
   private syncHud(): void {
     const view = this.camera.view;
     for (const f of this.world.fighters) {
       const out = !f.inGame;
       abilityHub.setStatus(f.id, this.world.abil.status(f));
       this.hud.setFighter(f.id, f.lives, f.percent, this.world.abil.status(f), { dead: f.dead, out });
+      this.hud.setThrow(f.id, f.throwCd, f.objectThrow?.charge ?? null);
       // indicatore: vivo, in gioco, ma fuori dal quadro
       let show = false;
       let nx = 0.5;
@@ -821,6 +860,7 @@ export class BabylonCornicioneGame {
       for (const e of this.entities.values()) e.dispose();
     });
     safely('fx.dispose', () => this.fx.dispose());
+    safely('objects.dispose', () => this.objects.dispose());
     safely('camera.dispose', () => this.camera.dispose());
     safely('hud.dispose', () => this.hud.dispose());
     safely('engine.stopRenderLoop', () => this.engine.stopRenderLoop());

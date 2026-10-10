@@ -231,6 +231,10 @@ interface SignalPayload {
   at?: number;
   value?: number;
   cooldownMs?: number;
+  cooldown?: number;
+  charge?: number | null;
+  objectName?: string;
+  available?: boolean;
   permanent?: boolean;
   why?: string;
   by?: string | null;
@@ -1477,6 +1481,19 @@ function renderFpsController(): void {
 
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
+  if (s.type === 'objectThrowStatus' && state?.phase === 'MINIGAME_PLAYING' && state.currentMinigame?.minigameId === 'cornicione') {
+    let label=document.getElementById('corn-throw-status');
+    if (!label) {
+      label=document.createElement('p');label.id='corn-throw-status';label.className='corn-throw-status';
+      (document.querySelector('.cc-controls')??document.querySelector('.dpad-screen')??app).appendChild(label);
+    }
+    const cooldown=Math.max(0,s.cooldown??0), charging=s.charge!==null&&s.charge!==undefined;
+    const text=!s.available?'ATTENDI':charging?`CARICA ${Math.round((s.charge??0)*100)}% · RILASCIA PER LANCIARE`:cooldown>0?`RICARICA ${Math.ceil(cooldown)}s`:'PRONTO · TIENI PER CARICARE';
+    label.textContent=`🎯 ${s.objectName??'OGGETTO'} · ${text}`;
+    const button=app.querySelector<HTMLButtonElement>('.ctl-throw');
+    if(button){button.dataset.cooldown=cooldown>0?'true':'false';button.textContent=charging?`🎯 CARICA ${Math.round((s.charge??0)*100)}%`:cooldown>0?`🎯 LANCIO ${Math.ceil(cooldown)}s`:'🎯 LANCIO (TIENI)';}
+    return;
+  }
   if (activeController === 'memory') {
     handleMemorySignal(s);
     return;
@@ -2357,6 +2374,10 @@ function releaseControllerInput(): void {
   arenaJoy?.reset(); dbJoy?.reset(); soccerJoy?.reset(); volleyJoy?.reset(); fpsJoy?.reset();
   fpsClient?.setFirePressed(false);
   endSoccerCharge();
+  if (!phoneIsOnTable() && state?.currentMinigame?.minigameId==='cornicione') {
+    sendInput({kind:'action',controlId:'throwCancel'});
+    app.querySelector('.ctl-throw')?.dispatchEvent(new Event('corn-cancel'));
+  }
   for (const controlId of [...heldControls]) sendInput({ kind: 'up', controlId });
   for (const controlId of [...activeAxes]) sendInput({ kind: 'axis', controlId, x: 0, y: 0 });
   heldControls.clear(); activeAxes.clear();

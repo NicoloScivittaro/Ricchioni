@@ -83,7 +83,9 @@ export class GameManager {
     s.on(EVT.inputRelay, (payload) => this.onInputRelay(payload as InputRelayEvent));
     s.on(EVT.textRelay, (payload) => this.onTextRelay(payload as TextRelayEvent));
     s.on(EVT.playerDisconnected, (payload) => {
-      this.input.releasePlayer((payload as PlayerDisconnectedEvent).playerId);
+      const id=(payload as PlayerDisconnectedEvent).playerId;
+      if(this.state?.currentMinigame?.minigameId==='cornicione')this.input.cancelPlayer(id);
+      else this.input.releasePlayer(id);
     });
 
     // Riconnessione automatica dell'host con token salvato (ricarica pagina)

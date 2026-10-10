@@ -95,7 +95,7 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'ABILITY', binding: 'SECONDARY', control: 'ability', label: 'ABILITÀ' }
   ]),
   // Botte sul Cornicione (platform fighter): lo stick e' tutto (corsa, salto-giu', direzione degli attacchi); A salta, X colpo
-  // leggero, Y colpo pesante, B schivata, RB abilita'. Tutti one-shot tranne il salto, di cui conta anche "tenuto" (salto corto).
+  // leggero, Y colpo pesante, B schivata, RB abilita'. Salto tenuto = salto corto/lungo; LB tenuto carica, il rilascio lancia.
   cornicione: defineProfile('cornicione', [
     { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI · ↓ SCENDI' },
     { action: 'JUMP', binding: 'PRIMARY', control: 'jump', label: 'SALTO (2 VOLTE)' },
@@ -103,7 +103,7 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     { action: 'HEAVY', binding: 'TOP', control: 'heavy', label: 'ATTACCO PESANTE · ↑ IN ARIA = RECOVERY' },
     { action: 'DODGE', binding: 'SECONDARY', control: 'dodge', label: 'SCHIVATA' },
     { action: 'KICK', binding: 'RT', control: 'kick', label: 'CALCIO · ↓ IN ARIA = DALL’ALTO' },
-    { action: 'GRAB', binding: 'LB', control: 'grab', label: 'PRESA · STICK = PROIEZIONE' },
+    { action: 'THROW', binding: 'LB', control: 'throw', label: 'LANCIO · TIENI PER CARICARE · STICK = MIRA' },
     { action: 'PARRY', binding: 'LT', control: 'parry', label: 'PARATA A TEMPO' },
     { action: 'ABILITY', binding: 'RB', control: 'ability', label: 'ABILITÀ' }
   ]),

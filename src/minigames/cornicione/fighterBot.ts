@@ -13,6 +13,7 @@ export class FighterBot {
   private hold = { jump: 0 };
   private abilityTry = 0;
   private lastAttackerPhase = false;
+  private throwCharge = .5;
 
   constructor(
     readonly id: string,
@@ -54,9 +55,10 @@ export class FighterBot {
     const dist = Math.abs(dx);
 
     // difesa: schiva o fa counter se l'avversario sta attaccando da vicino
-    const threat = !!e.attack && e.attack.phase <= 1 && dist < 3 && Math.abs(dy) < 2.5 && Math.sign(dx) === e.facing * -1;
+    const incoming = w.projectiles.find(p=>p.owner!==f.id && (f.x-p.x)*p.dx>0 && Math.abs(f.x-p.x)<2.5 && Math.abs(f.y+1.15-p.y)<1.5);
+    const threat = !!incoming || !!e.attack && e.attack.phase <= 1 && e.attack.move.startup-e.attack.t<.12 && dist < 4.4 && Math.abs(dy) < 2.5 && Math.sign(dx) === e.facing * -1;
     if (threat && !this.lastAttackerPhase && this.rnd() < this.skill * 0.5) {
-      if (f.characterId === 'judoka' && f.ab.charges > 0 && this.rnd() < 0.7) out.abilityPressed = true;
+      if (!incoming && f.characterId === 'judoka' && f.ab.charges > 0 && this.rnd() < 0.7) out.abilityPressed = true;
       else if (f.characterId === 'buttafuori' && f.ab.charges > 0 && f.percent > 70 && this.rnd() < 0.4) {
         out.abilityPressed = true;
         out.mx = -Math.sign(dx);
@@ -88,11 +90,25 @@ export class FighterBot {
     }
     out.jumpHeld = this.hold.jump > 0.2 || f.vy > 4;
 
+    if (f.objectThrow?.releaseT === null) {
+      // Normalised aim is shared with players, including airborne targets.
+      const length=Math.hypot(dx,dy)||1;out.mx=dx/length;out.my=dy/length;
+      if(out.dodgePressed||out.parryPressed)return out;
+      out.throwHeld=f.objectThrow.charge<this.throwCharge;
+      out.throwReleased=!out.throwHeld;
+      return out;
+    }
+    if (!this.passive && this.cd<=0 && dist>4 && dist<20 && Math.abs(dy)<8 && f.throwCd<=0 && !f.attack && !f.dodge && !f.parry && f.landLag<=0) {
+      this.throwCharge=dist>10?.8:.12+this.rnd()*.45;
+      out.throwPressed=true;out.throwHeld=true;
+      const length=Math.hypot(dx,dy)||1;out.mx=dx/length;out.my=dy/length;
+      this.cd=.6;return out;
+    }
+
     // attacco
-    if (!this.passive && this.cd <= 0 && dist < 2.4 && Math.abs(dy) < 2.6 && !f.attack && !f.dodge) {
+    if (!this.passive && this.cd <= 0 && dist < 4.1 && Math.abs(dy) < 2.6 && !f.attack && !f.dodge && !f.objectThrow && !f.parry && f.landLag<=0) {
       const heavy = this.rnd() < 0.3;
-      if(f.grounded && dist<1.7 && e.parry && this.rnd()<.5)out.grabPressed=true;
-      else if(dist>1.8 && this.rnd()<.4)out.kickPressed=true;
+      if(dist>2.6 || dist>1.8 && this.rnd()<.4)out.kickPressed=true;
       else if (heavy) out.heavyPressed = true;
       else out.lightPressed = true;
       if (dy > 1.4) out.my = 1;
@@ -135,7 +151,7 @@ export class FighterBot {
       const edge = Math.sign(target.x) * (STAGE.mainX - 1.2);
       if (Math.abs(f.x - edge) > 0.8 && f.support === 0) out.mx = Math.sign(edge - f.x);
       else if (this.cd <= 0 && Math.abs(target.x - f.x) < 4) {
-        out.heavyPressed = true;
+        out.kickPressed = true;
         out.mx = Math.sign(target.x - f.x) * 0.8;
         this.cd = 0.8;
       }

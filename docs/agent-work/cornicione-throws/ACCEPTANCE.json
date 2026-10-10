@@ -1,0 +1,36 @@
+{
+  "status": "accepted",
+  "scope": "Cornicione: common grab removed, equal cosmetic throws, strategic kicks, controls/phone/bots/animations",
+  "implementation": "authorized root without Flash",
+  "gameplayEquality": "one OBJECT_MOVE and OBJECT_THROW for all five; only RB abilities differ",
+  "checks": {
+    "typecheck": true,
+    "build": true,
+    "projectileAndStrategySuites": true,
+    "coreChecks": 165,
+    "cornicioneAbilityChecks": 82,
+    "characterAnimationChecks": 431,
+    "abilityCatalogChecks": 999,
+    "padSelftest": true,
+    "legacyGamepadFighter": true,
+    "botMatchesOnOff": 320,
+    "fivePlayerBrowser": true,
+    "realEmulatedMultiTouch": true,
+    "pauseReloadBlurRejoinPadLoss": true,
+    "productionNaturalRound": true,
+    "cleanupToLobby": true,
+    "boundedObjectPool": true,
+    "diffCheck": true
+  },
+  "productionAssetsSha256": {
+    "/assets/main-ukOBYsE7.js": "1798c05a4660ca515fc03e9b24d3b24492c13f6545eeba92c4632501fb8eb9a1",
+    "/assets/BabylonCornicioneGame-7_F1M27W.js": "4967fe7273f76d77f31971954aa367ceb0d29bb1a6b302fd4b65257b0d98b205"
+  },
+  "limits": [
+    "Human playtest required for balance and controller feel",
+    "Performance sample is headless on RTX 3050, includes startup slowdown",
+    "Charge uses existing animation clips and stylized props",
+    "Pre-existing Babylon large-chunk build warning"
+  ],
+  "publishing": "local edits and built dist only; no commit, push or deploy"
+}

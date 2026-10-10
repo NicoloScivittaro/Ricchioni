@@ -100,7 +100,7 @@ export function openFighterLab(): void {
 
   // ---- tastiera P1
   const P1 = 'lab1';
-  const KEYMAP: Record<string, string> = { KeyZ: 'jump', KeyX: 'light', KeyC: 'heavy', KeyV: 'dodge', KeyB: 'ability' };
+  const KEYMAP: Record<string, string> = { KeyZ: 'jump', KeyX: 'light', KeyC: 'heavy', KeyV: 'dodge', KeyB: 'ability', KeyK:'kick', KeyT:'throw', KeyP:'parry' };
   const syncAxis = (): void => {
     const x = (keys.has('ArrowRight') ? 1 : 0) - (keys.has('ArrowLeft') ? 1 : 0);
     const y = (keys.has('ArrowDown') ? 1 : 0) - (keys.has('ArrowUp') ? 1 : 0);
@@ -198,7 +198,7 @@ export function openFighterLab(): void {
   sep('Velocità');
   for (const s of [1, 0.5, 0.25]) btn(`${s}x`, () => setTimeScale(s));
   const help = document.createElement('span');
-  help.textContent = `Frecce = stick · Z salto · X leggero · C pesante · V schivata · B abilità · H hitbox · corpo ${PHYS.height} m`;
+  help.textContent = `Frecce = stick · Z salto · X leggero · C pesante · V schivata · B abilità · K calcio · T lancio (tieni) · P parata · H hitbox · corpo ${PHYS.height} m`;
   help.style.cssText = 'margin-left:auto;color:#94a3b8;font-weight:400';
   bar.appendChild(help);
 

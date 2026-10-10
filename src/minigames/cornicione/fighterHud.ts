@@ -33,6 +33,7 @@ interface Card {
   hearts: TextBlock;
   pct: TextBlock;
   status: TextBlock;
+  object: TextBlock;
   tier: 0 | 1 | 2 | 3;
   out: boolean;
 }
@@ -87,12 +88,12 @@ export class FighterHud extends GameHud {
   buildCards(list: FighterCardInfo[]): void {
     const row = new StackPanel('fighterCards');
     row.isVertical = false;
-    row.height = '108px';
+    row.height = '128px';
     row.top = `${-UI.safe.y + 4}px`;
     row.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
     const w = Math.min(238, Math.floor((1280 - UI.safe.x * 2) / Math.max(1, list.length)) - 8);
     for (const p of list) {
-      const box = hudPanel(`fc_${p.id}`, `${w}px`, '100px', p.color);
+      const box = hudPanel(`fc_${p.id}`, `${w}px`, '120px', p.color);
       box.thickness = 3;
       box.paddingLeft = '4px';
       box.paddingRight = '4px';
@@ -130,8 +131,12 @@ export class FighterHud extends GameHud {
       status.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
       status.outlineWidth = 0;
       box.addControl(status);
+      const object = hudText(`fcThrow_${p.id}`, 'LANCIO PRONTO', UI.size.XS, '#ffd34f', false);
+      place(object, 'L', 10, 94, w - 24, 20);
+      object.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+      box.addControl(object);
       row.addControl(box);
-      this.cards.set(p.id, { box, hearts, pct, status, tier: 0, out: false });
+      this.cards.set(p.id, { box, hearts, pct, status, object, tier: 0, out: false });
     }
     this.adt.addControl(row);
 
@@ -170,6 +175,12 @@ export class FighterHud extends GameHud {
       this.adt.addControl(box);
       this.indicators.set(p.id, { box, arrow, pct });
     }
+  }
+
+  setThrow(id: string, cooldown: number, charge: number | null): void {
+    const c=this.cards.get(id); if(!c)return;
+    c.object.text=c.out?'':charge!==null?`LANCIO · CARICA ${Math.round(charge*100)}%`:cooldown>0?`LANCIO · ${Math.ceil(cooldown)}s`:'LANCIO PRONTO';
+    c.object.color=cooldown>0?'#aaaabb':'#ffd34f';
   }
 
   setFighter(id: string, lives: number, percent: number, status: AbilityStatus | null, state: { dead: boolean; out: boolean }): void {

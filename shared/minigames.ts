@@ -281,7 +281,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'heavy', label: 'PESANTE', kind: 'button', icon: '💥' },
         { id: 'dodge', label: 'SCHIVA', kind: 'button', icon: '💨' },
         { id: 'kick', label: 'CALCIO', kind: 'button', icon: '🦶' },
-        { id: 'grab', label: 'PRESA', kind: 'button', icon: '🤝' },
+        { id: 'throw', label: 'LANCIO (TIENI)', kind: 'hold', icon: '🎯' },
         { id: 'parry', label: 'PARATA', kind: 'button', icon: '🛡️' },
         { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
       ]

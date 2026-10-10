@@ -22,6 +22,8 @@ export class PlayerInput {
   private buttons = new Map<string, ButtonState>();
   private axes = new Map<string, { x: number; y: number }>();
   private texts = new Map<string, string>();
+  /** Lets release-triggered actions distinguish device cancellation from a real up. */
+  cancellationVersion = 0;
 
   /** Testo libero (es. bluff di CULTURA O CAZZATA). */
   setText(id: string, text: string): void {
@@ -116,6 +118,7 @@ export class PlayerInput {
    * va in pausa o si scollega: un "rilascio" fittizio farebbe partire ai giochi con azione-al-rilascio (il tiro del Calcio) un colpo fantasma.
    */
   cancelAll(): void {
+    this.cancellationVersion++;
     for (const b of this.buttons.values()) {
       b.pressed = false;
       b.justPressed = false;

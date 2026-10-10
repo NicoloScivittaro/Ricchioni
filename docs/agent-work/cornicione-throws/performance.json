@@ -1,0 +1,112 @@
+{
+  "headless": true,
+  "seconds": 12,
+  "pool": {
+    "props": 5,
+    "fragments": 60,
+    "templates": 3,
+    "materialCount": 9,
+    "labelTextures": 4,
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "samples": [
+    {
+      "fps": 6.218905472636819,
+      "activeMeshes": 96,
+      "drawCalls": 93,
+      "projectiles": 1,
+      "fragments": 24,
+      "objectMeshes": 87
+    },
+    {
+      "fps": 60.2167804095643,
+      "activeMeshes": 66,
+      "drawCalls": 63,
+      "projectiles": 0,
+      "fragments": 0,
+      "objectMeshes": 87
+    },
+    {
+      "fps": 60.02400960375213,
+      "activeMeshes": 67,
+      "drawCalls": 66,
+      "projectiles": 0,
+      "fragments": 0,
+      "objectMeshes": 87
+    },
+    {
+      "fps": 59.91611743567941,
+      "activeMeshes": 65,
+      "drawCalls": 67,
+      "projectiles": 0,
+      "fragments": 0,
+      "objectMeshes": 87
+    },
+    {
+      "fps": 59.964021586958545,
+      "activeMeshes": 69,
+      "drawCalls": 70,
+      "projectiles": 0,
+      "fragments": 0,
+      "objectMeshes": 87
+    },
+    {
+      "fps": 59.904153354543595,
+      "activeMeshes": 70,
+      "drawCalls": 72,
+      "projectiles": 0,
+      "fragments": 0,
+      "objectMeshes": 87
+    },
+    {
+      "fps": 59.94005994006003,
+      "activeMeshes": 67,
+      "drawCalls": 67,
+      "projectiles": 0,
+      "fragments": 0,
+      "objectMeshes": 87
+    },
+    {
+      "fps": 59.94005994006003,
+      "activeMeshes": 69,
+      "drawCalls": 70,
+      "projectiles": 0,
+      "fragments": 0,
+      "objectMeshes": 87
+    },
+    {
+      "fps": 54.505813953635986,
+      "activeMeshes": 73,
+      "drawCalls": 74,
+      "projectiles": 0,
+      "fragments": 0,
+      "objectMeshes": 87
+    },
+    {
+      "fps": 54.16140097505093,
+      "activeMeshes": 64,
+      "drawCalls": 67,
+      "projectiles": 0,
+      "fragments": 0,
+      "objectMeshes": 87
+    },
+    {
+      "fps": 59.928086296711875,
+      "activeMeshes": 66,
+      "drawCalls": 68,
+      "projectiles": 0,
+      "fragments": 0,
+      "objectMeshes": 87
+    },
+    {
+      "fps": 59.88023952095811,
+      "activeMeshes": 68,
+      "drawCalls": 71,
+      "projectiles": 0,
+      "fragments": 0,
+      "objectMeshes": 87
+    }
+  ],
+  "averageFps": 54.54997070746765,
+  "errors": []
+}

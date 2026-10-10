@@ -352,6 +352,9 @@ button.char:disabled {
 .dpad-actions .ctl-jump { background: #0369a1; }
 .dpad-actions .ctl-light { background: #4338ca; }
 .dpad-actions .ctl-heavy { background: #be123c; }
+.dpad-actions .ctl-throw { background: #b45309; touch-action: none; }
+.dpad-actions .ctl-throw[data-cooldown="true"] { background: #4b5563; }
+.corn-throw-status { padding: 8px; margin: 4px 0; color: #ffd34f; font-size: 13px; text-align: center; }
 .dpad-actions .ctl-ability { background: #facc15; color: #111827; }
 
 @media (orientation: landscape) and (max-height: 600px) {

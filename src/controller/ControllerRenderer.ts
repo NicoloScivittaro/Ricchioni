@@ -130,6 +130,25 @@ function makeControl(def: ControlDef, send: SendInput): HTMLButtonElement {
   if (def.color) b.style.background = def.color;
 
   if (def.kind === 'hold') {
+    if (def.id === 'throw') {
+      // Capture allows aiming with another finger; cancellation must not fire.
+      let pointer: number | null = null;
+      b.addEventListener('corn-cancel',()=>{pointer=null;});
+      b.addEventListener('pointerdown', e => {
+        e.preventDefault();if(pointer!==null)return;pointer=e.pointerId;
+        try { b.setPointerCapture(e.pointerId); } catch { /* synthetic events */ }
+        send({kind:'down',controlId:def.id});
+      });
+      const end = (e: PointerEvent, cancel: boolean): void => {
+        if(pointer!==e.pointerId)return;
+        if(cancel)send({kind:'action',controlId:'throwCancel'});
+        send({kind:'up',controlId:def.id});pointer=null;
+      };
+      b.addEventListener('pointerup',e=>end(e,false));
+      b.addEventListener('pointercancel',e=>end(e,true));
+      b.addEventListener('lostpointercapture',e=>end(e,true));
+      return b;
+    }
     const release = (): void => send({ kind: 'up', controlId: def.id });
     b.addEventListener('pointerdown', (e) => {
       e.preventDefault();
