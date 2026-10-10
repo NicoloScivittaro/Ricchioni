@@ -63,6 +63,12 @@ export function defineProfile(minigameId: string, controls: PadBindingDef[]): Pa
 }
 
 export const PAD_PROFILES: Record<string, PadProfile> = {
+  minigolf: defineProfile('minigolf', [
+    {action:'AIM',binding:'LEFT_STICK',control:'aim',label:'ORIENTA IL TIRO'},
+    {action:'SHOOT',binding:'PRIMARY',control:'shoot',label:'TIENI: CARICA · RILASCIA: TIRA'},
+    {action:'CANCEL',binding:'SECONDARY',control:'cancel',label:'ANNULLA LA CARICA'},
+    {action:'ABILITY',binding:'RB',control:'ability',label:'ABILITÀ'}
+  ]),
   arena: defineProfile('arena', [
     { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI' },
     { action: 'DASH', binding: 'PRIMARY', control: 'dash', label: 'SCATTO' },

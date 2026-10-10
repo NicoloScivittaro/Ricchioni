@@ -20,6 +20,7 @@ export type ThemeId =
   | 'kart3d'
   | 'cornicione'
   | 'casacarbo'
+  | 'minigolf'
   | 'fps'
   | 'memory'
   | 'reaction'
@@ -72,6 +73,11 @@ const HARMONIC = [0, 2, 3, 5, 7, 8, 11];
 const _ = null;
 
 export const THEMES: Record<ThemeId, Theme> = {
+  minigolf:{id:'minigolf',bpm:110,swing:.16,root:55,scale:MIXO,progression:[0,3,4,0,0,3,5,4],
+    kick:'x.......x.......',snare:'....x.......x...',hat:'..o...o...o...o.',kickB:'x.......x.x.....',
+    perc:{kind:'rim',pattern:'..x...x...x...x.'},bass:{pattern:'1...5...1...8...',wave:'triangle',octave:-2},
+    chords:{wave:'sine',style:'stab',stabs:'x.......x.......',octave:0},
+    motif:[0,_,2,4,_,2,_,0,_,_,4,_,5,4,_,_,0,_,3,_,4,_,7,_,5,_,4,_,2,_,0,_],lead:{wave:'triangle',octave:1},gain:.55},
   // menu: rilassato, maggiore, poco ritmo
   lobby: {
     id: 'lobby', bpm: 98, swing: 0.12, root: 60, scale: MAJOR, progression: [0, 5, 3, 4, 0, 5, 1, 4],

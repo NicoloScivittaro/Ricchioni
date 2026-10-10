@@ -202,3 +202,8 @@ Logica senza browser (`npx tsx scripts/…`): `ability-selftest`, `pad-selftest`
 ## 13. Come usare questa scheda in chat
 Se ti chiedo una modifica: (1) dimmi quali file toccare partendo dalla mappa del §10, (2) mantieni lo stile esistente (commenti in italiano, nomi coerenti), (3) indica i test da lanciare del §11, (4) segnala i rischi di bilanciamento invece di "aggiustarli" da solo. Se ti chiedo idee di design, proponi cose coerenti col tono e coi 5 personaggi, e dimmi quale abilità/numero cambierebbe nel catalogo.
 
+
+
+## Minigolf dei Disagiati (#13)
+
+`minigolf`: SPORT, 2–5 simultanei, tre buche da sei percorsi, 50 s/buca e limite iniziale 8 colpi. Stick sinistro mira, A/✕ tenuto carica e rilasciato tira, B/◯ annulla, RB/R1 abilità (un uso per buca). Telefono con joystick/TIRA/ANNULLA/ABILITÀ. Palline collidono, cadute +1, reset tecnici gratuiti; vince chi totalizza meno colpi. Camera condivisa e personaggi esistenti, bot anche in solo. Modulo `src/minigames/minigolf/`; [report e verifiche](agent-work/minigolf/REPORT.md). Numeri da bilanciare con playtest umano.

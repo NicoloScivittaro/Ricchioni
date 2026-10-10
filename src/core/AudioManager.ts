@@ -1056,6 +1056,7 @@ export const TILE_FREQS = [329.63, 246.94, 196.0, 146.83];
 const GAME_STINGS: Record<string, { notes: number[]; step: number; len: number; wave: OscillatorType }> = {
   arena: { notes: [45, 52, 57, 60, 64], step: 0.08, len: 0.18, wave: 'sawtooth' },
   dodgeball: { notes: [62, 66, 69, 74], step: 0.06, len: 0.12, wave: 'square' },
+  minigolf: { notes: [67, 72, 71, 76], step: 0.08, len: 0.14, wave: 'triangle' },
   soccer: { notes: [60, 64, 67, 72, 76], step: 0.09, len: 0.2, wave: 'triangle' },
   volleyball: { notes: [67, 71, 74, 79], step: 0.08, len: 0.18, wave: 'triangle' },
   kart3d: { notes: [55, 62, 67, 74, 79], step: 0.07, len: 0.16, wave: 'sawtooth' },

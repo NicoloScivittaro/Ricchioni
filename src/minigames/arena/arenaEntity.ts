@@ -512,6 +512,12 @@ export class ArenaEntity {
   /** Native scene-specific gesture; render only, procedural fallback stays available. */
   overrideImportedAnimation(name:string|null,duration?:number,loop=false): void { this.goblinVisual?.overrideAnimation(name,duration,loop); }
   goblinAttachment(key:import('../characters/goblinVisual').GoblinAttachment): Vector3|null { return this.goblinVisual?.attachment(key,true)??null; }
+  /** Accessori esterni: segue la mano del modello attivo, anche nel fallback procedurale. Solo render. */
+  rightHandPosition(): Vector3 {
+    const imported=this.goblinAttachment('RIGHT_HAND');if(imported)return imported;
+    this.rig.armR.computeWorldMatrix(true);
+    return Vector3.TransformCoordinates(new Vector3(0,-this.rig.armLen+.04,0),this.rig.armR.getWorldMatrix());
+  }
   goblinJointLines(): Vector3[][] { return this.goblinVisual?.jointLines()??[]; }
 
   /** Posa di vittoria del personaggio: per `sec` secondi (gol, punto) o fino alla fine (fine round). */

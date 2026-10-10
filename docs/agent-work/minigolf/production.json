@@ -1,0 +1,152 @@
+{
+  "errors": [],
+  "models": [
+    {
+      "url": "http://127.0.0.1:3001/models/man-tripo/man_animated.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/judoka-tripo/judo_figure_casacarbo.glb",
+      "status": 200
+    }
+  ],
+  "chunks": [
+    {
+      "url": "http://127.0.0.1:3001/assets/BabylonMinigolfGame-DwfuhZWh.js",
+      "ms": 7198
+    }
+  ],
+  "phases": [
+    {
+      "phase": "LOBBY",
+      "ms": 4092
+    },
+    {
+      "phase": "MINIGAME_ROULETTE",
+      "ms": 7445
+    },
+    {
+      "phase": "MINIGAME_INTRO",
+      "ms": 14240
+    },
+    {
+      "phase": "MINIGAME_PLAYING",
+      "ms": 16827
+    },
+    {
+      "phase": "MINIGAME_FINISHED",
+      "ms": 113252
+    },
+    {
+      "phase": "ROUND_RESULTS",
+      "ms": 114187
+    }
+  ],
+  "start": 7188,
+  "playing": 16935,
+  "players": [
+    {
+      "name": "Niko",
+      "char": "goblin"
+    },
+    {
+      "name": "BOT BOSCHI",
+      "char": "buttafuori",
+      "bot": true
+    },
+    {
+      "name": "BOT Carbo",
+      "char": "judoka",
+      "bot": true
+    },
+    {
+      "name": "BOT Ciro",
+      "char": "ciro",
+      "bot": true
+    },
+    {
+      "name": "BOT Victor",
+      "char": "dottore",
+      "bot": true
+    }
+  ],
+  "wallSeconds": 95.552,
+  "phoneShots": 20,
+  "results": {
+    "results": [
+      {
+        "playerId": "bot:c8b8661f-8abe-4720-910f-d9998dfc4875",
+        "placement": 1,
+        "score": 21,
+        "stats": [
+          "21 colpi · 4 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "81.2 s"
+        ]
+      },
+      {
+        "playerId": "bot:9b19dc22-cc8c-40b2-8d8e-b44176e0c31c",
+        "placement": 2,
+        "score": 26,
+        "stats": [
+          "26 colpi · 3 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "103.4 s"
+        ]
+      },
+      {
+        "playerId": "bot:31bcc808-4426-45b4-84f7-88c5388985e5",
+        "placement": 3,
+        "score": 28,
+        "stats": [
+          "28 colpi · 4 penalità",
+          "1/3 buche · 0 hole-in-one",
+          "121.3 s"
+        ]
+      },
+      {
+        "playerId": "4c546d26-cdc8-4f8d-b21e-ab848c696cb8",
+        "placement": 4,
+        "score": 32,
+        "stats": [
+          "32 colpi · 7 penalità",
+          "0/3 buche · 0 hole-in-one",
+          "150.0 s"
+        ]
+      },
+      {
+        "playerId": "bot:797e8e02-14f2-4cae-a6b6-39cab6c69159",
+        "placement": 5,
+        "score": 33,
+        "stats": [
+          "33 colpi · 8 penalità",
+          "0/3 buche · 0 hole-in-one",
+          "150.0 s"
+        ]
+      }
+    ],
+    "ranking": [
+      "bot:c8b8661f-8abe-4720-910f-d9998dfc4875",
+      "bot:9b19dc22-cc8c-40b2-8d8e-b44176e0c31c",
+      "bot:31bcc808-4426-45b4-84f7-88c5388985e5",
+      "4c546d26-cdc8-4f8d-b21e-ab848c696cb8",
+      "bot:797e8e02-14f2-4cae-a6b6-39cab6c69159"
+    ],
+    "deltas": {
+      "bot:c8b8661f-8abe-4720-910f-d9998dfc4875": 10,
+      "bot:9b19dc22-cc8c-40b2-8d8e-b44176e0c31c": 7,
+      "bot:31bcc808-4426-45b4-84f7-88c5388985e5": 5,
+      "4c546d26-cdc8-4f8d-b21e-ab848c696cb8": 3,
+      "bot:797e8e02-14f2-4cae-a6b6-39cab6c69159": 1
+    },
+    "double": false
+  }
+}

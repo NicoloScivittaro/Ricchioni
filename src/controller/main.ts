@@ -1,3 +1,5 @@
+import {mountMinigolf} from './minigolfController';
+import type {GolfPhoneStatus} from './minigolfController';
 import { io, Socket } from 'socket.io-client';
 import { EVT } from '../../shared/protocol';
 import type { AckResponse, JoinAck, JoinPayload } from '../../shared/protocol';
@@ -36,6 +38,8 @@ let state: RoomState | null = null;
 let lastMinigameId: string | null = null;
 /** Controller attivo (per instradare i segnali): 'memory' | 'quiz' | null. */
 let activeController: string | null = null;
+let minigolfPhone: ReturnType<typeof mountMinigolf>|null=null;
+const destroyMinigolfPhone=()=>{minigolfPhone?.destroy();minigolfPhone=null;};
 const heldControls = new Set<string>();
 const activeAxes = new Set<string>();
 
@@ -1547,6 +1551,7 @@ function renderFpsController(): void {
 
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
+  if(s.type==='minigolfStatus'&&activeController==='minigolf'){minigolfPhone?.update(data as GolfPhoneStatus);return;}
   if (s.type === 'objectThrowStatus' && state?.phase === 'MINIGAME_PLAYING' && state.currentMinigame?.minigameId === 'cornicione') {
     let label=document.getElementById('corn-throw-status');
     if (!label) {
@@ -1831,6 +1836,7 @@ function renderInfoLine(): void {
 
 function render(): void {
   syncPauseOverlay(state);
+  if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='minigolf')destroyMinigolfPhone();
   if (!state || state.phase !== 'MINIGAME_PLAYING') disposeFps();
   const me: PlayerPublic | undefined =
     playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
@@ -2059,6 +2065,7 @@ function keepAwake(on: boolean): void {
 }
 
 function renderPadScreen(mg: NonNullable<RoomState['currentMinigame']>, me: PlayerPublic): void {
+  destroyMinigolfPhone();
   activeController = null; // i segnali di gioco non hanno piu' una UI da aggiornare qui
   disposeFps();
   quizPadPrivateShown = false; // torniamo alla schermata normale: nessuna informazione privata restante a schermo
@@ -2102,7 +2109,13 @@ function renderPlaying(state: RoomState, me: PlayerPublic): void {
 }
 
 function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
+  destroyMinigolfPhone();
   const layout = mg.controllerLayout;
+  if(layout.type==='custom'&&layout.id==='minigolf-tv'){
+    activeController='minigolf';
+    minigolfPhone=mountMinigolf(app,sendInput,state?.players.find(p=>p.id===playerId)?.characterId??null);
+    return;
+  }
   if (layout.type === 'custom' && layout.id === 'quiz-tv') {
     activeController = 'quiz';
     renderQuizController();
@@ -2439,6 +2452,7 @@ function syncQuizPadPrivateInfo(data: QuizStatePayload): void {
 
 /** Losing a touch stream must release both network state and the local pointer ownership. */
 function releaseControllerInput(): void {
+  minigolfPhone?.cancel();
   cancelArenaAttack();
   arenaJoy?.reset(); dbJoy?.reset(); soccerJoy?.reset(); volleyJoy?.reset(); fpsJoy?.reset();
   fpsClient?.setFirePressed(false);

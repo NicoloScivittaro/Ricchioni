@@ -1,0 +1,12 @@
+Bedroom: {
+  original: 43.18000045418739,
+  remaining: 25.67000027000904,
+  drained: 11.049999879579987,
+  cycles: 3
+}
+First 20s: {
+  drained: 7.574999999999999,
+  dry: 0.9789473684210527,
+  points: [ 7.574999999999999, 0, 2.0061749999999767, 0, 0 ]
+}
+PASS: 3 emergencies, weighted assistants, actual drains only, capped awards, conservation, reachable guide, early useful actions.

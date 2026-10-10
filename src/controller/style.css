@@ -1746,3 +1746,12 @@ button.char:disabled {
 .arena-shell:has(#arena-attack) .arena-ability span { width:100%; font-size:13px; overflow-wrap:normal; word-break:normal; }
 body:has(#pad-fallback-badge) .arena-shell:has(#arena-attack) { padding-top:calc(62px + env(safe-area-inset-top,0px)); }
 @media (orientation:landscape) { body:has(#pad-fallback-badge) .arena-shell:has(#arena-attack) { padding-top:calc(38px + env(safe-area-inset-top,0px)); } }
+
+/* Minigolf only: simultaneous aim + charge, one pointer owner per action. */
+.golf-phone{min-height:100dvh;padding:70px 14px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;background:#102b35;color:#e0f5ec;touch-action:none}
+.golf-phone-title{font-size:20px;font-weight:900}.golf-phone p{text-align:center;font-size:13px;max-width:640px;line-height:1.4;margin:8px 0}
+.golf-phone-board{display:flex;align-items:center;justify-content:space-around;gap:16px;width:100%;max-width:680px;flex:1;min-height:240px}
+.golf-phone-joy{position:relative;width:150px;height:150px;flex-shrink:0;border-radius:50%;background:#244b52;border:3px solid #74bc96;touch-action:none}
+.golf-phone-actions{display:flex;flex-direction:column;gap:12px;min-width:145px}.golf-phone button{touch-action:none;padding:16px 10px;border-radius:16px;border:2px solid #70bc99;background:#245746;color:white;font-weight:900;font-size:16px;user-select:none}
+.golf-phone #golf-shoot{min-height:115px;font-size:26px;background:linear-gradient(to top,#52a36a var(--golf-power,0%),#245746 var(--golf-power,0%))}.golf-phone button span{display:block;font-size:11px;margin-top:8px}.golf-phone button:disabled{opacity:.45}.golf-phone .golf-held{box-shadow:0 0 18px #9beca8}
+@media(max-width:360px){.golf-phone-joy{width:125px;height:125px}.golf-phone-actions{min-width:130px}.golf-phone-board{gap:8px}}

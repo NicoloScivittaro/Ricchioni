@@ -1,0 +1,711 @@
+[
+  {
+    "n": 2,
+    "ok": true,
+    "ended": true,
+    "phase": "ended",
+    "course": 2,
+    "courses": [
+      "corridoio",
+      "rotonda",
+      "ultima"
+    ],
+    "players": [
+      {
+        "id": "91151c43-3f74-409e-bd29-f2fcc71609cd",
+        "total": 12,
+        "pens": 0,
+        "completed": 3,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 17.424999999999653
+          },
+          {
+            "course": "rotonda",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 10.850000000000025
+          },
+          {
+            "course": "ultima",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 18.099999999999614
+          }
+        ]
+      },
+      {
+        "id": "86d6cd36-168c-480f-84b1-690425ad4dca",
+        "total": 19,
+        "pens": 0,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 6,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 23.674999999999297
+          },
+          {
+            "course": "rotonda",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 11.533333333333319
+          },
+          {
+            "course": "ultima",
+            "strokes": 10,
+            "penalties": 0,
+            "completed": false,
+            "seconds": 50
+          }
+        ]
+      }
+    ],
+    "results": [
+      {
+        "playerId": "91151c43-3f74-409e-bd29-f2fcc71609cd",
+        "placement": 1,
+        "score": 12,
+        "stats": [
+          "12 colpi · 0 penalità",
+          "3/3 buche · 0 hole-in-one",
+          "46.4 s"
+        ]
+      },
+      {
+        "playerId": "86d6cd36-168c-480f-84b1-690425ad4dca",
+        "placement": 2,
+        "score": 19,
+        "stats": [
+          "19 colpi · 0 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "85.2 s"
+        ]
+      }
+    ],
+    "errors": []
+  },
+  {
+    "n": 2,
+    "ok": true,
+    "ended": true,
+    "phase": "ended",
+    "course": 2,
+    "courses": [
+      "corridoio",
+      "rotonda",
+      "ultima"
+    ],
+    "players": [
+      {
+        "id": "00603f8e-4143-4f1e-8e1d-7198c8408d8e",
+        "total": 22,
+        "pens": 0,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 10,
+            "penalties": 0,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "rotonda",
+            "strokes": 7,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 23.758333333332626
+          },
+          {
+            "course": "ultima",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 18.14166666666628
+          }
+        ]
+      },
+      {
+        "id": "49109647-bce0-4819-b792-3a8a7d74a503",
+        "total": 20,
+        "pens": 0,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 10,
+            "penalties": 0,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "rotonda",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 21.90833333333273
+          },
+          {
+            "course": "ultima",
+            "strokes": 6,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 18.049999999999617
+          }
+        ]
+      }
+    ],
+    "results": [
+      {
+        "playerId": "49109647-bce0-4819-b792-3a8a7d74a503",
+        "placement": 1,
+        "score": 20,
+        "stats": [
+          "20 colpi · 0 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "90.0 s"
+        ]
+      },
+      {
+        "playerId": "00603f8e-4143-4f1e-8e1d-7198c8408d8e",
+        "placement": 2,
+        "score": 22,
+        "stats": [
+          "22 colpi · 0 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "91.9 s"
+        ]
+      }
+    ],
+    "errors": []
+  },
+  {
+    "n": 3,
+    "ok": true,
+    "ended": true,
+    "phase": "ended",
+    "course": 2,
+    "courses": [
+      "corridoio",
+      "flipper",
+      "discesa"
+    ],
+    "players": [
+      {
+        "id": "52e94e9f-5af8-415b-81e6-bf1d1ac8f130",
+        "total": 21,
+        "pens": 0,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 7,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 26.33333333333248
+          },
+          {
+            "course": "flipper",
+            "strokes": 10,
+            "penalties": 0,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "discesa",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 13.416666666666545
+          }
+        ]
+      },
+      {
+        "id": "670465e3-9a18-4c4c-a608-a1b1349145f4",
+        "total": 23,
+        "pens": 1,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 17.291666666666327
+          },
+          {
+            "course": "flipper",
+            "strokes": 10,
+            "penalties": 0,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "discesa",
+            "strokes": 8,
+            "penalties": 1,
+            "completed": true,
+            "seconds": 26.991666666665775
+          }
+        ]
+      },
+      {
+        "id": "df3517e4-e201-4656-b689-382ba4d10314",
+        "total": 21,
+        "pens": 1,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 6,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 20.983333333332784
+          },
+          {
+            "course": "flipper",
+            "strokes": 10,
+            "penalties": 0,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "discesa",
+            "strokes": 5,
+            "penalties": 1,
+            "completed": true,
+            "seconds": 14.208333333333167
+          }
+        ]
+      }
+    ],
+    "results": [
+      {
+        "playerId": "52e94e9f-5af8-415b-81e6-bf1d1ac8f130",
+        "placement": 1,
+        "score": 21,
+        "stats": [
+          "21 colpi · 0 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "89.7 s"
+        ]
+      },
+      {
+        "playerId": "df3517e4-e201-4656-b689-382ba4d10314",
+        "placement": 2,
+        "score": 21,
+        "stats": [
+          "21 colpi · 1 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "85.2 s"
+        ]
+      },
+      {
+        "playerId": "670465e3-9a18-4c4c-a608-a1b1349145f4",
+        "placement": 3,
+        "score": 23,
+        "stats": [
+          "23 colpi · 1 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "94.3 s"
+        ]
+      }
+    ],
+    "errors": []
+  },
+  {
+    "n": 4,
+    "ok": true,
+    "ended": true,
+    "phase": "ended",
+    "course": 2,
+    "courses": [
+      "corridoio",
+      "ponte",
+      "ultima"
+    ],
+    "players": [
+      {
+        "id": "02b76785-bcf7-46d6-9146-9bcf7f3f8527",
+        "total": 25,
+        "pens": 4,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 6,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 18.591666666666253
+          },
+          {
+            "course": "ponte",
+            "strokes": 11,
+            "penalties": 4,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "ultima",
+            "strokes": 8,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 25.86666666666584
+          }
+        ]
+      },
+      {
+        "id": "159c26c4-0bea-4684-a9a7-1a779c6be2b3",
+        "total": 25,
+        "pens": 3,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 7,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 29.258333333332313
+          },
+          {
+            "course": "ponte",
+            "strokes": 10,
+            "penalties": 3,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "ultima",
+            "strokes": 8,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 32.56666666666546
+          }
+        ]
+      },
+      {
+        "id": "1dca20b4-041e-4a2d-b04c-bce232201da2",
+        "total": 21,
+        "pens": 4,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 6,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 20.39166666666615
+          },
+          {
+            "course": "ponte",
+            "strokes": 11,
+            "penalties": 4,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "ultima",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 17.249999999999662
+          }
+        ]
+      },
+      {
+        "id": "854230f5-5f0e-4b86-9acd-058251ea3a8d",
+        "total": 23,
+        "pens": 3,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 18.924999999999567
+          },
+          {
+            "course": "ponte",
+            "strokes": 10,
+            "penalties": 3,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "ultima",
+            "strokes": 8,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 30.724999999998897
+          }
+        ]
+      }
+    ],
+    "results": [
+      {
+        "playerId": "1dca20b4-041e-4a2d-b04c-bce232201da2",
+        "placement": 1,
+        "score": 21,
+        "stats": [
+          "21 colpi · 4 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "87.6 s"
+        ]
+      },
+      {
+        "playerId": "854230f5-5f0e-4b86-9acd-058251ea3a8d",
+        "placement": 2,
+        "score": 23,
+        "stats": [
+          "23 colpi · 3 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "99.6 s"
+        ]
+      },
+      {
+        "playerId": "159c26c4-0bea-4684-a9a7-1a779c6be2b3",
+        "placement": 3,
+        "score": 25,
+        "stats": [
+          "25 colpi · 3 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "111.8 s"
+        ]
+      },
+      {
+        "playerId": "02b76785-bcf7-46d6-9146-9bcf7f3f8527",
+        "placement": 4,
+        "score": 25,
+        "stats": [
+          "25 colpi · 4 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "94.5 s"
+        ]
+      }
+    ],
+    "errors": []
+  },
+  {
+    "n": 5,
+    "ok": true,
+    "ended": true,
+    "phase": "ended",
+    "course": 2,
+    "courses": [
+      "corridoio",
+      "flipper",
+      "ultima"
+    ],
+    "players": [
+      {
+        "id": "f3b4fbd8-5bd5-49e3-80ef-6ccb34097899",
+        "total": 26,
+        "pens": 0,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 8,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 25.466666666665862
+          },
+          {
+            "course": "flipper",
+            "strokes": 10,
+            "penalties": 0,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "ultima",
+            "strokes": 8,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 33.591666666665404
+          }
+        ]
+      },
+      {
+        "id": "91d50e53-3e39-4be3-8c19-7d28298199ec",
+        "total": 25,
+        "pens": 2,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 7,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 28.86666666666567
+          },
+          {
+            "course": "flipper",
+            "strokes": 8,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 37.733333333331835
+          },
+          {
+            "course": "ultima",
+            "strokes": 10,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 50
+          }
+        ]
+      },
+      {
+        "id": "b669686c-8679-4bcf-8ff3-77b4ce91d434",
+        "total": 19,
+        "pens": 0,
+        "completed": 3,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 18.366666666666266
+          },
+          {
+            "course": "flipper",
+            "strokes": 7,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 20.141666666666165
+          },
+          {
+            "course": "ultima",
+            "strokes": 7,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 19.058333333332893
+          }
+        ]
+      },
+      {
+        "id": "26fb3d11-8815-46a6-964b-e15aa4ebb322",
+        "total": 23,
+        "pens": 0,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 7,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 27.049999999999105
+          },
+          {
+            "course": "flipper",
+            "strokes": 10,
+            "penalties": 0,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "ultima",
+            "strokes": 6,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 19.57499999999953
+          }
+        ]
+      },
+      {
+        "id": "a810f1c7-f894-4fbc-884a-632889e321c5",
+        "total": 21,
+        "pens": 3,
+        "completed": 2,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 5,
+            "penalties": 1,
+            "completed": true,
+            "seconds": 17.983333333332954
+          },
+          {
+            "course": "flipper",
+            "strokes": 10,
+            "penalties": 1,
+            "completed": false,
+            "seconds": 50
+          },
+          {
+            "course": "ultima",
+            "strokes": 6,
+            "penalties": 1,
+            "completed": true,
+            "seconds": 18.11666666666628
+          }
+        ]
+      }
+    ],
+    "results": [
+      {
+        "playerId": "b669686c-8679-4bcf-8ff3-77b4ce91d434",
+        "placement": 1,
+        "score": 19,
+        "stats": [
+          "19 colpi · 0 penalità",
+          "3/3 buche · 0 hole-in-one",
+          "57.6 s"
+        ]
+      },
+      {
+        "playerId": "a810f1c7-f894-4fbc-884a-632889e321c5",
+        "placement": 2,
+        "score": 21,
+        "stats": [
+          "21 colpi · 3 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "86.1 s"
+        ]
+      },
+      {
+        "playerId": "26fb3d11-8815-46a6-964b-e15aa4ebb322",
+        "placement": 3,
+        "score": 23,
+        "stats": [
+          "23 colpi · 0 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "96.6 s"
+        ]
+      },
+      {
+        "playerId": "91d50e53-3e39-4be3-8c19-7d28298199ec",
+        "placement": 4,
+        "score": 25,
+        "stats": [
+          "25 colpi · 2 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "116.6 s"
+        ]
+      },
+      {
+        "playerId": "f3b4fbd8-5bd5-49e3-80ef-6ccb34097899",
+        "placement": 5,
+        "score": 26,
+        "stats": [
+          "26 colpi · 0 penalità",
+          "2/3 buche · 0 hole-in-one",
+          "109.1 s"
+        ]
+      }
+    ],
+    "errors": []
+  }
+]

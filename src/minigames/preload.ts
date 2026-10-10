@@ -5,6 +5,7 @@
  * cache, quindi il `import()` del wrapper dopo l'intro è istantaneo.
  */
 const LOADERS: Record<string, () => Promise<unknown>> = {
+  minigolf: () => import('./minigolf/BabylonMinigolfGame'),
   arena: () => import('./arena/BabylonArenaGame'),
   dodgeball: () => import('./dodgeball/BabylonDodgeballGame'),
   kart3d: () => import('./kart-race/BabylonKartGame'),

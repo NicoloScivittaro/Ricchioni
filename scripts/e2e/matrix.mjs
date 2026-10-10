@@ -1,7 +1,7 @@
 // Per OGNI minigioco del registry: rullo → intro → gioco (host + 2 telefoni reali) → fine → risultati → rullo. Nessun refresh.
 import { launch, createRoomOnHost, addPhone, hostEval, hostSnapshot, phoneView, sleep, installTrace, readTrace } from './lib.mjs';
 
-const GAMES = (process.env.GAMES ?? 'quiz,reaction,memory,arena,dodgeball,soccer,volleyball,kart3d,cultura,fps,cornicione,casacarbo').split(',');
+const GAMES = (process.env.GAMES ?? 'quiz,reaction,memory,arena,dodgeball,soccer,volleyball,kart3d,cultura,fps,cornicione,casacarbo,minigolf').split(',');
 const report = [];
 
 async function until(fn, ms, what) {
@@ -34,7 +34,7 @@ for (const id of GAMES) {
     await page.keyboard.press('Enter');
     // rullo naturale (7s) + intro naturale (3.8s)
     await until(async () => (await hostSnapshot(page)).phase === 'MINIGAME_PLAYING', 25000, 'PLAYING');
-    await sleep(2500);
+    await sleep(Number(process.env.MATRIX_SETTLE_MS ?? 2500));
     const snap = await hostSnapshot(page);
     if (snap.pending !== id) row.notes.push(`pending=${snap.pending}`);
     if (snap.active.length !== 1 || snap.active[0] !== id) {

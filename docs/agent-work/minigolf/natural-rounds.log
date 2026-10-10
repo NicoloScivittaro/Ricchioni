@@ -1,0 +1,6 @@
+ability fixture [{"char":"goblin","used":true,"speed":0,"armed":"bounce"},{"char":"buttafuori","used":true,"speed":0,"armed":null},{"char":"dottore","used":true,"speed":0,"armed":null},{"char":"judoka","used":true,"speed":0.483949999999998,"armed":null},{"char":"ciro","used":false,"speed":0,"armed":null}]
+PASS 5p: three natural holes, ranking and lobby cleanup, all abilities pad/phone, Companion and phone states
+PASS 2p: three natural holes, ranking and lobby cleanup
+PASS 2p: three natural holes, ranking and lobby cleanup
+PASS 3p: three natural holes, ranking and lobby cleanup
+PASS 4p: three natural holes, ranking and lobby cleanup

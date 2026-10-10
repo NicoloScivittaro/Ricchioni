@@ -10,7 +10,7 @@
  * qui: lo decide ogni gioco (unica autorita') e lo pubblica con AbilityStatus (src/core/abilityHub.ts) — il catalogo e' solo statico.
  */
 
-export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione' | 'casacarbo';
+export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione' | 'casacarbo' | 'minigolf';
 export type AbilityCharacterId = 'goblin' | 'buttafuori' | 'judoka' | 'dottore' | 'ciro';
 
 /** I 6 tipi di abilita' del progetto: ogni voce ne ha UNO principale. */
@@ -1089,7 +1089,26 @@ CC.dottore.full = `Premi: se nei prossimi ${sec(CC.dottore.p.window)} arriva una
 CC.judoka.full = `Premi: piazzi davanti a te una diga lunga ${CC.judoka.p.length} m che ferma l'acqua (ma non le persone) per ${sec(CC.judoka.p.duration)}. Se dietro si accumula troppa acqua cede e la libera tutta insieme. Due usi a partita.`;
 CC.ciro.full = `Premi: il prossimo secchio contiene il doppio. Appena supera la capienza normale hai ${sec(CC.ciro.p.deadline)} per svuotarlo in uno scarico, se no ne rovesci meta' per terra. Due usi a partita.`;
 
-/** Tutte le abilita' (60). */
+// MINIGOLF: risorse ripristinate a ogni buca, statistiche di base uguali.
+const MG = {
+  goblin: add(def({game:'minigolf',character:'goblin',name:"N'CULO, DE SPONDA!",kind:'RISK_REWARD',impact:'MEDIUM',
+    short:'Il primo rimbalzo statico del prossimo tiro è più energico.',full:'',limit:'1 uso per buca',charges:1,cooldown:0,p:{bounce:1.35}})),
+  buttafuori: add(def({game:'minigolf',character:'buttafuori',name:'TU QUA NON ENTRI!',kind:'LIMITED_RESOURCE',impact:'MEDIUM',
+    short:'Piazzi un bumper temporaneo davanti alla pallina: respinge anche te.',full:'',limit:'1 uso per buca',charges:1,cooldown:0,p:{duration:5,radius:.55,power:4,offset:1.3,holeClear:2.5,spawnClear:2.5}})),
+  dottore: add(def({game:'minigolf',character:'dottore',name:"M'HO SVEJATO",kind:'INFORMATION',impact:'MEDIUM',
+    short:'Previsione lunga delle sponde statiche: mobile e palline esclusi.',full:'',limit:'1 uso per buca',charges:1,cooldown:0,p:{duration:7,preview:2.5}})),
+  judoka: add(def({game:'minigolf',character:'judoka',name:'NO, ASPETTA!',kind:'REACTIVE',impact:'MEDIUM',
+    short:'Freni la tua pallina mentre rotola. Scegli bene il momento.',full:'',limit:'1 uso per buca',charges:1,cooldown:0,p:{speedFactor:.12}})),
+  ciro: add(def({game:'minigolf',character:'ciro',name:'PAGO DOMANI',kind:'RISK_REWARD',impact:'MEDIUM',
+    short:'Tiro potente: imbuca subito per abbuonarlo, altrimenti +1 colpo.',full:'',limit:'1 uso per buca',charges:1,cooldown:0,p:{power:1.35,window:6,penalty:1,discount:1}}))
+};
+MG.goblin.full=`RB/R1 prima del tiro: il primo rimbalzo contro un muro statico ha impulso ×${MG.goblin.p.bounce}. Non corregge la direzione: una sponda sbagliata ti allontana. Un uso per buca.`;
+MG.buttafuori.full=`RB/R1 da fermo: bumper per ${sec(MG.buttafuori.p.duration)}, davanti alla mira. Vietato a meno di ${MG.buttafuori.p.holeClear} m dalla buca o ${MG.buttafuori.p.spawnClear} m dallo spawn. Può respingere anche la tua pallina. Un uso per buca.`;
+MG.dottore.full=`RB/R1: per ${sec(MG.dottore.p.duration)} vedi ${sec(MG.dottore.p.preview)} di traiettoria e sponde statiche. Esclude altre palline e ostacoli mobili. La TV mostra la previsione a tutti. Un uso per buca.`;
+MG.judoka.full=`RB/R1 mentre rotoli: velocità orizzontale ×${MG.judoka.p.speedFactor}. Frenando troppo presto ti blocchi lontano dalla buca; non annulla il volo. Un uso per buca.`;
+MG.ciro.full=`RB/R1 prima del tiro: forza ×${MG.ciro.p.power}. Imbuca entro ${sec(MG.ciro.p.window)} dal colpo per abbuonare ${MG.ciro.p.discount} colpo (minimo 1 nella buca). Se non riesci, +${MG.ciro.p.penalty} di penalità. Un uso per buca.`;
+
+/** Tutte le abilita' (65). */
 export const ABILITY_CATALOG: readonly AbilityDef[] = Object.values(R).flatMap((byChar) => Object.values(byChar));
 
 export function abilityFor(game: string | null | undefined, character: string | null | undefined): AbilityDef | null {
@@ -1108,7 +1127,7 @@ export function abilityParam(game: AbilityGameId, character: AbilityCharacterId,
 export const CHARACTER_ORDER_ABILITY: AbilityCharacterId[] = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'];
 
 /** Accesso tipizzato ai numeri: `AB.arena.goblin.p.window`. Letto dai giochi. */
-export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO, casacarbo: CC } as const;
+export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO, casacarbo: CC, minigolf: MG } as const;
 
 /**
  * Tabella {personaggio: {name, desc}} di un gioco, nella forma che i vecchi file shared/<gioco>Abilities.ts esportavano. Quei file ora
