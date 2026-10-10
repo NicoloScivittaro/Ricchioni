@@ -17,6 +17,7 @@ export interface ArenaEnvironment {
   platform: Mesh;
   edgeRing: Mesh;
   setShrink(scale: number, danger: boolean): void;
+  setSuddenDeath(): void;
   update(now: number): void;
   /** Maxischermo + folla: solo spettacolo (KO, restringimento, ultimi rimasti). */
   show(kind: 'start' | 'ko' | 'shrink' | 'last2' | 'winner', text?: string): void;
@@ -363,16 +364,21 @@ export function buildEnvironment(scene: Scene): ArenaEnvironment {
   }
 
   let danger = false;
+  let suddenDeath = false;
   let lastAlive = '';
   return {
     platform,
     edgeRing,
+    setSuddenDeath(): void {
+      suddenDeath = true;
+      jumbo.flash('SUDDEN\nDEATH', '#ff5d5d', 3500, 'ULTIMO IN PIEDI');
+    },
     setShrink(scale: number, isDanger: boolean): void {
       for (const m of [platform, edgeRing, sideLights]) {
         m.scaling.x = scale;
         m.scaling.z = scale;
       }
-      if (isDanger && !danger) jumbo.flash('IL BORDO\nSI STRINGE', '#ff5d5d', 3200, 'SUDDEN DEATH');
+      if (isDanger && !danger) jumbo.flash('IL BORDO\nSI STRINGE', '#ff5d5d', 3200, 'ATTENTI AL VUOTO');
       danger = isDanger;
     },
     update(now: number): void {
@@ -381,7 +387,7 @@ export function buildEnvironment(scene: Scene): ArenaEnvironment {
         const k = 0.65 + Math.sin(now * 0.012) * 0.35;
         edgeMat.emissiveColor.set(1 * k + 0.2, 0.18 * k, 0.2 * k);
       } else edgeMat.emissiveColor.set(1, 0.77, 0.3);
-      jumbo.tick(now, danger ? 'SUDDEN\nDEATH' : 'ARENA\nDEL DISAGIO', danger ? '#ff5d5d' : PAL.neonAmber);
+      jumbo.tick(now, suddenDeath ? 'SUDDEN\nDEATH' : danger ? 'IL BORDO\nSI STRINGE' : 'ARENA\nDEL DISAGIO', danger ? '#ff5d5d' : PAL.neonAmber);
     },
     show(kind, text) {
       if (kind === 'start') jumbo.flash('VIA!', PAL.neonLime, 1600, 'ROUND 1');

@@ -1,0 +1,11 @@
+✅ il telefono di B (sul bordo) riceve l'avviso "BORDO VICINO" (["⚠️ BORDO VICINO!"])
+✅ anello rosso a terra solo sotto B ([false,true,false])
+✅ B viene buttato fuori dal dash di A
+✅ la caduta di B e' attribuita ad A (lastHitBy)
+✅ A ha 1 eliminazione (1)
+✅ B legge CHI l'ha buttato fuori: "💀 SEI FUORI! Nicolò ti ha buttato fuori!"
+✅ A riceve la conferma "Hai buttato fuori ..." (["⚠️ BORDO VICINO!","TOAST 🥊 Hai buttato fuori BOSCHI!"])
+✅ C oltre il bordo che si stringe: eliminato
+✅ C legge il PERCHE' (bordo): "💀 SEI FUORI! Il bordo si stringe: stai piu' al centro!"
+✅ nessun errore di pagina 
+   screenshot in docs/agent-work/post-playtest/arena-feel

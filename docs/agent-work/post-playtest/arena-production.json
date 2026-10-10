@@ -1,0 +1,72 @@
+{
+  "errors": [],
+  "accelerated": false,
+  "eliminated": [
+    {
+      "playerId": "79353c43-16a6-40a8-9c75-57c543608341",
+      "time": 1791624392941
+    },
+    {
+      "playerId": "72fb46ef-ffea-4d1c-96af-ee724469806b",
+      "time": 1791624393026
+    },
+    {
+      "playerId": "57694ccd-a5b8-40dc-9c0b-b31f348546d5",
+      "time": 1791624393027
+    },
+    {
+      "playerId": "baaaf26c-1e3f-4618-9bc0-4bda0f640a80",
+      "time": 1791624393027
+    },
+    {
+      "playerId": "6f1a0771-cadd-4155-89c2-07bd17822019",
+      "time": 1791624393028
+    }
+  ],
+  "suddenAt": 1791624391406,
+  "startedAt": 1791624346062,
+  "phaseAtSudden": "MINIGAME_PLAYING",
+  "winner": "baaaf26c-1e3f-4618-9bc0-4bda0f640a80",
+  "results": [
+    {
+      "playerId": "baaaf26c-1e3f-4618-9bc0-4bda0f640a80",
+      "placement": 1,
+      "score": 0,
+      "stats": [
+        "spareggio: caduta simultanea"
+      ]
+    },
+    {
+      "playerId": "79353c43-16a6-40a8-9c75-57c543608341",
+      "placement": 2,
+      "score": 0,
+      "stats": [
+        "caduto dopo 47s"
+      ]
+    },
+    {
+      "playerId": "6f1a0771-cadd-4155-89c2-07bd17822019",
+      "placement": 3,
+      "score": 0,
+      "stats": [
+        "caduto dopo 47s"
+      ]
+    },
+    {
+      "playerId": "57694ccd-a5b8-40dc-9c0b-b31f348546d5",
+      "placement": 4,
+      "score": 0,
+      "stats": [
+        "caduto dopo 47s"
+      ]
+    },
+    {
+      "playerId": "72fb46ef-ffea-4d1c-96af-ee724469806b",
+      "placement": 5,
+      "score": 0,
+      "stats": [
+        "caduto dopo 47s"
+      ]
+    }
+  ]
+}

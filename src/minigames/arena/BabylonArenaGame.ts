@@ -7,7 +7,6 @@ import { setGameIntensity } from '../../core/musicDirector';
 import { ShockRings, GroundMarkers } from './impactFx';
 import {
   ARENA_R,
-  ARENA_R_MIN,
   PLAYER_RADIUS,
   ACCEL,
   MAX_SPEED,
@@ -41,6 +40,7 @@ import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
 import { say } from '../../core/announcer';
 import { telemetry } from '../../core/telemetry';
+import { arenaRadius, arenaPressure, compareArenaStandings, SUDDEN_SHRINK_SEC, PRESSURE_PULSE_SEC } from './arenaRules';
 
 const COUNTDOWN_S = 3.2;
 
@@ -80,6 +80,11 @@ export class BabylonArenaGame {
   private edgeMarkers: GroundMarkers;
   private hitStop = 0;
   private shrinkAnnounced = false;
+  private suddenDeath = false;
+  private pressurePulse = -1;
+  private pressureWarning = -1;
+  private exitDistance = new Map<PlayerId, number>();
+  private resolvedWinnerId: PlayerId | null = null;
 
   private onResize = (): void => this.engine.resize();
 
@@ -191,10 +196,12 @@ export class BabylonArenaGame {
         held = true;
       } else {
         this.gameTime += dt;
+        if (!this.suddenDeath && this.gameTime >= this.durationSec) this.enterSuddenDeath();
         this.updateShrink();
         this.soloBots.arena(dt, this.players, this.currentRadius);
         for (const p of this.players) this.stepPlayer(p, dt);
         this.resolveCollisions();
+        this.applySuddenPressure(dt);
         this.checkEliminations();
         this.updateEdgeWarnings(now);
         this.checkEndCondition();
@@ -228,9 +235,8 @@ export class BabylonArenaGame {
   // ---- Fisica ----
 
   private updateShrink(): void {
-    const t = Math.max(0, this.gameTime - SHRINK_DELAY);
-    const frac = Math.min(1, t / SHRINK_DURATION);
-    const radius = ARENA_R + (ARENA_R_MIN - ARENA_R) * frac;
+    const frac = Math.min(1, Math.max(0, this.gameTime - SHRINK_DELAY) / SHRINK_DURATION);
+    const radius = arenaRadius(this.gameTime, this.durationSec);
     const scale = radius / ARENA_R;
     this.env.setShrink(scale, frac > 0);
     this.currentRadius = radius;
@@ -242,6 +248,44 @@ export class BabylonArenaGame {
       this.camera.shake(0.12, 400);
       this.ctx.signal(null, { type: 'shrink' });
     }
+  }
+
+  private enterSuddenDeath(): void {
+    if (this.players.filter(p => p.alive).length < 2) return;
+    this.suddenDeath = true;
+    this.hud.feedMessage('SUDDEN DEATH · VINCE SOLO L’ULTIMO IN PIEDI!', '#fbbf24', 4500);
+    this.hud.setSuddenDeath();
+    this.hud.setAlive(this.players.filter(p => p.alive).length, this.players.length);
+    this.env.setSuddenDeath();
+    setGameIntensity(2);
+    audio.thump(1);
+    this.ctx.signal(null, { type: 'sudden_death', message: 'SUDDEN DEATH · resta in piedi!' });
+  }
+
+  private applySuddenPressure(dt: number): void {
+    if (!this.suddenDeath) return;
+    const atMinimum = this.gameTime - this.durationSec - SUDDEN_SHRINK_SEC;
+    const nextPulse = Math.floor((atMinimum + 1) / PRESSURE_PULSE_SEC);
+    if (atMinimum >= -1 && nextPulse > this.pressureWarning) {
+      this.pressureWarning = nextPulse;
+      this.hud.feedMessage('⚠ LA PIATTAFORMA TREMA · CONTRASTA LA SPINTA!', '#f87171', 1300);
+      this.ctx.signal(null, { type: 'arena_pressure', message: '⚠ Arriva una spinta dal pavimento!' });
+    }
+    if (atMinimum < 0) return;
+    const pulse = Math.floor(atMinimum / PRESSURE_PULSE_SEC);
+    const fire = pulse > this.pressurePulse;
+    if (fire) { this.pressurePulse = pulse; this.camera.shake(0.18, 250); audio.thump(0.7); }
+    const force = arenaPressure(atMinimum);
+    this.players.forEach((p,i) => {
+      if (!p.alive || p.falling) return;
+      const d = Math.hypot(p.x,p.z);
+      const angle = i * Math.PI * 2 / this.players.length;
+      const nx = d > 0.05 ? p.x/d : Math.cos(angle);
+      const nz = d > 0.05 ? p.z/d : Math.sin(angle);
+      p.vx += nx * force * dt * p.knockbackResist;
+      p.vz += nz * force * dt * p.knockbackResist;
+      if (fire) this.applyKnockback(p,nx,nz,Math.min(12,3+pulse*1.2));
+    });
   }
 
   /** Bordo vicino: anello rosso pulsante sotto il giocatore + avviso sul telefono (max 1 ogni 1.5 s). */
@@ -398,7 +442,7 @@ export class BabylonArenaGame {
         const dist = Math.hypot(dx, dz);
         const minDist = PLAYER_RADIUS * 2;
         if (dist >= minDist) continue;
-        const nx = dist > 0.001 ? dx / dist : (Math.random() < 0.5 ? -1 : 1);
+        const nx = dist > 0.001 ? dx / dist : 1;
         const nz = dist > 0.001 ? dz / dist : 0;
         const overlap = (minDist - dist) / 2;
         a.x -= nx * overlap;
@@ -449,6 +493,7 @@ export class BabylonArenaGame {
     p.spin = 0;
     this.eliminationOrder.push(p.id);
     this.eliminatedAt.set(p.id, this.gameTime);
+    this.exitDistance.set(p.id, Math.hypot(p.x, p.z));
     // Lancio fuori: spinta radiale + salto + rotazione.
     const d = Math.hypot(p.x, p.z) || 1;
     p.vx = (p.x / d) * 7;
@@ -498,8 +543,8 @@ export class BabylonArenaGame {
 
   private checkEndCondition(): void {
     const aliveCount = this.players.filter((p) => p.alive).length;
-    const over = this.players.length > 1 ? aliveCount <= 1 : aliveCount === 0;
-    if (over || this.gameTime >= this.durationSec) {
+    const over = aliveCount <= 1;
+    if (over) {
       this.startCelebration();
     }
   }
@@ -510,16 +555,20 @@ export class BabylonArenaGame {
     this.celebrateTime = 1.8;
     for (let i = 0; i < this.players.length; i++) this.edgeMarkers.hide(i);
 
-    // stesso criterio della classifica (buildResults): a tempo scaduto vince chi e' piu' vicino al centro, non il primo della lista
-    const standing = this.players.filter((p) => p.alive).sort((a, b) => Math.hypot(a.x, a.z) - Math.hypot(b.x, b.z));
+    const standing = this.rankedPlayers();
     const winner = standing[0];
-    for (const other of standing.slice(1)) this.entities.get(other.id)?.playDefeat();
+    this.resolvedWinnerId = winner?.id ?? null;
+    if (winner && !winner.alive) {
+      this.hud.feedMessage('CADUTA SIMULTANEA · SPAREGGIO SUL BORDO', '#fbbf24', 4000);
+      winner.falling = false;
+      winner.x = 0; winner.z = 0; winner.y = 0;
+    }
     if (winner) {
       winner.vy = 6; // salto di vittoria
       this.env.show('winner', winner.name.toUpperCase());
       audio.fanfare();
       audio.duck(0.5, 1300);
-      this.hud.feedMessage(winnerFeed(winner.avatar, winner.name, winner.characterId), '#fbbf24', 4000);
+      this.hud.feedMessage((winner.alive ? '' : 'SPAREGGIO SUL BORDO · ') + winnerFeed(winner.avatar, winner.name, winner.characterId), '#fbbf24', 4000);
       this.ctx.signal(winner.id, { type: 'won' });
       const e = this.entities.get(winner.id);
       e?.burstHit();
@@ -534,12 +583,7 @@ export class BabylonArenaGame {
   private buildResults(): PlayerResult[] {
     const pushed = this.players.reduce((a, p) => a + p.eliminations, 0);
     telemetry.metrics('arena', { durationSec: Math.round(this.gameTime), out: this.eliminatedAt.size, pushOuts: pushed, edgeOrFallOuts: this.eliminatedAt.size - pushed });
-    const alive = this.players
-      .filter((p) => p.alive)
-      .sort((a, b) => Math.hypot(a.x, a.z) - Math.hypot(b.x, b.z));
-    const eliminated = this.eliminationOrder.slice().reverse();
-    const aliveIds = alive.map((p) => p.id);
-    const ranking = [...aliveIds, ...eliminated.filter((id) => !aliveIds.includes(id))];
+    const ranking = this.rankedPlayers().map(p => p.id);
     return ranking.map((pid, i) => {
       const t = this.eliminatedAt.get(pid);
       const elim = this.players.find((p) => p.id === pid)?.eliminations ?? 0;
@@ -547,9 +591,15 @@ export class BabylonArenaGame {
         playerId: pid,
         placement: i + 1,
         score: 0,
-        stats: [t === undefined ? 'ultimo in piedi' : `caduto dopo ${Math.round(t)}s`, ...(elim > 0 ? [`${elim} ${elim === 1 ? 'buttato fuori' : 'buttati fuori'}`] : [])]
+        stats: [t === undefined ? 'ultimo in piedi' : this.resolvedWinnerId === pid ? 'spareggio: caduta simultanea' : `caduto dopo ${Math.round(t)}s`, ...(elim > 0 ? [`${elim} ${elim === 1 ? 'buttato fuori' : 'buttati fuori'}`] : [])]
       };
     });
+  }
+
+  private rankedPlayers(): ArenaPlayer[] {
+    const state = (p: ArenaPlayer) => ({ id: p.id, alive: p.alive, eliminatedAt: this.eliminatedAt.get(p.id) ?? Infinity,
+      exitDistance: this.exitDistance.get(p.id) ?? 0, eliminations: p.eliminations, entryOrder: this.order.indexOf(p.id) });
+    return [...this.players].sort((a,b) => compareArenaStandings(state(a),state(b)));
   }
 
   // ---- Feedback abilità ----

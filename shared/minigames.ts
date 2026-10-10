@@ -102,8 +102,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     // dell'arena. 45s danno tempo alle eliminazioni; il timer server è solo la
     // rete di sicurezza.
     durationSec: 45,
-    // Rete di sicurezza server (countdown + partita (cap durationSec) + festeggiamenti). Larga di proposito: il tempo di gioco 3D avanza per frame (dt max 50ms), su un PC host lento scorre più piano dell'orologio.
-    hardCapSec: 240,
+    // Include sudden death senza vittorie a tempo. Il cap tecnico salta il gioco senza punti se il client si blocca.
+    hardCapSec: 300,
     compatibleModifiers: ['controlli_invertiti', 'gravita_bassa', 'punti_doppi'],
     sceneKey: 'arena',
 

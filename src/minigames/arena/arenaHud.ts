@@ -9,12 +9,16 @@ import { UI } from '../../core/uiTokens';
  * Il centro dello schermo resta libero per l'arena.
  */
 export class ArenaHud extends GameHud {
+  private suddenDeath = false;
+
+  setSuddenDeath(): void { this.suddenDeath = true; }
   constructor(scene: Scene, titleText = '🤼 ARENA DEL DISAGIO') {
     super(scene, 'arenaHud', titleText);
   }
 
   setAlive(n: number, total?: number): void {
-    this.setRight(total ? `IN GARA ${n}/${total}` : `IN GARA ${n}`, n <= 2 ? UI.color.accent : UI.color.success);
+    const prefix = this.suddenDeath ? '🔥 SUDDEN DEATH' : 'IN GARA';
+    this.setRight(total ? `${prefix} ${n}/${total}` : `${prefix} ${n}`, this.suddenDeath || n <= 2 ? UI.color.accent : UI.color.success);
   }
 
   /** Striscia giocatori in basso (icona, nome, stato). */

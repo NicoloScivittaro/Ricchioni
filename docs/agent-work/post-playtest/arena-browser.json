@@ -1,0 +1,101 @@
+{
+  "errors": [],
+  "accelerated": true,
+  "pressure": {
+    "phase": "celebrating",
+    "time": 66.22689999999872,
+    "radius": 3.6,
+    "alive": 1,
+    "results": [
+      {
+        "playerId": "5bb1adf7-dbb1-4469-b439-bebf2138369b",
+        "placement": 1,
+        "score": 0,
+        "stats": [
+          "ultimo in piedi"
+        ]
+      },
+      {
+        "playerId": "fadf2c11-fd78-4581-8ad8-2c4264dacfa3",
+        "placement": 2,
+        "score": 0,
+        "stats": [
+          "caduto dopo 66s"
+        ]
+      },
+      {
+        "playerId": "bdbb9eac-f495-4403-9800-fdd76a60e713",
+        "placement": 3,
+        "score": 0,
+        "stats": [
+          "caduto dopo 66s"
+        ]
+      },
+      {
+        "playerId": "d4383275-ae6e-433b-aebb-a19f87ad7192",
+        "placement": 4,
+        "score": 0,
+        "stats": [
+          "caduto dopo 66s"
+        ]
+      },
+      {
+        "playerId": "b9617f68-f298-4b72-9989-c8b63817b924",
+        "placement": 5,
+        "score": 0,
+        "stats": [
+          "caduto dopo 66s"
+        ]
+      }
+    ],
+    "maximumAliveAtMinimum": 5,
+    "finite": true
+  },
+  "tie": {
+    "winner": "d4383275-ae6e-433b-aebb-a19f87ad7192",
+    "expected": "d4383275-ae6e-433b-aebb-a19f87ad7192",
+    "alive": 0,
+    "results": [
+      {
+        "playerId": "d4383275-ae6e-433b-aebb-a19f87ad7192",
+        "placement": 1,
+        "score": 0,
+        "stats": [
+          "spareggio: caduta simultanea"
+        ]
+      },
+      {
+        "playerId": "fadf2c11-fd78-4581-8ad8-2c4264dacfa3",
+        "placement": 2,
+        "score": 0,
+        "stats": [
+          "caduto dopo 0s"
+        ]
+      },
+      {
+        "playerId": "bdbb9eac-f495-4403-9800-fdd76a60e713",
+        "placement": 3,
+        "score": 0,
+        "stats": [
+          "caduto dopo 0s"
+        ]
+      },
+      {
+        "playerId": "b9617f68-f298-4b72-9989-c8b63817b924",
+        "placement": 4,
+        "score": 0,
+        "stats": [
+          "caduto dopo 0s"
+        ]
+      },
+      {
+        "playerId": "5bb1adf7-dbb1-4469-b439-bebf2138369b",
+        "placement": 5,
+        "score": 0,
+        "stats": [
+          "caduto dopo 0s"
+        ]
+      }
+    ]
+  }
+}

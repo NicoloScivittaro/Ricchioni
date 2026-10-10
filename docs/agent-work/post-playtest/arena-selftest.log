@@ -1,0 +1,7 @@
+09:18:15 [ROUND] [ARENA] #1 (id 1) → arena · 5 giocatori
+09:18:15 [MINIGAME] [ARENA] arena via (id 1)
+09:18:15 [ERROR] [ARENA] rete di sicurezza: arena non ha risposto in tempo
+09:18:15 [MINIGAME] [ARENA] arena saltato senza punti (fase MINIGAME_PLAYING)
+09:18:15 [ROUND] [ARENA] #1 (id 2) → kart3d · 5 giocatori
+09:18:15 [ROOM] [ARENA] reset alla lobby
+PASS Arena: scala normale/sudden/minima, pressione finita anti-stallo, spareggio stabile e failsafe server senza vittoria a tempo.

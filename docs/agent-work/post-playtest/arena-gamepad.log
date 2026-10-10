@@ -1,0 +1,61 @@
+
+=== GIRO COMPLETO, 5 giocatori ===
+✅ 5 giocatori nella stanza
+✅ il browser espone 4 controller (PlayStation #1, PlayStation #2, Xbox #3, USB Gamepad #4)
+✅ famiglie riconosciute: Xbox / PlayStation / generico
+✅ in lobby il pannello 🎮 COLLEGA I CONTROLLER compare da solo
+✅ ogni giocatore mostra "PREMI A / ✕ PER COLLEGARTI"
+✅ il pad #2 ha un cursore sul primo giocatore libero
+✅ pad #2 (Xbox) -> f1f71c10-eae4-43e6-9555-d65f131645d4 (2° giocatore) col cursore
+✅ il pad vibra alla conferma dell'associazione
+✅ feedback sul PC: ✅ CONTROLLER COLLEGATO
+✅ guidato: il pad #0 (DualSense) ha preso l'ultimo giocatore
+✅ un controller e' associato a UN solo giocatore
+✅ pad #3 (generico) associato a 43d752c6-8c79-44e1-8dec-f8069ae16c70
+✅ con 5 giocatori e 4 controller: uno resta senza
+✅ messaggio "📱 USERÀ IL TELEFONO · 5° controller non rilevato" per chi non ha controller
+✅ controller associati: 4/5 (massimo 4 esposti da Chrome)
+✅ nessun controller assegnato a due giocatori
+✅ lo stato della stanza riporta il controller di 4 giocatori
+✅ telefono di chi ha il controller: "GOBLIN MBRIACONE 🤼 ARENA DEL DISAGIO N'CULO! B TIMING · 2 usi · ricar"
+✅ sul telefono NON ci sono joystick e pulsanti mobile
+✅ 📱 MODALITÀ FALLBACK sul telefono di chi non ha controller
+✅ il fallback ha i controlli del telefono (non resta bloccato)
+✅ stick a fondo a destra => asse move (1.00, 0.00)
+✅ il personaggio del pad si muove (2.5 u)
+✅ gli altri personaggi restano fermi (identita' per playerId, non per indice)
+✅ dentro la deadzone l'asse e' esattamente 0 (nessun drift)
+✅ diagonale (1,1): grandezza 1.000 (non 1.414)
+✅ A/✕ = SCATTO (dashCooldown 0.07)
+✅ il dash fa vibrare il controller (non il telefono)
+✅ il manager segnala che il giocatore gioca col controller
+✅ prima della disconnessione il personaggio e ancora in gioco
+✅ disconnessione: move azzerato
+   velocita': al distacco 2.78 -> dopo 3.5 s 0.00 -> dopo 4.4 s 0.00 (spostamento ultimo intervallo 0.00 u, vivo: true)
+✅ il personaggio non cammina da solo dopo la disconnessione (la velocita decade come al rilascio del joystick)
+✅ la casella del giocatore passa a "in attesa" (non viene riassegnata a caso)
+✅ avviso sul PC: CONTROLLER DI P2 DISCONNESSO
+✅ il telefono del giocatore scollegato torna ai controlli (📱 FALLBACK) senza refresh
+✅ ritorno dello stesso controller (una sola casella in attesa con quell id) => riassociato al giocatore giusto
+✅ il telefono torna a "USA IL CONTROLLER" da solo, senza refresh
+✅ due caselle attendono lo stesso id: il controller che torna NON viene assegnato in automatico
+✅ compare "PREMI A PER RICONNETTERE ..."
+✅ scelta manuale del giocatore da riconnettere: uno collegato, l'altro ancora in attesa
+✅ l'ultimo che torna (una sola casella libera) si riassocia
+✅ contesto ai risultati: RESULTS
+✅ l'associazione resta durante i risultati
+✅ contesto al rullo: RESULTS
+✅ telefono durante rullo/risultati: "PROSSIMO MINIGIOCO... Guarda lo schermo principale"
+✅ Quiz: lo stick (non usato dal profilo) non invia nulla (nessun input fantasma)
+✅ Quiz: telefono attivo anche con gamepad associato
+✅ Quiz: pad ignorato
+✅ intro di Cultura: 📱 PRENDI IL TELEFONO (visto: true)
+✅ contesto = PHONE_TEXT: il gamepad e' ignorato per il gameplay
+✅ in Cultura lo stick del controller non produce input
+✅ dopo rullo -> risultati -> quiz -> cultura -> arena: STESSE associazioni, nessuna riassociazione
+✅ tasto tenuto durante le transizioni: nessun dash fantasma all'inizio del gioco
+✅ il telefono torna a "USA IL CONTROLLER" per il gioco col controller
+✅ contesto = PAUSE
+✅ in pausa i controller non inviano movimento
+✅ A premuto in pausa e tenuto alla ripresa: nessun dash immediato
+✅ nessun errore di pagina 
