@@ -1,0 +1,151 @@
+✅ lobby: 3 controller associati UNA volta (Xbox + DualSense + generico)
+
+--- ARENA ---
+✅ intro: il telefono di P1 dice "METTI GIÙ IL TELEFONO" (cambio automatico, nessun refresh)
+✅ CONTROLLI di ARENA
+✅ CONTROLLI: simboli coerenti per Xbox + PlayStation + generico ("A / ✕", mai nomi tecnici): "🤼 ARENA DEL DISAGIO 🎮 CONTROLLI LEFT STICK MUOVITI A / ✕ DASH / SPINTA B / ◯ ⚡ ABILITÀ ⚡ ABILITÀ · B / ◯ DOT"
+✅ durata CONTROLLI uniforme (4952 ms)
+✅ A tenuto da rullo + intro + CONTROLLI: nessuna azione fantasma in ARENA
+✅ telefono P1: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P2: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P3: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ contesto del gamepad: MINIGAME
+✅ risultati: il telefono dice "RISULTATI SULLA TV" ("ROUND TERMINATO 📺 RISULTATI SULLA TV")
+✅ punteggi globali aggiornati dopo ARENA
+✅ nessun canvas residuo dopo ARENA
+✅ associazioni invariate (nessuna riassociazione)
+
+--- DODGEBALL ---
+✅ rullo: il telefono dice "RULLO IN CORSO" (non spoilera il gioco)
+✅ intro: il telefono di P1 dice "METTI GIÙ IL TELEFONO" (cambio automatico, nessun refresh)
+✅ CONTROLLI di DODGEBALL
+✅ CONTROLLI: simboli coerenti per Xbox + PlayStation + generico ("A / ✕", mai nomi tecnici): "🏐 DODGEBALL DEI COGLIONI 🎮 CONTROLLI LEFT STICK MUOVITI RT / R2 LANCIA A / ✕ SCHIVA B / ◯ ⚡ ABILITÀ ⚡ ABILIT"
+✅ durata CONTROLLI uniforme (4996 ms)
+✅ A tenuto da rullo + intro + CONTROLLI: nessuna azione fantasma in DODGEBALL
+✅ telefono P1: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P2: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P3: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ contesto del gamepad: MINIGAME
+✅ risultati: il telefono dice "RISULTATI SULLA TV" ("ROUND TERMINATO 📺 RISULTATI SULLA TV")
+✅ punteggi globali aggiornati dopo DODGEBALL
+✅ nessun canvas residuo dopo DODGEBALL
+✅ associazioni invariate (nessuna riassociazione)
+
+--- CALCIO ---
+✅ rullo: il telefono dice "RULLO IN CORSO" (non spoilera il gioco)
+✅ intro: il telefono di P1 dice "METTI GIÙ IL TELEFONO" (cambio automatico, nessun refresh)
+✅ CONTROLLI di CALCIO
+✅ CONTROLLI: simboli coerenti per Xbox + PlayStation + generico ("A / ✕", mai nomi tecnici): "⚽ CALCIO DEI DISAGIATI 🎮 CONTROLLI LEFT STICK MUOVITI RT / R2 CARICA E TIRA A / ✕ PASSA (TOCCO BREVE) X / □ D"
+✅ durata CONTROLLI uniforme (5023 ms)
+✅ A tenuto da rullo + intro + CONTROLLI: nessuna azione fantasma in CALCIO
+✅ telefono P1: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P2: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P3: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ contesto del gamepad: MINIGAME
+✅ risultati: il telefono dice "RISULTATI SULLA TV" ("ROUND TERMINATO 📺 RISULTATI SULLA TV")
+✅ punteggi globali aggiornati dopo CALCIO
+✅ nessun canvas residuo dopo CALCIO
+✅ associazioni invariate (nessuna riassociazione)
+
+--- PALLAVOLO ---
+✅ rullo: il telefono dice "RULLO IN CORSO" (non spoilera il gioco)
+✅ intro: il telefono di P1 dice "METTI GIÙ IL TELEFONO" (cambio automatico, nessun refresh)
+✅ CONTROLLI di PALLAVOLO
+✅ CONTROLLI: simboli coerenti per Xbox + PlayStation + generico ("A / ✕", mai nomi tecnici): "🏖️ PALLAVOLO DEI DISAGIATI 🎮 CONTROLLI LEFT STICK MUOVITI X / □ SALTA A / ✕ COLPISCI / SMASH B / ◯ ⚡ ABILITÀ"
+✅ durata CONTROLLI uniforme (5006 ms)
+✅ A tenuto da rullo + intro + CONTROLLI: nessuna azione fantasma in PALLAVOLO
+✅ telefono P1: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P2: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P3: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ contesto del gamepad: MINIGAME
+✅ risultati: il telefono dice "RISULTATI SULLA TV" ("ROUND TERMINATO 📺 RISULTATI SULLA TV")
+✅ punteggi globali aggiornati dopo PALLAVOLO
+✅ nessun canvas residuo dopo PALLAVOLO
+✅ associazioni invariate (nessuna riassociazione)
+
+--- RIBALTATI ---
+✅ rullo: il telefono dice "RULLO IN CORSO" (non spoilera il gioco)
+✅ intro: il telefono di P1 dice "METTI GIÙ IL TELEFONO" (cambio automatico, nessun refresh)
+✅ CONTROLLI di RIBALTATI
+✅ CONTROLLI: simboli coerenti per Xbox + PlayStation + generico ("A / ✕", mai nomi tecnici): "🏎️ RIBALTATI — CIRCUITO DEL LITORALE 🎮 CONTROLLI LEFT STICK STERZA RT / R2 ACCELERA LT / L2 FRENA / RETROMAR"
+✅ durata CONTROLLI uniforme (5041 ms)
+✅ A tenuto da rullo + intro + CONTROLLI: nessuna azione fantasma in RIBALTATI
+✅ telefono P1: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P2: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P3: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ contesto del gamepad: MINIGAME
+✅ risultati: il telefono dice "RISULTATI SULLA TV" ("ROUND TERMINATO 📺 RISULTATI SULLA TV")
+✅ punteggi globali aggiornati dopo RIBALTATI
+✅ nessun canvas residuo dopo RIBALTATI
+✅ associazioni invariate (nessuna riassociazione)
+
+--- MEMORIA ---
+✅ rullo: il telefono dice "RULLO IN CORSO" (non spoilera il gioco)
+✅ intro: il telefono di P1 dice "METTI GIÙ IL TELEFONO" (cambio automatico, nessun refresh)
+✅ CONTROLLI di MEMORIA
+✅ CONTROLLI: simboli coerenti per Xbox + PlayStation + generico ("A / ✕", mai nomi tecnici): "🍺 MEMORIA DA UBRIACO 🎮 CONTROLLI Y / △ TESSERA IN ALTO B / ◯ TESSERA A DESTRA A / ✕ TESSERA IN BASSO X / □ T"
+✅ durata CONTROLLI uniforme (5004 ms)
+✅ A tenuto da rullo + intro + CONTROLLI: nessuna azione fantasma in MEMORIA
+✅ telefono P1: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P2: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P3: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ contesto del gamepad: MINIGAME
+✅ risultati: il telefono dice "RISULTATI SULLA TV" ("ROUND TERMINATO 📺 RISULTATI SULLA TV")
+✅ punteggi globali aggiornati dopo MEMORIA
+✅ nessun canvas residuo dopo MEMORIA
+✅ associazioni invariate (nessuna riassociazione)
+
+--- BOTTA AL VOLO ---
+✅ rullo: il telefono dice "RULLO IN CORSO" (non spoilera il gioco)
+✅ intro: il telefono di P1 dice "METTI GIÙ IL TELEFONO" (cambio automatico, nessun refresh)
+✅ CONTROLLI di BOTTA AL VOLO
+✅ CONTROLLI: simboli coerenti per Xbox + PlayStation + generico ("A / ✕", mai nomi tecnici): "⚡ BOTTA AL VOLO 🎮 CONTROLLI A / ✕ PREMI SOLO QUANDO VEDI VIA! RB / R1 ⚡ ABILITÀ ⚡ ABILITÀ · RB / R1 DOTTORE S"
+✅ durata CONTROLLI uniforme (5014 ms)
+✅ A tenuto da rullo + intro + CONTROLLI: nessuna azione fantasma in BOTTA AL VOLO
+✅ telefono P1: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P2: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P3: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ contesto del gamepad: MINIGAME
+✅ risultati: il telefono dice "RISULTATI SULLA TV" ("ROUND TERMINATO 📺 RISULTATI SULLA TV")
+✅ punteggi globali aggiornati dopo BOTTA AL VOLO
+✅ nessun canvas residuo dopo BOTTA AL VOLO
+✅ associazioni invariate (nessuna riassociazione)
+✅ Quiz: pad ignorato
+✅ Quiz: domanda sul telefono
+✅ Quiz: domanda sul telefono
+✅ Quiz: domanda sul telefono
+✅ indizio solo Dottore
+✅ risultati: il telefono dice "RISULTATI SULLA TV" ("ROUND TERMINATO 📺 RISULTATI SULLA TV")
+✅ Quiz conserva pairing
+
+--- SPARATORIA ---
+✅ rullo: il telefono dice "RULLO IN CORSO" (non spoilera il gioco)
+✅ intro: il telefono di P1 dice "METTI GIÙ IL TELEFONO" (cambio automatico, nessun refresh)
+✅ CONTROLLI di SPARATORIA
+✅ CONTROLLI: simboli coerenti per Xbox + PlayStation + generico ("A / ✕", mai nomi tecnici): "🔫 SPARATORIA DEI DISAGIATI 🎮 CONTROLLI LEFT STICK MUOVITI RIGHT STICK MIRA / GUARDA RT / R2 SPARA A / ✕ SCAT"
+✅ durata CONTROLLI uniforme (5014 ms)
+✅ A tenuto da rullo + intro + CONTROLLI: nessuna azione fantasma in SPARATORIA
+✅ telefono P1: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P2: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ telefono P3: passivo ("USA IL CONTROLLER", 0 canvas)
+✅ contesto del gamepad: MINIGAME
+✅ risultati: il telefono dice "RISULTATI SULLA TV" ("ROUND TERMINATO 📺 RISULTATI SULLA TV")
+✅ punteggi globali aggiornati dopo SPARATORIA
+✅ nessun canvas residuo dopo SPARATORIA
+✅ associazioni invariate (nessuna riassociazione)
+
+--- CULTURA (telefono) ---
+✅ intro di Cultura: il telefono dice "📱 PRENDI IL TELEFONO"
+✅ TV: "📱 PRENDETE I TELEFONI"
+✅ contesto del gamepad: PHONE_TEXT (controller ignorato)
+✅ in Cultura lo stick del controller non produce input
+✅ Cultura: il telefono si attiva da solo ("ROUND 1/8 · MITI E LEGGENDE "Nella mitol")
+✅ fine Cultura: la TV mostra "🎮 RIPRENDETE I CONTROLLER"
+✅ risultati: il telefono dice "RISULTATI SULLA TV" ("ROUND TERMINATO 📺 RISULTATI SULLA TV")
+✅ dopo Cultura il telefono torna passivo ("ROUND TERMINATO 📺 RISULTATI SULLA TV")
+✅ FINE SESSIONE: stesse associazioni dall'inizio, nessuna riassociazione
+✅ host mai ricaricato
+✅ telefono P1 mai ricaricato
+✅ telefono P2 mai ricaricato
+✅ telefono P3 mai ricaricato
+✅ nessun errore di pagina 

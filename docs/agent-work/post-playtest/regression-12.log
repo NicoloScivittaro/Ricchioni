@@ -1,0 +1,27 @@
+Four seats requested BRL3F
+Solo lobby ready
+Testing arena
+arena: SOLO, Tripo, pause, real bot commands, natural results PASS
+Testing cornicione
+cornicione: SOLO, Tripo, pause, real bot commands, natural results PASS
+Testing dodgeball
+dodgeball: SOLO, Tripo, pause, real bot commands, natural results PASS
+Testing soccer
+soccer: SOLO, Tripo, pause, real bot commands, natural results PASS
+Testing volleyball
+volleyball: SOLO, Tripo, pause, real bot commands, natural results PASS
+Testing kart3d
+kart3d: SOLO, Tripo, pause, real bot commands, natural results PASS
+Testing fps
+fps: SOLO, Tripo, pause, real bot commands, natural results PASS
+Testing casacarbo
+casacarbo: SOLO, Tripo, pause, real bot commands, natural results PASS
+Testing quiz
+quiz: SOLO, Tripo, pause, real bot commands, natural results PASS
+Testing memory
+memory: SOLO, Tripo, pause, real bot commands, natural results PASS
+Testing cultura
+cultura: SOLO, Tripo, pause, real bot commands, natural results PASS
+Testing reaction
+reaction: SOLO, Tripo, pause, real bot commands, natural results PASS
+PASS restart removes bots; real friend can join; multiplayer unchanged

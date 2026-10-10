@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdirSync, writeFileSync} from 'node:fs';
 import {launch,createRoomOnHost,addPhone,hostEval,hostSnapshot,sleep} from './lib.mjs';
 import {visualCounters} from './tripo-counters.mjs';
-const out='docs/agent-work/solo-bots';mkdirSync(out,{recursive:true});
+const out=process.env.OUT??'docs/agent-work/solo-bots';mkdirSync(out,{recursive:true});
 const browser=await launch(), report={games:[],errors:[]};
 const until=async(fn,label,timeout=60000)=>{const t=Date.now();while(Date.now()-t<timeout){const v=await fn();if(v)return v;await sleep(130);}throw new Error(`Timeout: ${label}`);};
 try {
@@ -81,7 +81,7 @@ try {
     for(let n=0;n<100;n++){
      const human=gm.minigameContext.players.find(p=>!p.bot),input=gm.input.get(human.id);
      if(id==='volleyball'&&g.ball.state==='held'&&g.ball.holderId===human.id)input.tap('hit');
-     if(id==='quiz'&&s.manager.phase==='question')input.tap('answerA');
+     if(id==='quiz'&&s.manager.phase==='question')input.setText('quizAnswer',JSON.stringify([gm.minigameContext.roundId,s.manager.questionKey(),s.manager.players.get(human.id).answerRevision,0]));
      if(id==='cultura'&&s.phase==='bluff')input.setText('bluff',`La risposta di Niko ${s.round}`);
      if(id==='cultura'&&s.phase==='vote'){const i=s.options.findIndex(o=>o.ownerId!==human.id);input.setText('vote',String(i));}
      if(id==='reaction'&&s.phase==='via')input.tap('action');

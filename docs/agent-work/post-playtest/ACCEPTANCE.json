@@ -1,0 +1,122 @@
+{
+  "regression": [
+    {
+      "game": "arena",
+      "results": 4,
+      "simulatedSeconds": 60,
+      "liveTripoDuringResults": 1
+    },
+    {
+      "game": "cornicione",
+      "results": 4,
+      "simulatedSeconds": 125,
+      "liveTripoDuringResults": 1
+    },
+    {
+      "game": "dodgeball",
+      "results": 4,
+      "simulatedSeconds": 5,
+      "liveTripoDuringResults": 1
+    },
+    {
+      "game": "soccer",
+      "results": 4,
+      "simulatedSeconds": 75,
+      "liveTripoDuringResults": 1
+    },
+    {
+      "game": "volleyball",
+      "results": 4,
+      "simulatedSeconds": 80,
+      "liveTripoDuringResults": 1
+    },
+    {
+      "game": "kart3d",
+      "results": 4,
+      "simulatedSeconds": 60,
+      "liveTripoDuringResults": 1
+    },
+    {
+      "game": "fps",
+      "results": 4,
+      "simulatedSeconds": 95,
+      "liveTripoDuringResults": 1
+    },
+    {
+      "game": "casacarbo",
+      "results": 4,
+      "simulatedSeconds": 125,
+      "liveTripoDuringResults": 0
+    },
+    {
+      "game": "quiz",
+      "results": 4,
+      "simulatedSeconds": 170,
+      "liveTripoDuringResults": 0
+    },
+    {
+      "game": "memory",
+      "results": 4,
+      "simulatedSeconds": 260,
+      "liveTripoDuringResults": 0
+    },
+    {
+      "game": "cultura",
+      "results": 4,
+      "simulatedSeconds": 270,
+      "liveTripoDuringResults": 0
+    },
+    {
+      "game": "reaction",
+      "results": 4,
+      "simulatedSeconds": 415,
+      "liveTripoDuringResults": 0
+    }
+  ],
+  "browserErrors": [],
+  "soloAndMultiplayer": true,
+  "production": {
+    "quiz": {
+      "report": "quiz-production.json",
+      "errors": 0,
+      "accelerated": false
+    },
+    "arena": {
+      "report": "arena-production.json",
+      "errors": 0,
+      "accelerated": false
+    },
+    "kart": {
+      "report": "kart-production.json",
+      "errors": 0,
+      "accelerated": false
+    },
+    "carbo": {
+      "report": "carbo-production.json",
+      "errors": 0,
+      "accelerated": false
+    },
+    "fighter": {
+      "report": "fighter-production.json",
+      "errors": 0,
+      "accelerated": false
+    },
+    "soccer": {
+      "report": "soccer-production.json",
+      "errors": 0,
+      "accelerated": false
+    }
+  },
+  "controllerSession": "PASS: dieci giochi in sequenza, tre famiglie pad; Quiz/Cultura telefono; punteggi, pairing, nessun refresh/canvas residuo/errore. Cornicione e Casa Carbo verificati con suite dedicate.",
+  "resourceNote": "Nei risultati dei sette giochi 3D sono ritratti animati intenzionali (ResultsScene/goblinResults). Alla lobby finale zero istanze Tripo; FPS tre remoti nativi, Kart un solo viewport umano verificati.",
+  "localCommits": {
+    "quiz": "fc1731f",
+    "arena": "8b8eb70",
+    "kart": "27776fe",
+    "casacarbo": "b8d7f7a",
+    "cornicione": "fb5b2a7",
+    "soccer": "dd583e5"
+  },
+  "rootWithoutFlash": true,
+  "pushed": false
+}

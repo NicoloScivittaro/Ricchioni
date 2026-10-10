@@ -16,7 +16,7 @@
 
 **Limiti:** verificare nuovamente i telefoni reali del playtest e il cambio app/standby su iOS/Android. Nessun test automatico dimostra il feeling umano o la qualità della rete Wi-Fi reale. La build conserva l'avviso già presente sui chunk Babylon grandi.
 
-**Produzione:** cinque telefoni, dieci domande senza debug e senza accelerare il tempo, scelte/conferme, rejoin in pausa e risultati naturali verificati. Zero pageerror. Chrome headless ha emesso dopo il reload l'avviso di vibrazione bloccata prima del primo gesto: non un errore della partita. `rounds-selftest` passato. Le suite complete gamepad e gamepad-m7-session hanno aspettative Quiz aggiornate; esecuzione integrale prevista nella regressione finale.
+**Produzione:** cinque telefoni, dieci domande senza debug e senza accelerare il tempo, scelte/conferme, rejoin in pausa e risultati naturali verificati. Zero pageerror. Chrome headless ha emesso dopo il reload l'avviso di vibrazione bloccata prima del primo gesto: non un errore della partita. `rounds-selftest` passato. Le suite complete gamepad e gamepad-m7-session hanno aspettative Quiz aggiornate e sono passate; vedi regressione finale.
 
 ## 2. Arena — implementata e verificata
 
@@ -86,8 +86,50 @@
 
 **Verifiche passate:** typecheck; 999 controlli abilità e profili pad; simulatore precedente del bilanciamento a due/tre/cinque, nessun numero cambiato. Suite controller 1v1/2v1 Xbox/DualSense/telefono: otto direzioni, tocco singolo/carica/tackle/abilità, input telefono che non sovrascrive pad, pause/disconnessione in carica, gol/reset, risultati-rullo con tasti tenuti, pairing senza riassociazione e zero pageerror. Browser cinque telefoni: cerchio corretto per tutti, nomi/squadre/possesso, carica reale e rilascio, passaggio ricevuto e contrasto attraverso input ordinari, mira manuale/abilità del Dottore; occlusione con palla sotto corpo, cinque nomi coincidenti separati, proiezione di giocatori/palla/porte nella zona sicura a 1280×720, 1366×768, 1920×1080 e 800×600. Pausa/reload, bot attraverso comandi normali, match/golden goal e risultati naturali per cinque (tempo accelerato), lobby zero Tripo/un canvas/zero pageerror. Screenshot visionati. Test soccer-feel: ricezione/deflessione/intercetti, pulsante carica/pallini, scivolata, gol/palla in rete/coriandoli e annuncio passati. La prova obsoleta leggeva countdownText anziché bannerText: corretta; screenshot ha inoltre rivelato nomi davanti al gol, sistemati con ordine di disegno e verificati di nuovo.
 
-**Limiti/playtest:** scelta tra vista abbastanza larga per porte e riconoscibilità dei modelli sulla TV reale, etichette quando cinque persone si ammucchiano, chiarezza della percentuale e della curva Goblin. Non è un nuovo bilanciamento del calcio; nessuna animazione aggiuntiva necessaria. Build aggiornata passata (3 min 25 s), con le ultime correzioni effettivamente presenti nel bundle. Produzione senza debug/accelerazione: un telefono e quattro bot, partita a tempo reale, cinque risultati naturali e zero pageerror. Commit in creazione, poi regressione completa.
+**Limiti/playtest:** scelta tra vista abbastanza larga per porte e riconoscibilità dei modelli sulla TV reale, etichette quando cinque persone si ammucchiano, chiarezza della percentuale e della curva Goblin. Non è un nuovo bilanciamento del calcio; nessuna animazione aggiuntiva necessaria. Build aggiornata passata (3 min 25 s), con le ultime correzioni effettivamente presenti nel bundle. Produzione senza debug/accelerazione: un telefono e quattro bot, partita a tempo reale, cinque risultati naturali e zero pageerror. Commit locale dd583e5; regressione finale passata.
 
-## Fasi successive
+## Regressione finale — passata
 
-Le sei fasi sono completate; regressione dei dodici giochi in corso. Commit locali: Quiz fc1731f, Arena 8b8eb70, Kart 27776fe, Casa Carbo b8d7f7a, Cornicione fb5b2a7. Nessun push.
+Dodici round naturali nel browser con un umano e tre bot, risultati per quattro partecipanti senza sostituire ctx.finish. Avanzamento accelerato attraverso gli aggiornamenti ordinari delle scene; i secondi simulati registrati dal test non sono una misura della durata reale. Pausa/ripresa, bot che inviano comandi, quattro modelli Tripo pronti nei giochi 3D, nessun errore di pagina. In FPS verificati tre avversari Tripo sul telefono e bot con colpi/uccisioni reali; in Kart una sola vista per l'umano e bot che terminano i giri. Ritorno finale alla lobby: zero istanze Tripo, bot rimossi; Christian può entrare e la partita con due umani non aggiunge bot. I ritratti animati nella schermata risultati dei sette giochi 3D sono intenzionali: ResultsScene li crea e goblinResults li elimina allo shutdown, non istanze perse. Verifiche specifiche delle sei fasi: un canvas e zero Tripo alla lobby.
+
+| Minigioco | Round e risultati naturali | Bot/pausa |
+| --- | --- | --- |
+| Chi cazzo lo sa? | PASS | PASS |
+| Arena del Disagio | PASS | PASS |
+| Ribaltati — Circuito del Litorale | PASS | PASS |
+| Casa Carbo | PASS | PASS |
+| Botte sul Cornicione | PASS | PASS |
+| Calcio dei Disagiati | PASS | PASS |
+| Dodgeball dei Coglioni | PASS | PASS |
+| Pallavolo dei Disagiati | PASS | PASS |
+| Sparatoria dei Disagiati | PASS | PASS |
+| Memoria da Ubriaco | PASS | PASS |
+| Cultura o Cazzata? | PASS | PASS |
+| Botta al Volo | PASS | PASS |
+
+Sessione completa controller M7 passata: dieci giochi in sequenza, Xbox/DualSense/generico, risultati e rullo, pairing conservato dall'inizio alla fine, nessun refresh di host/tre telefoni, nessun canvas residuo o errore. Quiz e Cultura passano automaticamente al telefono, poi tornano alle card corrette. Questa suite usa risultati controllati per provare le transizioni, non per dimostrare la conclusione fisica dei round: quella è verificata dalle dodici prove naturali e dalle prove delle singole fasi. Cornicione/Casa Carbo, aggiunti dopo M7, sono coperti dalle suite dedicate pad/abilità/cinque giocatori e dai round naturali.
+
+Selftest finali passati: rounds, solo-bots, 431 controlli animazioni personaggi, quality, sette casi controller-url (porte DEV/produzione e indirizzi), fps-aim. I 999 controlli abilità/profili e i selftest specifici sono passati nelle rispettive fasi. Build di ogni fase e ultima produzione passate, salvo il consueto avviso sui chunk grandi. Tutti sei i giochi modificati hanno anche un round di produzione a tempo reale, senza import debug o accelerazione: cinque telefoni per Quiz/Arena; un telefono e quattro bot per Kart/Casa Carbo/Cornicione/Calcio.
+
+Artefatti: ACCEPTANCE.json, regression/browser-all.json, regression-12.log, regression-gamepad-session.log e log/screenshot delle sei fasi nella stessa cartella. Screenshot di TV/telefono, acqua, cinque viste Kart, Cornicione, mira/nomi/gol Calcio e viste finali FPS/Kart visionati. Nessuna nuova libreria, nessuna compressione/LOD introdotta. I modelli Tripo originali restano disponibili con fallback in caso di caricamento fallito.
+
+## Controlli e rifiniture da provare con persone
+
+Quiz: scelta locale più CONFERMA sul telefono; il pad non risponde alle domande. Cornicione: RT/R2 CALCIO (in aria più ↓ per il calcio discendente), LB/L1 PRESA con direzione dello stick per la proiezione, LT/L2 PARATA. Sul telefono i tre pulsanti corrispondenti. Le azioni precedenti, recovery e RB/R1 abilità restano nel profilo. Casa Carbo insegna i comandi già presenti durante il tutorial; Calcio conserva tocco breve/passaggio, hold/rilascio/tiro e dash/tackle.
+
+Animazioni da rifinire per Cornicione: calcio aereo dedicato, reazione del personaggio trattenuto, transizione parata–contrattacco. Ora si usano clip esistenti retimate e pose procedurali dove previste. Nessun asset mancante blocca le nuove meccaniche.
+
+Rischi di bilanciamento da playtest: intensità/preavviso della nuova sudden death; impulso laterale e recupero Kart; tre pool delle emergenze e chiarezza dei contributi Casa Carbo; distanza/recupero di calci e prese e finestra della parata. Nel Calcio serve confrontare la vista larga e i nomi sulla TV reale. Non ho cambiato in modo arbitrario velocità/danni/fisica di base per inseguire un bilanciamento numerico. Il divertimento e il feeling con Carbo/Christian richiedono un nuovo playtest umano. Telefono in standby/cambio app e Wi-Fi domestica reale non sono stati simulati da Chrome locale.
+
+## Commit locali
+
+| Intervento | Commit |
+| --- | --- |
+| Quiz: conferme private e recupero telefoni | fc1731f |
+| Arena: sudden death fino all'ultimo sopravvissuto | 8b8eb70 |
+| Kart: contatti proporzionati agli urti reali | 27776fe |
+| Casa Carbo: tutorial, emergenze e interazioni | b8d7f7a |
+| Cornicione: calci, prese e parata a tempo | fb5b2a7 |
+| Calcio: identità, possesso, mira e camera | dd583e5 |
+
+Branch main conservato, nessun push/deploy. Segue un commit separato con regressione/report. dist/index.html generato è escluso dai commit secondo la documentazione del repository e rimane aggiornato localmente per avviare l'ultima build.
