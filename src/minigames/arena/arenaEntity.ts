@@ -39,6 +39,9 @@ export interface VisualSubject {
   grounded?: boolean;
   attack?: GoblinAttack | null;
   abilityActive?: boolean;
+  charging?: boolean;
+  chargeTime?: number;
+  shoulderTime?: number;
 }
 
 export interface EntityOptions {
@@ -594,6 +597,7 @@ export class ArenaEntity {
 
   /** Sincronizza mesh + animazioni procedurali con lo stato fisico. */
   updateVisual(p: VisualSubject, dt: number, now: number): void {
+    const arenaCharging=this.visualContext==='arena' && !!p.charging;
     this.clock += dt;
     const r = this.rig;
     const pres = this.pres;
@@ -645,7 +649,8 @@ export class ArenaEntity {
     for (const e of r.eyes) e.scaling.setAll(1);
 
     // Lean del corpo intero (corsa/dash)
-    this.root.rotation.x = p.dashing ? 0.42 : speedFrac * 0.18;
+    this.root.rotation.x = arenaCharging ? .12+.25*(p.chargeTime??0) : p.dashing ? 0.42 : speedFrac * 0.18;
+
 
     // ---- LOCOMOZIONE (solo posa: la velocita' vera e' del gioco). Accelerazione -> busto avanti, frenata -> indietro e
     // piccola compressione, curva -> si piega verso l'interno. Valori smussati: niente scatti da un frame all'altro.
@@ -1267,6 +1272,8 @@ export class ArenaEntity {
     if (this.sizeMul !== 1) this.root.scaling.scaleInPlace(this.sizeMul);
     if (this.aura) this.dashFx.emitRate = Math.max(this.dashFx.emitRate, 28);
 
+    if (arenaCharging) this.root.rotation.z=-.12;
+
     // GOBLIN TRIPO (pilota): la clip `run.001` segue SOLO lo stato di locomozione. Negli altri stati la posa resta
     // ferma sul frame neutro del passo (il GLB non ha idle/salto/colpo): vedi docs/agent-work/goblin-tripo-pilot.
     if (this.goblinVisual) {
@@ -1283,6 +1290,7 @@ export class ArenaEntity {
       gp.hitFlash = p.hitFlash;
       gp.attack = p.attack;
       gp.ability = p.abilityActive;
+      gp.arenaCharge = this.visualContext==='arena' && p.charging ? Math.max(.01,p.chargeTime??0) : 0;
       gp.charge = this.visualContext==='soccer'?this.charge:0;
       gp.result = this.celebration;
       // The procedural lean/squash was tuned for its own rig. Do not add it to authored animation.
@@ -1291,8 +1299,8 @@ export class ArenaEntity {
       this.legacyAction = false;
       this.applyBodyVisibility();
       if (this.importedBody && !this.legacyAction) {
-        this.root.rotation.x = 0;
-        this.root.rotation.z = 0;
+        this.root.rotation.x = arenaCharging ? .12+.25*(p.chargeTime??0) : (p.shoulderTime??0)>0 ? .24 : 0;
+        this.root.rotation.z = arenaCharging ? -.12 : 0;
         this.root.scaling.setAll(this.sizeMul);
       }
       this.goblinVisual.update(dt, gp);

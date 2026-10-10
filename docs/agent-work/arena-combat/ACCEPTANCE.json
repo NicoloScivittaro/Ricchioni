@@ -1,0 +1,39 @@
+{
+  "scope": "Arena charged shoulder and common instability; counterpush deferred",
+  "implementation": "authorized root without Flash",
+  "typecheck": "pass",
+  "build": "pass",
+  "tests": {
+    "arenaCombat": "pass",
+    "arenaSurvival": "pass",
+    "abilities": 999,
+    "animations": 431,
+    "pad": "pass",
+    "fpsAds": "pass",
+    "cornicioneProjectiles": "pass",
+    "browser": "pass",
+    "suddenDeathCentreResistanceAndTie": "pass",
+    "production": "pass"
+  },
+  "production": {
+    "players": 5,
+    "bots": 4,
+    "accelerated": false,
+    "firstKOSeconds": 7,
+    "wallSeconds": 20.927,
+    "errors": [],
+    "assets": [
+      "/assets/main-SKThNrtY.js",
+      "/assets/BabylonArenaGame-DDDJ4Z2n.js"
+    ]
+  },
+  "preserved": [
+    "five ability implementations/catalog",
+    "arena radius/shrink/sudden death",
+    "previous Cornicione and FPS ADS changes",
+    "four original Tripo skins and procedural fallback"
+  ],
+  "counterpush": "requires human fun/balance playtest before considering integration",
+  "published": false,
+  "committed": false
+}

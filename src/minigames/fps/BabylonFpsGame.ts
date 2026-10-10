@@ -4,6 +4,7 @@ import type { PlayerId } from '../../../shared/types';
 import { buildFpsWorld, buildFpsLights } from '../../controller/fpsWorld';
 import { registerEnvScene } from '../env/envDebug';
 import { splitScreenLayout } from '../kart-race/cameraHud';
+import { aimFov, aimSpread, aimGap } from '../../../shared/fpsAim';
 import { getWeapon } from '../../../shared/fpsWeapons';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions, getQualityInfo } from '../../core/quality';
@@ -75,6 +76,7 @@ export interface FpsRenderSnapshot {
   weaponId: string;
   magazine: number;
   reloading: boolean;
+  ads: number; recoilPitch: number; recoilYaw: number; heat: number; moving: number;
   /** stato dell'abilita' (da FpsScene via fpsAbilities: il disegno legge solo questo) */
   ability?: AbilityStatus;
   /** giubbotto del Buttafuori attivo */
@@ -194,6 +196,8 @@ interface HudEntry {
   hpText: TextBlock;
   ammoText: TextBlock;
   killText: TextBlock;
+  crossBars: Rectangle[];
+  crossDot: Rectangle;
   hitmarker: TextBlock;
   hitmarkerTimer: number;
   vignette: Rectangle;
@@ -570,6 +574,15 @@ export class BabylonFpsGame {
     killText.left = '-14px';
     panel.addControl(killText);
 
+    const crossBars: Rectangle[] = [];
+    for (let k = 0; k < 4; k++) {
+      const bar = new Rectangle(`fpsCross_${index}_${k}`);
+      bar.width = k < 2 ? '2px' : '8px'; bar.height = k < 2 ? '8px' : '2px';
+      bar.thickness = 0; bar.background = '#ffffff'; bar.isHitTestVisible = false;
+      adt.addControl(bar); crossBars.push(bar);
+    }
+    const crossDot = new Rectangle(`fpsDot_${index}`);
+    crossDot.width = crossDot.height = '3px'; crossDot.thickness = 0; crossDot.background = '#ffffff'; crossDot.isHitTestVisible = false; adt.addControl(crossDot);
     const hitmarker = new TextBlock(`fpsHitmarker_${index}`, '✕');
     hitmarker.fontSize = 44;
     hitmarker.color = '#ffffff';
@@ -692,7 +705,7 @@ export class BabylonFpsGame {
     lockText.isVisible = false;
     adt.addControl(lockText);
 
-    return { adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText, hitKill: false, dmgInds, dmgIdx: 0, abilityText, reloadBar, reloadFill, guardFrame, lockText };
+    return { crossBars, crossDot, adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText, hitKill: false, dmgInds, dmgIdx: 0, abilityText, reloadBar, reloadFill, guardFrame, lockText };
   }
 
   /** Pool di effetti condivisi (visibili a tutte le finestre): traccianti, proiettili, esplosioni, detriti. Nessuna allocazione per colpo. */
@@ -856,9 +869,9 @@ export class BabylonFpsGame {
       }
       const from = this.lastPos.get(String(msg.from));
       const me = this.lastPos.get(pid);
-      if (h && from && me) {
+      if (h && (typeof msg.direction === 'number' || (from && me))) {
         const ind = h.dmgInds[h.dmgIdx++ % h.dmgInds.length];
-        ind.box.rotation = Math.atan2(from.x - me.x, from.z - me.z) - (cam ? cam.prevYaw : 0);
+        ind.box.rotation = typeof msg.direction === 'number' ? msg.direction : Math.atan2(from!.x - me!.x, from!.z - me!.z) - (cam ? cam.prevYaw : 0);
         ind.t = 1;
       }
     } else if (type === 'reload' && cam) {
@@ -976,6 +989,13 @@ export class BabylonFpsGame {
     if (snap.reloading && cam.reloadAt > 0) reloadP = Math.min(0.999, Math.max(0.001, (performance.now() - cam.reloadAt) / cam.reloadDur));
     else if (!snap.reloading) cam.reloadAt = 0;
     cam.dashT = Math.max(0, cam.dashT - dt);
+    cam.vm.ads = snap.ads;
+    const hud = this.hud.get(snap.id);
+    if (hud) {
+      const gap = aimGap(aimSpread(getWeapon(snap.weaponId).spread, snap.ads, snap.moving, snap.heat), snap.ads);
+      hud.crossDot.isVisible = snap.alive;
+      hud.crossBars.forEach((b, k) => { b.alpha = snap.alive ? 1 - snap.ads : 0; b.left = k >= 2 ? `${(k === 2 ? -1 : 1) * (gap + 4)}px` : '0px'; b.top = k < 2 ? `${(k === 0 ? -1 : 1) * (gap + 4)}px` : '0px'; });
+    }
     cam.vm.update(dt, speedFrac, lookDx, lookDy, reloadP, cam.dashT > 0);
 
     cam.kickP *= Math.max(0, 1 - dt * 9);
@@ -984,10 +1004,10 @@ export class BabylonFpsGame {
     if (!snap.alive) return;
     const sh = cam.shake * 0.1;
     cam.camera.position.set(snap.x + (Math.random() - 0.5) * sh, EYE_HEIGHT + (Math.random() - 0.5) * sh, snap.z + (Math.random() - 0.5) * sh);
-    cam.camera.rotation.y = snap.yaw + cam.vm.cameraKickYaw;
-    cam.camera.rotation.x = -(snap.pitch + cam.vm.cameraKickPitch + cam.kickP);
+    cam.camera.rotation.y = snap.yaw + snap.recoilYaw;
+    cam.camera.rotation.x = -(Math.max(-1.4, Math.min(1.4, snap.pitch + snap.recoilPitch)) + cam.kickP);
     cam.camera.rotation.z = cam.kickR;
-    cam.camera.fov = BASE_FOV + 0.12 * cam.vm.fovKick;
+    cam.camera.fov = aimFov(BASE_FOV, snap.ads) + 0.12 * cam.vm.fovKick;
   }
 
   /** Effetti condivisi: traccianti che sfumano, proiettili in volo, esplosioni, detriti. */

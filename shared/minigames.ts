@@ -92,7 +92,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id: 'arena',
     icon: '🤼',
-    description: "Spingi gli altri fuori dall'arena. L'ultimo in piedi vince.",
+    description: "Tocca per spingere, tieni e rilascia per la spallata. Sbilancia i rivali, ma attento allo slancio vicino al bordo!",
     name: 'ARENA DEL DISAGIO',
     category: 'ARENA',
     rarity: 'uncommon',
@@ -231,7 +231,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id: 'fps',
     icon: '🔫',
-    description: 'Tutti contro tutti in prima persona. Più kill, più punti.',
+    description: 'Tutti contro tutti: mira per la precisione, spara al volo da vicino. Più kill, più punti.',
     name: 'SPARATORIA DEI DISAGIATI',
     category: 'ARENA',
     rarity: 'rare',
@@ -247,7 +247,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     sceneKey: 'fps',
 
     inputMode: 'GAMEPAD',
-    // Controller dedicato: joystick + look touch + SPARA + DASH + ABILITÀ (renderFpsController()) — usato da chi
+    // Controller dedicato: joystick + look touch + MIRA (tenuto) + SPARA + DASH + ABILITÀ (renderFpsController()) — usato da chi
     // NON ha un controller fisico (fallback, badge automatico: vedi src/input/profiles.ts per il profilo pad).
     controllerLayout: { type: 'custom', id: 'fps-tv' }
   },

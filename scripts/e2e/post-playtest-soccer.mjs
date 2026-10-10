@@ -1,17 +1,18 @@
 import assert from 'node:assert/strict';
-import {writeFileSync} from 'node:fs';
+import {writeFileSync,mkdirSync} from 'node:fs';
 import {launch,createRoomOnHost,addPhone,hostEval,hostSnapshot,sleep} from './lib.mjs';
 import {gameEval,startGame,until} from './padmock.mjs';
 import {visualCounters} from './tripo-counters.mjs';
-const out='docs/agent-work/post-playtest',browser=await launch(),report={errors:[],accelerated:true};
+const out=process.env.OUT??'docs/agent-work/post-playtest',browser=await launch(),report={errors:[],accelerated:true};
+mkdirSync(out,{recursive:true});
 try{
  const {page,code}=await createRoomOnHost(browser,{targetKeyPresses:3});page.on('pageerror',e=>report.errors.push(String(e)));
  const phones=[];for(let i=0;i<5;i++){const p=await addPhone(browser,code,`P${i}`,i);p.page.on('pageerror',e=>report.errors.push(String(e)));phones.push(p);}
  const G=(fn,arg)=>gameEval(page,'soccer',fn,arg);await startGame(page,'soccer');
  await until(async()=>await G(g=>g.phase==='playing'),40000,'via');
  await until(async()=>await G(g=>[...g.entities.values()].filter(e=>e.goblinDebug?.()).every(e=>e.goblinDebug().state==='ready')),60000,'Tripo');
- const identity=await G(g=>g.players.map(p=>{const v=g.readability.players.get(p.id);return {color:p.color,ring:v.ring.material.emissiveColor.toHexString(),team:p.team,text:v.status.text,name:v.name.text};}));
- assert.equal(identity.length,5);for(const p of identity){assert.equal(p.ring.toLowerCase(),p.color.toLowerCase());assert.ok(p.text.includes(p.team==='red'?'ROSSI':'BLU'));assert.ok(p.name);}
+ const identity=await G(g=>g.players.map(p=>{const v=g.readability.players.get(p.id);return {color:p.color,ring:v.ring.material.emissiveColor.toHexString(),team:p.team,nameColor:v.name.color,name:v.name.text,background:v.box.background};}));
+ assert.equal(identity.length,5);for(const p of identity){assert.equal(p.ring.toLowerCase(),p.color.toLowerCase());assert.equal(p.nameColor,p.team==='red'?'#ef4444':'#3b82f6');assert.equal(p.background,'transparent');assert.ok(p.name&&!/ROSSI|BLU|PALLA/.test(p.name));}
  report.identity=identity;
  await page.keyboard.press('Escape');await phones[4].page.waitForSelector('#pause-overlay');const clock=await G(g=>g.matchTime);await phones[4].page.reload({waitUntil:'load'});await phones[4].page.waitForSelector('#pause-overlay');await sleep(400);assert.equal(await G(g=>g.matchTime),clock);await page.keyboard.press('Escape');await phones[4].page.waitForFunction(()=>!document.querySelector('#pause-overlay'));
  const fixture=()=>G(g=>{g.ctx.input.reset();for(let i=0;i<g.players.length;i++){const p=g.players[i];Object.assign(p,{x:10,z:i%2?-7:7,vx:0,vz:0,hasBall:false,charging:false,chargeTime:0,dodgeTime:0,dodgeCooldown:0,lunge:false,stunTime:0,perfectTime:0,lucidTime:0,stanceTime:0,armTime:0,debtTime:0});}
@@ -35,7 +36,7 @@ try{
  await page.screenshot({path:`${out}/soccer-close.png`});
  // Occlusion fixture and wide roster: only visual positions are arranged, no end-state override.
  await G(g=>{g.ctx.input.reset();g.players.forEach((p,i)=>{p.hasBall=false;p.charging=false;p.vx=p.vz=0;p.x=i===0?0:i%2?14:-14;p.z=i===0?0:i<3?8:-8;});Object.assign(g.ball,{ownerId:null,x:0,z:0,vx:0,vz:0,freeGrace:10});g.step(.01);});
- assert.ok(await G(g=>g.readability.ballRing.material.depthFunction===519&&g.readability.ballLabel.isVisible));
+ assert.ok(await G(g=>g.readability.ballRing.material.depthFunction===519&&!g.hud.adt.getControlByName('soccerBallLabel')));
  report.framing=[];
  for(const [width,height] of [[1280,720],[1366,768],[1920,1080],[800,600]]){
   await page.setViewport({width,height});await sleep(400);

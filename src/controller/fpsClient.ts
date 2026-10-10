@@ -12,6 +12,7 @@ import {
   TransformNode,
   Vector3
 } from '@babylonjs/core';
+import { FPS_ADS, aimFov, aimSensitivity, aimSpread, aimGap } from '../../shared/fpsAim';
 import { getWeapon } from '../../shared/fpsWeapons';
 import { audio } from '../core/AudioManager';
 import { applyQuality, engineOptions, getQualityLevel } from '../core/quality';
@@ -49,6 +50,7 @@ export interface FpsPlayerState {
   alive: boolean;
   weaponId: string;
   firing: boolean;
+  ads?: number; recoilPitch?: number; recoilYaw?: number; heat?: number; moving?: number;
   magazine?: number;
   reloading?: boolean;
   dashing?: boolean;
@@ -144,6 +146,13 @@ export class FpsClient {
 
   // fuoco predetto in locale (stessa logica dell'host: cadenza, raffica, ricarica)
   private firePressed = false;
+  private ads = 0;
+  private adsTarget = 0;
+  private recoilPitch = 0;
+  private recoilYaw = 0;
+  private heat = 0;
+  private moving = 0;
+  private paused = false;
   private fireCooldown = 0;
   private burstLeft = 0;
   private burstTimer = 0;
@@ -367,6 +376,8 @@ export class FpsClient {
   // ---------------------------------------------------------------- frame
 
   private tick(dt: number): void {
+    if (this.paused) return;
+    this.ads += Math.max(-dt / FPS_ADS.transition, Math.min(dt / FPS_ADS.transition, this.adsTarget - this.ads));
     const w = getWeapon(this.weaponId);
     const speedFrac = Math.min(1, this.selfSpeed / 8);
 
@@ -408,6 +419,7 @@ export class FpsClient {
       if (this.reloadT >= this.reloadDur) this.finishReload();
     }
 
+    this.vm.ads = this.ads;
     this.vm.aspect = this.engine.getRenderWidth() / Math.max(1, this.engine.getRenderHeight());
     this.vm.update(dt, speedFrac, this.lastLookDx, this.lastLookDy, reloadP, this.dashing);
     this.lastLookDx *= 0.6;
@@ -419,7 +431,8 @@ export class FpsClient {
 
     // mirino: si allarga con la dispersione dell'arma, il movimento e i colpi (mai col rinculo cosmetico)
     this.bloom = Math.max(0, this.bloom - dt * 5);
-    this.setGap(5 + w.spread * 90 + speedFrac * 6 + this.bloom * 9);
+    this.setGap(aimGap(aimSpread(w.spread, this.ads, this.moving, this.heat), this.ads));
+    for (const bar of this.crossBars) bar.style.opacity = String(1 - this.ads);
 
     this.updateCamera(dt);
     this.interpolateRemotes(dt);
@@ -463,19 +476,19 @@ export class FpsClient {
   }
 
   private updateCamera(dt: number): void {
-    // il calcio (rinculo, danno) e' solo visivo: yaw/pitch inviati all'host restano quelli reali
+    // Recoil is authoritative and also offsets shot direction; damage shake stays cosmetic.
     this.dmgKickP *= Math.max(0, 1 - dt * 9);
     this.dmgKickR *= Math.max(0, 1 - dt * 7);
     this.shake = Math.max(0, this.shake - dt * 2.5);
-    const yaw = this.yaw + this.vm.cameraKickYaw;
-    const pitch = Math.max(-1.45, Math.min(1.45, this.pitch + this.vm.cameraKickPitch + this.dmgKickP));
+    const yaw = this.yaw + this.recoilYaw;
+    const pitch = Math.max(-1.4, Math.min(1.4, this.pitch + this.recoilPitch + this.dmgKickP));
     const cp = Math.cos(pitch);
     const sh = this.shake * 0.12;
     this.camera.position.set(this.selfX + (Math.random() - 0.5) * sh, EYE_HEIGHT + (Math.random() - 0.5) * sh, this.selfZ + (Math.random() - 0.5) * sh);
     this.tmpTarget.set(this.camera.position.x + Math.sin(yaw) * cp, this.camera.position.y + Math.sin(pitch), this.camera.position.z + Math.cos(yaw) * cp);
     this.camera.upVector.set(Math.sin(this.dmgKickR), Math.cos(this.dmgKickR), 0);
     this.camera.setTarget(this.tmpTarget);
-    this.camera.fov = BASE_FOV + 0.17 * this.vm.fovKick;
+    this.camera.fov = aimFov(BASE_FOV, this.ads) + 0.17 * this.vm.fovKick;
   }
 
   private interpolateRemotes(dt: number): void {
@@ -636,7 +649,7 @@ export class FpsClient {
   }
 
   /** Subito danno: vignetta, freccia dalla parte giusta, calcio di camera, suono. */
-  damageTaken(fromId: string, amount: number): void {
+  damageTaken(fromId: string, amount: number, direction?: number): void {
     sfx.hurt(amount);
     this.dmgKickP += Math.min(0.09, 0.02 + amount * 0.0012);
     this.dmgKickR += (Math.random() < 0.5 ? -1 : 1) * Math.min(0.07, 0.02 + amount * 0.001);
@@ -651,9 +664,9 @@ export class FpsClient {
     this.pulse(this.hpNumEl, [{ transform: 'scale(1.35)', color: '#f87171' }, { transform: 'scale(1)', color: '#ffffff' }], 320);
 
     const from = this.lastPos.get(fromId);
-    if (from) {
+    if (direction !== undefined || from) {
       // angolo dell'attaccante rispetto a dove guardi: 0 = davanti (in alto), positivo = a destra
-      const rel = Math.atan2(from.x - this.selfX, from.z - this.selfZ) - this.yaw;
+      const rel = direction ?? (Math.atan2(from!.x - this.selfX, from!.z - this.selfZ) - this.yaw - this.recoilYaw);
       const ind = this.dmgInds[this.dmgIndIdx++ % this.dmgInds.length];
       ind.style.transform = `rotate(${rel}rad)`;
       this.pulse(ind, [{ opacity: 1 }, { opacity: 1, offset: 0.4 }, { opacity: 0 }], 1000);
@@ -702,12 +715,18 @@ export class FpsClient {
   // ---------------------------------------------------------------- API pubblica
 
   look(dx: number, dy: number): void {
-    this.yaw += dx * SENSITIVITY_X;
-    this.pitch -= dy * SENSITIVITY_Y;
-    this.pitch = Math.max(-1.35, Math.min(1.35, this.pitch));
+    if (this.paused || !this.alive) return;
+    this.yaw += dx * SENSITIVITY_X * aimSensitivity(this.ads);
+    this.pitch -= dy * SENSITIVITY_Y * aimSensitivity(this.ads);
+    this.pitch = Math.max(-1.4, Math.min(1.4, this.pitch));
     this.lastLookDx = dx;
     this.lastLookDy = dy;
     this.onLook(this.yaw, this.pitch);
+  }
+
+  setPaused(paused: boolean): void {
+    this.paused = paused;
+    if (paused) { this.ads = this.adsTarget = this.recoilPitch = this.recoilYaw = 0; this.firePressed = false; this.burstLeft = 0; this.vm.ads = 0; }
   }
 
   setFirePressed(pressed: boolean): void {
@@ -765,6 +784,10 @@ export class FpsClient {
         }
         this.wasDead = !ps.alive;
         this.alive = ps.alive;
+        this.adsTarget = !this.paused && ps.alive ? ps.ads ?? 0 : 0;
+        this.recoilPitch = ps.recoilPitch ?? 0; this.recoilYaw = ps.recoilYaw ?? 0;
+        this.heat = ps.heat ?? 0; this.moving = ps.moving ?? 0;
+        if (!ps.alive || ps.locked) { this.firePressed = false; this.burstLeft = 0; }
         this.dashing = Boolean(ps.dashing);
         if (ps.weaponId !== this.weaponId) {
           this.weaponId = ps.weaponId;
@@ -796,7 +819,7 @@ export class FpsClient {
         for (const re of this.remotes.values()) re.ghost.isVisible = this.selfWall && re.alive;
         if (!ps.alive) this.showDeath('💀 ELIMINATO');
         else this.hideDeath();
-        if (ps.alive && !ps.firing) this.setFirePressed(false);
+        // Held fire belongs to the pointer, not a delayed snapshot of the last shot.
         continue;
       }
       let e = this.remotes.get(ps.id);

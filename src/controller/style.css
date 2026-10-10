@@ -1708,3 +1708,41 @@ button.char:disabled {
 .cultura-ab-off { padding: 6px 12px; border-radius: 12px; background: rgba(255, 255, 255, .06); color: #9ca3af; font: 800 13px Arial, sans-serif; }
 .cultura-sent { padding: 6px 12px; border-radius: 12px; background: #14532d; color: #bbf7d0; font: 800 14px Arial, sans-serif; text-align: center; }
 .cultura-opt.out { opacity: .35; text-decoration: line-through; }
+
+/* FPS: paired hold buttons remain reachable with independent fingers. */
+.fps-btns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; justify-items: center; align-items: center; }
+.fps-aim { width: 92px; height: 92px; max-width: 24vw; max-height: 24vw; border-radius: 50%; border: 3px solid #dbeafe; color: #fff; background: radial-gradient(circle at 35% 30%, #38bdf8, #075985); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 30px; touch-action: none; }
+.fps-aim span { font-size: 11px; font-weight: 900; }
+.fps-aim.held { border-color: #fbbf24; box-shadow: 0 0 0 4px #fbbf2455; }
+.fps-btns .fps-fire { width: 100px; height: 100px; max-width: 26vw; max-height: 26vw; touch-action: none; }
+.fps-fire.held { filter: brightness(1.15); }
+.fps-reload { grid-column: 1 / -1; }
+@media (orientation: landscape) and (max-height: 600px) { .fps-aim, .fps-btns .fps-fire { width: 78px; height: 78px; } }
+
+/* Arena attack has its own touch stream; joystick and ability remain independent. */
+.arena-instability { flex-shrink:0; padding:9px 10px; border:1px solid #494057; border-radius:10px; font-size:12px; font-weight:800; text-align:center; background:linear-gradient(90deg,#24583a var(--instability,0%),#181423 var(--instability,0%)); }
+.arena-instability[data-stage="SBILANCIATO"] { background:linear-gradient(90deg,#70551d var(--instability),#181423 var(--instability)); }
+.arena-instability[data-stage="CRITICO"] { background:linear-gradient(90deg,#782e39 var(--instability),#181423 var(--instability)); }
+.arena-shell:has(#arena-attack) .arena-actions { gap:10px; }
+.arena-attack { width:142px; height:108px; max-width:38vw; flex-shrink:0; border:3px solid #e9d5ff; border-radius:26px; background:linear-gradient(145deg,#a855f7,#6d28d9); color:white; font-size:32px; font-weight:900; touch-action:none; user-select:none; }
+.arena-attack span { display:block; font-size:12px; }
+.arena-attack:disabled { opacity:.4; }
+.arena-attack:active { filter:brightness(1.2); }
+.arena-charge { width:100%; font-size:10px; font-weight:800; color:#d8b4fe; text-align:center; min-height:12px; }
+.arena-shell:has(#arena-attack) .arena-dash { width:96px; height:96px; }
+.arena-shell:has(#arena-attack) .arena-ability { width:100px; height:100px; }
+@media (max-height:500px) and (orientation:landscape) {
+ .arena-shell:has(#arena-attack) { padding:6px 12px; gap:4px; }
+ .arena-shell:has(#arena-attack) .arena-actions { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; justify-items:center; }
+ .arena-shell:has(#arena-attack) .arena-attack { grid-column:1; grid-row:1; height:90px; width:112px; }
+ .arena-shell:has(#arena-attack) .arena-dash { grid-column:2; grid-row:1; width:82px; height:82px; }
+ .arena-shell:has(#arena-attack) .arena-ability { grid-column:3; grid-row:1; width:92px; height:92px; }
+ .arena-shell:has(#arena-attack) .arena-charge { grid-column:1/4; grid-row:2; }
+ .arena-shell:has(#arena-attack) .arena-ability-desc { grid-column:1/4; grid-row:3; font-size:10px; margin:0; }
+ .arena-shell:has(#arena-attack) .arena-joy-base { width:170px; height:170px; }
+}
+
+.arena-shell:has(#arena-attack) .arena-ability { flex-direction:column; gap:2px; padding:6px; font-size:18px; }
+.arena-shell:has(#arena-attack) .arena-ability span { width:100%; font-size:13px; overflow-wrap:normal; word-break:normal; }
+body:has(#pad-fallback-badge) .arena-shell:has(#arena-attack) { padding-top:calc(62px + env(safe-area-inset-top,0px)); }
+@media (orientation:landscape) { body:has(#pad-fallback-badge) .arena-shell:has(#arena-attack) { padding-top:calc(38px + env(safe-area-inset-top,0px)); } }

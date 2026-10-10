@@ -84,7 +84,7 @@ export class GameManager {
     s.on(EVT.textRelay, (payload) => this.onTextRelay(payload as TextRelayEvent));
     s.on(EVT.playerDisconnected, (payload) => {
       const id=(payload as PlayerDisconnectedEvent).playerId;
-      if(this.state?.currentMinigame?.minigameId==='cornicione')this.input.cancelPlayer(id);
+      if(['cornicione', 'fps', 'arena'].includes(this.state?.currentMinigame?.minigameId ?? ''))this.input.cancelPlayer(id);
       else this.input.releasePlayer(id);
     });
 

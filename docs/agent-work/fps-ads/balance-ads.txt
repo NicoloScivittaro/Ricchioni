@@ -1,0 +1,12 @@
+Modalità ADS (include 0,18s acquisizione) · fermo, rinculo compensato: stima isolata, non simulazione di un duello
+TTK medio (s) per uccidere 100 HP · errore di mira 1.1° · distanze in metri
+arma                 3      6     10     15     22     35   | DPS teorico
+mitraglia         1.18   1.18   1.27   1.54   2.02   3.17   | 96
+spaccatutto       0.89   1.04   1.93      —      —      —   | 123
+laser             1.13   1.14   1.22   1.57   2.38   4.30   | 58
+raffica           1.26   1.26   1.30   1.64   2.32   3.60   | 70
+bombarda          1.29   1.29   1.29   1.42   2.05   3.22   | 68
+sparapiselli      1.32   1.33   1.50   1.90   2.55      —   | 84
+
+arma migliore per distanza: 3m=spaccatutto  6m=spaccatutto  10m=laser  15m=bombarda  22m=mitraglia  35m=mitraglia
+Nessuna arma domina e nessuna e' inutile alle distanze testate.

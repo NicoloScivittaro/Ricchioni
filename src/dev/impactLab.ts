@@ -113,8 +113,8 @@ export function openImpactLab(): void {
   // ---- FPS: lo split-screen VERO (BabylonFpsGame) con una finestra sola e un bersaglio davanti
   let fps: BabylonFpsGame | null = null;
   let fpsWeapon = 'mitraglia';
-  const fpsA: FpsRenderSnapshot = { id: 'A', name: 'A', displayName: 'A', color: CHARACTER_PRESENTATION[charA].accent, characterId: charA, x: -20, z: -20, yaw: Math.PI / 4, pitch: 0, hp: 100, maxHp: 100, alive: true, kills: 0, weaponId: 'mitraglia', magazine: 30, reloading: false };
-  const fpsB: FpsRenderSnapshot = { id: 'B', name: 'B', displayName: 'B', color: CHARACTER_PRESENTATION[charB].accent, characterId: charB, x: -15.5, z: -15.5, yaw: Math.PI * 1.25, pitch: 0, hp: 100, maxHp: 100, alive: true, kills: 0, weaponId: 'mitraglia', magazine: 30, reloading: false };
+  const fpsA: FpsRenderSnapshot = { id: 'A', name: 'A', displayName: 'A', color: CHARACTER_PRESENTATION[charA].accent, characterId: charA, x: -20, z: -20, yaw: Math.PI / 4, pitch: 0, hp: 100, maxHp: 100, alive: true, kills: 0, weaponId: 'mitraglia', magazine: 30, reloading: false, ads: 0, recoilPitch: 0, recoilYaw: 0, heat: 0, moving: 0 };
+  const fpsB: FpsRenderSnapshot = { id: 'B', name: 'B', displayName: 'B', color: CHARACTER_PRESENTATION[charB].accent, characterId: charB, x: -15.5, z: -15.5, yaw: Math.PI * 1.25, pitch: 0, hp: 100, maxHp: 100, alive: true, kills: 0, weaponId: 'mitraglia', magazine: 30, reloading: false, ads: 0, recoilPitch: 0, recoilYaw: 0, heat: 0, moving: 0 };
 
   let scn: Scn = 'arena';
   let speed = 1;

@@ -15,6 +15,7 @@ export interface GoblinAnimationState {
   koDuration?: number;
   /** Held soccer wind-up, read only. The actual kick event still owns ball contact. */
   charge?: number;
+  arenaCharge?: number;
 }
 export type GoblinClip = (typeof manifest)[number];
 export const GOBLIN_CLIPS: readonly GoblinClip[] = manifest;
@@ -146,6 +147,7 @@ export class GoblinAnimator {
     } else if (this.special) { source = this.special; name = source.name; priority = 60; }
     else if (s.ability) { name = this.abilityPose(); priority = 60; }
     else if (this.action) { source = this.action; name = source.name; priority = 40; }
+    else if ((s.arenaCharge??0)>0) { name='goblin.block'; priority=25; }
     else if (s.dodge) { name = 'goblin.dodge'; priority = 30; }
     else if (s.dashing) { name = 'goblin.dash'; priority = 25; }
     else if (s.falling || s.grounded===false) { name = (s.vy ?? -1)>0 ? 'goblin.jump' : 'goblin.fall'; priority = 15; }
@@ -172,6 +174,7 @@ export class GoblinAnimator {
       const from = source.contactNow ? clamp(c.contact ?? c.from,c.from,c.to) : c.from;
       seconds = from+(c.to-from)*clamp(source.t/source.duration,0,1);
     } else if (charging) seconds=c.from+(clamp(c.contact??c.to,c.from,c.to)-c.from)*clamp(s.charge??0,0,1);
+    else if ((s.arenaCharge??0)>0 && name===this.name('goblin.block')) seconds=c.from+(c.to-c.from)*.35;
     else if (holdAirbornePose) seconds=c.from;
     else if (c.loop) seconds = c.from+(this.clock*speed)%(c.to-c.from);
     else seconds = c.from+(c.to-c.from)*clamp(this.stateT/duration,0,1);

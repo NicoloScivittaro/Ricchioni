@@ -1,0 +1,628 @@
+{
+  "errors": [],
+  "accelerated": true,
+  "phoneLayout": [
+    {
+      "id": "arena-instability",
+      "x": 12,
+      "y": 69,
+      "right": 788,
+      "bottom": 105
+    },
+    {
+      "id": "arena-attack",
+      "x": 412,
+      "y": 175.5,
+      "right": 524,
+      "bottom": 265.5
+    },
+    {
+      "id": "arena-dash",
+      "x": 556,
+      "y": 179.5,
+      "right": 638,
+      "bottom": 261.5
+    },
+    {
+      "id": "arena-ability",
+      "x": 680,
+      "y": 174.5,
+      "right": 772,
+      "bottom": 266.5
+    }
+  ],
+  "combat": {
+    "tap": {
+      "power": 6.307895968065303,
+      "instability": 8.450000000000001,
+      "shoulder": 0
+    },
+    "recovered": 0,
+    "equal": [
+      {
+        "cid": "goblin",
+        "velocity": 18,
+        "meter": 23.400000000000002
+      },
+      {
+        "cid": "buttafuori",
+        "velocity": 18,
+        "meter": 23.400000000000002
+      },
+      {
+        "cid": "judoka",
+        "velocity": 18,
+        "meter": 23.400000000000002
+      },
+      {
+        "cid": "ciro",
+        "velocity": 18,
+        "meter": 23.400000000000002
+      },
+      {
+        "cid": "dottore",
+        "velocity": 18,
+        "meter": 23.400000000000002
+      }
+    ],
+    "criticalVelocity": 39.6,
+    "early": {
+      "time": 1.8100000000000014,
+      "radius": 14,
+      "alive": false,
+      "credit": "782839c4-947c-41da-8a08-6276d6268ef6",
+      "eliminations": 1
+    },
+    "whiff": {
+      "alive": false,
+      "time": 1.6100000000000012,
+      "radius": 14,
+      "lastHitBy": null
+    },
+    "parry": {
+      "meter": 0,
+      "credit": null,
+      "attackerStun": 0.6,
+      "attackerMomentum": 0.48
+    },
+    "shield": {
+      "velocity": 5,
+      "stored": 15,
+      "meter": 6.5
+    },
+    "native": [
+      {
+        "debug": {
+          "character": "goblin",
+          "procedural": false,
+          "animator": {
+            "name": "goblin.block",
+            "seconds": 1.075,
+            "speed": 1,
+            "duration": 2,
+            "priority": 25,
+            "loop": false,
+            "token": "goblin.block",
+            "blend": 0.06,
+            "contactTime": null
+          },
+          "activeTracks": 195,
+          "sampleMs": 0,
+          "clips": 52,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g1(0v)",
+            "tripo_node_9724ae93-c510-4a38-8cf5-0152240ba84c~g1(33613v)"
+          ],
+          "geometryIds": [
+            -1,
+            991
+          ],
+          "animation": "goblin.block",
+          "animationPlaying": true,
+          "animationSpeed": 1,
+          "animationFrame": 64.5,
+          "skeletonId": 21133,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0019,
+            0.4764,
+            0.0172
+          ],
+          "hipsNow": [
+            0.0019,
+            0.4342,
+            0.0172
+          ],
+          "joints": {
+            "Hips": [
+              -0.0019,
+              0.4342,
+              0.0172
+            ],
+            "Spine": [
+              -0.01,
+              0.4705,
+              0.0074
+            ],
+            "Head": [
+              -0.0562,
+              0.7001,
+              -0.0028
+            ],
+            "LeftUpLeg": [
+              -0.0407,
+              0.3865,
+              0.0517
+            ],
+            "LeftLeg": [
+              -0.0593,
+              0.2248,
+              0.0681
+            ],
+            "LeftFoot": [
+              -0.0999,
+              0.0746,
+              -0.0362
+            ],
+            "RightUpLeg": [
+              0.052,
+              0.3928,
+              -0.0016
+            ],
+            "RightLeg": [
+              0.1198,
+              0.2587,
+              0.0631
+            ],
+            "RightFoot": [
+              0.1653,
+              0.0785,
+              0.0401
+            ],
+            "LeftHand": [
+              -0.0757,
+              0.6297,
+              0.056
+            ],
+            "RightHand": [
+              0.0447,
+              0.6479,
+              0.045
+            ]
+          },
+          "height": 2.3232399999999997,
+          "width": 0.9807193925886168,
+          "depth": 0.6276344626933739,
+          "scale": 2.3715457430899156,
+          "vertices": 33613
+        },
+        "imported": true,
+        "legacy": false,
+        "lean": 0.2950000000000001
+      },
+      {
+        "debug": {
+          "character": "buttafuori",
+          "procedural": false,
+          "animator": {
+            "name": "buttafuori.block",
+            "seconds": 1.075,
+            "speed": 1,
+            "duration": 2,
+            "priority": 25,
+            "loop": false,
+            "token": "buttafuori.block",
+            "blend": 0.06,
+            "contactTime": null
+          },
+          "activeTracks": 195,
+          "sampleMs": 0.10000000149011612,
+          "clips": 54,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g2(0v)",
+            "tripo_node_15d71480-45c9-4b21-9e34-83df28c07d0d~g2(28141v)"
+          ],
+          "geometryIds": [
+            -1,
+            64547
+          ],
+          "animation": "buttafuori.block",
+          "animationPlaying": true,
+          "animationSpeed": 1,
+          "animationFrame": 64.5,
+          "skeletonId": 75337,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            -0.0134,
+            0.4985,
+            -0.0821
+          ],
+          "hipsNow": [
+            -0.0134,
+            0.452,
+            -0.0821
+          ],
+          "joints": {
+            "Hips": [
+              0.0134,
+              0.452,
+              -0.0821
+            ],
+            "Spine": [
+              0.0018,
+              0.5052,
+              -0.1036
+            ],
+            "Head": [
+              -0.0515,
+              0.7522,
+              -0.1735
+            ],
+            "LeftUpLeg": [
+              -0.0387,
+              0.4154,
+              -0.0388
+            ],
+            "LeftLeg": [
+              -0.0642,
+              0.2108,
+              -0.0272
+            ],
+            "LeftFoot": [
+              -0.1034,
+              0.0741,
+              -0.1333
+            ],
+            "RightUpLeg": [
+              0.0836,
+              0.4305,
+              -0.093
+            ],
+            "RightLeg": [
+              0.1681,
+              0.2552,
+              -0.0175
+            ],
+            "RightFoot": [
+              0.2089,
+              0.0832,
+              -0.0452
+            ],
+            "LeftHand": [
+              -0.0729,
+              0.6891,
+              -0.0985
+            ],
+            "RightHand": [
+              0.0892,
+              0.7233,
+              -0.0446
+            ]
+          },
+          "height": 2.02568,
+          "width": 1.0204677682808627,
+          "depth": 0.944114775840266,
+          "scale": 2.071374234119159,
+          "vertices": 28141
+        },
+        "imported": true,
+        "legacy": false,
+        "lean": 0.2950000000000001
+      },
+      {
+        "debug": null,
+        "imported": false,
+        "legacy": false,
+        "lean": 0.2950000000000001
+      },
+      {
+        "debug": {
+          "character": "judoka",
+          "procedural": false,
+          "animator": {
+            "name": "judoka.block",
+            "seconds": 1.075,
+            "speed": 1,
+            "duration": 2,
+            "priority": 25,
+            "loop": false,
+            "token": "judoka.block",
+            "blend": 0.06,
+            "contactTime": null
+          },
+          "activeTracks": 195,
+          "sampleMs": 0,
+          "clips": 49,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g3(0v)",
+            "tripo_node_251cf5c8-cf0f-4a4c-a2bc-69279b21f4d4~g3(24403v)"
+          ],
+          "geometryIds": [
+            -1,
+            1184
+          ],
+          "animation": "judoka.block",
+          "animationPlaying": true,
+          "animationSpeed": 1,
+          "animationFrame": 64.5,
+          "skeletonId": 43167,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0057,
+            0.4989,
+            0.0096
+          ],
+          "hipsNow": [
+            0.0057,
+            0.4512,
+            0.0096
+          ],
+          "joints": {
+            "Hips": [
+              -0.0057,
+              0.4512,
+              0.0096
+            ],
+            "Spine": [
+              -0.0108,
+              0.4929,
+              0.0056
+            ],
+            "Head": [
+              -0.0609,
+              0.7706,
+              -0.0157
+            ],
+            "LeftUpLeg": [
+              -0.0547,
+              0.4321,
+              0.0374
+            ],
+            "LeftLeg": [
+              -0.0824,
+              0.2066,
+              0.0518
+            ],
+            "LeftFoot": [
+              -0.1276,
+              0.0472,
+              -0.0694
+            ],
+            "RightUpLeg": [
+              0.0479,
+              0.4391,
+              -0.0215
+            ],
+            "RightLeg": [
+              0.1404,
+              0.2486,
+              0.0621
+            ],
+            "RightFoot": [
+              0.1879,
+              0.0508,
+              0.0315
+            ],
+            "LeftHand": [
+              -0.0839,
+              0.7021,
+              0.0618
+            ],
+            "RightHand": [
+              0.0557,
+              0.7246,
+              0.0539
+            ]
+          },
+          "height": 2.06988,
+          "width": 0.9903304860214053,
+          "depth": 0.43979536919436135,
+          "scale": 2.1150858908608683,
+          "vertices": 24403
+        },
+        "imported": true,
+        "legacy": false,
+        "lean": 0.2950000000000001
+      },
+      {
+        "debug": {
+          "character": "ciro",
+          "procedural": false,
+          "animator": {
+            "name": "ciro.block",
+            "seconds": 1.075,
+            "speed": 1,
+            "duration": 2,
+            "priority": 25,
+            "loop": false,
+            "token": "ciro.block",
+            "blend": 0.06,
+            "contactTime": null
+          },
+          "activeTracks": 195,
+          "sampleMs": 0,
+          "clips": 59,
+          "state": "ready",
+          "error": null,
+          "bones": 65,
+          "meshes": 2,
+          "meshNames": [
+            "__root__~g4(0v)",
+            "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g4(29981v)"
+          ],
+          "geometryIds": [
+            -1,
+            31397
+          ],
+          "animation": "ciro.block",
+          "animationPlaying": true,
+          "animationSpeed": 1,
+          "animationFrame": 64.5,
+          "skeletonId": 52911,
+          "clipHipsOffset": null,
+          "holdFrame": 0,
+          "seated": false,
+          "seatedApplied": false,
+          "restHips": [
+            0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "hipsNow": [
+            0.0096,
+            0.4599,
+            -0.0019
+          ],
+          "joints": {
+            "Hips": [
+              -0.0096,
+              0.4599,
+              -0.0019
+            ],
+            "Spine": [
+              -0.0214,
+              0.5184,
+              -0.0156
+            ],
+            "Head": [
+              -0.0894,
+              0.786,
+              -0.0572
+            ],
+            "LeftUpLeg": [
+              -0.0565,
+              0.4244,
+              0.0428
+            ],
+            "LeftLeg": [
+              -0.0821,
+              0.219,
+              0.0545
+            ],
+            "LeftFoot": [
+              -0.1216,
+              0.0811,
+              -0.0522
+            ],
+            "RightUpLeg": [
+              0.0611,
+              0.4331,
+              -0.0205
+            ],
+            "RightLeg": [
+              0.1451,
+              0.2588,
+              0.0547
+            ],
+            "RightFoot": [
+              0.1861,
+              0.0865,
+              0.0271
+            ],
+            "LeftHand": [
+              -0.0936,
+              0.7158,
+              0.0264
+            ],
+            "RightHand": [
+              0.0483,
+              0.7306,
+              0.022
+            ]
+          },
+          "height": 2.3082,
+          "width": 0.9972113199081483,
+          "depth": 0.47393777911913565,
+          "scale": 2.3590696158289792,
+          "vertices": 29981
+        },
+        "imported": true,
+        "legacy": false,
+        "lean": 0.2950000000000001
+      }
+    ],
+    "otherContext": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "round": {
+    "phase": "celebrating",
+    "radius": 3.6,
+    "sudden": true,
+    "results": [
+      {
+        "playerId": "0f2b0dd5-db36-4d19-bc51-8e05cef0eb50",
+        "placement": 1,
+        "score": 0,
+        "stats": [
+          "spareggio: caduta simultanea"
+        ]
+      },
+      {
+        "playerId": "372a3169-15c2-428d-94fc-d92342e634d2",
+        "placement": 2,
+        "score": 0,
+        "stats": [
+          "caduto dopo 57s"
+        ]
+      },
+      {
+        "playerId": "1a69ef15-b77d-4312-bd00-10cd9c802062",
+        "placement": 3,
+        "score": 0,
+        "stats": [
+          "caduto dopo 57s"
+        ]
+      },
+      {
+        "playerId": "782839c4-947c-41da-8a08-6276d6268ef6",
+        "placement": 4,
+        "score": 0,
+        "stats": [
+          "caduto dopo 57s"
+        ]
+      },
+      {
+        "playerId": "183d406e-26a9-4b27-b6da-b5bafd0e1c05",
+        "placement": 5,
+        "score": 0,
+        "stats": [
+          "caduto dopo 57s"
+        ]
+      }
+    ],
+    "finite": true
+  },
+  "cleanup": {
+    "liveInstances": 0,
+    "abortedLoads": 0,
+    "lateDisposedContainers": 0,
+    "modules": [
+      "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791648892957"
+    ]
+  }
+}

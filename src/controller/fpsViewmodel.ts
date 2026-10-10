@@ -8,6 +8,7 @@ import {
   TransformNode,
   Vector3
 } from '@babylonjs/core';
+import { FPS_ADS } from '../../shared/fpsAim';
 import type { Scene, UniversalCamera } from '@babylonjs/core';
 
 /**
@@ -136,6 +137,8 @@ export class FpsViewmodel {
   stepEvent = false;
   /** Larghezza/altezza dello schermo: in verticale l'arma va verso il centro (l'FOV orizzontale e' piu' stretto). */
   aspect = 2;
+  /** Authoritative ADS blend; sight aperture stays on the camera axis. */
+  ads = 0;
   /** Dimensione dell'arma (1 = telefono). Lo split-screen della TV la rimpicciolisce: le finestre sono quasi quadrate. */
   scale = 1;
 
@@ -347,6 +350,13 @@ export class FpsViewmodel {
         muzzle.position.set(0, 0.02, 0.4);
       }
     }
+    // Open sight: keeps small split-screen windows readable.
+    const sightY = 0.17;
+    box(0.06, 0.006, 0.018, '#374151', 0, sightY - 0.03, -0.12);
+    box(0.006, 0.06, 0.018, '#374151', -0.03, sightY, -0.12);
+    box(0.006, 0.06, 0.018, '#374151', 0.03, sightY, -0.12);
+    box(0.06, 0.006, 0.018, '#374151', 0, sightY + 0.03, -0.12);
+    box(0.004, 0.016, 0.01, '#fbbf24', 0, sightY - 0.008, 0.26);
     root.scaling.setAll(id === 'bombarda' ? 0.72 : 0.86); // proporzioni da schermo di telefono: l'arma non deve riempire la vista
     root.setEnabled(false);
     return {
@@ -387,9 +397,10 @@ export class FpsViewmodel {
   /** Un colpo: impulso di rinculo, lampo, scintille, fumo, luce. Nessuna allocazione. */
   fire(): void {
     const p = this.profile;
-    this.vz -= p.back;
-    this.vrx += p.up;
-    this.vx += (Math.random() - 0.5) * 2 * p.side;
+    const recoil = 1 - this.ads * (1 - FPS_ADS.recoil);
+    this.vz -= p.back * recoil;
+    this.vrx += p.up * recoil;
+    this.vx += (Math.random() - 0.5) * 2 * p.side * recoil;
     if (p.wobble) this.vrz += (Math.random() < 0.5 ? -1 : 1) * p.wobble;
     this.vckP += p.camPitch * 60;
     this.vckY += (Math.random() - 0.5) * 2 * p.camYaw * 60;
@@ -555,15 +566,15 @@ export class FpsViewmodel {
     }
 
     this.holder.position.set(
-      BASE_X * Math.max(0.3, Math.min(1, this.aspect / 1.9)) + bobX + this.swayX + this.x,
-      BASE_Y + bobY + eoY + rdY + this.y * 0.5 - 0.03 * dk,
+      BASE_X * Math.max(0.3, Math.min(1, this.aspect / 1.9)) * (1 - this.ads) + (bobX + this.swayX + this.x) * (1 - this.ads * 0.9),
+      BASE_Y * (1 - this.ads) - 0.17 * m.root.scaling.y * this.scale * this.ads + bobY * (1 - this.ads * 0.9) + eoY + rdY + this.y * 0.5 - 0.03 * dk,
       BASE_Z + this.z - 0.07 * dk
     );
-    this.holder.rotation.x = this.rx + eoRx + rdRx + 0.04 * dk;
-    this.holder.rotation.z = -this.swayY * 4 + this.rz + rdRz + 0.3 * dk;
-    this.holder.rotation.y = -0.07 - this.x * 0.6; // la canna punta un filo verso il centro
+    this.holder.rotation.x = this.rx * (1 - this.ads * 0.9) + eoRx + rdRx + 0.04 * dk;
+    this.holder.rotation.z = (-this.swayY * 4 + this.rz) * (1 - this.ads * 0.9) + rdRz + 0.3 * dk;
+    this.holder.rotation.y = (-0.07 - this.x * 0.6) * (1 - this.ads); // la canna punta un filo verso il centro
     this.holder.scaling.setAll(this.scale);
-    if (this.scale !== 1) this.holder.position.y -= 0.04 * (1 - this.scale);
+    if (this.scale !== 1) this.holder.position.y -= 0.04 * (1 - this.scale) * (1 - this.ads);
 
     // lampo, scintille, fumo, luce
     if (this.flashT > 0) {

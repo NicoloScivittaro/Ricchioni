@@ -101,6 +101,9 @@ try {
           B.hp = 100;
           B.alive = true;
           B.spawnProtection = 0;
+          // Independent base-cone trials: forty shots in one JS call have no time to cool down.
+          // Recoil/heat over actual elapsed time are covered by fps-ads.mjs.
+          sc.resetAim(A);
           A.magazine = w.magazine;
           A.yaw = 0;
           A.pitch = 0; // guarda verso +z, dove sta B

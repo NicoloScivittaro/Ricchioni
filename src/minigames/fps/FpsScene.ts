@@ -1,3 +1,4 @@
+import { FPS_ADS, aimBlend, aimMovement, aimSensitivity, aimSpread, aimKick } from '../../../shared/fpsAim';
 import { MotionBots } from '../bots/MotionBots';
 import Phaser from 'phaser';
 import { splitFrameDelta } from '../../core/frameClock';
@@ -104,6 +105,12 @@ interface FpsPlayer {
   dashDirX: number;
   dashDirZ: number;
   firing: boolean;
+  ads: number;
+  heat: number;
+  recoilPitch: number;
+  recoilYaw: number;
+  moving: number;
+  cancelVersion: number;
   /** Sacchetto di armi: a ogni vita se ne pesca una, e non si ripete finche' non le hai usate tutte. */
   bag: string[];
   burstLeft: number;
@@ -222,7 +229,7 @@ export class FpsScene extends Phaser.Scene {
         dashCooldown: 0,
         dashDirX: 0,
         dashDirZ: 0,
-        firing: false,
+        firing: false, ads: 0, heat: 0, recoilPitch: 0, recoilYaw: 0, moving: 0, cancelVersion: this.ctx.input.get(snap.id).cancellationVersion,
         bag: [],
         burstLeft: 0,
         burstTimer: 0,
@@ -327,6 +334,7 @@ export class FpsScene extends Phaser.Scene {
       weaponId: p.weaponId,
       magazine: p.magazine,
       reloading: p.reloading,
+      ads: p.ads, recoilPitch: p.recoilPitch, recoilYaw: p.recoilYaw, heat: p.heat, moving: p.moving,
       ability: this.fpsAb.status(p, getWeapon(p.weaponId)),
       guard: p.guardTime > 0,
       wall: p.wallTime > 0,
@@ -357,6 +365,7 @@ export class FpsScene extends Phaser.Scene {
 
   update(_t: number, delta: number): void {
     if (this.pauseMenu.update()) {
+      for (const p of this.players) { this.resetAim(p); this.ctx.input.get(p.id).setUp('aim'); this.ctx.input.get(p.id).setUp('fire'); p.firing = false; p.burstLeft = 0; }
       this.splitScreen?.setPaused(true);
       return;
     }
@@ -422,6 +431,11 @@ export class FpsScene extends Phaser.Scene {
     }
 
     const input = this.ctx.input.get(p.id);
+    if (p.cancelVersion !== input.cancellationVersion) { this.resetAim(p); p.burstLeft = 0; p.firing = false; p.cancelVersion = input.cancellationVersion; }
+    p.ads = aimBlend(p.ads, input.pressed('aim') && !noFire && !p.reloading && p.dashTime <= 0, dt);
+    p.heat = Math.max(0, p.heat - dt * FPS_ADS.heatDecay);
+    const recoilDecay = Math.exp(-FPS_ADS.recoilDecay * dt);
+    p.recoilPitch *= recoilDecay; p.recoilYaw *= recoilDecay;
     // ABILITA' (premuta ma non partita: avviso privato, mai silenzio)
     if (input.justPressed('ability')) {
       const res = this.fpsAb.onAbilityPress(p, weapon, this.players, (f) => this.onAbilityFeedback(p, f));
@@ -438,6 +452,7 @@ export class FpsScene extends Phaser.Scene {
     let ax = fx * forwardIn + rx * strafeIn;
     let az = fz * forwardIn + rz * strafeIn;
     const mag = Math.hypot(ax, az);
+    p.moving = Math.min(1, mag);
     if (mag > 1) {
       ax /= mag;
       az /= mag;
@@ -450,7 +465,7 @@ export class FpsScene extends Phaser.Scene {
       // Riscala la GRANDEZZA con la curva di risposta (mantiene la direzione): con curveExponent=1 e' l'identita',
       // quindi con i valori di default il comportamento resta ESATTAMENTE quello di prima di M6.1.
       const curved = mag > 0 ? responseCurve(mag, AIM_CONFIG.curveExponent) / mag : 0;
-      const sens = pads.settingsOf(p.id).sensitivity; // 0.5..2 per giocatore, gia' esistente (prima inutilizzato)
+      const sens = pads.settingsOf(p.id).sensitivity * aimSensitivity(p.ads); // 0.5..2 per giocatore, gia' esistente (prima inutilizzato)
       const rateX = Math.max(-AIM_CONFIG.maxTurnSpeed, Math.min(AIM_CONFIG.maxTurnSpeed, stick.x * curved * AIM_CONFIG.sensX * sens));
       const rateY = Math.max(-AIM_CONFIG.maxTurnSpeed, Math.min(AIM_CONFIG.maxTurnSpeed, stick.y * curved * AIM_CONFIG.sensY * sens));
       p.yaw += rateX * dt;
@@ -458,12 +473,15 @@ export class FpsScene extends Phaser.Scene {
     } else {
       const look = input.axis('look');
       // look.x = yaw assoluto, look.y = pitch assoluto (inviato dal telefono, touch-drag) — invariato.
-      p.yaw = look.x;
-      p.pitch = Math.max(-AIM_CONFIG.pitchClamp, Math.min(AIM_CONFIG.pitchClamp, look.y));
+      if (input.hasAxis('look')) {
+        p.yaw = look.x;
+        p.pitch = Math.max(-AIM_CONFIG.pitchClamp, Math.min(AIM_CONFIG.pitchClamp, look.y));
+      }
     }
 
     // Dash
     if (!stunned && input.justPressed('dash') && p.dashCooldown <= 0 && p.dashTime <= 0) {
+      p.ads = 0;
       p.dashTime = DASH_TIME;
       p.dashCooldown = DASH_COOLDOWN;
       p.dashDirX = mag > 0.15 ? ax : Math.sin(p.yaw);
@@ -478,7 +496,7 @@ export class FpsScene extends Phaser.Scene {
       p.x += p.dashDirX * DASH_SPEED * dt;
       p.z += p.dashDirZ * DASH_SPEED * dt;
     } else if (mag > 0.15) {
-      const sp = PLAYER_SPEED * weapon.movementModifier * this.fpsAb.speedFactor(p);
+      const sp = PLAYER_SPEED * weapon.movementModifier * this.fpsAb.speedFactor(p) * aimMovement(p.ads);
       p.x += ax * sp * dt;
       p.z += az * sp * dt;
     }
@@ -524,6 +542,7 @@ export class FpsScene extends Phaser.Scene {
 
   private startReload(p: FpsPlayer, weapon: WeaponConfig): void {
     if (p.reloading || p.lockTime > 0 || p.stunTime > 0) return;
+    p.ads = 0;
     p.reloading = true;
     p.reloadTimer = weapon.reload;
     p.burstLeft = 0;
@@ -544,6 +563,7 @@ export class FpsScene extends Phaser.Scene {
     }
     const next = p.bag.pop()!;
     const w = getWeapon(next);
+    this.resetAim(p);
     p.weaponId = next;
     p.magazine = w.magazine;
     p.reloading = false;
@@ -567,13 +587,13 @@ export class FpsScene extends Phaser.Scene {
     const oy = EYE_HEIGHT;
     const oz = p.z;
     const pellets = weapon.pellets ?? 1;
-    const spread = weapon.spread * this.fpsAb.spreadFactor(p); // Dottore dopo M'HO SVEJATO: la mira trema
+    const spread = aimSpread(weapon.spread, p.ads, p.moving, p.heat) * this.fpsAb.spreadFactor(p); // Dottore dopo M'HO SVEJATO: la mira trema
     const dmgMult = this.fpsAb.damageFactor(p); // Goblin dopo la ricarica perfetta: piu' danno
     const damageBy = new Map<FpsPlayer, number>(); // un solo hit/danno per bersaglio per colpo, anche con 8 pallini
     for (let i = 0; i < pellets; i++) {
       // Dispersione
-      const yaw = p.yaw + (Math.random() - 0.5) * 2 * spread;
-      const pitch = p.pitch + (Math.random() - 0.5) * 2 * spread;
+      const yaw = p.yaw + p.recoilYaw + (this.ctx.rng.next() - 0.5) * 2 * spread;
+      const pitch = Math.max(-AIM_CONFIG.pitchClamp, Math.min(AIM_CONFIG.pitchClamp, p.pitch + p.recoilPitch + (this.ctx.rng.next() - 0.5) * 2 * spread));
       const dx = Math.sin(yaw) * Math.cos(pitch);
       const dy = Math.sin(pitch);
       const dz = Math.cos(yaw) * Math.cos(pitch);
@@ -608,6 +628,10 @@ export class FpsScene extends Phaser.Scene {
     let connected = false;
     for (const [victim, dmg] of damageBy) if (this.applyDamage(victim, Math.round(dmg), p)) connected = true;
     if (connected) p.shotsHit++;
+    const kick = aimKick(weapon.id, p.ads, this.ctx.rng.next());
+    p.recoilPitch = Math.min(0.18, p.recoilPitch + kick.pitch);
+    p.recoilYaw = Math.max(-0.06, Math.min(0.06, p.recoilYaw + kick.yaw));
+    p.heat = Math.min(1, p.heat + 0.3);
     this.fpsAb.onShotFired(p); // Goblin: un colpo del bonus in meno
     if (p.magazine <= 0) this.startReload(p, weapon); // caricatore vuoto: ricarica automatica
   }
@@ -636,20 +660,20 @@ export class FpsScene extends Phaser.Scene {
         if (dist > b.radius) continue;
         // colpo diretto = danno pieno; poi cala fino al 30% al bordo dello splash
         const k = dist <= 1 ? 1 : Math.max(0.3, 1 - (0.7 * (dist - 1)) / (b.radius - 1));
-        this.applyDamage(q, Math.round(b.dmg * k), owner);
+        this.applyDamage(q, Math.round(b.dmg * k), owner, b);
       }
     }
   }
 
   /** Applica il danno; ritorna false se non e' stato inflitto (bersaglio protetto). L'hit al tiratore parte SOLO da qui: conferma reale. */
-  private applyDamage(target: FpsPlayer, damage: number, source: FpsPlayer): boolean {
+  private applyDamage(target: FpsPlayer, damage: number, source: FpsPlayer, origin: { x: number; z: number } = source): boolean {
     if (!target.alive || target.spawnProtection > 0) return false;
     // BUTTAFUORI: il giubbotto assorbe parte del danno (che poi in parte torna come vita)
     const taken = this.fpsAb.reduceDamage(target, damage);
     damage = taken;
     target.hp -= damage;
     source.damageDealt += damage;
-    this.ctx.signal(target.id, { type: 'damaged', amount: damage, from: source.id });
+    this.ctx.signal(target.id, { type: 'damaged', amount: damage, from: source.id, direction: Math.atan2(origin.x - target.x, origin.z - target.z) - target.yaw - target.recoilYaw });
     // CIRO: il colpo che ti ucciderebbe diventa un debito (resti a 1 di vita) se avevi armato PAGO DOMANI
     if (target.hp <= 0 && this.fpsAb.rescue(target, (f) => this.onAbilityFeedback(target, f))) {
       target.hp = 1;
@@ -664,6 +688,7 @@ export class FpsScene extends Phaser.Scene {
   private kill(target: FpsPlayer, killer: FpsPlayer): void {
     target.hp = 0;
     target.alive = false;
+    this.resetAim(target); this.ctx.input.get(target.id).setUp('aim'); this.ctx.input.get(target.id).setUp('fire'); target.firing = false; target.burstLeft = 0;
     target.respawnTimer = RESPAWN_TIME;
     target.deaths++;
     killer.kills++;
@@ -733,12 +758,17 @@ export class FpsScene extends Phaser.Scene {
     if (!p.alive) return;
     p.hp = 0;
     p.alive = false;
+    this.resetAim(p); this.ctx.input.get(p.id).setUp('aim'); this.ctx.input.get(p.id).setUp('fire'); p.firing = false; p.burstLeft = 0;
     p.respawnTimer = RESPAWN_TIME;
     p.deaths++;
     this.fpsAb.onDeath(p);
     audio.wrong();
     this.ctx.vibrate(p.id, HAPTIC.HEAVY);
     this.ctx.signal(p.id, { type: 'eliminated', by: 'ESATTORE' });
+  }
+
+  private resetAim(p: FpsPlayer): void {
+    p.ads = p.heat = p.recoilPitch = p.recoilYaw = p.moving = 0;
   }
 
   private respawn(p: FpsPlayer): void {
@@ -777,6 +807,7 @@ export class FpsScene extends Phaser.Scene {
         firing: p.firing,
         magazine: p.magazine,
         reloading: p.reloading,
+        ads: p.ads, recoilPitch: p.recoilPitch, recoilYaw: p.recoilYaw, heat: p.heat, moving: p.moving,
         dashing: p.dashTime > 0,
         ability: this.fpsAb.status(p, getWeapon(p.weaponId)),
         guard: p.guardTime > 0,
@@ -861,6 +892,7 @@ export class FpsScene extends Phaser.Scene {
   private endGame(): void {
     if (this.finished) return;
     this.finished = true;
+    for (const p of this.players) { this.resetAim(p); p.firing = false; p.burstLeft = 0; this.ctx.input.get(p.id).setUp('aim'); this.ctx.input.get(p.id).setUp('fire'); }
     this.splitScreen?.setRoundEndMessage('⏱ TEMPO SCADUTO');
     const sorted = [...this.players].sort((a, b) => {
       if (a.kills !== b.kills) return b.kills - a.kills;

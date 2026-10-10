@@ -8,6 +8,7 @@ import { CHAR_ICONS, iconSvg } from '../../shared/charIcons';
 import { renderController } from './ControllerRenderer';
 import { MEMORY_TILES } from '../../shared/memoryTiles';
 import { MEMORY_ABILITIES } from '../../shared/memoryAbilities';
+import { instabilityStage } from '../../shared/arenaCombat';
 import { ARENA_ABILITIES } from '../../shared/arenaAbilities';
 import { DODGEBALL_ABILITIES } from '../../shared/dodgeballAbilities';
 import { SOCCER_ABILITIES } from '../../shared/soccerAbilities';
@@ -183,7 +184,9 @@ window.addEventListener('pagehide', releaseControllerInput);
 function syncPauseOverlay(s: RoomState | null): void {
   const want = !!s && s.phase === 'MINIGAME_PLAYING' && s.paused === true;
   let el = document.getElementById('pause-overlay');
+  fpsClient?.setPaused(want);
   if (want && !el) {
+    releaseControllerInput();
     el = document.createElement('div');
     el.id = 'pause-overlay';
     el.style.cssText =
@@ -222,6 +225,9 @@ socket.on(EVT.vibrate, (ms?: number) => {
 });
 
 interface SignalPayload {
+  instability?: number;
+  recovering?: boolean;
+  alive?: boolean;
   type: string;
   ms?: number;
   name?: string;
@@ -399,6 +405,10 @@ let arenaJoystickEl: HTMLElement | null = null;
 let arenaThumbEl: HTMLElement | null = null;
 let arenaDashBtn: HTMLButtonElement | null = null;
 let arenaAbilityBtn: HTMLButtonElement | null = null;
+let arenaAttackBtn: HTMLButtonElement | null = null;
+let arenaMeterEl: HTMLElement | null = null;
+let arenaChargeEl: HTMLElement | null = null;
+let arenaAttackPointer: number | null = null;
 let arenaStatusEl: HTMLElement | null = null;
 let arenaOverlayEl: HTMLElement | null = null;
 let arenaLocked = false;
@@ -408,9 +418,19 @@ let arenaJoy: VirtualJoystick | null = null;
 function lockArenaControls(locked: boolean): void {
   arenaLocked = locked;
   if (arenaJoystickEl) arenaJoystickEl.classList.toggle('arena-locked', locked);
+  if (arenaAttackBtn) arenaAttackBtn.disabled = locked;
+  if (locked) cancelArenaAttack();
   if (arenaDashBtn) arenaDashBtn.disabled = locked;
   if (arenaAbilityBtn) arenaAbilityBtn.disabled = locked;
   if (locked) arenaJoy?.reset();
+}
+
+function cancelArenaAttack(): void {
+  if (arenaAttackPointer===null) return;
+  const pointer=arenaAttackPointer; arenaAttackPointer=null;
+  sendInput({kind:'action',controlId:'attackCancel'});
+  sendInput({kind:'up',controlId:'attack'});
+  if (arenaAttackBtn?.hasPointerCapture(pointer)) arenaAttackBtn.releasePointerCapture(pointer);
 }
 
 /** Schermata piena e drammatica per i momenti chiave (eliminato/vincitore). */
@@ -429,6 +449,17 @@ function showArenaOverlay(icon: string, text: string, color: string, sub?: strin
 
 function handleArenaSignal(s: SignalPayload): void {
   switch (s.type) {
+    case 'arenaCombat': {
+      const value=Number(s.instability??0), charge=Number(s.charge??0), cooldown=Number(s.cooldown??0);
+      if (arenaMeterEl) {
+        arenaMeterEl.textContent=`INSTABILITÀ · ${Math.round(value)}% · ${instabilityStage(value)}`;
+        arenaMeterEl.style.setProperty('--instability',`${value}%`);
+        arenaMeterEl.dataset.stage=instabilityStage(value);
+      }
+      if (arenaChargeEl) arenaChargeEl.textContent=charge>0?`CARICA ${Math.round(charge*100)}%`:s.recovering?'RECUPERO':cooldown>0?`RICARICA ${cooldown.toFixed(1)}s`:'TOCCA O TIENI E RILASCIA';
+      if (arenaAttackBtn) arenaAttackBtn.disabled=arenaLocked || !s.alive || (cooldown>0 && !charge);
+      break;
+    }
     case 'countdown':
       if (s.value === 0) {
         if (arenaStatusEl) arenaStatusEl.textContent = '⚡ VIA!';
@@ -497,6 +528,8 @@ function handleArenaSignal(s: SignalPayload): void {
 
 /** Controller dedicato a ARENA DEL DISAGIO (layout custom: arena-tv). */
 function renderArenaController(): void {
+  cancelArenaAttack();
+  arenaAttackBtn=null; arenaMeterEl=null; arenaChargeEl=null;
   arenaJoystickEl = null;
   arenaThumbEl = null;
   arenaDashBtn = null;
@@ -521,6 +554,7 @@ function renderArenaController(): void {
         <div class="arena-brand">🤼 ARENA DEL DISAGIO</div>
         <div id="arena-status" class="arena-status">PRONTO</div>
       </div>
+      <div id="arena-instability" class="arena-instability">INSTABILITÀ · 0% · STABILE</div>
       <div class="arena-body">
         <div id="arena-joy" class="arena-joy">
           <div id="arena-joy-base" class="arena-joy-base">
@@ -528,6 +562,8 @@ function renderArenaController(): void {
           </div>
         </div>
         <div class="arena-actions">
+          <button id="arena-attack" class="arena-attack">🥊<span>SPINTA / SPALLATA</span></button>
+          <div id="arena-charge" class="arena-charge">TOCCA O TIENI E RILASCIA</div>
           <button id="arena-dash" class="arena-dash">💨<span>DASH</span></button>
           <button id="arena-ability" class="arena-ability">⭐<span>${ab?.name ?? 'ABILITÀ'}</span></button>
           <p id="arena-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
@@ -536,6 +572,22 @@ function renderArenaController(): void {
       <div id="arena-overlay" class="arena-overlay"></div>
     </div>`;
 
+  arenaAttackBtn=app.querySelector<HTMLButtonElement>('#arena-attack')!;
+  arenaMeterEl=app.querySelector<HTMLElement>('#arena-instability')!;
+  arenaChargeEl=app.querySelector<HTMLElement>('#arena-charge')!;
+  arenaAttackBtn.addEventListener('pointerdown',e=>{
+    e.preventDefault(); if (arenaLocked || arenaAttackBtn!.disabled || arenaAttackPointer!==null) return;
+    arenaAttackPointer=e.pointerId; arenaAttackBtn!.setPointerCapture(e.pointerId);
+    sendInput({kind:'down',controlId:'attack'});
+  });
+  arenaAttackBtn.addEventListener('pointerup',e=>{
+    if (e.pointerId!==arenaAttackPointer) return;
+    arenaAttackPointer=null; sendInput({kind:'up',controlId:'attack'});
+    if (arenaAttackBtn!.hasPointerCapture(e.pointerId)) arenaAttackBtn!.releasePointerCapture(e.pointerId);
+  });
+  for (const event of ['pointercancel','lostpointercapture']) arenaAttackBtn.addEventListener(event,e=>{
+    if ((e as PointerEvent).pointerId===arenaAttackPointer) cancelArenaAttack();
+  });
   arenaStatusEl = app.querySelector<HTMLElement>('#arena-status')!;
   arenaOverlayEl = app.querySelector<HTMLElement>('#arena-overlay')!;
   arenaDashBtn = app.querySelector<HTMLButtonElement>('#arena-dash')!;
@@ -1288,10 +1340,10 @@ function handleFpsSignal(s: SignalPayload): void {
       break;
     }
     case 'damaged': {
-      const d = s as unknown as { from?: string; amount?: number };
+      const d = s as unknown as { from?: string; amount?: number; direction?: number };
       const amount = d.amount ?? 10;
       vibrate(amount >= 30 ? 80 : 40);
-      fpsClient?.damageTaken(d.from ?? '', amount);
+      fpsClient?.damageTaken(d.from ?? '', amount, d.direction);
       break;
     }
     case 'killed': {
@@ -1379,6 +1431,7 @@ function renderFpsController(): void {
         </div>
       </div>
       <div class="fps-btns">
+        <button id="fps-aim" class="fps-aim" aria-label="Mira: tieni premuto" aria-pressed="false">◎<span>MIRA · TIENI</span></button>
         <button id="fps-fire" class="fps-fire">🔫<span>SPARA</span></button>
         <button id="fps-ability" class="fps-ability">⚡<span>ABILITÀ</span></button>
         <button id="fps-dash" class="fps-dash">💨<span>DASH</span></button>
@@ -1402,7 +1455,7 @@ function renderFpsController(): void {
   let lastY = -1;
   let activeLookPointer: number | null = null;
   fpsLookEl.addEventListener('pointerdown', (e) => {
-    if (fpsLocked) return;
+    if (fpsLocked || state?.paused || activeLookPointer !== null) return;
     activeLookPointer = e.pointerId;
     lastX = e.clientX;
     lastY = e.clientY;
@@ -1428,23 +1481,35 @@ function renderFpsController(): void {
   };
   fpsLookEl.addEventListener('pointerup', lookEnd);
   fpsLookEl.addEventListener('pointercancel', lookEnd);
+  fpsLookEl.addEventListener('lostpointercapture', lookEnd);
+  fpsLookEl.addEventListener('fps-cancel', () => { activeLookPointer = null; lastX = lastY = -1; });
 
-  // SPARA (hold)
-  const fireDown = (e: PointerEvent): void => {
-    e.preventDefault();
-    if (fpsFireBtn!.disabled) return;
-    fpsClient?.setFirePressed(true);
-    sendInput({ kind: 'down', controlId: 'fire' });
+  // SPARA and MIRA have separate pointer ownership; aim + fire + look can coexist.
+  const bindHold = (button: HTMLButtonElement, control: 'aim' | 'fire'): void => {
+    let owner: number | null = null;
+    const release = (): void => {
+      const pointer = owner; owner = null;
+      button.classList.remove('held'); button.setAttribute('aria-pressed', 'false');
+      if (control === 'fire') fpsClient?.setFirePressed(false);
+      sendInput({ kind: 'up', controlId: control });
+      if (pointer !== null && button.hasPointerCapture(pointer)) button.releasePointerCapture(pointer);
+    };
+    button.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      if (owner !== null || button.disabled || state?.paused || fpsLocked) return;
+      owner = e.pointerId;
+      try { button.setPointerCapture(owner); } catch { /* synthetic test pointer */ }
+      button.classList.add('held'); button.setAttribute('aria-pressed', 'true');
+      if (control === 'fire') fpsClient?.setFirePressed(true);
+      sendInput({ kind: 'down', controlId: control });
+    });
+    for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+      button.addEventListener(event, (e) => { if ((e as PointerEvent).pointerId === owner) release(); });
+    }
+    button.addEventListener('fps-cancel', release);
   };
-  const fireUp = (e: PointerEvent): void => {
-    e.preventDefault();
-    fpsClient?.setFirePressed(false);
-    sendInput({ kind: 'up', controlId: 'fire' });
-  };
-  fpsFireBtn.addEventListener('pointerdown', fireDown);
-  fpsFireBtn.addEventListener('pointerup', fireUp);
-  fpsFireBtn.addEventListener('pointercancel', fireUp);
-  fpsFireBtn.addEventListener('pointerleave', fireUp);
+  bindHold(fpsFireBtn, 'fire');
+  bindHold(app.querySelector<HTMLButtonElement>('#fps-aim')!, 'aim');
 
   fpsDashBtn.addEventListener('pointerdown', (e) => {
     e.preventDefault();
@@ -1473,6 +1538,7 @@ function renderFpsController(): void {
       (id) => state?.players.find((p) => p.id === id)?.characterId ?? null
     );
     if (fpsPendingState) {
+      fpsClient.setPaused(!!state?.paused);
       fpsClient.updateState(fpsPendingState);
       fpsPendingState = null;
     }
@@ -1960,7 +2026,9 @@ function syncPadBadge(state: RoomState, me: PlayerPublic): void {
   const want = state.phase === 'MINIGAME_PLAYING' && padModeFor(state, me) === 'fallback';
   const text = padLost ? '📱 CONTROLLER PERSO — USA TEMPORANEAMENTE IL TELEFONO' : '📱 MODALITÀ FALLBACK — controller non collegato';
   let el = document.getElementById('pad-fallback-badge');
+  fpsClient?.setPaused(want);
   if (want && !el) {
+    releaseControllerInput();
     el = document.createElement('div');
     el.id = 'pad-fallback-badge';
     document.body.appendChild(el);
@@ -2371,15 +2439,20 @@ function syncQuizPadPrivateInfo(data: QuizStatePayload): void {
 
 /** Losing a touch stream must release both network state and the local pointer ownership. */
 function releaseControllerInput(): void {
+  cancelArenaAttack();
   arenaJoy?.reset(); dbJoy?.reset(); soccerJoy?.reset(); volleyJoy?.reset(); fpsJoy?.reset();
   fpsClient?.setFirePressed(false);
+  for (const id of ['fps-aim', 'fps-fire', 'fps-look']) app.querySelector(`#${id}`)?.dispatchEvent(new Event('fps-cancel'));
   endSoccerCharge();
   if (!phoneIsOnTable() && state?.currentMinigame?.minigameId==='cornicione') {
     sendInput({kind:'action',controlId:'throwCancel'});
     app.querySelector('.ctl-throw')?.dispatchEvent(new Event('corn-cancel'));
   }
   for (const controlId of [...heldControls]) sendInput({ kind: 'up', controlId });
-  for (const controlId of [...activeAxes]) sendInput({ kind: 'axis', controlId, x: 0, y: 0 });
+  for (const controlId of [...activeAxes]) {
+    if (controlId === 'look' && state?.currentMinigame?.minigameId === 'fps') continue;
+    sendInput({ kind: 'axis', controlId, x: 0, y: 0 });
+  }
   heldControls.clear(); activeAxes.clear();
 }
 

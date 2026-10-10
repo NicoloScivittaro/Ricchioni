@@ -1,0 +1,129 @@
+{
+  "errors": [],
+  "accelerated": false,
+  "adsStates": [
+    {
+      "ads": 0.2780555555555556,
+      "firing": true,
+      "alive": true,
+      "recoilPitch": 0
+    },
+    {
+      "ads": 0.5561111111111112,
+      "firing": true,
+      "alive": true,
+      "recoilPitch": 0
+    },
+    {
+      "ads": 0.8341666666666667,
+      "firing": true,
+      "alive": true,
+      "recoilPitch": 0
+    },
+    {
+      "ads": 1,
+      "firing": true,
+      "alive": true,
+      "recoilPitch": 0
+    },
+    {
+      "ads": 1,
+      "firing": true,
+      "alive": true,
+      "recoilPitch": 0
+    },
+    {
+      "ads": 1,
+      "firing": true,
+      "alive": true,
+      "recoilPitch": 0
+    },
+    {
+      "ads": 1,
+      "firing": true,
+      "alive": true,
+      "recoilPitch": 0.01625
+    },
+    {
+      "ads": 1,
+      "firing": true,
+      "alive": true,
+      "recoilPitch": 0.01265171664053397
+    },
+    {
+      "ads": 1,
+      "firing": true,
+      "alive": true,
+      "recoilPitch": 0.024800428899191557
+    },
+    {
+      "ads": 1,
+      "firing": true,
+      "alive": true,
+      "recoilPitch": 0.0193078345223714
+    },
+    {
+      "ads": 0.722055555555554,
+      "firing": false,
+      "alive": true,
+      "recoilPitch": 0.02947518147567538
+    },
+    {
+      "ads": 0.44399999999999845,
+      "firing": false,
+      "alive": true,
+      "recoilPitch": 0.022949556308117323
+    }
+  ],
+  "simultaneous": true,
+  "results": [
+    {
+      "playerId": "bot:8915a3fb-2ea9-451d-bcc4-34bc081bca20",
+      "placement": 1,
+      "score": 13,
+      "stats": [
+        "13 kill · 8 morti",
+        "precisione 49%"
+      ]
+    },
+    {
+      "playerId": "bot:ab25d313-a90b-47c3-b8ba-820e6ae3022c",
+      "placement": 2,
+      "score": 11,
+      "stats": [
+        "11 kill · 9 morti",
+        "precisione 55%"
+      ]
+    },
+    {
+      "playerId": "bot:f13f4e1c-209c-4e4c-96c4-eac1e64beb75",
+      "placement": 3,
+      "score": 11,
+      "stats": [
+        "11 kill · 9 morti",
+        "precisione 38%"
+      ]
+    },
+    {
+      "playerId": "bot:1d223246-9ad7-4ff2-a337-2ec34174f4b0",
+      "placement": 4,
+      "score": 9,
+      "stats": [
+        "9 kill · 8 morti",
+        "precisione 48%"
+      ]
+    },
+    {
+      "playerId": "94dfcfca-8b56-4e9c-b867-9ccc08676891",
+      "placement": 5,
+      "score": 0,
+      "stats": [
+        "0 kill · 10 morti",
+        "precisione 0%"
+      ]
+    }
+  ],
+  "assets": [
+    "/assets/main-DNp375nv.js"
+  ]
+}

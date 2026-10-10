@@ -91,6 +91,9 @@ export class PlayerInput {
     return v;
   }
 
+  /** Absolute look must retain its last orientation when a device is cancelled. */
+  hasAxis(id: string): boolean { return this.axes.has(id); }
+
   axis(id: string): { x: number; y: number } {
     const v = this.axes.get(id) ?? { x: 0, y: 0 };
     if (PlayerInput.probe) PlayerInput.probe(this.owner, 'axis', id, v);

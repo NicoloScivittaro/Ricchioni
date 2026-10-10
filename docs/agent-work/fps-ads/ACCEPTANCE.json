@@ -1,0 +1,35 @@
+{
+  "status": "accepted",
+  "implementation": "root explicitly authorized, no Flash",
+  "commit": "8929585016b2f744c44227dafb31e2388afe039f",
+  "build": "tsc --noEmit && vite build: exit 0",
+  "assets": {
+    "dist/assets/main-DNp375nv.js": "67a8455e8a886a4488c4ec5777461bba44dde3e948b013ab65db5988840ed8ed",
+    "dist/assets/BabylonFpsGame-VFGlmcLk.js": "86dae42f2f2fc90aea29f201c422540f759006f34a221a07e341753dbcb54b30",
+    "dist/assets/fpsClient-SqQ7y7yz.js": "35d5132fcb4bb3d19df31c00a9e2f37058827abd83bb3ffaf173bc2912079667",
+    "dist/assets/fpsViewmodel-fL3m6K8I.js": "b2dae00e71b379bccc39e21458b9e1b67a42728ee7f29de4289423a1a19821d7",
+    "dist/assets/controller-BuSDqwvI.js": "44ac315fd197be466774731d0581b60dddf34ce0c924a7bdece5d40ce59dc4cb"
+  },
+  "checks": [
+    "fps-ads-selftest",
+    "fps-aim-selftest",
+    "pad-selftest",
+    "ability-selftest: 999 checks",
+    "characters-animation-selftest: 431 checks",
+    "fighter-projectile-selftest",
+    "fighter-strategy-selftest",
+    "fps-combat: all checks",
+    "fps-ads: five mixed pads, four-finger phone, six sights, cancellation, actual recoil/spread/movement/look, confirmed hit, natural scene finish and cleanup",
+    "fps-ads-production: real-time 100s, one phone/four bots, ADS/fire release, five results, no pageerrors",
+    "git diff --check"
+  ],
+  "browserEvidence": "browser.json",
+  "productionEvidence": "production.json",
+  "limitations": [
+    "simulated pads and Chrome mobile touch, no physical controller/smartphone playtest",
+    "short headless performance sample on local GPU",
+    "human tactical balance and network latency to confirm during playtest"
+  ],
+  "pushed": false,
+  "deployed": false
+}

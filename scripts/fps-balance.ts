@@ -7,9 +7,11 @@
  * Monte Carlo con la stessa logica di dispersione dell'host (angolo uniforme nel cono `spread`).
  * Obiettivo di design: nessuna arma domina a tutte le distanze; ognuna ha la sua fascia.
  */
+import { FPS_ADS, aimSpread } from '../shared/fpsAim';
 import { WEAPONS } from '../shared/fpsWeapons';
 import type { WeaponConfig } from '../shared/fpsWeapons';
 
+const ADS = process.env.ADS === '1' ? 1 : 0;
 const HP = 100;
 const HALF_W = 0.4; // mezza larghezza del bersaglio
 const TRIALS = 4000;
@@ -35,6 +37,7 @@ function gauss(r: () => number): number {
  */
 function shotDamage(w: WeaponConfig, d: number, sigma: number, r: () => number): number {
   if (d > w.range) return 0;
+  const spread = aimSpread(w.spread, ADS, 0, 0); // isolated base cone, stationary, compensated recoil
   const aimErr = gauss(r) * sigma;
   const pellets = w.pellets ?? 1;
   // bombarda: proiettile con splash (impatto diretto pieno; il raggio perdona la mira)
@@ -42,14 +45,14 @@ function shotDamage(w: WeaponConfig, d: number, sigma: number, r: () => number):
     // il proiettile ci mette d/velocita' secondi: nel frattempo il bersaglio si sposta (velocita' media 9 u/s, in movimento 70% del tempo)
     const flight = d / (w.projectileSpeed || 20);
     const drift = r() < 0.7 ? (r() - 0.5) * 2 * 9 * flight * 0.6 : 0;
-    const off = Math.abs(Math.tan(aimErr + (r() - 0.5) * 2 * w.spread) * d + drift);
+    const off = Math.abs(Math.tan(aimErr + (r() - 0.5) * 2 * spread) * d + drift);
     const dist = Math.max(0, off - HALF_W);
     if (dist <= w.splashRadius) return w.damage * (dist <= 1 ? 1 : Math.max(0.3, 1 - (0.7 * (dist - 1)) / (w.splashRadius - 1)));
     return 0;
   }
   let dmg = 0;
   for (let i = 0; i < pellets; i++) {
-    const off = Math.tan(aimErr + (r() - 0.5) * 2 * w.spread) * d;
+    const off = Math.tan(aimErr + (r() - 0.5) * 2 * spread) * d;
     if (Math.abs(off) <= HALF_W) dmg += w.damage;
   }
   return dmg;
@@ -65,7 +68,7 @@ function ttk(w: WeaponConfig, d: number, sigma: number, seed: number): { t: numb
   let kills = 0;
   for (let n = 0; n < TRIALS; n++) {
     let hp = HP;
-    let t = 0;
+    let t = ADS * FPS_ADS.transition;
     let mag = w.magazine;
     let guard = 0;
     while (hp > 0 && guard++ < 600) {
@@ -88,6 +91,7 @@ function ttk(w: WeaponConfig, d: number, sigma: number, seed: number): { t: numb
 
 const DIST = [3, 6, 10, 15, 22, 35];
 const SIGMA = Number(process.env.SIGMA ?? 0.02); // errore di mira in radianti (0.02 = 1.1 gradi, telefono medio)
+console.log(`Modalità ${ADS ? 'ADS (include 0,18s acquisizione)' : 'HIPFIRE'} · fermo, rinculo compensato: stima isolata, non simulazione di un duello`);
 console.log(`TTK medio (s) per uccidere 100 HP · errore di mira ${(SIGMA * 57.3).toFixed(1)}° · distanze in metri`);
 console.log('arma            ' + DIST.map((d) => String(d).padStart(6)).join(' ') + '   | DPS teorico');
 const best: number[] = DIST.map(() => Infinity);

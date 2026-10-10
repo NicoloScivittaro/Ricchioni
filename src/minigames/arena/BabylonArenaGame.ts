@@ -42,6 +42,8 @@ import { say } from '../../core/announcer';
 import { telemetry } from '../../core/telemetry';
 import { arenaRadius, arenaPressure, compareArenaStandings, SUDDEN_SHRINK_SEC, PRESSURE_PULSE_SEC } from './arenaRules';
 
+import { ARENA_COMBAT as C, shoulderValues, instabilityMultiplier, recoverInstability, sweptContact } from '../../../shared/arenaCombat';
+
 const COUNTDOWN_S = 3.2;
 
 type Phase = 'countdown' | 'playing' | 'celebrating';
@@ -79,6 +81,7 @@ export class BabylonArenaGame {
   private shocks: ShockRings;
   private edgeMarkers: GroundMarkers;
   private hitStop = 0;
+  private combatSignalTime = 0;
   private shrinkAnnounced = false;
   private suddenDeath = false;
   private pressurePulse = -1;
@@ -160,6 +163,7 @@ export class BabylonArenaGame {
 
   setPaused(paused: boolean): void {
     this.paused = paused;
+    if (paused) for (const p of this.players) this.cancelCharge(p);
   }
 
   // ---- Loop ----
@@ -200,9 +204,18 @@ export class BabylonArenaGame {
         this.updateShrink();
         this.soloBots.arena(dt, this.players, this.currentRadius);
         for (const p of this.players) this.stepPlayer(p, dt);
+        this.resolveShoulders();
         this.resolveCollisions();
         this.applySuddenPressure(dt);
         this.checkEliminations();
+        this.combatSignalTime -= dt;
+        for (const p of this.players) {
+          this.hud.setCombat(p);
+          if (this.combatSignalTime<=0) this.ctx.signal(p.id, {type:'arenaCombat', instability:Math.round(p.instability),
+            charge:p.charging?Math.min(1,p.chargeTime/C.chargeMax):0, cooldown:p.attackCooldown,
+            recovering:p.recoveryTime>0, alive:p.alive});
+        }
+        if (this.combatSignalTime<=0) this.combatSignalTime=.1;
         this.updateEdgeWarnings(now);
         this.checkEndCondition();
       }
@@ -324,11 +337,17 @@ export class BabylonArenaGame {
       return;
     }
 
+    p.prevX=p.x; p.prevZ=p.z;
+    p.attackCooldown=Math.max(0,p.attackCooldown-dt);
+    p.recoveryTime=Math.max(0,p.recoveryTime-dt);
+    p.momentumTime=Math.max(0,p.momentumTime-dt);
+    p.instability=recoverInstability(p.instability,p.lastImpactAt,this.gameTime,dt);
     // Timer
     p.dashCooldown = Math.max(0, p.dashCooldown - dt);
     p.stunTime = Math.max(0, p.stunTime - dt);
     p.hitFlash = Math.max(0, p.hitFlash - dt);
     this.abilities.update(p, dt, (f) => this.onAbilityFeedback(p, f));
+    if (!p.alive) return;
 
     const input = this.ctx.input.get(p.id);
     const mv = readMove(input);
@@ -345,11 +364,39 @@ export class BabylonArenaGame {
     }
 
     const stunned = p.stunTime > 0;
+    if (input.cancellationVersion!==p.cancelVersion || input.justPressed('attackCancel')) {
+      p.cancelVersion=input.cancellationVersion; this.cancelCharge(p);
+    }
+    if (!input.pressed('attack') && !input.justReleased('attack')) p.attackBlocked=false;
+    if (stunned) this.cancelCharge(p);
+    const free=!stunned && !p.dashing && p.recoveryTime<=0;
+    if (free && !p.attackBlocked && p.attackCooldown<=0 && input.justPressed('attack')) {
+      p.charging=true; p.chargeTime=0;
+    }
+    if (p.charging) {
+      p.chargeTime=Math.min(C.chargeMax,p.chargeTime+dt);
+      if (mag>.15) p.facing=Math.atan2(ax,az);
+      if (input.justReleased('attack') || !input.pressed('attack')) {
+        const charged=p.chargeTime>=C.chargeThreshold, values=shoulderValues(p.chargeTime);
+        p.charging=false; p.chargeTime=0;
+        if (charged) {
+          p.dashing=true; p.shoulderTime=values.time; p.dashTime=values.time;
+          p.shoulderPower=values.power; p.attackCooldown=C.shoulderCooldown;
+          p.vx=Math.sin(p.facing)*values.speed; p.vz=Math.cos(p.facing)*values.speed;
+          audio.boost(this.pan(p.x)); this.ctx.vibrate(p.id,50);
+        } else {
+          p.attackCooldown=C.pushCooldown;
+          this.entities.get(p.id)?.playMove('jab',.23);
+          this.normalPush(p);
+        }
+      }
+    }
 
     // Dash
-    if (!stunned && input.justPressed('dash') && p.dashCooldown <= 0 && !p.dashing) {
+    if (!stunned && p.recoveryTime<=0 && input.justPressed('dash') && p.dashCooldown <= 0 && !p.dashing) {
       const dirX = mag > 0.15 ? ax : Math.sin(p.facing);
       const dirZ = mag > 0.15 ? az : Math.cos(p.facing);
+      this.cancelCharge(p);
       p.dashing = true;
       p.dashTime = DASH_TIME;
       p.dashCooldown = DASH_COOLDOWN;
@@ -363,26 +410,32 @@ export class BabylonArenaGame {
     // Abilità (premuta ma non partita: avviso privato, mai silenzio)
     if (input.justPressed('ability')) {
       const res: ArenaPressResult = stunned ? 'stunned' : this.abilities.onAbilityPress(p, this.players, (f) => this.onAbilityFeedback(p, f));
+      if (res === 'ok') this.cancelCharge(p);
       if (res !== 'ok') abilityHub.failed(p.id, res === 'cooldown' ? 'IN RICARICA' : res === 'spent' ? 'ESAURITA' : 'NON ORA');
     }
 
+    if (p.shoulderTime>0 && (!p.dashing || stunned)) this.stopShoulder(p);
     if (p.dashing) {
       p.dashTime -= dt;
-      if (p.dashTime <= 0) p.dashing = false;
-    } else if (!stunned && mag > 0.15) {
+      if (p.shoulderTime>0) p.shoulderTime=Math.max(.0001,p.shoulderTime-dt);
+      if (p.dashTime <= 0) {
+        p.dashing = false;
+        if (p.shoulderTime>0) this.stopShoulder(p);
+      }
+    } else if (!stunned && p.momentumTime<=0 && p.recoveryTime<=0 && mag > 0.15) {
       p.facing = Math.atan2(ax, az);
-      const accel = ACCEL * p.speedMult;
+      const accel = ACCEL * p.speedMult * (p.charging?C.chargeMove:1);
       p.vx += ax * accel * dt;
       p.vz += az * accel * dt;
     }
 
     // Attrito + limite velocità (solo in movimento normale, non in dash/knockback)
     if (!p.dashing) {
-      const damp = Math.exp(-FRICTION * dt);
+      const damp = Math.exp(-(p.momentumTime>0?C.momentumFriction:FRICTION) * dt);
       p.vx *= damp;
       p.vz *= damp;
       const sp = Math.hypot(p.vx, p.vz);
-      const cap = MAX_SPEED * p.speedMult;
+      const cap = p.momentumTime>0?C.momentumCap:MAX_SPEED * p.speedMult * (p.charging?C.chargeMove:1);
       if (sp > cap) {
         p.vx = (p.vx / sp) * cap;
         p.vz = (p.vz / sp) * cap;
@@ -402,16 +455,66 @@ export class BabylonArenaGame {
     }
   }
 
+  private cancelCharge(p: ArenaPlayer): void {
+    p.charging=false; p.chargeTime=0; p.attackBlocked=true;
+  }
+
+  private stopShoulder(p: ArenaPlayer): void {
+    p.shoulderTime=0; p.dashing=false; p.recoveryTime=C.recovery;
+  }
+
+  private normalPush(p: ArenaPlayer): void {
+    const nx=Math.sin(p.facing), nz=Math.cos(p.facing);
+    const target=this.players.filter(q=>q!==p && q.alive && !q.falling).map(q=>({q,d:Math.hypot(q.x-p.x,q.z-p.z)}))
+      .filter(({q,d})=>d<=C.pushRange && (d<.001 || ((q.x-p.x)*nx+(q.z-p.z)*nz)/d>=C.pushCone))
+      .sort((a,b)=>a.d-b.d)[0]?.q;
+    if (target) this.applyKnockback(target,nx,nz,C.pushPower*p.knockMult,p);
+  }
+
+  private addInstability(p: ArenaPlayer, amount: number): void {
+    p.instability=Math.min(100,p.instability+amount); p.lastImpactAt=this.gameTime;
+  }
+
+  private resolveShoulders(): void {
+    for (const a of this.players) {
+      if (!a.alive || a.falling || !a.dashing || a.shoulderTime<=0) continue;
+      const hits=this.players.filter(b=>b!==a && b.alive && !b.falling).map(b=>({b,t:sweptContact(
+        a.prevX,a.prevZ,b.prevX,b.prevZ,(a.x-a.prevX)-(b.x-b.prevX),(a.z-a.prevZ)-(b.z-b.prevZ),PLAYER_RADIUS*2)}))
+        .filter((h):h is {b:ArenaPlayer;t:number}=>h.t!==null)
+        .filter(({b,t})=>{
+          const dx=b.prevX+(b.x-b.prevX)*t-a.prevX-(a.x-a.prevX)*t;
+          const dz=b.prevZ+(b.z-b.prevZ)*t-a.prevZ-(a.z-a.prevZ)*t;
+          return dx*Math.sin(a.facing)+dz*Math.cos(a.facing)>=0;
+        }).sort((x,y)=>x.t-y.t);
+      const hit=hits[0]; if (!hit) continue;
+      const b=hit.b, nx=Math.sin(a.facing), nz=Math.cos(a.facing), power=a.shoulderPower;
+      a.x=a.prevX+(a.x-a.prevX)*hit.t; a.z=a.prevZ+(a.z-a.prevZ)*hit.t;
+      const returnPower=b.dashing&&b.shoulderTime>0?b.shoulderPower:0;
+      const bx=Math.sin(b.facing),bz=Math.cos(b.facing);
+      this.applyKnockback(b,nx,nz,power*a.knockMult,a);
+      if (returnPower) this.applyKnockback(a,bx,bz,returnPower*b.knockMult,b);
+      this.stopShoulder(a);
+      if (a.momentumTime<=0) { a.vx*=.35; a.vz*=.35; }
+      if (returnPower) this.stopShoulder(b);
+    }
+  }
+
   private applyKnockback(target: ArenaPlayer, kx: number, kz: number, power: number, source?: ArenaPlayer): void {
     if (!target.alive || target.falling) return;
+    const multiplier=instabilityMultiplier(target.instability);
+    const k = this.abilities.shieldIncoming(target, kx * power * multiplier, kz * power * multiplier, source, (f) => this.onAbilityFeedback(target, f));
+    if (k.x === 0 && k.z === 0) return;
     if (source && source.id !== target.id) {
       // CHI: ricordo l'ultimo che ti ha spinto (anche se la spinta e' rimandata da Ciro): a lui va l'eliminazione
       target.lastHitBy = source.id;
       target.lastHitAt = this.gameTime;
     }
-    const k = this.abilities.shieldIncoming(target, kx * power, kz * power, source, (f) => this.onAbilityFeedback(target, f));
-    if (k.x === 0 && k.z === 0) return; // parata del Goblin / schivata del Dottore: nessun colpo a segno
     if (source && source.id !== target.id) this.abilities.onPushLanded(source, (f) => this.onAbilityFeedback(source, f)); // Ciro: spinta a segno = debito saldato
+    this.cancelCharge(target);
+    if (target.shoulderTime>0) this.stopShoulder(target);
+    target.dashing=false;
+    target.momentumTime=C.momentumTime;
+    this.addInstability(target,Math.min(35,Math.hypot(k.x,k.z)*1.3));
     target.vx += k.x;
     target.vz += k.z;
     target.vy = this.gravityLow ? 5 : 3;
@@ -467,6 +570,10 @@ export class BabylonArenaGame {
           const relAlong = (b.vx - a.vx) * nx + (b.vz - a.vz) * nz;
           if (relAlong < 0) {
             const impulse = -relAlong * 0.6;
+            if (-relAlong>5) {
+              this.addInstability(a,Math.min(15,-relAlong)); this.addInstability(b,Math.min(15,-relAlong));
+              a.momentumTime=Math.max(a.momentumTime,.18); b.momentumTime=Math.max(b.momentumTime,.18);
+            }
             a.vx -= nx * impulse;
             a.vz -= nz * impulse;
             b.vx += nx * impulse;
@@ -488,6 +595,7 @@ export class BabylonArenaGame {
   }
 
   private eliminate(p: ArenaPlayer): void {
+    this.cancelCharge(p); p.shoulderTime=0; p.dashing=false;
     p.alive = false;
     p.falling = true;
     p.spin = 0;
@@ -552,6 +660,7 @@ export class BabylonArenaGame {
   private startCelebration(): void {
     if (this.phase === 'celebrating') return;
     this.phase = 'celebrating';
+    for (const p of this.players) { this.cancelCharge(p); p.shoulderTime=0; p.dashing=false; }
     this.celebrateTime = 1.8;
     for (let i = 0; i < this.players.length; i++) this.edgeMarkers.hide(i);
 
@@ -710,6 +819,7 @@ export class BabylonArenaGame {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    for (const p of this.players) this.cancelCharge(p);
     window.removeEventListener('resize', this.onResize);
     this.unsubAbility();
     abilityHub.end(); // statistiche del round + card spenta sui telefoni

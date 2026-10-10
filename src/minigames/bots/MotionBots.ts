@@ -1,3 +1,4 @@
+import { ARENA_COMBAT as ARENA_C } from '../../../shared/arenaCombat';
 import { BotInputs } from './BotInputs';
 import type { ArenaPlayer } from '../arena/arenaTypes';
 import type { Ball, DodgeballPlayer } from '../dodgeball/dodgeballTypes';
@@ -22,12 +23,24 @@ export class MotionBots extends BotInputs {
   arena(dt: number, players: ArenaPlayer[], radius: number): void {
     this.tick(dt);
     for (const p of players) if (this.ids.has(p.id)) {
-      if (!p.alive) { this.move(p.id, 0, 0); continue; }
+      if (!p.alive) { this.move(p.id,0,0); this.hold(p.id,'attack',false); continue; }
       const e = nearest(p, players.filter((q) => q.id !== p.id && q.alive));
-      const edge = Math.hypot(p.x, p.z) > radius - 3;
-      this.move(p.id, edge ? -p.x : (e?.x ?? 0) - p.x, edge ? -p.z : (e?.z ?? 0) - p.z, true);
-      if (!edge && e && Math.hypot(e.x - p.x, e.z - p.z) < 4.5 && this.every(p.id, 'dash', 0.35, 0.75)) this.tap(p.id, 'dash');
-      if (e && Math.hypot(e.x - p.x, e.z - p.z) < 5) this.ability(p.id);
+      const edge = Math.hypot(p.x,p.z)>radius-3;
+      const retreat=edge || p.instability>=70;
+      const dist=e?Math.hypot(e.x-p.x,e.z-p.z):Infinity;
+      this.move(p.id,retreat?-p.x:(e?.x??0)-p.x,retreat?-p.z:(e?.z??0)-p.z,true);
+      if (p.charging) {
+        if (retreat || !e || dist>8) { this.tap(p.id,'attackCancel'); this.hold(p.id,'attack',false); }
+        else this.hold(p.id,'attack',p.chargeTime<.65);
+      } else if (!retreat && e && p.stunTime<=0 && p.attackCooldown<=0 && !p.dashing && p.recoveryTime<=0) {
+        this.hold(p.id,'attack',false); // Re-arm after an interrupted/cancelled charge.
+        if (dist<=ARENA_C.pushRange && this.every(p.id,'push',.35,.65)) this.tap(p.id,'attack');
+        else if (dist>3 && dist<7 && this.every(p.id,'shoulder',.8,1.6)) this.hold(p.id,'attack',true);
+      } else this.hold(p.id,'attack',false);
+      if (e?.charging && dist<5 && !edge && !p.charging && this.every(p.id,'evade',.45,.8)) {
+        this.move(p.id,-(e.z-p.z),e.x-p.x,true); this.tap(p.id,'dash');
+      }
+      if (e && dist<5 && !p.charging) this.ability(p.id);
     }
   }
   dodgeball(dt: number, players: DodgeballPlayer[], balls: Ball[]): void {
@@ -139,6 +152,7 @@ export class MotionBots extends BotInputs {
       // Local forward/strafe input, as produced by the phone joystick.
       this.ctx.input.get(p.id).setAxis('move', wx * Math.cos(p.yaw) - wz * Math.sin(p.yaw), -(wx * Math.sin(p.yaw) + wz * Math.cos(p.yaw)));
       const firing = canSee && e.spawnProtection <= 0 && this.time - target!.since > 0.45 && Math.abs(angle(aim - yaw)) < 0.12 && this.time % 2.2 < 1.6;
+      this.hold(p.id, 'aim', canSee && dist > 10 && Math.abs(angle(aim - yaw)) < 0.18);
       this.hold(p.id, 'fire', firing);
       if (p.magazine === 0 && this.every(p.id, 'reload', 0.4, 0.7)) this.tap(p.id, 'reload');
       if (firing) this.ability(p.id);

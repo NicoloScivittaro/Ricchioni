@@ -54,6 +54,20 @@ export interface ArenaPlayer {
   dashTime: number;
   dashCooldown: number;
 
+  charging: boolean;
+  chargeTime: number;
+  attackCooldown: number;
+  attackBlocked: boolean;
+  cancelVersion: number;
+  shoulderTime: number;
+  shoulderPower: number;
+  recoveryTime: number;
+  momentumTime: number;
+  instability: number;
+  lastImpactAt: number;
+  prevX: number;
+  prevZ: number;
+
   stunTime: number;
   hitFlash: number;
 
@@ -109,6 +123,9 @@ export function createArenaPlayer(
     dashing: false,
     dashTime: 0,
     dashCooldown: 0,
+    charging: false, chargeTime: 0, attackCooldown: 0, attackBlocked: false, cancelVersion: 0,
+    shoulderTime: 0, shoulderPower: 0, recoveryTime: 0, momentumTime: 0,
+    instability: 0, lastImpactAt: -99, prevX: 0, prevZ: 0,
     stunTime: 0,
     hitFlash: 0,
     abCharges: 0,

@@ -1,0 +1,457 @@
+{
+  "errors": [],
+  "accelerated": false,
+  "combatStates": [
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0.10569999999925495,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0.2115,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0.3116999999992549,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0.41190000000223514,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0.5121000000014901,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 2.46670000000298,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 2.3667000000029796,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 2.2665000000037243,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 2.1497000000029787,
+      "recovering": true,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 2.049200000002978,
+      "recovering": true,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 1.946700000002978,
+      "recovering": true,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 1.8467000000029778,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 1.7461000000014877,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 1.6296000000014874,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 1.5291000000014874,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 1.4291000000014873,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 1.328899999998507,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 1.2118999999985072,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 1.0951000000014872,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 0.9786999999992518,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 0.8786000000014869,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 0.7780000000037219,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 0.6616000000014867,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 0,
+      "charge": 0,
+      "cooldown": 0.5613000000044668,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 9,
+      "charge": 0,
+      "cooldown": 0.46100000000372177,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 19,
+      "charge": 0,
+      "cooldown": 0.34449999999999636,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 19,
+      "charge": 0,
+      "cooldown": 0.2444999999999964,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 19,
+      "charge": 0,
+      "cooldown": 0.1444999999999964,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 19,
+      "charge": 0,
+      "cooldown": 0.043999999999996396,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 19,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 19,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 19,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 19,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 19,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 19,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 19,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": true
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    },
+    {
+      "type": "arenaCombat",
+      "instability": 54,
+      "charge": 0,
+      "cooldown": 0,
+      "recovering": false,
+      "alive": false
+    }
+  ],
+  "heldRelease": true,
+  "wallSeconds": 25.742,
+  "results": [
+    {
+      "playerId": "bot:c7fb6ba0-1f35-4f7d-b2de-d9ff03215c6f",
+      "placement": 1,
+      "score": 0,
+      "stats": [
+        "ultimo in piedi",
+        "3 buttati fuori"
+      ]
+    },
+    {
+      "playerId": "bot:29fb1d9c-8455-485b-85eb-ab8a47cdd021",
+      "placement": 2,
+      "score": 0,
+      "stats": [
+        "caduto dopo 21s",
+        "1 buttato fuori"
+      ]
+    },
+    {
+      "playerId": "bot:a3f97eca-2635-4b8c-8848-c11163b31eef",
+      "placement": 3,
+      "score": 0,
+      "stats": [
+        "caduto dopo 14s"
+      ]
+    },
+    {
+      "playerId": "bot:5a226796-e9df-4806-9f06-dec9cc2aed01",
+      "placement": 4,
+      "score": 0,
+      "stats": [
+        "caduto dopo 13s"
+      ]
+    },
+    {
+      "playerId": "52c8f7e2-10b7-486d-91ad-41e5db92f7f7",
+      "placement": 5,
+      "score": 0,
+      "stats": [
+        "caduto dopo 5s"
+      ]
+    }
+  ],
+  "firstEliminationSecond": 5,
+  "assets": [
+    "/assets/main-SKThNrtY.js"
+  ],
+  "failure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(report.assets.length>=2)\n"
+}

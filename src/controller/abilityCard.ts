@@ -173,6 +173,7 @@ export function companionHtml(minigameId: string, me: PlayerPublic, minigameName
       <div class="cc-controls">
         <div class="cc-title">COMANDI</div>
         ${rows}
+        ${minigameId==='arena'?'<p class="cc-ab-text">Tocca: spinta. Tieni e rilascia: spallata. Instabilità alta = voli più lontano. Evita gli scontri per recuperare; attento al bordo!</p>':''}
       </div>
       <p class="cc-look">🎮 USA IL CONTROLLER · ${minigameId === 'fps' ? 'GUARDA LA TUA FINESTRA SULLA TV' : 'GUARDA LA TV'}</p>
       <p class="cc-ok">✅ CONTROLLER CONNESSO${me.pad ? ` · ${esc(me.pad)}` : ''}</p>

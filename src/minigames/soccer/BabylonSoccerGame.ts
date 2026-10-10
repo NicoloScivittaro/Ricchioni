@@ -201,7 +201,8 @@ export class BabylonSoccerGame {
     ballMat.specularColor = new Color3(0.3, 0.3, 0.3);
     this.ballMesh = MeshBuilder.CreateSphere('soccerBall', { diameter: BALL_RADIUS * 2, segments: 12 }, this.scene);
     this.ballMesh.material = ballMat;
-    this.readability = new SoccerReadability(this.scene, this.hud, this.players, this.ballMesh);
+    this.readability = new SoccerReadability(this.scene, this.hud, this.players, this.ballMesh,
+      new Map(ctx.players.map(p => [p.id, p.displayName])));
     this.trail = makeBallTrail(this.scene, this.ballMesh, dotTex, [1, 1, 0.9]);
     this.shocks = new ShockRings(this.scene, 3);
     this.confettiAnchor = MeshBuilder.CreateBox('confettiAnchor', { size: 0.05 }, this.scene);
