@@ -1,0 +1,68 @@
+
+=== CALCIO 1v1 (2 giocatori) ===
+✅ P1 (Xbox) e P2 (DualSense) col controller
+✅ gioco FERMO durante i CONTROLLI (14 campioni: fase intro, tempo partita 60)
+✅ input ignorato durante i CONTROLLI (stick a fondo: move 0)
+✅ durata CONTROLLI 4998 ms
+✅ mostra: "⚽ CALCIO DEI DISAGIATI 🎮 CONTROLLI LEFT STICK MUOVITI RT / R2 CARICA E TIRA A / ✕ PASSA (TOCCO BREVE) X / □ DASH / TACKLE Y / △ ⚡ ABILITÀ ⚡ ABILITÀ · Y / △ GOBLIN MBRIAC"
+✅ RT e X tenuti durante i CONTROLLI: nessuna carica e nessun dash al VIA (bloccati fino al rilascio)
+✅ telefono P1: "GOBLIN MBRIACONE ⚽ CALCIO DEI DISAGIATI N'CULO! Y TIMIN"
+✅ 8 direzioni: il personaggio va dove punta lo stick (8/8)
+✅ possesso automatico: avvicinandosi alla palla il giocatore la prende
+✅ RT: tocco breve = UN tiro debole (passaggio)
+✅ RT tenuto: la carica del gioco sale fino al massimo
+✅ tiro caricato piu' forte del debole (debole 11.4 u/s, caricato 21.5 u/s; curva di potenza del gioco invariata)
+✅ rumble sul tiro
+✅ A/✕ tenuto 1.5 s: UN solo passaggio (nessun doppio tiro)
+✅ X/□ = DASH/TACKLE: P1 scatta e ruba la palla al portatore (cooldown 0.00)
+✅ rumble: tackle riuscito (chi lo fa) e subito (chi lo subisce)
+✅ Y/△ = ABILITA': il gioco consuma la pressione
+✅ RT tenuto (in carica) durante pausa e ripresa: nessun tiro fantasma
+✅ rilasciando RT dopo la ripresa non parte un tiro dalla carica interrotta
+✅ controller caduto: input a zero
+✅ controller caduto mentre RT e' in carica: nessun tiro fantasma
+✅ avviso TV + 📱 MODALITÀ FALLBACK sul telefono di P1
+✅ il controller torna: pairing recuperato
+✅ tiro caricato verso la porta: GOAL
+✅ rumble sul goal
+✅ dopo il goal la palla torna al centro e nessun input e' incastrato (palla 0.0,0.0)
+✅ dopo il reset i controller rispondono ancora
+✅ RT tenuto da risultati + rullo + CONTROLLI: nessuna carica ne' tiro fantasma nel round dopo
+✅ stesse associazioni dopo risultati e rullo (nessuna riassociazione)
+✅ nessun errore di pagina 
+
+=== CALCIO 2v1 (3 giocatori) ===
+✅ P1 (Xbox) e P2 (DualSense) col controller, P3 col telefono
+✅ gioco FERMO durante i CONTROLLI (14 campioni: fase intro, tempo partita 60)
+✅ input ignorato durante i CONTROLLI (stick a fondo: move 0)
+✅ durata CONTROLLI 5009 ms
+✅ mostra: "⚽ CALCIO DEI DISAGIATI 🎮 CONTROLLI LEFT STICK MUOVITI RT / R2 CARICA E TIRA A / ✕ PASSA (TOCCO BREVE) X / □ DASH / TACKLE Y / △ ⚡ ABILITÀ ⚡ ABILITÀ · Y / △ GOBLIN MBRIAC"
+✅ RT e X tenuti durante i CONTROLLI: nessuna carica e nessun dash al VIA (bloccati fino al rilascio)
+✅ telefono P1: "GOBLIN MBRIACONE ⚽ CALCIO DEI DISAGIATI N'CULO! Y TIMIN"
+✅ P3 (senza controller): 📱 MODALITÀ FALLBACK col joystick del telefono
+✅ squadra dispari: handicap attivo sulla squadra numerosa (red) come da bilanciamento esistente
+✅ 8 direzioni: il personaggio va dove punta lo stick (8/8)
+✅ possesso automatico: avvicinandosi alla palla il giocatore la prende
+✅ RT: tocco breve = UN tiro debole (passaggio)
+✅ RT tenuto: la carica del gioco sale fino al massimo
+✅ tiro caricato piu' forte del debole (debole 11.3 u/s, caricato 21.5 u/s; curva di potenza del gioco invariata)
+✅ rumble sul tiro
+✅ A/✕ tenuto 1.5 s: UN solo passaggio (nessun doppio tiro)
+✅ X/□ = DASH/TACKLE: P1 scatta e ruba la palla al portatore (cooldown 0.12)
+✅ rumble: tackle riuscito (chi lo fa) e subito (chi lo subisce)
+✅ Y/△ = ABILITA': il gioco consuma la pressione
+✅ RT tenuto (in carica) durante pausa e ripresa: nessun tiro fantasma
+✅ rilasciando RT dopo la ripresa non parte un tiro dalla carica interrotta
+✅ controller caduto: input a zero
+✅ controller caduto mentre RT e' in carica: nessun tiro fantasma
+✅ avviso TV + 📱 MODALITÀ FALLBACK sul telefono di P1
+✅ il controller torna: pairing recuperato
+✅ tiro caricato verso la porta: GOAL
+✅ rumble sul goal
+✅ dopo il goal la palla torna al centro e nessun input e' incastrato (palla 0.0,0.0)
+✅ dopo il reset i controller rispondono ancora
+✅ P3 (telefono): il suo input entra nello stesso InputManager
+✅ P2 (controller): l'evento del suo telefono (0,0) non sovrascrive lo stick
+✅ RT tenuto da risultati + rullo + CONTROLLI: nessuna carica ne' tiro fantasma nel round dopo
+✅ stesse associazioni dopo risultati e rullo (nessuna riassociazione)
+✅ nessun errore di pagina 

@@ -173,11 +173,11 @@ try {
   if (OUT) await page.screenshot({ path: path.join(OUT, 'calcio-gol.png') });
   const goal = await probe((gm) => {
     const g = gm.game.scene.getScene('soccer').game3d;
-    return { phase: g.phase, bx: g.ball.x, bz: g.ball.z, red: g.redScore, txt: g.hud.countdownText.text, confetti: g.confetti.getActiveCount() };
+    return { phase: g.phase, bx: g.ball.x, bz: g.ball.z, red: g.redScore, txt: g.hud.bannerText.text, bannerVisible: g.hud.bannerBox.isVisible, overlayOnTop: g.hud.bannerBox.zIndex > g.readability.players.get(g.players[0].id).box.zIndex, confetti: g.confetti.getActiveCount() };
   });
   check(goal.phase === 'goalPause' && goal.red === 1, `gol: fase goalPause, punteggio rossi ${goal.red}`);
   check(Math.abs(goal.bx) > 16, `la palla resta nella rete (x=${goal.bx.toFixed(1)}), non si teletrasporta al centro`);
-  check(goal.txt === 'GOOOL!', `scritta a tutto schermo "${goal.txt}"`);
+  check(goal.txt === 'GOOOL!' && goal.bannerVisible && goal.overlayOnTop, `scritta a tutto schermo "${goal.txt}"`);
   check(goal.confetti > 10, `coriandoli in volo (${goal.confetti} particelle)`);
   check(errs.length === 0, `nessun errore di pagina ${errs.length ? JSON.stringify(errs.slice(0, 3)) : ''}`);
   if (OUT) console.log('   screenshot in', OUT);

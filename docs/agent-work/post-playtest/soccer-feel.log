@@ -1,0 +1,21 @@
+✅ squadre 2 contro 2 (rossi 1,3, blu 0,2)
+✅ passaggio del compagno (16 u/s: sopra la presa normale): R2 lo controlla al volo (ricezione assistita)
+✅ ...e non conta come intercetto (0)
+✅ tiro fortissimo (22 u/s): NON viene incollato al compagno (resta un tiro)
+✅ palla calciata da un avversario a 16 u/s: nessuna ricezione gratuita (si respinge)
+✅ R1 riprende la propria palla: presa (true) ma 0 intercetti (0) — niente farming MVP
+✅ R2 prende una palla avversaria: intercetto contato (1)
+✅ il pulsante si sta riempiendo mentre tieni premuto (arena-dash db-throw soccer-charging)
+✅ la TV mostra la linea di carica lunga quanto il tiro (9 pallini a carica media)
+✅ a carica massima il pulsante pulsa (arena-dash db-throw soccer-full)
+✅ a carica massima la linea diventa arancione ({"n":12,"mat":"chargeFull"})
+✅ dopo il tiro il pulsante torna normale
+✅ il tiro e' partito verso l'attacco (x=-3.6)
+✅ il pulsante TACKLE mostra il cooldown reale (db-dodge arena-dash-cooldown)
+✅ B1 ruba la palla scivolando da 4.5 unita' (ha palla true, contrasti 1, R2 ha ancora palla false)
+✅ gol: fase goalPause, punteggio rossi 1
+✅ la palla resta nella rete (x=16.8), non si teletrasporta al centro
+✅ scritta a tutto schermo "GOOOL!"
+✅ coriandoli in volo (140 particelle)
+✅ nessun errore di pagina 
+   screenshot in docs/agent-work/post-playtest/soccer-feel

@@ -1,5 +1,5 @@
 import { MotionBots } from '../bots/MotionBots';
-import { Engine, Scene, Color4, DynamicTexture, MeshBuilder, StandardMaterial, Color3, Mesh, ParticleSystem, Vector3 } from '@babylonjs/core';
+import { Engine, Scene, Color4, Constants, DynamicTexture, MeshBuilder, StandardMaterial, Color3, Mesh, ParticleSystem, Vector3 } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
 import { audio } from '../../core/AudioManager';
@@ -39,7 +39,8 @@ import {
 } from './soccerTypes';
 import type { SoccerPlayer, SoccerBall, Team } from './soccerTypes';
 import { ArenaEntity } from '../arena/arenaEntity';
-import { ArenaCamera } from '../arena/arenaCamera';
+import { SoccerCamera } from './soccerCamera';
+import { SoccerReadability } from './soccerReadability';
 import { ShockRings, makeBallTrail } from '../arena/impactFx';
 import { SoccerHud } from './soccerHud';
 import { buildSoccerEnvironment } from './soccerEnvironment';
@@ -59,7 +60,7 @@ import { say } from '../../core/announcer';
 import { telemetry } from '../../core/telemetry';
 
 const COUNTDOWN_S = 3.2;
-const BALL_HEIGHT = 0.35;
+const BALL_HEIGHT = BALL_RADIUS; // altezza visiva: nessuna modifica alla fisica X/Z
 
 type Phase = 'intro' | 'countdown' | 'playing' | 'goalPause' | 'goldenGoal' | 'ended';
 
@@ -72,7 +73,10 @@ export class BabylonSoccerGame {
   private ball: SoccerBall = createBall();
   private ballMesh: Mesh;
   private env: ReturnType<typeof buildSoccerEnvironment>;
-  private camera: ArenaCamera;
+  private camera: SoccerCamera;
+  private readability: SoccerReadability;
+  private aimArrow: Mesh;
+  private aimColor = '#22d3ee';
   private hud: SoccerHud;
   private abilities = new SoccerAbilities();
   private unsubAbility: () => void = () => undefined;
@@ -122,7 +126,7 @@ export class BabylonSoccerGame {
 
     this.env = buildSoccerEnvironment(this.scene);
     registerEnvScene(this.scene);
-    this.camera = new ArenaCamera(this.scene, canvas);
+    this.camera = new SoccerCamera(this.scene);
     this.hud = new SoccerHud(this.scene);
     this.hud.setNote(ctx.modifier?.name ? `⚠️ ${ctx.modifier.name}` : '');
 
@@ -150,11 +154,21 @@ export class BabylonSoccerGame {
     this.chargeFullMat = mkMat('chargeFull', 1, 0.45, 0.1);
     this.sweetMat = mkMat('chargeSweet', 0.25, 1, 0.3); // zona verde del tiro perfetto del Goblin
     for (let i = 0; i < 20; i++) {
-      const d = MeshBuilder.CreateSphere('aimDot', { diameter: 0.22, segments: 6 }, this.scene);
+      const d = MeshBuilder.CreateSphere('aimDot', { diameter: 0.3, segments: 6 }, this.scene);
       d.material = this.aimMat;
       d.isVisible = false;
+      d.renderingGroupId = 1;
       this.aimDots.push(d);
     }
+
+    for (const m of [this.aimMat, this.chargeMidMat, this.chargeFullMat, this.sweetMat]) {
+      m.depthFunction = Constants.ALWAYS; // mira leggibile anche dietro un corpo
+      m.disableDepthWrite = true;
+    }
+    this.aimArrow = MeshBuilder.CreateCylinder('soccerAimArrow', { height: .7, diameterBottom: .6, diameterTop: 0, tessellation: 12 }, this.scene);
+    this.aimArrow.rotation.x = Math.PI / 2;
+    this.aimArrow.renderingGroupId = 1;
+    this.aimArrow.isVisible = false;
 
     // Squadre casuali
     this.order = this.shuffle([...ctx.playerIds]);
@@ -170,14 +184,14 @@ export class BabylonSoccerGame {
       const p = createSoccerPlayer(snap.id, snap.characterId, snap.color, snap.avatar, snap.name, team, handicapped);
       this.abilities.init(p);
       this.players.push(p);
-      // Colore maglia = colore squadra (identità personale via nameplate + tratti).
-      const entity = new ArenaEntity(this.scene, dotTex, TEAM_COLOR[team], snap.characterId, snap.avatar, snap.displayName, team,{context:'soccer'});
+      // Skin originali: anelli/etichette distinguono identità e squadra senza alterare i materiali Tripo.
+      const entity = new ArenaEntity(this.scene, dotTex, TEAM_COLOR[team], snap.characterId, snap.avatar, snap.displayName, team, { context: 'soccer', nameplate: false });
       this.entities.set(p.id, entity);
     });
 
     abilityHub.begin('soccer', ctx);
     this.unsubAbility = abilityHub.onStatus((id, st) => this.hud.setAbility(id, st));
-    this.hud.playerStrip(this.players.map((q) => ({ id: q.id, name: q.name, characterId: q.characterId, color: TEAM_COLOR[q.team], team: q.team })));
+    this.hud.playerStrip(this.players.map((q) => ({ id: q.id, name: q.name, characterId: q.characterId, color: q.color, team: q.team })));
     this.spawnTeams();
     this.positionBall(0, 0);
 
@@ -187,6 +201,7 @@ export class BabylonSoccerGame {
     ballMat.specularColor = new Color3(0.3, 0.3, 0.3);
     this.ballMesh = MeshBuilder.CreateSphere('soccerBall', { diameter: BALL_RADIUS * 2, segments: 12 }, this.scene);
     this.ballMesh.material = ballMat;
+    this.readability = new SoccerReadability(this.scene, this.hud, this.players, this.ballMesh);
     this.trail = makeBallTrail(this.scene, this.ballMesh, dotTex, [1, 1, 0.9]);
     this.shocks = new ShockRings(this.scene, 3);
     this.confettiAnchor = MeshBuilder.CreateBox('confettiAnchor', { size: 0.05 }, this.scene);
@@ -359,15 +374,18 @@ export class BabylonSoccerGame {
       this.entities.get(p.id)?.updateVisual(p, dt, now);
     }
     this.ballMesh.position.set(this.ball.x, BALL_HEIGHT, this.ball.z);
+    if (!this.ball.ownerId) {
+      this.ballMesh.rotation.x += this.ball.vz * dt / BALL_RADIUS;
+      this.ballMesh.rotation.z -= this.ball.vx * dt / BALL_RADIUS;
+    }
     // scia sui tiri veloci (leggibilita' della traiettoria): piu' fitta col crescere della velocita'
     const bsp = this.ball.ownerId ? 0 : Math.hypot(this.ball.vx, this.ball.vz);
     this.trail.emitRate = bsp > 9 ? 25 + 90 * Math.min(1, bsp / BALL_MAX_SPEED) : 0;
     this.shocks.update(dt);
     this.updateAimLine();
+    this.readability.update(this.players, this.ball, this.phase === 'playing' || this.phase === 'goldenGoal', this.aimColor);
     for (const p of this.players) abilityHub.setStatus(p.id, this.abilities.status(p)); // HUD + Companion Card (solo presentazione)
-    const subjects = this.players.map((p) => ({ alive: p.alive, falling: p.falling, x: p.x, z: p.z }));
-    subjects.push({ alive: true, falling: false, x: this.ball.x, z: this.ball.z });
-    this.camera.update(dt, subjects, now);
+    this.camera.update(dt, this.players, this.ball, now);
     this.env.update(now);
 
     this.ctx.input.update();
@@ -545,6 +563,7 @@ export class BabylonSoccerGame {
     this.ball.abilityKickerId = abilityShot ? p.id : null;
     p.hasBall = false;
     this.teamKicks[p.team]++;
+    this.hud.actionFeedback(`${p.name}: ${frac > .3 ? 'TIRO' : 'PASSAGGIO'} ${Math.round(frac * 100)}%`, p.color, 1100);
     // contatto NELLO STESSO istante dell'impulso alla palla; la carica (wind-up) si e' vista prima, follow-through ∝ potenza
     this.entities.get(p.id)?.playKick(frac);
     audio.kick(0.6 + frac * 0.9, this.pan(p.x)); // passaggio (tocco) e tiro (caricato) suonano diversi
@@ -599,6 +618,7 @@ export class BabylonSoccerGame {
     p.hasBall = true;
     this.ball.ownerId = p.id;
     p.tackles++;
+    this.hud.actionFeedback(`${p.name}: CONTRASTO RIUSCITO`, p.color, 1400);
     const d = carrier.dist || 1;
     const nx = (v.x - p.x) / d;
     const nz = (v.z - p.z) / d;
@@ -631,6 +651,7 @@ export class BabylonSoccerGame {
         attacker.hasBall = true;
         this.ball.ownerId = attacker.id;
         attacker.tackles++;
+        this.hud.actionFeedback(`${attacker.name}: CONTRASTO RIUSCITO`, attacker.color, 1400);
         const nx = (victim.x - attacker.x) / (d || 1);
         const nz = (victim.z - attacker.z) / (d || 1);
         victim.vx += nx * 6;
@@ -800,6 +821,10 @@ export class BabylonSoccerGame {
     if (lk && lk.team !== p.team) {
       p.interceptions++;
       b.prevKickerId = null;
+    }
+    if (lk && lk.id !== p.id && lk.team === p.team) {
+      this.hud.actionFeedback(`${lk.name} → ${p.name}: PASSAGGIO RIUSCITO`, p.color, 1600);
+      this.shocks.spawn(p.x, p.z, p.color, .6);
     }
     b.ownerId = p.id;
     p.hasBall = true;
@@ -1075,7 +1100,8 @@ export class BabylonSoccerGame {
     const shooter = this.players.find((p) => p.charging && p.hasBall && p.alive);
     const lucid = this.players.find((p) => p.lucidTime > 0 && p.hasBall && p.alive);
     const aimer = shooter ?? lucid;
-    if (!aimer) {
+    if (!aimer || (this.phase !== 'playing' && this.phase !== 'goldenGoal')) {
+      this.aimArrow.isVisible = false;
       for (const d of this.aimDots) d.isVisible = false;
       return;
     }
@@ -1092,7 +1118,7 @@ export class BabylonSoccerGame {
         mat = this.abilities.inSweetSpot(frac) ? this.sweetMat : frac > SOCCER_GOBLIN.p.sweetTo ? this.chargeFullMat : this.aimMat;
       }
     }
-    if (aimer.lucidTime > 0 && aimer.characterId === 'dottore') {
+    if (aimer.lucidTime > 0 && aimer.characterId === 'dottore' && (!shooter || frac >= SOCCER_DOTTORE.p.minCharge)) {
       const t = this.lucidTarget(aimer);
       const dx = t.x - aimer.x;
       const dz = t.z - aimer.z;
@@ -1102,6 +1128,7 @@ export class BabylonSoccerGame {
       reach = d; // la linea arriva fino all'angolo scelto
       mat = this.aimMat;
     }
+    this.aimColor = mat.emissiveColor.toHexString();
     let x = aimer.x + dirX * (PLAYER_RADIUS + BALL_RADIUS);
     let z = aimer.z + dirZ * (PLAYER_RADIUS + BALL_RADIUS);
     const pts: { x: number; z: number }[] = [];
@@ -1111,6 +1138,13 @@ export class BabylonSoccerGame {
       if (Math.abs(z) > FIELD_HALF_D) break;
       if (x > FIELD_HALF_W || x < -FIELD_HALF_W) break;
       pts.push({ x, z });
+    }
+    this.aimArrow.isVisible = pts.length > 0;
+    this.aimArrow.material = mat;
+    if (pts.length) {
+      const end = pts[pts.length - 1];
+      this.aimArrow.position.set(end.x, .35, end.z);
+      this.aimArrow.rotation.y = Math.atan2(dirX, dirZ);
     }
     for (let i = 0; i < this.aimDots.length; i++) {
       const d = this.aimDots[i];

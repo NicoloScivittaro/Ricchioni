@@ -1,0 +1,78 @@
+{
+  "errors": [],
+  "accelerated": false,
+  "players": [
+    {
+      "id": "e7e7eb59-c77e-463a-9fb7-6822974ff39e",
+      "bot": false,
+      "character": "goblin"
+    },
+    {
+      "id": "bot:3d8e33dc-55ef-4fe8-a4bb-4c95eb39e4f5",
+      "bot": true,
+      "character": "buttafuori"
+    },
+    {
+      "id": "bot:a0efae76-e315-49be-9a39-e034a819ff2f",
+      "bot": true,
+      "character": "judoka"
+    },
+    {
+      "id": "bot:935b6ff9-2bce-4ca0-ae97-9ce16a3c56ea",
+      "bot": true,
+      "character": "ciro"
+    },
+    {
+      "id": "bot:411b17ad-4514-48e4-8456-c5ed498cd573",
+      "bot": true,
+      "character": "dottore"
+    }
+  ],
+  "results": [
+    {
+      "playerId": "bot:a0efae76-e315-49be-9a39-e034a819ff2f",
+      "placement": 1,
+      "score": 24,
+      "stats": [
+        "5 gol · 0 assist",
+        "9 contrasti"
+      ]
+    },
+    {
+      "playerId": "bot:935b6ff9-2bce-4ca0-ae97-9ce16a3c56ea",
+      "placement": 2,
+      "score": 14,
+      "stats": [
+        "1 gol · 0 assist",
+        "11 contrasti"
+      ]
+    },
+    {
+      "playerId": "bot:411b17ad-4514-48e4-8456-c5ed498cd573",
+      "placement": 3,
+      "score": 10,
+      "stats": [
+        "2 gol · 0 assist",
+        "4 contrasti"
+      ]
+    },
+    {
+      "playerId": "bot:3d8e33dc-55ef-4fe8-a4bb-4c95eb39e4f5",
+      "placement": 4,
+      "score": 24,
+      "stats": [
+        "0 gol · 0 assist",
+        "24 contrasti"
+      ]
+    },
+    {
+      "playerId": "e7e7eb59-c77e-463a-9fb7-6822974ff39e",
+      "placement": 5,
+      "score": 0,
+      "stats": [
+        "0 gol · 0 assist",
+        "0 contrasti"
+      ]
+    }
+  ]
+}
