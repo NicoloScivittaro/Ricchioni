@@ -1,0 +1,60 @@
+{
+  "errors": [],
+  "items": [
+    {
+      "item": "mollone",
+      "held": null,
+      "boost": 0,
+      "grip": 0,
+      "jump": 1.25,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [],
+      "projectiles": [],
+      "meshes": 336,
+      "mats": 163
+    }
+  ],
+  "controls": [
+    {
+      "pad": 0,
+      "item": "calamita"
+    },
+    {
+      "pad": 1,
+      "item": "turbo_difettoso"
+    },
+    {
+      "pad": 2,
+      "item": "paraurti"
+    },
+    {
+      "phone": true,
+      "item": "mollone"
+    }
+  ],
+  "mixed": {
+    "finite": true,
+    "moving": [
+      52.938021062559784,
+      52.56226158287076,
+      52.6339022429546,
+      44,
+      44
+    ],
+    "traps": 2,
+    "projectiles": 0,
+    "timed": 2
+  },
+  "resources": {
+    "before": {
+      "meshes": 349,
+      "mats": 167
+    },
+    "after": {
+      "meshes": 349,
+      "mats": 167
+    }
+  }
+}

@@ -142,6 +142,18 @@ export function stepKartPhysics(
   if (k.invulnTimer > 0) k.invulnTimer = Math.max(0, k.invulnTimer - dt);
   if (k.disturbTimer > 0) k.disturbTimer = Math.max(0, k.disturbTimer - dt);
   k.oilTimer = Math.max(0, k.oilTimer - dt);
+  k.faultyTimer = Math.max(0, k.faultyTimer - dt);
+  k.bumperTimer = Math.max(0, k.bumperTimer - dt);
+  if (k.jumpHeight > 0 || k.jumpVelocity > 0) {
+    k.jumpVelocity -= 14 * dt; k.jumpHeight += k.jumpVelocity * dt;
+    if (k.jumpHeight <= 0) {
+      k.jumpHeight = 0; k.jumpVelocity = 0;
+      if (Math.abs(k.heading) > .3 && k.speed > 15) {
+        k.oilTimer = Math.max(k.oilTimer, .45);
+        k.slipVelocity = clamp(k.slipVelocity + k.speed * Math.sin(k.heading) * .2, -18, 18);
+      }
+    }
+  }
   const oil = Math.min(1, k.oilTimer / .4);
 
   // Sterzo: se il gamepad sta sterzando (input.steer != 0) usa quel valore CONTINUO (-1..1); altrimenti il digitale di
@@ -225,7 +237,8 @@ export function stepKartPhysics(
 
   // --- Sterzata: velocità angolare ASSOLUTA (vedi commento sopra la funzione) ---
   const speedFracForSteer = Math.min(1, Math.abs(k.speed) / C.maxSpeed);
-  const turnRate = C.maxTurnRate * (1 - C.highSpeedSteerLoss * speedFracForSteer * speedFracForSteer) * k.steerMultiplier; // steerMultiplier: camion del Judoka
+  const itemSteer = (k.faultyTimer > 0 ? .58 : 1) * (k.bumperTimer > 0 ? .85 : 1);
+  const turnRate = C.maxTurnRate * (1 - C.highSpeedSteerLoss * speedFracForSteer * speedFracForSteer) * k.steerMultiplier * itemSteer;
   if (!stunned) {
     k.absHeading += steerDir * turnRate * dt;
     if (k.drifting) k.absHeading += k.driftDir * C.driftExtraRate * dt;
@@ -315,6 +328,8 @@ export function respawnKart(k: KartState, trackAngleAt: (distance: number) => nu
   k.collisionYawVelocity = 0;
   k.wallContact = false;
   k.oilTimer = 0;
+  k.jumpHeight = k.jumpVelocity = k.faultyTimer = k.bumperTimer = k.magnetTimer = 0;
+  k.magnetTarget = null;
   k.driftCharge = 0;
   k.drifting = false;
   k.boostTimer = 0;

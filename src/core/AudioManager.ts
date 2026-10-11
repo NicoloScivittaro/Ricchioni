@@ -935,6 +935,24 @@ export class AudioManager {
     this.sweep('sine', 440, 180, .25, .04);
   }
 
+  /** Timbri sintetici distinti per gli item; nessun file audio o motore nuovo. */
+  kartItem(kind: string): void {
+    switch(kind) {
+      case 'calamita': this.sweep('triangle',180,680,.28,.08);break;
+      case 'piccione': this.sweep('sine',1100,1900,.09,.06);this.sweep('sine',1500,950,.1,.05,.12);break;
+      case 'turbo_difettoso': this.sweep('sawtooth',100,500,.3,.055);this.noiseBurst(.16,2500,600,.05);break;
+      case 'buca': this.kartBump(.35);break;
+      case 'raffica': this.noiseBurst(.45,400,2000,.07,0,.8);break;
+      case 'paraurti': this.chord([220,330,440],.16,'triangle',.06);break;
+      case 'mollone': this.sweep('sine',120,850,.22,.09);break;
+      case 'olio': this.kartSkid();break;
+      case 'sfera': this.sweep('square',300,110,.12,.05);break;
+      case 'scudo': this.chord([440,660,880],.18,'sine',.05);break;
+      case 'disturbo': this.sweep('square',700,180,.18,.045);break;
+      default: this.kartBoost(kind==='super_turbo'?38:18);
+    }
+  }
+
   kartBump(power: number): void {
     const k = Math.max(0.2, Math.min(1, power));
     this.sweep('sine', 160, 60, 0.12 + 0.1 * k, 0.06 + 0.1 * k);

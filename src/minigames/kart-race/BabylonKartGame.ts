@@ -345,6 +345,7 @@ export class BabylonKartGame {
         const b = list[j];
         const frame = (k: KartState) => {
           const pos = this.spline.worldPoint(k.distance, k.lateral);
+          pos.y += k.jumpHeight;
           return { x: pos.x, y: pos.y, z: pos.z, trackAngle: this.trackAngleAt(k.distance) };
         };
         const aStun = a.stunTimer, bStun = b.stunTimer;

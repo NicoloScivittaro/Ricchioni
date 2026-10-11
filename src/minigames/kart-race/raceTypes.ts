@@ -2,8 +2,8 @@ import type { PlayerId } from '../../../shared/types';
 /** La griglia parte dietro lo zero della pista: non collassare le file sulla linea al VIA. */
 export const MIN_RACE_DISTANCE = -12;
 
-/** I 6 oggetti originali (nessun riferimento Nintendo). */
-export type ItemId = 'turbo' | 'sfera' | 'olio' | 'scudo' | 'super_turbo' | 'disturbo';
+/** Sei oggetti originali + sette effetti distinti; separati dalle abilità personali. */
+export type ItemId = 'turbo' | 'sfera' | 'olio' | 'scudo' | 'super_turbo' | 'disturbo' | 'calamita' | 'piccione' | 'turbo_difettoso' | 'buca' | 'raffica' | 'paraurti' | 'mollone';
 
 export interface KartState {
   playerId: PlayerId;
@@ -40,6 +40,12 @@ export interface KartState {
   shielded: boolean;
   disturbTimer: number; // sterzo invertito temporaneo (colpito da "disturbo")
   oilTimer: number; // grip laterale ridotto, senza stun né freno longitudinale
+  faultyTimer: number;
+  bumperTimer: number;
+  magnetTimer: number;
+  magnetTarget: PlayerId | null;
+  jumpHeight: number;
+  jumpVelocity: number;
   stunTimer: number; // spin-out dopo un colpo
   invulnTimer: number; // breve invulnerabilità post-respawn/scudo
 
@@ -84,11 +90,13 @@ export interface KartState {
   debtStun: number;
   debtDisturb: number;
   debtOil: number;
+  debtBounce: number;
   // ...e retroattivo: subito DOPO un colpo (refundTimer) premere ABILITA' lo trasforma in debito (refundStun/Disturb = cosa annullare).
   refundTimer: number;
   refundStun: number;
   refundDisturb: number;
   refundOil: number;
+  refundBounce: number;
 }
 
 export function createKartState(playerId: PlayerId, characterId: string | null, colorHex: string, avatar: string): KartState {
@@ -122,6 +130,12 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     shielded: false,
     disturbTimer: 0,
     oilTimer: 0,
+    faultyTimer: 0,
+    bumperTimer: 0,
+    magnetTimer: 0,
+    magnetTarget: null,
+    jumpHeight: 0,
+    jumpVelocity: 0,
     stunTimer: 0,
     invulnTimer: 1.2,
     offTrackTimer: 0,
@@ -148,9 +162,11 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     debtStun: 0,
     debtDisturb: 0,
     debtOil: 0,
+    debtBounce: 0,
     refundTimer: 0,
     refundStun: 0,
     refundDisturb: 0,
-    refundOil: 0
+    refundOil: 0,
+    refundBounce: 0
   };
 }

@@ -6,6 +6,7 @@ import { popCountdown } from '../../core/countdownFx';
 import type { KartState } from './raceTypes';
 import type { TrackSpline } from './track';
 import { itemLabel } from './items';
+import { activeItemLabel } from './itemCatalog';
 import { MAX_SPEED, DRIFT_THRESHOLDS } from './kartPhysics';
 import { DRIFT_LEVEL_COLORS, driftLevelOf } from './kartEntity';
 import { FONT_DISPLAY } from '../../core/uiTokens';
@@ -578,7 +579,8 @@ export class KartHud {
     if (!e) return;
     e.posText.text = ordinal(state.placement || 1) + `/${total}`;
     e.lapText.text = `GIRO ${Math.min(state.lap + 1, laps)}/${laps}`;
-    e.itemText.text = state.heldItem ? itemLabel(state.heldItem) : '—';
+    e.itemText.text = state.heldItem ? itemLabel(state.heldItem) : activeItemLabel(state);
+    e.itemText.fontSize = e.itemText.text.length > 17 ? 12 : 16;
 
     const maxCharge = driftT[2];
     const frac = state.drifting ? Math.min(1, state.driftCharge / maxCharge) : 0;

@@ -1,9 +1,13 @@
 # Checkpoint
 
-Baseline `487ff47`, pulita. M1 completata e verificata; M2 prossima.
+Baseline `487ff47`, pulita. M1 commit `868c750`. M2 completata e verificata; M3 prossima.
 
 Audit iniziale: sei item (turbo, super_turbo, sfera, olio, scudo, disturbo). L'olio crea un cilindro senza posizione e `updateTraps` non la assegna; rimane all'origine. L'effetto chiama `hitKart(.6)`, velocità ×.35 e sterzo disabilitato: non è grip. Materiale viola opaco, diametro 1.6 contro trigger più grande. Correzione su superficie campionata dalla TrackSpline, volume leggibile e grip temporaneo, senza chiamare hitKart.
 
 M1: superficie lucida 4.8×3.4 m, bordo iridescente, rialzo 8.5 cm e offset profondità; curva/rampa dalla spline. Grip per 1.6 s, nessun taglio velocità/stun; inerzia in sterzata, fumo gomme e suono dedicato. Scudo/invulnerabilità e debito Ciro preservati. Trigger continuo, cambio giro, riattraversamento consentito dopo uscita. Durata chiazza 18 s. Materiali propri smaltiti.
 
 PASS: typecheck; kart-oil-selftest (30/60/120, inerzia/recupero/zero freno/Ciro/sweep); kart-contact-selftest; kart-abilities-selftest; browser `kart-oil.mjs` 5 telefoni/viewport, screenshot 1280×720 e 1920×1080 aperti e ispezionati, oil sweep 10 m senza freno, scadenza 15 mesh/materiali, ritorno lobby. `oil-browser.json`. Le prime catture prima della compilazione shader non mostravano l'olio: il test ora attende `whenReadyAsync` prima di render/cattura.
+
+M2: tredici item, nessun originale rimosso. Calamita 3 s (3–24 m avanti, break a 30 m/5 m laterali/salto/schianto/fine); piccione non homing 3 s/instabilità .85 s; turbo difettoso power48×1.8 s/sterzo .58; buca12 s/sobbalzo3+grip .7 s; raffica7 s/forza laterale8 con frecce; paraurti5 s/massa-resistenza/sterzo .85; Mollone6.2 m/s, gravità14, salto~.9 s. Catalogo unico HUD/telefono/pesi continui per posizione; super+difettoso sotto13% nel campionamento. Ciro rinvia anche il sobbalzo della buca. Collider più stretti delle vecchie sfere, sweep relativo e giro wrappato. Un cubo a un solo kart, roulette non duplicata e non consegnata a chi ha finito.
+
+PASS: typecheck; kart-items-selftest (13 singoli, nuovi mischiati, 30/60/120, distribuzione, bumper, salto/landing, scadenze/fine/cleanup); kart-oil/contact/pad-selftest. `kart-items.mjs`: 5 giocatori, X/□ effettivo Xbox/DS/generico e touch Mollone; 13 screenshot + 7 nuovi aperti, Raffica corretta dopo ispezione (anello invece di disco bianco), Mollone reso visibile sotto il telaio e rivisto; telefono descrizione verificata. 5 kart in moto con effetti misti; 20 ripetizioni: mesh349→349, materiali168→168; lobby/canvas1/no errori. Dati `items-browser.json`, verifica mirata finale `items-targeted.json`. Tuning umano ancora necessario.

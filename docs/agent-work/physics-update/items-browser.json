@@ -1,0 +1,238 @@
+{
+  "errors": [],
+  "items": [
+    {
+      "item": "turbo",
+      "held": null,
+      "boost": 1.1,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [],
+      "projectiles": [],
+      "meshes": 334,
+      "mats": 163
+    },
+    {
+      "item": "super_turbo",
+      "held": null,
+      "boost": 2.4,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [],
+      "projectiles": [],
+      "meshes": 334,
+      "mats": 163
+    },
+    {
+      "item": "sfera",
+      "held": null,
+      "boost": 0,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [],
+      "projectiles": [
+        "sfera"
+      ],
+      "meshes": 335,
+      "mats": 164
+    },
+    {
+      "item": "olio",
+      "held": null,
+      "boost": 0,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [
+        "olio"
+      ],
+      "projectiles": [],
+      "meshes": 337,
+      "mats": 167
+    },
+    {
+      "item": "scudo",
+      "held": null,
+      "boost": 0,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [],
+      "projectiles": [],
+      "meshes": 334,
+      "mats": 164
+    },
+    {
+      "item": "disturbo",
+      "held": null,
+      "boost": 0,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [],
+      "projectiles": [],
+      "meshes": 334,
+      "mats": 164
+    },
+    {
+      "item": "calamita",
+      "held": null,
+      "boost": 0.08,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 2.984,
+      "traps": [],
+      "projectiles": [],
+      "meshes": 341,
+      "mats": 164
+    },
+    {
+      "item": "piccione",
+      "held": null,
+      "boost": 0,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [],
+      "projectiles": [
+        "piccione"
+      ],
+      "meshes": 340,
+      "mats": 168
+    },
+    {
+      "item": "turbo_difettoso",
+      "held": null,
+      "boost": 1.8,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 0,
+      "fault": 1.8,
+      "magnet": 0,
+      "traps": [],
+      "projectiles": [],
+      "meshes": 339,
+      "mats": 168
+    },
+    {
+      "item": "buca",
+      "held": null,
+      "boost": 0,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [
+        "buca"
+      ],
+      "projectiles": [],
+      "meshes": 336,
+      "mats": 170
+    },
+    {
+      "item": "raffica",
+      "held": null,
+      "boost": 0,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [
+        "raffica"
+      ],
+      "projectiles": [],
+      "meshes": 339,
+      "mats": 170
+    },
+    {
+      "item": "paraurti",
+      "held": null,
+      "boost": 0,
+      "grip": 0,
+      "jump": 0,
+      "bumper": 5,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [],
+      "projectiles": [],
+      "meshes": 342,
+      "mats": 168
+    },
+    {
+      "item": "mollone",
+      "held": null,
+      "boost": 0,
+      "grip": 0,
+      "jump": 1.25,
+      "bumper": 0,
+      "fault": 0,
+      "magnet": 0,
+      "traps": [],
+      "projectiles": [],
+      "meshes": 336,
+      "mats": 168
+    }
+  ],
+  "controls": [
+    {
+      "pad": 0,
+      "item": "calamita"
+    },
+    {
+      "pad": 1,
+      "item": "turbo_difettoso"
+    },
+    {
+      "pad": 2,
+      "item": "paraurti"
+    },
+    {
+      "phone": true,
+      "item": "mollone"
+    }
+  ],
+  "mixed": {
+    "finite": true,
+    "moving": [
+      52.98501405088619,
+      52.5387117945623,
+      52.61015574734475,
+      44,
+      44
+    ],
+    "traps": 2,
+    "projectiles": 0,
+    "timed": 2
+  },
+  "resources": {
+    "before": {
+      "meshes": 349,
+      "mats": 168
+    },
+    "after": {
+      "meshes": 349,
+      "mats": 168
+    }
+  }
+}

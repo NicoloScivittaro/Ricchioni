@@ -454,6 +454,7 @@ export class KartEntity {
   /** Sincronizza mesh + effetti con lo stato fisico del kart. */
   updateVisual(state: KartState, spline: TrackSpline, throttle = 0): void {
     const pos = spline.worldPoint(state.distance, state.lateral, 0.05);
+    pos.y += state.jumpHeight;
     const speedFrac = Math.min(1, Math.abs(state.speed) / MAX_SPEED);
     const bob = Math.sin(performance.now() * 0.018 + this.bobSeed) * 0.01 * (0.3 + speedFrac);
     pos.y += bob;

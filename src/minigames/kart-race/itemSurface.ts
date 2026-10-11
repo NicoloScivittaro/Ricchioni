@@ -2,7 +2,7 @@ import { Mesh, VertexData, StandardMaterial, Color3, Scene } from '@babylonjs/co
 import type { TrackSpline } from './track';
 
 /** Mesh sulla stessa superficie campionata della strada: funziona anche in curva e sulle rampe. */
-export function itemSurface(scene: Scene, spline: TrackSpline, s: number, lateral: number, rs: number, rl: number, name = 'oilSurface'): Mesh {
+export function itemSurface(scene: Scene, spline: TrackSpline, s: number, lateral: number, rs: number, rl: number, name = 'oilSurface', innerRatio = 0): Mesh {
   const mesh = new Mesh(name, scene), positions: number[] = [], indices: number[] = [];
   const center = spline.worldPoint(s, lateral); center.y += .085;
   positions.push(center.x, center.y, center.z);
@@ -12,6 +12,13 @@ export function itemSurface(scene: Scene, spline: TrackSpline, s: number, latera
     const p = spline.worldPoint(s + Math.cos(angle) * rs, lateral + Math.sin(angle) * rl);
     p.y += .085; positions.push(p.x, p.y, p.z);
     indices.push(0, 1 + i, 1 + (i + 1) % segments);
+  }
+  if(innerRatio>0){
+    positions.splice(0,3);indices.length=0;
+    for(let i=0;i<segments;i++){
+      const angle=i/segments*Math.PI*2,p=spline.worldPoint(s+Math.cos(angle)*rs*innerRatio,lateral+Math.sin(angle)*rl*innerRatio);p.y+=.085;positions.push(p.x,p.y,p.z);
+      const next=(i+1)%segments;indices.push(i,next,segments+i,next,segments+next,segments+i);
+    }
   }
   const data = new VertexData(); data.positions = positions; data.indices = indices;
   VertexData.ComputeNormals(positions, indices, data.normals = []); data.applyToMesh(mesh);

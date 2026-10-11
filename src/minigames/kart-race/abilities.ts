@@ -136,16 +136,19 @@ export class CharacterAbilities {
           const stun = k.refundStun;
           const disturb = k.refundDisturb;
           const oil = k.refundOil;
+          const bounce = k.refundBounce;
           k.refundTimer = 0;
           k.abilityCharges -= 1;
           if (stun > 0) k.stunTimer = 0;
           if (disturb > 0) k.disturbTimer = 0;
           if (oil > 0) k.oilTimer = 0;
+          if (bounce > 0) { k.jumpHeight = 0; k.jumpVelocity = 0; }
           k.debtPending = true;
           k.debtTimer = C.p.debt;
           k.debtStun = stun;
           k.debtDisturb = disturb;
           k.debtOil = oil;
+          k.debtBounce = bounce;
           k.lastAbilityPressAt = -99;
           onFeedback({ type: 'ciro_debt_start' });
           return 'ok';
@@ -182,6 +185,7 @@ export class CharacterAbilities {
         if (k.debtStun > 0) hitKart(k, k.debtStun);
         if (k.debtDisturb > 0) k.disturbTimer = Math.max(k.disturbTimer, k.debtDisturb);
         if (k.debtOil > 0) k.oilTimer = Math.max(k.oilTimer, k.debtOil);
+        if (k.debtBounce > 0) k.jumpVelocity = Math.max(k.jumpVelocity, k.debtBounce);
         onFeedback({ type: 'ciro_debt_due' });
       }
     }
@@ -264,7 +268,7 @@ export class CharacterAbilities {
    * CIRO — PAGO DOPO: se ha appena premuto ABILITÀ (entro `before`) e ha ancora la carica, rimanda l'effetto di un item invece di
    * annullarlo. Ritorna true se l'effetto è stato rimandato (chi chiama non deve applicarlo ora).
    */
-  tryDelayHit(k: KartState, effect: { stun?: number; disturb?: number; oil?: number }, onFeedback: (f: AbilityFeedback) => void): boolean {
+  tryDelayHit(k: KartState, effect: { stun?: number; disturb?: number; oil?: number; bounce?: number }, onFeedback: (f: AbilityFeedback) => void): boolean {
     if (k.characterId !== 'ciro' || k.abilityCharges <= 0 || k.debtPending) return false;
     if (this.raceTime - k.lastAbilityPressAt > C.p.before) return false;
     k.abilityCharges -= 1;
@@ -274,6 +278,7 @@ export class CharacterAbilities {
     k.debtStun = effect.stun ?? 0;
     k.debtDisturb = effect.disturb ?? 0;
     k.debtOil = effect.oil ?? 0;
+    k.debtBounce = effect.bounce ?? 0;
     onFeedback({ type: 'ciro_debt_start' });
     return true;
   }
@@ -282,11 +287,12 @@ export class CharacterAbilities {
    * CIRO: un colpo e' passato (non rimandato in anticipo): si apre la finestra `after` in cui premere ABILITÀ lo trasforma in debito.
    * Chiamato da ItemManager subito DOPO aver applicato l'effetto.
    */
-  noteHit(k: KartState, effect: { stun?: number; disturb?: number; oil?: number }): void {
+  noteHit(k: KartState, effect: { stun?: number; disturb?: number; oil?: number; bounce?: number }): void {
     if (k.characterId !== 'ciro' || k.abilityCharges <= 0 || k.debtPending) return;
     k.refundTimer = C.p.after;
     k.refundStun = effect.stun ?? 0;
     k.refundDisturb = effect.disturb ?? 0;
     k.refundOil = effect.oil ?? 0;
+    k.refundBounce = effect.bounce ?? 0;
   }
 }

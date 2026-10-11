@@ -1,4 +1,4 @@
-import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, TransformNode } from '@babylonjs/core';
+import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, TransformNode, Vector3 } from '@babylonjs/core';
 import type { Rng } from '../../../shared/rng';
 import type { PlayerId } from '../../../shared/types';
 import type { MinigameContext } from '../types';
@@ -7,8 +7,10 @@ import type { ItemBoxPlacement, TrackSpline } from './track';
 import { applyBoost, hitKart } from './kartPhysics';
 import { CharacterAbilities } from './abilities';
 import type { AbilityFeedback } from './abilities';
-import { itemSurface, crossesSurface } from './itemSurface';
+import { itemSurface, crossesSurface, trackDelta } from './itemSurface';
 import { audio } from '../../core/AudioManager';
+import { KART_ITEMS, pickKartItem } from './itemCatalog';
+import { KartItemVisuals } from './itemVisuals';
 
 const BOX_PICKUP_RADIUS_LAT = 4.2;
 const BOX_PICKUP_RADIUS_S = 3.4;
@@ -17,8 +19,8 @@ const ROULETTE_TIME = 0.55;
 
 const PROJECTILE_SPEED = 46;
 const PROJECTILE_LIFE = 3.5;
-const PROJECTILE_HIT_S = 1.8;
-const PROJECTILE_HIT_LAT = 2.2;
+const PROJECTILE_HIT_S = 1.65;
+const PROJECTILE_HIT_LAT = 1.25;
 const PROJECTILE_NEARMISS_S = 3.2;
 const PROJECTILE_NEARMISS_LAT = 3.6;
 const PROJECTILE_STUN = 1.3;
@@ -27,15 +29,6 @@ const NEARMISS_METER = 0.15;
 const TRAP_LIFE = 18;
 const TRAP_RADIUS_S = 2.4;
 const TRAP_RADIUS_LAT = 1.7;
-
-const ITEM_COLORS: Record<ItemId, Color3> = {
-  turbo: new Color3(1, 0.55, 0.1),
-  sfera: new Color3(0.95, 0.2, 0.25),
-  olio: new Color3(0.35, 0.15, 0.4),
-  scudo: new Color3(0.25, 0.75, 0.95),
-  super_turbo: new Color3(1, 0.85, 0.1),
-  disturbo: new Color3(0.55, 0.9, 0.3)
-};
 
 interface ItemBox {
   s: number;
@@ -46,16 +39,22 @@ interface ItemBox {
 }
 
 interface Projectile {
+  kind: 'sfera' | 'piccione';
   firedBy: PlayerId;
   distance: number;
   lateral: number;
   speed: number;
+  lateralVelocity: number;
   life: number;
   mesh: Mesh;
   nearMissed: Set<PlayerId>;
 }
 
 interface Trap {
+  kind: 'olio' | 'buca' | 'raffica';
+  rs: number;
+  rl: number;
+  wind: number;
   firedBy: PlayerId;
   distance: number;
   lateral: number;
@@ -82,6 +81,8 @@ export class ItemManager {
   private roulettes = new Map<PlayerId, PendingRoulette>();
   private root: TransformNode;
   private previous = new Map<PlayerId, { distance: number; lateral: number }>();
+  private visuals: KartItemVisuals;
+  private timed = new Map<string, {playerId:PlayerId;kind:'paraurti'|'turbo_difettoso'|'mollone'|'calamita';mesh:Mesh;tether?:Mesh}>();
 
   constructor(
     private scene: Scene,
@@ -92,6 +93,7 @@ export class ItemManager {
     private onFeedback: (playerId: PlayerId, f: AbilityFeedback) => void
   ) {
     this.root = new TransformNode('itemsRoot', scene);
+    this.visuals = new KartItemVisuals(scene);
     const mat = new StandardMaterial('itemBoxMat', scene);
     mat.diffuseColor = new Color3(0.15, 0.8, 0.75);
     mat.emissiveColor = new Color3(0.2, 0.7, 0.65);
@@ -124,7 +126,7 @@ export class ItemManager {
       box.mesh.rotation.x += dt * 0.6;
 
       for (const k of karts) {
-        if (k.heldItem || k.finished) continue;
+        if (k.heldItem || k.finished || k.respawnTimer > 0 || this.roulettes.has(k.playerId)) continue;
         const ds = Math.abs(this.spline.wrap(k.distance - box.s));
         const dsAlt = this.spline.totalLength - ds;
         const dist = Math.min(ds, dsAlt);
@@ -133,6 +135,7 @@ export class ItemManager {
           box.respawnTimer = BOX_RESPAWN_TIME;
           box.mesh.setEnabled(false);
           this.grantItem(k, placement(k.playerId), totalPlayers);
+          break;
         }
       }
     }
@@ -141,13 +144,14 @@ export class ItemManager {
       r.timer -= dt;
       if (r.timer <= 0) {
         const k = karts.find((kk) => kk.playerId === pid);
-        if (k) k.heldItem = r.result;
+        if (k && !k.finished) k.heldItem = r.result;
         this.roulettes.delete(pid);
       }
     }
 
     this.updateProjectiles(dt, karts);
     this.updateTraps(dt, karts);
+    this.updateTimed(dt, karts);
     for (const k of karts) this.previous.set(k.playerId, { distance: k.distance, lateral: k.lateral });
   }
 
@@ -161,39 +165,12 @@ export class ItemManager {
   }
 
   private pickWeighted(placement: number, totalPlayers: number): ItemId {
-    const isLast = placement >= totalPlayers;
-    const isFirst = placement <= 1;
-    const table: { item: ItemId; weight: number }[] = isFirst
-      ? [
-          { item: 'scudo', weight: 3 },
-          { item: 'disturbo', weight: 1.2 },
-          { item: 'turbo', weight: 1 },
-          { item: 'olio', weight: 1 },
-          { item: 'sfera', weight: 0.4 },
-          { item: 'super_turbo', weight: 0.15 }
-        ]
-      : isLast
-        ? [
-            { item: 'super_turbo', weight: 1.8 },
-            { item: 'sfera', weight: 2.6 },
-            { item: 'turbo', weight: 2.2 },
-            { item: 'olio', weight: 1.6 },
-            { item: 'disturbo', weight: 1 },
-            { item: 'scudo', weight: 0.8 }
-          ]
-        : [
-            { item: 'turbo', weight: 2.4 },
-            { item: 'sfera', weight: 1.6 },
-            { item: 'olio', weight: 1.6 },
-            { item: 'scudo', weight: 1.6 },
-            { item: 'disturbo', weight: 1.4 },
-            { item: 'super_turbo', weight: 0.3 }
-          ];
-    return this.rng.weighted(table);
+    return pickKartItem(this.rng, placement, totalPlayers);
   }
 
   /** Usa l'oggetto posseduto dal giocatore (tasto ITEM). */
   useItem(k: KartState, allKarts: KartState[], rankOf: (pid: PlayerId) => number): void {
+    if(k.finished || k.respawnTimer>0)return;
     const item = k.heldItem;
     if (!item) return;
     k.heldItem = null;
@@ -222,7 +199,23 @@ export class ItemManager {
         if (target) this.applyEffect(target, { disturb: 2.6 });
         break;
       }
+      case 'calamita': {
+        const target=allKarts.filter(other=>other!==k&&!other.finished&&other.respawnTimer<=0&&other.jumpHeight<.4)
+          .map(other=>({other,ds:trackDelta(other.distance,k.distance,this.spline.totalLength)}))
+          .filter(({other,ds})=>ds>3&&ds<24&&Math.abs(other.lateral-k.lateral)<3)
+          .sort((a,b)=>a.ds-b.ds)[0]?.other;
+        if(!target){k.heldItem=item;return;} // nessun collegamento inventato: conserva l'oggetto
+        k.magnetTarget=target.playerId;k.magnetTimer=3;this.spawnTimed(k,item);break;
+      }
+      case 'piccione': this.spawnProjectile(k,'piccione');break;
+      case 'turbo_difettoso': applyBoost(k,48,1.8);k.faultyTimer=1.8;this.spawnTimed(k,item);break;
+      case 'buca': case 'raffica': this.spawnGround(k,item);break;
+      case 'paraurti': k.bumperTimer=5;this.spawnTimed(k,item);break;
+      case 'mollone':
+        if(k.jumpHeight>.05){k.heldItem=item;return;}
+        k.jumpVelocity=6.2;this.spawnTimed(k,item);break;
     }
+    audio.kartItem(item);
   }
 
   private findTargetAhead(k: KartState, allKarts: KartState[], rankOf: (pid: PlayerId) => number): KartState | null {
@@ -240,19 +233,18 @@ export class ItemManager {
     return best;
   }
 
-  private spawnProjectile(k: KartState): void {
-    const mat = new StandardMaterial('projMat', this.scene);
-    mat.diffuseColor = ITEM_COLORS.sfera;
-    mat.emissiveColor = ITEM_COLORS.sfera.scale(0.7);
-    const mesh = MeshBuilder.CreateSphere('projectile', { diameter: 0.5 }, this.scene);
-    mesh.material = mat;
+  private spawnProjectile(k: KartState, kind: 'sfera'|'piccione' = 'sfera'): void {
+    const mesh = kind==='piccione'?this.visuals.object(kind):MeshBuilder.CreateSphere('projectile', { diameter: 0.5 }, this.scene);
+    if(kind==='sfera') mesh.material = this.visuals.material('#ee3344',.7);
     mesh.parent = this.root;
     this.projectiles.push({
+      kind,
       firedBy: k.playerId,
       distance: k.distance + 2.5,
       lateral: k.lateral,
-      speed: k.speed + PROJECTILE_SPEED,
-      life: PROJECTILE_LIFE,
+      speed: kind==='piccione'?k.speed*.65+24:k.speed+PROJECTILE_SPEED,
+      lateralVelocity: Math.sin(k.heading)*(kind==='piccione'?6:10),
+      life: kind==='piccione'?3:PROJECTILE_LIFE,
       mesh,
       nearMissed: new Set()
     });
@@ -271,25 +263,34 @@ export class ItemManager {
       if (scale < 1) mat.alpha = .18;
       ring.parent = mesh;
     }
-    this.traps.push({ firedBy: k.playerId, distance, lateral, life: TRAP_LIFE, mesh, visitors: new Set() });
+    this.traps.push({ kind:'olio',rs:TRAP_RADIUS_S,rl:TRAP_RADIUS_LAT,wind:0,firedBy: k.playerId, distance, lateral, life: TRAP_LIFE, mesh, visitors: new Set() });
   }
 
   private updateProjectiles(dt: number, karts: KartState[]): void {
     for (let i = this.projectiles.length - 1; i >= 0; i--) {
       const p = this.projectiles[i];
+      const oldDistance=p.distance,oldLateral=p.lateral;
       p.distance += p.speed * dt;
+      p.lateral += p.lateralVelocity * dt;
       p.life -= dt;
-      p.mesh.position.copyFrom(this.spline.worldPoint(p.distance, p.lateral, 0.4));
-      p.mesh.rotation.y += dt * 10;
+      p.mesh.position.copyFrom(this.spline.worldPoint(p.distance, p.lateral, p.kind==='piccione'?.7:.4));
+      if(p.kind==='piccione') {
+        p.mesh.rotation.y=this.spline.tangentAngleAt(p.distance);
+        for(const wing of p.mesh.getChildMeshes().filter(m=>m.name==='birdWing'))wing.rotation.z=Math.sign(wing.position.x)*(.2+Math.sin(p.life*24)*.35);
+      } else p.mesh.rotation.y += dt * 10;
 
       let hit = false;
       if (p.life > 0) {
         for (const k of karts) {
-          if (k.playerId === p.firedBy || k.finished) continue;
-          const ds = Math.abs(k.distance - p.distance);
+          if (k.playerId === p.firedBy || k.finished || k.respawnTimer>0 || k.jumpHeight>.8) continue;
+          const ds = Math.abs(trackDelta(k.distance,p.distance,this.spline.totalLength));
           const dl = Math.abs(k.lateral - p.lateral);
-          if (ds < PROJECTILE_HIT_S && dl < PROJECTILE_HIT_LAT) {
-            this.applyEffect(k, { stun: PROJECTILE_STUN });
+          const previous=this.previous.get(k.playerId)??k;
+          const relativeFrom={distance:trackDelta(previous.distance,oldDistance,this.spline.totalLength),lateral:previous.lateral-oldLateral};
+          const relativeTo={distance:relativeFrom.distance+(k.distance-previous.distance)-(p.distance-oldDistance),lateral:k.lateral-p.lateral};
+          if (crossesSurface(relativeFrom,relativeTo,0,0,PROJECTILE_HIT_S+(p.kind==='piccione'?.15:0),PROJECTILE_HIT_LAT+(p.kind==='piccione'?.15:0),this.spline.totalLength)) {
+            this.applyEffect(k, p.kind==='piccione'?{oil:.85}:{stun:PROJECTILE_STUN});
+            if(p.kind==='piccione')audio.kartSkid();
             hit = true;
             break;
           }
@@ -299,7 +300,7 @@ export class ItemManager {
           }
         }
       }
-      if (hit || p.life <= 0) {
+      if (hit || p.life <= 0 || Math.abs(p.lateral)>this.spline.widthAt(p.distance)/2) {
         p.mesh.dispose();
         this.projectiles.splice(i, 1);
       }
@@ -311,18 +312,22 @@ export class ItemManager {
       const t = this.traps[i];
       t.life -= dt;
       for (const k of karts) {
-        if (k.finished || k.respawnTimer > 0 || (k.playerId === t.firedBy && t.life > TRAP_LIFE - 1)) continue;
+        const initialLife=t.kind==='olio'?TRAP_LIFE:t.kind==='buca'?12:7;
+        if (k.finished || k.respawnTimer > 0 || k.jumpHeight>.4 || (k.playerId === t.firedBy && t.life > initialLife - 1)) continue;
         const from = this.previous.get(k.playerId) ?? k;
-        if (crossesSurface(from, k, t.distance, t.lateral, TRAP_RADIUS_S + 1.4, TRAP_RADIUS_LAT + 1, this.spline.totalLength)) {
+        if (crossesSurface(from, k, t.distance, t.lateral, t.rs + 1.4, t.rl + 1, this.spline.totalLength)) {
+          if(t.kind==='raffica'){
+            // Una forza ambientale continua, compensabile; non uno stun o un taglio di velocità.
+            k.slipVelocity=Math.max(-18,Math.min(18,k.slipVelocity+t.wind*8*dt));
+            if(!t.visitors.has(k.playerId))audio.kartItem('raffica');
+            t.visitors.add(k.playerId);continue;
+          }
           if (!t.visitors.has(k.playerId)) {
             t.visitors.add(k.playerId);
-            if (k.invulnTimer > 0) continue;
-            if (k.shielded) { k.shielded = false; continue; }
-            const effect = { oil: 1.6 };
-            if (this.abilities.tryDelayHit(k, effect, f => this.onFeedback(k.playerId, f))) continue;
-            k.oilTimer = Math.max(k.oilTimer, effect.oil);
-            this.abilities.noteHit(k, effect);
-            audio.kartSkid();
+            if(this.applyEffect(k,t.kind==='buca'?{oil:.7,bounce:3}:{oil:1.6})){
+              audio.kartSkid();
+              if(t.kind==='buca')audio.kartBump(.3);
+            }
           }
         } else {
           t.visitors.delete(k.playerId);
@@ -335,21 +340,78 @@ export class ItemManager {
     }
   }
 
+  private spawnGround(k:KartState,kind:'buca'|'raffica'):void {
+    const rs=kind==='buca'?1.7:4,rl=kind==='buca'?1.3:2.4,distance=k.distance-5.5;
+    const limit=this.spline.widthAt(distance)/2-rl-.5;
+    const lateral=Math.max(-limit,Math.min(limit,k.lateral)),wind=k.steerVisual===0?(this.rng.chance(.5)?1:-1):Math.sign(k.steerVisual);
+    const mesh=itemSurface(this.scene,this.spline,distance,lateral,rs,rl,'surface-'+kind);mesh.parent=this.root;
+    const rim=itemSurface(this.scene,this.spline,distance,lateral,rs*1.12,rl*1.12,'rim-'+kind,kind==='raffica'?.9:0);rim.position.y=-.018;rim.parent=mesh;
+    const rimMat=rim.material as StandardMaterial;rimMat.diffuseColor=Color3.FromHexString(kind==='buca'?'#ffb72e':'#5b9abb');rimMat.emissiveColor=rimMat.diffuseColor.scale(.15);
+    if(kind==='raffica'){
+      const mat=mesh.material as StandardMaterial;mat.diffuseColor=new Color3(.3,.65,.85);mat.alpha=.3;
+      for(let i=0;i<3;i++){
+        const marker=MeshBuilder.CreateCylinder('windArrow',{diameterTop:0,diameterBottom:.6,height:1,tessellation:3},this.scene);
+        // Mesh in coordinate mondo, quindi non si scala/ruota una superficie con vertici già mondiali.
+        marker.position.copyFrom(this.spline.worldPoint(distance+(i-1)*1.8,lateral,.23));
+        const right=this.spline.rightAt(distance);marker.rotation.z=-Math.PI/2*wind;marker.rotation.y=this.spline.tangentAngleAt(distance);
+        marker.material=rimMat;marker.parent=this.root;
+        // I segni sono posseduti dalla stessa trappola per una pulizia unica.
+        marker.setParent(mesh);marker.metadata={wind:true,direction:wind,base:marker.position.clone(),right};
+      }
+    }
+    this.traps.push({kind,rs,rl,wind,firedBy:k.playerId,distance,lateral,life:kind==='buca'?12:7,mesh,visitors:new Set()});
+  }
+
+  private spawnTimed(k:KartState,kind:'paraurti'|'turbo_difettoso'|'mollone'|'calamita'):void {
+    const key=k.playerId+kind,old=this.timed.get(key);old?.mesh.dispose();old?.tether?.dispose();
+    const mesh=this.visuals.object(kind);mesh.parent=this.root;
+    this.timed.set(key,{playerId:k.playerId,kind,mesh});
+  }
+
+  private updateTimed(dt:number,karts:KartState[]):void {
+    for(const k of karts){
+      if(k.magnetTimer>0){
+        const target=karts.find(other=>other.playerId===k.magnetTarget);
+        const gap=target?trackDelta(target.distance,k.distance,this.spline.totalLength):Infinity;
+        if(!target||target.finished||target.respawnTimer>0||k.finished||k.respawnTimer>0||k.stunTimer>0||k.jumpHeight>.4||target.jumpHeight>.4||gap<2||gap>30||Math.abs(target.lateral-k.lateral)>5){k.magnetTimer=0;k.magnetTarget=null;}
+        else {k.magnetTimer=Math.max(0,k.magnetTimer-dt);applyBoost(k,12,.08);k.speed=Math.min(68,k.speed+9*dt);}
+      }
+    }
+    for(const [key,v] of this.timed){
+      const k=karts.find(other=>other.playerId===v.playerId);
+      const active=k&&!k.finished&&k.respawnTimer<=0&&(v.kind==='paraurti'?k.bumperTimer>0:v.kind==='turbo_difettoso'?k.faultyTimer>0:v.kind==='calamita'?k.magnetTimer>0:k.jumpHeight>.01||k.jumpVelocity>0);
+      if(!active){v.mesh.dispose();v.tether?.dispose();this.timed.delete(key);continue;}
+      v.mesh.position.copyFrom(this.spline.worldPoint(k.distance,k.lateral,.05));v.mesh.position.y+=k.jumpHeight;v.mesh.rotation.y=k.absHeading;
+      if(v.kind==='calamita'){
+        const target=karts.find(other=>other.playerId===k.magnetTarget)!;
+        const path=[this.spline.worldPoint(k.distance,k.lateral,1),this.spline.worldPoint(target.distance,target.lateral,.8)];
+        v.tether=MeshBuilder.CreateTube('magnetTether',{path,radius:.065,tessellation:5,updatable:true,instance:v.tether},this.scene);
+        v.tether.material=this.visuals.material('#ff84ed',.8);v.tether.parent=this.root;
+      }
+    }
+    for(const t of this.traps)for(const marker of t.mesh.getChildMeshes()){
+      if(marker.metadata?.wind)marker.position.copyFrom(marker.metadata.base.add(marker.metadata.right.scale(Math.sin(t.life*8)*.3*t.wind)));
+    }
+  }
+
   /**
    * Applica l'effetto di un item (stordimento e/o sterzo invertito) dopo aver
    * verificato scudo/invulnerabilità: se il colpo atterrerebbe comunque, offre
    * a Ciro (PAGO DOPO) la possibilità di rimandarlo invece di subirlo subito.
    */
-  private applyEffect(k: KartState, effect: { stun?: number; disturb?: number }): void {
-    if (k.invulnTimer > 0) return;
+  private applyEffect(k: KartState, effect: { stun?: number; disturb?: number; oil?:number; bounce?:number }): boolean {
+    if (k.invulnTimer > 0) return false;
     if (k.shielded) {
       k.shielded = false;
-      return;
+      return false;
     }
-    if (this.abilities.tryDelayHit(k, effect, (f) => this.onFeedback(k.playerId, f))) return;
+    if (this.abilities.tryDelayHit(k, effect, (f) => this.onFeedback(k.playerId, f))) return false;
     if (effect.stun) hitKart(k, effect.stun);
     if (effect.disturb) k.disturbTimer = Math.max(k.disturbTimer, effect.disturb);
+    if (effect.oil) k.oilTimer = Math.max(k.oilTimer, effect.oil);
+    if (effect.bounce) k.jumpVelocity = Math.max(k.jumpVelocity,effect.bounce);
     this.abilities.noteHit(k, effect); // Ciro: subito dopo il colpo puo' ancora premere ABILITA' e trasformarlo in debito
+    return true;
   }
 
   dispose(): void {
@@ -357,41 +419,15 @@ export class ItemManager {
     for (const p of this.projectiles) p.mesh.dispose();
     for (const t of this.traps) t.mesh.dispose(false, true);
     this.previous.clear(); this.roulettes.clear();
+    for(const v of this.timed.values()){v.mesh.dispose();v.tether?.dispose();}this.timed.clear();
+    this.visuals.dispose();
     this.root.dispose();
   }
 }
 
 export function itemLabel(id: ItemId): string {
-  switch (id) {
-    case 'turbo':
-      return '🔥 TURBO';
-    case 'super_turbo':
-      return '💫 SUPER TURBO';
-    case 'sfera':
-      return '🔴 SFERA D\'URTO';
-    case 'olio':
-      return '🛢️ OLIO';
-    case 'scudo':
-      return '🛡️ SCUDO';
-    case 'disturbo':
-      return '⚡ DISTURBO';
-  }
+  const item=KART_ITEMS[id];return `${item.icon} ${item.name}`;
 }
 
-/** Riga descrittiva mostrata sul telefono, così è chiaro cosa fa ogni oggetto. */
-export function itemDescription(id: ItemId): string {
-  switch (id) {
-    case 'turbo':
-      return 'Accelerazione forte e immediata.';
-    case 'super_turbo':
-      return 'RARO E FORTISSIMO: può ribaltare la gara.';
-    case 'sfera':
-      return "Proiettile: stordisce chi colpisce davanti a te.";
-    case 'olio':
-      return 'Chiazza visibile per 18 s: aderenza laterale ridotta per 1,6 s, sterzo attivo. Evitala o usa lo scudo.';
-    case 'scudo':
-      return 'Ti protegge dal prossimo colpo subito.';
-    case 'disturbo':
-      return 'Simpatico: inverte per un attimo lo sterzo di chi hai davanti.';
-  }
-}
+/** La stessa descrizione usata nell'inventario telefono. */
+export function itemDescription(id: ItemId): string { return KART_ITEMS[id].description; }
