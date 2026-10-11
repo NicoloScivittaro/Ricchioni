@@ -1,0 +1,73 @@
+R 1 quiz       heap host 10.6MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 21
+R 2 reaction   heap host 11.0MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 21
+R 3 memory     heap host 25.1MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 21
+R 4 arena      heap host 41.6MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 1 · listener window 22
+R 5 FINALE (target raggiunto) → NUOVA PARTITA
+R 6 soccer     heap host 50.5MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 7 volleyball heap host 51.6MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 8 kart3d     heap host 51.4MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 1 · listener window 22
+R 9 cultura    heap host 51.4MB tel 2.6MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R10 FINALE (target raggiunto) → NUOVA PARTITA
+R11 cornicione heap host 54.8MB tel 19.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R12 casacarbo  heap host 62.8MB tel 19.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R13 minigolf   heap host 67.6MB tel 19.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 1 · listener window 22
+R14 FINALE (target raggiunto) → NUOVA PARTITA
+R15 reaction   heap host 67.0MB tel 19.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R16 memory     heap host 67.0MB tel 19.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R17 arena      heap host 69.4MB tel 19.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R18 FINALE (target raggiunto) → NUOVA PARTITA
+R19 soccer     heap host 66.2MB tel 19.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 1 · listener window 22
+R20 volleyball heap host 68.3MB tel 19.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R21 kart3d     heap host 66.6MB tel 19.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R22 cultura    heap host 66.6MB tel 19.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R23 FINALE (target raggiunto) → NUOVA PARTITA
+
+===== DIAGNOSTICA BLOCCO: PLAYING non raggiunto (round 24) =====
+snapshot host: {"phase":"LOBBY","round":1,"roundId":23,"active":["RoomScene"],"overlays":0,"pending":"fps","scores":"P1:0,P2:0,P3:0,P4:0,P5:0"}
+--- traccia HOST (ultimi 40 eventi) ---
+ 398179ms 21:10:36.571 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 398646ms 21:10:37.038 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 399115ms 21:10:37.507 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 399582ms 21:10:37.974 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 400041ms 21:10:38.434 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 400513ms 21:10:38.905 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 400970ms 21:10:39.362 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 401434ms 21:10:39.826 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 401904ms 21:10:40.297 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 402370ms 21:10:40.762 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 402837ms 21:10:41.229 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 403301ms 21:10:41.694 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 403772ms 21:10:42.165 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 404238ms 21:10:42.631 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 404706ms 21:10:43.098 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 405173ms 21:10:43.565 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 405640ms 21:10:44.032 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 406108ms 21:10:44.501 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 406576ms 21:10:44.968 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 407041ms 21:10:45.434 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 407509ms 21:10:45.901 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 407973ms 21:10:46.366 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 408463ms 21:10:46.856 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 408922ms 21:10:47.314 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 409391ms 21:10:47.784 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 409857ms 21:10:48.249 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 410325ms 21:10:48.718 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 410792ms 21:10:49.185 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 411260ms 21:10:49.653 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 411730ms 21:10:50.122 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 412194ms 21:10:50.586 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 412665ms 21:10:51.057 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 413132ms 21:10:51.524 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 413598ms 21:10:51.990 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 414063ms 21:10:52.455 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 414529ms 21:10:52.922 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 414983ms 21:10:53.376 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 415447ms 21:10:53.839 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 415914ms 21:10:54.306 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+ 416380ms 21:10:54.772 skip             fase=LOBBY round=23 scelto=cornicione inAttesa=fps consegnati=si scene=[RoomScene] canvas=1(3D 0) timer=5
+traccia server non disponibile (avvia il server con FLOW_TRACE=1): SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+===== FINE DIAGNOSTICA =====
+
+ERRORE Error: PLAYING non raggiunto
+    at file:///C:/Users/niluf.PC-NIKO/Desktop/Ricchioni/scripts/e2e/leak.mjs:181:15
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)

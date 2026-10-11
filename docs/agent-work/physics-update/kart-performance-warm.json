@@ -1,0 +1,200 @@
+{
+  "errors": [],
+  "warmupMs": 10000,
+  "fixture": "five participants driven by existing bot logic; mixed initial items; live simulation/render",
+  "samples": [
+    {
+      "width": 1280,
+      "height": 720,
+      "fps": 37.61755485893428,
+      "scale": 1,
+      "renderSize": [
+        1280,
+        720
+      ],
+      "shadows": true,
+      "meshes": 346,
+      "materials": 172,
+      "time": 14.260166666665738,
+      "speeds": [
+        44,
+        44,
+        44,
+        44,
+        44
+      ],
+      "paused": false,
+      "cpu": {
+        "visualMs": 38.70000000111759,
+        "visualCalls": 1750,
+        "hudMs": 60.39999999292195,
+        "hudCalls": 2450,
+        "stepMs": 168.1999999973923,
+        "stepCalls": 88,
+        "renderMs": 2238.700000002049,
+        "renderCalls": 87
+      }
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "fps": 41.00041000408976,
+      "scale": 1,
+      "renderSize": [
+        1280,
+        720
+      ],
+      "shadows": true,
+      "meshes": 339,
+      "materials": 170,
+      "time": 15.380766666666275,
+      "speeds": [
+        44,
+        44,
+        44,
+        44,
+        44
+      ],
+      "paused": false,
+      "cpu": {
+        "visualMs": 53.80000000074506,
+        "visualCalls": 2495,
+        "hudMs": 86.29999999515712,
+        "hudCalls": 3493,
+        "stepMs": 237.1000000005588,
+        "stepCalls": 134,
+        "renderMs": 3260.099999997765,
+        "renderCalls": 133
+      }
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "fps": 41.58004158004174,
+      "scale": 1,
+      "renderSize": [
+        1280,
+        720
+      ],
+      "shadows": true,
+      "meshes": 334,
+      "materials": 168,
+      "time": 16.492866666665897,
+      "speeds": [
+        44,
+        44,
+        44,
+        44,
+        44
+      ],
+      "paused": false,
+      "cpu": {
+        "visualMs": 67.60000000335276,
+        "visualCalls": 3225,
+        "hudMs": 112.19999999180436,
+        "hudCalls": 4515,
+        "stepMs": 305.69999999925494,
+        "stepCalls": 180,
+        "renderMs": 4269.10000000149,
+        "renderCalls": 179
+      }
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "fps": 41.57427937917908,
+      "scale": 1,
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "shadows": true,
+      "meshes": 340,
+      "materials": 168,
+      "time": 19.08406666666607,
+      "speeds": [
+        44,
+        44,
+        44,
+        44,
+        44
+      ],
+      "paused": false,
+      "cpu": {
+        "visualMs": 107.29999999608845,
+        "visualCalls": 4980,
+        "hudMs": 184.5000000037253,
+        "hudCalls": 6972,
+        "stepMs": 493.19999999459833,
+        "stepCalls": 279,
+        "renderMs": 6581.400000006892,
+        "renderCalls": 277
+      }
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "fps": 38.65979381443317,
+      "scale": 1,
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "shadows": true,
+      "meshes": 345,
+      "materials": 170,
+      "time": 20.208966666666463,
+      "speeds": [
+        43.97919059487956,
+        44,
+        44,
+        44,
+        44
+      ],
+      "paused": false,
+      "cpu": {
+        "visualMs": 121.79999999888241,
+        "visualCalls": 5795,
+        "hudMs": 212.5000000037253,
+        "hudCalls": 8113,
+        "stepMs": 566.199999993667,
+        "stepCalls": 322,
+        "renderMs": 7601.500000005588,
+        "renderCalls": 320
+      }
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "fps": 38.27018752394632,
+      "scale": 1,
+      "renderSize": [
+        1920,
+        1080
+      ],
+      "shadows": true,
+      "meshes": 339,
+      "materials": 170,
+      "time": 21.31686666666593,
+      "speeds": [
+        44,
+        44,
+        44,
+        44,
+        44
+      ],
+      "paused": false,
+      "cpu": {
+        "visualMs": 136.6999999890104,
+        "visualCalls": 6570,
+        "hudMs": 240.59999999962747,
+        "hudCalls": 9198,
+        "stepMs": 638.1999999890104,
+        "stepCalls": 365,
+        "renderMs": 8605.300000006333,
+        "renderCalls": 363
+      }
+    }
+  ],
+  "cleanup": 1
+}

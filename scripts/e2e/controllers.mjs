@@ -72,6 +72,11 @@ for (const id of GAMES) {
     }
     await sleep(id === 'fps' ? 6000 : 3500); // il gioco 3D sul telefono ha bisogno di qualche secondo (headless)
     const ph = phones[0].page;
+    // Minigolf pubblica disponibile solo dopo il countdown: non validare zero tasti disabilitati.
+    if (id === 'minigolf') await ph.waitForFunction(() => {
+      const shoot = document.querySelector('#golf-shoot');
+      return shoot && !shoot.disabled;
+    }, {timeout:20000});
     for (const [name, vp] of VIEWS) {
       await ph.setViewport({ ...vp, isMobile: true, hasTouch: true });
       await sleep(700);

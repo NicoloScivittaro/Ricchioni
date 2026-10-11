@@ -5,6 +5,10 @@ import { launch, createRoomOnHost, addPhone, hostEval, hostSnapshot, sleep } fro
 
 const ROUNDS = Number(process.env.ROUNDS ?? 14);
 const PHONES = Number(process.env.PHONES ?? 2);
+// Un ciclo completo di caricamento prima della misura separa cache/moduli da perdite ripetute.
+const WARMUP_ROUNDS = Number(process.env.WARMUP_ROUNDS ?? 0);
+const GAMES = process.env.GAMES?.split(',').filter(Boolean) ?? [];
+let nextSelected = GAMES[0] ?? null;
 
 /** Strumentazione installata PRIMA degli script della pagina: timer pendenti e oscillatori audio vivi. */
 const INSTRUMENT = () => {
@@ -141,6 +145,7 @@ try {
   const phones = [];
   for (let i = 0; i < PHONES; i++) phones.push(await addPhone(browser, code, `P${i + 1}`, i));
   for (const p of phones) await p.page.evaluate(INSTRUMENT).catch(() => {});
+  if (nextSelected) { await hostEval(host, (gm, id) => gm.selectMinigame(id), nextSelected); await sleep(300); }
   await host.keyboard.press('Enter');
 
   let newGames = 0;
@@ -154,9 +159,15 @@ try {
     while ((await hostSnapshot(host)).phase !== 'LOBBY' && g++ < 40) await sleep(300);
     const scores = await hostEval(host, (gm) => gm.state.players.map((p) => p.score));
     if (scores.some((x) => x !== 0)) throw new Error('NUOVA PARTITA: punteggi non azzerati ' + JSON.stringify(scores));
-    await sleep(600);
-    for (const p of phones) await p.page.click('#ready').catch(() => {});
-    await sleep(600);
+    // Dopo FPS il telefono deve ancora smontare il renderer: attendere il vero pannello lobby.
+    for (const p of phones) {
+      await p.page.waitForSelector('#ready', {visible:true,timeout:30000});
+      await p.page.click('#ready');
+    }
+    let readyGuard = 0;
+    while (!(await hostEval(host, gm => gm.state.players.every(p => p.ready))) && readyGuard++ < 100) await sleep(200);
+    if (readyGuard >= 100) throw new Error('telefoni non pronti dopo nuova partita');
+    if (nextSelected) { await hostEval(host, (gm, id) => gm.selectMinigame(id), nextSelected); await sleep(300); }
     await host.keyboard.press('Enter');
     newGames++;
     return true;
@@ -176,16 +187,19 @@ try {
       }
     }
     const snap = await hostSnapshot(host);
+    if (GAMES.length && snap.pending !== GAMES[(round - 1) % GAMES.length]) throw new Error('gioco richiesto non avviato: ' + snap.pending);
     played.push(snap.pending);
-    await sleep(2500); // il gioco gira un po' (creazione scena/engine inclusa)
+    await sleep(Number(process.env.LEAK_SETTLE_MS??2500)); // il gioco gira un po' (creazione scena/engine inclusa)
     await hostEval(host, (gm) => {
       const ctx = gm.minigameContext;
       ctx.finish({ results: ctx.players.map((p, i) => ({ playerId: p.id, placement: i + 1, score: 5 - i })) });
     });
     // fino al prossimo rullo (fasi cosmetiche saltate)
+    nextSelected = GAMES.length ? GAMES[round % GAMES.length] : null;
     guard = 0;
     while ((await hostSnapshot(host)).phase !== 'MINIGAME_ROULETTE') {
       if ((await hostSnapshot(host)).phase === 'GAME_FINISHED') break; // finale: lo gestisce il ciclo successivo
+      if (nextSelected) await hostEval(host, (gm, id) => gm.selectMinigame(id), nextSelected);
       await hostEval(host, (gm) => gm.skip());
       await sleep(450);
       if (++guard > 80) {
@@ -214,6 +228,9 @@ try {
   }
 
   // ---- verdetto: confronto tra il primo terzo e l'ultimo terzo dei round ----
+  const allRows = [...rows];
+  rows.splice(0, rows.length, ...allRows.filter(r => r.round > WARMUP_ROUNDS));
+  if (!rows.length) throw new Error('nessun round misurato dopo il warmup');
   const third = Math.max(1, Math.floor(rows.length / 3));
   const avg = (arr, k) => arr.reduce((a, r) => a + (r[k] ?? 0), 0) / arr.length;
   const first = rows.slice(0, third);
@@ -241,6 +258,10 @@ try {
   if (errs.length) {
     console.log('❌ errori pagina:', errs.slice(0, 3));
     fails++;
+  }
+  if (process.env.OUT_JSON) {
+    const {writeFileSync} = await import('node:fs');
+    writeFileSync(process.env.OUT_JSON, JSON.stringify({warmupRounds:WARMUP_ROUNDS,played,newGames,rows:allRows,measuredRounds:rows.length,checks,errors:errs},null,2));
   }
   process.exitCode = fails ? 1 : 0;
 } catch (e) {

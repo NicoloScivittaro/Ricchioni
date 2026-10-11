@@ -1,0 +1,11 @@
+✅ quiz       portrait  390x800 · bottoni 5
+✅ quiz       landscape 800x390 · bottoni 5
+✅ quiz       small     360x640 · bottoni 5
+✅ volleyball portrait  390x800 · bottoni 3
+✅ volleyball landscape 800x390 · bottoni 3
+✅ volleyball small     360x640 · bottoni 3
+✅ minigolf   portrait  390x800 · bottoni 3
+✅ minigolf   landscape 800x390 · bottoni 3
+✅ minigolf   small     360x640 · bottoni 3
+
+✅ controller ok su tutti i giochi (screenshot in docs/agent-work/physics-update/controllers)

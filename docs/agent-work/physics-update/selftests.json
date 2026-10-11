@@ -1,0 +1,152 @@
+[
+  {
+    "name": "collision-audit-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "PASS collision audit: five equal hurtboxes, 30/60/120, startup/active/recovery/single hit/dodge, moving melee, native contact pose, cover splash/rays/embedded bodies; strategic kick reach preserved.\n"
+  },
+  {
+    "name": "kart-oil-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "PASS olio: 30/60/120 FPS, nessuna frenata/stun, inerzia in sterzata, recupero, sweep e cambio giro, bordo evitabile, debito Ciro.\n"
+  },
+  {
+    "name": "kart-items-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "BJS - [22:31:28]: Babylon.js v9.26.2 - Null engine\nPASS 13 item: distribuzione, sette effetti, magnete e break, salto/landing e scadenze 30/60/120, traiettorie rapide, miscele boost/drift, contatto bumper, fine gara e cleanup.\n"
+  },
+  {
+    "name": "kart-contact-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "PASS vicinanza 3 m: zero contatti/penalità, mentre il vecchio volume largo 3,4 m la considerava collisione\nPASS contatto leggero a velocità uguale: separazione, nessuna frenata per frame\nPASS tamponamento: trasferimento di impulso alla vettura davanti, nessun arresto\nPASS urto laterale: scivolata/imbardata determinate da direzione e velocità\nPASS urto violento: impulso limitato, perdita di controllo breve e finestra BOSCHI conservata\nPASS collisione reale tra giri diversi, nessuna collisione fra quote separate\nPASS partenza: cinque kart mantengono le file dietro lo zero, nessun ammasso sulla linea\nPASS muro a 30/60/120 FPS: strisciata senza freno esponenziale; respawn azzera gli impulsi\n"
+  },
+  {
+    "name": "kart-abilities-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "=== TEST 1: GOBLIN — SO GUIDARE IO (drift boost potenziato, annullato da uno schianto) ===\n  ✅ SO GUIDARE IO si attiva a barra piena e potenzia il drift boost\n  ✅ evento di feedback di attivazione emesso\n  ✅ uno schianto durante l'effetto annulla subito il bonus\n  ✅ \"EH SÌ, GUIDI BENISSIMO.\" mostrato dopo lo schianto\n  ✅ la finestra scade naturalmente dopo la durata prevista\n\n=== TEST 2: BUTTAFUORI — RIBALTATO MA NON MORTO (REATTIVA: premi nella finestra dopo lo schianto, 1 volta a gara) ===\n  ✅ Buttafuori parte con 1 carica fissa (non legata alla barra)\n  ✅ premere senza uno schianto NON fa niente e non consuma la carica\n  ✅ la carica resta intatta se non c'e' niente da recuperare\n  ✅ lo schianto NON lo recupera piu' da solo: apre solo la finestra\n  ✅ si apre la finestra \"PREMI ABILITÀ\"\n  ✅ lo stato pubblicato dice PREMI ORA!\n  ✅ premendo nella finestra la carica viene consumata\n  ✅ il kart torna subito in pista (respawn immediato, non dopo il countdown)\n  ✅ riceve un breve recovery boost\n  ✅ \"RIBALTATO MA NON MORTO!\" mostrato\n  ✅ la finestra si chiude dopo l'uso\n  ✅ senza cariche residue un secondo schianto NON apre piu' la finestra\n  ✅ premere senza cariche: ESAURITA\n  ✅ se non premi entro la finestra la carica NON si consuma\n  ✅ finestra persa segnalata (solo statistica)\n\n=== TEST 3: DOTTORE — 20 KG IN UN MESE (leggerissimo: accelera meglio, deriva facile) ===\n  ✅ 20 KG IN UN MESE attiva leggerezza + accelerazione + drift più facile\n  ✅ l'effetto rientra da solo alla scadenza\n\n=== TEST 4: JUDOKA — CARICO E SCARICO (camion: sterza peggio, non perde velocita' negli urti) ===\n  ✅ a barra vuota: BARRA NON PIENA, niente parte\n  ✅ barra piena: PRONTA\n  ✅ a barra piena diventa un camion (sterza peggio)\n  ✅ annuncio di attivazione mostrato subito\n  ✅ lo stato pubblicato e' ATTIVA\n  ✅ uno schianto ferma il camion e rimette lo sterzo normale\n  ✅ avviso \"camion fermo\"\n  ✅ il camion rientra da solo alla scadenza\n  ✅ fine camion segnalata\n\n=== TEST 5: CIRO — PAGO DOPO (rimanda un colpo, poi il DEBITO viene riscosso) ===\n  ✅ PAGO DOPO rimanda il colpo se ABILITÀ è stata premuta di recente\n  ✅ il colpo NON si sente subito: continua normalmente (DEBITO in sospeso)\n  ✅ la carica viene consumata al rinvio\n  ✅ \"PAGO DOPO!\" mostrato subito\n  ✅ il DEBITO scade e la penalità viene applicata comunque, dopo qualche secondo\n  ✅ \"DEBITO RISCOSSO!\" mostrato alla scadenza\n  ✅ senza aver premuto ABILITÀ in anticipo il colpo non viene rimandato\n  ✅ la carica non viene consumata se il rinvio non scatta\n\n=== TEST 5b: CIRO — PAGO DOPO retroattivo (dopo il colpo, entro la finestra, premi e diventa debito) ===\n  ✅ il colpo si subisce, ma si apre la finestra \"PREMI ORA!\"\n  ✅ lo stato pubblicato dice PREMI ORA!\n  ✅ premendo nella finestra lo stordimento sparisce e parte il debito (carica consumata)\n  ✅ \"PAGO DOPO!\" mostrato\n  ✅ il debito arriva comunque alla scadenza\n  ✅ la finestra dopo il colpo si chiude da sola\n  ✅ a finestra chiusa premere non toglie lo stordimento e non consuma la carica\n  ✅ il tasto arma comunque il rinvio in anticipo (feedback \"armato\")\n\n=== TEST 6: la fisica di base resta invariata per un personaggio senza abilità attive ===\n  ✅ un kart neutro accelera normalmente entro il tetto massimo (velocità: 33.9)\n  ✅ hitKart senza scudo/invulnerabilità applica normalmente lo stordimento\n  ✅ uno scudo blocca il colpo e si consuma\n  ✅ respawnKart riporta il kart al checkpoint valido con velocità azzerata\n\n=== RISULTATO: TUTTI I TEST PASSATI ✅ ===\n"
+  },
+  {
+    "name": "volleyball-direction-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "PASS Pallavolo: due squadre, sx/dx/neutro/teso/lob/smash, timing, muro, traiettorie e rete 30/60/120 FPS.\n"
+  },
+  {
+    "name": "arena-combat-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "PASS Arena combat: common tuning, bindings, recovery 30/60/120 Hz, swept contact, five players and four native rigs.\n"
+  },
+  {
+    "name": "arena-survival-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "20:31:30 [ROUND] [ARENA] #1 (id 1) → arena · 5 giocatori\n20:31:30 [MINIGAME] [ARENA] arena via (id 1)\n20:31:30 [MINIGAME] [ARENA] arena saltato senza punti (fase MINIGAME_PLAYING)\n20:31:30 [ROUND] [ARENA] #1 (id 2) → reaction · 5 giocatori\n20:31:30 [ROOM] [ARENA] reset alla lobby\nPASS Arena: scala normale/sudden/minima, pressione finita anti-stallo, spareggio stabile e failsafe server senza vittoria a tempo.\n20:31:30 [ERROR] [ARENA] rete di sicurezza: arena non ha risposto in tempo\n"
+  },
+  {
+    "name": "fps-ads-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "PASS: ADS timing, FOV, movement, sensitivity, six weapon spreads/recoils, close-range cone and cancellation/bindings\n"
+  },
+  {
+    "name": "fps-aim-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "--- INDIPENDENZA DAL FRAME-RATE (stick tenuto fermo, 1s, deflessione piena) ---\n   30 FPS (30 frame): yaw 2.600000\n   60 FPS (60 frame): yaw 2.600000\n  120 FPS (120 frame): yaw 2.600000\n✅ stessa rotazione totale a 30/60/120 FPS (scarto max 4.88e-15)\n✅ il totale corrisponde a sensX (rotazione = stick * sensX * dt, integrata su 1s): 2.6000 ≈ 2.6\n\n--- STESSO TEST CON PITCH (stick in giu', clamp incluso) ---\n✅ stesso pitch finale a 30 e 120 FPS (-1.400000 vs -1.400000)\n✅ il pitch resta bloccato al limite (clamp indipendente dal frame-rate): -1.4\n\n--- SENSIBILITA' PER GIOCATORE (moltiplicatore gia' esistente in GamepadManager, ora usato) ---\n✅ sensibilita' 0.5x/2x scala linearmente il risultato (1.300 / 5.200)\n\n--- CURVA DI RISPOSTA A EXPONENT=1 (default): nessun cambio rispetto a prima di M6.1 ---\n✅ curveExponent di default e' lineare (identita'): la mira si comporta come prima di M6.1\n✅ a deflessione 0.5 (curva lineare) la rotazione e' esattamente meta': 1.3000\n"
+  },
+  {
+    "name": "fighter-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "\n✅ 165/165 controlli ok\n"
+  },
+  {
+    "name": "fighter-strategy-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "PASS: original 14 moves preserved, spacing/whiff/air kick, timed parry/late punishment/cooldown, input edges, animation mapping.\nPASS: all four imported rigs have kick/charge/throw/parry poses; Carbo melee counter preserved.\n"
+  },
+  {
+    "name": "fighter-projectile-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "{ botThrows: 23, botKicks: 286, matchSeconds: 150.0000000000279 }\nPASS: equal five skins; tap/charge/aim/air/cooldown; cancellation; swept first hit/parry/dodge/invulnerability/roof/expiry/KO/end; bots and finite match.\n"
+  },
+  {
+    "name": "fighter-abilities-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "\n✅ 82/82 controlli ok (abilita')\n"
+  },
+  {
+    "name": "goblin-animation-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "Goblin animation: 183 checks passed\n"
+  },
+  {
+    "name": "buttafuori-animation-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "Buttafuori animation: 107 checks passed\n"
+  },
+  {
+    "name": "ciro-animation-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "Ciro animation: 111 checks passed\n"
+  },
+  {
+    "name": "characters-animation-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "Character animation update: 431 checks passed\n"
+  },
+  {
+    "name": "tripo-visual-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "Tripo render selection and sports: 72 checks passed\n"
+  },
+  {
+    "name": "casacarbo-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "\n✅ 102/102 controlli ok\n"
+  },
+  {
+    "name": "ciro-casacarbo-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "Ciro Casa Carbo render: 32 checks passed\n"
+  },
+  {
+    "name": "minigolf-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "PASS minigolf physics, surfaces, slopes, contacts, continuous collisions, mobile arms, cup, falls/restore, cancel/release, abilities, six courses, 2–5p natural matches and ranking.\n[{\"n\":2,\"courses\":[\"corridoio\",\"ponte\",\"discesa\"],\"players\":[{\"id\":\"p0\",\"colpi\":25,\"buche\":1},{\"id\":\"p1\",\"colpi\":27,\"buche\":1}]},{\"n\":3,\"courses\":[\"corridoio\",\"flipper\",\"discesa\"],\"players\":[{\"id\":\"p0\",\"colpi\":20,\"buche\":2},{\"id\":\"p1\",\"colpi\":30,\"buche\":0},{\"id\":\"p2\",\"colpi\":18,\"buche\":3}]},{\"n\":4,\"courses\":[\"corridoio\",\"flipper\",\"ultima\"],\"players\":[{\"id\":\"p0\",\"colpi\":21,\"buche\":3},{\"id\":\"p1\",\"colpi\":23,\"buche\":2},{\"id\":\"p2\",\"colpi\":16,\"buche\":3},{\"id\":\"p3\",\"colpi\":22,\"buche\":2}]},{\"n\":5,\"courses\":[\"corridoio\",\"flipper\",\"discesa\"],\"players\":[{\"id\":\"p0\",\"colpi\":26,\"buche\":1},{\"id\":\"p1\",\"colpi\":21,\"buche\":3},{\"id\":\"p2\",\"colpi\":25,\"buche\":2},{\"id\":\"p3\",\"colpi\":26,\"buche\":1},{\"id\":\"p4\",\"colpi\":18,\"buche\":3}]}]\n"
+  },
+  {
+    "name": "pad-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "mostrato nella schermata comandi\n✅ dodgeball: il tasto PRIMARY -> \"dodge\" e' lo STESSO mostrato nella schermata comandi\n✅ dodgeball: il tasto SECONDARY -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ soccer: ogni voce di controls produce esattamente un binding (5 voci, 5 binding)\n✅ soccer: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ soccer: il tasto RT -> \"shoot\" e' lo STESSO mostrato nella schermata comandi\n✅ soccer: il tasto PRIMARY -> \"shoot\" e' lo STESSO mostrato nella schermata comandi\n✅ soccer: il tasto LEFT -> \"dash\" e' lo STESSO mostrato nella schermata comandi\n✅ soccer: il tasto TOP -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ volleyball: ogni voce di controls produce esattamente un binding (4 voci, 4 binding)\n✅ volleyball: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ volleyball: il tasto LEFT -> \"jump\" e' lo STESSO mostrato nella schermata comandi\n✅ volleyball: il tasto PRIMARY -> \"hit\" e' lo STESSO mostrato nella schermata comandi\n✅ volleyball: il tasto SECONDARY -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: ogni voce di controls produce esattamente un binding (9 voci, 9 binding)\n✅ cornicione: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ cornicione: il tasto PRIMARY -> \"jump\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto LEFT -> \"light\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto TOP -> \"heavy\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto SECONDARY -> \"dodge\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto RT -> \"kick\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto LB -> \"throw\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto LT -> \"parry\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto RB -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ casacarbo: ogni voce di controls produce esattamente un binding (6 voci, 6 binding)\n✅ casacarbo: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ casacarbo: il tasto LEFT -> \"squeegee\" e' lo STESSO mostrato nella schermata comandi\n✅ casacarbo: il tasto TOP -> \"bucket\" e' lo STESSO mostrato nella schermata comandi\n✅ casacarbo: il tasto PRIMARY -> \"dash\" e' lo STESSO mostrato nella schermata comandi\n✅ casacarbo: il tasto SECONDARY -> \"interact\" e' lo STESSO mostrato nella schermata comandi\n✅ casacarbo: il tasto RB -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ kart3d: ogni voce di controls produce esattamente un binding (6 voci, 6 binding)\n✅ kart3d: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ kart3d: il tasto RT -> \"up\" e' lo STESSO mostrato nella schermata comandi\n✅ kart3d: il tasto LT -> \"down\" e' lo STESSO mostrato nella schermata comandi\n✅ kart3d: il tasto PRIMARY -> \"drift\" e' lo STESSO mostrato nella schermata comandi\n✅ kart3d: il tasto LEFT -> \"item\" e' lo STESSO mostrato nella schermata comandi\n✅ kart3d: il tasto TOP -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ memory: ogni voce di controls produce esattamente un binding (5 voci, 5 binding)\n✅ memory: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ memory: il tasto TOP -> \"c0\" e' lo STESSO mostrato nella schermata comandi\n✅ memory: il tasto SECONDARY -> \"c1\" e' lo STESSO mostrato nella schermata comandi\n✅ memory: il tasto PRIMARY -> \"c2\" e' lo STESSO mostrato nella schermata comandi\n✅ memory: il tasto LEFT -> \"c3\" e' lo STESSO mostrato nella schermata comandi\n✅ memory: il tasto RB -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ reaction: ogni voce di controls produce esattamente un binding (2 voci, 2 binding)\n✅ reaction: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ reaction: il tasto PRIMARY -> \"action\" e' lo STESSO mostrato nella schermata comandi\n✅ reaction: il tasto RB -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ fps: ogni voce di controls produce esattamente un binding (7 voci, 7 binding)\n✅ fps: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ fps: il tasto RT -> \"fire\" e' lo STESSO mostrato nella schermata comandi\n✅ fps: il tasto LT -> \"aim\" e' lo STESSO mostrato nella schermata comandi\n✅ fps: il tasto PRIMARY -> \"dash\" e' lo STESSO mostrato nella schermata comandi\n✅ fps: il tasto LEFT -> \"reload\" e' lo STESSO mostrato nella schermata comandi\n✅ fps: il tasto RB -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ Arena: move = stick sinistro, dash = PRIMARY (A/✕), ability = SECONDARY (B/◯): i controlId che il gioco legge già\n✅ kart3d: profilo presente\n✅ Kart: sterzo = stick sinistro -> controlId \"steer\" (continuo, stessa deadzone centrale)\n✅ Kart: RT/LT NON sono grilletti analogici nel profilo (il gioco non ha un accel/frenata a magnitudine: adattamento compatibile)\n✅ Kart: RT -> \"up\", LT -> \"down\" (stessi controlId digitali del telefono)\n✅ Kart: SOLO RT e LT sono holdThrough (RT,LT)\n✅ Kart: drift/item/abilità NON sono holdThrough (restano azioni one-shot protette dal blocco)\n✅ minigolf: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ arena: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ dodgeball: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ soccer: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ volleyball: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ cornicione: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ casacarbo: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ memory: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ reaction: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ fps: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n"
+  },
+  {
+    "name": "ability-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "\n=== 1. CATALOGO — 65 abilita' complete e coerenti ===\n\n=== 2. INPUT — ogni gioco col controller ha il tasto ABILITA' (stessa fonte della schermata CONTROLLI) ===\n\n=== 3. BUDGET — niente spam: l'impatto ALTO ha un limite ===\n  impatto: 30 ALTO · 35 MEDIO · 0 BASSO\n\n=== 4a. ARENA — 5 personaggi: trigger valido / invalido / doppia attivazione / pulizia ===\n\n=== 4b. DODGEBALL — trigger valido / invalido / stato / pulizia ===\n\n=== 4c. CALCIO — trigger valido / invalido / pulizia ===\n\n=== 4d. PALLAVOLO — trigger valido / invalido / pulizia ===\n\n=== 4e. SPARATORIA — trigger valido / invalido / pulizia alla morte ===\n\n=== 4f. STATO PRESENTAZIONALE — etichette leggibili ===\n\n✅ 1064/1064 controlli ok\n"
+  },
+  {
+    "name": "soccer-label-layout-selftest",
+    "ok": true,
+    "status": 0,
+    "output": "PASS soccer label layout: five-player crowd, ball/body/goals, small/wide screens, stable order, safe fallback and read-only inputs.\n"
+  }
+]

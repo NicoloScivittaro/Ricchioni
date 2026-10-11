@@ -1,0 +1,176 @@
+{
+  "errors": [],
+  "five": [
+    {
+      "ads": 1,
+      "fov": 0.8383008169266069,
+      "vm": 1
+    },
+    {
+      "ads": 0,
+      "fov": 1.05,
+      "vm": 0
+    },
+    {
+      "ads": 0,
+      "fov": 1.05,
+      "vm": 0
+    },
+    {
+      "ads": 0,
+      "fov": 1.05,
+      "vm": 0
+    },
+    {
+      "ads": 0,
+      "fov": 1.05,
+      "vm": 0
+    }
+  ],
+  "mixedBindings": true,
+  "core": {
+    "hipMove": 1.7999999999999972,
+    "adsMove": 1.3500000000000156,
+    "hipLook": 0.26,
+    "adsLook": 0.16900000000000004,
+    "precision": [
+      {
+        "dist": 3,
+        "ads": 0,
+        "hits": 300,
+        "samples": 300
+      },
+      {
+        "dist": 3,
+        "ads": 1,
+        "hits": 300,
+        "samples": 300
+      },
+      {
+        "dist": 28,
+        "ads": 0,
+        "hits": 127,
+        "samples": 300
+      },
+      {
+        "dist": 28,
+        "ads": 1,
+        "hits": 184,
+        "samples": 300
+      }
+    ],
+    "recoil": {
+      "pitch": 0.0117,
+      "yaw": -0.001485960962949321
+    },
+    "protectedHits": 0,
+    "cancelled": {
+      "ads": 0,
+      "recoil": 0,
+      "burst": 0,
+      "yaw": 1,
+      "originalYaw": 1
+    },
+    "damageDirection": 0,
+    "reloadAds": 0
+  },
+  "pause": true,
+  "phoneCamera": {
+    "fov": 0.6288717808370498,
+    "zoom": 1.3
+  },
+  "phoneFourFingers": {
+    "x": 0.08185128927553613,
+    "z": -14.887461967201347,
+    "ads": 1,
+    "fire": true
+  },
+  "phoneMultitouch": {
+    "ads": 1,
+    "shots": 1,
+    "yaw": 0.11729122222222212,
+    "firing": true
+  },
+  "phoneCancelRearm": true,
+  "confirmedHit": true,
+  "renderSamples": [
+    {
+      "fps": 59.85634477252378,
+      "meshes": 382
+    },
+    {
+      "fps": 59.928086296377444,
+      "meshes": 382
+    },
+    {
+      "fps": 60.0120024005473,
+      "meshes": 382
+    },
+    {
+      "fps": 59.904153354654966,
+      "meshes": 382
+    },
+    {
+      "fps": 60.12024048096204,
+      "meshes": 382
+    }
+  ],
+  "results": [
+    {
+      "playerId": "99f9750a-8850-402e-8aa8-16153e5c7b83",
+      "placement": 1,
+      "score": 0,
+      "stats": [
+        "0 kill · 0 morti",
+        "precisione 25%"
+      ]
+    },
+    {
+      "playerId": "75c4359a-114a-4bb0-a213-122efd5e0a1e",
+      "placement": 2,
+      "score": 0,
+      "stats": [
+        "0 kill · 0 morti",
+        "nessun colpo sparato"
+      ]
+    },
+    {
+      "playerId": "428b95bf-7fe8-4846-9016-5856c0a827ff",
+      "placement": 3,
+      "score": 0,
+      "stats": [
+        "0 kill · 0 morti",
+        "nessun colpo sparato"
+      ]
+    },
+    {
+      "playerId": "ca4fc44e-0385-475f-96c6-94c781f1c521",
+      "placement": 4,
+      "score": 0,
+      "stats": [
+        "0 kill · 0 morti",
+        "nessun colpo sparato"
+      ]
+    },
+    {
+      "playerId": "0d40cb0d-0884-4c0e-b4fd-93807d2b1a57",
+      "placement": 5,
+      "score": 0,
+      "stats": [
+        "0 kill · 0 morti",
+        "nessun colpo sparato"
+      ]
+    }
+  ],
+  "cleanup": {
+    "counters": {
+      "liveInstances": 0,
+      "abortedLoads": 0,
+      "lateDisposedContainers": 0,
+      "modules": [
+        "http://127.0.0.1:5174/src/minigames/characters/goblinVisual.ts?t=1791750093949"
+      ]
+    },
+    "canvases": 1
+  }
+}

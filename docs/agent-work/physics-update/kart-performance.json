@@ -1,0 +1,103 @@
+{
+  "errors": [],
+  "fixture": "five participants driven by existing bot logic; mixed items; live simulation/render",
+  "samples": [
+    {
+      "width": 1280,
+      "height": 720,
+      "fps": 21.918608898952247,
+      "meshes": 349,
+      "materials": 171,
+      "time": 5.036533333334444,
+      "speeds": [
+        44.3401721396924,
+        44.424919252632655,
+        43.8849708959558,
+        44.275759743942366,
+        34.57162499998465
+      ],
+      "paused": false
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "fps": 27.024592379074043,
+      "meshes": 349,
+      "materials": 171,
+      "time": 6.181233333333682,
+      "speeds": [
+        43.231100607875895,
+        44,
+        44,
+        44,
+        44
+      ],
+      "paused": false
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "fps": 29.052876234757747,
+      "meshes": 341,
+      "materials": 171,
+      "time": 7.338933333333869,
+      "speeds": [
+        44,
+        44,
+        44,
+        44,
+        44
+      ],
+      "paused": false
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "fps": 26.1324041811847,
+      "meshes": 344,
+      "materials": 169,
+      "time": 9.974933333333839,
+      "speeds": [
+        44,
+        44,
+        44,
+        44,
+        44
+      ],
+      "paused": false
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "fps": 32.292787944025875,
+      "meshes": 349,
+      "materials": 171,
+      "time": 11.12173333333363,
+      "speeds": [
+        44,
+        44,
+        44,
+        44,
+        44
+      ],
+      "paused": false
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "fps": 34.36032527772403,
+      "meshes": 349,
+      "materials": 171,
+      "time": 12.28753333333438,
+      "speeds": [
+        44,
+        44,
+        44,
+        44,
+        44
+      ],
+      "paused": false
+    }
+  ],
+  "cleanup": 1
+}

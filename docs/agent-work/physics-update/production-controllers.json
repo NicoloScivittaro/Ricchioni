@@ -1,0 +1,365 @@
+[
+  {
+    "id": "quiz",
+    "errors": [],
+    "views": [
+      {
+        "name": "portrait",
+        "width": 390,
+        "height": 800,
+        "buttons": [
+          {
+            "label": "ABruce",
+            "x": 14,
+            "y": 305.90625,
+            "w": 362,
+            "h": 50,
+            "visible": true
+          },
+          {
+            "label": "BDory",
+            "x": 14,
+            "y": 363.90625,
+            "w": 362,
+            "h": 50,
+            "visible": true
+          },
+          {
+            "label": "CMarlin",
+            "x": 14,
+            "y": 421.90625,
+            "w": 362,
+            "h": 50,
+            "visible": true
+          },
+          {
+            "label": "DNemo",
+            "x": 14,
+            "y": 479.90625,
+            "w": 362,
+            "h": 50,
+            "visible": true
+          },
+          {
+            "label": "⭐\n          N'CULO!",
+            "x": 261.140625,
+            "y": 689,
+            "w": 114.859375,
+            "h": 46,
+            "visible": true
+          }
+        ],
+        "sourceModules": false
+      },
+      {
+        "name": "landscape",
+        "width": 800,
+        "height": 390,
+        "buttons": [
+          {
+            "label": "ABruce",
+            "x": 321.734375,
+            "y": 46,
+            "w": 230.125,
+            "h": 95,
+            "visible": true
+          },
+          {
+            "label": "BDory",
+            "x": 557.859375,
+            "y": 46,
+            "w": 230.140625,
+            "h": 95,
+            "visible": true
+          },
+          {
+            "label": "CMarlin",
+            "x": 321.734375,
+            "y": 147,
+            "w": 230.125,
+            "h": 95,
+            "visible": true
+          },
+          {
+            "label": "DNemo",
+            "x": 557.859375,
+            "y": 147,
+            "w": 230.140625,
+            "h": 95,
+            "visible": true
+          },
+          {
+            "label": "⭐\n          N'CULO!",
+            "x": 208.875,
+            "y": 302,
+            "w": 102.859375,
+            "h": 46,
+            "visible": true
+          }
+        ],
+        "sourceModules": false
+      },
+      {
+        "name": "small",
+        "width": 360,
+        "height": 640,
+        "buttons": [
+          {
+            "label": "ABruce",
+            "x": 14,
+            "y": 244.8125,
+            "w": 332,
+            "h": 50,
+            "visible": true
+          },
+          {
+            "label": "BDory",
+            "x": 14,
+            "y": 302.8125,
+            "w": 332,
+            "h": 50,
+            "visible": true
+          },
+          {
+            "label": "CMarlin",
+            "x": 14,
+            "y": 360.8125,
+            "w": 332,
+            "h": 50,
+            "visible": true
+          },
+          {
+            "label": "DNemo",
+            "x": 14,
+            "y": 418.8125,
+            "w": 332,
+            "h": 50,
+            "visible": true
+          },
+          {
+            "label": "⭐\n          N'CULO!",
+            "x": 231.140625,
+            "y": 566.8125,
+            "w": 114.859375,
+            "h": 46,
+            "visible": true
+          }
+        ],
+        "sourceModules": false
+      }
+    ],
+    "assets": [
+      "/assets/main-C8U3UABh.js"
+    ]
+  },
+  {
+    "id": "volleyball",
+    "errors": [],
+    "views": [
+      {
+        "name": "portrait",
+        "width": 390,
+        "height": 800,
+        "buttons": [
+          {
+            "label": "👊COLPISCI",
+            "x": 226.09375,
+            "y": 183.296875,
+            "w": 124.796875,
+            "h": 124.796875,
+            "visible": true
+          },
+          {
+            "label": "🦘SALTA",
+            "x": 241.703125,
+            "y": 322.09375,
+            "w": 93.59375,
+            "h": 93.59375,
+            "visible": true
+          },
+          {
+            "label": "⭐JÄGER BOMB",
+            "x": 217.75,
+            "y": 429.6875,
+            "w": 141.5,
+            "h": 48,
+            "visible": true
+          }
+        ],
+        "sourceModules": false
+      },
+      {
+        "name": "landscape",
+        "width": 800,
+        "height": 390,
+        "buttons": [
+          {
+            "label": "👊COLPISCI",
+            "x": 452,
+            "y": 98.5,
+            "w": 94,
+            "h": 94,
+            "visible": true
+          },
+          {
+            "label": "🦘SALTA",
+            "x": 646,
+            "y": 98.5,
+            "w": 94,
+            "h": 94,
+            "visible": true
+          },
+          {
+            "label": "⭐JÄGER BOMB",
+            "x": 509.8125,
+            "y": 200.5,
+            "w": 172.375,
+            "h": 48,
+            "visible": true
+          }
+        ],
+        "sourceModules": false
+      },
+      {
+        "name": "small",
+        "width": 360,
+        "height": 640,
+        "buttons": [
+          {
+            "label": "👊COLPISCI",
+            "x": 208.40625,
+            "y": 103.703125,
+            "w": 115.1875,
+            "h": 115.1875,
+            "visible": true
+          },
+          {
+            "label": "🦘SALTA",
+            "x": 222.796875,
+            "y": 232.890625,
+            "w": 86.390625,
+            "h": 86.390625,
+            "visible": true
+          },
+          {
+            "label": "⭐JÄGER BOMB",
+            "x": 199.453125,
+            "y": 333.28125,
+            "w": 133.078125,
+            "h": 48,
+            "visible": true
+          }
+        ],
+        "sourceModules": false
+      }
+    ],
+    "assets": [
+      "/assets/main-C8U3UABh.js"
+    ]
+  },
+  {
+    "id": "minigolf",
+    "errors": [],
+    "views": [
+      {
+        "name": "portrait",
+        "width": 390,
+        "height": 800,
+        "buttons": [
+          {
+            "label": "⛳ TIRATIENI E RILASCIA",
+            "x": 218.25,
+            "y": 264.21875,
+            "w": 145,
+            "h": 115,
+            "visible": true
+          },
+          {
+            "label": "ANNULLA",
+            "x": 218.25,
+            "y": 391.21875,
+            "w": 145,
+            "h": 59,
+            "visible": true
+          },
+          {
+            "label": "⭐ ABILITÀPRONTA",
+            "x": 218.25,
+            "y": 462.21875,
+            "w": 145,
+            "h": 82,
+            "visible": true
+          }
+        ],
+        "sourceModules": false
+      },
+      {
+        "name": "landscape",
+        "width": 800,
+        "height": 390,
+        "buttons": [
+          {
+            "label": "⛳ TIRATIENI E RILASCIA",
+            "x": 398.921875,
+            "y": 130,
+            "w": 137.71875,
+            "h": 118,
+            "visible": true
+          },
+          {
+            "label": "ANNULLA",
+            "x": 544.640625,
+            "y": 130,
+            "w": 137.71875,
+            "h": 48,
+            "visible": true
+          },
+          {
+            "label": "⭐ ABILITÀPRONTA",
+            "x": 544.640625,
+            "y": 186,
+            "w": 137.71875,
+            "h": 62,
+            "visible": true
+          }
+        ],
+        "sourceModules": false
+      },
+      {
+        "name": "small",
+        "width": 360,
+        "height": 640,
+        "buttons": [
+          {
+            "label": "⛳ TIRATIENI E RILASCIA",
+            "x": 192.953125,
+            "y": 166.03125,
+            "w": 137.71875,
+            "h": 115,
+            "visible": true
+          },
+          {
+            "label": "ANNULLA",
+            "x": 192.953125,
+            "y": 293.03125,
+            "w": 137.71875,
+            "h": 59,
+            "visible": true
+          },
+          {
+            "label": "⭐ ABILITÀPRONTA",
+            "x": 192.953125,
+            "y": 364.03125,
+            "w": 137.71875,
+            "h": 82,
+            "visible": true
+          }
+        ],
+        "sourceModules": false
+      }
+    ],
+    "assets": [
+      "/assets/main-C8U3UABh.js"
+    ]
+  }
+]

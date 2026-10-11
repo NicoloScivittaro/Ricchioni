@@ -1,0 +1,11 @@
+✅ riaperto nel rullo: "PROSSIMO GIOCO..."
+✅ nessun giocatore duplicato (P1, P2, P3)
+✅ stessi playerId di prima
+✅ P1 risulta di nuovo connesso
+✅ riaperto in gioco: controller giusto ("BOTTA AL VOLO")
+✅ tutti e 3 connessi, nessun duplicato
+✅ un telefono risulta offline
+✅ il round si chiude con 3 placement unici ([1,2,3])
+✅ host sui risultati, una sola scena
+✅ riaperto nei risultati: "ROUND TERMINATO"
+✅ nessun errore 

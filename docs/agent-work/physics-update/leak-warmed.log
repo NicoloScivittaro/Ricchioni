@@ -1,0 +1,39 @@
+R 1 quiz       heap host 10.6MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 21
+R 2 reaction   heap host 11.0MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 21
+R 3 memory     heap host 25.2MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 1 · listener window 21
+R 4 arena      heap host 41.6MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 5 dodgeball  heap host 54.5MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 6 FINALE (target raggiunto) → NUOVA PARTITA
+R 7 volleyball heap host 54.8MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 8 kart3d     heap host 56.6MB tel 2.5MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 9 cultura    heap host 56.7MB tel 2.6MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R10 fps        heap host 57.5MB tel 20.2MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R11 FINALE (target raggiunto) → NUOVA PARTITA
+R12 casacarbo  heap host 67.1MB tel 20.2MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R13 minigolf   heap host 71.8MB tel 20.2MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 1 · listener window 22
+R14 quiz       heap host 71.8MB tel 20.2MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R15 reaction   heap host 71.7MB tel 20.2MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R16 FINALE (target raggiunto) → NUOVA PARTITA
+R17 arena      heap host 76.9MB tel 20.2MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R18 dodgeball  heap host 77.6MB tel 20.2MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R19 soccer     heap host 77.7MB tel 20.2MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R20 volleyball heap host 78.1MB tel 20.2MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R21 kart3d     heap host 80.4MB tel 20.2MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R22 FINALE (target raggiunto) → NUOVA PARTITA
+R23 fps        heap host 77.8MB tel 23.1MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R24 cornicione heap host 70.8MB tel 23.1MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R25 FINALE (target raggiunto) → NUOVA PARTITA
+R26 minigolf   heap host 75.0MB tel 23.1MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+
+Giochi giocati: quiz, reaction, memory, arena, dodgeball, soccer, volleyball, kart3d, cultura, fps, cornicione, casacarbo, minigolf, quiz, reaction, memory, arena, dodgeball, soccer, volleyball, kart3d, cultura, fps, cornicione, casacarbo, minigolf · NUOVE PARTITE dopo il target: 5
+✅ scene attive == 1 dopo ogni round
+✅ nessun canvas 3D residuo
+✅ nessun overlay DOM residuo
+✅ canvas stabili (crescita 0.0)
+✅ elementi in body stabili (crescita 0.0)
+✅ timer pendenti stabili (crescita 0.0)
+✅ oscillatori vivi al rullo (musica esclusa) ≤ 2 (max 0)
+✅ note della musica stabili (crescita -0.3, max 10)
+✅ listener su window stabili (crescita 0.0)
+✅ heap host: 73 → 75 MB (crescita 1.0 MB, 10 round)
+✅ heap telefono: 20 → 23 MB

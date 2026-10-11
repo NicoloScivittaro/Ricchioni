@@ -4,7 +4,7 @@
     {
       "team": "red",
       "name": "left",
-      "index": 2,
+      "index": 1,
       "arrow": {
         "visible": true,
         "right": false,
@@ -17,23 +17,23 @@
         "vx": -2.984075381479654,
         "vy": 7.988,
         "vz": 4.973458969132757,
-        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "touch": "b3fcc09c-0a5a-447f-ac0e-454b3c706de8",
         "smashes": 0,
         "receives": 1,
         "errors": 0
       },
       "flight": {
-        "x": -4.528831737292294,
-        "z": 2.3480528954871454,
+        "x": -4.379627968218311,
+        "z": 2.099379947030508,
         "phase": "pointPause",
-        "time": 1.5166666666666662,
+        "time": 1.4666666666666663,
         "net": false
       }
     },
     {
       "team": "red",
       "name": "right",
-      "index": 2,
+      "index": 1,
       "arrow": {
         "visible": true,
         "right": true,
@@ -46,23 +46,23 @@
         "vx": 2.984075381479654,
         "vy": 7.988,
         "vz": 4.973458969132757,
-        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "touch": "b3fcc09c-0a5a-447f-ac0e-454b3c706de8",
         "smashes": 0,
         "receives": 2,
         "errors": 0
       },
       "flight": {
-        "x": 4.528831737292294,
-        "z": 2.3480528954871454,
+        "x": 4.379627968218311,
+        "z": 2.099379947030508,
         "phase": "pointPause",
-        "time": 1.5166666666666662,
+        "time": 1.4666666666666663,
         "net": false
       }
     },
     {
       "team": "red",
       "name": "neutral",
-      "index": 2,
+      "index": 1,
       "arrow": {
         "visible": true,
         "right": false,
@@ -75,23 +75,23 @@
         "vx": 0,
         "vy": 7.988,
         "vz": 5.8,
-        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "touch": "b3fcc09c-0a5a-447f-ac0e-454b3c706de8",
         "smashes": 0,
         "receives": 3,
         "errors": 0
       },
       "flight": {
         "x": 0,
-        "z": 3.602466666666667,
+        "z": 3.312466666666667,
         "phase": "pointPause",
-        "time": 1.5166666666666662,
+        "time": 1.4666666666666663,
         "net": false
       }
     },
     {
       "team": "red",
       "name": "flat",
-      "index": 2,
+      "index": 1,
       "arrow": {
         "visible": true,
         "right": false,
@@ -104,23 +104,23 @@
         "vx": 0,
         "vy": 6.888000000000001,
         "vz": 7.192,
-        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "touch": "b3fcc09c-0a5a-447f-ac0e-454b3c706de8",
         "smashes": 0,
         "receives": 4,
         "errors": 0
       },
       "flight": {
         "x": 0,
-        "z": 4.516392000000003,
+        "z": 4.156792000000003,
         "phase": "pointPause",
-        "time": 1.35,
+        "time": 1.3000000000000003,
         "net": false
       }
     },
     {
       "team": "red",
       "name": "lob",
-      "index": 2,
+      "index": 1,
       "arrow": {
         "visible": true,
         "right": false,
@@ -133,23 +133,23 @@
         "vx": 0,
         "vy": 10.388,
         "vz": 4.93,
-        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "touch": "b3fcc09c-0a5a-447f-ac0e-454b3c706de8",
         "smashes": 0,
         "receives": 5,
         "errors": 0
       },
       "flight": {
         "x": 0,
-        "z": 7.178333333333333,
+        "z": 7.424833333333333,
         "phase": "pointPause",
-        "time": 1.9999999999999978,
+        "time": 1.949999999999998,
         "net": false
       }
     },
     {
       "team": "red",
       "name": "smash",
-      "index": 2,
+      "index": 1,
       "arrow": {
         "visible": true,
         "right": true,
@@ -162,16 +162,16 @@
         "vx": 6.615720898706405,
         "vy": -1.914492235949962,
         "vz": 11.026201497844008,
-        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "touch": "b3fcc09c-0a5a-447f-ac0e-454b3c706de8",
         "smashes": 1,
         "receives": 5,
         "errors": 0
       },
       "flight": {
-        "x": 3.8657862451441067,
-        "z": 5.442977075240185,
+        "x": 3.535000200208787,
+        "z": 4.891667000347983,
         "phase": "pointPause",
-        "time": 0.5833333333333335,
+        "time": 0.5333333333333333,
         "net": false
       }
     },
@@ -191,16 +191,16 @@
         "vx": -2.984075381479654,
         "vy": 7.988,
         "vz": -4.973458969132757,
-        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "touch": "7f3ec29d-5919-4818-a3c1-d98368ad5d85",
         "smashes": 0,
         "receives": 1,
         "errors": 0
       },
       "flight": {
-        "x": -4.528831737292294,
-        "z": -2.3480528954871454,
+        "x": -4.379627968218311,
+        "z": -2.099379947030508,
         "phase": "pointPause",
-        "time": 1.5166666666666662,
+        "time": 1.4666666666666663,
         "net": false
       }
     },
@@ -220,16 +220,16 @@
         "vx": 2.984075381479654,
         "vy": 7.988,
         "vz": -4.973458969132757,
-        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "touch": "7f3ec29d-5919-4818-a3c1-d98368ad5d85",
         "smashes": 0,
         "receives": 2,
         "errors": 0
       },
       "flight": {
-        "x": 4.528831737292294,
-        "z": -2.3480528954871454,
+        "x": 4.379627968218311,
+        "z": -2.099379947030508,
         "phase": "pointPause",
-        "time": 1.5166666666666662,
+        "time": 1.4666666666666663,
         "net": false
       }
     },
@@ -249,16 +249,16 @@
         "vx": 0,
         "vy": 7.988,
         "vz": -5.8,
-        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "touch": "7f3ec29d-5919-4818-a3c1-d98368ad5d85",
         "smashes": 0,
         "receives": 3,
         "errors": 0
       },
       "flight": {
         "x": 0,
-        "z": -3.602466666666667,
+        "z": -3.312466666666667,
         "phase": "pointPause",
-        "time": 1.5166666666666662,
+        "time": 1.4666666666666663,
         "net": false
       }
     },
@@ -278,16 +278,16 @@
         "vx": 0,
         "vy": 6.888000000000001,
         "vz": -7.192,
-        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "touch": "7f3ec29d-5919-4818-a3c1-d98368ad5d85",
         "smashes": 0,
         "receives": 4,
         "errors": 0
       },
       "flight": {
         "x": 0,
-        "z": -4.516392000000003,
+        "z": -4.156792000000003,
         "phase": "pointPause",
-        "time": 1.35,
+        "time": 1.3000000000000003,
         "net": false
       }
     },
@@ -307,16 +307,16 @@
         "vx": 0,
         "vy": 10.388,
         "vz": -4.93,
-        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "touch": "7f3ec29d-5919-4818-a3c1-d98368ad5d85",
         "smashes": 0,
         "receives": 5,
         "errors": 0
       },
       "flight": {
         "x": 0,
-        "z": -7.178333333333333,
+        "z": -7.424833333333333,
         "phase": "pointPause",
-        "time": 1.9999999999999978,
+        "time": 1.949999999999998,
         "net": false
       }
     },
@@ -336,16 +336,16 @@
         "vx": 6.615720898706405,
         "vy": -1.914492235949962,
         "vz": -11.026201497844008,
-        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "touch": "7f3ec29d-5919-4818-a3c1-d98368ad5d85",
         "smashes": 1,
         "receives": 5,
         "errors": 0
       },
       "flight": {
-        "x": 3.8657862451441067,
-        "z": -5.442977075240185,
+        "x": 3.535000200208787,
+        "z": -4.891667000347983,
         "phase": "pointPause",
-        "time": 0.5833333333333335,
+        "time": 0.5333333333333333,
         "net": false
       }
     }

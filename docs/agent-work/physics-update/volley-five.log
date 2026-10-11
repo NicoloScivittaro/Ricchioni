@@ -1,0 +1,25 @@
+red left {"x":-4.379627968218311,"z":2.099379947030508,"phase":"pointPause","time":1.4666666666666663,"net":false}
+PASS red left
+red right {"x":4.379627968218311,"z":2.099379947030508,"phase":"pointPause","time":1.4666666666666663,"net":false}
+PASS red right
+red neutral {"x":0,"z":3.312466666666667,"phase":"pointPause","time":1.4666666666666663,"net":false}
+PASS red neutral
+red flat {"x":0,"z":4.156792000000003,"phase":"pointPause","time":1.3000000000000003,"net":false}
+PASS red flat
+red lob {"x":0,"z":7.424833333333333,"phase":"pointPause","time":1.949999999999998,"net":false}
+PASS red lob
+red smash {"x":3.535000200208787,"z":4.891667000347983,"phase":"pointPause","time":0.5333333333333333,"net":false}
+PASS red smash
+blue left {"x":-4.379627968218311,"z":-2.099379947030508,"phase":"pointPause","time":1.4666666666666663,"net":false}
+PASS blue left
+blue right {"x":4.379627968218311,"z":-2.099379947030508,"phase":"pointPause","time":1.4666666666666663,"net":false}
+PASS blue right
+blue neutral {"x":0,"z":-3.312466666666667,"phase":"pointPause","time":1.4666666666666663,"net":false}
+PASS blue neutral
+blue flat {"x":0,"z":-4.156792000000003,"phase":"pointPause","time":1.3000000000000003,"net":false}
+PASS blue flat
+blue lob {"x":0,"z":-7.424833333333333,"phase":"pointPause","time":1.949999999999998,"net":false}
+PASS blue lob
+blue smash {"x":3.535000200208787,"z":-4.891667000347983,"phase":"pointPause","time":0.5333333333333333,"net":false}
+PASS blue smash
+PASS direzione Volley due squadre, 12 tiri fisici, arrow screen sx/dx, pad e telefono multitouch, 5 bot partita naturale accelerata, lobby/cleanup.

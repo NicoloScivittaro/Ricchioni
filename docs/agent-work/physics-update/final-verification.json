@@ -1,0 +1,146 @@
+{
+  "initialBrowserRun": [
+    {
+      "name": "volley-pad",
+      "code": 0,
+      "seconds": 90.826
+    },
+    {
+      "name": "volley-five",
+      "code": 0,
+      "seconds": 48.956
+    },
+    {
+      "name": "fps-five",
+      "code": 0,
+      "seconds": 55.848
+    },
+    {
+      "name": "arena-five",
+      "code": 0,
+      "seconds": 37.704
+    },
+    {
+      "name": "matrix-13",
+      "code": 0,
+      "seconds": 477.778
+    },
+    {
+      "name": "controllers-13",
+      "code": 1,
+      "seconds": 276.531
+    },
+    {
+      "name": "pause-corn",
+      "code": 0,
+      "seconds": 31.37
+    },
+    {
+      "name": "pause-kart",
+      "code": 0,
+      "seconds": 31.966
+    },
+    {
+      "name": "reconnect",
+      "code": 0,
+      "seconds": 26.263
+    },
+    {
+      "name": "leak-five",
+      "code": 1,
+      "seconds": 208.929
+    }
+  ],
+  "selftests": {
+    "total": 25,
+    "passed": 25
+  },
+  "controllerCorrection": {
+    "status": 0,
+    "games": 13,
+    "resolutions": 3,
+    "log": "controllers-final.log"
+  },
+  "resources": {
+    "status": 0,
+    "rounds": 26,
+    "warmupRounds": 13,
+    "measuredHeapSamples": 10,
+    "newMatches": 5,
+    "checks": [
+      [
+        "scene attive == 1 dopo ogni round",
+        true
+      ],
+      [
+        "nessun canvas 3D residuo",
+        true
+      ],
+      [
+        "nessun overlay DOM residuo",
+        true
+      ],
+      [
+        "canvas stabili (crescita 0.0)",
+        true
+      ],
+      [
+        "elementi in body stabili (crescita 0.0)",
+        true
+      ],
+      [
+        "timer pendenti stabili (crescita 0.0)",
+        true
+      ],
+      [
+        "oscillatori vivi al rullo (musica esclusa) ≤ 2 (max 0)",
+        true
+      ],
+      [
+        "note della musica stabili (crescita -0.3, max 10)",
+        true
+      ],
+      [
+        "listener su window stabili (crescita 0.0)",
+        true
+      ],
+      [
+        "heap host: 73 → 75 MB (crescita 1.0 MB, 10 round)",
+        true
+      ],
+      [
+        "heap telefono: 20 → 23 MB",
+        true
+      ]
+    ],
+    "errors": []
+  },
+  "production": {
+    "cornicione": "production-corn.json",
+    "controllers": [
+      {
+        "id": "quiz",
+        "views": 3,
+        "errors": []
+      },
+      {
+        "id": "volleyball",
+        "views": 3,
+        "errors": []
+      },
+      {
+        "id": "minigolf",
+        "views": 3,
+        "errors": []
+      }
+    ]
+  },
+  "finalBuild": {
+    "status": 0,
+    "time": "4m36s",
+    "includesTypecheck": true,
+    "log": "build-final.log"
+  },
+  "kartPerformance": "kart-performance-warm.json",
+  "acceptance": "PASS within documented scope; human balance, physical hardware and five-viewport rendering performance remain limits"
+}

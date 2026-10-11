@@ -1,0 +1,26 @@
+R 1 casacarbo  heap host 38.7MB tel 2.4MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 2 fps        heap host 39.4MB tel 20.3MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 3 memory     heap host 39.6MB tel 20.3MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 4 FINALE (target raggiunto) → NUOVA PARTITA
+R 5 memory     heap host 40.4MB tel 20.3MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 6 soccer     heap host 52.3MB tel 20.3MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 7 cornicione heap host 56.0MB tel 20.3MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R 8 FINALE (target raggiunto) → NUOVA PARTITA
+R 9 cultura    heap host 56.4MB tel 20.3MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R10 dodgeball  heap host 66.4MB tel 20.4MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R11 memory     heap host 66.9MB tel 20.4MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R12 kart3d     heap host 67.1MB tel 20.4MB · scene 1 · canvas 1 (3D 0) · overlay DOM 0 · body 7 · timer 7 · osc 0 · listener window 22
+R13 FINALE (target raggiunto) → NUOVA PARTITA
+
+Giochi giocati: casacarbo, fps, memory, quiz, memory, soccer, cornicione, cultura, cultura, dodgeball, memory, kart3d, fps · NUOVE PARTITE dopo il target: 2
+✅ scene attive == 1 dopo ogni round
+✅ nessun canvas 3D residuo
+✅ nessun overlay DOM residuo
+✅ canvas stabili (crescita 0.0)
+✅ elementi in body stabili (crescita 0.0)
+✅ timer pendenti stabili (crescita 0.0)
+✅ oscillatori vivi al rullo (musica esclusa) ≤ 2 (max 0)
+✅ note della musica stabili (crescita -0.3, max 13)
+✅ listener su window stabili (crescita 0.0)
+❌ heap host: 39 → 67 MB (crescita 27.6 MB, 10 round)
+✅ heap telefono: 14 → 20 MB
