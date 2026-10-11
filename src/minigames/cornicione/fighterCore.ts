@@ -21,6 +21,7 @@ export interface WorldOptions {
   timeLimit?: number;
 }
 
+type PreviousFighter = { x:number;y:number;attack:Fighter['attack'];t:number;invuln:number;intang:number;discontinuous:boolean };
 const SUB = 1 / 90;
 const clamp = (v: number, a: number, b: number): number => Math.max(a, Math.min(b, v));
 const approach = (v: number, target: number, maxDelta: number): number => (v < target ? Math.min(target, v + maxDelta) : Math.max(target, v - maxDelta));
@@ -36,6 +37,13 @@ export class FighterWorld {
   projectiles: FighterProjectile[] = [];
   private projectileSequence = 0;
   readonly abil: FighterAbilities;
+  contactDebug = false;
+  readonly contacts: {time:number;attacker:string;victim:string;move:string;x:number;y:number;phase:string}[] = [];
+  private recordContact(a:Fighter,v:Fighter,m:MoveDef,x:number,y:number):void {
+    if(!this.contactDebug)return;
+    this.contacts.push({time:this.time,attacker:a.id,victim:v.id,move:m.id,x,y,phase:a.attack?.phase===1?'active':'active sweep'});
+    if(this.contacts.length>24)this.contacts.shift();
+  }
   events: FighterEvent[] = [];
   time = 0;
   phase: MatchPhase = 'fight';
@@ -159,14 +167,15 @@ export class FighterWorld {
   }
 
   private sub(dt: number, get: (id: string) => FighterInput, first: boolean): void {
+    const before=new Map(this.fighters.map(f=>[f.id,{x:f.x,y:f.y,attack:f.attack,t:f.attack?.t??0,invuln:f.invuln,intang:f.intang,discontinuous:f.dead||f.ab.vanishT>0||f.ab.windowT>0}]));
     this.time += dt;
     for (const f of this.fighters) {
       const raw = get(f.id);
       const inp: FighterInput = first ? raw : { ...raw, jumpPressed: false, lightPressed: false, heavyPressed: false, dodgePressed: false, abilityPressed: false, kickPressed:false, throwPressed:false, throwReleased:false, parryPressed:false };
       this.stepFighter(f, inp, dt);
     }
-    this.resolveHits();
-    this.progressProjectiles(dt);
+    this.resolveHits(before,dt);
+    this.progressProjectiles(dt,before);
     this.checkEnd(dt);
   }
 
@@ -337,7 +346,7 @@ export class FighterWorld {
     this.emit({ t: 'objectThrow', id: f.id, projectile: { ...p } });
   }
 
-  private progressProjectiles(dt: number): void {
+  private progressProjectiles(dt: number,before:Map<string,PreviousFighter>): void {
     const keep: FighterProjectile[] = [];
     for (const p of this.projectiles) {
       const owner = this.byId.get(p.owner);
@@ -350,7 +359,14 @@ export class FighterWorld {
       let reason: 'hit' | 'parry' | 'wall' | 'expired' = 'wall';
       for (const v of this.fighters) {
         if (v === owner || !this.hittable(v)) continue;
-        const at = segmentBox(p.x, p.y, nx, ny, v.x-PHYS.halfW-r, v.x+PHYS.halfW+r, v.y-r, v.y+PHYS.height+r);
+        const old=before.get(v.id)!;
+        const ox=old.discontinuous?v.x:old.x,oy=old.discontinuous?v.y:old.y;
+        const endX=ox+(v.x-ox)*travel/dt,endY=oy+(v.y-oy)*travel/dt;
+        const lo=Math.max(0,old.invuln/travel,old.intang/travel);
+        if(lo>1 || travel<=0)continue;
+        const x0=p.x-ox,y0=p.y-oy,x1=nx-endX,y1=ny-endY;
+        const local=segmentBox(x0+(x1-x0)*lo,y0+(y1-y0)*lo,x1,y1,-PHYS.halfW-r,PHYS.halfW+r,-r,PHYS.height+r);
+        const at=local===null?null:lo+(1-lo)*local;
         if (at !== null && (first === null || at < first)) { first = at; victim = v; }
       }
       p.age += travel;
@@ -358,6 +374,7 @@ export class FighterWorld {
       if (victim) {
         reason = this.parrying(victim, -p.dx) ? 'parry' : 'hit';
         // Direction comes from flight, never from the shooter's later facing/position.
+        this.recordContact(owner,victim,OBJECT_MOVE,p.x,p.y);
         this.applyHit(owner, victim, OBJECT_MOVE, p);
       } else if (first === null && p.age < p.life - 1e-8) { keep.push(p); continue; }
       else if (first === null) reason = 'expired';
@@ -697,35 +714,41 @@ export class FighterWorld {
 
   // ------------------------------------------------------------------ colpi
 
-  private resolveHits(): void {
+  private resolveHits(before:Map<string,PreviousFighter>,dt:number): void {
     for (const a of this.fighters) {
-      if (!a.inGame || a.dead || !a.attack || a.attack.phase !== 1) continue;
-      const m = a.attack.move;
-      for (const v of this.fighters) {
-        if (v === a || !v.inGame || v.dead || a.attack.hit.has(v.id)) continue;
-        if (!this.overlaps(a, m, v)) continue;
-        if (v.ab.vanishT > 0) {
-          a.attack.hit.add(v.id);
-          this.abil.onEscape(v);
-          continue;
+      const attack=a.attack;if(!a.inGame||a.dead||!attack)continue;
+      const m=attack.move,old=before.get(a.id)!,same=old.attack===attack;
+      const fromT=same?old.t:attack.t,span=attack.t-fromT;
+      if(attack.t<m.startup || fromT>=m.startup+m.active)continue;
+      const lo=span>0?clamp((m.startup-fromT)/span,0,1):0;
+      const hi=span>0?clamp((m.startup+m.active-fromT)/span,0,1):1;
+      const hits:{v:Fighter;t:number}[]=[];
+      for(const v of this.fighters){
+        if(v===a||!v.inGame||v.dead||attack.hit.has(v.id))continue;
+        const prev=before.get(v.id)!;
+        for(const dir of m.twoSided ? [1,-1] : [a.facing]){
+          const start=Math.max(lo,prev.invuln/dt,prev.intang/dt);if(start>hi)continue;
+          const x0=old.x+dir*m.hit.x-(prev.discontinuous?v.x:prev.x),y0=old.y+m.hit.y-(prev.discontinuous?v.y:prev.y);
+          const x1=a.x+dir*m.hit.x-v.x,y1=a.y+m.hit.y-v.y;
+          const at=segmentBox(x0+(x1-x0)*start,y0+(y1-y0)*start,x0+(x1-x0)*hi,y0+(y1-y0)*hi,
+            -m.hit.w/2-PHYS.halfW,m.hit.w/2+PHYS.halfW,-m.hit.h/2,PHYS.height+m.hit.h/2);
+          if(at===null)continue;
+          const t=start+(hi-start)*at;
+          if(span>0 && fromT+span*t>=m.startup+m.active-1e-9)continue;
+          hits.push({v,t});break;
         }
-        if (!this.hittable(v)) continue;
-        a.attack.hit.add(v.id);
-        this.applyHit(a, v, m);
-        if (!a.attack) break;
+      }
+      hits.sort((x,y)=>x.t-y.t);
+      for(const {v,t} of hits){
+        if(!a.attack || attack.hit.has(v.id))break;
+        if(v.ab.vanishT>0){attack.hit.add(v.id);this.abil.onEscape(v);continue;}
+        if(!this.hittable(v))continue;
+        attack.hit.add(v.id);
+        const prev=before.get(v.id)!;
+        this.recordContact(a,v,m,prev.x+(v.x-prev.x)*t,prev.y+(v.y-prev.y)*t+PHYS.height/2);
+        this.applyHit(a,v,m);
       }
     }
-  }
-
-  private overlaps(a: Fighter, m: MoveDef, v: Fighter): boolean {
-    const hw = PHYS.halfW;
-    const test = (dir: 1 | -1): boolean => {
-      const cx = a.x + dir * m.hit.x;
-      const cy = a.y + m.hit.y;
-      return Math.abs(cx - v.x) < m.hit.w / 2 + hw && cy + m.hit.h / 2 > v.y && cy - m.hit.h / 2 < v.y + PHYS.height;
-    };
-    if (m.twoSided) return test(1) || test(-1);
-    return test(a.facing);
   }
 
   /** Velocita' di lancio del colpo su questo bersaglio (a percentuale GIA' aggiornata). */

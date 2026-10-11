@@ -22,7 +22,7 @@ for(const [ns,clips,count] of [['goblin',goblin,52],['buttafuori',boschi,54],['j
   }
   check(new Set(clips.map(c=>c.index)).size===count,`${ns}: every native clip previewable`);
   for(const move of ALL_MOVES) {
-    const attack={id:move.id,elapsed:move.startup+move.active*.35,startup:move.startup,active:move.active,recovery:move.recovery};
+    const attack={id:move.id,elapsed:move.startup,startup:move.startup,active:move.active,recovery:move.recovery};
     const snapshot=JSON.stringify(attack),name=GOBLIN_MOVES[move.id].replace('goblin.',`${ns}.`);
     const spec=clips.find(c=>c.name===name)!;
     const sample=new GoblinAnimator(clips,ns).update(.016,{...base,attack});

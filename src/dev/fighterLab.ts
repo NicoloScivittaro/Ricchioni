@@ -9,7 +9,7 @@ import { KO, PHYS } from '../minigames/cornicione/fighterData';
 import type { BabylonCornicioneGame } from '../minigames/cornicione/BabylonCornicioneGame';
 
 /**
- * FIGHTER LAB — SOLO SVILUPPO (`npm run dev`) o `?debug=1`, aperto con `?fighter=1`. Non esiste nella UX normale.
+ * FIGHTER LAB — SOLO SVILUPPO (`npm run dev`), aperto con `?fighter=1`. Non esiste nella UX normale.
  * Il VERO gioco (BabylonCornicioneGame) su un contesto finto, con gli strumenti per provarlo: spawn di 2-5 personaggi, % di danno,
  * reset vite, "fuori dal palco", abilita' sempre pronte, hitbox/hurtbox/limiti di KO visibili, rallentatore 0.25x / 0.5x / 1x.
  * Tastiera (P1): frecce = stick, Z salto, X leggero, C pesante, V schivata, B abilita'. Gli altri sono fermi o bot.

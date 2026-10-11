@@ -12,7 +12,7 @@ for(const c of clips){check(c.from>=0&&c.from<c.to&&c.duration>0,`${c.name}: val
 for(const move of ALL_MOVES){
   const name=GOBLIN_MOVES[move.id].replace('goblin.','ciro.');
   const clip=clips.find(c=>c.name===name)!;
-  const contact=move.startup+move.active*.35;
+  const contact=move.startup;
   const attack={id:move.id,elapsed:contact,startup:move.startup,active:move.active,recovery:move.recovery};
   const before=JSON.stringify(attack);
   const animator=new GoblinAnimator(clips,'ciro'),sample=animator.update(.016,{...base,attack});

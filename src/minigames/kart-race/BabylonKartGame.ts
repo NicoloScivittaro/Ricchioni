@@ -162,7 +162,12 @@ export class BabylonKartGame {
     this.paused = paused;
   }
 
-  private step(dt: number): void {
+  private step(dt:number):void {
+    const n=Math.max(1,Math.ceil(dt*120-1e-9));
+    for(let i=0;i<n;i++)this.substep(dt/n);
+  }
+
+  private substep(dt: number): void {
     const kartsList = [...this.karts.values()];
     const invertModifier = this.ctx.modifier?.id === 'controlli_invertiti';
     this.abilities.setRaceTime(this.race.raceTime);

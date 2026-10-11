@@ -152,8 +152,8 @@ export class FighterFx {
   }
 
   /** Scia direzionale (lancio, KO): da (x,y) verso la direzione `angle` (rad), lunga `len`. */
-  slash(x: number, y: number, angle: number, len: number, color: string): void {
-    this.start('slash', x + (Math.cos(angle) * len) / 2, y + (Math.sin(angle) * len) / 2, color, len, 0.3, angle, 0.5);
+  slash(x: number, y: number, angle: number, len: number, color: string, duration=.3): void {
+    this.start('slash', x + (Math.cos(angle) * len) / 2, y + (Math.sin(angle) * len) / 2, color, len, duration, angle, 0.5);
   }
 
   /** Segnale fisso a terra/in aria (ritorno del Buttafuori): resta finche' non lo spegni. */

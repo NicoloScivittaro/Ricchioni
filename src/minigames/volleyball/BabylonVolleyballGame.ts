@@ -718,12 +718,13 @@ export class BabylonVolleyballGame {
     }
 
     // Terra: punto
-    if (b.y <= 0) {
+    if (b.y <= BALL_RADIUS) {
+      b.y=BALL_RADIUS;
       // CIRO — PAGO DOMANI: la prima palla a terra nel campo di Ciro rimbalza e lo scambio continua; il debito si paga dopo
       const ciro = this.players.find((p) => p.armTime > 0 && p.team === this.landingTeam(b.z));
       if (ciro) {
         ciro.armTime = 0;
-        b.y = 0.3;
+        b.y = BALL_RADIUS+.02;
         b.vy = 7;
         b.vx *= 0.4;
         b.vz *= 0.4;

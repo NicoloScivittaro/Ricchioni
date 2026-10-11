@@ -49,12 +49,13 @@ export interface GoblinSample {
 /** Warp animation contact into the EXISTING active interval; all three phases remain unchanged. */
 export function attackSeconds(c: GoblinClip, a: GoblinAttack): number {
   const total = a.startup + a.active + a.recovery;
-  const contactAt = a.startup + a.active * .35;
+  const contactAt = a.startup;
   const candidate = a.id==='dL' ? c.lowContact ?? c.contact : c.contact;
   const contact = clamp(candidate ?? (c.from + (c.to - c.from) * .4), c.from + .001, c.to - .001);
   const t = clamp(a.elapsed, 0, total);
   if (t <= contactAt) return c.from + (contact - c.from) * t / Math.max(.001, contactAt);
-  return contact + (c.to - contact) * (t - contactAt) / Math.max(.001, total - contactAt);
+  if (t < a.startup + a.active) return contact;
+  return contact + (c.to - contact) * (t - a.startup - a.active) / Math.max(.001, a.recovery);
 }
 
 export class GoblinAnimator {
@@ -180,6 +181,6 @@ export class GoblinAnimator {
     else seconds = c.from+(c.to-c.from)*clamp(this.stateT/duration,0,1);
     return this.last = { name, seconds, speed, duration, priority, loop:c.loop, token,
       blend:priority>=80?.035:priority>=40?.05:priority>=25?.06:.12,
-      contactTime:external?external.startup+external.active*.35:source?.contactNow?0:null };
+      contactTime:external?external.startup:source?.contactNow?0:null };
   }
 }

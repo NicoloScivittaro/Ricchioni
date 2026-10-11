@@ -67,7 +67,12 @@ export function circleVsAabb(px: number, pz: number, r: number, b: Aabb): { x: n
   const dz = pz - cz;
   const dist2 = dx * dx + dz * dz;
   if (dist2 >= r * r) return null;
-  const dist = Math.sqrt(dist2) || 0.0001;
+  if(dist2<1e-12){
+    const sides=[{depth:px-(b.x-b.w/2),x:b.x-b.w/2-r-px,z:0},{depth:b.x+b.w/2-px,x:b.x+b.w/2+r-px,z:0},
+      {depth:pz-(b.z-b.d/2),x:0,z:b.z-b.d/2-r-pz},{depth:b.z+b.d/2-pz,x:0,z:b.z+b.d/2+r-pz}];
+    sides.sort((a,b)=>a.depth-b.depth);return{x:sides[0].x,z:sides[0].z};
+  }
+  const dist = Math.sqrt(dist2);
   const push = r - dist;
   return { x: (dx / dist) * push, z: (dz / dist) * push };
 }

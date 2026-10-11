@@ -12,7 +12,7 @@ import { abilityHub } from '../../core/abilityHub';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
 import { applyQuality, engineOptions } from '../../core/quality';
-import { debugEnabled, registerDebugSection } from '../../core/debug';
+import { registerDebugSection } from '../../core/debug';
 import { say } from '../../core/announcer';
 import { telemetry } from '../../core/telemetry';
 import { winnerFeed } from '../characters/reactions';
@@ -76,14 +76,19 @@ export class BabylonCornicioneGame {
   private warnedLast2 = false;
   private lastAbilitySnap = new Map<PlayerId, { ok: number; fail: number; impact: Record<string, number> }>();
   private lastEndReason = '';
-  // debug (solo ?debug=1 / dev)
+  // Debug collisioni esclusivamente sviluppo
   private botRng = new Rng();
   private bots = new Map<PlayerId, FighterBot>();
   private boxes: Mesh[] = [];
   private showBoxes = false;
   private koBox: Mesh | null = null;
+  private legend:HTMLDivElement|null=null;
+  private directions:Mesh[]=[];
+  private projectileBoxes:Mesh[]=[];
+  private contactMarks:Mesh[]=[];
 
   private onResize = (): void => this.engine.resize();
+  private onDebugKey=(e:KeyboardEvent):void=>{if(e.code==='KeyH'&&!e.repeat)this.setShowBoxes(!this.showBoxes);};
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -145,7 +150,9 @@ export class BabylonCornicioneGame {
     window.addEventListener('resize', this.onResize);
 
     activeGame = this;
-    if (debugEnabled()) {
+    if (import.meta.env.DEV) {
+      this.world.contactDebug=true;
+      if(!opts.devArena)window.addEventListener('keydown',this.onDebugKey);
       (window as unknown as Record<string, unknown>).__fighter = this;
       if (!debugRegistered) {
         debugRegistered = true;
@@ -308,7 +315,8 @@ export class BabylonCornicioneGame {
           } else ent.playMove(m.anim === 'follow' ? 'follow' : this.lightAnim(m), this.moveDur(m));
           if (m.kind === 'light') audio.bump(this.pan(this.fighter(e.id)?.x ?? 0));
         } else {
-          if(m.kind==='kick'){ent.playMove('kick',m.active+m.recovery);const f=this.fighter(e.id);if(f)this.fx.slash(f.x+f.facing*1.3,f.y+(m.air&&m.dir==='d'?0:1),m.dir==='d'?-Math.PI/3:0,2,this.colorOf(e.id));audio.bump(this.pan(f?.x??0));}
+          const f=this.fighter(e.id);if(f && m.dir!=='u')this.fx.slash(f.x+f.facing*(m.hit.x-m.hit.w/2),f.y+m.hit.y,f.facing>0?0:Math.PI,m.hit.w,this.colorOf(e.id),m.active);
+          if(m.kind==='kick'){ent.playMove('kick',m.active+m.recovery);audio.bump(this.pan(this.fighter(e.id)?.x??0));}
           if (m.kind === 'heavy') {
             ent.playMove(m.anim === 'smash' ? 'smash' : m.anim === 'upHeavy' ? 'upHeavy' : m.anim === 'sweepHeavy' ? 'sweepHeavy' : m.anim === 'spike' ? 'airSpike' : 'smash', m.active + m.recovery);
             audio.smash(this.pan(this.fighter(e.id)?.x ?? 0));
@@ -767,6 +775,7 @@ export class BabylonCornicioneGame {
 
   /** Righe del pannello F3. */
   debugLines(): string[] {
+    if(!import.meta.env.DEV)return [];
     const L: string[] = [`── CORNICIONE · t ${this.world.time.toFixed(1)}s · ${this.world.phase}`];
     for (const f of this.world.fighters) {
       const st = this.world.abil.status(f);
@@ -774,14 +783,19 @@ export class BabylonCornicioneGame {
         `${(SHORT[f.characterId] ?? f.characterId).padEnd(10)} ${String(Math.round(f.percent)).padStart(3)}% ♥${f.lives} gr:${f.grounded ? 1 : 0} salti:${f.jumps} airDodge:${f.airDodgeUsed ? 0 : 1} recovery:${f.recoveryUsed ? 0 : 1} v:(${f.vx.toFixed(1)},${f.vy.toFixed(1)}) ult:${f.lastHitBy ? this.names.get(f.lastHitBy) : '-'} ab:${st.state}${st.note ? ' ' + st.note : ''}`
       );
     }
+    L.push('H · verde hurtbox · rosso attacco · blu ambiente · viola direzione · giallo contatto');
+    for(const c of this.world.contacts.slice(-3))L.push(`${c.time.toFixed(3)} ${c.move} ${c.attacker}→${c.victim} ${c.phase} (${c.x.toFixed(2)},${c.y.toFixed(2)})`);
     return L;
   }
 
   /** Mostra/nasconde hurtbox, hitbox attive, limiti di KO e piattaforme (tasto H in debug). */
   setShowBoxes(on: boolean): void {
+    if(!import.meta.env.DEV)return;
     this.showBoxes = on;
+    if(on && !this.legend){this.legend=document.createElement('div');this.legend.id='collision-legend';this.legend.style.cssText='position:fixed;right:12px;top:74px;z-index:2147481000;padding:5px 8px;border-radius:6px;background:#111c;color:white;font:11px monospace;pointer-events:none';this.legend.textContent='H · 🟩 corpo 🟥 attacco 🟦 ambiente 🟪 direzione 🟨 contatto';document.body.append(this.legend);}
+    if(this.legend)this.legend.hidden=!on;
     if (!on) {
-      for (const b of this.boxes) b.isVisible = false;
+      for (const b of [...this.boxes,...this.directions,...this.projectileBoxes,...this.contactMarks]) b.isVisible = false;
       if (this.koBox) this.koBox.isVisible = false;
       return;
     }
@@ -791,7 +805,8 @@ export class BabylonCornicioneGame {
   private wire(name: string, w: number, h: number, color: string): Mesh {
     const m = MeshBuilder.CreateBox(name, { width: w, height: h, depth: 0.1 }, this.scene);
     const mat = new StandardMaterial(`${name}Mat`, this.scene);
-    mat.wireframe = true;
+    mat.alpha=.03;
+    m.enableEdgesRendering();m.edgesWidth=1.4;m.edgesColor=Color4.FromHexString(color+'ff');
     mat.disableLighting = true;
     mat.emissiveColor = Color3.FromHexString(color);
     mat.fogEnabled = false;
@@ -805,7 +820,10 @@ export class BabylonCornicioneGame {
     for (let i = 0; i < this.world.fighters.length; i++) {
       this.boxes.push(this.wire('hurtbox', PHYS.halfW * 2, PHYS.height, '#4ade80'));
       this.boxes.push(this.wire('hitbox', 1, 1, '#f87171'));
+      this.boxes.push(this.wire('hitboxBack',1,1,'#f87171'));
+      this.directions.push(this.wire('attackDirection',1,.045,'#d946ef'));
     }
+    for(let i=0;i<24;i++){this.projectileBoxes.push(this.wire('objectCollider',OBJECT_THROW.radius*2,OBJECT_THROW.radius*2,'#f87171'));this.contactMarks.push(this.wire('actualContact',.15,.15,'#fbbf24'));}
     this.koBox = this.wire('koBounds', KO.maxX - KO.minX, KO.maxY - KO.minY, '#fbbf24');
     this.koBox.position.set((KO.maxX + KO.minX) / 2, (KO.maxY + KO.minY) / 2, -0.5);
     for (const p of STAGE.platforms) {
@@ -820,20 +838,28 @@ export class BabylonCornicioneGame {
 
   private updateBoxes(): void {
     this.world.fighters.forEach((f, i) => {
-      const hurt = this.boxes[i * 2];
-      const hit = this.boxes[i * 2 + 1];
+      const hurt = this.boxes[i * 3];
+      const hit = this.boxes[i * 3 + 1];
       if (!hurt || !hit) return;
       hurt.isVisible = f.inGame && !f.dead;
       hurt.position.set(f.x, f.y + PHYS.height / 2, -0.6);
       const a = f.attack;
-      const active = !!a && a.phase === 1;
+      const active = !!a && a.t>=a.move.startup && a.t<a.move.startup+a.move.active;
+      const back=this.boxes[i*3+2],direction=this.directions[i];
+      back.isVisible=active&&!!a?.move.twoSided;direction.isVisible=active;
       hit.isVisible = active;
       if (active && a) {
         const m = a.move;
         hit.scaling.set(m.hit.w, m.hit.h, 1);
         hit.position.set(f.x + f.facing * m.hit.x, f.y + m.hit.y, -0.7);
+        back.scaling.copyFrom(hit.scaling);back.position.set(f.x-f.facing*m.hit.x,f.y+m.hit.y,-.7);
+        const length=m.hit.x+m.hit.w/2;direction.scaling.x=length;direction.position.set(f.x+f.facing*length/2,f.y+m.hit.y,-.72);
+        hit.edgesColor=Color4.FromHexString(a.phase===1?'#f87171ff':'#ff00ffff');
       }
     });
+    this.projectileBoxes.forEach((b,i)=>{const p=this.world.projectiles[i];b.isVisible=!!p;if(p)b.position.set(p.x,p.y,-.7);});
+    const recent=this.world.contacts.filter(c=>this.world.time-c.time<.18);
+    this.contactMarks.forEach((b,i)=>{const c=recent[i];b.isVisible=!!c;if(c)b.position.set(c.x,c.y,-.8);});
   }
 
   /** Per i test nel browser e il laboratorio ?fighter=1: accesso al simulatore. */
@@ -854,6 +880,7 @@ export class BabylonCornicioneGame {
     if (activeGame === this) activeGame = null;
     if ((window as unknown as Record<string, unknown>).__fighter === this) delete (window as unknown as Record<string, unknown>).__fighter;
     window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('keydown',this.onDebugKey);
     this.unsubAbility();
     abilityHub.end();
     safely('entities', () => {
@@ -867,7 +894,8 @@ export class BabylonCornicioneGame {
     safely('scene.dispose', () => this.scene.dispose());
     safely('engine.dispose', () => this.engine.dispose());
     this.bots.clear();
-    this.boxes = [];
+    this.legend?.remove();this.legend=null;
+    this.boxes = [];this.directions=[];this.projectileBoxes=[];this.contactMarks=[];
   }
 }
 

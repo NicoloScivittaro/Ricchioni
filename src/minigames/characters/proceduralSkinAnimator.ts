@@ -57,10 +57,10 @@ export class ProceduralSkinAnimator {
     const attack = state.attack;
     const timing = this.timing.get(name);
     const progress = timing ? Math.max(0, Math.min(1, (sample.seconds - timing.from) / (timing.to - timing.from))) : 0;
-    const contact = attack ? attack.startup + attack.active * .35 : 0;
+    const contact = attack ? attack.startup : 0;
     const total = attack ? attack.startup + attack.active + attack.recovery : 0;
     const envelope = attack
-      ? Math.max(0, attack.elapsed <= contact ? attack.elapsed / Math.max(.001, contact) : (total - attack.elapsed) / Math.max(.001, total - contact))
+      ? Math.max(0, attack.elapsed <= contact ? attack.elapsed / Math.max(.001, contact) : attack.elapsed < contact + attack.active ? 1 : (total - attack.elapsed) / Math.max(.001, attack.recovery))
       : Math.sin(Math.PI * progress);
     if (sample.priority >= 40 && sample.priority < 80) {
       const a = Math.max(0, envelope);
@@ -71,7 +71,7 @@ export class ProceduralSkinAnimator {
     if (name === 'victory') { set('LeftArm', 0, 0, -1.45); set('RightArm', 0, 0, 1.45); }
     if (name === 'defeat' || name === 'ko') { set('Spine', .25); set('Head', .20); }
     if (name === 'dodge') { set('LeftUpLeg', .32); set('RightUpLeg', .32); set('LeftLeg', -.55); set('RightLeg', -.55); set('Spine', .2); }
-    const blend = dt === 0 ? 1 : 1 - Math.exp(-dt / Math.max(.035, sample.blend));
+    const blend = dt === 0 || (attack && attack.elapsed>=contact) ? 1 : 1 - Math.exp(-dt / Math.max(.035, sample.blend));
     for (const [joint, target] of this.joints) {
       let rotation = target.quat!.clone();
       const pose = angles.get(joint);

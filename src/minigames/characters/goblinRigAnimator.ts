@@ -63,7 +63,8 @@ export class GoblinRigAnimator {
     this.blendT+=dt;
     const blend=Math.min(1,this.blendT/sample.blend);
     // The release/catch instant is authoritative: no blend delay on an event fired at contact.
-    const mix=sample.contactTime===0?1:blend;
+    const contactReached=state.attack && state.attack.elapsed>=state.attack.startup;
+    const mix=sample.contactTime===0 || contactReached ? 1 : blend;
     for(const track of tracks) {
       const rotation=track.property==='rotationQuaternion'; const value=rotation?this.q:this.v;
       this.evaluate(track,sample.seconds,value);

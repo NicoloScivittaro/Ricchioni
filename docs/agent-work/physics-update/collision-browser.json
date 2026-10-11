@@ -1,0 +1,232 @@
+{
+  "errors": [],
+  "games": {
+    "dodgeball": [
+      {
+        "fps": 30,
+        "kind": "hit",
+        "alive": false,
+        "life": 0,
+        "state": "free",
+        "thrower": null,
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": 0
+      },
+      {
+        "fps": 30,
+        "kind": "dodge",
+        "alive": true,
+        "life": 0.23333333333333334,
+        "state": "flying",
+        "thrower": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": 240
+      },
+      {
+        "fps": 30,
+        "kind": "parry",
+        "alive": true,
+        "life": 0.025,
+        "state": "flying",
+        "thrower": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": -34.8
+      },
+      {
+        "fps": 30,
+        "kind": "moving",
+        "alive": false,
+        "life": 0,
+        "state": "free",
+        "thrower": null,
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": 0
+      },
+      {
+        "fps": 60,
+        "kind": "hit",
+        "alive": false,
+        "life": 0,
+        "state": "free",
+        "thrower": null,
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": 0
+      },
+      {
+        "fps": 60,
+        "kind": "dodge",
+        "alive": true,
+        "life": 0.21666666666666667,
+        "state": "flying",
+        "thrower": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": 240
+      },
+      {
+        "fps": 60,
+        "kind": "parry",
+        "alive": true,
+        "life": 0.008333333333333333,
+        "state": "flying",
+        "thrower": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": -34.8
+      },
+      {
+        "fps": 60,
+        "kind": "moving",
+        "alive": false,
+        "life": 0,
+        "state": "free",
+        "thrower": null,
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": 0
+      },
+      {
+        "fps": 120,
+        "kind": "hit",
+        "alive": false,
+        "life": 0,
+        "state": "free",
+        "thrower": null,
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": 0
+      },
+      {
+        "fps": 120,
+        "kind": "dodge",
+        "alive": true,
+        "life": 0.20833333333333334,
+        "state": "flying",
+        "thrower": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": 240
+      },
+      {
+        "fps": 120,
+        "kind": "parry",
+        "alive": true,
+        "life": 0,
+        "state": "flying",
+        "thrower": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": -34.8
+      },
+      {
+        "fps": 120,
+        "kind": "moving",
+        "alive": false,
+        "life": 0,
+        "state": "free",
+        "thrower": null,
+        "owner": "29827035-7837-4dec-a41e-b9f970ab5228",
+        "victim": "41ec3e4a-4236-48b3-ae38-6d8358a0f81f",
+        "vx": 0
+      }
+    ],
+    "soccer": [
+      {
+        "fps": 30,
+        "vx": -22.798559257097285,
+        "x": -2.4857487901563755,
+        "phase": "playing"
+      },
+      {
+        "fps": 60,
+        "vx": -22.798559257097285,
+        "x": -2.4857487901563755,
+        "phase": "playing"
+      },
+      {
+        "fps": 120,
+        "vx": -22.798559257097285,
+        "x": -2.4857487901563755,
+        "phase": "playing"
+      }
+    ],
+    "kart3d": [
+      {
+        "fps": 30,
+        "first": {
+          "a": 28.62215270942121,
+          "b": 31.579742573162147,
+          "gap": 2.847777693073951
+        },
+        "nearby": [
+          40,
+          40
+        ]
+      },
+      {
+        "fps": 60,
+        "first": {
+          "a": 43,
+          "b": 18,
+          "gap": 2.822062262146545
+        },
+        "nearby": [
+          40,
+          40
+        ]
+      },
+      {
+        "fps": 120,
+        "first": {
+          "a": 61.7,
+          "b": 0.1999999999999993,
+          "gap": 2.8208792444833506
+        },
+        "nearby": [
+          40,
+          40
+        ]
+      }
+    ],
+    "fps": [
+      {
+        "splash": {
+          "front": 60,
+          "rear": 100,
+          "protected": 100
+        },
+        "weapons": [
+          {
+            "id": "mitraglia",
+            "hp": 100
+          },
+          {
+            "id": "spaccatutto",
+            "hp": 100
+          },
+          {
+            "id": "laser",
+            "hp": 100
+          },
+          {
+            "id": "raffica",
+            "hp": 100
+          },
+          {
+            "id": "bombarda",
+            "hp": 100
+          },
+          {
+            "id": "sparapiselli",
+            "hp": 100
+          }
+        ]
+      }
+    ]
+  }
+}

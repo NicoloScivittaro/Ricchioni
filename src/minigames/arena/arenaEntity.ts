@@ -103,6 +103,7 @@ class Spring {
 const clampN = (v: number, lo: number, hi: number): number => Math.max(lo, Math.min(hi, v));
 type Celebration = 'victory' | 'defeat' | null;
 
+const combatKinds: Record<string,ActionKind> = {nL:'jab',sL:'side',uL:'up',dL:'down',sH:'smash',uH:'upHeavy',dH:'sweepHeavy',nAL:'air',sAL:'kick',uAL:'up',dAL:'down',sAH:'smash',dAH:'airSpike',uAH:'recovery',follow:'follow',kick:'kick',airKick:'kick',airDownKick:'airSpike'};
 const ABILITY_DUR = 0.8;
 const HIT_DUR = 0.38;
 const POPUP_ABILITY_DUR = 1.25;
@@ -834,10 +835,12 @@ export class ArenaEntity {
       aRz = 1;
     }
     // ---- AZIONE: tutte partono dall'istante del gioco (contatto/rilascio). Scatto (molle rigide), poi recupero.
-    if (this.actionT > 0) {
-      const e = 1 - this.actionT / this.actionDur; // 0 = contatto, 1 = fine recupero
-      const follow = Math.sin(Math.min(1, e * 1.6) * Math.PI * 0.5); // arriva subito, poi tiene
-      switch (this.actionKind) {
+    const combat = this.visualContext==='cornicione' && p.attack && !['parry','objectCharge','objectThrow'].includes(p.attack.id) ? p.attack : null;
+    if (this.actionT > 0 || combat) {
+      const contactEnvelope=combat ? Math.max(0,Math.min(1,combat.elapsed<combat.startup ? combat.elapsed/Math.max(.001,combat.startup) : combat.elapsed<combat.startup+combat.active ? 1 : 1-(combat.elapsed-combat.startup-combat.active)/Math.max(.001,combat.recovery))) : null;
+      const e = combat ? 0 : 1 - this.actionT / this.actionDur; // 0 = contatto, 1 = fine recupero
+      const follow = contactEnvelope ?? Math.sin(Math.min(1, e * 1.6) * Math.PI * 0.5); // arriva subito, poi tiene
+      switch (combat ? combatKinds[combat.id] ?? this.actionKind : this.actionKind) {
         case 'throw':
           // il busto si svita: dalla torsione indietro al follow-through in avanti, braccio che frusta
           r.upper.rotation.y = -0.5 + 0.85 * follow;
@@ -871,12 +874,12 @@ export class ArenaEntity {
           break;
         }
         case 'jab':
-          aRx = -1.7 + 0.25 * e;
+          aRx = combat ? -1.7*follow : -1.7 + 0.25 * e;
           aLx = 0.25;
           r.upper.rotation.y = -0.2 * follow;
           break;
         case 'side':
-          aRx = -1.75 + 0.3 * e;
+          aRx = combat ? -1.75*follow : -1.75 + 0.3 * e;
           aLx = 0.4;
           r.upper.rotation.y = -0.4 * follow;
           r.upper.rotation.x += 0.12 * follow;
@@ -901,7 +904,7 @@ export class ArenaEntity {
           r.upper.position.y -= 0.1;
           break;
         case 'smash':
-          aRx = -2.15 + 0.6 * e;
+          aRx = combat ? -2.15*follow : -2.15 + 0.6 * e;
           aLx = 0.3;
           r.upper.rotation.y = 0.55 * (1 - e * 0.5);
           r.upper.rotation.x += 0.32 * follow;
@@ -1216,7 +1219,10 @@ export class ArenaEntity {
     const kk = snap ? mo.stiffness * 3.2 : mo.stiffness;
     const cc = snap ? mo.damping * 1.8 : mo.damping;
     const ddt = Math.min(dt, 0.1);
-    for (const j of this.joints) j.node.rotation[j.axis] = j.s.step(j.node.rotation[j.axis], kk, cc, ddt);
+    for (const j of this.joints) {
+      if(combat){j.s.x=j.node.rotation[j.axis];j.s.v=0;}
+      else j.node.rotation[j.axis]=j.s.step(j.node.rotation[j.axis],kk,cc,ddt);
+    }
 
     // ---- MOVIMENTO SECONDARIO: gli accessori seguono il corpo con ritardo (molla poco smorzata, eccitata da passo, curve e colpi)
     const jTarget = clampN(this.accelSm * 0.012 + this.angVelSm * 0.08 * speedFrac + bob * 6, -1, 1);

@@ -295,7 +295,12 @@ export class BabylonSoccerGame {
 
   // ---- Loop ----
 
-  private step(dt: number): void {
+  private step(dt:number):void {
+    const n=Math.max(1,Math.ceil(dt*120-1e-9));
+    for(let i=0;i<n;i++)this.substep(dt/n);
+  }
+
+  private substep(dt: number): void {
     const now = performance.now();
 
     if (this.phase === 'intro') {
@@ -717,12 +722,13 @@ export class BabylonSoccerGame {
     b.vx *= damp;
     b.vz *= damp;
 
+    const fromX=b.x,fromZ=b.z;
     b.x += b.vx * dt;
     b.z += b.vz * dt;
 
     // Rimbalzi sui muri (con buchi per le porte sui lati X)
     if (b.x > FIELD_HALF_W) {
-      if (Math.abs(b.z) < GOAL_HALF_W) {
+      if (Math.abs(fromZ+(b.z-fromZ)*(Math.sign(b.x)*FIELD_HALF_W-fromX)/(b.x-fromX)) < GOAL_HALF_W-BALL_RADIUS) {
         this.scoreGoal('red');
         return;
       }
@@ -730,7 +736,7 @@ export class BabylonSoccerGame {
       b.vx = -Math.abs(b.vx);
       this.bounceSfx();
     } else if (b.x < -FIELD_HALF_W) {
-      if (Math.abs(b.z) < GOAL_HALF_W) {
+      if (Math.abs(fromZ+(b.z-fromZ)*(Math.sign(b.x)*FIELD_HALF_W-fromX)/(b.x-fromX)) < GOAL_HALF_W-BALL_RADIUS) {
         this.scoreGoal('blue');
         return;
       }

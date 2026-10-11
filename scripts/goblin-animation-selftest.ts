@@ -10,7 +10,7 @@ for(const c of GOBLIN_CLIPS){check(c.from<c.to&&c.from>=0,`${c.name}: range`);ch
 for(const move of [...ALL_MOVES,followMove(9)]){
   const before=JSON.stringify(move),c=clipOf(GOBLIN_MOVES[move.id])!;
   check(!!c,`${move.id}: mapped`);
-  const contactAt=move.startup+move.active*.35;
+  const contactAt=move.startup;
   const a={id:move.id,elapsed:contactAt,startup:move.startup,active:move.active,recovery:move.recovery};
   const candidate=move.id==='dL'?c.lowContact??c.contact:c.contact;
   const expected=Math.max(c.from+.001,Math.min(c.to-.001,candidate??c.from+(c.to-c.from)*.4));

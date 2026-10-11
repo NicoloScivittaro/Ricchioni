@@ -1,3 +1,4 @@
+import {sweptContact} from '../../../shared/arenaCombat';
 import { MotionBots } from '../bots/MotionBots';
 import {
   Engine,
@@ -285,9 +286,10 @@ export class BabylonDodgeballGame {
       } else {
         this.gameTime += dt;
         this.soloBots.dodgeball(dt, this.players, this.balls);
+        const previous=new Map(this.players.map(p=>[p.id,{x:p.x,z:p.z}]));
         for (const p of this.players) this.stepPlayer(p, dt);
         this.resolvePlayerCollisions();
-        this.updateBalls(dt);
+        this.updateBalls(dt,previous);
         this.checkEndCondition();
       }
     } else if (this.phase === 'celebrating') {
@@ -526,9 +528,9 @@ export class BabylonDodgeballGame {
         const dz = b.z - a.z;
         const dist = Math.hypot(dx, dz);
         const minDist = PLAYER_RADIUS * 2;
-        if (dist >= minDist || dist < 0.001) continue;
-        const nx = dx / dist;
-        const nz = dz / dist;
+        if (dist >= minDist) continue;
+        const nx = dist>.001 ? dx/dist : 1;
+        const nz = dist>.001 ? dz/dist : 0;
         const overlap = (minDist - dist) / 2;
         a.x -= nx * overlap;
         a.z -= nz * overlap;
@@ -659,61 +661,35 @@ export class BabylonDodgeballGame {
 
   // ---- Palloni ----
 
-  private updateBalls(dt: number): void {
+  private updateBalls(dt: number,previous=new Map(this.players.map(p=>[p.id,{x:p.x,z:p.z}]))): void {
     for (const ball of this.balls) {
       if (ball.state === 'flying') {
-        ball.life += dt;
-        ball.x += ball.vx * dt;
-        ball.z += ball.vz * dt;
-
-        if (ball.x > ARENA_HALF_W - BALL_RADIUS) {
-          ball.x = ARENA_HALF_W - BALL_RADIUS;
-          ball.vx = -Math.abs(ball.vx) * ball.bounceDamp;
-          ball.bounces++;
-          this.bounceSfx(ball);
-        } else if (ball.x < -ARENA_HALF_W + BALL_RADIUS) {
-          ball.x = -ARENA_HALF_W + BALL_RADIUS;
-          ball.vx = Math.abs(ball.vx) * ball.bounceDamp;
-          ball.bounces++;
-          this.bounceSfx(ball);
-        }
-        if (ball.z > ARENA_HALF_D - BALL_RADIUS) {
-          ball.z = ARENA_HALF_D - BALL_RADIUS;
-          ball.vz = -Math.abs(ball.vz) * ball.bounceDamp;
-          ball.bounces++;
-          this.bounceSfx(ball);
-        } else if (ball.z < -ARENA_HALF_D + BALL_RADIUS) {
-          ball.z = -ARENA_HALF_D + BALL_RADIUS;
-          ball.vz = Math.abs(ball.vz) * ball.bounceDamp;
-          ball.bounces++;
-          this.bounceSfx(ball);
-        }
-
-        for (const p of this.players) {
-          if (!p.alive || p.falling) continue;
-          if (ball.throwerId === p.id && ball.life < 0.15) continue;
-          const dx = p.x - ball.x;
-          const dz = p.z - ball.z;
-          const dist = Math.hypot(dx, dz);
-
-          // Parata di Goblin
-          if (p.parryTime > 0 && dist < PARRY_RADIUS) {
-            this.reflectBall(ball, p);
-            break;
+        const count=Math.max(1,Math.ceil(dt*120-1e-9)),h=dt/count;
+        for(let i=0;i<count && ball.state==='flying';i++){
+          const ox=ball.x,oz=ball.z;
+          ball.life+=h;ball.x+=ball.vx*h;ball.z+=ball.vz*h;
+          let bounced=false;
+          if(Math.abs(ball.x)>ARENA_HALF_W-BALL_RADIUS){ball.x=Math.sign(ball.x)*(ARENA_HALF_W-BALL_RADIUS);ball.vx=-Math.sign(ball.x)*Math.abs(ball.vx)*ball.bounceDamp;ball.bounces++;bounced=true;}
+          if(Math.abs(ball.z)>ARENA_HALF_D-BALL_RADIUS){ball.z=Math.sign(ball.z)*(ARENA_HALF_D-BALL_RADIUS);ball.vz=-Math.sign(ball.z)*Math.abs(ball.vz)*ball.bounceDamp;ball.bounces++;bounced=true;}
+          if(bounced)this.bounceSfx(ball);
+          const hits=this.players.filter(p=>p.alive&&!p.falling&&p.invulnTime<=0&&!(ball.throwerId===p.id&&ball.life<.15)).map(p=>{
+            const prev=previous.get(p.id)??p,px=prev.x+(p.x-prev.x)*i/count,pz=prev.z+(p.z-prev.z)*i/count;
+            const mx=(p.x-prev.x)/count,mz=(p.z-prev.z)/count;
+            const radius=p.parryTime>0?PARRY_RADIUS:PLAYER_RADIUS+BALL_RADIUS;
+            const t=sweptContact(ox,oz,px,pz,ball.x-ox-mx,ball.z-oz-mz,radius);
+            if(t===null)return null;
+            const dx=px+mx*t-(ox+(ball.x-ox)*t),dz=pz+mz*t-(oz+(ball.z-oz)*t);
+            if(t===0 && (ball.x-ox-mx)*dx+(ball.z-oz-mz)*dz<=0)return null;
+            return {p,t,dx,dz};
+          }).filter((x):x is {p:DodgeballPlayer;t:number;dx:number;dz:number}=>x!==null).sort((a,b)=>a.t-b.t);
+          const hit=hits[0];
+          if(hit){ball.x=ox+(ball.x-ox)*hit.t;ball.z=oz+(ball.z-oz)*hit.t;
+            if(hit.p.parryTime>0)this.reflectBall(ball,hit.p);
+            else this.onBallHitPlayer(ball,hit.p,hit.dx,hit.dz,Math.hypot(hit.dx,hit.dz));
           }
-
-          if (dist < PLAYER_RADIUS + BALL_RADIUS) {
-            this.onBallHitPlayer(ball, p, dx, dz, dist);
-            break;
-          }
+          if(ball.state==='flying'&&(ball.bounces>=BALL_MAX_BOUNCES||ball.life>=BALL_MAX_LIFE||Math.hypot(ball.vx,ball.vz)<1.5))this.dropBall(ball);
         }
-
-        if (ball.state === 'flying') this.warnIncoming(ball, this.balls.indexOf(ball));
-
-        const speed = Math.hypot(ball.vx, ball.vz);
-        if (ball.bounces >= BALL_MAX_BOUNCES || ball.life >= BALL_MAX_LIFE || speed < 1.5) {
-          this.dropBall(ball);
-        }
+        if(ball.state==='flying')this.warnIncoming(ball,this.balls.indexOf(ball));
       } else if (ball.state === 'free') {
         let best: DodgeballPlayer | null = null;
         let bestD = PICKUP_RADIUS;

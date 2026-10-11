@@ -1,3 +1,4 @@
+import {blastVisible} from '../../../shared/fpsCover';
 import { FPS_ADS, aimBlend, aimMovement, aimSensitivity, aimSpread, aimKick } from '../../../shared/fpsAim';
 import { MotionBots } from '../bots/MotionBots';
 import Phaser from 'phaser';
@@ -600,6 +601,7 @@ export class FpsScene extends Phaser.Scene {
 
       // Raggio contro ostacoli + altri giocatori
       let bestT = weapon.range;
+      if(dy<0)bestT=Math.min(bestT,Math.max(0,(.2-oy)/dy));
       let hitPlayer: FpsPlayer | null = null;
       for (const b of FPS_MAP.obstacles) {
         const t = rayVsAabb(ox, oy, oz, dx, dy, dz, b);
@@ -638,9 +640,10 @@ export class FpsScene extends Phaser.Scene {
 
   /** Bombarda: il proiettile vola (visibile sui telefoni) e la SUA esplosione fa danno ad area nel punto calcolato allo sparo. */
   private launchBlast(p: FpsPlayer, weapon: WeaponConfig, ox: number, oy: number, oz: number, dx: number, dy: number, dz: number, t: number, dmgMult = 1): void {
-    const tx = ox + dx * t;
-    const ty = Math.max(0.2, oy + dy * t);
-    const tz = oz + dz * t;
+    const impactT=Math.max(0,t-.02); // keep splash just outside the impacted wall
+    const tx = ox + dx * impactT;
+    const ty = Math.max(0.2, oy + dy * impactT);
+    const tz = oz + dz * impactT;
     const dur = t / (weapon.projectileSpeed || 20);
     this.blasts.push({ x: tx, y: ty, z: tz, at: this.clock + dur, owner: p.id, dmg: weapon.damage * dmgMult, radius: weapon.splashRadius });
     this.ctx.signal(null, { type: 'proj', ox, oy: oy - 0.25, oz, tx, ty, tz, dur });
@@ -657,7 +660,7 @@ export class FpsScene extends Phaser.Scene {
       for (const q of this.players) {
         if (!q.alive || q.id === b.owner) continue; // niente danno a se stessi: arcade
         const dist = Math.max(0, Math.hypot(q.x - b.x, q.z - b.z) - 0.4);
-        if (dist > b.radius) continue;
+        if (dist > b.radius || b.y>1.8+b.radius || !blastVisible(b,q,FPS_MAP.obstacles)) continue;
         // colpo diretto = danno pieno; poi cala fino al 30% al bordo dello splash
         const k = dist <= 1 ? 1 : Math.max(0.3, 1 - (0.7 * (dist - 1)) / (b.radius - 1));
         this.applyDamage(q, Math.round(b.dmg * k), owner, b);
