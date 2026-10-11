@@ -1,0 +1,362 @@
+{
+  "errors": [],
+  "shots": [
+    {
+      "team": "red",
+      "name": "left",
+      "index": 2,
+      "arrow": {
+        "visible": true,
+        "right": false,
+        "input": {
+          "x": -1,
+          "y": 0
+        }
+      },
+      "shot": {
+        "vx": -2.984075381479654,
+        "vy": 7.988,
+        "vz": 4.973458969132757,
+        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "smashes": 0,
+        "receives": 1,
+        "errors": 0
+      },
+      "flight": {
+        "x": -4.528831737292294,
+        "z": 2.3480528954871454,
+        "phase": "pointPause",
+        "time": 1.5166666666666662,
+        "net": false
+      }
+    },
+    {
+      "team": "red",
+      "name": "right",
+      "index": 2,
+      "arrow": {
+        "visible": true,
+        "right": true,
+        "input": {
+          "x": 1,
+          "y": 0
+        }
+      },
+      "shot": {
+        "vx": 2.984075381479654,
+        "vy": 7.988,
+        "vz": 4.973458969132757,
+        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "smashes": 0,
+        "receives": 2,
+        "errors": 0
+      },
+      "flight": {
+        "x": 4.528831737292294,
+        "z": 2.3480528954871454,
+        "phase": "pointPause",
+        "time": 1.5166666666666662,
+        "net": false
+      }
+    },
+    {
+      "team": "red",
+      "name": "neutral",
+      "index": 2,
+      "arrow": {
+        "visible": true,
+        "right": false,
+        "input": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "shot": {
+        "vx": 0,
+        "vy": 7.988,
+        "vz": 5.8,
+        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "smashes": 0,
+        "receives": 3,
+        "errors": 0
+      },
+      "flight": {
+        "x": 0,
+        "z": 3.602466666666667,
+        "phase": "pointPause",
+        "time": 1.5166666666666662,
+        "net": false
+      }
+    },
+    {
+      "team": "red",
+      "name": "flat",
+      "index": 2,
+      "arrow": {
+        "visible": true,
+        "right": false,
+        "input": {
+          "x": 0,
+          "y": -1
+        }
+      },
+      "shot": {
+        "vx": 0,
+        "vy": 6.888000000000001,
+        "vz": 7.192,
+        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "smashes": 0,
+        "receives": 4,
+        "errors": 0
+      },
+      "flight": {
+        "x": 0,
+        "z": 4.516392000000003,
+        "phase": "pointPause",
+        "time": 1.35,
+        "net": false
+      }
+    },
+    {
+      "team": "red",
+      "name": "lob",
+      "index": 2,
+      "arrow": {
+        "visible": true,
+        "right": false,
+        "input": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      "shot": {
+        "vx": 0,
+        "vy": 10.388,
+        "vz": 4.93,
+        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "smashes": 0,
+        "receives": 5,
+        "errors": 0
+      },
+      "flight": {
+        "x": 0,
+        "z": 7.178333333333333,
+        "phase": "pointPause",
+        "time": 1.9999999999999978,
+        "net": false
+      }
+    },
+    {
+      "team": "red",
+      "name": "smash",
+      "index": 2,
+      "arrow": {
+        "visible": true,
+        "right": true,
+        "input": {
+          "x": 0.4472135954999579,
+          "y": -0.8944271909999159
+        }
+      },
+      "shot": {
+        "vx": 6.615720898706405,
+        "vy": -1.914492235949962,
+        "vz": 11.026201497844008,
+        "touch": "ea119e2b-0de8-43cb-8955-d0adc902b3e3",
+        "smashes": 1,
+        "receives": 5,
+        "errors": 0
+      },
+      "flight": {
+        "x": 3.8657862451441067,
+        "z": 5.442977075240185,
+        "phase": "pointPause",
+        "time": 0.5833333333333335,
+        "net": false
+      }
+    },
+    {
+      "team": "blue",
+      "name": "left",
+      "index": 0,
+      "arrow": {
+        "visible": true,
+        "right": false,
+        "input": {
+          "x": -1,
+          "y": 0
+        }
+      },
+      "shot": {
+        "vx": -2.984075381479654,
+        "vy": 7.988,
+        "vz": -4.973458969132757,
+        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "smashes": 0,
+        "receives": 1,
+        "errors": 0
+      },
+      "flight": {
+        "x": -4.528831737292294,
+        "z": -2.3480528954871454,
+        "phase": "pointPause",
+        "time": 1.5166666666666662,
+        "net": false
+      }
+    },
+    {
+      "team": "blue",
+      "name": "right",
+      "index": 0,
+      "arrow": {
+        "visible": true,
+        "right": true,
+        "input": {
+          "x": 1,
+          "y": 0
+        }
+      },
+      "shot": {
+        "vx": 2.984075381479654,
+        "vy": 7.988,
+        "vz": -4.973458969132757,
+        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "smashes": 0,
+        "receives": 2,
+        "errors": 0
+      },
+      "flight": {
+        "x": 4.528831737292294,
+        "z": -2.3480528954871454,
+        "phase": "pointPause",
+        "time": 1.5166666666666662,
+        "net": false
+      }
+    },
+    {
+      "team": "blue",
+      "name": "neutral",
+      "index": 0,
+      "arrow": {
+        "visible": true,
+        "right": true,
+        "input": {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "shot": {
+        "vx": 0,
+        "vy": 7.988,
+        "vz": -5.8,
+        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "smashes": 0,
+        "receives": 3,
+        "errors": 0
+      },
+      "flight": {
+        "x": 0,
+        "z": -3.602466666666667,
+        "phase": "pointPause",
+        "time": 1.5166666666666662,
+        "net": false
+      }
+    },
+    {
+      "team": "blue",
+      "name": "flat",
+      "index": 0,
+      "arrow": {
+        "visible": true,
+        "right": true,
+        "input": {
+          "x": 0,
+          "y": -1
+        }
+      },
+      "shot": {
+        "vx": 0,
+        "vy": 6.888000000000001,
+        "vz": -7.192,
+        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "smashes": 0,
+        "receives": 4,
+        "errors": 0
+      },
+      "flight": {
+        "x": 0,
+        "z": -4.516392000000003,
+        "phase": "pointPause",
+        "time": 1.35,
+        "net": false
+      }
+    },
+    {
+      "team": "blue",
+      "name": "lob",
+      "index": 0,
+      "arrow": {
+        "visible": true,
+        "right": true,
+        "input": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      "shot": {
+        "vx": 0,
+        "vy": 10.388,
+        "vz": -4.93,
+        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "smashes": 0,
+        "receives": 5,
+        "errors": 0
+      },
+      "flight": {
+        "x": 0,
+        "z": -7.178333333333333,
+        "phase": "pointPause",
+        "time": 1.9999999999999978,
+        "net": false
+      }
+    },
+    {
+      "team": "blue",
+      "name": "smash",
+      "index": 0,
+      "arrow": {
+        "visible": true,
+        "right": true,
+        "input": {
+          "x": 0.4472135954999579,
+          "y": -0.8944271909999159
+        }
+      },
+      "shot": {
+        "vx": 6.615720898706405,
+        "vy": -1.914492235949962,
+        "vz": -11.026201497844008,
+        "touch": "da8a1a40-2c12-458f-ac33-4f78ab884a35",
+        "smashes": 1,
+        "receives": 5,
+        "errors": 0
+      },
+      "flight": {
+        "x": 3.8657862451441067,
+        "z": -5.442977075240185,
+        "phase": "pointPause",
+        "time": 0.5833333333333335,
+        "net": false
+      }
+    }
+  ],
+  "round": {
+    "ended": true,
+    "phase": "ended",
+    "score": [
+      3,
+      5
+    ],
+    "accelerated": true
+  }
+}

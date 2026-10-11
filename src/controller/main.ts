@@ -1147,6 +1147,7 @@ function renderVolleyballController(): void {
           <button id="volley-jump" class="db-dodge">🦘<span>SALTA</span></button>
           <button id="volley-ability" class="arena-ability">⭐<span>${ab?.name ?? 'ABILITÀ'}</span></button>
           <p id="volley-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
+          <p class="arena-ability-desc">Al colpo: ↔ scegli il lato · ↑ teso · ↓ pallonetto · neutro standard. Salta vicino alla rete per schiacciare.</p>
         </div>
       </div>
     </div>`;

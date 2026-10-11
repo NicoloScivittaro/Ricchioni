@@ -8,7 +8,9 @@ import {
   StandardMaterial,
   Color3,
   Mesh,
-  ParticleSystem
+  ParticleSystem,
+  Vector3,
+  LinesMesh
 } from '@babylonjs/core';
 import type { PlayerId, PlayerResult } from '../../../shared/types';
 import type { MinigameContext } from '../types';
@@ -31,12 +33,9 @@ import {
   BALL_GRAVITY,
   BALL_NORMAL_UP,
   BALL_NORMAL_SPEED,
-  BALL_SMASH_DOWN,
-  BALL_SMASH_SPEED,
   BALL_SERVE_UP,
   BALL_SERVE_SPEED,
   clampBallSpeed,
-  hitDirection,
   WIN_SCORE,
   MATCH_POINT_AT,
   TEAM_COLOR,
@@ -65,6 +64,7 @@ import { say } from '../../core/announcer';
 import { debugEnabled } from '../../core/debug';
 import { VolleyStats } from './volleyballStats';
 import { telemetry } from '../../core/telemetry';
+import { volleyShot, volleyNetContact } from './volleyballShot';
 
 const COUNTDOWN_S = 3.2;
 const INTRO_SECONDS = 3.4;
@@ -81,6 +81,8 @@ export class BabylonVolleyballGame {
   private ball: VolleyballBall = createBall();
   private ballMesh: Mesh;
   private prevY = new Map<string, number>();
+  private aimArrows = new Map<PlayerId, LinesMesh>();
+  private shotCues = new Map<PlayerId, {dx:number;dz:number;t:number}>();
   private matchPointAnnounced = false;
   // ---- IMPATTO (solo grafica): scia della palla, lampo e onda del contatto dello smash
   private ballTrail!: ParticleSystem;
@@ -167,6 +169,8 @@ export class BabylonVolleyballGame {
       this.players.push(p);
       const entity = new ArenaEntity(this.scene, dotTex, TEAM_COLOR[team], snap.characterId, snap.avatar, snap.displayName, team,{context:'volley'});
       this.entities.set(p.id, entity);
+      const arrow=MeshBuilder.CreateLines('volleyAim',{points:[Vector3.Zero(),Vector3.Zero(),Vector3.Zero(),Vector3.Zero(),Vector3.Zero()],updatable:true},this.scene);
+      arrow.color=Color3.FromHexString(TEAM_COLOR[team]);arrow.isPickable=false;arrow.isVisible=false;this.aimArrows.set(p.id,arrow);
     });
 
     abilityHub.begin('volleyball', ctx);
@@ -375,6 +379,7 @@ export class BabylonVolleyballGame {
     const shadowScale = Math.max(0.45, 1 - this.ball.y / 9);
     this.ballShadow.scaling.set(shadowScale, shadowScale, 1);
     this.updateLandingRing();
+    this.updateAimArrows(dt);
     for (const p of this.players) abilityHub.setStatus(p.id, this.abilities.status(p, this.freeze?.by === p.id ? this.freeze.t : 0, this.debtOwner === p.id && this.debtTeam !== null)); // HUD + Companion Card
     const subjects = this.players.map((p) => ({ alive: p.alive, falling: p.falling, x: p.x, z: p.z }));
     subjects.push({ alive: true, falling: false, x: this.ball.x, z: this.ball.z });
@@ -491,9 +496,11 @@ export class BabylonVolleyballGame {
     this.rally = 1;
     this.stats?.rallyStart();
     const dirZ = p.team === 'red' ? 1 : -1;
-    this.ball.vx = (Math.random() - 0.5) * 3;
-    this.ball.vy = BALL_SERVE_UP;
-    this.ball.vz = dirZ * BALL_SERVE_SPEED;
+    const shot=volleyShot({x:p.x,z:p.z},p.team,this.ctx.input.get(p.id).axis('move'),false,true);
+    this.ball.vx = shot.dx * BALL_SERVE_SPEED * (shot.speed/BALL_NORMAL_SPEED);
+    this.ball.vy = BALL_SERVE_UP + shot.vy - BALL_NORMAL_UP;
+    this.ball.vz = shot.dz * BALL_SERVE_SPEED * (shot.speed/BALL_NORMAL_SPEED);
+    clampBallSpeed(this.ball);this.shotCues.set(p.id,{...shot,t:.25});
     this.ball.x = p.x;
     this.ball.z = p.z + dirZ * 0.6;
     audio.serve(this.pan(p.x));
@@ -522,12 +529,14 @@ export class BabylonVolleyballGame {
     }
 
     const wall = muroZone && this.ball.y > 1.2; // muro: colpo in alto davanti alla rete
-    const isSmash = wall || (p.y > 0.4 && this.ball.y > NET_HEIGHT * 0.8 && Math.abs(p.z) < 2.4);
+    const canSmash = wall || (p.y > 0.4 && this.ball.y > NET_HEIGHT * 0.8 && Math.abs(p.z) < 2.4);
     const perfect = this.ball.y > p.y + 1.1 && this.ball.y < p.y + 2.2;
     const dirZ = p.team === 'red' ? 1 : -1;
     // Direzione orizzontale unitaria (avanti + lieve assist verso il centro): la velocità orizzontale
     // del colpo è quella nominale, non dipende più da dove si trova la palla.
-    let aim = hitDirection(this.ball.x, dirZ);
+    const shot=volleyShot(this.ball,p.team,this.ctx.input.get(p.id).axis('move'),canSmash,perfect,wall);
+    const isSmash=shot.smash;
+    let aim = {dx:shot.dx,dz:shot.dz};
     // DOTTORE — M'HO SVEJATO: lo smash va da solo dove nessuno difende
     if (isSmash && p.characterId === 'dottore' && p.lucidTime > 0) {
       const t = this.lucidSmashTarget(p, dirZ);
@@ -545,8 +554,8 @@ export class BabylonVolleyballGame {
     let vz = aim.dz;
 
     if (isSmash) {
-      let speed = BALL_SMASH_SPEED;
-      let down = BALL_SMASH_DOWN;
+      let speed = shot.speed;
+      let down = shot.vy;
       if (wall) {
         // MURO: la palla torna giu' dall'altra parte, secca
         speed *= VOLLEY_BUTTAFUORI.p.speed;
@@ -571,8 +580,8 @@ export class BabylonVolleyballGame {
       this.camera.shake(0.25, 200);
       this.ctx.signal(p.id, { type: 'smash' });
     } else {
-      const up = BALL_NORMAL_UP;
-      const speed = BALL_NORMAL_SPEED;
+      const up = shot.vy;
+      const speed = shot.speed;
       vx *= speed;
       vz *= speed;
       vy = up;
@@ -584,6 +593,7 @@ export class BabylonVolleyballGame {
     this.ball.vx = vx;
     this.ball.vy = vy;
     this.ball.vz = vz;
+    this.shotCues.set(p.id,{...aim,t:.25});
     clampBallSpeed(this.ball);
     this.stats?.hit(p.team, p.id, isSmash, Math.hypot(this.ball.vx, this.ball.vy, this.ball.vz));
     this.ball.lastTouchId = p.id;
@@ -668,6 +678,7 @@ export class BabylonVolleyballGame {
       return;
     }
 
+    const before={x:b.x,y:b.y,z:b.z};
     const prevZ = b.z;
     b.vy -= BALL_GRAVITY * this.gravityScale * dt;
     clampBallSpeed(b);
@@ -677,9 +688,9 @@ export class BabylonVolleyballGame {
     b.z += b.vz * dt;
 
     // Rete: attraversamento a z=0 sotto l'altezza della rete
-    if ((prevZ < 0 && b.z >= 0) || (prevZ > 0 && b.z <= 0)) {
-      if (b.y < NET_HEIGHT) {
-        b.z = prevZ;
+    const net=volleyNetContact(before,b);
+    if (net) {
+        b.z = net.z;
         b.vz = -b.vz * 0.55;
         b.vx *= 0.8;
         audio.tick();
@@ -688,10 +699,7 @@ export class BabylonVolleyballGame {
           const toucher = this.players.find((p) => p.id === b.lastTouchId);
           if (toucher) toucher.errors++;
         }
-      } else {
-        b.crossedNet = true;
-      }
-    }
+    } else if ((prevZ < 0 && b.z >= 0) || (prevZ > 0 && b.z <= 0)) b.crossedNet = true;
 
     // Bordi campo
     if (b.x > FIELD_HALF_W) {
@@ -725,6 +733,20 @@ export class BabylonVolleyballGame {
         return;
       }
       this.scorePoint();
+    }
+  }
+
+  private updateAimArrows(dt:number):void {
+    for(const p of this.players){
+      const cue=this.shotCues.get(p.id);if(cue){cue.t-=dt;if(cue.t<=0)this.shotCues.delete(p.id);}
+      const arrow=this.aimArrows.get(p.id)!;
+      const near=(this.ball.holderId===p.id||Math.hypot(this.ball.x-p.x,this.ball.z-p.z)<HIT_RADIUS+1)&&p.hitCooldown<=0;
+      arrow.isVisible=this.phase==='playing'&&(near||!!cue)&&!this.freeze;
+      if(!arrow.isVisible)continue;
+      const shot=cue??volleyShot(this.ball,p.team,this.ctx.input.get(p.id).axis('move'),p.y>.4,true);
+      const y=.06,base=new Vector3(p.x,y,p.z),tip=base.add(new Vector3(shot.dx,0,shot.dz).scale(1.45));
+      const back=tip.subtract(new Vector3(shot.dx,0,shot.dz).scale(.35)),side=new Vector3(-shot.dz,0,shot.dx).scale(.18);
+      MeshBuilder.CreateLines('volleyAim',{points:[base,tip,back.add(side),tip,back.subtract(side)],instance:arrow},this.scene);
     }
   }
 
