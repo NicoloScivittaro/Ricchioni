@@ -141,6 +141,8 @@ export function stepKartPhysics(
   if (stunned) k.stunTimer = Math.max(0, k.stunTimer - dt);
   if (k.invulnTimer > 0) k.invulnTimer = Math.max(0, k.invulnTimer - dt);
   if (k.disturbTimer > 0) k.disturbTimer = Math.max(0, k.disturbTimer - dt);
+  k.oilTimer = Math.max(0, k.oilTimer - dt);
+  const oil = Math.min(1, k.oilTimer / .4);
 
   // Sterzo: se il gamepad sta sterzando (input.steer != 0) usa quel valore CONTINUO (-1..1); altrimenti il digitale di
   // sempre (telefono, o stick centrato). Stessa formula/costanti di prima: a ±1 o 0 il risultato è identico a oggi.
@@ -184,7 +186,7 @@ export function stepKartPhysics(
 
   const half = halfWidthAt(k.distance);
   k.offRoad = Math.abs(k.lateral) > half;
-  const centerRate = k.offRoad ? C.centerRateOffRoad : C.centerRateOnRoad;
+  const centerRate = (k.offRoad ? C.centerRateOffRoad : C.centerRateOnRoad) * (1 - oil * .8);
   const roadCap = Math.max(C.maxSpeed, boostCap);
   const maxSpeed = (k.offRoad ? C.maxSpeed * C.offroadSpeedFactor : roadCap) * k.speedCapMultiplier;
   if (C.boostSpeedGain > 0 && !k.offRoad && k.speed > maxSpeed) {
@@ -249,6 +251,10 @@ export function stepKartPhysics(
   }
 
   relHeading = clamp(relHeading, -1.25, 1.25);
+  // Sull'olio le gomme non possono cambiare istantaneamente la velocità laterale:
+  // conserva parte della traiettoria mentre il muso sterza. Più veloce = più inerzia.
+  k.slipVelocity += oil * .82 * k.speed * (Math.sin(k.heading) - Math.sin(relHeading));
+  k.slipVelocity = clamp(k.slipVelocity, -18, 18);
   k.heading = relHeading;
 
   // Avanzamento lungo il percorso e deriva laterale, scomposti rispetto alla
@@ -257,7 +263,7 @@ export function stepKartPhysics(
   // "serve sterzare in curva" richiesto.
   k.distance += k.speed * Math.cos(relHeading) * dt;
   k.lateral += (k.speed * Math.sin(relHeading) + k.slipVelocity) * dt;
-  k.slipVelocity *= Math.exp(-(k.offRoad ? 2.5 : 4.5) * dt);
+  k.slipVelocity *= Math.exp((k.offRoad ? -2.5 : -(4.5 - oil * 3.9)) * dt);
   k.distance = Math.max(MIN_RACE_DISTANCE, k.distance);
 
   // Collisione con le barriere: al bordo del cordolo, non 6 unità più in là.
@@ -308,6 +314,7 @@ export function respawnKart(k: KartState, trackAngleAt: (distance: number) => nu
   k.slipVelocity = 0;
   k.collisionYawVelocity = 0;
   k.wallContact = false;
+  k.oilTimer = 0;
   k.driftCharge = 0;
   k.drifting = false;
   k.boostTimer = 0;

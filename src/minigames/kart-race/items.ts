@@ -7,6 +7,8 @@ import type { ItemBoxPlacement, TrackSpline } from './track';
 import { applyBoost, hitKart } from './kartPhysics';
 import { CharacterAbilities } from './abilities';
 import type { AbilityFeedback } from './abilities';
+import { itemSurface, crossesSurface } from './itemSurface';
+import { audio } from '../../core/AudioManager';
 
 const BOX_PICKUP_RADIUS_LAT = 4.2;
 const BOX_PICKUP_RADIUS_S = 3.4;
@@ -23,9 +25,8 @@ const PROJECTILE_STUN = 1.3;
 const NEARMISS_METER = 0.15;
 
 const TRAP_LIFE = 18;
-const TRAP_HIT_S = 1.4;
-const TRAP_HIT_LAT = 1.9;
-const TRAP_STUN = 0.6;
+const TRAP_RADIUS_S = 2.4;
+const TRAP_RADIUS_LAT = 1.7;
 
 const ITEM_COLORS: Record<ItemId, Color3> = {
   turbo: new Color3(1, 0.55, 0.1),
@@ -55,10 +56,12 @@ interface Projectile {
 }
 
 interface Trap {
+  firedBy: PlayerId;
   distance: number;
   lateral: number;
   life: number;
   mesh: Mesh;
+  visitors: Set<PlayerId>;
 }
 
 export interface PendingRoulette {
@@ -78,6 +81,7 @@ export class ItemManager {
   private traps: Trap[] = [];
   private roulettes = new Map<PlayerId, PendingRoulette>();
   private root: TransformNode;
+  private previous = new Map<PlayerId, { distance: number; lateral: number }>();
 
   constructor(
     private scene: Scene,
@@ -144,6 +148,7 @@ export class ItemManager {
 
     this.updateProjectiles(dt, karts);
     this.updateTraps(dt, karts);
+    for (const k of karts) this.previous.set(k.playerId, { distance: k.distance, lateral: k.lateral });
   }
 
   isRouletteSpinning(playerId: PlayerId): boolean {
@@ -254,13 +259,19 @@ export class ItemManager {
   }
 
   private spawnTrap(k: KartState): void {
-    const mat = new StandardMaterial('trapMat', this.scene);
-    mat.diffuseColor = ITEM_COLORS.olio;
-    mat.alpha = 0.85;
-    const mesh = MeshBuilder.CreateCylinder('trap', { diameter: 1.6, height: 0.08, tessellation: 14 }, this.scene);
-    mesh.material = mat;
+    const distance = k.distance - 4.5;
+    const lateral = Math.max(-this.spline.widthAt(distance) / 2 + TRAP_RADIUS_LAT + .4, Math.min(this.spline.widthAt(distance) / 2 - TRAP_RADIUS_LAT - .4, k.lateral));
+    const mesh = itemSurface(this.scene, this.spline, distance, lateral, TRAP_RADIUS_S, TRAP_RADIUS_LAT);
     mesh.parent = this.root;
-    this.traps.push({ distance: k.distance - 3.2, lateral: k.lateral, life: TRAP_LIFE, mesh });
+    // Bordo iridescente sottile e riflessi chiari: leggibili anche con la luce sfavorevole.
+    for (const [scale, color] of [[1.08, new Color3(.25, .65, .7)], [.74, new Color3(.45, .48, .6)]] as const) {
+      const ring = itemSurface(this.scene, this.spline, distance, lateral, TRAP_RADIUS_S * scale, TRAP_RADIUS_LAT * scale, 'oilSheen');
+      ring.position.y = scale > 1 ? -.018 : .012;
+      const mat = ring.material as StandardMaterial; mat.diffuseColor = color; mat.emissiveColor = color.scale(.2);
+      if (scale < 1) mat.alpha = .18;
+      ring.parent = mesh;
+    }
+    this.traps.push({ firedBy: k.playerId, distance, lateral, life: TRAP_LIFE, mesh, visitors: new Set() });
   }
 
   private updateProjectiles(dt: number, karts: KartState[]): void {
@@ -299,17 +310,26 @@ export class ItemManager {
     for (let i = this.traps.length - 1; i >= 0; i--) {
       const t = this.traps[i];
       t.life -= dt;
-      let hit = false;
       for (const k of karts) {
-        if (k.finished) continue;
-        if (Math.abs(k.distance - t.distance) < TRAP_HIT_S && Math.abs(k.lateral - t.lateral) < TRAP_HIT_LAT) {
-          this.applyEffect(k, { stun: TRAP_STUN });
-          hit = true;
-          break;
+        if (k.finished || k.respawnTimer > 0 || (k.playerId === t.firedBy && t.life > TRAP_LIFE - 1)) continue;
+        const from = this.previous.get(k.playerId) ?? k;
+        if (crossesSurface(from, k, t.distance, t.lateral, TRAP_RADIUS_S + 1.4, TRAP_RADIUS_LAT + 1, this.spline.totalLength)) {
+          if (!t.visitors.has(k.playerId)) {
+            t.visitors.add(k.playerId);
+            if (k.invulnTimer > 0) continue;
+            if (k.shielded) { k.shielded = false; continue; }
+            const effect = { oil: 1.6 };
+            if (this.abilities.tryDelayHit(k, effect, f => this.onFeedback(k.playerId, f))) continue;
+            k.oilTimer = Math.max(k.oilTimer, effect.oil);
+            this.abilities.noteHit(k, effect);
+            audio.kartSkid();
+          }
+        } else {
+          t.visitors.delete(k.playerId);
         }
       }
-      if (hit || t.life <= 0) {
-        t.mesh.dispose();
+      if (t.life <= 0) {
+        t.mesh.dispose(false, true);
         this.traps.splice(i, 1);
       }
     }
@@ -335,7 +355,8 @@ export class ItemManager {
   dispose(): void {
     for (const b of this.boxes) b.mesh.dispose();
     for (const p of this.projectiles) p.mesh.dispose();
-    for (const t of this.traps) t.mesh.dispose();
+    for (const t of this.traps) t.mesh.dispose(false, true);
+    this.previous.clear(); this.roulettes.clear();
     this.root.dispose();
   }
 }
@@ -349,7 +370,7 @@ export function itemLabel(id: ItemId): string {
     case 'sfera':
       return '🔴 SFERA D\'URTO';
     case 'olio':
-      return '🟣 OLIO';
+      return '🛢️ OLIO';
     case 'scudo':
       return '🛡️ SCUDO';
     case 'disturbo':
@@ -367,7 +388,7 @@ export function itemDescription(id: ItemId): string {
     case 'sfera':
       return "Proiettile: stordisce chi colpisce davanti a te.";
     case 'olio':
-      return 'Lascia una chiazza scivolosa dietro di te.';
+      return 'Chiazza visibile per 18 s: aderenza laterale ridotta per 1,6 s, sterzo attivo. Evitala o usa lo scudo.';
     case 'scudo':
       return 'Ti protegge dal prossimo colpo subito.';
     case 'disturbo':

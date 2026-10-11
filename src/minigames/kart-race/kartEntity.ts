@@ -486,7 +486,7 @@ export class KartEntity {
     for (const w of this.wheels) w.rotation.x = state.wheelSpin;
 
     const level = state.drifting ? driftLevelOf(state.driftCharge) : 0;
-    this.driftSmoke.emitRate = state.drifting && state.driftCharge > 0.15 ? 26 : 0;
+    this.driftSmoke.emitRate = state.oilTimer > 0 && Math.abs(state.speed) > 8 ? 48 : state.drifting && state.driftCharge > 0.15 ? 26 : 0;
     // scintille: sempre visibili in derapata, piu' fitte e colorate man mano che sale il livello
     const sparkRate = state.drifting && Math.abs(state.speed) > 10 ? 34 + level * 46 : 0;
     this.sparkL.emitRate = this.sparkR.emitRate = sparkRate;

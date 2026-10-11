@@ -39,6 +39,7 @@ export interface KartState {
   heldItem: ItemId | null;
   shielded: boolean;
   disturbTimer: number; // sterzo invertito temporaneo (colpito da "disturbo")
+  oilTimer: number; // grip laterale ridotto, senza stun né freno longitudinale
   stunTimer: number; // spin-out dopo un colpo
   invulnTimer: number; // breve invulnerabilità post-respawn/scudo
 
@@ -82,10 +83,12 @@ export interface KartState {
   debtTimer: number;
   debtStun: number;
   debtDisturb: number;
+  debtOil: number;
   // ...e retroattivo: subito DOPO un colpo (refundTimer) premere ABILITA' lo trasforma in debito (refundStun/Disturb = cosa annullare).
   refundTimer: number;
   refundStun: number;
   refundDisturb: number;
+  refundOil: number;
 }
 
 export function createKartState(playerId: PlayerId, characterId: string | null, colorHex: string, avatar: string): KartState {
@@ -118,6 +121,7 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     heldItem: null,
     shielded: false,
     disturbTimer: 0,
+    oilTimer: 0,
     stunTimer: 0,
     invulnTimer: 1.2,
     offTrackTimer: 0,
@@ -143,8 +147,10 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     debtTimer: 0,
     debtStun: 0,
     debtDisturb: 0,
+    debtOil: 0,
     refundTimer: 0,
     refundStun: 0,
-    refundDisturb: 0
+    refundDisturb: 0,
+    refundOil: 0
   };
 }

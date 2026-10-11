@@ -930,6 +930,11 @@ export class AudioManager {
   }
 
   /** Kart: urto (piccolo = colpetto, grosso = botta metallica). `power` 0..1. */
+  kartSkid(): void {
+    this.noiseBurst(.3, 1800, 4800, .09, 0, .8);
+    this.sweep('sine', 440, 180, .25, .04);
+  }
+
   kartBump(power: number): void {
     const k = Math.max(0.2, Math.min(1, power));
     this.sweep('sine', 160, 60, 0.12 + 0.1 * k, 0.06 + 0.1 * k);
