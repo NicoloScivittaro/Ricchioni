@@ -1,0 +1,147 @@
+{
+  "warmupRounds": 2,
+  "played": [
+    "minigolf",
+    "minigolf",
+    "minigolf",
+    "minigolf",
+    "minigolf",
+    "minigolf"
+  ],
+  "newGames": 0,
+  "rows": [
+    {
+      "round": 1,
+      "game": "minigolf",
+      "heap": 34.57111740112305,
+      "pheap": 2.4831085205078125,
+      "scenes": 1,
+      "canvases": 1,
+      "overlays3d": 0,
+      "domOverlays": 0,
+      "bodyChildren": 7,
+      "timers": 7,
+      "osc": 0,
+      "musicOsc": 10,
+      "listeners": 21,
+      "phoneTimers": 0,
+      "phoneOsc": 0
+    },
+    {
+      "round": 2,
+      "game": "minigolf",
+      "heap": 35.2336540222168,
+      "pheap": 2.4993247985839844,
+      "scenes": 1,
+      "canvases": 1,
+      "overlays3d": 0,
+      "domOverlays": 0,
+      "bodyChildren": 7,
+      "timers": 7,
+      "osc": 0,
+      "musicOsc": 10,
+      "listeners": 21,
+      "phoneTimers": 0,
+      "phoneOsc": 0
+    },
+    {
+      "round": 3,
+      "game": "minigolf",
+      "heap": 35.86332321166992,
+      "pheap": 2.5066146850585938,
+      "scenes": 1,
+      "canvases": 1,
+      "overlays3d": 0,
+      "domOverlays": 0,
+      "bodyChildren": 7,
+      "timers": 7,
+      "osc": 0,
+      "musicOsc": 10,
+      "listeners": 21,
+      "phoneTimers": 0,
+      "phoneOsc": 0
+    },
+    {
+      "round": 4,
+      "game": "minigolf",
+      "heap": 36.11050033569336,
+      "pheap": 2.5144195556640625,
+      "scenes": 1,
+      "canvases": 1,
+      "overlays3d": 0,
+      "domOverlays": 0,
+      "bodyChildren": 7,
+      "timers": 7,
+      "osc": 0,
+      "musicOsc": 10,
+      "listeners": 21,
+      "phoneTimers": 0,
+      "phoneOsc": 0
+    },
+    {
+      "round": 5,
+      "game": "minigolf",
+      "heap": 36.289520263671875,
+      "pheap": 2.5149688720703125,
+      "scenes": 1,
+      "canvases": 1,
+      "overlays3d": 0,
+      "domOverlays": 0,
+      "bodyChildren": 7,
+      "timers": 7,
+      "osc": 0,
+      "musicOsc": 10,
+      "listeners": 21,
+      "phoneTimers": 0,
+      "phoneOsc": 0
+    }
+  ],
+  "measuredRounds": 3,
+  "checks": [
+    [
+      "scene attive == 1 dopo ogni round",
+      true
+    ],
+    [
+      "nessun canvas 3D residuo",
+      true
+    ],
+    [
+      "nessun overlay DOM residuo",
+      true
+    ],
+    [
+      "canvas stabili (crescita 0.0)",
+      true
+    ],
+    [
+      "elementi in body stabili (crescita 0.0)",
+      true
+    ],
+    [
+      "timer pendenti stabili (crescita 0.0)",
+      true
+    ],
+    [
+      "oscillatori vivi al rullo (musica esclusa) ≤ 2 (max 0)",
+      true
+    ],
+    [
+      "note della musica stabili (crescita 0.0, max 10)",
+      true
+    ],
+    [
+      "listener su window stabili (crescita 0.0)",
+      true
+    ],
+    [
+      "heap host: 36 → 36 MB (crescita 0.4 MB, 3 round)",
+      true
+    ],
+    [
+      "heap telefono: 3 → 3 MB",
+      true
+    ]
+  ],
+  "errors": []
+}

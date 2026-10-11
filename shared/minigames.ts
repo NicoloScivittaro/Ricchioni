@@ -322,8 +322,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id:'minigolf',icon:'⛳',name:'MINIGOLF DEI DISAGIATI',
-    description:'Tre buche, tutti insieme. Mira, dosa la forza e boccia gli amici: vince chi usa meno colpi.',
-    category:'SPORT',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:180,hardCapSec:360,
+    description:'Una pista, turni rapidi e camera dietro la pallina. Dosa la forza e boccia gli amici: meno colpi vince.',
+    category:'SPORT',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:240,hardCapSec:310,
     compatibleModifiers:['punti_doppi'],sceneKey:'minigolf',inputMode:'GAMEPAD',
     controllerLayout:{type:'custom',id:'minigolf-tv'}
   }

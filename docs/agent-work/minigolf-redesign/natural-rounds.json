@@ -1,0 +1,460 @@
+[
+  {
+    "n": 2,
+    "ended": true,
+    "time": 40.208333333331694,
+    "courses": [
+      "corridoio"
+    ],
+    "players": [
+      {
+        "id": "1f2e6ab2-3d76-4c56-bc26-33b9313c360c",
+        "total": 5,
+        "penalties": 0,
+        "completed": 1,
+        "aimTime": 3.3916666666666573,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 3.3916666666666573
+          }
+        ]
+      },
+      {
+        "id": "d69e2933-989f-47ca-b6ff-219b93a69a99",
+        "total": 5,
+        "penalties": 0,
+        "completed": 1,
+        "aimTime": 8.166666666666844,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 8.166666666666844
+          }
+        ]
+      }
+    ],
+    "timeout": {
+      "strokes": 1,
+      "x": 0.4,
+      "z": 11
+    },
+    "results": [
+      {
+        "playerId": "1f2e6ab2-3d76-4c56-bc26-33b9313c360c",
+        "placement": 1,
+        "score": 5,
+        "stats": [
+          "5 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 4",
+          "3.4 s di mira"
+        ]
+      },
+      {
+        "playerId": "d69e2933-989f-47ca-b6ff-219b93a69a99",
+        "placement": 2,
+        "score": 5,
+        "stats": [
+          "5 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 4",
+          "8.2 s di mira"
+        ]
+      }
+    ],
+    "scores": [
+      10,
+      5
+    ],
+    "errors": []
+  },
+  {
+    "n": 3,
+    "ended": true,
+    "time": 59.966666666663905,
+    "courses": [
+      "corridoio"
+    ],
+    "players": [
+      {
+        "id": "9e088554-80d2-444f-993f-3cc74c247587",
+        "total": 5,
+        "penalties": 0,
+        "completed": 1,
+        "aimTime": 3.491666666666657,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 3.491666666666657
+          }
+        ]
+      },
+      {
+        "id": "9ce71b8a-5258-45fc-bc63-687a9b815bfb",
+        "total": 5,
+        "penalties": 0,
+        "completed": 1,
+        "aimTime": 8.550000000000155,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 8.550000000000155
+          }
+        ]
+      },
+      {
+        "id": "7f43a38c-ad41-4da2-abba-ab9343a3ec5a",
+        "total": 5,
+        "penalties": 0,
+        "completed": 1,
+        "aimTime": 3.2833333333333243,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 3.2833333333333243
+          }
+        ]
+      }
+    ],
+    "timeout": {
+      "strokes": 1,
+      "x": 0,
+      "z": 11
+    },
+    "results": [
+      {
+        "playerId": "7f43a38c-ad41-4da2-abba-ab9343a3ec5a",
+        "placement": 1,
+        "score": 5,
+        "stats": [
+          "5 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 4",
+          "3.3 s di mira"
+        ]
+      },
+      {
+        "playerId": "9e088554-80d2-444f-993f-3cc74c247587",
+        "placement": 2,
+        "score": 5,
+        "stats": [
+          "5 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 4",
+          "3.5 s di mira"
+        ]
+      },
+      {
+        "playerId": "9ce71b8a-5258-45fc-bc63-687a9b815bfb",
+        "placement": 3,
+        "score": 5,
+        "stats": [
+          "5 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 4",
+          "8.6 s di mira"
+        ]
+      }
+    ],
+    "scores": [
+      12,
+      6,
+      20
+    ],
+    "errors": []
+  },
+  {
+    "n": 4,
+    "ended": true,
+    "time": 63.291666666663716,
+    "courses": [
+      "discesa"
+    ],
+    "players": [
+      {
+        "id": "a85ca0da-8260-485f-bcd0-dff9bbe92bc6",
+        "total": 6,
+        "penalties": 1,
+        "completed": 1,
+        "aimTime": 3.658333333333323,
+        "records": [
+          {
+            "course": "discesa",
+            "strokes": 6,
+            "penalties": 1,
+            "completed": true,
+            "seconds": 3.658333333333323
+          }
+        ]
+      },
+      {
+        "id": "fd97aaac-ac75-48c6-87b3-0bec1143a93f",
+        "total": 6,
+        "penalties": 0,
+        "completed": 1,
+        "aimTime": 3.4749999999999903,
+        "records": [
+          {
+            "course": "discesa",
+            "strokes": 6,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 3.4749999999999903
+          }
+        ]
+      },
+      {
+        "id": "cb15339d-ac4b-412c-ab87-69fe89f5b32b",
+        "total": 4,
+        "penalties": 0,
+        "completed": 1,
+        "aimTime": 2.4916666666666605,
+        "records": [
+          {
+            "course": "discesa",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 2.4916666666666605
+          }
+        ]
+      },
+      {
+        "id": "69a98230-32bf-4fe8-bae7-41ce24db85ed",
+        "total": 6,
+        "penalties": 0,
+        "completed": 1,
+        "aimTime": 8.88333333333347,
+        "records": [
+          {
+            "course": "discesa",
+            "strokes": 6,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 8.88333333333347
+          }
+        ]
+      }
+    ],
+    "timeout": {
+      "strokes": 1,
+      "x": 1.2000000000000002,
+      "z": 11
+    },
+    "results": [
+      {
+        "playerId": "cb15339d-ac4b-412c-ab87-69fe89f5b32b",
+        "placement": 1,
+        "score": 4,
+        "stats": [
+          "4 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 5",
+          "2.5 s di mira"
+        ]
+      },
+      {
+        "playerId": "fd97aaac-ac75-48c6-87b3-0bec1143a93f",
+        "placement": 2,
+        "score": 6,
+        "stats": [
+          "6 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 5",
+          "3.5 s di mira"
+        ]
+      },
+      {
+        "playerId": "69a98230-32bf-4fe8-bae7-41ce24db85ed",
+        "placement": 3,
+        "score": 6,
+        "stats": [
+          "6 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 5",
+          "8.9 s di mira"
+        ]
+      },
+      {
+        "playerId": "a85ca0da-8260-485f-bcd0-dff9bbe92bc6",
+        "placement": 4,
+        "score": 6,
+        "stats": [
+          "6 colpi · 1 penalità",
+          "✓ IMBUCATA · PAR 5",
+          "3.7 s di mira"
+        ]
+      }
+    ],
+    "scores": [
+      2,
+      7,
+      10,
+      4
+    ],
+    "errors": []
+  },
+  {
+    "n": 5,
+    "ended": true,
+    "time": 88.06666666668282,
+    "courses": [
+      "ponte"
+    ],
+    "players": [
+      {
+        "id": "41783be2-aae9-4fe9-b1bd-fe8aef203fdb",
+        "total": 4,
+        "penalties": 0,
+        "completed": 1,
+        "aimTime": 3.3999999999999906,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 3.3999999999999906
+          }
+        ]
+      },
+      {
+        "id": "e40eff0b-54fa-4453-aba9-db12e9666d72",
+        "total": 8,
+        "penalties": 4,
+        "completed": 0,
+        "aimTime": 2.724999999999993,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 8,
+            "penalties": 4,
+            "completed": false,
+            "seconds": 2.724999999999993
+          }
+        ]
+      },
+      {
+        "id": "28b86460-0c9a-421d-97de-39a321977a84",
+        "total": 5,
+        "penalties": 0,
+        "completed": 1,
+        "aimTime": 9.683333333333424,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 9.683333333333424
+          }
+        ]
+      },
+      {
+        "id": "099714f5-0364-4fa9-b5ef-6a734afedf9c",
+        "total": 8,
+        "penalties": 3,
+        "completed": 0,
+        "aimTime": 4.116666666666661,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 8,
+            "penalties": 3,
+            "completed": false,
+            "seconds": 4.116666666666661
+          }
+        ]
+      },
+      {
+        "id": "d017685f-64c3-4358-bf66-c7e7d5f61052",
+        "total": 8,
+        "penalties": 3,
+        "completed": 0,
+        "aimTime": 3.766666666666656,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 8,
+            "penalties": 3,
+            "completed": false,
+            "seconds": 3.766666666666656
+          }
+        ]
+      }
+    ],
+    "timeout": {
+      "strokes": 1,
+      "x": 0,
+      "z": 11
+    },
+    "results": [
+      {
+        "playerId": "41783be2-aae9-4fe9-b1bd-fe8aef203fdb",
+        "placement": 1,
+        "score": 4,
+        "stats": [
+          "4 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 4",
+          "3.4 s di mira"
+        ]
+      },
+      {
+        "playerId": "28b86460-0c9a-421d-97de-39a321977a84",
+        "placement": 2,
+        "score": 5,
+        "stats": [
+          "5 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 4",
+          "9.7 s di mira"
+        ]
+      },
+      {
+        "playerId": "d017685f-64c3-4358-bf66-c7e7d5f61052",
+        "placement": 3,
+        "score": 8,
+        "stats": [
+          "8 colpi · 3 penalità",
+          "DNF · PAR 4",
+          "3.8 s di mira"
+        ]
+      },
+      {
+        "playerId": "099714f5-0364-4fa9-b5ef-6a734afedf9c",
+        "placement": 4,
+        "score": 8,
+        "stats": [
+          "8 colpi · 3 penalità",
+          "DNF · PAR 4",
+          "4.1 s di mira"
+        ]
+      },
+      {
+        "playerId": "e40eff0b-54fa-4453-aba9-db12e9666d72",
+        "placement": 5,
+        "score": 8,
+        "stats": [
+          "8 colpi · 4 penalità",
+          "DNF · PAR 4",
+          "2.7 s di mira"
+        ]
+      }
+    ],
+    "scores": [
+      20,
+      2,
+      14,
+      6,
+      10
+    ],
+    "errors": []
+  }
+]

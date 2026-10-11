@@ -1,0 +1,152 @@
+{
+  "errors": [],
+  "models": [
+    {
+      "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/man-tripo/man_animated.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/judoka-tripo/judo_figure_casacarbo.glb",
+      "status": 200
+    }
+  ],
+  "chunks": [
+    {
+      "url": "http://127.0.0.1:3001/assets/BabylonMinigolfGame-DdilOXON.js",
+      "ms": 6838
+    }
+  ],
+  "phases": [
+    {
+      "phase": "LOBBY",
+      "ms": 3832
+    },
+    {
+      "phase": "MINIGAME_ROULETTE",
+      "ms": 7097
+    },
+    {
+      "phase": "MINIGAME_INTRO",
+      "ms": 13876
+    },
+    {
+      "phase": "MINIGAME_PLAYING",
+      "ms": 16461
+    },
+    {
+      "phase": "MINIGAME_FINISHED",
+      "ms": 96271
+    },
+    {
+      "phase": "ROUND_RESULTS",
+      "ms": 97232
+    }
+  ],
+  "start": 6823,
+  "playing": 16604,
+  "players": [
+    {
+      "name": "Niko",
+      "char": "goblin"
+    },
+    {
+      "name": "BOT BOSCHI",
+      "char": "buttafuori",
+      "bot": true
+    },
+    {
+      "name": "BOT Carbo",
+      "char": "judoka",
+      "bot": true
+    },
+    {
+      "name": "BOT Ciro",
+      "char": "ciro",
+      "bot": true
+    },
+    {
+      "name": "BOT Victor",
+      "char": "dottore",
+      "bot": true
+    }
+  ],
+  "wallSeconds": 71.082,
+  "phoneShots": 4,
+  "results": {
+    "results": [
+      {
+        "playerId": "bot:912b3366-ddbb-496f-933c-d2418f653ce7",
+        "placement": 1,
+        "score": 3,
+        "stats": [
+          "3 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 5",
+          "2.1 s di mira"
+        ]
+      },
+      {
+        "playerId": "bot:c21a040e-a9c9-4e47-b81e-59df73da8ce8",
+        "placement": 2,
+        "score": 4,
+        "stats": [
+          "4 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 5",
+          "2.1 s di mira"
+        ]
+      },
+      {
+        "playerId": "bot:d296f594-4d88-46a5-b295-231e643abef3",
+        "placement": 3,
+        "score": 5,
+        "stats": [
+          "5 colpi · 0 penalità",
+          "✓ IMBUCATA · PAR 5",
+          "3.7 s di mira"
+        ]
+      },
+      {
+        "playerId": "bot:c084e799-8c77-469b-b5db-068b03c2d985",
+        "placement": 4,
+        "score": 9,
+        "stats": [
+          "9 colpi · 4 penalità",
+          "DNF · PAR 5",
+          "2.8 s di mira"
+        ]
+      },
+      {
+        "playerId": "7c7299bc-b77f-4944-89a3-f5c6ce39ba9b",
+        "placement": 5,
+        "score": 9,
+        "stats": [
+          "9 colpi · 5 penalità",
+          "DNF · PAR 5",
+          "2.1 s di mira"
+        ]
+      }
+    ],
+    "ranking": [
+      "bot:912b3366-ddbb-496f-933c-d2418f653ce7",
+      "bot:c21a040e-a9c9-4e47-b81e-59df73da8ce8",
+      "bot:d296f594-4d88-46a5-b295-231e643abef3",
+      "bot:c084e799-8c77-469b-b5db-068b03c2d985",
+      "7c7299bc-b77f-4944-89a3-f5c6ce39ba9b"
+    ],
+    "deltas": {
+      "bot:912b3366-ddbb-496f-933c-d2418f653ce7": 10,
+      "bot:c21a040e-a9c9-4e47-b81e-59df73da8ce8": 7,
+      "bot:d296f594-4d88-46a5-b295-231e643abef3": 5,
+      "bot:c084e799-8c77-469b-b5db-068b03c2d985": 3,
+      "7c7299bc-b77f-4944-89a3-f5c6ce39ba9b": 1
+    },
+    "double": false
+  }
+}

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {writeFileSync} from 'node:fs';
 process.env.CTRL_URL='http://127.0.0.1:3001/controller.html';
 const {launch,addPhone,sleep}=await import('./lib.mjs');
-const browser=await launch(),out='docs/agent-work/minigolf',report={errors:[],models:[],chunks:[],phases:[]};
+const browser=await launch(),out='docs/agent-work/minigolf-redesign',report={errors:[],models:[],chunks:[],phases:[]};
 try{
  const page=await browser.newPage();let state=null,code=null;page.on('pageerror',e=>report.errors.push(String(e)));
  const t0=Date.now();page.on('request',r=>{if(/BabylonMinigolfGame-.*\.js/.test(r.url()))report.chunks.push({url:r.url(),ms:Date.now()-t0});});
@@ -17,17 +17,17 @@ try{
  for(let i=0;i<13;i++){await page.keyboard.press('ArrowRight');await sleep(150);}await until(()=>state.selectedMinigameId==='minigolf','golf selected');report.start=Date.now()-t0;await page.keyboard.press('Enter');await until(()=>state.phase==='MINIGAME_PLAYING','playing');report.playing=Date.now()-t0;
  assert.equal(state.players.length,5);assert.equal(state.players.filter(p=>p.bot).length,4);report.players=state.players.map(p=>({name:p.displayName,char:p.characterId,bot:p.bot}));
  const phoneCDP=await phone.page.createCDPSession();
- await phone.page.waitForSelector('#golf-shoot');await until(()=>phone.page.evaluate(()=>!document.querySelector('#golf-shoot').disabled),'tee ready');
+ await phone.page.waitForSelector('#golf-shoot');await until(()=>phone.page.evaluate(()=>!document.querySelector('#golf-shoot').disabled&&!document.querySelector('#golf-active').hidden),'tee ready');
  await until(()=>report.models.filter(r=>r.status===200).length>=4,'four original models');
  await page.screenshot({path:`${out}/production-five.png`});await phone.page.screenshot({path:`${out}/production-phone.png`});
  let shots=0;const gameStart=Date.now();
- while(Date.now()-gameStart<220000&&!state.lastResults){
-  const ready=await phone.page.evaluate(()=>{const b=document.querySelector('#golf-shoot');return b&&!b.disabled;});
+ while(Date.now()-gameStart<250000&&!state.lastResults){
+  const ready=await phone.page.evaluate(()=>{const b=document.querySelector('#golf-shoot');return b&&!b.disabled&&!document.querySelector('#golf-active')?.hidden;});
   if(ready){const r=await phone.page.$eval('#golf-shoot',b=>{const r=b.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2};});await phoneCDP.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:r.x,y:r.y,id:1}]});await sleep(280);await phoneCDP.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});shots++;}
   await sleep(400);
  }
  assert.ok(state.lastResults,'natural result');assert.equal(state.lastResults.results.length,5);assert.deepEqual(state.lastResults.results.map(r=>r.placement).sort(),[1,2,3,4,5]);assert.ok(state.lastResults.results.every(r=>r.stats.length===3));
  report.wallSeconds=(Date.now()-gameStart)/1000;report.phoneShots=shots;report.results=state.lastResults;await until(()=>state.phase==='ROUND_RESULTS','result screen',15000);await sleep(6000);await page.screenshot({path:`${out}/production-results.png`});
  assert.ok(report.chunks.length);assert.ok(report.chunks[0].ms>=report.start&&report.chunks[0].ms<report.playing-5000,'preload during roulette/intro');assert.deepEqual(report.errors,[]);
- console.log('PASS production: UI selection #13, 1 real phone + 4 bots, original GLBs, 3 holes at real clock speed, natural ranking, no page errors');
+ console.log('PASS production: UI selection #13, 1 real phone + 4 bots, original GLBs, one course at real clock speed, natural ranking, no page errors');
 }finally{writeFileSync(`${out}/production.json`,JSON.stringify(report,null,2));await browser.close();}

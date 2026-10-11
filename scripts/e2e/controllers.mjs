@@ -77,6 +77,9 @@ for (const id of GAMES) {
       const shoot = document.querySelector('#golf-shoot');
       return shoot && !shoot.disabled;
     }, {timeout:20000});
+    // Layout-only fixture: keep the active Golf phone stable across viewport changes.
+    // Natural six-second turns are covered by minigolf-rounds.mjs.
+    if(id==='minigolf')await hostEval(page,gm=>{gm.game.scene.getScene('minigolf').game3d.paused=true;});
     for (const [name, vp] of VIEWS) {
       await ph.setViewport({ ...vp, isMobile: true, hasTouch: true });
       await sleep(700);

@@ -1,4 +1,4 @@
-import {mountMinigolf} from './minigolfController';
+import {mountMinigolf,updateGolfCompanion} from './minigolfController';
 import type {GolfPhoneStatus} from './minigolfController';
 import { io, Socket } from 'socket.io-client';
 import { EVT } from '../../shared/protocol';
@@ -1552,7 +1552,7 @@ function renderFpsController(): void {
 
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
-  if(s.type==='minigolfStatus'&&activeController==='minigolf'){minigolfPhone?.update(data as GolfPhoneStatus);return;}
+  if(s.type==='minigolfStatus'){if(activeController==='minigolf')minigolfPhone?.update(data as GolfPhoneStatus);else updateGolfCompanion(data as GolfPhoneStatus);return;}
   if (s.type === 'objectThrowStatus' && state?.phase === 'MINIGAME_PLAYING' && state.currentMinigame?.minigameId === 'cornicione') {
     let label=document.getElementById('corn-throw-status');
     if (!label) {
@@ -2114,7 +2114,8 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   const layout = mg.controllerLayout;
   if(layout.type==='custom'&&layout.id==='minigolf-tv'){
     activeController='minigolf';
-    minigolfPhone=mountMinigolf(app,sendInput,state?.players.find(p=>p.id===playerId)?.characterId??null);
+    const golfer=state?.players.find(p=>p.id===playerId);
+    minigolfPhone=mountMinigolf(app,sendInput,golfer?.characterId??null,golfer);
     return;
   }
   if (layout.type === 'custom' && layout.id === 'quiz-tv') {

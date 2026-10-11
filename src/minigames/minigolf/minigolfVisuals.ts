@@ -1,4 +1,4 @@
-import {Scene,Mesh,MeshBuilder,Vector3,StandardMaterial,Color3,TransformNode,VertexData,ShadowGenerator,Constants} from '@babylonjs/core';
+import {Scene,Mesh,MeshBuilder,Vector3,StandardMaterial,Color3,TransformNode,VertexData,ShadowGenerator,DynamicTexture} from '@babylonjs/core';
 import type {Course,GolfPlayer,GolfEvent,Floor} from './minigolfTypes';
 import {GOLF} from './minigolfTypes';
 import {floorAt,heightAt,wallAt} from './minigolfCourses';
@@ -15,9 +15,9 @@ export class MinigolfVisuals {
  constructor(private scene:Scene,players:GolfPlayer[],private shadows:ShadowGenerator){
   for(const p of players){
    const mat=this.material(`ball:${p.id}`,p.color,.22);
-   const b=MeshBuilder.CreateSphere(`golfBall:${p.id}`,{diameter:GOLF.radius*2,segments:16},scene);b.material=mat;b.renderingGroupId=1;this.shadows.addShadowCaster(b);this.balls.set(p.id,b);
-   const ring=MeshBuilder.CreateTorus(`golfRing:${p.id}`,{diameter:.83,thickness:.045,tessellation:24},scene);ring.material=this.material(`ring:${p.id}`,p.color,.6);ring.renderingGroupId=1;ring.material.depthFunction=Constants.ALWAYS;ring.material.disableDepthWrite=true;this.rings.set(p.id,ring);
-   const arrow=MeshBuilder.CreateCylinder(`golfAim:${p.id}`,{height:.55,diameterBottom:.3,diameterTop:0,tessellation:6},scene);arrow.material=ring.material;arrow.rotation.x=Math.PI/2;this.arrows.set(p.id,arrow);
+   const b=MeshBuilder.CreateSphere(`golfBall:${p.id}`,{diameter:GOLF.radius*2,segments:16},scene);b.material=mat;this.shadows.addShadowCaster(b);this.balls.set(p.id,b);
+   const ring=MeshBuilder.CreateTorus(`golfRing:${p.id}`,{diameter:.68,thickness:.02,tessellation:24},scene);ring.material=this.material(`ring:${p.id}`,p.color,.3);this.rings.set(p.id,ring);
+   const arrow=MeshBuilder.CreateCylinder(`golfAim:${p.id}`,{height:.75,diameterBottom:.32,diameterTop:0,tessellation:6},scene);arrow.material=this.material('aimWhite','#fff5bd',.4);arrow.rotation.x=Math.PI/2;this.arrows.set(p.id,arrow);
    const dots=Array.from({length:40},(_,i)=>{const m=MeshBuilder.CreateSphere(`predict:${p.id}:${i}`,{diameter:.085,segments:4},scene);m.material=ring.material;m.isVisible=false;return m;});this.preview.set(p.id,dots);
    const trail=Array.from({length:5},(_,i)=>{const m=MeshBuilder.CreateSphere(`trail:${p.id}:${i}`,{diameter:.1,segments:4},scene);m.material=ring.material;m.isVisible=false;return m;});this.trails.set(p.id,trail);
   }
@@ -30,10 +30,12 @@ export class MinigolfVisuals {
   if(this.root)for(const mesh of this.root.getChildMeshes())this.shadows.removeShadowCaster(mesh);
   this.root?.dispose();this.bumpers.clear();this.root=new TransformNode('golfCourseRoot',this.scene);this.floorMeshes=[];this.walls=[];
   const floorMat=this.material(`turf:${c.id}`,c.color);
+  if(!floorMat.diffuseTexture){const tex=new DynamicTexture(`golfTurf:${c.id}`,128,this.scene,false),ctx=tex.getContext();ctx.fillStyle='#ffffff';ctx.fillRect(0,0,128,128);ctx.fillStyle='#d9e6dc';ctx.fillRect(0,0,64,64);ctx.fillRect(64,64,64,64);
+   ctx.fillStyle='#cfdfd2';for(let i=0;i<40;i++)ctx.fillRect((i*37)%128,(i*53)%128,2,2);tex.update();floorMat.diffuseTexture=tex;}
   for(const [i,f] of c.floors.entries()){
    const mesh=new Mesh(`golfFloor:${i}`,this.scene),pts=[[-f.w/2,-f.d/2],[f.w/2,-f.d/2],[f.w/2,f.d/2],[-f.w/2,f.d/2]];
    const positions=pts.flatMap(([x,z])=>[x,(f.slopeX??0)*x+(f.slopeZ??0)*z,z]),indices=[0,1,2,0,2,3],normals:number[]=[];
-   VertexData.ComputeNormals(positions,indices,normals);const data=new VertexData();data.positions=positions;data.indices=indices;data.normals=normals;data.applyToMesh(mesh);
+   VertexData.ComputeNormals(positions,indices,normals);const data=new VertexData();data.positions=positions;data.indices=indices;data.normals=normals;data.uvs=[0,0,f.w/4,0,f.w/4,f.d/4,0,f.d/4];data.applyToMesh(mesh);
    mesh.material=f.surface==='sand'?this.material('sand','#e5be7b'):f.surface==='ice'?this.material('ice','#91e6f2',.12):floorMat;mesh.material.backFaceCulling=false;mesh.parent=this.root;mesh.position.set(f.x,f.y,f.z);mesh.receiveShadows=true;this.floorMeshes.push({base:f,mesh});
    if(!f.slopeX&&!f.slopeZ&&!f.surface)for(let z=-f.d/2+2;z<f.d/2;z+=4){const stripe=MeshBuilder.CreateGround('turfStripe',{width:f.w,height:.16},this.scene);stripe.parent=mesh;stripe.position.set(0,.012,z);stripe.material=this.material(`stripe:${c.id}`,c.color);stripe.material.alpha=.45;}
    // Lightweight solid skirt makes floating islands and slopes readable.
@@ -56,7 +58,7 @@ export class MinigolfVisuals {
   if(!p||!['wall','bumper','ball','hole','shot'].includes(e.type))return;
   for(const s of this.sparks.filter(s=>s.life<=0).slice(0,6)){s.life=.35;s.mesh.isVisible=true;s.mesh.position.set(e.x,p.ball.y,e.z);const i=this.sparks.indexOf(s);s.velocity.set(Math.cos(i)*1.4,1.2,Math.sin(i)*1.4);}
  }
- update(players:GolfPlayer[],c:Course,time:number,extras:import('./minigolfTypes').Bumper[],dt:number):void {
+ update(players:GolfPlayer[],c:Course,time:number,extras:import('./minigolfTypes').Bumper[],dt:number,activeId?:string,aiming=true):void {
   for(const {base,mesh} of this.floorMeshes){const f=floorAt(base,time);mesh.position.set(f.x,f.y,f.z);}
   c.walls.forEach((w,i)=>{const q=wallAt(w,time),m=this.walls[i];m.position.set((q.a.x+q.b.x)/2,q.y+.35,(q.a.z+q.b.z)/2);m.rotation.y=-Math.atan2(q.b.z-q.a.z,q.b.x-q.a.x);});
   const keys=new Set(extras.map(b=>b.owner!));for(const [key,m] of this.bumpers)if(!key.startsWith('static')&&!keys.has(key)){this.shadows.removeShadowCaster(m);m.dispose();this.bumpers.delete(key);}
@@ -65,8 +67,8 @@ export class MinigolfVisuals {
   for(const p of players){const b=p.ball,mesh=this.balls.get(p.id)!,ring=this.rings.get(p.id)!,arrow=this.arrows.get(p.id)!;
    mesh.position.set(b.x,b.y,b.z);mesh.isVisible=ring.isVisible=!p.finished;mesh.rotation.x+=b.vz*dt/GOLF.radius;mesh.rotation.z-=b.vx*dt/GOLF.radius;
    ring.position.set(b.x,b.y-GOLF.radius+.05,b.z);ring.scaling.setAll(p.armed?1.2:1);
-   arrow.isVisible=!p.finished&&b.grounded&&speed(b)<GOLF.readySpeed;
-   arrow.position.set(b.x+p.aim.x*(1+p.charge*1.7),b.y+.04,b.z+p.aim.z*(1+p.charge*1.7));arrow.rotation.y=Math.atan2(p.aim.x,p.aim.z);
+   arrow.isVisible=(!activeId||p.id===activeId)&&aiming&&!p.finished&&b.grounded&&speed(b)<GOLF.readySpeed;
+   arrow.position.set(b.x+p.aim.x*(1.3+p.charge*1.2),b.y-.12,b.z+p.aim.z*(1.3+p.charge*1.2));arrow.rotation.y=Math.atan2(p.aim.x,p.aim.z);arrow.scaling.y=.8+p.charge*.6;
    const dots=this.preview.get(p.id)!;
    if(refresh&&p.prediction>0&&!p.finished&&b.grounded&&speed(b)<GOLF.readySpeed){const points=predict(b,c,p.aim,p.charging?p.charge:.35,AB.minigolf.dottore.p.preview);dots.forEach((m,i)=>{m.isVisible=i<points.length;if(m.isVisible)m.position.set(points[i].x,b.y-.15,points[i].z);});}
    else if(p.prediction<=0||p.finished||speed(b)>GOLF.readySpeed)dots.forEach(m=>m.isVisible=false);

@@ -1801,3 +1801,61 @@ body:has(#pad-fallback-badge) .arena-shell:has(#arena-attack) { padding-top:calc
   .golf-phone button span { margin-top: 4px; }
   body:has(#pad-fallback-badge) .golf-phone { padding-top: 46px; }
 }
+/* Minigolf a turni: controlli attivi e Companion condividono il ciclo di vita. */
+.golf-phone[hidden],#golf-spectator[hidden]{display:none}
+.golf-phone-left{display:flex;flex-direction:column;align-items:center;gap:14px}
+#golf-camera{min-height:64px;width:160px;display:flex;align-items:center;justify-content:center;border:2px solid #79bba9;border-radius:12px;background:#183f4b;font-size:12px;font-weight:800;touch-action:none;user-select:none}
+.golf-phone{height:100%;min-height:0;padding:64px 14px 16px;gap:8px}
+.golf-phone-board{min-height:220px}
+.golf-phone-actions{gap:8px}
+.golf-phone button{min-height:48px;padding:12px 8px}
+.golf-phone button span{margin-top:4px}
+#golf-spectator #golf-companion-status{padding:8px 10px;background:#153b43;border-radius:10px;text-align:center}
+@media(orientation:landscape) and (max-height:500px){
+ .golf-phone{padding:8px 14px;gap:4px}
+ .golf-phone-board{min-height:0;gap:18px}
+ .golf-phone-left{flex-direction:row;gap:14px}
+ .golf-phone-joy{width:125px;height:125px}
+ #golf-camera{width:90px;min-height:100px;text-align:center;padding:8px}
+ .golf-phone-actions{grid-template-columns:repeat(2,minmax(105px,1fr));gap:6px}
+ .golf-phone #golf-shoot{grid-row:1/3;min-height:110px}
+ .golf-phone #golf-ability{grid-column:1/3}
+ .golf-phone p{margin:2px 0;font-size:11px;line-height:1.2}
+ body:has(#pad-fallback-badge) .golf-phone{padding-top:44px}
+}
+/* Solo la Companion Minigolf riserva spazio al banner e al turno corrente. */
+#golf-spectator{height:100%}
+.cc[data-game="minigolf"]{justify-content:flex-start;max-width:720px;gap:8px;padding:12px;min-height:0}
+body:has(#pad-fallback-badge) .cc[data-game="minigolf"]{padding-top:64px}
+.cc[data-game="minigolf"] .cc-ability,.cc[data-game="minigolf"] .cc-controls{width:100%;padding:10px}
+.cc[data-game="minigolf"] .cc-ab-name{font-size:19px}
+.cc[data-game="minigolf"] .cc-ab-text{font-size:14px;line-height:1.28;margin:6px 0}
+.cc[data-game="minigolf"] .cc-row{padding:2px 0}
+.cc[data-game="minigolf"] .cc-act{font-size:13px}
+.cc[data-game="minigolf"] .cc-cap{font-size:12px}
+.cc[data-game="minigolf"] .cc-look,.cc[data-game="minigolf"] .cc-ok{font-size:11px}
+@media(orientation:portrait) and (max-height:700px){
+ .cc[data-game="minigolf"]{gap:6px;padding:8px}
+ .cc[data-game="minigolf"] .cc-ab-name{font-size:17px}
+ .cc[data-game="minigolf"] .cc-ab-text{font-size:12px}
+ .cc[data-game="minigolf"] .cc-act,.cc[data-game="minigolf"] .cc-cap{font-size:11px}
+ .cc[data-game="minigolf"] .cc-status{font-size:14px;padding:4px 10px}
+ .cc[data-game="minigolf"] .cc-key{font-size:16px}
+ .cc[data-game="minigolf"] .cc-char{font-size:14px}
+ .cc[data-game="minigolf"] .cc-game{font-size:12px}
+ .cc[data-game="minigolf"] .cc-ability,.cc[data-game="minigolf"] .cc-controls{padding:8px}
+}
+@media(orientation:landscape) and (max-height:500px){
+ .cc[data-game="minigolf"]{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto auto auto;align-items:start;gap:4px 12px;padding:8px 12px}
+ body:has(#pad-fallback-badge) .cc[data-game="minigolf"]{padding-top:44px}
+ .cc[data-game="minigolf"] .cc-head{grid-column:1/3}
+ .cc[data-game="minigolf"] .cc-ability{grid-column:1;grid-row:2/6}
+ .cc[data-game="minigolf"] .cc-controls{grid-column:2;grid-row:2}
+ .cc[data-game="minigolf"] #golf-companion-status{grid-column:2;grid-row:3;font-size:12px;padding:6px}
+ .cc[data-game="minigolf"] .cc-look{grid-column:2;grid-row:4}
+ .cc[data-game="minigolf"] .cc-ok{grid-column:2;grid-row:5}
+ .cc[data-game="minigolf"] .cc-ab-text{font-size:12px}
+ .cc[data-game="minigolf"] .cc-ab-name{font-size:17px}
+ .cc[data-game="minigolf"] .cc-act{font-size:12px}
+ .cc[data-game="minigolf"] .cc-key{font-size:16px}
+}

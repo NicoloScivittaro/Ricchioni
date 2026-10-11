@@ -135,7 +135,7 @@ export function failAbility(msg: AbilityFailMsg, vibrate: (p: number | number[])
  * HTML della card per il gioco in corso e il giocatore. null = nessuna abilita' nel catalogo (gioco senza abilita' / personaggio
  * mancante): il chiamante ricade sulla schermata semplice USA IL CONTROLLER.
  */
-export function companionHtml(minigameId: string, me: PlayerPublic, minigameName: string): string | null {
+export function companionHtml(minigameId: string, me: PlayerPublic, minigameName: string, spectating=false): string | null {
   const ch = me.characterId ? CHARACTERS[me.characterId] : null;
   const ab = abilityFor(minigameId, me.characterId);
   const def = getMinigame(minigameId);
@@ -154,7 +154,7 @@ export function companionHtml(minigameId: string, me: PlayerPublic, minigameName
   const s = current();
   const shown: AbilityStatus = s ?? { state: 'READY' };
   return `
-    <div class="screen pad-screen cc" style="--cc-accent:${accent}">
+    <div class="screen pad-screen cc" data-game="${esc(minigameId)}" style="--cc-accent:${accent}">
       <div class="cc-head">
         <div class="cc-portrait" style="${portraitCss(me.characterId, 52)}"></div>
         <div class="cc-who"><div class="cc-char">${esc(ch.roleTitle)}</div><div class="cc-game">${esc(def.icon ?? '')} ${esc(minigameName)}</div></div>
@@ -170,12 +170,13 @@ export function companionHtml(minigameId: string, me: PlayerPublic, minigameName
         <div class="cc-meter" id="cc-meter" style="display:${shown.state === 'CHARGING' ? 'block' : 'none'}"><i></i></div>
         <div class="cc-status" id="cc-status" data-state="${shown.state.toLowerCase()}">${esc(stateLabel(shown))}</div>
       </div>
+      ${minigameId==='minigolf'?'<p id="golf-companion-status" class="cc-ab-text" aria-live="polite">ATTENDI IL VIA</p>':''}
       <div class="cc-controls">
         <div class="cc-title">COMANDI</div>
         ${rows}
         ${minigameId==='arena'?'<p class="cc-ab-text">Tocca: spinta. Tieni e rilascia: spallata. Instabilità alta = voli più lontano. Evita gli scontri per recuperare; attento al bordo!</p>':''}
       </div>
-      <p class="cc-look">🎮 USA IL CONTROLLER · ${minigameId === 'fps' ? 'GUARDA LA TUA FINESTRA SULLA TV' : 'GUARDA LA TV'}</p>
-      <p class="cc-ok">✅ CONTROLLER CONNESSO${me.pad ? ` · ${esc(me.pad)}` : ''}</p>
+      <p class="cc-look">${spectating?'IN ATTESA DEL TUO TURNO · GUARDA LA TV':`🎮 USA IL CONTROLLER · ${minigameId === 'fps' ? 'GUARDA LA TUA FINESTRA SULLA TV' : 'GUARDA LA TV'}`}</p>
+      <p class="cc-ok">${spectating?'LA TUA PALLINA RESTA SULLA PISTA':`✅ CONTROLLER CONNESSO${me.pad ? ` · ${esc(me.pad)}` : ''}`}</p>
     </div>`;
 }

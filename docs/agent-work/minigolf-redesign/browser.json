@@ -1,0 +1,1245 @@
+{
+  "errors": [],
+  "controls": [
+    "Xbox",
+    "PlayStation",
+    "Generic"
+  ],
+  "courses": [
+    {
+      "id": "corridoio",
+      "x": 0.5000000083231708,
+      "y": 0.7247393162708621,
+      "z": 0.9893528429120575,
+      "eye": {
+        "x": -1.6000000000000005,
+        "y": 2.0020000000000002,
+        "z": 14.35
+      },
+      "ball": {
+        "x": -1.6,
+        "y": 0.28,
+        "z": 11
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "rotonda",
+      "x": 0.5000000083231708,
+      "y": 0.7247393162708621,
+      "z": 0.9893528429120575,
+      "eye": {
+        "x": -1.6000000000000005,
+        "y": 2.0020000000000002,
+        "z": 14.35
+      },
+      "ball": {
+        "x": -1.6,
+        "y": 0.28,
+        "z": 11
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "ponte",
+      "x": 0.5000000083231708,
+      "y": 0.7247393162708621,
+      "z": 0.9893528429120575,
+      "eye": {
+        "x": -1.6000000000000005,
+        "y": 2.0020000000000002,
+        "z": 14.35
+      },
+      "ball": {
+        "x": -1.6,
+        "y": 0.28,
+        "z": 11
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "flipper",
+      "x": 0.5000000083231708,
+      "y": 0.7247393162708621,
+      "z": 0.9893528429120575,
+      "eye": {
+        "x": -1.6000000000000005,
+        "y": 2.0020000000000002,
+        "z": 14.35
+      },
+      "ball": {
+        "x": -1.6,
+        "y": 0.28,
+        "z": 11
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "discesa",
+      "x": 0.4999998812085992,
+      "y": 0.7247392873730742,
+      "z": 0.9893529806382438,
+      "eye": {
+        "x": -1.6000000000000005,
+        "y": 5.002000000000001,
+        "z": 14.35
+      },
+      "ball": {
+        "x": -1.6,
+        "y": 3.2800000000000002,
+        "z": 11
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "ultima",
+      "x": 0.5000000083231708,
+      "y": 0.7247393162708621,
+      "z": 0.9893528429120575,
+      "eye": {
+        "x": -1.6000000000000005,
+        "y": 2.0020000000000002,
+        "z": 14.35
+      },
+      "ball": {
+        "x": -1.6,
+        "y": 0.28,
+        "z": 11
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    }
+  ],
+  "resolutions": [
+    {
+      "width": 1280,
+      "height": 720,
+      "x": 0.49999988428524544,
+      "y": 0.7247394292461167,
+      "z": 0.9893527674245592,
+      "eye": {
+        "x": -4.46491273570596,
+        "y": 2.0020000000000002,
+        "z": 12.736310748912704
+      },
+      "ball": {
+        "x": -1.6,
+        "y": 0.28,
+        "z": 11
+      },
+      "heading": 2.1156602422464403,
+      "orbit": 0
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "x": 0.4999999923708252,
+      "y": 0.7247394468640361,
+      "z": 0.9893527674245592,
+      "eye": {
+        "x": -4.46491273570596,
+        "y": 2.0020000000000002,
+        "z": 12.736310748912704
+      },
+      "ball": {
+        "x": -1.6,
+        "y": 0.28,
+        "z": 11
+      },
+      "heading": 2.1156602422464403,
+      "orbit": 0
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "x": 0.49999988773973963,
+      "y": 0.7247394279410855,
+      "z": 0.9893527674245592,
+      "eye": {
+        "x": -4.46491273570596,
+        "y": 2.0020000000000002,
+        "z": 12.736310748912704
+      },
+      "ball": {
+        "x": -1.6,
+        "y": 0.28,
+        "z": 11
+      },
+      "heading": 2.1156602422464403,
+      "orbit": 0
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "x": 0.49999975956073905,
+      "y": 0.7247393745269314,
+      "z": 0.9893527674245592,
+      "eye": {
+        "x": -4.46491273570596,
+        "y": 2.0020000000000002,
+        "z": 12.736310748912704
+      },
+      "ball": {
+        "x": -1.6,
+        "y": 0.28,
+        "z": 11
+      },
+      "heading": 2.1156602422464403,
+      "orbit": 0
+    }
+  ],
+  "camera": [
+    {
+      "id": "corridoio",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "rotonda",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "ponte",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "flipper",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "discesa",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.95299709542956
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.95299709542956
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "ultima",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 2.2002003244004618
+        },
+        {
+          "clear": true,
+          "distance": 2.200202107021898
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 2.2002003244004618
+        },
+        {
+          "clear": true,
+          "distance": 2.200202107021898
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    }
+  ],
+  "phoneViews": [
+    {
+      "width": 390,
+      "height": 800,
+      "scroll": 0,
+      "buttons": [
+        {
+          "w": 145,
+          "h": 115,
+          "bottom": 370.40625
+        },
+        {
+          "w": 145,
+          "h": 51,
+          "bottom": 429.40625
+        },
+        {
+          "w": 145,
+          "h": 70,
+          "bottom": 507.40625
+        },
+        {
+          "w": 145,
+          "h": 70,
+          "bottom": 585.40625
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "height": 640,
+      "scroll": 0,
+      "buttons": [
+        {
+          "w": 140.40625,
+          "h": 115,
+          "bottom": 281.3125
+        },
+        {
+          "w": 140.40625,
+          "h": 51,
+          "bottom": 340.3125
+        },
+        {
+          "w": 140.40625,
+          "h": 70,
+          "bottom": 418.3125
+        },
+        {
+          "w": 140.40625,
+          "h": 70,
+          "bottom": 496.3125
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "scroll": 0,
+      "buttons": [
+        {
+          "w": 140.40625,
+          "h": 127,
+          "bottom": 241.90625
+        },
+        {
+          "w": 140.40625,
+          "h": 51,
+          "bottom": 165.90625
+        },
+        {
+          "w": 140.40625,
+          "h": 70,
+          "bottom": 241.90625
+        },
+        {
+          "w": 286.8125,
+          "h": 70,
+          "bottom": 317.90625
+        }
+      ]
+    }
+  ],
+  "controlsScreen": "⛳ MINIGOLF DEI DISAGIATI 🎮 CONTROLLI LEFT STICK ORIENTA IL TIRO RIGHT STICK RUOTA LA VISUALE Y / △ TIENI: PANORAMICA DELLA PISTA A / ✕ TIENI: CARICA · RILASCIA: TIRA B / ◯ ANNULLA LA CARICA RB / R1 ⚡ ABILITÀ ⚡ ABILITÀ · RB / R1 GOBLIN MBRIACONE N'CULO, DE SPONDA! Il primo rimbalzo statico del prossimo tiro è più energico. BOSCHI TU QUA NON ENTRI! Piazzi un bumper temporaneo davanti alla pallina: respinge anche te. DOTTORE SCEMO M'HO SVEJATO Previsione lunga delle sponde statiche: mobile e palline esclusi. Carbo NO, ASPETTA! Freni la tua pallina mentre rotola. Scegli bene il momento. 20c NAPOLETANO STEMPIATO PAGO DOMANI Tiro potente: imbuca subito per abbuonarlo, altrimenti +1 colpo. 📱 Chi non ha il controller gioca col telefono",
+  "frameCadences": [
+    {
+      "hz": 30,
+      "x": 2.756718710828234,
+      "z": -5.783593554141124,
+      "vx": 1.0551048070433346,
+      "vz": -5.275524035216681
+    },
+    {
+      "hz": 60,
+      "x": 2.756718710828234,
+      "z": -5.783593554141124,
+      "vx": 1.0551048070433346,
+      "vz": -5.275524035216681
+    },
+    {
+      "hz": 120,
+      "x": 2.756718710828234,
+      "z": -5.783593554141124,
+      "vx": 1.0551048070433346,
+      "vz": -5.275524035216681
+    }
+  ],
+  "companionViews": [
+    {
+      "width": 390,
+      "height": 800,
+      "visible": [
+        {
+          "top": 64,
+          "bottom": 116,
+          "text": "\n        \n        IL NAPOLETANO STEMPIAT"
+        },
+        {
+          "top": 124,
+          "bottom": 332.625,
+          "text": "\n        \n          20c\n          PAGO D"
+        },
+        {
+          "top": 346.625,
+          "bottom": 398.4375,
+          "text": "TURNO: Carbo · 5.4 s · TU: 0/5 COLPI · 1"
+        },
+        {
+          "top": 412.4375,
+          "bottom": 582.4375,
+          "text": "\n        COMANDI\n        LEFT STICKORIEN"
+        },
+        {
+          "top": 615.4375,
+          "bottom": 630.4375,
+          "text": "LA TUA PALLINA RESTA SULLA PISTA"
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "height": 640,
+      "visible": [
+        {
+          "top": 64,
+          "bottom": 116,
+          "text": "\n        \n        IL NAPOLETANO STEMPIAT"
+        },
+        {
+          "top": 122,
+          "bottom": 290.078125,
+          "text": "\n        \n          20c\n          PAGO D"
+        },
+        {
+          "top": 302.078125,
+          "bottom": 348.796875,
+          "text": "TURNO: Carbo · 5.4 s · TU: 0/5 COLPI · 1"
+        },
+        {
+          "top": 360.796875,
+          "bottom": 516.796875,
+          "text": "\n        COMANDI\n        LEFT STICKORIEN"
+        },
+        {
+          "top": 545.796875,
+          "bottom": 560.796875,
+          "text": "LA TUA PALLINA RESTA SULLA PISTA"
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "visible": [
+        {
+          "top": 44,
+          "bottom": 96,
+          "text": "\n        \n        IL NAPOLETANO STEMPIAT"
+        },
+        {
+          "top": 100,
+          "bottom": 281.078125,
+          "text": "\n        \n          20c\n          PAGO D"
+        },
+        {
+          "top": 289.28125,
+          "bottom": 336,
+          "text": "TURNO: Carbo · 5.4 s · TU: 0/5 COLPI · 1"
+        },
+        {
+          "top": 100,
+          "bottom": 270,
+          "text": "\n        COMANDI\n        LEFT STICKORIEN"
+        },
+        {
+          "top": 367,
+          "bottom": 382,
+          "text": "LA TUA PALLINA RESTA SULLA PISTA"
+        }
+      ]
+    }
+  ],
+  "bounce": {
+    "heading": 1.5707963267948966,
+    "vx": -5.1111660399879755,
+    "bounces": 1
+  },
+  "collision": {
+    "victimStrokes": 0,
+    "victimZ": -0.33198530141772753,
+    "stage": "rolling",
+    "active": 0
+  },
+  "abilities": [
+    {
+      "character": "goblin",
+      "used": true,
+      "armed": "bounce",
+      "extras": 0,
+      "speed": 0
+    },
+    {
+      "character": "buttafuori",
+      "used": true,
+      "armed": null,
+      "extras": 1,
+      "speed": 0
+    },
+    {
+      "character": "dottore",
+      "used": true,
+      "armed": null,
+      "extras": 0,
+      "speed": 0
+    },
+    {
+      "character": "judoka",
+      "used": true,
+      "armed": null,
+      "extras": 0,
+      "speed": 0.5154999999999953
+    },
+    {
+      "character": "ciro",
+      "used": true,
+      "armed": "power",
+      "extras": 0,
+      "speed": 0
+    }
+  ],
+  "ramp": {
+    "y": 2.0806069335937347,
+    "grounded": false,
+    "heading": 3.141592653589793
+  },
+  "closeWall": {
+    "x": 0.5000000853890796,
+    "y": 0.8106008325433117,
+    "z": 0.981237074031871,
+    "eye": {
+      "x": -3.673940397442059e-18,
+      "y": 2.4800000000000004,
+      "z": 13.53
+    },
+    "ball": {
+      "x": 0,
+      "y": 0.28,
+      "z": 13.5
+    },
+    "heading": 3.141592653589793,
+    "orbit": 0
+  },
+  "performance": {
+    "frames": 360,
+    "fps": 59.935223212787626,
+    "meshes": 524,
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "round": {
+    "ended": true,
+    "time": 63.39999999999704,
+    "courses": [
+      "ponte"
+    ],
+    "players": [
+      {
+        "id": "a930c777-fc2b-497d-b5ab-59b4ba265e82",
+        "total": 3,
+        "completed": 1,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 2.1666666666666616
+          }
+        ]
+      },
+      {
+        "id": "06bd9279-7312-4131-99e5-2c2314af78fc",
+        "total": 9,
+        "completed": 0,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 9,
+            "penalties": 4,
+            "completed": false,
+            "seconds": 4.141666666666662
+          }
+        ]
+      },
+      {
+        "id": "edc78c78-8cdd-4e13-a3a3-c19404b4f9bd",
+        "total": 5,
+        "completed": 1,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 2.999999999999992
+          }
+        ]
+      },
+      {
+        "id": "8148fd04-ad29-476f-83d5-3661e27077ee",
+        "total": 4,
+        "completed": 1,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 2.308333333333328
+          }
+        ]
+      },
+      {
+        "id": "64653029-3e8b-4f8a-bff4-60fc80922b8b",
+        "total": 4,
+        "completed": 1,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 4,
+            "penalties": 1,
+            "completed": true,
+            "seconds": 1.799999999999996
+          }
+        ]
+      }
+    ]
+  }
+}

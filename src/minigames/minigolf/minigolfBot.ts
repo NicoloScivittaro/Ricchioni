@@ -2,6 +2,17 @@ import {GOLF} from './minigolfTypes';
 import type {GolfPlayer,Course} from './minigolfTypes';
 import type {GolfCommand} from './minigolfRules';
 import {speed} from './minigolfPhysics';
+import {supportAt,heightAt} from './minigolfCourses';
+function clearRoute(c:Course,a:{x:number;z:number},b:{x:number;z:number}):boolean {
+ const start=supportAt(c,a,0);if(!start)return false;
+ const n=Math.ceil(Math.hypot(b.x-a.x,b.z-a.z)/.2);let previous=heightAt(start,a);
+ for(let i=1;i<=n;i++){const q={x:a.x+(b.x-a.x)*i/n,z:a.z+(b.z-a.z)*i/n},f=supportAt(c,q,0);if(!f)return false;
+  const y=heightAt(f,q);if(y-previous>.16)return false;previous=y;
+  if(c.bumpers.some(p=>Math.hypot(q.x-p.x,q.z-p.z)<p.radius+GOLF.radius+.12))return false;
+  for(const w of c.walls.filter(w=>!w.rotation)){const dx=w.b.x-w.a.x,dz=w.b.z-w.a.z,t=Math.max(0,Math.min(1,((q.x-w.a.x)*dx+(q.z-w.a.z)*dz)/(dx*dx+dz*dz||1)));
+   if(Math.abs(y-w.y)<.7&&Math.hypot(q.x-w.a.x-dx*t,q.z-w.a.z-dz*t)<GOLF.radius+w.radius+.12)return false;}
+ }return true;
+}
 /** Waypoints + imperfect distance estimate, no access to future balls/mobile obstacles. */
 export class MinigolfBot {
  private states=new Map<string,{course:string;waypoint:number;wait:number;power:number;error:number}>();
@@ -11,8 +22,10 @@ export class MinigolfBot {
   if(!s||s.course!==c.id){s={course:c.id,waypoint:0,wait:.3+this.next()*.65,power:.3,error:0};this.states.set(p.id,s);}
   const b=p.ball;let target=c.waypoints[s.waypoint]??c.hole;
   if(Math.hypot(b.x-target.x,b.z-target.z)<2&&s.waypoint<c.waypoints.length-1)target=c.waypoints[++s.waypoint];
+  // Skip redundant stops along a clear supported route; never predict moving arms or opponent balls.
+  if(b.grounded&&speed(b)<GOLF.readySpeed&&supportAt(c,b,0))for(let i=c.waypoints.length-1;i>s.waypoint;i--){if(clearRoute(c,b,c.waypoints[i])){s.waypoint=i;target=c.waypoints[i];break;}}
   // A fall can return to a checkpoint behind us: choose the nearest earlier waypoint when clearly displaced.
-  if(Math.hypot(b.x-target.x,b.z-target.z)>12&&s.waypoint>0){s.waypoint=0;target=c.waypoints[0];}
+  if(Math.hypot(b.x-target.x,b.z-target.z)>12&&s.waypoint>0&&!clearRoute(c,b,target)){s.waypoint=0;target=c.waypoints[0];}
   const dx=target.x-b.x,dz=target.z-b.z,distance=Math.hypot(dx,dz),angle=Math.atan2(dx,dz)+s.error;
   const cmd:GolfCommand={aim:{x:Math.sin(angle),z:Math.cos(angle)},pressed:false,released:false,held:false,cancel:false,ability:false,version:0};
   if(p.finished)return cmd;

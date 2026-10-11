@@ -1,46 +1,24 @@
 import assert from 'node:assert/strict';
-import {writeFileSync,readFileSync} from 'node:fs';
+import {mkdirSync,writeFileSync} from 'node:fs';
 import {launch,createRoomOnHost,addPhone,hostEval,hostSnapshot,sleep} from './lib.mjs';
-import {gameEval,startGame,until,watchControls,installMock,add,tap,XBOX,DS,GENERIC} from './padmock.mjs';
-const rows=process.env.GOLF_PLAYERS?JSON.parse(readFileSync('docs/agent-work/minigolf/natural-rounds.json','utf8')).filter(r=>!process.env.GOLF_PLAYERS.split(',').map(Number).includes(r.n)):[];const out='docs/agent-work/minigolf';
-for(const n of (process.env.GOLF_PLAYERS??'5,2,3,4').split(',').map(Number)){
- const browser=await launch();const errors=[];
+import {gameEval,startGame,until} from './padmock.mjs';
+const out='docs/agent-work/minigolf-redesign';mkdirSync(out,{recursive:true});const rows=[];
+for(const n of (process.env.GOLF_PLAYERS??'2,3,4,5').split(',').map(Number)){
+ const browser=await launch(),errors=[];
  try{
   const {page,code}=await createRoomOnHost(browser,{targetKeyPresses:n-2});page.on('pageerror',e=>errors.push(String(e)));
-  const phones=[];for(let i=0;i<n;i++){const p=await addPhone(browser,code,`Golfer${i+1}`,i);p.page.on('pageerror',e=>errors.push(String(e)));phones.push(p);}
-  const G=(f,a)=>gameEval(page,'minigolf',f,a);
-  if(n===5){await installMock(page);const ids=await hostEval(page,gm=>gm.state.players.map(p=>p.id));for(const [i,pad]of[XBOX,DS,GENERIC].entries()){await add(page,i,pad);await sleep(200);await page.evaluate(id=>window.__pads.setTarget(id),ids[i]);await tap(page,i,'A');}await page.evaluate(()=>window.__pads.setTarget(null));}
-  await watchControls(page);await startGame(page,'minigolf');await until(()=>G(g=>g.phase==='playing'),50000,'playing');
-  if(n===5){
-   await G(g=>{for(const [i,p]of g.players.entries()){Object.assign(p.ball,{x:-8+i*4,z:2,y:.28,vx:0,vy:0,vz:p.characterId==='judoka'?7:0,readyFor:1,grounded:true});p.used=false;p.blocked=false;p.charging=false;p.aim={x:0,z:-1};}});
-   for(let i=0;i<3;i++)await tap(page,i,'RB');
-   await G(g=>{const p=g.players[3];p.ball.x=6;p.ball.z=0;p.ball.vx=0;p.ball.vz=-5;});
-   for(const i of[3,4])await phones[i].page.click('#golf-ability');
-   console.log('ability fixture',JSON.stringify(await G(g=>g.players.map(p=>({char:p.characterId,used:p.used,speed:Math.hypot(p.ball.vx,p.ball.vz),armed:p.armed})))));
-   await until(()=>G(g=>g.players.every(p=>p.used)),5000,'all five abilities via actual inputs');
-   assert.equal(await G(g=>g.match.extras.length),1);
-   await until(()=>phones[0].page.evaluate(()=>document.querySelector('#cc-status')?.textContent.includes('ARMATO')),4000,'companion armed');
-   await until(()=>phones[3].page.evaluate(()=>document.querySelector('#golf-ability-status')?.textContent==='ESAURITA'),4000,'phone ability spent');
-   await phones[0].page.screenshot({path:`${out}/companion-ability.png`});await phones[3].page.screenshot({path:`${out}/phone-ability-spent.png`});
-   await G(g=>{g.players[2].charge=.6;g.players[2].charging=true;g.visuals.update(g.players,g.match.course,g.match.time,g.match.extras,.016);g.scene.render();});
-   await page.screenshot({path:`${out}/five-abilities.png`});
-   for(let i=0;i<3;i++)await tap(page,i,'RB');await sleep(200);assert.equal(await G(g=>g.match.extras.length),1,'no repeated resources');
-   // Start an untouched match after the ability fixture; no forced result or cup teleport.
-   await G(g=>{g.match=new g.match.constructor(g.ctx.players,()=>g.ctx.rng.next());g.courseIndex=-1;g.syncCourse();});
-  }
-  await G(g=>{for(const p of g.players)p.bot=true;});
-  let data;
-  for(let i=0;i<220;i++){
-   const sample=await G(g=>{for(let j=0;j<50&&!g.resultsSent;j++)g.step(.02);return window.__golfLast={ended:g.resultsSent,phase:g.phase,course:g.match.courseIndex,courses:g.match.courses.map(c=>c.id),players:g.players.map(p=>({id:p.id,total:p.total,pens:p.totalPenalties,completed:p.completed,records:p.records}))};});
-   if(sample)data=sample;else{assert.ok(await hostEval(page,gm=>gm.state.lastResults),'natural scene teardown');data=await page.evaluate(()=>window.__golfLast);data.ended=true;break;}
-   if(i===12)await page.screenshot({path:`${out}/natural-${n}p.png`});
-   if(data.ended)break;await sleep(25);
-  }
-  assert.ok(data.ended,`${n}p ended`);assert.ok(data.players.every(p=>p.records.length===3));assert.equal(new Set(data.courses).size,3);
-  await until(async()=>['ROUND_RESULTS','MATCH_END'].includes((await hostSnapshot(page)).phase),15000,'results');
-  const results=await hostEval(page,gm=>gm.state.lastResults.results);assert.equal(results.length,n);assert.deepEqual(results.map(r=>r.placement).sort(),Array.from({length:n},(_,i)=>i+1));
-  await sleep(6000);await page.screenshot({path:`${out}/results-${n}p.png`});
+  const phones=[];for(let i=0;i<n;i++)phones.push(await addPhone(browser,code,`Golfer${i+1}`,i));const G=(f,a)=>gameEval(page,'minigolf',f,a);
+  await startGame(page,'minigolf');await until(()=>G(g=>g.phase==='playing'),50000,'playing');
+  const first=await G(g=>({id:g.match.active.id,turn:g.match.turn,pos:{x:g.match.active.ball.x,z:g.match.active.ball.z}}));
+  await until(()=>G((g,t)=>g.match.turn>t,first.turn),10000,'natural six second timeout');
+  const timeout=await G((g,id)=>{const p=g.players.find(p=>p.id===id);return{strokes:p.strokes,x:p.ball.x,z:p.ball.z};},first.id);assert.equal(timeout.strokes,1);assert.equal(timeout.x,first.pos.x);assert.equal(timeout.z,first.pos.z);
+  await G(g=>{for(const p of g.players)p.bot=true;});let data;
+  for(let i=0;i<245;i++){const d=await G(g=>{for(let j=0;j<50&&!g.resultsSent;j++)g.step(.02);return window.__golfLast={ended:g.resultsSent,time:g.match.time,courses:g.match.courses.map(c=>c.id),players:g.players.map(p=>({id:p.id,total:p.total,penalties:p.totalPenalties,completed:p.completed,aimTime:p.completionTime,records:p.records}))};});
+   if(d)data=d;else{data=await page.evaluate(()=>window.__golfLast);data.ended=true;break;}if(data.ended)break;await sleep(20);}
+  assert.ok(data.ended);assert.equal(data.courses.length,1);assert.ok(data.players.every(p=>p.records.length===1));await until(async()=>['ROUND_RESULTS','MATCH_END'].includes((await hostSnapshot(page)).phase),15000,'natural ranking');
+  const results=await hostEval(page,gm=>gm.state.lastResults.results);assert.equal(results.length,n);assert.deepEqual(results.map(p=>p.placement).sort(),Array.from({length:n},(_,i)=>i+1));
+  await sleep(5500);await page.screenshot({path:`${out}/natural-results-${n}p.png`});const scores=await hostEval(page,gm=>gm.state.players.map(p=>p.score));assert.ok(scores.some(s=>s>0));
   await hostEval(page,gm=>gm.restartMatch());await until(async()=>(await hostSnapshot(page)).phase==='LOBBY',12000,'lobby');assert.equal(await page.evaluate(()=>document.querySelectorAll('canvas').length),1);assert.deepEqual(errors,[]);
-  rows.push({n,ok:true,...data,results,errors});console.log(`PASS ${n}p: three natural holes, ranking and lobby cleanup${n===5?', all abilities pad/phone, Companion and phone states':''}`);
+  rows.push({n,...data,timeout,results,scores,errors});console.log(`PASS ${n}p: timeout without movement, one natural course, full ranking, global points and lobby disposal.`);
  }finally{writeFileSync(`${out}/natural-rounds.json`,JSON.stringify(rows,null,2));await browser.close();}
 }
