@@ -38,7 +38,7 @@ export function hudPanel(name: string, w: string, h: string, border = 'rgba(255,
   r.height = h;
   r.thickness = 2;
   r.color = border;
-  r.background = `rgba(11,11,20,${UI.color.panelAlpha})`;
+  r.background = `rgba(16,27,43,${UI.color.panelAlpha})`;
   r.cornerRadius = UI.radius.m;
   r.isHitTestVisible = false;
   return r;

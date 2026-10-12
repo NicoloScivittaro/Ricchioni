@@ -3,6 +3,7 @@ import type { Scene } from '@babylonjs/core';
 import { FIELD_HALF_W, FIELD_HALF_D, GOAL_HALF_W, GOAL_DEPTH, TEAM_COLOR } from './soccerTypes';
 import { EnvKit, PAL, SIGN_FONT, seeded } from '../env/envKit';
 import type { Xf } from '../env/envKit';
+import { paintSurfaceDetail } from '../env/surfaceDetail';
 
 /**
  * CALCIO DEI DISAGIATI — campetto di periferia, calcetto serale (non uno stadio).
@@ -62,10 +63,11 @@ export function buildSoccerEnvironment(scene: Scene): SoccerEnvironment {
   // ---- CAMPO (gameplay: stesse misure) ----
   const floorTex = kit.texture('soccerTurf', 1024, 640, (c, w, h) => {
     for (let i = 0; i < 10; i++) {
-      c.fillStyle = i % 2 === 0 ? '#3a9a55' : '#348c4d';
+      c.fillStyle = i % 2 === 0 ? '#368c54' : '#2e7d4b';
       c.fillRect((w / 10) * i, 0, w / 10, h);
     }
     // fibre del sintetico (rumore leggerissimo)
+    paintSurfaceDetail(c, w, h, 'turf', 17);
     const r = seeded(17);
     c.fillStyle = 'rgba(255,255,255,0.035)';
     for (let i = 0; i < 1400; i++) c.fillRect(r() * w, r() * h, 2, 1);

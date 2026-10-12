@@ -2,6 +2,7 @@ import { Color3, DynamicTexture, Mesh, MeshBuilder, Scene, StandardMaterial, Vec
 import { ARENA_R, ARENA_R_MIN } from './arenaTypes';
 import { EnvKit, PAL, SIGN_FONT, seeded } from '../env/envKit';
 import type { Xf } from '../env/envKit';
+import { paintSurfaceDetail } from '../env/surfaceDetail';
 
 /**
  * ARENA DEL DISAGIO — show televisivo assurdo + arena sportiva + incontro clandestino (cartoon).
@@ -66,6 +67,13 @@ function floorTexture(kit: EnvKit): DynamicTexture {
     disc(0.7, '#41466d');
     disc(0.52, '#3a3f63');
     disc(0.34, '#454b75');
+    c.save();
+    c.beginPath(); c.arc(cx, cx, S * .4375, 0, Math.PI * 2); c.clip();
+    paintSurfaceDetail(c, S, S, 'stone', 11);
+    const sheen = c.createLinearGradient(0, 0, S, S);
+    sheen.addColorStop(0, 'rgba(165,192,240,0.12)'); sheen.addColorStop(1, 'rgba(5,12,30,0.14)');
+    c.fillStyle = sheen; c.fillRect(0, 0, S, S);
+    c.restore();
     // centro: medaglione con stella del DISAGIO
     disc(0.2, '#2b2f4c');
     c.strokeStyle = '#f4f1e8';

@@ -1,0 +1,89 @@
+{
+  "stage": "before",
+  "players": 2,
+  "quality": "medium",
+  "viewport": "1280x720",
+  "games": [
+    {
+      "id": "dodgeball",
+      "samples": [
+        {
+          "frames": 181,
+          "fps": 60.051093195434106,
+          "frameMsMedian": 16.69999999552965,
+          "frameMsP95": 17.700000002980232,
+          "cpuMsMean": 1.707734806926211,
+          "drawMean": 34,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "meshes": 142,
+          "materials": 61,
+          "textures": 30,
+          "lights": 3,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 181,
+          "fps": 59.9854179094881,
+          "frameMsMedian": 16.700000002980232,
+          "frameMsP95": 18.399999998509884,
+          "cpuMsMean": 1.4629834252332456,
+          "drawMean": 34,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "meshes": 142,
+          "materials": 61,
+          "textures": 30,
+          "lights": 3,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 180,
+          "fps": 60.150375939849624,
+          "frameMsMedian": 16.700000002980232,
+          "frameMsP95": 19.100000001490116,
+          "cpuMsMean": 1.5061111104985079,
+          "drawMean": 34,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "meshes": 142,
+          "materials": 61,
+          "textures": 30,
+          "lights": 3,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        }
+      ],
+      "cleanup": true
+    }
+  ],
+  "errors": [],
+  "ok": true
+}

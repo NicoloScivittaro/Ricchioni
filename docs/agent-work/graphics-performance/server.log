@@ -76,3 +76,687 @@
 17:47:52 [RECONNECT] [86UZ4] Boschi disconnesso (fase MINIGAME_PLAYING)
 17:47:52 [RECONNECT] [86UZ4] Niko disconnesso (fase MINIGAME_PLAYING)
 17:47:52 [RECONNECT] [86UZ4] host disconnesso (fase MINIGAME_PLAYING)
+17:49:27 [ROOM] [R9FVS] creata: 2 giocatori, target 60 (stanze attive 7)
+17:49:28 [ROOM] [R9FVS] entra Niko (1/2)
+17:49:30 [ROOM] [R9FVS] entra Boschi (2/2)
+17:49:31 [ROUND] [R9FVS] #1 (id 1) → fps · 2 giocatori
+17:49:31 [MINIGAME] [R9FVS] fps via (id 1)
+17:49:42 [RESULT] [R9FVS] fps · Niko +10, Boschi +5
+17:49:53 [ROUND] [R9FVS] #2 (id 2) → minigolf · 2 giocatori
+17:49:53 [ROOM] [R9FVS] nuova partita: punteggi azzerati, stessi giocatori
+17:49:54 [ROUND] [R9FVS] #1 (id 3) → cornicione · 2 giocatori
+17:49:54 [MINIGAME] [R9FVS] cornicione via (id 3)
+17:50:04 [RESULT] [R9FVS] cornicione · Niko +10, Boschi +5
+17:50:15 [ROUND] [R9FVS] #2 (id 4) → cultura · 2 giocatori
+17:50:15 [ROOM] [R9FVS] nuova partita: punteggi azzerati, stessi giocatori
+17:50:16 [ROUND] [R9FVS] #1 (id 5) → casacarbo · 2 giocatori
+17:50:16 [MINIGAME] [R9FVS] casacarbo via (id 5)
+17:50:26 [RESULT] [R9FVS] casacarbo · Niko +10, Boschi +5
+17:50:37 [ROUND] [R9FVS] #2 (id 6) → memory · 2 giocatori
+17:50:37 [ROOM] [R9FVS] nuova partita: punteggi azzerati, stessi giocatori
+17:50:38 [ROUND] [R9FVS] #1 (id 7) → minigolf [punti_doppi] · 2 giocatori
+17:50:38 [MINIGAME] [R9FVS] minigolf via (id 7)
+17:50:48 [RESULT] [R9FVS] minigolf · Niko +20, Boschi +10 (punti doppi)
+17:50:59 [ROUND] [R9FVS] #2 (id 8) → reaction · 2 giocatori
+17:50:59 [ROOM] [R9FVS] nuova partita: punteggi azzerati, stessi giocatori
+17:51:00 [ROUND] [R9FVS] #1 (id 9) → geofall · 2 giocatori
+17:51:00 [MINIGAME] [R9FVS] geofall via (id 9)
+17:51:10 [RESULT] [R9FVS] geofall · Niko +10, Boschi +5
+17:51:21 [ROUND] [R9FVS] #2 (id 10) → backrooms · 2 giocatori
+17:51:21 [ROOM] [R9FVS] nuova partita: punteggi azzerati, stessi giocatori
+17:51:22 [ROUND] [R9FVS] #1 (id 11) → backrooms · 2 giocatori
+17:51:22 [MINIGAME] [R9FVS] backrooms via (id 11)
+17:51:32 [RESULT] [R9FVS] backrooms · Niko +10, Boschi +5
+17:51:43 [ROUND] [R9FVS] #2 (id 12) → quiz · 2 giocatori
+17:51:44 [RECONNECT] [R9FVS] Boschi disconnesso (fase MINIGAME_ROULETTE)
+17:51:44 [RECONNECT] [R9FVS] Niko disconnesso (fase MINIGAME_ROULETTE)
+17:51:44 [RECONNECT] [R9FVS] host disconnesso (fase MINIGAME_ROULETTE)
+17:51:53 [MINIGAME] [R9FVS] quiz via (id 12)
+17:52:42 [MINIGAME] [86UZ4] fps saltato senza punti (fase MINIGAME_PLAYING)
+17:52:42 [ROUND] [86UZ4] #1 (id 20) → kart3d · 2 giocatori
+17:52:49 [ROOM] [9TVP6] creata: 5 giocatori, target 60 (stanze attive 8)
+17:52:50 [ROOM] [9TVP6] entra Niko (1/5)
+17:52:52 [ROOM] [9TVP6] entra Boschi (2/5)
+17:52:52 [MINIGAME] [86UZ4] kart3d via (id 20)
+17:52:52 [ROOM] [9TVP6] entra Dottore (3/5)
+17:52:54 [ROOM] [9TVP6] entra Carbo (4/5)
+17:52:54 [ROOM] [9TVP6] entra Ciro (5/5)
+17:52:55 [ROUND] [9TVP6] #1 (id 1) → quiz · 5 giocatori
+17:52:55 [MINIGAME] [9TVP6] quiz via (id 1)
+17:53:04 [RESULT] [9TVP6] quiz · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+17:53:18 [ROUND] [9TVP6] #2 (id 2) → soccer · 5 giocatori
+17:53:18 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:53:19 [ROUND] [9TVP6] #1 (id 3) → reaction · 5 giocatori
+17:53:19 [MINIGAME] [9TVP6] reaction via (id 3)
+17:53:28 [RESULT] [9TVP6] reaction · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+17:53:42 [ROUND] [9TVP6] #2 (id 4) → quiz · 5 giocatori
+17:53:42 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:53:42 [ROUND] [9TVP6] #1 (id 5) → memory [punti_doppi] · 5 giocatori
+17:53:42 [MINIGAME] [9TVP6] memory via (id 5)
+17:53:51 [RESULT] [9TVP6] memory · Niko +20, Boschi +14, Dottore +10, Carbo +6, Ciro +2 (punti doppi)
+17:54:05 [ROUND] [9TVP6] #2 (id 6) → reaction · 5 giocatori
+17:54:05 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:54:06 [ROUND] [9TVP6] #1 (id 7) → arena · 5 giocatori
+17:54:06 [MINIGAME] [9TVP6] arena via (id 7)
+17:54:18 [RESULT] [9TVP6] arena · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+17:54:31 [ROUND] [9TVP6] #2 (id 8) → reaction [punti_doppi] · 5 giocatori
+17:54:32 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:54:32 [ROUND] [9TVP6] #1 (id 9) → dodgeball · 5 giocatori
+17:54:32 [MINIGAME] [9TVP6] dodgeball via (id 9)
+17:54:43 [RESULT] [9TVP6] dodgeball · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+17:54:56 [ROUND] [9TVP6] #2 (id 10) → backrooms · 5 giocatori
+17:54:58 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:54:59 [ROUND] [9TVP6] #1 (id 11) → soccer · 5 giocatori
+17:54:59 [MINIGAME] [9TVP6] soccer via (id 11)
+17:55:11 [RESULT] [9TVP6] soccer · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+17:55:25 [ROUND] [9TVP6] #2 (id 12) → kart3d · 5 giocatori
+17:55:25 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:55:26 [ROUND] [9TVP6] #1 (id 13) → volleyball [gravita_bassa] · 5 giocatori
+17:55:26 [MINIGAME] [9TVP6] volleyball via (id 13)
+17:55:40 [RESULT] [9TVP6] volleyball · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+17:55:54 [ROUND] [9TVP6] #2 (id 14) → backrooms · 5 giocatori
+17:55:54 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:55:55 [ROUND] [9TVP6] #1 (id 15) → kart3d [punti_doppi] · 5 giocatori
+17:55:55 [MINIGAME] [9TVP6] kart3d via (id 15)
+17:56:08 [RESULT] [9TVP6] kart3d · Niko +20, Boschi +14, Dottore +10, Carbo +6, Ciro +2 (punti doppi)
+17:56:21 [ROUND] [9TVP6] #2 (id 16) → cornicione · 5 giocatori
+17:56:21 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:56:22 [ROUND] [9TVP6] #1 (id 17) → cultura · 5 giocatori
+17:56:22 [MINIGAME] [9TVP6] cultura via (id 17)
+17:56:31 [RESULT] [9TVP6] cultura · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+17:56:45 [ROUND] [9TVP6] #2 (id 18) → reaction · 5 giocatori
+17:56:45 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:56:45 [ROUND] [9TVP6] #1 (id 19) → fps [punti_doppi] · 5 giocatori
+17:56:45 [MINIGAME] [9TVP6] fps via (id 19)
+17:57:06 [RESULT] [9TVP6] fps · Niko +20, Boschi +14, Dottore +10, Carbo +6, Ciro +2 (punti doppi)
+17:57:20 [ROUND] [9TVP6] #2 (id 20) → kart3d · 5 giocatori
+17:57:20 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:57:21 [ROUND] [9TVP6] #1 (id 21) → cornicione · 5 giocatori
+17:57:22 [MINIGAME] [9TVP6] cornicione via (id 21)
+17:57:35 [RESULT] [9TVP6] cornicione · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+17:57:48 [ROUND] [9TVP6] #2 (id 22) → memory · 5 giocatori
+17:57:49 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:57:49 [ROUND] [9TVP6] #1 (id 23) → casacarbo · 5 giocatori
+17:57:49 [MINIGAME] [9TVP6] casacarbo via (id 23)
+17:58:03 [RESULT] [9TVP6] casacarbo · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+17:58:16 [ROUND] [9TVP6] #2 (id 24) → cultura · 5 giocatori
+17:58:17 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:58:17 [ROUND] [9TVP6] #1 (id 25) → minigolf · 5 giocatori
+17:58:18 [MINIGAME] [9TVP6] minigolf via (id 25)
+17:58:30 [RESULT] [9TVP6] minigolf · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+17:58:44 [ROUND] [9TVP6] #2 (id 26) → arena · 5 giocatori
+17:58:44 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:58:44 [ROUND] [9TVP6] #1 (id 27) → geofall [punti_doppi] · 5 giocatori
+17:58:44 [MINIGAME] [9TVP6] geofall via (id 27)
+17:58:57 [RESULT] [9TVP6] geofall · Niko +20, Boschi +14, Dottore +10, Carbo +6, Ciro +2 (punti doppi)
+17:59:11 [ROUND] [9TVP6] #2 (id 28) → memory · 5 giocatori
+17:59:11 [ROOM] [9TVP6] nuova partita: punteggi azzerati, stessi giocatori
+17:59:11 [ROUND] [9TVP6] #1 (id 29) → backrooms [punti_doppi] · 5 giocatori
+17:59:12 [MINIGAME] [9TVP6] backrooms via (id 29)
+17:59:27 [RESULT] [9TVP6] backrooms · Niko +20, Boschi +14, Dottore +10, Carbo +6, Ciro +2 (punti doppi)
+17:59:41 [ROUND] [9TVP6] #2 (id 30) → dodgeball [punti_doppi] · 5 giocatori
+17:59:42 [RECONNECT] [9TVP6] Carbo disconnesso (fase MINIGAME_ROULETTE)
+17:59:42 [RECONNECT] [9TVP6] Dottore disconnesso (fase MINIGAME_ROULETTE)
+17:59:42 [RECONNECT] [9TVP6] Ciro disconnesso (fase MINIGAME_ROULETTE)
+17:59:42 [RECONNECT] [9TVP6] Niko disconnesso (fase MINIGAME_ROULETTE)
+17:59:42 [RECONNECT] [9TVP6] Boschi disconnesso (fase MINIGAME_ROULETTE)
+17:59:42 [RECONNECT] [9TVP6] host disconnesso (fase MINIGAME_ROULETTE)
+17:59:50 [MINIGAME] [9TVP6] dodgeball via (id 30)
+17:59:53 [MINIGAME] [R9FVS] quiz saltato senza punti (fase MINIGAME_PLAYING)
+17:59:53 [ROUND] [R9FVS] #2 (id 13) → geofall · 2 giocatori
+18:00:03 [MINIGAME] [R9FVS] geofall via (id 13)
+18:00:52 [MINIGAME] [86UZ4] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:00:52 [ROUND] [86UZ4] #1 (id 21) → dodgeball · 2 giocatori
+18:01:01 [MINIGAME] [86UZ4] dodgeball via (id 21)
+18:02:24 [ROOM] [8VJ6L] creata: 2 giocatori, target 60 (stanze attive 9)
+18:02:24 [ROOM] [8VJ6L] entra Niko (1/2)
+18:02:25 [ROOM] [8VJ6L] entra Boschi (2/2)
+18:02:26 [ROUND] [8VJ6L] #1 (id 1) → quiz · 2 giocatori
+18:02:26 [MINIGAME] [8VJ6L] quiz via (id 1)
+18:02:35 [RESULT] [8VJ6L] quiz · Niko +10, Boschi +5
+18:02:46 [ROUND] [8VJ6L] #2 (id 2) → cornicione · 2 giocatori
+18:02:46 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:02:47 [ROUND] [8VJ6L] #1 (id 3) → reaction [punti_doppi] · 2 giocatori
+18:02:47 [MINIGAME] [8VJ6L] reaction via (id 3)
+18:02:56 [RESULT] [8VJ6L] reaction · Niko +20, Boschi +10 (punti doppi)
+18:03:07 [ROUND] [8VJ6L] #2 (id 4) → kart3d · 2 giocatori
+18:03:07 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:03:08 [ROUND] [8VJ6L] #1 (id 5) → memory · 2 giocatori
+18:03:08 [MINIGAME] [8VJ6L] memory via (id 5)
+18:03:17 [RESULT] [8VJ6L] memory · Niko +10, Boschi +5
+18:03:28 [ROUND] [8VJ6L] #2 (id 6) → soccer · 2 giocatori
+18:03:28 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:03:28 [ROUND] [8VJ6L] #1 (id 7) → arena · 2 giocatori
+18:03:29 [MINIGAME] [8VJ6L] arena via (id 7)
+18:03:39 [RESULT] [8VJ6L] arena · Niko +10, Boschi +5
+18:03:50 [ROUND] [8VJ6L] #2 (id 8) → kart3d [controlli_invertiti] · 2 giocatori
+18:03:50 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:03:51 [ROUND] [8VJ6L] #1 (id 9) → dodgeball [punti_doppi] · 2 giocatori
+18:03:51 [MINIGAME] [8VJ6L] dodgeball via (id 9)
+18:03:52 [MINIGAME] [9TVP6] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+18:03:52 [ROUND] [9TVP6] #2 (id 31) → cornicione · 5 giocatori
+18:04:00 [RESULT] [8VJ6L] dodgeball · Niko +20, Boschi +10 (punti doppi)
+18:04:02 [MINIGAME] [9TVP6] cornicione via (id 31)
+18:04:11 [ROUND] [8VJ6L] #2 (id 10) → reaction · 2 giocatori
+18:04:11 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:04:12 [ROUND] [8VJ6L] #1 (id 11) → soccer [punti_doppi] · 2 giocatori
+18:04:12 [MINIGAME] [8VJ6L] soccer via (id 11)
+18:04:22 [RESULT] [8VJ6L] soccer · Niko +20, Boschi +10 (punti doppi)
+18:04:33 [ROUND] [8VJ6L] #2 (id 12) → memory · 2 giocatori
+18:04:33 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:04:34 [ROUND] [8VJ6L] #1 (id 13) → volleyball · 2 giocatori
+18:04:34 [MINIGAME] [8VJ6L] volleyball via (id 13)
+18:04:43 [RESULT] [8VJ6L] volleyball · Niko +10, Boschi +5
+18:04:54 [ROUND] [8VJ6L] #2 (id 14) → kart3d · 2 giocatori
+18:04:54 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:04:54 [ROUND] [8VJ6L] #1 (id 15) → kart3d · 2 giocatori
+18:04:55 [MINIGAME] [8VJ6L] kart3d via (id 15)
+18:05:01 [MINIGAME] [86UZ4] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+18:05:01 [ROUND] [86UZ4] #1 (id 22) → quiz · 2 giocatori
+18:05:04 [RESULT] [8VJ6L] kart3d · Niko +10, Boschi +5
+18:05:11 [MINIGAME] [86UZ4] quiz via (id 22)
+18:05:15 [ROUND] [8VJ6L] #2 (id 16) → volleyball · 2 giocatori
+18:05:16 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:05:16 [ROUND] [8VJ6L] #1 (id 17) → cultura · 2 giocatori
+18:05:16 [MINIGAME] [8VJ6L] cultura via (id 17)
+18:05:25 [RESULT] [8VJ6L] cultura · Niko +10, Boschi +5
+18:05:36 [ROUND] [8VJ6L] #2 (id 18) → quiz · 2 giocatori
+18:05:36 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:05:37 [ROUND] [8VJ6L] #1 (id 19) → fps [punti_doppi] · 2 giocatori
+18:05:37 [MINIGAME] [8VJ6L] fps via (id 19)
+18:05:47 [RESULT] [8VJ6L] fps · Niko +20, Boschi +10 (punti doppi)
+18:05:58 [ROUND] [8VJ6L] #2 (id 20) → quiz · 2 giocatori
+18:05:58 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:05:58 [ROUND] [8VJ6L] #1 (id 21) → cornicione · 2 giocatori
+18:05:58 [MINIGAME] [8VJ6L] cornicione via (id 21)
+18:06:08 [RESULT] [8VJ6L] cornicione · Niko +10, Boschi +5
+18:06:19 [ROUND] [8VJ6L] #2 (id 22) → cultura · 2 giocatori
+18:06:19 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:06:19 [ROUND] [8VJ6L] #1 (id 23) → casacarbo · 2 giocatori
+18:06:19 [MINIGAME] [8VJ6L] casacarbo via (id 23)
+18:06:29 [RESULT] [8VJ6L] casacarbo · Niko +10, Boschi +5
+18:06:40 [ROUND] [8VJ6L] #2 (id 24) → kart3d · 2 giocatori
+18:06:40 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:06:41 [ROUND] [8VJ6L] #1 (id 25) → minigolf · 2 giocatori
+18:06:41 [MINIGAME] [8VJ6L] minigolf via (id 25)
+18:06:50 [RESULT] [8VJ6L] minigolf · Niko +10, Boschi +5
+18:07:01 [ROUND] [8VJ6L] #2 (id 26) → geofall · 2 giocatori
+18:07:01 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:07:02 [ROUND] [8VJ6L] #1 (id 27) → geofall · 2 giocatori
+18:07:02 [MINIGAME] [8VJ6L] geofall via (id 27)
+18:07:11 [RESULT] [8VJ6L] geofall · Niko +10, Boschi +5
+18:07:22 [ROUND] [8VJ6L] #2 (id 28) → kart3d · 2 giocatori
+18:07:23 [ROOM] [8VJ6L] nuova partita: punteggi azzerati, stessi giocatori
+18:07:23 [ROUND] [8VJ6L] #1 (id 29) → backrooms [punti_doppi] · 2 giocatori
+18:07:23 [MINIGAME] [8VJ6L] backrooms via (id 29)
+18:07:33 [RESULT] [8VJ6L] backrooms · Niko +20, Boschi +10 (punti doppi)
+18:07:44 [ROUND] [8VJ6L] #2 (id 30) → fps · 2 giocatori
+18:07:45 [RECONNECT] [8VJ6L] Boschi disconnesso (fase MINIGAME_ROULETTE)
+18:07:45 [RECONNECT] [8VJ6L] Niko disconnesso (fase MINIGAME_ROULETTE)
+18:07:45 [RECONNECT] [8VJ6L] host disconnesso (fase MINIGAME_ROULETTE)
+18:07:49 [ROOM] [Y4876] creata: 5 giocatori, target 60 (stanze attive 10)
+18:07:50 [ROOM] [Y4876] entra Niko (1/5)
+18:07:50 [ROOM] [Y4876] entra Boschi (2/5)
+18:07:51 [ROOM] [Y4876] entra Dottore (3/5)
+18:07:52 [ROOM] [Y4876] entra Carbo (4/5)
+18:07:52 [ROOM] [Y4876] entra Ciro (5/5)
+18:07:53 [ROUND] [Y4876] #1 (id 1) → quiz · 5 giocatori
+18:07:53 [MINIGAME] [Y4876] quiz via (id 1)
+18:07:54 [MINIGAME] [8VJ6L] fps via (id 30)
+18:08:02 [RESULT] [Y4876] quiz · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:08:16 [ROUND] [Y4876] #2 (id 2) → kart3d · 5 giocatori
+18:08:16 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:08:18 [ROUND] [Y4876] #1 (id 3) → reaction · 5 giocatori
+18:08:18 [MINIGAME] [Y4876] reaction via (id 3)
+18:08:27 [RESULT] [Y4876] reaction · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:08:41 [ROUND] [Y4876] #2 (id 4) → kart3d [controlli_invertiti] · 5 giocatori
+18:08:41 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:08:41 [ROUND] [Y4876] #1 (id 5) → memory · 5 giocatori
+18:08:42 [MINIGAME] [Y4876] memory via (id 5)
+18:08:51 [RESULT] [Y4876] memory · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:09:04 [ROUND] [Y4876] #2 (id 6) → dodgeball · 5 giocatori
+18:09:05 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:09:05 [ROUND] [Y4876] #1 (id 7) → arena · 5 giocatori
+18:09:05 [MINIGAME] [Y4876] arena via (id 7)
+18:09:17 [RESULT] [Y4876] arena · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:09:30 [ROUND] [Y4876] #2 (id 8) → memory · 5 giocatori
+18:09:31 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:09:31 [ROUND] [Y4876] #1 (id 9) → dodgeball · 5 giocatori
+18:09:31 [MINIGAME] [Y4876] dodgeball via (id 9)
+18:09:42 [RESULT] [Y4876] dodgeball · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:09:55 [ROUND] [Y4876] #2 (id 10) → reaction · 5 giocatori
+18:09:56 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:09:56 [ROUND] [Y4876] #1 (id 11) → soccer · 5 giocatori
+18:09:56 [MINIGAME] [Y4876] soccer via (id 11)
+18:10:07 [RESULT] [Y4876] soccer · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:10:21 [ROUND] [Y4876] #2 (id 12) → geofall · 5 giocatori
+18:10:21 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:10:22 [ROUND] [Y4876] #1 (id 13) → volleyball · 5 giocatori
+18:10:22 [MINIGAME] [Y4876] volleyball via (id 13)
+18:10:35 [RESULT] [Y4876] volleyball · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:10:49 [ROUND] [Y4876] #2 (id 14) → kart3d [punti_doppi] · 5 giocatori
+18:10:49 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:10:50 [ROUND] [Y4876] #1 (id 15) → kart3d · 5 giocatori
+18:10:50 [MINIGAME] [Y4876] kart3d via (id 15)
+18:11:02 [MINIGAME] [9TVP6] cornicione saltato senza punti (fase MINIGAME_PLAYING)
+18:11:02 [ROUND] [9TVP6] #2 (id 32) → memory · 5 giocatori
+18:11:06 [RESULT] [Y4876] kart3d · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:11:12 [MINIGAME] [9TVP6] memory via (id 32)
+18:11:19 [ROUND] [Y4876] #2 (id 16) → arena · 5 giocatori
+18:11:19 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:11:20 [ROUND] [Y4876] #1 (id 17) → cultura · 5 giocatori
+18:11:20 [MINIGAME] [Y4876] cultura via (id 17)
+18:11:29 [RESULT] [Y4876] cultura · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:11:43 [ROUND] [Y4876] #2 (id 18) → fps [punti_doppi] · 5 giocatori
+18:11:43 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:11:43 [ROUND] [Y4876] #1 (id 19) → fps · 5 giocatori
+18:11:44 [MINIGAME] [Y4876] fps via (id 19)
+18:12:04 [RESULT] [Y4876] fps · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:12:18 [ROUND] [Y4876] #2 (id 20) → reaction · 5 giocatori
+18:12:18 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:12:19 [ROUND] [Y4876] #1 (id 21) → cornicione [punti_doppi] · 5 giocatori
+18:12:19 [MINIGAME] [Y4876] cornicione via (id 21)
+18:12:30 [RESULT] [Y4876] cornicione · Niko +20, Boschi +14, Dottore +10, Carbo +6, Ciro +2 (punti doppi)
+18:12:43 [ROUND] [Y4876] #2 (id 22) → memory · 5 giocatori
+18:12:44 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:12:44 [ROUND] [Y4876] #1 (id 23) → casacarbo · 5 giocatori
+18:12:44 [MINIGAME] [Y4876] casacarbo via (id 23)
+18:12:54 [MINIGAME] [8VJ6L] fps saltato senza punti (fase MINIGAME_PLAYING)
+18:12:54 [ROUND] [8VJ6L] #2 (id 31) → reaction [punti_doppi] · 2 giocatori
+18:12:55 [RESULT] [Y4876] casacarbo · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:13:04 [MINIGAME] [8VJ6L] reaction via (id 31)
+18:13:08 [ROUND] [Y4876] #2 (id 24) → kart3d · 5 giocatori
+18:13:09 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:13:09 [ROUND] [Y4876] #1 (id 25) → minigolf · 5 giocatori
+18:13:09 [MINIGAME] [Y4876] minigolf via (id 25)
+18:13:11 [MINIGAME] [86UZ4] quiz saltato senza punti (fase MINIGAME_PLAYING)
+18:13:11 [ROUND] [86UZ4] #1 (id 23) → kart3d · 2 giocatori
+18:13:21 [MINIGAME] [86UZ4] kart3d via (id 23)
+18:13:22 [RESULT] [Y4876] minigolf · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:13:35 [ROUND] [Y4876] #2 (id 26) → kart3d · 5 giocatori
+18:13:36 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:13:36 [ROUND] [Y4876] #1 (id 27) → geofall · 5 giocatori
+18:13:36 [MINIGAME] [Y4876] geofall via (id 27)
+18:13:47 [RESULT] [Y4876] geofall · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:14:00 [ROUND] [Y4876] #2 (id 28) → arena [controlli_invertiti] · 5 giocatori
+18:14:01 [ROOM] [Y4876] nuova partita: punteggi azzerati, stessi giocatori
+18:14:01 [ROUND] [Y4876] #1 (id 29) → backrooms · 5 giocatori
+18:14:02 [MINIGAME] [Y4876] backrooms via (id 29)
+18:14:14 [RESULT] [Y4876] backrooms · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:14:28 [ROUND] [Y4876] #2 (id 30) → dodgeball · 5 giocatori
+18:14:29 [RECONNECT] [Y4876] Boschi disconnesso (fase MINIGAME_ROULETTE)
+18:14:29 [RECONNECT] [Y4876] Niko disconnesso (fase MINIGAME_ROULETTE)
+18:14:29 [RECONNECT] [Y4876] Dottore disconnesso (fase MINIGAME_ROULETTE)
+18:14:29 [RECONNECT] [Y4876] Carbo disconnesso (fase MINIGAME_ROULETTE)
+18:14:29 [RECONNECT] [Y4876] Ciro disconnesso (fase MINIGAME_ROULETTE)
+18:14:29 [RECONNECT] [Y4876] host disconnesso (fase MINIGAME_ROULETTE)
+18:14:38 [MINIGAME] [Y4876] dodgeball via (id 30)
+18:15:12 [MINIGAME] [9TVP6] memory saltato senza punti (fase MINIGAME_PLAYING)
+18:15:12 [ROUND] [9TVP6] #2 (id 33) → quiz · 5 giocatori
+18:15:21 [MINIGAME] [9TVP6] quiz via (id 33)
+18:16:04 [MINIGAME] [8VJ6L] reaction saltato senza punti (fase MINIGAME_PLAYING)
+18:16:04 [ROUND] [8VJ6L] #2 (id 32) → cultura · 2 giocatori
+18:16:13 [MINIGAME] [8VJ6L] cultura via (id 32)
+18:18:33 [ROOM] [4LLEL] creata: 2 giocatori, target 60 (stanze attive 11)
+18:18:34 [ROOM] [4LLEL] entra Niko (1/2)
+18:18:35 [ROOM] [4LLEL] entra Boschi (2/2)
+18:18:36 [ROUND] [4LLEL] #1 (id 1) → dodgeball [controlli_invertiti] · 2 giocatori
+18:18:36 [MINIGAME] [4LLEL] dodgeball via (id 1)
+18:18:38 [MINIGAME] [Y4876] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+18:18:38 [ROUND] [Y4876] #2 (id 31) → kart3d · 5 giocatori
+18:18:47 [MINIGAME] [Y4876] kart3d via (id 31)
+18:18:55 [RESULT] [4LLEL] dodgeball · Niko +10, Boschi +5
+18:19:02 [ROUND] [4LLEL] #2 (id 2) → memory [punti_doppi] · 2 giocatori
+18:19:02 [RECONNECT] [4LLEL] Boschi disconnesso (fase MINIGAME_ROULETTE)
+18:19:02 [RECONNECT] [4LLEL] Niko disconnesso (fase MINIGAME_ROULETTE)
+18:19:02 [RECONNECT] [4LLEL] host disconnesso (fase MINIGAME_ROULETTE)
+18:19:06 [ROOM] [4Y29L] creata: 5 giocatori, target 60 (stanze attive 12)
+18:19:07 [ROOM] [4Y29L] entra Niko (1/5)
+18:19:07 [ROOM] [4Y29L] entra Boschi (2/5)
+18:19:08 [ROOM] [4Y29L] entra Dottore (3/5)
+18:19:09 [ROOM] [4Y29L] entra Carbo (4/5)
+18:19:10 [ROOM] [4Y29L] entra Ciro (5/5)
+18:19:10 [ROUND] [4Y29L] #1 (id 1) → kart3d · 5 giocatori
+18:19:10 [MINIGAME] [4Y29L] kart3d via (id 1)
+18:19:12 [MINIGAME] [4LLEL] memory via (id 2)
+18:19:30 [RESULT] [4Y29L] kart3d · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:19:36 [ROUND] [4Y29L] #2 (id 2) → arena [punti_doppi] · 5 giocatori
+18:19:36 [ROOM] [4Y29L] nuova partita: punteggi azzerati, stessi giocatori
+18:19:37 [ROUND] [4Y29L] #1 (id 3) → backrooms · 5 giocatori
+18:19:37 [MINIGAME] [4Y29L] backrooms via (id 3)
+18:19:56 [RESULT] [4Y29L] backrooms · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:20:03 [ROUND] [4Y29L] #2 (id 4) → arena [punti_doppi] · 5 giocatori
+18:20:03 [RECONNECT] [4Y29L] Ciro disconnesso (fase MINIGAME_ROULETTE)
+18:20:03 [RECONNECT] [4Y29L] Carbo disconnesso (fase MINIGAME_ROULETTE)
+18:20:03 [RECONNECT] [4Y29L] Dottore disconnesso (fase MINIGAME_ROULETTE)
+18:20:03 [RECONNECT] [4Y29L] Boschi disconnesso (fase MINIGAME_ROULETTE)
+18:20:03 [RECONNECT] [4Y29L] Niko disconnesso (fase MINIGAME_ROULETTE)
+18:20:03 [RECONNECT] [4Y29L] host disconnesso (fase MINIGAME_ROULETTE)
+18:20:08 [ROOM] [AYMQT] creata: 5 giocatori, target 60 (stanze attive 13)
+18:20:09 [ROOM] [AYMQT] entra Niko (1/5)
+18:20:10 [ROOM] [AYMQT] entra Boschi (2/5)
+18:20:11 [ROOM] [AYMQT] entra Dottore (3/5)
+18:20:12 [ROOM] [AYMQT] entra Carbo (4/5)
+18:20:12 [MINIGAME] [4Y29L] arena via (id 4)
+18:20:13 [ROOM] [AYMQT] entra Ciro (5/5)
+18:20:13 [ROUND] [AYMQT] #1 (id 1) → kart3d · 5 giocatori
+18:20:14 [MINIGAME] [AYMQT] kart3d via (id 1)
+18:20:37 [RECONNECT] [AYMQT] Ciro disconnesso (fase MINIGAME_PLAYING)
+18:20:37 [RECONNECT] [AYMQT] Carbo disconnesso (fase MINIGAME_PLAYING)
+18:20:37 [RECONNECT] [AYMQT] Dottore disconnesso (fase MINIGAME_PLAYING)
+18:20:37 [RECONNECT] [AYMQT] Boschi disconnesso (fase MINIGAME_PLAYING)
+18:20:37 [RECONNECT] [AYMQT] Niko disconnesso (fase MINIGAME_PLAYING)
+18:20:37 [RECONNECT] [AYMQT] host disconnesso (fase MINIGAME_PLAYING)
+18:21:21 [MINIGAME] [86UZ4] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:21:21 [ROUND] [86UZ4] #1 (id 24) → soccer · 2 giocatori
+18:21:30 [MINIGAME] [86UZ4] soccer via (id 24)
+18:22:37 [ROOM] [SHAPT] creata: 5 giocatori, target 60 (stanze attive 14)
+18:22:38 [ROOM] [SHAPT] entra Niko (1/5)
+18:22:39 [ROOM] [SHAPT] entra Boschi (2/5)
+18:22:40 [ROOM] [SHAPT] entra Dottore (3/5)
+18:22:41 [ROOM] [SHAPT] entra Carbo (4/5)
+18:22:42 [ROOM] [SHAPT] entra Ciro (5/5)
+18:22:43 [ROUND] [SHAPT] #1 (id 1) → kart3d · 5 giocatori
+18:22:43 [MINIGAME] [SHAPT] kart3d via (id 1)
+18:23:05 [RECONNECT] [SHAPT] Ciro disconnesso (fase MINIGAME_PLAYING)
+18:23:05 [RECONNECT] [SHAPT] Carbo disconnesso (fase MINIGAME_PLAYING)
+18:23:05 [RECONNECT] [SHAPT] Dottore disconnesso (fase MINIGAME_PLAYING)
+18:23:05 [RECONNECT] [SHAPT] Boschi disconnesso (fase MINIGAME_PLAYING)
+18:23:05 [RECONNECT] [SHAPT] host disconnesso (fase MINIGAME_PLAYING)
+18:23:05 [RECONNECT] [SHAPT] Niko disconnesso (fase MINIGAME_PLAYING)
+18:23:12 [MINIGAME] [4LLEL] memory saltato senza punti (fase MINIGAME_PLAYING)
+18:23:12 [ROUND] [4LLEL] #2 (id 3) → arena · 2 giocatori
+18:23:21 [MINIGAME] [9TVP6] quiz saltato senza punti (fase MINIGAME_PLAYING)
+18:23:21 [ROUND] [9TVP6] #2 (id 34) → reaction · 5 giocatori
+18:23:21 [MINIGAME] [4LLEL] arena via (id 3)
+18:23:31 [MINIGAME] [9TVP6] reaction via (id 34)
+18:25:12 [MINIGAME] [4Y29L] arena saltato senza punti (fase MINIGAME_PLAYING)
+18:25:12 [ROUND] [4Y29L] #2 (id 5) → kart3d · 5 giocatori
+18:25:22 [MINIGAME] [4Y29L] kart3d via (id 5)
+18:26:24 [ROOM] [GQM48] creata: 5 giocatori, target 60 (stanze attive 15)
+18:26:25 [ROOM] [GQM48] entra Niko (1/5)
+18:26:26 [ROOM] [GQM48] entra Boschi (2/5)
+18:26:27 [ROOM] [GQM48] entra Dottore (3/5)
+18:26:28 [ROOM] [GQM48] entra Carbo (4/5)
+18:26:29 [ROOM] [GQM48] entra Ciro (5/5)
+18:26:30 [ROUND] [GQM48] #1 (id 1) → kart3d [controlli_invertiti] · 5 giocatori
+18:26:30 [MINIGAME] [GQM48] kart3d via (id 1)
+18:26:31 [MINIGAME] [9TVP6] reaction saltato senza punti (fase MINIGAME_PLAYING)
+18:26:31 [ROUND] [9TVP6] #2 (id 35) → kart3d · 5 giocatori
+18:26:40 [MINIGAME] [9TVP6] kart3d via (id 35)
+18:26:47 [MINIGAME] [Y4876] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:26:47 [ROUND] [Y4876] #2 (id 32) → reaction [punti_doppi] · 5 giocatori
+18:26:51 [RESULT] [GQM48] kart3d · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:26:57 [MINIGAME] [Y4876] reaction via (id 32)
+18:26:57 [ROUND] [GQM48] #2 (id 2) → minigolf · 5 giocatori
+18:26:57 [ROOM] [GQM48] nuova partita: punteggi azzerati, stessi giocatori
+18:26:58 [ROUND] [GQM48] #1 (id 3) → backrooms · 5 giocatori
+18:26:58 [MINIGAME] [GQM48] backrooms via (id 3)
+18:27:18 [RESULT] [GQM48] backrooms · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:27:24 [ROUND] [GQM48] #2 (id 4) → reaction · 5 giocatori
+18:27:25 [ROOM] [GQM48] nuova partita: punteggi azzerati, stessi giocatori
+18:27:25 [ROUND] [GQM48] #1 (id 5) → casacarbo [punti_doppi] · 5 giocatori
+18:27:25 [MINIGAME] [GQM48] casacarbo via (id 5)
+18:27:30 [MINIGAME] [86UZ4] soccer saltato senza punti (fase MINIGAME_PLAYING)
+18:27:30 [ROUND] [86UZ4] #1 (id 25) → arena · 2 giocatori
+18:27:40 [MINIGAME] [86UZ4] arena via (id 25)
+18:27:43 [RESULT] [GQM48] casacarbo · Niko +20, Boschi +14, Dottore +10, Carbo +6, Ciro +2 (punti doppi)
+18:27:49 [ROUND] [GQM48] #2 (id 6) → cultura · 5 giocatori
+18:27:50 [ROOM] [GQM48] nuova partita: punteggi azzerati, stessi giocatori
+18:27:50 [ROUND] [GQM48] #1 (id 7) → geofall · 5 giocatori
+18:27:50 [MINIGAME] [GQM48] geofall via (id 7)
+18:28:08 [RESULT] [GQM48] geofall · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:28:14 [MINIGAME] [AYMQT] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:28:14 [ROUND] [AYMQT] #1 (id 2) → cornicione · 5 giocatori
+18:28:15 [ROUND] [GQM48] #2 (id 8) → reaction · 5 giocatori
+18:28:15 [RECONNECT] [GQM48] Ciro disconnesso (fase MINIGAME_ROULETTE)
+18:28:15 [RECONNECT] [GQM48] Carbo disconnesso (fase MINIGAME_ROULETTE)
+18:28:15 [RECONNECT] [GQM48] Dottore disconnesso (fase MINIGAME_ROULETTE)
+18:28:15 [RECONNECT] [GQM48] Boschi disconnesso (fase MINIGAME_ROULETTE)
+18:28:15 [RECONNECT] [GQM48] Niko disconnesso (fase MINIGAME_ROULETTE)
+18:28:15 [RECONNECT] [GQM48] host disconnesso (fase MINIGAME_ROULETTE)
+18:28:19 [ROOM] [XS4DL] creata: 2 giocatori, target 60 (stanze attive 16)
+18:28:20 [ROOM] [XS4DL] entra Niko (1/2)
+18:28:20 [ROOM] [XS4DL] entra Boschi (2/2)
+18:28:21 [ROUND] [XS4DL] #1 (id 1) → dodgeball · 2 giocatori
+18:28:21 [MINIGAME] [XS4DL] dodgeball via (id 1)
+18:28:21 [MINIGAME] [4LLEL] arena saltato senza punti (fase MINIGAME_PLAYING)
+18:28:21 [ROUND] [4LLEL] #2 (id 4) → quiz · 2 giocatori
+18:28:23 [MINIGAME] [AYMQT] cornicione via (id 2)
+18:28:24 [MINIGAME] [GQM48] reaction via (id 8)
+18:28:31 [MINIGAME] [4LLEL] quiz via (id 4)
+18:28:40 [RESULT] [XS4DL] dodgeball · Niko +10, Boschi +5
+18:28:46 [ROUND] [XS4DL] #2 (id 2) → geofall · 2 giocatori
+18:28:47 [ROOM] [XS4DL] nuova partita: punteggi azzerati, stessi giocatori
+18:28:47 [ROUND] [XS4DL] #1 (id 3) → kart3d · 2 giocatori
+18:28:47 [MINIGAME] [XS4DL] kart3d via (id 3)
+18:29:05 [RESULT] [XS4DL] kart3d · Niko +10, Boschi +5
+18:29:12 [ROUND] [XS4DL] #2 (id 4) → backrooms · 2 giocatori
+18:29:12 [ROOM] [XS4DL] nuova partita: punteggi azzerati, stessi giocatori
+18:29:12 [ROUND] [XS4DL] #1 (id 5) → casacarbo [punti_doppi] · 2 giocatori
+18:29:12 [MINIGAME] [XS4DL] casacarbo via (id 5)
+18:29:30 [RESULT] [XS4DL] casacarbo · Niko +20, Boschi +10 (punti doppi)
+18:29:36 [ROUND] [XS4DL] #2 (id 6) → volleyball · 2 giocatori
+18:29:37 [ROOM] [XS4DL] nuova partita: punteggi azzerati, stessi giocatori
+18:29:37 [ROUND] [XS4DL] #1 (id 7) → geofall · 2 giocatori
+18:29:37 [MINIGAME] [XS4DL] geofall via (id 7)
+18:29:55 [RESULT] [XS4DL] geofall · Niko +10, Boschi +5
+18:29:57 [MINIGAME] [Y4876] reaction saltato senza punti (fase MINIGAME_PLAYING)
+18:29:57 [ROUND] [Y4876] #2 (id 33) → quiz · 5 giocatori
+18:30:02 [ROUND] [XS4DL] #2 (id 8) → minigolf · 2 giocatori
+18:30:02 [RECONNECT] [XS4DL] Niko disconnesso (fase MINIGAME_ROULETTE)
+18:30:02 [RECONNECT] [XS4DL] Boschi disconnesso (fase MINIGAME_ROULETTE)
+18:30:02 [RECONNECT] [XS4DL] host disconnesso (fase MINIGAME_ROULETTE)
+18:30:07 [MINIGAME] [Y4876] quiz via (id 33)
+18:30:11 [MINIGAME] [XS4DL] minigolf via (id 8)
+18:30:43 [MINIGAME] [SHAPT] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:30:43 [ROUND] [SHAPT] #1 (id 2) → minigolf · 5 giocatori
+18:30:53 [MINIGAME] [SHAPT] minigolf via (id 2)
+18:31:13 [MINIGAME] [8VJ6L] cultura saltato senza punti (fase MINIGAME_PLAYING)
+18:31:13 [ROUND] [8VJ6L] #2 (id 33) → cornicione · 2 giocatori
+18:31:23 [MINIGAME] [8VJ6L] cornicione via (id 33)
+18:31:24 [MINIGAME] [GQM48] reaction saltato senza punti (fase MINIGAME_PLAYING)
+18:31:24 [ROUND] [GQM48] #2 (id 9) → memory · 5 giocatori
+18:31:34 [MINIGAME] [GQM48] memory via (id 9)
+18:32:40 [MINIGAME] [86UZ4] arena saltato senza punti (fase MINIGAME_PLAYING)
+18:32:40 [ROUND] [86UZ4] #1 (id 26) → reaction [punti_doppi] · 2 giocatori
+18:32:50 [MINIGAME] [86UZ4] reaction via (id 26)
+18:33:22 [MINIGAME] [4Y29L] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:33:22 [ROUND] [4Y29L] #2 (id 6) → minigolf · 5 giocatori
+18:33:32 [MINIGAME] [4Y29L] minigolf via (id 6)
+18:34:40 [MINIGAME] [9TVP6] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:34:40 [ROUND] [9TVP6] #2 (id 36) → memory · 5 giocatori
+18:34:50 [MINIGAME] [9TVP6] memory via (id 36)
+18:35:08 [ROOM] [P4WXN] creata: 2 giocatori, target 60 (stanze attive 17)
+18:35:08 [ROOM] [P4WXN] entra P1 (1/2)
+18:35:09 [ROOM] [P4WXN] entra P2 (2/2)
+18:35:09 [ROUND] [P4WXN] #1 (id 1) → arena · 2 giocatori
+18:35:19 [MINIGAME] [P4WXN] arena via (id 1)
+18:35:23 [RECONNECT] [P4WXN] P1 disconnesso (fase MINIGAME_PLAYING)
+18:35:23 [RECONNECT] [P4WXN] P2 disconnesso (fase MINIGAME_PLAYING)
+18:35:23 [RECONNECT] [P4WXN] host disconnesso (fase MINIGAME_PLAYING)
+18:35:24 [MINIGAME] [AYMQT] cornicione saltato senza punti (fase MINIGAME_PLAYING)
+18:35:24 [ROUND] [AYMQT] #1 (id 3) → quiz · 5 giocatori
+18:35:33 [MINIGAME] [AYMQT] quiz via (id 3)
+18:35:34 [MINIGAME] [GQM48] memory saltato senza punti (fase MINIGAME_PLAYING)
+18:35:34 [ROUND] [GQM48] #2 (id 10) → kart3d · 5 giocatori
+18:35:43 [MINIGAME] [GQM48] kart3d via (id 10)
+18:35:50 [MINIGAME] [86UZ4] reaction saltato senza punti (fase MINIGAME_PLAYING)
+18:35:50 [ROUND] [86UZ4] #1 (id 27) → kart3d [controlli_invertiti] · 2 giocatori
+18:35:59 [MINIGAME] [86UZ4] kart3d via (id 27)
+18:36:31 [MINIGAME] [4LLEL] quiz saltato senza punti (fase MINIGAME_PLAYING)
+18:36:31 [ROUND] [4LLEL] #2 (id 5) → kart3d · 2 giocatori
+18:36:41 [MINIGAME] [4LLEL] kart3d via (id 5)
+18:37:44 [ROOM] [6754V] creata: 5 giocatori, target 60 (stanze attive 18)
+18:37:45 [ROOM] [6754V] entra Niko (1/5)
+18:37:46 [ROOM] [6754V] entra Boschi (2/5)
+18:37:46 [ROOM] [6754V] entra Dottore (3/5)
+18:37:47 [ROOM] [6754V] entra Carbo (4/5)
+18:37:48 [ROOM] [6754V] entra Ciro (5/5)
+18:37:48 [ROUND] [6754V] #1 (id 1) → volleyball · 5 giocatori
+18:37:49 [MINIGAME] [6754V] volleyball via (id 1)
+18:38:07 [MINIGAME] [Y4876] quiz saltato senza punti (fase MINIGAME_PLAYING)
+18:38:07 [ROUND] [Y4876] #2 (id 34) → dodgeball · 5 giocatori
+18:38:10 [RESULT] [6754V] volleyball · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:38:16 [MINIGAME] [Y4876] dodgeball via (id 34)
+18:38:17 [ROUND] [6754V] #2 (id 2) → memory [punti_doppi] · 5 giocatori
+18:38:17 [ROOM] [6754V] nuova partita: punteggi azzerati, stessi giocatori
+18:38:18 [ROUND] [6754V] #1 (id 3) → cornicione [punti_doppi] · 5 giocatori
+18:38:18 [MINIGAME] [6754V] cornicione via (id 3)
+18:38:23 [MINIGAME] [8VJ6L] cornicione saltato senza punti (fase MINIGAME_PLAYING)
+18:38:23 [ROUND] [8VJ6L] #2 (id 34) → dodgeball · 2 giocatori
+18:38:32 [MINIGAME] [8VJ6L] dodgeball via (id 34)
+18:38:36 [RESULT] [6754V] cornicione · Niko +20, Boschi +14, Dottore +10, Carbo +6, Ciro +2 (punti doppi)
+18:38:42 [ROUND] [6754V] #2 (id 4) → quiz · 5 giocatori
+18:38:43 [ROOM] [6754V] nuova partita: punteggi azzerati, stessi giocatori
+18:38:43 [ROUND] [6754V] #1 (id 5) → casacarbo [punti_doppi] · 5 giocatori
+18:38:43 [MINIGAME] [6754V] casacarbo via (id 5)
+18:38:50 [MINIGAME] [9TVP6] memory saltato senza punti (fase MINIGAME_PLAYING)
+18:38:50 [ROUND] [9TVP6] #2 (id 37) → minigolf · 5 giocatori
+18:39:00 [MINIGAME] [9TVP6] minigolf via (id 37)
+18:39:01 [RESULT] [6754V] casacarbo · Niko +20, Boschi +14, Dottore +10, Carbo +6, Ciro +2 (punti doppi)
+18:39:08 [ROUND] [6754V] #2 (id 6) → quiz · 5 giocatori
+18:39:08 [ROOM] [6754V] nuova partita: punteggi azzerati, stessi giocatori
+18:39:09 [ROUND] [6754V] #1 (id 7) → geofall [punti_doppi] · 5 giocatori
+18:39:09 [MINIGAME] [6754V] geofall via (id 7)
+18:39:28 [RESULT] [6754V] geofall · Niko +20, Boschi +14, Dottore +10, Carbo +6, Ciro +2 (punti doppi)
+18:39:34 [ROUND] [6754V] #2 (id 8) → memory · 5 giocatori
+18:39:34 [RECONNECT] [6754V] Ciro disconnesso (fase MINIGAME_ROULETTE)
+18:39:34 [RECONNECT] [6754V] Carbo disconnesso (fase MINIGAME_ROULETTE)
+18:39:34 [RECONNECT] [6754V] Dottore disconnesso (fase MINIGAME_ROULETTE)
+18:39:35 [RECONNECT] [6754V] host disconnesso (fase MINIGAME_ROULETTE)
+18:39:35 [RECONNECT] [6754V] Niko disconnesso (fase MINIGAME_ROULETTE)
+18:39:35 [RECONNECT] [6754V] Boschi disconnesso (fase MINIGAME_ROULETTE)
+18:39:40 [ROOM] [XHLA4] creata: 5 giocatori, target 60 (stanze attive 19)
+18:39:41 [ROOM] [XHLA4] entra Niko (1/5)
+18:39:42 [ROOM] [XHLA4] entra Boschi (2/5)
+18:39:42 [ROOM] [XHLA4] entra Dottore (3/5)
+18:39:43 [ROOM] [XHLA4] entra Carbo (4/5)
+18:39:44 [ROOM] [XHLA4] entra Ciro (5/5)
+18:39:44 [MINIGAME] [6754V] memory via (id 8)
+18:39:44 [ROUND] [XHLA4] #1 (id 1) → volleyball · 5 giocatori
+18:39:44 [MINIGAME] [XHLA4] volleyball via (id 1)
+18:40:05 [RESULT] [XHLA4] volleyball · Niko +10, Boschi +7, Dottore +5, Carbo +3, Ciro +1
+18:40:11 [ROUND] [XHLA4] #2 (id 2) → cultura · 5 giocatori
+18:40:11 [ROOM] [XHLA4] nuova partita: punteggi azzerati, stessi giocatori
+18:40:12 [ROUND] [XHLA4] #1 (id 3) → cornicione [punti_doppi] · 5 giocatori
+18:40:12 [MINIGAME] [XHLA4] cornicione via (id 3)
+18:40:19 [MINIGAME] [P4WXN] arena saltato senza punti (fase MINIGAME_PLAYING)
+18:40:19 [ROUND] [P4WXN] #1 (id 2) → kart3d [controlli_invertiti] · 2 giocatori
+18:40:29 [MINIGAME] [P4WXN] kart3d via (id 2)
+18:40:30 [RESULT] [XHLA4] cornicione · Niko +20, Boschi +14, Dottore +10, Carbo +6, Ciro +2 (punti doppi)
+18:40:36 [ROUND] [XHLA4] #2 (id 4) → minigolf [punti_doppi] · 5 giocatori
+18:40:37 [RECONNECT] [XHLA4] Ciro disconnesso (fase MINIGAME_ROULETTE)
+18:40:37 [RECONNECT] [XHLA4] Carbo disconnesso (fase MINIGAME_ROULETTE)
+18:40:37 [RECONNECT] [XHLA4] Dottore disconnesso (fase MINIGAME_ROULETTE)
+18:40:37 [RECONNECT] [XHLA4] Boschi disconnesso (fase MINIGAME_ROULETTE)
+18:40:37 [RECONNECT] [XHLA4] Niko disconnesso (fase MINIGAME_ROULETTE)
+18:40:37 [RECONNECT] [XHLA4] host disconnesso (fase MINIGAME_ROULETTE)
+18:40:46 [MINIGAME] [XHLA4] minigolf via (id 4)
+18:42:16 [MINIGAME] [Y4876] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+18:42:16 [ROUND] [Y4876] #2 (id 35) → kart3d [controlli_invertiti] · 5 giocatori
+18:42:26 [MINIGAME] [Y4876] kart3d via (id 35)
+18:42:33 [MINIGAME] [8VJ6L] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+18:42:33 [ROUND] [8VJ6L] #2 (id 35) → casacarbo · 2 giocatori
+18:42:42 [MINIGAME] [8VJ6L] casacarbo via (id 35)
+18:43:33 [MINIGAME] [AYMQT] quiz saltato senza punti (fase MINIGAME_PLAYING)
+18:43:33 [ROUND] [AYMQT] #1 (id 4) → geofall · 5 giocatori
+18:43:43 [MINIGAME] [AYMQT] geofall via (id 4)
+18:43:43 [MINIGAME] [GQM48] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:43:43 [ROUND] [GQM48] #2 (id 11) → quiz [punti_doppi] · 5 giocatori
+18:43:44 [MINIGAME] [6754V] memory saltato senza punti (fase MINIGAME_PLAYING)
+18:43:44 [ROUND] [6754V] #2 (id 9) → casacarbo [punti_doppi] · 5 giocatori
+18:43:53 [MINIGAME] [GQM48] quiz via (id 11)
+18:43:53 [MINIGAME] [6754V] casacarbo via (id 9)
+18:44:00 [MINIGAME] [86UZ4] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:44:00 [ROUND] [86UZ4] #1 (id 28) → memory · 2 giocatori
+18:44:09 [MINIGAME] [86UZ4] memory via (id 28)
+18:44:41 [MINIGAME] [4LLEL] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:44:41 [ROUND] [4LLEL] #2 (id 6) → reaction · 2 giocatori
+18:44:50 [MINIGAME] [4LLEL] reaction via (id 6)
+18:47:42 [MINIGAME] [8VJ6L] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+18:47:42 [ROUND] [8VJ6L] #2 (id 36) → memory · 2 giocatori
+18:47:50 [MINIGAME] [4LLEL] reaction saltato senza punti (fase MINIGAME_PLAYING)
+18:47:50 [ROUND] [4LLEL] #2 (id 7) → memory · 2 giocatori
+18:47:52 [MINIGAME] [8VJ6L] memory via (id 36)
+18:48:00 [MINIGAME] [4LLEL] memory via (id 7)
+18:48:09 [MINIGAME] [86UZ4] memory saltato senza punti (fase MINIGAME_PLAYING)
+18:48:09 [ROUND] [86UZ4] #1 (id 29) → fps · 2 giocatori
+18:48:19 [MINIGAME] [86UZ4] fps via (id 29)
+18:48:29 [MINIGAME] [P4WXN] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:48:29 [ROUND] [P4WXN] #1 (id 3) → soccer · 2 giocatori
+18:48:39 [MINIGAME] [P4WXN] soccer via (id 3)
+18:48:53 [MINIGAME] [6754V] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+18:48:53 [ROUND] [6754V] #2 (id 10) → memory · 5 giocatori
+18:49:03 [MINIGAME] [6754V] memory via (id 10)
+18:50:06 [ROOM] [6XLQJ] creata: 2 giocatori, target 60 (stanze attive 20)
+18:50:07 [ROOM] [6XLQJ] entra P1 (1/2)
+18:50:08 [ROOM] [6XLQJ] entra P2 (2/2)
+18:50:09 [ROUND] [6XLQJ] #1 (id 1) → kart3d · 2 giocatori
+18:50:19 [MINIGAME] [6XLQJ] kart3d via (id 1)
+18:50:21 [RECONNECT] [6XLQJ] P1 disconnesso (fase MINIGAME_PLAYING)
+18:50:21 [RECONNECT] [6XLQJ] P2 disconnesso (fase MINIGAME_PLAYING)
+18:50:21 [RECONNECT] [6XLQJ] host disconnesso (fase MINIGAME_PLAYING)
+18:50:26 [MINIGAME] [Y4876] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:50:26 [ROUND] [Y4876] #2 (id 36) → arena · 5 giocatori
+18:50:35 [MINIGAME] [Y4876] arena via (id 36)
+18:51:52 [MINIGAME] [8VJ6L] memory saltato senza punti (fase MINIGAME_PLAYING)
+18:51:52 [ROUND] [8VJ6L] #2 (id 37) → kart3d · 2 giocatori
+18:51:53 [MINIGAME] [GQM48] quiz saltato senza punti (fase MINIGAME_PLAYING)
+18:51:53 [ROUND] [GQM48] #2 (id 12) → fps · 5 giocatori
+18:52:00 [MINIGAME] [4LLEL] memory saltato senza punti (fase MINIGAME_PLAYING)
+18:52:00 [ROUND] [4LLEL] #2 (id 8) → arena · 2 giocatori
+18:52:01 [MINIGAME] [8VJ6L] kart3d via (id 37)
+18:52:03 [MINIGAME] [GQM48] fps via (id 12)
+18:52:10 [MINIGAME] [4LLEL] arena via (id 8)
+18:53:03 [MINIGAME] [6754V] memory saltato senza punti (fase MINIGAME_PLAYING)
+18:53:03 [ROUND] [6754V] #2 (id 11) → reaction · 5 giocatori
+18:53:13 [MINIGAME] [6754V] reaction via (id 11)
+18:53:19 [MINIGAME] [86UZ4] fps saltato senza punti (fase MINIGAME_PLAYING)
+18:53:19 [ROUND] [86UZ4] #1 (id 30) → casacarbo [punti_doppi] · 2 giocatori
+18:53:28 [MINIGAME] [86UZ4] casacarbo via (id 30)
+18:54:39 [MINIGAME] [P4WXN] soccer saltato senza punti (fase MINIGAME_PLAYING)
+18:54:39 [ROUND] [P4WXN] #1 (id 4) → arena · 2 giocatori
+18:54:48 [MINIGAME] [P4WXN] arena via (id 4)
+18:55:35 [MINIGAME] [Y4876] arena saltato senza punti (fase MINIGAME_PLAYING)
+18:55:35 [ROUND] [Y4876] #2 (id 37) → soccer [punti_doppi] · 5 giocatori
+18:55:45 [MINIGAME] [Y4876] soccer via (id 37)
+18:56:13 [MINIGAME] [6754V] reaction saltato senza punti (fase MINIGAME_PLAYING)
+18:56:13 [ROUND] [6754V] #2 (id 12) → minigolf [punti_doppi] · 5 giocatori
+18:56:22 [MINIGAME] [6754V] minigolf via (id 12)
+18:56:51 [MINIGAME] [XS4DL] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+18:56:51 [ROUND] [XS4DL] #2 (id 9) → fps [punti_doppi] · 2 giocatori
+18:57:01 [MINIGAME] [XS4DL] fps via (id 9)
+18:57:03 [MINIGAME] [GQM48] fps saltato senza punti (fase MINIGAME_PLAYING)
+18:57:03 [ROUND] [GQM48] #2 (id 13) → backrooms · 5 giocatori
+18:57:10 [MINIGAME] [4LLEL] arena saltato senza punti (fase MINIGAME_PLAYING)
+18:57:10 [ROUND] [4LLEL] #2 (id 9) → geofall · 2 giocatori
+18:57:12 [MINIGAME] [GQM48] backrooms via (id 13)
+18:57:19 [MINIGAME] [4LLEL] geofall via (id 9)
+18:57:33 [MINIGAME] [SHAPT] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+18:57:33 [ROUND] [SHAPT] #1 (id 3) → quiz · 5 giocatori
+18:57:43 [MINIGAME] [SHAPT] quiz via (id 3)
+18:58:19 [MINIGAME] [6XLQJ] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+18:58:19 [ROUND] [6XLQJ] #1 (id 2) → arena [punti_doppi] · 2 giocatori
+18:58:28 [MINIGAME] [86UZ4] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+18:58:28 [ROUND] [86UZ4] #1 (id 31) → arena · 2 giocatori
+18:58:28 [MINIGAME] [6XLQJ] arena via (id 2)
+18:58:38 [MINIGAME] [86UZ4] arena via (id 31)
+18:59:48 [MINIGAME] [P4WXN] arena saltato senza punti (fase MINIGAME_PLAYING)
+18:59:48 [ROUND] [P4WXN] #1 (id 5) → reaction · 2 giocatori
+18:59:58 [MINIGAME] [P4WXN] reaction via (id 5)
+19:00:01 [MINIGAME] [8VJ6L] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+19:00:01 [ROUND] [8VJ6L] #2 (id 38) → dodgeball [gravita_bassa] · 2 giocatori
+19:00:03 [MINIGAME] [R9FVS] geofall saltato senza punti (fase MINIGAME_PLAYING)
+19:00:03 [ROUND] [R9FVS] #2 (id 14) → memory [punti_doppi] · 2 giocatori
+19:00:11 [MINIGAME] [8VJ6L] dodgeball via (id 38)
+19:00:12 [MINIGAME] [4Y29L] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+19:00:12 [ROUND] [4Y29L] #2 (id 7) → dodgeball · 5 giocatori
+19:00:12 [MINIGAME] [R9FVS] memory via (id 14)
+19:00:21 [MINIGAME] [4Y29L] dodgeball via (id 7)
+19:01:45 [MINIGAME] [Y4876] soccer saltato senza punti (fase MINIGAME_PLAYING)
+19:01:45 [ROUND] [Y4876] #2 (id 38) → memory [punti_doppi] · 5 giocatori
+19:01:55 [MINIGAME] [Y4876] memory via (id 38)
+19:02:01 [MINIGAME] [XS4DL] fps saltato senza punti (fase MINIGAME_PLAYING)
+19:02:01 [ROUND] [XS4DL] #2 (id 10) → memory [punti_doppi] · 2 giocatori
+19:02:11 [MINIGAME] [XS4DL] memory via (id 10)

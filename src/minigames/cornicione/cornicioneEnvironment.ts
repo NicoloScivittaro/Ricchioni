@@ -2,6 +2,7 @@ import { Color3, Mesh, MeshBuilder, Scene } from '@babylonjs/core';
 import type { DynamicTexture } from '@babylonjs/core';
 import { EnvKit, PAL, SIGN_FONT, mixHex, seeded } from '../env/envKit';
 import { STAGE } from './fighterData';
+import { paintSurfaceDetail, paintRecess } from '../env/surfaceDetail';
 
 /**
  * TETTO DEL DISAGIO — tetto / cantiere / palazzina al TRAMONTO (Art Bible: toni medi e caldi, il colore forte resta ai giocatori).
@@ -27,6 +28,7 @@ function facadeTexture(kit: EnvKit, key: string, cols: number, rows: number, see
     const rnd = seeded(seed);
     c.fillStyle = wall;
     c.fillRect(0, 0, w, h);
+    paintSurfaceDetail(c, w, h, 'stone', seed);
     // mattoni / intonaco: righe sottili
     c.fillStyle = 'rgba(0,0,0,0.07)';
     for (let y = 0; y < h; y += 10) c.fillRect(0, y, w, 2);
@@ -44,6 +46,7 @@ function facadeTexture(kit: EnvKit, key: string, cols: number, rows: number, see
         c.fillRect(x - 3, y + hh, ww + 6, 5);
         c.fillStyle = on ? '#ffd27a' : '#2a3350';
         c.fillRect(x, y, ww, hh);
+        paintRecess(c, x, y, ww, hh, 3);
         if (on) {
           c.fillStyle = 'rgba(255,255,255,0.35)';
           c.fillRect(x + 2, y + 2, ww - 4, 4);
@@ -63,6 +66,7 @@ function roofTexture(kit: EnvKit): DynamicTexture {
     const rnd = seeded(77);
     c.fillStyle = '#8f8a86';
     c.fillRect(0, 0, w, h);
+    paintSurfaceDetail(c, w, h, 'stone', 77);
     // lastre del tetto
     c.strokeStyle = 'rgba(0,0,0,0.18)';
     c.lineWidth = 3;

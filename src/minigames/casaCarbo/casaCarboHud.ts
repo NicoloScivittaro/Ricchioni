@@ -167,7 +167,7 @@ export class CasaCarboHud extends GameHud {
 
   buildBoard(list: CCHudPlayer[]): void {
     for (const p of list) {
-      const box = hudPanel(`ccRow_${p.id}`, '148px', '60px', p.color);
+      const box = hudPanel(`ccRow_${p.id}`, '148px', '92px', p.color);
       box.thickness = 2;
       box.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
       box.top = `${UI.safe.y - 6}px`;
@@ -177,7 +177,7 @@ export class CasaCarboHud extends GameHud {
         icon.width = '24px';
         icon.height = '24px';
         icon.left = '5px';
-        icon.top = '-10px';
+        icon.top = '-27px';
         icon.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
         box.addControl(icon);
       }
@@ -185,7 +185,7 @@ export class CasaCarboHud extends GameHud {
       name.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
       name.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
       name.left = '32px';
-      name.top = '-10px';
+      name.top = '-27px';
       name.width = '78px';
       name.height = '22px';
       name.outlineWidth = 2;
@@ -194,17 +194,19 @@ export class CasaCarboHud extends GameHud {
       pts.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
       pts.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
       pts.left = '-5px';
-      pts.top = '-10px';
+      pts.top = '-27px';
       pts.width = '40px';
       pts.height = '30px';
       box.addControl(pts);
-      const status = hudText(`ccStatus_${p.id}`, '', 13, UI.color.textDim, false);
+      const status = hudText(`ccStatus_${p.id}`, '', 14, UI.color.textDim, false);
       status.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
       status.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
       status.left = '6px';
-      status.top = '15px';
-      status.width = '138px';
-      status.height = '18px';
+      status.top = '16px';
+      status.width = '134px';
+      // Keep contextual ability notes and their emoji readable on two complete lines.
+      status.height = '52px';
+      status.textWrapping = true;
       status.outlineWidth = 0;
       box.addControl(status);
       this.adt.addControl(box);

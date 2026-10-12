@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "sourceBaseline": "6fe755a90ce678ad47fd9fdf5b239957a0095733",
+  "implementation": "Sol direct, explicitly authorized",
+  "games": 15,
+  "comparisonCases": 30,
+  "fpsProbeCases": 3,
+  "renderer": "RTX 3050 ANGLE Direct3D11",
+  "buildExit": 0,
+  "qualitySelftestExit": 0,
+  "environmentSelftestExit": 0,
+  "localBundleExit": 0,
+  "originalGameplayAndQualityPreserved": true,
+  "originalAssetsPreserved": true,
+  "extraGpuResources": false,
+  "limitations": "Desktop GPU, idle/spawn scene windows and emulated phone; not all hardware or maximal active VFX."
+}

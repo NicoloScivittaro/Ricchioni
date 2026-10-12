@@ -37,7 +37,10 @@ export const GAME_TINT: Record<string, number> = {
   quiz: 0x5a3ab8,
   cultura: 0xa8683a,
   cornicione: 0xc4527a,
-  casacarbo: 0x3a5a7a
+  casacarbo: 0x3a5a7a,
+  minigolf: 0x36a888,
+  geofall: 0x3d89bf,
+  backrooms: 0x8e9160
 };
 
 function rnd(seed: number): () => number {
@@ -53,10 +56,33 @@ function bake(scene: Phaser.Scene, key: string, draw: (g: Phaser.GameObjects.Gra
   if (!scene.textures.exists(key)) {
     const g = scene.make.graphics({ x: 0, y: 0 }, false);
     draw(g);
+    finishSet(g, key);
     g.generateTexture(key, W, H);
     g.destroy();
   }
   return scene.add.image(0, 0, key).setOrigin(0, 0).setDepth(-100);
+}
+
+/** Stage depth and accents baked into the existing backdrop, with zero additional display objects. */
+function finishSet(g: Phaser.GameObjects.Graphics, key: string): void {
+  const warm = key === 'bd_memory' || key === 'bd_cultura';
+  const accent = warm ? 0xe2b16e : key === 'bd_reaction' ? 0x8ca8ff : 0xb49aff;
+  // Soft pools at the sides keep the central question / tile area quiet.
+  for (const x of [100, 1180]) for (let i = 0; i < 14; i++) {
+    g.fillStyle(accent, .006 + i * .001);
+    g.fillEllipse(x, 215, 390 - i * 22, 600 - i * 35);
+  }
+  // Dim the center of the quiz rays so the question stands out.
+  if (key === 'bd_quiz') for (let i = 0; i < 14; i++) {
+    g.fillStyle(0x0c1426, .019);
+    g.fillEllipse(640, 200, 1130 - i * 30, 250 - i * 10);
+  }
+  // Recessed bottom stage / bar front. These lines never overlap game controls.
+  g.fillStyle(0x050a14, .22); g.fillRect(0, 702, W, 18);
+  g.lineStyle(1, accent, .16);
+  for (let x = 32; x < W; x += 48) { g.beginPath();g.moveTo(x,706);g.lineTo(x+20,706);g.strokePath(); }
+  g.lineStyle(1, accent, .22);
+  for (const x of [14, W - 14]) { g.beginPath();g.moveTo(x,118);g.lineTo(x,580);g.strokePath(); }
 }
 
 /** Gradiente verticale a bande (fillGradientStyle non funziona quando la Graphics viene "cotta" in texture). */

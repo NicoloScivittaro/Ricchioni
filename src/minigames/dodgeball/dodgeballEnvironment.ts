@@ -3,6 +3,7 @@ import type { Scene } from '@babylonjs/core';
 import { ARENA_HALF_W, ARENA_HALF_D } from './dodgeballTypes';
 import { EnvKit, PAL, SIGN_FONT, seeded } from '../env/envKit';
 import type { Xf } from '../env/envKit';
+import { paintSurfaceDetail, paintRecess } from '../env/surfaceDetail';
 
 /**
  * DODGEBALL DEI COGLIONI — palestra / palazzetto scolastico trasformato in evento sportivo assurdo.
@@ -53,6 +54,7 @@ export function buildDodgeballEnvironment(scene: Scene): DodgeballEnvironment {
         const t = 0.9 + r() * 0.2;
         c.fillStyle = `rgb(${Math.round(201 * t)},${Math.round(154 * t)},${Math.round(98 * t)})`;
         c.fillRect(x + 1, y + 1, l - 2, 14);
+        paintRecess(c, x + 1, y + 1, l - 2, 14, 1);
         x += l;
       }
     }
@@ -71,6 +73,7 @@ export function buildDodgeballEnvironment(scene: Scene): DodgeballEnvironment {
     // meta' campo appena piu' chiara: si legge "di qua / di la'" senza colori squadra
     c.fillStyle = '#3a5057';
     c.fillRect(0, 0, w / 2, h);
+    paintSurfaceDetail(c, w, h, 'stone', 31);
     // zona esterna (corridoio vicino al muretto) piu' scura
     c.strokeStyle = '#2b3c42';
     c.lineWidth = 40;

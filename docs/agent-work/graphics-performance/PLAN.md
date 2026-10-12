@@ -3,7 +3,7 @@
 ## Stato e richiesta
 
 Richiesta: migliorare la grafica in tutti i giochi senza abbassare prestazioni e FPS.
-Stato: implementazione diretta con Sol autorizzata dall'utente.
+Stato: implementazione diretta Sol completata e accettata; build e verifiche finali passate.
 Workspace reale: `C:/Users/niluf.PC-NIKO/Desktop/Ricchioni`.
 Baseline Git: `6fe755a` (messaggio `5`), working tree pulito prima di questo documento.
 La directory della chat `Documents/ChatGPT/ricchioni` non contiene i sorgenti.

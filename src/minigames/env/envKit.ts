@@ -17,6 +17,7 @@ import {
 import type { AbstractMesh, Scene } from '@babylonjs/core';
 import { getQualityLevel } from '../../core/quality';
 import type { QualityLevel } from '../../core/quality';
+import { paintRecess } from './surfaceDetail';
 
 /**
  * KIT AMBIENTI — l'Art Bible (docs/ART_BIBLE.md) in codice. UN solo kit per tutti i giochi 3D (host e telefono):
@@ -136,6 +137,14 @@ export function paintSign(c: CanvasRenderingContext2D, W: number, H: number, tex
   c.beginPath();
   c.roundRect(4, 4, W - 8, H - 8, r);
   c.fill();
+  c.save();
+  c.clip();
+  const face = c.createLinearGradient(0, 4, 0, H - 4);
+  face.addColorStop(0, 'rgba(255,255,255,0.09)');
+  face.addColorStop(.45, 'rgba(255,255,255,0)');
+  face.addColorStop(1, 'rgba(0,0,0,0.16)');
+  c.fillStyle = face; c.fillRect(4, 4, W - 8, H - 8);
+  c.restore();
   if (style === 'hazard') {
     c.save();
     c.beginPath();
@@ -161,6 +170,12 @@ export function paintSign(c: CanvasRenderingContext2D, W: number, H: number, tex
     c.beginPath();
     c.roundRect(10, 10, W - 20, H - 20, Math.max(4, r - 6));
     c.stroke();
+    if (style === 'board') paintRecess(c, 16, 16, W - 32, H - 32, 2);
+    if (style === 'neon') {
+      // Neon halo is baked into this same sign/atlas; no extra glow pass.
+      c.save(); c.strokeStyle = color; c.lineWidth = 3; c.shadowColor = color; c.shadowBlur = 12;
+      c.stroke(); c.restore();
+    }
     if (style === 'poster') {
       c.fillStyle = color;
       c.fillRect(10, 10, W - 20, Math.max(10, H * 0.1));

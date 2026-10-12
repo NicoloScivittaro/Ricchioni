@@ -3,3 +3,27 @@
 
   ➜  Local:   http://127.0.0.1:5173/
   ➜  press h + enter to show help
+19:53:51 [vite] (client) page reload src/minigames/env/envKit.ts
+19:53:51 [vite] (client) page reload src/core/uiTokens.ts
+19:53:51 [vite] (client) page reload src/minigames/hud/hudKit.ts
+19:53:51 [vite] (client) page reload src/scenes/backdrops.ts
+19:56:29 [vite] (client) page reload src/scenes/backdrops.ts
+19:56:29 [vite] (client) page reload src/minigames/arena/arenaEnvironment.ts
+19:56:29 [vite] (client) page reload src/minigames/dodgeball/dodgeballEnvironment.ts
+19:56:29 [vite] (client) page reload src/minigames/soccer/soccerEnvironment.ts
+19:56:29 [vite] (client) page reload src/minigames/volleyball/volleyballEnvironment.ts
+19:56:29 [vite] (client) page reload src/minigames/cornicione/cornicioneEnvironment.ts
+19:56:29 [vite] (client) page reload src/minigames/kart-race/kartEnvironment.ts
+19:56:29 [vite] (client) page reload src/minigames/casaCarbo/casaCarboEnvironment.ts
+19:56:29 [vite] (client) page reload src/controller/fpsWorld.ts
+19:57:19 [vite] (client) page reload src/minigames/geofall/BabylonGeofallGame.ts
+19:57:19 [vite] (client) page reload src/minigames/minigolf/minigolfVisuals.ts
+19:57:19 [vite] (client) page reload src/minigames/backrooms/backroomsWorld.ts
+20:18:29 [vite] (client) page reload src/minigames/kart-race/cameraHud.ts
+20:18:29 [vite] (client) page reload src/minigames/casaCarbo/casaCarboHud.ts
+20:18:29 [vite] (client) page reload src/minigames/geofall/BabylonGeofallGame.ts
+20:22:32 [vite] (client) page reload src/minigames/kart-race/cameraHud.ts
+20:26:19 [vite] (client) page reload src/minigames/kart-race/cameraHud.ts
+20:26:19 [vite] (client) page reload src/minigames/casaCarbo/casaCarboHud.ts
+20:41:52 [vite] (client) page reload src/minigames/kart-race/cameraHud.ts
+20:41:52 [vite] (client) page reload src/minigames/casaCarbo/casaCarboHud.ts

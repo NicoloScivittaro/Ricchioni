@@ -29,12 +29,12 @@ export const UI = {
   /** colori di stato (uguali ovunque) */
   color: {
     bg: '#0b0b14',
-    panel: '#111426',
-    panelStrong: '#1a1f36',
+    panel: '#101b2b',
+    panelStrong: '#1a2a40',
     panelAlpha: 0.88,
-    line: '#2b3050',
+    line: '#394b65',
     text: '#ffffff',
-    textDim: '#d1d5db',
+    textDim: '#dce5f0',
     muted: '#9ca3af',
     accent: '#fbbf24', // oro: cio' che conta adesso
     info: '#93c5fd',
@@ -45,8 +45,8 @@ export const UI = {
     teamBlue: '#3b82f6'
   },
   /** contorno e ombra del testo sopra il 3D (leggibile su qualsiasi sfondo, senza esagerare) */
-  outline: { color: '#000000', thin: 3, thick: 6 },
-  shadow: { color: 'rgba(0,0,0,0.65)', blur: 8, y: 3 },
+  outline: { color: '#07101b', thin: 2, thick: 4 },
+  shadow: { color: 'rgba(0,0,0,0.7)', blur: 4, y: 2 },
   /** linguaggio del movimento (ms): scatti da game-show, mai animazioni "da dashboard" */
   motion: { enter: 220, exit: 160, success: 280, warning: 200, reveal: 320, winner: 350, pulse: 420 },
   /** squadre: colore + PAROLA + SIMBOLO (si legge anche senza distinguere rosso/blu) */

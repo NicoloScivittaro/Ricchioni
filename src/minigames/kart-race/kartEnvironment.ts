@@ -3,6 +3,7 @@ import type { DirectionalLight } from '@babylonjs/core';
 import type { TrackSpline } from './track';
 import { EnvKit, PAL, SIGN_FONT, seeded } from '../env/envKit';
 import type { Xf } from '../env/envKit';
+import { paintSurfaceDetail, paintRecess } from '../env/surfaceDetail';
 
 /**
  * RIBALTATI — CIRCUITO DEL LITORALE: il mondo intorno alla pista (la pista, i cordoli, i muretti e i segnali di
@@ -142,14 +143,19 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
   const facade = kit.texture('kartFacade', 256, 256, (c, w, h) => {
     c.fillStyle = '#ffffff';
     c.fillRect(0, 0, w, h);
+    paintSurfaceDetail(c, w, h, 'stone', 97);
     for (let y = 18; y < h; y += 64) for (let x = 16; x < w; x += 60) {
       c.fillStyle = '#4a6078';
       c.fillRect(x, y, 26, 34);
+      paintRecess(c, x, y, 26, 34, 2);
+      c.fillStyle = 'rgba(192,222,239,0.35)'; c.fillRect(x + 3, y + 4, 8, 20);
       c.fillStyle = '#5d8a6a'; // persiane
       c.fillRect(x - 7, y, 6, 34);
       c.fillRect(x + 27, y, 6, 34);
       c.fillStyle = '#b8b0a0'; // balconcino
       c.fillRect(x - 8, y + 34, 42, 5);
+      c.fillStyle = 'rgba(48,56,67,0.5)';
+      for (let rail = 0; rail < 5; rail++) c.fillRect(x - 5 + rail * 8, y + 35, 1, 4);
     }
   }, { wrap: true });
   const bld = MeshBuilder.CreateBox('kartBuildings', { width: 1, height: 1, depth: 1 }, scene);

@@ -1,4 +1,5 @@
 import { Color3, DynamicTexture, Mesh, MeshBuilder, Scene, StandardMaterial, Texture } from '@babylonjs/core';
+import { paintSurfaceDetail, paintRecess } from '../minigames/env/surfaceDetail';
 import { FPS_MAP } from '../../shared/fpsMap';
 import type { Aabb } from '../../shared/fpsMap';
 import { EnvKit, PAL, SIGN_FONT, seeded } from '../minigames/env/envKit';
@@ -83,6 +84,7 @@ export function buildFpsWorld(scene: Scene): void {
   const base = tiled(kit, 'fpsFloorBase', 256, (c, s) => {
     c.fillStyle = '#8f949c';
     c.fillRect(0, 0, s, s);
+    paintSurfaceDetail(c, s, s, 'stone', 13);
     c.strokeStyle = '#7a8088';
     c.lineWidth = 3;
     for (let i = 0; i <= 4; i++) {
@@ -133,7 +135,9 @@ export function buildFpsWorld(scene: Scene): void {
     c.fillStyle = base;
     c.fillRect(0, 0, s, s);
     c.fillStyle = rib;
-    for (let x = 6; x < s; x += 16) c.fillRect(x, 8, 6, s - 16);
+    for (let x = 6; x < s; x += 16) {
+      c.fillRect(x, 8, 6, s - 16); paintRecess(c, x, 8, 6, s - 16, 1);
+    }
     c.fillStyle = 'rgba(0,0,0,0.25)';
     c.fillRect(0, 0, s, 8);
     c.fillRect(0, s - 8, s, 8);
@@ -159,6 +163,7 @@ export function buildFpsWorld(scene: Scene): void {
     store: (c: CanvasRenderingContext2D, s: number): void => {
       c.fillStyle = '#b98f58';
       c.fillRect(0, 0, s, s);
+      paintSurfaceDetail(c, s, s, 'wood', 15);
       c.strokeStyle = '#80602f';
       c.lineWidth = 7;
       c.strokeRect(4, 4, s - 8, s - 8);

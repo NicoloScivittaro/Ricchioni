@@ -3,6 +3,7 @@ import type { Scene } from '@babylonjs/core';
 import { FIELD_HALF_W, FIELD_HALF_D, NET_HEIGHT } from './volleyballTypes';
 import { EnvKit, PAL, seeded } from '../env/envKit';
 import type { Xf } from '../env/envKit';
+import { paintSurfaceDetail } from '../env/surfaceDetail';
 
 /**
  * PALLAVOLO DEI DISAGIATI — beach volley sul lungomare (ispirazione Nettuno/Anzio, senza pretese geografiche),
@@ -47,6 +48,7 @@ export function buildVolleyballEnvironment(scene: Scene): VolleyballEnvironment 
   const sandTex = kit.texture('sandTex2', 1024, 1024, (c, S) => {
     c.fillStyle = '#e8cd92';
     c.fillRect(0, 0, S, S);
+    paintSurfaceDetail(c, S, S, 'sand', 51);
     const r = seeded(51);
     for (let i = 0; i < 3500; i++) {
       c.fillStyle = r() < 0.5 ? 'rgba(255,244,214,0.22)' : 'rgba(170,130,72,0.18)';
@@ -68,7 +70,7 @@ export function buildVolleyballEnvironment(scene: Scene): VolleyballEnvironment 
     const ch = S * ((FIELD_HALF_D * 2) / 70);
     const x0 = S / 2 - cw / 2;
     const y0 = S / 2 - ch / 2;
-    c.fillStyle = 'rgba(170,118,62,0.34)'; // piu' scura: la palla bianca stacca anche in scala di grigi
+    c.fillStyle = 'rgba(156,112,67,0.4)'; // piu' scura: la palla bianca stacca anche in scala di grigi
     c.fillRect(x0, y0, cw, ch);
     c.strokeStyle = '#fbf7ee';
     c.lineWidth = 7;

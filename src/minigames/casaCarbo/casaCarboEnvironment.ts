@@ -3,6 +3,7 @@ import type { HemisphericLight } from '@babylonjs/core';
 import { EnvKit, PAL, SIGN_FONT, mixHex, seeded } from '../env/envKit';
 import { CELL_PX, COLS, DOORS, DRAINS, FURNITURE, GARDENS, GRID_X0, GRID_Y0, INNER_DOORS, INTERIOR, ROWS, WALLS, toWorldX, toWorldZ } from './mapData';
 import type { Furniture, Rect } from './mapData';
+import { paintSurfaceDetail, paintRecess } from '../env/surfaceDetail';
 
 /**
  * CASA CARBO — la casa vista dall'alto "a spaccato" (muri bassi), come nella planimetria dell'utente: pavimenti diversi per stanza,
@@ -117,9 +118,11 @@ export function buildCasaCarboEnvironment(scene: Scene): CasaCarboEnvironment & 
           c.fillRect(0, y + 15, w, 1);
           c.fillRect(r2() * w, y, 1, 15);
         }
+        paintSurfaceDetail(c, w, h, 'wood', 23);
       } else if (kind === 'tile' || kind === 'bath' || kind === 'kitchen') {
         c.fillStyle = kind === 'kitchen' ? '#d9cfb8' : kind === 'bath' ? '#c9d6dc' : '#dfe3e2';
         c.fillRect(0, 0, w, h);
+        for (let y = 0; y < h; y += 32) for (let x = 0; x < w; x += 32) paintRecess(c, x + 2, y + 2, 28, 28, 1);
         c.strokeStyle = 'rgba(80,80,80,0.35)';
         c.lineWidth = 2;
         for (let i = 0; i <= w; i += 32) {

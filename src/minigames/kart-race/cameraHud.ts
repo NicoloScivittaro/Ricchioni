@@ -9,7 +9,7 @@ import { itemLabel } from './items';
 import { activeItemLabel } from './itemCatalog';
 import { MAX_SPEED, DRIFT_THRESHOLDS } from './kartPhysics';
 import { DRIFT_LEVEL_COLORS, driftLevelOf } from './kartEntity';
-import { FONT_DISPLAY } from '../../core/uiTokens';
+import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
 import { stateLabel } from '../../../shared/abilityCatalog';
 import type { AbilityStatus } from '../../../shared/abilityCatalog';
 
@@ -377,7 +377,7 @@ export class KartHud {
 
     const panel = new Rectangle(`hudPanel_${playerId}`);
     panel.width = '178px';
-    panel.height = '158px';
+    panel.height = '208px';
     panel.thickness = 2;
     panel.color = 'rgba(255,255,255,0.16)';
     panel.background = 'rgba(11,11,20,0.78)';
@@ -394,7 +394,7 @@ export class KartHud {
     posText.fontSize = 40;
     posText.outlineColor = '#000000';
     posText.outlineWidth = 4;
-    posText.top = '-46px';
+    posText.top = '-70px';
     posText.height = '48px';
     panel.addControl(posText);
 
@@ -402,7 +402,7 @@ export class KartHud {
     lapText.color = '#e5e7eb';
     lapText.fontFamily = FONT_DISPLAY;
     lapText.fontSize = 18;
-    lapText.top = '-12px';
+    lapText.top = '-34px';
     lapText.height = '24px';
     panel.addControl(lapText);
 
@@ -410,14 +410,14 @@ export class KartHud {
     itemText.color = '#fbbf24';
     itemText.fontFamily = FONT_DISPLAY;
     itemText.fontSize = 16;
-    itemText.top = '12px';
+    itemText.top = '-8px';
     itemText.height = '22px';
     panel.addControl(itemText);
 
     const driftBar = new Rectangle('driftBar');
     driftBar.width = '140px';
     driftBar.height = '10px';
-    driftBar.top = '32px';
+    driftBar.top = '12px';
     driftBar.thickness = 1;
     driftBar.color = '#00000055';
     driftBar.background = '#1f2430';
@@ -447,16 +447,20 @@ export class KartHud {
 
     const abilityLabel = new TextBlock('abilityLabel', '');
     abilityLabel.color = '#c4b5fd';
-    abilityLabel.fontFamily = FONT_DISPLAY;
+    abilityLabel.fontFamily = FONT_BODY;
+    abilityLabel.fontWeight = '700';
     abilityLabel.fontSize = 14;
-    abilityLabel.top = '48px';
-    abilityLabel.height = '18px';
+    abilityLabel.top = '50px';
+    abilityLabel.width = '158px';
+    // Two lines, including the taller fallback metrics of the lightning icon in small viewports.
+    abilityLabel.height = '52px';
+    abilityLabel.textWrapping = true;
     panel.addControl(abilityLabel);
 
     const abilityBar = new Rectangle('abilityBar');
     abilityBar.width = '140px';
     abilityBar.height = '9px';
-    abilityBar.top = '64px';
+    abilityBar.top = '86px';
     abilityBar.thickness = 1;
     abilityBar.color = '#00000055';
     abilityBar.background = '#1f2430';
@@ -477,7 +481,7 @@ export class KartHud {
     debtText.color = '#f472b6';
     debtText.fontFamily = FONT_DISPLAY;
     debtText.fontSize = 13;
-    debtText.top = '64px';
+    debtText.top = '89px';
     debtText.height = '16px';
     debtText.isVisible = false;
     panel.addControl(debtText);

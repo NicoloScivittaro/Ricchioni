@@ -4,6 +4,7 @@ import {GOLF} from './minigolfTypes';
 import {floorAt,heightAt,wallAt} from './minigolfCourses';
 import {predict,speed} from './minigolfPhysics';
 import {AB} from '../../../shared/abilityCatalog';
+import {paintSurfaceDetail} from '../env/surfaceDetail';
 export class MinigolfVisuals {
  private root:TransformNode|null=null;
  private floorMeshes:{base:Floor;mesh:Mesh}[]=[];
@@ -31,8 +32,10 @@ export class MinigolfVisuals {
   this.root?.dispose();this.bumpers.clear();this.root=new TransformNode('golfCourseRoot',this.scene);this.floorMeshes=[];this.walls=[];
   this.holePulse=0;this.previewAt=0;this.sparks.forEach(s=>{s.life=0;s.mesh.isVisible=false;});for(const dots of this.preview.values())dots.forEach(m=>m.isVisible=false);
   const floorMat=this.material(`turf:${c.id}`,c.color);
-  if(!floorMat.diffuseTexture){const tex=new DynamicTexture(`golfTurf:${c.id}`,128,this.scene,false),ctx=tex.getContext();ctx.fillStyle='#ffffff';ctx.fillRect(0,0,128,128);ctx.fillStyle='#d9e6dc';ctx.fillRect(0,0,64,64);ctx.fillRect(64,64,64,64);
-   ctx.fillStyle='#cfdfd2';for(let i=0;i<40;i++)ctx.fillRect((i*37)%128,(i*53)%128,2,2);tex.update();floorMat.diffuseTexture=tex;}
+  if(!floorMat.diffuseTexture){const tex=new DynamicTexture(`golfTurf:${c.id}`,128,this.scene,false),ctx=tex.getContext() as CanvasRenderingContext2D;
+   ctx.fillStyle='#edf5ef';ctx.fillRect(0,0,128,128);ctx.fillStyle='#d2e2d6';
+   for(let stripe=0;stripe<4;stripe++)if(stripe%2===0)ctx.fillRect(stripe*32,0,32,128);
+   paintSurfaceDetail(ctx,128,128,'turf',37);tex.update();floorMat.diffuseTexture=tex;}
   for(const [i,f] of c.floors.entries()){
    const mesh=new Mesh(`golfFloor:${i}`,this.scene),pts=[[-f.w/2,-f.d/2],[f.w/2,-f.d/2],[f.w/2,f.d/2],[-f.w/2,f.d/2]];
    const positions=pts.flatMap(([x,z])=>[x,(f.slopeX??0)*x+(f.slopeZ??0)*z,z]),indices=[0,1,2,0,2,3],normals:number[]=[];

@@ -3,6 +3,7 @@ import { Rng } from '../../../shared/rng';
 import { CELL, center, neighbors } from './maze';
 import type { Maze } from './maze';
 import type { CreatureKind } from './backroomsRules';
+import {paintRecess} from '../env/surfaceDetail';
 
 function material(scene: Scene, name: string, hex: string): StandardMaterial {
   const m = new StandardMaterial(name, scene); m.diffuseColor = Color3.FromHexString(hex); m.specularColor = Color3.Black(); return m;
@@ -26,12 +27,19 @@ function surface(scene: Scene, name: string, kind: 'wall' | 'carpet' | 'ceiling'
   } else if (kind === 'carpet') {
     c.strokeStyle = '#aaaa7540'; for (let i = 0; i < 11000; i++) { const x = rng.int(0, 512), y = rng.int(0, 512); c.beginPath(); c.moveTo(x, y); c.lineTo(x + 1, y + 3); c.stroke(); }
     c.fillStyle = '#21271925'; for (let i = 0; i < 16; i++) { c.beginPath(); c.ellipse(rng.int(0, 512), rng.int(0, 512), rng.int(8, 55), rng.int(8, 34), rng.next(), 0, Math.PI * 2); c.fill(); }
-  } else { c.strokeStyle = '#383b30'; c.lineWidth = 5; for (let i = 0; i < 512; i += 128) { c.strokeRect(i, 0, 128, 512); c.strokeRect(0, i, 512, 128); } }
+  } else {
+    c.strokeStyle = '#383b30'; c.lineWidth = 5;
+    for (let i = 0; i < 512; i += 128) { c.strokeRect(i, 0, 128, 512); c.strokeRect(0, i, 512, 128); }
+    for (let y = 0; y < 512; y += 128) for (let x = 0; x < 512; x += 128) paintRecess(c,x+4,y+4,120,120,3);
+  }
   t.update(); mat.diffuseTexture = t; return mat;
 }
 export function inscription(scene: Scene, name: string, text: string, width: number, height: number, background = '#383b2b'): Mesh {
   const tex = new DynamicTexture(name, { width: 512, height: 256 }, scene, false), c = tex.getContext() as CanvasRenderingContext2D;
   c.fillStyle = background; c.fillRect(0, 0, 512, 256); c.strokeStyle = '#a6a987'; c.lineWidth = 5; c.strokeRect(12, 12, 488, 232);
+  paintRecess(c,20,20,472,216,2);
+  // Worn corner fasteners and faded edge are part of the same texture, not extra meshes.
+  c.fillStyle='#c1bea0';for(const x of [24,488])for(const y of [24,232]){c.beginPath();c.arc(x,y,3,0,Math.PI*2);c.fill();}
   c.font = 'bold 35px monospace'; c.fillStyle = '#dfddac'; c.textAlign = 'center'; text.split('\n').forEach((line, i, lines) => c.fillText(line, 256, 126 + (i - (lines.length - 1) / 2) * 42)); tex.update();
   const mat = material(scene, name, '#ffffff'); mat.diffuseTexture = tex; mat.emissiveColor = new Color3(.12, .12, .1);
   const mesh = MeshBuilder.CreatePlane(name, { width, height, sideOrientation: Mesh.DOUBLESIDE }, scene); mesh.material = mat; return mesh;

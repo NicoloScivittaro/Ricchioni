@@ -1,0 +1,1050 @@
+{
+  "stage": "before",
+  "players": 5,
+  "quality": "low",
+  "viewport": "1280x720",
+  "games": [
+    {
+      "id": "quiz",
+      "samples": [
+        {
+          "frames": 181,
+          "fps": 60.25099031323856,
+          "frameMsMedian": 16.69999999999891,
+          "frameMsP95": 16.80000000000109,
+          "cpuMsMean": null,
+          "drawMean": null,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 181,
+          "fps": 60.04511677279411,
+          "frameMsMedian": 16.700000000000728,
+          "frameMsP95": 16.799999999999272,
+          "cpuMsMean": null,
+          "drawMean": null,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "scroll": false,
+          "controls": 6
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "reaction",
+      "samples": [
+        {
+          "frames": 181,
+          "fps": 60.162871863024854,
+          "frameMsMedian": 16.69999999999709,
+          "frameMsP95": 16.80000000000291,
+          "cpuMsMean": null,
+          "drawMean": null,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 178,
+          "fps": 59.02052455325972,
+          "frameMsMedian": 16.69999999999709,
+          "frameMsP95": 16.80000000000291,
+          "cpuMsMean": null,
+          "drawMean": null,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "title": "BOTTA AL VOLO",
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "title": "BOTTA AL VOLO",
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "title": "BOTTA AL VOLO",
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "title": "BOTTA AL VOLO",
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "title": "BOTTA AL VOLO",
+          "scroll": false,
+          "controls": 2
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "memory",
+      "samples": [
+        {
+          "frames": 172,
+          "fps": 57.207476884216526,
+          "frameMsMedian": 16.69999999999709,
+          "frameMsP95": 16.80000000000291,
+          "cpuMsMean": null,
+          "drawMean": null,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 181,
+          "fps": 59.989394140203245,
+          "frameMsMedian": 16.69999999999709,
+          "frameMsP95": 16.80000000000291,
+          "cpuMsMean": null,
+          "drawMean": null,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "scroll": false,
+          "controls": 5
+        },
+        {
+          "scroll": false,
+          "controls": 5
+        },
+        {
+          "scroll": false,
+          "controls": 5
+        },
+        {
+          "scroll": false,
+          "controls": 5
+        },
+        {
+          "scroll": false,
+          "controls": 5
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "arena",
+      "samples": [
+        {
+          "frames": 176,
+          "fps": 58.43293492695883,
+          "frameMsMedian": 16.600000001490116,
+          "frameMsP95": 18.5,
+          "cpuMsMean": 2.94545454591174,
+          "drawMean": 57.92045454545455,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            731,
+            411
+          ],
+          "scale": 1.75,
+          "meshes": 197,
+          "materials": 95,
+          "textures": 43,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 181,
+          "fps": 60.01724252262474,
+          "frameMsMedian": 16.69999999552965,
+          "frameMsP95": 18,
+          "cpuMsMean": 2.197790055273317,
+          "drawMean": 58,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            731,
+            411
+          ],
+          "scale": 1.75,
+          "meshes": 197,
+          "materials": 95,
+          "textures": 43,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "dodgeball",
+      "samples": [
+        {
+          "frames": 181,
+          "fps": 60.027194640576944,
+          "frameMsMedian": 16.799999997019768,
+          "frameMsP95": 19.399999998509884,
+          "cpuMsMean": 3.890607735111239,
+          "drawMean": 72,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            853,
+            480
+          ],
+          "scale": 1.5,
+          "meshes": 249,
+          "materials": 103,
+          "textures": 45,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 181,
+          "fps": 59.98740595888107,
+          "frameMsMedian": 16.69999999552965,
+          "frameMsP95": 19,
+          "cpuMsMean": 2.896685082609482,
+          "drawMean": 72,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            853,
+            480
+          ],
+          "scale": 1.5,
+          "meshes": 249,
+          "materials": 103,
+          "textures": 45,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "soccer",
+      "samples": [
+        {
+          "frames": 181,
+          "fps": 60.08298755186722,
+          "frameMsMedian": 16.599999994039536,
+          "frameMsP95": 19.5,
+          "cpuMsMean": 5.2779005527990295,
+          "drawMean": 82,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            853,
+            480
+          ],
+          "scale": 1.5,
+          "meshes": 240,
+          "materials": 114,
+          "textures": 43,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 180,
+          "fps": 59.900166389351085,
+          "frameMsMedian": 16.69999999552965,
+          "frameMsP95": 19,
+          "cpuMsMean": 4.434444444792138,
+          "drawMean": 82,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            853,
+            480
+          ],
+          "scale": 1.5,
+          "meshes": 240,
+          "materials": 114,
+          "textures": 43,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "volleyball",
+      "samples": [
+        {
+          "frames": 177,
+          "fps": 58.67922026259363,
+          "frameMsMedian": 16.69999999552965,
+          "frameMsP95": 21.700000002980232,
+          "cpuMsMean": 6.3915254236277885,
+          "drawMean": 73.45762711864407,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            853,
+            480
+          ],
+          "scale": 1.5,
+          "meshes": 214,
+          "materials": 117,
+          "textures": 43,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 181,
+          "fps": 60.03914153972901,
+          "frameMsMedian": 16.700000002980232,
+          "frameMsP95": 18,
+          "cpuMsMean": 3.433701657211583,
+          "drawMean": 74,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            853,
+            480
+          ],
+          "scale": 1.5,
+          "meshes": 214,
+          "materials": 117,
+          "textures": 43,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        },
+        {
+          "scroll": false,
+          "controls": 3
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "kart3d",
+      "samples": [
+        {
+          "frames": 166,
+          "fps": 53.56048139907709,
+          "frameMsMedian": 17.399999998509884,
+          "frameMsP95": 26.100000001490116,
+          "cpuMsMean": 16.10783132502293,
+          "drawMean": 621,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            853,
+            480
+          ],
+          "scale": 1.5,
+          "meshes": 334,
+          "materials": 154,
+          "textures": 56,
+          "lights": 2,
+          "cameras": 5,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 148,
+          "fps": 48.33442194644024,
+          "frameMsMedian": 19.100000001490116,
+          "frameMsP95": 32.29999999701977,
+          "cpuMsMean": 18.387837837978793,
+          "drawMean": 621,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            853,
+            480
+          ],
+          "scale": 1.5,
+          "meshes": 334,
+          "materials": 154,
+          "textures": 56,
+          "lights": 2,
+          "cameras": 5,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "title": "RIBALTATI — CIRCUITO DEL LITORALE",
+          "scroll": false,
+          "controls": 7
+        },
+        {
+          "title": "RIBALTATI — CIRCUITO DEL LITORALE",
+          "scroll": false,
+          "controls": 7
+        },
+        {
+          "title": "RIBALTATI — CIRCUITO DEL LITORALE",
+          "scroll": false,
+          "controls": 7
+        },
+        {
+          "title": "RIBALTATI — CIRCUITO DEL LITORALE",
+          "scroll": false,
+          "controls": 7
+        },
+        {
+          "title": "RIBALTATI — CIRCUITO DEL LITORALE",
+          "scroll": false,
+          "controls": 7
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "cultura",
+      "samples": [
+        {
+          "frames": 177,
+          "fps": 58.70062680324502,
+          "frameMsMedian": 16.699999999982538,
+          "frameMsP95": 16.800000000017462,
+          "cpuMsMean": null,
+          "drawMean": null,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 181,
+          "fps": 60.00132599621412,
+          "frameMsMedian": 16.699999999982538,
+          "frameMsP95": 16.800000000017462,
+          "cpuMsMean": null,
+          "drawMean": null,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "scroll": false,
+          "controls": 2
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "fps",
+      "samples": [
+        {
+          "frames": 176,
+          "fps": 58.40772574914953,
+          "frameMsMedian": 16.699999999982538,
+          "frameMsP95": 16.800000000017462,
+          "cpuMsMean": null,
+          "drawMean": null,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 170,
+          "fps": 56.478405315614616,
+          "frameMsMedian": 16.70000000001164,
+          "frameMsP95": 17,
+          "cpuMsMean": null,
+          "drawMean": null,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            1280,
+            720
+          ],
+          "scale": 1,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "scroll": false,
+          "controls": 6
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "cornicione",
+      "samples": [
+        {
+          "frames": 180,
+          "fps": 59.42162947306976,
+          "frameMsMedian": 16.700000002980232,
+          "frameMsP95": 18.700000002980232,
+          "cpuMsMean": 4.551111111127668,
+          "drawMean": 62,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            731,
+            411
+          ],
+          "scale": 1.75,
+          "meshes": 309,
+          "materials": 133,
+          "textures": 54,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 180,
+          "fps": 59.73913909259931,
+          "frameMsMedian": 16.600000001490116,
+          "frameMsP95": 19.799999997019768,
+          "cpuMsMean": 4.3766666664845415,
+          "drawMean": 62,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            731,
+            411
+          ],
+          "scale": 1.75,
+          "meshes": 309,
+          "materials": 133,
+          "textures": 54,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "title": "BOTTE SUL CORNICIONE",
+          "scroll": false,
+          "controls": 12
+        },
+        {
+          "title": "BOTTE SUL CORNICIONE",
+          "scroll": false,
+          "controls": 12
+        },
+        {
+          "title": "BOTTE SUL CORNICIONE",
+          "scroll": false,
+          "controls": 12
+        },
+        {
+          "title": "BOTTE SUL CORNICIONE",
+          "scroll": false,
+          "controls": 12
+        },
+        {
+          "title": "BOTTE SUL CORNICIONE",
+          "scroll": false,
+          "controls": 12
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "casacarbo",
+      "samples": [
+        {
+          "frames": 172,
+          "fps": 56.95741439822021,
+          "frameMsMedian": 16.5,
+          "frameMsP95": 22.700000002980232,
+          "cpuMsMean": 6.575000000381192,
+          "drawMean": 95,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            731,
+            411
+          ],
+          "scale": 1.75,
+          "meshes": 271,
+          "materials": 123,
+          "textures": 51,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 181,
+          "fps": 59.488595280468864,
+          "frameMsMedian": 16.600000001490116,
+          "frameMsP95": 21.700000002980232,
+          "cpuMsMean": 5.233701657153954,
+          "drawMean": 95,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            731,
+            411
+          ],
+          "scale": 1.75,
+          "meshes": 271,
+          "materials": 123,
+          "textures": 51,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "title": "CASA CARBO",
+          "scroll": false,
+          "controls": 9
+        },
+        {
+          "title": "CASA CARBO",
+          "scroll": false,
+          "controls": 9
+        },
+        {
+          "title": "CASA CARBO",
+          "scroll": false,
+          "controls": 9
+        },
+        {
+          "title": "CASA CARBO",
+          "scroll": false,
+          "controls": 9
+        },
+        {
+          "title": "CASA CARBO",
+          "scroll": false,
+          "controls": 9
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "minigolf",
+      "samples": [
+        {
+          "frames": 181,
+          "fps": 60.04511677285347,
+          "frameMsMedian": 16.69999999552965,
+          "frameMsP95": 18.5,
+          "cpuMsMean": 3.490055248223616,
+          "drawMean": 61,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            853,
+            480
+          ],
+          "scale": 1.5,
+          "meshes": 529,
+          "materials": 93,
+          "textures": 25,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 182,
+          "fps": 60.04222750074835,
+          "frameMsMedian": 16.600000001490116,
+          "frameMsP95": 18.899999998509884,
+          "cpuMsMean": 3.744505494751118,
+          "drawMean": 61,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            853,
+            480
+          ],
+          "scale": 1.5,
+          "meshes": 529,
+          "materials": 93,
+          "textures": 25,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "scroll": false,
+          "controls": 4
+        },
+        {
+          "scroll": false,
+          "controls": 4
+        },
+        {
+          "scroll": false,
+          "controls": 4
+        },
+        {
+          "scroll": false,
+          "controls": 4
+        },
+        {
+          "scroll": false,
+          "controls": 4
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "geofall",
+      "samples": [
+        {
+          "frames": 182,
+          "fps": 60.08583690987125,
+          "frameMsMedian": 16.700000002980232,
+          "frameMsP95": 18.600000001490116,
+          "cpuMsMean": 3.8796703295147683,
+          "drawMean": 65,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            731,
+            411
+          ],
+          "scale": 1.75,
+          "meshes": 194,
+          "materials": 97,
+          "textures": 37,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 182,
+          "fps": 59.99670347783089,
+          "frameMsMedian": 16.600000001490116,
+          "frameMsP95": 18.600000001490116,
+          "cpuMsMean": 3.0439560436285458,
+          "drawMean": 65,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            731,
+            411
+          ],
+          "scale": 1.75,
+          "meshes": 194,
+          "materials": 97,
+          "textures": 37,
+          "lights": 2,
+          "cameras": 0,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "title": "GEOFALL — IL MONDO CROLLA",
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "title": "GEOFALL — IL MONDO CROLLA",
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "title": "GEOFALL — IL MONDO CROLLA",
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "title": "GEOFALL — IL MONDO CROLLA",
+          "scroll": false,
+          "controls": 6
+        },
+        {
+          "title": "GEOFALL — IL MONDO CROLLA",
+          "scroll": false,
+          "controls": 6
+        }
+      ],
+      "cleanup": true
+    },
+    {
+      "id": "backrooms",
+      "samples": [
+        {
+          "frames": 65,
+          "fps": 20.24985202032156,
+          "frameMsMedian": 45,
+          "frameMsP95": 72.10000000149012,
+          "cpuMsMean": 38.35384615315841,
+          "drawMean": 628.7538461538461,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            731,
+            411
+          ],
+          "scale": 1.75,
+          "meshes": 971,
+          "materials": 169,
+          "textures": 97,
+          "lights": 2,
+          "cameras": 5,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        },
+        {
+          "frames": 79,
+          "fps": 24.51360660313617,
+          "frameMsMedian": 38.80000000447035,
+          "frameMsP95": 51.5,
+          "cpuMsMean": 32.939240506744085,
+          "drawMean": 747.8860759493671,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "resolution": [
+            731,
+            411
+          ],
+          "scale": 1.75,
+          "meshes": 971,
+          "materials": 169,
+          "textures": 97,
+          "lights": 2,
+          "cameras": 5,
+          "activeScene": true,
+          "phase": "MINIGAME_PLAYING"
+        }
+      ],
+      "phoneLayouts": [
+        {
+          "title": "BACKROOMS",
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "title": "BACKROOMS",
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "title": "BACKROOMS",
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "title": "BACKROOMS",
+          "scroll": false,
+          "controls": 2
+        },
+        {
+          "title": "BACKROOMS",
+          "scroll": false,
+          "controls": 2
+        }
+      ],
+      "cleanup": true
+    }
+  ],
+  "errors": [],
+  "ok": true
+}

@@ -62,8 +62,10 @@ export class BabylonGeofallGame {
  setPaused(on:boolean):void{this.paused=on;this.match.cancel();for(const p of this.match.players)this.ctx.input.cancelPlayer(p.id);}
  private paintAnswers():void{this.match.answers.forEach((a,i)=>this.paint(a,i));this.shownRound=this.match.round;}
  private paint(a:GeoAnswer,i:number):void{
-  const t=this.textures[i],c=t.getContext() as CanvasRenderingContext2D;c.clearRect(0,0,512,512);c.fillStyle=COLORS[i];c.fillRect(0,0,512,512);c.strokeStyle='#ffffff';c.lineWidth=8;c.strokeRect(6,6,500,500);
-  c.fillStyle='#17314d';c.font='bold 42px Arial';c.textAlign='left';c.fillText(String(i+1),22,42);
+  const t=this.textures[i],c=t.getContext() as CanvasRenderingContext2D;c.clearRect(0,0,512,512);
+  const face=c.createLinearGradient(0,0,0,512);face.addColorStop(0,COLORS[i]);face.addColorStop(1,'#f2f6fa');c.fillStyle=face;c.fillRect(0,0,512,512);
+  c.strokeStyle='#ffffff';c.lineWidth=8;c.strokeRect(6,6,500,500);c.strokeStyle='#17314d22';c.lineWidth=2;c.strokeRect(14,14,484,484);
+  c.fillStyle='#17314d';c.beginPath();c.roundRect(18,14,80,56,12);c.fill();c.fillStyle='#ffffff';c.font='bold 42px Arial';c.textAlign='center';c.fillText(String(i+1),58,57);
   const image=a.image?this.images.get(a.image):null;if(image){const scale=Math.min(438/image.naturalWidth,330/image.naturalHeight),w=image.naturalWidth*scale,h=image.naturalHeight*scale;c.drawImage(image,(512-w)/2,76+(330-h)/2,w,h);}
   const showText=!['bandiere','sagome'].includes(this.match.question.category);
   if(showText){const words=a.label.split(' '),lines:string[]=[];let line='';c.font=`bold ${image?42:58}px Arial`;for(const word of words){const next=line?line+' '+word:word;if(c.measureText(next).width>460&&line){lines.push(line);line=word;}else line=next;}if(line)lines.push(line);c.textAlign='center';c.fillStyle='#102940';lines.forEach((line,n)=>c.fillText(line,256,(image?440:230)+n*(image?44:65)));}

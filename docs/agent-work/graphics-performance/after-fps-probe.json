@@ -1,0 +1,73 @@
+{
+  "stage": "after",
+  "rows": [
+    {
+      "n": 2,
+      "q": "medium",
+      "mobile": false,
+      "frames": 359,
+      "fps": 59.933222036727884,
+      "median": 16.69999999552965,
+      "p95": 18.600000001490116,
+      "cpu": 5.301392757709976,
+      "draw": 94,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "resolution": [
+        1280,
+        720
+      ],
+      "scale": 1,
+      "meshes": 171,
+      "materials": 106,
+      "textures": 18,
+      "lights": 2,
+      "cameras": 2
+    },
+    {
+      "n": 5,
+      "q": "low",
+      "mobile": false,
+      "frames": 354,
+      "fps": 58.89693037184926,
+      "median": 16.600000001490116,
+      "p95": 22.600000001490116,
+      "cpu": 13.316101694721624,
+      "draw": 332,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "resolution": [
+        731,
+        411
+      ],
+      "scale": 1.75,
+      "meshes": 277,
+      "materials": 141,
+      "textures": 31,
+      "lights": 2,
+      "cameras": 5
+    },
+    {
+      "n": 2,
+      "q": "medium",
+      "mobile": true,
+      "frames": 358,
+      "fps": 59.77026846532505,
+      "median": 16.700000002980232,
+      "p95": 17.799999997019768,
+      "cpu": 1.0812849159347278,
+      "draw": 29,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "resolution": [
+        390,
+        800
+      ],
+      "scale": 1,
+      "meshes": 82,
+      "materials": 64,
+      "textures": 9,
+      "lights": 2,
+      "cameras": 0
+    }
+  ],
+  "errors": [],
+  "ok": true
+}
