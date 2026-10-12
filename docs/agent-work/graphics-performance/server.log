@@ -1,0 +1,75 @@
+🚀 Server Ricchioni Party su http://localhost:3001
+17:40:15 [ROOM] [3MEC8] creata: 2 giocatori, target 60 (stanze attive 1)
+17:40:17 [RECONNECT] [3MEC8] host tornato (fase LOBBY)
+17:40:17 [ROOM] [3MEC8] reset alla lobby
+17:40:17 [ROOM] [6NC78] creata: 2 giocatori, target 200 (stanze attive 2)
+17:40:18 [ROOM] [6NC78] entra Niko (1/2)
+17:40:19 [ROOM] [6NC78] entra Boschi (2/2)
+17:40:19 [ROUND] [6NC78] #1 (id 1) → quiz [punti_doppi] · 2 giocatori
+17:40:20 [MINIGAME] [6NC78] quiz via (id 1)
+17:40:29 [RESULT] [6NC78] quiz · Niko +20, Boschi +10 (punti doppi)
+17:40:39 [ROUND] [6NC78] #2 (id 2) → memory [punti_doppi] · 2 giocatori
+17:40:40 [ROOM] [6NC78] nuova partita: punteggi azzerati, stessi giocatori
+17:41:40 [RECONNECT] [6NC78] Boschi disconnesso (fase LOBBY)
+17:41:40 [RECONNECT] [6NC78] Niko disconnesso (fase LOBBY)
+17:41:40 [RECONNECT] [6NC78] host disconnesso (fase LOBBY)
+17:42:11 [ROOM] [9U4UK] creata: 2 giocatori, target 60 (stanze attive 3)
+17:42:13 [RECONNECT] [9U4UK] host tornato (fase LOBBY)
+17:42:13 [ROOM] [9U4UK] reset alla lobby
+17:42:13 [ROOM] [GLGEC] creata: 2 giocatori, target 200 (stanze attive 4)
+17:42:14 [ROOM] [GLGEC] entra Niko (1/2)
+17:42:14 [ROOM] [GLGEC] entra Boschi (2/2)
+17:42:15 [ROOM] [2ETSQ] creata: 2 giocatori, target 60 (stanze attive 5)
+17:43:15 [RECONNECT] [GLGEC] Boschi disconnesso (fase LOBBY)
+17:43:15 [RECONNECT] [GLGEC] Niko disconnesso (fase LOBBY)
+17:43:15 [RECONNECT] [2ETSQ] host disconnesso (fase LOBBY)
+17:44:22 [ROOM] [86UZ4] creata: 2 giocatori, target 60 (stanze attive 6)
+17:44:23 [ROOM] [86UZ4] entra Niko (1/2)
+17:44:24 [ROOM] [86UZ4] entra Boschi (2/2)
+17:44:25 [ROUND] [86UZ4] #1 (id 1) → quiz · 2 giocatori
+17:44:25 [MINIGAME] [86UZ4] quiz via (id 1)
+17:44:34 [RESULT] [86UZ4] quiz · Niko +10, Boschi +5
+17:44:45 [ROUND] [86UZ4] #2 (id 2) → kart3d · 2 giocatori
+17:44:46 [ROOM] [86UZ4] nuova partita: punteggi azzerati, stessi giocatori
+17:44:46 [ROUND] [86UZ4] #1 (id 3) → reaction · 2 giocatori
+17:44:46 [MINIGAME] [86UZ4] reaction via (id 3)
+17:44:55 [RESULT] [86UZ4] reaction · Niko +10, Boschi +5
+17:45:06 [ROUND] [86UZ4] #2 (id 4) → kart3d · 2 giocatori
+17:45:07 [ROOM] [86UZ4] nuova partita: punteggi azzerati, stessi giocatori
+17:45:07 [ROUND] [86UZ4] #1 (id 5) → memory · 2 giocatori
+17:45:07 [MINIGAME] [86UZ4] memory via (id 5)
+17:45:16 [RESULT] [86UZ4] memory · Niko +10, Boschi +5
+17:45:27 [ROUND] [86UZ4] #2 (id 6) → quiz · 2 giocatori
+17:45:28 [ROOM] [86UZ4] nuova partita: punteggi azzerati, stessi giocatori
+17:45:29 [ROUND] [86UZ4] #1 (id 7) → arena · 2 giocatori
+17:45:29 [MINIGAME] [86UZ4] arena via (id 7)
+17:45:39 [RESULT] [86UZ4] arena · Niko +10, Boschi +5
+17:45:50 [ROUND] [86UZ4] #2 (id 8) → geofall · 2 giocatori
+17:45:51 [ROOM] [86UZ4] nuova partita: punteggi azzerati, stessi giocatori
+17:45:52 [ROUND] [86UZ4] #1 (id 9) → dodgeball · 2 giocatori
+17:45:52 [MINIGAME] [86UZ4] dodgeball via (id 9)
+17:46:03 [RESULT] [86UZ4] dodgeball · Niko +10, Boschi +5
+17:46:14 [ROUND] [86UZ4] #2 (id 10) → memory · 2 giocatori
+17:46:14 [ROOM] [86UZ4] nuova partita: punteggi azzerati, stessi giocatori
+17:46:14 [ROUND] [86UZ4] #1 (id 11) → soccer · 2 giocatori
+17:46:15 [MINIGAME] [86UZ4] soccer via (id 11)
+17:46:25 [RESULT] [86UZ4] soccer · Niko +10, Boschi +5
+17:46:36 [ROUND] [86UZ4] #2 (id 12) → dodgeball · 2 giocatori
+17:46:36 [ROOM] [86UZ4] nuova partita: punteggi azzerati, stessi giocatori
+17:46:36 [ROUND] [86UZ4] #1 (id 13) → volleyball [punti_doppi] · 2 giocatori
+17:46:37 [MINIGAME] [86UZ4] volleyball via (id 13)
+17:46:47 [RESULT] [86UZ4] volleyball · Niko +20, Boschi +10 (punti doppi)
+17:46:58 [ROUND] [86UZ4] #2 (id 14) → kart3d · 2 giocatori
+17:46:58 [ROOM] [86UZ4] nuova partita: punteggi azzerati, stessi giocatori
+17:46:58 [ROUND] [86UZ4] #1 (id 15) → kart3d · 2 giocatori
+17:46:59 [MINIGAME] [86UZ4] kart3d via (id 15)
+17:47:10 [RESULT] [86UZ4] kart3d · Niko +10, Boschi +5
+17:47:21 [ROUND] [86UZ4] #2 (id 16) → volleyball · 2 giocatori
+17:47:21 [ROOM] [86UZ4] nuova partita: punteggi azzerati, stessi giocatori
+17:47:21 [ROUND] [86UZ4] #1 (id 17) → cultura · 2 giocatori
+17:47:21 [MINIGAME] [86UZ4] cultura via (id 17)
+17:47:30 [RESULT] [86UZ4] cultura · Niko +10, Boschi +5
+17:47:41 [ROUND] [86UZ4] #2 (id 18) → kart3d · 2 giocatori
+17:47:42 [ROOM] [86UZ4] nuova partita: punteggi azzerati, stessi giocatori
+17:47:42 [ROUND] [86UZ4] #1 (id 19) → fps · 2 giocatori
+17:47:42 [MINIGAME] [86UZ4] fps via (id 19)
