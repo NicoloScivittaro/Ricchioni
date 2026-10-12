@@ -1,0 +1,137 @@
+{
+  "errors": [],
+  "models": [
+    {
+      "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/judoka-tripo/judo_figure_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/man-tripo/man_animated.glb",
+      "status": 200
+    }
+  ],
+  "phases": [
+    {
+      "phase": "LOBBY",
+      "ms": 4034
+    },
+    {
+      "phase": "MINIGAME_ROULETTE",
+      "ms": 7888
+    },
+    {
+      "phase": "MINIGAME_INTRO",
+      "ms": 14635
+    },
+    {
+      "phase": "MINIGAME_PLAYING",
+      "ms": 17212
+    },
+    {
+      "phase": "MINIGAME_FINISHED",
+      "ms": 298801
+    },
+    {
+      "phase": "ROUND_RESULTS",
+      "ms": 299735
+    }
+  ],
+  "chunks": [
+    {
+      "url": "http://127.0.0.1:3001/assets/BabylonBackroomsGame-B4VS6_mh.js",
+      "ms": 7559
+    }
+  ],
+  "phoneStates": [
+    {
+      "state": "exploring",
+      "lives": 2,
+      "ms": 18009
+    },
+    {
+      "state": "captured",
+      "lives": 1,
+      "ms": 247019
+    },
+    {
+      "state": "exploring",
+      "lives": 1,
+      "ms": 249155
+    },
+    {
+      "state": "eliminated",
+      "lives": 0,
+      "ms": 278451
+    }
+  ],
+  "start": 7547,
+  "playing": 17349,
+  "wallSeconds": 275.315,
+  "results": {
+    "results": [
+      {
+        "playerId": "bot:477563b1-b0a8-4a23-91fe-8b1829a5849a",
+        "placement": 1,
+        "score": 219,
+        "stats": [
+          "Due catture · eliminato"
+        ]
+      },
+      {
+        "playerId": "6e0c2ae8-70a2-4c8f-978b-4948c388e95c",
+        "placement": 2,
+        "score": 1,
+        "stats": [
+          "Due catture · eliminato"
+        ]
+      },
+      {
+        "playerId": "bot:a59e054a-86e8-4c87-9995-60dee7654062",
+        "placement": 3,
+        "score": 161,
+        "stats": [
+          "Due catture · eliminato"
+        ]
+      },
+      {
+        "playerId": "bot:d1ee3e51-e2b4-4959-8293-0a4e0bc395cf",
+        "placement": 4,
+        "score": 140,
+        "stats": [
+          "Due catture · eliminato"
+        ]
+      },
+      {
+        "playerId": "bot:90c1d295-6ab7-47da-9c34-ab2d5feb2dd1",
+        "placement": 5,
+        "score": 93,
+        "stats": [
+          "Due catture · eliminato"
+        ]
+      }
+    ],
+    "ranking": [
+      "bot:477563b1-b0a8-4a23-91fe-8b1829a5849a",
+      "6e0c2ae8-70a2-4c8f-978b-4948c388e95c",
+      "bot:a59e054a-86e8-4c87-9995-60dee7654062",
+      "bot:d1ee3e51-e2b4-4959-8293-0a4e0bc395cf",
+      "bot:90c1d295-6ab7-47da-9c34-ab2d5feb2dd1"
+    ],
+    "deltas": {
+      "bot:477563b1-b0a8-4a23-91fe-8b1829a5849a": 10,
+      "6e0c2ae8-70a2-4c8f-978b-4948c388e95c": 7,
+      "bot:a59e054a-86e8-4c87-9995-60dee7654062": 5,
+      "bot:d1ee3e51-e2b4-4959-8293-0a4e0bc395cf": 3,
+      "bot:90c1d295-6ab7-47da-9c34-ab2d5feb2dd1": 1
+    },
+    "double": false
+  }
+}

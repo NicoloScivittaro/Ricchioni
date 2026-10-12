@@ -1,5 +1,7 @@
 # PARTY GAME — scheda completa del progetto (da incollare in una chat ChatGPT)
 
+> Aggiornamento 12 ottobre 2026: aggiunto **GEOFALL — IL MONDO CROLLA**, quattordicesimo minigioco. Griglia3D2×5 contigua, tre vite, domande geografiche100 (20×5 categorie), snapshot della casella alla scadenza, nove piattaforme che crollano insieme e una spinta per round. Timer10/8/6s, spareggio ripetuto tra soli ultimi pari con una vita; nessuna abilità speciale. Pad: stick sinistro+A/✕; telefono: croce+SPINTA, cuori/spettatore. Bot imperfetti, risultati e ScoreManager esistenti. Modulo `src/minigames/geofall/`; [report](agent-work/geofall/REPORT.md) e [fonti](agent-work/geofall/SOURCES.md). Nessun gioco con caselle cadenti era presente nel checkout analizzato: Memoria/Arena restano invariati. Watchdog server1h solo come protezione tecnica esterna, nessuna durata massima nelle regole dello spareggio.
+
 > Scopo di questo file: darti tutto il contesto per ragionare, scrivere codice, proporre idee di design e correggere bug su questo progetto **senza dover chiedere cosa sia**. Tutto il testo del gioco, i commenti e i report sono in **italiano**; il tono è goliardico/romanesco-laziale tra amici (Anzio/Nettuno), con battute ma senza esagerare. Rispondi sempre in italiano.
 
 ## 1. Che cosa è
@@ -207,3 +209,8 @@ Se ti chiedo una modifica: (1) dimmi quali file toccare partendo dalla mappa del
 ## Minigolf dei Disagiati (#13)
 
 `minigolf`: SPORT, 2–5 a turni rapidi; una pista fra sei percorsi originali, par 4/5, limite 5 (facile) o 6 colpi, DNF almeno limite +2. Camera prospettica bassa dietro la pallina attiva, seguito senza rotazioni da rimbalzi. Stick sinistro regola la mira (su = fine), destro ruota la camera; A/✕ carica/rilascia, B/◯ annulla, Y/△ tenuto panoramica, RB/R1 abilità. Telefono attivo: mira/drag camera/TIRA/ANNULLA/PANORAMICA/ABILITÀ; gli altri Companion Card con turno, colpi e posizione. Sei secondi di mira, timeout +1 senza impulso, cambio dopo arresto di tutte le palline. Bocciate persistenti; vittima senza colpi extra, caduta da bocciata rientro gratuito; propria caduta +1, recuperi tecnici gratuiti. Budget round 210 s con conclusione del tiro in corso (massimo 20 s), registry 240 s, hard cap 310 s. Vince per colpi, penalità, tempo di mira attivo, roster deterministico; ScoreManager invariato. Cinque abilità una volta per pista, Carbo anche durante il proprio tiro; bot saltano tappe ridondanti lungo percorsi sicuri. Modulo `src/minigames/minigolf/`; [redesign e verifiche](agent-work/minigolf-redesign/REPORT.md). Parametri da bilanciare con playtest umano.
+
+
+## BACKROOMS — L’ULTIMA PORTA
+
+Minigioco horror in prima persona per 2–5 giocatori, con visuali sullo schermo principale e telefoni come controller. Labirinto da seed, porta libera/chiave/due puzzle, Stalker/Corridore/Imitatore, due catture, spettatore e classifica con limite iniziale di 7 minuti. Nessun combattimento. Stick sinistro movimento, destro visuale, LB/L1 corsa, A/✕ interazione (tenuto per generatori). Specifica, controlli, limiti ed evidenze: docs/agent-work/backrooms/REPORT.md.

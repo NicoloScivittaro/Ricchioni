@@ -1,0 +1,11 @@
+PASS backrooms-selftest
+PASS fps-ads-selftest
+PASS geofall-selftest
+PASS pad-selftest
+PASS ability-selftest
+PASS rounds-selftest
+PASS solo-bots-selftest
+PASS audio-selftest
+PASS minigolf-selftest
+PASS quality-selftest
+PASS characters-animation-selftest

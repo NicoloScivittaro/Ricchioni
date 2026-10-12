@@ -1,0 +1,41 @@
+{
+  "errors": [],
+  "views": [
+    {
+      "w": 390,
+      "h": 800,
+      "titleTop": 18,
+      "badgeBottom": 0,
+      "scroll": false
+    },
+    {
+      "w": 360,
+      "h": 640,
+      "titleTop": 18,
+      "badgeBottom": 0,
+      "scroll": false
+    },
+    {
+      "w": 844,
+      "h": 390,
+      "titleTop": 12,
+      "badgeBottom": 0,
+      "scroll": false
+    }
+  ],
+  "fixture": {
+    "cell": 20,
+    "a": {
+      "x": 11.200000000000001,
+      "z": 4.800000000000001
+    },
+    "b": {
+      "x": 11.200000000000001,
+      "z": 11.200000000000001
+    },
+    "types": [
+      "stalker",
+      "imitator"
+    ]
+  }
+}

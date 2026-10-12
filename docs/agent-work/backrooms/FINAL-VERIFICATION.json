@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-12",
+  "baseline": "aa91c9f + uncommitted Geofall",
+  "status": "verified",
+  "typecheckExit": 0,
+  "buildExit": 0,
+  "seededMaps": 4000,
+  "ruleTestGroups": 39,
+  "regressionSuitesPassed": 11,
+  "realRooms": [
+    {
+      "n": 2,
+      "seconds": 46.216666666665326,
+      "mode": "puzzle",
+      "players": [
+        "escaped",
+        "escaped"
+      ]
+    },
+    {
+      "n": 3,
+      "seconds": 30.284499999999564,
+      "mode": "free",
+      "players": [
+        "escaped",
+        "escaped",
+        "escaped"
+      ]
+    },
+    {
+      "n": 4,
+      "seconds": 213.4440133333958,
+      "mode": "puzzle",
+      "players": [
+        "eliminated",
+        "eliminated",
+        "eliminated",
+        "eliminated"
+      ]
+    },
+    {
+      "n": 5,
+      "seconds": 157.07416666668382,
+      "mode": "puzzle",
+      "players": [
+        "escaped",
+        "escaped",
+        "eliminated",
+        "escaped",
+        "escaped"
+      ]
+    }
+  ],
+  "compiledWallSeconds": 275.315,
+  "compiledChunk": "http://127.0.0.1:3001/assets/BabylonBackroomsGame-B4VS6_mh.js",
+  "compiledPageErrors": 0,
+  "naturalHumanStates": [
+    {
+      "state": "exploring",
+      "lives": 2,
+      "ms": 18009
+    },
+    {
+      "state": "captured",
+      "lives": 1,
+      "ms": 247019
+    },
+    {
+      "state": "exploring",
+      "lives": 1,
+      "ms": 249155
+    },
+    {
+      "state": "eliminated",
+      "lives": 0,
+      "ms": 278451
+    }
+  ],
+  "performance": {
+    "frames": 180,
+    "seconds": 2.9885,
+    "fps": 59.8962690312866,
+    "active": 154,
+    "meshes": 988,
+    "viewport": [
+      1280,
+      720
+    ],
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "lifecycleCycles": 4,
+  "sourceHashes": [
+    {
+      "path": "src/minigames/backrooms/BabylonBackroomsGame.ts",
+      "sha256": "26A9CFE22C1D48F05A6EC0AD1819B2151C97C87DBCD7B9E2566704969BFEDCBB"
+    },
+    {
+      "path": "src/minigames/backrooms/backroomsAudio.ts",
+      "sha256": "1ACEC042843A466ED766BBF540F19B88577D1A4728B2DB0C9A84E8423FF897BF"
+    },
+    {
+      "path": "src/minigames/backrooms/backroomsRules.ts",
+      "sha256": "6936D2ECBFC528F5C16F8D8BBCBCAB684F6B52882D334217B23DD43B69EB29A8"
+    },
+    {
+      "path": "src/minigames/backrooms/BackroomsScene.ts",
+      "sha256": "9D72FC035566AAFA15F3700FD835863D519F52A68D52FAC187676C2128339634"
+    },
+    {
+      "path": "src/minigames/backrooms/backroomsWorld.ts",
+      "sha256": "E415D1C0547BF1FBA5F46E9870A51560D7E2DC7060268BB701B9CDBEB2C2991F"
+    },
+    {
+      "path": "src/minigames/backrooms/index.ts",
+      "sha256": "D7E0C34FC0FDDBF7DE0634552BA0A0D1598CCD887C8FEB8D26F07B580CFED8CD"
+    },
+    {
+      "path": "src/minigames/backrooms/maze.ts",
+      "sha256": "CEFEC78835A986DD308535588DB4B938A1F1D092441274D7219ACF5305B8C123"
+    },
+    {
+      "path": "src/controller/backroomsController.ts",
+      "sha256": "6D01E3FD900D8A29533CCF4009C1CF509017000F40C08716B0A48A3122A6CACC"
+    },
+    {
+      "path": "shared/minigames.ts",
+      "sha256": "084FF3EE5880D78C6B04DAFE7D613569D776EE0A7C5B1996AB349FA672484313"
+    },
+    {
+      "path": "src/input/profiles.ts",
+      "sha256": "7A0E6B2C0A89BCE32650A2E9D7E1B748897E594A95C41DA6E4B8F1FD65F7CAE3"
+    },
+    {
+      "path": "src/controller/main.ts",
+      "sha256": "6877034C69A0A5836F6F6824E36BC199BADAA8D39812E024B669178CE3764E0A"
+    }
+  ]
+}

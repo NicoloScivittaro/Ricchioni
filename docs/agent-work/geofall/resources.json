@@ -1,0 +1,147 @@
+{
+  "warmupRounds": 2,
+  "played": [
+    "geofall",
+    "geofall",
+    "geofall",
+    "geofall",
+    "geofall",
+    "geofall"
+  ],
+  "newGames": 0,
+  "rows": [
+    {
+      "round": 1,
+      "game": "geofall",
+      "heap": 32.45988082885742,
+      "pheap": 2.4382591247558594,
+      "scenes": 1,
+      "canvases": 1,
+      "overlays3d": 0,
+      "domOverlays": 0,
+      "bodyChildren": 7,
+      "timers": 7,
+      "osc": 0,
+      "musicOsc": 10,
+      "listeners": 21,
+      "phoneTimers": 0,
+      "phoneOsc": 0
+    },
+    {
+      "round": 2,
+      "game": "geofall",
+      "heap": 33.08231735229492,
+      "pheap": 2.4636878967285156,
+      "scenes": 1,
+      "canvases": 1,
+      "overlays3d": 0,
+      "domOverlays": 0,
+      "bodyChildren": 7,
+      "timers": 7,
+      "osc": 0,
+      "musicOsc": 10,
+      "listeners": 21,
+      "phoneTimers": 0,
+      "phoneOsc": 0
+    },
+    {
+      "round": 3,
+      "game": "geofall",
+      "heap": 33.770530700683594,
+      "pheap": 2.4713096618652344,
+      "scenes": 1,
+      "canvases": 1,
+      "overlays3d": 0,
+      "domOverlays": 0,
+      "bodyChildren": 7,
+      "timers": 7,
+      "osc": 0,
+      "musicOsc": 10,
+      "listeners": 21,
+      "phoneTimers": 0,
+      "phoneOsc": 0
+    },
+    {
+      "round": 4,
+      "game": "geofall",
+      "heap": 34.01756286621094,
+      "pheap": 2.4768028259277344,
+      "scenes": 1,
+      "canvases": 1,
+      "overlays3d": 0,
+      "domOverlays": 0,
+      "bodyChildren": 7,
+      "timers": 7,
+      "osc": 0,
+      "musicOsc": 9,
+      "listeners": 21,
+      "phoneTimers": 0,
+      "phoneOsc": 0
+    },
+    {
+      "round": 5,
+      "game": "geofall",
+      "heap": 34.15176010131836,
+      "pheap": 2.477397918701172,
+      "scenes": 1,
+      "canvases": 1,
+      "overlays3d": 0,
+      "domOverlays": 0,
+      "bodyChildren": 7,
+      "timers": 7,
+      "osc": 0,
+      "musicOsc": 10,
+      "listeners": 21,
+      "phoneTimers": 0,
+      "phoneOsc": 0
+    }
+  ],
+  "measuredRounds": 3,
+  "checks": [
+    [
+      "scene attive == 1 dopo ogni round",
+      true
+    ],
+    [
+      "nessun canvas 3D residuo",
+      true
+    ],
+    [
+      "nessun overlay DOM residuo",
+      true
+    ],
+    [
+      "canvas stabili (crescita 0.0)",
+      true
+    ],
+    [
+      "elementi in body stabili (crescita 0.0)",
+      true
+    ],
+    [
+      "timer pendenti stabili (crescita 0.0)",
+      true
+    ],
+    [
+      "oscillatori vivi al rullo (musica esclusa) ≤ 2 (max 0)",
+      true
+    ],
+    [
+      "note della musica stabili (crescita 0.0, max 10)",
+      true
+    ],
+    [
+      "listener su window stabili (crescita 0.0)",
+      true
+    ],
+    [
+      "heap host: 34 → 34 MB (crescita 0.4 MB, 3 round)",
+      true
+    ],
+    [
+      "heap telefono: 2 → 2 MB",
+      true
+    ]
+  ],
+  "errors": []
+}

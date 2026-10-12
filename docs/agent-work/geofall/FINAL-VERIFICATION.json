@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-12",
+  "baseline": "aa91c9f",
+  "status": "verified",
+  "typecheckExit": 0,
+  "buildExit": 0,
+  "regressionSuitesPassed": 9,
+  "questions": 100,
+  "categories": 5,
+  "questionsPerCategory": 20,
+  "localSvgAssets": 60,
+  "naturalSeededRounds": 48,
+  "categoryDrawAudit": 2000,
+  "realServerRooms": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "compiledRoundWallSeconds": 174.888,
+  "spectatorSeconds": 37.544,
+  "compiledChunk": "http://127.0.0.1:3001/assets/BabylonGeofallGame-Cye5CTep.js",
+  "compiledPageErrors": 0,
+  "controllerViews": 12,
+  "resourceCycles": 6,
+  "resourcePostWarmupMeasurements": 3,
+  "performance": {
+    "frames": 360,
+    "seconds": 6.013299999999814,
+    "fps": 59.867294164603656,
+    "viewport": [
+      1280,
+      720
+    ],
+    "meshes": 194,
+    "textures": 37,
+    "materials": 97,
+    "skins": [
+      true,
+      true,
+      true,
+      true,
+      false
+    ],
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "hardwarePadsTested": false,
+  "humanPlaytestPerformed": false,
+  "noPushOrDeploy": true,
+  "newCommitCreated": false,
+  "screenshotsInspected": [
+    "category-bandiere.png",
+    "category-capitali.png",
+    "category-sagome.png",
+    "category-monumenti.png",
+    "collapse-nine.png",
+    "final-tie.png",
+    "production-five.png",
+    "production-phone.png",
+    "production-results.png"
+  ],
+  "sourceHashes": [
+    {
+      "path": "src/minigames/geofall/BabylonGeofallGame.ts",
+      "sha256": "ECA6479B560BDAF68DE74D81060E6DB766B53C8398D1C6E835F9484894B96DD3"
+    },
+    {
+      "path": "src/minigames/geofall/geofallRules.ts",
+      "sha256": "DABA14880CAA7E4C6082FA51EF8644EC5F9E5CD2AD37DFCE153F2D38C36316E8"
+    },
+    {
+      "path": "shared/geofallQuestions.json",
+      "sha256": "71A2C0380BD001BE912E55DE86478A8F5D90594E9DE90B7A0D612097B5129682"
+    },
+    {
+      "path": "src/controller/main.ts",
+      "sha256": "13BCBEA6AEEF5BF4532FE3C257E2EF3DC3C8AC5CECBE946F6DB797F7AF183B48"
+    }
+  ]
+}

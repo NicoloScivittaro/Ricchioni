@@ -1,0 +1,5807 @@
+[
+  {
+    "id": "bandiere-IT",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera dell'Italia?",
+    "target": "IT",
+    "correct": {
+      "id": "IT",
+      "label": "Italia",
+      "image": "/geofall/flag-IT.svg"
+    },
+    "wrong": [
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/flag-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/flag-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/flag-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/flag-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/flag-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/flag-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/flag-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/flag-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/flag-FI.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-IT",
+    "category": "capitali",
+    "prompt": "Qual è la capitale dell'Italia?",
+    "target": "IT",
+    "correct": {
+      "id": "IT",
+      "label": "Roma"
+    },
+    "wrong": [
+      {
+        "id": "FR",
+        "label": "Parigi"
+      },
+      {
+        "id": "DE",
+        "label": "Berlino"
+      },
+      {
+        "id": "ES",
+        "label": "Madrid"
+      },
+      {
+        "id": "PT",
+        "label": "Lisbona"
+      },
+      {
+        "id": "BE",
+        "label": "Bruxelles"
+      },
+      {
+        "id": "AT",
+        "label": "Vienna"
+      },
+      {
+        "id": "SE",
+        "label": "Stoccolma"
+      },
+      {
+        "id": "NO",
+        "label": "Oslo"
+      },
+      {
+        "id": "FI",
+        "label": "Helsinki"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-IT",
+    "category": "sagome",
+    "prompt": "Trova la sagoma dell'Italia?",
+    "target": "IT",
+    "correct": {
+      "id": "IT",
+      "label": "Italia",
+      "image": "/geofall/outline-IT.svg"
+    },
+    "wrong": [
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/outline-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/outline-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/outline-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/outline-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/outline-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/outline-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/outline-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/outline-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/outline-FI.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-IT",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Italia?",
+    "target": "IT",
+    "correct": {
+      "id": "IT",
+      "label": "Colosseo",
+      "image": "/geofall/monument-IT.svg"
+    },
+    "wrong": [
+      {
+        "id": "FR",
+        "label": "Torre Eiffel",
+        "image": "/geofall/monument-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Porta di Brandeburgo",
+        "image": "/geofall/monument-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Sagrada Familia",
+        "image": "/geofall/monument-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Torre di Belém",
+        "image": "/geofall/monument-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Atomium",
+        "image": "/geofall/monument-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Palazzo di Schönbrunn",
+        "image": "/geofall/monument-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Palazzo di Drottningholm",
+        "image": "/geofall/monument-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Chiesa di Urnes",
+        "image": "/geofall/monument-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Duomo di Helsinki",
+        "image": "/geofall/monument-FI.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://colosseo.it/en/"
+    ]
+  },
+  {
+    "id": "confini-IT",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con l'Italia?",
+    "target": "IT",
+    "correct": {
+      "id": "FR",
+      "label": "Francia"
+    },
+    "wrong": [
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia"
+      },
+      {
+        "id": "RO",
+        "label": "Romania"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-FR",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera della Francia?",
+    "target": "FR",
+    "correct": {
+      "id": "FR",
+      "label": "Francia",
+      "image": "/geofall/flag-FR.svg"
+    },
+    "wrong": [
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/flag-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/flag-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/flag-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/flag-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/flag-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/flag-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/flag-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/flag-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/flag-PL.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-FR",
+    "category": "capitali",
+    "prompt": "Qual è la capitale della Francia?",
+    "target": "FR",
+    "correct": {
+      "id": "FR",
+      "label": "Parigi"
+    },
+    "wrong": [
+      {
+        "id": "DE",
+        "label": "Berlino"
+      },
+      {
+        "id": "ES",
+        "label": "Madrid"
+      },
+      {
+        "id": "PT",
+        "label": "Lisbona"
+      },
+      {
+        "id": "BE",
+        "label": "Bruxelles"
+      },
+      {
+        "id": "AT",
+        "label": "Vienna"
+      },
+      {
+        "id": "SE",
+        "label": "Stoccolma"
+      },
+      {
+        "id": "NO",
+        "label": "Oslo"
+      },
+      {
+        "id": "FI",
+        "label": "Helsinki"
+      },
+      {
+        "id": "PL",
+        "label": "Varsavia"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-FR",
+    "category": "sagome",
+    "prompt": "Trova la sagoma della Francia?",
+    "target": "FR",
+    "correct": {
+      "id": "FR",
+      "label": "Francia",
+      "image": "/geofall/outline-FR.svg"
+    },
+    "wrong": [
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/outline-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/outline-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/outline-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/outline-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/outline-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/outline-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/outline-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/outline-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/outline-PL.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-FR",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Francia?",
+    "target": "FR",
+    "correct": {
+      "id": "FR",
+      "label": "Torre Eiffel",
+      "image": "/geofall/monument-FR.svg"
+    },
+    "wrong": [
+      {
+        "id": "DE",
+        "label": "Porta di Brandeburgo",
+        "image": "/geofall/monument-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Sagrada Familia",
+        "image": "/geofall/monument-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Torre di Belém",
+        "image": "/geofall/monument-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Atomium",
+        "image": "/geofall/monument-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Palazzo di Schönbrunn",
+        "image": "/geofall/monument-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Palazzo di Drottningholm",
+        "image": "/geofall/monument-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Chiesa di Urnes",
+        "image": "/geofall/monument-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Duomo di Helsinki",
+        "image": "/geofall/monument-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Castello di Malbork",
+        "image": "/geofall/monument-PL.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://www.toureiffel.paris/en"
+    ]
+  },
+  {
+    "id": "confini-FR",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con la Francia metropolitana?",
+    "target": "FR",
+    "correct": {
+      "id": "IT",
+      "label": "Italia"
+    },
+    "wrong": [
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia"
+      },
+      {
+        "id": "RO",
+        "label": "Romania"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt",
+      "https://www.diplomatie.gouv.fr/fr/information-par-pays/bresil/relations-bilaterales",
+      "https://www.diplomatie.gouv.fr/fr/information-par-pays/suriname/politique-et-economie"
+    ]
+  },
+  {
+    "id": "bandiere-DE",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera della Germania?",
+    "target": "DE",
+    "correct": {
+      "id": "DE",
+      "label": "Germania",
+      "image": "/geofall/flag-DE.svg"
+    },
+    "wrong": [
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/flag-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/flag-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/flag-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/flag-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/flag-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/flag-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/flag-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/flag-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/flag-RO.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-DE",
+    "category": "capitali",
+    "prompt": "Qual è la capitale della Germania?",
+    "target": "DE",
+    "correct": {
+      "id": "DE",
+      "label": "Berlino"
+    },
+    "wrong": [
+      {
+        "id": "ES",
+        "label": "Madrid"
+      },
+      {
+        "id": "PT",
+        "label": "Lisbona"
+      },
+      {
+        "id": "BE",
+        "label": "Bruxelles"
+      },
+      {
+        "id": "AT",
+        "label": "Vienna"
+      },
+      {
+        "id": "SE",
+        "label": "Stoccolma"
+      },
+      {
+        "id": "NO",
+        "label": "Oslo"
+      },
+      {
+        "id": "FI",
+        "label": "Helsinki"
+      },
+      {
+        "id": "PL",
+        "label": "Varsavia"
+      },
+      {
+        "id": "RO",
+        "label": "Bucarest"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-DE",
+    "category": "sagome",
+    "prompt": "Trova la sagoma della Germania?",
+    "target": "DE",
+    "correct": {
+      "id": "DE",
+      "label": "Germania",
+      "image": "/geofall/outline-DE.svg"
+    },
+    "wrong": [
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/outline-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/outline-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/outline-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/outline-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/outline-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/outline-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/outline-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/outline-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/outline-RO.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-DE",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Germania?",
+    "target": "DE",
+    "correct": {
+      "id": "DE",
+      "label": "Porta di Brandeburgo",
+      "image": "/geofall/monument-DE.svg"
+    },
+    "wrong": [
+      {
+        "id": "ES",
+        "label": "Sagrada Familia",
+        "image": "/geofall/monument-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Torre di Belém",
+        "image": "/geofall/monument-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Atomium",
+        "image": "/geofall/monument-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Palazzo di Schönbrunn",
+        "image": "/geofall/monument-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Palazzo di Drottningholm",
+        "image": "/geofall/monument-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Chiesa di Urnes",
+        "image": "/geofall/monument-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Duomo di Helsinki",
+        "image": "/geofall/monument-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Castello di Malbork",
+        "image": "/geofall/monument-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Castello di Bran",
+        "image": "/geofall/monument-RO.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://www.visitberlin.de/en/brandenburg-gate"
+    ]
+  },
+  {
+    "id": "confini-DE",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con la Germania?",
+    "target": "DE",
+    "correct": {
+      "id": "FR",
+      "label": "Francia"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia"
+      },
+      {
+        "id": "RO",
+        "label": "Romania"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-ES",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera della Spagna?",
+    "target": "ES",
+    "correct": {
+      "id": "ES",
+      "label": "Spagna",
+      "image": "/geofall/flag-ES.svg"
+    },
+    "wrong": [
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/flag-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/flag-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/flag-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/flag-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/flag-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/flag-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/flag-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/flag-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/flag-GR.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-ES",
+    "category": "capitali",
+    "prompt": "Qual è la capitale della Spagna?",
+    "target": "ES",
+    "correct": {
+      "id": "ES",
+      "label": "Madrid"
+    },
+    "wrong": [
+      {
+        "id": "PT",
+        "label": "Lisbona"
+      },
+      {
+        "id": "BE",
+        "label": "Bruxelles"
+      },
+      {
+        "id": "AT",
+        "label": "Vienna"
+      },
+      {
+        "id": "SE",
+        "label": "Stoccolma"
+      },
+      {
+        "id": "NO",
+        "label": "Oslo"
+      },
+      {
+        "id": "FI",
+        "label": "Helsinki"
+      },
+      {
+        "id": "PL",
+        "label": "Varsavia"
+      },
+      {
+        "id": "RO",
+        "label": "Bucarest"
+      },
+      {
+        "id": "GR",
+        "label": "Atene"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-ES",
+    "category": "sagome",
+    "prompt": "Trova la sagoma della Spagna?",
+    "target": "ES",
+    "correct": {
+      "id": "ES",
+      "label": "Spagna",
+      "image": "/geofall/outline-ES.svg"
+    },
+    "wrong": [
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/outline-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/outline-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/outline-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/outline-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/outline-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/outline-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/outline-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/outline-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/outline-GR.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-ES",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Spagna?",
+    "target": "ES",
+    "correct": {
+      "id": "ES",
+      "label": "Sagrada Familia",
+      "image": "/geofall/monument-ES.svg"
+    },
+    "wrong": [
+      {
+        "id": "PT",
+        "label": "Torre di Belém",
+        "image": "/geofall/monument-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Atomium",
+        "image": "/geofall/monument-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Palazzo di Schönbrunn",
+        "image": "/geofall/monument-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Palazzo di Drottningholm",
+        "image": "/geofall/monument-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Chiesa di Urnes",
+        "image": "/geofall/monument-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Duomo di Helsinki",
+        "image": "/geofall/monument-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Castello di Malbork",
+        "image": "/geofall/monument-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Castello di Bran",
+        "image": "/geofall/monument-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Partenone",
+        "image": "/geofall/monument-GR.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://sagradafamilia.org/en/home"
+    ]
+  },
+  {
+    "id": "confini-ES",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con la Spagna?",
+    "target": "ES",
+    "correct": {
+      "id": "FR",
+      "label": "Francia"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia"
+      },
+      {
+        "id": "RO",
+        "label": "Romania"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt",
+      "https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/exteriores/Paginas/2026/110826-albares-visita-ceuta.aspx"
+    ]
+  },
+  {
+    "id": "bandiere-PT",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera del Portogallo?",
+    "target": "PT",
+    "correct": {
+      "id": "PT",
+      "label": "Portogallo",
+      "image": "/geofall/flag-PT.svg"
+    },
+    "wrong": [
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/flag-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/flag-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/flag-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/flag-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/flag-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/flag-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/flag-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/flag-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/flag-TR.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-PT",
+    "category": "capitali",
+    "prompt": "Qual è la capitale del Portogallo?",
+    "target": "PT",
+    "correct": {
+      "id": "PT",
+      "label": "Lisbona"
+    },
+    "wrong": [
+      {
+        "id": "BE",
+        "label": "Bruxelles"
+      },
+      {
+        "id": "AT",
+        "label": "Vienna"
+      },
+      {
+        "id": "SE",
+        "label": "Stoccolma"
+      },
+      {
+        "id": "NO",
+        "label": "Oslo"
+      },
+      {
+        "id": "FI",
+        "label": "Helsinki"
+      },
+      {
+        "id": "PL",
+        "label": "Varsavia"
+      },
+      {
+        "id": "RO",
+        "label": "Bucarest"
+      },
+      {
+        "id": "GR",
+        "label": "Atene"
+      },
+      {
+        "id": "TR",
+        "label": "Ankara"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-PT",
+    "category": "sagome",
+    "prompt": "Trova la sagoma del Portogallo?",
+    "target": "PT",
+    "correct": {
+      "id": "PT",
+      "label": "Portogallo",
+      "image": "/geofall/outline-PT.svg"
+    },
+    "wrong": [
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/outline-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/outline-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/outline-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/outline-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/outline-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/outline-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/outline-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/outline-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/outline-TR.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-PT",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Portogallo?",
+    "target": "PT",
+    "correct": {
+      "id": "PT",
+      "label": "Torre di Belém",
+      "image": "/geofall/monument-PT.svg"
+    },
+    "wrong": [
+      {
+        "id": "BE",
+        "label": "Atomium",
+        "image": "/geofall/monument-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Palazzo di Schönbrunn",
+        "image": "/geofall/monument-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Palazzo di Drottningholm",
+        "image": "/geofall/monument-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Chiesa di Urnes",
+        "image": "/geofall/monument-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Duomo di Helsinki",
+        "image": "/geofall/monument-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Castello di Malbork",
+        "image": "/geofall/monument-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Castello di Bran",
+        "image": "/geofall/monument-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Partenone",
+        "image": "/geofall/monument-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Santa Sofia",
+        "image": "/geofall/monument-TR.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://whc.unesco.org/en/list/263/"
+    ]
+  },
+  {
+    "id": "confini-PT",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con il Portogallo?",
+    "target": "PT",
+    "correct": {
+      "id": "ES",
+      "label": "Spagna"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-BE",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera del Belgio?",
+    "target": "BE",
+    "correct": {
+      "id": "BE",
+      "label": "Belgio",
+      "image": "/geofall/flag-BE.svg"
+    },
+    "wrong": [
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/flag-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/flag-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/flag-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/flag-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/flag-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/flag-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/flag-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/flag-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/flag-EG.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-BE",
+    "category": "capitali",
+    "prompt": "Qual è la capitale del Belgio?",
+    "target": "BE",
+    "correct": {
+      "id": "BE",
+      "label": "Bruxelles"
+    },
+    "wrong": [
+      {
+        "id": "AT",
+        "label": "Vienna"
+      },
+      {
+        "id": "SE",
+        "label": "Stoccolma"
+      },
+      {
+        "id": "NO",
+        "label": "Oslo"
+      },
+      {
+        "id": "FI",
+        "label": "Helsinki"
+      },
+      {
+        "id": "PL",
+        "label": "Varsavia"
+      },
+      {
+        "id": "RO",
+        "label": "Bucarest"
+      },
+      {
+        "id": "GR",
+        "label": "Atene"
+      },
+      {
+        "id": "TR",
+        "label": "Ankara"
+      },
+      {
+        "id": "EG",
+        "label": "Il Cairo"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-BE",
+    "category": "sagome",
+    "prompt": "Trova la sagoma del Belgio?",
+    "target": "BE",
+    "correct": {
+      "id": "BE",
+      "label": "Belgio",
+      "image": "/geofall/outline-BE.svg"
+    },
+    "wrong": [
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/outline-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/outline-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/outline-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/outline-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/outline-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/outline-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/outline-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/outline-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/outline-EG.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-BE",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Belgio?",
+    "target": "BE",
+    "correct": {
+      "id": "BE",
+      "label": "Atomium",
+      "image": "/geofall/monument-BE.svg"
+    },
+    "wrong": [
+      {
+        "id": "AT",
+        "label": "Palazzo di Schönbrunn",
+        "image": "/geofall/monument-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Palazzo di Drottningholm",
+        "image": "/geofall/monument-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Chiesa di Urnes",
+        "image": "/geofall/monument-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Duomo di Helsinki",
+        "image": "/geofall/monument-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Castello di Malbork",
+        "image": "/geofall/monument-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Castello di Bran",
+        "image": "/geofall/monument-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Partenone",
+        "image": "/geofall/monument-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Santa Sofia",
+        "image": "/geofall/monument-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Piramidi di Giza",
+        "image": "/geofall/monument-EG.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://atomium.be/"
+    ]
+  },
+  {
+    "id": "confini-BE",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con il Belgio?",
+    "target": "BE",
+    "correct": {
+      "id": "FR",
+      "label": "Francia"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia"
+      },
+      {
+        "id": "RO",
+        "label": "Romania"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-AT",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera dell'Austria?",
+    "target": "AT",
+    "correct": {
+      "id": "AT",
+      "label": "Austria",
+      "image": "/geofall/flag-AT.svg"
+    },
+    "wrong": [
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/flag-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/flag-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/flag-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/flag-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/flag-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/flag-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/flag-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/flag-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/flag-IN.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-AT",
+    "category": "capitali",
+    "prompt": "Qual è la capitale dell'Austria?",
+    "target": "AT",
+    "correct": {
+      "id": "AT",
+      "label": "Vienna"
+    },
+    "wrong": [
+      {
+        "id": "SE",
+        "label": "Stoccolma"
+      },
+      {
+        "id": "NO",
+        "label": "Oslo"
+      },
+      {
+        "id": "FI",
+        "label": "Helsinki"
+      },
+      {
+        "id": "PL",
+        "label": "Varsavia"
+      },
+      {
+        "id": "RO",
+        "label": "Bucarest"
+      },
+      {
+        "id": "GR",
+        "label": "Atene"
+      },
+      {
+        "id": "TR",
+        "label": "Ankara"
+      },
+      {
+        "id": "EG",
+        "label": "Il Cairo"
+      },
+      {
+        "id": "IN",
+        "label": "Nuova Delhi"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-AT",
+    "category": "sagome",
+    "prompt": "Trova la sagoma dell'Austria?",
+    "target": "AT",
+    "correct": {
+      "id": "AT",
+      "label": "Austria",
+      "image": "/geofall/outline-AT.svg"
+    },
+    "wrong": [
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/outline-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/outline-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/outline-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/outline-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/outline-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/outline-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/outline-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/outline-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/outline-IN.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-AT",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Austria?",
+    "target": "AT",
+    "correct": {
+      "id": "AT",
+      "label": "Palazzo di Schönbrunn",
+      "image": "/geofall/monument-AT.svg"
+    },
+    "wrong": [
+      {
+        "id": "SE",
+        "label": "Palazzo di Drottningholm",
+        "image": "/geofall/monument-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Chiesa di Urnes",
+        "image": "/geofall/monument-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Duomo di Helsinki",
+        "image": "/geofall/monument-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Castello di Malbork",
+        "image": "/geofall/monument-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Castello di Bran",
+        "image": "/geofall/monument-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Partenone",
+        "image": "/geofall/monument-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Santa Sofia",
+        "image": "/geofall/monument-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Piramidi di Giza",
+        "image": "/geofall/monument-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "Taj Mahal",
+        "image": "/geofall/monument-IN.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://whc.unesco.org/en/list/786/"
+    ]
+  },
+  {
+    "id": "confini-AT",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con l'Austria?",
+    "target": "AT",
+    "correct": {
+      "id": "IT",
+      "label": "Italia"
+    },
+    "wrong": [
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia"
+      },
+      {
+        "id": "RO",
+        "label": "Romania"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-SE",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera della Svezia?",
+    "target": "SE",
+    "correct": {
+      "id": "SE",
+      "label": "Svezia",
+      "image": "/geofall/flag-SE.svg"
+    },
+    "wrong": [
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/flag-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/flag-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/flag-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/flag-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/flag-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/flag-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/flag-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/flag-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/flag-CN.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-SE",
+    "category": "capitali",
+    "prompt": "Qual è la capitale della Svezia?",
+    "target": "SE",
+    "correct": {
+      "id": "SE",
+      "label": "Stoccolma"
+    },
+    "wrong": [
+      {
+        "id": "NO",
+        "label": "Oslo"
+      },
+      {
+        "id": "FI",
+        "label": "Helsinki"
+      },
+      {
+        "id": "PL",
+        "label": "Varsavia"
+      },
+      {
+        "id": "RO",
+        "label": "Bucarest"
+      },
+      {
+        "id": "GR",
+        "label": "Atene"
+      },
+      {
+        "id": "TR",
+        "label": "Ankara"
+      },
+      {
+        "id": "EG",
+        "label": "Il Cairo"
+      },
+      {
+        "id": "IN",
+        "label": "Nuova Delhi"
+      },
+      {
+        "id": "CN",
+        "label": "Pechino"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-SE",
+    "category": "sagome",
+    "prompt": "Trova la sagoma della Svezia?",
+    "target": "SE",
+    "correct": {
+      "id": "SE",
+      "label": "Svezia",
+      "image": "/geofall/outline-SE.svg"
+    },
+    "wrong": [
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/outline-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/outline-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/outline-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/outline-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/outline-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/outline-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/outline-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/outline-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/outline-CN.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-SE",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Svezia?",
+    "target": "SE",
+    "correct": {
+      "id": "SE",
+      "label": "Palazzo di Drottningholm",
+      "image": "/geofall/monument-SE.svg"
+    },
+    "wrong": [
+      {
+        "id": "NO",
+        "label": "Chiesa di Urnes",
+        "image": "/geofall/monument-NO.svg"
+      },
+      {
+        "id": "FI",
+        "label": "Duomo di Helsinki",
+        "image": "/geofall/monument-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Castello di Malbork",
+        "image": "/geofall/monument-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Castello di Bran",
+        "image": "/geofall/monument-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Partenone",
+        "image": "/geofall/monument-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Santa Sofia",
+        "image": "/geofall/monument-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Piramidi di Giza",
+        "image": "/geofall/monument-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "Taj Mahal",
+        "image": "/geofall/monument-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Grande Muraglia",
+        "image": "/geofall/monument-CN.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://whc.unesco.org/en/list/559/"
+    ]
+  },
+  {
+    "id": "confini-SE",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con la Svezia?",
+    "target": "SE",
+    "correct": {
+      "id": "NO",
+      "label": "Norvegia"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia"
+      },
+      {
+        "id": "RO",
+        "label": "Romania"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-NO",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera della Norvegia?",
+    "target": "NO",
+    "correct": {
+      "id": "NO",
+      "label": "Norvegia",
+      "image": "/geofall/flag-NO.svg"
+    },
+    "wrong": [
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/flag-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/flag-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/flag-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/flag-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/flag-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/flag-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/flag-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/flag-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/flag-CA.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-NO",
+    "category": "capitali",
+    "prompt": "Qual è la capitale della Norvegia?",
+    "target": "NO",
+    "correct": {
+      "id": "NO",
+      "label": "Oslo"
+    },
+    "wrong": [
+      {
+        "id": "FI",
+        "label": "Helsinki"
+      },
+      {
+        "id": "PL",
+        "label": "Varsavia"
+      },
+      {
+        "id": "RO",
+        "label": "Bucarest"
+      },
+      {
+        "id": "GR",
+        "label": "Atene"
+      },
+      {
+        "id": "TR",
+        "label": "Ankara"
+      },
+      {
+        "id": "EG",
+        "label": "Il Cairo"
+      },
+      {
+        "id": "IN",
+        "label": "Nuova Delhi"
+      },
+      {
+        "id": "CN",
+        "label": "Pechino"
+      },
+      {
+        "id": "CA",
+        "label": "Ottawa"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-NO",
+    "category": "sagome",
+    "prompt": "Trova la sagoma della Norvegia?",
+    "target": "NO",
+    "correct": {
+      "id": "NO",
+      "label": "Norvegia",
+      "image": "/geofall/outline-NO.svg"
+    },
+    "wrong": [
+      {
+        "id": "FI",
+        "label": "Finlandia",
+        "image": "/geofall/outline-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/outline-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/outline-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/outline-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/outline-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/outline-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/outline-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/outline-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/outline-CA.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-NO",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Norvegia?",
+    "target": "NO",
+    "correct": {
+      "id": "NO",
+      "label": "Chiesa di Urnes",
+      "image": "/geofall/monument-NO.svg"
+    },
+    "wrong": [
+      {
+        "id": "FI",
+        "label": "Duomo di Helsinki",
+        "image": "/geofall/monument-FI.svg"
+      },
+      {
+        "id": "PL",
+        "label": "Castello di Malbork",
+        "image": "/geofall/monument-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Castello di Bran",
+        "image": "/geofall/monument-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Partenone",
+        "image": "/geofall/monument-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Santa Sofia",
+        "image": "/geofall/monument-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Piramidi di Giza",
+        "image": "/geofall/monument-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "Taj Mahal",
+        "image": "/geofall/monument-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Grande Muraglia",
+        "image": "/geofall/monument-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "CN Tower",
+        "image": "/geofall/monument-CA.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://whc.unesco.org/en/list/58/"
+    ]
+  },
+  {
+    "id": "confini-NO",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con la Norvegia?",
+    "target": "NO",
+    "correct": {
+      "id": "SE",
+      "label": "Svezia"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia"
+      },
+      {
+        "id": "RO",
+        "label": "Romania"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-FI",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera della Finlandia?",
+    "target": "FI",
+    "correct": {
+      "id": "FI",
+      "label": "Finlandia",
+      "image": "/geofall/flag-FI.svg"
+    },
+    "wrong": [
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/flag-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/flag-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/flag-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/flag-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/flag-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/flag-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/flag-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/flag-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/flag-US.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-FI",
+    "category": "capitali",
+    "prompt": "Qual è la capitale della Finlandia?",
+    "target": "FI",
+    "correct": {
+      "id": "FI",
+      "label": "Helsinki"
+    },
+    "wrong": [
+      {
+        "id": "PL",
+        "label": "Varsavia"
+      },
+      {
+        "id": "RO",
+        "label": "Bucarest"
+      },
+      {
+        "id": "GR",
+        "label": "Atene"
+      },
+      {
+        "id": "TR",
+        "label": "Ankara"
+      },
+      {
+        "id": "EG",
+        "label": "Il Cairo"
+      },
+      {
+        "id": "IN",
+        "label": "Nuova Delhi"
+      },
+      {
+        "id": "CN",
+        "label": "Pechino"
+      },
+      {
+        "id": "CA",
+        "label": "Ottawa"
+      },
+      {
+        "id": "US",
+        "label": "Washington, D.C."
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-FI",
+    "category": "sagome",
+    "prompt": "Trova la sagoma della Finlandia?",
+    "target": "FI",
+    "correct": {
+      "id": "FI",
+      "label": "Finlandia",
+      "image": "/geofall/outline-FI.svg"
+    },
+    "wrong": [
+      {
+        "id": "PL",
+        "label": "Polonia",
+        "image": "/geofall/outline-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/outline-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/outline-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/outline-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/outline-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/outline-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/outline-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/outline-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/outline-US.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-FI",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Finlandia?",
+    "target": "FI",
+    "correct": {
+      "id": "FI",
+      "label": "Duomo di Helsinki",
+      "image": "/geofall/monument-FI.svg"
+    },
+    "wrong": [
+      {
+        "id": "PL",
+        "label": "Castello di Malbork",
+        "image": "/geofall/monument-PL.svg"
+      },
+      {
+        "id": "RO",
+        "label": "Castello di Bran",
+        "image": "/geofall/monument-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Partenone",
+        "image": "/geofall/monument-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Santa Sofia",
+        "image": "/geofall/monument-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Piramidi di Giza",
+        "image": "/geofall/monument-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "Taj Mahal",
+        "image": "/geofall/monument-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Grande Muraglia",
+        "image": "/geofall/monument-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "CN Tower",
+        "image": "/geofall/monument-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Statua della Libertà",
+        "image": "/geofall/monument-US.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://www.myhelsinki.fi/places/helsinki-cathedral/"
+    ]
+  },
+  {
+    "id": "confini-FI",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con la Finlandia?",
+    "target": "FI",
+    "correct": {
+      "id": "SE",
+      "label": "Svezia"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "PL",
+        "label": "Polonia"
+      },
+      {
+        "id": "RO",
+        "label": "Romania"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-PL",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera della Polonia?",
+    "target": "PL",
+    "correct": {
+      "id": "PL",
+      "label": "Polonia",
+      "image": "/geofall/flag-PL.svg"
+    },
+    "wrong": [
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/flag-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/flag-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/flag-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/flag-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/flag-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/flag-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/flag-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/flag-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/flag-BR.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-PL",
+    "category": "capitali",
+    "prompt": "Qual è la capitale della Polonia?",
+    "target": "PL",
+    "correct": {
+      "id": "PL",
+      "label": "Varsavia"
+    },
+    "wrong": [
+      {
+        "id": "RO",
+        "label": "Bucarest"
+      },
+      {
+        "id": "GR",
+        "label": "Atene"
+      },
+      {
+        "id": "TR",
+        "label": "Ankara"
+      },
+      {
+        "id": "EG",
+        "label": "Il Cairo"
+      },
+      {
+        "id": "IN",
+        "label": "Nuova Delhi"
+      },
+      {
+        "id": "CN",
+        "label": "Pechino"
+      },
+      {
+        "id": "CA",
+        "label": "Ottawa"
+      },
+      {
+        "id": "US",
+        "label": "Washington, D.C."
+      },
+      {
+        "id": "BR",
+        "label": "Brasilia"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-PL",
+    "category": "sagome",
+    "prompt": "Trova la sagoma della Polonia?",
+    "target": "PL",
+    "correct": {
+      "id": "PL",
+      "label": "Polonia",
+      "image": "/geofall/outline-PL.svg"
+    },
+    "wrong": [
+      {
+        "id": "RO",
+        "label": "Romania",
+        "image": "/geofall/outline-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/outline-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/outline-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/outline-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/outline-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/outline-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/outline-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/outline-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/outline-BR.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-PL",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Polonia?",
+    "target": "PL",
+    "correct": {
+      "id": "PL",
+      "label": "Castello di Malbork",
+      "image": "/geofall/monument-PL.svg"
+    },
+    "wrong": [
+      {
+        "id": "RO",
+        "label": "Castello di Bran",
+        "image": "/geofall/monument-RO.svg"
+      },
+      {
+        "id": "GR",
+        "label": "Partenone",
+        "image": "/geofall/monument-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Santa Sofia",
+        "image": "/geofall/monument-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Piramidi di Giza",
+        "image": "/geofall/monument-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "Taj Mahal",
+        "image": "/geofall/monument-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Grande Muraglia",
+        "image": "/geofall/monument-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "CN Tower",
+        "image": "/geofall/monument-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Statua della Libertà",
+        "image": "/geofall/monument-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Cristo Redentore",
+        "image": "/geofall/monument-BR.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://whc.unesco.org/en/list/847/"
+    ]
+  },
+  {
+    "id": "confini-PL",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con la Polonia?",
+    "target": "PL",
+    "correct": {
+      "id": "DE",
+      "label": "Germania"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-RO",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera della Romania?",
+    "target": "RO",
+    "correct": {
+      "id": "RO",
+      "label": "Romania",
+      "image": "/geofall/flag-RO.svg"
+    },
+    "wrong": [
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/flag-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/flag-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/flag-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/flag-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/flag-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/flag-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/flag-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/flag-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/flag-IT.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-RO",
+    "category": "capitali",
+    "prompt": "Qual è la capitale della Romania?",
+    "target": "RO",
+    "correct": {
+      "id": "RO",
+      "label": "Bucarest"
+    },
+    "wrong": [
+      {
+        "id": "GR",
+        "label": "Atene"
+      },
+      {
+        "id": "TR",
+        "label": "Ankara"
+      },
+      {
+        "id": "EG",
+        "label": "Il Cairo"
+      },
+      {
+        "id": "IN",
+        "label": "Nuova Delhi"
+      },
+      {
+        "id": "CN",
+        "label": "Pechino"
+      },
+      {
+        "id": "CA",
+        "label": "Ottawa"
+      },
+      {
+        "id": "US",
+        "label": "Washington, D.C."
+      },
+      {
+        "id": "BR",
+        "label": "Brasilia"
+      },
+      {
+        "id": "IT",
+        "label": "Roma"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-RO",
+    "category": "sagome",
+    "prompt": "Trova la sagoma della Romania?",
+    "target": "RO",
+    "correct": {
+      "id": "RO",
+      "label": "Romania",
+      "image": "/geofall/outline-RO.svg"
+    },
+    "wrong": [
+      {
+        "id": "GR",
+        "label": "Grecia",
+        "image": "/geofall/outline-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/outline-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/outline-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/outline-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/outline-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/outline-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/outline-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/outline-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/outline-IT.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-RO",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Romania?",
+    "target": "RO",
+    "correct": {
+      "id": "RO",
+      "label": "Castello di Bran",
+      "image": "/geofall/monument-RO.svg"
+    },
+    "wrong": [
+      {
+        "id": "GR",
+        "label": "Partenone",
+        "image": "/geofall/monument-GR.svg"
+      },
+      {
+        "id": "TR",
+        "label": "Santa Sofia",
+        "image": "/geofall/monument-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Piramidi di Giza",
+        "image": "/geofall/monument-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "Taj Mahal",
+        "image": "/geofall/monument-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Grande Muraglia",
+        "image": "/geofall/monument-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "CN Tower",
+        "image": "/geofall/monument-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Statua della Libertà",
+        "image": "/geofall/monument-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Cristo Redentore",
+        "image": "/geofall/monument-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Colosseo",
+        "image": "/geofall/monument-IT.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://bran-castle.com/"
+    ]
+  },
+  {
+    "id": "confini-RO",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con la Romania?",
+    "target": "RO",
+    "correct": {
+      "id": "HU",
+      "label": "Ungheria"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-GR",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera della Grecia?",
+    "target": "GR",
+    "correct": {
+      "id": "GR",
+      "label": "Grecia",
+      "image": "/geofall/flag-GR.svg"
+    },
+    "wrong": [
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/flag-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/flag-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/flag-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/flag-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/flag-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/flag-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/flag-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/flag-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/flag-FR.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-GR",
+    "category": "capitali",
+    "prompt": "Qual è la capitale della Grecia?",
+    "target": "GR",
+    "correct": {
+      "id": "GR",
+      "label": "Atene"
+    },
+    "wrong": [
+      {
+        "id": "TR",
+        "label": "Ankara"
+      },
+      {
+        "id": "EG",
+        "label": "Il Cairo"
+      },
+      {
+        "id": "IN",
+        "label": "Nuova Delhi"
+      },
+      {
+        "id": "CN",
+        "label": "Pechino"
+      },
+      {
+        "id": "CA",
+        "label": "Ottawa"
+      },
+      {
+        "id": "US",
+        "label": "Washington, D.C."
+      },
+      {
+        "id": "BR",
+        "label": "Brasilia"
+      },
+      {
+        "id": "IT",
+        "label": "Roma"
+      },
+      {
+        "id": "FR",
+        "label": "Parigi"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-GR",
+    "category": "sagome",
+    "prompt": "Trova la sagoma della Grecia?",
+    "target": "GR",
+    "correct": {
+      "id": "GR",
+      "label": "Grecia",
+      "image": "/geofall/outline-GR.svg"
+    },
+    "wrong": [
+      {
+        "id": "TR",
+        "label": "Turchia",
+        "image": "/geofall/outline-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/outline-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/outline-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/outline-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/outline-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/outline-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/outline-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/outline-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/outline-FR.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-GR",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Grecia?",
+    "target": "GR",
+    "correct": {
+      "id": "GR",
+      "label": "Partenone",
+      "image": "/geofall/monument-GR.svg"
+    },
+    "wrong": [
+      {
+        "id": "TR",
+        "label": "Santa Sofia",
+        "image": "/geofall/monument-TR.svg"
+      },
+      {
+        "id": "EG",
+        "label": "Piramidi di Giza",
+        "image": "/geofall/monument-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "Taj Mahal",
+        "image": "/geofall/monument-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Grande Muraglia",
+        "image": "/geofall/monument-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "CN Tower",
+        "image": "/geofall/monument-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Statua della Libertà",
+        "image": "/geofall/monument-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Cristo Redentore",
+        "image": "/geofall/monument-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Colosseo",
+        "image": "/geofall/monument-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Torre Eiffel",
+        "image": "/geofall/monument-FR.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://whc.unesco.org/en/list/404/"
+    ]
+  },
+  {
+    "id": "confini-GR",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con la Grecia?",
+    "target": "GR",
+    "correct": {
+      "id": "TR",
+      "label": "Turchia"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-TR",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera della Turchia?",
+    "target": "TR",
+    "correct": {
+      "id": "TR",
+      "label": "Turchia",
+      "image": "/geofall/flag-TR.svg"
+    },
+    "wrong": [
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/flag-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/flag-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/flag-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/flag-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/flag-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/flag-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/flag-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/flag-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/flag-DE.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-TR",
+    "category": "capitali",
+    "prompt": "Qual è la capitale della Turchia?",
+    "target": "TR",
+    "correct": {
+      "id": "TR",
+      "label": "Ankara"
+    },
+    "wrong": [
+      {
+        "id": "EG",
+        "label": "Il Cairo"
+      },
+      {
+        "id": "IN",
+        "label": "Nuova Delhi"
+      },
+      {
+        "id": "CN",
+        "label": "Pechino"
+      },
+      {
+        "id": "CA",
+        "label": "Ottawa"
+      },
+      {
+        "id": "US",
+        "label": "Washington, D.C."
+      },
+      {
+        "id": "BR",
+        "label": "Brasilia"
+      },
+      {
+        "id": "IT",
+        "label": "Roma"
+      },
+      {
+        "id": "FR",
+        "label": "Parigi"
+      },
+      {
+        "id": "DE",
+        "label": "Berlino"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-TR",
+    "category": "sagome",
+    "prompt": "Trova la sagoma della Turchia?",
+    "target": "TR",
+    "correct": {
+      "id": "TR",
+      "label": "Turchia",
+      "image": "/geofall/outline-TR.svg"
+    },
+    "wrong": [
+      {
+        "id": "EG",
+        "label": "Egitto",
+        "image": "/geofall/outline-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/outline-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/outline-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/outline-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/outline-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/outline-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/outline-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/outline-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/outline-DE.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-TR",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Turchia?",
+    "target": "TR",
+    "correct": {
+      "id": "TR",
+      "label": "Santa Sofia",
+      "image": "/geofall/monument-TR.svg"
+    },
+    "wrong": [
+      {
+        "id": "EG",
+        "label": "Piramidi di Giza",
+        "image": "/geofall/monument-EG.svg"
+      },
+      {
+        "id": "IN",
+        "label": "Taj Mahal",
+        "image": "/geofall/monument-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Grande Muraglia",
+        "image": "/geofall/monument-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "CN Tower",
+        "image": "/geofall/monument-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Statua della Libertà",
+        "image": "/geofall/monument-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Cristo Redentore",
+        "image": "/geofall/monument-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Colosseo",
+        "image": "/geofall/monument-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Torre Eiffel",
+        "image": "/geofall/monument-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Porta di Brandeburgo",
+        "image": "/geofall/monument-DE.svg"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://whc.unesco.org/en/list/356/"
+    ]
+  },
+  {
+    "id": "confini-TR",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con la Turchia?",
+    "target": "TR",
+    "correct": {
+      "id": "GR",
+      "label": "Grecia"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      }
+    ],
+    "difficulty": 2,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-EG",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera dell'Egitto?",
+    "target": "EG",
+    "correct": {
+      "id": "EG",
+      "label": "Egitto",
+      "image": "/geofall/flag-EG.svg"
+    },
+    "wrong": [
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/flag-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/flag-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/flag-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/flag-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/flag-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/flag-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/flag-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/flag-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/flag-ES.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-EG",
+    "category": "capitali",
+    "prompt": "Qual è la capitale dell'Egitto?",
+    "target": "EG",
+    "correct": {
+      "id": "EG",
+      "label": "Il Cairo"
+    },
+    "wrong": [
+      {
+        "id": "IN",
+        "label": "Nuova Delhi"
+      },
+      {
+        "id": "CN",
+        "label": "Pechino"
+      },
+      {
+        "id": "CA",
+        "label": "Ottawa"
+      },
+      {
+        "id": "US",
+        "label": "Washington, D.C."
+      },
+      {
+        "id": "BR",
+        "label": "Brasilia"
+      },
+      {
+        "id": "IT",
+        "label": "Roma"
+      },
+      {
+        "id": "FR",
+        "label": "Parigi"
+      },
+      {
+        "id": "DE",
+        "label": "Berlino"
+      },
+      {
+        "id": "ES",
+        "label": "Madrid"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-EG",
+    "category": "sagome",
+    "prompt": "Trova la sagoma dell'Egitto?",
+    "target": "EG",
+    "correct": {
+      "id": "EG",
+      "label": "Egitto",
+      "image": "/geofall/outline-EG.svg"
+    },
+    "wrong": [
+      {
+        "id": "IN",
+        "label": "India",
+        "image": "/geofall/outline-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/outline-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/outline-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/outline-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/outline-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/outline-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/outline-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/outline-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/outline-ES.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-EG",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Egitto?",
+    "target": "EG",
+    "correct": {
+      "id": "EG",
+      "label": "Piramidi di Giza",
+      "image": "/geofall/monument-EG.svg"
+    },
+    "wrong": [
+      {
+        "id": "IN",
+        "label": "Taj Mahal",
+        "image": "/geofall/monument-IN.svg"
+      },
+      {
+        "id": "CN",
+        "label": "Grande Muraglia",
+        "image": "/geofall/monument-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "CN Tower",
+        "image": "/geofall/monument-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Statua della Libertà",
+        "image": "/geofall/monument-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Cristo Redentore",
+        "image": "/geofall/monument-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Colosseo",
+        "image": "/geofall/monument-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Torre Eiffel",
+        "image": "/geofall/monument-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Porta di Brandeburgo",
+        "image": "/geofall/monument-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Sagrada Familia",
+        "image": "/geofall/monument-ES.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://whc.unesco.org/en/list/86/"
+    ]
+  },
+  {
+    "id": "confini-EG",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con l'Egitto?",
+    "target": "EG",
+    "correct": {
+      "id": "SD",
+      "label": "Sudan"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-IN",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera dell'India?",
+    "target": "IN",
+    "correct": {
+      "id": "IN",
+      "label": "India",
+      "image": "/geofall/flag-IN.svg"
+    },
+    "wrong": [
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/flag-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/flag-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/flag-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/flag-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/flag-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/flag-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/flag-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/flag-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/flag-PT.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-IN",
+    "category": "capitali",
+    "prompt": "Qual è la capitale dell'India?",
+    "target": "IN",
+    "correct": {
+      "id": "IN",
+      "label": "Nuova Delhi"
+    },
+    "wrong": [
+      {
+        "id": "CN",
+        "label": "Pechino"
+      },
+      {
+        "id": "CA",
+        "label": "Ottawa"
+      },
+      {
+        "id": "US",
+        "label": "Washington, D.C."
+      },
+      {
+        "id": "BR",
+        "label": "Brasilia"
+      },
+      {
+        "id": "IT",
+        "label": "Roma"
+      },
+      {
+        "id": "FR",
+        "label": "Parigi"
+      },
+      {
+        "id": "DE",
+        "label": "Berlino"
+      },
+      {
+        "id": "ES",
+        "label": "Madrid"
+      },
+      {
+        "id": "PT",
+        "label": "Lisbona"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-IN",
+    "category": "sagome",
+    "prompt": "Trova la sagoma dell'India?",
+    "target": "IN",
+    "correct": {
+      "id": "IN",
+      "label": "India",
+      "image": "/geofall/outline-IN.svg"
+    },
+    "wrong": [
+      {
+        "id": "CN",
+        "label": "Cina",
+        "image": "/geofall/outline-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/outline-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/outline-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/outline-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/outline-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/outline-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/outline-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/outline-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/outline-PT.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-IN",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in India?",
+    "target": "IN",
+    "correct": {
+      "id": "IN",
+      "label": "Taj Mahal",
+      "image": "/geofall/monument-IN.svg"
+    },
+    "wrong": [
+      {
+        "id": "CN",
+        "label": "Grande Muraglia",
+        "image": "/geofall/monument-CN.svg"
+      },
+      {
+        "id": "CA",
+        "label": "CN Tower",
+        "image": "/geofall/monument-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Statua della Libertà",
+        "image": "/geofall/monument-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Cristo Redentore",
+        "image": "/geofall/monument-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Colosseo",
+        "image": "/geofall/monument-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Torre Eiffel",
+        "image": "/geofall/monument-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Porta di Brandeburgo",
+        "image": "/geofall/monument-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Sagrada Familia",
+        "image": "/geofall/monument-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Torre di Belém",
+        "image": "/geofall/monument-PT.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://whc.unesco.org/en/list/252/"
+    ]
+  },
+  {
+    "id": "confini-IN",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con l'India?",
+    "target": "IN",
+    "correct": {
+      "id": "CN",
+      "label": "Cina"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-CN",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera della Cina?",
+    "target": "CN",
+    "correct": {
+      "id": "CN",
+      "label": "Cina",
+      "image": "/geofall/flag-CN.svg"
+    },
+    "wrong": [
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/flag-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/flag-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/flag-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/flag-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/flag-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/flag-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/flag-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/flag-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/flag-BE.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-CN",
+    "category": "capitali",
+    "prompt": "Qual è la capitale della Cina?",
+    "target": "CN",
+    "correct": {
+      "id": "CN",
+      "label": "Pechino"
+    },
+    "wrong": [
+      {
+        "id": "CA",
+        "label": "Ottawa"
+      },
+      {
+        "id": "US",
+        "label": "Washington, D.C."
+      },
+      {
+        "id": "BR",
+        "label": "Brasilia"
+      },
+      {
+        "id": "IT",
+        "label": "Roma"
+      },
+      {
+        "id": "FR",
+        "label": "Parigi"
+      },
+      {
+        "id": "DE",
+        "label": "Berlino"
+      },
+      {
+        "id": "ES",
+        "label": "Madrid"
+      },
+      {
+        "id": "PT",
+        "label": "Lisbona"
+      },
+      {
+        "id": "BE",
+        "label": "Bruxelles"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-CN",
+    "category": "sagome",
+    "prompt": "Trova la sagoma della Cina?",
+    "target": "CN",
+    "correct": {
+      "id": "CN",
+      "label": "Cina",
+      "image": "/geofall/outline-CN.svg"
+    },
+    "wrong": [
+      {
+        "id": "CA",
+        "label": "Canada",
+        "image": "/geofall/outline-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/outline-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/outline-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/outline-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/outline-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/outline-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/outline-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/outline-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/outline-BE.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-CN",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Cina?",
+    "target": "CN",
+    "correct": {
+      "id": "CN",
+      "label": "Grande Muraglia",
+      "image": "/geofall/monument-CN.svg"
+    },
+    "wrong": [
+      {
+        "id": "CA",
+        "label": "CN Tower",
+        "image": "/geofall/monument-CA.svg"
+      },
+      {
+        "id": "US",
+        "label": "Statua della Libertà",
+        "image": "/geofall/monument-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Cristo Redentore",
+        "image": "/geofall/monument-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Colosseo",
+        "image": "/geofall/monument-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Torre Eiffel",
+        "image": "/geofall/monument-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Porta di Brandeburgo",
+        "image": "/geofall/monument-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Sagrada Familia",
+        "image": "/geofall/monument-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Torre di Belém",
+        "image": "/geofall/monument-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Atomium",
+        "image": "/geofall/monument-BE.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://whc.unesco.org/en/list/438/"
+    ]
+  },
+  {
+    "id": "confini-CN",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con la Cina?",
+    "target": "CN",
+    "correct": {
+      "id": "IN",
+      "label": "India"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-CA",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera del Canada?",
+    "target": "CA",
+    "correct": {
+      "id": "CA",
+      "label": "Canada",
+      "image": "/geofall/flag-CA.svg"
+    },
+    "wrong": [
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/flag-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/flag-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/flag-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/flag-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/flag-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/flag-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/flag-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/flag-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/flag-AT.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-CA",
+    "category": "capitali",
+    "prompt": "Qual è la capitale del Canada?",
+    "target": "CA",
+    "correct": {
+      "id": "CA",
+      "label": "Ottawa"
+    },
+    "wrong": [
+      {
+        "id": "US",
+        "label": "Washington, D.C."
+      },
+      {
+        "id": "BR",
+        "label": "Brasilia"
+      },
+      {
+        "id": "IT",
+        "label": "Roma"
+      },
+      {
+        "id": "FR",
+        "label": "Parigi"
+      },
+      {
+        "id": "DE",
+        "label": "Berlino"
+      },
+      {
+        "id": "ES",
+        "label": "Madrid"
+      },
+      {
+        "id": "PT",
+        "label": "Lisbona"
+      },
+      {
+        "id": "BE",
+        "label": "Bruxelles"
+      },
+      {
+        "id": "AT",
+        "label": "Vienna"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-CA",
+    "category": "sagome",
+    "prompt": "Trova la sagoma del Canada?",
+    "target": "CA",
+    "correct": {
+      "id": "CA",
+      "label": "Canada",
+      "image": "/geofall/outline-CA.svg"
+    },
+    "wrong": [
+      {
+        "id": "US",
+        "label": "Stati Uniti",
+        "image": "/geofall/outline-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/outline-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/outline-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/outline-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/outline-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/outline-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/outline-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/outline-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/outline-AT.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-CA",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Canada?",
+    "target": "CA",
+    "correct": {
+      "id": "CA",
+      "label": "CN Tower",
+      "image": "/geofall/monument-CA.svg"
+    },
+    "wrong": [
+      {
+        "id": "US",
+        "label": "Statua della Libertà",
+        "image": "/geofall/monument-US.svg"
+      },
+      {
+        "id": "BR",
+        "label": "Cristo Redentore",
+        "image": "/geofall/monument-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Colosseo",
+        "image": "/geofall/monument-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Torre Eiffel",
+        "image": "/geofall/monument-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Porta di Brandeburgo",
+        "image": "/geofall/monument-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Sagrada Familia",
+        "image": "/geofall/monument-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Torre di Belém",
+        "image": "/geofall/monument-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Atomium",
+        "image": "/geofall/monument-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Palazzo di Schönbrunn",
+        "image": "/geofall/monument-AT.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://www.cntower.ca/"
+    ]
+  },
+  {
+    "id": "confini-CA",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con il Canada?",
+    "target": "CA",
+    "correct": {
+      "id": "US",
+      "label": "Stati Uniti"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt",
+      "https://www.canada.ca/en/global-affairs/news/2022/06/canada-and-the-kingdom-of-denmark-together-with-greenland-reach-historic-agreement-on-long-standing-boundary-disputes.html"
+    ]
+  },
+  {
+    "id": "bandiere-US",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera degli Stati Uniti?",
+    "target": "US",
+    "correct": {
+      "id": "US",
+      "label": "Stati Uniti",
+      "image": "/geofall/flag-US.svg"
+    },
+    "wrong": [
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/flag-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/flag-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/flag-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/flag-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/flag-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/flag-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/flag-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/flag-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/flag-SE.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-US",
+    "category": "capitali",
+    "prompt": "Qual è la capitale degli Stati Uniti?",
+    "target": "US",
+    "correct": {
+      "id": "US",
+      "label": "Washington, D.C."
+    },
+    "wrong": [
+      {
+        "id": "BR",
+        "label": "Brasilia"
+      },
+      {
+        "id": "IT",
+        "label": "Roma"
+      },
+      {
+        "id": "FR",
+        "label": "Parigi"
+      },
+      {
+        "id": "DE",
+        "label": "Berlino"
+      },
+      {
+        "id": "ES",
+        "label": "Madrid"
+      },
+      {
+        "id": "PT",
+        "label": "Lisbona"
+      },
+      {
+        "id": "BE",
+        "label": "Bruxelles"
+      },
+      {
+        "id": "AT",
+        "label": "Vienna"
+      },
+      {
+        "id": "SE",
+        "label": "Stoccolma"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-US",
+    "category": "sagome",
+    "prompt": "Trova la sagoma degli Stati Uniti?",
+    "target": "US",
+    "correct": {
+      "id": "US",
+      "label": "Stati Uniti",
+      "image": "/geofall/outline-US.svg"
+    },
+    "wrong": [
+      {
+        "id": "BR",
+        "label": "Brasile",
+        "image": "/geofall/outline-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/outline-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/outline-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/outline-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/outline-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/outline-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/outline-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/outline-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/outline-SE.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-US",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova negli Stati Uniti?",
+    "target": "US",
+    "correct": {
+      "id": "US",
+      "label": "Statua della Libertà",
+      "image": "/geofall/monument-US.svg"
+    },
+    "wrong": [
+      {
+        "id": "BR",
+        "label": "Cristo Redentore",
+        "image": "/geofall/monument-BR.svg"
+      },
+      {
+        "id": "IT",
+        "label": "Colosseo",
+        "image": "/geofall/monument-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Torre Eiffel",
+        "image": "/geofall/monument-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Porta di Brandeburgo",
+        "image": "/geofall/monument-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Sagrada Familia",
+        "image": "/geofall/monument-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Torre di Belém",
+        "image": "/geofall/monument-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Atomium",
+        "image": "/geofall/monument-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Palazzo di Schönbrunn",
+        "image": "/geofall/monument-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Palazzo di Drottningholm",
+        "image": "/geofall/monument-SE.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://www.nps.gov/stli/index.htm"
+    ]
+  },
+  {
+    "id": "confini-US",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con gli Stati Uniti?",
+    "target": "US",
+    "correct": {
+      "id": "CA",
+      "label": "Canada"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "FR",
+        "label": "Francia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "bandiere-BR",
+    "category": "bandiere",
+    "prompt": "Trova la bandiera del Brasile?",
+    "target": "BR",
+    "correct": {
+      "id": "BR",
+      "label": "Brasile",
+      "image": "/geofall/flag-BR.svg"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/flag-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/flag-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/flag-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/flag-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/flag-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/flag-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/flag-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/flag-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/flag-NO.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://github.com/lipis/flag-icons"
+    ]
+  },
+  {
+    "id": "capitali-BR",
+    "category": "capitali",
+    "prompt": "Qual è la capitale del Brasile?",
+    "target": "BR",
+    "correct": {
+      "id": "BR",
+      "label": "Brasilia"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Roma"
+      },
+      {
+        "id": "FR",
+        "label": "Parigi"
+      },
+      {
+        "id": "DE",
+        "label": "Berlino"
+      },
+      {
+        "id": "ES",
+        "label": "Madrid"
+      },
+      {
+        "id": "PT",
+        "label": "Lisbona"
+      },
+      {
+        "id": "BE",
+        "label": "Bruxelles"
+      },
+      {
+        "id": "AT",
+        "label": "Vienna"
+      },
+      {
+        "id": "SE",
+        "label": "Stoccolma"
+      },
+      {
+        "id": "NO",
+        "label": "Oslo"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "sagome-BR",
+    "category": "sagome",
+    "prompt": "Trova la sagoma del Brasile?",
+    "target": "BR",
+    "correct": {
+      "id": "BR",
+      "label": "Brasile",
+      "image": "/geofall/outline-BR.svg"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia",
+        "image": "/geofall/outline-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Francia",
+        "image": "/geofall/outline-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Germania",
+        "image": "/geofall/outline-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna",
+        "image": "/geofall/outline-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo",
+        "image": "/geofall/outline-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio",
+        "image": "/geofall/outline-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Austria",
+        "image": "/geofall/outline-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia",
+        "image": "/geofall/outline-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia",
+        "image": "/geofall/outline-NO.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+    ]
+  },
+  {
+    "id": "monumenti-BR",
+    "category": "monumenti",
+    "prompt": "Quale monumento si trova in Brasile?",
+    "target": "BR",
+    "correct": {
+      "id": "BR",
+      "label": "Cristo Redentore",
+      "image": "/geofall/monument-BR.svg"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Colosseo",
+        "image": "/geofall/monument-IT.svg"
+      },
+      {
+        "id": "FR",
+        "label": "Torre Eiffel",
+        "image": "/geofall/monument-FR.svg"
+      },
+      {
+        "id": "DE",
+        "label": "Porta di Brandeburgo",
+        "image": "/geofall/monument-DE.svg"
+      },
+      {
+        "id": "ES",
+        "label": "Sagrada Familia",
+        "image": "/geofall/monument-ES.svg"
+      },
+      {
+        "id": "PT",
+        "label": "Torre di Belém",
+        "image": "/geofall/monument-PT.svg"
+      },
+      {
+        "id": "BE",
+        "label": "Atomium",
+        "image": "/geofall/monument-BE.svg"
+      },
+      {
+        "id": "AT",
+        "label": "Palazzo di Schönbrunn",
+        "image": "/geofall/monument-AT.svg"
+      },
+      {
+        "id": "SE",
+        "label": "Palazzo di Drottningholm",
+        "image": "/geofall/monument-SE.svg"
+      },
+      {
+        "id": "NO",
+        "label": "Chiesa di Urnes",
+        "image": "/geofall/monument-NO.svg"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://whc.unesco.org/en/list/1100/"
+    ]
+  },
+  {
+    "id": "confini-BR",
+    "category": "confini",
+    "prompt": "Quale paese confina via terra con il Brasile?",
+    "target": "BR",
+    "correct": {
+      "id": "AR",
+      "label": "Argentina"
+    },
+    "wrong": [
+      {
+        "id": "IT",
+        "label": "Italia"
+      },
+      {
+        "id": "DE",
+        "label": "Germania"
+      },
+      {
+        "id": "ES",
+        "label": "Spagna"
+      },
+      {
+        "id": "PT",
+        "label": "Portogallo"
+      },
+      {
+        "id": "BE",
+        "label": "Belgio"
+      },
+      {
+        "id": "AT",
+        "label": "Austria"
+      },
+      {
+        "id": "SE",
+        "label": "Svezia"
+      },
+      {
+        "id": "NO",
+        "label": "Norvegia"
+      },
+      {
+        "id": "FI",
+        "label": "Finlandia"
+      }
+    ],
+    "difficulty": 1,
+    "sources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt",
+      "https://www.diplomatie.gouv.fr/fr/information-par-pays/bresil/relations-bilaterales"
+    ]
+  }
+]

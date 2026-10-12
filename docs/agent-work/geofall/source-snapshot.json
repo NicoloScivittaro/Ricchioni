@@ -1,0 +1,599 @@
+{
+  "date": "2026-10-12",
+  "countryInfo": "https://download.geonames.org/export/dump/countryInfo.txt",
+  "countryInfoSha256": "c5997ea659df5bcf42509eb937064d172b2a998bb873608603e8421d714a9974",
+  "naturalEarth": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson",
+  "selected": [
+    {
+      "id": "IT",
+      "name": "Italia",
+      "capital": "Roma",
+      "sourceCapital": "Rome",
+      "sourceNeighbors": [
+        "CH",
+        "VA",
+        "SI",
+        "SM",
+        "FR",
+        "AT"
+      ],
+      "neighbors": [
+        "CH",
+        "VA",
+        "SI",
+        "SM",
+        "FR",
+        "AT"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Colosseo",
+      "monumentSource": "https://colosseo.it/en/",
+      "flag": "/geofall/flag-IT.svg",
+      "outline": "/geofall/outline-IT.svg",
+      "monumentImage": "/geofall/monument-IT.svg"
+    },
+    {
+      "id": "FR",
+      "name": "Francia",
+      "capital": "Parigi",
+      "sourceCapital": "Paris",
+      "sourceNeighbors": [
+        "CH",
+        "DE",
+        "BE",
+        "LU",
+        "IT",
+        "AD",
+        "MC",
+        "ES"
+      ],
+      "neighbors": [
+        "AD",
+        "BE",
+        "BR",
+        "CH",
+        "DE",
+        "ES",
+        "IT",
+        "LU",
+        "MC",
+        "SR"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt",
+        "https://www.diplomatie.gouv.fr/fr/information-par-pays/bresil/relations-bilaterales",
+        "https://www.diplomatie.gouv.fr/fr/information-par-pays/suriname/politique-et-economie"
+      ],
+      "monument": "Torre Eiffel",
+      "monumentSource": "https://www.toureiffel.paris/en",
+      "flag": "/geofall/flag-FR.svg",
+      "outline": "/geofall/outline-FR.svg",
+      "monumentImage": "/geofall/monument-FR.svg"
+    },
+    {
+      "id": "DE",
+      "name": "Germania",
+      "capital": "Berlino",
+      "sourceCapital": "Berlin",
+      "sourceNeighbors": [
+        "CH",
+        "PL",
+        "NL",
+        "DK",
+        "BE",
+        "CZ",
+        "LU",
+        "FR",
+        "AT"
+      ],
+      "neighbors": [
+        "CH",
+        "PL",
+        "NL",
+        "DK",
+        "BE",
+        "CZ",
+        "LU",
+        "FR",
+        "AT"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Porta di Brandeburgo",
+      "monumentSource": "https://www.visitberlin.de/en/brandenburg-gate",
+      "flag": "/geofall/flag-DE.svg",
+      "outline": "/geofall/outline-DE.svg",
+      "monumentImage": "/geofall/monument-DE.svg"
+    },
+    {
+      "id": "ES",
+      "name": "Spagna",
+      "capital": "Madrid",
+      "sourceCapital": "Madrid",
+      "sourceNeighbors": [
+        "AD",
+        "PT",
+        "GI",
+        "FR",
+        "MA"
+      ],
+      "neighbors": [
+        "AD",
+        "FR",
+        "GI",
+        "MA",
+        "PT"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt",
+        "https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/exteriores/Paginas/2026/110826-albares-visita-ceuta.aspx"
+      ],
+      "monument": "Sagrada Familia",
+      "monumentSource": "https://sagradafamilia.org/en/home",
+      "flag": "/geofall/flag-ES.svg",
+      "outline": "/geofall/outline-ES.svg",
+      "monumentImage": "/geofall/monument-ES.svg"
+    },
+    {
+      "id": "PT",
+      "name": "Portogallo",
+      "capital": "Lisbona",
+      "sourceCapital": "Lisbon",
+      "sourceNeighbors": [
+        "ES"
+      ],
+      "neighbors": [
+        "ES"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Torre di Belém",
+      "monumentSource": "https://whc.unesco.org/en/list/263/",
+      "flag": "/geofall/flag-PT.svg",
+      "outline": "/geofall/outline-PT.svg",
+      "monumentImage": "/geofall/monument-PT.svg"
+    },
+    {
+      "id": "BE",
+      "name": "Belgio",
+      "capital": "Bruxelles",
+      "sourceCapital": "Brussels",
+      "sourceNeighbors": [
+        "DE",
+        "NL",
+        "LU",
+        "FR"
+      ],
+      "neighbors": [
+        "DE",
+        "NL",
+        "LU",
+        "FR"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Atomium",
+      "monumentSource": "https://atomium.be/",
+      "flag": "/geofall/flag-BE.svg",
+      "outline": "/geofall/outline-BE.svg",
+      "monumentImage": "/geofall/monument-BE.svg"
+    },
+    {
+      "id": "AT",
+      "name": "Austria",
+      "capital": "Vienna",
+      "sourceCapital": "Vienna",
+      "sourceNeighbors": [
+        "CH",
+        "DE",
+        "HU",
+        "SK",
+        "CZ",
+        "IT",
+        "SI",
+        "LI"
+      ],
+      "neighbors": [
+        "CH",
+        "DE",
+        "HU",
+        "SK",
+        "CZ",
+        "IT",
+        "SI",
+        "LI"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Palazzo di Schönbrunn",
+      "monumentSource": "https://whc.unesco.org/en/list/786/",
+      "flag": "/geofall/flag-AT.svg",
+      "outline": "/geofall/outline-AT.svg",
+      "monumentImage": "/geofall/monument-AT.svg"
+    },
+    {
+      "id": "SE",
+      "name": "Svezia",
+      "capital": "Stoccolma",
+      "sourceCapital": "Stockholm",
+      "sourceNeighbors": [
+        "NO",
+        "FI"
+      ],
+      "neighbors": [
+        "NO",
+        "FI"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Palazzo di Drottningholm",
+      "monumentSource": "https://whc.unesco.org/en/list/559/",
+      "flag": "/geofall/flag-SE.svg",
+      "outline": "/geofall/outline-SE.svg",
+      "monumentImage": "/geofall/monument-SE.svg"
+    },
+    {
+      "id": "NO",
+      "name": "Norvegia",
+      "capital": "Oslo",
+      "sourceCapital": "Oslo",
+      "sourceNeighbors": [
+        "FI",
+        "RU",
+        "SE"
+      ],
+      "neighbors": [
+        "FI",
+        "RU",
+        "SE"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Chiesa di Urnes",
+      "monumentSource": "https://whc.unesco.org/en/list/58/",
+      "flag": "/geofall/flag-NO.svg",
+      "outline": "/geofall/outline-NO.svg",
+      "monumentImage": "/geofall/monument-NO.svg"
+    },
+    {
+      "id": "FI",
+      "name": "Finlandia",
+      "capital": "Helsinki",
+      "sourceCapital": "Helsinki",
+      "sourceNeighbors": [
+        "NO",
+        "RU",
+        "SE"
+      ],
+      "neighbors": [
+        "NO",
+        "RU",
+        "SE"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Duomo di Helsinki",
+      "monumentSource": "https://www.myhelsinki.fi/places/helsinki-cathedral/",
+      "flag": "/geofall/flag-FI.svg",
+      "outline": "/geofall/outline-FI.svg",
+      "monumentImage": "/geofall/monument-FI.svg"
+    },
+    {
+      "id": "PL",
+      "name": "Polonia",
+      "capital": "Varsavia",
+      "sourceCapital": "Warsaw",
+      "sourceNeighbors": [
+        "DE",
+        "LT",
+        "SK",
+        "CZ",
+        "BY",
+        "UA",
+        "RU"
+      ],
+      "neighbors": [
+        "DE",
+        "LT",
+        "SK",
+        "CZ",
+        "BY",
+        "UA",
+        "RU"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Castello di Malbork",
+      "monumentSource": "https://whc.unesco.org/en/list/847/",
+      "flag": "/geofall/flag-PL.svg",
+      "outline": "/geofall/outline-PL.svg",
+      "monumentImage": "/geofall/monument-PL.svg"
+    },
+    {
+      "id": "RO",
+      "name": "Romania",
+      "capital": "Bucarest",
+      "sourceCapital": "Bucharest",
+      "sourceNeighbors": [
+        "MD",
+        "HU",
+        "UA",
+        "BG",
+        "RS"
+      ],
+      "neighbors": [
+        "MD",
+        "HU",
+        "UA",
+        "BG",
+        "RS"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Castello di Bran",
+      "monumentSource": "https://bran-castle.com/",
+      "flag": "/geofall/flag-RO.svg",
+      "outline": "/geofall/outline-RO.svg",
+      "monumentImage": "/geofall/monument-RO.svg"
+    },
+    {
+      "id": "GR",
+      "name": "Grecia",
+      "capital": "Atene",
+      "sourceCapital": "Athens",
+      "sourceNeighbors": [
+        "AL",
+        "MK",
+        "TR",
+        "BG"
+      ],
+      "neighbors": [
+        "AL",
+        "MK",
+        "TR",
+        "BG"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Partenone",
+      "monumentSource": "https://whc.unesco.org/en/list/404/",
+      "flag": "/geofall/flag-GR.svg",
+      "outline": "/geofall/outline-GR.svg",
+      "monumentImage": "/geofall/monument-GR.svg"
+    },
+    {
+      "id": "TR",
+      "name": "Turchia",
+      "capital": "Ankara",
+      "sourceCapital": "Ankara",
+      "sourceNeighbors": [
+        "SY",
+        "GE",
+        "IQ",
+        "IR",
+        "GR",
+        "AM",
+        "AZ",
+        "BG"
+      ],
+      "neighbors": [
+        "SY",
+        "GE",
+        "IQ",
+        "IR",
+        "GR",
+        "AM",
+        "AZ",
+        "BG"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Santa Sofia",
+      "monumentSource": "https://whc.unesco.org/en/list/356/",
+      "flag": "/geofall/flag-TR.svg",
+      "outline": "/geofall/outline-TR.svg",
+      "monumentImage": "/geofall/monument-TR.svg"
+    },
+    {
+      "id": "EG",
+      "name": "Egitto",
+      "capital": "Il Cairo",
+      "sourceCapital": "Cairo",
+      "sourceNeighbors": [
+        "LY",
+        "SD",
+        "IL",
+        "PS"
+      ],
+      "neighbors": [
+        "LY",
+        "SD",
+        "IL",
+        "PS"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Piramidi di Giza",
+      "monumentSource": "https://whc.unesco.org/en/list/86/",
+      "flag": "/geofall/flag-EG.svg",
+      "outline": "/geofall/outline-EG.svg",
+      "monumentImage": "/geofall/monument-EG.svg"
+    },
+    {
+      "id": "IN",
+      "name": "India",
+      "capital": "Nuova Delhi",
+      "sourceCapital": "New Delhi",
+      "sourceNeighbors": [
+        "CN",
+        "NP",
+        "MM",
+        "BT",
+        "PK",
+        "BD"
+      ],
+      "neighbors": [
+        "CN",
+        "NP",
+        "MM",
+        "BT",
+        "PK",
+        "BD"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Taj Mahal",
+      "monumentSource": "https://whc.unesco.org/en/list/252/",
+      "flag": "/geofall/flag-IN.svg",
+      "outline": "/geofall/outline-IN.svg",
+      "monumentImage": "/geofall/monument-IN.svg"
+    },
+    {
+      "id": "CN",
+      "name": "Cina",
+      "capital": "Pechino",
+      "sourceCapital": "Beijing",
+      "sourceNeighbors": [
+        "LA",
+        "BT",
+        "TJ",
+        "KZ",
+        "MN",
+        "AF",
+        "NP",
+        "MM",
+        "KG",
+        "PK",
+        "KP",
+        "RU",
+        "VN",
+        "IN"
+      ],
+      "neighbors": [
+        "LA",
+        "BT",
+        "TJ",
+        "KZ",
+        "MN",
+        "AF",
+        "NP",
+        "MM",
+        "KG",
+        "PK",
+        "KP",
+        "RU",
+        "VN",
+        "IN"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Grande Muraglia",
+      "monumentSource": "https://whc.unesco.org/en/list/438/",
+      "flag": "/geofall/flag-CN.svg",
+      "outline": "/geofall/outline-CN.svg",
+      "monumentImage": "/geofall/monument-CN.svg"
+    },
+    {
+      "id": "CA",
+      "name": "Canada",
+      "capital": "Ottawa",
+      "sourceCapital": "Ottawa",
+      "sourceNeighbors": [
+        "US"
+      ],
+      "neighbors": [
+        "DK",
+        "US"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt",
+        "https://www.canada.ca/en/global-affairs/news/2022/06/canada-and-the-kingdom-of-denmark-together-with-greenland-reach-historic-agreement-on-long-standing-boundary-disputes.html"
+      ],
+      "monument": "CN Tower",
+      "monumentSource": "https://www.cntower.ca/",
+      "flag": "/geofall/flag-CA.svg",
+      "outline": "/geofall/outline-CA.svg",
+      "monumentImage": "/geofall/monument-CA.svg"
+    },
+    {
+      "id": "US",
+      "name": "Stati Uniti",
+      "capital": "Washington, D.C.",
+      "sourceCapital": "Washington",
+      "sourceNeighbors": [
+        "CA",
+        "MX",
+        "CU"
+      ],
+      "neighbors": [
+        "CA",
+        "MX",
+        "CU"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt"
+      ],
+      "monument": "Statua della Libertà",
+      "monumentSource": "https://www.nps.gov/stli/index.htm",
+      "flag": "/geofall/flag-US.svg",
+      "outline": "/geofall/outline-US.svg",
+      "monumentImage": "/geofall/monument-US.svg"
+    },
+    {
+      "id": "BR",
+      "name": "Brasile",
+      "capital": "Brasilia",
+      "sourceCapital": "Brasilia",
+      "sourceNeighbors": [
+        "SR",
+        "PE",
+        "BO",
+        "UY",
+        "GY",
+        "PY",
+        "GF",
+        "VE",
+        "CO",
+        "AR"
+      ],
+      "neighbors": [
+        "AR",
+        "BO",
+        "CO",
+        "FR",
+        "GF",
+        "GY",
+        "PE",
+        "PY",
+        "SR",
+        "UY",
+        "VE"
+      ],
+      "neighborSources": [
+        "https://download.geonames.org/export/dump/countryInfo.txt",
+        "https://www.diplomatie.gouv.fr/fr/information-par-pays/bresil/relations-bilaterales"
+      ],
+      "monument": "Cristo Redentore",
+      "monumentSource": "https://whc.unesco.org/en/list/1100/",
+      "flag": "/geofall/flag-BR.svg",
+      "outline": "/geofall/outline-BR.svg",
+      "monumentImage": "/geofall/monument-BR.svg"
+    }
+  ]
+}

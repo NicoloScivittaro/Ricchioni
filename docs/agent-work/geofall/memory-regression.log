@@ -1,0 +1,8 @@
+[0s] fase server MINIGAME_ROULETTE
+[7s] fase server MINIGAME_INTRO
+[9s] fase server MINIGAME_PLAYING
+[46s] fase server MINIGAME_FINISHED
+
+GIOCO memory: round visti = [0,1,2,3,4] · durata 36s · finish() chiamata 1 volta/e · fasi title,observe,repeat,roundResult,results
+✅ eseguiti esattamente 5 round
+✅ risultato inviato UNA volta

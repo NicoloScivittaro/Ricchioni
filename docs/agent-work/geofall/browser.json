@@ -1,0 +1,491 @@
+{
+  "errors": [],
+  "categories": [
+    "bandiere",
+    "confini",
+    "capitali",
+    "sagome",
+    "monumenti"
+  ],
+  "views": [
+    {
+      "w": 1280,
+      "h": 720,
+      "tiles": [
+        {
+          "x": 0.22964165624355687,
+          "y": 0.5673423090588143
+        },
+        {
+          "x": 0.36482084246009555,
+          "y": 0.5673423090588144
+        },
+        {
+          "x": 0.5000000286766342,
+          "y": 0.5673423090588144
+        },
+        {
+          "x": 0.635179214893173,
+          "y": 0.5673423090588144
+        },
+        {
+          "x": 0.7703584011097117,
+          "y": 0.5673423090588144
+        },
+        {
+          "x": 0.2528729623754228,
+          "y": 0.3709231837516734
+        },
+        {
+          "x": 0.37643649455166084,
+          "y": 0.3709231837516734
+        },
+        {
+          "x": 0.5000000267278989,
+          "y": 0.3709231837516734
+        },
+        {
+          "x": 0.623563558904137,
+          "y": 0.3709231837516734
+        },
+        {
+          "x": 0.747127091080375,
+          "y": 0.3709231837516734
+        }
+      ]
+    },
+    {
+      "w": 1920,
+      "h": 1080,
+      "tiles": [
+        {
+          "x": 0.22964162978091368,
+          "y": 0.5673423086311353
+        },
+        {
+          "x": 0.3648208099832153,
+          "y": 0.5673423086311353
+        },
+        {
+          "x": 0.4999999901855169,
+          "y": 0.5673423086311353
+        },
+        {
+          "x": 0.6351791703878185,
+          "y": 0.5673423086311353
+        },
+        {
+          "x": 0.7703583505901201,
+          "y": 0.5673423086311353
+        },
+        {
+          "x": 0.25287293818665707,
+          "y": 0.3709231833607438
+        },
+        {
+          "x": 0.3764364648654484,
+          "y": 0.3709231833607438
+        },
+        {
+          "x": 0.4999999915442397,
+          "y": 0.3709231833607438
+        },
+        {
+          "x": 0.6235635182230311,
+          "y": 0.3709231833607438
+        },
+        {
+          "x": 0.7471270449018224,
+          "y": 0.3709231833607438
+        }
+      ]
+    },
+    {
+      "w": 800,
+      "h": 600,
+      "tiles": [
+        {
+          "x": 0.13952216604841466,
+          "y": 0.5673423088022069
+        },
+        {
+          "x": 0.31976108581518925,
+          "y": 0.5673423088022069
+        },
+        {
+          "x": 0.5000000055819638,
+          "y": 0.5673423088022069
+        },
+        {
+          "x": 0.6802389253487384,
+          "y": 0.5673423088022069
+        },
+        {
+          "x": 0.860477845115513,
+          "y": 0.5673423088022069
+        },
+        {
+          "x": 0.17049724435182043,
+          "y": 0.3709231835171156
+        },
+        {
+          "x": 0.3352486249847619,
+          "y": 0.3709231835171156
+        },
+        {
+          "x": 0.5000000056177033,
+          "y": 0.3709231835171156
+        },
+        {
+          "x": 0.6647513862506449,
+          "y": 0.3709231835171156
+        },
+        {
+          "x": 0.8295027668835863,
+          "y": 0.3709231835171157
+        }
+      ]
+    },
+    {
+      "text": " · ROUND 2 · SPAREGGIO · SPETTATORE",
+      "buttons": [
+        {
+          "disabled": true,
+          "width": 78,
+          "height": 78
+        },
+        {
+          "disabled": true,
+          "width": 78,
+          "height": 78
+        },
+        {
+          "disabled": true,
+          "width": 78,
+          "height": 78
+        },
+        {
+          "disabled": true,
+          "width": 78,
+          "height": 78
+        },
+        {
+          "disabled": true,
+          "width": 360,
+          "height": 52
+        }
+      ],
+      "scroll": false
+    },
+    {
+      "text": " · ROUND 2 · SPAREGGIO · SPETTATORE",
+      "buttons": [
+        {
+          "disabled": true,
+          "width": 72,
+          "height": 72
+        },
+        {
+          "disabled": true,
+          "width": 72,
+          "height": 72
+        },
+        {
+          "disabled": true,
+          "width": 72,
+          "height": 72
+        },
+        {
+          "disabled": true,
+          "width": 72,
+          "height": 72
+        },
+        {
+          "disabled": true,
+          "width": 336,
+          "height": 52
+        }
+      ],
+      "scroll": false
+    },
+    {
+      "text": " · ROUND 2 · SPAREGGIO · SPETTATORE",
+      "buttons": [
+        {
+          "disabled": true,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "disabled": true,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "disabled": true,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "disabled": true,
+          "width": 48,
+          "height": 48
+        },
+        {
+          "disabled": true,
+          "width": 360,
+          "height": 52
+        }
+      ],
+      "scroll": false
+    }
+  ],
+  "checks": [
+    "Xbox movement/push single-use",
+    "PlayStation/generic real input path",
+    "real phone simultaneous two-finger movement/push",
+    "pause freezes clock/pad fallback/phone reload",
+    "5 safe on same tile;9 simultaneous falls",
+    "spawn wrong;single life loss;late movement ignored"
+  ],
+  "controls": "🌍 GEOFALL — IL MONDO CROLLA 🎮 CONTROLLI LEFT STICK CORRI SULLA RISPOSTA A / ✕ SPINTA · UNA PER ROUND 📱 Chi non ha il controller gioca col telefono",
+  "natural": [
+    {
+      "n": 2,
+      "time": 57.0999999999974,
+      "ended": true,
+      "results": [
+        {
+          "playerId": "8873024a-625c-465e-8b63-f83ea40ac52b",
+          "placement": 1,
+          "score": 3,
+          "stats": [
+            "3 risposte corrette",
+            "ULTIMO SOPRAVVISSUTO",
+            "2 vite residue"
+          ]
+        },
+        {
+          "playerId": "ef6102bd-7355-4298-a379-a4e0b8c5a40f",
+          "placement": 2,
+          "score": 1,
+          "stats": [
+            "1 risposte corrette",
+            "Eliminato al round 4",
+            "0 vite residue"
+          ]
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "time": 84.100000000013,
+      "ended": true,
+      "results": [
+        {
+          "playerId": "75ae40b6-f858-4957-94c8-0b7e0a02be29",
+          "placement": 1,
+          "score": 4,
+          "stats": [
+            "4 risposte corrette",
+            "ULTIMO SOPRAVVISSUTO",
+            "1 vite residue"
+          ]
+        },
+        {
+          "playerId": "8873024a-625c-465e-8b63-f83ea40ac52b",
+          "placement": 2,
+          "score": 3,
+          "stats": [
+            "3 risposte corrette",
+            "Eliminato al round 6",
+            "0 vite residue"
+          ]
+        },
+        {
+          "playerId": "ef6102bd-7355-4298-a379-a4e0b8c5a40f",
+          "placement": 3,
+          "score": 3,
+          "stats": [
+            "3 risposte corrette",
+            "Eliminato al round 6",
+            "0 vite residue"
+          ]
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "time": 109.10000000003289,
+      "ended": true,
+      "results": [
+        {
+          "playerId": "ef6102bd-7355-4298-a379-a4e0b8c5a40f",
+          "placement": 1,
+          "score": 6,
+          "stats": [
+            "6 risposte corrette",
+            "ULTIMO SOPRAVVISSUTO",
+            "1 vite residue"
+          ]
+        },
+        {
+          "playerId": "8873024a-625c-465e-8b63-f83ea40ac52b",
+          "placement": 2,
+          "score": 5,
+          "stats": [
+            "5 risposte corrette",
+            "Eliminato al round 8",
+            "0 vite residue"
+          ]
+        },
+        {
+          "playerId": "75ae40b6-f858-4957-94c8-0b7e0a02be29",
+          "placement": 3,
+          "score": 4,
+          "stats": [
+            "4 risposte corrette",
+            "Eliminato al round 7",
+            "0 vite residue"
+          ]
+        },
+        {
+          "playerId": "2bd62f9d-cbeb-4c1c-b41c-26ace61b2fb8",
+          "placement": 4,
+          "score": 3,
+          "stats": [
+            "3 risposte corrette",
+            "Eliminato al round 6",
+            "0 vite residue"
+          ]
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "time": 197.09999999998507,
+      "ended": true,
+      "results": [
+        {
+          "playerId": "8873024a-625c-465e-8b63-f83ea40ac52b",
+          "placement": 1,
+          "score": 14,
+          "stats": [
+            "14 risposte corrette",
+            "ULTIMO SOPRAVVISSUTO",
+            "1 vite residue"
+          ]
+        },
+        {
+          "playerId": "ef6102bd-7355-4298-a379-a4e0b8c5a40f",
+          "placement": 2,
+          "score": 13,
+          "stats": [
+            "13 risposte corrette",
+            "Eliminato al round 16",
+            "0 vite residue"
+          ]
+        },
+        {
+          "playerId": "8064b910-deb4-49f1-859f-b572d5cc1e1b",
+          "placement": 3,
+          "score": 6,
+          "stats": [
+            "6 risposte corrette",
+            "Eliminato al round 9",
+            "0 vite residue"
+          ]
+        },
+        {
+          "playerId": "2bd62f9d-cbeb-4c1c-b41c-26ace61b2fb8",
+          "placement": 4,
+          "score": 5,
+          "stats": [
+            "5 risposte corrette",
+            "Eliminato al round 8",
+            "0 vite residue"
+          ]
+        },
+        {
+          "playerId": "75ae40b6-f858-4957-94c8-0b7e0a02be29",
+          "placement": 5,
+          "score": 0,
+          "stats": [
+            "0 risposte corrette",
+            "Eliminato al round 3",
+            "0 vite residue"
+          ]
+        }
+      ]
+    }
+  ],
+  "results": {
+    "results": [
+      {
+        "playerId": "8873024a-625c-465e-8b63-f83ea40ac52b",
+        "placement": 1,
+        "score": 14,
+        "stats": [
+          "14 risposte corrette",
+          "ULTIMO SOPRAVVISSUTO",
+          "1 vite residue"
+        ]
+      },
+      {
+        "playerId": "ef6102bd-7355-4298-a379-a4e0b8c5a40f",
+        "placement": 2,
+        "score": 13,
+        "stats": [
+          "13 risposte corrette",
+          "Eliminato al round 16",
+          "0 vite residue"
+        ]
+      },
+      {
+        "playerId": "8064b910-deb4-49f1-859f-b572d5cc1e1b",
+        "placement": 3,
+        "score": 6,
+        "stats": [
+          "6 risposte corrette",
+          "Eliminato al round 9",
+          "0 vite residue"
+        ]
+      },
+      {
+        "playerId": "2bd62f9d-cbeb-4c1c-b41c-26ace61b2fb8",
+        "placement": 4,
+        "score": 5,
+        "stats": [
+          "5 risposte corrette",
+          "Eliminato al round 8",
+          "0 vite residue"
+        ]
+      },
+      {
+        "playerId": "75ae40b6-f858-4957-94c8-0b7e0a02be29",
+        "placement": 5,
+        "score": 0,
+        "stats": [
+          "0 risposte corrette",
+          "Eliminato al round 3",
+          "0 vite residue"
+        ]
+      }
+    ],
+    "ranking": [
+      "8873024a-625c-465e-8b63-f83ea40ac52b",
+      "ef6102bd-7355-4298-a379-a4e0b8c5a40f",
+      "8064b910-deb4-49f1-859f-b572d5cc1e1b",
+      "2bd62f9d-cbeb-4c1c-b41c-26ace61b2fb8",
+      "75ae40b6-f858-4957-94c8-0b7e0a02be29"
+    ],
+    "deltas": {
+      "8873024a-625c-465e-8b63-f83ea40ac52b": 20,
+      "ef6102bd-7355-4298-a379-a4e0b8c5a40f": 14,
+      "8064b910-deb4-49f1-859f-b572d5cc1e1b": 10,
+      "2bd62f9d-cbeb-4c1c-b41c-26ace61b2fb8": 6,
+      "75ae40b6-f858-4957-94c8-0b7e0a02be29": 2
+    },
+    "double": true
+  }
+}

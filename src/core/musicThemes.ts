@@ -21,6 +21,8 @@ export type ThemeId =
   | 'cornicione'
   | 'casacarbo'
   | 'minigolf'
+  | 'geofall'
+  | 'backrooms'
   | 'fps'
   | 'memory'
   | 'reaction'
@@ -73,6 +75,16 @@ const HARMONIC = [0, 2, 3, 5, 7, 8, 11];
 const _ = null;
 
 export const THEMES: Record<ThemeId, Theme> = {
+  // Backrooms owns its spatial ambience; the director's dedicated silent theme prevents party drums/melody.
+  backrooms:{id:'backrooms',bpm:60,swing:0,root:33,scale:PHRYGIAN,progression:[0,0,1,0,0,1,0,0],
+    kick:'................',snare:'................',hat:'................',kickB:'................',
+    perc:{kind:'brush',pattern:'................'},bass:{pattern:'................',wave:'sine',octave:-2},
+    chords:{wave:'sine',style:'pad',octave:-1},motif:Array(32).fill(null),lead:{wave:'sine',octave:0},gain:0,noMelody:true},
+  geofall:{id:'geofall',bpm:116,swing:.08,root:57,scale:DORIAN,progression:[0,3,0,4,0,3,5,4],
+    kick:'x.......x.......',snare:'....x.......x...',hat:'..o...o...o...o.',kickB:'x.......x.x.....',
+    perc:{kind:'rim',pattern:'..x...x...x...x.'},bass:{pattern:'1...5...1...8...',wave:'triangle',octave:-2},
+    chords:{wave:'sine',style:'stab',stabs:'x.......x.......',octave:0},
+    motif:[0,_,2,4,_,2,_,0,_,_,4,_,5,4,_,_,0,_,3,_,4,_,7,_,5,_,4,_,2,_,0,_],lead:{wave:'triangle',octave:1},gain:.5},
   minigolf:{id:'minigolf',bpm:110,swing:.16,root:55,scale:MIXO,progression:[0,3,4,0,0,3,5,4],
     kick:'x.......x.......',snare:'....x.......x...',hat:'..o...o...o...o.',kickB:'x.......x.x.....',
     perc:{kind:'rim',pattern:'..x...x...x...x.'},bass:{pattern:'1...5...1...8...',wave:'triangle',octave:-2},

@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+import {launch,addPhone,hostEval,hostSnapshot,sleep,HOST_URL} from './lib.mjs';
+import {until,startGame,gameEval} from './padmock.mjs';
+const browser=await launch(),out='docs/agent-work/backrooms',report={errors:[],views:[]};
+try{
+ const page=await browser.newPage();page.on('pageerror',e=>report.errors.push(String(e)));await page.goto(HOST_URL,{waitUntil:'load'});
+ await until(()=>hostEval(page,gm=>gm.game?.scene.getScenes(true).some(s=>s.scene.key==='LobbyScene')),30000,'lobby');await sleep(300);await page.keyboard.press('Enter');await until(()=>hostEval(page,gm=>!!gm.roomCode),20000,'room');const code=await hostEval(page,gm=>gm.roomCode);const ph=await addPhone(browser,code,'Niko',0);await startGame(page,'backrooms');
+ const G=(fn,arg)=>gameEval(page,'backrooms',fn,arg);await until(()=>G(g=>g?.controlsReady&&g.match.intro<=0),60000,'ready');await sleep(1500);
+ await G(g=>{g.engine.stopRenderLoop();g.engine.runRenderLoop(()=>g.scene.render());g.match.cancel();});
+ // Select a real straight corridor from the generated map, rather than building a separate demo environment.
+ const fixture=await hostEval(page,async gm=>{const g=gm.game.scene.getScene('backrooms').game3d;const {center}=await import('/src/minigames/backrooms/maze.ts');const m=g.match.maze;m.doors.forEach(d=>d.open=true);const cell=m.cells.find(c=>m.floor[c+m.size]&&m.floor[c+2*m.size]&&m.floor[c+3*m.size]&&c%m.size>0&&c%m.size<m.size-1);const a=center(m,cell),b=center(m,cell+2*m.size);g.match.players.forEach((p,i)=>Object.assign(p,{x:a.x+i*.6,z:a.z,yaw:0,pitch:0,dx:0,dz:0,immunity:0}));g.match.monsters.forEach((p,i)=>Object.assign(p,{x:b.x+i*.5,z:b.z,yaw:Math.PI,state:'watch',revealed:true}));g.step(0);return{cell,a,b,types:g.match.monsters.map(m=>m.kind)};});report.fixture=fixture;await sleep(300);await page.screenshot({path:`${out}/creatures-corridor.png`});
+ await G(g=>{g.match.monsters[0].state='chase';g.creatures[0].update(2,true,false);g.step(0);});await sleep(200);await page.screenshot({path:`${out}/creatures-chase.png`});
+ await G(g=>{const m=g.match,p=m.players[0];p.immunity=0;m.capture(p,m.monsters[0]);g.step(.04);});await sleep(150);await page.screenshot({path:`${out}/capture-3d.png`});
+ await G(g=>{for(let i=0;i<26;i++)g.step(1/60);});await sleep(150);await page.screenshot({path:`${out}/blackout-own-view.png`});assert.equal(await G(g=>g.match.players[0].state),'captured');
+ // Exit, key and two puzzle fixtures read the production model + interaction prompt renderer.
+ await hostEval(page,async gm=>{const g=gm.game.scene.getScene('backrooms').game3d;const {center,canStand}=await import('/src/minigames/backrooms/maze.ts');const p=g.match.players[0],exit=center(g.match.maze,g.match.maze.exit);Object.assign(p,{state:'exploring',x:exit.x,z:exit.z-1.1,yaw:0,pitch:-.15});if(!canStand(g.match.maze,p))throw new Error('Invalid exit visual fixture');g.match.unlocked=true;g.step(0);});await sleep(200);await page.screenshot({path:`${out}/last-door.png`});
+ await G(g=>{const p=g.match.players[0];g.match.command(p.id,{x:0,z:0,lookX:0,lookY:0,sprint:false,interact:true,held:false});g.match.advance(.03);g.step(0);});assert.equal(await G(g=>g.match.players[0].state),'escaped');await sleep(150);await page.screenshot({path:`${out}/escape-transition.png`});
+ for(const [w,h] of [[390,800],[360,640],[844,390]]){await ph.page.setViewport({width:w,height:h,isMobile:true,hasTouch:true});await sleep(250);const row=await ph.page.evaluate(()=>{const badge=document.querySelector('#pad-fallback-badge')?.getBoundingClientRect(),title=document.querySelector('.back-header h1').getBoundingClientRect();return{titleTop:title.top,badgeBottom:badge?.bottom??0,scroll:document.documentElement.scrollHeight>innerHeight+1};});assert.ok(row.titleTop>=row.badgeBottom);assert.equal(row.scroll,false);report.views.push({w,h,...row});await ph.page.screenshot({path:`${out}/phone-final-${w}x${h}.png`});}
+ await hostEval(page,gm=>gm.restartMatch());await until(async()=>(await hostSnapshot(page)).phase==='LOBBY',15000,'lobby');assert.deepEqual(report.errors,[]);console.log('PASS Backrooms visuals/creatures/3D capture/blackout/exit/escape/responsive phone');
+}finally{writeFileSync(`${out}/visual.json`,JSON.stringify(report,null,2));await browser.close();}

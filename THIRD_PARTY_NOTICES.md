@@ -64,3 +64,10 @@ Testo della licenza ISC:
 > WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 > ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 > OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+## Geofall: dati geografici e bandiere
+
+- **GeoNames** — capitali e adiacenze terrestri dal [countryInfo](https://download.geonames.org/export/dump/countryInfo.txt). Attribuzione: GeoNames, [licenza Creative Commons Attribution](https://www.geonames.org/export/). Snapshot e criteri in `docs/agent-work/geofall/SOURCES.md`.
+- **Natural Earth** — sagome SVG derivate da Admin0 Countries, [public domain](https://www.naturalearthdata.com/about/terms-of-use/). Made with Natural Earth.
+- **flag-icons**, Copyright (c) 2013 Panayiotis Lipiridis — bandiere SVG, [MIT](https://github.com/lipis/flag-icons). Licenza completa conservata in `public/geofall/FLAG-ICONS-LICENSE.txt`.
+- I monumenti sono illustrazioni vettoriali originali del progetto; i siti UNESCO/gestori citati documentano soltanto l'ubicazione e non forniscono immagini copiate.

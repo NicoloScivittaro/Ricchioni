@@ -1,0 +1,52 @@
+PASS 1000 seed × 2–5: connected maze, all objectives, protected spawn, reproducibility, distinct topology
+PASS wall sweep, closed-door collision + LOS, opening restores passage, navigation along corridor
+PASS two captures, snapshot key drop, pickup by another, respawn immunity and no third capture
+PASS spawn has temporary grace, not permanent invulnerability; a real pursuit can capture an AFK player after grace
+PASS five spawn slots are clear, separated, retained on respawn; patrol paths can traverse spawn after initial grace
+PASS solvable puzzle switches, elapsed hold, exit remains locked until complete
+PASS solvable puzzle generators, elapsed hold, exit remains locked until complete
+PASS stalker: sees FOV, walls hide target, finite memory, non-omniscient pursuit
+PASS runner: sees FOV, walls hide target, finite memory, non-omniscient pursuit
+PASS rank: escape order, living before eliminated, lives then explored when no escape, timeout
+PASS hiding without witnessed entry prevents capture; sprint makes noise with a finite position snapshot
+PASS hiding in full view does not erase a newer visual memory with an older footstep
+PASS Imitator stays disguised at distance, reveals only near a visible player, then uses normal capture rules
+PASS stalker actually traverses multiple corridor turns without cutting solid corners
+PASS runner actually traverses multiple corridor turns without cutting solid corners
+PASS 2 players free: every bot can escape with no creature interference
+PASS 3 players free: every bot can escape with no creature interference
+PASS 4 players free: every bot can escape with no creature interference
+PASS 5 players free: every bot can escape with no creature interference
+PASS 2 players key: every bot can escape with no creature interference
+PASS 3 players key: every bot can escape with no creature interference
+PASS 4 players key: every bot can escape with no creature interference
+PASS 5 players key: every bot can escape with no creature interference
+PASS 2 players puzzle: every bot can escape with no creature interference
+PASS 3 players puzzle: every bot can escape with no creature interference
+PASS 4 players puzzle: every bot can escape with no creature interference
+PASS 5 players puzzle: every bot can escape with no creature interference
+  escaped 2 at 32.4
+PASS 2 players free: real bot locomotion, natural finite finish, valid ranking
+  escaped 2 at 55.6
+PASS 2 players key: real bot locomotion, natural finite finish, valid ranking
+  escaped 2 at 88.1
+PASS 2 players puzzle: real bot locomotion, natural finite finish, valid ranking
+  escaped 2 at 94.8
+PASS 3 players free: real bot locomotion, natural finite finish, valid ranking
+  escaped 0 at 159.7
+PASS 3 players key: real bot locomotion, natural finite finish, valid ranking
+  escaped 0 at 150.0
+PASS 3 players puzzle: real bot locomotion, natural finite finish, valid ranking
+  escaped 1 at 272.6
+PASS 4 players free: real bot locomotion, natural finite finish, valid ranking
+  escaped 1 at 217.3
+PASS 4 players key: real bot locomotion, natural finite finish, valid ranking
+  escaped 2 at 243.5
+PASS 4 players puzzle: real bot locomotion, natural finite finish, valid ranking
+  escaped 2 at 216.4
+PASS 5 players free: real bot locomotion, natural finite finish, valid ranking
+  escaped 5 at 82.0
+PASS 5 players key: real bot locomotion, natural finite finish, valid ranking
+  escaped 3 at 205.5
+PASS 5 players puzzle: real bot locomotion, natural finite finish, valid ranking
+Backrooms: 39 test groups passed

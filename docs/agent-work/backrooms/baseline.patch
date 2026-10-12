@@ -1,0 +1,177 @@
+diff --git a/THIRD_PARTY_NOTICES.md b/THIRD_PARTY_NOTICES.md
+index 834b291..282a3db 100644
+--- a/THIRD_PARTY_NOTICES.md
++++ b/THIRD_PARTY_NOTICES.md
+@@ -64,3 +64,10 @@ Testo della licenza ISC:
+ > WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ > ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ > OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++
++## Geofall: dati geografici e bandiere
++
++- **GeoNames** — capitali e adiacenze terrestri dal [countryInfo](https://download.geonames.org/export/dump/countryInfo.txt). Attribuzione: GeoNames, [licenza Creative Commons Attribution](https://www.geonames.org/export/). Snapshot e criteri in `docs/agent-work/geofall/SOURCES.md`.
++- **Natural Earth** — sagome SVG derivate da Admin0 Countries, [public domain](https://www.naturalearthdata.com/about/terms-of-use/). Made with Natural Earth.
++- **flag-icons**, Copyright (c) 2013 Panayiotis Lipiridis — bandiere SVG, [MIT](https://github.com/lipis/flag-icons). Licenza completa conservata in `public/geofall/FLAG-ICONS-LICENSE.txt`.
++- I monumenti sono illustrazioni vettoriali originali del progetto; i siti UNESCO/gestori citati documentano soltanto l'ubicazione e non forniscono immagini copiate.
+diff --git a/docs/PARTY_GAME_PER_CHATGPT.md b/docs/PARTY_GAME_PER_CHATGPT.md
+index fcd673f..f3fe558 100644
+--- a/docs/PARTY_GAME_PER_CHATGPT.md
++++ b/docs/PARTY_GAME_PER_CHATGPT.md
+@@ -1,5 +1,7 @@
+ # PARTY GAME — scheda completa del progetto (da incollare in una chat ChatGPT)
+ 
++> Aggiornamento 12 ottobre 2026: aggiunto **GEOFALL — IL MONDO CROLLA**, quattordicesimo minigioco. Griglia3D2×5 contigua, tre vite, domande geografiche100 (20×5 categorie), snapshot della casella alla scadenza, nove piattaforme che crollano insieme e una spinta per round. Timer10/8/6s, spareggio ripetuto tra soli ultimi pari con una vita; nessuna abilità speciale. Pad: stick sinistro+A/✕; telefono: croce+SPINTA, cuori/spettatore. Bot imperfetti, risultati e ScoreManager esistenti. Modulo `src/minigames/geofall/`; [report](agent-work/geofall/REPORT.md) e [fonti](agent-work/geofall/SOURCES.md). Nessun gioco con caselle cadenti era presente nel checkout analizzato: Memoria/Arena restano invariati. Watchdog server1h solo come protezione tecnica esterna, nessuna durata massima nelle regole dello spareggio.
++
+ > Scopo di questo file: darti tutto il contesto per ragionare, scrivere codice, proporre idee di design e correggere bug su questo progetto **senza dover chiedere cosa sia**. Tutto il testo del gioco, i commenti e i report sono in **italiano**; il tono è goliardico/romanesco-laziale tra amici (Anzio/Nettuno), con battute ma senza esagerare. Rispondi sempre in italiano.
+ 
+ ## 1. Che cosa è
+diff --git a/scripts/ability-selftest.ts b/scripts/ability-selftest.ts
+index 390bf72..02ec21c 100644
+--- a/scripts/ability-selftest.ts
++++ b/scripts/ability-selftest.ts
+@@ -76,6 +76,7 @@ for (const d of ABILITY_CATALOG) {
+ section('2. INPUT — ogni gioco col controller ha il tasto ABILITA\' (stessa fonte della schermata CONTROLLI)');
+ for (const m of MINIGAME_DEFINITIONS) {
+   if (m.inputMode !== 'GAMEPAD') continue;
++  if(m.id==='geofall'){ok(PAD_PROFILES.geofall.controls.length===2&&!PAD_PROFILES.geofall.controls.some(c=>c.action==='ABILITY'),'Geofall: solo movimento e spinta, nessuna abilità');continue;}
+   const prof = PAD_PROFILES[m.id];
+   ok(!!prof && prof.controls.some((c) => c.action === 'ABILITY'), `${m.id}: il profilo ha un'azione ABILITY`);
+ }
+diff --git a/scripts/rounds-selftest.ts b/scripts/rounds-selftest.ts
+index 9fd3d37..c116799 100644
+--- a/scripts/rounds-selftest.ts
++++ b/scripts/rounds-selftest.ts
+@@ -95,6 +95,8 @@ console.log('\n[TETTO SERVER] copre la durata REALE massima di ogni gioco (con 
+     casacarbo: 140 // CONTROLLI 5s + countdown + 120s di temporale + finale col vicino 6,5s + risultati
+   };
+   for (const def of MINIGAME_DEFINITIONS) {
++    // Lo spareggio Geofall si ripete finché resta uno: non esiste durata massima nelle regole.
++    if(def.id==='geofall'){ok(safetyCapSec(def)===3600,'Geofall: watchdog esterno1h, nessun limite artificiale allo spareggio');continue;}
+     const worst = WORST_CASE_SEC[def.id];
+     ok(worst !== undefined, `${def.id}: ha una stima di durata massima`);
+     ok(safetyCapSec(def) >= worst * 1.25, `${def.id}: tetto ${safetyCapSec(def)}s ≥ 1.25 × ${worst}s`);
+diff --git a/shared/minigames.ts b/shared/minigames.ts
+index 047071f..39f9a06 100644
+--- a/shared/minigames.ts
++++ b/shared/minigames.ts
+@@ -326,6 +326,17 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
+     category:'SPORT',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:240,hardCapSec:310,
+     compatibleModifiers:['punti_doppi'],sceneKey:'minigolf',inputMode:'GAMEPAD',
+     controllerLayout:{type:'custom',id:'minigolf-tv'}
++  },
++  {
++    id:'geofall',icon:'🌍',name:'GEOFALL — IL MONDO CROLLA',
++    description:'Dieci caselle, una risposta corretta. Tre vite e una spinta: corri prima che il mondo crolli!',
++    category:'CULTURA',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:180,hardCapSec:3600,
++    compatibleModifiers:['punti_doppi'],sceneKey:'geofall',inputMode:'GAMEPAD',
++    controllerLayout:{type:'dpad',controls:[
++      {id:'up',label:'▲',kind:'hold'},{id:'down',label:'▼',kind:'hold'},
++      {id:'left',label:'◀',kind:'hold'},{id:'right',label:'▶',kind:'hold'},
++      {id:'push',label:'SPINTA',kind:'button',icon:'💥'}
++    ]}
+   }
+ ];
+ 
+diff --git a/src/controller/main.ts b/src/controller/main.ts
+index e90e52c..d1e4b3b 100644
+--- a/src/controller/main.ts
++++ b/src/controller/main.ts
+@@ -1552,6 +1552,14 @@ function renderFpsController(): void {
+ 
+ socket.on(EVT.controllerSignal, (data) => {
+   const s = data as SignalPayload;
++  if(s.type==='geofallStatus'&&state?.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='geofall'){
++    const status=data as {lives:number;round:number;available:boolean;pushReady:boolean;phase:string;seconds:number;tie:boolean};
++    let line=document.getElementById('geo-phone-status');
++    if(!line){line=document.createElement('p');line.id='geo-phone-status';line.className='sub';app.querySelector('.screen')?.appendChild(line);}
++    line.textContent=`${'♥'.repeat(Math.max(0,Math.min(3,status.lives)))} · ROUND ${status.round}${status.tie?' · SPAREGGIO':''} · ${status.lives<=0?'SPETTATORE':status.available?`${status.seconds}s · ${status.pushReady?'SPINTA PRONTA':'SPINTA USATA'}`:'ATTENDI IL VIA / GUARDA LA TV'}`;
++    app.querySelectorAll<HTMLButtonElement>('#ctl button').forEach(b=>{b.disabled=!status.available||(b.classList.contains('ctl-push')&&!status.pushReady);});
++    return;
++  }
+   if(s.type==='minigolfStatus'){if(activeController==='minigolf')minigolfPhone?.update(data as GolfPhoneStatus);else updateGolfCompanion(data as GolfPhoneStatus);return;}
+   if (s.type === 'objectThrowStatus' && state?.phase === 'MINIGAME_PLAYING' && state.currentMinigame?.minigameId === 'cornicione') {
+     let label=document.getElementById('corn-throw-status');
+@@ -2166,6 +2174,7 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
+       <div id="ctl"></div>
+     </div>`;
+   renderController(app.querySelector<HTMLDivElement>('#ctl')!, mg.controllerLayout, sendInput);
++  if(mg.minigameId==='geofall')app.querySelectorAll<HTMLButtonElement>('#ctl button').forEach(b=>b.disabled=true);
+   renderInfoLine();
+ }
+ 
+diff --git a/src/core/AudioManager.ts b/src/core/AudioManager.ts
+index 6ffe7df..d14e0d4 100644
+--- a/src/core/AudioManager.ts
++++ b/src/core/AudioManager.ts
+@@ -1077,6 +1077,7 @@ export const TILE_FREQS = [329.63, 246.94, 196.0, 146.83];
+ 
+ /** Stinger dei giochi (note MIDI, passo, durata, timbro): la "sigla" di ogni minigioco, coerente col suo tema musicale. */
+ const GAME_STINGS: Record<string, { notes: number[]; step: number; len: number; wave: OscillatorType }> = {
++  geofall: {notes:[57,64,67,69],step:.08,len:.16,wave:'triangle'},
+   arena: { notes: [45, 52, 57, 60, 64], step: 0.08, len: 0.18, wave: 'sawtooth' },
+   dodgeball: { notes: [62, 66, 69, 74], step: 0.06, len: 0.12, wave: 'square' },
+   minigolf: { notes: [67, 72, 71, 76], step: 0.08, len: 0.14, wave: 'triangle' },
+diff --git a/src/core/GameManager.ts b/src/core/GameManager.ts
+index d2a207a..97b2352 100644
+--- a/src/core/GameManager.ts
++++ b/src/core/GameManager.ts
+@@ -84,7 +84,7 @@ export class GameManager {
+     s.on(EVT.textRelay, (payload) => this.onTextRelay(payload as TextRelayEvent));
+     s.on(EVT.playerDisconnected, (payload) => {
+       const id=(payload as PlayerDisconnectedEvent).playerId;
+-      if(['cornicione', 'fps', 'arena', 'minigolf'].includes(this.state?.currentMinigame?.minigameId ?? ''))this.input.cancelPlayer(id);
++      if(['cornicione', 'fps', 'arena', 'minigolf', 'geofall'].includes(this.state?.currentMinigame?.minigameId ?? ''))this.input.cancelPlayer(id);
+       else this.input.releasePlayer(id);
+     });
+ 
+diff --git a/src/core/musicThemes.ts b/src/core/musicThemes.ts
+index 8c61bb8..6c325f1 100644
+--- a/src/core/musicThemes.ts
++++ b/src/core/musicThemes.ts
+@@ -21,6 +21,7 @@ export type ThemeId =
+   | 'cornicione'
+   | 'casacarbo'
+   | 'minigolf'
++  | 'geofall'
+   | 'fps'
+   | 'memory'
+   | 'reaction'
+@@ -73,6 +74,11 @@ const HARMONIC = [0, 2, 3, 5, 7, 8, 11];
+ const _ = null;
+ 
+ export const THEMES: Record<ThemeId, Theme> = {
++  geofall:{id:'geofall',bpm:116,swing:.08,root:57,scale:DORIAN,progression:[0,3,0,4,0,3,5,4],
++    kick:'x.......x.......',snare:'....x.......x...',hat:'..o...o...o...o.',kickB:'x.......x.x.....',
++    perc:{kind:'rim',pattern:'..x...x...x...x.'},bass:{pattern:'1...5...1...8...',wave:'triangle',octave:-2},
++    chords:{wave:'sine',style:'stab',stabs:'x.......x.......',octave:0},
++    motif:[0,_,2,4,_,2,_,0,_,_,4,_,5,4,_,_,0,_,3,_,4,_,7,_,5,_,4,_,2,_,0,_],lead:{wave:'triangle',octave:1},gain:.5},
+   minigolf:{id:'minigolf',bpm:110,swing:.16,root:55,scale:MIXO,progression:[0,3,4,0,0,3,5,4],
+     kick:'x.......x.......',snare:'....x.......x...',hat:'..o...o...o...o.',kickB:'x.......x.x.....',
+     perc:{kind:'rim',pattern:'..x...x...x...x.'},bass:{pattern:'1...5...1...8...',wave:'triangle',octave:-2},
+diff --git a/src/input/profiles.ts b/src/input/profiles.ts
+index f87555a..13a12a8 100644
+--- a/src/input/profiles.ts
++++ b/src/input/profiles.ts
+@@ -63,6 +63,10 @@ export function defineProfile(minigameId: string, controls: PadBindingDef[]): Pa
+ }
+ 
+ export const PAD_PROFILES: Record<string, PadProfile> = {
++  geofall:defineProfile('geofall',[
++    {action:'MOVE',binding:'LEFT_STICK',control:'move',label:'CORRI SULLA RISPOSTA'},
++    {action:'PUSH',binding:'PRIMARY',control:'push',label:'SPINTA · UNA PER ROUND'}
++  ]),
+   minigolf: defineProfile('minigolf', [
+     {action:'AIM',binding:'LEFT_STICK',control:'aim',label:'ORIENTA IL TIRO'},
+     {action:'CAMERA',binding:'RIGHT_STICK',control:'camera',label:'RUOTA LA VISUALE'},
+diff --git a/src/minigames/preload.ts b/src/minigames/preload.ts
+index db5ad10..dc1664b 100644
+--- a/src/minigames/preload.ts
++++ b/src/minigames/preload.ts
+@@ -5,6 +5,7 @@
+  * cache, quindi il `import()` del wrapper dopo l'intro è istantaneo.
+  */
+ const LOADERS: Record<string, () => Promise<unknown>> = {
++  geofall: () => import('./geofall/BabylonGeofallGame'),
+   minigolf: () => import('./minigolf/BabylonMinigolfGame'),
+   arena: () => import('./arena/BabylonArenaGame'),
+   dodgeball: () => import('./dodgeball/BabylonDodgeballGame'),

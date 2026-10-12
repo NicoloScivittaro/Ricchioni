@@ -63,6 +63,16 @@ export function defineProfile(minigameId: string, controls: PadBindingDef[]): Pa
 }
 
 export const PAD_PROFILES: Record<string, PadProfile> = {
+  backrooms: defineProfile('backrooms', [
+    {action:'MOVE',binding:'LEFT_STICK',control:'move',label:'MUOVITI · CAMMINARE FA MENO RUMORE'},
+    {action:'LOOK',binding:'RIGHT_STICK',control:'lookStick',label:'GUARDA'},
+    {action:'SPRINT',binding:'LB',control:'sprint',label:'CORRI (TIENI) · CONSUMA FIATO'},
+    {action:'INTERACT',binding:'PRIMARY',control:'interact',label:'INTERAGISCI · GENERATORI: TIENI · SPETTATORE: CAMBIA'}
+  ]),
+  geofall:defineProfile('geofall',[
+    {action:'MOVE',binding:'LEFT_STICK',control:'move',label:'CORRI SULLA RISPOSTA'},
+    {action:'PUSH',binding:'PRIMARY',control:'push',label:'SPINTA · UNA PER ROUND'}
+  ]),
   minigolf: defineProfile('minigolf', [
     {action:'AIM',binding:'LEFT_STICK',control:'aim',label:'ORIENTA IL TIRO'},
     {action:'CAMERA',binding:'RIGHT_STICK',control:'camera',label:'RUOTA LA VISUALE'},

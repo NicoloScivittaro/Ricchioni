@@ -95,6 +95,9 @@ console.log('\n[TETTO SERVER] copre la durata REALE massima di ogni gioco (con �
     casacarbo: 140 // CONTROLLI 5s + countdown + 120s di temporale + finale col vicino 6,5s + risultati
   };
   for (const def of MINIGAME_DEFINITIONS) {
+    // Lo spareggio Geofall si ripete finché resta uno: non esiste durata massima nelle regole.
+    if(def.id==='backrooms'){ok(def.durationSec===420&&safetyCapSec(def)===900,'Backrooms: 7 minuti, watchdog con margine');continue;}
+    if(def.id==='geofall'){ok(safetyCapSec(def)===3600,'Geofall: watchdog esterno1h, nessun limite artificiale allo spareggio');continue;}
     const worst = WORST_CASE_SEC[def.id];
     ok(worst !== undefined, `${def.id}: ha una stima di durata massima`);
     ok(safetyCapSec(def) >= worst * 1.25, `${def.id}: tetto ${safetyCapSec(def)}s ≥ 1.25 × ${worst}s`);

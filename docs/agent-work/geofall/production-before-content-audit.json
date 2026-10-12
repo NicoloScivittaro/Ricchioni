@@ -1,0 +1,368 @@
+{
+  "errors": [],
+  "models": [
+    {
+      "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/man-tripo/man_animated.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/judoka-tripo/judo_figure_casacarbo.glb",
+      "status": 200
+    }
+  ],
+  "phases": [
+    {
+      "phase": "LOBBY",
+      "ms": 4084
+    },
+    {
+      "phase": "MINIGAME_ROULETTE",
+      "ms": 7581
+    },
+    {
+      "phase": "MINIGAME_INTRO",
+      "ms": 14355
+    },
+    {
+      "phase": "MINIGAME_PLAYING",
+      "ms": 16956
+    },
+    {
+      "phase": "MINIGAME_FINISHED",
+      "ms": 195613
+    },
+    {
+      "phase": "ROUND_RESULTS",
+      "ms": 196537
+    }
+  ],
+  "chunks": [
+    {
+      "url": "http://127.0.0.1:3001/assets/BabylonGeofallGame-D62y_-Cv.js",
+      "ms": 7304
+    }
+  ],
+  "assets": [
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-IT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-FR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-DE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-ES.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-PT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-BE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-AT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-SE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-FI.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-NO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-IT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-FR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-DE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-ES.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-PT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-BE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-AT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-SE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-NO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-FI.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-IT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-FR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-DE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-ES.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-PT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-BE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-AT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-SE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-NO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-FI.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-PL.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-PL.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-PL.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-RO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-RO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-RO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-GR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-GR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-GR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-TR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-TR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-TR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-EG.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-EG.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-EG.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-IN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-IN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-IN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-CN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-CN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-CN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-CA.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-CA.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-CA.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-US.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-US.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-US.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-BR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-BR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-BR.svg",
+      "status": 200
+    }
+  ],
+  "start": 7289,
+  "playing": 17090,
+  "spectatorSeconds": 36.802,
+  "wallSeconds": 174.117,
+  "results": {
+    "results": [
+      {
+        "playerId": "bot:d0ab14c3-7873-4fff-acdb-84c098f655d3",
+        "placement": 1,
+        "score": 12,
+        "stats": [
+          "12 risposte corrette",
+          "ULTIMO SOPRAVVISSUTO",
+          "1 vite residue"
+        ]
+      },
+      {
+        "playerId": "bot:8dbfd66d-63c8-4214-b271-bad043d997f7",
+        "placement": 2,
+        "score": 11,
+        "stats": [
+          "11 risposte corrette",
+          "Eliminato al round 14",
+          "0 vite residue"
+        ]
+      },
+      {
+        "playerId": "bot:0c6746c9-53c3-4f7d-b07d-c1c8155b458d",
+        "placement": 3,
+        "score": 3,
+        "stats": [
+          "3 risposte corrette",
+          "Eliminato al round 6",
+          "0 vite residue"
+        ]
+      },
+      {
+        "playerId": "bot:351368c5-a316-402d-ab49-7f46836ba4c1",
+        "placement": 4,
+        "score": 2,
+        "stats": [
+          "2 risposte corrette",
+          "Eliminato al round 5",
+          "0 vite residue"
+        ]
+      },
+      {
+        "playerId": "1d06d26c-c527-4267-af89-89bd47ce34eb",
+        "placement": 5,
+        "score": 0,
+        "stats": [
+          "0 risposte corrette",
+          "Eliminato al round 3",
+          "0 vite residue"
+        ]
+      }
+    ],
+    "ranking": [
+      "bot:d0ab14c3-7873-4fff-acdb-84c098f655d3",
+      "bot:8dbfd66d-63c8-4214-b271-bad043d997f7",
+      "bot:0c6746c9-53c3-4f7d-b07d-c1c8155b458d",
+      "bot:351368c5-a316-402d-ab49-7f46836ba4c1",
+      "1d06d26c-c527-4267-af89-89bd47ce34eb"
+    ],
+    "deltas": {
+      "bot:d0ab14c3-7873-4fff-acdb-84c098f655d3": 20,
+      "bot:8dbfd66d-63c8-4214-b271-bad043d997f7": 14,
+      "bot:0c6746c9-53c3-4f7d-b07d-c1c8155b458d": 10,
+      "bot:351368c5-a316-402d-ab49-7f46836ba4c1": 6,
+      "1d06d26c-c527-4267-af89-89bd47ce34eb": 2
+    },
+    "double": true
+  }
+}

@@ -76,6 +76,8 @@ for (const d of ABILITY_CATALOG) {
 section('2. INPUT — ogni gioco col controller ha il tasto ABILITA\' (stessa fonte della schermata CONTROLLI)');
 for (const m of MINIGAME_DEFINITIONS) {
   if (m.inputMode !== 'GAMEPAD') continue;
+  if(m.id==='backrooms'){ok(PAD_PROFILES.backrooms.controls.length===4&&!PAD_PROFILES.backrooms.controls.some(c=>c.action==='ABILITY'),'Backrooms: esplorazione, nessun combattimento/abilità');continue;}
+  if(m.id==='geofall'){ok(PAD_PROFILES.geofall.controls.length===2&&!PAD_PROFILES.geofall.controls.some(c=>c.action==='ABILITY'),'Geofall: solo movimento e spinta, nessuna abilità');continue;}
   const prof = PAD_PROFILES[m.id];
   ok(!!prof && prof.controls.some((c) => c.action === 'ABILITY'), `${m.id}: il profilo ha un'azione ABILITY`);
 }

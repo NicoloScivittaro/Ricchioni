@@ -1,0 +1,23 @@
+{
+  "errors": [],
+  "performance": {
+    "frames": 360,
+    "seconds": 6.013299999999814,
+    "fps": 59.867294164603656,
+    "viewport": [
+      1280,
+      720
+    ],
+    "meshes": 194,
+    "textures": 37,
+    "materials": 97,
+    "skins": [
+      true,
+      true,
+      true,
+      true,
+      false
+    ],
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  }
+}

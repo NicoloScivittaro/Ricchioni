@@ -1,0 +1,4 @@
+PASS: five split-screen cameras; ADS belongs to its player and LT controls help
+PASS: authoritative movement/look penalties, short/long range hits, actual recoil, protected hit filtering, cancellation and blast direction [{"dist":3,"ads":0,"hits":300,"samples":300},{"dist":3,"ads":1,"hits":300,"samples":300},{"dist":28,"ads":0,"hits":127,"samples":300},{"dist":28,"ads":1,"hits":184,"samples":300}]
+PASS: real three-finger touch ADS + fire + look; capture outside button; blur cancel/rearm
+PASS: all six sights; confirmed hit; natural round end and zero residual character instances

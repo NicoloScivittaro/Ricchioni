@@ -1,0 +1,506 @@
+0 [
+  {
+    x: 4.854128585192154,
+    z: 4.797969226040746,
+    yaw: 0.7374999999999999,
+    visited: 1,
+    state: 'exploring',
+    cell: 18
+  },
+  {
+    x: 5.4658714148078476,
+    z: 4.797969226040746,
+    yaw: 0.6625,
+    visited: 1,
+    state: 'exploring',
+    cell: 18
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 19, 'b' => 19 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 19, 'b' => 18 },
+  previousGoals: Map(2) { 'a' => 19, 'b' => 19 }
+}
+20 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+40 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+60 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+80 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+100 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+120 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+140 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+160 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+180 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+200 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+220 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+240 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+260 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+280 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+300 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+320 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+340 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+360 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+380 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+400 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}
+420 [
+  {
+    x: 36.71215702221095,
+    z: 5.937477004389748,
+    yaw: 0.7832964068426589,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  },
+  {
+    x: 36.71215706588814,
+    z: 5.937477004287251,
+    yaw: 0.7832964068424204,
+    visited: 19,
+    state: 'exploring',
+    cell: 28
+  }
+] 200 BackroomsBots {
+  goals: Map(2) { 'a' => 45, 'b' => 45 },
+  known: Map(2) { 'a' => Set(0) {}, 'b' => Set(0) {} },
+  waypoints: Map(2) { 'a' => 45, 'b' => 45 },
+  previousGoals: Map(2) { 'a' => 45, 'b' => 45 }
+}

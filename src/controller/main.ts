@@ -1,3 +1,5 @@
+import {mountBackrooms,backStatusText} from './backroomsController';
+import type {BackPhoneStatus} from './backroomsController';
 import {mountMinigolf,updateGolfCompanion} from './minigolfController';
 import type {GolfPhoneStatus} from './minigolfController';
 import { io, Socket } from 'socket.io-client';
@@ -38,6 +40,8 @@ let state: RoomState | null = null;
 let lastMinigameId: string | null = null;
 /** Controller attivo (per instradare i segnali): 'memory' | 'quiz' | null. */
 let activeController: string | null = null;
+let backroomsPhone: ReturnType<typeof mountBackrooms>|null=null;
+const destroyBackroomsPhone=()=>{backroomsPhone?.destroy();backroomsPhone=null;};
 let minigolfPhone: ReturnType<typeof mountMinigolf>|null=null;
 const destroyMinigolfPhone=()=>{minigolfPhone?.destroy();minigolfPhone=null;};
 const heldControls = new Set<string>();
@@ -1552,6 +1556,20 @@ function renderFpsController(): void {
 
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
+  if(s.type==='backroomsStatus'&&state?.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='backrooms'){
+    const status=data as BackPhoneStatus;
+    if(backroomsPhone)backroomsPhone.update(status);
+    else {let line=document.getElementById('back-companion-status');if(!line){line=document.createElement('p');line.id='back-companion-status';app.querySelector('.screen')?.appendChild(line);}line.textContent=backStatusText(status);}
+    return;
+  }
+  if(s.type==='geofallStatus'&&state?.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='geofall'){
+    const status=data as {lives:number;round:number;available:boolean;pushReady:boolean;phase:string;seconds:number;tie:boolean};
+    let line=document.getElementById('geo-phone-status');
+    if(!line){line=document.createElement('p');line.id='geo-phone-status';line.className='sub';app.querySelector('.screen')?.appendChild(line);}
+    line.textContent=`${'♥'.repeat(Math.max(0,Math.min(3,status.lives)))} · ROUND ${status.round}${status.tie?' · SPAREGGIO':''} · ${status.lives<=0?'SPETTATORE':status.available?`${status.seconds}s · ${status.pushReady?'SPINTA PRONTA':'SPINTA USATA'}`:'ATTENDI IL VIA / GUARDA LA TV'}`;
+    app.querySelectorAll<HTMLButtonElement>('#ctl button').forEach(b=>{b.disabled=!status.available||(b.classList.contains('ctl-push')&&!status.pushReady);});
+    return;
+  }
   if(s.type==='minigolfStatus'){if(activeController==='minigolf')minigolfPhone?.update(data as GolfPhoneStatus);else updateGolfCompanion(data as GolfPhoneStatus);return;}
   if (s.type === 'objectThrowStatus' && state?.phase === 'MINIGAME_PLAYING' && state.currentMinigame?.minigameId === 'cornicione') {
     let label=document.getElementById('corn-throw-status');
@@ -1837,6 +1855,7 @@ function renderInfoLine(): void {
 
 function render(): void {
   syncPauseOverlay(state);
+  if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='backrooms')destroyBackroomsPhone();
   if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='minigolf')destroyMinigolfPhone();
   if (!state || state.phase !== 'MINIGAME_PLAYING') disposeFps();
   const me: PlayerPublic | undefined =
@@ -2066,6 +2085,7 @@ function keepAwake(on: boolean): void {
 }
 
 function renderPadScreen(mg: NonNullable<RoomState['currentMinigame']>, me: PlayerPublic): void {
+  destroyBackroomsPhone();
   destroyMinigolfPhone();
   activeController = null; // i segnali di gioco non hanno piu' una UI da aggiornare qui
   disposeFps();
@@ -2110,6 +2130,8 @@ function renderPlaying(state: RoomState, me: PlayerPublic): void {
 }
 
 function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
+  destroyBackroomsPhone();
+  if(mg.controllerLayout.type==='custom'&&mg.controllerLayout.id==='backrooms-tv'){disposeFps();destroyMinigolfPhone();activeController='backrooms';backroomsPhone=mountBackrooms(app,sendInput);return;}
   destroyMinigolfPhone();
   const layout = mg.controllerLayout;
   if(layout.type==='custom'&&layout.id==='minigolf-tv'){
@@ -2166,6 +2188,7 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
       <div id="ctl"></div>
     </div>`;
   renderController(app.querySelector<HTMLDivElement>('#ctl')!, mg.controllerLayout, sendInput);
+  if(mg.minigameId==='geofall')app.querySelectorAll<HTMLButtonElement>('#ctl button').forEach(b=>b.disabled=true);
   renderInfoLine();
 }
 
@@ -2454,6 +2477,7 @@ function syncQuizPadPrivateInfo(data: QuizStatePayload): void {
 
 /** Losing a touch stream must release both network state and the local pointer ownership. */
 function releaseControllerInput(): void {
+  backroomsPhone?.cancel();
   minigolfPhone?.cancel();
   cancelArenaAttack();
   arenaJoy?.reset(); dbJoy?.reset(); soccerJoy?.reset(); volleyJoy?.reset(); fpsJoy?.reset();

@@ -326,6 +326,24 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     category:'SPORT',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:240,hardCapSec:310,
     compatibleModifiers:['punti_doppi'],sceneKey:'minigolf',inputMode:'GAMEPAD',
     controllerLayout:{type:'custom',id:'minigolf-tv'}
+  },
+  {
+    id:'geofall',icon:'🌍',name:'GEOFALL — IL MONDO CROLLA',
+    description:'Dieci caselle, una risposta corretta. Tre vite e una spinta: corri prima che il mondo crolli!',
+    category:'CULTURA',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:180,hardCapSec:3600,
+    compatibleModifiers:['punti_doppi'],sceneKey:'geofall',inputMode:'GAMEPAD',
+    controllerLayout:{type:'dpad',controls:[
+      {id:'up',label:'▲',kind:'hold'},{id:'down',label:'▼',kind:'hold'},
+      {id:'left',label:'◀',kind:'hold'},{id:'right',label:'▶',kind:'hold'},
+      {id:'push',label:'SPINTA',kind:'button',icon:'💥'}
+    ]}
+  },
+  {
+    id:'backrooms',icon:'🚪',name:'BACKROOMS — L’ULTIMA PORTA',
+    description:'Ascolta, nasconditi e trova l’uscita. Un nuovo labirinto, due possibilità, nessuna arma.',
+    category:'SKILL',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:420,hardCapSec:900,
+    compatibleModifiers:['punti_doppi'],sceneKey:'backrooms',inputMode:'GAMEPAD',
+    controllerLayout:{type:'custom',id:'backrooms-tv'}
   }
 ];
 

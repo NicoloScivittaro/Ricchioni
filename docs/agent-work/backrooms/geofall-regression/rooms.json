@@ -1,0 +1,81 @@
+[
+  {
+    "n": 5,
+    "server": 5,
+    "game": 5,
+    "seconds": 84.100000000013,
+    "rounds": 6,
+    "winner": "bot:f3e6cad1-1398-4897-9fe2-4c0759f33392",
+    "ended": true,
+    "score": {
+      "results": [
+        {
+          "playerId": "bot:f3e6cad1-1398-4897-9fe2-4c0759f33392",
+          "placement": 1,
+          "score": 5,
+          "stats": [
+            "5 risposte corrette",
+            "ULTIMO SOPRAVVISSUTO",
+            "2 vite residue"
+          ]
+        },
+        {
+          "playerId": "832e0dbb-4fcc-4ad5-9d30-5ae2fdcc8f6e",
+          "placement": 2,
+          "score": 3,
+          "stats": [
+            "3 risposte corrette",
+            "Eliminato al round 6",
+            "0 vite residue"
+          ]
+        },
+        {
+          "playerId": "bot:7fa04f5c-36c2-4ad5-a6c0-7ceb1ac4698e",
+          "placement": 3,
+          "score": 1,
+          "stats": [
+            "1 risposte corrette",
+            "Eliminato al round 4",
+            "0 vite residue"
+          ]
+        },
+        {
+          "playerId": "bot:1c1ae7ff-c103-4ca7-a643-53c08aa0a311",
+          "placement": 4,
+          "score": 1,
+          "stats": [
+            "1 risposte corrette",
+            "Eliminato al round 4",
+            "0 vite residue"
+          ]
+        },
+        {
+          "playerId": "bot:5151b191-7815-4f06-927d-2dd1d21f3aa6",
+          "placement": 5,
+          "score": 1,
+          "stats": [
+            "1 risposte corrette",
+            "Eliminato al round 4",
+            "0 vite residue"
+          ]
+        }
+      ],
+      "ranking": [
+        "bot:f3e6cad1-1398-4897-9fe2-4c0759f33392",
+        "832e0dbb-4fcc-4ad5-9d30-5ae2fdcc8f6e",
+        "bot:7fa04f5c-36c2-4ad5-a6c0-7ceb1ac4698e",
+        "bot:1c1ae7ff-c103-4ca7-a643-53c08aa0a311",
+        "bot:5151b191-7815-4f06-927d-2dd1d21f3aa6"
+      ],
+      "deltas": {
+        "bot:f3e6cad1-1398-4897-9fe2-4c0759f33392": 10,
+        "832e0dbb-4fcc-4ad5-9d30-5ae2fdcc8f6e": 7,
+        "bot:7fa04f5c-36c2-4ad5-a6c0-7ceb1ac4698e": 5,
+        "bot:1c1ae7ff-c103-4ca7-a643-53c08aa0a311": 3,
+        "bot:5151b191-7815-4f06-927d-2dd1d21f3aa6": 1
+      },
+      "double": false
+    },
+    "errors": []
+  }
+]

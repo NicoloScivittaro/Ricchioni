@@ -1,0 +1,73 @@
+{
+  "errors": [],
+  "cycles": [
+    {
+      "cycle": 0,
+      "before": {
+        "hum": 2,
+        "voices": 3,
+        "canvases": 2
+      },
+      "after": {
+        "disposed": true,
+        "hum": 0,
+        "voices": 0,
+        "ended": true,
+        "loops": 0,
+        "canvases": 1,
+        "hud": false
+      }
+    },
+    {
+      "cycle": 1,
+      "before": {
+        "hum": 2,
+        "voices": 3,
+        "canvases": 2
+      },
+      "after": {
+        "disposed": true,
+        "hum": 0,
+        "voices": 0,
+        "ended": true,
+        "loops": 0,
+        "canvases": 1,
+        "hud": false
+      }
+    },
+    {
+      "cycle": 2,
+      "before": {
+        "hum": 2,
+        "voices": 3,
+        "canvases": 2
+      },
+      "after": {
+        "disposed": true,
+        "hum": 0,
+        "voices": 0,
+        "ended": true,
+        "loops": 0,
+        "canvases": 1,
+        "hud": false
+      }
+    },
+    {
+      "cycle": 3,
+      "before": {
+        "hum": 2,
+        "voices": 3,
+        "canvases": 2
+      },
+      "after": {
+        "disposed": true,
+        "hum": 0,
+        "voices": 0,
+        "ended": true,
+        "loops": 0,
+        "canvases": 1,
+        "hud": false
+      }
+    }
+  ]
+}
