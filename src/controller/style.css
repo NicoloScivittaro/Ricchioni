@@ -1859,3 +1859,7 @@ body:has(#pad-fallback-badge) .cc[data-game="minigolf"]{padding-top:64px}
  .cc[data-game="minigolf"] .cc-act{font-size:12px}
  .cc[data-game="minigolf"] .cc-key{font-size:16px}
 }
+
+/* Geofall phone: reserve the existing fallback badge without shrinking or overlapping controls. */
+body:has(#pad-fallback-badge) .dpad-screen:has(#geo-phone-status){padding-top:62px}
+@media(orientation:landscape) and (max-height:600px){body:has(#pad-fallback-badge) .dpad-screen:has(#geo-phone-status){padding-top:44px}}

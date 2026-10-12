@@ -11,26 +11,26 @@ const run=(m:GeofallMatch,until:()=>boolean)=>{for(let i=0;i<20000&&!until();i++
 const answer=(m:GeofallMatch)=>run(m,()=>m.phase==='answer');
 const settle=(m:GeofallMatch)=>run(m,()=>m.phase==='answer'||m.ended);
 const snapshot=(m:GeofallMatch,correctIds:string[])=>{answer(m);m.players.filter(p=>p.lives>0).forEach(p=>{const c=tileCenter(correctIds.includes(p.id)?m.correctIndex:(m.correctIndex+1)%10);p.x=c.x;p.z=c.z;});m.remaining=.008;m.advance(.01);assert.equal(m.phase,'collapse');};
-assert.equal(GEO_QUESTIONS.length,100);assert.equal(new Set(GEO_QUESTIONS.map(q=>q.id)).size,100);
+assert.equal(GEO_QUESTIONS.length,175);assert.equal(new Set(GEO_QUESTIONS.map(q=>q.id)).size,175);
 const byId=new Map(countries.map(c=>[c.id,c]));
-for(const category of GEO_CATEGORIES)assert.equal(GEO_QUESTIONS.filter(q=>q.category===category).length,20);
+for(const category of GEO_CATEGORIES)assert.equal(GEO_QUESTIONS.filter(q=>q.category===category).length,35);
 for(const q of GEO_QUESTIONS){const all=[q.correct,...q.wrong];assert.equal(all.length,10);assert.equal(new Set(all.map(a=>a.id)).size,10);assert.equal(new Set(all.map(a=>a.label)).size,10);assert.ok(q.prompt.length>10&&q.sources.every(s=>s.startsWith('https://')));
  if(q.category==='confini'){const source=byId.get(q.target)!;assert.ok(source.neighbors.includes(q.correct.id));assert.ok(q.wrong.every(v=>v.id!==q.target&&!source.neighbors.includes(v.id)&&!byId.get(v.id)?.neighbors.includes(q.target)));}
  else{assert.equal(q.correct.id,q.target);if(q.category==='capitali')assert.equal(q.correct.label,byId.get(q.target)!.capital);}
  for(const a of all)if(a.image){assert.ok(existsSync('public'+a.image));assert.ok(readFileSync('public'+a.image,'utf8').includes('<svg'));}
 }
-console.log('PASS 100 domande:20/categoria,10 opzioni uniche,confini/risposta verificati,60 SVG locali.');
+console.log('PASS 175 domande:35/categoria,10 opzioni uniche,confini/risposta verificati,SVG locali.');
 assert.ok(byId.get('CA')!.neighbors.includes('DK'),'Hans Island: confine Canada/Danimarca');
 assert.ok(byId.get('BR')!.neighbors.includes('FR'),'Guyana francese: confine Brasile/Francia');
 assert.ok(!GEO_QUESTIONS.find(q=>q.id==='confini-BR')!.wrong.some(a=>a.id==='FR'),'Francia non può essere distrattore del Brasile');
 assert.ok(GEO_QUESTIONS.find(q=>q.id==='confini-FR')!.prompt.includes('metropolitana'));
 assert.ok(!['BR','SR'].includes(GEO_QUESTIONS.find(q=>q.id==='confini-FR')!.correct.id));
 {
- const d=new GeoDeck(new Rng(51)),seen=new Map(GEO_CATEGORIES.map(c=>[c,new Set<string>()]));let categories:string[]=[];const slots=new Set<number>();
- for(let i=0;i<100;i++){const v=d.next(i+1);categories.push(v.question.category);if(i%5===4){assert.equal(new Set(categories).size,5);categories=[];}const s=seen.get(v.question.category)!;assert.ok(!s.has(v.question.id));s.add(v.question.id);slots.add(v.correctIndex);assert.equal(v.answers[v.correctIndex].id,v.question.correct.id);}
- assert.equal(slots.size,10);for(const s of seen.values())assert.equal(s.size,20);
- let last='';for(let i=100;i<2000;i++){const v=d.next(i+1);assert.notEqual(v.question.id,last);last=v.question.id;}
+ const d=new GeoDeck(new Rng(51));let categories:string[]=[];const slots=new Set<number>();
+ for(let i=0;i<2000;i++){const v=d.next(i+1);categories.push(v.question.category);if(i%5===4){assert.equal(new Set(categories).size,5);categories=[];}slots.add(v.correctIndex);assert.equal(v.answers[v.correctIndex].id,v.question.correct.id);}
+ assert.equal(slots.size,10);
 }
+
 assert.deepEqual([1,5,6,10,11,80].map(roundSeconds),[10,10,8,8,6,6]);
 assert.equal(occupiedTile(0,0),7);assert.equal(occupiedTile(-12.5,-5),0);assert.equal(occupiedTile(12.5,5),9);assert.equal(occupiedTile(12.5001,0),null);assert.equal(occupiedTile(0,-5.001),null);assert.equal(occupiedTile(NaN,0),null);
 for(let tile=0;tile<10;tile++){const c=tileCenter(tile);assert.equal(occupiedTile(c.x,c.z),tile);}

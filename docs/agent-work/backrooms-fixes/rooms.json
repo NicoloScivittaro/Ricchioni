@@ -1,0 +1,314 @@
+[
+  {
+    "n": 2,
+    "server": 2,
+    "game": 2,
+    "seed": 1398177238,
+    "mode": "puzzle",
+    "puzzle": "generators",
+    "seconds": 84.44999999999649,
+    "players": [
+      {
+        "id": "f656c9ba-b370-4b03-8e45-7834c92ad7a4",
+        "state": "escaped",
+        "lives": 1,
+        "visited": 69
+      },
+      {
+        "id": "bot:e7001c5d-b21e-492b-9dd0-bad3d95bdd9f",
+        "state": "escaped",
+        "lives": 2,
+        "visited": 66
+      }
+    ],
+    "ended": true,
+    "score": {
+      "results": [
+        {
+          "playerId": "bot:e7001c5d-b21e-492b-9dd0-bad3d95bdd9f",
+          "placement": 1,
+          "score": 9927,
+          "stats": [
+            "Fuga 73.6s"
+          ]
+        },
+        {
+          "playerId": "f656c9ba-b370-4b03-8e45-7834c92ad7a4",
+          "placement": 2,
+          "score": 9916,
+          "stats": [
+            "Fuga 84.4s"
+          ]
+        }
+      ],
+      "ranking": [
+        "bot:e7001c5d-b21e-492b-9dd0-bad3d95bdd9f",
+        "f656c9ba-b370-4b03-8e45-7834c92ad7a4"
+      ],
+      "deltas": {
+        "bot:e7001c5d-b21e-492b-9dd0-bad3d95bdd9f": 10,
+        "f656c9ba-b370-4b03-8e45-7834c92ad7a4": 5
+      },
+      "double": false
+    },
+    "errors": []
+  },
+  {
+    "n": 3,
+    "server": 3,
+    "game": 3,
+    "seed": 1332679030,
+    "mode": "free",
+    "puzzle": "generators",
+    "seconds": 30.962599999997288,
+    "players": [
+      {
+        "id": "9de20f64-c929-44be-8147-c552d1612c16",
+        "state": "escaped",
+        "lives": 2,
+        "visited": 35
+      },
+      {
+        "id": "bot:e0a7588c-8167-4713-9191-69b7151e8087",
+        "state": "eliminated",
+        "lives": 0,
+        "visited": 15
+      },
+      {
+        "id": "bot:51fe1102-9f52-45ca-bd34-c81e2a40a60b",
+        "state": "eliminated",
+        "lives": 0,
+        "visited": 17
+      }
+    ],
+    "ended": true,
+    "score": {
+      "results": [
+        {
+          "playerId": "9de20f64-c929-44be-8147-c552d1612c16",
+          "placement": 1,
+          "score": 9970,
+          "stats": [
+            "Fuga 31.0s"
+          ]
+        },
+        {
+          "playerId": "bot:51fe1102-9f52-45ca-bd34-c81e2a40a60b",
+          "placement": 2,
+          "score": 17,
+          "stats": [
+            "Due catture · eliminato"
+          ]
+        },
+        {
+          "playerId": "bot:e0a7588c-8167-4713-9191-69b7151e8087",
+          "placement": 3,
+          "score": 15,
+          "stats": [
+            "Due catture · eliminato"
+          ]
+        }
+      ],
+      "ranking": [
+        "9de20f64-c929-44be-8147-c552d1612c16",
+        "bot:51fe1102-9f52-45ca-bd34-c81e2a40a60b",
+        "bot:e0a7588c-8167-4713-9191-69b7151e8087"
+      ],
+      "deltas": {
+        "9de20f64-c929-44be-8147-c552d1612c16": 10,
+        "bot:51fe1102-9f52-45ca-bd34-c81e2a40a60b": 6,
+        "bot:e0a7588c-8167-4713-9191-69b7151e8087": 3
+      },
+      "double": false
+    },
+    "errors": []
+  },
+  {
+    "n": 4,
+    "server": 4,
+    "game": 4,
+    "seed": 1456711049,
+    "mode": "key",
+    "puzzle": "generators",
+    "seconds": 155.0593000000163,
+    "players": [
+      {
+        "id": "f30767a3-19f7-4d40-b62c-aeeaa1ca7583",
+        "state": "escaped",
+        "lives": 2,
+        "visited": 126
+      },
+      {
+        "id": "bot:f2c93a8d-e7cf-4acb-9c6a-fcb92bb69573",
+        "state": "escaped",
+        "lives": 2,
+        "visited": 122
+      },
+      {
+        "id": "bot:6db1b5f0-945d-4f4c-9b8b-5160d4f5f0ed",
+        "state": "escaped",
+        "lives": 2,
+        "visited": 126
+      },
+      {
+        "id": "bot:5f8f564b-a68f-43dc-9b04-02f7e85c231f",
+        "state": "eliminated",
+        "lives": 0,
+        "visited": 124
+      }
+    ],
+    "ended": true,
+    "score": {
+      "results": [
+        {
+          "playerId": "bot:f2c93a8d-e7cf-4acb-9c6a-fcb92bb69573",
+          "placement": 1,
+          "score": 9866,
+          "stats": [
+            "Fuga 135.0s"
+          ]
+        },
+        {
+          "playerId": "f30767a3-19f7-4d40-b62c-aeeaa1ca7583",
+          "placement": 2,
+          "score": 9846,
+          "stats": [
+            "Fuga 155.0s"
+          ]
+        },
+        {
+          "playerId": "bot:6db1b5f0-945d-4f4c-9b8b-5160d4f5f0ed",
+          "placement": 3,
+          "score": 9845,
+          "stats": [
+            "Fuga 155.1s"
+          ]
+        },
+        {
+          "playerId": "bot:5f8f564b-a68f-43dc-9b04-02f7e85c231f",
+          "placement": 4,
+          "score": 124,
+          "stats": [
+            "Due catture · eliminato"
+          ]
+        }
+      ],
+      "ranking": [
+        "bot:f2c93a8d-e7cf-4acb-9c6a-fcb92bb69573",
+        "f30767a3-19f7-4d40-b62c-aeeaa1ca7583",
+        "bot:6db1b5f0-945d-4f4c-9b8b-5160d4f5f0ed",
+        "bot:5f8f564b-a68f-43dc-9b04-02f7e85c231f"
+      ],
+      "deltas": {
+        "bot:f2c93a8d-e7cf-4acb-9c6a-fcb92bb69573": 10,
+        "f30767a3-19f7-4d40-b62c-aeeaa1ca7583": 7,
+        "bot:6db1b5f0-945d-4f4c-9b8b-5160d4f5f0ed": 4,
+        "bot:5f8f564b-a68f-43dc-9b04-02f7e85c231f": 2
+      },
+      "double": false
+    },
+    "errors": []
+  },
+  {
+    "n": 5,
+    "server": 5,
+    "game": 5,
+    "seed": 339678765,
+    "mode": "puzzle",
+    "puzzle": "switches",
+    "seconds": 203.4247000000533,
+    "players": [
+      {
+        "id": "b90edced-fa13-48aa-922a-003164653a71",
+        "state": "eliminated",
+        "lives": 0,
+        "visited": 77
+      },
+      {
+        "id": "bot:f8df00ad-c2ba-4feb-aa0a-20729311773a",
+        "state": "escaped",
+        "lives": 1,
+        "visited": 180
+      },
+      {
+        "id": "bot:9169a44f-a2ef-4fff-869a-81c370678088",
+        "state": "escaped",
+        "lives": 2,
+        "visited": 179
+      },
+      {
+        "id": "bot:4109af4e-265c-4f7d-b61d-bc8bf3d77510",
+        "state": "eliminated",
+        "lives": 0,
+        "visited": 140
+      },
+      {
+        "id": "bot:c16a6556-531f-4796-a5e5-70df41987659",
+        "state": "escaped",
+        "lives": 1,
+        "visited": 168
+      }
+    ],
+    "ended": true,
+    "score": {
+      "results": [
+        {
+          "playerId": "bot:9169a44f-a2ef-4fff-869a-81c370678088",
+          "placement": 1,
+          "score": 9799,
+          "stats": [
+            "Fuga 201.4s"
+          ]
+        },
+        {
+          "playerId": "bot:f8df00ad-c2ba-4feb-aa0a-20729311773a",
+          "placement": 2,
+          "score": 9799,
+          "stats": [
+            "Fuga 201.5s"
+          ]
+        },
+        {
+          "playerId": "bot:c16a6556-531f-4796-a5e5-70df41987659",
+          "placement": 3,
+          "score": 9797,
+          "stats": [
+            "Fuga 203.4s"
+          ]
+        },
+        {
+          "playerId": "bot:4109af4e-265c-4f7d-b61d-bc8bf3d77510",
+          "placement": 4,
+          "score": 140,
+          "stats": [
+            "Due catture · eliminato"
+          ]
+        },
+        {
+          "playerId": "b90edced-fa13-48aa-922a-003164653a71",
+          "placement": 5,
+          "score": 77,
+          "stats": [
+            "Due catture · eliminato"
+          ]
+        }
+      ],
+      "ranking": [
+        "bot:9169a44f-a2ef-4fff-869a-81c370678088",
+        "bot:f8df00ad-c2ba-4feb-aa0a-20729311773a",
+        "bot:c16a6556-531f-4796-a5e5-70df41987659",
+        "bot:4109af4e-265c-4f7d-b61d-bc8bf3d77510",
+        "b90edced-fa13-48aa-922a-003164653a71"
+      ],
+      "deltas": {
+        "bot:9169a44f-a2ef-4fff-869a-81c370678088": 20,
+        "bot:f8df00ad-c2ba-4feb-aa0a-20729311773a": 14,
+        "bot:c16a6556-531f-4796-a5e5-70df41987659": 10,
+        "bot:4109af4e-265c-4f7d-b61d-bc8bf3d77510": 6,
+        "b90edced-fa13-48aa-922a-003164653a71": 2
+      },
+      "double": true
+    },
+    "errors": []
+  }
+]

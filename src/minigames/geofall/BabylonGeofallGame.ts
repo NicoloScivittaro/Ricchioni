@@ -1,6 +1,10 @@
 import {Engine,Scene,ArcRotateCamera,HemisphericLight,DirectionalLight,Vector3,Color3,Color4,MeshBuilder,StandardMaterial,DynamicTexture,Mesh} from '@babylonjs/core';
 import {GEO_QUESTIONS,CATEGORY_NAMES} from '../../../shared/geofallQuestions';
 import type {GeoAnswer} from '../../../shared/geofallQuestions';
+import {abilityHub} from '../../core/abilityHub';
+import {abilityFor,stateLabel} from '../../../shared/abilityCatalog';
+import {geoAbilityStatus} from './geofallAbilities';
+import type {PlayerInput} from '../../network/PlayerInput';
 import {Rng} from '../../../shared/rng';
 import type {MinigameContext} from '../types';
 import {GeofallMatch,GEO,tileCenter} from './geofallRules';
@@ -18,8 +22,11 @@ export class BabylonGeofallGame {
  readonly entities=new Map<string,ArenaEntity>();readonly tiles:Mesh[]=[];readonly textures:DynamicTexture[]=[];
  private images=new Map<string,HTMLImageElement>();private bots:GeofallBots;private hud:HTMLDivElement;private title:HTMLElement;private question:HTMLElement;private timer:HTMLElement;private hint:HTMLElement;private cards:HTMLElement[]=[];
  private labels=new Map<string,Mesh>();private paused=false;private disposed=false;private controlsReady=false;private shownRound=0;private shownPhase='';private seconds=-1;private sent=false;private endTime=2;private signals=new Map<string,string>();
+ private presses=new Map<string,{input:PlayerInput;serial:number;cancel:number}>();
+ private cardsObserver:ResizeObserver;
  private onResize=()=>{this.engine.resize();this.fitCamera();};
  constructor(canvas:HTMLCanvasElement,private ctx:MinigameContext){
+  abilityHub.begin('geofall',ctx);
   const opts=engineOptions();this.engine=new Engine(canvas,opts.antialias,opts);this.scene=new Scene(this.engine);this.scene.clearColor=new Color4(.035,.075,.16,1);
   this.camera=new ArcRotateCamera('geofallCamera',-Math.PI/2,.52,37,new Vector3(0,0,-1),this.scene);this.camera.inputs.clear();this.camera.fov=.75;this.camera.minZ=.1;this.camera.maxZ=150;
   new HemisphericLight('geoSky',new Vector3(0,1,0),this.scene).intensity=.9;new DirectionalLight('geoSun',new Vector3(-.4,-1,.3),this.scene).intensity=.5;
@@ -39,11 +46,12 @@ export class BabylonGeofallGame {
   }
   const globe=MeshBuilder.CreateSphere('worldBelow',{diameter:12,segments:16},this.scene);globe.position.set(0,-24,1);const gm=new StandardMaterial('worldMat',this.scene);gm.diffuseColor=Color3.FromHexString('#214e8b');gm.wireframe=true;globe.material=gm;
   this.hud=document.createElement('div');this.hud.id='geofall-hud';this.hud.style.cssText='position:fixed;inset:0;z-index:10001;pointer-events:none;font-family:Arial,sans-serif;color:white;';
-  this.hud.innerHTML='<style>body:has(#geofall-hud) #pad-alert{left:12px;top:110px;transform:none;max-width:250px;white-space:normal;font:700 13px/1.3 Arial;padding:8px}body:has(#geofall-hud) #pad-toasts{left:auto;right:12px;top:110px;transform:none;max-width:250px}body:has(#geofall-hud) #pad-toasts>div{font:700 13px/1.3 Arial;padding:8px;max-width:100%}#geofall-hud .geo-top{position:absolute;top:12px;left:4%;right:4%;text-align:center;text-shadow:0 2px 5px #000}#geofall-hud .geo-category{font-size:14px;font-weight:800;letter-spacing:2px;color:#67e8f9}#geofall-hud .geo-question{font-size:clamp(17px,2.1vw,28px);font-weight:900;margin:5px 0}#geofall-hud .geo-timer{font-size:24px;font-weight:900;color:#fbbf24}#geofall-hud .geo-bottom{position:absolute;bottom:12px;left:3%;right:3%;display:flex;gap:6px}#geofall-hud .geo-card{flex:1;min-width:0;text-align:center;padding:7px 3px;border-radius:10px;background:#091628de;border:1px solid var(--player);font-size:14px;font-weight:bold}#geofall-hud .geo-hearts{font-size:20px;color:#fb7185;margin:3px 0}#geofall-hud .geo-hint{position:absolute;bottom:92px;left:5%;right:5%;text-align:center;font-size:15px;font-weight:800;text-shadow:0 2px 5px #000}@media(max-height:620px){#geofall-hud .geo-top{top:6px}#geofall-hud .geo-question{margin:2px 0}#geofall-hud .geo-card{font-size:12px;padding:3px}#geofall-hud .geo-hearts{font-size:16px}#geofall-hud .geo-hint{bottom:76px;font-size:12px}}</style><div class="geo-top"><div class="geo-category"></div><div class="geo-question"></div><div class="geo-timer"></div></div><div class="geo-hint"></div><div class="geo-bottom"></div>';
+  this.hud.innerHTML='<style>body:has(#geofall-hud) #pad-alert{left:12px;top:110px;transform:none;max-width:250px;white-space:normal;font:700 13px/1.3 Arial;padding:8px}body:has(#geofall-hud) #pad-toasts{left:auto;right:12px;top:110px;transform:none;max-width:250px}body:has(#geofall-hud) #pad-toasts>div{font:700 13px/1.3 Arial;padding:8px;max-width:100%}#geofall-hud .geo-top{position:absolute;top:12px;left:4%;right:4%;text-align:center;text-shadow:0 2px 5px #000}#geofall-hud .geo-category{font-size:14px;font-weight:800;letter-spacing:2px;color:#67e8f9}#geofall-hud .geo-question{font-size:clamp(17px,2.1vw,28px);font-weight:900;margin:5px 0}#geofall-hud .geo-timer{font-size:24px;font-weight:900;color:#fbbf24}#geofall-hud .geo-bottom{position:absolute;bottom:12px;left:3%;right:3%;display:flex;gap:6px}#geofall-hud .geo-card{flex:1;min-width:0;text-align:center;padding:7px 3px;border-radius:10px;background:#091628de;border:1px solid var(--player);font-size:14px;font-weight:bold}#geofall-hud .geo-hearts{font-size:20px;color:#fb7185;margin:3px 0}#geofall-hud .geo-hint{position:absolute;bottom:124px;left:5%;right:5%;text-align:center;font-size:15px;font-weight:800;text-shadow:0 2px 5px #000}@media(max-height:620px){#geofall-hud .geo-top{top:6px}#geofall-hud .geo-question{margin:2px 0}#geofall-hud .geo-card{font-size:12px;padding:3px}#geofall-hud .geo-hearts{font-size:16px}#geofall-hud .geo-hint{bottom:102px;font-size:12px}}</style><div class="geo-top"><div class="geo-category"></div><div class="geo-question"></div><div class="geo-timer"></div></div><div class="geo-hint"></div><div class="geo-bottom"></div>';
   document.body.appendChild(this.hud);this.title=this.hud.querySelector('.geo-category')!;this.question=this.hud.querySelector('.geo-question')!;this.timer=this.hud.querySelector('.geo-timer')!;this.hint=this.hud.querySelector('.geo-hint')!;
-  const bottom=this.hud.querySelector('.geo-bottom')!;for(const p of this.match.players){const card=document.createElement('div');card.className='geo-card';card.style.setProperty('--player',p.color);card.innerHTML='<div class="geo-name"></div><div class="geo-hearts"></div><div class="geo-push"></div>';card.querySelector('.geo-name')!.textContent=p.name;bottom.appendChild(card);this.cards.push(card);}
+  const bottom=this.hud.querySelector('.geo-bottom')!;for(const p of this.match.players){const card=document.createElement('div');card.className='geo-card';card.style.setProperty('--player',p.color);card.innerHTML='<div class="geo-name"></div><div class="geo-hearts"></div><div class="geo-push"></div><div class="geo-ability" style="font-size:11px;color:#d9c7ff;line-height:1.3;margin-top:3px"></div>';card.querySelector('.geo-name')!.textContent=p.name;bottom.appendChild(card);this.cards.push(card);}
+  this.cardsObserver=new ResizeObserver(entries=>{this.hint.style.bottom=`${Math.max(102,entries[0].contentRect.height+24)}px`;});this.cardsObserver.observe(bottom);
   applyQuality(this.engine,this.scene);this.fitCamera();window.addEventListener('resize',this.onResize);this.ready=this.initialize();
-  this.engine.runRenderLoop(guardLoop(()=>{if(this.disposed||this.paused)return;runSteps(this.engine.getDeltaTime(),dt=>this.step(dt));this.scene.render();}));
+  this.engine.runRenderLoop(guardLoop(()=>{if(this.disposed||this.paused)return;runSteps(this.engine.getDeltaTime(),dt=>this.step(dt));this.ctx.input.update();this.scene.render();}));
  }
  private async initialize():Promise<void>{
   const urls=[...new Set(GEO_QUESTIONS.flatMap(q=>[q.correct,...q.wrong].map(a=>a.image).filter((v):v is string=>!!v)))];
@@ -64,8 +72,17 @@ export class BabylonGeofallGame {
  step(dt:number):void{
   if(this.disposed||this.paused)return;
   if(this.controlsReady&&this.match.phase!=='ended'){
-   for(const p of this.match.players){const input=this.ctx.input.get(p.id);const m=readMove(input),x=m.x+Number(input.pressed('right'))-Number(input.pressed('left')),z=m.z+Number(input.pressed('up'))-Number(input.pressed('down'));
-    const cmd=p.bot?this.bots.command(p,this.match,dt):{x,z,push:input.justPressed('push')};this.match.command(p.id,cmd.x,cmd.z,cmd.push,input.cancellationVersion);}
+   const commands=this.match.players.map(p=>{
+    const input=this.ctx.input.get(p.id),m=readMove(input),old=this.presses.get(p.id),serial=input.pressCount('ability');
+    const base=!old||old.input!==input||old.cancel!==input.cancellationVersion?input.pressCountAtCancellation('ability'):old.serial;
+    this.presses.set(p.id,{input,serial,cancel:input.cancellationVersion});
+    const cmd=p.bot?this.bots.command(p,this.match,dt):{x:m.x+Number(input.pressed('right'))-Number(input.pressed('left')),z:m.z+Number(input.pressed('up'))-Number(input.pressed('down')),push:input.justPressed('push'),ability:serial>base};
+    return{p,input,cmd};
+   });
+   for(const {p,cmd} of commands)if(Math.hypot(cmd.x,cmd.z)>.1)p.facing=Math.atan2(cmd.x,cmd.z);
+   // All defensive abilities start before this frame's attacks, independent of roster order.
+   for(const {p,cmd} of commands)if(cmd.ability){const failed=this.match.activate(p.id);if(failed)abilityHub.failed(p.id,failed);}
+   for(const {p,input,cmd} of commands)this.match.command(p.id,cmd.x,cmd.z,cmd.push,input.cancellationVersion);
    this.match.advance(dt);
   }
   if(this.shownRound!==this.match.round&&this.images.size){this.paintAnswers();this.ctx.input.reset();this.seconds=-1;}
@@ -77,19 +94,22 @@ export class BabylonGeofallGame {
   }
   const phaseChanged=this.shownPhase!==m.phase;this.shownPhase=m.phase;
   if(phaseChanged&&m.phase==='collapse'){audio.fall();for(const p of m.players)if(p.lost)this.ctx.vibrate(p.id,90);}
-  for(const ev of m.events){if(ev.type==='hit')audio.thump(.6);if(ev.type==='win'){audio.announcer('WINNER');this.entities.get(ev.id!)?.celebrate(2);}}
+  for(const ev of m.events){if(ev.type==='ability'){abilityHub.activated(ev.id!);this.entities.get(ev.id!)?.playAbility(abilityFor('geofall',m.players.find(p=>p.id===ev.id)?.characterId)?.name??'ABILITÀ');audio.select();}if(ev.type==='blocked')abilityHub.succeeded(ev.id!,'pushBlocked');if(ev.type==='confusionWarning')this.ctx.vibrate(ev.id!,70);if(ev.type==='hit')audio.thump(.6);if(ev.type==='win'){audio.announcer('WINNER');this.entities.get(ev.id!)?.celebrate(2);}}
   m.events=[];
   const sec=Math.ceil(m.remaining);if(this.controlsReady&&m.phase==='answer'&&sec!==this.seconds){this.seconds=sec;if(sec<=3&&sec>0)audio.countdown(sec);}
   setGameIntensity(m.phase==='answer'&&m.remaining<=3?2:1);
   this.title.textContent=`GEOFALL · ROUND ${m.round} · ${CATEGORY_NAMES[m.question.category]}${m.tie?' · SPAREGGIO':m.alive.length===2?' · DUELLO FINALE':''}`;
   this.question.textContent=m.phase==='ended'?`${m.players.find(p=>p.id===m.winner)?.name} · IL MONDO È TUO!`:m.question.prompt;
   this.timer.textContent=!this.controlsReady?'PREPARATEVI':m.phase==='answer'?`${m.remaining.toFixed(1)} s`:m.phase==='intro'?'LEGGI E PREPARATI':m.phase==='collapse'?`CORRETTA: ${m.correctIndex+1} · ${m.question.correct.label}`:m.phase==='rebuild'?'IL MONDO SI RICOSTRUISCE':'ULTIMO SOPRAVVISSUTO';this.timer.style.color=m.phase==='answer'&&m.remaining<=3?'#fb7185':'#fbbf24';
-  this.hint.textContent=m.phase==='answer'?'STICK SINISTRO / TELEFONO: MUOVITI · A/✕: UNA SPINTA · NON RESTARE NELLO SPAWN':m.phase==='collapse'?'POSIZIONI BLOCCATE ALLA SCADENZA · NOVE CASELLE CROLLANO INSIEME':m.tie?'ULTIMI PARI: UNA VITA · NUOVA DOMANDA':'TRE VITE · DIECI RISPOSTE · UNA SOLA CORRETTA';
+  this.hint.textContent=m.phase==='answer'?'STICK SINISTRO / TELEFONO: MUOVITI · A/✕: UNA SPINTA · RB/R1: ABILITÀ · NON RESTARE NELLO SPAWN':m.phase==='collapse'?'POSIZIONI BLOCCATE ALLA SCADENZA · NOVE CASELLE CROLLANO INSIEME':m.tie?'ULTIMI PARI: UNA VITA · NUOVA DOMANDA':'TRE VITE · DIECI RISPOSTE · UNA SOLA CORRETTA';
   m.players.forEach((p,i)=>{const c=this.cards[i];c.style.opacity=p.lives<=0?'.55':'1';c.querySelector('.geo-hearts')!.textContent='♥'.repeat(p.lives)+'♡'.repeat(3-p.lives);c.querySelector('.geo-push')!.textContent=p.lives<=0?'SPETTATORE':m.phase==='collapse'&&p.lost?'−1 VITA':p.pushUsed?'SPINTA USATA':'SPINTA PRONTA';
-   const status={type:'geofallStatus',round:m.round,lives:p.lives,available:this.controlsReady&&m.phase==='answer'&&p.lives>0,pushReady:!p.pushUsed,phase:m.phase,tie:m.tie,seconds:Math.ceil(m.remaining)};const key=JSON.stringify(status);if(this.signals.get(p.id)!==key){this.signals.set(p.id,key);this.ctx.signal(p.id,status);}});
+   const ab=geoAbilityStatus(p,m.phase),definition=abilityFor('geofall',p.characterId);abilityHub.setStatus(p.id,ab);
+   c.querySelector('.geo-ability')!.textContent=p.confusionWarning>0?'⚠ TRA POCO COMANDI INVERTITI':p.confusion>0?'↔ COMANDI INVERTITI':`${definition?.name??'ABILITÀ'} · ${stateLabel(ab)}`;
+   const phoneAbility={...ab,...(ab.remaining!==undefined?{remaining:Math.ceil(ab.remaining*5)/5}:{})};
+   const status={type:'geofallStatus',ability:phoneAbility,abilityName:definition?.name??'ABILITÀ',confusion:p.confusion>0,confusionWarning:p.confusionWarning>0,round:m.round,lives:p.lives,available:this.controlsReady&&m.phase==='answer'&&p.lives>0,pushReady:!p.pushUsed,phase:m.phase,tie:m.tie,seconds:Math.ceil(m.remaining)};const key=JSON.stringify(status);if(this.signals.get(p.id)!==key){this.signals.set(p.id,key);this.ctx.signal(p.id,status);}});
   if(m.phase==='ended'&&!this.sent&&this.controlsReady){this.endTime-=dt;if(this.endTime<=0){this.sent=true;this.ctx.finish({results:m.results()});}}
  }
- dispose():void{if(this.disposed)return;this.disposed=true;window.removeEventListener('resize',this.onResize);this.engine.stopRenderLoop();this.entities.forEach(e=>e.dispose());this.hud.remove();this.images.clear();this.scene.dispose();this.engine.dispose();}
+ dispose():void{if(this.disposed)return;this.disposed=true;this.cardsObserver.disconnect();window.removeEventListener('resize',this.onResize);this.engine.stopRenderLoop();abilityHub.end();this.entities.forEach(e=>e.dispose());this.hud.remove();this.images.clear();this.scene.dispose();this.engine.dispose();}
 }
 
 

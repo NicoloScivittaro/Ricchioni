@@ -56,9 +56,10 @@ export class ResultsScene extends Phaser.Scene {
 
     // Rivelazione dall'ultimo al primo.
     const revealOrder = [...out.results].sort((a, b) => b.placement - a.placement);
+    const golf=st.currentMinigame?.minigameId==='minigolf';let winnerDelayShown=false;
     let t = 250;
     for (const r of revealOrder) {
-      if (r.placement === 1) t += FLOW_TIMING.revealWinnerDelayMs;
+      if (r.placement === 1&&(!golf||!winnerDelayShown)){t += FLOW_TIMING.revealWinnerDelayMs;winnerDelayShown=true;}
       const at = t;
       this.time.delayedCall(at, () => this.reveal(r, out));
       t += FLOW_TIMING.revealStepMs;
@@ -77,7 +78,8 @@ export class ResultsScene extends Phaser.Scene {
     const color = c?.color ?? '#ffffff';
     const delta = out.deltas[r.playerId] ?? 0;
     const isWinner = r.placement === 1;
-    const idx = out.results.length - r.placement; // 0 per l'ultimo
+    const golf=st.currentMinigame?.minigameId==='minigolf';
+    const idx = golf?out.results.length-1-out.results.indexOf(r):out.results.length-r.placement; // anche gli ex aequo hanno righe distinte
     const y = TOP + idx * (ROW_H + 8) + ROW_H / 2;
 
     const row = this.add.container(640 + 60, y).setAlpha(0);
@@ -103,7 +105,7 @@ export class ResultsScene extends Phaser.Scene {
       // UNA statistica (la piu' importante), non dieci
       .text(-ROW_W / 2 + 190, isWinner ? 20 : 19, (r.stats ?? []).slice(0, 2).join('   ·   '), {
         fontFamily: THEME.body,
-        fontSize: '19px',
+        fontSize: golf?'16px':'19px',
         color: THEME.textDim
       })
       .setOrigin(0, 0.5);

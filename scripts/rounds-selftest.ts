@@ -91,7 +91,7 @@ console.log('\n[TETTO SERVER] copre la durata REALE massima di ogni gioco (con â
     cultura: 430, // 8 round Ã— ~51s (bluff 20 + voto 12 + reveal ~9 + spiegazione 5.5) + 3 classifiche; con fine anticipata ~5 min
     fps: 112, // match 100s + countdown/risultati
     cornicione: 185, // countdown + 150s + spareggio 20s + festeggiamenti + risultati
-    minigolf: 244, // 210s budget + 20s tiro in corso + controlli/intro/risultati
+    minigolf: 1225, // configura fino a 300s/buca: tre buche + tolleranza tiro + intro/classifiche + spareggio + controlli/risultati
     casacarbo: 140 // CONTROLLI 5s + countdown + 120s di temporale + finale col vicino 6,5s + risultati
   };
   for (const def of MINIGAME_DEFINITIONS) {

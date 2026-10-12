@@ -1,0 +1,254 @@
+[
+  {
+    "country": "ML",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/ml.svg",
+    "path": "public/geofall/advanced/flag-ML.svg",
+    "ratio": 1.5,
+    "sha256": "db757dba12d1b0fbad3ba3e837cbee8effe0ef29a7ec6acfae415e6437fa3a1e"
+  },
+  {
+    "country": "TD",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/td.svg",
+    "path": "public/geofall/advanced/flag-TD.svg",
+    "ratio": 1.5,
+    "sha256": "5228744db709e738d85a372ecf598dbabdf260ae99a47a043fdb7359c105a887"
+  },
+  {
+    "country": "GN",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/gn.svg",
+    "path": "public/geofall/advanced/flag-GN.svg",
+    "ratio": 1.5,
+    "sha256": "c459dbe5882e46154f3f2258d9158c80eafc36f8c6174096124767d180d634b0"
+  },
+  {
+    "country": "CI",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/ci.svg",
+    "path": "public/geofall/advanced/flag-CI.svg",
+    "ratio": 1.5,
+    "sha256": "a1e0c2266406611f496063be4ad6843c96f2b3302998d82fe2e2e167566b4974"
+  },
+  {
+    "country": "ID",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/id.svg",
+    "path": "public/geofall/advanced/flag-ID.svg",
+    "ratio": 1.5,
+    "sha256": "d09172d44f71e33fadf6b58f16c0e0ebfe137c05b980c4fcf573d125188447c9"
+  },
+  {
+    "country": "BF",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/bf.svg",
+    "path": "public/geofall/advanced/flag-BF.svg",
+    "ratio": 1.5,
+    "sha256": "94142058cdd5e0705e715818bc4e75f1fe298cb3ac0bcf137df17c347bc5740b"
+  },
+  {
+    "country": "MC",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/mc.svg",
+    "path": "public/geofall/advanced/flag-MC.svg",
+    "ratio": 1.25,
+    "sha256": "871aa54afdbf7c366c94264315a7ae088b7ccb7e95767fbb532891eedb6ef048"
+  },
+  {
+    "country": "BJ",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/bj.svg",
+    "path": "public/geofall/advanced/flag-BJ.svg",
+    "ratio": 1.5,
+    "sha256": "892efb048484106b6394f3b7333693d1cf66067b839b324ddcf85932cf581cea"
+  },
+  {
+    "country": "GH",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/gh.svg",
+    "path": "public/geofall/advanced/flag-GH.svg",
+    "ratio": 1.5,
+    "sha256": "2edf40af27d2612bddffe3fadafc2399e981ae7b1094999e4cbbf8143785405d"
+  },
+  {
+    "country": "CM",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/cm.svg",
+    "path": "public/geofall/advanced/flag-CM.svg",
+    "ratio": 1.5,
+    "sha256": "3ef0f604e8664c60a0a9ce2a747a4c8fe7702113f3300dd75edd987440e1ef5e"
+  },
+  {
+    "country": "SN",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/sn.svg",
+    "path": "public/geofall/advanced/flag-SN.svg",
+    "ratio": 1.5,
+    "sha256": "49aa0110e758bd3aaf74e8c3eb69479fdbd85b6f6fc08e50319e20832d3b6b0b"
+  },
+  {
+    "country": "BW",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/bw.svg",
+    "path": "public/geofall/advanced/flag-BW.svg",
+    "ratio": 1.5,
+    "sha256": "d33d0d4b829f76de2ba9872e608ae3568d2d81271fed2dd30f8b2ed51fcbd710"
+  },
+  {
+    "country": "NA",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/na.svg",
+    "path": "public/geofall/advanced/flag-NA.svg",
+    "ratio": 1.5,
+    "sha256": "2bc3bfb1a1d4dff07a96a305ad2c64e214c6a8bf407dd18d1c8ea22769c4199b"
+  },
+  {
+    "country": "WS",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/ws.svg",
+    "path": "public/geofall/advanced/flag-WS.svg",
+    "ratio": 2.0,
+    "sha256": "5c7a0607f940105658cfed207d54b747de15a5143487c29ef58ff0abe412ee4a"
+  },
+  {
+    "country": "FJ",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/fj.svg",
+    "path": "public/geofall/advanced/flag-FJ.svg",
+    "ratio": 2.0,
+    "sha256": "b9a1423d7e893a71476a524d876db196f9fe3a346ba50c371e0ba8778cbd9da4"
+  },
+  {
+    "country": "IE",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/ie.svg",
+    "path": "public/geofall/advanced/flag-IE.svg",
+    "ratio": 2.0,
+    "sha256": "fa248b638c9e9ac0ee2fdec1f728e68296a74cbcd0d77631c8e2c56da1044cb7"
+  },
+  {
+    "country": "BR",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/br.svg",
+    "path": "public/geofall/flag-BR.svg",
+    "ratio": 1.4285714285714286,
+    "sha256": "c05ebf003e02388009eedceb0e76878e65e1b99f0a08c681b5c1de811817c1e8"
+  },
+  {
+    "country": "CN",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/cn.svg",
+    "path": "public/geofall/flag-CN.svg",
+    "ratio": 1.5,
+    "sha256": "1b95d5f4a3c79339bba57e2ae080d792d3f47f4840b812df9c64d721536d37ee"
+  },
+  {
+    "country": "CA",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/ca.svg",
+    "path": "public/geofall/flag-CA.svg",
+    "ratio": 2.0,
+    "sha256": "b485932a96e8ac156d4dce8a9cf4b6e5b167eab77a92ce19b5551ac7b6f547b3"
+  },
+  {
+    "country": "BE",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/be.svg",
+    "path": "public/geofall/flag-BE.svg",
+    "ratio": 1.1538461538461537,
+    "sha256": "77cdddcc5361f6c29d790723cea610fde2122b54a8d6860c445bdb4a33516169"
+  },
+  {
+    "country": "AT",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/at.svg",
+    "path": "public/geofall/flag-AT.svg",
+    "ratio": 1.5,
+    "sha256": "561aab26e30ecd6cee7a67ccdcd9dc4b6b7ea19b6f0dd44c2e917c305b007d77"
+  },
+  {
+    "country": "EG",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/eg.svg",
+    "path": "public/geofall/flag-EG.svg",
+    "ratio": 1.5,
+    "sha256": "8cfe7dc8ad44db3f4c3472899a3eac74a9c91154eb839be24273202512df7614"
+  },
+  {
+    "country": "DE",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/de.svg",
+    "path": "public/geofall/flag-DE.svg",
+    "ratio": 1.6666666666666667,
+    "sha256": "87a192a4d79fcc159ec217d3c16f4fd104510614303dc115277da879547d7613"
+  },
+  {
+    "country": "FI",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/fi.svg",
+    "path": "public/geofall/flag-FI.svg",
+    "ratio": 1.6363636363636365,
+    "sha256": "c6683f27e16083648e38e7c61219fddfce2093de645004ea066281010a1b1341"
+  },
+  {
+    "country": "FR",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/fr.svg",
+    "path": "public/geofall/flag-FR.svg",
+    "ratio": 1.5,
+    "sha256": "bc9932c5468fd71a6d80e13d9fd7f0b20e92bf2144bcef17f7ccb7eaecebb100"
+  },
+  {
+    "country": "ES",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/es.svg",
+    "path": "public/geofall/flag-ES.svg",
+    "ratio": 1.5,
+    "sha256": "cd6a55025c1b35657e32ddbbc6994e9d7e89a8100d078c0f63fd82f16c237126"
+  },
+  {
+    "country": "GR",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/gr.svg",
+    "path": "public/geofall/flag-GR.svg",
+    "ratio": 1.5,
+    "sha256": "df7c7ba1b37107c2c575cf1d898cb8228441e39ae5453121d07264fc7cbdca83"
+  },
+  {
+    "country": "IT",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/it.svg",
+    "path": "public/geofall/flag-IT.svg",
+    "ratio": 1.5,
+    "sha256": "1b18b3d53a9d39a66edb5e93c0688dad03e13295112a8f05bed8a05887ac231a"
+  },
+  {
+    "country": "NO",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/no.svg",
+    "path": "public/geofall/flag-NO.svg",
+    "ratio": 1.375,
+    "sha256": "268db2f3739d5a6159ee804199c5de7d0d74b3bc0cf8b26ce834e337eb8a3bc1"
+  },
+  {
+    "country": "IN",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/in.svg",
+    "path": "public/geofall/flag-IN.svg",
+    "ratio": 1.5,
+    "sha256": "51abb49e3d44287401f33dcf8ca795250e09d059dae00a33102a37257fb7f32d"
+  },
+  {
+    "country": "PL",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/pl.svg",
+    "path": "public/geofall/flag-PL.svg",
+    "ratio": 1.6,
+    "sha256": "8ff827e2c0c81d18906b5d6ce31b677b8826aa630764cde340a5de8455ffdcbb"
+  },
+  {
+    "country": "PT",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/pt.svg",
+    "path": "public/geofall/flag-PT.svg",
+    "ratio": 1.5,
+    "sha256": "8bda6b928e1b3b5f252f38f7dd79463e06c64029bfae640a3c821469da819490"
+  },
+  {
+    "country": "TR",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/tr.svg",
+    "path": "public/geofall/flag-TR.svg",
+    "ratio": 1.5,
+    "sha256": "634ebb0dd399d9bb0d99338d361e3772ac2b94d6273c76851cf3196e5c27a244"
+  },
+  {
+    "country": "RO",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/ro.svg",
+    "path": "public/geofall/flag-RO.svg",
+    "ratio": 1.5,
+    "sha256": "3831353348020e0711bb33ac54642b1ae5dd0b435c9c344fbab7c56914fe3e13"
+  },
+  {
+    "country": "SE",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/se.svg",
+    "path": "public/geofall/flag-SE.svg",
+    "ratio": 1.6,
+    "sha256": "b93d6b93b0ac627e8dfeaac0b6e7efeaf8bcef39544036852faa52460f02847c"
+  },
+  {
+    "country": "US",
+    "source": "https://raw.githubusercontent.com/hampusborgos/country-flags/main/svg/us.svg",
+    "path": "public/geofall/flag-US.svg",
+    "ratio": 1.9,
+    "sha256": "02bc7b0ff4819584af648a3c09a8cace63efda5d7e2067686c7aa0451def4a16"
+  }
+]

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {writeFileSync} from 'node:fs';
 import {launch,createRoomOnHost,addPhone,hostEval,hostSnapshot,sleep} from './lib.mjs';
 import {installMock,add,tap,stick,btn,remove,until,startGame,watchControls,XBOX,DS,GENERIC} from './padmock.mjs';
-const out='docs/agent-work/geofall',report={errors:[],categories:[],views:[],checks:[]};const browser=await launch();
+const out=(process.env.GEO_OUT??'docs/agent-work/geofall'),report={errors:[],categories:[],views:[],checks:[]};const browser=await launch();
 try{
  const {page,code}=await createRoomOnHost(browser,{targetKeyPresses:3});page.on('pageerror',e=>report.errors.push('host '+e));const phones=[];
  for(let i=0;i<5;i++){const ph=await addPhone(browser,code,['Niko','Christian','Victor','Carbo','Ciro'][i],i);ph.page.on('pageerror',e=>report.errors.push('phone '+e));phones.push(ph);}
@@ -23,7 +23,7 @@ try{
  for(const [w,h] of [[1280,720],[1920,1080],[800,600]]){await page.setViewport({width:w,height:h});await sleep(200);await G(g=>g.step(0));const row=await G(g=>{const V=g.camera.position.constructor,M=g.scene.getTransformMatrix().constructor,vp=g.camera.viewport.toGlobal(g.engine.getRenderWidth(),g.engine.getRenderHeight());return g.tiles.map(t=>{const p=V.Project(t.position,M.Identity(),g.scene.getTransformMatrix(),vp);return{x:p.x/vp.width,y:p.y/vp.height};});});assert.ok(row.every(p=>p.x>.02&&p.x<.98&&p.y>.15&&p.y<.82));report.views.push({w,h,tiles:row});await page.screenshot({path:`${out}/arena-${w}x${h}.png`});}
  for(const cat of ['bandiere','confini','capitali','sagome','monumenti']){
   const q=await hostEval(page,async(gm,c)=>{const {GEO_QUESTIONS}=await import('/shared/geofallQuestions.ts');return GEO_QUESTIONS.find(q=>q.category===c&&q.target==='IT');},cat);
-  await G((g,q)=>{g.match.question=q;g.match.answers=[q.correct,...q.wrong];g.match.correctIndex=0;g.match.phase='answer';g.match.remaining=8;g.paintAnswers();g.step(0);},q);await sleep(200);assert.equal(await G(g=>g.images.size),60);report.categories.push(cat);await page.screenshot({path:`${out}/category-${cat}.png`});
+  await G((g,q)=>{g.match.question=q;g.match.answers=[q.correct,...q.wrong];g.match.correctIndex=0;g.match.phase='answer';g.match.remaining=8;g.paintAnswers();g.step(0);},q);await sleep(200);assert.equal(await G(g=>g.images.size),106);report.categories.push(cat);await page.screenshot({path:`${out}/category-${cat}.png`});
  }
  // Five on the correct tile: snapshot stays correct and lives stay intact.
  await G(g=>{const m=g.match;m.players.forEach((p,i)=>{p.lives=3;p.x=-10+(i%3-1)*1.05;p.z=-2.5+(Math.floor(i/3)-.5)*1.05;p.dx=p.dz=0;p.version=g.ctx.input.get(p.id).cancellationVersion;});m.remaining=.008;g.step(.01);});

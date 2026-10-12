@@ -1,12 +1,14 @@
+import {resetGeoAbility,clearGeoEffects,tickGeoAbility,activateGeoAbility,geoAbility} from './geofallAbilities';
+import type {GeoAbilityState} from './geofallAbilities';
 import {Rng} from '../../../shared/rng';
 import {GeoDeck} from '../../../shared/geofallQuestions';
 import type {GeoAnswer,GeoQuestion} from '../../../shared/geofallQuestions';
 import type {PlayerResult} from '../../../shared/types';
 export const GEO={tile:5,halfWidth:12.5,halfDepth:5,radius:.46,speed:6.5,step:1/120,pushRange:2.25,pushSpeed:13,immunity:.7,stun:.18,intro:1.8,collapse:1.8,rebuild:.9} as const;
 export type GeoPhase='intro'|'answer'|'collapse'|'rebuild'|'ended';
-export interface GeoActor {id:string;name:string;color:string;characterId:string|null;bot:boolean;x:number;z:number;vx:number;vz:number;dx:number;dz:number;facing:number;lives:number;correct:number;eliminatedRound:number;pushUsed:boolean;immunity:number;stun:number;dash:number;hit:number;lockedTile:number|null;lost:boolean;version:number}
+export interface GeoActor {id:string;name:string;color:string;characterId:string|null;bot:boolean;x:number;z:number;vx:number;vz:number;dx:number;dz:number;facing:number;lives:number;correct:number;eliminatedRound:number;pushUsed:boolean;immunity:number;stun:number;dash:number;hit:number;lockedTile:number|null;lost:boolean;version:number;ab:GeoAbilityState;confusion:number;confusionWarning:number;confusionImmunity:number}
 export interface GeoPlayer {id:string;name:string;color:string;characterId:string|null;bot?:boolean}
-export interface GeoEvent {type:'push'|'hit'|'snapshot'|'round'|'tie'|'win';id?:string}
+export interface GeoEvent {type:'push'|'hit'|'snapshot'|'round'|'tie'|'win'|'ability'|'blocked'|'confusionWarning';id?:string}
 export const roundSeconds=(round:number):number=>round<=5?10:round<=10?8:6;
 export function tileCenter(index:number):{x:number;z:number}{return{x:(index%5-2)*GEO.tile,z:(Math.floor(index/5)-.5)*GEO.tile};}
 /** Centro del collider: intervalli semiaperti, bordo esterno incluso, spawn escluso. */
@@ -24,8 +26,9 @@ export class GeofallMatch {
  question!:GeoQuestion;answers:GeoAnswer[]=[];correctIndex=0;tie=false;winner:string|null=null;events:GeoEvent[]=[];
  private accumulator=0;private nextTie:string[]=[];private pendingWinner:string|null=null;
  constructor(players:GeoPlayer[],rng:Rng){if(players.length<2||players.length>5)throw new Error('GEOFALL richiede 2–5 giocatori');
-  this.players=players.map(p=>({...p,bot:!!p.bot,x:0,z:0,vx:0,vz:0,dx:0,dz:0,facing:0,lives:3,correct:0,eliminatedRound:0,pushUsed:false,immunity:0,stun:0,dash:0,hit:0,lockedTile:null,lost:false,version:-1}));this.deck=new GeoDeck(rng);this.newRound();
+  this.players=players.map(p=>({...p,bot:!!p.bot,x:0,z:0,vx:0,vz:0,dx:0,dz:0,facing:0,lives:3,correct:0,eliminatedRound:0,pushUsed:false,immunity:0,stun:0,dash:0,hit:0,lockedTile:null,lost:false,version:-1,ab:{charges:0,cooldown:0,active:0,shield:false},confusion:0,confusionWarning:0,confusionImmunity:0}));this.deck=new GeoDeck(rng);this.newRound();
  }
+ activate(id:string):string|null{const p=this.players.find(p=>p.id===id);return p?activateGeoAbility(p,this):'NON DISPONIBILE';}
  get alive():GeoActor[]{return this.players.filter(p=>p.lives>0);}
  get ended():boolean{return this.phase==='ended';}
  cancel():void{for(const p of this.players){p.dx=p.dz=0;}}
@@ -43,7 +46,8 @@ export class GeofallMatch {
   const targets=this.alive.filter(v=>v!==p&&v.immunity<=0).map(v=>({v,dx:v.x-p.x,dz:v.z-p.z})).filter(({dx,dz})=>Math.hypot(dx,dz)<=GEO.pushRange&&(dx*nx+dz*nz)/Math.max(.001,Math.hypot(dx,dz))>.35);
   // Una spinta può colpire il più vicino; nessun vantaggio di carattere o aggancio automatico.
   targets.sort((a,b)=>Math.hypot(a.dx,a.dz)-Math.hypot(b.dx,b.dz));const target=targets[0]?.v;
-  if(target){target.vx=nx*GEO.pushSpeed;target.vz=nz*GEO.pushSpeed;target.stun=GEO.stun;target.immunity=GEO.immunity;target.hit=.3;this.events.push({type:'hit',id:target.id});}
+  if(target){if(target.ab.shield&&target.ab.active>0){target.ab.shield=false;target.ab.active=0;this.events.push({type:'blocked',id:target.id});return;}
+   const resist=target.characterId==='buttafuori'&&target.ab.active>0?geoAbility(target)!.p.resist:1;target.vx=nx*GEO.pushSpeed*resist;target.vz=nz*GEO.pushSpeed*resist;target.stun=GEO.stun;target.immunity=GEO.immunity;target.hit=.3;this.events.push({type:'hit',id:target.id});}
  }
  advance(dt:number):void{
   if(!Number.isFinite(dt)||dt<=0||this.phase==='ended')return;this.accumulator+=Math.min(dt,.25);
@@ -51,6 +55,7 @@ export class GeofallMatch {
  }
  private tick(dt:number):void{
   this.time+=dt;
+  if(this.phase==='answer')for(const p of this.alive)tickGeoAbility(p,dt);
   for(const p of this.players){p.immunity=Math.max(0,p.immunity-dt);p.stun=Math.max(0,p.stun-dt);p.dash=Math.max(0,p.dash-dt);p.hit=Math.max(0,p.hit-dt);}
   if(this.phase==='answer'){
    const h=Math.min(dt,this.remaining);this.move(h);this.remaining=Math.max(0,this.remaining-h);
@@ -65,7 +70,7 @@ export class GeofallMatch {
   }else if(this.phase==='rebuild')this.newRound();
  }
  private move(dt:number):void{
-  for(const p of this.alive){const mobility=p.stun>0?.2:1;p.x+=(p.dx*GEO.speed*mobility+p.vx)*dt;p.z+=(p.dz*GEO.speed*mobility+p.vz)*dt;
+  for(const p of this.alive){const mobility=(p.stun>0?.2:1)*(p.ab.active>0&&['buttafuori','dottore'].includes(p.characterId??'')?geoAbility(p)!.p.speed:1),direction=p.confusion>0?-1:1;p.x+=(p.dx*direction*GEO.speed*mobility+p.vx)*dt;p.z+=(p.dz*direction*GEO.speed*mobility+p.vz)*dt;
    p.vx*=Math.exp(-9*dt);p.vz*=Math.exp(-9*dt);contain(p);}
   // Separazione morbida: tutti e cinque entrano nello stesso quadrato senza muri umani.
   const active=this.alive;
@@ -73,7 +78,7 @@ export class GeofallMatch {
    if(over<=0)continue;const nx=d>1e-5?dx/d:1,nz=d>1e-5?dz/d:0,amount=Math.min(over*.3,.06);a.x-=nx*amount;a.z-=nz*amount;b.x+=nx*amount;b.z+=nz*amount;contain(a);contain(b);}
  }
  private snapshot():void{
-  const contenders=this.alive.map(p=>p.id);this.cancel();
+  const contenders=this.alive.map(p=>p.id);this.cancel();for(const p of this.players)clearGeoEffects(p);
   for(const p of this.players){if(p.lives<=0)continue;p.lockedTile=occupiedTile(p.x,p.z);p.lost=p.lockedTile!==this.correctIndex;p.vx=p.vz=0;
    if(p.lost){p.lives--;if(p.lives===0)p.eliminatedRound=this.round;}else p.correct++;}
   const alive=this.alive;
@@ -85,7 +90,7 @@ export class GeofallMatch {
   if(this.nextTie.length){this.tie=true;for(const p of this.players)if(this.nextTie.includes(p.id)){p.lives=1;p.eliminatedRound=0;}this.nextTie=[];}
   this.round++;const drawn=this.deck.next(this.round);this.question=drawn.question;this.answers=drawn.answers;this.correctIndex=drawn.correctIndex;
   this.phase='intro';this.phaseTime=GEO.intro;this.remaining=roundSeconds(this.round);this.pendingWinner=null;
-  for(const p of this.players){p.lost=false;p.lockedTile=null;}
+  for(const p of this.players){resetGeoAbility(p);p.lost=false;p.lockedTile=null;}
   this.alive.forEach((p,i)=>{p.x=(i-(this.alive.length-1)/2)*1.4;p.z=-6.5;p.vx=p.vz=p.dx=p.dz=0;p.pushUsed=false;p.stun=p.immunity=p.dash=p.hit=0;p.facing=0;p.lockedTile=null;p.lost=false;});this.events.push({type:'round'});
  }
  results():PlayerResult[]{

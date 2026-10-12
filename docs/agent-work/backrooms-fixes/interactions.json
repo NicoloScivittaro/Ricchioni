@@ -1,0 +1,12 @@
+{
+  "errors": [],
+  "checks": [
+    "Xbox Wireless Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b13): four 90ms presses toggle reliably, 700ms hold toggles once",
+    "DualSense Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 0ce6): four 90ms presses toggle reliably, 700ms hold toggles once",
+    "USB Gamepad (Vendor: 0810 Product: e501): four 90ms presses toggle reliably, 700ms hold toggles once",
+    "phone four 12ms taps traverse Socket.IO/InputManager/game authority",
+    "250ms authority frames: cleared tap retained, no repeated edge, next tap without neutral frame retained",
+    "real CDP multitouch: two sticks + INTERAGISCI concurrently",
+    "phone hold activates generator in 2.5 simulation seconds"
+  ]
+}

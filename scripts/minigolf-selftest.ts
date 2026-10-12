@@ -31,9 +31,9 @@ const out=createBall('out',{x:0,z:11});out.x=20;let fell=false;for(let i=0;i<180
 const hole=createBall('hole',COURSES[0].hole);assert.ok(physicsStep([hole],COURSES[0],0,GOLF.step).some(e=>e.type==='hole'));assert.ok(hole.done);assert.equal(physicsStep([hole],COURSES[0],1,GOLF.step).length,0);
 const fast=createBall('fast',{x:0,z:-11});fast.vz=-8;physicsStep([fast],COURSES[0],0,GOLF.step);assert.ok(!fast.done,'fast balls overshoot cup');
 const corrupt=createBall('bad',{x:0,z:11});corrupt.vx=NaN;assert.ok(physicsStep([corrupt],COURSES[0],0,GOLF.step).some(e=>e.type==='stuck'));assert.ok(Number.isFinite(corrupt.x));
-for(const course of COURSES){assert.ok(supportAt(course,course.spawn,0));assert.ok(supportAt(course,course.hole,0));assert.ok(course.par<=course.maxStrokes);assert.equal(course.maxStrokes,course.difficulty==='easy'?5:6);}
-for(let seed=0;seed<60;seed++){const cs=selectCourses(()=>seed/60);assert.equal(cs.length,1);assert.ok(COURSES.includes(cs[0]));}
-assert.equal(new Set(Array.from({length:6},(_,i)=>selectCourses(()=>(i+.5)/6)[0].id)).size,6);
+for(const course of COURSES){assert.ok(supportAt(course,course.spawn,0));assert.ok(supportAt(course,course.hole,0));assert.ok(course.par<=course.maxStrokes);assert.equal(course.maxStrokes,12);}
+for(let seed=0;seed<60;seed++){const cs=selectCourses(()=>seed/60);assert.equal(cs.length,3);assert.equal(new Set(cs.map(c=>c.id)).size,3);assert.ok(COURSES.includes(cs[0]));}
+assert.equal(new Set(Array.from({length:60},(_,i)=>selectCourses(()=>(i+.5)/60)).flat().map(c=>c.id)).size,10);
 
 // Check complete corridor clearance, rather than only isolated waypoints.
 for(const course of COURSES){
@@ -69,15 +69,15 @@ const m=fresh(),p=m.active,other=m.players[1];const inactive=JSON.stringify(othe
 shoot(m,other);m.command(other,cmd({ability:true}),.1);assert.equal(JSON.stringify(other.ball),inactive);assert.equal(other.used,false);assert.deepEqual(other.aim,otherAim);
 m.command(p,cmd({pressed:true,held:true}),.2);assert.ok(p.charging);m.command(p,cmd({cancel:true,released:true}),.01);assert.equal(p.strokes,0);
 m.command(p,cmd(),.01);shoot(m);assert.equal(p.strokes,1);assert.equal(m.stage,'rolling');const count=p.strokes;shoot(m);assert.equal(p.strokes,count);
-const timer=m.aimRemaining,aimTime=p.completionTime;m.advance(.4);assert.equal(m.aimRemaining,timer);assert.equal(p.completionTime,aimTime,'follow and waiting excluded from aiming time');
+const timer=m.aimRemaining,aimTime=p.holeTime;m.advance(.4);assert.equal(m.aimRemaining,timer);assert.ok(p.holeTime>aimTime,'own shot time included, waiting excluded');
 const cancel=fresh(),cp=cancel.active;cancel.command(cp,cmd({pressed:true,held:true}),.3);cancel.command(cp,cmd({version:1,released:true}),.01);assert.equal(cp.strokes,0);
-const timeout=fresh(5),first=timeout.active,before={x:first.ball.x,z:first.ball.z};timeout.advance(6.3);assert.equal(first.strokes,1);assert.deepEqual({x:first.ball.x,z:first.ball.z},before);assert.equal(first.penalties,0);assert.equal(timeout.activeIndex,1);assert.equal(timeout.players[2].completionTime,0,'inactive player accumulates no aiming time');
-const seen=[0,1];for(let i=0;i<3;i++){timeout.advance(6.23);seen.push(timeout.activeIndex);}assert.deepEqual(seen,[0,1,2,3,4],'one stroke per rotation');
+const timeout=fresh(5),first=timeout.active,before={x:first.ball.x,z:first.ball.z};timeout.advance(GOLF.aimSeconds+.3);assert.equal(first.strokes,1);assert.deepEqual({x:first.ball.x,z:first.ball.z},before);assert.equal(first.penalties,0);assert.equal(timeout.activeIndex,1);assert.equal(timeout.players[2].completionTime,0,'inactive player accumulates no aiming time');
+const seen=[0,1];for(let i=0;i<3;i++){timeout.advance(GOLF.aimSeconds+.23);seen.push(timeout.activeIndex);}assert.deepEqual(seen,[0,1,2,3,4],'one stroke per rotation');
 const firsts=new Set(Array.from({length:30},(_,i)=>new MinigolfMatch(roster(5),()=>i/30).activeIndex));assert.ok(firsts.size>=4,'first player not fixed');
 // Last permitted shot still reaches the hole before DNF is decided.
 const last=fresh(2),lp=last.active;lp.strokes=last.course.maxStrokes-1;lp.holeShots=lp.strokes;lp.ball.x=0;lp.ball.z=-10.2;lp.ball.readyFor=1;
 shoot(last,lp,0);last.advance(1);assert.equal(lp.completed,1);assert.equal(lp.strokes,last.course.maxStrokes);assert.ok(lp.finished);
-const exhausted=fresh(2);exhausted.advance(80);assert.equal(exhausted.phase,'ended');assert.ok(exhausted.players.every(p=>p.records.length===1&&p.total===7&&p.totalPenalties===2));
+const exhausted=fresh(2);exhausted.advance(400);assert.equal(exhausted.phase,'ended');assert.ok(exhausted.players.every(p=>p.records.length===1&&p.total===14&&p.totalPenalties===2));
 // Both balls move from a real impulse, victim's strokes and new position persist.
 const bump=fresh(2,{...c,id:'collision'}),shooter=bump.active,victim=bump.players[1];
 Object.assign(shooter.ball,createBall(shooter.id,{x:0,z:1}));Object.assign(victim.ball,createBall(victim.id,{x:0,z:0}));
@@ -100,7 +100,7 @@ const wager=fresh(1),ciro=wager.active;ciro.characterId='ciro';ciro.strokes=2;ci
 wager.command(ciro,cmd({ability:true}),.01);shoot(wager,ciro,0);wager.advance(1);assert.equal(ciro.completed,1);assert.equal(ciro.strokes,2);assert.equal(ciro.penalties,0);
 const debt=fresh(2),debtor=debt.active;debtor.characterId='ciro';debt.command(debtor,cmd({ability:true}),.01);shoot(debt,debtor,.03);debt.advance(4);assert.equal(debtor.strokes,2);assert.equal(debtor.penalties,1);debt.advance(2);assert.equal(debtor.penalties,1);
 const ranks=fresh(),[ra,rb,rc,rd,re]=ranks.players;for(const p of ranks.players){p.total=10;p.totalPenalties=0;p.completionTime=20;}
-ra.total=11;rb.totalPenalties=1;rc.ones=1;rd.completionTime=15;assert.deepEqual(ranks.results().map(p=>p.playerId),[rd.id,rc.id,re.id,rb.id,ra.id],'strokes, penalties, active aiming time, roster; hole-in-one not an extra tie key');
+ra.total=11;rb.totalPenalties=1;rc.ones=1;rd.completionTime=15;assert.deepEqual(ranks.results().map(p=>p.playerId),[rd.id,rb.id,rc.id,re.id,ra.id],'total strokes then completed active time; penalty and hole-in-one are not extra keys');
 const outcomes=[];
 for(const n of [2,3,4,5])for(const course of COURSES){
  let seed=123+n;const rng=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};const match=new MinigolfMatch(roster(n),rng,[course]),bot=new MinigolfBot(rng);
@@ -108,5 +108,5 @@ for(const n of [2,3,4,5])for(const course of COURSES){
  assert.equal(match.phase,'ended');assert.equal(match.results().length,n);assert.ok(match.players.every(q=>q.records.length===1&&Number.isFinite(q.completionTime)));assert.ok(match.time<=230.02);
  outcomes.push({n,course:course.id,seconds:+match.time.toFixed(1),completed:match.players.reduce((a,p)=>a+p.completed,0)});
 }
-const deadline=fresh(2);deadline.time=GOLF.holeSeconds-.1;shoot(deadline,deadline.active,.5);deadline.advance(.3);assert.equal(deadline.phase,'playing','deadline does not interrupt shot in flight');deadline.advance(21);assert.equal(deadline.phase,'ended');assert.ok(deadline.players.every(p=>p.records.length===1));
-console.log('PASS minigolf physics 30/60/120, six courses, turns/timeout/fair order, persistent ball collisions and opponent hole, cancellation, all abilities, active-time ranking, deadline grace, 24 natural bot rounds.');console.log(JSON.stringify(outcomes));
+const deadline=fresh(2);deadline.time=GOLF.holeSeconds-.1;shoot(deadline,deadline.active,.5);deadline.advance(.3);assert.equal(deadline.phase,'playing','deadline does not interrupt shot in flight');deadline.advance(200);assert.equal(deadline.phase,'ended');assert.ok(deadline.players.every(p=>p.records.length===1));
+console.log('PASS minigolf physics 30/60/120, ten courses, turns/timeout/fair order, persistent ball collisions and opponent hole, cancellation, all abilities, active-time ranking, deadline grace, 40 natural bot rounds.');console.log(JSON.stringify(outcomes));

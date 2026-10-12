@@ -22,6 +22,11 @@ export class PlayerInput {
   private buttons = new Map<string, ButtonState>();
   private axes = new Map<string, { x: number; y: number }>();
   private texts = new Map<string, string>();
+  private presses = new Map<string, number>();
+  private cancelledPresses = new Map<string, number>();
+  /** Monotonic events for independently scheduled render loops; clearFrame does not erase them. */
+  pressCount(id: string): number { return this.presses.get(id) ?? 0; }
+  pressCountAtCancellation(id: string): number { return this.cancelledPresses.get(id) ?? 0; }
   /** Lets release-triggered actions distinguish device cancellation from a real up. */
   cancellationVersion = 0;
 
@@ -44,6 +49,7 @@ export class PlayerInput {
     if (!b.pressed) {
       b.pressed = true;
       b.justPressed = true;
+      this.presses.set(id, this.pressCount(id) + 1);
     }
   }
 
@@ -122,6 +128,7 @@ export class PlayerInput {
    */
   cancelAll(): void {
     this.cancellationVersion++;
+    this.cancelledPresses = new Map(this.presses);
     for (const b of this.buttons.values()) {
       b.pressed = false;
       b.justPressed = false;

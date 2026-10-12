@@ -1,0 +1,20 @@
+{
+  "shared/minigolfTournament.ts": "5d80926e38035bcae7a37a5cc32a2503bd64c8d61b3f166d53ded68c9d6f1224",
+  "shared/scoring.ts": "2fd59a3d143f6fea0ea9a6500528a82f27fed98e451e7337fd08bafbc5b32d6e",
+  "shared/minigames.ts": "6cde5513016f1f3a902e4fc7a5e9a39a544d7dc6aa7455010149a9831f0ada13",
+  "server/GameSession.ts": "a86384626152d2d726e2ecf2dab9e7b1450eecdf22c4895b018ef7c3c47a54ab",
+  "src/scenes/ResultsScene.ts": "f1ae4767d7d955582f5fa35ecd707b6a3e5f6aae8ba8ff73512bad75da5e80ff",
+  "src/controller/minigolfController.ts": "21a7775cb3eb2ee270d9e2dd945ba63d8a62b605c7350d9ca4e862eb21d1038d",
+  "src/minigames/minigolf/BabylonMinigolfGame.ts": "23d252500caaac3010768dc7266f421848d704964df0959ecfe50f17a926c8cb",
+  "src/minigames/minigolf/index.ts": "8a966a57f7e8f47a17ecc6723f9a1ef673bbc343a992ce49ab6b4e1a02ac39cd",
+  "src/minigames/minigolf/minigolfAbilities.ts": "3360c7825f674cc9917d41d641ca2fd019e5173244ba35ee53967ce748875ed1",
+  "src/minigames/minigolf/minigolfBot.ts": "55435f155c7d586fb57f84c25cf8f8dda8249160e72b18b93ec19c9516e52fd5",
+  "src/minigames/minigolf/minigolfCamera.ts": "0c2130e86659000f3226022e3f1d1b0cdfdc3fc7fbfb35c968df6788a2d69c6f",
+  "src/minigames/minigolf/minigolfCourses.ts": "c4861d11c3cd4cc5ea4b01aeb60ae0e1cbc9fcc597716320a529cdbcb31e776e",
+  "src/minigames/minigolf/minigolfHud.ts": "ee2784accf719df849652ec7b4e1931b3b42b4e497590ea6a0f2d1aa3df0581c",
+  "src/minigames/minigolf/minigolfPhysics.ts": "b542f3018c8c8898d67c988714f9609f4b561486c8e609fc37392e00ee6fc0d8",
+  "src/minigames/minigolf/minigolfRules.ts": "0de97b94a95145c7fd234900b0e9c81886ea7c4ab6792899d2982c922e918d11",
+  "src/minigames/minigolf/MinigolfScene.ts": "23cb4312070d8e6a7f47858741189c3156e0f34fe00b3cba48a5c83e7d4cf8c6",
+  "src/minigames/minigolf/minigolfTypes.ts": "46d49bcf2c7e2f9d7c33b4f659fb766a77b088568939521d86e819ed330620c6",
+  "src/minigames/minigolf/minigolfVisuals.ts": "f860938348a3da63758964ddb022fce21cdf20c9216cfd7fa9b62a470766dc00"
+}

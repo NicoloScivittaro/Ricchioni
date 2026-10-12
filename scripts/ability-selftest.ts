@@ -1,7 +1,7 @@
 /**
  * ABILITY SELFTEST — logica pura, senza browser:  npx tsx scripts/ability-selftest.ts
  *
- * 1. CATALOGO: 13 giochi x 5 personaggi = 65 abilita', tutte complete (nome, testi, limite, tipo, impatto, numeri), nessun testo con
+ * 1. CATALOGO: 13 giochi x 5 personaggi = 70 abilita', tutte complete (nome, testi, limite, tipo, impatto, numeri), nessun testo con
  *    segnaposto non risolti, e i NUMERI citati nella descrizione sono quelli veri (niente "il codice fa 6 secondi, il telefono dice 8").
  * 2. INPUT: ogni gioco col controller ha un tasto ABILITA' nel profilo (la stessa fonte usata dalla schermata CONTROLLI).
  * 3. BUDGET: l'impatto ALTO ha un limite (cariche, ricarica, barra) e il tipo e' coerente.
@@ -35,12 +35,12 @@ const ok = (c: boolean, m: string): void => {
 };
 const section = (t: string): void => console.log(`\n=== ${t} ===`);
 
-const GAMES: AbilityGameId[] = ['arena', 'dodgeball', 'soccer', 'volleyball', 'kart3d', 'fps', 'memory', 'reaction', 'quiz', 'cultura', 'cornicione', 'casacarbo', 'minigolf'];
+const GAMES: AbilityGameId[] = ['arena', 'dodgeball', 'soccer', 'volleyball', 'kart3d', 'fps', 'memory', 'reaction', 'quiz', 'cultura', 'cornicione', 'casacarbo', 'minigolf','geofall'];
 const CHARS = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'] as const;
 
 // ----------------------------------------------------------------------------------------------------------- 1. catalogo
-section('1. CATALOGO — 65 abilita\' complete e coerenti');
-ok(ABILITY_CATALOG.length === 65, `65 abilita' nel catalogo (sono ${ABILITY_CATALOG.length})`);
+section('1. CATALOGO — 70 abilita\' complete e coerenti');
+ok(ABILITY_CATALOG.length === 70, `70 abilita' nel catalogo (sono ${ABILITY_CATALOG.length})`);
 const ids = new Set<string>();
 for (const g of GAMES) {
   for (const c of CHARS) {
@@ -57,7 +57,7 @@ for (const g of GAMES) {
     ok(/\.$/.test(d.full.trim()), `${g}/${c}: la descrizione finisce con un punto`);
   }
 }
-ok(ids.size === 65, '65 combinazioni uniche');
+ok(ids.size === 70, '70 combinazioni uniche');
 
 // i numeri in secondi citati nella descrizione devono essere quelli del parametro (stessa fonte)
 const fmt = (n: number): string => (Number.isInteger(n) ? String(n) : String(n).replace('.', ','));
@@ -77,7 +77,6 @@ section('2. INPUT — ogni gioco col controller ha il tasto ABILITA\' (stessa fo
 for (const m of MINIGAME_DEFINITIONS) {
   if (m.inputMode !== 'GAMEPAD') continue;
   if(m.id==='backrooms'){ok(PAD_PROFILES.backrooms.controls.length===4&&!PAD_PROFILES.backrooms.controls.some(c=>c.action==='ABILITY'),'Backrooms: esplorazione, nessun combattimento/abilità');continue;}
-  if(m.id==='geofall'){ok(PAD_PROFILES.geofall.controls.length===2&&!PAD_PROFILES.geofall.controls.some(c=>c.action==='ABILITY'),'Geofall: solo movimento e spinta, nessuna abilità');continue;}
   const prof = PAD_PROFILES[m.id];
   ok(!!prof && prof.controls.some((c) => c.action === 'ABILITY'), `${m.id}: il profilo ha un'azione ABILITY`);
 }
@@ -98,7 +97,8 @@ for (const d of ABILITY_CATALOG) {
 const high = ABILITY_CATALOG.filter((d) => d.impact === 'HIGH').length;
 const med = ABILITY_CATALOG.filter((d) => d.impact === 'MEDIUM').length;
 const low = ABILITY_CATALOG.filter((d) => d.impact === 'LOW').length;
-ok(low === 0, `nessuna abilita' di impatto BASSO (${low}): sono una feature centrale`);
+ok(ABILITY_CATALOG.filter(d=>d.impact==='LOW'&&d.game!=='geofall').length===0, 'giochi esistenti: nessuna abilità di impatto basso');
+ok(ABILITY_CATALOG.filter(d=>d.game==='geofall'&&d.impact==='LOW').length===2, 'Geofall: frenata e accelerazione limitate, geografia resta centrale');
 console.log(`  impatto: ${high} ALTO · ${med} MEDIO · ${low} BASSO`);
 
 // ----------------------------------------------------------------------------------------------------------- 4. logica

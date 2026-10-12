@@ -71,7 +71,8 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
   ]),
   geofall:defineProfile('geofall',[
     {action:'MOVE',binding:'LEFT_STICK',control:'move',label:'CORRI SULLA RISPOSTA'},
-    {action:'PUSH',binding:'PRIMARY',control:'push',label:'SPINTA · UNA PER ROUND'}
+    {action:'PUSH',binding:'PRIMARY',control:'push',label:'SPINTA · UNA PER ROUND'},
+    {action:'ABILITY',binding:'RB',control:'ability',label:'ABILITÀ DI PERSONAGGIO'}
   ]),
   minigolf: defineProfile('minigolf', [
     {action:'AIM',binding:'LEFT_STICK',control:'aim',label:'ORIENTA IL TIRO'},

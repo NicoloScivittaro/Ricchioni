@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {writeFileSync,readFileSync} from 'node:fs';
 import {launch,addPhone,hostEval,hostSnapshot,sleep,HOST_URL} from './lib.mjs';
 import {startGame,until} from './padmock.mjs';
-const out='docs/agent-work/backrooms',counts=(process.env.BACK_COUNTS??'2,3,4,5').split(',').map(Number);let rows=[];try{rows=JSON.parse(readFileSync(`${out}/rooms.json`,'utf8')).filter(r=>!counts.includes(r.n));}catch{};
+const out=(process.env.BACK_OUT??'docs/agent-work/backrooms'),counts=(process.env.BACK_COUNTS??'2,3,4,5').split(',').map(Number);let rows=[];try{rows=JSON.parse(readFileSync(`${out}/rooms.json`,'utf8')).filter(r=>!counts.includes(r.n));}catch{};
 for(const n of counts){
  const browser=await launch();const errors=[];
  try{

@@ -1,0 +1,30 @@
+{
+  "backrooms-fixes": {
+    "unchanged": [
+      "src\\minigames\\backrooms\\BabylonBackroomsGame.ts",
+      "src\\minigames\\backrooms\\backroomsAudio.ts",
+      "src\\minigames\\backrooms\\backroomsDebug.ts",
+      "src\\minigames\\backrooms\\backroomsInput.ts",
+      "src\\minigames\\backrooms\\backroomsRules.ts",
+      "src\\minigames\\backrooms\\BackroomsScene.ts",
+      "src\\minigames\\backrooms\\backroomsWorld.ts",
+      "src\\minigames\\backrooms\\index.ts",
+      "src\\minigames\\backrooms\\maze.ts",
+      "src\\network\\PlayerInput.ts"
+    ],
+    "changed": []
+  },
+  "geofall-2": {
+    "unchanged": [
+      "src\\minigames\\geofall\\BabylonGeofallGame.ts",
+      "src\\minigames\\geofall\\geofallAbilities.ts",
+      "src\\minigames\\geofall\\geofallBot.ts",
+      "src\\minigames\\geofall\\geofallRules.ts",
+      "src\\minigames\\geofall\\GeofallScene.ts",
+      "src\\minigames\\geofall\\index.ts",
+      "shared\\geofallQuestions.json",
+      "shared\\abilityCatalog.ts"
+    ],
+    "changed": []
+  }
+}

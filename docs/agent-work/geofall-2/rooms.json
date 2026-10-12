@@ -1,0 +1,246 @@
+[
+  {
+    "n": 2,
+    "server": 2,
+    "game": 2,
+    "seconds": 121.60000000004284,
+    "rounds": 9,
+    "winner": "bot:e53fbec4-4d8b-4013-9845-48a81f38bf41",
+    "ended": true,
+    "score": {
+      "results": [
+        {
+          "playerId": "bot:e53fbec4-4d8b-4013-9845-48a81f38bf41",
+          "placement": 1,
+          "score": 7,
+          "stats": [
+            "7 risposte corrette",
+            "ULTIMO SOPRAVVISSUTO",
+            "1 vite residue"
+          ]
+        },
+        {
+          "playerId": "28df2e45-12c4-4190-a4ec-b38cc2f77b3b",
+          "placement": 2,
+          "score": 6,
+          "stats": [
+            "6 risposte corrette",
+            "Eliminato al round 9",
+            "0 vite residue"
+          ]
+        }
+      ],
+      "ranking": [
+        "bot:e53fbec4-4d8b-4013-9845-48a81f38bf41",
+        "28df2e45-12c4-4190-a4ec-b38cc2f77b3b"
+      ],
+      "deltas": {
+        "bot:e53fbec4-4d8b-4013-9845-48a81f38bf41": 10,
+        "28df2e45-12c4-4190-a4ec-b38cc2f77b3b": 5
+      },
+      "double": false
+    },
+    "errors": []
+  },
+  {
+    "n": 3,
+    "server": 3,
+    "game": 3,
+    "seconds": 144.60000000003282,
+    "rounds": 11,
+    "winner": "bot:cbc5b3a7-e1fc-4bb6-b1dc-e58ac44e45a9",
+    "ended": true,
+    "score": {
+      "results": [
+        {
+          "playerId": "bot:cbc5b3a7-e1fc-4bb6-b1dc-e58ac44e45a9",
+          "placement": 1,
+          "score": 10,
+          "stats": [
+            "10 risposte corrette",
+            "ULTIMO SOPRAVVISSUTO",
+            "2 vite residue"
+          ]
+        },
+        {
+          "playerId": "bot:a9bd8051-01b7-4711-8271-3d8ece195520",
+          "placement": 2,
+          "score": 8,
+          "stats": [
+            "8 risposte corrette",
+            "Eliminato al round 11",
+            "0 vite residue"
+          ]
+        },
+        {
+          "playerId": "43998042-a561-46cd-95e0-487804bd791d",
+          "placement": 3,
+          "score": 6,
+          "stats": [
+            "6 risposte corrette",
+            "Eliminato al round 9",
+            "0 vite residue"
+          ]
+        }
+      ],
+      "ranking": [
+        "bot:cbc5b3a7-e1fc-4bb6-b1dc-e58ac44e45a9",
+        "bot:a9bd8051-01b7-4711-8271-3d8ece195520",
+        "43998042-a561-46cd-95e0-487804bd791d"
+      ],
+      "deltas": {
+        "bot:cbc5b3a7-e1fc-4bb6-b1dc-e58ac44e45a9": 10,
+        "bot:a9bd8051-01b7-4711-8271-3d8ece195520": 6,
+        "43998042-a561-46cd-95e0-487804bd791d": 3
+      },
+      "double": false
+    },
+    "errors": []
+  },
+  {
+    "n": 4,
+    "server": 4,
+    "game": 4,
+    "seconds": 197.09999999998507,
+    "rounds": 16,
+    "winner": "bot:d177eebd-21fd-43b7-881c-8bfe1b85d2fb",
+    "ended": true,
+    "score": {
+      "results": [
+        {
+          "playerId": "bot:d177eebd-21fd-43b7-881c-8bfe1b85d2fb",
+          "placement": 1,
+          "score": 12,
+          "stats": [
+            "12 risposte corrette",
+            "ULTIMO SOPRAVVISSUTO",
+            "SPAREGGIO FINALE"
+          ]
+        },
+        {
+          "playerId": "bot:59e780e6-fc9b-4f29-8e63-5a08edbaed05",
+          "placement": 2,
+          "score": 11,
+          "stats": [
+            "11 risposte corrette",
+            "Eliminato al round 16",
+            "SPAREGGIO FINALE"
+          ]
+        },
+        {
+          "playerId": "bot:f8988bea-3d87-4a01-9933-87a35c17cfd9",
+          "placement": 3,
+          "score": 7,
+          "stats": [
+            "7 risposte corrette",
+            "Eliminato al round 10",
+            "SPAREGGIO FINALE"
+          ]
+        },
+        {
+          "playerId": "32c1dac2-8de8-4b84-942e-f82cae399134",
+          "placement": 4,
+          "score": 6,
+          "stats": [
+            "6 risposte corrette",
+            "Eliminato al round 9",
+            "SPAREGGIO FINALE"
+          ]
+        }
+      ],
+      "ranking": [
+        "bot:d177eebd-21fd-43b7-881c-8bfe1b85d2fb",
+        "bot:59e780e6-fc9b-4f29-8e63-5a08edbaed05",
+        "bot:f8988bea-3d87-4a01-9933-87a35c17cfd9",
+        "32c1dac2-8de8-4b84-942e-f82cae399134"
+      ],
+      "deltas": {
+        "bot:d177eebd-21fd-43b7-881c-8bfe1b85d2fb": 10,
+        "bot:59e780e6-fc9b-4f29-8e63-5a08edbaed05": 7,
+        "bot:f8988bea-3d87-4a01-9933-87a35c17cfd9": 4,
+        "32c1dac2-8de8-4b84-942e-f82cae399134": 2
+      },
+      "double": false
+    },
+    "errors": []
+  },
+  {
+    "n": 5,
+    "server": 5,
+    "game": 5,
+    "seconds": 176.10000000000417,
+    "rounds": 14,
+    "winner": "bot:e0eaf892-5256-4051-998d-533937b11989",
+    "ended": true,
+    "score": {
+      "results": [
+        {
+          "playerId": "bot:e0eaf892-5256-4051-998d-533937b11989",
+          "placement": 1,
+          "score": 11,
+          "stats": [
+            "11 risposte corrette",
+            "ULTIMO SOPRAVVISSUTO",
+            "SPAREGGIO FINALE"
+          ]
+        },
+        {
+          "playerId": "4fb8ef8a-79bf-4d65-b711-a0b7a12dcc2f",
+          "placement": 2,
+          "score": 10,
+          "stats": [
+            "10 risposte corrette",
+            "Eliminato al round 14",
+            "SPAREGGIO FINALE"
+          ]
+        },
+        {
+          "playerId": "bot:0b39d8ab-e6c8-475c-90a7-55fdd35e7d3a",
+          "placement": 3,
+          "score": 9,
+          "stats": [
+            "9 risposte corrette",
+            "Eliminato al round 13",
+            "SPAREGGIO FINALE"
+          ]
+        },
+        {
+          "playerId": "bot:5b065a28-d908-425f-8ea9-09c3f392485b",
+          "placement": 4,
+          "score": 4,
+          "stats": [
+            "4 risposte corrette",
+            "Eliminato al round 7",
+            "SPAREGGIO FINALE"
+          ]
+        },
+        {
+          "playerId": "bot:2d0a23b9-f198-4d24-ab83-029b8677ee0f",
+          "placement": 5,
+          "score": 1,
+          "stats": [
+            "1 risposte corrette",
+            "Eliminato al round 4",
+            "SPAREGGIO FINALE"
+          ]
+        }
+      ],
+      "ranking": [
+        "bot:e0eaf892-5256-4051-998d-533937b11989",
+        "4fb8ef8a-79bf-4d65-b711-a0b7a12dcc2f",
+        "bot:0b39d8ab-e6c8-475c-90a7-55fdd35e7d3a",
+        "bot:5b065a28-d908-425f-8ea9-09c3f392485b",
+        "bot:2d0a23b9-f198-4d24-ab83-029b8677ee0f"
+      ],
+      "deltas": {
+        "bot:e0eaf892-5256-4051-998d-533937b11989": 20,
+        "4fb8ef8a-79bf-4d65-b711-a0b7a12dcc2f": 14,
+        "bot:0b39d8ab-e6c8-475c-90a7-55fdd35e7d3a": 10,
+        "bot:5b065a28-d908-425f-8ea9-09c3f392485b": 6,
+        "bot:2d0a23b9-f198-4d24-ab83-029b8677ee0f": 2
+      },
+      "double": true
+    },
+    "errors": []
+  }
+]

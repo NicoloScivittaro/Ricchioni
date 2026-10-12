@@ -1,0 +1,352 @@
+[
+  {
+    "type": "flag",
+    "dimensions": [
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-BF.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-BJ.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-BW.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-CI.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-CM.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-FJ.svg",
+        "w": 1000,
+        "h": 500
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-GH.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-GN.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-ID.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-IE.svg",
+        "w": 1000,
+        "h": 500
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-MC.svg",
+        "w": 1000,
+        "h": 800
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-ML.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-NA.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-SN.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-TD.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/flag-WS.svg",
+        "w": 1000,
+        "h": 500
+      }
+    ]
+  },
+  {
+    "type": "outline",
+    "dimensions": [
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-BF.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-BJ.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-BT.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-BW.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-CI.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-CM.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-GH.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-GN.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-KG.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-LA.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-ML.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-MN.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-NA.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-SN.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/outline-TD.svg",
+        "w": 188,
+        "h": 150
+      }
+    ]
+  },
+  {
+    "type": "monument",
+    "dimensions": [
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-BT.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-ET.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-ID.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-IR.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-KH.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-LA.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-LK.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-ML.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-MM.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-NP.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-SN.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-TH.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-TZ.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-VN.svg",
+        "w": 188,
+        "h": 150
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/advanced/monument-ZW.svg",
+        "w": 188,
+        "h": 150
+      }
+    ]
+  },
+  {
+    "type": "flag-original",
+    "dimensions": [
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-AT.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-BE.svg",
+        "w": 1000,
+        "h": 867
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-BR.svg",
+        "w": 1000,
+        "h": 700
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-CA.svg",
+        "w": 1000,
+        "h": 500
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-CN.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-DE.svg",
+        "w": 1000,
+        "h": 600
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-EG.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-ES.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-FI.svg",
+        "w": 1000,
+        "h": 611
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-FR.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-GR.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-IN.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-IT.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-NO.svg",
+        "w": 1000,
+        "h": 727
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-PL.svg",
+        "w": 1000,
+        "h": 625
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-PT.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-RO.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-SE.svg",
+        "w": 1000,
+        "h": 625
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-TR.svg",
+        "w": 1000,
+        "h": 667
+      },
+      {
+        "src": "http://127.0.0.1:5174/geofall/flag-US.svg",
+        "w": 1000,
+        "h": 526
+      }
+    ]
+  }
+]

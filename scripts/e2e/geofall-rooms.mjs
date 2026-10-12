@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {writeFileSync} from 'node:fs';
 import {launch,addPhone,hostEval,hostSnapshot,sleep,HOST_URL} from './lib.mjs';
 import {startGame,until} from './padmock.mjs';
-const rows=[];const out='docs/agent-work/geofall';
+const rows=[];const out=(process.env.GEO_OUT??'docs/agent-work/geofall');
 for(const n of (process.env.GEO_COUNTS??'2,3,4,5').split(',').map(Number)){
  const browser=await launch();const errors=[];
  try{

@@ -1,3 +1,5 @@
+import {stateLabel} from '../../shared/abilityCatalog';
+import type {AbilityStatus} from '../../shared/abilityCatalog';
 import {mountBackrooms,backStatusText} from './backroomsController';
 import type {BackPhoneStatus} from './backroomsController';
 import {mountMinigolf,updateGolfCompanion} from './minigolfController';
@@ -1563,11 +1565,13 @@ socket.on(EVT.controllerSignal, (data) => {
     return;
   }
   if(s.type==='geofallStatus'&&state?.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='geofall'){
-    const status=data as {lives:number;round:number;available:boolean;pushReady:boolean;phase:string;seconds:number;tie:boolean};
+    const status=data as {lives:number;round:number;available:boolean;pushReady:boolean;phase:string;seconds:number;tie:boolean;ability:AbilityStatus;abilityName:string;confusion:boolean;confusionWarning:boolean};
     let line=document.getElementById('geo-phone-status');
     if(!line){line=document.createElement('p');line.id='geo-phone-status';line.className='sub';app.querySelector('.screen')?.appendChild(line);}
     line.textContent=`${'♥'.repeat(Math.max(0,Math.min(3,status.lives)))} · ROUND ${status.round}${status.tie?' · SPAREGGIO':''} · ${status.lives<=0?'SPETTATORE':status.available?`${status.seconds}s · ${status.pushReady?'SPINTA PRONTA':'SPINTA USATA'}`:'ATTENDI IL VIA / GUARDA LA TV'}`;
-    app.querySelectorAll<HTMLButtonElement>('#ctl button').forEach(b=>{b.disabled=!status.available||(b.classList.contains('ctl-push')&&!status.pushReady);});
+    app.querySelectorAll<HTMLButtonElement>('#ctl button').forEach(b=>{b.disabled=!status.available||(b.classList.contains('ctl-push')&&!status.pushReady)||(b.classList.contains('ctl-ability')&&status.ability.state!=='READY');});
+    const ab=app.querySelector<HTMLButtonElement>('.ctl-ability');if(ab)ab.textContent=`${status.abilityName} · ${stateLabel(status.ability)}`;
+    if(status.confusionWarning||status.confusion)line.textContent+=status.confusionWarning?' · ⚠ COMANDI INVERTITI TRA POCO':' · ↔ COMANDI INVERTITI';
     return;
   }
   if(s.type==='minigolfStatus'){if(activeController==='minigolf')minigolfPhone?.update(data as GolfPhoneStatus);else updateGolfCompanion(data as GolfPhoneStatus);return;}

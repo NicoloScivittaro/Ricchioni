@@ -1,5 +1,5 @@
 /**
- * CATALOGO DELLE ABILITA' — UNA SOLA FONTE per 5 personaggi x 10 minigiochi (50 combinazioni).
+ * CATALOGO DELLE ABILITA' — UNA SOLA FONTE per 5 personaggi x 14 minigiochi (70 combinazioni).
  *
  * Da qui nascono TUTTE le cose che parlano di un'abilita': nome, descrizione breve e completa, limiti (usi / ricarica), tipo e
  * impatto, e i NUMERI della meccanica (`p`). I giochi importano i numeri da qui (nessuna costante duplicata nel codice del gioco),
@@ -10,7 +10,7 @@
  * qui: lo decide ogni gioco (unica autorita') e lo pubblica con AbilityStatus (src/core/abilityHub.ts) — il catalogo e' solo statico.
  */
 
-export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione' | 'casacarbo' | 'minigolf';
+export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione' | 'casacarbo' | 'minigolf' | 'geofall';
 export type AbilityCharacterId = 'goblin' | 'buttafuori' | 'judoka' | 'dottore' | 'ciro';
 
 /** I 6 tipi di abilita' del progetto: ogni voce ne ha UNO principale. */
@@ -1108,7 +1108,21 @@ MG.dottore.full=`RB/R1: per ${sec(MG.dottore.p.duration)} vedi ${sec(MG.dottore.
 MG.judoka.full=`RB/R1 mentre rotoli: velocità orizzontale ×${MG.judoka.p.speedFactor}. Frenando troppo presto ti blocchi lontano dalla buca; non annulla il volo. Un uso per buca.`;
 MG.ciro.full=`RB/R1 prima del tiro: forza ×${MG.ciro.p.power}. Imbuca entro ${sec(MG.ciro.p.window)} dal colpo per abbuonare ${MG.ciro.p.discount} colpo (minimo 1 nella buca). Se non riesci, +${MG.ciro.p.penalty} di penalità. Un uso per buca.`;
 
-/** Tutte le abilita' (65). */
+// GEOFALL: existing character mechanics scoped to one geography question; never changes the answer snapshot.
+const GF = {
+ goblin: add(def({game:'geofall',character:'goblin',name:A.goblin.name,kind:'ACTIVE_TIMING',impact:'MEDIUM',charges:2,cooldown:5,limit:'2 usi per domanda · ricarica 5 s',p:{window:A.goblin.p.window},short:'Parata a tempo: annulli una spinta, senza respingerla.',full:''})),
+ buttafuori: add(def({game:'geofall',character:'buttafuori',name:A.buttafuori.name,kind:'REACTIVE',impact:'MEDIUM',charges:1,cooldown:0,limit:'1 uso per domanda',p:{duration:2,resist:.35,speed:A.buttafuori.p.speed},short:'Reggi gli spintoni per poco, ma cammini più lentamente.',full:''})),
+ judoka: add(def({game:'geofall',character:'judoka',name:MG.judoka.name,kind:'REACTIVE',impact:'LOW',charges:1,cooldown:0,limit:'1 uso per domanda',p:{speedFactor:MG.judoka.p.speedFactor},short:'Freni lo slancio di una spinta e riprendi a camminare.',full:''})),
+ dottore: add(def({game:'geofall',character:'dottore',name:V.dottore.name,kind:'ACTIVE_TIMING',impact:'LOW',charges:1,cooldown:0,limit:'1 uso per domanda',p:{duration:.8,speed:V.dottore.p.speed},short:'Breve accelerazione per raggiungere la casella scelta.',full:''})),
+ ciro: add(def({game:'geofall',character:'ciro',name:'INDICAZIONI SBAGLIATE',kind:'ACTIVE_TIMING',impact:'MEDIUM',charges:1,cooldown:0,limit:'1 uso per domanda · vietata negli ultimi 2,5 s',p:{warning:.4,duration:.8,range:3,minimum:2.5,immunity:1.5},short:'Avvisi chi hai davanti, poi inverti brevemente i suoi comandi.',full:''}))
+};
+GF.goblin.full=`RB/R1 subito prima della spinta: per ${sec(GF.goblin.p.window)} annulli il primo colpo ricevuto. Nessuna spinta extra o protezione dal crollo. Due usi per domanda, ricarica ${sec(GF.goblin.cooldown)}.`;
+GF.buttafuori.full=`RB/R1: per ${sec(GF.buttafuori.p.duration)} subisci il ${GF.buttafuori.p.resist*100}% dello slancio delle spinte, ma velocità ×${GF.buttafuori.p.speed}. Nessuna onda finale o protezione dal crollo. Un uso per domanda.`;
+GF.judoka.full=`RB/R1 dopo uno spintone: riduci lo slancio a ×${GF.judoka.p.speedFactor} e interrompi lo stordimento. Non annulli il colpo né cambi casella automaticamente. Un uso per domanda, solo mentre vieni spostato.`;
+GF.dottore.full=`RB/R1: velocità ×${GF.dottore.p.speed} per ${sec(GF.dottore.p.duration)}. Devi scegliere e raggiungere tu la risposta; nessun salto o salvataggio dal crollo. Un uso per domanda.`;
+GF.ciro.full=`RB/R1: avversario davanti entro ${GF.ciro.p.range} m. Avviso di ${sec(GF.ciro.p.warning)}, poi comandi invertiti per ${sec(GF.ciro.p.duration)}. Vietata negli ultimi ${sec(GF.ciro.p.minimum)}; non si somma e lascia tempo di recuperare. Un uso per domanda.`;
+
+/** Tutte le abilita' (70). */
 export const ABILITY_CATALOG: readonly AbilityDef[] = Object.values(R).flatMap((byChar) => Object.values(byChar));
 
 export function abilityFor(game: string | null | undefined, character: string | null | undefined): AbilityDef | null {
@@ -1127,7 +1141,7 @@ export function abilityParam(game: AbilityGameId, character: AbilityCharacterId,
 export const CHARACTER_ORDER_ABILITY: AbilityCharacterId[] = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'];
 
 /** Accesso tipizzato ai numeri: `AB.arena.goblin.p.window`. Letto dai giochi. */
-export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO, casacarbo: CC, minigolf: MG } as const;
+export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO, casacarbo: CC, minigolf: MG, geofall: GF } as const;
 
 /**
  * Tabella {personaggio: {name, desc}} di un gioco, nella forma che i vecchi file shared/<gioco>Abilities.ts esportavano. Quei file ora

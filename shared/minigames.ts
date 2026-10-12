@@ -1,4 +1,5 @@
 import type { MinigameDefinition } from './types';
+import {GOLF_TOURNAMENT} from './minigolfTournament';
 
 /**
  * SINGLE SOURCE OF TRUTH delle definizioni dei minigiochi (metadata puro, no Phaser).
@@ -322,8 +323,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id:'minigolf',icon:'⛳',name:'MINIGOLF DEI DISAGIATI',
-    description:'Una pista, turni rapidi e camera dietro la pallina. Dosa la forza e boccia gli amici: meno colpi vince.',
-    category:'SPORT',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:240,hardCapSec:310,
+    description:`Torneo di tre piste diverse: ${GOLF_TOURNAMENT.holeSeconds} secondi per buca. Dosa la forza e boccia gli amici: meno colpi totali vince.`,
+    category:'SPORT',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:GOLF_TOURNAMENT.holes*GOLF_TOURNAMENT.holeSeconds,hardCapSec:1600,
     compatibleModifiers:['punti_doppi'],sceneKey:'minigolf',inputMode:'GAMEPAD',
     controllerLayout:{type:'custom',id:'minigolf-tv'}
   },
@@ -335,7 +336,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     controllerLayout:{type:'dpad',controls:[
       {id:'up',label:'▲',kind:'hold'},{id:'down',label:'▼',kind:'hold'},
       {id:'left',label:'◀',kind:'hold'},{id:'right',label:'▶',kind:'hold'},
-      {id:'push',label:'SPINTA',kind:'button',icon:'💥'}
+      {id:'push',label:'SPINTA',kind:'button',icon:'💥'},
+      {id:'ability',label:'ABILITÀ',kind:'button',icon:'⭐'}
     ]}
   },
   {

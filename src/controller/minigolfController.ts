@@ -4,9 +4,10 @@ import type {AbilityStatus} from '../../shared/abilityCatalog';
 import {createVirtualJoystick} from './joystick';
 import {companionHtml,onAbilityMessage} from './abilityCard';
 export interface GolfPhoneStatus {available:boolean;ready:boolean;charge:number|null;strokes:number;total:number;hole:number;finished:boolean;ability:AbilityStatus;
+ holes:number;seconds:number;phase:string;playoff:boolean;records:{strokes:number;completed:boolean}[];
  activeName:string;stage:'aim'|'rolling'|'switch';aimSeconds:number;maxStrokes:number;rank:number;course:string;par:number;distance:number}
 export function updateGolfCompanion(s:GolfPhoneStatus):void{
- const el=document.getElementById('golf-companion-status');if(el)el.textContent=`TURNO: ${s.activeName} · ${s.stage==='aim'?`${s.aimSeconds.toFixed(1)} s`:'TIRO IN CORSO'} · TU: ${s.strokes}/${s.maxStrokes} COLPI · ${s.rank}° · ${s.finished?'BUCA CHIUSA':`${s.distance.toFixed(1)} m DALLA BUCA`}`;
+ const el=document.getElementById('golf-companion-status');if(el)el.textContent=`${s.playoff?'SPAREGGIO':`BUCA ${s.hole}/${s.holes}`} · ${s.seconds}s · TOT ${s.total} · ${s.rank}°\n${s.phase==='ended'?'GARA CONCLUSA':s.phase==='transition'?'CLASSIFICA INTERMEDIA':`TURNO: ${s.activeName} · ${s.strokes}/${s.maxStrokes} COLPI · ${s.finished?'BUCA CHIUSA':`${s.distance.toFixed(1)} m`}`}\n${s.records.map((r,i)=>`B${i+1}: ${r.strokes}${r.completed?' ✓':' DNF'}`).join(' · ')}`;
  const footer=document.querySelector('#golf-spectator .cc-ok');if(footer)footer.textContent=s.finished?'HAI CONCLUSO LA PISTA · GUARDA GLI ALTRI':'LA TUA PALLINA RESTA SULLA PISTA';
 }
 export function mountMinigolf(root:HTMLElement,send:(ev:InputEvent)=>void,character:string|null,me?:PlayerPublic){
@@ -48,7 +49,7 @@ export function mountMinigolf(root:HTMLElement,send:(ev:InputEvent)=>void,charac
    (root.querySelector('#golf-active') as HTMLElement).hidden=!available;(root.querySelector('#golf-spectator') as HTMLElement).hidden=available;
    shoot.disabled=!available||!ready;ability.disabled=!available||s.ability.state==='SPENT'||(s.stage!=='aim'&&character!=='judoka');cancelButton.disabled=!available||!ready;overview.disabled=!available;
    root.querySelector('#golf-ability-status')!.textContent=stateLabel(s.ability);onAbilityMessage({type:'ability',game:'minigolf',status:s.ability});updateGolfCompanion(s);
-   root.querySelector('#golf-status')!.textContent=`${s.course} · PAR ${s.par} · ${s.strokes}/${s.maxStrokes} COLPI · ${s.stage==='aim'?`${s.aimSeconds.toFixed(1)} s PER TIRARE`:'PALLINE IN MOVIMENTO'}`;
+   root.querySelector('#golf-status')!.textContent=`${s.playoff?'SPAREGGIO':`BUCA ${s.hole}/${s.holes}`} · ${s.course} · ${s.seconds}s · TOT ${s.total} · ${s.strokes}/${s.maxStrokes} COLPI · ${s.stage==='aim'?`${s.aimSeconds.toFixed(1)}s PER TIRARE`:'IN MOVIMENTO'}`;
    root.querySelector('#golf-phone-power')!.textContent=s.charge!==null?`CARICA ${Math.round(s.charge*100)}% · RILASCIA PER TIRARE`:'STICK ←/→ MIRA · SU = FINE · TRASCINA PER OSSERVARE';
    shoot.style.setProperty('--golf-power',`${(s.charge??0)*100}%`);
   },

@@ -22,7 +22,7 @@ export class BabylonMinigolfGame {
  readonly entities=new Map<string,ArenaEntity>();
  private clubs=new Map<string,TransformNode>();private swings=new Map<string,number>();
  readonly camera:FreeCamera;readonly cameraRig:MinigolfCamera;private bots:MinigolfBot;private disposed=false;private paused=false;
- private controlsReady=false;private courseIndex=-1;private resultsSent=false;private resultTime=1.8;
+ private controlsReady=false;private courseIndex=-1;private courseId='';private resultsSent=false;private resultTime=8;
  private signals=new Map<string,string>();private lastFeed=-Infinity;private clock=0;private turn=-1;private drag={x:0,y:0};private cameraCancelVersion=-1;
  private onResize=()=>{this.engine.resize();};
  constructor(canvas:HTMLCanvasElement,private ctx:MinigameContext){
@@ -61,7 +61,7 @@ export class BabylonMinigolfGame {
  get phase():string{return this.match.phase;}
  get players():GolfPlayer[]{return this.match.players;}
  setPaused(on:boolean):void{this.paused=on;this.match.cancelAll();for(const p of this.players)this.ctx.input.cancelPlayer(p.id);}
- private syncCourse():void {if(this.courseIndex===this.match.courseIndex)return;this.courseIndex=this.match.courseIndex;this.visuals.build(this.match.course);this.signals.clear();this.ctx.input.reset();}
+ private syncCourse():void {if(this.courseIndex===this.match.courseIndex&&this.courseId===this.match.course.id)return;this.courseIndex=this.match.courseIndex;this.courseId=this.match.course.id;this.visuals.build(this.match.course);this.signals.clear();this.ctx.input.reset();this.cameraRig.reset();this.drag={x:0,y:0};this.cameraCancelVersion=-1;}
  step(dt:number):void{
   if(this.disposed||this.paused)return;this.clock+=dt;
   if(this.controlsReady&&!this.resultsSent){
@@ -90,8 +90,8 @@ export class BabylonMinigolfGame {
    const available=this.controlsReady&&this.phase==='playing'&&!p.finished&&p===this.match.active&&this.match.stage!=='switch';
    const ready=available&&this.match.aiming&&p.ball.readyFor>=.18;
    const key=`${Math.floor(this.clock)}|${this.match.turn}|${this.match.stage}|${Math.floor(this.match.aimRemaining*5)}|${available}|${p.finished}|${p.strokes}|${p.charging}|${Math.floor(p.charge*20)}|${ready}`;
-   if(this.signals.get(p.id)!==key){this.signals.set(p.id,key);const ranked=[...this.players].sort((a,b)=>(a.finished?a.total:a.strokes)-(b.finished?b.total:b.strokes)||a.penalties-b.penalties||a.completionTime-b.completionTime||this.players.indexOf(a)-this.players.indexOf(b));
-    this.ctx.signal(p.id,{type:'minigolfStatus',available,ready,charge:p.charging?p.charge:null,strokes:p.strokes,total:p.total,hole:1,finished:p.finished,ability:abilityStatus(p,this.match.time,this.match.extras),activeName:this.match.active.name,stage:this.match.stage,aimSeconds:this.match.aimRemaining,maxStrokes:this.match.course.maxStrokes,rank:ranked.indexOf(p)+1,course:this.match.course.name,par:this.match.course.par,distance:Math.hypot(p.ball.x-this.match.course.hole.x,p.ball.z-this.match.course.hole.z)});
+   if(this.signals.get(p.id)!==key){this.signals.set(p.id,key);
+    this.ctx.signal(p.id,{type:'minigolfStatus',available,ready,charge:p.charging?p.charge:null,strokes:p.strokes,total:p.total+(p.finished||this.match.playoff?0:p.strokes),hole:this.match.holeNumber,holes:this.match.courses.length,seconds:Math.ceil(this.match.remaining),phase:this.phase,playoff:this.match.playoff,finished:p.finished,records:p.records,ability:abilityStatus(p,this.match.time,this.match.extras),activeName:this.match.active.name,stage:this.match.stage,aimSeconds:this.match.aimRemaining,maxStrokes:this.match.course.maxStrokes,rank:this.match.rankOf(p),course:this.match.course.name,par:this.match.course.par,distance:Math.hypot(p.ball.x-this.match.course.hole.x,p.ball.z-this.match.course.hole.z)});
     this.ctx.sendPrivate(p.id,{type:'ability',game:'minigolf',status:abilityStatus(p,this.match.time,this.match.extras)});}
   }
   setGameIntensity(this.match.remaining<8?2:1);

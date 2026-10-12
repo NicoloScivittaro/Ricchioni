@@ -12,15 +12,22 @@ export interface BackPlayer extends Point {
   visited: Set<number>; escapedAt: number; eliminatedAt: number; dx: number; dz: number;
   running: boolean; lastFoot: number; notice: string; noticeTime: number;
 }
-export interface Command { x: number; z: number; lookX: number; lookY: number; sprint: boolean; interact: boolean; held: boolean }
+export interface Command { x: number; z: number; lookX: number; lookY: number; sprint: boolean; interact: boolean; held: boolean; presses?: number }
 export interface Creature extends Point {
-  kind: CreatureKind; yaw: number; state: 'patrol' | 'watch' | 'chase' | 'search' | 'rest';
+  kind: CreatureKind; yaw: number; state: 'patrol' | 'suspicious' | 'investigate' | 'watch' | 'chase' | 'search' | 'return' | 'rest';
   target: string | null; memory: Point | null; memoryTime: number; destination: number;
+  noiseArea: (Point & { radius: number }) | null; noiseTime: number; witness: string | null; reason: string;
   path: number[]; timer: number; repath: number; foot: number; seen: boolean; revealed: boolean;
 }
-export interface BackEvent { type: 'capture' | 'escape' | 'step' | 'monsterStep' | 'door' | 'task' | 'key' | 'reveal'; player?: string; point: Point; kind?: CreatureKind; power?: number }
-export interface BackConfig { duration?: number; mode?: EscapeMode; puzzle?: 'switches' | 'generators'; weights?: [number, number, number]; imitator?: boolean; monsters?: CreatureKind[] }
+export interface BackEvent { type: 'capture' | 'escape' | 'step' | 'monsterStep' | 'door' | 'task' | 'key' | 'reveal' | 'generator'; player?: string; point: Point; kind?: CreatureKind; power?: number }
+export interface BackConfig { duration?: number; mode?: EscapeMode; puzzle?: 'switches' | 'generators'; weights?: [number, number, number]; imitator?: boolean; monsters?: CreatureKind[]; senses?: Partial<Record<CreatureKind, Partial<Senses>>> }
 export interface Prompt { kind: 'exit' | 'key' | 'task' | 'door' | 'hide'; index: number; text: string; point: Point }
+export interface Senses { fov: number; range: number; darkRange: number; reaction: number; search: number; hearing: number; walk: number; chase: number }
+export const CREATURE_SENSES: Record<CreatureKind, Senses> = {
+  stalker: { fov: 105, range: 14, darkRange: 7, reaction: 1.2, search: 5, hearing: .6, walk: 1.35, chase: 3.45 },
+  runner: { fov: 105, range: 14, darkRange: 7, reaction: .12, search: 5, hearing: 1, walk: 2.45, chase: 4.8 },
+  imitator: { fov: 105, range: 14, darkRange: 7, reaction: .3, search: 5, hearing: .7, walk: 2.4, chase: 3.9 }
+};
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 const dist = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.z - b.z);
 export class BackroomsMatch {
@@ -31,8 +38,10 @@ export class BackroomsMatch {
   time = 0; intro = 4; ended = false; events: BackEvent[] = []; private commands = new Map<string, Command>();
   private noise: { point: Point; id: string; loud: number; time: number }[] = [];
   private safeCells: Set<number>;
+  readonly senses: Record<CreatureKind, Senses>;
   private spawnPoints = new Map<string, Point>();
   constructor(roster: { id: string; name: string; bot?: boolean }[], seed: number, config: BackConfig = {}) {
+    this.senses = Object.fromEntries(Object.entries(CREATURE_SENSES).map(([k, v]) => [k, { ...v, ...config.senses?.[k as CreatureKind] }])) as Record<CreatureKind, Senses>;
     this.rng = new Rng(seed ^ 0x218843); this.maze = generateMaze(seed, roster.length);
     const weights = config.weights ?? [1, 1, 1];
     this.mode = config.mode ?? this.rng.weighted(['free', 'key', 'puzzle'].map((item, i) => ({ item: item as EscapeMode, weight: weights[i] })));
@@ -51,24 +60,37 @@ export class BackroomsMatch {
     const types = config.monsters ?? this.rng.shuffle<CreatureKind>(config.imitator ? ['stalker', 'runner', 'imitator'] : ['stalker', 'runner']).slice(0, roster.length < 3 && this.rng.chance(.5) ? 1 : 2);
     this.monsters = types.map((kind, i) => ({ ...center(this.maze, this.maze.monsterSpawns[i % this.maze.monsterSpawns.length]), kind,
       yaw: this.rng.next() * Math.PI * 2, state: 'patrol', target: null, memory: null, memoryTime: 0,
+      noiseArea: null, noiseTime: -Infinity, witness: null, reason: 'spawn',
       destination: this.maze.monsterSpawns[i % this.maze.monsterSpawns.length], path: [], timer: 0, repath: 0, foot: 0, seen: false, revealed: kind !== 'imitator' }));
   }
   get remaining(): number { return Math.max(0, this.duration - this.time); }
-  command(id: string, cmd: Command): void { this.commands.set(id, cmd); }
+  command(id: string, cmd: Command): void {
+    const pending = this.commands.get(id)?.presses ?? 0;
+    this.commands.set(id, { ...cmd, presses: Math.min(16, pending + (cmd.presses ?? Number(cmd.interact))) });
+  }
   cancel(): void { this.commands.clear(); for (const p of this.players) p.running = false; }
   prompt(p: BackPlayer): Prompt | null {
     if (p.state !== 'exploring') return null;
     if (p.hiding) return { kind: 'hide', index: -1, text: 'ESCI DAL NASCONDIGLIO', point: p };
-    const targets: Prompt[] = [{ kind: 'exit', index: 0, text: this.unlocked ? 'APRI · FUGGI' : 'ESAMINA LA PORTA', point: center(this.maze, this.maze.exit) }];
-    if (this.key) targets.push({ kind: 'key', index: 0, text: 'RACCOGLI LA CHIAVE', point: this.key });
-    this.tasks.forEach((cell, i) => { if (this.taskProgress[i] < 1) targets.push({ kind: 'task', index: i, text: this.puzzle === 'switches' ? 'ATTIVA INTERRUTTORE' : `TIENI · RIPRISTINA GENERATORE ${Math.round(this.taskProgress[i] * 100)}%`, point: center(this.maze, cell) }); });
-    this.maze.doors.forEach((door, i) => targets.push({ kind: 'door', index: i, text: door.open ? 'CHIUDI LA PORTA' : 'APRI LA PORTA', point: center(this.maze, door.cell) }));
-    this.maze.refuges.forEach((c, i) => targets.push({ kind: 'hide', index: i, text: 'NASCONDITI · RESTA IN SILENZIO', point: center(this.maze, c) }));
-    return targets.filter(t => {
-      const d = dist(p, t.point); return d < 2.1 && (d < .8 || (Math.sin(p.yaw) * (t.point.x - p.x) + Math.cos(p.yaw) * (t.point.z - p.z)) / d > .5) &&
-        (t.kind === 'door' || lineOfSight(this.maze, p, t.point));
-    }).sort((a, b) => dist(p, a.point) - dist(p, b.point))[0] ?? null;
+    const targets: (Prompt & { y: number })[] = [{ kind: 'exit', index: 0,
+      text: this.unlocked || this.keyHolder === p.id ? 'APRI · FUGGI' : this.mode === 'key' ? 'PORTA BLOCCATA · SERVE UNA CHIAVE' : 'PORTA BLOCCATA · MANCA CORRENTE',
+      point: { ...center(this.maze, this.maze.exit), z: center(this.maze, this.maze.exit).z + .55 }, y: 1.25 }];
+    if (this.key) targets.push({ kind: 'key', index: 0, text: 'RACCOGLI LA CHIAVE', point: this.key, y: .65 });
+    this.tasks.forEach((cell, i) => { if (this.taskProgress[i] < 1) { const v = center(this.maze, cell);
+      targets.push({ kind: 'task', index: i, text: this.puzzle === 'switches' ? 'ATTIVA INTERRUTTORE' : `TIENI PREMUTO · ATTIVA GENERATORE ${Math.round(this.taskProgress[i] * 100)}%`, point: { x: v.x, z: v.z + .24 }, y: .9 }); } });
+    this.maze.doors.forEach((door, i) => targets.push({ kind: 'door', index: i, text: door.open ? 'CHIUDI LA PORTA' : 'APRI LA PORTA', point: center(this.maze, door.cell), y: 1.3 }));
+    this.maze.refuges.forEach((c, i) => { const v = center(this.maze, c); targets.push({ kind: 'hide', index: i, text: 'NASCONDITI · RESTA IN SILENZIO', point: { x: v.x + .9, z: v.z + .38 }, y: 1.35 }); });
+    const score = (t: typeof targets[number]) => {
+      const dx = t.point.x - p.x, dz = t.point.z - p.z, dy = t.y - 1.58, d = Math.hypot(dx, dz);
+      const alignment = (Math.sin(p.yaw) * Math.cos(p.pitch) * dx + Math.cos(p.yaw) * Math.cos(p.pitch) * dz - Math.sin(p.pitch) * dy) / Math.max(.01, Math.hypot(d, dy));
+      if (d >= 2.4 || (d >= .8 && alignment < .45)) return -Infinity;
+      // Ignore only the targeted door slab. Other closed doors and walls still occlude it.
+      const maze = t.kind === 'door' ? { ...this.maze, doors: this.maze.doors.filter((_, i) => i !== t.index) } : this.maze;
+      return lineOfSight(maze, p, t.point) ? alignment * 2 - d * .15 : -Infinity;
+    };
+    return targets.map(t => ({ t, score: score(t) })).filter(v => Number.isFinite(v.score)).sort((a, b) => b.score - a.score)[0]?.t ?? null;
   }
+
   advance(dt: number): void {
     if (this.ended) return;
     for (let left = Math.min(.25, Math.max(0, dt)); left > 1e-8; left -= 1 / 60) this.tick(Math.min(left, 1 / 60));
@@ -98,9 +120,11 @@ export class BackroomsMatch {
             this.events.push({ type: 'step', player: p.id, point: { x: p.x, z: p.z }, power: p.running ? 1 : .5 });
           }
         }
+        c.interact = (c.presses ?? 0) > 0;
         const prompt = this.prompt(p);
         if (prompt && (c.interact || (c.held && prompt.kind === 'task' && this.puzzle === 'generators'))) this.interact(p, prompt, c, dt);
-        c.interact = false; // edge consumed once even when a delayed frame runs several fixed ticks
+        if (c.interact && !prompt) this.notify(p, 'AVVICINATI E GUARDA L’OGGETTO');
+        c.presses = Math.max(0, (c.presses ?? 0) - 1); c.interact = false;
       }
       p.stamina = clamp(p.stamina + (p.running ? -dt / 7 : dt / 5), 0, 1);
       p.visited.add(cellAt(this.maze, p));
@@ -110,7 +134,12 @@ export class BackroomsMatch {
   }
   private notify(p: BackPlayer, text: string): void { p.notice = text; p.noticeTime = 4; }
   private interact(p: BackPlayer, t: Prompt, c: Command, dt: number): void {
-    if (t.kind === 'hide' && c.interact) { p.hiding = !p.hiding; p.running = false; this.notify(p, p.hiding ? 'TRATTIENI IL RESPIRO · A/✕ PER USCIRE' : 'SEI USCITO'); }
+    if (t.kind === 'hide' && c.interact) {
+      if (!p.hiding) for (const m of this.monsters) if (m.state !== 'rest' && this.canSee(m, p)) {
+        m.target = p.id; m.memory = { x: p.x, z: p.z }; m.memoryTime = this.time; m.seen = true; m.witness = p.id;
+        this.transition(m, 'search', 'witnessed hiding');
+      }
+      p.hiding = !p.hiding; p.running = false; this.notify(p, p.hiding ? 'TRATTIENI IL RESPIRO · A/✕ PER USCIRE' : 'SEI USCITO'); }
     if (t.kind === 'door' && c.interact) {
       const door = this.maze.doors[t.index], pos = center(this.maze, door.cell);
       const overlaps = (v: Point) => door.horizontal ? Math.abs(v.z - pos.z) < .46 && Math.abs(v.x - pos.x) < CELL / 2 + .32 : Math.abs(v.x - pos.x) < .46 && Math.abs(v.z - pos.z) < CELL / 2 + .32;
@@ -120,6 +149,9 @@ export class BackroomsMatch {
     }
     if (t.kind === 'key' && c.interact && this.key) { this.keyHolder = p.id; this.key = null; this.notify(p, 'CHIAVE RACCOLTA · TROVA LA PORTA'); this.events.push({ type: 'key', player: p.id, point: p }); }
     if (t.kind === 'task') {
+      if (this.puzzle === 'generators' && this.time - p.lastFoot > .28) {
+        p.lastFoot = this.time; this.events.push({ type: 'generator', player: p.id, point: t.point, power: this.taskProgress[t.index] });
+      }
       this.taskProgress[t.index] = this.puzzle === 'switches' ? 1 : Math.min(1, this.taskProgress[t.index] + dt / 2.5);
       if (this.taskProgress[t.index] === 1) { this.events.push({ type: 'task', player: p.id, point: t.point }); this.notify(p, `ALIMENTAZIONE ${this.taskProgress.filter(v => v === 1).length}/${this.tasks.length}`); }
       if (this.taskProgress.every(v => v === 1)) this.unlocked = true;
@@ -131,12 +163,21 @@ export class BackroomsMatch {
       else this.notify(p, this.mode === 'key' ? 'SERRATURA · SERVE UNA CHIAVE' : this.puzzle === 'switches' ? 'MANCA CORRENTE · TRE INTERRUTTORI' : 'MANCA CORRENTE · DUE GENERATORI');
     }
   }
-  canSee(monster: Creature, p: BackPlayer): boolean {
-    if (p.state !== 'exploring' || p.hiding || p.immunity > 0) return false;
-    const d = dist(monster, p), range = this.maze.dark.has(cellAt(this.maze, p)) && !p.running ? 7 : 14;
-    if (d > range) return false;
-    return (d < 1.4 || (Math.sin(monster.yaw) * (p.x - monster.x) + Math.cos(monster.yaw) * (p.z - monster.z)) / d > .25) && lineOfSight(this.maze, monster, p);
+  perception(monster: Creature, p: BackPlayer): { visible: boolean; los: boolean; reason: string } {
+    const los = lineOfSight(this.maze, monster, p), senses = this.senses[monster.kind];
+    if (p.state !== 'exploring' || p.hiding || p.immunity > 0) return { visible: false, los, reason: p.hiding ? 'hidden' : 'inactive/protected' };
+    const d = dist(monster, p), range = this.maze.dark.has(cellAt(this.maze, p)) && !p.running ? senses.darkRange : senses.range;
+    if (d > range) return { visible: false, los, reason: 'range/light' };
+    const dot = (Math.sin(monster.yaw) * (p.x - monster.x) + Math.cos(monster.yaw) * (p.z - monster.z)) / Math.max(.00001, d);
+    if (dot < Math.cos(senses.fov * Math.PI / 360)) return { visible: false, los, reason: 'outside FOV' };
+    return { visible: los, los, reason: los ? 'visual acquisition' : 'occluded' };
   }
+  canSee(monster: Creature, p: BackPlayer): boolean { return this.perception(monster, p).visible; }
+  private transition(m: Creature, state: Creature['state'], reason: string): void {
+    if (m.state === state) return;
+    m.state = state; m.reason = reason; m.timer = 0; m.path = []; m.repath = 0;
+  }
+  private forget(m: Creature): void { m.target = null; m.memory = null; m.seen = false; m.witness = null; }
   private patrolCell(monster: Creature): number {
     const occupied = new Set([this.maze.exit, this.maze.key, ...this.tasks, ...this.safeCells]);
     const choices = this.maze.cells.filter(c => !occupied.has(c) && c !== cellAt(this.maze, monster));
@@ -144,32 +185,44 @@ export class BackroomsMatch {
   }
   private updateMonster(m: Creature, dt: number): void {
     m.timer += dt; m.repath -= dt; m.foot += dt;
-    if (m.state === 'rest') { if (m.timer > 5) { m.state = 'patrol'; m.timer = 0; m.destination = this.patrolCell(m); } else return; }
-    if (m.kind === 'imitator' && !m.revealed && this.players.some(p => p.state === 'exploring' && !p.hiding && dist(m, p) < 4 && lineOfSight(this.maze, m, p))) {
-      m.revealed = true; this.events.push({ type: 'reveal', point: { x: m.x, z: m.z }, kind: m.kind });
-    }
-    const visible = this.players.filter(p => this.canSee(m, p)).sort((a, b) => dist(a, m) - dist(b, m))[0];
+    const senses = this.senses[m.kind];
+    if (m.state === 'rest') { if (m.timer > 5) this.transition(m, 'return', 'rest complete'); else return; }
+    const seen = this.players.filter(p => this.canSee(m, p));
+    // Keep a still-visible target: a closer bystander cannot steal a pursuit every frame.
+    const visible = seen.find(p => p.id === m.target) ?? seen.sort((a, b) => dist(a, m) - dist(b, m))[0];
     if (visible) {
-      m.target = visible.id; m.memory = { x: visible.x, z: visible.z }; m.memoryTime = this.time; m.seen = true;
-      if (m.kind === 'imitator' && !m.revealed && dist(m, visible) < 4) { m.revealed = true; this.events.push({ type: 'reveal', point: m, kind: m.kind }); }
-      if (m.state !== 'chase' && m.state !== 'watch') { m.state = m.kind === 'stalker' ? 'watch' : 'chase'; m.timer = 0; m.path = []; }
-      if (m.state === 'watch' && m.timer > 1.6) { m.state = 'chase'; m.timer = 0; }
+      m.target = visible.id; m.memory = { x: visible.x, z: visible.z }; m.memoryTime = this.time; m.seen = true; m.witness = null;
+      if (m.kind === 'imitator' && !m.revealed && dist(m, visible) < 4) { m.revealed = true; this.events.push({ type: 'reveal', point: { x: m.x, z: m.z }, kind: m.kind }); }
+      if (m.state !== 'chase' && m.state !== 'watch') this.transition(m, 'watch', 'visual acquisition');
+      if (m.state === 'watch' && m.timer >= senses.reaction) this.transition(m, 'chase', 'visual reaction complete');
     } else {
-      if (m.state === 'chase' || m.state === 'watch') { m.state = 'search'; m.timer = 0; }
-      // A noise carries a snapshot, never a reference to the player's continuing location.
-      const sounds = this.noise.filter(n => {
-        if ((this.players.find(p => p.id === n.id)?.immunity ?? 0) > 0) return false;
-        const d = dist(m, n.point); return d < n.loud * (m.kind === 'runner' ? 1 : .6) && (lineOfSight(this.maze, m, n.point) || d < n.loud * .55);
-      }).sort((a, b) => b.time - a.time);
-      if (sounds.length && sounds[0].time > m.memoryTime) {
-        m.memory = { ...sounds[0].point }; m.memoryTime = sounds[0].time;
-        m.seen = m.seen && m.target === sounds[0].id; m.target = sounds[0].id; m.state = 'search';
+      if (m.state === 'chase' || m.state === 'watch') this.transition(m, 'search', 'visual contact lost');
+      if (m.state === 'search' && this.time - m.memoryTime > senses.search) { this.forget(m); this.transition(m, 'return', 'visual search expired'); }
+      // Hearing is independent from last sight: never gives a player target or overwrites a visual snapshot.
+      const sound = this.noise.filter(n => (this.players.find(p => p.id === n.id)?.immunity ?? 0) <= 0 &&
+        n.time > m.noiseTime && dist(m, n.point) < n.loud * senses.hearing * (lineOfSight(this.maze, m, n.point) ? 1 : .55)).sort((a, b) => b.time - a.time)[0];
+      if (sound) {
+        m.noiseTime = sound.time;
+        const cell = cellAt(this.maze, sound.point), region = this.rng.pick([cell, ...neighbors(this.maze, cell)]);
+        m.noiseArea = { ...center(this.maze, region), radius: CELL };
+        if (m.state !== 'search' && m.state !== 'investigate' && m.state !== 'suspicious') {
+          this.forget(m); this.transition(m, 'suspicious', 'heard approximate noise area');
+        }
       }
-      if (m.memory && this.time - m.memoryTime > 5) { m.memory = null; m.target = null; m.state = 'patrol'; m.timer = 0; m.path = []; m.destination = this.patrolCell(m); }
     }
+    if (m.state === 'return') {
+      if (m.timer < .4) return;
+      this.forget(m); m.noiseArea = null; m.destination = this.patrolCell(m); this.transition(m, 'patrol', 'resume patrol');
+    }
+    if (m.state === 'suspicious') {
+      if (m.noiseArea) { const desired = Math.atan2(m.noiseArea.x - m.x, m.noiseArea.z - m.z), error = Math.atan2(Math.sin(desired - m.yaw), Math.cos(desired - m.yaw)); m.yaw += clamp(error, -dt * 2, dt * 2); }
+      if (m.timer > .45) this.transition(m, 'investigate', 'inspect noise area'); else return;
+    }
+    if (m.state === 'investigate' && (!m.noiseArea || dist(m, m.noiseArea) < .4 || m.timer > 6)) { this.transition(m, 'return', 'noise investigation complete'); return; }
     if (m.state === 'watch') { if (m.memory) m.yaw = Math.atan2(m.memory.x - m.x, m.memory.z - m.z); return; }
     if (m.state === 'patrol' && (dist(m, center(this.maze, m.destination)) < .5 || m.timer > 8)) { m.destination = this.patrolCell(m); m.timer = 0; m.path = []; }
-    const goal = m.memory ? cellAt(this.maze, m.memory) : m.destination;
+    const destination = m.state === 'investigate' ? m.noiseArea : m.memory;
+    const goal = destination ? cellAt(this.maze, destination) : m.destination;
     if (m.repath <= 0) {
       const current = cellAt(this.maze, m), waypoint = m.path[0];
       // Finish the current cell-center waypoint before turning: replanning on entry would cut solid corners.
@@ -178,27 +231,27 @@ export class BackroomsMatch {
       } else m.path = route(this.maze, current, goal).slice(1);
       m.repath = .45;
     }
-    let aim = m.path.length ? center(this.maze, m.path[0]) : m.memory;
-    if (aim && dist(m, aim) < .2 && m.path.length) { m.path.shift(); aim = m.path.length ? center(this.maze, m.path[0]) : m.memory; }
+    let aim = m.path.length ? center(this.maze, m.path[0]) : destination;
+    if (aim && dist(m, aim) < .2 && m.path.length) { m.path.shift(); aim = m.path.length ? center(this.maze, m.path[0]) : destination; }
     if (aim) {
       for (const door of this.maze.doors) if (!door.open && dist(m, center(this.maze, door.cell)) < 1.7) {
         door.open = true; this.events.push({ type: 'door', point: center(this.maze, door.cell) });
       }
       const d = dist(m, aim); if (d > .03) {
         m.yaw = Math.atan2(aim.x - m.x, aim.z - m.z);
-        const speed = m.kind === 'runner' ? (m.state === 'chase' ? 4.8 : 2.45) : m.kind === 'imitator' ? (m.revealed ? 3.9 : 2.4) : (m.state === 'chase' ? 3.45 : 1.35);
+        const speed = m.state === 'chase' ? senses.chase : senses.walk;
         const next = { x: m.x, z: m.z }; move(this.maze, next, (aim.x - m.x) / d * Math.min(d, speed * dt), (aim.z - m.z) / d * Math.min(d, speed * dt));
         const protectedEntry = this.time < 8 && this.safeCells.has(cellAt(this.maze, next)) && !this.safeCells.has(cellAt(this.maze, m));
         // No initial incursion. Later paths can traverse spawn; individual respawn immunity prevents cheap captures.
         if (!protectedEntry) { m.x = next.x; m.z = next.z; }
-        else { m.memory = null; m.target = null; m.state = 'rest'; m.timer = 0; }
+        else { this.forget(m); this.transition(m, 'rest', 'initial spawn grace'); }
         if (m.foot > (m.kind === 'runner' ? .33 : .65)) { m.foot = 0; this.events.push({ type: 'monsterStep', point: { x: m.x, z: m.z }, kind: m.kind }); }
       }
     }
     for (const p of this.players) {
       // A recent pursuit can expose a hiding player at the remembered entry point, never elsewhere through walls.
-      const exposed = !p.hiding || (m.target === p.id && m.seen && this.time - m.memoryTime < 4 && m.memory && dist(p, m.memory) < .8);
-      if (p.state === 'exploring' && p.immunity <= 0 && exposed && dist(m, p) < .7 && lineOfSight(this.maze, m, p)) this.capture(p, m);
+      const exposed = m.target === p.id && m.seen && (visible?.id === p.id || (p.hiding && m.witness === p.id && this.time - m.memoryTime < 4 && m.memory && dist(p, m.memory) < .8));
+      if ((m.state === 'chase' || m.state === 'search') && p.state === 'exploring' && p.immunity <= 0 && exposed && dist(m, p) < .7 && lineOfSight(this.maze, m, p)) { this.capture(p, m); break; }
     }
   }
   capture(p: BackPlayer, m: Creature): void {
@@ -207,7 +260,7 @@ export class BackroomsMatch {
     p.lives--; p.state = p.lives ? 'captured' : 'eliminated'; p.stateTime = 0; p.hiding = false;
     p.dx = p.dz = 0; p.running = false; p.eliminatedAt = this.time; this.commands.delete(p.id);
     this.events.push({ type: 'capture', player: p.id, point: { x: p.x, z: p.z }, kind: m.kind, power: this.rng.next() });
-    m.state = 'rest'; m.timer = 0; m.target = null; m.memory = null; m.path = [];
+    this.forget(m); m.noiseArea = null; this.transition(m, 'rest', 'actual contact capture');
   }
   results(): PlayerResult[] {
     const sorted = [...this.players].sort((a, b) => {

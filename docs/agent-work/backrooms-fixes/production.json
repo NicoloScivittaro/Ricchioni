@@ -1,0 +1,60 @@
+{
+  "errors": [],
+  "models": [
+    {
+      "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/judoka-tripo/judo_figure_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/man-tripo/man_animated.glb",
+      "status": 200
+    }
+  ],
+  "phases": [
+    {
+      "phase": "LOBBY",
+      "ms": 4297
+    },
+    {
+      "phase": "MINIGAME_ROULETTE",
+      "ms": 7949
+    },
+    {
+      "phase": "MINIGAME_INTRO",
+      "ms": 14688
+    },
+    {
+      "phase": "MINIGAME_PLAYING",
+      "ms": 17296
+    }
+  ],
+  "chunks": [
+    {
+      "url": "http://127.0.0.1:3001/assets/BabylonBackroomsGame-BuCq6NrN.js",
+      "ms": 7637
+    }
+  ],
+  "phoneStates": [
+    {
+      "state": "exploring",
+      "lives": 2,
+      "ms": 18048
+    }
+  ],
+  "webglErrors": [],
+  "start": 7627,
+  "playing": 17341,
+  "devOverlayAbsent": true,
+  "panels": {
+    "views": 5,
+    "canvases": 2
+  }
+}

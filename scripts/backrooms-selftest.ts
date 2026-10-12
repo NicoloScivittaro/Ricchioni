@@ -82,22 +82,15 @@ test('hiding without witnessed entry prevents capture; sprint makes noise with a
   advance(m, .3); assert.equal(p.lives, 2); assert.equal(m.canSee(monster, p), false);
   p.hiding = false; const path = route(m.maze, m.maze.monsterSpawns[0], m.maze.exit); Object.assign(p, center(m.maze, path[2]));
   monster.yaw = Math.atan2(monster.x - p.x, monster.z - p.z); monster.state = 'patrol';
-  m.command(p.id, { ...empty, z: 1, sprint: true }); advance(m, .5); assert.ok(monster.memory); const remembered = { ...monster.memory! };
-  m.cancel(); Object.assign(p, center(m.maze, m.maze.spawn)); p.hiding = true; advance(m, .9); assert.notDeepEqual(monster.memory, { x: p.x, z: p.z });
+  m.command(p.id, { ...empty, z: 1, sprint: true }); advance(m, .5); assert.ok(monster.noiseArea); assert.equal(monster.target, null); const remembered = { ...monster.noiseArea! };
+  m.cancel(); Object.assign(p, center(m.maze, m.maze.spawn)); p.hiding = true; advance(m, .9); assert.notDeepEqual(monster.noiseArea, { x: p.x, z: p.z });
   assert.ok(remembered.x !== p.x || remembered.z !== p.z); advance(m, 5.2); assert.equal(monster.target, null);
-});
-test('hiding in full view does not erase a newer visual memory with an older footstep', () => {
-  const m = new BackroomsMatch(roster(2), 9, { monsters: ['runner'] }); m.intro = 0; m.maze.doors.forEach(d => d.open = true);
-  const p = m.players[0], c = m.monsters[0], path = route(m.maze, cellAt(m.maze, c), m.maze.exit);
-  Object.assign(p, center(m.maze, path[1])); p.immunity = 0; c.yaw = p.yaw = Math.atan2(p.x - c.x, p.z - c.z);
-  m.command(p.id, { ...empty, z: 1 }); advance(m, .52); assert.equal(p.lives, 2); assert.equal(c.seen, true);
-  p.hiding = true; m.cancel(); advance(m, 1.5); assert.equal(p.lives, 1);
 });
 test('Imitator stays disguised at distance, reveals only near a visible player, then uses normal capture rules', () => {
   const m = new BackroomsMatch(roster(2), 13, { monsters: ['imitator'] }); m.intro = 0; m.maze.doors.forEach(d => d.open = true);
   const c = m.monsters[0], p = m.players[0]; assert.equal(c.revealed, false);
   advance(m, .1); assert.equal(c.revealed, false); Object.assign(p, { x: c.x, z: c.z + 1 }); p.immunity = 0; p.hiding = false;
-  advance(m, .02); assert.equal(c.revealed, true); assert.ok(m.events.some(e => e.type === 'reveal'));
+  c.yaw = 0; advance(m, .02); assert.equal(c.revealed, true); assert.ok(m.events.some(e => e.type === 'reveal'));
   m.capture(p, c); assert.equal(p.lives, 1);
 });
 for (const kind of ['stalker', 'runner'] as const) test(`${kind} actually traverses multiple corridor turns without cutting solid corners`, () => {

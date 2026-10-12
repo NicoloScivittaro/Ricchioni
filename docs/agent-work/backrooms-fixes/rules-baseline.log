@@ -1,0 +1,33 @@
+PASS 1000 seed × 2–5: connected maze, all objectives, protected spawn, reproducibility, distinct topology
+PASS wall sweep, closed-door collision + LOS, opening restores passage, navigation along corridor
+PASS two captures, snapshot key drop, pickup by another, respawn immunity and no third capture
+PASS spawn has temporary grace, not permanent invulnerability; a real pursuit can capture an AFK player after grace
+PASS five spawn slots are clear, separated, retained on respawn; patrol paths can traverse spawn after initial grace
+PASS solvable puzzle switches, elapsed hold, exit remains locked until complete
+PASS solvable puzzle generators, elapsed hold, exit remains locked until complete
+PASS stalker: sees FOV, walls hide target, finite memory, non-omniscient pursuit
+PASS runner: sees FOV, walls hide target, finite memory, non-omniscient pursuit
+PASS rank: escape order, living before eliminated, lives then explored when no escape, timeout
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(monster.memory)
+
+    at <anonymous> (C:\Users\niluf.PC-NIKO\Desktop\Ricchioni\scripts\backrooms-selftest.ts:85:77)
+    at test (C:\Users\niluf.PC-NIKO\Desktop\Ricchioni\scripts\backrooms-selftest.ts:6:47)
+    at <anonymous> (C:\Users\niluf.PC-NIKO\Desktop\Ricchioni\scripts\backrooms-selftest.ts:78:1)
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: null,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.18.0

@@ -589,5 +589,1493 @@
     "flag": "/geofall/flag-BR.svg",
     "outline": "/geofall/outline-BR.svg",
     "monumentImage": "/geofall/monument-BR.svg"
+  },
+  {
+    "id": "KH",
+    "name": "Cambogia",
+    "monument": "Angkor Wat",
+    "monumentSource": "https://whc.unesco.org/en/list/668/",
+    "monumentImage": "/geofall/advanced/monument-KH.svg",
+    "capital": "Phnom Penh",
+    "sourceCapital": "Phnom Penh",
+    "neighbors": [
+      "LA",
+      "TH",
+      "VN"
+    ],
+    "sourceNeighbors": [
+      "LA",
+      "TH",
+      "VN"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "ID",
+    "name": "Indonesia",
+    "monument": "Borobudur",
+    "monumentSource": "https://whc.unesco.org/en/list/592/",
+    "monumentImage": "/geofall/advanced/monument-ID.svg",
+    "capital": "Jakarta",
+    "sourceCapital": "Jakarta",
+    "neighbors": [
+      "PG",
+      "TL",
+      "MY"
+    ],
+    "sourceNeighbors": [
+      "PG",
+      "TL",
+      "MY"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "flag": "/geofall/advanced/flag-ID.svg"
+  },
+  {
+    "id": "MM",
+    "name": "Myanmar",
+    "monument": "Templi di Bagan",
+    "monumentSource": "https://whc.unesco.org/en/list/1588/",
+    "monumentImage": "/geofall/advanced/monument-MM.svg",
+    "capital": "Nay Pyi Taw",
+    "sourceCapital": "Nay Pyi Taw",
+    "neighbors": [
+      "CN",
+      "LA",
+      "TH",
+      "BD",
+      "IN"
+    ],
+    "sourceNeighbors": [
+      "CN",
+      "LA",
+      "TH",
+      "BD",
+      "IN"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "LA",
+    "name": "Laos",
+    "monument": "Vat Phou",
+    "monumentSource": "https://whc.unesco.org/en/list/481/",
+    "monumentImage": "/geofall/advanced/monument-LA.svg",
+    "capital": "Vientiane",
+    "sourceCapital": "Vientiane",
+    "neighbors": [
+      "CN",
+      "MM",
+      "KH",
+      "TH",
+      "VN"
+    ],
+    "sourceNeighbors": [
+      "CN",
+      "MM",
+      "KH",
+      "TH",
+      "VN"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-LA.svg"
+  },
+  {
+    "id": "BT",
+    "name": "Bhutan",
+    "monument": "Paro Taktsang",
+    "monumentSource": "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+    "monumentImage": "/geofall/advanced/monument-BT.svg",
+    "capital": "Thimphu",
+    "sourceCapital": "Thimphu",
+    "neighbors": [
+      "CN",
+      "IN"
+    ],
+    "sourceNeighbors": [
+      "CN",
+      "IN"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-BT.svg"
+  },
+  {
+    "id": "LK",
+    "name": "Sri Lanka",
+    "monument": "Sigiriya",
+    "monumentSource": "https://whc.unesco.org/en/list/202/",
+    "monumentImage": "/geofall/advanced/monument-LK.svg",
+    "capital": "Colombo",
+    "sourceCapital": "Colombo",
+    "neighbors": [],
+    "sourceNeighbors": [],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "NP",
+    "name": "Nepal",
+    "monument": "Swayambhunath",
+    "monumentSource": "https://whc.unesco.org/en/list/121/",
+    "monumentImage": "/geofall/advanced/monument-NP.svg",
+    "capital": "Kathmandu",
+    "sourceCapital": "Kathmandu",
+    "neighbors": [
+      "CN",
+      "IN"
+    ],
+    "sourceNeighbors": [
+      "CN",
+      "IN"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "TH",
+    "name": "Thailandia",
+    "monument": "Templi di Ayutthaya",
+    "monumentSource": "https://whc.unesco.org/en/list/576/",
+    "monumentImage": "/geofall/advanced/monument-TH.svg",
+    "capital": "Bangkok",
+    "sourceCapital": "Bangkok",
+    "neighbors": [
+      "LA",
+      "MM",
+      "KH",
+      "MY"
+    ],
+    "sourceNeighbors": [
+      "LA",
+      "MM",
+      "KH",
+      "MY"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "VN",
+    "name": "Vietnam",
+    "monument": "Ponte giapponese di Hoi An",
+    "monumentSource": "https://whc.unesco.org/en/list/948/",
+    "monumentImage": "/geofall/advanced/monument-VN.svg",
+    "capital": "Hanoi",
+    "sourceCapital": "Hanoi",
+    "neighbors": [
+      "CN",
+      "LA",
+      "KH"
+    ],
+    "sourceNeighbors": [
+      "CN",
+      "LA",
+      "KH"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "ZW",
+    "name": "Zimbabwe",
+    "monument": "Grande Zimbabwe",
+    "monumentSource": "https://whc.unesco.org/en/list/364/",
+    "monumentImage": "/geofall/advanced/monument-ZW.svg",
+    "capital": "Harare",
+    "sourceCapital": "Harare",
+    "neighbors": [
+      "ZA",
+      "MZ",
+      "BW",
+      "ZM"
+    ],
+    "sourceNeighbors": [
+      "ZA",
+      "MZ",
+      "BW",
+      "ZM"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "ML",
+    "name": "Mali",
+    "monument": "Grande Moschea di Djenné",
+    "monumentSource": "https://whc.unesco.org/en/list/116/",
+    "monumentImage": "/geofall/advanced/monument-ML.svg",
+    "capital": "Bamako",
+    "sourceCapital": "Bamako",
+    "neighbors": [
+      "SN",
+      "NE",
+      "DZ",
+      "CI",
+      "GN",
+      "MR",
+      "BF"
+    ],
+    "sourceNeighbors": [
+      "SN",
+      "NE",
+      "DZ",
+      "CI",
+      "GN",
+      "MR",
+      "BF"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-ML.svg",
+    "flag": "/geofall/advanced/flag-ML.svg"
+  },
+  {
+    "id": "ET",
+    "name": "Etiopia",
+    "monument": "Chiesa di San Giorgio a Lalibela",
+    "monumentSource": "https://whc.unesco.org/en/list/18/",
+    "monumentImage": "/geofall/advanced/monument-ET.svg",
+    "capital": "Addis Ababa",
+    "sourceCapital": "Addis Ababa",
+    "neighbors": [
+      "ER",
+      "KE",
+      "SD",
+      "SS",
+      "SO",
+      "DJ"
+    ],
+    "sourceNeighbors": [
+      "ER",
+      "KE",
+      "SD",
+      "SS",
+      "SO",
+      "DJ"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "TZ",
+    "name": "Tanzania",
+    "monument": "Rovine di Kilwa Kisiwani",
+    "monumentSource": "https://whc.unesco.org/en/list/144/",
+    "monumentImage": "/geofall/advanced/monument-TZ.svg",
+    "capital": "Dodoma",
+    "sourceCapital": "Dodoma",
+    "neighbors": [
+      "MZ",
+      "KE",
+      "CD",
+      "RW",
+      "ZM",
+      "BI",
+      "UG",
+      "MW"
+    ],
+    "sourceNeighbors": [
+      "MZ",
+      "KE",
+      "CD",
+      "RW",
+      "ZM",
+      "BI",
+      "UG",
+      "MW"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "SN",
+    "name": "Senegal",
+    "monument": "Casa degli Schiavi di Gorée",
+    "monumentSource": "https://whc.unesco.org/en/list/26/",
+    "monumentImage": "/geofall/advanced/monument-SN.svg",
+    "capital": "Dakar",
+    "sourceCapital": "Dakar",
+    "neighbors": [
+      "GN",
+      "MR",
+      "GW",
+      "GM",
+      "ML"
+    ],
+    "sourceNeighbors": [
+      "GN",
+      "MR",
+      "GW",
+      "GM",
+      "ML"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-SN.svg",
+    "flag": "/geofall/advanced/flag-SN.svg"
+  },
+  {
+    "id": "IR",
+    "name": "Iran",
+    "monument": "Persepoli",
+    "monumentSource": "https://whc.unesco.org/en/list/114/",
+    "monumentImage": "/geofall/advanced/monument-IR.svg",
+    "capital": "Tehran",
+    "sourceCapital": "Tehran",
+    "neighbors": [
+      "TM",
+      "AF",
+      "IQ",
+      "AM",
+      "PK",
+      "AZ",
+      "TR"
+    ],
+    "sourceNeighbors": [
+      "TM",
+      "AF",
+      "IQ",
+      "AM",
+      "PK",
+      "AZ",
+      "TR"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "MN",
+    "name": "Mongolia",
+    "capital": "Ulaanbaatar",
+    "sourceCapital": "Ulaanbaatar",
+    "neighbors": [
+      "CN",
+      "RU"
+    ],
+    "sourceNeighbors": [
+      "CN",
+      "RU"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-MN.svg"
+  },
+  {
+    "id": "KG",
+    "name": "Kirghizistan",
+    "capital": "Bishkek",
+    "sourceCapital": "Bishkek",
+    "neighbors": [
+      "CN",
+      "TJ",
+      "UZ",
+      "KZ"
+    ],
+    "sourceNeighbors": [
+      "CN",
+      "TJ",
+      "UZ",
+      "KZ"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-KG.svg"
+  },
+  {
+    "id": "NA",
+    "name": "Namibia",
+    "capital": "Windhoek",
+    "sourceCapital": "Windhoek",
+    "neighbors": [
+      "ZA",
+      "BW",
+      "ZM",
+      "AO"
+    ],
+    "sourceNeighbors": [
+      "ZA",
+      "BW",
+      "ZM",
+      "AO"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-NA.svg",
+    "flag": "/geofall/advanced/flag-NA.svg"
+  },
+  {
+    "id": "BW",
+    "name": "Botswana",
+    "capital": "Gaborone",
+    "sourceCapital": "Gaborone",
+    "neighbors": [
+      "NA",
+      "ZA",
+      "ZM",
+      "ZW"
+    ],
+    "sourceNeighbors": [
+      "NA",
+      "ZA",
+      "ZM",
+      "ZW"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt",
+      "https://www.parliament.gov.zm/node/11873"
+    ],
+    "outline": "/geofall/advanced/outline-BW.svg",
+    "flag": "/geofall/advanced/flag-BW.svg"
+  },
+  {
+    "id": "FJ",
+    "name": "Figi",
+    "capital": "Suva",
+    "sourceCapital": "Suva",
+    "neighbors": [],
+    "sourceNeighbors": [],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "flag": "/geofall/advanced/flag-FJ.svg"
+  },
+  {
+    "id": "WS",
+    "name": "Samoa",
+    "capital": "Apia",
+    "sourceCapital": "Apia",
+    "neighbors": [],
+    "sourceNeighbors": [],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "flag": "/geofall/advanced/flag-WS.svg"
+  },
+  {
+    "id": "TO",
+    "name": "Tonga",
+    "capital": "Nuku’alofa",
+    "sourceCapital": "Nuku'alofa",
+    "neighbors": [],
+    "sourceNeighbors": [],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "VU",
+    "name": "Vanuatu",
+    "capital": "Port Vila",
+    "sourceCapital": "Port Vila",
+    "neighbors": [],
+    "sourceNeighbors": [],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "SB",
+    "name": "Isole Salomone",
+    "capital": "Honiara",
+    "sourceCapital": "Honiara",
+    "neighbors": [],
+    "sourceNeighbors": [],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "FM",
+    "name": "Stati Federati di Micronesia",
+    "capital": "Palikir",
+    "sourceCapital": "Palikir",
+    "neighbors": [],
+    "sourceNeighbors": [],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "MH",
+    "name": "Isole Marshall",
+    "capital": "Majuro",
+    "sourceCapital": "Majuro",
+    "neighbors": [],
+    "sourceNeighbors": [],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "MU",
+    "name": "Mauritius",
+    "capital": "Port Louis",
+    "sourceCapital": "Port Louis",
+    "neighbors": [],
+    "sourceNeighbors": [],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "SC",
+    "name": "Seychelles",
+    "capital": "Victoria",
+    "sourceCapital": "Victoria",
+    "neighbors": [],
+    "sourceNeighbors": [],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "TD",
+    "name": "Ciad",
+    "capital": "N’Djamena",
+    "sourceCapital": "N'Djamena",
+    "neighbors": [
+      "NE",
+      "LY",
+      "CF",
+      "SD",
+      "CM",
+      "NG"
+    ],
+    "sourceNeighbors": [
+      "NE",
+      "LY",
+      "CF",
+      "SD",
+      "CM",
+      "NG"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-TD.svg",
+    "flag": "/geofall/advanced/flag-TD.svg"
+  },
+  {
+    "id": "GN",
+    "name": "Guinea",
+    "capital": "Conakry",
+    "sourceCapital": "Conakry",
+    "neighbors": [
+      "LR",
+      "SN",
+      "SL",
+      "CI",
+      "GW",
+      "ML"
+    ],
+    "sourceNeighbors": [
+      "LR",
+      "SN",
+      "SL",
+      "CI",
+      "GW",
+      "ML"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-GN.svg",
+    "flag": "/geofall/advanced/flag-GN.svg"
+  },
+  {
+    "id": "CI",
+    "name": "Costa d’Avorio",
+    "capital": "Yamoussoukro",
+    "sourceCapital": "Yamoussoukro",
+    "neighbors": [
+      "LR",
+      "GH",
+      "GN",
+      "BF",
+      "ML"
+    ],
+    "sourceNeighbors": [
+      "LR",
+      "GH",
+      "GN",
+      "BF",
+      "ML"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-CI.svg",
+    "flag": "/geofall/advanced/flag-CI.svg"
+  },
+  {
+    "id": "MC",
+    "name": "Monaco",
+    "capital": "Monaco",
+    "sourceCapital": "Monaco",
+    "neighbors": [
+      "FR"
+    ],
+    "sourceNeighbors": [
+      "FR"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "flag": "/geofall/advanced/flag-MC.svg"
+  },
+  {
+    "id": "BF",
+    "name": "Burkina Faso",
+    "capital": "Ouagadougou",
+    "sourceCapital": "Ouagadougou",
+    "neighbors": [
+      "NE",
+      "BJ",
+      "GH",
+      "CI",
+      "TG",
+      "ML"
+    ],
+    "sourceNeighbors": [
+      "NE",
+      "BJ",
+      "GH",
+      "CI",
+      "TG",
+      "ML"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-BF.svg",
+    "flag": "/geofall/advanced/flag-BF.svg"
+  },
+  {
+    "id": "BJ",
+    "name": "Benin",
+    "capital": "Porto-Novo",
+    "sourceCapital": "Porto-Novo",
+    "neighbors": [
+      "NE",
+      "TG",
+      "BF",
+      "NG"
+    ],
+    "sourceNeighbors": [
+      "NE",
+      "TG",
+      "BF",
+      "NG"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-BJ.svg",
+    "flag": "/geofall/advanced/flag-BJ.svg"
+  },
+  {
+    "id": "GH",
+    "name": "Ghana",
+    "capital": "Accra",
+    "sourceCapital": "Accra",
+    "neighbors": [
+      "CI",
+      "TG",
+      "BF"
+    ],
+    "sourceNeighbors": [
+      "CI",
+      "TG",
+      "BF"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-GH.svg",
+    "flag": "/geofall/advanced/flag-GH.svg"
+  },
+  {
+    "id": "CM",
+    "name": "Camerun",
+    "capital": "Yaounde",
+    "sourceCapital": "Yaounde",
+    "neighbors": [
+      "TD",
+      "CF",
+      "GA",
+      "GQ",
+      "CG",
+      "NG"
+    ],
+    "sourceNeighbors": [
+      "TD",
+      "CF",
+      "GA",
+      "GQ",
+      "CG",
+      "NG"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "outline": "/geofall/advanced/outline-CM.svg",
+    "flag": "/geofall/advanced/flag-CM.svg"
+  },
+  {
+    "id": "IE",
+    "name": "Irlanda",
+    "capital": "Dublin",
+    "sourceCapital": "Dublin",
+    "neighbors": [
+      "GB"
+    ],
+    "sourceNeighbors": [
+      "GB"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ],
+    "flag": "/geofall/advanced/flag-IE.svg"
+  },
+  {
+    "id": "AO",
+    "name": "Angola",
+    "capital": "Luanda",
+    "sourceCapital": "Luanda",
+    "neighbors": [
+      "CD",
+      "NA",
+      "ZM",
+      "CG"
+    ],
+    "sourceNeighbors": [
+      "CD",
+      "NA",
+      "ZM",
+      "CG"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "ZM",
+    "name": "Zambia",
+    "capital": "Lusaka",
+    "sourceCapital": "Lusaka",
+    "neighbors": [
+      "AO",
+      "BW",
+      "CD",
+      "MW",
+      "MZ",
+      "NA",
+      "TZ",
+      "ZW"
+    ],
+    "sourceNeighbors": [
+      "AO",
+      "BW",
+      "CD",
+      "MW",
+      "MZ",
+      "NA",
+      "TZ",
+      "ZW"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt",
+      "https://www.parliament.gov.zm/node/11873"
+    ]
+  },
+  {
+    "id": "ZA",
+    "name": "Sudafrica",
+    "capital": "Pretoria",
+    "sourceCapital": "Pretoria",
+    "neighbors": [
+      "ZW",
+      "SZ",
+      "MZ",
+      "BW",
+      "NA",
+      "LS"
+    ],
+    "sourceNeighbors": [
+      "ZW",
+      "SZ",
+      "MZ",
+      "BW",
+      "NA",
+      "LS"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "MZ",
+    "name": "Mozambico",
+    "capital": "Maputo",
+    "sourceCapital": "Maputo",
+    "neighbors": [
+      "ZW",
+      "TZ",
+      "SZ",
+      "ZA",
+      "ZM",
+      "MW"
+    ],
+    "sourceNeighbors": [
+      "ZW",
+      "TZ",
+      "SZ",
+      "ZA",
+      "ZM",
+      "MW"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "MW",
+    "name": "Malawi",
+    "capital": "Lilongwe",
+    "sourceCapital": "Lilongwe",
+    "neighbors": [
+      "TZ",
+      "MZ",
+      "ZM"
+    ],
+    "sourceNeighbors": [
+      "TZ",
+      "MZ",
+      "ZM"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "LS",
+    "name": "Lesotho",
+    "capital": "Maseru",
+    "sourceCapital": "Maseru",
+    "neighbors": [
+      "ZA"
+    ],
+    "sourceNeighbors": [
+      "ZA"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "SZ",
+    "name": "Eswatini",
+    "capital": "Mbabane",
+    "sourceCapital": "Mbabane",
+    "neighbors": [
+      "ZA",
+      "MZ"
+    ],
+    "sourceNeighbors": [
+      "ZA",
+      "MZ"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "CD",
+    "name": "Repubblica Democratica del Congo",
+    "capital": "Kinshasa",
+    "sourceCapital": "Kinshasa",
+    "neighbors": [
+      "TZ",
+      "CF",
+      "SS",
+      "RW",
+      "ZM",
+      "BI",
+      "UG",
+      "CG",
+      "AO"
+    ],
+    "sourceNeighbors": [
+      "TZ",
+      "CF",
+      "SS",
+      "RW",
+      "ZM",
+      "BI",
+      "UG",
+      "CG",
+      "AO"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "CG",
+    "name": "Repubblica del Congo",
+    "capital": "Brazzaville",
+    "sourceCapital": "Brazzaville",
+    "neighbors": [
+      "CF",
+      "GA",
+      "CD",
+      "CM",
+      "AO"
+    ],
+    "sourceNeighbors": [
+      "CF",
+      "GA",
+      "CD",
+      "CM",
+      "AO"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "GA",
+    "name": "Gabon",
+    "capital": "Libreville",
+    "sourceCapital": "Libreville",
+    "neighbors": [
+      "CM",
+      "GQ",
+      "CG"
+    ],
+    "sourceNeighbors": [
+      "CM",
+      "GQ",
+      "CG"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "GQ",
+    "name": "Guinea Equatoriale",
+    "capital": "Ciudad de la Paz",
+    "sourceCapital": "Ciudad de la Paz",
+    "neighbors": [
+      "GA",
+      "CM"
+    ],
+    "sourceNeighbors": [
+      "GA",
+      "CM"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "CF",
+    "name": "Repubblica Centrafricana",
+    "capital": "Bangui",
+    "sourceCapital": "Bangui",
+    "neighbors": [
+      "TD",
+      "SD",
+      "CD",
+      "SS",
+      "CM",
+      "CG"
+    ],
+    "sourceNeighbors": [
+      "TD",
+      "SD",
+      "CD",
+      "SS",
+      "CM",
+      "CG"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "SL",
+    "name": "Sierra Leone",
+    "capital": "Freetown",
+    "sourceCapital": "Freetown",
+    "neighbors": [
+      "LR",
+      "GN"
+    ],
+    "sourceNeighbors": [
+      "LR",
+      "GN"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "LR",
+    "name": "Liberia",
+    "capital": "Monrovia",
+    "sourceCapital": "Monrovia",
+    "neighbors": [
+      "SL",
+      "CI",
+      "GN"
+    ],
+    "sourceNeighbors": [
+      "SL",
+      "CI",
+      "GN"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "GM",
+    "name": "Gambia",
+    "capital": "Banjul",
+    "sourceCapital": "Banjul",
+    "neighbors": [
+      "SN"
+    ],
+    "sourceNeighbors": [
+      "SN"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "GW",
+    "name": "Guinea-Bissau",
+    "capital": "Bissau",
+    "sourceCapital": "Bissau",
+    "neighbors": [
+      "SN",
+      "GN"
+    ],
+    "sourceNeighbors": [
+      "SN",
+      "GN"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "MA",
+    "name": "Marocco",
+    "capital": "Rabat",
+    "sourceCapital": "Rabat",
+    "neighbors": [
+      "DZ",
+      "EH",
+      "ES"
+    ],
+    "sourceNeighbors": [
+      "DZ",
+      "EH",
+      "ES"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "DZ",
+    "name": "Algeria",
+    "capital": "Algiers",
+    "sourceCapital": "Algiers",
+    "neighbors": [
+      "NE",
+      "EH",
+      "LY",
+      "MR",
+      "TN",
+      "MA",
+      "ML"
+    ],
+    "sourceNeighbors": [
+      "NE",
+      "EH",
+      "LY",
+      "MR",
+      "TN",
+      "MA",
+      "ML"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "TN",
+    "name": "Tunisia",
+    "capital": "Tunis",
+    "sourceCapital": "Tunis",
+    "neighbors": [
+      "DZ",
+      "LY"
+    ],
+    "sourceNeighbors": [
+      "DZ",
+      "LY"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "LY",
+    "name": "Libia",
+    "capital": "Tripoli",
+    "sourceCapital": "Tripoli",
+    "neighbors": [
+      "TD",
+      "NE",
+      "DZ",
+      "SD",
+      "TN",
+      "EG"
+    ],
+    "sourceNeighbors": [
+      "TD",
+      "NE",
+      "DZ",
+      "SD",
+      "TN",
+      "EG"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "NE",
+    "name": "Niger",
+    "capital": "Niamey",
+    "sourceCapital": "Niamey",
+    "neighbors": [
+      "TD",
+      "BJ",
+      "DZ",
+      "LY",
+      "BF",
+      "NG",
+      "ML"
+    ],
+    "sourceNeighbors": [
+      "TD",
+      "BJ",
+      "DZ",
+      "LY",
+      "BF",
+      "NG",
+      "ML"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "TG",
+    "name": "Togo",
+    "capital": "Lome",
+    "sourceCapital": "Lome",
+    "neighbors": [
+      "BJ",
+      "GH",
+      "BF"
+    ],
+    "sourceNeighbors": [
+      "BJ",
+      "GH",
+      "BF"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "NG",
+    "name": "Nigeria",
+    "capital": "Abuja",
+    "sourceCapital": "Abuja",
+    "neighbors": [
+      "TD",
+      "NE",
+      "BJ",
+      "CM"
+    ],
+    "sourceNeighbors": [
+      "TD",
+      "NE",
+      "BJ",
+      "CM"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "SD",
+    "name": "Sudan",
+    "capital": "Khartoum",
+    "sourceCapital": "Khartoum",
+    "neighbors": [
+      "SS",
+      "TD",
+      "EG",
+      "ET",
+      "ER",
+      "LY",
+      "CF"
+    ],
+    "sourceNeighbors": [
+      "SS",
+      "TD",
+      "EG",
+      "ET",
+      "ER",
+      "LY",
+      "CF"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "RU",
+    "name": "Russia",
+    "capital": "Moscow",
+    "sourceCapital": "Moscow",
+    "neighbors": [
+      "GE",
+      "CN",
+      "BY",
+      "UA",
+      "KZ",
+      "LV",
+      "PL",
+      "EE",
+      "LT",
+      "FI",
+      "MN",
+      "NO",
+      "AZ",
+      "KP"
+    ],
+    "sourceNeighbors": [
+      "GE",
+      "CN",
+      "BY",
+      "UA",
+      "KZ",
+      "LV",
+      "PL",
+      "EE",
+      "LT",
+      "FI",
+      "MN",
+      "NO",
+      "AZ",
+      "KP"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "UZ",
+    "name": "Uzbekistan",
+    "capital": "Tashkent",
+    "sourceCapital": "Tashkent",
+    "neighbors": [
+      "TM",
+      "AF",
+      "KG",
+      "TJ",
+      "KZ"
+    ],
+    "sourceNeighbors": [
+      "TM",
+      "AF",
+      "KG",
+      "TJ",
+      "KZ"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "TJ",
+    "name": "Tagikistan",
+    "capital": "Dushanbe",
+    "sourceCapital": "Dushanbe",
+    "neighbors": [
+      "CN",
+      "AF",
+      "KG",
+      "UZ"
+    ],
+    "sourceNeighbors": [
+      "CN",
+      "AF",
+      "KG",
+      "UZ"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "KZ",
+    "name": "Kazakistan",
+    "capital": "Nur-Sultan",
+    "sourceCapital": "Nur-Sultan",
+    "neighbors": [
+      "TM",
+      "CN",
+      "KG",
+      "UZ",
+      "RU"
+    ],
+    "sourceNeighbors": [
+      "TM",
+      "CN",
+      "KG",
+      "UZ",
+      "RU"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "BD",
+    "name": "Bangladesh",
+    "capital": "Dhaka",
+    "sourceCapital": "Dhaka",
+    "neighbors": [
+      "MM",
+      "IN"
+    ],
+    "sourceNeighbors": [
+      "MM",
+      "IN"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "PK",
+    "name": "Pakistan",
+    "capital": "Islamabad",
+    "sourceCapital": "Islamabad",
+    "neighbors": [
+      "CN",
+      "AF",
+      "IR",
+      "IN"
+    ],
+    "sourceNeighbors": [
+      "CN",
+      "AF",
+      "IR",
+      "IN"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "AF",
+    "name": "Afghanistan",
+    "capital": "Kabul",
+    "sourceCapital": "Kabul",
+    "neighbors": [
+      "TM",
+      "CN",
+      "IR",
+      "TJ",
+      "PK",
+      "UZ"
+    ],
+    "sourceNeighbors": [
+      "TM",
+      "CN",
+      "IR",
+      "TJ",
+      "PK",
+      "UZ"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "PG",
+    "name": "Papua Nuova Guinea",
+    "capital": "Port Moresby",
+    "sourceCapital": "Port Moresby",
+    "neighbors": [
+      "ID"
+    ],
+    "sourceNeighbors": [
+      "ID"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "TL",
+    "name": "Timor Est",
+    "capital": "Dili",
+    "sourceCapital": "Dili",
+    "neighbors": [
+      "ID"
+    ],
+    "sourceNeighbors": [
+      "ID"
+    ],
+    "neighborSources": [
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
   }
 ]

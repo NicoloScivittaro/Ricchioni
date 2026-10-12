@@ -1,0 +1,19 @@
+PASS Backrooms browser {
+  seed: 728509482,
+  mode: 'key',
+  puzzle: 'generators',
+  monsters: [ 'stalker', 'imitator' ],
+  players: 5,
+  cameras: 5,
+  meshes: 1007,
+  materials: 181,
+  skins: [ true, true, false, true, true ]
+} {
+  frames: 180,
+  seconds: 3.745699999999255,
+  fps: 47.78685461048759,
+  active: 152,
+  meshes: 1007,
+  viewport: [ 1280, 720 ],
+  renderer: 'ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)'
+}

@@ -1,0 +1,199 @@
+{
+  "status": "complete",
+  "date": "2026-10-12",
+  "rootImplementationAuthorizedWithoutFlash": true,
+  "gitPublication": false,
+  "defaultHoleSeconds": 150,
+  "aimSeconds": 15,
+  "holes": 3,
+  "previousCourses": 6,
+  "addedCourses": 4,
+  "physicsCameraBotsAbilitiesUnchanged": true,
+  "sourceHashes": {
+    "shared/minigolfTournament.ts": "5d80926e38035bcae7a37a5cc32a2503bd64c8d61b3f166d53ded68c9d6f1224",
+    "shared/scoring.ts": "2fd59a3d143f6fea0ea9a6500528a82f27fed98e451e7337fd08bafbc5b32d6e",
+    "shared/minigames.ts": "6cde5513016f1f3a902e4fc7a5e9a39a544d7dc6aa7455010149a9831f0ada13",
+    "server/GameSession.ts": "a86384626152d2d726e2ecf2dab9e7b1450eecdf22c4895b018ef7c3c47a54ab",
+    "src/scenes/ResultsScene.ts": "f1ae4767d7d955582f5fa35ecd707b6a3e5f6aae8ba8ff73512bad75da5e80ff",
+    "src/controller/minigolfController.ts": "21a7775cb3eb2ee270d9e2dd945ba63d8a62b605c7350d9ca4e862eb21d1038d",
+    "src/minigames/minigolf/BabylonMinigolfGame.ts": "23d252500caaac3010768dc7266f421848d704964df0959ecfe50f17a926c8cb",
+    "src/minigames/minigolf/index.ts": "8a966a57f7e8f47a17ecc6723f9a1ef673bbc343a992ce49ab6b4e1a02ac39cd",
+    "src/minigames/minigolf/minigolfAbilities.ts": "3360c7825f674cc9917d41d641ca2fd019e5173244ba35ee53967ce748875ed1",
+    "src/minigames/minigolf/minigolfBot.ts": "55435f155c7d586fb57f84c25cf8f8dda8249160e72b18b93ec19c9516e52fd5",
+    "src/minigames/minigolf/minigolfCamera.ts": "0c2130e86659000f3226022e3f1d1b0cdfdc3fc7fbfb35c968df6788a2d69c6f",
+    "src/minigames/minigolf/minigolfCourses.ts": "c4861d11c3cd4cc5ea4b01aeb60ae0e1cbc9fcc597716320a529cdbcb31e776e",
+    "src/minigames/minigolf/minigolfHud.ts": "ee2784accf719df849652ec7b4e1931b3b42b4e497590ea6a0f2d1aa3df0581c",
+    "src/minigames/minigolf/minigolfPhysics.ts": "b542f3018c8c8898d67c988714f9609f4b561486c8e609fc37392e00ee6fc0d8",
+    "src/minigames/minigolf/minigolfRules.ts": "0de97b94a95145c7fd234900b0e9c81886ea7c4ab6792899d2982c922e918d11",
+    "src/minigames/minigolf/MinigolfScene.ts": "23cb4312070d8e6a7f47858741189c3156e0f34fe00b3cba48a5c83e7d4cf8c6",
+    "src/minigames/minigolf/minigolfTypes.ts": "46d49bcf2c7e2f9d7c33b4f659fb766a77b088568939521d86e819ed330620c6",
+    "src/minigames/minigolf/minigolfVisuals.ts": "f860938348a3da63758964ddb022fce21cdf20c9216cfd7fa9b62a470766dc00"
+  },
+  "typecheckBuild": [
+    {
+      "name": "typecheck",
+      "exit": 0,
+      "seconds": 16.547,
+      "output": ""
+    },
+    {
+      "name": "build",
+      "exit": 0,
+      "seconds": 273.931,
+      "output": "-C0A0-1yW.js                                   8.18 kB â”‚ gzip:     3.72 kB\ndist/assets/soccerEnvironment-DDoXA5jp.js                            8.36 kB â”‚ gzip:     3.82 kB\ndist/assets/dodgeballEnvironment-BeREMhi2.js                         8.45 kB â”‚ gzip:     3.73 kB\ndist/assets/environmentGallery-INe68QDv.js                           8.51 kB â”‚ gzip:     4.29 kB\ndist/assets/arenaEnvironment-BFkMKxlb.js                             8.70 kB â”‚ gzip:     3.92 kB\ndist/assets/fluentButton.vertex-BL_OF_cM.js                          9.56 kB â”‚ gzip:     2.41 kB\ndist/assets/fpsWorld-Cor10nTQ.js                                     9.66 kB â”‚ gzip:     4.13 kB\ndist/assets/impactLab-B0HjR3fB.js                                    9.71 kB â”‚ gzip:     4.33 kB\ndist/assets/volleyballEnvironment-Bg2lnESc.js                       10.15 kB â”‚ gzip:     4.67 kB\ndist/assets/constants-VMTtjmhB.js                                   11.77 kB â”‚ gzip:     3.21 kB\ndist/assets/fpsViewmodel-CdEPDIfE.js                                11.88 kB â”‚ gzip:     4.49 kB\ndist/assets/envKit-41KR2R7p.js                                      12.55 kB â”‚ gzip:     5.37 kB\ndist/assets/judokaProfile-juZZNxff.js                               13.41 kB â”‚ gzip:     2.13 kB\ndist/assets/buttafuoriProfile-CPQI8PQE.js                           14.49 kB â”‚ gzip:     2.36 kB\ndist/assets/ciroProfile-8IGAkmIm.js                                 15.15 kB â”‚ gzip:     2.49 kB\ndist/assets/ktxTextureLoader-BOnxc9E6.js                            15.22 kB â”‚ gzip:     4.40 kB\ndist/assets/kartEntity-BGiOBZVl.js                                  19.80 kB â”‚ gzip:     7.16 kB\ndist/assets/BabylonKartGame-Bw9_VsML.js                             19.92 kB â”‚ gzip:     7.00 kB\ndist/assets/kartEnvironment-Bg9qWDen.js                             23.40 kB â”‚ gzip:     9.54 kB\ndist/assets/BabylonFpsGame-DOqstDK9.js                              23.87 kB â”‚ gzip:     9.18 kB\ndist/assets/fpsClient-Cm7Qy6_k.js                                   23.96 kB â”‚ gzip:     8.43 kB\ndist/assets/characterGallery-DvMEQGCw.js                            25.09 kB â”‚ gzip:     6.93 kB\ndist/assets/BabylonArenaGame-BZcadMhQ.js                            25.23 kB â”‚ gzip:     8.76 kB\ndist/assets/arenaEntity-49O7D8-b.js                                 25.32 kB â”‚ gzip:     9.02 kB\ndist/assets/BabylonVolleyballGame-5t36EVNd.js                       25.80 kB â”‚ gzip:     9.30 kB\ndist/assets/BabylonDodgeballGame-33OQ2jMv.js                        26.47 kB â”‚ gzip:     9.32 kB\ndist/assets/cameraHud-TBk2beah.js                                   26.92 kB â”‚ gzip:    10.37 kB\ndist/assets/characterModel-BESBUQRa.js                              27.23 kB â”‚ gzip:     9.05 kB\ndist/assets/BabylonSoccerGame-DVQkzscO.js                           35.26 kB â”‚ gzip:    12.82 kB\ndist/assets/goblinVisual-B_6Lce3b.js                                38.88 kB â”‚ gzip:    10.72 kB\ndist/assets/meshBlending.fragment-D0xNVeKZ.js                       39.50 kB â”‚ gzip:     8.30 kB\ndist/assets/meshBlending.fragment-DpMKU2nP.js                       42.62 kB â”‚ gzip:     8.65 kB\ndist/assets/BabylonBackroomsGame-BUnuEfj9.js                        47.29 kB â”‚ gzip:    18.27 kB\ndist/assets/BabylonMinigolfGame-xEtOgy-T.js                         50.90 kB â”‚ gzip:    18.33 kB\ndist/assets/controller-iRPSg1QG.js                                  75.21 kB â”‚ gzip:    23.61 kB\ndist/assets/CasaCarboGame-DCQPmz7N.js                               79.37 kB â”‚ gzip:    29.28 kB\ndist/assets/BabylonCornicioneGame-CahP2LWA.js                       84.54 kB â”‚ gzip:    29.46 kB\ndist/assets/quality-C2PXhceo.js                                    134.84 kB â”‚ gzip:    43.72 kB\ndist/assets/BabylonGeofallGame-CXqfgXrt.js                         165.03 kB â”‚ gzip:    18.28 kB\ndist/assets/index-CKFzFmg1.js                                      377.73 kB â”‚ gzip:    84.58 kB\ndist/assets/countdownFx-COAIeASd.js                                506.55 kB â”‚ gzip:    95.85 kB\ndist/assets/main-BdXzjf_z.js                                     1,953.31 kB â”‚ gzip:   494.64 kB\ndist/assets/nativeXRFrame-CfBRMiA8.js                            6,916.04 kB â”‚ gzip: 1,527.72 kB\nâœ“ built in 4m 33s\n\n(!) Some chunks are larger than 1500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n"
+    }
+  ],
+  "regression": [
+    {
+      "name": "minigolf-2-selftest",
+      "status": 0
+    },
+    {
+      "name": "minigolf-camera-selftest",
+      "status": 0
+    },
+    {
+      "name": "minigolf-selftest",
+      "status": 0
+    },
+    {
+      "name": "pad-selftest",
+      "status": 0
+    },
+    {
+      "name": "rounds-selftest",
+      "status": 0
+    },
+    {
+      "name": "ability-selftest",
+      "status": 0
+    },
+    {
+      "name": "solo-bots-selftest",
+      "status": 0
+    },
+    {
+      "name": "quality-selftest",
+      "status": 0
+    },
+    {
+      "name": "controller-url-selftest",
+      "status": 0
+    },
+    {
+      "name": "characters-animation-selftest",
+      "status": 0
+    },
+    {
+      "name": "audio-selftest",
+      "status": 0
+    },
+    {
+      "name": "geofall-selftest",
+      "status": 0
+    },
+    {
+      "name": "backrooms-fixes-selftest",
+      "status": 0
+    },
+    {
+      "name": "kart-abilities-selftest",
+      "status": 0
+    },
+    {
+      "name": "fighter-abilities-selftest",
+      "status": 0
+    },
+    {
+      "name": "fps-ads-selftest",
+      "status": 0
+    }
+  ],
+  "finalDedicatedSelftestExit": 0,
+  "playabilityAllTen": true,
+  "naturalBotTournaments": 24,
+  "completedSimulatedHoles": 252,
+  "sourceBrowserRooms": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "compiledMatch": {
+    "secondsFromPlayingToResult": 337.599,
+    "courses": [
+      "I CANCELLI IMPAZZITI",
+      "LE MONTAGNE DEL DISAGIO",
+      "LA ROTONDA DEL DISAGIO"
+    ],
+    "phoneShots": 31,
+    "players": 5,
+    "models": [
+      {
+        "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:3001/models/judoka-tripo/judo_figure_casacarbo.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:3001/models/man-tripo/man_animated.glb",
+        "status": 200
+      }
+    ],
+    "errors": []
+  },
+  "priorChangesPreserved": {
+    "backrooms-fixes": {
+      "unchanged": [
+        "src\\minigames\\backrooms\\BabylonBackroomsGame.ts",
+        "src\\minigames\\backrooms\\backroomsAudio.ts",
+        "src\\minigames\\backrooms\\backroomsDebug.ts",
+        "src\\minigames\\backrooms\\backroomsInput.ts",
+        "src\\minigames\\backrooms\\backroomsRules.ts",
+        "src\\minigames\\backrooms\\BackroomsScene.ts",
+        "src\\minigames\\backrooms\\backroomsWorld.ts",
+        "src\\minigames\\backrooms\\index.ts",
+        "src\\minigames\\backrooms\\maze.ts",
+        "src\\network\\PlayerInput.ts"
+      ],
+      "changed": []
+    },
+    "geofall-2": {
+      "unchanged": [
+        "src\\minigames\\geofall\\BabylonGeofallGame.ts",
+        "src\\minigames\\geofall\\geofallAbilities.ts",
+        "src\\minigames\\geofall\\geofallBot.ts",
+        "src\\minigames\\geofall\\geofallRules.ts",
+        "src\\minigames\\geofall\\GeofallScene.ts",
+        "src\\minigames\\geofall\\index.ts",
+        "shared\\geofallQuestions.json",
+        "shared\\abilityCatalog.ts"
+      ],
+      "changed": []
+    }
+  },
+  "screenshotsInspected": [
+    "ten course views",
+    "TV1280,1366,1920,800",
+    "phone390,360,844 andCompanion",
+    "natural-results2–5",
+    "final-table1280/800",
+    "results-ex-aequo-five",
+    "production-five/phone/results"
+  ],
+  "manualPending": [
+    "physicalXbox/PlayStation",
+    "actualphonesandnetworklatency",
+    "human5playerbalance"
+  ],
+  "testFixtureCorrections": [
+    "fallbacktouchwaitsforvisiblenotjustmountedbutton",
+    "ScoreManagerfixtureexplicitlyclearsrandommodifier;doubleandcatchupseparatelycovered"
+  ]
+}

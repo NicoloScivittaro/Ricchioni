@@ -1,0 +1,87 @@
+{
+  "errors": [],
+  "transitions": [
+    {
+      "hole": 2,
+      "remaining": 3.825,
+      "active": 1,
+      "ids": [
+        "af0a2463-b243-455e-b784-7d64ff13ca85",
+        "9350c5e2-8d78-42b1-88c5-bb5801c7aaf3",
+        "3c6b597e-5b9b-474e-9273-74f1589b2e9b",
+        "995a0b8c-1394-4f93-9b07-6f3571dedba6",
+        "17a84fa2-67b9-4484-bfaa-bfb88a6c156c"
+      ],
+      "records": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "strokes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "used": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "extras": 0,
+      "charging": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "hole": 3,
+      "remaining": 3.933333333333333,
+      "active": 2,
+      "ids": [
+        "af0a2463-b243-455e-b784-7d64ff13ca85",
+        "9350c5e2-8d78-42b1-88c5-bb5801c7aaf3",
+        "3c6b597e-5b9b-474e-9273-74f1589b2e9b",
+        "995a0b8c-1394-4f93-9b07-6f3571dedba6",
+        "17a84fa2-67b9-4484-bfaa-bfb88a6c156c"
+      ],
+      "records": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "strokes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "used": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "extras": 0,
+      "charging": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    }
+  ]
+}

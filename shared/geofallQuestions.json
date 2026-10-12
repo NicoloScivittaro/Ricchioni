@@ -5803,5 +5803,4551 @@
       "https://download.geonames.org/export/dump/countryInfo.txt",
       "https://www.diplomatie.gouv.fr/fr/information-par-pays/bresil/relations-bilaterales"
     ]
+  },
+  {
+    "id": "advanced-bandiere-TD",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Ciad?",
+    "target": "TD",
+    "correct": {
+      "id": "TD",
+      "label": "Ciad",
+      "image": "/geofall/advanced/flag-TD.svg"
+    },
+    "wrong": [
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/flag-CM.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/TD/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-ML",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Mali?",
+    "target": "ML",
+    "correct": {
+      "id": "ML",
+      "label": "Mali",
+      "image": "/geofall/advanced/flag-ML.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/flag-CM.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/ML/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-GN",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Guinea?",
+    "target": "GN",
+    "correct": {
+      "id": "GN",
+      "label": "Guinea",
+      "image": "/geofall/advanced/flag-GN.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/flag-CM.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/GN/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-CI",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Costa d’Avorio?",
+    "target": "CI",
+    "correct": {
+      "id": "CI",
+      "label": "Costa d’Avorio",
+      "image": "/geofall/advanced/flag-CI.svg"
+    },
+    "wrong": [
+      {
+        "id": "IE",
+        "label": "Irlanda",
+        "image": "/geofall/advanced/flag-IE.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/CI/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-ID",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Indonesia?",
+    "target": "ID",
+    "correct": {
+      "id": "ID",
+      "label": "Indonesia",
+      "image": "/geofall/advanced/flag-ID.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/flag-CM.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/ID/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-MC",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Monaco?",
+    "target": "MC",
+    "correct": {
+      "id": "MC",
+      "label": "Monaco",
+      "image": "/geofall/advanced/flag-MC.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/flag-CM.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/MC/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-BF",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Burkina Faso?",
+    "target": "BF",
+    "correct": {
+      "id": "BF",
+      "label": "Burkina Faso",
+      "image": "/geofall/advanced/flag-BF.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/flag-CM.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/BF/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-BJ",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Benin?",
+    "target": "BJ",
+    "correct": {
+      "id": "BJ",
+      "label": "Benin",
+      "image": "/geofall/advanced/flag-BJ.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/flag-CM.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/BJ/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-GH",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Ghana?",
+    "target": "GH",
+    "correct": {
+      "id": "GH",
+      "label": "Ghana",
+      "image": "/geofall/advanced/flag-GH.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/flag-CM.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/GH/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-CM",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Camerun?",
+    "target": "CM",
+    "correct": {
+      "id": "CM",
+      "label": "Camerun",
+      "image": "/geofall/advanced/flag-CM.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/CM/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-SN",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Senegal?",
+    "target": "SN",
+    "correct": {
+      "id": "SN",
+      "label": "Senegal",
+      "image": "/geofall/advanced/flag-SN.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/SN/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-NA",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Namibia?",
+    "target": "NA",
+    "correct": {
+      "id": "NA",
+      "label": "Namibia",
+      "image": "/geofall/advanced/flag-NA.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/NA/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-BW",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Botswana?",
+    "target": "BW",
+    "correct": {
+      "id": "BW",
+      "label": "Botswana",
+      "image": "/geofall/advanced/flag-BW.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/BW/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-FJ",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Figi?",
+    "target": "FJ",
+    "correct": {
+      "id": "FJ",
+      "label": "Figi",
+      "image": "/geofall/advanced/flag-FJ.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/FJ/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-bandiere-WS",
+    "category": "bandiere",
+    "prompt": "Qual è la bandiera di Samoa?",
+    "target": "WS",
+    "correct": {
+      "id": "WS",
+      "label": "Samoa",
+      "image": "/geofall/advanced/flag-WS.svg"
+    },
+    "wrong": [
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/flag-TD.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/flag-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/flag-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/flag-CI.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia",
+        "image": "/geofall/advanced/flag-ID.svg"
+      },
+      {
+        "id": "MC",
+        "label": "Monaco",
+        "image": "/geofall/advanced/flag-MC.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/flag-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/flag-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/flag-GH.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/WS/",
+      "https://github.com/hampusborgos/country-flags"
+    ]
+  },
+  {
+    "id": "advanced-confini-BT",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Bhutan?",
+    "target": "BT",
+    "correct": {
+      "id": "IN",
+      "label": "India"
+    },
+    "wrong": [
+      {
+        "id": "BD",
+        "label": "Bangladesh"
+      },
+      {
+        "id": "NP",
+        "label": "Nepal"
+      },
+      {
+        "id": "MM",
+        "label": "Myanmar"
+      },
+      {
+        "id": "LA",
+        "label": "Laos"
+      },
+      {
+        "id": "VN",
+        "label": "Vietnam"
+      },
+      {
+        "id": "TH",
+        "label": "Thailandia"
+      },
+      {
+        "id": "TJ",
+        "label": "Tagikistan"
+      },
+      {
+        "id": "PK",
+        "label": "Pakistan"
+      },
+      {
+        "id": "KH",
+        "label": "Cambogia"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/BT/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-LA",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Laos?",
+    "target": "LA",
+    "correct": {
+      "id": "VN",
+      "label": "Vietnam"
+    },
+    "wrong": [
+      {
+        "id": "BD",
+        "label": "Bangladesh"
+      },
+      {
+        "id": "BT",
+        "label": "Bhutan"
+      },
+      {
+        "id": "NP",
+        "label": "Nepal"
+      },
+      {
+        "id": "ID",
+        "label": "Indonesia"
+      },
+      {
+        "id": "IN",
+        "label": "India"
+      },
+      {
+        "id": "LK",
+        "label": "Sri Lanka"
+      },
+      {
+        "id": "MN",
+        "label": "Mongolia"
+      },
+      {
+        "id": "PK",
+        "label": "Pakistan"
+      },
+      {
+        "id": "TJ",
+        "label": "Tagikistan"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/LA/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-MN",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Mongolia?",
+    "target": "MN",
+    "correct": {
+      "id": "RU",
+      "label": "Russia"
+    },
+    "wrong": [
+      {
+        "id": "BT",
+        "label": "Bhutan"
+      },
+      {
+        "id": "KG",
+        "label": "Kirghizistan"
+      },
+      {
+        "id": "NP",
+        "label": "Nepal"
+      },
+      {
+        "id": "TJ",
+        "label": "Tagikistan"
+      },
+      {
+        "id": "BD",
+        "label": "Bangladesh"
+      },
+      {
+        "id": "VN",
+        "label": "Vietnam"
+      },
+      {
+        "id": "KZ",
+        "label": "Kazakistan"
+      },
+      {
+        "id": "MM",
+        "label": "Myanmar"
+      },
+      {
+        "id": "LA",
+        "label": "Laos"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/MN/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-KG",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Kirghizistan?",
+    "target": "KG",
+    "correct": {
+      "id": "UZ",
+      "label": "Uzbekistan"
+    },
+    "wrong": [
+      {
+        "id": "AF",
+        "label": "Afghanistan"
+      },
+      {
+        "id": "PK",
+        "label": "Pakistan"
+      },
+      {
+        "id": "NP",
+        "label": "Nepal"
+      },
+      {
+        "id": "IR",
+        "label": "Iran"
+      },
+      {
+        "id": "BT",
+        "label": "Bhutan"
+      },
+      {
+        "id": "IN",
+        "label": "India"
+      },
+      {
+        "id": "BD",
+        "label": "Bangladesh"
+      },
+      {
+        "id": "MN",
+        "label": "Mongolia"
+      },
+      {
+        "id": "MM",
+        "label": "Myanmar"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/KG/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-NA",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Namibia?",
+    "target": "NA",
+    "correct": {
+      "id": "AO",
+      "label": "Angola"
+    },
+    "wrong": [
+      {
+        "id": "ZW",
+        "label": "Zimbabwe"
+      },
+      {
+        "id": "LS",
+        "label": "Lesotho"
+      },
+      {
+        "id": "SZ",
+        "label": "Eswatini"
+      },
+      {
+        "id": "MW",
+        "label": "Malawi"
+      },
+      {
+        "id": "CD",
+        "label": "Repubblica Democratica del Congo"
+      },
+      {
+        "id": "MZ",
+        "label": "Mozambico"
+      },
+      {
+        "id": "GA",
+        "label": "Gabon"
+      },
+      {
+        "id": "CG",
+        "label": "Repubblica del Congo"
+      },
+      {
+        "id": "TZ",
+        "label": "Tanzania"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/NA/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-BW",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Botswana?",
+    "target": "BW",
+    "correct": {
+      "id": "NA",
+      "label": "Namibia"
+    },
+    "wrong": [
+      {
+        "id": "SZ",
+        "label": "Eswatini"
+      },
+      {
+        "id": "LS",
+        "label": "Lesotho"
+      },
+      {
+        "id": "AO",
+        "label": "Angola"
+      },
+      {
+        "id": "MW",
+        "label": "Malawi"
+      },
+      {
+        "id": "MZ",
+        "label": "Mozambico"
+      },
+      {
+        "id": "TZ",
+        "label": "Tanzania"
+      },
+      {
+        "id": "CD",
+        "label": "Repubblica Democratica del Congo"
+      },
+      {
+        "id": "CG",
+        "label": "Repubblica del Congo"
+      },
+      {
+        "id": "GA",
+        "label": "Gabon"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/BW/",
+      "https://download.geonames.org/export/dump/countryInfo.txt",
+      "https://www.parliament.gov.zm/node/11873"
+    ]
+  },
+  {
+    "id": "advanced-confini-TD",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Ciad?",
+    "target": "TD",
+    "correct": {
+      "id": "CM",
+      "label": "Camerun"
+    },
+    "wrong": [
+      {
+        "id": "EG",
+        "label": "Egitto"
+      },
+      {
+        "id": "CG",
+        "label": "Repubblica del Congo"
+      },
+      {
+        "id": "GQ",
+        "label": "Guinea Equatoriale"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin"
+      },
+      {
+        "id": "GA",
+        "label": "Gabon"
+      },
+      {
+        "id": "CD",
+        "label": "Repubblica Democratica del Congo"
+      },
+      {
+        "id": "TG",
+        "label": "Togo"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso"
+      },
+      {
+        "id": "DZ",
+        "label": "Algeria"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/TD/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-ML",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Mali?",
+    "target": "ML",
+    "correct": {
+      "id": "GN",
+      "label": "Guinea"
+    },
+    "wrong": [
+      {
+        "id": "BJ",
+        "label": "Benin"
+      },
+      {
+        "id": "TG",
+        "label": "Togo"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana"
+      },
+      {
+        "id": "NG",
+        "label": "Nigeria"
+      },
+      {
+        "id": "GM",
+        "label": "Gambia"
+      },
+      {
+        "id": "GW",
+        "label": "Guinea-Bissau"
+      },
+      {
+        "id": "SL",
+        "label": "Sierra Leone"
+      },
+      {
+        "id": "MA",
+        "label": "Marocco"
+      },
+      {
+        "id": "LR",
+        "label": "Liberia"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/ML/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-GN",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Guinea?",
+    "target": "GN",
+    "correct": {
+      "id": "SL",
+      "label": "Sierra Leone"
+    },
+    "wrong": [
+      {
+        "id": "GM",
+        "label": "Gambia"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana"
+      },
+      {
+        "id": "TG",
+        "label": "Togo"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin"
+      },
+      {
+        "id": "NG",
+        "label": "Nigeria"
+      },
+      {
+        "id": "NE",
+        "label": "Niger"
+      },
+      {
+        "id": "GQ",
+        "label": "Guinea Equatoriale"
+      },
+      {
+        "id": "DZ",
+        "label": "Algeria"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/GN/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-CI",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Costa d’Avorio?",
+    "target": "CI",
+    "correct": {
+      "id": "GH",
+      "label": "Ghana"
+    },
+    "wrong": [
+      {
+        "id": "SL",
+        "label": "Sierra Leone"
+      },
+      {
+        "id": "TG",
+        "label": "Togo"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin"
+      },
+      {
+        "id": "GW",
+        "label": "Guinea-Bissau"
+      },
+      {
+        "id": "GM",
+        "label": "Gambia"
+      },
+      {
+        "id": "SN",
+        "label": "Senegal"
+      },
+      {
+        "id": "NG",
+        "label": "Nigeria"
+      },
+      {
+        "id": "GQ",
+        "label": "Guinea Equatoriale"
+      },
+      {
+        "id": "NE",
+        "label": "Niger"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/CI/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-BJ",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Benin?",
+    "target": "BJ",
+    "correct": {
+      "id": "NG",
+      "label": "Nigeria"
+    },
+    "wrong": [
+      {
+        "id": "GH",
+        "label": "Ghana"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio"
+      },
+      {
+        "id": "ML",
+        "label": "Mali"
+      },
+      {
+        "id": "GQ",
+        "label": "Guinea Equatoriale"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea"
+      },
+      {
+        "id": "LR",
+        "label": "Liberia"
+      },
+      {
+        "id": "SL",
+        "label": "Sierra Leone"
+      },
+      {
+        "id": "GA",
+        "label": "Gabon"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/BJ/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-GH",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Ghana?",
+    "target": "GH",
+    "correct": {
+      "id": "TG",
+      "label": "Togo"
+    },
+    "wrong": [
+      {
+        "id": "BJ",
+        "label": "Benin"
+      },
+      {
+        "id": "LR",
+        "label": "Liberia"
+      },
+      {
+        "id": "NG",
+        "label": "Nigeria"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea"
+      },
+      {
+        "id": "SL",
+        "label": "Sierra Leone"
+      },
+      {
+        "id": "ML",
+        "label": "Mali"
+      },
+      {
+        "id": "GQ",
+        "label": "Guinea Equatoriale"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun"
+      },
+      {
+        "id": "GW",
+        "label": "Guinea-Bissau"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/GH/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-CM",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Camerun?",
+    "target": "CM",
+    "correct": {
+      "id": "GA",
+      "label": "Gabon"
+    },
+    "wrong": [
+      {
+        "id": "BJ",
+        "label": "Benin"
+      },
+      {
+        "id": "TG",
+        "label": "Togo"
+      },
+      {
+        "id": "CD",
+        "label": "Repubblica Democratica del Congo"
+      },
+      {
+        "id": "NE",
+        "label": "Niger"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso"
+      },
+      {
+        "id": "AO",
+        "label": "Angola"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio"
+      },
+      {
+        "id": "ML",
+        "label": "Mali"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/CM/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-SN",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Senegal?",
+    "target": "SN",
+    "correct": {
+      "id": "GM",
+      "label": "Gambia"
+    },
+    "wrong": [
+      {
+        "id": "SL",
+        "label": "Sierra Leone"
+      },
+      {
+        "id": "LR",
+        "label": "Liberia"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana"
+      },
+      {
+        "id": "TG",
+        "label": "Togo"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin"
+      },
+      {
+        "id": "MA",
+        "label": "Marocco"
+      },
+      {
+        "id": "DZ",
+        "label": "Algeria"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/SN/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-confini-BF",
+    "category": "confini",
+    "prompt": "Quale Stato condivide un confine terrestre con Burkina Faso?",
+    "target": "BF",
+    "correct": {
+      "id": "BJ",
+      "label": "Benin"
+    },
+    "wrong": [
+      {
+        "id": "GN",
+        "label": "Guinea"
+      },
+      {
+        "id": "NG",
+        "label": "Nigeria"
+      },
+      {
+        "id": "LR",
+        "label": "Liberia"
+      },
+      {
+        "id": "SL",
+        "label": "Sierra Leone"
+      },
+      {
+        "id": "GW",
+        "label": "Guinea-Bissau"
+      },
+      {
+        "id": "SN",
+        "label": "Senegal"
+      },
+      {
+        "id": "GM",
+        "label": "Gambia"
+      },
+      {
+        "id": "GQ",
+        "label": "Guinea Equatoriale"
+      },
+      {
+        "id": "DZ",
+        "label": "Algeria"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/BF/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-BT",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Bhutan?",
+    "target": "BT",
+    "correct": {
+      "id": "BT",
+      "label": "Thimphu"
+    },
+    "wrong": [
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "SC",
+        "label": "Victoria"
+      },
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      },
+      {
+        "id": "FM",
+        "label": "Palikir"
+      },
+      {
+        "id": "SB",
+        "label": "Honiara"
+      },
+      {
+        "id": "MH",
+        "label": "Majuro"
+      },
+      {
+        "id": "BW",
+        "label": "Gaborone"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/BT/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-LA",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Laos?",
+    "target": "LA",
+    "correct": {
+      "id": "LA",
+      "label": "Vientiane"
+    },
+    "wrong": [
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "SC",
+        "label": "Victoria"
+      },
+      {
+        "id": "FM",
+        "label": "Palikir"
+      },
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      },
+      {
+        "id": "SB",
+        "label": "Honiara"
+      },
+      {
+        "id": "MH",
+        "label": "Majuro"
+      },
+      {
+        "id": "VU",
+        "label": "Port Vila"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/LA/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-MN",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Mongolia?",
+    "target": "MN",
+    "correct": {
+      "id": "MN",
+      "label": "Ulaanbaatar"
+    },
+    "wrong": [
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "FM",
+        "label": "Palikir"
+      },
+      {
+        "id": "MH",
+        "label": "Majuro"
+      },
+      {
+        "id": "SC",
+        "label": "Victoria"
+      },
+      {
+        "id": "SB",
+        "label": "Honiara"
+      },
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      },
+      {
+        "id": "VU",
+        "label": "Port Vila"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/MN/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-KG",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Kirghizistan?",
+    "target": "KG",
+    "correct": {
+      "id": "KG",
+      "label": "Bishkek"
+    },
+    "wrong": [
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "SC",
+        "label": "Victoria"
+      },
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      },
+      {
+        "id": "FM",
+        "label": "Palikir"
+      },
+      {
+        "id": "BW",
+        "label": "Gaborone"
+      },
+      {
+        "id": "NA",
+        "label": "Windhoek"
+      },
+      {
+        "id": "MH",
+        "label": "Majuro"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/KG/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-NA",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Namibia?",
+    "target": "NA",
+    "correct": {
+      "id": "NA",
+      "label": "Windhoek"
+    },
+    "wrong": [
+      {
+        "id": "BW",
+        "label": "Gaborone"
+      },
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      },
+      {
+        "id": "SC",
+        "label": "Victoria"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "SB",
+        "label": "Honiara"
+      },
+      {
+        "id": "FM",
+        "label": "Palikir"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/NA/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-BW",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Botswana?",
+    "target": "BW",
+    "correct": {
+      "id": "BW",
+      "label": "Gaborone"
+    },
+    "wrong": [
+      {
+        "id": "NA",
+        "label": "Windhoek"
+      },
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      },
+      {
+        "id": "SC",
+        "label": "Victoria"
+      },
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "SB",
+        "label": "Honiara"
+      },
+      {
+        "id": "FM",
+        "label": "Palikir"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/BW/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-FJ",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Figi?",
+    "target": "FJ",
+    "correct": {
+      "id": "FJ",
+      "label": "Suva"
+    },
+    "wrong": [
+      {
+        "id": "VU",
+        "label": "Port Vila"
+      },
+      {
+        "id": "SB",
+        "label": "Honiara"
+      },
+      {
+        "id": "MH",
+        "label": "Majuro"
+      },
+      {
+        "id": "FM",
+        "label": "Palikir"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/FJ/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-WS",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Samoa?",
+    "target": "WS",
+    "correct": {
+      "id": "WS",
+      "label": "Apia"
+    },
+    "wrong": [
+      {
+        "id": "TO",
+        "label": "Nuku’alofa"
+      },
+      {
+        "id": "NA",
+        "label": "Windhoek"
+      },
+      {
+        "id": "BW",
+        "label": "Gaborone"
+      },
+      {
+        "id": "SC",
+        "label": "Victoria"
+      },
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/WS/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-TO",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Tonga?",
+    "target": "TO",
+    "correct": {
+      "id": "TO",
+      "label": "Nuku’alofa"
+    },
+    "wrong": [
+      {
+        "id": "WS",
+        "label": "Apia"
+      },
+      {
+        "id": "NA",
+        "label": "Windhoek"
+      },
+      {
+        "id": "BW",
+        "label": "Gaborone"
+      },
+      {
+        "id": "SC",
+        "label": "Victoria"
+      },
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/TO/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-VU",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Vanuatu?",
+    "target": "VU",
+    "correct": {
+      "id": "VU",
+      "label": "Port Vila"
+    },
+    "wrong": [
+      {
+        "id": "SB",
+        "label": "Honiara"
+      },
+      {
+        "id": "FJ",
+        "label": "Suva"
+      },
+      {
+        "id": "MH",
+        "label": "Majuro"
+      },
+      {
+        "id": "FM",
+        "label": "Palikir"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/VU/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-SB",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Isole Salomone?",
+    "target": "SB",
+    "correct": {
+      "id": "SB",
+      "label": "Honiara"
+    },
+    "wrong": [
+      {
+        "id": "VU",
+        "label": "Port Vila"
+      },
+      {
+        "id": "FM",
+        "label": "Palikir"
+      },
+      {
+        "id": "MH",
+        "label": "Majuro"
+      },
+      {
+        "id": "FJ",
+        "label": "Suva"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/SB/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-FM",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Stati Federati di Micronesia?",
+    "target": "FM",
+    "correct": {
+      "id": "FM",
+      "label": "Palikir"
+    },
+    "wrong": [
+      {
+        "id": "MH",
+        "label": "Majuro"
+      },
+      {
+        "id": "SB",
+        "label": "Honiara"
+      },
+      {
+        "id": "VU",
+        "label": "Port Vila"
+      },
+      {
+        "id": "FJ",
+        "label": "Suva"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "SC",
+        "label": "Victoria"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/FM/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-MH",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Isole Marshall?",
+    "target": "MH",
+    "correct": {
+      "id": "MH",
+      "label": "Majuro"
+    },
+    "wrong": [
+      {
+        "id": "FM",
+        "label": "Palikir"
+      },
+      {
+        "id": "SB",
+        "label": "Honiara"
+      },
+      {
+        "id": "VU",
+        "label": "Port Vila"
+      },
+      {
+        "id": "FJ",
+        "label": "Suva"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "SC",
+        "label": "Victoria"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/MH/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-MU",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Mauritius?",
+    "target": "MU",
+    "correct": {
+      "id": "MU",
+      "label": "Port Louis"
+    },
+    "wrong": [
+      {
+        "id": "SC",
+        "label": "Victoria"
+      },
+      {
+        "id": "BW",
+        "label": "Gaborone"
+      },
+      {
+        "id": "NA",
+        "label": "Windhoek"
+      },
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "SB",
+        "label": "Honiara"
+      },
+      {
+        "id": "FM",
+        "label": "Palikir"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/MU/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-capitali-SC",
+    "category": "capitali",
+    "prompt": "Qual è la capitale di Seychelles?",
+    "target": "SC",
+    "correct": {
+      "id": "SC",
+      "label": "Victoria"
+    },
+    "wrong": [
+      {
+        "id": "MU",
+        "label": "Port Louis"
+      },
+      {
+        "id": "BW",
+        "label": "Gaborone"
+      },
+      {
+        "id": "NA",
+        "label": "Windhoek"
+      },
+      {
+        "id": "BT",
+        "label": "Thimphu"
+      },
+      {
+        "id": "KG",
+        "label": "Bishkek"
+      },
+      {
+        "id": "LA",
+        "label": "Vientiane"
+      },
+      {
+        "id": "MN",
+        "label": "Ulaanbaatar"
+      },
+      {
+        "id": "FM",
+        "label": "Palikir"
+      },
+      {
+        "id": "SB",
+        "label": "Honiara"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/SC/",
+      "https://download.geonames.org/export/dump/countryInfo.txt"
+    ]
+  },
+  {
+    "id": "advanced-sagome-BT",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Bhutan?",
+    "target": "BT",
+    "correct": {
+      "id": "BT",
+      "label": "Bhutan",
+      "image": "/geofall/advanced/outline-BT.svg"
+    },
+    "wrong": [
+      {
+        "id": "LA",
+        "label": "Laos",
+        "image": "/geofall/advanced/outline-LA.svg"
+      },
+      {
+        "id": "KG",
+        "label": "Kirghizistan",
+        "image": "/geofall/advanced/outline-KG.svg"
+      },
+      {
+        "id": "MN",
+        "label": "Mongolia",
+        "image": "/geofall/advanced/outline-MN.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "BW",
+        "label": "Botswana",
+        "image": "/geofall/advanced/outline-BW.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/BT/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-LA",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Laos?",
+    "target": "LA",
+    "correct": {
+      "id": "LA",
+      "label": "Laos",
+      "image": "/geofall/advanced/outline-LA.svg"
+    },
+    "wrong": [
+      {
+        "id": "BT",
+        "label": "Bhutan",
+        "image": "/geofall/advanced/outline-BT.svg"
+      },
+      {
+        "id": "MN",
+        "label": "Mongolia",
+        "image": "/geofall/advanced/outline-MN.svg"
+      },
+      {
+        "id": "KG",
+        "label": "Kirghizistan",
+        "image": "/geofall/advanced/outline-KG.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "BW",
+        "label": "Botswana",
+        "image": "/geofall/advanced/outline-BW.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/LA/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-MN",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Mongolia?",
+    "target": "MN",
+    "correct": {
+      "id": "MN",
+      "label": "Mongolia",
+      "image": "/geofall/advanced/outline-MN.svg"
+    },
+    "wrong": [
+      {
+        "id": "BT",
+        "label": "Bhutan",
+        "image": "/geofall/advanced/outline-BT.svg"
+      },
+      {
+        "id": "KG",
+        "label": "Kirghizistan",
+        "image": "/geofall/advanced/outline-KG.svg"
+      },
+      {
+        "id": "LA",
+        "label": "Laos",
+        "image": "/geofall/advanced/outline-LA.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/MN/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-KG",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Kirghizistan?",
+    "target": "KG",
+    "correct": {
+      "id": "KG",
+      "label": "Kirghizistan",
+      "image": "/geofall/advanced/outline-KG.svg"
+    },
+    "wrong": [
+      {
+        "id": "BT",
+        "label": "Bhutan",
+        "image": "/geofall/advanced/outline-BT.svg"
+      },
+      {
+        "id": "MN",
+        "label": "Mongolia",
+        "image": "/geofall/advanced/outline-MN.svg"
+      },
+      {
+        "id": "LA",
+        "label": "Laos",
+        "image": "/geofall/advanced/outline-LA.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/KG/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-NA",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Namibia?",
+    "target": "NA",
+    "correct": {
+      "id": "NA",
+      "label": "Namibia",
+      "image": "/geofall/advanced/outline-NA.svg"
+    },
+    "wrong": [
+      {
+        "id": "BW",
+        "label": "Botswana",
+        "image": "/geofall/advanced/outline-BW.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/outline-CI.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/outline-GN.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/NA/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-BW",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Botswana?",
+    "target": "BW",
+    "correct": {
+      "id": "BW",
+      "label": "Botswana",
+      "image": "/geofall/advanced/outline-BW.svg"
+    },
+    "wrong": [
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/outline-CI.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/outline-GN.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/BW/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-TD",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Ciad?",
+    "target": "TD",
+    "correct": {
+      "id": "TD",
+      "label": "Ciad",
+      "image": "/geofall/advanced/outline-TD.svg"
+    },
+    "wrong": [
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/outline-CI.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/outline-GN.svg"
+      },
+      {
+        "id": "SN",
+        "label": "Senegal",
+        "image": "/geofall/advanced/outline-SN.svg"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/TD/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-ML",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Mali?",
+    "target": "ML",
+    "correct": {
+      "id": "ML",
+      "label": "Mali",
+      "image": "/geofall/advanced/outline-ML.svg"
+    },
+    "wrong": [
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/outline-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/outline-CI.svg"
+      },
+      {
+        "id": "SN",
+        "label": "Senegal",
+        "image": "/geofall/advanced/outline-SN.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://www.geonames.org/countries/ML/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-GN",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Guinea?",
+    "target": "GN",
+    "correct": {
+      "id": "GN",
+      "label": "Guinea",
+      "image": "/geofall/advanced/outline-GN.svg"
+    },
+    "wrong": [
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/outline-CI.svg"
+      },
+      {
+        "id": "SN",
+        "label": "Senegal",
+        "image": "/geofall/advanced/outline-SN.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/GN/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-CI",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Costa d’Avorio?",
+    "target": "CI",
+    "correct": {
+      "id": "CI",
+      "label": "Costa d’Avorio",
+      "image": "/geofall/advanced/outline-CI.svg"
+    },
+    "wrong": [
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/outline-GN.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      },
+      {
+        "id": "SN",
+        "label": "Senegal",
+        "image": "/geofall/advanced/outline-SN.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/CI/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-BJ",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Benin?",
+    "target": "BJ",
+    "correct": {
+      "id": "BJ",
+      "label": "Benin",
+      "image": "/geofall/advanced/outline-BJ.svg"
+    },
+    "wrong": [
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/outline-CI.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/outline-GN.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "SN",
+        "label": "Senegal",
+        "image": "/geofall/advanced/outline-SN.svg"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/BJ/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-GH",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Ghana?",
+    "target": "GH",
+    "correct": {
+      "id": "GH",
+      "label": "Ghana",
+      "image": "/geofall/advanced/outline-GH.svg"
+    },
+    "wrong": [
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/outline-CI.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/outline-GN.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "SN",
+        "label": "Senegal",
+        "image": "/geofall/advanced/outline-SN.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/GH/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-CM",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Camerun?",
+    "target": "CM",
+    "correct": {
+      "id": "CM",
+      "label": "Camerun",
+      "image": "/geofall/advanced/outline-CM.svg"
+    },
+    "wrong": [
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/outline-CI.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/outline-GN.svg"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      },
+      {
+        "id": "BW",
+        "label": "Botswana",
+        "image": "/geofall/advanced/outline-BW.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/CM/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-SN",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Senegal?",
+    "target": "SN",
+    "correct": {
+      "id": "SN",
+      "label": "Senegal",
+      "image": "/geofall/advanced/outline-SN.svg"
+    },
+    "wrong": [
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/outline-GN.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/outline-CI.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      },
+      {
+        "id": "BF",
+        "label": "Burkina Faso",
+        "image": "/geofall/advanced/outline-BF.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      },
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/SN/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-sagome-BF",
+    "category": "sagome",
+    "prompt": "Quale sagoma rappresenta Burkina Faso?",
+    "target": "BF",
+    "correct": {
+      "id": "BF",
+      "label": "Burkina Faso",
+      "image": "/geofall/advanced/outline-BF.svg"
+    },
+    "wrong": [
+      {
+        "id": "BJ",
+        "label": "Benin",
+        "image": "/geofall/advanced/outline-BJ.svg"
+      },
+      {
+        "id": "GH",
+        "label": "Ghana",
+        "image": "/geofall/advanced/outline-GH.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Mali",
+        "image": "/geofall/advanced/outline-ML.svg"
+      },
+      {
+        "id": "CI",
+        "label": "Costa d’Avorio",
+        "image": "/geofall/advanced/outline-CI.svg"
+      },
+      {
+        "id": "GN",
+        "label": "Guinea",
+        "image": "/geofall/advanced/outline-GN.svg"
+      },
+      {
+        "id": "SN",
+        "label": "Senegal",
+        "image": "/geofall/advanced/outline-SN.svg"
+      },
+      {
+        "id": "CM",
+        "label": "Camerun",
+        "image": "/geofall/advanced/outline-CM.svg"
+      },
+      {
+        "id": "TD",
+        "label": "Ciad",
+        "image": "/geofall/advanced/outline-TD.svg"
+      },
+      {
+        "id": "NA",
+        "label": "Namibia",
+        "image": "/geofall/advanced/outline-NA.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://www.geonames.org/countries/BF/",
+      "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-KH",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Cambogia?",
+    "target": "KH",
+    "correct": {
+      "id": "KH",
+      "label": "Angkor Wat",
+      "image": "/geofall/advanced/monument-KH.svg"
+    },
+    "wrong": [
+      {
+        "id": "TH",
+        "label": "Templi di Ayutthaya",
+        "image": "/geofall/advanced/monument-TH.svg"
+      },
+      {
+        "id": "LA",
+        "label": "Vat Phou",
+        "image": "/geofall/advanced/monument-LA.svg"
+      },
+      {
+        "id": "VN",
+        "label": "Ponte giapponese di Hoi An",
+        "image": "/geofall/advanced/monument-VN.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Borobudur",
+        "image": "/geofall/advanced/monument-ID.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://whc.unesco.org/en/list/668/",
+      "https://whc.unesco.org/en/list/576/",
+      "https://whc.unesco.org/en/list/481/",
+      "https://whc.unesco.org/en/list/948/",
+      "https://whc.unesco.org/en/list/1588/",
+      "https://whc.unesco.org/en/list/592/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://whc.unesco.org/en/list/114/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-ID",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Indonesia?",
+    "target": "ID",
+    "correct": {
+      "id": "ID",
+      "label": "Borobudur",
+      "image": "/geofall/advanced/monument-ID.svg"
+    },
+    "wrong": [
+      {
+        "id": "KH",
+        "label": "Angkor Wat",
+        "image": "/geofall/advanced/monument-KH.svg"
+      },
+      {
+        "id": "TH",
+        "label": "Templi di Ayutthaya",
+        "image": "/geofall/advanced/monument-TH.svg"
+      },
+      {
+        "id": "LA",
+        "label": "Vat Phou",
+        "image": "/geofall/advanced/monument-LA.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "VN",
+        "label": "Ponte giapponese di Hoi An",
+        "image": "/geofall/advanced/monument-VN.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://whc.unesco.org/en/list/592/",
+      "https://whc.unesco.org/en/list/668/",
+      "https://whc.unesco.org/en/list/576/",
+      "https://whc.unesco.org/en/list/481/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/948/",
+      "https://whc.unesco.org/en/list/1588/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://whc.unesco.org/en/list/114/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-MM",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Myanmar?",
+    "target": "MM",
+    "correct": {
+      "id": "MM",
+      "label": "Templi di Bagan",
+      "image": "/geofall/advanced/monument-MM.svg"
+    },
+    "wrong": [
+      {
+        "id": "LA",
+        "label": "Vat Phou",
+        "image": "/geofall/advanced/monument-LA.svg"
+      },
+      {
+        "id": "TH",
+        "label": "Templi di Ayutthaya",
+        "image": "/geofall/advanced/monument-TH.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "VN",
+        "label": "Ponte giapponese di Hoi An",
+        "image": "/geofall/advanced/monument-VN.svg"
+      },
+      {
+        "id": "KH",
+        "label": "Angkor Wat",
+        "image": "/geofall/advanced/monument-KH.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Borobudur",
+        "image": "/geofall/advanced/monument-ID.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://whc.unesco.org/en/list/1588/",
+      "https://whc.unesco.org/en/list/481/",
+      "https://whc.unesco.org/en/list/576/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/948/",
+      "https://whc.unesco.org/en/list/668/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/592/",
+      "https://whc.unesco.org/en/list/114/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-LA",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Laos?",
+    "target": "LA",
+    "correct": {
+      "id": "LA",
+      "label": "Vat Phou",
+      "image": "/geofall/advanced/monument-LA.svg"
+    },
+    "wrong": [
+      {
+        "id": "VN",
+        "label": "Ponte giapponese di Hoi An",
+        "image": "/geofall/advanced/monument-VN.svg"
+      },
+      {
+        "id": "TH",
+        "label": "Templi di Ayutthaya",
+        "image": "/geofall/advanced/monument-TH.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      },
+      {
+        "id": "KH",
+        "label": "Angkor Wat",
+        "image": "/geofall/advanced/monument-KH.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Borobudur",
+        "image": "/geofall/advanced/monument-ID.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://whc.unesco.org/en/list/481/",
+      "https://whc.unesco.org/en/list/948/",
+      "https://whc.unesco.org/en/list/576/",
+      "https://whc.unesco.org/en/list/1588/",
+      "https://whc.unesco.org/en/list/668/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://whc.unesco.org/en/list/592/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/114/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-BT",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Bhutan?",
+    "target": "BT",
+    "correct": {
+      "id": "BT",
+      "label": "Paro Taktsang",
+      "image": "/geofall/advanced/monument-BT.svg"
+    },
+    "wrong": [
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      },
+      {
+        "id": "LA",
+        "label": "Vat Phou",
+        "image": "/geofall/advanced/monument-LA.svg"
+      },
+      {
+        "id": "VN",
+        "label": "Ponte giapponese di Hoi An",
+        "image": "/geofall/advanced/monument-VN.svg"
+      },
+      {
+        "id": "TH",
+        "label": "Templi di Ayutthaya",
+        "image": "/geofall/advanced/monument-TH.svg"
+      },
+      {
+        "id": "KH",
+        "label": "Angkor Wat",
+        "image": "/geofall/advanced/monument-KH.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Borobudur",
+        "image": "/geofall/advanced/monument-ID.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://whc.unesco.org/en/list/1588/",
+      "https://whc.unesco.org/en/list/481/",
+      "https://whc.unesco.org/en/list/948/",
+      "https://whc.unesco.org/en/list/576/",
+      "https://whc.unesco.org/en/list/668/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/592/",
+      "https://whc.unesco.org/en/list/114/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-LK",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Sri Lanka?",
+    "target": "LK",
+    "correct": {
+      "id": "LK",
+      "label": "Sigiriya",
+      "image": "/geofall/advanced/monument-LK.svg"
+    },
+    "wrong": [
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "TH",
+        "label": "Templi di Ayutthaya",
+        "image": "/geofall/advanced/monument-TH.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Borobudur",
+        "image": "/geofall/advanced/monument-ID.svg"
+      },
+      {
+        "id": "KH",
+        "label": "Angkor Wat",
+        "image": "/geofall/advanced/monument-KH.svg"
+      },
+      {
+        "id": "LA",
+        "label": "Vat Phou",
+        "image": "/geofall/advanced/monument-LA.svg"
+      },
+      {
+        "id": "VN",
+        "label": "Ponte giapponese di Hoi An",
+        "image": "/geofall/advanced/monument-VN.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/1588/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://whc.unesco.org/en/list/576/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/592/",
+      "https://whc.unesco.org/en/list/668/",
+      "https://whc.unesco.org/en/list/481/",
+      "https://whc.unesco.org/en/list/948/",
+      "https://whc.unesco.org/en/list/114/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-NP",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Nepal?",
+    "target": "NP",
+    "correct": {
+      "id": "NP",
+      "label": "Swayambhunath",
+      "image": "/geofall/advanced/monument-NP.svg"
+    },
+    "wrong": [
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      },
+      {
+        "id": "LA",
+        "label": "Vat Phou",
+        "image": "/geofall/advanced/monument-LA.svg"
+      },
+      {
+        "id": "TH",
+        "label": "Templi di Ayutthaya",
+        "image": "/geofall/advanced/monument-TH.svg"
+      },
+      {
+        "id": "VN",
+        "label": "Ponte giapponese di Hoi An",
+        "image": "/geofall/advanced/monument-VN.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "KH",
+        "label": "Angkor Wat",
+        "image": "/geofall/advanced/monument-KH.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Borobudur",
+        "image": "/geofall/advanced/monument-ID.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://whc.unesco.org/en/list/121/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/1588/",
+      "https://whc.unesco.org/en/list/481/",
+      "https://whc.unesco.org/en/list/576/",
+      "https://whc.unesco.org/en/list/948/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/668/",
+      "https://whc.unesco.org/en/list/114/",
+      "https://whc.unesco.org/en/list/592/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-TH",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Thailandia?",
+    "target": "TH",
+    "correct": {
+      "id": "TH",
+      "label": "Templi di Ayutthaya",
+      "image": "/geofall/advanced/monument-TH.svg"
+    },
+    "wrong": [
+      {
+        "id": "LA",
+        "label": "Vat Phou",
+        "image": "/geofall/advanced/monument-LA.svg"
+      },
+      {
+        "id": "KH",
+        "label": "Angkor Wat",
+        "image": "/geofall/advanced/monument-KH.svg"
+      },
+      {
+        "id": "VN",
+        "label": "Ponte giapponese di Hoi An",
+        "image": "/geofall/advanced/monument-VN.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Borobudur",
+        "image": "/geofall/advanced/monument-ID.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      }
+    ],
+    "difficulty": 3,
+    "sources": [
+      "https://whc.unesco.org/en/list/576/",
+      "https://whc.unesco.org/en/list/481/",
+      "https://whc.unesco.org/en/list/668/",
+      "https://whc.unesco.org/en/list/948/",
+      "https://whc.unesco.org/en/list/1588/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/592/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/114/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-VN",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Vietnam?",
+    "target": "VN",
+    "correct": {
+      "id": "VN",
+      "label": "Ponte giapponese di Hoi An",
+      "image": "/geofall/advanced/monument-VN.svg"
+    },
+    "wrong": [
+      {
+        "id": "LA",
+        "label": "Vat Phou",
+        "image": "/geofall/advanced/monument-LA.svg"
+      },
+      {
+        "id": "TH",
+        "label": "Templi di Ayutthaya",
+        "image": "/geofall/advanced/monument-TH.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      },
+      {
+        "id": "KH",
+        "label": "Angkor Wat",
+        "image": "/geofall/advanced/monument-KH.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Borobudur",
+        "image": "/geofall/advanced/monument-ID.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://whc.unesco.org/en/list/948/",
+      "https://whc.unesco.org/en/list/481/",
+      "https://whc.unesco.org/en/list/576/",
+      "https://whc.unesco.org/en/list/1588/",
+      "https://whc.unesco.org/en/list/668/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://whc.unesco.org/en/list/592/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/114/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-ZW",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Zimbabwe?",
+    "target": "ZW",
+    "correct": {
+      "id": "ZW",
+      "label": "Grande Zimbabwe",
+      "image": "/geofall/advanced/monument-ZW.svg"
+    },
+    "wrong": [
+      {
+        "id": "TZ",
+        "label": "Rovine di Kilwa Kisiwani",
+        "image": "/geofall/advanced/monument-TZ.svg"
+      },
+      {
+        "id": "ET",
+        "label": "Chiesa di San Giorgio a Lalibela",
+        "image": "/geofall/advanced/monument-ET.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Grande Moschea di Djenné",
+        "image": "/geofall/advanced/monument-ML.svg"
+      },
+      {
+        "id": "SN",
+        "label": "Casa degli Schiavi di Gorée",
+        "image": "/geofall/advanced/monument-SN.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "ID",
+        "label": "Borobudur",
+        "image": "/geofall/advanced/monument-ID.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://whc.unesco.org/en/list/364/",
+      "https://whc.unesco.org/en/list/144/",
+      "https://whc.unesco.org/en/list/18/",
+      "https://whc.unesco.org/en/list/116/",
+      "https://whc.unesco.org/en/list/26/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/114/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://whc.unesco.org/en/list/592/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-ML",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Mali?",
+    "target": "ML",
+    "correct": {
+      "id": "ML",
+      "label": "Grande Moschea di Djenné",
+      "image": "/geofall/advanced/monument-ML.svg"
+    },
+    "wrong": [
+      {
+        "id": "SN",
+        "label": "Casa degli Schiavi di Gorée",
+        "image": "/geofall/advanced/monument-SN.svg"
+      },
+      {
+        "id": "ET",
+        "label": "Chiesa di San Giorgio a Lalibela",
+        "image": "/geofall/advanced/monument-ET.svg"
+      },
+      {
+        "id": "TZ",
+        "label": "Rovine di Kilwa Kisiwani",
+        "image": "/geofall/advanced/monument-TZ.svg"
+      },
+      {
+        "id": "ZW",
+        "label": "Grande Zimbabwe",
+        "image": "/geofall/advanced/monument-ZW.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://whc.unesco.org/en/list/116/",
+      "https://whc.unesco.org/en/list/26/",
+      "https://whc.unesco.org/en/list/18/",
+      "https://whc.unesco.org/en/list/144/",
+      "https://whc.unesco.org/en/list/364/",
+      "https://whc.unesco.org/en/list/114/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/1588/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-ET",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Etiopia?",
+    "target": "ET",
+    "correct": {
+      "id": "ET",
+      "label": "Chiesa di San Giorgio a Lalibela",
+      "image": "/geofall/advanced/monument-ET.svg"
+    },
+    "wrong": [
+      {
+        "id": "TZ",
+        "label": "Rovine di Kilwa Kisiwani",
+        "image": "/geofall/advanced/monument-TZ.svg"
+      },
+      {
+        "id": "ZW",
+        "label": "Grande Zimbabwe",
+        "image": "/geofall/advanced/monument-ZW.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Grande Moschea di Djenné",
+        "image": "/geofall/advanced/monument-ML.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "SN",
+        "label": "Casa degli Schiavi di Gorée",
+        "image": "/geofall/advanced/monument-SN.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://whc.unesco.org/en/list/18/",
+      "https://whc.unesco.org/en/list/144/",
+      "https://whc.unesco.org/en/list/364/",
+      "https://whc.unesco.org/en/list/114/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/116/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://whc.unesco.org/en/list/26/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/1588/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-TZ",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Tanzania?",
+    "target": "TZ",
+    "correct": {
+      "id": "TZ",
+      "label": "Rovine di Kilwa Kisiwani",
+      "image": "/geofall/advanced/monument-TZ.svg"
+    },
+    "wrong": [
+      {
+        "id": "ZW",
+        "label": "Grande Zimbabwe",
+        "image": "/geofall/advanced/monument-ZW.svg"
+      },
+      {
+        "id": "ET",
+        "label": "Chiesa di San Giorgio a Lalibela",
+        "image": "/geofall/advanced/monument-ET.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      },
+      {
+        "id": "ML",
+        "label": "Grande Moschea di Djenné",
+        "image": "/geofall/advanced/monument-ML.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "SN",
+        "label": "Casa degli Schiavi di Gorée",
+        "image": "/geofall/advanced/monument-SN.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://whc.unesco.org/en/list/144/",
+      "https://whc.unesco.org/en/list/364/",
+      "https://whc.unesco.org/en/list/18/",
+      "https://whc.unesco.org/en/list/114/",
+      "https://whc.unesco.org/en/list/116/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/26/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/1588/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-SN",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Senegal?",
+    "target": "SN",
+    "correct": {
+      "id": "SN",
+      "label": "Casa degli Schiavi di Gorée",
+      "image": "/geofall/advanced/monument-SN.svg"
+    },
+    "wrong": [
+      {
+        "id": "ML",
+        "label": "Grande Moschea di Djenné",
+        "image": "/geofall/advanced/monument-ML.svg"
+      },
+      {
+        "id": "TZ",
+        "label": "Rovine di Kilwa Kisiwani",
+        "image": "/geofall/advanced/monument-TZ.svg"
+      },
+      {
+        "id": "ET",
+        "label": "Chiesa di San Giorgio a Lalibela",
+        "image": "/geofall/advanced/monument-ET.svg"
+      },
+      {
+        "id": "ZW",
+        "label": "Grande Zimbabwe",
+        "image": "/geofall/advanced/monument-ZW.svg"
+      },
+      {
+        "id": "IR",
+        "label": "Persepoli",
+        "image": "/geofall/advanced/monument-IR.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://whc.unesco.org/en/list/26/",
+      "https://whc.unesco.org/en/list/116/",
+      "https://whc.unesco.org/en/list/144/",
+      "https://whc.unesco.org/en/list/18/",
+      "https://whc.unesco.org/en/list/364/",
+      "https://whc.unesco.org/en/list/114/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/1588/"
+    ]
+  },
+  {
+    "id": "advanced-monumenti-IR",
+    "category": "monumenti",
+    "prompt": "Quale monumento o complesso storico si trova in Iran?",
+    "target": "IR",
+    "correct": {
+      "id": "IR",
+      "label": "Persepoli",
+      "image": "/geofall/advanced/monument-IR.svg"
+    },
+    "wrong": [
+      {
+        "id": "NP",
+        "label": "Swayambhunath",
+        "image": "/geofall/advanced/monument-NP.svg"
+      },
+      {
+        "id": "ET",
+        "label": "Chiesa di San Giorgio a Lalibela",
+        "image": "/geofall/advanced/monument-ET.svg"
+      },
+      {
+        "id": "BT",
+        "label": "Paro Taktsang",
+        "image": "/geofall/advanced/monument-BT.svg"
+      },
+      {
+        "id": "LK",
+        "label": "Sigiriya",
+        "image": "/geofall/advanced/monument-LK.svg"
+      },
+      {
+        "id": "MM",
+        "label": "Templi di Bagan",
+        "image": "/geofall/advanced/monument-MM.svg"
+      },
+      {
+        "id": "TZ",
+        "label": "Rovine di Kilwa Kisiwani",
+        "image": "/geofall/advanced/monument-TZ.svg"
+      },
+      {
+        "id": "LA",
+        "label": "Vat Phou",
+        "image": "/geofall/advanced/monument-LA.svg"
+      },
+      {
+        "id": "TH",
+        "label": "Templi di Ayutthaya",
+        "image": "/geofall/advanced/monument-TH.svg"
+      },
+      {
+        "id": "VN",
+        "label": "Ponte giapponese di Hoi An",
+        "image": "/geofall/advanced/monument-VN.svg"
+      }
+    ],
+    "difficulty": 4,
+    "sources": [
+      "https://whc.unesco.org/en/list/114/",
+      "https://whc.unesco.org/en/list/121/",
+      "https://whc.unesco.org/en/list/18/",
+      "https://paro.gov.bt/religious-site/taktshang-tiger-nest-monastery/",
+      "https://whc.unesco.org/en/list/202/",
+      "https://whc.unesco.org/en/list/1588/",
+      "https://whc.unesco.org/en/list/144/",
+      "https://whc.unesco.org/en/list/481/",
+      "https://whc.unesco.org/en/list/576/",
+      "https://whc.unesco.org/en/list/948/"
+    ]
   }
 ]

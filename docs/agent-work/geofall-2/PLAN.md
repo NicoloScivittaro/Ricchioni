@@ -1,0 +1,8 @@
+# Geofall 2 — accepted user spec
+
+Preserve dirty Backrooms fixes and all100 existing questions (snapshot before append). Root implementation authorized without Flash.
+
+1. Add Geofall to existing abilityCatalog/AB, abilityHub, input profile RB/R1 and generic phone layout; pure match owns state. Adapt Goblin timed push shield (no reflected extra push), Boschi reduced knockback (no release wave), Carbo kinetic braking, Victor brief acceleration. Ciro short confusion using existing inverted-axis mechanic, explicit warning and early-enough activation so recovery remains possible. All charge/cooldown/duration numbers from catalog, life/tile snapshot rules untouched; clear effects on collapse, round reset and cancellation/pause.
+2. Retain original100 objects exactly; add15 questions each category, difficulty3/4 with nine distinct plausible distractors and local assets. Verify GeoNames country metadata, Natural Earth outlines, actual flag aspect ratios/emblems and UNESCO monument locations. Avoid indistinguishable Chad/Romania head-to-head and disputed/ambiguous borders; explain exclusions. Retain original asset paths; correct legacy4:3 flag variants to true national ratios when verified.
+3. Five-category bags balanced; tier1/2 rounds1–5, mostly2/3 rounds6–10, tier3 rounds11–15, mostly4 rounds16+. Tier-specific shuffled bags with nonrepeat/history protection; preserve10/8/6s timers.
+4. Pure tests abilities/charges/cooldowns/pushes/snapshot invariants/simultaneous activation/all tiers/database/exactly10 answers/original preservation; native browser pad/phone/HUD/Companion Card and screenshot inspection; 2–5 complete simulations/rooms; shared ability/Backrooms regression, typecheck/build, no commit/push/deploy.

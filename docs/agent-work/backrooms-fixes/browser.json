@@ -1,0 +1,264 @@
+{
+  "errors": [],
+  "checks": [
+    "Xbox movement and independent look",
+    "PlayStation/generic look mapping",
+    "phone three simultaneous fingers: movement/look/sprint; no mobile 3D",
+    "pause freezes authority",
+    "fallback/rejoin",
+    "same interact edge across multiple slow substeps toggles door once; next press toggles again",
+    "capture/key drop/blackout/respawn/immunity/elimination/spectator",
+    "lobby cleanup"
+  ],
+  "views": [
+    {
+      "w": 1280,
+      "h": 720,
+      "panels": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 426.65625,
+          "h": 360,
+          "scroll": false
+        },
+        {
+          "x": 426.65625,
+          "y": 0,
+          "w": 426.65625,
+          "h": 360,
+          "scroll": false
+        },
+        {
+          "x": 853.328125,
+          "y": 0,
+          "w": 426.65625,
+          "h": 360,
+          "scroll": false
+        },
+        {
+          "x": 0,
+          "y": 360,
+          "w": 640,
+          "h": 360,
+          "scroll": false
+        },
+        {
+          "x": 640,
+          "y": 360,
+          "w": 640,
+          "h": 360,
+          "scroll": false
+        }
+      ]
+    },
+    {
+      "w": 1920,
+      "h": 1080,
+      "panels": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 639.984375,
+          "h": 540,
+          "scroll": false
+        },
+        {
+          "x": 639.984375,
+          "y": 0,
+          "w": 639.984375,
+          "h": 540,
+          "scroll": false
+        },
+        {
+          "x": 1279.984375,
+          "y": 0,
+          "w": 639.984375,
+          "h": 540,
+          "scroll": false
+        },
+        {
+          "x": 0,
+          "y": 540,
+          "w": 960,
+          "h": 540,
+          "scroll": false
+        },
+        {
+          "x": 960,
+          "y": 540,
+          "w": 960,
+          "h": 540,
+          "scroll": false
+        }
+      ]
+    },
+    {
+      "w": 800,
+      "h": 600,
+      "panels": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 266.65625,
+          "h": 300,
+          "scroll": false
+        },
+        {
+          "x": 266.65625,
+          "y": 0,
+          "w": 266.65625,
+          "h": 300,
+          "scroll": false
+        },
+        {
+          "x": 533.328125,
+          "y": 0,
+          "w": 266.65625,
+          "h": 300,
+          "scroll": false
+        },
+        {
+          "x": 0,
+          "y": 300,
+          "w": 400,
+          "h": 300,
+          "scroll": false
+        },
+        {
+          "x": 400,
+          "y": 300,
+          "w": 400,
+          "h": 300,
+          "scroll": false
+        }
+      ]
+    },
+    {
+      "w": 390,
+      "h": 800,
+      "scroll": false,
+      "controls": [
+        {
+          "bottom": 416.453125,
+          "right": 165.84375,
+          "width": 128.6875,
+          "height": 128.6875
+        },
+        {
+          "bottom": 416.453125,
+          "right": 352.84375,
+          "width": 128.6875,
+          "height": 128.6875
+        },
+        {
+          "bottom": 642.234375,
+          "right": 190,
+          "width": 174,
+          "height": 65
+        },
+        {
+          "bottom": 642.234375,
+          "right": 374,
+          "width": 174,
+          "height": 65
+        }
+      ]
+    },
+    {
+      "w": 360,
+      "h": 640,
+      "scroll": false,
+      "controls": [
+        {
+          "bottom": 356.53125,
+          "right": 153.390625,
+          "width": 118.796875,
+          "height": 118.796875
+        },
+        {
+          "bottom": 356.53125,
+          "right": 325.390625,
+          "width": 118.796875,
+          "height": 118.796875
+        },
+        {
+          "bottom": 532.265625,
+          "right": 175,
+          "width": 159,
+          "height": 65
+        },
+        {
+          "bottom": 532.265625,
+          "right": 344,
+          "width": 159,
+          "height": 65
+        }
+      ]
+    },
+    {
+      "w": 844,
+      "h": 390,
+      "scroll": false,
+      "controls": [
+        {
+          "bottom": 256.453125,
+          "right": 164.5,
+          "width": 110,
+          "height": 110
+        },
+        {
+          "bottom": 256.453125,
+          "right": 375.5,
+          "width": 110,
+          "height": 110
+        },
+        {
+          "bottom": 265.578125,
+          "right": 624,
+          "width": 190,
+          "height": 65
+        },
+        {
+          "bottom": 265.578125,
+          "right": 824,
+          "width": 190,
+          "height": 65
+        }
+      ]
+    }
+  ],
+  "initial": {
+    "seed": 728509482,
+    "mode": "key",
+    "puzzle": "generators",
+    "monsters": [
+      "stalker",
+      "imitator"
+    ],
+    "players": 5,
+    "cameras": 5,
+    "meshes": 1007,
+    "materials": 181,
+    "skins": [
+      true,
+      true,
+      false,
+      true,
+      true
+    ]
+  },
+  "controls": "🚪 BACKROOMS — L’ULTIMA PORTA 🎮 CONTROLLI LEFT STICK MUOVITI · CAMMINARE FA MENO RUMORE RIGHT STICK GUARDA LB / L1 CORRI (TIENI) · CONSUMA FIATO A / ✕ INTERAGISCI · GENERATORI: TIENI · SPETTATORE: CAMBIA 📱 Chi non ha il controller gioca col telefono",
+  "perf": {
+    "frames": 180,
+    "seconds": 3.745699999999255,
+    "fps": 47.78685461048759,
+    "active": 152,
+    "meshes": 1007,
+    "viewport": [
+      1280,
+      720
+    ],
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  }
+}

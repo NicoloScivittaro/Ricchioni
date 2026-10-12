@@ -27,7 +27,8 @@ export class ScoreManager {
     scores: Map<PlayerId, number>,
     ranking: PlayerId[],
     targetScore: number,
-    double = false
+    double = false,
+    sharedPlacements?: Record<PlayerId, number>
   ): Record<PlayerId, number> {
     const table = this.baseTable(ranking.length);
     const leader = Math.max(0, ...scores.values());
@@ -36,6 +37,9 @@ export class ScoreManager {
 
     ranking.forEach((pid, idx) => {
       let pts = table[idx] ?? 1;
+      // Only callers opting in (Minigolf playoff) share occupied positions fairly.
+      if(sharedPlacements){const group=ranking.map((id,i)=>({id,i})).filter(q=>sharedPlacements[q.id]===sharedPlacements[pid]);
+        if(group.length>1)pts=Math.round(group.reduce((sum,q)=>sum+(table[q.i]??1),0)/group.length);}
       if (double) pts *= 2;
       const current = scores.get(pid) ?? 0;
       if (leader - current >= catchupGap) pts = Math.round(pts * 1.5);

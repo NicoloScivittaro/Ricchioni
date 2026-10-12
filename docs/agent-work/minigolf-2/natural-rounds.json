@@ -1,0 +1,664 @@
+[
+  {
+    "n": 2,
+    "ended": true,
+    "time": 39.84999999999838,
+    "courses": [
+      "prato",
+      "flipper",
+      "ponte"
+    ],
+    "players": [
+      {
+        "id": "5d9b6206-3142-4f78-a733-e24eed184fc4",
+        "total": 12,
+        "penalties": 0,
+        "completed": 3,
+        "aimTime": 55.38333333333178,
+        "records": [
+          {
+            "course": "prato",
+            "strokes": 1,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 4.816666666666696
+          },
+          {
+            "course": "flipper",
+            "strokes": 6,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 36.74999999999856
+          },
+          {
+            "course": "ponte",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 13.816666666666523
+          }
+        ]
+      },
+      {
+        "id": "4633b587-d5a3-4568-b2d6-7d2be7fe0fd4",
+        "total": 16,
+        "penalties": 3,
+        "completed": 3,
+        "aimTime": 53.99999999999886,
+        "records": [
+          {
+            "course": "prato",
+            "strokes": 2,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 20.616666666666138
+          },
+          {
+            "course": "flipper",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 9.950000000000076
+          },
+          {
+            "course": "ponte",
+            "strokes": 11,
+            "penalties": 3,
+            "completed": true,
+            "seconds": 23.433333333332644
+          }
+        ]
+      }
+    ],
+    "timeout": {
+      "strokes": 1,
+      "x": 0.39892588170923815,
+      "z": 11.028994056772403
+    },
+    "results": [
+      {
+        "playerId": "5d9b6206-3142-4f78-a733-e24eed184fc4",
+        "placement": 1,
+        "score": 12,
+        "stats": [
+          "12 colpi · 55.4s attivi",
+          "B1: 1 · B2: 6 · B3: 5",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "4633b587-d5a3-4568-b2d6-7d2be7fe0fd4",
+        "placement": 2,
+        "score": 16,
+        "stats": [
+          "16 colpi · 54.0s attivi",
+          "B1: 2 · B2: 3 · B3: 11",
+          "3/3 imbucate · 3 penalità"
+        ]
+      }
+    ],
+    "scores": [
+      10,
+      5
+    ],
+    "errors": []
+  },
+  {
+    "n": 3,
+    "ended": true,
+    "time": 39.5249999999984,
+    "courses": [
+      "saliscendi",
+      "rotonda",
+      "flipper"
+    ],
+    "players": [
+      {
+        "id": "8f5811b5-eb86-4a4c-a565-385ca946d105",
+        "total": 9,
+        "penalties": 0,
+        "completed": 3,
+        "aimTime": 48.15833333333229,
+        "records": [
+          {
+            "course": "saliscendi",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 22.54166666666603
+          },
+          {
+            "course": "rotonda",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 19.816666666666183
+          },
+          {
+            "course": "flipper",
+            "strokes": 2,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 5.800000000000078
+          }
+        ]
+      },
+      {
+        "id": "004b535a-0f85-4202-adde-ff38c404e50e",
+        "total": 10,
+        "penalties": 0,
+        "completed": 3,
+        "aimTime": 43.22499999999944,
+        "records": [
+          {
+            "course": "saliscendi",
+            "strokes": 2,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 7.758333333333509
+          },
+          {
+            "course": "rotonda",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 23.733333333332627
+          },
+          {
+            "course": "flipper",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 11.733333333333308
+          }
+        ]
+      },
+      {
+        "id": "46df43d9-dc3f-4674-ac17-07bf24177440",
+        "total": 10,
+        "penalties": 0,
+        "completed": 3,
+        "aimTime": 39.999999999999616,
+        "records": [
+          {
+            "course": "saliscendi",
+            "strokes": 2,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 7.675000000000171
+          },
+          {
+            "course": "rotonda",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 12.49999999999993
+          },
+          {
+            "course": "flipper",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 19.824999999999516
+          }
+        ]
+      }
+    ],
+    "timeout": {
+      "strokes": 1,
+      "x": -0.7905521734306051,
+      "z": 10.89396393569169
+    },
+    "results": [
+      {
+        "playerId": "8f5811b5-eb86-4a4c-a565-385ca946d105",
+        "placement": 1,
+        "score": 9,
+        "stats": [
+          "9 colpi · 48.2s attivi",
+          "B1: 3 · B2: 4 · B3: 2",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "46df43d9-dc3f-4674-ac17-07bf24177440",
+        "placement": 2,
+        "score": 10,
+        "stats": [
+          "10 colpi · 40.0s attivi",
+          "B1: 2 · B2: 3 · B3: 5",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "004b535a-0f85-4202-adde-ff38c404e50e",
+        "placement": 3,
+        "score": 10,
+        "stats": [
+          "10 colpi · 43.2s attivi",
+          "B1: 2 · B2: 4 · B3: 4",
+          "3/3 imbucate · 0 penalità"
+        ]
+      }
+    ],
+    "scores": [
+      10,
+      3,
+      6
+    ],
+    "errors": []
+  },
+  {
+    "n": 4,
+    "ended": true,
+    "time": 57.083333333330735,
+    "courses": [
+      "saliscendi",
+      "ponte",
+      "flipper"
+    ],
+    "players": [
+      {
+        "id": "438bd74c-702f-4881-8400-a0c808bb4a64",
+        "total": 7,
+        "penalties": 0,
+        "completed": 3,
+        "aimTime": 32.68333333333307,
+        "records": [
+          {
+            "course": "saliscendi",
+            "strokes": 1,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 5.516666666666731
+          },
+          {
+            "course": "ponte",
+            "strokes": 2,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 7.300000000000153
+          },
+          {
+            "course": "flipper",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 19.86666666666618
+          }
+        ]
+      },
+      {
+        "id": "e7099f57-8505-42c3-9b69-124e29b81d58",
+        "total": 10,
+        "penalties": 0,
+        "completed": 3,
+        "aimTime": 49.86666666666576,
+        "records": [
+          {
+            "course": "saliscendi",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 22.016666666666058
+          },
+          {
+            "course": "ponte",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 12.20833333333328
+          },
+          {
+            "course": "flipper",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 15.641666666666419
+          }
+        ]
+      },
+      {
+        "id": "1f432b86-4c9b-4d1b-83b3-c18446c91b5f",
+        "total": 8,
+        "penalties": 0,
+        "completed": 3,
+        "aimTime": 28.725000000000193,
+        "records": [
+          {
+            "course": "saliscendi",
+            "strokes": 1,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 7.066666666666808
+          },
+          {
+            "course": "ponte",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 12.008333333333292
+          },
+          {
+            "course": "flipper",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 9.650000000000093
+          }
+        ]
+      },
+      {
+        "id": "dcdd5b96-e1e3-4750-a988-2f2c725742cc",
+        "total": 13,
+        "penalties": 2,
+        "completed": 3,
+        "aimTime": 35.70833333333323,
+        "records": [
+          {
+            "course": "saliscendi",
+            "strokes": 2,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 8.06666666666685
+          },
+          {
+            "course": "ponte",
+            "strokes": 8,
+            "penalties": 2,
+            "completed": true,
+            "seconds": 18.31666666666627
+          },
+          {
+            "course": "flipper",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 9.325000000000111
+          }
+        ]
+      }
+    ],
+    "timeout": {
+      "strokes": 1,
+      "x": -0.39881586786694223,
+      "z": 10.973372816102538
+    },
+    "results": [
+      {
+        "playerId": "438bd74c-702f-4881-8400-a0c808bb4a64",
+        "placement": 1,
+        "score": 7,
+        "stats": [
+          "7 colpi · 32.7s attivi",
+          "B1: 1 · B2: 2 · B3: 4",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "1f432b86-4c9b-4d1b-83b3-c18446c91b5f",
+        "placement": 2,
+        "score": 8,
+        "stats": [
+          "8 colpi · 28.7s attivi",
+          "B1: 1 · B2: 4 · B3: 3",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "e7099f57-8505-42c3-9b69-124e29b81d58",
+        "placement": 3,
+        "score": 10,
+        "stats": [
+          "10 colpi · 49.9s attivi",
+          "B1: 3 · B2: 4 · B3: 3",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "dcdd5b96-e1e3-4750-a988-2f2c725742cc",
+        "placement": 4,
+        "score": 13,
+        "stats": [
+          "13 colpi · 35.7s attivi",
+          "B1: 2 · B2: 8 · B3: 3",
+          "3/3 imbucate · 2 penalità"
+        ]
+      }
+    ],
+    "scores": [
+      10,
+      4,
+      7,
+      2
+    ],
+    "errors": []
+  },
+  {
+    "n": 5,
+    "ended": true,
+    "time": 74.2166666666718,
+    "courses": [
+      "ponte",
+      "flipper",
+      "ultima"
+    ],
+    "players": [
+      {
+        "id": "3890fdf3-92d4-41dd-84b8-d15f45c99a44",
+        "total": 13,
+        "penalties": 0,
+        "completed": 3,
+        "aimTime": 52.041666666665634,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 5,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 27.399999999999086
+          },
+          {
+            "course": "flipper",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 11.608333333333315
+          },
+          {
+            "course": "ultima",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 13.033333333333234
+          }
+        ]
+      },
+      {
+        "id": "a04e4964-d94f-4f38-855b-5f27ea490098",
+        "total": 22,
+        "penalties": 2,
+        "completed": 2,
+        "aimTime": 30.17499999999955,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 2,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 7.825000000000179
+          },
+          {
+            "course": "flipper",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 64.93333333333108
+          },
+          {
+            "course": "ultima",
+            "strokes": 6,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 22.349999999999373
+          }
+        ]
+      },
+      {
+        "id": "7f7ff12e-53af-403e-89d9-9a58d02073ae",
+        "total": 16,
+        "penalties": 1,
+        "completed": 3,
+        "aimTime": 46.416666666665954,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 9,
+            "penalties": 1,
+            "completed": true,
+            "seconds": 25.08333333333255
+          },
+          {
+            "course": "flipper",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 10.075000000000069
+          },
+          {
+            "course": "ultima",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 11.258333333333335
+          }
+        ]
+      },
+      {
+        "id": "1dd50c1a-65d5-4831-be0c-e00c08182258",
+        "total": 8,
+        "penalties": 0,
+        "completed": 3,
+        "aimTime": 25.383333333333574,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 11.633333333333313
+          },
+          {
+            "course": "flipper",
+            "strokes": 2,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 5.841666666666747
+          },
+          {
+            "course": "ultima",
+            "strokes": 2,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 7.908333333333516
+          }
+        ]
+      },
+      {
+        "id": "e3aa7530-6f17-4c1e-8605-b32862445178",
+        "total": 22,
+        "penalties": 8,
+        "completed": 2,
+        "aimTime": 25.366666666666507,
+        "records": [
+          {
+            "course": "ponte",
+            "strokes": 14,
+            "penalties": 7,
+            "completed": false,
+            "seconds": 21.34999999999943
+          },
+          {
+            "course": "flipper",
+            "strokes": 3,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 9.600000000000096
+          },
+          {
+            "course": "ultima",
+            "strokes": 5,
+            "penalties": 1,
+            "completed": true,
+            "seconds": 15.766666666666412
+          }
+        ]
+      }
+    ],
+    "timeout": {
+      "strokes": 1,
+      "x": -1.4105599882171487,
+      "z": 11.740641354178116
+    },
+    "results": [
+      {
+        "playerId": "1dd50c1a-65d5-4831-be0c-e00c08182258",
+        "placement": 1,
+        "score": 8,
+        "stats": [
+          "8 colpi · 25.4s attivi",
+          "B1: 4 · B2: 2 · B3: 2",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "3890fdf3-92d4-41dd-84b8-d15f45c99a44",
+        "placement": 2,
+        "score": 13,
+        "stats": [
+          "13 colpi · 52.0s attivi",
+          "B1: 5 · B2: 4 · B3: 4",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "7f7ff12e-53af-403e-89d9-9a58d02073ae",
+        "placement": 3,
+        "score": 16,
+        "stats": [
+          "16 colpi · 46.4s attivi",
+          "B1: 9 · B2: 4 · B3: 3",
+          "3/3 imbucate · 1 penalità"
+        ]
+      },
+      {
+        "playerId": "e3aa7530-6f17-4c1e-8605-b32862445178",
+        "placement": 4,
+        "score": 22,
+        "stats": [
+          "22 colpi · 25.4s attivi",
+          "B1: 14 DNF · B2: 3 · B3: 5",
+          "2/3 imbucate · 8 penalità"
+        ]
+      },
+      {
+        "playerId": "a04e4964-d94f-4f38-855b-5f27ea490098",
+        "placement": 5,
+        "score": 22,
+        "stats": [
+          "22 colpi · 30.2s attivi",
+          "B1: 2 · B2: 14 DNF · B3: 6",
+          "2/3 imbucate · 2 penalità"
+        ]
+      }
+    ],
+    "scores": [
+      7,
+      1,
+      5,
+      10,
+      3
+    ],
+    "errors": []
+  }
+]

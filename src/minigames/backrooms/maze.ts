@@ -8,6 +8,14 @@ export interface Maze {
   spawn: number; exit: number; key: number; tasks: number[]; refuges: number[];
   doors: MazeDoor[]; dark: Set<number>; monsterSpawns: number[];
 }
+/** Exact topology, not a hash of props/seed: changing decoration cannot pass this guard. */
+export function topologySignature(m: Maze): string { return `${m.size}:${Array.from(m.floor).join('')}`; }
+export function freshMazeSeed(seed: number, players: number, previousSeed: number, previousTopology: string): number {
+  for (let tries = 0; tries < 1024; tries++, seed = (seed + 1) >>> 0) {
+    if (seed !== previousSeed && topologySignature(generateMaze(seed, players)) !== previousTopology) return seed;
+  }
+  throw new Error('Backrooms: impossibile generare una nuova topologia');
+}
 const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]] as const;
 export function center(m: Maze, cell: number): Point {
   return { x: (cell % m.size + .5) * CELL, z: (Math.floor(cell / m.size) + .5) * CELL };

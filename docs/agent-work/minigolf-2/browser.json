@@ -1,0 +1,2192 @@
+{
+  "errors": [],
+  "controls": [
+    "Xbox",
+    "PlayStation",
+    "Generic"
+  ],
+  "courses": [
+    {
+      "id": "corridoio",
+      "x": 0.49999995730246305,
+      "y": 0.7247393509207319,
+      "z": 0.9893529464210573,
+      "eye": {
+        "x": -0.8338560395124603,
+        "y": 2.0020000000000002,
+        "z": 12.98934152967061
+      },
+      "ball": {
+        "x": -0.8338560395124599,
+        "y": 0.28,
+        "z": 9.63934152967061
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "rotonda",
+      "x": 0.50000001070375,
+      "y": 0.7247393718734094,
+      "z": 0.9893528961136153,
+      "eye": {
+        "x": -1.0352218667751463,
+        "y": 2.0020000000000002,
+        "z": 13.132318700287845
+      },
+      "ball": {
+        "x": -1.0352218667751458,
+        "y": 0.28,
+        "z": 9.782318700287846
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "ponte",
+      "x": 0.5000000520201098,
+      "y": 0.7247393456054639,
+      "z": 0.9893528997770985,
+      "eye": {
+        "x": -1.4105599882171491,
+        "y": 2.0020000000000002,
+        "z": 15.090641354178116
+      },
+      "ball": {
+        "x": -1.4105599882171487,
+        "y": 0.28,
+        "z": 11.740641354178116
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "flipper",
+      "x": 0.4999999775545342,
+      "y": 0.7247393562554306,
+      "z": 0.9893529480720079,
+      "eye": {
+        "x": -0.8916836469583322,
+        "y": 2.0020000000000002,
+        "z": 13.024873672692317
+      },
+      "ball": {
+        "x": -0.8916836469583318,
+        "y": 0.28,
+        "z": 9.674873672692318
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "discesa",
+      "x": 0.5000000342608117,
+      "y": 0.7247393161351167,
+      "z": 0.9893527499237186,
+      "eye": {
+        "x": -1.5576733692346025,
+        "y": 5.002000000000001,
+        "z": 14.03424397601154
+      },
+      "ball": {
+        "x": -1.557673369234602,
+        "y": 3.2800000000000002,
+        "z": 10.68424397601154
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "ultima",
+      "x": 0.4999999745419378,
+      "y": 0.7247393880523797,
+      "z": 0.9893528897686519,
+      "eye": {
+        "x": -0.9999589319669506,
+        "y": 2.0020000000000002,
+        "z": 15.592601967430955
+      },
+      "ball": {
+        "x": -0.9999589319669502,
+        "y": 0.28,
+        "z": 12.242601967430955
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "prato",
+      "x": 0.49999995029323124,
+      "y": 0.7247393314681517,
+      "z": 0.9893529585466443,
+      "eye": {
+        "x": -1.5773888560327758,
+        "y": 2.0020000000000002,
+        "z": 14.090440711851542
+      },
+      "ball": {
+        "x": -1.5773888560327753,
+        "y": 0.28,
+        "z": 10.740440711851543
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "saliscendi",
+      "x": 0.49999996557764004,
+      "y": 0.7247393305728549,
+      "z": 0.9893530559484481,
+      "eye": {
+        "x": -1.525219652793904,
+        "y": 2.0020000000000002,
+        "z": 13.93335150738943
+      },
+      "ball": {
+        "x": -1.5252196527939035,
+        "y": 0.28,
+        "z": 10.58335150738943
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "cancelli",
+      "x": 0.4999999775545342,
+      "y": 0.7247393562554306,
+      "z": 0.9893529480720079,
+      "eye": {
+        "x": -0.8916836469583322,
+        "y": 2.0020000000000002,
+        "z": 13.024873672692317
+      },
+      "ball": {
+        "x": -0.8916836469583318,
+        "y": 0.28,
+        "z": 9.674873672692318
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    },
+    {
+      "id": "serpentina",
+      "x": 0.5000000096559892,
+      "y": 0.7247393479523325,
+      "z": 0.9893527339353081,
+      "eye": {
+        "x": -0.08097467867426952,
+        "y": 2.0020000000000002,
+        "z": 12.762083618173941
+      },
+      "ball": {
+        "x": -0.08097467867426911,
+        "y": 0.28,
+        "z": 9.412083618173941
+      },
+      "heading": 3.141592653589793,
+      "orbit": 0
+    }
+  ],
+  "resolutions": [
+    {
+      "width": 1280,
+      "height": 720,
+      "x": 0.5000000171506364,
+      "y": 0.7247393966245171,
+      "z": 0.9893529231786468,
+      "eye": {
+        "x": -3.886025106936665,
+        "y": 2.0020000000000002,
+        "z": 11.020197779922192
+      },
+      "ball": {
+        "x": -0.8338560395124599,
+        "y": 0.28,
+        "z": 9.63934152967061
+      },
+      "heading": 1.9956592499966797,
+      "orbit": 0
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "x": 0.49999993455680464,
+      "y": 0.7247393996280126,
+      "z": 0.9893529231786468,
+      "eye": {
+        "x": -3.886025106936665,
+        "y": 2.0020000000000002,
+        "z": 11.020197779922192
+      },
+      "ball": {
+        "x": -0.8338560395124599,
+        "y": 0.28,
+        "z": 9.63934152967061
+      },
+      "heading": 1.9956592499966797,
+      "orbit": 0
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "x": 0.5000001155069331,
+      "y": 0.7247394310809,
+      "z": 0.9893529231786468,
+      "eye": {
+        "x": -3.886025106936665,
+        "y": 2.0020000000000002,
+        "z": 11.020197779922192
+      },
+      "ball": {
+        "x": -0.8338560395124599,
+        "y": 0.28,
+        "z": 9.63934152967061
+      },
+      "heading": 1.9956592499966797,
+      "orbit": 0
+    },
+    {
+      "width": 800,
+      "height": 600,
+      "x": 0.4999998182454565,
+      "y": 0.7247394166393585,
+      "z": 0.9893529231786468,
+      "eye": {
+        "x": -3.886025106936665,
+        "y": 2.0020000000000002,
+        "z": 11.020197779922192
+      },
+      "ball": {
+        "x": -0.8338560395124599,
+        "y": 0.28,
+        "z": 9.63934152967061
+      },
+      "heading": 1.9956592499966797,
+      "orbit": 0
+    }
+  ],
+  "camera": [
+    {
+      "id": "corridoio",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "rotonda",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "ponte",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "flipper",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "discesa",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.95299709542956
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.95299709542956
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "ultima",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 3.4000918976830854
+        },
+        {
+          "clear": true,
+          "distance": 3.400093051218138
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 3.4000918976830854
+        },
+        {
+          "clear": true,
+          "distance": 3.400093051218138
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "prato",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "saliscendi",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "cancelli",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    },
+    {
+      "id": "serpentina",
+      "samples": [
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429562
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765598
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.953054079616848
+        },
+        {
+          "clear": true,
+          "distance": 4.952997095429561
+        },
+        {
+          "clear": true,
+          "distance": 4.952878531765599
+        }
+      ]
+    }
+  ],
+  "phoneViews": [
+    {
+      "width": 390,
+      "height": 800,
+      "scroll": 0,
+      "buttons": [
+        {
+          "w": 145,
+          "h": 115,
+          "bottom": 370.40625
+        },
+        {
+          "w": 145,
+          "h": 51,
+          "bottom": 429.40625
+        },
+        {
+          "w": 145,
+          "h": 70,
+          "bottom": 507.40625
+        },
+        {
+          "w": 145,
+          "h": 70,
+          "bottom": 585.40625
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "height": 640,
+      "scroll": 0,
+      "buttons": [
+        {
+          "w": 140.40625,
+          "h": 115,
+          "bottom": 281.3125
+        },
+        {
+          "w": 140.40625,
+          "h": 51,
+          "bottom": 340.3125
+        },
+        {
+          "w": 140.40625,
+          "h": 70,
+          "bottom": 418.3125
+        },
+        {
+          "w": 140.40625,
+          "h": 70,
+          "bottom": 496.3125
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "scroll": 0,
+      "buttons": [
+        {
+          "w": 140.40625,
+          "h": 127,
+          "bottom": 241.90625
+        },
+        {
+          "w": 140.40625,
+          "h": 51,
+          "bottom": 165.90625
+        },
+        {
+          "w": 140.40625,
+          "h": 70,
+          "bottom": 241.90625
+        },
+        {
+          "w": 286.8125,
+          "h": 70,
+          "bottom": 317.90625
+        }
+      ]
+    }
+  ],
+  "controlsScreen": "⛳ MINIGOLF DEI DISAGIATI 🎮 CONTROLLI LEFT STICK ORIENTA IL TIRO RIGHT STICK RUOTA LA VISUALE Y / △ TIENI: PANORAMICA DELLA PISTA A / ✕ TIENI: CARICA · RILASCIA: TIRA B / ◯ ANNULLA LA CARICA RB / R1 ⚡ ABILITÀ ⚡ ABILITÀ · RB / R1 GOBLIN MBRIACONE N'CULO, DE SPONDA! Il primo rimbalzo statico del prossimo tiro è più energico. BOSCHI TU QUA NON ENTRI! Piazzi un bumper temporaneo davanti alla pallina: respinge anche te. DOTTORE SCEMO M'HO SVEJATO Previsione lunga delle sponde statiche: mobile e palline esclusi. Carbo NO, ASPETTA! Freni la tua pallina mentre rotola. Scegli bene il momento. 20c NAPOLETANO STEMPIATO PAGO DOMANI Tiro potente: imbuca subito per abbuonarlo, altrimenti +1 colpo. 📱 Chi non ha il controller gioca col telefono",
+  "frameCadences": [
+    {
+      "hz": 30,
+      "x": 2.756718710828234,
+      "z": -5.783593554141124,
+      "vx": 1.0551048070433346,
+      "vz": -5.275524035216681
+    },
+    {
+      "hz": 60,
+      "x": 2.756718710828234,
+      "z": -5.783593554141124,
+      "vx": 1.0551048070433346,
+      "vz": -5.275524035216681
+    },
+    {
+      "hz": 120,
+      "x": 2.756718710828234,
+      "z": -5.783593554141124,
+      "vx": 1.0551048070433346,
+      "vz": -5.275524035216681
+    }
+  ],
+  "companionViews": [
+    {
+      "width": 390,
+      "height": 800,
+      "visible": [
+        {
+          "top": 64,
+          "bottom": 116,
+          "text": "\n        \n        IL NAPOLETANO STEMPIAT"
+        },
+        {
+          "top": 124,
+          "bottom": 332.625,
+          "text": "\n        \n          20c\n          PAGO D"
+        },
+        {
+          "top": 346.625,
+          "bottom": 398.4375,
+          "text": "BUCA 1/3 · 150s · TOT 0 · 1°\nTURNO: Carb"
+        },
+        {
+          "top": 412.4375,
+          "bottom": 582.4375,
+          "text": "\n        COMANDI\n        LEFT STICKORIEN"
+        },
+        {
+          "top": 615.4375,
+          "bottom": 630.4375,
+          "text": "LA TUA PALLINA RESTA SULLA PISTA"
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "height": 640,
+      "visible": [
+        {
+          "top": 64,
+          "bottom": 116,
+          "text": "\n        \n        IL NAPOLETANO STEMPIAT"
+        },
+        {
+          "top": 122,
+          "bottom": 290.078125,
+          "text": "\n        \n          20c\n          PAGO D"
+        },
+        {
+          "top": 302.078125,
+          "bottom": 348.796875,
+          "text": "BUCA 1/3 · 150s · TOT 0 · 1°\nTURNO: Carb"
+        },
+        {
+          "top": 360.796875,
+          "bottom": 516.796875,
+          "text": "\n        COMANDI\n        LEFT STICKORIEN"
+        },
+        {
+          "top": 545.796875,
+          "bottom": 560.796875,
+          "text": "LA TUA PALLINA RESTA SULLA PISTA"
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "visible": [
+        {
+          "top": 44,
+          "bottom": 96,
+          "text": "\n        \n        IL NAPOLETANO STEMPIAT"
+        },
+        {
+          "top": 100,
+          "bottom": 281.078125,
+          "text": "\n        \n          20c\n          PAGO D"
+        },
+        {
+          "top": 289.28125,
+          "bottom": 336,
+          "text": "BUCA 1/3 · 150s · TOT 0 · 1°\nTURNO: Carb"
+        },
+        {
+          "top": 100,
+          "bottom": 270,
+          "text": "\n        COMANDI\n        LEFT STICKORIEN"
+        },
+        {
+          "top": 367,
+          "bottom": 382,
+          "text": "LA TUA PALLINA RESTA SULLA PISTA"
+        }
+      ]
+    }
+  ],
+  "bounce": {
+    "heading": 1.5707963267948966,
+    "vx": -5.237111140007961,
+    "bounces": 1
+  },
+  "collision": {
+    "victimStrokes": 0,
+    "victimZ": -0.41256600958455275,
+    "stage": "rolling",
+    "active": 0
+  },
+  "abilities": [
+    {
+      "character": "goblin",
+      "used": true,
+      "armed": "bounce",
+      "extras": 0,
+      "speed": 0
+    },
+    {
+      "character": "buttafuori",
+      "used": true,
+      "armed": null,
+      "extras": 1,
+      "speed": 0
+    },
+    {
+      "character": "dottore",
+      "used": true,
+      "armed": null,
+      "extras": 0,
+      "speed": 0
+    },
+    {
+      "character": "judoka",
+      "used": true,
+      "armed": null,
+      "extras": 0,
+      "speed": 0.484699999999995
+    },
+    {
+      "character": "ciro",
+      "used": true,
+      "armed": "power",
+      "extras": 0,
+      "speed": 0
+    }
+  ],
+  "ramp": {
+    "y": 2.138494303385399,
+    "grounded": false,
+    "heading": 3.141592653589793
+  },
+  "closeWall": {
+    "x": 0.5000000285380943,
+    "y": 0.6943104800721093,
+    "z": 0.9882497380844161,
+    "eye": {
+      "x": -3.673940397442059e-18,
+      "y": 3.6799999999999997,
+      "z": 13.53
+    },
+    "ball": {
+      "x": 0,
+      "y": 0.28,
+      "z": 13.5
+    },
+    "heading": 3.141592653589793,
+    "orbit": 0
+  },
+  "performance": {
+    "frames": 360,
+    "fps": 59.971267247973884,
+    "meshes": 517,
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "transitions": [
+    {
+      "ended": false,
+      "time": 150.0000000000279,
+      "hole": 1,
+      "phase": "transition",
+      "remaining": 0,
+      "courses": [
+        "corridoio",
+        "ponte",
+        "serpentina"
+      ],
+      "players": [
+        {
+          "id": "8b16e473-ff2a-4192-9de7-0b297a076834",
+          "total": 14,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        },
+        {
+          "id": "a81877fe-ff12-4deb-a1cd-67a0b38c3164",
+          "total": 14,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        },
+        {
+          "id": "34a89a8b-dcc6-402d-afaf-3bb73a793443",
+          "total": 14,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 27.983333333332386
+            }
+          ]
+        },
+        {
+          "id": "d14e6443-0406-47b9-953a-5a3d0fbc0fb4",
+          "total": 14,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        },
+        {
+          "id": "a5a9efec-b207-4edb-bbfb-3659157fc206",
+          "total": 14,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ended": false,
+      "time": 150.0000000000279,
+      "hole": 2,
+      "phase": "transition",
+      "remaining": 0,
+      "courses": [
+        "corridoio",
+        "ponte",
+        "serpentina"
+      ],
+      "players": [
+        {
+          "id": "8b16e473-ff2a-4192-9de7-0b297a076834",
+          "total": 28,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "ponte",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        },
+        {
+          "id": "a81877fe-ff12-4deb-a1cd-67a0b38c3164",
+          "total": 28,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "ponte",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        },
+        {
+          "id": "34a89a8b-dcc6-402d-afaf-3bb73a793443",
+          "total": 28,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 27.983333333332386
+            },
+            {
+              "course": "ponte",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        },
+        {
+          "id": "d14e6443-0406-47b9-953a-5a3d0fbc0fb4",
+          "total": 28,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "ponte",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 27.983333333332386
+            }
+          ]
+        },
+        {
+          "id": "a5a9efec-b207-4edb-bbfb-3659157fc206",
+          "total": 28,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "ponte",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ended": false,
+      "time": 150.0000000000279,
+      "hole": 3,
+      "phase": "transition",
+      "remaining": 0,
+      "courses": [
+        "corridoio",
+        "ponte",
+        "serpentina"
+      ],
+      "players": [
+        {
+          "id": "8b16e473-ff2a-4192-9de7-0b297a076834",
+          "total": 42,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "ponte",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "serpentina",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        },
+        {
+          "id": "a81877fe-ff12-4deb-a1cd-67a0b38c3164",
+          "total": 42,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "ponte",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "serpentina",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 27.983333333332386
+            }
+          ]
+        },
+        {
+          "id": "34a89a8b-dcc6-402d-afaf-3bb73a793443",
+          "total": 42,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 27.983333333332386
+            },
+            {
+              "course": "ponte",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "serpentina",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        },
+        {
+          "id": "d14e6443-0406-47b9-953a-5a3d0fbc0fb4",
+          "total": 42,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "ponte",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 27.983333333332386
+            },
+            {
+              "course": "serpentina",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        },
+        {
+          "id": "a5a9efec-b207-4edb-bbfb-3659157fc206",
+          "total": 42,
+          "completed": 0,
+          "records": [
+            {
+              "course": "corridoio",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "ponte",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            },
+            {
+              "course": "serpentina",
+              "strokes": 14,
+              "penalties": 2,
+              "completed": false,
+              "seconds": 30.016666666665603
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "round": {
+    "ended": true,
+    "time": 60.90833333333052,
+    "hole": 3,
+    "phase": "ended",
+    "remaining": 139.09166666666948,
+    "courses": [
+      "corridoio",
+      "ponte",
+      "serpentina"
+    ],
+    "players": [
+      {
+        "id": "8b16e473-ff2a-4192-9de7-0b297a076834",
+        "total": 42,
+        "completed": 0,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          },
+          {
+            "course": "ponte",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          },
+          {
+            "course": "serpentina",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          }
+        ]
+      },
+      {
+        "id": "a81877fe-ff12-4deb-a1cd-67a0b38c3164",
+        "total": 42,
+        "completed": 0,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          },
+          {
+            "course": "ponte",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          },
+          {
+            "course": "serpentina",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 27.983333333332386
+          }
+        ]
+      },
+      {
+        "id": "34a89a8b-dcc6-402d-afaf-3bb73a793443",
+        "total": 42,
+        "completed": 0,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 27.983333333332386
+          },
+          {
+            "course": "ponte",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          },
+          {
+            "course": "serpentina",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          }
+        ]
+      },
+      {
+        "id": "d14e6443-0406-47b9-953a-5a3d0fbc0fb4",
+        "total": 42,
+        "completed": 0,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          },
+          {
+            "course": "ponte",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 27.983333333332386
+          },
+          {
+            "course": "serpentina",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          }
+        ]
+      },
+      {
+        "id": "a5a9efec-b207-4edb-bbfb-3659157fc206",
+        "total": 42,
+        "completed": 0,
+        "records": [
+          {
+            "course": "corridoio",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          },
+          {
+            "course": "ponte",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          },
+          {
+            "course": "serpentina",
+            "strokes": 14,
+            "penalties": 2,
+            "completed": false,
+            "seconds": 30.016666666665603
+          }
+        ]
+      }
+    ]
+  },
+  "roundScenario": "Five humans AFK, full150s per hole, accelerated physics; exact playoff tie, shared points. Controller and visual fixtures separate."
+}

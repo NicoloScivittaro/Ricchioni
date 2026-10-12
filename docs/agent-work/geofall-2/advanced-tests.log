@@ -1,0 +1,11 @@
+PASS original100 objects retained unchanged;175 unique questions;15 new/category;all10 options exactly one correct
+PASS new boundaries independently compared with source snapshot, including omitted Botswana/Zambia boundary
+PASS flag national proportions and similar pairs; no shade-only Chad/Romania pair
+PASS category cycles and requested tier progression over100 seeds, long session anti-repeat and every option slot
+PASS all5 abilities: valid/invalid activation, no phantom charges, proper shared statuses and one-round resources
+PASS Goblin timed shield consumes one received push only, does not grant extra attacks or life, cooldown5s
+PASS Boschi resists without retaliatory wave; Carbo brakes impulse; Victor faster but no auto movement/answer
+PASS confusion warns, then reverses both axes, expires with recovery time; no stacking or late/no-target activation
+PASS simultaneous abilities and wrong tile at deadline: exactly1 life lost, positions locked, no collapse abilities or extra normal push
+PASS 48 full2–5 player simulations with actual bot abilities, variable tiers, natural winner and rankings
+Geofall2: 10 test groups passed

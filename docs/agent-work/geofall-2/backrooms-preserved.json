@@ -1,0 +1,12 @@
+{
+  "src\\minigames\\backrooms\\BabylonBackroomsGame.ts": true,
+  "src\\minigames\\backrooms\\backroomsAudio.ts": true,
+  "src\\minigames\\backrooms\\backroomsDebug.ts": true,
+  "src\\minigames\\backrooms\\backroomsInput.ts": true,
+  "src\\minigames\\backrooms\\backroomsRules.ts": true,
+  "src\\minigames\\backrooms\\BackroomsScene.ts": true,
+  "src\\minigames\\backrooms\\backroomsWorld.ts": true,
+  "src\\minigames\\backrooms\\index.ts": true,
+  "src\\minigames\\backrooms\\maze.ts": true,
+  "src\\network\\PlayerInput.ts": true
+}

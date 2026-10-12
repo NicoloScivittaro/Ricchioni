@@ -1,0 +1,983 @@
+{
+  "audio": {
+    "errors": [],
+    "checks": [
+      "default restricted autoplay: suspended/no signal before genuine click, running after click",
+      "ambience bus/master gain respected; brief quiet gap and room-dependent fluorescent frequency",
+      "post-limiter analyser on destination branch: audible-band RMS; mute, pause/resume, suspension recovery, danger, all event sounds, critical priority and disposal"
+    ],
+    "samples": {
+      "exploration": {
+        "state": "running",
+        "rms": 0.041371373582372764,
+        "peak": 0.09058822691440582,
+        "midrangeEnergy": 0.0001578545492419606
+      },
+      "ambience-bus-zero": {
+        "state": "running",
+        "rms": 0,
+        "peak": 0,
+        "midrangeEnergy": 1.4807499005497192e-05
+      },
+      "master-half": {
+        "state": "running",
+        "rms": 0.021388003912874844,
+        "peak": 0.04530736431479454,
+        "midrangeEnergy": 2.9582196214771663e-05
+      },
+      "muted": {
+        "state": "running",
+        "rms": 0,
+        "peak": 0,
+        "midrangeEnergy": 4.055864080133354e-06
+      },
+      "paused": {
+        "state": "running",
+        "rms": 0,
+        "peak": 0,
+        "midrangeEnergy": 5.391167151526168e-10
+      },
+      "resumed": {
+        "state": "running",
+        "rms": 0.04307740209300819,
+        "peak": 0.0905793234705925,
+        "midrangeEnergy": 0.00011068418197357296
+      },
+      "keyboard-recovered": {
+        "state": "running",
+        "rms": 0.04270896190303074,
+        "peak": 0.09061462432146072,
+        "midrangeEnergy": 0.0001729029176760127
+      },
+      "danger": {
+        "state": "running",
+        "rms": 0.0742474083312211,
+        "peak": 0.15826229751110077,
+        "midrangeEnergy": 0.0005257958941009258
+      },
+      "quiet-gap": {
+        "state": "running",
+        "rms": 7.252408702899332e-05,
+        "peak": 0.0001513072056695819,
+        "midrangeEnergy": 4.904558768991357e-05
+      },
+      "step": {
+        "state": "running",
+        "rms": 0.00166511485573459,
+        "peak": 0.05922956392168999,
+        "midrangeEnergy": 4.6025744857315504e-07
+      },
+      "monsterStep": {
+        "state": "running",
+        "rms": 0.0042111759306462885,
+        "peak": 0.06599317491054535,
+        "midrangeEnergy": 1.4818617843102241e-06
+      },
+      "door": {
+        "state": "running",
+        "rms": 0.011670058163342902,
+        "peak": 0.09119343757629395,
+        "midrangeEnergy": 2.479332986197069e-05
+      },
+      "generator": {
+        "state": "running",
+        "rms": 0.004942237930545477,
+        "peak": 0.0605151504278183,
+        "midrangeEnergy": 5.527463366576322e-06
+      },
+      "task": {
+        "state": "running",
+        "rms": 0.008110154756402959,
+        "peak": 0.08569853007793427,
+        "midrangeEnergy": 1.2951252031600175e-05
+      },
+      "capture": {
+        "state": "running",
+        "rms": 0.02726329106081573,
+        "peak": 0.31469160318374634,
+        "midrangeEnergy": 8.249184537794837e-05
+      },
+      "escape": {
+        "state": "running",
+        "rms": 0.009355771123055792,
+        "peak": 0.048810094594955444,
+        "midrangeEnergy": 1.4106453131572405e-05
+      },
+      "reveal": {
+        "state": "running",
+        "rms": 0.006955241686476267,
+        "peak": 0.06016088277101517,
+        "midrangeEnergy": 1.7274328044283816e-06
+      },
+      "capture-budget": {
+        "state": "running",
+        "rms": 0.05715600724887696,
+        "peak": 0.41064125299453735,
+        "midrangeEnergy": 0.0002923533026671431
+      }
+    },
+    "before": {
+      "state": "suspended",
+      "button": true,
+      "peak": 0
+    },
+    "afterExternalSuspend": {
+      "state": "suspended",
+      "button": true
+    }
+  },
+  "interactions": {
+    "errors": [],
+    "checks": [
+      "Xbox Wireless Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b13): four 90ms presses toggle reliably, 700ms hold toggles once",
+      "DualSense Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 0ce6): four 90ms presses toggle reliably, 700ms hold toggles once",
+      "USB Gamepad (Vendor: 0810 Product: e501): four 90ms presses toggle reliably, 700ms hold toggles once",
+      "phone four 12ms taps traverse Socket.IO/InputManager/game authority",
+      "250ms authority frames: cleared tap retained, no repeated edge, next tap without neutral frame retained",
+      "real CDP multitouch: two sticks + INTERAGISCI concurrently",
+      "phone hold activates generator in 2.5 simulation seconds"
+    ]
+  },
+  "browser": {
+    "errors": [],
+    "checks": [
+      "Xbox movement and independent look",
+      "PlayStation/generic look mapping",
+      "phone three simultaneous fingers: movement/look/sprint; no mobile 3D",
+      "pause freezes authority",
+      "fallback/rejoin",
+      "same interact edge across multiple slow substeps toggles door once; next press toggles again",
+      "capture/key drop/blackout/respawn/immunity/elimination/spectator",
+      "lobby cleanup"
+    ],
+    "views": [
+      {
+        "w": 1280,
+        "h": 720,
+        "panels": [
+          {
+            "x": 0,
+            "y": 0,
+            "w": 426.65625,
+            "h": 360,
+            "scroll": false
+          },
+          {
+            "x": 426.65625,
+            "y": 0,
+            "w": 426.65625,
+            "h": 360,
+            "scroll": false
+          },
+          {
+            "x": 853.328125,
+            "y": 0,
+            "w": 426.65625,
+            "h": 360,
+            "scroll": false
+          },
+          {
+            "x": 0,
+            "y": 360,
+            "w": 640,
+            "h": 360,
+            "scroll": false
+          },
+          {
+            "x": 640,
+            "y": 360,
+            "w": 640,
+            "h": 360,
+            "scroll": false
+          }
+        ]
+      },
+      {
+        "w": 1920,
+        "h": 1080,
+        "panels": [
+          {
+            "x": 0,
+            "y": 0,
+            "w": 639.984375,
+            "h": 540,
+            "scroll": false
+          },
+          {
+            "x": 639.984375,
+            "y": 0,
+            "w": 639.984375,
+            "h": 540,
+            "scroll": false
+          },
+          {
+            "x": 1279.984375,
+            "y": 0,
+            "w": 639.984375,
+            "h": 540,
+            "scroll": false
+          },
+          {
+            "x": 0,
+            "y": 540,
+            "w": 960,
+            "h": 540,
+            "scroll": false
+          },
+          {
+            "x": 960,
+            "y": 540,
+            "w": 960,
+            "h": 540,
+            "scroll": false
+          }
+        ]
+      },
+      {
+        "w": 800,
+        "h": 600,
+        "panels": [
+          {
+            "x": 0,
+            "y": 0,
+            "w": 266.65625,
+            "h": 300,
+            "scroll": false
+          },
+          {
+            "x": 266.65625,
+            "y": 0,
+            "w": 266.65625,
+            "h": 300,
+            "scroll": false
+          },
+          {
+            "x": 533.328125,
+            "y": 0,
+            "w": 266.65625,
+            "h": 300,
+            "scroll": false
+          },
+          {
+            "x": 0,
+            "y": 300,
+            "w": 400,
+            "h": 300,
+            "scroll": false
+          },
+          {
+            "x": 400,
+            "y": 300,
+            "w": 400,
+            "h": 300,
+            "scroll": false
+          }
+        ]
+      },
+      {
+        "w": 390,
+        "h": 800,
+        "scroll": false,
+        "controls": [
+          {
+            "bottom": 416.453125,
+            "right": 165.84375,
+            "width": 128.6875,
+            "height": 128.6875
+          },
+          {
+            "bottom": 416.453125,
+            "right": 352.84375,
+            "width": 128.6875,
+            "height": 128.6875
+          },
+          {
+            "bottom": 642.234375,
+            "right": 190,
+            "width": 174,
+            "height": 65
+          },
+          {
+            "bottom": 642.234375,
+            "right": 374,
+            "width": 174,
+            "height": 65
+          }
+        ]
+      },
+      {
+        "w": 360,
+        "h": 640,
+        "scroll": false,
+        "controls": [
+          {
+            "bottom": 356.53125,
+            "right": 153.390625,
+            "width": 118.796875,
+            "height": 118.796875
+          },
+          {
+            "bottom": 356.53125,
+            "right": 325.390625,
+            "width": 118.796875,
+            "height": 118.796875
+          },
+          {
+            "bottom": 532.265625,
+            "right": 175,
+            "width": 159,
+            "height": 65
+          },
+          {
+            "bottom": 532.265625,
+            "right": 344,
+            "width": 159,
+            "height": 65
+          }
+        ]
+      },
+      {
+        "w": 844,
+        "h": 390,
+        "scroll": false,
+        "controls": [
+          {
+            "bottom": 256.453125,
+            "right": 164.5,
+            "width": 110,
+            "height": 110
+          },
+          {
+            "bottom": 256.453125,
+            "right": 375.5,
+            "width": 110,
+            "height": 110
+          },
+          {
+            "bottom": 265.578125,
+            "right": 624,
+            "width": 190,
+            "height": 65
+          },
+          {
+            "bottom": 265.578125,
+            "right": 824,
+            "width": 190,
+            "height": 65
+          }
+        ]
+      }
+    ],
+    "initial": {
+      "seed": 728509482,
+      "mode": "key",
+      "puzzle": "generators",
+      "monsters": [
+        "stalker",
+        "imitator"
+      ],
+      "players": 5,
+      "cameras": 5,
+      "meshes": 1007,
+      "materials": 181,
+      "skins": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ]
+    },
+    "controls": "🚪 BACKROOMS — L’ULTIMA PORTA 🎮 CONTROLLI LEFT STICK MUOVITI · CAMMINARE FA MENO RUMORE RIGHT STICK GUARDA LB / L1 CORRI (TIENI) · CONSUMA FIATO A / ✕ INTERAGISCI · GENERATORI: TIENI · SPETTATORE: CAMBIA 📱 Chi non ha il controller gioca col telefono",
+    "perf": {
+      "frames": 180,
+      "seconds": 3.745699999999255,
+      "fps": 47.78685461048759,
+      "active": 152,
+      "meshes": 1007,
+      "viewport": [
+        1280,
+        720
+      ],
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    }
+  },
+  "rooms": [
+    {
+      "n": 2,
+      "server": 2,
+      "game": 2,
+      "seed": 1398177238,
+      "mode": "puzzle",
+      "puzzle": "generators",
+      "seconds": 84.44999999999649,
+      "players": [
+        {
+          "id": "f656c9ba-b370-4b03-8e45-7834c92ad7a4",
+          "state": "escaped",
+          "lives": 1,
+          "visited": 69
+        },
+        {
+          "id": "bot:e7001c5d-b21e-492b-9dd0-bad3d95bdd9f",
+          "state": "escaped",
+          "lives": 2,
+          "visited": 66
+        }
+      ],
+      "ended": true,
+      "score": {
+        "results": [
+          {
+            "playerId": "bot:e7001c5d-b21e-492b-9dd0-bad3d95bdd9f",
+            "placement": 1,
+            "score": 9927,
+            "stats": [
+              "Fuga 73.6s"
+            ]
+          },
+          {
+            "playerId": "f656c9ba-b370-4b03-8e45-7834c92ad7a4",
+            "placement": 2,
+            "score": 9916,
+            "stats": [
+              "Fuga 84.4s"
+            ]
+          }
+        ],
+        "ranking": [
+          "bot:e7001c5d-b21e-492b-9dd0-bad3d95bdd9f",
+          "f656c9ba-b370-4b03-8e45-7834c92ad7a4"
+        ],
+        "deltas": {
+          "bot:e7001c5d-b21e-492b-9dd0-bad3d95bdd9f": 10,
+          "f656c9ba-b370-4b03-8e45-7834c92ad7a4": 5
+        },
+        "double": false
+      },
+      "errors": []
+    },
+    {
+      "n": 3,
+      "server": 3,
+      "game": 3,
+      "seed": 1332679030,
+      "mode": "free",
+      "puzzle": "generators",
+      "seconds": 30.962599999997288,
+      "players": [
+        {
+          "id": "9de20f64-c929-44be-8147-c552d1612c16",
+          "state": "escaped",
+          "lives": 2,
+          "visited": 35
+        },
+        {
+          "id": "bot:e0a7588c-8167-4713-9191-69b7151e8087",
+          "state": "eliminated",
+          "lives": 0,
+          "visited": 15
+        },
+        {
+          "id": "bot:51fe1102-9f52-45ca-bd34-c81e2a40a60b",
+          "state": "eliminated",
+          "lives": 0,
+          "visited": 17
+        }
+      ],
+      "ended": true,
+      "score": {
+        "results": [
+          {
+            "playerId": "9de20f64-c929-44be-8147-c552d1612c16",
+            "placement": 1,
+            "score": 9970,
+            "stats": [
+              "Fuga 31.0s"
+            ]
+          },
+          {
+            "playerId": "bot:51fe1102-9f52-45ca-bd34-c81e2a40a60b",
+            "placement": 2,
+            "score": 17,
+            "stats": [
+              "Due catture · eliminato"
+            ]
+          },
+          {
+            "playerId": "bot:e0a7588c-8167-4713-9191-69b7151e8087",
+            "placement": 3,
+            "score": 15,
+            "stats": [
+              "Due catture · eliminato"
+            ]
+          }
+        ],
+        "ranking": [
+          "9de20f64-c929-44be-8147-c552d1612c16",
+          "bot:51fe1102-9f52-45ca-bd34-c81e2a40a60b",
+          "bot:e0a7588c-8167-4713-9191-69b7151e8087"
+        ],
+        "deltas": {
+          "9de20f64-c929-44be-8147-c552d1612c16": 10,
+          "bot:51fe1102-9f52-45ca-bd34-c81e2a40a60b": 6,
+          "bot:e0a7588c-8167-4713-9191-69b7151e8087": 3
+        },
+        "double": false
+      },
+      "errors": []
+    },
+    {
+      "n": 4,
+      "server": 4,
+      "game": 4,
+      "seed": 1456711049,
+      "mode": "key",
+      "puzzle": "generators",
+      "seconds": 155.0593000000163,
+      "players": [
+        {
+          "id": "f30767a3-19f7-4d40-b62c-aeeaa1ca7583",
+          "state": "escaped",
+          "lives": 2,
+          "visited": 126
+        },
+        {
+          "id": "bot:f2c93a8d-e7cf-4acb-9c6a-fcb92bb69573",
+          "state": "escaped",
+          "lives": 2,
+          "visited": 122
+        },
+        {
+          "id": "bot:6db1b5f0-945d-4f4c-9b8b-5160d4f5f0ed",
+          "state": "escaped",
+          "lives": 2,
+          "visited": 126
+        },
+        {
+          "id": "bot:5f8f564b-a68f-43dc-9b04-02f7e85c231f",
+          "state": "eliminated",
+          "lives": 0,
+          "visited": 124
+        }
+      ],
+      "ended": true,
+      "score": {
+        "results": [
+          {
+            "playerId": "bot:f2c93a8d-e7cf-4acb-9c6a-fcb92bb69573",
+            "placement": 1,
+            "score": 9866,
+            "stats": [
+              "Fuga 135.0s"
+            ]
+          },
+          {
+            "playerId": "f30767a3-19f7-4d40-b62c-aeeaa1ca7583",
+            "placement": 2,
+            "score": 9846,
+            "stats": [
+              "Fuga 155.0s"
+            ]
+          },
+          {
+            "playerId": "bot:6db1b5f0-945d-4f4c-9b8b-5160d4f5f0ed",
+            "placement": 3,
+            "score": 9845,
+            "stats": [
+              "Fuga 155.1s"
+            ]
+          },
+          {
+            "playerId": "bot:5f8f564b-a68f-43dc-9b04-02f7e85c231f",
+            "placement": 4,
+            "score": 124,
+            "stats": [
+              "Due catture · eliminato"
+            ]
+          }
+        ],
+        "ranking": [
+          "bot:f2c93a8d-e7cf-4acb-9c6a-fcb92bb69573",
+          "f30767a3-19f7-4d40-b62c-aeeaa1ca7583",
+          "bot:6db1b5f0-945d-4f4c-9b8b-5160d4f5f0ed",
+          "bot:5f8f564b-a68f-43dc-9b04-02f7e85c231f"
+        ],
+        "deltas": {
+          "bot:f2c93a8d-e7cf-4acb-9c6a-fcb92bb69573": 10,
+          "f30767a3-19f7-4d40-b62c-aeeaa1ca7583": 7,
+          "bot:6db1b5f0-945d-4f4c-9b8b-5160d4f5f0ed": 4,
+          "bot:5f8f564b-a68f-43dc-9b04-02f7e85c231f": 2
+        },
+        "double": false
+      },
+      "errors": []
+    },
+    {
+      "n": 5,
+      "server": 5,
+      "game": 5,
+      "seed": 339678765,
+      "mode": "puzzle",
+      "puzzle": "switches",
+      "seconds": 203.4247000000533,
+      "players": [
+        {
+          "id": "b90edced-fa13-48aa-922a-003164653a71",
+          "state": "eliminated",
+          "lives": 0,
+          "visited": 77
+        },
+        {
+          "id": "bot:f8df00ad-c2ba-4feb-aa0a-20729311773a",
+          "state": "escaped",
+          "lives": 1,
+          "visited": 180
+        },
+        {
+          "id": "bot:9169a44f-a2ef-4fff-869a-81c370678088",
+          "state": "escaped",
+          "lives": 2,
+          "visited": 179
+        },
+        {
+          "id": "bot:4109af4e-265c-4f7d-b61d-bc8bf3d77510",
+          "state": "eliminated",
+          "lives": 0,
+          "visited": 140
+        },
+        {
+          "id": "bot:c16a6556-531f-4796-a5e5-70df41987659",
+          "state": "escaped",
+          "lives": 1,
+          "visited": 168
+        }
+      ],
+      "ended": true,
+      "score": {
+        "results": [
+          {
+            "playerId": "bot:9169a44f-a2ef-4fff-869a-81c370678088",
+            "placement": 1,
+            "score": 9799,
+            "stats": [
+              "Fuga 201.4s"
+            ]
+          },
+          {
+            "playerId": "bot:f8df00ad-c2ba-4feb-aa0a-20729311773a",
+            "placement": 2,
+            "score": 9799,
+            "stats": [
+              "Fuga 201.5s"
+            ]
+          },
+          {
+            "playerId": "bot:c16a6556-531f-4796-a5e5-70df41987659",
+            "placement": 3,
+            "score": 9797,
+            "stats": [
+              "Fuga 203.4s"
+            ]
+          },
+          {
+            "playerId": "bot:4109af4e-265c-4f7d-b61d-bc8bf3d77510",
+            "placement": 4,
+            "score": 140,
+            "stats": [
+              "Due catture · eliminato"
+            ]
+          },
+          {
+            "playerId": "b90edced-fa13-48aa-922a-003164653a71",
+            "placement": 5,
+            "score": 77,
+            "stats": [
+              "Due catture · eliminato"
+            ]
+          }
+        ],
+        "ranking": [
+          "bot:9169a44f-a2ef-4fff-869a-81c370678088",
+          "bot:f8df00ad-c2ba-4feb-aa0a-20729311773a",
+          "bot:c16a6556-531f-4796-a5e5-70df41987659",
+          "bot:4109af4e-265c-4f7d-b61d-bc8bf3d77510",
+          "b90edced-fa13-48aa-922a-003164653a71"
+        ],
+        "deltas": {
+          "bot:9169a44f-a2ef-4fff-869a-81c370678088": 20,
+          "bot:f8df00ad-c2ba-4feb-aa0a-20729311773a": 14,
+          "bot:c16a6556-531f-4796-a5e5-70df41987659": 10,
+          "bot:4109af4e-265c-4f7d-b61d-bc8bf3d77510": 6,
+          "b90edced-fa13-48aa-922a-003164653a71": 2
+        },
+        "double": true
+      },
+      "errors": []
+    }
+  ],
+  "lifecycle": {
+    "errors": [],
+    "cycles": [
+      {
+        "cycle": 0,
+        "topology": {
+          "seed": 292922008,
+          "floor": "000000000000000000000011111111101110111110011100010101110101000011111110111010101110000111100001010100010011111111101011111010010000010101000000010010111111111111111010010101110111111111010011101111111111101010010101110000000101010011111110111110101110011100011100010000010010101110101011111110000101010101000001010011101111111110101110010001011111010100000010111011111010111110010101010101110101010011111110111011101110000000000000000000000"
+        },
+        "before": {
+          "hum": 2,
+          "voices": 3,
+          "canvases": 2
+        },
+        "after": {
+          "disposed": true,
+          "hum": 0,
+          "voices": 0,
+          "ended": true,
+          "loops": 0,
+          "canvases": 1,
+          "hud": false
+        }
+      },
+      {
+        "cycle": 1,
+        "topology": {
+          "seed": 561822168,
+          "floor": "000000000000000000000011111110101111111110011101010101010000000011111110111111111110010001110001010010010011111111101111111010000010011101000000010011111010101011111110010101110101010001110011101110101011101110011101011100000100110011101111101110101110010100010001010101000011111011111011111110011111010000000000010011111110111111101110000100000111110001000011101110111111111010010001110001000000010011111011111111111110000000000000000000000"
+        },
+        "before": {
+          "hum": 2,
+          "voices": 3,
+          "canvases": 2
+        },
+        "after": {
+          "disposed": true,
+          "hum": 0,
+          "voices": 0,
+          "ended": true,
+          "loops": 0,
+          "canvases": 1,
+          "hud": false
+        }
+      },
+      {
+        "cycle": 2,
+        "topology": {
+          "seed": 1763316024,
+          "floor": "000000000000000000000011111110111011111110011100000101010110010011101111111110111110010111001111000111100010101111111110111110010100000100011111110010111111101111111110010000000101000100010010111111111110111110010100010111110000010011101111111110111010010101000110000100010010111111101111111110010111110101000110000010101110101111111110010100000100001101010011101011111111101010000001010001110000010011111111111111111110000000000000000000000"
+        },
+        "before": {
+          "hum": 2,
+          "voices": 3,
+          "canvases": 2
+        },
+        "after": {
+          "disposed": true,
+          "hum": 0,
+          "voices": 0,
+          "ended": true,
+          "loops": 0,
+          "canvases": 1,
+          "hud": false
+        }
+      },
+      {
+        "cycle": 3,
+        "topology": {
+          "seed": 1152001972,
+          "floor": "000000000000000000000011111111111111111110011101111100000111010011111110111010111110000001110001010101000011111111101110101010010000000100000101010010111111101111101110010111110101000001010010111111111111111010010101011110011101010010101011111110101010010101010001010001010010101011111011101010010101000000000101010011101111111111101010010101011111011101000010111111111111111110010001000001010110010011111111111011111110000000000000000000000"
+        },
+        "before": {
+          "hum": 2,
+          "voices": 3,
+          "canvases": 2
+        },
+        "after": {
+          "disposed": true,
+          "hum": 0,
+          "voices": 0,
+          "ended": true,
+          "loops": 0,
+          "canvases": 1,
+          "hud": false
+        }
+      }
+    ]
+  },
+  "regression": [
+    {
+      "name": "backrooms-selftest",
+      "status": 0,
+      "output": "PASS 1000 seed × 2–5: connected maze, all objectives, protected spawn, reproducibility, distinct topology\nPASS wall sweep, closed-door collision + LOS, opening restores passage, navigation along corridor\nPASS two captures, snapshot key drop, pickup by another, respawn immunity and no third capture\nPASS spawn has temporary grace, not permanent invulnerability; a real pursuit can capture an AFK player after grace\nPASS five spawn slots are clear, separated, retained on respawn; patrol paths can traverse spawn after initial grace\nPASS solvable puzzle switches, elapsed hold, exit remains locked until complete\nPASS solvable puzzle generators, elapsed hold, exit remains locked until complete\nPASS stalker: sees FOV, walls hide target, finite memory, non-omniscient pursuit\nPASS runner: sees FOV, walls hide target, finite memory, non-omniscient pursuit\nPASS rank: escape order, living before eliminated, lives then explored when no escape, timeout\nPASS hiding without witnessed entry prevents capture; sprint makes noise with a finite position snapshot\nPASS Imitator stays disguised at distance, reveals only near a visible player, then uses normal capture rules\nPASS stalker actually traverses multiple corridor turns without cutting solid corners\nPASS runner actually traverses multiple corridor turns without cutting solid corners\nPASS 2 players free: every bot can escape with no creature interference\nPASS 3 players free: every bot can escape with no creature interference\nPASS 4 players free: every bot can escape with no creature interference\nPASS 5 players free: every bot can escape with no creature interference\nPASS 2 players key: every bot can escape with no creature interference\nPASS 3 players key: every bot can escape with no creature interference\nPASS 4 players key: every bot can escape with no creature interference\nPASS 5 players key: every bot can escape with no creature interference\nPASS 2 players puzzle: every bot can escape with no creature interference\nPASS 3 players puzzle: every bot can escape with no creature interference\nPASS 4 players puzzle: every bot can escape with no creature interference\nPASS 5 players puzzle: every bot can escape with no creature interference\n  escaped 2 at 32.5\nPASS 2 players free: real bot locomotion, natural finite finish, valid ranking\n  escaped 2 at 74.6\nPASS 2 players key: real bot locomotion, natural finite finish, valid ranking\n  escaped 2 at 87.6\nPASS 2 players puzzle: real bot locomotion, natural finite finish, valid ranking\n  escaped 2 at 97.4\nPASS 3 players free: real bot locomotion, natural finite finish, valid ranking\n  escaped 1 at 122.0\nPASS 3 players key: real bot locomotion, natural finite finish, valid ranking\n  escaped 0 at 136.0\nPASS 3 players puzzle: real bot locomotion, natural finite finish, valid ranking\n  escaped 3 at 314.7\nPASS 4 players free: real bot locomotion, natural finite finish, valid ranking\n  escaped 0 at 225.2\nPASS 4 players key: real bot locomotion, natural finite finish, valid ranking\n  escaped 2 at 312.5\nPASS 4 players puzzle: real bot locomotion, natural finite finish, valid ranking\n  escaped 2 at 214.2\nPASS 5 players free: real bot locomotion, natural finite finish, valid ranking\n  escaped 4 at 93.6\nPASS 5 players key: real bot locomotion, natural finite finish, valid ranking\n  escaped 4 at 189.4\nPASS 5 players puzzle: real bot locomotion, natural finite finish, valid ranking\nBackrooms: 38 test groups passed\n"
+    },
+    {
+      "name": "fps-ads-selftest",
+      "status": 0,
+      "output": "PASS: ADS timing, FOV, movement, sensitivity, six weapon spreads/recoils, close-range cone and cancellation/bindings\n"
+    },
+    {
+      "name": "geofall-selftest",
+      "status": 0,
+      "output": "PASS 100 domande:20/categoria,10 opzioni uniche,confini/risposta verificati,60 SVG locali.\nPASS snapshot/vite uniche/spawn/bordi; spinta singola mancata/protezione/recupero/noKO;5 su una casella;solo ultimi pari/spareggio ripetuto;30/60/120;48 partite bot naturali2–5.\n[{\"n\":2,\"seed\":1,\"seconds\":96.6,\"rounds\":7},{\"n\":2,\"seed\":2,\"seconds\":84.1,\"rounds\":6},{\"n\":2,\"seed\":3,\"seconds\":109.1,\"rounds\":8},{\"n\":2,\"seed\":4,\"seconds\":109.1,\"rounds\":8},{\"n\":2,\"seed\":5,\"seconds\":155.1,\"rounds\":12},{\"n\":2,\"seed\":6,\"seconds\":186.6,\"rounds\":15},{\"n\":2,\"seed\":7,\"seconds\":84.1,\"rounds\":6},{\"n\":2,\"seed\":8,\"seconds\":71.6,\"rounds\":5},{\"n\":2,\"seed\":9,\"seconds\":42.6,\"rounds\":3},{\"n\":2,\"seed\":10,\"seconds\":121.6,\"rounds\":9},{\"n\":2,\"seed\":11,\"seconds\":134.1,\"rounds\":10},{\"n\":2,\"seed\":12,\"seconds\":121.6,\"rounds\":9},{\"n\":3,\"seed\":1,\"seconds\":165.6,\"rounds\":13},{\"n\":3,\"seed\":2,\"seconds\":71.6,\"rounds\":5},{\"n\":3,\"seed\":3,\"seconds\":134.1,\"rounds\":10},{\"n\":3,\"seed\":4,\"seconds\":84.1,\"rounds\":6},{\"n\":3,\"seed\":5,\"seconds\":155.1,\"rounds\":12},{\"n\":3,\"seed\":6,\"seconds\":134.1,\"rounds\":10},{\"n\":3,\"seed\":7,\"seconds\":155.1,\"rounds\":12},{\"n\":3,\"seed\":8,\"seconds\":134.1,\"rounds\":10},{\"n\":3,\"seed\":9,\"seconds\":84.1,\"rounds\":6},{\"n\":3,\"seed\":10,\"seconds\":84.1,\"rounds\":6},{\"n\":3,\"seed\":11,\"seconds\":144.6,\"rounds\":11},{\"n\":3,\"seed\":12,\"seconds\":84.1,\"rounds\":6},{\"n\":4,\"seed\":1,\"seconds\":134.1,\"rounds\":10},{\"n\":4,\"seed\":2,\"seconds\":186.6,\"rounds\":15},{\"n\":4,\"seed\":3,\"seconds\":121.6,\"rounds\":9},{\"n\":4,\"seed\":4,\"seconds\":134.1,\"rounds\":10},{\"n\":4,\"seed\":5,\"seconds\":155.1,\"rounds\":12},{\"n\":4,\"seed\":6,\"seconds\":197.1,\"rounds\":16},{\"n\":4,\"seed\":7,\"seconds\":144.6,\"rounds\":11},{\"n\":4,\"seed\":8,\"seconds\":96.6,\"rounds\":7},{\"n\":4,\"seed\":9,\"seconds\":96.6,\"rounds\":7},{\"n\":4,\"seed\":10,\"seconds\":121.6,\"rounds\":9},{\"n\":4,\"seed\":11,\"seconds\":144.6,\"rounds\":11},{\"n\":4,\"seed\":12,\"seconds\":134.1,\"rounds\":10},{\"n\":5,\"seed\":1,\"seconds\":176.1,\"rounds\":14},{\"n\":5,\"seed\":2,\"seconds\":228.6,\"rounds\":19},{\"n\":5,\"seed\":3,\"seconds\":121.6,\"rounds\":9},{\"n\":5,\"seed\":4,\"seconds\":144.6,\"rounds\":11},{\"n\":5,\"seed\":5,\"seconds\":228.6,\"rounds\":19},{\"n\":5,\"seed\":6,\"seconds\":109.1,\"rounds\":8},{\"n\":5,\"seed\":7,\"seconds\":176.1,\"rounds\":14},{\"n\":5,\"seed\":8,\"seconds\":207.6,\"rounds\":17},{\"n\":5,\"seed\":9,\"seconds\":197.1,\"rounds\":16},{\"n\":5,\"seed\":10,\"seconds\":176.1,\"rounds\":14},{\"n\":5,\"seed\":11,\"seconds\":144.6,\"rounds\":11},{\"n\":5,\"seed\":12,\"seconds\":121.6,\"rounds\":9}]\n"
+    },
+    {
+      "name": "pad-selftest",
+      "status": 0,
+      "output": "to nella schermata comandi\n✅ soccer: ogni voce di controls produce esattamente un binding (5 voci, 5 binding)\n✅ soccer: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ soccer: il tasto RT -> \"shoot\" e' lo STESSO mostrato nella schermata comandi\n✅ soccer: il tasto PRIMARY -> \"shoot\" e' lo STESSO mostrato nella schermata comandi\n✅ soccer: il tasto LEFT -> \"dash\" e' lo STESSO mostrato nella schermata comandi\n✅ soccer: il tasto TOP -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ volleyball: ogni voce di controls produce esattamente un binding (4 voci, 4 binding)\n✅ volleyball: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ volleyball: il tasto LEFT -> \"jump\" e' lo STESSO mostrato nella schermata comandi\n✅ volleyball: il tasto PRIMARY -> \"hit\" e' lo STESSO mostrato nella schermata comandi\n✅ volleyball: il tasto SECONDARY -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: ogni voce di controls produce esattamente un binding (9 voci, 9 binding)\n✅ cornicione: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ cornicione: il tasto PRIMARY -> \"jump\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto LEFT -> \"light\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto TOP -> \"heavy\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto SECONDARY -> \"dodge\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto RT -> \"kick\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto LB -> \"throw\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto LT -> \"parry\" e' lo STESSO mostrato nella schermata comandi\n✅ cornicione: il tasto RB -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ casacarbo: ogni voce di controls produce esattamente un binding (6 voci, 6 binding)\n✅ casacarbo: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ casacarbo: il tasto LEFT -> \"squeegee\" e' lo STESSO mostrato nella schermata comandi\n✅ casacarbo: il tasto TOP -> \"bucket\" e' lo STESSO mostrato nella schermata comandi\n✅ casacarbo: il tasto PRIMARY -> \"dash\" e' lo STESSO mostrato nella schermata comandi\n✅ casacarbo: il tasto SECONDARY -> \"interact\" e' lo STESSO mostrato nella schermata comandi\n✅ casacarbo: il tasto RB -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ kart3d: ogni voce di controls produce esattamente un binding (6 voci, 6 binding)\n✅ kart3d: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ kart3d: il tasto RT -> \"up\" e' lo STESSO mostrato nella schermata comandi\n✅ kart3d: il tasto LT -> \"down\" e' lo STESSO mostrato nella schermata comandi\n✅ kart3d: il tasto PRIMARY -> \"drift\" e' lo STESSO mostrato nella schermata comandi\n✅ kart3d: il tasto LEFT -> \"item\" e' lo STESSO mostrato nella schermata comandi\n✅ kart3d: il tasto TOP -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ memory: ogni voce di controls produce esattamente un binding (5 voci, 5 binding)\n✅ memory: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ memory: il tasto TOP -> \"c0\" e' lo STESSO mostrato nella schermata comandi\n✅ memory: il tasto SECONDARY -> \"c1\" e' lo STESSO mostrato nella schermata comandi\n✅ memory: il tasto PRIMARY -> \"c2\" e' lo STESSO mostrato nella schermata comandi\n✅ memory: il tasto LEFT -> \"c3\" e' lo STESSO mostrato nella schermata comandi\n✅ memory: il tasto RB -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ reaction: ogni voce di controls produce esattamente un binding (2 voci, 2 binding)\n✅ reaction: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ reaction: il tasto PRIMARY -> \"action\" e' lo STESSO mostrato nella schermata comandi\n✅ reaction: il tasto RB -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ fps: ogni voce di controls produce esattamente un binding (7 voci, 7 binding)\n✅ fps: ogni controllo ha azione e testo per la schermata CONTROLLI\n✅ fps: il tasto RT -> \"fire\" e' lo STESSO mostrato nella schermata comandi\n✅ fps: il tasto LT -> \"aim\" e' lo STESSO mostrato nella schermata comandi\n✅ fps: il tasto PRIMARY -> \"dash\" e' lo STESSO mostrato nella schermata comandi\n✅ fps: il tasto LEFT -> \"reload\" e' lo STESSO mostrato nella schermata comandi\n✅ fps: il tasto RB -> \"ability\" e' lo STESSO mostrato nella schermata comandi\n✅ Arena: move = stick sinistro, dash = PRIMARY (A/✕), ability = SECONDARY (B/◯): i controlId che il gioco legge già\n✅ kart3d: profilo presente\n✅ Kart: sterzo = stick sinistro -> controlId \"steer\" (continuo, stessa deadzone centrale)\n✅ Kart: RT/LT NON sono grilletti analogici nel profilo (il gioco non ha un accel/frenata a magnitudine: adattamento compatibile)\n✅ Kart: RT -> \"up\", LT -> \"down\" (stessi controlId digitali del telefono)\n✅ Kart: SOLO RT e LT sono holdThrough (RT,LT)\n✅ Kart: drift/item/abilità NON sono holdThrough (restano azioni one-shot protette dal blocco)\n✅ backrooms: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ geofall: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ minigolf: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ arena: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ dodgeball: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ soccer: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ volleyball: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ cornicione: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ casacarbo: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ memory: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ reaction: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n✅ fps: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n"
+    },
+    {
+      "name": "ability-selftest",
+      "status": 0,
+      "output": "\n=== 1. CATALOGO — 65 abilita' complete e coerenti ===\n\n=== 2. INPUT — ogni gioco col controller ha il tasto ABILITA' (stessa fonte della schermata CONTROLLI) ===\n\n=== 3. BUDGET — niente spam: l'impatto ALTO ha un limite ===\n  impatto: 30 ALTO · 35 MEDIO · 0 BASSO\n\n=== 4a. ARENA — 5 personaggi: trigger valido / invalido / doppia attivazione / pulizia ===\n\n=== 4b. DODGEBALL — trigger valido / invalido / stato / pulizia ===\n\n=== 4c. CALCIO — trigger valido / invalido / pulizia ===\n\n=== 4d. PALLAVOLO — trigger valido / invalido / pulizia ===\n\n=== 4e. SPARATORIA — trigger valido / invalido / pulizia alla morte ===\n\n=== 4f. STATO PRESENTAZIONALE — etichette leggibili ===\n\n✅ 1066/1066 controlli ok\n"
+    },
+    {
+      "name": "rounds-selftest",
+      "status": 0,
+      "output": "\n[QUIZ] 10 domande\n  ✔ il quiz termina da solo (275s simulati)\n  ✔ currentQuestion() è valida in OGNI istante, anche ai risultati (bug: questions[10] → crash a ogni frame, finish() mai chiamato)\n  ✔ l'indice resta sull'ultima domanda ai risultati\n  ✔ eseguite esattamente 10 domande (0..9): 0,1,2,3,4,5,6,7,8,9\n  ✔ un solo \"intro\" per domanda: 10 in totale\n  ✔ evento \"results\" emesso una volta sola\n  ✔ update() dopo la fine viene ignorato (nessun round in più)\n  ✔ risultati per tutti e 3 i giocatori\n\n[MEMORIA] 5 round (sequenze 3-4-5-6-7)\n  ✔ la configurazione prevede 5 round\n  ✔ tutti vivi: 5 round esatti (i round 1-4 NON chiudono il gioco, il 5° sì)\n  ✔ 2 giocatori in gara: 5 round\n  ✔ un solo superstite dal round 3: si giocano comunque tutti e 5 i round (bug: finiva al round 3)\n  ✔ 2 giocatori, uno sbaglia al round 2: il superstite arriva al round 5\n  ✔ tutti eliminati al round 3: il gioco finisce lì (nessuna condizione valida per continuare)\n  ✔ sesto round mai raggiunto: dopo il round 5 è sempre finito\n\n[TETTO SERVER] copre la durata REALE massima di ogni gioco (con ≥25% di margine)\n  ✔ quiz: ha una stima di durata massima\n  ✔ quiz: tetto 480s ≥ 1.25 × 290s\n  ✔ reaction: ha una stima di durata massima\n  ✔ reaction: tetto 180s ≥ 1.25 × 75s\n  ✔ memory: ha una stima di durata massima\n  ✔ memory: tetto 240s ≥ 1.25 × 105s\n  ✔ arena: ha una stima di durata massima\n  ✔ arena: tetto 300s ≥ 1.25 × 58s\n  ✔ dodgeball: ha una stima di durata massima\n  ✔ dodgeball: tetto 240s ≥ 1.25 × 58s\n  ✔ soccer: ha una stima di durata massima\n  ✔ soccer: tetto 360s ≥ 1.25 × 115s\n  ✔ volleyball: ha una stima di durata massima\n  ✔ volleyball: tetto 720s ≥ 1.25 × 420s\n  ✔ kart3d: ha una stima di durata massima\n  ✔ kart3d: tetto 480s ≥ 1.25 × 185s\n  ✔ cultura: ha una stima di durata massima\n  ✔ cultura: tetto 900s ≥ 1.25 × 430s\n  ✔ fps: ha una stima di durata massima\n  ✔ fps: tetto 300s ≥ 1.25 × 112s\n  ✔ cornicione: ha una stima di durata massima\n  ✔ cornicione: tetto 420s ≥ 1.25 × 185s\n  ✔ casacarbo: ha una stima di durata massima\n  ✔ casacarbo: tetto 300s ≥ 1.25 × 140s\n  ✔ minigolf: ha una stima di durata massima\n  ✔ minigolf: tetto 310s ≥ 1.25 × 244s\n  ✔ Geofall: watchdog esterno1h, nessun limite artificiale allo spareggio\n  ✔ Backrooms: 7 minuti, watchdog con margine\n  ✔ Cultura: il vecchio tetto durationSec+20 era troppo corto (bug)\n  ✔ Pallavolo: idem (con scambi più lunghi il vecchio tetto avrebbe troncato la partita)\n\n[FRAME-RATE] il tempo di gioco segue l'orologio, non i frame\n  ✔ 120 FPS: un solo passo con il dt reale\n  ✔ 30 FPS: un solo passo (nessun cambiamento di comportamento)\n  ✔ 10 FPS: 2 sotto-passi ≤ 50ms\n  ✔ 4 FPS: 5 sotto-passi\n  ✔ blocco lungo (3s): recupera al massimo 250ms, poi rallenta invece di saltare\n  ✔ delta non valido → un passo di sicurezza\n  ✔ 4 FPS: 45s reali → 45.00s di gioco (durata identica)\n  ✔ 10 FPS: 45s reali → 45.00s di gioco (durata identica)\n  ✔ 30 FPS: 45s reali → 45.00s di gioco (durata identica)\n  ✔ 60 FPS: 45s reali → 45.00s di gioco (durata identica)\n  ✔ 120 FPS: 45s reali → 45.00s di gioco (durata identica)\n\n✅ ROUNDS SELFTEST OK (56 controlli)\n"
+    },
+    {
+      "name": "solo-bots-selftest",
+      "status": 0,
+      "output": "13:06:54 [ROUND] [TEST] #1 (id 1) → quiz · 2 giocatori\n13:06:54 [MINIGAME] [TEST] quiz via (id 1)\n13:06:54 [RESULT] [TEST] quiz · human +10, BOT BOSCHI +5\n13:06:54 [ROOM] [TEST] nuova partita: punteggi azzerati, stessi giocatori\n13:06:54 [ROUND] [TEST] #1 (id 2) → memory · 2 giocatori\n13:06:54 [ROOM] [TEST] reset alla lobby\n13:06:54 [ROUND] [TEST] #1 (id 1) → quiz · 3 giocatori\n13:06:54 [MINIGAME] [TEST] quiz via (id 1)\n13:06:54 [RESULT] [TEST] quiz · human +10, BOT BOSCHI +6, BOT Carbo +3\n13:06:54 [ROOM] [TEST] nuova partita: punteggi azzerati, stessi giocatori\n13:06:54 [ROUND] [TEST] #1 (id 2) → kart3d · 3 giocatori\n13:06:54 [ROOM] [TEST] reset alla lobby\n13:06:54 [ROUND] [TEST] #1 (id 1) → quiz · 4 giocatori\n13:06:54 [MINIGAME] [TEST] quiz via (id 1)\n13:06:54 [RESULT] [TEST] quiz · human +10, BOT BOSCHI +7, BOT Carbo +4, BOT Ciro +2\n13:06:54 [ROOM] [TEST] nuova partita: punteggi azzerati, stessi giocatori\n13:06:54 [ROUND] [TEST] #1 (id 2) → reaction [punti_doppi] · 4 giocatori\n13:06:54 [ROOM] [TEST] reset alla lobby\n13:06:54 [ROUND] [TEST] #1 (id 1) → quiz · 5 giocatori\n13:06:54 [MINIGAME] [TEST] quiz via (id 1)\n13:06:54 [RESULT] [TEST] quiz · human +10, BOT BOSCHI +7, BOT Carbo +5, BOT Ciro +3, BOT Victor +1\n13:06:54 [ROOM] [TEST] nuova partita: punteggi azzerati, stessi giocatori\n13:06:54 [ROUND] [TEST] #1 (id 2) → minigolf · 5 giocatori\n13:06:54 [ROOM] [TEST] reset alla lobby\n13:06:54 [ROUND] [MULTI] #1 (id 1) → kart3d [punti_doppi] · 2 giocatori\n13:06:54 [ROOM] [MULTI] reset alla lobby\nPASS server: solo 2–5 seats, readiness/offline, unique characters, payload, normal scoring, no duplicates, restart, multiplayer\nPASS quiz: 10 complete questions, 30 delayed bot responses, imperfect scores, no human input\nPASS reaction, memory and cultura: no false start, observed tiles, completed sequences, unique bluffs, valid votes\nKart simulation {\n  lap: 3,\n  distance: 2215.7519335867987,\n  finished: true,\n  onRoad: 1,\n  time: 52.29999999999831\n}\nFPS navigation {\n  id: 'p1',\n  x: 19.967494447785775,\n  z: 15.664390222050338,\n  yaw: 0.01691723459806107,\n  pitch: 0,\n  alive: true,\n  magazine: 10,\n  spawnProtection: 0\n} { fires: 1045 }\nSOLO BOTS SELFTEST PASS\n"
+    },
+    {
+      "name": "audio-selftest",
+      "status": 0,
+      "output": "✅ quiz: tema musicale dedicato (quiz)\n✅ reaction: tema musicale dedicato (reaction)\n✅ memory: tema musicale dedicato (memory)\n✅ arena: tema musicale dedicato (arena)\n✅ dodgeball: tema musicale dedicato (dodgeball)\n✅ soccer: tema musicale dedicato (soccer)\n✅ volleyball: tema musicale dedicato (volleyball)\n✅ kart3d: tema musicale dedicato (kart3d)\n✅ cultura: tema musicale dedicato (cultura)\n✅ fps: tema musicale dedicato (fps)\n✅ cornicione: tema musicale dedicato (cornicione)\n✅ casacarbo: tema musicale dedicato (casacarbo)\n✅ minigolf: tema musicale dedicato (minigolf)\n✅ geofall: tema musicale dedicato (geofall)\n✅ backrooms: tema musicale dedicato (backrooms)\n✅ i 15 temi dei giochi sono tutti diversi (15 firme distinte)\n✅ tempi molto diversi tra i giochi (60–150 bpm)\n✅ Dodgeball piu' veloce dell'Arena (sport arcade rapido vs brawler)\n✅ Cultura (bar, swing) suona diversa dal Quiz (game show)\n✅ backrooms: giro di 16 battute = 64 s (variazioni a 4/8/12/16)\n✅ geofall: giro di 16 battute = 33 s (variazioni a 4/8/12/16)\n✅ minigolf: giro di 16 battute = 35 s (variazioni a 4/8/12/16)\n✅ lobby: giro di 16 battute = 39 s (variazioni a 4/8/12/16)\n✅ roulette: giro di 16 battute = 30 s (variazioni a 4/8/12/16)\n✅ arena: giro di 16 battute = 33 s (variazioni a 4/8/12/16)\n✅ dodgeball: giro di 16 battute = 27 s (variazioni a 4/8/12/16)\n✅ soccer: giro di 16 battute = 31 s (variazioni a 4/8/12/16)\n✅ volleyball: giro di 16 battute = 37 s (variazioni a 4/8/12/16)\n✅ kart3d: giro di 16 battute = 26 s (variazioni a 4/8/12/16)\n✅ cornicione: giro di 16 battute = 28 s (variazioni a 4/8/12/16)\n✅ casacarbo: giro di 16 battute = 33 s (variazioni a 4/8/12/16)\n✅ fps: giro di 16 battute = 29 s (variazioni a 4/8/12/16)\n✅ memory: giro di 16 battute = 46 s (variazioni a 4/8/12/16)\n✅ reaction: giro di 16 battute = 38 s (variazioni a 4/8/12/16)\n✅ quiz: giro di 16 battute = 32 s (variazioni a 4/8/12/16)\n✅ cultura: giro di 16 battute = 42 s (variazioni a 4/8/12/16)\n✅ results: giro di 16 battute = 36 s (variazioni a 4/8/12/16)\n✅ podium: giro di 16 battute = 34 s (variazioni a 4/8/12/16)\n✅ backrooms: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ backrooms: livello 2 ha almeno gli strati del livello 1 (50 → 306 eventi per giro)\n✅ geofall: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ geofall: livello 2 ha almeno gli strati del livello 1 (405 → 693 eventi per giro)\n✅ minigolf: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ minigolf: livello 2 ha almeno gli strati del livello 1 (405 → 693 eventi per giro)\n✅ lobby: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ lobby: livello 2 ha almeno gli strati del livello 1 (398 → 654 eventi per giro)\n✅ roulette: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ roulette: livello 2 ha almeno gli strati del livello 1 (645 → 853 eventi per giro)\n✅ arena: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ arena: livello 2 ha almeno gli strati del livello 1 (737 → 897 eventi per giro)\n✅ dodgeball: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ dodgeball: livello 2 ha almeno gli strati del livello 1 (1057 → 1089 eventi per giro)\n✅ soccer: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ soccer: livello 2 ha almeno gli strati del livello 1 (437 → 741 eventi per giro)\n✅ volleyball: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ volleyball: livello 2 ha almeno gli strati del livello 1 (881 → 1137 eventi per giro)\n✅ kart3d: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ kart3d: livello 2 ha almeno gli strati del livello 1 (793 → 945 eventi per giro)\n✅ cornicione: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ cornicione: livello 2 ha almeno gli strati del livello 1 (905 → 1057 eventi per giro)\n✅ casacarbo: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ casacarbo: livello 2 ha almeno gli strati del livello 1 (1021 → 1149 eventi per giro)\n✅ fps: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ fps: livello 2 ha almeno gli strati del livello 1 (629 → 853 eventi per giro)\n✅ memory: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ memory: livello 2 ha almeno gli strati del livello 1 (182 → 438 eventi per giro)\n✅ reaction: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ reaction: livello 2 ha almeno gli strati del livello 1 (370 → 498 eventi per giro)\n✅ quiz: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ quiz: livello 2 ha almeno gli strati del livello 1 (805 → 1061 eventi per giro)\n✅ cultura: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ cultura: livello 2 ha almeno gli strati del livello 1 (613 → 805 eventi per giro)\n✅ results: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ results: livello 2 ha almeno gli strati del livello 1 (405 → 661 eventi per giro)\n✅ podium: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n✅ podium: livello 2 ha almeno gli strati del livello 1 (429 → 645 eventi per giro)\n✅ memory: nessuna melodia (le note di Memoria / il VIA di Botta al Volo sono gameplay)\n✅ reaction: nessuna melodia (le note di Memoria / il VIA di Botta al Volo sono gameplay)\n✅ Memoria e Botta al Volo: musica bassa\n✅ 4 note di Memoria distinte (distanza minima 4.0 semitoni)\n✅ il pad di Memoria resta grave, lontano dalle note delle tessere\n\nTUTTO OK\n"
+    },
+    {
+      "name": "minigolf-selftest",
+      "status": 0,
+      "output": "PASS minigolf physics 30/60/120, six courses, turns/timeout/fair order, persistent ball collisions and opponent hole, cancellation, all abilities, active-time ranking, deadline grace, 24 natural bot rounds.\n[{\"n\":2,\"course\":\"corridoio\",\"seconds\":38.9,\"completed\":1},{\"n\":2,\"course\":\"rotonda\",\"seconds\":26.4,\"completed\":2},{\"n\":2,\"course\":\"ponte\",\"seconds\":31.6,\"completed\":1},{\"n\":2,\"course\":\"flipper\",\"seconds\":18,\"completed\":2},{\"n\":2,\"course\":\"discesa\",\"seconds\":27.3,\"completed\":2},{\"n\":2,\"course\":\"ultima\",\"seconds\":34.8,\"completed\":1},{\"n\":3,\"course\":\"corridoio\",\"seconds\":58.2,\"completed\":2},{\"n\":3,\"course\":\"rotonda\",\"seconds\":37.2,\"completed\":3},{\"n\":3,\"course\":\"ponte\",\"seconds\":40.6,\"completed\":2},{\"n\":3,\"course\":\"flipper\",\"seconds\":40.1,\"completed\":3},{\"n\":3,\"course\":\"discesa\",\"seconds\":37.1,\"completed\":3},{\"n\":3,\"course\":\"ultima\",\"seconds\":50.7,\"completed\":2},{\"n\":4,\"course\":\"corridoio\",\"seconds\":74.4,\"completed\":2},{\"n\":4,\"course\":\"rotonda\",\"seconds\":38.8,\"completed\":4},{\"n\":4,\"course\":\"ponte\",\"seconds\":54.4,\"completed\":3},{\"n\":4,\"course\":\"flipper\",\"seconds\":80.6,\"completed\":4},{\"n\":4,\"course\":\"discesa\",\"seconds\":60,\"completed\":2},{\"n\":4,\"course\":\"ultima\",\"seconds\":56.2,\"completed\":4},{\"n\":5,\"course\":\"corridoio\",\"seconds\":79.3,\"completed\":3},{\"n\":5,\"course\":\"rotonda\",\"seconds\":78.9,\"completed\":5},{\"n\":5,\"course\":\"ponte\",\"seconds\":82.7,\"completed\":1},{\"n\":5,\"course\":\"flipper\",\"seconds\":73.9,\"completed\":5},{\"n\":5,\"course\":\"discesa\",\"seconds\":67.2,\"completed\":2},{\"n\":5,\"course\":\"ultima\",\"seconds\":71.8,\"completed\":5}]\n"
+    },
+    {
+      "name": "quality-selftest",
+      "status": 0,
+      "output": "\nAUTO-QUALITY — sessione che parte da HIGH\n\n✅ nessuna scelta manuale: auto-quality attiva\n✅ parte da HIGH (glow acceso)\n✅ sotto 24 FPS da 1.5 s: ancora HIGH (serve 2 s continui)\n✅ dopo ~2 s scende a MEDIUM (glow spento, ombre accese) — medium scala 1 ombre true particelle true glow false\n✅ nel cooldown (3 s) non scende ancora\n✅ FPS ancora bassi: LOW (ombre/particelle spente) — low scala 1.5 ombre false particelle false glow false\n✅ a LOW e ancora bassi sale la scala di rendering (2)\n✅ il livello raggiunto resta per i minigiochi successivi della sessione\n✅ nuovo minigioco: riparte da LOW (livello di sessione)\n✅ fra 24 e 57 FPS non cambia nulla per 40 s (isteresi)\n✅ 60 FPS da 7 s: ancora LOW (serve 8 s stabili)\n✅ dopo 8 s stabili sale a MEDIUM — medium scala 1 ombre true particelle true glow false\n✅ nel cooldown non sale ancora\n✅ poi HIGH (desktop) — high scala 1 ombre true particelle true glow true\n✅ HIGH non regge: torna a MEDIUM\n✅ anche con 60 FPS per 60 s NON riprova HIGH (bloccato per la sessione: niente altalena)\n✅ setQualityLevel: da ora scelta manuale\n✅ a mano LOW: neppure con 60 FPS l'auto-quality alza il livello\n\nTutto ok\n\n"
+    },
+    {
+      "name": "characters-animation-selftest",
+      "status": 0,
+      "output": "Character animation update: 431 checks passed\n"
+    }
+  ],
+  "targetedTests": {
+    "groups": 22,
+    "status": 0,
+    "log": "fixes-tests.log"
+  },
+  "baselineRulesTests": {
+    "groups": 38,
+    "status": 0,
+    "log": "rules-tests.log"
+  },
+  "baselineCommit": "115874e",
+  "geofallPreserved": {
+    "src/minigames/geofall/BabylonGeofallGame.ts": "ECA6479B560BDAF68DE74D81060E6DB766B53C8398D1C6E835F9484894B96DD3",
+    "src/minigames/geofall/geofallRules.ts": "DABA14880CAA7E4C6082FA51EF8644EC5F9E5CD2AD37DFCE153F2D38C36316E8",
+    "shared/geofallQuestions.json": "71A2C0380BD001BE912E55DE86478A8F5D90594E9DE90B7A0D612097B5129682"
+  },
+  "manualPending": [
+    "Ascolto umano sulla TV e calibrazione dei livelli percepiti",
+    "Controller Xbox/PlayStation/generico fisici e telefoni fisici",
+    "Playtest umano della difficoltà e della tensione dei tre mostri"
+  ],
+  "acceptance": "All four requested code requirements passed automated/source/native-browser validation. Physical TV listening/controllers and human balance playtest remain pending.",
+  "build": [
+    {
+      "name": "typecheck",
+      "exit": 0,
+      "seconds": 21.09,
+      "output": ""
+    },
+    {
+      "name": "build",
+      "exit": 0,
+      "seconds": 224.177,
+      "output": "-DFFO6kjD.js                                   8.18 kB │ gzip:     3.72 kB\ndist/assets/soccerEnvironment-D9clBced.js                            8.36 kB │ gzip:     3.82 kB\ndist/assets/dodgeballEnvironment-DR5ozAWw.js                         8.45 kB │ gzip:     3.73 kB\ndist/assets/environmentGallery-659jOWch.js                           8.51 kB │ gzip:     4.29 kB\ndist/assets/arenaEnvironment-DKZTYrJG.js                             8.70 kB │ gzip:     3.92 kB\ndist/assets/fluentButton.vertex-BGq8zfy2.js                          9.56 kB │ gzip:     2.41 kB\ndist/assets/fpsWorld-C6HBQP4W.js                                     9.66 kB │ gzip:     4.13 kB\ndist/assets/impactLab-DN8Auozd.js                                    9.71 kB │ gzip:     4.33 kB\ndist/assets/volleyballEnvironment-BhVO-b2f.js                       10.15 kB │ gzip:     4.67 kB\ndist/assets/constants-VMTtjmhB.js                                   11.77 kB │ gzip:     3.21 kB\ndist/assets/fpsViewmodel-C9eekq6v.js                                11.88 kB │ gzip:     4.48 kB\ndist/assets/envKit-Dmfsw8WG.js                                      12.55 kB │ gzip:     5.38 kB\ndist/assets/judokaProfile-juZZNxff.js                               13.41 kB │ gzip:     2.13 kB\ndist/assets/buttafuoriProfile-CPQI8PQE.js                           14.49 kB │ gzip:     2.36 kB\ndist/assets/ciroProfile-8IGAkmIm.js                                 15.15 kB │ gzip:     2.49 kB\ndist/assets/ktxTextureLoader-D0RlWsei.js                            15.22 kB │ gzip:     4.40 kB\ndist/assets/kartEntity-C-MwfQBa.js                                  19.80 kB │ gzip:     7.16 kB\ndist/assets/BabylonKartGame-C93wnF7G.js                             19.92 kB │ gzip:     7.00 kB\ndist/assets/kartEnvironment-gy6z1-lr.js                             23.40 kB │ gzip:     9.54 kB\ndist/assets/BabylonFpsGame-D4UOlt-O.js                              23.87 kB │ gzip:     9.18 kB\ndist/assets/fpsClient-CuiCnxyN.js                                   23.96 kB │ gzip:     8.43 kB\ndist/assets/characterGallery-CCT1ooxG.js                            25.09 kB │ gzip:     6.93 kB\ndist/assets/BabylonArenaGame-CSvSwAPU.js                            25.23 kB │ gzip:     8.76 kB\ndist/assets/arenaEntity-BM2D7yfN.js                                 25.32 kB │ gzip:     9.02 kB\ndist/assets/BabylonVolleyballGame-BuuwPXm4.js                       25.80 kB │ gzip:     9.30 kB\ndist/assets/BabylonDodgeballGame-DMiSMHVo.js                        26.47 kB │ gzip:     9.33 kB\ndist/assets/cameraHud-C_C-E5MA.js                                   26.92 kB │ gzip:    10.37 kB\ndist/assets/characterModel-9t57a0KX.js                              27.23 kB │ gzip:     9.05 kB\ndist/assets/BabylonSoccerGame-RmQtDfRj.js                           35.26 kB │ gzip:    12.82 kB\ndist/assets/goblinVisual-DaqZKMct.js                                38.88 kB │ gzip:    10.72 kB\ndist/assets/meshBlending.fragment-BUIAGDct.js                       39.50 kB │ gzip:     8.31 kB\ndist/assets/meshBlending.fragment-DEK4l3on.js                       42.62 kB │ gzip:     8.65 kB\ndist/assets/BabylonMinigolfGame-DfT026td.js                         43.87 kB │ gzip:    16.13 kB\ndist/assets/BabylonBackroomsGame-BuCq6NrN.js                        47.29 kB │ gzip:    18.27 kB\ndist/assets/controller-DbtMXOD0.js                                  74.67 kB │ gzip:    23.39 kB\ndist/assets/CasaCarboGame-Du7wVR-D.js                               79.37 kB │ gzip:    29.29 kB\ndist/assets/BabylonCornicioneGame-B4rFP8wL.js                       84.54 kB │ gzip:    29.46 kB\ndist/assets/BabylonGeofallGame-DdRJGAeE.js                          91.74 kB │ gzip:    11.98 kB\ndist/assets/quality-CfZ20MRZ.js                                    132.01 kB │ gzip:    43.00 kB\ndist/assets/index-UuByACFp.js                                      377.73 kB │ gzip:    84.58 kB\ndist/assets/countdownFx-DYjuXbip.js                                506.55 kB │ gzip:    95.86 kB\ndist/assets/main-T1cq7mX5.js                                     1,953.15 kB │ gzip:   494.58 kB\ndist/assets/nativeXRFrame-BR_bhvHa.js                            6,916.04 kB │ gzip: 1,527.73 kB\n✓ built in 3m 43s\n\n(!) Some chunks are larger than 1500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n"
+    }
+  ],
+  "production": {
+    "errors": [],
+    "models": [
+      {
+        "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:3001/models/judoka-tripo/judo_figure_casacarbo.glb",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:3001/models/man-tripo/man_animated.glb",
+        "status": 200
+      }
+    ],
+    "phases": [
+      {
+        "phase": "LOBBY",
+        "ms": 4297
+      },
+      {
+        "phase": "MINIGAME_ROULETTE",
+        "ms": 7949
+      },
+      {
+        "phase": "MINIGAME_INTRO",
+        "ms": 14688
+      },
+      {
+        "phase": "MINIGAME_PLAYING",
+        "ms": 17296
+      }
+    ],
+    "chunks": [
+      {
+        "url": "http://127.0.0.1:3001/assets/BabylonBackroomsGame-BuCq6NrN.js",
+        "ms": 7637
+      }
+    ],
+    "phoneStates": [
+      {
+        "state": "exploring",
+        "lives": 2,
+        "ms": 18048
+      }
+    ],
+    "webglErrors": [],
+    "start": 7627,
+    "playing": 17341,
+    "devOverlayAbsent": true,
+    "panels": {
+      "views": 5,
+      "canvases": 2
+    }
+  },
+  "compiled-debug": {
+    "chunk": "dist\\assets\\BabylonBackroomsGame-BuCq6NrN.js",
+    "bytes": 47289,
+    "devTermsExcluded": {
+      "backrooms-debug": true,
+      "backroomsSeed": true,
+      "backroomsDebug": true,
+      "perception-": true
+    }
+  },
+  "finalSourceHashes": {
+    "src\\minigames\\backrooms\\BabylonBackroomsGame.ts": "40c1bf46b106fedd22753d12cabae8309e54222ca23c5e17d87cab3e5d91c740",
+    "src\\minigames\\backrooms\\backroomsAudio.ts": "b3bacf15a3d40500bcbb871274b8fe7ec694a5a079e8fb1ee40ecb73fdbd986b",
+    "src\\minigames\\backrooms\\backroomsDebug.ts": "1dd02cae4346a263c6338987ed33c1103a44b6daff162b9e680cc955dcc391b3",
+    "src\\minigames\\backrooms\\backroomsInput.ts": "cd4952f5e0fcbb7001ba2f70ded38ca15975db8e220d4af72c7b67ca71f7f3fb",
+    "src\\minigames\\backrooms\\backroomsRules.ts": "57c1ea1760f11c40b8fdce37ed0d9391330af8a242d64c72e48792445f014f7c",
+    "src\\minigames\\backrooms\\BackroomsScene.ts": "9d72fc035566aafa15f3700fd835863d519f52a68d52fac187676c2128339634",
+    "src\\minigames\\backrooms\\backroomsWorld.ts": "e415d1c0547bf1fba5f46e9870a51560d7e2dc7060268bb701b9cdbeb2c2991f",
+    "src\\minigames\\backrooms\\index.ts": "d7e0c34fc0fddbf7de0634552ba0a0d1598ccd887c8feb8d26f07b580cfed8cd",
+    "src\\minigames\\backrooms\\maze.ts": "8109e9b3782b1e0903137d61234f920aab3a4e0701333ace581b9ab899946adb",
+    "src\\network\\PlayerInput.ts": "4cb478ec37cb967c69bc2e895f9bbd6a6160f20c058487cfbbf6c37313d41097"
+  }
+}

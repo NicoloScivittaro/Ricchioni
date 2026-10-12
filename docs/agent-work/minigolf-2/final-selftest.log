@@ -1,0 +1,16 @@
+PASS 10 physical layouts;3 unique selections;progression;no immediately repeated triple;all maps selected
+PASS default150s and15s turn;bounded configurable timer;metadata/watchdog cover even300s option
+PASS 2–5 tees supported, no overlaps, identical distance to first target on all10 courses
+PASS deadline freezes during no advance/pause contract;timeout3holes,resets,rotating starts and AFK playoff bounded
+PASS intermission holds scores and cancels held shots;new hole resets resources and temporary blockers
+PASS strokes first,completed active time second;penalties not double-counted;exact ties and playoff distances
+PASS actual one-putt playoff,one isolated ball per turn,does not add fourth scoring record
+15:02:04 [ROUND] [TEST] #1 (id 1) → minigolf [punti_doppi] · 3 giocatori
+15:02:04 [RESULT] [TEST] minigolf · a +8, b +8, c +3
+15:02:04 [ROOM] [TEST] reset alla lobby
+15:02:04 [ROUND] [TEST] #1 (id 1) → arena · 3 giocatori
+15:02:04 [RESULT] [TEST] arena · a +10, b +6, c +3
+15:02:04 [ROOM] [TEST] reset alla lobby
+PASS shared ex-aequo points scoped to Minigolf;double and catch-up preserved;missing/duplicate sanitization
+PASS 24 complete3hole bot tournaments:2–5 players,6 seeds each,unique courses,no skipped record,finite scoring
+PASS 9 Minigolf2 groups;24 full tournaments

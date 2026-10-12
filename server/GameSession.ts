@@ -197,7 +197,7 @@ export class GameSession {
   /**
    * Risultati di un minigioco sanificati: solo partecipanti della stanza, nessun duplicato,
    * placement finiti; chi manca (disconnesso/non piazzato) va in coda. Restituisce
-   * SEMPRE una classifica completa 1..N, mai placement undefined.
+   * Classifica completa; soltanto Minigolf conserva gli ex aequo dello spareggio.
    */
   private normalizeResults(results: PlayerResult[]): PlayerResult[] {
     const known = new Set(this.players.map((p) => p.id));
@@ -218,7 +218,8 @@ export class GameSession {
     for (const p of this.players) {
       if (!seen.has(p.id)) valid.push({ playerId: p.id, placement: 1e7, score: 0 });
     }
-    return valid.map((r, i) => ({ ...r, placement: i + 1 }));
+    const golf=this.currentMinigame?.minigameId==='minigolf';let place=1;
+    return valid.map((r,i)=>{if(!golf||i===0||r.placement!==valid[i-1].placement||r.placement===1e7)place=i+1;return {...r,placement:place};});
   }
 
   /** Il minigioco (via host) restituisce i risultati; qui si assegnano i punti. */
@@ -238,7 +239,8 @@ export class GameSession {
     const ranking = ordered.map((r) => r.playerId);
     const double = this.currentMinigame?.modifierId === 'punti_doppi';
     const scoresMap = new Map(this.players.map((p) => [p.id, p.score]));
-    const deltas = ScoreManager.awardRound(scoresMap, ranking, this.targetScore, double);
+    const golf=this.currentMinigame?.minigameId==='minigolf';
+    const deltas = ScoreManager.awardRound(scoresMap, ranking, this.targetScore, double,golf?Object.fromEntries(ordered.map(r=>[r.playerId,r.placement])):undefined);
 
     for (const pid of ranking) {
       const p = this.getPlayer(pid);
@@ -253,7 +255,7 @@ export class GameSession {
         .join(', ')}${double ? ' (punti doppi)' : ''}`
     );
     this.lastResults = { results: ordered, ranking, deltas, double };
-    this.lastRound = { minigameId: this.currentMinigame?.minigameId ?? '', winnerId: ranking[0] ?? null, deltas };
+    this.lastRound = { minigameId: this.currentMinigame?.minigameId ?? '', winnerId:golf&&ordered[1]?.placement===1?null:ranking[0]??null, deltas };
     if (this.currentMinigame) {
       this.history.push({
         round: this.round,

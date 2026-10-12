@@ -29,6 +29,7 @@ export class MinigolfVisuals {
  build(c:Course):void {
   if(this.root)for(const mesh of this.root.getChildMeshes())this.shadows.removeShadowCaster(mesh);
   this.root?.dispose();this.bumpers.clear();this.root=new TransformNode('golfCourseRoot',this.scene);this.floorMeshes=[];this.walls=[];
+  this.holePulse=0;this.previewAt=0;this.sparks.forEach(s=>{s.life=0;s.mesh.isVisible=false;});for(const dots of this.preview.values())dots.forEach(m=>m.isVisible=false);
   const floorMat=this.material(`turf:${c.id}`,c.color);
   if(!floorMat.diffuseTexture){const tex=new DynamicTexture(`golfTurf:${c.id}`,128,this.scene,false),ctx=tex.getContext();ctx.fillStyle='#ffffff';ctx.fillRect(0,0,128,128);ctx.fillStyle='#d9e6dc';ctx.fillRect(0,0,64,64);ctx.fillRect(64,64,64,64);
    ctx.fillStyle='#cfdfd2';for(let i=0;i<40;i++)ctx.fillRect((i*37)%128,(i*53)%128,2,2);tex.update();floorMat.diffuseTexture=tex;}
@@ -65,7 +66,7 @@ export class MinigolfVisuals {
   for(const b of extras)if(!this.bumpers.has(b.owner!))this.makeBumper(b.owner!,b.x,b.y,b.z,b.radius);
   this.previewAt-=dt;const refresh=this.previewAt<=0;if(refresh)this.previewAt=.12;
   for(const p of players){const b=p.ball,mesh=this.balls.get(p.id)!,ring=this.rings.get(p.id)!,arrow=this.arrows.get(p.id)!;
-   mesh.position.set(b.x,b.y,b.z);mesh.isVisible=ring.isVisible=!p.finished;mesh.rotation.x+=b.vz*dt/GOLF.radius;mesh.rotation.z-=b.vx*dt/GOLF.radius;
+   mesh.position.set(b.x,b.y,b.z);mesh.isVisible=ring.isVisible=!p.finished&&!b.done;mesh.rotation.x+=b.vz*dt/GOLF.radius;mesh.rotation.z-=b.vx*dt/GOLF.radius;
    ring.position.set(b.x,b.y-GOLF.radius+.05,b.z);ring.scaling.setAll(p.armed?1.2:1);
    arrow.isVisible=(!activeId||p.id===activeId)&&aiming&&!p.finished&&b.grounded&&speed(b)<GOLF.readySpeed;
    arrow.position.set(b.x+p.aim.x*(1.3+p.charge*1.2),b.y-.12,b.z+p.aim.z*(1.3+p.charge*1.2));arrow.rotation.y=Math.atan2(p.aim.x,p.aim.z);arrow.scaling.y=.8+p.charge*.6;

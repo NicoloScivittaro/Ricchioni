@@ -1,0 +1,553 @@
+{
+  "errors": [],
+  "models": [
+    {
+      "url": "http://127.0.0.1:3001/models/goblin-tripo/green_goblin_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/judoka-tripo/judo_figure_casacarbo.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/man-tripo/man_animated.glb",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/models/detailed-tripo/detailed_character_casacarbo.glb",
+      "status": 200
+    }
+  ],
+  "phases": [
+    {
+      "phase": "LOBBY",
+      "ms": 4335
+    },
+    {
+      "phase": "MINIGAME_ROULETTE",
+      "ms": 7925
+    },
+    {
+      "phase": "MINIGAME_INTRO",
+      "ms": 14666
+    },
+    {
+      "phase": "MINIGAME_PLAYING",
+      "ms": 17257
+    },
+    {
+      "phase": "MINIGAME_FINISHED",
+      "ms": 116531
+    },
+    {
+      "phase": "ROUND_RESULTS",
+      "ms": 117480
+    }
+  ],
+  "chunks": [
+    {
+      "url": "http://127.0.0.1:3001/assets/BabylonGeofallGame-CZZCBkhw.js",
+      "ms": 7608
+    }
+  ],
+  "assets": [
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-IT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-FR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-DE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-ES.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-BE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-PT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-AT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-SE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-NO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-FI.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-IT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-FR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-DE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-ES.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-PT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-BE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-AT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-SE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-NO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-FI.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-IT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-FR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-DE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-ES.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-PT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-BE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-AT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-SE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-NO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-FI.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-PL.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-PL.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-PL.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-RO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-RO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-RO.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-GR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-GR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-GR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-TR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-TR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-TR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-EG.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-EG.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-EG.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-IN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-IN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-IN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-CN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-CN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-CN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-CA.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-CA.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-CA.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-US.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-US.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-US.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/flag-BR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/outline-BR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/monument-BR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-TD.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-ML.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-GN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-CI.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-ID.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-MC.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-BF.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-BJ.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-GH.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-CM.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-IE.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-SN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-NA.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-BW.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-FJ.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/flag-WS.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-BT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-LA.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-KG.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-MN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-TD.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-CM.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-BW.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-BJ.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-NA.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-ML.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-BF.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-GH.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-CI.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-GN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/outline-SN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-KH.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-TH.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-LA.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-VN.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-MM.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-ID.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-BT.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-LK.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-NP.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-IR.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-ZW.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-TZ.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-ET.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-ML.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:3001/geofall/advanced/monument-SN.svg",
+      "status": 200
+    }
+  ],
+  "webglErrors": [],
+  "start": 7593,
+  "playing": 17267,
+  "spectatorSeconds": 37.438,
+  "wallSeconds": 95.237,
+  "results": {
+    "results": [
+      {
+        "playerId": "bot:a63e7406-cb67-4df7-9d93-5b0d89741150",
+        "placement": 1,
+        "score": 6,
+        "stats": [
+          "6 risposte corrette",
+          "ULTIMO SOPRAVVISSUTO",
+          "2 vite residue"
+        ]
+      },
+      {
+        "playerId": "bot:38527573-35a1-4636-a26c-00cb07f585e2",
+        "placement": 2,
+        "score": 4,
+        "stats": [
+          "4 risposte corrette",
+          "Eliminato al round 7",
+          "0 vite residue"
+        ]
+      },
+      {
+        "playerId": "bot:c8936def-2795-4ade-961c-4c8119cfee25",
+        "placement": 3,
+        "score": 4,
+        "stats": [
+          "4 risposte corrette",
+          "Eliminato al round 7",
+          "0 vite residue"
+        ]
+      },
+      {
+        "playerId": "bot:642fb7e9-9a27-4d94-b099-58b0cdf1c78b",
+        "placement": 4,
+        "score": 2,
+        "stats": [
+          "2 risposte corrette",
+          "Eliminato al round 5",
+          "0 vite residue"
+        ]
+      },
+      {
+        "playerId": "4ec51045-d0ec-457b-8e80-cf912061454c",
+        "placement": 5,
+        "score": 0,
+        "stats": [
+          "0 risposte corrette",
+          "Eliminato al round 3",
+          "0 vite residue"
+        ]
+      }
+    ],
+    "ranking": [
+      "bot:a63e7406-cb67-4df7-9d93-5b0d89741150",
+      "bot:38527573-35a1-4636-a26c-00cb07f585e2",
+      "bot:c8936def-2795-4ade-961c-4c8119cfee25",
+      "bot:642fb7e9-9a27-4d94-b099-58b0cdf1c78b",
+      "4ec51045-d0ec-457b-8e80-cf912061454c"
+    ],
+    "deltas": {
+      "bot:a63e7406-cb67-4df7-9d93-5b0d89741150": 10,
+      "bot:38527573-35a1-4636-a26c-00cb07f585e2": 7,
+      "bot:c8936def-2795-4ade-961c-4c8119cfee25": 5,
+      "bot:642fb7e9-9a27-4d94-b099-58b0cdf1c78b": 3,
+      "4ec51045-d0ec-457b-8e80-cf912061454c": 1
+    },
+    "double": false
+  }
+}

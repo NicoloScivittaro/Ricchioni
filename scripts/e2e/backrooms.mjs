@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {writeFileSync} from 'node:fs';
 import {launch,addPhone,hostEval,hostSnapshot,sleep,HOST_URL} from './lib.mjs';
 import {startGame,until,gameEval,installMock,add,tap,stick,btn,remove,watchControls,XBOX,DS,GENERIC} from './padmock.mjs';
-const out='docs/agent-work/backrooms',report={errors:[],checks:[],views:[]},browser=await launch();
+const out=(process.env.BACK_OUT??'docs/agent-work/backrooms'),report={errors:[],checks:[],views:[]},browser=await launch();
 try{
  const page=await browser.newPage();page.on('pageerror',e=>{report.errors.push(e.stack??String(e));console.log(e.stack??e);});
  await page.goto(HOST_URL,{waitUntil:'load'});await until(()=>hostEval(page,gm=>gm.game?.scene.getScenes(true).some(s=>s.scene.key==='LobbyScene')),30000,'lobby');await sleep(300);

@@ -1,0 +1,23 @@
+PASS input: brief tap survives clearFrame; next tap without neutral frame; held and repeated substeps; cancellation and new input
+PASS two taps in one slow frame toggle door twice; hold never toggles again; blocked closure explains cause
+PASS locked exit is explained before press; out-of-range action gives feedback
+PASS stalker: no 360-degree proximity sight, standing/walking behind, 105-degree cone boundary and light range
+PASS stalker: real front acquisition, latency, last seen snapshot, unobserved movement/noise cannot overwrite, finite search and reacquisition
+PASS stalker: dim rooms shorten visual range, sprint exposes player, immunity suppresses acquisition
+PASS stalker: noise behind = suspicious/investigate approximate area, no exact target or visual memory
+PASS stalker: wall and closed door block sight AND contact capture; open door restores sight
+PASS stalker: hide entry really witnessed through interaction; unseen hiding remains unknown; stable visible target in multiplayer
+PASS runner: no 360-degree proximity sight, standing/walking behind, 105-degree cone boundary and light range
+PASS runner: real front acquisition, latency, last seen snapshot, unobserved movement/noise cannot overwrite, finite search and reacquisition
+PASS runner: dim rooms shorten visual range, sprint exposes player, immunity suppresses acquisition
+PASS runner: noise behind = suspicious/investigate approximate area, no exact target or visual memory
+PASS runner: wall and closed door block sight AND contact capture; open door restores sight
+PASS runner: hide entry really witnessed through interaction; unseen hiding remains unknown; stable visible target in multiplayer
+PASS imitator: no 360-degree proximity sight, standing/walking behind, 105-degree cone boundary and light range
+PASS imitator: real front acquisition, latency, last seen snapshot, unobserved movement/noise cannot overwrite, finite search and reacquisition
+PASS imitator: dim rooms shorten visual range, sprint exposes player, immunity suppresses acquisition
+PASS imitator: noise behind = suspicious/investigate approximate area, no exact target or visual memory
+PASS imitator: wall and closed door block sight AND contact capture; open door restores sight
+PASS imitator: hide entry really witnessed through interaction; unseen hiding remains unknown; stable visible target in multiplayer
+PASS 1000 consecutive new matches per 2–5 count: fresh seed/topology, replay deterministic, objective reachability, respawn retains same maze
+Backrooms fixes: 22 test groups passed

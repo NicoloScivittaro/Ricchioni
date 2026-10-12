@@ -1,0 +1,13 @@
+{
+  "errors": [],
+  "checks": [
+    "existing Companion Card reads Geofall ability name/binding/live state",
+    "Xbox RB starts shield, next press rejected by cooldown, normal A push remains available",
+    "PlayStation R1 mapping activates Boschi stability",
+    "generic RB activates Victor acceleration",
+    "phone ability action traverses network to Carbo brake",
+    "Ciro warning visible on TV/phone before inversion, then expiration/recovery",
+    "collapse disables abilities and phone inputs"
+  ],
+  "states": []
+}

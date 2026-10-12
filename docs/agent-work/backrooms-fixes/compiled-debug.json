@@ -1,0 +1,10 @@
+{
+  "chunk": "dist\\assets\\BabylonBackroomsGame-BuCq6NrN.js",
+  "bytes": 47289,
+  "devTermsExcluded": {
+    "backrooms-debug": true,
+    "backroomsSeed": true,
+    "backroomsDebug": true,
+    "perception-": true
+  }
+}
