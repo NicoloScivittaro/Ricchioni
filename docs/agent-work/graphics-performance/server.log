@@ -73,3 +73,6 @@
 17:47:42 [ROOM] [86UZ4] nuova partita: punteggi azzerati, stessi giocatori
 17:47:42 [ROUND] [86UZ4] #1 (id 19) → fps · 2 giocatori
 17:47:42 [MINIGAME] [86UZ4] fps via (id 19)
+17:47:52 [RECONNECT] [86UZ4] Boschi disconnesso (fase MINIGAME_PLAYING)
+17:47:52 [RECONNECT] [86UZ4] Niko disconnesso (fase MINIGAME_PLAYING)
+17:47:52 [RECONNECT] [86UZ4] host disconnesso (fase MINIGAME_PLAYING)
