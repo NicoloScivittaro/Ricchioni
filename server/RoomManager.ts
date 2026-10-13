@@ -26,6 +26,8 @@ import { GameSession } from './GameSession';
 import { PlayerSession } from './PlayerSession';
 import { ReconnectionManager } from './ReconnectionManager';
 import { log } from './log';
+import { GoblinService } from './goblinTime/service';
+import type { Command, CommandAck } from '../shared/goblinTime/types';
 
 /** Intervallo minimo tra due eventi dello stesso asse (anti-flood); gli eventi intermedi vengono fusi, mai persi. */
 const AXIS_MIN_INTERVAL_MS = 4;
@@ -50,6 +52,7 @@ function clampInt(v: unknown, min: number, max: number, fallback: number): numbe
  */
 export class RoomManager {
   private rooms = new Map<RoomCode, GameSession>();
+  private goblinGames = new Map<GameSession, GoblinService>();
   // Solo snapshot Quiz: privati per giocatore, limitati al round e liberati con la stanza.
   private quizSnapshots = new WeakMap<GameSession, Map<string, { roundId: number; data: unknown }>>();
 
@@ -66,6 +69,28 @@ export class RoomManager {
   constructor(private io: Server) {}
 
   handleConnection(socket: Socket): void {
+    socket.on(EVT.goblinReady, (p: {roundId:number;mode?:string;restart?:boolean}, cb?: (r:CommandAck)=>void) => {
+      const room=this.roomOfHost(socket);
+      if(!room||room.phase!=='MINIGAME_PLAYING'||room.currentMinigame?.minigameId!=='goblinTime'||p?.roundId!==room.minigameSeq) { cb?.({ok:false,error:'Round non valido'});return; }
+      let service=this.goblinGames.get(room);
+      if(p.restart&&service) { service.destroy();this.goblinGames.delete(room);service=undefined;room.setPaused(false); }
+      if(!service) {
+        service=new GoblinService(room,p.mode==='personal'?'personal':'base',(pub,getPrivate)=>{
+          if(room.hostConnectionId)this.io.to(room.hostConnectionId).emit(EVT.goblinPublic,pub);
+          for(const player of room.players)if(player.connectionId)this.io.to(player.connectionId).emit(EVT.privateData,getPrivate(player.id));
+        });this.goblinGames.set(room,service);
+      } else service.sync();cb?.({ok:true});
+    });
+    socket.on(EVT.goblinCommand, (p:Command,cb?:(r:CommandAck)=>void)=>{
+      const loc=this.socketToPlayer.get(socket.id),room=loc?this.rooms.get(loc.roomCode):undefined;
+      const service=room?this.goblinGames.get(room):undefined;
+      if(!loc||!room||room.phase!=='MINIGAME_PLAYING'||room.getPlayer(loc.playerId)?.connectionId!==socket.id||!service) {cb?.({ok:false,error:'Sessione non valida'});return;}
+      cb?.(service.command(loc.playerId,p));
+    });
+    socket.on(EVT.goblinSync,()=>{
+      const loc=this.socketToPlayer.get(socket.id),room=loc?this.rooms.get(loc.roomCode):this.roomOfHost(socket);
+      const service=room?this.goblinGames.get(room):undefined;if(service)service.sync();
+    });
     socket.on(EVT.hostCreate, (payload: CreateRoomPayload & { hostToken?: string }, cb) =>
       this.onCreate(socket, payload, cb)
     );
@@ -167,6 +192,7 @@ export class RoomManager {
           const ack: JoinAck & AckResponse = { ok: true, playerId: player.id, reconnectToken: player.reconnectToken };
           cb?.(ack);
           this.broadcast(room.roomCode);
+          this.goblinGames.get(room)?.sync();
           const quiz = this.quizSnapshots.get(room)?.get(player.id);
           const current = room.toRoomState();
           if (quiz && current.phase === 'MINIGAME_PLAYING' && current.currentMinigame?.minigameId === 'quiz' && quiz.roundId === current.roundId) {
@@ -291,6 +317,7 @@ export class RoomManager {
   private onMinigameFinished(socket: Socket, p: MinigameFinishedPayload): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
+    if(room.currentMinigame?.minigameId==='goblinTime')return; // il ranking viene dal motore server
     room.finishMinigame(p?.results ?? [], typeof p?.roundId === 'number' ? p.roundId : undefined);
   }
 
@@ -322,6 +349,7 @@ export class RoomManager {
   private onPrivateData(socket: Socket, p: PrivateDataPayload): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
+    if(room.currentMinigame?.minigameId==='goblinTime')return; // l'host non possiede le mani e non può simulare snapshot privati
     const player = room.getPlayer(p.playerId);
     const data = p.data as { type?: string; roundId?: number } | null;
     const current = room.toRoomState();
@@ -430,13 +458,17 @@ export class RoomManager {
 
   private roomOfHost(socket: Socket): GameSession | undefined {
     const code = this.hostSockets.get(socket.id);
-    return code ? this.rooms.get(code) : undefined;
+    const room=code?this.rooms.get(code):undefined;
+    return room?.hostConnectionId===socket.id?room:undefined;
   }
 
   private broadcast(roomCode: RoomCode): void {
     const room = this.rooms.get(roomCode);
     if (!room) return;
     const state = room.toRoomState();
+    const goblin=this.goblinGames.get(room);
+    if(goblin&&(state.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='goblinTime')) {goblin.destroy();this.goblinGames.delete(room);}
+    else goblin?.sync();
     if (state.phase !== 'MINIGAME_PLAYING' || state.currentMinigame?.minigameId !== 'quiz') this.quizSnapshots.delete(room);
     if (room.hostConnectionId) this.io.to(room.hostConnectionId).emit(EVT.roomState, state);
     for (const p of room.players) {

@@ -13,6 +13,10 @@ import type {
  * server, host e controller usano queste stesse stringhe.
  */
 export const EVT = {
+  goblinReady: 'goblin:ready',
+  goblinCommand: 'goblin:command',
+  goblinSync: 'goblin:sync',
+  goblinPublic: 'goblin:public',
   // ---- Client → Server ----
   hostCreate: 'host:create',
   playerJoin: 'player:join',

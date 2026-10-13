@@ -27,6 +27,8 @@ import { audio } from '../core/AudioManager';
 import { initMobileDebug } from './mobileDebug';
 import { companionHtml, failAbility, flashAbility, isAbilityFailMsg, isAbilityMsg, isAbilityUsedMsg, onAbilityMessage, resetAbilityLive } from './abilityCard';
 import './style.css';
+import { mountGoblin } from './goblinTimeController';
+import type { PrivateState as GoblinPrivate } from '../../shared/goblinTime/types';
 
 const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
 const socket: Socket = serverUrl
@@ -42,6 +44,8 @@ let state: RoomState | null = null;
 let lastMinigameId: string | null = null;
 /** Controller attivo (per instradare i segnali): 'memory' | 'quiz' | null. */
 let activeController: string | null = null;
+let goblinPhone:ReturnType<typeof mountGoblin>|null=null;
+const destroyGoblin=()=>{goblinPhone?.destroy();goblinPhone=null;};
 let backroomsPhone: ReturnType<typeof mountBackrooms>|null=null;
 const destroyBackroomsPhone=()=>{backroomsPhone?.destroy();backroomsPhone=null;};
 let minigolfPhone: ReturnType<typeof mountMinigolf>|null=null;
@@ -132,6 +136,7 @@ socket.on(EVT.roomState, (payload) => {
   const recvAt = Date.now();
   const t0 = performance.now();
   state = payload as RoomState;
+  if(state.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='goblinTime')destroyGoblin();
   render();
   if (activeController === 'quiz') updateQuizUI();
   if (PHASE_DBG) phaseTiming.push({ kind: 'roomState', phase: state.phase, recvAt, renderMs: +(performance.now() - t0).toFixed(1) });
@@ -1802,6 +1807,12 @@ function isCulturaState(data: unknown): data is CulturaState {
 }
 
 socket.on(EVT.privateData, (data) => {
+  if(data?.type==='goblinPrivate') {
+    const s=data as GoblinPrivate;
+    if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='goblinTime'||s.roundId!==state.roundId||s.playerId!==playerId)return;
+    if(!goblinPhone)goblinPhone=mountGoblin(app,(cmd,cb)=>socket.emit(EVT.goblinCommand,cmd,cb));
+    goblinPhone.update(s);return;
+  }
   // ABILITA': stato live per la Companion Card, lampo di attivazione, avviso "non ora" — solo presentazione, mai gameplay
   if (isAbilityMsg(data)) {
     onAbilityMessage(data);
@@ -2134,6 +2145,8 @@ function renderPlaying(state: RoomState, me: PlayerPublic): void {
 }
 
 function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
+  if(mg.minigameId==='goblinTime') {disposeFps();destroyBackroomsPhone();destroyMinigolfPhone();destroyGoblin();activeController='goblinTime';goblinPhone=mountGoblin(app,(cmd,cb)=>socket.emit(EVT.goblinCommand,cmd,cb));socket.emit(EVT.goblinSync);return;}
+  destroyGoblin();
   destroyBackroomsPhone();
   if(mg.controllerLayout.type==='custom'&&mg.controllerLayout.id==='backrooms-tv'){disposeFps();destroyMinigolfPhone();activeController='backrooms';backroomsPhone=mountBackrooms(app,sendInput);return;}
   destroyMinigolfPhone();

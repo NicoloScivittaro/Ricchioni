@@ -1150,3 +1150,401 @@
 20:34:46 [MINIGAME] [P4WXN] cultura saltato senza punti (fase MINIGAME_PLAYING)
 20:34:46 [ROUND] [P4WXN] #1 (id 11) → memory · 2 giocatori
 20:34:56 [MINIGAME] [P4WXN] memory via (id 11)
+20:35:53 [MINIGAME] [Y4876] reaction saltato senza punti (fase MINIGAME_PLAYING)
+20:35:53 [ROUND] [Y4876] #2 (id 45) → backrooms · 5 giocatori
+20:36:02 [MINIGAME] [Y4876] backrooms via (id 45)
+20:36:48 [MINIGAME] [SHAPT] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+20:36:48 [ROUND] [SHAPT] #1 (id 17) → reaction [punti_doppi] · 5 giocatori
+20:36:52 [MINIGAME] [XHLA4] memory saltato senza punti (fase MINIGAME_PLAYING)
+20:36:52 [ROUND] [XHLA4] #2 (id 16) → volleyball · 5 giocatori
+20:36:57 [MINIGAME] [SHAPT] reaction via (id 17)
+20:37:01 [MINIGAME] [XHLA4] volleyball via (id 16)
+20:37:34 [MINIGAME] [6XLQJ] cultura saltato senza punti (fase MINIGAME_PLAYING)
+20:37:34 [ROUND] [6XLQJ] #1 (id 16) → kart3d · 2 giocatori
+20:37:43 [MINIGAME] [6XLQJ] kart3d via (id 16)
+20:38:27 [MINIGAME] [R9FVS] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+20:38:27 [ROUND] [R9FVS] #2 (id 29) → memory · 2 giocatori
+20:38:36 [MINIGAME] [R9FVS] memory via (id 29)
+20:38:56 [MINIGAME] [P4WXN] memory saltato senza punti (fase MINIGAME_PLAYING)
+20:38:56 [ROUND] [P4WXN] #1 (id 12) → reaction [punti_doppi] · 2 giocatori
+20:39:05 [MINIGAME] [P4WXN] reaction via (id 12)
+20:39:38 [MINIGAME] [9TVP6] backrooms saltato senza punti (fase MINIGAME_PLAYING)
+20:39:38 [ROUND] [9TVP6] #2 (id 44) → dodgeball · 5 giocatori
+20:39:48 [MINIGAME] [9TVP6] dodgeball via (id 44)
+20:39:57 [MINIGAME] [SHAPT] reaction saltato senza punti (fase MINIGAME_PLAYING)
+20:39:57 [ROUND] [SHAPT] #1 (id 18) → memory · 5 giocatori
+20:40:07 [MINIGAME] [SHAPT] memory via (id 18)
+20:42:05 [MINIGAME] [P4WXN] reaction saltato senza punti (fase MINIGAME_PLAYING)
+20:42:05 [ROUND] [P4WXN] #1 (id 13) → quiz [punti_doppi] · 2 giocatori
+20:42:15 [MINIGAME] [P4WXN] quiz via (id 13)
+20:42:37 [MINIGAME] [R9FVS] memory saltato senza punti (fase MINIGAME_PLAYING)
+20:42:37 [ROUND] [R9FVS] #2 (id 30) → dodgeball · 2 giocatori
+20:42:46 [MINIGAME] [R9FVS] dodgeball via (id 30)
+20:42:50 [MINIGAME] [AYMQT] cultura saltato senza punti (fase MINIGAME_PLAYING)
+20:42:50 [ROUND] [AYMQT] #1 (id 12) → memory · 5 giocatori
+20:43:00 [MINIGAME] [AYMQT] memory via (id 12)
+20:43:48 [MINIGAME] [9TVP6] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+20:43:48 [ROUND] [9TVP6] #2 (id 45) → casacarbo · 5 giocatori
+20:43:57 [MINIGAME] [9TVP6] casacarbo via (id 45)
+20:44:06 [MINIGAME] [4Y29L] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+20:44:06 [ROUND] [4Y29L] #2 (id 21) → quiz · 5 giocatori
+20:44:07 [MINIGAME] [SHAPT] memory saltato senza punti (fase MINIGAME_PLAYING)
+20:44:07 [ROUND] [SHAPT] #1 (id 19) → minigolf · 5 giocatori
+20:44:16 [MINIGAME] [4Y29L] quiz via (id 21)
+20:44:17 [MINIGAME] [SHAPT] minigolf via (id 19)
+20:45:18 [MINIGAME] [8VJ6L] geofall saltato senza punti (fase MINIGAME_PLAYING)
+20:45:18 [ROUND] [8VJ6L] #2 (id 46) → cornicione · 2 giocatori
+20:45:28 [MINIGAME] [8VJ6L] cornicione via (id 46)
+20:45:43 [MINIGAME] [6XLQJ] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+20:45:43 [ROUND] [6XLQJ] #1 (id 17) → memory · 2 giocatori
+20:45:53 [MINIGAME] [6XLQJ] memory via (id 17)
+20:46:46 [MINIGAME] [R9FVS] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+20:46:46 [ROUND] [R9FVS] #2 (id 31) → minigolf · 2 giocatori
+20:46:56 [MINIGAME] [R9FVS] minigolf via (id 31)
+20:47:00 [MINIGAME] [AYMQT] memory saltato senza punti (fase MINIGAME_PLAYING)
+20:47:00 [ROUND] [AYMQT] #1 (id 13) → fps [punti_doppi] · 5 giocatori
+20:47:09 [MINIGAME] [AYMQT] fps via (id 13)
+20:48:57 [MINIGAME] [9TVP6] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+20:48:57 [ROUND] [9TVP6] #2 (id 46) → volleyball · 5 giocatori
+20:49:01 [MINIGAME] [XHLA4] volleyball saltato senza punti (fase MINIGAME_PLAYING)
+20:49:01 [ROUND] [XHLA4] #2 (id 17) → kart3d · 5 giocatori
+20:49:07 [MINIGAME] [9TVP6] volleyball via (id 46)
+20:49:11 [MINIGAME] [XHLA4] kart3d via (id 17)
+20:49:53 [MINIGAME] [6XLQJ] memory saltato senza punti (fase MINIGAME_PLAYING)
+20:49:53 [ROUND] [6XLQJ] #1 (id 18) → reaction · 2 giocatori
+20:50:02 [MINIGAME] [6XLQJ] reaction via (id 18)
+20:50:15 [MINIGAME] [P4WXN] quiz saltato senza punti (fase MINIGAME_PLAYING)
+20:50:15 [ROUND] [P4WXN] #1 (id 14) → minigolf · 2 giocatori
+20:50:25 [MINIGAME] [P4WXN] minigolf via (id 14)
+20:51:02 [MINIGAME] [Y4876] backrooms saltato senza punti (fase MINIGAME_PLAYING)
+20:51:02 [ROUND] [Y4876] #2 (id 46) → arena · 5 giocatori
+20:51:12 [MINIGAME] [Y4876] arena via (id 46)
+20:51:47 [MINIGAME] [4LLEL] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+20:51:47 [ROUND] [4LLEL] #2 (id 15) → reaction [punti_doppi] · 2 giocatori
+20:51:57 [MINIGAME] [4LLEL] reaction via (id 15)
+20:52:09 [MINIGAME] [AYMQT] fps saltato senza punti (fase MINIGAME_PLAYING)
+20:52:09 [ROUND] [AYMQT] #1 (id 14) → volleyball · 5 giocatori
+20:52:16 [MINIGAME] [4Y29L] quiz saltato senza punti (fase MINIGAME_PLAYING)
+20:52:16 [ROUND] [4Y29L] #2 (id 22) → backrooms · 5 giocatori
+20:52:19 [MINIGAME] [AYMQT] volleyball via (id 14)
+20:52:26 [MINIGAME] [4Y29L] backrooms via (id 22)
+20:52:28 [MINIGAME] [8VJ6L] cornicione saltato senza punti (fase MINIGAME_PLAYING)
+20:52:28 [ROUND] [8VJ6L] #2 (id 47) → kart3d · 2 giocatori
+20:52:38 [MINIGAME] [8VJ6L] kart3d via (id 47)
+20:53:02 [MINIGAME] [6XLQJ] reaction saltato senza punti (fase MINIGAME_PLAYING)
+20:53:02 [ROUND] [6XLQJ] #1 (id 19) → casacarbo · 2 giocatori
+20:53:12 [MINIGAME] [6XLQJ] casacarbo via (id 19)
+20:54:57 [MINIGAME] [4LLEL] reaction saltato senza punti (fase MINIGAME_PLAYING)
+20:54:57 [ROUND] [4LLEL] #2 (id 16) → cultura [punti_doppi] · 2 giocatori
+20:55:07 [MINIGAME] [4LLEL] cultura via (id 16)
+20:56:12 [MINIGAME] [Y4876] arena saltato senza punti (fase MINIGAME_PLAYING)
+20:56:12 [ROUND] [Y4876] #2 (id 47) → soccer · 5 giocatori
+20:56:21 [MINIGAME] [Y4876] soccer via (id 47)
+20:57:11 [MINIGAME] [XHLA4] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+20:57:11 [ROUND] [XHLA4] #2 (id 18) → backrooms · 5 giocatori
+20:57:20 [MINIGAME] [XHLA4] backrooms via (id 18)
+20:58:12 [MINIGAME] [6XLQJ] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+20:58:12 [ROUND] [6XLQJ] #1 (id 20) → reaction [punti_doppi] · 2 giocatori
+20:58:22 [MINIGAME] [6XLQJ] reaction via (id 20)
+20:59:16 [MINIGAME] [86UZ4] geofall saltato senza punti (fase MINIGAME_PLAYING)
+20:59:16 [ROUND] [86UZ4] #1 (id 38) → casacarbo [punti_doppi] · 2 giocatori
+20:59:25 [MINIGAME] [86UZ4] casacarbo via (id 38)
+21:00:38 [MINIGAME] [8VJ6L] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+21:00:38 [ROUND] [8VJ6L] #2 (id 48) → casacarbo · 2 giocatori
+21:00:47 [MINIGAME] [8VJ6L] casacarbo via (id 48)
+21:01:07 [MINIGAME] [9TVP6] volleyball saltato senza punti (fase MINIGAME_PLAYING)
+21:01:07 [ROUND] [9TVP6] #2 (id 47) → kart3d [punti_doppi] · 5 giocatori
+21:01:17 [MINIGAME] [9TVP6] kart3d via (id 47)
+21:01:22 [MINIGAME] [6XLQJ] reaction saltato senza punti (fase MINIGAME_PLAYING)
+21:01:22 [ROUND] [6XLQJ] #1 (id 21) → soccer · 2 giocatori
+21:01:31 [MINIGAME] [6XLQJ] soccer via (id 21)
+21:02:21 [MINIGAME] [Y4876] soccer saltato senza punti (fase MINIGAME_PLAYING)
+21:02:21 [ROUND] [Y4876] #2 (id 48) → casacarbo · 5 giocatori
+21:02:31 [MINIGAME] [Y4876] casacarbo via (id 48)
+21:04:19 [MINIGAME] [AYMQT] volleyball saltato senza punti (fase MINIGAME_PLAYING)
+21:04:19 [ROUND] [AYMQT] #1 (id 15) → quiz · 5 giocatori
+21:04:25 [MINIGAME] [86UZ4] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+21:04:25 [ROUND] [86UZ4] #1 (id 39) → fps · 2 giocatori
+21:04:29 [MINIGAME] [AYMQT] quiz via (id 15)
+21:04:35 [MINIGAME] [86UZ4] fps via (id 39)
+21:05:47 [MINIGAME] [8VJ6L] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+21:05:47 [ROUND] [8VJ6L] #2 (id 49) → soccer [punti_doppi] · 2 giocatori
+21:05:57 [MINIGAME] [8VJ6L] soccer via (id 49)
+21:07:26 [MINIGAME] [4Y29L] backrooms saltato senza punti (fase MINIGAME_PLAYING)
+21:07:26 [ROUND] [4Y29L] #2 (id 23) → volleyball · 5 giocatori
+21:07:31 [MINIGAME] [Y4876] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+21:07:31 [ROUND] [Y4876] #2 (id 49) → minigolf · 5 giocatori
+21:07:31 [MINIGAME] [6XLQJ] soccer saltato senza punti (fase MINIGAME_PLAYING)
+21:07:31 [ROUND] [6XLQJ] #1 (id 22) → backrooms · 2 giocatori
+21:07:35 [MINIGAME] [4Y29L] volleyball via (id 23)
+21:07:41 [MINIGAME] [Y4876] minigolf via (id 49)
+21:07:41 [MINIGAME] [6XLQJ] backrooms via (id 22)
+21:09:17 [MINIGAME] [9TVP6] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+21:09:17 [ROUND] [9TVP6] #2 (id 48) → reaction [punti_doppi] · 5 giocatori
+21:09:26 [MINIGAME] [9TVP6] reaction via (id 48)
+21:09:35 [MINIGAME] [86UZ4] fps saltato senza punti (fase MINIGAME_PLAYING)
+21:09:35 [ROUND] [86UZ4] #1 (id 40) → backrooms [punti_doppi] · 2 giocatori
+21:09:45 [MINIGAME] [86UZ4] backrooms via (id 40)
+21:10:07 [MINIGAME] [4LLEL] cultura saltato senza punti (fase MINIGAME_PLAYING)
+21:10:07 [ROUND] [4LLEL] #2 (id 17) → volleyball · 2 giocatori
+21:10:16 [MINIGAME] [4LLEL] volleyball via (id 17)
+21:10:47 [MINIGAME] [XS4DL] geofall saltato senza punti (fase MINIGAME_PLAYING)
+21:10:47 [ROUND] [XS4DL] #2 (id 21) → memory · 2 giocatori
+21:10:50 [MINIGAME] [6754V] geofall saltato senza punti (fase MINIGAME_PLAYING)
+21:10:50 [ROUND] [6754V] #2 (id 18) → quiz · 5 giocatori
+21:10:56 [MINIGAME] [XS4DL] memory via (id 21)
+21:10:57 [MINIGAME] [SHAPT] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+21:10:57 [ROUND] [SHAPT] #1 (id 20) → arena · 5 giocatori
+21:11:00 [MINIGAME] [6754V] quiz via (id 18)
+21:11:06 [MINIGAME] [SHAPT] arena via (id 20)
+21:11:57 [MINIGAME] [8VJ6L] soccer saltato senza punti (fase MINIGAME_PLAYING)
+21:11:57 [ROUND] [8VJ6L] #2 (id 50) → volleyball [punti_doppi] · 2 giocatori
+21:12:07 [MINIGAME] [8VJ6L] volleyball via (id 50)
+21:12:20 [MINIGAME] [XHLA4] backrooms saltato senza punti (fase MINIGAME_PLAYING)
+21:12:20 [ROUND] [XHLA4] #2 (id 19) → quiz · 5 giocatori
+21:12:26 [MINIGAME] [9TVP6] reaction saltato senza punti (fase MINIGAME_PLAYING)
+21:12:26 [ROUND] [9TVP6] #2 (id 49) → minigolf · 5 giocatori
+21:12:29 [MINIGAME] [AYMQT] quiz saltato senza punti (fase MINIGAME_PLAYING)
+21:12:29 [ROUND] [AYMQT] #1 (id 16) → casacarbo · 5 giocatori
+21:12:30 [MINIGAME] [XHLA4] quiz via (id 19)
+21:12:36 [MINIGAME] [9TVP6] minigolf via (id 49)
+21:12:38 [MINIGAME] [AYMQT] casacarbo via (id 16)
+21:13:36 [MINIGAME] [R9FVS] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+21:13:36 [ROUND] [R9FVS] #2 (id 32) → cultura · 2 giocatori
+21:13:45 [MINIGAME] [R9FVS] cultura via (id 32)
+21:14:56 [MINIGAME] [XS4DL] memory saltato senza punti (fase MINIGAME_PLAYING)
+21:14:56 [ROUND] [XS4DL] #2 (id 22) → minigolf [punti_doppi] · 2 giocatori
+21:15:06 [MINIGAME] [XS4DL] minigolf via (id 22)
+21:16:06 [MINIGAME] [SHAPT] arena saltato senza punti (fase MINIGAME_PLAYING)
+21:16:06 [ROUND] [SHAPT] #1 (id 21) → casacarbo · 5 giocatori
+21:16:16 [MINIGAME] [SHAPT] casacarbo via (id 21)
+21:17:05 [MINIGAME] [P4WXN] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+21:17:05 [ROUND] [P4WXN] #1 (id 15) → kart3d · 2 giocatori
+21:17:14 [MINIGAME] [P4WXN] kart3d via (id 15)
+21:17:38 [MINIGAME] [AYMQT] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+21:17:38 [ROUND] [AYMQT] #1 (id 17) → geofall · 5 giocatori
+21:17:48 [MINIGAME] [AYMQT] geofall via (id 17)
+21:19:00 [MINIGAME] [6754V] quiz saltato senza punti (fase MINIGAME_PLAYING)
+21:19:00 [ROUND] [6754V] #2 (id 19) → soccer · 5 giocatori
+21:19:10 [MINIGAME] [6754V] soccer via (id 19)
+21:19:35 [MINIGAME] [4Y29L] volleyball saltato senza punti (fase MINIGAME_PLAYING)
+21:19:35 [ROUND] [4Y29L] #2 (id 24) → geofall · 5 giocatori
+21:19:45 [MINIGAME] [4Y29L] geofall via (id 24)
+21:20:30 [MINIGAME] [XHLA4] quiz saltato senza punti (fase MINIGAME_PLAYING)
+21:20:30 [ROUND] [XHLA4] #2 (id 20) → dodgeball [punti_doppi] · 5 giocatori
+21:20:40 [MINIGAME] [XHLA4] dodgeball via (id 20)
+21:21:16 [MINIGAME] [SHAPT] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+21:21:16 [ROUND] [SHAPT] #1 (id 22) → arena · 5 giocatori
+21:21:25 [MINIGAME] [SHAPT] arena via (id 22)
+21:22:16 [MINIGAME] [4LLEL] volleyball saltato senza punti (fase MINIGAME_PLAYING)
+21:22:16 [ROUND] [4LLEL] #2 (id 18) → cornicione · 2 giocatori
+21:22:26 [MINIGAME] [4LLEL] cornicione via (id 18)
+21:22:41 [MINIGAME] [6XLQJ] backrooms saltato senza punti (fase MINIGAME_PLAYING)
+21:22:41 [ROUND] [6XLQJ] #1 (id 23) → quiz · 2 giocatori
+21:22:50 [MINIGAME] [6XLQJ] quiz via (id 23)
+21:24:07 [MINIGAME] [8VJ6L] volleyball saltato senza punti (fase MINIGAME_PLAYING)
+21:24:07 [ROUND] [8VJ6L] #2 (id 51) → quiz · 2 giocatori
+21:24:09 [MINIGAME] [GQM48] geofall saltato senza punti (fase MINIGAME_PLAYING)
+21:24:09 [ROUND] [GQM48] #2 (id 22) → volleyball · 5 giocatori
+21:24:16 [MINIGAME] [8VJ6L] quiz via (id 51)
+21:24:19 [MINIGAME] [GQM48] volleyball via (id 22)
+21:24:40 [MINIGAME] [XHLA4] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+21:24:40 [ROUND] [XHLA4] #2 (id 21) → geofall · 5 giocatori
+21:24:45 [MINIGAME] [86UZ4] backrooms saltato senza punti (fase MINIGAME_PLAYING)
+21:24:45 [ROUND] [86UZ4] #1 (id 41) → reaction · 2 giocatori
+21:24:49 [MINIGAME] [XHLA4] geofall via (id 21)
+21:24:54 [MINIGAME] [86UZ4] reaction via (id 41)
+21:25:10 [MINIGAME] [6754V] soccer saltato senza punti (fase MINIGAME_PLAYING)
+21:25:10 [ROUND] [6754V] #2 (id 20) → memory · 5 giocatori
+21:25:14 [MINIGAME] [P4WXN] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+21:25:14 [ROUND] [P4WXN] #1 (id 16) → backrooms [punti_doppi] · 2 giocatori
+21:25:19 [MINIGAME] [6754V] memory via (id 20)
+21:25:24 [MINIGAME] [P4WXN] backrooms via (id 16)
+21:26:25 [MINIGAME] [SHAPT] arena saltato senza punti (fase MINIGAME_PLAYING)
+21:26:25 [ROUND] [SHAPT] #1 (id 23) → minigolf [punti_doppi] · 5 giocatori
+21:26:35 [MINIGAME] [SHAPT] minigolf via (id 23)
+21:27:54 [MINIGAME] [86UZ4] reaction saltato senza punti (fase MINIGAME_PLAYING)
+21:27:54 [ROUND] [86UZ4] #1 (id 42) → volleyball [gravita_bassa] · 2 giocatori
+21:28:04 [MINIGAME] [86UZ4] volleyball via (id 42)
+21:28:45 [MINIGAME] [R9FVS] cultura saltato senza punti (fase MINIGAME_PLAYING)
+21:28:45 [ROUND] [R9FVS] #2 (id 33) → arena [gravita_bassa] · 2 giocatori
+21:28:55 [MINIGAME] [R9FVS] arena via (id 33)
+21:29:19 [MINIGAME] [6754V] memory saltato senza punti (fase MINIGAME_PLAYING)
+21:29:19 [ROUND] [6754V] #2 (id 21) → backrooms [punti_doppi] · 5 giocatori
+21:29:26 [MINIGAME] [4LLEL] cornicione saltato senza punti (fase MINIGAME_PLAYING)
+21:29:26 [ROUND] [4LLEL] #2 (id 19) → quiz [punti_doppi] · 2 giocatori
+21:29:29 [MINIGAME] [6754V] backrooms via (id 21)
+21:29:35 [MINIGAME] [4LLEL] quiz via (id 19)
+21:30:51 [MINIGAME] [6XLQJ] quiz saltato senza punti (fase MINIGAME_PLAYING)
+21:30:51 [ROUND] [6XLQJ] #1 (id 24) → reaction [punti_doppi] · 2 giocatori
+21:31:00 [MINIGAME] [6XLQJ] reaction via (id 24)
+21:32:16 [MINIGAME] [8VJ6L] quiz saltato senza punti (fase MINIGAME_PLAYING)
+21:32:16 [ROUND] [8VJ6L] #2 (id 52) → memory · 2 giocatori
+21:32:26 [MINIGAME] [8VJ6L] memory via (id 52)
+21:33:55 [MINIGAME] [R9FVS] arena saltato senza punti (fase MINIGAME_PLAYING)
+21:33:55 [ROUND] [R9FVS] #2 (id 34) → soccer · 2 giocatori
+21:34:00 [MINIGAME] [6XLQJ] reaction saltato senza punti (fase MINIGAME_PLAYING)
+21:34:00 [ROUND] [6XLQJ] #1 (id 25) → volleyball · 2 giocatori
+21:34:05 [MINIGAME] [R9FVS] soccer via (id 34)
+21:34:10 [MINIGAME] [6XLQJ] volleyball via (id 25)
+21:34:21 [MINIGAME] [Y4876] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+21:34:21 [ROUND] [Y4876] #2 (id 50) → cultura · 5 giocatori
+21:34:30 [MINIGAME] [Y4876] cultura via (id 50)
+21:36:19 [MINIGAME] [GQM48] volleyball saltato senza punti (fase MINIGAME_PLAYING)
+21:36:19 [ROUND] [GQM48] #2 (id 23) → quiz [punti_doppi] · 5 giocatori
+21:36:26 [MINIGAME] [8VJ6L] memory saltato senza punti (fase MINIGAME_PLAYING)
+21:36:26 [ROUND] [8VJ6L] #2 (id 53) → soccer · 2 giocatori
+21:36:29 [MINIGAME] [GQM48] quiz via (id 23)
+21:36:35 [MINIGAME] [8VJ6L] soccer via (id 53)
+21:37:35 [MINIGAME] [4LLEL] quiz saltato senza punti (fase MINIGAME_PLAYING)
+21:37:35 [ROUND] [4LLEL] #2 (id 20) → arena · 2 giocatori
+21:37:45 [MINIGAME] [4LLEL] arena via (id 20)
+21:39:16 [MINIGAME] [9TVP6] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+21:39:16 [ROUND] [9TVP6] #2 (id 50) → cornicione · 5 giocatori
+21:39:26 [MINIGAME] [9TVP6] cornicione via (id 50)
+21:40:04 [MINIGAME] [86UZ4] volleyball saltato senza punti (fase MINIGAME_PLAYING)
+21:40:04 [ROUND] [86UZ4] #1 (id 43) → memory · 2 giocatori
+21:40:05 [MINIGAME] [R9FVS] soccer saltato senza punti (fase MINIGAME_PLAYING)
+21:40:05 [ROUND] [R9FVS] #2 (id 35) → reaction · 2 giocatori
+21:40:13 [MINIGAME] [86UZ4] memory via (id 43)
+21:40:14 [MINIGAME] [R9FVS] reaction via (id 35)
+21:40:24 [MINIGAME] [P4WXN] backrooms saltato senza punti (fase MINIGAME_PLAYING)
+21:40:24 [ROUND] [P4WXN] #1 (id 17) → geofall [punti_doppi] · 2 giocatori
+21:40:33 [MINIGAME] [P4WXN] geofall via (id 17)
+21:41:46 [MINIGAME] [XS4DL] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+21:41:46 [ROUND] [XS4DL] #2 (id 23) → fps · 2 giocatori
+21:41:56 [MINIGAME] [XS4DL] fps via (id 23)
+21:42:35 [MINIGAME] [8VJ6L] soccer saltato senza punti (fase MINIGAME_PLAYING)
+21:42:35 [ROUND] [8VJ6L] #2 (id 54) → kart3d · 2 giocatori
+21:42:45 [MINIGAME] [8VJ6L] kart3d via (id 54)
+21:42:45 [MINIGAME] [4LLEL] arena saltato senza punti (fase MINIGAME_PLAYING)
+21:42:45 [ROUND] [4LLEL] #2 (id 21) → casacarbo [punti_doppi] · 2 giocatori
+21:42:55 [MINIGAME] [4LLEL] casacarbo via (id 21)
+21:43:14 [MINIGAME] [R9FVS] reaction saltato senza punti (fase MINIGAME_PLAYING)
+21:43:14 [ROUND] [R9FVS] #2 (id 36) → casacarbo [punti_doppi] · 2 giocatori
+21:43:24 [MINIGAME] [R9FVS] casacarbo via (id 36)
+21:44:14 [MINIGAME] [86UZ4] memory saltato senza punti (fase MINIGAME_PLAYING)
+21:44:14 [ROUND] [86UZ4] #1 (id 44) → soccer · 2 giocatori
+21:44:23 [MINIGAME] [86UZ4] soccer via (id 44)
+21:44:29 [MINIGAME] [GQM48] quiz saltato senza punti (fase MINIGAME_PLAYING)
+21:44:29 [ROUND] [GQM48] #2 (id 24) → arena · 5 giocatori
+21:44:29 [MINIGAME] [6754V] backrooms saltato senza punti (fase MINIGAME_PLAYING)
+21:44:29 [ROUND] [6754V] #2 (id 22) → reaction · 5 giocatori
+21:44:38 [MINIGAME] [GQM48] arena via (id 24)
+21:44:38 [MINIGAME] [6754V] reaction via (id 22)
+21:46:10 [MINIGAME] [6XLQJ] volleyball saltato senza punti (fase MINIGAME_PLAYING)
+21:46:10 [ROUND] [6XLQJ] #1 (id 26) → geofall · 2 giocatori
+21:46:19 [MINIGAME] [6XLQJ] geofall via (id 26)
+21:46:26 [MINIGAME] [9TVP6] cornicione saltato senza punti (fase MINIGAME_PLAYING)
+21:46:26 [ROUND] [9TVP6] #2 (id 51) → quiz · 5 giocatori
+21:46:35 [MINIGAME] [9TVP6] quiz via (id 51)
+21:46:56 [MINIGAME] [XS4DL] fps saltato senza punti (fase MINIGAME_PLAYING)
+21:46:56 [ROUND] [XS4DL] #2 (id 24) → cornicione · 2 giocatori
+21:47:05 [MINIGAME] [XS4DL] cornicione via (id 24)
+21:47:38 [MINIGAME] [6754V] reaction saltato senza punti (fase MINIGAME_PLAYING)
+21:47:38 [ROUND] [6754V] #2 (id 23) → minigolf · 5 giocatori
+21:47:48 [MINIGAME] [6754V] minigolf via (id 23)
+21:47:55 [MINIGAME] [4LLEL] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+21:47:55 [ROUND] [4LLEL] #2 (id 22) → dodgeball · 2 giocatori
+21:48:04 [MINIGAME] [4LLEL] dodgeball via (id 22)
+21:48:24 [MINIGAME] [R9FVS] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+21:48:24 [ROUND] [R9FVS] #2 (id 37) → kart3d · 2 giocatori
+21:48:34 [MINIGAME] [R9FVS] kart3d via (id 37)
+21:49:30 [MINIGAME] [Y4876] cultura saltato senza punti (fase MINIGAME_PLAYING)
+21:49:30 [ROUND] [Y4876] #2 (id 51) → fps [punti_doppi] · 5 giocatori
+21:49:38 [MINIGAME] [GQM48] arena saltato senza punti (fase MINIGAME_PLAYING)
+21:49:38 [ROUND] [GQM48] #2 (id 25) → cornicione · 5 giocatori
+21:49:40 [MINIGAME] [Y4876] fps via (id 51)
+21:49:48 [MINIGAME] [GQM48] cornicione via (id 25)
+21:50:23 [MINIGAME] [86UZ4] soccer saltato senza punti (fase MINIGAME_PLAYING)
+21:50:23 [ROUND] [86UZ4] #1 (id 45) → kart3d · 2 giocatori
+21:50:33 [MINIGAME] [86UZ4] kart3d via (id 45)
+21:50:45 [MINIGAME] [8VJ6L] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+21:50:45 [ROUND] [8VJ6L] #2 (id 55) → dodgeball · 2 giocatori
+21:50:55 [MINIGAME] [8VJ6L] dodgeball via (id 55)
+21:52:04 [MINIGAME] [4LLEL] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+21:52:04 [ROUND] [4LLEL] #2 (id 23) → kart3d · 2 giocatori
+21:52:14 [MINIGAME] [4LLEL] kart3d via (id 23)
+21:53:15 [MINIGAME] [SHAPT] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+21:53:15 [ROUND] [SHAPT] #1 (id 24) → soccer [gravita_bassa] · 5 giocatori
+21:53:25 [MINIGAME] [SHAPT] soccer via (id 24)
+21:54:05 [MINIGAME] [XS4DL] cornicione saltato senza punti (fase MINIGAME_PLAYING)
+21:54:05 [ROUND] [XS4DL] #2 (id 25) → reaction · 2 giocatori
+21:54:15 [MINIGAME] [XS4DL] reaction via (id 25)
+21:54:35 [MINIGAME] [9TVP6] quiz saltato senza punti (fase MINIGAME_PLAYING)
+21:54:35 [ROUND] [9TVP6] #2 (id 52) → soccer · 5 giocatori
+21:54:40 [MINIGAME] [Y4876] fps saltato senza punti (fase MINIGAME_PLAYING)
+21:54:40 [ROUND] [Y4876] #2 (id 52) → geofall · 5 giocatori
+21:54:45 [MINIGAME] [9TVP6] soccer via (id 52)
+21:54:50 [MINIGAME] [Y4876] geofall via (id 52)
+21:54:55 [MINIGAME] [8VJ6L] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+21:54:55 [ROUND] [8VJ6L] #2 (id 56) → reaction · 2 giocatori
+21:55:04 [MINIGAME] [8VJ6L] reaction via (id 56)
+21:56:34 [MINIGAME] [R9FVS] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+21:56:34 [ROUND] [R9FVS] #2 (id 38) → backrooms · 2 giocatori
+21:56:43 [MINIGAME] [R9FVS] backrooms via (id 38)
+21:56:48 [MINIGAME] [GQM48] cornicione saltato senza punti (fase MINIGAME_PLAYING)
+21:56:48 [ROUND] [GQM48] #2 (id 26) → cultura · 5 giocatori
+21:56:57 [MINIGAME] [GQM48] cultura via (id 26)
+21:57:15 [MINIGAME] [XS4DL] reaction saltato senza punti (fase MINIGAME_PLAYING)
+21:57:15 [ROUND] [XS4DL] #2 (id 26) → backrooms · 2 giocatori
+21:57:25 [MINIGAME] [XS4DL] backrooms via (id 26)
+21:58:04 [MINIGAME] [8VJ6L] reaction saltato senza punti (fase MINIGAME_PLAYING)
+21:58:04 [ROUND] [8VJ6L] #2 (id 57) → minigolf · 2 giocatori
+21:58:14 [MINIGAME] [8VJ6L] minigolf via (id 57)
+21:58:33 [MINIGAME] [86UZ4] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+21:58:33 [ROUND] [86UZ4] #1 (id 46) → cornicione · 2 giocatori
+21:58:42 [MINIGAME] [86UZ4] cornicione via (id 46)
+21:59:25 [MINIGAME] [SHAPT] soccer saltato senza punti (fase MINIGAME_PLAYING)
+21:59:25 [ROUND] [SHAPT] #1 (id 25) → dodgeball · 5 giocatori
+21:59:34 [MINIGAME] [SHAPT] dodgeball via (id 25)
+22:00:14 [MINIGAME] [4LLEL] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+22:00:14 [ROUND] [4LLEL] #2 (id 24) → geofall · 2 giocatori
+22:00:24 [MINIGAME] [4LLEL] geofall via (id 24)
+22:00:45 [MINIGAME] [9TVP6] soccer saltato senza punti (fase MINIGAME_PLAYING)
+22:00:45 [ROUND] [9TVP6] #2 (id 53) → fps · 5 giocatori
+22:00:54 [MINIGAME] [9TVP6] fps via (id 53)
+22:03:34 [MINIGAME] [SHAPT] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+22:03:34 [ROUND] [SHAPT] #1 (id 26) → quiz · 5 giocatori
+22:03:44 [MINIGAME] [SHAPT] quiz via (id 26)
+22:05:42 [MINIGAME] [86UZ4] cornicione saltato senza punti (fase MINIGAME_PLAYING)
+22:05:42 [ROUND] [86UZ4] #1 (id 47) → dodgeball · 2 giocatori
+22:05:52 [MINIGAME] [86UZ4] dodgeball via (id 47)
+22:05:54 [MINIGAME] [9TVP6] fps saltato senza punti (fase MINIGAME_PLAYING)
+22:05:54 [ROUND] [9TVP6] #2 (id 54) → backrooms · 5 giocatori
+22:06:04 [MINIGAME] [9TVP6] backrooms via (id 54)
+22:09:52 [MINIGAME] [86UZ4] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+22:09:52 [ROUND] [86UZ4] #1 (id 48) → reaction · 2 giocatori
+22:10:02 [MINIGAME] [86UZ4] reaction via (id 48)
+22:11:43 [MINIGAME] [R9FVS] backrooms saltato senza punti (fase MINIGAME_PLAYING)
+22:11:43 [ROUND] [R9FVS] #2 (id 39) → quiz · 2 giocatori
+22:11:44 [MINIGAME] [SHAPT] quiz saltato senza punti (fase MINIGAME_PLAYING)
+22:11:44 [ROUND] [SHAPT] #1 (id 27) → memory · 5 giocatori
+22:11:53 [MINIGAME] [R9FVS] quiz via (id 39)
+22:11:54 [MINIGAME] [SHAPT] memory via (id 27)
+22:11:57 [MINIGAME] [GQM48] cultura saltato senza punti (fase MINIGAME_PLAYING)
+22:11:57 [ROUND] [GQM48] #2 (id 27) → reaction · 5 giocatori
+22:12:07 [MINIGAME] [GQM48] reaction via (id 27)
+22:12:25 [MINIGAME] [XS4DL] backrooms saltato senza punti (fase MINIGAME_PLAYING)
+22:12:25 [ROUND] [XS4DL] #2 (id 27) → memory · 2 giocatori
+22:12:34 [MINIGAME] [XS4DL] memory via (id 27)
+22:13:02 [MINIGAME] [86UZ4] reaction saltato senza punti (fase MINIGAME_PLAYING)
+22:13:02 [ROUND] [86UZ4] #1 (id 49) → quiz · 2 giocatori
+22:13:11 [MINIGAME] [86UZ4] quiz via (id 49)
+22:14:28 [MINIGAME] [6754V] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+22:14:28 [ROUND] [6754V] #2 (id 24) → casacarbo [punti_doppi] · 5 giocatori
+22:14:38 [MINIGAME] [6754V] casacarbo via (id 24)
+22:15:07 [MINIGAME] [GQM48] reaction saltato senza punti (fase MINIGAME_PLAYING)
+22:15:07 [ROUND] [GQM48] #2 (id 28) → volleyball · 5 giocatori
+22:15:17 [MINIGAME] [GQM48] volleyball via (id 28)
+22:15:54 [MINIGAME] [SHAPT] memory saltato senza punti (fase MINIGAME_PLAYING)
+22:15:54 [ROUND] [SHAPT] #1 (id 28) → reaction · 5 giocatori
+22:16:03 [MINIGAME] [SHAPT] reaction via (id 28)
+22:16:34 [MINIGAME] [XS4DL] memory saltato senza punti (fase MINIGAME_PLAYING)
+22:16:34 [ROUND] [XS4DL] #2 (id 28) → volleyball · 2 giocatori
+22:16:44 [MINIGAME] [XS4DL] volleyball via (id 28)
+22:17:48 [MINIGAME] [AYMQT] geofall saltato senza punti (fase MINIGAME_PLAYING)
+22:17:48 [ROUND] [AYMQT] #1 (id 18) → backrooms · 5 giocatori
+22:17:58 [MINIGAME] [AYMQT] backrooms via (id 18)
+22:19:03 [MINIGAME] [SHAPT] reaction saltato senza punti (fase MINIGAME_PLAYING)
+22:19:03 [ROUND] [SHAPT] #1 (id 29) → kart3d [punti_doppi] · 5 giocatori

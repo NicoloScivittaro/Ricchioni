@@ -1,0 +1,36 @@
+{
+  "status": "accepted",
+  "date": "2026-10-13",
+  "cards": 125,
+  "base": 100,
+  "personal": 25,
+  "coreChecks": 241,
+  "networkChecks": 17,
+  "simulations": 96,
+  "browserGames": 5,
+  "compiledGames": 2,
+  "performance": [
+    {
+      "players": 2,
+      "fps": 59.9,
+      "p95FrameMs": 16.8,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "players": 5,
+      "fps": 59.9,
+      "p95FrameMs": 16.8,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "originalCatalogSha256": "9320597fff8ea062056d3b58587f4e982ac895362d18eb31c643487e3a9002ad",
+  "remaining": [
+    "Playtest umano: durata e bilanciamento",
+    "Prova su telefoni fisici"
+  ],
+  "commitsCreated": []
+}

@@ -1,0 +1,1644 @@
+{
+  "passed": 241,
+  "cards": 125,
+  "simulations": [
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 1,
+      "seconds": 19.8,
+      "winner": "p1"
+    },
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 2,
+      "seconds": 9,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 3,
+      "seconds": 13.2,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 4,
+      "seconds": 15.6,
+      "winner": "p1"
+    },
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 5,
+      "seconds": 19,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 6,
+      "seconds": 6,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 7,
+      "seconds": 11.8,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 8,
+      "seconds": 6.8,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 9,
+      "seconds": 6.6,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 10,
+      "seconds": 10.8,
+      "winner": "p1"
+    },
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 11,
+      "seconds": 6.4,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "base",
+      "seed": 12,
+      "seconds": 10.2,
+      "winner": "p0"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 1,
+      "seconds": 40.4,
+      "winner": "p2"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 2,
+      "seconds": 11,
+      "winner": "p0"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 3,
+      "seconds": 17.2,
+      "winner": "p2"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 4,
+      "seconds": 21.8,
+      "winner": "p1"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 5,
+      "seconds": 20.6,
+      "winner": "p1"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 6,
+      "seconds": 13,
+      "winner": "p1"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 7,
+      "seconds": 19,
+      "winner": "p0"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 8,
+      "seconds": 13.4,
+      "winner": "p1"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 9,
+      "seconds": 13.8,
+      "winner": "p2"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 10,
+      "seconds": 17.6,
+      "winner": "p1"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 11,
+      "seconds": 12.4,
+      "winner": "p1"
+    },
+    {
+      "players": 3,
+      "mode": "base",
+      "seed": 12,
+      "seconds": 18.2,
+      "winner": "p2"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 1,
+      "seconds": 38.8,
+      "winner": "p0"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 2,
+      "seconds": 36.4,
+      "winner": "p1"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 3,
+      "seconds": 17.6,
+      "winner": "p1"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 4,
+      "seconds": 17.4,
+      "winner": "p0"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 5,
+      "seconds": 13,
+      "winner": "p2"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 6,
+      "seconds": 17.8,
+      "winner": "p2"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 7,
+      "seconds": 35.4,
+      "winner": "p0"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 8,
+      "seconds": 16.6,
+      "winner": "p2"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 9,
+      "seconds": 15.8,
+      "winner": "p0"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 10,
+      "seconds": 57.4,
+      "winner": "p3"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 11,
+      "seconds": 17,
+      "winner": "p2"
+    },
+    {
+      "players": 4,
+      "mode": "base",
+      "seed": 12,
+      "seconds": 25,
+      "winner": "p2"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 1,
+      "seconds": 48.6,
+      "winner": "p1"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 2,
+      "seconds": 51,
+      "winner": "p4"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 3,
+      "seconds": 19.2,
+      "winner": "p1"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 4,
+      "seconds": 29.8,
+      "winner": "p1"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 5,
+      "seconds": 32.2,
+      "winner": "p0"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 6,
+      "seconds": 23,
+      "winner": "p0"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 7,
+      "seconds": 47.6,
+      "winner": "p3"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 8,
+      "seconds": 30.6,
+      "winner": "p4"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 9,
+      "seconds": 19.2,
+      "winner": "p0"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 10,
+      "seconds": 29.8,
+      "winner": "p3"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 11,
+      "seconds": 27,
+      "winner": "p3"
+    },
+    {
+      "players": 5,
+      "mode": "base",
+      "seed": 12,
+      "seconds": 23.8,
+      "winner": "p2"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 1,
+      "seconds": 8.6,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 2,
+      "seconds": 9.2,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 3,
+      "seconds": 8.6,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 4,
+      "seconds": 7.2,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 5,
+      "seconds": 6.6,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 6,
+      "seconds": 12.2,
+      "winner": "p1"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 7,
+      "seconds": 6.8,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 8,
+      "seconds": 6.8,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 9,
+      "seconds": 10.4,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 10,
+      "seconds": 11,
+      "winner": "p0"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 11,
+      "seconds": 20.2,
+      "winner": "p1"
+    },
+    {
+      "players": 2,
+      "mode": "personal",
+      "seed": 12,
+      "seconds": 9,
+      "winner": "p0"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 1,
+      "seconds": 14.2,
+      "winner": "p0"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 2,
+      "seconds": 13,
+      "winner": "p1"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 3,
+      "seconds": 12.4,
+      "winner": "p1"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 4,
+      "seconds": 17.4,
+      "winner": "p1"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 5,
+      "seconds": 17.4,
+      "winner": "p0"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 6,
+      "seconds": 17.4,
+      "winner": "p0"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 7,
+      "seconds": 9.8,
+      "winner": "p2"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 8,
+      "seconds": 14.6,
+      "winner": "p0"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 9,
+      "seconds": 12.6,
+      "winner": "p2"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 10,
+      "seconds": 17,
+      "winner": "p2"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 11,
+      "seconds": 39.6,
+      "winner": "p0"
+    },
+    {
+      "players": 3,
+      "mode": "personal",
+      "seed": 12,
+      "seconds": 18.2,
+      "winner": "p2"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 1,
+      "seconds": 36.4,
+      "winner": "p0"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 2,
+      "seconds": 22.6,
+      "winner": "p0"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 3,
+      "seconds": 14.6,
+      "winner": "p0"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 4,
+      "seconds": 22.6,
+      "winner": "p1"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 5,
+      "seconds": 17.2,
+      "winner": "p0"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 6,
+      "seconds": 50.4,
+      "winner": "p2"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 7,
+      "seconds": 54.4,
+      "winner": "p3"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 8,
+      "seconds": 14.6,
+      "winner": "p0"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 9,
+      "seconds": 23.2,
+      "winner": "p2"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 10,
+      "seconds": 22.8,
+      "winner": "p1"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 11,
+      "seconds": 47.8,
+      "winner": "p3"
+    },
+    {
+      "players": 4,
+      "mode": "personal",
+      "seed": 12,
+      "seconds": 28.6,
+      "winner": "p3"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 1,
+      "seconds": 14.2,
+      "winner": "p3"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 2,
+      "seconds": 100.6,
+      "winner": "p2"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 3,
+      "seconds": 29.8,
+      "winner": "p4"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 4,
+      "seconds": 25.4,
+      "winner": "p4"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 5,
+      "seconds": 32.8,
+      "winner": "p2"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 6,
+      "seconds": 23,
+      "winner": "p1"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 7,
+      "seconds": 40.4,
+      "winner": "p0"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 8,
+      "seconds": 24,
+      "winner": "p3"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 9,
+      "seconds": 20.6,
+      "winner": "p2"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 10,
+      "seconds": 25,
+      "winner": "p0"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 11,
+      "seconds": 63.6,
+      "winner": "p3"
+    },
+    {
+      "players": 5,
+      "mode": "personal",
+      "seed": 12,
+      "seconds": 28.2,
+      "winner": "p0"
+    }
+  ],
+  "tests": [
+    {
+      "name": "A01 Furto con ricevuta",
+      "passed": true
+    },
+    {
+      "name": "A02 Cambio di tasca",
+      "passed": true
+    },
+    {
+      "name": "A03 Scontrino gonfiato",
+      "passed": true
+    },
+    {
+      "name": "A04 Resto sbagliato",
+      "passed": true
+    },
+    {
+      "name": "A05 Finta beneficenza",
+      "passed": true
+    },
+    {
+      "name": "A06 Ultima goccia",
+      "passed": true
+    },
+    {
+      "name": "A07 Sequestro temporaneo",
+      "passed": true
+    },
+    {
+      "name": "A08 Cassa comune",
+      "passed": true
+    },
+    {
+      "name": "A09 Telefono scarico",
+      "passed": true
+    },
+    {
+      "name": "A10 Fidati di me",
+      "passed": true
+    },
+    {
+      "name": "A11 Patto a metà",
+      "passed": true
+    },
+    {
+      "name": "A12 Smaschera il furbo",
+      "passed": true
+    },
+    {
+      "name": "A13 Bonus di presenza",
+      "passed": true
+    },
+    {
+      "name": "A14 Bancomat rotto",
+      "passed": true
+    },
+    {
+      "name": "A15 Debito di famiglia",
+      "passed": true
+    },
+    {
+      "name": "A16 Reso non autorizzato",
+      "passed": true
+    },
+    {
+      "name": "A17 Sciopero di quartiere",
+      "passed": true
+    },
+    {
+      "name": "A18 Doppio gioco",
+      "passed": true
+    },
+    {
+      "name": "A19 Conto alla rovescia",
+      "passed": true
+    },
+    {
+      "name": "A20 Prima io",
+      "passed": true
+    },
+    {
+      "name": "A21 Giro di boa",
+      "passed": true
+    },
+    {
+      "name": "A22 Io non c'ero",
+      "passed": true
+    },
+    {
+      "name": "A23 Controllo antidoping",
+      "passed": true
+    },
+    {
+      "name": "A24 Tre sul tavolo",
+      "passed": true
+    },
+    {
+      "name": "A25 Sanzione social",
+      "passed": true
+    },
+    {
+      "name": "A26 Pignoramento",
+      "passed": true
+    },
+    {
+      "name": "A27 Prestito lampo",
+      "passed": true
+    },
+    {
+      "name": "A28 Falsa sicurezza",
+      "passed": true
+    },
+    {
+      "name": "A29 Passaparola",
+      "passed": true
+    },
+    {
+      "name": "A30 Prima paghi tu",
+      "passed": true
+    },
+    {
+      "name": "A31 Terzo incomodo",
+      "passed": true
+    },
+    {
+      "name": "A32 Silenzio stampa",
+      "passed": true
+    },
+    {
+      "name": "A33 Tagliando vincente",
+      "passed": true
+    },
+    {
+      "name": "A34 Mini truffa",
+      "passed": true
+    },
+    {
+      "name": "A35 Evasione creativa",
+      "passed": true
+    },
+    {
+      "name": "A36 Sospensione cautelare",
+      "passed": true
+    },
+    {
+      "name": "A37 Proposta indecente",
+      "passed": true
+    },
+    {
+      "name": "A38 Deposito cauzionale",
+      "passed": true
+    },
+    {
+      "name": "A39 Regalo avvelenato",
+      "passed": true
+    },
+    {
+      "name": "A40 Ultimo screenshot",
+      "passed": true
+    },
+    {
+      "name": "C01 Riunione condominiale",
+      "passed": true
+    },
+    {
+      "name": "C02 Blackout totale",
+      "passed": true
+    },
+    {
+      "name": "C03 Cambio di identità",
+      "passed": true
+    },
+    {
+      "name": "C04 Gogna pubblica",
+      "passed": true
+    },
+    {
+      "name": "C05 Mercatino abusivo",
+      "passed": true
+    },
+    {
+      "name": "C06 Sequestro di reazioni",
+      "passed": true
+    },
+    {
+      "name": "C07 Processo sommario",
+      "passed": true
+    },
+    {
+      "name": "C08 Ultima chiamata",
+      "passed": true
+    },
+    {
+      "name": "C09 Colpo di stato",
+      "passed": true
+    },
+    {
+      "name": "C10 Redistribuzione maledetta",
+      "passed": true
+    },
+    {
+      "name": "C11 Rubinetto di cavolate",
+      "passed": true
+    },
+    {
+      "name": "C12 Ispettore delle trappole",
+      "passed": true
+    },
+    {
+      "name": "C13 Cambio di tavolo",
+      "passed": true
+    },
+    {
+      "name": "C14 Finta pace",
+      "passed": true
+    },
+    {
+      "name": "C15 Reset bastardo",
+      "passed": true
+    },
+    {
+      "name": "PG01 L'ho fatto io 'sto gioco",
+      "passed": true
+    },
+    {
+      "name": "PG02 Rimonta al 90°",
+      "passed": true
+    },
+    {
+      "name": "PG05 Patch del venerdì sera",
+      "passed": true
+    },
+    {
+      "name": "PB01 Documento, prego",
+      "passed": true
+    },
+    {
+      "name": "PB02 Mo m'impegno",
+      "passed": true
+    },
+    {
+      "name": "PB05 Buttafuori dal tavolo",
+      "passed": true
+    },
+    {
+      "name": "PV01 Tutto calcolato. Più o meno",
+      "passed": true
+    },
+    {
+      "name": "PV02 20 kg in un mese",
+      "passed": true
+    },
+    {
+      "name": "PV05 Pausa sul divano",
+      "passed": true
+    },
+    {
+      "name": "PC01 Granita sequestrata",
+      "passed": true
+    },
+    {
+      "name": "PC02 Ippon di carte",
+      "passed": true
+    },
+    {
+      "name": "PC05 Casa mia, regole mie",
+      "passed": true
+    },
+    {
+      "name": "PI01 50 e 50: 80 a me",
+      "passed": true
+    },
+    {
+      "name": "PI02 Non c'ho spicci",
+      "passed": true
+    },
+    {
+      "name": "PI05 Il conto lo dividiamo",
+      "passed": true
+    },
+    {
+      "name": "R01 Nun ce provà",
+      "passed": true
+    },
+    {
+      "name": "R02 Rigira la frittata",
+      "passed": true
+    },
+    {
+      "name": "R03 Taschine chiuse",
+      "passed": true
+    },
+    {
+      "name": "R04 Casco da cantiere",
+      "passed": true
+    },
+    {
+      "name": "R05 Ultima bastardata",
+      "passed": true
+    },
+    {
+      "name": "R06 Trappola? Quale trappola?",
+      "passed": true
+    },
+    {
+      "name": "R07 Sono fuori",
+      "passed": true
+    },
+    {
+      "name": "R08 Rinviato al mittente",
+      "passed": true
+    },
+    {
+      "name": "R09 Scelta mia",
+      "passed": true
+    },
+    {
+      "name": "R10 Non così tanto",
+      "passed": true
+    },
+    {
+      "name": "R11 Fotocopia illegale",
+      "passed": true
+    },
+    {
+      "name": "R12 Ultimo respiro",
+      "passed": true
+    },
+    {
+      "name": "R13 Gira a destra",
+      "passed": true
+    },
+    {
+      "name": "R14 Privacy, grazie",
+      "passed": true
+    },
+    {
+      "name": "R15 Consegna intercettata",
+      "passed": true
+    },
+    {
+      "name": "R16 Ti sei allargato",
+      "passed": true
+    },
+    {
+      "name": "R17 Beccato con le mani",
+      "passed": true
+    },
+    {
+      "name": "R18 Riscatto immediato",
+      "passed": true
+    },
+    {
+      "name": "R19 Un attimo prima",
+      "passed": true
+    },
+    {
+      "name": "R20 Carta coperta",
+      "passed": true
+    },
+    {
+      "name": "PG04 Rollback istintivo",
+      "passed": true
+    },
+    {
+      "name": "PB04 Aspè... famme capì",
+      "passed": true
+    },
+    {
+      "name": "PV04 Occhio aperto",
+      "passed": true
+    },
+    {
+      "name": "PC04 Angora che dici?",
+      "passed": true
+    },
+    {
+      "name": "PI04 Te ne do meno",
+      "passed": true
+    },
+    {
+      "name": "T01 Mani lunghe, mani vuote",
+      "passed": true
+    },
+    {
+      "name": "T02 Pesca a strascico",
+      "passed": true
+    },
+    {
+      "name": "T03 C'è Goblin Time?",
+      "passed": true
+    },
+    {
+      "name": "T04 Troppa grazia",
+      "passed": true
+    },
+    {
+      "name": "T05 Occhio alla mano",
+      "passed": true
+    },
+    {
+      "name": "T06 Tassa sulle trappole",
+      "passed": true
+    },
+    {
+      "name": "T07 Carta bollata",
+      "passed": true
+    },
+    {
+      "name": "T08 Assicurazione fasulla",
+      "passed": true
+    },
+    {
+      "name": "T09 Non vale, ma vale",
+      "passed": true
+    },
+    {
+      "name": "T10 Indirizzo sbagliato",
+      "passed": true
+    },
+    {
+      "name": "T11 Notaio infame",
+      "passed": true
+    },
+    {
+      "name": "T12 Falso straordinario",
+      "passed": true
+    },
+    {
+      "name": "T13 Sei molto curioso",
+      "passed": true
+    },
+    {
+      "name": "T14 Consegna respinta",
+      "passed": true
+    },
+    {
+      "name": "T15 Ultimo centesimo",
+      "passed": true
+    },
+    {
+      "name": "T16 Scarto mio",
+      "passed": true
+    },
+    {
+      "name": "T17 Porta in faccia",
+      "passed": true
+    },
+    {
+      "name": "T18 Bomba a orologeria",
+      "passed": true
+    },
+    {
+      "name": "T19 Clausola nascosta",
+      "passed": true
+    },
+    {
+      "name": "T20 Che ti ridi?",
+      "passed": true
+    },
+    {
+      "name": "T21 Multa per eccesso",
+      "passed": true
+    },
+    {
+      "name": "T22 Chiusa per ferie",
+      "passed": true
+    },
+    {
+      "name": "T23 Neanche per sogno",
+      "passed": true
+    },
+    {
+      "name": "T24 Prendi due, dai tre",
+      "passed": true
+    },
+    {
+      "name": "T25 Scambio sospetto",
+      "passed": true
+    },
+    {
+      "name": "PG03 Jäger sul regolamento",
+      "passed": true
+    },
+    {
+      "name": "PB03 Lista all'ingresso",
+      "passed": true
+    },
+    {
+      "name": "PV03 Sveglia in ritardo",
+      "passed": true
+    },
+    {
+      "name": "PC03 Granita finita",
+      "passed": true
+    },
+    {
+      "name": "PI03 Bonifico in lavorazione",
+      "passed": true
+    },
+    {
+      "name": "Pausa, duplicati, versioni e identità partita",
+      "passed": true
+    },
+    {
+      "name": "Privacy: TV e ogni altro giocatore senza mani/trappole segrete",
+      "passed": true
+    },
+    {
+      "name": "Dichiarazione non istantanea e invalidazione per variazione intermedia",
+      "passed": true
+    },
+    {
+      "name": "R14 nega la mano anche alle decisioni successive di A12 e A40",
+      "passed": true
+    },
+    {
+      "name": "C15 vieta una nuova dichiarazione fino a una reale variazione della mano",
+      "passed": true
+    },
+    {
+      "name": "T11 e debito Ciro si risolvono prima del controllo vittoria",
+      "passed": true
+    },
+    {
+      "name": "Vittoria mantenuta fino al successivo turno effettivo",
+      "passed": true
+    },
+    {
+      "name": "A35 mantiene uno slot ausiliario e due slot ordinari",
+      "passed": true
+    },
+    {
+      "name": "R17 riprende la nuova trappola senza scartarla",
+      "passed": true
+    },
+    {
+      "name": "R07 esclude dal rimescolamento globale senza leggere mani private",
+      "passed": true
+    },
+    {
+      "name": "Mazzo esaurito rimescola solo gli scarti",
+      "passed": true
+    },
+    {
+      "name": "Mano massima: selezione effettiva degli scarti e nessuna carta persa",
+      "passed": true
+    },
+    {
+      "name": "Cinque abilità: costi, ordine e uso singolo",
+      "passed": true
+    },
+    {
+      "name": "R13 rimanda una AZIONE all’autore anche con due giocatori",
+      "passed": true
+    },
+    {
+      "name": "T04 scatta anche su una carta recuperata dagli scarti",
+      "passed": true
+    },
+    {
+      "name": "Alla scadenza si usa la classifica tecnica, senza falsa dichiarazione di vittoria",
+      "passed": true
+    },
+    {
+      "name": "T09 fa pagare anche chi annulla una trappola con R06",
+      "passed": true
+    },
+    {
+      "name": "Bloccare RISPOSTE lascia disponibili le abilità dei personaggi",
+      "passed": true
+    },
+    {
+      "name": "A39 blocca gioco/scarto volontario, ma consente doni e scambi tramite altri effetti",
+      "passed": true
+    },
+    {
+      "name": "Una vera sostituzione a conteggio costante sblocca C15",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed1",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed2",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed3",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed4",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed5",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed6",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed7",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed8",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed9",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed10",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed11",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 2 seed12",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed1",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed2",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed3",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed4",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed5",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed6",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed7",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed8",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed9",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed10",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed11",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 3 seed12",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed1",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed2",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed3",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed4",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed5",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed6",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed7",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed8",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed9",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed10",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed11",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 4 seed12",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed1",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed2",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed3",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed4",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed5",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed6",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed7",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed8",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed9",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed10",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed11",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot base 5 seed12",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed1",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed2",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed3",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed4",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed5",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed6",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed7",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed8",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed9",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed10",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed11",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 2 seed12",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed1",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed2",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed3",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed4",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed5",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed6",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed7",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed8",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed9",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed10",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed11",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 3 seed12",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed1",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed2",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed3",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed4",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed5",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed6",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed7",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed8",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed9",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed10",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed11",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 4 seed12",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed1",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed2",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed3",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed4",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed5",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed6",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed7",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed8",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed9",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed10",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed11",
+      "passed": true
+    },
+    {
+      "name": "Partita naturale bot personal 5 seed12",
+      "passed": true
+    }
+  ]
+}

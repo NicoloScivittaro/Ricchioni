@@ -346,6 +346,13 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     category:'SKILL',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:420,hardCapSec:900,
     compatibleModifiers:['punti_doppi'],sceneKey:'backrooms',inputMode:'GAMEPAD',
     controllerLayout:{type:'custom',id:'backrooms-tv'}
+  },
+  {
+    id:'goblinTime',icon:'🃏',name:'GOBLIN TIME',
+    description:'Esattamente cinque carte. Dichiara GOBLIN TIME e resisti fino al tuo prossimo turno: gli amici cercheranno di fermarti.',
+    category:'CULTURA',rarity:'rare',minPlayers:2,maxPlayers:5,durationSec:360,hardCapSec:900,
+    compatibleModifiers:['punti_doppi'],sceneKey:'goblinTime',inputMode:'PHONE_TEXT',
+    controllerLayout:{type:'custom',id:'goblin-time'}
   }
 ];
 

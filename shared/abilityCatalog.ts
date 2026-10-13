@@ -1,5 +1,5 @@
 /**
- * CATALOGO DELLE ABILITA' — UNA SOLA FONTE per 5 personaggi x 14 minigiochi (70 combinazioni).
+ * CATALOGO DELLE ABILITA' — UNA SOLA FONTE per 5 personaggi x 15 minigiochi (75 combinazioni).
  *
  * Da qui nascono TUTTE le cose che parlano di un'abilita': nome, descrizione breve e completa, limiti (usi / ricarica), tipo e
  * impatto, e i NUMERI della meccanica (`p`). I giochi importano i numeri da qui (nessuna costante duplicata nel codice del gioco),
@@ -10,7 +10,7 @@
  * qui: lo decide ogni gioco (unica autorita') e lo pubblica con AbilityStatus (src/core/abilityHub.ts) — il catalogo e' solo statico.
  */
 
-export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione' | 'casacarbo' | 'minigolf' | 'geofall';
+export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione' | 'casacarbo' | 'minigolf' | 'geofall' | 'goblinTime';
 export type AbilityCharacterId = 'goblin' | 'buttafuori' | 'judoka' | 'dottore' | 'ciro';
 
 /** I 6 tipi di abilita' del progetto: ogni voce ne ha UNO principale. */
@@ -1122,7 +1122,21 @@ GF.judoka.full=`RB/R1 dopo uno spintone: riduci lo slancio a ×${GF.judoka.p.spe
 GF.dottore.full=`RB/R1: velocità ×${GF.dottore.p.speed} per ${sec(GF.dottore.p.duration)}. Devi scegliere e raggiungere tu la risposta; nessun salto o salvataggio dal crollo. Un uso per domanda.`;
 GF.ciro.full=`RB/R1: avversario davanti entro ${GF.ciro.p.range} m. Avviso di ${sec(GF.ciro.p.warning)}, poi comandi invertiti per ${sec(GF.ciro.p.duration)}. Vietata negli ultimi ${sec(GF.ciro.p.minimum)}; non si somma e lascia tempo di recuperare. Un uso per domanda.`;
 
-/** Tutte le abilita' (70). */
+const GTC = {
+  goblin: add(def({game:'goblinTime',character:'goblin',name:"N'CULO, NON ERA QUELLA!",kind:'REACTIVE',impact:'MEDIUM',charges:1,cooldown:0,p:{window:3},short:'Scambi la carta tenuta con quella scartata nella tua PESCA.',full:'Dopo la tua PESCA, entro 3 s, scambi la carta tenuta con quella scartata se entrambe sono ancora disponibili. Il passaggio di carte può annullare GOBLIN TIME. Un uso per partita.'})),
+  buttafuori: add(def({game:'goblinTime',character:'buttafuori',name:'TU QUA NON ENTRI!',kind:'REACTIVE',impact:'MEDIUM',charges:1,cooldown:0,p:{cost:1},short:'Blocchi un furto contro di te, poi scarti una carta.',full:'Nella finestra di reazione a un furto diretto contro di te: lo blocchi, poi scarti una carta scelta se ne hai. Puoi perdere le cinque carte. Un uso per partita.'})),
+  dottore: add(def({game:'goblinTime',character:'dottore',name:"M'HO SVEJATO",kind:'INFORMATION',impact:'MEDIUM',charges:1,cooldown:0,p:{peek:3,keep:1},short:'Guardi tre carte, ne tieni una e riordini le altre.',full:'Tra le azioni, se non hai un annuncio GOBLIN TIME attivo: guardi in privato tre carte del mazzo, ne tieni una e riordini le altre in cima. Un uso per partita.'})),
+  judoka: add(def({game:'goblinTime',character:'judoka',name:'NO, ASPETTA!',kind:'REACTIVE',impact:'MEDIUM',charges:1,cooldown:0,p:{penalty:1},short:'Devi un trasferimento che ti coinvolge verso un altro giocatore.',full:'Nella finestra di reazione a un trasferimento che ti coinvolge: scegli un altro destinatario valido. Se non esiste, il trasferimento è annullato e peschi una carta. Un uso per partita.'})),
+  ciro: add(def({game:'goblinTime',character:'ciro',name:'PAGO DOMANI',kind:'REACTIVE',impact:'MEDIUM',charges:1,cooldown:0,p:{debt:1},short:'Rinvii una perdita di una carta, da pagare al prossimo turno.',full:'Prima di un furto o scarto forzato singolo contro di te: lo blocchi, ma devi scartare una carta all’inizio del prossimo turno effettivo, prima del controllo vittoria. Un uso per partita.'}))
+};
+
+GTC.goblin.full=`Entro ${sec(GTC.goblin.p.window)} dalla tua PESCA, scambi la carta tenuta con quella scartata se entrambe sono ancora disponibili. Il passaggio può annullare GOBLIN TIME. ${GTC.goblin.limit} per partita.`;
+GTC.buttafuori.full=`Nella finestra di un furto contro di te: lo blocchi, poi scarti ${GTC.buttafuori.p.cost} carta scelta se ne hai. Puoi perdere le cinque carte. ${GTC.buttafuori.limit} per partita.`;
+GTC.dottore.full=`Tra le azioni, senza un tuo annuncio GOBLIN TIME: guardi in privato ${GTC.dottore.p.peek} carte, ne tieni ${GTC.dottore.p.keep} e ordini le altre in cima. ${GTC.dottore.limit} per partita.`;
+GTC.judoka.full=`Nella finestra di un trasferimento che ti coinvolge scegli un altro destinatario valido. Se non esiste, annulli il trasferimento e peschi ${GTC.judoka.p.penalty} carta. ${GTC.judoka.limit} per partita.`;
+GTC.ciro.full=`Prima di un furto o scarto forzato singolo contro di te lo blocchi, ma scarti ${GTC.ciro.p.debt} carta all’inizio del prossimo turno effettivo, prima della verifica vittoria. ${GTC.ciro.limit} per partita.`;
+
+/** Tutte le abilita' del catalogo. */
 export const ABILITY_CATALOG: readonly AbilityDef[] = Object.values(R).flatMap((byChar) => Object.values(byChar));
 
 export function abilityFor(game: string | null | undefined, character: string | null | undefined): AbilityDef | null {
@@ -1141,7 +1155,7 @@ export function abilityParam(game: AbilityGameId, character: AbilityCharacterId,
 export const CHARACTER_ORDER_ABILITY: AbilityCharacterId[] = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'];
 
 /** Accesso tipizzato ai numeri: `AB.arena.goblin.p.window`. Letto dai giochi. */
-export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO, casacarbo: CC, minigolf: MG, geofall: GF } as const;
+export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO, casacarbo: CC, minigolf: MG, geofall: GF, goblinTime:GTC } as const;
 
 /**
  * Tabella {personaggio: {name, desc}} di un gioco, nella forma che i vecchi file shared/<gioco>Abilities.ts esportavano. Quei file ora

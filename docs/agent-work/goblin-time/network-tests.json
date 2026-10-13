@@ -1,0 +1,8 @@
+{
+  "checks": 17,
+  "privacy": true,
+  "authority": true,
+  "reconnection": true,
+  "oldSocketDenied": true,
+  "restartIdentity": true
+}

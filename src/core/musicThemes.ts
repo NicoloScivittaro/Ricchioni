@@ -28,6 +28,7 @@ export type ThemeId =
   | 'reaction'
   | 'quiz'
   | 'cultura'
+  | 'goblinTime'
   | 'results'
   | 'podium';
 
@@ -227,6 +228,14 @@ export const THEMES: Record<ThemeId, Theme> = {
     chords: { wave: 'sine', style: 'stab', stabs: '...x......x.....', octave: 0 },
     motif: [4, _, _, 6, _, 7, _, _, 6, _, 4, _, 2, _, _, _, 2, _, _, 4, _, 6, _, _, 7, _, 6, _, 4, _, _, _],
     lead: { wave: 'triangle', octave: 1 }, gain: 0.55
+  },
+  goblinTime: {
+    id:'goblinTime',bpm:108,swing:.18,root:48,scale:DORIAN,progression:[0,0,3,4,0,6,3,4],
+    kick:'x.......x...o...',snare:'....x.......x...',hat:'x.o.x.o.x.o.x.o.',kickB:'x.....x.x...o...',
+    perc:{kind:'rim',pattern:'..o...o...o...x.'},bass:{pattern:'1...5...1...3...',wave:'triangle',octave:-2},
+    chords:{wave:'sine',style:'stab',stabs:'...x...x...x...x',octave:0},
+    motif:[0,_,2,_,3,_,2,_,0,_,_,4,3,_,2,_,0,_,2,_,6,_,4,_,3,_,2,_,0,_,_,_],
+    lead:{wave:'triangle',octave:1},gain:.5
   },
   // risultati: leggero, maggiore
   results: {

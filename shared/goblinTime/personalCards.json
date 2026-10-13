@@ -1,0 +1,177 @@
+[
+  {
+    "id": "PG01", "type": "AZIONE", "characterId": "goblin", "characterName": "Goblin",
+    "name": "L'ho fatto io 'sto gioco", "shortEffect": "Controlla gli scarti: scegli un tipo e recupera una carta, pagando una tua carta.",
+    "effect": "Nomina un tipo di carta. Tra le ultime cinque carte degli scarti, recupera una carta di quel tipo a tua scelta; prima devi mettere una carta scelta della tua mano in fondo al mazzo. La carta giocata è ancora in risoluzione e non è recuperabile. Puoi giocarla soltanto se hai un'altra carta da pagare e un recupero valido.",
+    "quote": "È una feature. L'ho scritta io.", "background": "Nicolò è il creatore del gioco e cerca sempre l'exploit.",
+    "illustration": "Goblin col boccale davanti a un terminale; una carta esce da una parentesi graffa.", "timing": "Azione principale; scelta pubblica del tipo e del recupero, pagamento privato."
+  },
+  {
+    "id": "PG02", "type": "AZIONE", "characterId": "goblin", "characterName": "Goblin",
+    "name": "Rimonta al 90°", "shortEffect": "Se sei indietro, pesca due carte; altrimenti pescane una e mostrala.",
+    "effect": "Dopo aver messo questa carta in risoluzione, confronta il tuo numero di carte con quello dei rivali. Se hai meno carte di tutti loro, pesca due carte e tienile entrambe. Altrimenti pesca una carta e rivelala pubblicamente. Si applicano normalmente limite della mano e annullamento delle dichiarazioni.",
+    "quote": "ANNAMO, C'È ANCORA TEMPO!", "background": "Goblin competitivo, scattante e convinto di poter recuperare all'ultimo.",
+    "illustration": "Goblin scivola verso due carte sotto un tabellone 90:00, con boccale inclinato.", "timing": "Azione principale; confronto prima della pescata."
+  },
+  {
+    "id": "PG03", "type": "TRAPPOLA", "characterId": "goblin", "characterName": "Goblin",
+    "name": "Jäger sul regolamento", "shortEffect": "Il primo rivale che tiene una carta con PESCA deve pescare anche l'altra.",
+    "effect": "Scatta quando un rivale sta per completare PESCA dopo aver scelto quale delle due carte tenere. Anche la carta destinata agli scarti entra nella sua mano. Scatta soltanto se quella carta è ancora nella zona temporanea della pescata; non recupera una carta già intercettata. La trappola si consuma una sola volta.",
+    "quote": "MA N'CULO, PURE QUESTA?!", "background": "Il Goblin mbriacone trasforma un piccolo drink in un grosso problema.",
+    "illustration": "Bottiglietta verde rovesciata sul regolamento; due carte incollate da una macchia.", "timing": "Prima dello scarto finale di PESCA; competizione con T02 in ordine di armamento."
+  },
+  {
+    "id": "PG04", "type": "RISPOSTA", "characterId": "goblin", "characterName": "Goblin",
+    "name": "Rollback istintivo", "shortEffect": "Sostituisci un tuo scarto forzato con una pescata obbligatoria.",
+    "effect": "Quando un effetto di un rivale sta per obbligarti a scartare esattamente una carta, consuma questa RISPOSTA, annulla soltanto quello scarto e pesca una carta. Non annulla pagamenti volontari, costi di carte o scarti per il limite della mano. La pescata può farti perdere GOBLIN TIME.",
+    "quote": "ASPÈ, TORNIAMO A PRIMA.", "background": "Goblin corregge d'istinto un errore creando un altro imprevisto.",
+    "illustration": "Goblin preme una freccia indietro; una carta rimbalza e ne compare un'altra.", "timing": "Prima di una perdita forzata singola; la RISPOSTA viene consumata prima della pescata."
+  },
+  {
+    "id": "PG05", "type": "CATASTROFE", "characterId": "goblin", "characterName": "Goblin",
+    "name": "Patch del venerdì sera", "shortEffect": "Tutti cambiano una carta: scelgono il pagamento, ricevono una carta nuova.",
+    "effect": "Ogni giocatore con almeno una carta in mano ne sceglie una in segreto. Le carte selezionate vengono messe insieme in fondo al mazzo, in ordine di turno a partire dall'autore; poi ogni partecipante pesca una carta, nello stesso ordine. Le mani vuote non partecipano. Le perdite e le pescate sono eventi distinti: una dichiarazione invalidata non si ripristina.",
+    "quote": "TRANQUILLI, HO CAMBIATO DUE RIGHE.", "background": "Il creatore pubblica la sua grande idea proprio nel momento meno opportuno.",
+    "illustration": "Goblin col boccale sopra un enorme pulsante AGGIORNA; carte cadono dal terminale.", "timing": "Azione principale; selezioni segrete chiuse insieme prima di spostare le carte."
+  },
+  {
+    "id": "PB01", "type": "AZIONE", "characterId": "buttafuori", "characterName": "Boschi",
+    "name": "Documento, prego", "shortEffect": "Un rivale ti mostra una carta segreta oppure paga scartandola.",
+    "effect": "Scegli un rivale con almeno una carta. Il bersaglio seleziona una propria carta e sceglie se mostrarla soltanto a te oppure scartarla pubblicamente. Se la mostra, rimane nella sua mano. Nessun altro riceve la carta privata e non viene imposto un tipo di carta.",
+    "quote": "TU QUA ENTRI SOLO SE ME FAI VEDE'.", "background": "Christian/Boschi è il buttafuori che controlla gli ingressi.",
+    "illustration": "Boschi con occhiali scuri ed auricolare confronta una carta con un pass d'ingresso.", "timing": "Azione principale; scelta privata del bersaglio."
+  },
+  {
+    "id": "PB02", "type": "AZIONE", "characterId": "buttafuori", "characterName": "Boschi",
+    "name": "Mo m'impegno", "shortEffect": "Prepara la tua prossima PESCA: scegli una carta fra tre.",
+    "effect": "Fino alla fine del tuo prossimo turno effettivo, la tua prima PESCA propone tre carte invece di due: ne tieni una e scarti le altre due. È sempre una sola azione PESCA, non un turno extra. Il bonus si consuma alla prima PESCA oppure scade; non si cumula con un'altra copia dello stesso bonus. Se il mazzo offre meno carte, scegli tra quelle disponibili.",
+    "quote": "ADESSO SÌ.", "background": "Boschi diventa preciso quando decide di impegnarsi davvero.",
+    "illustration": "Boschi si sistema i guanti e punta una torcia su tre carte allineate.", "timing": "Azione principale; bonus persistente con una sola attivazione."
+  },
+  {
+    "id": "PB03", "type": "TRAPPOLA", "characterId": "buttafuori", "characterName": "Boschi",
+    "name": "Lista all'ingresso", "shortEffect": "Il primo dono a un rivale va direttamente agli scarti.",
+    "effect": "Quando un rivale sta per ricevere una carta donata volontariamente da un altro giocatore, manda quella carta negli scarti invece che nella sua mano. Non riguarda pescate, furti, scambi simultanei o restituzioni da deposito. La carta lascia comunque la mano del donatore. Se il dono viene annullato prima, la trappola resta armata.",
+    "quote": "IL TUO NOME NON C'È.", "background": "Boschi decide chi supera il cordone e chi rimane fuori.",
+    "illustration": "Un cordone rosso e Boschi che barra una carta su una lista.", "timing": "Prima della consegna di un dono; una sola attivazione."
+  },
+  {
+    "id": "PB04", "type": "RISPOSTA", "characterId": "buttafuori", "characterName": "Boschi",
+    "name": "Aspè... famme capì", "shortEffect": "Costringi l'attaccante a pagare una carta o ad annullare l'AZIONE.",
+    "effect": "Quando un rivale gioca un'AZIONE diretta soltanto a te, consuma questa RISPOSTA. L'autore sceglie: scarta una carta della propria mano e risolve normalmente l'AZIONE, oppure la annulla. Se non può pagare, l'AZIONE è annullata. La carta AZIONE giocata non può essere usata come pagamento e rimane consumata.",
+    "quote": "MO SE TE RIBALTO VINCO IO?", "background": "Boschi pretende di capire prima di lasciar passare qualcuno.",
+    "illustration": "Boschi alza un dito; dietro di lui un enorme punto interrogativo e un tornello.", "timing": "Prima della risoluzione di un'AZIONE con bersaglio unico."
+  },
+  {
+    "id": "PB05", "type": "CATASTROFE", "characterId": "buttafuori", "characterName": "Boschi",
+    "name": "Buttafuori dal tavolo", "shortEffect": "Chi ha trappole sceglie se perderne una o pagare due carte.",
+    "effect": "Ogni giocatore con almeno una trappola armata, incluso l'autore, sceglie in segreto: scartare una propria trappola armata oppure scartare due carte della propria mano. Il pagamento in mano è consentito soltanto con almeno due carte. Le scelte si chiudono insieme e si risolvono in ordine di turno. Le trappole rimosse vengono rivelate e scartate senza attivarsi.",
+    "quote": "RAGAZZI, SI CHIUDE.", "background": "Boschi mette ordine al tavolo con il tatto del servizio sicurezza.",
+    "illustration": "Boschi solleva il cordone attorno al tavolo mentre cinque trappole cercano di entrare.", "timing": "Azione principale; espulsione di trappole, non attivazione."
+  },
+  {
+    "id": "PV01", "type": "AZIONE", "characterId": "dottore", "characterName": "Victor",
+    "name": "Tutto calcolato. Più o meno", "shortEffect": "Prevedi il tipo della prossima carta: se indovini, puoi tenerla.",
+    "effect": "Nomina AZIONE, TRAPPOLA, RISPOSTA o CATASTROFE prima di rivelare la prima carta disponibile del mazzo. Se il tipo coincide, scegli se tenerla oppure scartarla. Se sbagli, la carta rivelata viene scartata e un rivale scelto da te pesca una carta. Se non esistono carte disponibili, l'effetto termina senza pescate.",
+    "quote": "TRANQUILLI, SO QUELLO CHE FACCIO.", "background": "Victor è rilassato, convintissimo e ogni tanto sorprende tutti.",
+    "illustration": "Victor con occhiali e shaker indica una lavagnetta con quattro simboli e un punto interrogativo.", "timing": "Azione principale; previsione pubblica prima di accedere al mazzo."
+  },
+  {
+    "id": "PV02", "type": "AZIONE", "characterId": "dottore", "characterName": "Victor",
+    "name": "20 kg in un mese", "shortEffect": "Alleggerisci la mano, poi riparti: scarta fino a due carte e pescane una.",
+    "effect": "Dopo aver giocato questa carta, scegli zero, una o due carte della tua mano e scartale; poi pesca una carta. Scarti e pescata vengono risolti separatamente. Non è una PESCA: non scegli fra due carte. La dichiarazione GOBLIN TIME può essere annullata anche se il conteggio finale torna a cinque.",
+    "quote": "FACILE. BASTAVA LASCIÀ QUALCOSA.", "background": "La battuta dei 20 kg e lo shaker appartengono al Victor del progetto.",
+    "illustration": "Victor rilassato sul divano, shaker accanto e due carte su una bilancia da valigia.", "timing": "Azione principale; scelta privata degli scarti."
+  },
+  {
+    "id": "PV03", "type": "TRAPPOLA", "characterId": "dottore", "characterName": "Victor",
+    "name": "Sveglia in ritardo", "shortEffect": "Quando un rivale termina con cinque carte, tutti gli altri pescano.",
+    "effect": "Scatta la prima volta che un rivale termina un turno effettivo con esattamente cinque carte. Tutti gli altri giocatori, incluso il proprietario della trappola, pescano una carta in ordine di turno. Il rivale che ha fatto scattare la trappola non pesca. Le pescate non conferiscono una vittoria immediata e possono invalidare altre dichiarazioni.",
+    "quote": "AH, MA STAVAMO A GIOCÀ?", "background": "Victor sembra assente, poi si sveglia quando il tavolo è già nel caos.",
+    "illustration": "Victor apre un occhio sopra il tavolo; una sveglia fa saltare carte verso gli altri posti.", "timing": "Fine turno, dopo gli effetti obbligatori di fine turno e prima del passaggio al successivo."
+  },
+  {
+    "id": "PV04", "type": "RISPOSTA", "characterId": "dottore", "characterName": "Victor",
+    "name": "Occhio aperto", "shortEffect": "Una rivelazione pubblica diventa privata per un solo rivale.",
+    "effect": "Quando un effetto di un rivale sta per rivelare pubblicamente almeno una carta della tua mano senza trasferirla o scartarla, consuma questa RISPOSTA. Le carte interessate restano nella mano e diventano visibili soltanto all'autore dell'effetto; il tavolo vede solo il numero di carte osservate. Non modifica una rivelazione necessaria a un furto pubblico o a uno scarto.",
+    "quote": "L'HO VISTA. NON SERVE CHE LA VEDETE TUTTI.", "background": "Victor passa da rilassato a vigile senza trasformarsi in un medico o scienziato.",
+    "illustration": "Victor con un occhio aperto; un siparietto copre le carte davanti al pubblico.", "timing": "Prima di una rivelazione pubblica separabile da altre operazioni."
+  },
+  {
+    "id": "PV05", "type": "CATASTROFE", "characterId": "dottore", "characterName": "Victor",
+    "name": "Pausa sul divano", "shortEffect": "Tutti scelgono: pescare una carta oppure riprendersi una trappola.",
+    "effect": "Ogni giocatore sceglie in segreto PESCA UNA oppure RIPRENDI UNA TRAPPOLA. La seconda opzione è disponibile solo se possiede una trappola armata; sceglie quale, la disarma e la rimette nella propria mano senza attivarla. Le scelte si chiudono insieme e si risolvono in ordine di turno. Chi non ha trappole pesca una carta. Non sospende timer o partita.",
+    "quote": "DUE MINUTI E ARRIVO.", "background": "Victor ama il ritmo rilassato; persino una pausa può scombinare le mani.",
+    "illustration": "Victor sul divano al centro del tavolo, con shaker e trappole usate come cuscini.", "timing": "Azione principale; decisioni simultanee segrete."
+  },
+  {
+    "id": "PC01", "type": "AZIONE", "characterId": "judoka", "characterName": "Carbo",
+    "name": "Granita sequestrata", "shortEffect": "Un rivale sceglie: conserva una carta in deposito oppure ne pesca una.",
+    "effect": "Scegli un rivale con almeno una carta. Può mettere una carta scelta della propria mano in deposito sigillato oppure pescare una carta. Il deposito non conta nella mano e torna al suo proprietario all'inizio del prossimo turno effettivo, prima del controllo vittoria. Se non ha più carte quando decide, pesca. La restituzione resta soggetta a trappole compatibili.",
+    "quote": "EH?! LA GRANITA NON SI TOCCA.", "background": "Carbo tratta la granita come una risorsa irrinunciabile.",
+    "illustration": "Carbo protegge un bicchiere rosa dentro una cassaforte a forma di carta.", "timing": "Azione principale; scelta privata, restituzione obbligatoria prima della vittoria."
+  },
+  {
+    "id": "PC02", "type": "AZIONE", "characterId": "judoka", "characterName": "Carbo",
+    "name": "Ippon di carte", "shortEffect": "Scambia una tua carta scelta con la trappola coperta di un rivale.",
+    "effect": "Scegli un rivale con una trappola armata e una carta della tua mano da consegnargli. Scegli uno dei suoi slot coperti senza conoscerne il contenuto. La trappola viene disarmata ed entra nella tua mano; la carta offerta entra nella mano del rivale. Lo scambio è simultaneo e non attiva la trappola prelevata. Richiede una carta da offrire e uno slot valido.",
+    "quote": "ANGORA CHE DICI? IPPON!", "background": "Il judoka tecnico Carbo ribalta la situazione con una presa precisa.",
+    "illustration": "Carbo proietta una carta coperta sopra il tavolo con una cintura da judo.", "timing": "Azione principale; scambio simultaneo, contenuto dello slot privato fino al trasferimento."
+  },
+  {
+    "id": "PC03", "type": "TRAPPOLA", "characterId": "judoka", "characterName": "Carbo",
+    "name": "Granita finita", "shortEffect": "Il primo rivale che termina con tre carte ne sceglie una da scartare.",
+    "effect": "Scatta quando un rivale termina un turno effettivo con esattamente tre carte. Quel rivale scarta una carta scelta della propria mano. La trappola si consuma una sola volta e non interviene se il conteggio cambia prima della sua risoluzione e non è più tre.",
+    "quote": "MO CHI LA VA A PRENDE'?", "background": "L'assenza di granita è il piccolo dramma quotidiano di Carbo.",
+    "illustration": "Carbo mostra un bicchiere vuoto; una cannuccia tira via una delle tre carte.", "timing": "Fine turno; ricontrollo del conteggio prima della risoluzione."
+  },
+  {
+    "id": "PC04", "type": "RISPOSTA", "characterId": "judoka", "characterName": "Carbo",
+    "name": "Angora che dici?", "shortEffect": "Contesta un turno extra: il rivale può comprarlo con due carte.",
+    "effect": "Quando un rivale sta per ottenere un turno extra, consuma questa RISPOSTA. Quel rivale può scartare due carte scelte della propria mano per conservare il turno extra; se rifiuta o non può pagare, il turno extra è annullato. Non crea turni aggiuntivi e non toglie il prossimo turno ordinario. Un turno extra rimane incapace di generarne altri.",
+    "quote": "SECONDO IL REGOLAMENTO DI CASA MIA...", "background": "La frase reale di Carbo è «angora», e la contestazione è la sua specialità.",
+    "illustration": "Carbo in judogi brandisce un regolamento con un cartellino DUE CARTE.", "timing": "Prima dell'assegnazione di un turno extra."
+  },
+  {
+    "id": "PC05", "type": "CATASTROFE", "characterId": "judoka", "characterName": "Carbo",
+    "name": "Casa mia, regole mie", "shortEffect": "Tutti votano: una pescata per tutti oppure uno scarto per tutti.",
+    "effect": "Tutti votano in segreto RIEMPI oppure SVUOTA. Vince la maggioranza; in caso di pareggio prevale il voto dell'autore. Con RIEMPI, ogni giocatore pesca una carta; con SVUOTA, ogni giocatore che ha carte ne scarta una scelta. Risolvi in ordine di turno. La votazione avviene una sola volta e non modifica le regole permanenti o il numero necessario per vincere.",
+    "quote": "QUESTA REGOLA L'AVEVO DETTA PRIMA.", "background": "Carbo vuole governare il tavolo, ma gli altri possono votargli contro.",
+    "illustration": "Carbo in piedi su un tavolo domestico con granita e due urne PIÙ/MENO.", "timing": "Azione principale; votazione segreta, poi eventuali scelte private di scarto."
+  },
+  {
+    "id": "PI01", "type": "AZIONE", "characterId": "ciro", "characterName": "Ciro",
+    "name": "50 e 50: 80 a me", "shortEffect": "Offri una carta: il rivale accetta e ne pesca una, oppure ti lascia pescare due.",
+    "effect": "Scegli un rivale e metti una carta scelta della tua mano in un'offerta privata, visibile solo al destinatario. Se accetta, riceve quella carta e pesca una carta. Se rifiuta, la carta offerta torna nella tua mano e tu peschi due carte. Richiede una carta da offrire. L'offerta è una zona temporanea: uscire dalla mano può invalidare GOBLIN TIME anche se la carta ritorna.",
+    "quote": "FACCIAMO METÀ E METÀ. POI VEDIAMO.", "background": "Ciro negozia divisioni sempre molto favorevoli a sé.",
+    "illustration": "Ciro tiene una torta di carte: la sua fetta è enorme, quella del rivale minuscola.", "timing": "Azione principale; offerta privata e accettazione del bersaglio."
+  },
+  {
+    "id": "PI02", "type": "AZIONE", "characterId": "ciro", "characterName": "Ciro",
+    "name": "Non c'ho spicci", "shortEffect": "Liberati di una carta oppure tienila e pescane un'altra.",
+    "effect": "Metti una carta scelta della tua mano in un'offerta privata a un rivale. Il destinatario sceglie: accetta il dono, oppure la carta offerta torna nella tua mano e tu peschi una carta. Richiede una carta da offrire. Il dono accettato attiva gli eventi di consegna; l'offerta rifiutata non è un dono. La zona temporanea non conta nella mano.",
+    "quote": "TE LI DO, MA IN CARTE.", "background": "Ciro trova sempre una soluzione quando bisogna pagare.",
+    "illustration": "Ciro rovescia tasche vuote e porge una carta al posto delle monete.", "timing": "Azione principale; dono soggetto all'accettazione."
+  },
+  {
+    "id": "PI03", "type": "TRAPPOLA", "characterId": "ciro", "characterName": "Ciro",
+    "name": "Bonifico in lavorazione", "shortEffect": "Un ladro prende subito la carta, ma poi ti deve pagare prima di poter vincere.",
+    "effect": "Scatta dopo che un rivale ti ha rubato almeno una carta con un effetto. Quel rivale riceve un debito: all'inizio del suo prossimo turno effettivo, prima della verifica vittoria, consegna una carta scelta della propria mano al proprietario della trappola. Se non ha carte, pesca una carta dal mazzo e consegna quella; se non esistono carte disponibili, il debito si estingue senza consegna. Il furto iniziale non viene annullato. Un solo debito per attivazione.",
+    "quote": "È PARTITO. TE GIURO CHE È PARTITO.", "background": "Ciro trasforma una perdita immediata in un pagamento rinviato.",
+    "illustration": "Ciro mostra un telefono con bonifico IN LAVORAZIONE e una freccia che gira.", "timing": "Dopo il furto; debito risolto prima del controllo vittoria nel prossimo turno effettivo."
+  },
+  {
+    "id": "PI04", "type": "RISPOSTA", "characterId": "ciro", "characterName": "Ciro",
+    "name": "Te ne do meno", "shortEffect": "Riduci di una carta una perdita forzata di almeno due carte.",
+    "effect": "Quando un singolo effetto di un rivale sta per obbligarti a scartare o consegnare almeno due carte della mano, consuma questa RISPOSTA e riduci quel numero di uno. Il resto dell'obbligo si risolve normalmente e scegli le carte solo se l'effetto originale lo permette. Non modifica furti casuali, scambi di mani, depositi, costi volontari o il limite della mano.",
+    "quote": "DUE? FACCIAMO UNA E STAMO A POSTO.", "background": "Ciro contratta anche quando il conto sembrava già deciso.",
+    "illustration": "Ciro cancella il 2 da una ricevuta e scrive 1, con una moneta stretta nel pugno.", "timing": "Prima di una perdita multipla forzata; conta separatamente il consumo della RISPOSTA."
+  },
+  {
+    "id": "PI05", "type": "CATASTROFE", "characterId": "ciro", "characterName": "Ciro",
+    "name": "Il conto lo dividiamo", "shortEffect": "Tutti scelgono PAGO o SCAPPO; chi scappa rischia un debito.",
+    "effect": "Ogni giocatore sceglie in segreto PAGO oppure SCAPPO. Chi sceglie PAGO scarta una carta scelta se ne ha. Se almeno un giocatore ha scelto PAGO, ogni SCAPPO pesca una carta. Se tutti scelgono SCAPPO, nessuno pesca e ciascuno riceve un debito di uno scarto scelto da pagare all'inizio del proprio prossimo turno effettivo, prima della verifica vittoria. Con mano vuota il debito si estingue senza perdita. Le scelte si chiudono insieme; risolvi in ordine di turno.",
+    "quote": "IO HO PRESO SOLO L'ACQUA.", "background": "Ciro al conto cerca sempre la clausola per rimandare o risparmiare.",
+    "illustration": "Ciro si nasconde dietro un menù mentre una ricevuta lunghissima attraversa il tavolo.", "timing": "Azione principale; decisioni segrete e debiti obbligatori prima della vittoria."
+  }
+]

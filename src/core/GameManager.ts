@@ -29,6 +29,7 @@ import { InputManager } from '../network/InputManager';
 import type { MinigameContext } from '../minigames/types';
 import { preloadMinigame } from '../minigames/preload';
 import { showMinigameError, hideMinigameError } from './HostOverlay';
+import type { PublicState as GoblinPublic } from '../../shared/goblinTime/types';
 
 /**
  * View-model lato HOST: rispecchia lo stato autoritativo del server e guida
@@ -46,6 +47,9 @@ export class GameManager {
   private reconnecting = false;
 
   pendingMinigame: MinigameSelectedPayload | null = null;
+  goblinState: GoblinPublic | null = null;
+  startGoblin(mode:'base'|'personal',restart=false):void { this.socket?.emit(EVT.goblinReady,{roundId:this.state?.roundId,mode,restart}); }
+  syncGoblin():void {this.socket?.emit(EVT.goblinSync);}
   minigameContext: MinigameContext | null = null;
 
   /** Registro dei round della PARTITA in corso (per le statistiche divertenti del finale). Si azzera in lobby. */
@@ -79,6 +83,7 @@ export class GameManager {
     });
 
     s.on(EVT.roomState, (payload) => this.onRoomState(payload as RoomState));
+    s.on(EVT.goblinPublic, payload=>{const data=payload as GoblinPublic;if(data.roundId!==this.state?.roundId)return;this.goblinState=data;this.events.emit('goblin',data);});
     s.on(EVT.minigameSelected, (payload) => this.onMinigameSelected(payload as MinigameSelectedPayload));
     s.on(EVT.inputRelay, (payload) => this.onInputRelay(payload as InputRelayEvent));
     s.on(EVT.textRelay, (payload) => this.onTextRelay(payload as TextRelayEvent));

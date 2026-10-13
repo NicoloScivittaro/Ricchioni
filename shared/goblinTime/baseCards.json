@@ -1,0 +1,602 @@
+[
+  {
+    "id": "A01",
+    "type": "AZIONE",
+    "name": "Furto con ricevuta",
+    "effect": "Ruba una carta casuale a un rivale. La carta rubata viene mostrata a tutti prima di entrare nella tua mano."
+  },
+  {
+    "id": "A02",
+    "type": "AZIONE",
+    "name": "Cambio di tasca",
+    "effect": "Dai una carta scelta a un rivale, poi ricevi una sua carta casuale. Si può giocare solo se avete entrambi almeno una carta."
+  },
+  {
+    "id": "A03",
+    "type": "AZIONE",
+    "name": "Scontrino gonfiato",
+    "effect": "Scegli un rivale: pesca due carte e deve tenerle entrambe. Può portarlo sopra le cinque."
+  },
+  {
+    "id": "A04",
+    "type": "AZIONE",
+    "name": "Resto sbagliato",
+    "effect": "Un rivale con almeno quattro carte te ne consegna una casuale; altrimenti pesca una carta."
+  },
+  {
+    "id": "A05",
+    "type": "AZIONE",
+    "name": "Finta beneficenza",
+    "effect": "Pesca due carte e consegnane una a un rivale a tua scelta, senza guardare il mazzo una seconda volta."
+  },
+  {
+    "id": "A06",
+    "type": "AZIONE",
+    "name": "Ultima goccia",
+    "effect": "Un rivale con più carte di te ne scarta una scelta da lui; altrimenti tu peschi una carta."
+  },
+  {
+    "id": "A07",
+    "type": "AZIONE",
+    "name": "Sequestro temporaneo",
+    "effect": "Metti una carta casuale di un rivale in deposito sigillato: non conta in mano; torna all'inizio del suo prossimo turno, prima della verifica vittoria."
+  },
+  {
+    "id": "A08",
+    "type": "AZIONE",
+    "name": "Cassa comune",
+    "effect": "Ogni giocatore con almeno una carta ne deposita una scelta a faccia in giù. Rimescola e ridistribuiscile casualmente ai depositanti."
+  },
+  {
+    "id": "A09",
+    "type": "AZIONE",
+    "name": "Telefono scarico",
+    "effect": "Un rivale non può giocare carte RISPOSTA fino alla fine del suo prossimo turno. Può ancora agire normalmente."
+  },
+  {
+    "id": "A10",
+    "type": "AZIONE",
+    "name": "Fidati di me",
+    "effect": "Un rivale sceglie: ti consegna una carta casuale oppure mostra privatamente a te tutta la sua mano."
+  },
+  {
+    "id": "A11",
+    "type": "AZIONE",
+    "name": "Patto a metà",
+    "effect": "Tu e un rivale pescate una carta ciascuno, poi ognuno scarta una carta scelta: cambia la mano senza cambiare il conteggio netto."
+  },
+  {
+    "id": "A12",
+    "type": "AZIONE",
+    "name": "Smaschera il furbo",
+    "effect": "Guarda privatamente due carte casuali di un rivale. Puoi scambiare una di quelle con una carta casuale della tua mano."
+  },
+  {
+    "id": "A13",
+    "type": "AZIONE",
+    "name": "Bonus di presenza",
+    "effect": "Pesca una carta per ogni rivale che possiede più carte di te, massimo due carte."
+  },
+  {
+    "id": "A14",
+    "type": "AZIONE",
+    "name": "Bancomat rotto",
+    "effect": "Un rivale sceglie: scarta una carta scelta oppure ti dà una carta casuale."
+  },
+  {
+    "id": "A15",
+    "type": "AZIONE",
+    "name": "Debito di famiglia",
+    "effect": "Assegna a un rivale un debito: all'inizio del suo prossimo turno, prima della vittoria, deve scartare una carta oppure rinunciare alla sua azione principale di quel turno."
+  },
+  {
+    "id": "A16",
+    "type": "AZIONE",
+    "name": "Reso non autorizzato",
+    "effect": "Prendi una carta scelta fra le ultime tre della pila degli scarti; poi scarta una carta casuale dalla mano."
+  },
+  {
+    "id": "A17",
+    "type": "AZIONE",
+    "name": "Sciopero di quartiere",
+    "effect": "Un rivale non potrà scegliere PESCA come azione principale nel proprio prossimo turno; potrà giocare o preparare carte."
+  },
+  {
+    "id": "A18",
+    "type": "AZIONE",
+    "name": "Doppio gioco",
+    "effect": "Un rivale mostra due carte a tua scelta casuale della sua mano. Ne scegli una da rubare e gli consegni una carta casuale dalla tua mano."
+  },
+  {
+    "id": "A19",
+    "type": "AZIONE",
+    "name": "Conto alla rovescia",
+    "effect": "Il prossimo turno di un rivale dura quattro secondi per scegliere l'azione principale, invece del tempo normale."
+  },
+  {
+    "id": "A20",
+    "type": "AZIONE",
+    "name": "Prima io",
+    "effect": "Ottieni un turno aggiuntivo subito dopo il tuo, senza poter attivare un altro turno extra durante quello aggiuntivo."
+  },
+  {
+    "id": "A21",
+    "type": "AZIONE",
+    "name": "Giro di boa",
+    "effect": "Inverti l'ordine di gioco e fai pescare una carta al giocatore che sarebbe stato il prossimo prima dell'inversione."
+  },
+  {
+    "id": "A22",
+    "type": "AZIONE",
+    "name": "Io non c'ero",
+    "effect": "Rimuovi da te un effetto negativo temporaneo e, se valido, trasferiscilo a un rivale."
+  },
+  {
+    "id": "A23",
+    "type": "AZIONE",
+    "name": "Controllo antidoping",
+    "effect": "Un rivale con almeno tre carte rivela quante carte RISPOSTA ha. Se ne ha almeno due, deve scartarne una scelta."
+  },
+  {
+    "id": "A24",
+    "type": "AZIONE",
+    "name": "Tre sul tavolo",
+    "effect": "Rivela le prime tre carte del mazzo; prendine una e metti le altre due in fondo nell'ordine che scegli."
+  },
+  {
+    "id": "A25",
+    "type": "AZIONE",
+    "name": "Sanzione social",
+    "effect": "Un rivale non può annunciare GOBLIN TIME fino alla fine del suo prossimo turno, anche se raggiunge cinque carte."
+  },
+  {
+    "id": "A26",
+    "type": "AZIONE",
+    "name": "Pignoramento",
+    "effect": "Riprendi in mano una trappola coperta di un rivale: perde lo stato di trappola e diventa una tua carta. Se non ha trappole, pesca una carta."
+  },
+  {
+    "id": "A27",
+    "type": "AZIONE",
+    "name": "Prestito lampo",
+    "effect": "Pesca tre carte. All'inizio del tuo prossimo turno restituisci due carte scelte al fondo del mazzo, prima di verificare GOBLIN TIME."
+  },
+  {
+    "id": "A28",
+    "type": "AZIONE",
+    "name": "Falsa sicurezza",
+    "effect": "Il prossimo PESCA di un rivale mostra pubblicamente entrambe le carte proposte, prima che ne conservi una."
+  },
+  {
+    "id": "A29",
+    "type": "AZIONE",
+    "name": "Passaparola",
+    "effect": "Scegli due giocatori diversi con almeno una carta ciascuno, anche includendo te: si scambiano simultaneamente una carta casuale."
+  },
+  {
+    "id": "A30",
+    "type": "AZIONE",
+    "name": "Prima paghi tu",
+    "effect": "Un rivale deve scegliere: scartare una carta scelta oppure permetterti di pescare una carta."
+  },
+  {
+    "id": "A31",
+    "type": "AZIONE",
+    "name": "Terzo incomodo",
+    "effect": "Ogni giocatore che ha esattamente cinque carte, incluso te, deve pescare una carta. Se nessuno ne ha cinque, pesca tu una carta."
+  },
+  {
+    "id": "A32",
+    "type": "AZIONE",
+    "name": "Silenzio stampa",
+    "effect": "Fino all'inizio del tuo prossimo turno, gli altri vedono «?» anziché il tuo numero di carte; un eventuale annuncio GOBLIN TIME resta pubblico."
+  },
+  {
+    "id": "A33",
+    "type": "AZIONE",
+    "name": "Tagliando vincente",
+    "effect": "Nomina AZIONE, TRAPPOLA, RISPOSTA o CATASTROFE e scegli un rivale. Se ha almeno una carta del tipo nominato, ne rubi una casuale; altrimenti gli dai una tua carta scelta."
+  },
+  {
+    "id": "A34",
+    "type": "AZIONE",
+    "name": "Mini truffa",
+    "effect": "Se un rivale ti ha sottratto una carta dall'ultimo tuo turno, rubagliene una casuale; altrimenti pesca una carta e rivelala pubblicamente."
+  },
+  {
+    "id": "A35",
+    "type": "AZIONE",
+    "name": "Evasione creativa",
+    "effect": "Piazza immediatamente una TRAPPOLA dalla tua mano senza consumare uno slot aggiuntivo; poi pesca una carta. Se non hai trappole, pesca soltanto una carta."
+  },
+  {
+    "id": "A36",
+    "type": "AZIONE",
+    "name": "Sospensione cautelare",
+    "effect": "Una trappola coperta di un rivale resta disattivata fino all'inizio del tuo prossimo turno, poi torna armata."
+  },
+  {
+    "id": "A37",
+    "type": "AZIONE",
+    "name": "Proposta indecente",
+    "effect": "Tu e un rivale scegliete segretamente «SCAMBIO» o «RIFIUTO». Se entrambi scelgono SCAMBIO, scambiate una carta casuale; altrimenti entrambi pescate una carta."
+  },
+  {
+    "id": "A38",
+    "type": "AZIONE",
+    "name": "Deposito cauzionale",
+    "effect": "Proteggi una tua carta scelta in deposito fino all'inizio del tuo prossimo turno: non conta nelle cinque ma non può essere rubata né scartata nel frattempo."
+  },
+  {
+    "id": "A39",
+    "type": "AZIONE",
+    "name": "Regalo avvelenato",
+    "effect": "Dai a un rivale una carta scelta dalla tua mano. Quella carta non può essere giocata o scartata volontariamente fino alla fine del suo prossimo turno."
+  },
+  {
+    "id": "A40",
+    "type": "AZIONE",
+    "name": "Ultimo screenshot",
+    "effect": "Guarda privatamente la mano di un rivale. Poi scegli se rivelare pubblicamente una delle sue carte oppure pescare una carta per te."
+  },
+  {
+    "id": "T01",
+    "type": "TRAPPOLA",
+    "name": "Mani lunghe, mani vuote",
+    "effect": "Quando qualcuno ti ruba una carta, il ladro deve restituirla e consegnarti anche una sua carta casuale, se ne ha."
+  },
+  {
+    "id": "T02",
+    "type": "TRAPPOLA",
+    "name": "Pesca a strascico",
+    "effect": "Quando un rivale sceglie una delle due carte di PESCA, prendi tu la carta che stava per scartare."
+  },
+  {
+    "id": "T03",
+    "type": "TRAPPOLA",
+    "name": "C'è Goblin Time?",
+    "effect": "Quando un rivale annuncia GOBLIN TIME, rubagli subito una carta casuale."
+  },
+  {
+    "id": "T04",
+    "type": "TRAPPOLA",
+    "name": "Troppa grazia",
+    "effect": "Quando un rivale supera cinque carte, deve scartarne una scelta. Non annulla l'eventuale effetto già risolto."
+  },
+  {
+    "id": "T05",
+    "type": "TRAPPOLA",
+    "name": "Occhio alla mano",
+    "effect": "Quando un rivale guarda privatamente la mano di qualcuno, deve rivelare pubblicamente una propria carta casuale e poi scartarla."
+  },
+  {
+    "id": "T06",
+    "type": "TRAPPOLA",
+    "name": "Tassa sulle trappole",
+    "effect": "Quando un rivale piazza una TRAPPOLA, quella nuova trappola viene scartata e tu peschi una carta."
+  },
+  {
+    "id": "T07",
+    "type": "TRAPPOLA",
+    "name": "Carta bollata",
+    "effect": "Quando un rivale scarta una sola carta per un effetto, quella carta entra invece nella tua mano."
+  },
+  {
+    "id": "T08",
+    "type": "TRAPPOLA",
+    "name": "Assicurazione fasulla",
+    "effect": "Quando sei obbligato a scartare per effetto di un rivale, puoi spostare quell'obbligo sull'autore, se ha almeno una carta."
+  },
+  {
+    "id": "T09",
+    "type": "TRAPPOLA",
+    "name": "Non vale, ma vale",
+    "effect": "Quando un rivale annulla una carta con una RISPOSTA, quell'annullamento riesce ma lui deve anche scartare una carta casuale."
+  },
+  {
+    "id": "T10",
+    "type": "TRAPPOLA",
+    "name": "Indirizzo sbagliato",
+    "effect": "Quando un rivale consegna una carta a un altro giocatore, intercetta quella carta e mettila nella tua mano."
+  },
+  {
+    "id": "T11",
+    "type": "TRAPPOLA",
+    "name": "Notaio infame",
+    "effect": "All'inizio del turno di un rivale che aveva annunciato GOBLIN TIME, prima della verifica vittoria, rubagli una carta casuale."
+  },
+  {
+    "id": "T12",
+    "type": "TRAPPOLA",
+    "name": "Falso straordinario",
+    "effect": "Quando un rivale ottiene un turno extra, quel turno viene annullato e lui deve scartare una carta scelta."
+  },
+  {
+    "id": "T13",
+    "type": "TRAPPOLA",
+    "name": "Sei molto curioso",
+    "effect": "Quando un rivale scopre una carta coperta o un effetto segreto di qualcuno, pesca una carta tu e mostragliela."
+  },
+  {
+    "id": "T14",
+    "type": "TRAPPOLA",
+    "name": "Consegna respinta",
+    "effect": "Quando un rivale riceve una carta donata da un altro, il destinatario la restituisce e tu peschi una carta."
+  },
+  {
+    "id": "T15",
+    "type": "TRAPPOLA",
+    "name": "Ultimo centesimo",
+    "effect": "Quando un rivale scende a una sola carta, prendi una carta dal mazzo e passagliela: gli impedisci di restare con una mano «pulita» da ricostruire."
+  },
+  {
+    "id": "T16",
+    "type": "TRAPPOLA",
+    "name": "Scarto mio",
+    "effect": "Quando un rivale scarta due o più carte in un singolo effetto, prendine una casuale prima che tocchi la pila degli scarti."
+  },
+  {
+    "id": "T17",
+    "type": "TRAPPOLA",
+    "name": "Porta in faccia",
+    "effect": "Quando un rivale ti prende di mira con un'AZIONE, quell'azione si risolve ma il rivale non può scegliere te come bersaglio nel prossimo turno."
+  },
+  {
+    "id": "T18",
+    "type": "TRAPPOLA",
+    "name": "Bomba a orologeria",
+    "effect": "Quando un rivale termina il turno con esattamente quattro carte, pesca due carte senza poter scegliere: ora deve gestire l'eccesso."
+  },
+  {
+    "id": "T19",
+    "type": "TRAPPOLA",
+    "name": "Clausola nascosta",
+    "effect": "Quando un rivale trasferisce un effetto negativo su un'altra persona, l'effetto rimbalza su chi l'ha trasferito."
+  },
+  {
+    "id": "T20",
+    "type": "TRAPPOLA",
+    "name": "Che ti ridi?",
+    "effect": "Quando un rivale ottiene una carta grazie a una TRAPPOLA, deve scartarne una casuale subito dopo."
+  },
+  {
+    "id": "T21",
+    "type": "TRAPPOLA",
+    "name": "Multa per eccesso",
+    "effect": "Quando un rivale usa una carta che colpisce almeno due giocatori, scarta una carta scelta o l'effetto viene annullato."
+  },
+  {
+    "id": "T22",
+    "type": "TRAPPOLA",
+    "name": "Chiusa per ferie",
+    "effect": "Quando un rivale tenta di riprendere una carta da un deposito, quella carta viene invece aggiunta in fondo al mazzo e il deposito si svuota."
+  },
+  {
+    "id": "T23",
+    "type": "TRAPPOLA",
+    "name": "Neanche per sogno",
+    "effect": "Quando un rivale prova a giocare la propria ultima carta, la carta si risolve ma il rivale deve pescare subito due nuove carte."
+  },
+  {
+    "id": "T24",
+    "type": "TRAPPOLA",
+    "name": "Prendi due, dai tre",
+    "effect": "Quando un rivale pesca almeno due carte con una singola AZIONE, ne sceglie una tra quelle pescate e la consegna a te."
+  },
+  {
+    "id": "T25",
+    "type": "TRAPPOLA",
+    "name": "Scambio sospetto",
+    "effect": "Quando due giocatori effettuano uno scambio simultaneo, tu puoi scegliere una delle due carte scambiate: diventa tua; il destinatario previsto non la riceve."
+  },
+  {
+    "id": "R01",
+    "type": "RISPOSTA",
+    "name": "Nun ce provà",
+    "effect": "Annulla un'AZIONE singola appena giocata che ti prende di mira."
+  },
+  {
+    "id": "R02",
+    "type": "RISPOSTA",
+    "name": "Rigira la frittata",
+    "effect": "Rifletti sull'autore un effetto singolo che ti farebbe pescare, scartare o consegnare carte."
+  },
+  {
+    "id": "R03",
+    "type": "RISPOSTA",
+    "name": "Taschine chiuse",
+    "effect": "Impedisci un furto a tuo danno e pesca una carta dal mazzo in compensazione."
+  },
+  {
+    "id": "R04",
+    "type": "RISPOSTA",
+    "name": "Casco da cantiere",
+    "effect": "Impedisci una perdita forzata di carte a tuo danno; l'autore dell'effetto deve rivelare una propria carta casuale."
+  },
+  {
+    "id": "R05",
+    "type": "RISPOSTA",
+    "name": "Ultima bastardata",
+    "effect": "Subito dopo l'annuncio GOBLIN TIME di un rivale, puoi obbligarlo a pescare una carta. Non è attivabile più di una volta per annuncio per giocatore."
+  },
+  {
+    "id": "R06",
+    "type": "RISPOSTA",
+    "name": "Trappola? Quale trappola?",
+    "effect": "Annulla una TRAPPOLA appena scattata contro di te; la trappola viene comunque scartata."
+  },
+  {
+    "id": "R07",
+    "type": "RISPOSTA",
+    "name": "Sono fuori",
+    "effect": "Ignora per te gli effetti di una CATASTROFE che coinvolge più giocatori; gli altri la risolvono normalmente."
+  },
+  {
+    "id": "R08",
+    "type": "RISPOSTA",
+    "name": "Rinviato al mittente",
+    "effect": "Impedisci di saltare o accorciare il tuo prossimo turno e assegna all'autore il limite di quattro secondi nel suo prossimo turno."
+  },
+  {
+    "id": "R09",
+    "type": "RISPOSTA",
+    "name": "Scelta mia",
+    "effect": "Quando qualcuno ti ruba una carta casuale, scegli tu quale delle tue carte gli darai."
+  },
+  {
+    "id": "R10",
+    "type": "RISPOSTA",
+    "name": "Non così tanto",
+    "effect": "Quando un rivale sta per pescare almeno tre carte per un unico effetto, riduci la sua pescata di due e pesca una carta tu."
+  },
+  {
+    "id": "R11",
+    "type": "RISPOSTA",
+    "name": "Fotocopia illegale",
+    "effect": "Copia l'effetto di una RISPOSTA appena risolta, scegliendo bersagli validi; una copia non può essere nuovamente copiata."
+  },
+  {
+    "id": "R12",
+    "type": "RISPOSTA",
+    "name": "Ultimo respiro",
+    "effect": "Quando stai per finire con zero carte, annulla solo l'ultima perdita che lo causerebbe e pesca una carta."
+  },
+  {
+    "id": "R13",
+    "type": "RISPOSTA",
+    "name": "Gira a destra",
+    "effect": "Sposta su un altro bersaglio valido un'AZIONE diretta solo a te; con due giocatori la rimandi all'autore."
+  },
+  {
+    "id": "R14",
+    "type": "RISPOSTA",
+    "name": "Privacy, grazie",
+    "effect": "Nega a un rivale l'accesso alla tua mano e guarda privatamente una sua carta casuale."
+  },
+  {
+    "id": "R15",
+    "type": "RISPOSTA",
+    "name": "Consegna intercettata",
+    "effect": "Quando un rivale riceve una carta dal mazzo per effetto di un'AZIONE, rubagli proprio quella carta prima che entri nella sua mano."
+  },
+  {
+    "id": "R16",
+    "type": "RISPOSTA",
+    "name": "Ti sei allargato",
+    "effect": "Annulla soltanto il turno extra che un rivale sta per ottenere e pesca una carta."
+  },
+  {
+    "id": "R17",
+    "type": "RISPOSTA",
+    "name": "Beccato con le mani",
+    "effect": "Quando un rivale piazza una trappola, rivela il nome della nuova trappola solo a te; puoi obbligarlo a riprenderla in mano."
+  },
+  {
+    "id": "R18",
+    "type": "RISPOSTA",
+    "name": "Riscatto immediato",
+    "effect": "Quando una tua carta viene mandata in deposito, riprendila in mano e costringi l'autore a scartare una carta casuale."
+  },
+  {
+    "id": "R19",
+    "type": "RISPOSTA",
+    "name": "Un attimo prima",
+    "effect": "Dopo che un bersaglio di un effetto casuale è stato estratto, chiedi un nuovo sorteggio fra i bersagli validi e imponi il nuovo risultato."
+  },
+  {
+    "id": "R20",
+    "type": "RISPOSTA",
+    "name": "Carta coperta",
+    "effect": "Quando una tua carta viene rivelata pubblicamente, impediscilo e costringi chi ha causato la rivelazione a mostrare una propria carta casuale."
+  },
+  {
+    "id": "C01",
+    "type": "CATASTROFE",
+    "name": "Riunione condominiale",
+    "effect": "Ogni giocatore con almeno cinque carte consegna simultaneamente una carta scelta al giocatore con meno carte, risolvendo i pari con ordine di turno."
+  },
+  {
+    "id": "C02",
+    "type": "CATASTROFE",
+    "name": "Blackout totale",
+    "effect": "Fino al termine del prossimo turno del giocatore attivo, nessuno può giocare RISPOSTA; le TRAPPOLE già armate continuano a funzionare."
+  },
+  {
+    "id": "C03",
+    "type": "CATASTROFE",
+    "name": "Cambio di identità",
+    "effect": "Tutti consegnano la propria mano coperta al server, che ridistribuisce casualmente le carte mantenendo il numero di carte che ciascuno possedeva."
+  },
+  {
+    "id": "C04",
+    "type": "CATASTROFE",
+    "name": "Gogna pubblica",
+    "effect": "Tutti votano in segreto un giocatore, senza potersi votare. Chi riceve più voti scarta due carte scelte; a pari merito ciascun primo scarta una carta."
+  },
+  {
+    "id": "C05",
+    "type": "CATASTROFE",
+    "name": "Mercatino abusivo",
+    "effect": "Rivela quattro carte del mazzo. Prendine una, poi assegna le altre tre una alla volta ai rivali (uno stesso rivale può riceverne più di una)."
+  },
+  {
+    "id": "C06",
+    "type": "CATASTROFE",
+    "name": "Sequestro di reazioni",
+    "effect": "Tutti scartano una RISPOSTA scelta se la possiedono, poi tutti pescano una carta."
+  },
+  {
+    "id": "C07",
+    "type": "CATASTROFE",
+    "name": "Processo sommario",
+    "effect": "Ogni giocatore sceglie in segreto «ACCUSA» oppure «COPRE». Se tutti coprono, ciascuno pesca una carta; altrimenti chi accusa ruba una carta casuale da un giocatore che copre, se disponibile."
+  },
+  {
+    "id": "C08",
+    "type": "CATASTROFE",
+    "name": "Ultima chiamata",
+    "effect": "Per il prossimo giro completo, tutti hanno quattro secondi per scegliere l'azione principale; chi non sceglie passa il turno senza pescare."
+  },
+  {
+    "id": "C09",
+    "type": "CATASTROFE",
+    "name": "Colpo di stato",
+    "effect": "Scambia integralmente le mani di due giocatori scelti, incluso eventualmente te; entrambi perdono un annuncio GOBLIN TIME precedente."
+  },
+  {
+    "id": "C10",
+    "type": "CATASTROFE",
+    "name": "Redistribuzione maledetta",
+    "effect": "Il giocatore con più carte scarta una carta scelta; quello con meno carte ne pesca due. Risolvi i pari in ordine di turno."
+  },
+  {
+    "id": "C11",
+    "type": "CATASTROFE",
+    "name": "Rubinetto di cavolate",
+    "effect": "Ogni giocatore sceglie: scarta una carta oppure rivela pubblicamente tutte le carte AZIONE che possiede."
+  },
+  {
+    "id": "C12",
+    "type": "CATASTROFE",
+    "name": "Ispettore delle trappole",
+    "effect": "Tutti i giocatori con trappole armate scelgono una loro trappola: la riprendono in mano oppure scartano una carta dalla mano."
+  },
+  {
+    "id": "C13",
+    "type": "CATASTROFE",
+    "name": "Cambio di tavolo",
+    "effect": "Ogni giocatore passa tutta la propria mano al giocatore successivo nell'ordine del turno. Annulla tutti gli annunci GOBLIN TIME in corso."
+  },
+  {
+    "id": "C14",
+    "type": "CATASTROFE",
+    "name": "Finta pace",
+    "effect": "Tutti scelgono segretamente una carta dalla propria mano. Il server le mescola e ne restituisce una casuale a ciascun partecipante; chi non ha carte non partecipa."
+  },
+  {
+    "id": "C15",
+    "type": "CATASTROFE",
+    "name": "Reset bastardo",
+    "effect": "Tutti i giocatori sopra cinque carte scartano fino ad averne esattamente cinque, ma non possono annunciare GOBLIN TIME per effetto di questa carta; possono farlo dopo una futura variazione della mano."
+  }
+]

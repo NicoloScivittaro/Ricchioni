@@ -1,0 +1,43 @@
+{
+  "reports": [
+    {
+      "players": 2,
+      "humans": 2,
+      "bots": 0,
+      "mode": "base",
+      "compiled": true,
+      "privacy": true,
+      "results": true,
+      "disposed": true,
+      "performance": {
+        "fps": 59.9,
+        "p95FrameMs": 16.8,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "width": 1280,
+        "height": 720
+      },
+      "endReason": "GOBLIN TIME riuscito",
+      "turns": 7
+    },
+    {
+      "players": 5,
+      "humans": 1,
+      "bots": 4,
+      "mode": "personal",
+      "compiled": true,
+      "privacy": true,
+      "results": true,
+      "disposed": true,
+      "performance": {
+        "fps": 59.9,
+        "p95FrameMs": 16.8,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "width": 1280,
+        "height": 720
+      },
+      "endReason": "GOBLIN TIME riuscito",
+      "turns": 22
+    }
+  ],
+  "errors": []
+}
