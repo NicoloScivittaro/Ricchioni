@@ -12,3 +12,5 @@ Sol diretto, autorizzazione persistente utente. Baseline HEAD `defcb4d`; modific
 6. Test logica/mixer/asset, browser partita naturale e round successivo, volume/ducking/skip/errore/offline/phone senza audio/pause/lobby/subtitoli, regressioni/typecheck/build, report italiano e commit locale dedicato che esclude modifiche rullo preesistenti.
 
 Voce: verificare la disponibilità concreta. Kokoro runtime eFFmpeg già installati; modelli da reperire localmente oppure scaricare da release ufficiale gratuita. Nessuna inferenza online durante le partite.
+
+Aggiornamento integrazione: il commit utente `177a6ec` ("2") ha salvato il rullo preesistente e un checkpoint parziale del narratore durante il lavoro. Va mantenuto senza amend/reset. Il commit dedicato successivo completa solo il narratore e le verifiche. AudioManager usa un canale narratore dedicato sotto il master con lo stesso budget voce e limiter; il bus TELECRONISTA resta indipendente. Disabilitato il sound manager Phaser inutilizzato, per avere effettivamente un solo AudioContext nell'host.

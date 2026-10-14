@@ -3,6 +3,7 @@ import { GAME_CONFIG } from './config';
 import { game as gm } from '../core/GameManager';
 import { audio } from '../core/AudioManager';
 import { initAudioSettings } from '../core/audioSettings';
+import { narrator } from '../audio/narrator/NarratorDirector';
 import { initMusicDirector } from '../core/musicDirector';
 import { initDebug, debugEnabled } from '../core/debug';
 import { initTelemetry } from '../core/telemetry';
@@ -56,6 +57,8 @@ const config: Phaser.Types.Core.GameConfig = {
   width: GAME_CONFIG.width,
   height: GAME_CONFIG.height,
   backgroundColor: GAME_CONFIG.backgroundColor,
+  // Tutti i suoni passano da AudioManager; evita il contesto WebAudio inutilizzato di Phaser.
+  audio: { noAudio: true },
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
@@ -79,7 +82,7 @@ const phaserGame = new Phaser.Game(config);
 gm.attach(phaserGame);
 audio.enableHotkeys(); // M = muto, [ ] = volume generale (solo host)
 initAudioSettings(); // V = volumi (generale/musica/effetti/telecronista); debug audio in F3 e con ?audio=1
-initMusicDirector(); // musica procedurale guidata dalle fasi della partita (solo TV, mai sui telefoni)
+initMusicDirector();narrator.init(); // musica procedurale guidata dalle fasi della partita (solo TV, mai sui telefoni)
 initDebug(); // overlay F3 (solo dev o ?debug=1)
 initFlowTrace(); // traccia di flusso per diagnosticare blocchi (solo debug)
 initTelemetry(); // telemetria locale di sessione + SESSION REPORT (F4), solo debug: niente esce dal browser

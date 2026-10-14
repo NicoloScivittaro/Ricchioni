@@ -56,7 +56,7 @@ export class ResultsScene extends Phaser.Scene {
 
     // Rivelazione dall'ultimo al primo.
     const revealOrder = [...out.results].sort((a, b) => b.placement - a.placement);
-    const golf=st.currentMinigame?.minigameId==='minigolf';let winnerDelayShown=false;
+    const golf=['minigolf','trentuno'].includes(st.currentMinigame?.minigameId??'');let winnerDelayShown=false;
     let t = 250;
     for (const r of revealOrder) {
       if (r.placement === 1&&(!golf||!winnerDelayShown)){t += FLOW_TIMING.revealWinnerDelayMs;winnerDelayShown=true;}
@@ -65,6 +65,7 @@ export class ResultsScene extends Phaser.Scene {
       t += FLOW_TIMING.revealStepMs;
     }
 
+    this.time.delayedCall(t-900+1000,()=>gm.events.emit('narrator.results'));
     this.input.keyboard?.on('keydown', (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ') gm.skip();
     });
@@ -78,7 +79,7 @@ export class ResultsScene extends Phaser.Scene {
     const color = c?.color ?? '#ffffff';
     const delta = out.deltas[r.playerId] ?? 0;
     const isWinner = r.placement === 1;
-    const golf=st.currentMinigame?.minigameId==='minigolf';
+    const golf=['minigolf','trentuno'].includes(st.currentMinigame?.minigameId??'');
     const idx = golf?out.results.length-1-out.results.indexOf(r):out.results.length-r.placement; // anche gli ex aequo hanno righe distinte
     const y = TOP + idx * (ROW_H + 8) + ROW_H / 2;
 

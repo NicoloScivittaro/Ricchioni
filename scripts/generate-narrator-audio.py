@@ -37,4 +37,6 @@ for i,line in enumerate(lines):
     metadata.write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding='utf-8');manifest[line['id']]=data
     print(f"{i+1}/{len(lines)} {line['id']} {data['duration']}s",flush=True)
 (out/('prototype-manifest.json' if args.prototype else 'manifest.json')).write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
+if not args.prototype:
+    (ROOT/'src'/'audio'/'narrator'/'audio-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
 print('Catalogo audio pronto',flush=True)

@@ -1,0 +1,21 @@
+✅ 122 cue suonati senza errori
+✅ AudioContext attivo (running)
+✅ musica: crossfade fra 14 temi, ne suona uno solo (ora podium, 10 note attive)
+✅ STRESS (4 armi + colpi + esplosione + musica): picco d'uscita 0.55 < 1.0 (il limiter tiene)
+✅ budget effetti rispettato (max 15 voci contemporanee, tetto 36)
+✅ nessuna voce lasciata accesa (voci 0, note musica 0, tema null)
+✅ stanza: tema lobby
+✅ 3 controller associati in lobby
+✅ Botta al Volo: tema dedicato (reaction, livello 0)
+✅ VIA: audio nello stesso passo del VIA visivo (fase "via", testo "⚡ VIA! ⚡") — nessun anticipo sonoro
+✅ risultati: tema dei risultati (crossfade, nessuno stacco brusco)
+✅ gioco scelto: Arena
+✅ Arena: durante la schermata CONTROLLI la musica e' "sotto" (livello 0)
+✅ Arena: dopo i CONTROLLI tema arena a livello 1 (tema arena, fase MINIGAME_PLAYING)
+✅ telefoni passivi (controller): nessun suono (0 voci)
+✅ Calcio: tema del calcio (soccer)
+✅ Calcio: letto di folla acceso
+✅ fine Calcio: la folla si spegne (nessun suono che resta tra un gioco e l'altro)
+✅ nessun errore di pagina
+
+TUTTO OK

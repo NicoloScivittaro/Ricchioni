@@ -147,7 +147,9 @@ const args = ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--en
     check((await hostEval(page, (gm) => gm.state.currentMinigame?.minigameId)) === 'arena', 'gioco scelto: Arena');
     let sawLevel0 = false;
     const samples = [];
-    for (let i = 0; i < 30 && !sawLevel0; i++) {
+    // PLAYING precede il caricamento asincrono Babylon: attendi la vera schermata,
+    // invece di assumere che arrivi nei primi tre secondi sui PC più lenti.
+    for (let i = 0; i < 600 && !sawLevel0; i++) {
       const m = await musicNow();
       const cc = await page.evaluate(() => !!document.getElementById('pad-controls'));
       samples.push(`${m.theme}/${m.level}/${cc ? 'C' : '-'}`);

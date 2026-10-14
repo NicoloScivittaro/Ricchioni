@@ -1,0 +1,78 @@
+{
+  "compiled": true,
+  "naturalThreeHands": true,
+  "resultRound": 1,
+  "nextGame": "fps",
+  "independentVolume": true,
+  "prefsReload": true,
+  "oneAudioContext": true,
+  "hostOnly": true,
+  "noOverlap": true,
+  "oneResultLine": true,
+  "subtitlesSynchronized": true,
+  "noGameplayVoice": true,
+  "performance": {
+    "fps": 57.2,
+    "p95FrameMs": 16.8
+  },
+  "captions": [
+    {
+      "event": "roller",
+      "text": "🎙️ IL NARRATORE BASTARDOSilenzio! Sto scegliendo come farve rosicà!",
+      "started": 4108,
+      "ended": 6752.800000000745
+    },
+    {
+      "event": "game",
+      "text": "🎙️ IL NARRATORE BASTARDO31 DEGLI INFAMI! Bussa chi vuole. Vince chi può!",
+      "started": 8674.800000000745,
+      "ended": 11842.699999999255
+    },
+    {
+      "event": "result",
+      "text": "🎙️ IL NARRATORE BASTARDOBoschi ha vinto! Mo' se crede er campione del mondo!",
+      "started": 54874.199999999255,
+      "ended": 57962.5
+    },
+    {
+      "event": "roller",
+      "text": "🎙️ IL NARRATORE BASTARDOAo', fate spazio. Sta arrivando un altro disastro!",
+      "started": 61615.800000000745,
+      "ended": 64962.5
+    },
+    {
+      "event": "game",
+      "text": "🎙️ IL NARRATORE BASTARDOSPARATORIA DEI DISAGIATI! Mira da talpa, vedemo!",
+      "started": 66178.5,
+      "ended": 69132.69999999925
+    }
+  ],
+  "actualAudioSources": [
+    {
+      "started": 4107.5,
+      "duration": 2.6460833333333333,
+      "ended": 6752.89999999851
+    },
+    {
+      "started": 8674.39999999851,
+      "duration": 3.1657083333333333,
+      "ended": 11842.699999999255
+    },
+    {
+      "started": 54873.89999999851,
+      "duration": 3.080375,
+      "ended": 57962.599999997765
+    },
+    {
+      "started": 61615.5,
+      "duration": 3.3465416666666665,
+      "ended": 64962.5
+    },
+    {
+      "started": 66178.19999999925,
+      "duration": 2.9542916666666668,
+      "ended": 69132.69999999925
+    }
+  ],
+  "errors": []
+}

@@ -20,10 +20,11 @@ export class NarratorFacts {
       if(!p.bot&&this.wins.get(p.id)===3)set('winningStreak',[p.id]);if(!p.bot&&this.losses.get(p.id)===3)set('losingStreak',[p.id]);
     }
     const before=players.map(p=>({id:p.id,score:p.score-(out.deltas[p.id]??0)})),after=players.map(p=>({id:p.id,score:p.score}));
+    const validBefore=players.every(p=>Number.isFinite(p.score)&&typeof out.deltas[p.id]==='number'&&out.deltas[p.id]>=0&&p.score>=out.deltas[p.id]);
     const beforeMax=Math.max(...before.map(p=>p.score)),afterMax=Math.max(...after.map(p=>p.score)),beforeLeaders=before.filter(p=>p.score===beforeMax),afterLeaders=after.filter(p=>p.score===afterMax);
-    if(beforeLeaders.length===1&&afterLeaders.length===1&&beforeLeaders[0].id!==afterLeaders[0].id)set('leaderChange',[afterLeaders[0].id]);
+    if(validBefore&&beforeLeaders.length===1&&afterLeaders.length===1&&beforeLeaders[0].id!==afterLeaders[0].id)set('leaderChange',[afterLeaders[0].id]);
     const bottom=before.filter(p=>p.score===Math.min(...before.map(p=>p.score)));
-    if(players.length>=3&&bottom.length===1&&beforeMax>bottom[0].score&&winners.length===1&&winners[0]===bottom[0].id&&human(winners[0]))set('comeback',winners);
+    if(validBefore&&players.length>=3&&bottom.length===1&&beforeMax>bottom[0].score&&winners.length===1&&winners[0]===bottom[0].id&&human(winners[0]))set('comeback',winners);
     const sorted=after.slice().sort((a,b)=>b.score-a.score);if(sorted.length>1&&sorted[0].score-sorted[1].score>=10)set('gap',[sorted[0].id]);
     return {conditions,subjects,winners,losers};
   }

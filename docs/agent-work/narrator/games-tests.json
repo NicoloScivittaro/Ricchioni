@@ -1,0 +1,141 @@
+{
+  "games": [
+    {
+      "id": "quiz",
+      "started": true,
+      "spokenAnnouncement": "game-quiz-2",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "reaction",
+      "started": true,
+      "spokenAnnouncement": "game-reaction-2",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "memory",
+      "started": true,
+      "spokenAnnouncement": "game-memory-1",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "arena",
+      "started": true,
+      "spokenAnnouncement": "game-arena-1",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "dodgeball",
+      "started": true,
+      "spokenAnnouncement": "game-dodgeball-1",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "soccer",
+      "started": true,
+      "spokenAnnouncement": "game-soccer-1",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "volleyball",
+      "started": true,
+      "spokenAnnouncement": "game-volleyball-2",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "kart3d",
+      "started": true,
+      "spokenAnnouncement": "game-kart3d-1",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "cultura",
+      "started": true,
+      "spokenAnnouncement": "game-cultura-2",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "fps",
+      "started": true,
+      "spokenAnnouncement": "game-fps-2",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "cornicione",
+      "started": true,
+      "spokenAnnouncement": "game-cornicione-1",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "casacarbo",
+      "started": true,
+      "spokenAnnouncement": "game-casacarbo-2",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "minigolf",
+      "started": true,
+      "spokenAnnouncement": "game-minigolf-1",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "geofall",
+      "started": true,
+      "spokenAnnouncement": "game-geofall-2",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "backrooms",
+      "started": true,
+      "spokenAnnouncement": "game-backrooms-1",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "goblinTime",
+      "started": true,
+      "spokenAnnouncement": "game-goblinTime-2",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    },
+    {
+      "id": "trentuno",
+      "started": true,
+      "spokenAnnouncement": "game-trentuno-2",
+      "noVoiceInGameplay": true,
+      "lobbyCleanup": true,
+      "listeners": 8
+    }
+  ],
+  "errors": []
+}

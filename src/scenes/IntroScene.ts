@@ -20,6 +20,7 @@ export class IntroScene extends Phaser.Scene {
 
   create(): void {
     sceneIn(this);
+    gm.events.emit('narrator.game');
     const pick = gm.pendingMinigame;
     if (!pick) {
       this.scene.start('RoomScene');

@@ -106,6 +106,7 @@ export function initMusicDirector(): void {
 /** La schermata CONTROLLI e' su (musica sotto) / e' finita (livello normale). */
 export function controlsOverlay(on: boolean): void {
   controlsOn = on;
+  gm.events.emit('narrator.controls',on);
   applyLevel();
 }
 

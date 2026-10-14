@@ -22,7 +22,7 @@ function shown(kind:'roller'|'game'|'result'):void{
   if(kind==='result'){
     if(!state.lastResults||state.phase!=='ROUND_RESULTS')return;
     const context=facts.analyse(state.players,state.lastResults);speak(kind,5.1,context);
-  }else if(kind==='game')speak(kind,4.4);
+  }else if(kind==='game')speak(kind,state.phase==='MINIGAME_INTRO'?2.3:4.4);
   else if(narratorSettings.get().frequency==='chatty'||Math.random()<.6)speak(kind,4.1);
 }
 export const narrator={
@@ -32,12 +32,12 @@ export const narrator={
       const next=payload as RoomState;const newSession=next.roomCode!==lastRoom||next.phase==='LOBBY'&&previousPhase!=='LOBBY';
       if(newSession){facts.reset();player.stop('lobby');}lastRoom=next.roomCode;previousPhase=next.phase;state=next;
       const current=player.stats();if(next.paused)player.pause();else if(current.paused&&current.event&&permitted(current.event))player.resume();
-      if(current.event&&!permitted(current.event))player.stop('phase');
+      if(current.event&&!permitted(current.event)&&!next.paused)player.stop('phase');
     }),gm.events.on('narrator.roller',()=>shown('roller')),gm.events.on('narrator.game',()=>shown('game')),gm.events.on('narrator.results',()=>shown('result')),
     gm.events.on('narrator.controls',value=>{controls=!!value;if(controls)player.stop('controls');}),narratorSettings.on(()=>player.refreshPrefs()));
     const skip=(event:KeyboardEvent)=>{if(event.code==='Space'&&!event.repeat&&!event.ctrlKey&&!event.metaKey&&!(event.target as HTMLElement|null)?.closest('input,select,textarea,[contenteditable]'))player.stop('skipped');};window.addEventListener('keydown',skip,true);stops.push(()=>window.removeEventListener('keydown',skip,true));
     const leaving=()=>player.stop('page');window.addEventListener('pagehide',leaving);stops.push(()=>window.removeEventListener('pagehide',leaving));
-    heartbeat=setInterval(()=>{const current=player.stats();if(current.event&&!permitted(current.event))player.stop('unavailable');},100);
+    heartbeat=setInterval(()=>{const current=player.stats();if(current.event&&!permitted(current.event)&&!(current.paused&&state?.paused&&narratorSettings.get().enabled&&!audio.isMuted()))player.stop('unavailable');},100);
   },
   dispose():void{stops.splice(0).forEach(fn=>fn());if(heartbeat)clearInterval(heartbeat);heartbeat=null;player.stop('dispose');started=false;state=null;controls=false;},
   stats:()=>({...player.stats(),listeners:stops.length,initialized:started}),

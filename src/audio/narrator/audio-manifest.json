@@ -1,0 +1,1074 @@
+{
+  "roller-1": {
+    "asset": "/audio/narrator/roller-1.ogg",
+    "duration": 3.04,
+    "bytes": 24375,
+    "signature": "18d9afb5d1d96e68c372a70c9ae07f5630da5f78e4c93494e127c060fbd09ee7",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-2": {
+    "asset": "/audio/narrator/roller-2.ogg",
+    "duration": 2.763,
+    "bytes": 20748,
+    "signature": "c46af87144870a9e73158fc3e8dd89b20cb901ddfd521e0ccbe2bbe2a337a5d0",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-3": {
+    "asset": "/audio/narrator/roller-3.ogg",
+    "duration": 3.298,
+    "bytes": 25027,
+    "signature": "a7b509b8986789f226f5a8b2f9682dac89858d1ed7686399d8483f8d78abf327",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-4": {
+    "asset": "/audio/narrator/roller-4.ogg",
+    "duration": 2.806,
+    "bytes": 21535,
+    "signature": "701ed74b5dc70db516b57c021261f0440fa0c6e96757e847a5d0dac3c22fc8b0",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-5": {
+    "asset": "/audio/narrator/roller-5.ogg",
+    "duration": 3.256,
+    "bytes": 24929,
+    "signature": "aa06093af13f048e495dce76ee6554502a734adc96eb43fea7261dd639a91910",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-6": {
+    "asset": "/audio/narrator/roller-6.ogg",
+    "duration": 2.912,
+    "bytes": 23135,
+    "signature": "86c5833ccbd8e4650338f44d4aa9ca8adaedbf2376423eba0fd2f7a16b1156fb",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-7": {
+    "asset": "/audio/narrator/roller-7.ogg",
+    "duration": 2.402,
+    "bytes": 19142,
+    "signature": "571258cc643046cf0f26f3b9e5495416179ff2a3ae5a61efce0c6a58c9f23a50",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-8": {
+    "asset": "/audio/narrator/roller-8.ogg",
+    "duration": 2.646,
+    "bytes": 20837,
+    "signature": "52d466576ff5c6fa329583edd3e61fc07f8ef2dac8548ae7b8beaf54eb18a810",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-9": {
+    "asset": "/audio/narrator/roller-9.ogg",
+    "duration": 2.658,
+    "bytes": 21068,
+    "signature": "21741d8a1584d403daf140853202a1558a4abd3901a49f46a09e1fcff3fe41be",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-10": {
+    "asset": "/audio/narrator/roller-10.ogg",
+    "duration": 2.504,
+    "bytes": 18863,
+    "signature": "17aeba389d0f697dbe196dae21cb423d5cd6db0d260aa4788c3cbc3e423fcb20",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-11": {
+    "asset": "/audio/narrator/roller-11.ogg",
+    "duration": 3.116,
+    "bytes": 23419,
+    "signature": "1e47e385c72177bd011a48ca8a27b4b7bbcb3eec301cc23401f02eac259fbebd",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-12": {
+    "asset": "/audio/narrator/roller-12.ogg",
+    "duration": 2.562,
+    "bytes": 20668,
+    "signature": "a46055f9056acd46f6e69e22e5948ba36c1232882399553020010dd146537609",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-13": {
+    "asset": "/audio/narrator/roller-13.ogg",
+    "duration": 3.177,
+    "bytes": 23947,
+    "signature": "6f7f6ef47cf752a419cad8e233a9cdbfcf0309a2e3a7861706998037d4b65cd3",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-14": {
+    "asset": "/audio/narrator/roller-14.ogg",
+    "duration": 3.298,
+    "bytes": 25218,
+    "signature": "2123f6f12c1e995ce6222856185bcf64375c018495a0f02482dcc996a7fffd81",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-15": {
+    "asset": "/audio/narrator/roller-15.ogg",
+    "duration": 3.322,
+    "bytes": 25297,
+    "signature": "92ef860c56e5945ca9f3144c667da27348d736a55c9f9866beeb5fe2ae4f11b1",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-16": {
+    "asset": "/audio/narrator/roller-16.ogg",
+    "duration": 3.176,
+    "bytes": 24508,
+    "signature": "0f79160a1b25b85671f714c9d2c140f83817a5dbd68176d86d790365a8cfceed",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-17": {
+    "asset": "/audio/narrator/roller-17.ogg",
+    "duration": 2.873,
+    "bytes": 22990,
+    "signature": "dcc50d39de3e399a426d67626f35cc06e24b038f6227b542a9ffe9c29f234d12",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-18": {
+    "asset": "/audio/narrator/roller-18.ogg",
+    "duration": 2.526,
+    "bytes": 19644,
+    "signature": "d8208928e05e47629a97bcc75dfbe6a302058af198b87f3203c27b5a3744f0ec",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-19": {
+    "asset": "/audio/narrator/roller-19.ogg",
+    "duration": 2.495,
+    "bytes": 20109,
+    "signature": "57445b003e585a13a73ebb5dfce9f81f5ab7abea9e943b442fb149a9597f86e8",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-20": {
+    "asset": "/audio/narrator/roller-20.ogg",
+    "duration": 3.357,
+    "bytes": 25919,
+    "signature": "d906b0723a1f400c8590333e99aa9c6fdfe9fd5ed4f6ec140cf54ad272666ba5",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-21": {
+    "asset": "/audio/narrator/roller-21.ogg",
+    "duration": 2.933,
+    "bytes": 23581,
+    "signature": "332190d1474e8d6822d3f9791fe50e49ecfd9fe903e94d16f80212b1216d0026",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-22": {
+    "asset": "/audio/narrator/roller-22.ogg",
+    "duration": 2.816,
+    "bytes": 22015,
+    "signature": "1cd53a662cb9b7814787525e685b9beb504e321b8291f3d12a45505f1f9c47dc",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-23": {
+    "asset": "/audio/narrator/roller-23.ogg",
+    "duration": 3.599,
+    "bytes": 27150,
+    "signature": "b1a8f866d8d06b3d3cc92ff1d33ca7ba4b8dcea133230477de0bc335f10be336",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-24": {
+    "asset": "/audio/narrator/roller-24.ogg",
+    "duration": 3.352,
+    "bytes": 25818,
+    "signature": "9115966c83121a2078650fefdfa9927d87c5ba8ba56efaf5002b33094bc38caa",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "roller-25": {
+    "asset": "/audio/narrator/roller-25.ogg",
+    "duration": 3.173,
+    "bytes": 24006,
+    "signature": "d5f96fcf2a5405581580f877981786a32dd2ec0b91d7292deca4a80bc95b8455",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-1": {
+    "asset": "/audio/narrator/result-1.ogg",
+    "duration": 2.541,
+    "bytes": 20267,
+    "signature": "9b0c1ac2fc53e3d611e7ba3fbf8b8d456bfc03fd8b6b23fd8a826da3679192e9",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-2": {
+    "asset": "/audio/narrator/result-2.ogg",
+    "duration": 2.838,
+    "bytes": 22199,
+    "signature": "3c6700502871cf165ec93a28274969d7d5cf5b535067e700fad5a5fb842adc70",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-3": {
+    "asset": "/audio/narrator/result-3.ogg",
+    "duration": 2.977,
+    "bytes": 21961,
+    "signature": "cc2a0dbaf875365a672c64176a91d6a4b09c014b4f4c75f1ecb01902a0540280",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-4": {
+    "asset": "/audio/narrator/result-4.ogg",
+    "duration": 2.69,
+    "bytes": 20431,
+    "signature": "8c764e54bc42ff5038d39e00fba9cd2365d398c9d38959698624cb674ca11a57",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-5": {
+    "asset": "/audio/narrator/result-5.ogg",
+    "duration": 2.888,
+    "bytes": 22756,
+    "signature": "49347c3f19716512bcc207b1c2fd41347e2f5728ca467722241159a5d2601a75",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-6": {
+    "asset": "/audio/narrator/result-6.ogg",
+    "duration": 2.744,
+    "bytes": 20054,
+    "signature": "5a68086fc01c951f47c0e057efdcc32af99adf4a8d40ae6d6ec4249f8e549077",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-7": {
+    "asset": "/audio/narrator/result-7.ogg",
+    "duration": 3.049,
+    "bytes": 23573,
+    "signature": "cbbb947b79f0012b01920d3cfa05d8ac850b3398e8c97986d217e0a4ff6cecfb",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-8": {
+    "asset": "/audio/narrator/result-8.ogg",
+    "duration": 3.218,
+    "bytes": 23956,
+    "signature": "dc3647bac3dea77dcc2cef8b953aebff7d0388064c9ead864bef3d78a97a9d7e",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-9": {
+    "asset": "/audio/narrator/result-9.ogg",
+    "duration": 2.914,
+    "bytes": 22384,
+    "signature": "41d65edeb0b387625b1997c20a1860a111731d50e5a9557750969edc2f78cb4e",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-10": {
+    "asset": "/audio/narrator/result-10.ogg",
+    "duration": 2.674,
+    "bytes": 20479,
+    "signature": "69ac448e71e0f47e1e28fd174b1521d604e775956cd8ca2ef717d10063deff35",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-11": {
+    "asset": "/audio/narrator/result-11.ogg",
+    "duration": 2.934,
+    "bytes": 21440,
+    "signature": "8ff80a3da04c736e5b1cb1c4e634a5a48afe339209f776f511aeb306db6e787c",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-12": {
+    "asset": "/audio/narrator/result-12.ogg",
+    "duration": 3.128,
+    "bytes": 23405,
+    "signature": "d213f3391c553cfa86f82d204b0d80e2304e6ecc4b04237cffdc6059ef5c78d8",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-13": {
+    "asset": "/audio/narrator/result-13.ogg",
+    "duration": 3.63,
+    "bytes": 27541,
+    "signature": "24a94dd7dba6c51b195d76d681ae053b2a87f4f8f90e332add4955192ce19e1b",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-14": {
+    "asset": "/audio/narrator/result-14.ogg",
+    "duration": 2.97,
+    "bytes": 24003,
+    "signature": "3752560219f68a71f4b694c3037483f6cdef74435799faf7e6cfc9c2d5085232",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-15": {
+    "asset": "/audio/narrator/result-15.ogg",
+    "duration": 3.692,
+    "bytes": 29013,
+    "signature": "42c3123d57c66fe18d284546ef03f68a52a88c812ea374b64e687470d8354409",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-16": {
+    "asset": "/audio/narrator/result-16.ogg",
+    "duration": 3.39,
+    "bytes": 25642,
+    "signature": "c64f00c237ec18072552771f6977f2a81cf1b893eb8db6a9b2e0eccdc050ed0e",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-17": {
+    "asset": "/audio/narrator/result-17.ogg",
+    "duration": 3.534,
+    "bytes": 27516,
+    "signature": "1fadc8d6428be18526b092fbb3f07111b2357be40a5c50ffd0c708a123db92fc",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-18": {
+    "asset": "/audio/narrator/result-18.ogg",
+    "duration": 3.223,
+    "bytes": 25767,
+    "signature": "8eb59cc22b7ecee93e6e32e5ed2c4580e5e9d51722134590fd2a2c0a239ad094",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-19": {
+    "asset": "/audio/narrator/result-19.ogg",
+    "duration": 3.627,
+    "bytes": 26307,
+    "signature": "304f7cc3cec602d8b02ea16088b61aa425380d8e38ddb47f709260c32192e2a2",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-20": {
+    "asset": "/audio/narrator/result-20.ogg",
+    "duration": 4.2,
+    "bytes": 30162,
+    "signature": "3ac3807270a8baac168980cd9c0f1fc7029ddac0bfd5fa6b2281927468cf9f55",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-21": {
+    "asset": "/audio/narrator/result-21.ogg",
+    "duration": 3.094,
+    "bytes": 24042,
+    "signature": "676ea1ce58a2609c68e72e36567c5e138daf631d34190274878f4a41796fce9e",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-22": {
+    "asset": "/audio/narrator/result-22.ogg",
+    "duration": 4.3,
+    "bytes": 30793,
+    "signature": "894f7ecefcbd49712354a51569f1eea88c6c5c20ed958a704a80aa5bc564005f",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-23": {
+    "asset": "/audio/narrator/result-23.ogg",
+    "duration": 3.382,
+    "bytes": 26616,
+    "signature": "81f29c2a4c441ceb7bc4d3e0f767c2d1fdfbcf504d80dfee5dcd9ffb30c1f6bf",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-24": {
+    "asset": "/audio/narrator/result-24.ogg",
+    "duration": 2.699,
+    "bytes": 20866,
+    "signature": "71f918a7b9f17891ac661fd9293a64e9fe6a8de82759c02d927a119c2c6d1d8d",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "result-25": {
+    "asset": "/audio/narrator/result-25.ogg",
+    "duration": 3.373,
+    "bytes": 25661,
+    "signature": "b941c2fb9ae88df1c7625e62dbb159cb012c1a12056b1c4ff46cc7d63dd013b7",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-goblin-1": {
+    "asset": "/audio/narrator/personal-goblin-1.ogg",
+    "duration": 3.23,
+    "bytes": 24694,
+    "signature": "5554fe8752f3a2976d06c3a86e7a68c3f0d069764bf5c9acc70a738199d3a571",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-goblin-2": {
+    "asset": "/audio/narrator/personal-goblin-2.ogg",
+    "duration": 3.084,
+    "bytes": 23475,
+    "signature": "8580a3887f7d5ad33e520ba581221896f75aed68bb3e4e7e27881c7b41cb98f9",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-goblin-3": {
+    "asset": "/audio/narrator/personal-goblin-3.ogg",
+    "duration": 2.991,
+    "bytes": 22629,
+    "signature": "a424ba51563a4ad5069d351b0740d662e8bf6530ec75a071e08bfc96927ae94a",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-goblin-4": {
+    "asset": "/audio/narrator/personal-goblin-4.ogg",
+    "duration": 3.773,
+    "bytes": 28857,
+    "signature": "e7d4a53a69a199307333836b586dde8462461bece6d61c35886120980a436236",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-goblin-5": {
+    "asset": "/audio/narrator/personal-goblin-5.ogg",
+    "duration": 2.87,
+    "bytes": 21868,
+    "signature": "335b0ecfa635291275aa760a6e64bb93d285b000f9f7a58fdae0807aa4084f13",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-goblin-6": {
+    "asset": "/audio/narrator/personal-goblin-6.ogg",
+    "duration": 3.154,
+    "bytes": 23923,
+    "signature": "ef50a3739cc6db4a7da46e8053035894658e0db18b926bc98dee97f02b9b0e79",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-goblin-7": {
+    "asset": "/audio/narrator/personal-goblin-7.ogg",
+    "duration": 3.317,
+    "bytes": 24628,
+    "signature": "b9546cc6195538d44a2621feb7d0f00a7c2effa8c9dd54281d30e38857d96314",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-goblin-8": {
+    "asset": "/audio/narrator/personal-goblin-8.ogg",
+    "duration": 2.826,
+    "bytes": 21582,
+    "signature": "c8d8ae44e1d596a116f9ab1a57c081d08032609b18dbc082b80113d7c9febc7a",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-goblin-9": {
+    "asset": "/audio/narrator/personal-goblin-9.ogg",
+    "duration": 3.37,
+    "bytes": 24800,
+    "signature": "0ea1ff89bffac999e82035e805cb8ad441a757335782b12f925e3e04a5dac4a0",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-goblin-10": {
+    "asset": "/audio/narrator/personal-goblin-10.ogg",
+    "duration": 3.3,
+    "bytes": 25015,
+    "signature": "2bbcf619efc780cd01aaedd1c0c05be50b6bcde5149953a3450935a831913463",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-buttafuori-1": {
+    "asset": "/audio/narrator/personal-buttafuori-1.ogg",
+    "duration": 3.091,
+    "bytes": 23367,
+    "signature": "48ff9e9f6e1b25fc2ec89c08cfdc2719ebaafe9968511e9fc71bf09f7991ed22",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-buttafuori-2": {
+    "asset": "/audio/narrator/personal-buttafuori-2.ogg",
+    "duration": 3.152,
+    "bytes": 23749,
+    "signature": "3741f4650d247e7c745da181a0bcf93d3db659780e3b0db2a23c3cf2ee719fbf",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-buttafuori-3": {
+    "asset": "/audio/narrator/personal-buttafuori-3.ogg",
+    "duration": 3.263,
+    "bytes": 25054,
+    "signature": "ccc793fb5df109143b104d754488d39a69b8ff66cdd479b2d36da7e3a9eb2a1c",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-buttafuori-4": {
+    "asset": "/audio/narrator/personal-buttafuori-4.ogg",
+    "duration": 2.764,
+    "bytes": 22520,
+    "signature": "d7887ea977932538cabef8e30fe15f8c9a21caf16f8c0c80cadd363da719fb40",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-buttafuori-5": {
+    "asset": "/audio/narrator/personal-buttafuori-5.ogg",
+    "duration": 3.341,
+    "bytes": 25049,
+    "signature": "49e866af83d3049fe6a56d6c65a03aeb612c557b351a76d1aba7c30ce55b8123",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-buttafuori-6": {
+    "asset": "/audio/narrator/personal-buttafuori-6.ogg",
+    "duration": 3.022,
+    "bytes": 23493,
+    "signature": "af8d099a89a2b160beae4a0ff5ca9595f980d816466cecc9d84680ee88638bd2",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-buttafuori-7": {
+    "asset": "/audio/narrator/personal-buttafuori-7.ogg",
+    "duration": 3.223,
+    "bytes": 24602,
+    "signature": "3b48fd64d4802afa2fd1ac486928575ccab79de28ba50faa47983c7d18ad964c",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-buttafuori-8": {
+    "asset": "/audio/narrator/personal-buttafuori-8.ogg",
+    "duration": 3.097,
+    "bytes": 23843,
+    "signature": "df399d0e59c1324739a451b3c9ab588faf523989ffe63d87d6c777104c976282",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-buttafuori-9": {
+    "asset": "/audio/narrator/personal-buttafuori-9.ogg",
+    "duration": 2.987,
+    "bytes": 22824,
+    "signature": "b68fe9c6d30e3ac68d1cf50bc84681650eac4cd4f8e8b6c19df0160ab0bb32bd",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-buttafuori-10": {
+    "asset": "/audio/narrator/personal-buttafuori-10.ogg",
+    "duration": 3.329,
+    "bytes": 25439,
+    "signature": "fa3cbb533d9c349fda796adf1a4cbbbdb39c88ecb4fd93f6d70c78ec4e0cc610",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-dottore-1": {
+    "asset": "/audio/narrator/personal-dottore-1.ogg",
+    "duration": 3.391,
+    "bytes": 25267,
+    "signature": "c3aa6ec77e3920580a88097bc8aab0534b14b76aa1d5fccbf9d8f1c50c0182dc",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-dottore-2": {
+    "asset": "/audio/narrator/personal-dottore-2.ogg",
+    "duration": 2.466,
+    "bytes": 19096,
+    "signature": "9526deecb13ef3708f3ebc484fe052ff86ab0df189d70eab2a4652ef9313fff8",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-dottore-3": {
+    "asset": "/audio/narrator/personal-dottore-3.ogg",
+    "duration": 3.239,
+    "bytes": 24434,
+    "signature": "93739467ac772f2b0824cc35cc97af3100c1ae9c85e4d221c1d8705e6222aacc",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-dottore-4": {
+    "asset": "/audio/narrator/personal-dottore-4.ogg",
+    "duration": 2.903,
+    "bytes": 21486,
+    "signature": "69657fc29a248ecaab3071d1be21008b4f2f56f9967dde04ce9266d42b0dc472",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-dottore-5": {
+    "asset": "/audio/narrator/personal-dottore-5.ogg",
+    "duration": 2.794,
+    "bytes": 21574,
+    "signature": "533bf35cc4b567acb76b9f9eaf567f5e99bab317a69e6115fff339f148fc2d3d",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-dottore-6": {
+    "asset": "/audio/narrator/personal-dottore-6.ogg",
+    "duration": 3.2,
+    "bytes": 24098,
+    "signature": "db5621115c5bd68ac5d0120fdc4cc31d2e712976515e97f2ee47460cedc23a07",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-dottore-7": {
+    "asset": "/audio/narrator/personal-dottore-7.ogg",
+    "duration": 3.1,
+    "bytes": 23498,
+    "signature": "f67269527a6920c221fb387c1d141b57cdc312c611821e1106828487ef929692",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-dottore-8": {
+    "asset": "/audio/narrator/personal-dottore-8.ogg",
+    "duration": 2.969,
+    "bytes": 22488,
+    "signature": "f9fac01d1f391ad5bd6035dabec63114edaec67a61efe7d4492306abaac7563d",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-dottore-9": {
+    "asset": "/audio/narrator/personal-dottore-9.ogg",
+    "duration": 3.532,
+    "bytes": 26657,
+    "signature": "a03f172780da6de462ba3ef828e5ac0128a93d19088bd94381f9192b92f29c35",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-dottore-10": {
+    "asset": "/audio/narrator/personal-dottore-10.ogg",
+    "duration": 3.658,
+    "bytes": 27773,
+    "signature": "41050eb0e0321e402411fadcb0a6fa42db7ad845978634b0d5cb676446f65b7c",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-judoka-1": {
+    "asset": "/audio/narrator/personal-judoka-1.ogg",
+    "duration": 3.019,
+    "bytes": 23376,
+    "signature": "255a47f01a2de54e616e6d88ad8db231ba582d0db753d25703ad08b59caed11c",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-judoka-2": {
+    "asset": "/audio/narrator/personal-judoka-2.ogg",
+    "duration": 3.5,
+    "bytes": 26873,
+    "signature": "24c90222ad97c534d39ddb63620c007da1eb383538270cf7612c6616de377c20",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-judoka-3": {
+    "asset": "/audio/narrator/personal-judoka-3.ogg",
+    "duration": 2.588,
+    "bytes": 20591,
+    "signature": "1403adf54535ad9f6ca9aa771a162b01a20ed9e2173fa87f839939600830315f",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-judoka-4": {
+    "asset": "/audio/narrator/personal-judoka-4.ogg",
+    "duration": 2.868,
+    "bytes": 21341,
+    "signature": "1b91518f5d650dc6c5da5e036e6b5d7b882b05fadd9139e13f39aad7301c297d",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-judoka-5": {
+    "asset": "/audio/narrator/personal-judoka-5.ogg",
+    "duration": 3.135,
+    "bytes": 23857,
+    "signature": "5b16fcb3126f0c1fb4ebcb8fc697a931ec9d25b6596b07b5122fb2d3de3ac814",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-judoka-6": {
+    "asset": "/audio/narrator/personal-judoka-6.ogg",
+    "duration": 3.332,
+    "bytes": 24888,
+    "signature": "cd9513e96f231b48103711900d199285ffbcd5cb56955237c15af66f06e12e1b",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-judoka-7": {
+    "asset": "/audio/narrator/personal-judoka-7.ogg",
+    "duration": 3.052,
+    "bytes": 23385,
+    "signature": "1d9d290cbc515489af213c55925cc2538b6c71c0253a5c62e063ee7564b02762",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-judoka-8": {
+    "asset": "/audio/narrator/personal-judoka-8.ogg",
+    "duration": 3.127,
+    "bytes": 23142,
+    "signature": "b75a239cce9d5f56981aa29350d2b03385f2cd58414091c81a211f7c63ff0a0e",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-judoka-9": {
+    "asset": "/audio/narrator/personal-judoka-9.ogg",
+    "duration": 3.796,
+    "bytes": 28049,
+    "signature": "17a7069d08c8497c103654ae5db80928ff6046b58c66453e0be8cbe10b7a9063",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-judoka-10": {
+    "asset": "/audio/narrator/personal-judoka-10.ogg",
+    "duration": 3.53,
+    "bytes": 27035,
+    "signature": "f353677d08e6dcd01df7d2a8599090fdba81d1a51ea4ce6119021faf86462ff3",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-ciro-1": {
+    "asset": "/audio/narrator/personal-ciro-1.ogg",
+    "duration": 2.614,
+    "bytes": 20028,
+    "signature": "2c5ac04994e546fa71ad0a62903068ef82e6e95733fa8b7888d3c79cef29a142",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-ciro-2": {
+    "asset": "/audio/narrator/personal-ciro-2.ogg",
+    "duration": 2.977,
+    "bytes": 21631,
+    "signature": "9003f0435d8a1f41a401be6e9732da46c6a907306783e6a3f6919b1871e887e3",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-ciro-3": {
+    "asset": "/audio/narrator/personal-ciro-3.ogg",
+    "duration": 3.326,
+    "bytes": 24574,
+    "signature": "295ee3d1fa1a591df68df3c201545627e4fb5d42c8a119d6ba9a5ffdc24f828d",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-ciro-4": {
+    "asset": "/audio/narrator/personal-ciro-4.ogg",
+    "duration": 3.073,
+    "bytes": 22824,
+    "signature": "91543e574855e7c6d83e84b42b1a23f981c2e56a39f5d4a1e7bd779932f6f39d",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-ciro-5": {
+    "asset": "/audio/narrator/personal-ciro-5.ogg",
+    "duration": 2.74,
+    "bytes": 20105,
+    "signature": "fda7097e851ac7f5e6b941d54259102ce56c966965d935ac42ccca78cd9ed2fb",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-ciro-6": {
+    "asset": "/audio/narrator/personal-ciro-6.ogg",
+    "duration": 2.889,
+    "bytes": 21613,
+    "signature": "fa1bdc7086d865656e4b2ab657a367a8dd49bab9b43caefb23794b098abe28aa",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-ciro-7": {
+    "asset": "/audio/narrator/personal-ciro-7.ogg",
+    "duration": 2.817,
+    "bytes": 20955,
+    "signature": "1772c679f15350a7aa61bf640533b8cf8c68791ac6e1bd43732eaae1c2fd393b",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-ciro-8": {
+    "asset": "/audio/narrator/personal-ciro-8.ogg",
+    "duration": 3.127,
+    "bytes": 23196,
+    "signature": "a55e49822e01b669df30657ae19370da708b30eb5779bde9d8606ede413e2c5c",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-ciro-9": {
+    "asset": "/audio/narrator/personal-ciro-9.ogg",
+    "duration": 3.5,
+    "bytes": 26524,
+    "signature": "107257c7c9d3693c6a3930fbde915070a7864186f014788af3472efb55c51c93",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "personal-ciro-10": {
+    "asset": "/audio/narrator/personal-ciro-10.ogg",
+    "duration": 3.264,
+    "bytes": 23939,
+    "signature": "470702dff84a6a54e099c620b755a1f8bcabbe5618d63add83496ee1aec8e81e",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-quiz-1": {
+    "asset": "/audio/narrator/game-quiz-1.ogg",
+    "duration": 2.539,
+    "bytes": 20213,
+    "signature": "5ae5c139b25e55a26c255372fddecf5c57ec25b7aeb54a2ca24abfa6fca1e845",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-quiz-2": {
+    "asset": "/audio/narrator/game-quiz-2.ogg",
+    "duration": 3.468,
+    "bytes": 26571,
+    "signature": "fba9d404d6f6b77e4f65d14a05f0d2d21d9cd3beb83226a017b6da282b38f421",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-reaction-1": {
+    "asset": "/audio/narrator/game-reaction-1.ogg",
+    "duration": 3.415,
+    "bytes": 26816,
+    "signature": "3fe96b69b3be9d9f51ac9f80c46e9e03ffe6f1355dcedf404e0349fd0c6a09cf",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-reaction-2": {
+    "asset": "/audio/narrator/game-reaction-2.ogg",
+    "duration": 2.934,
+    "bytes": 22125,
+    "signature": "b6374c4184999eb9ffe1aec22c5ddd48d83c24dd22e552ba87fa618842513ff1",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-memory-1": {
+    "asset": "/audio/narrator/game-memory-1.ogg",
+    "duration": 3.22,
+    "bytes": 25242,
+    "signature": "9c745fb109b7cdc22855c8fd9cae2886a9873a12aa1387c0201983abc798f024",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-memory-2": {
+    "asset": "/audio/narrator/game-memory-2.ogg",
+    "duration": 3.051,
+    "bytes": 23222,
+    "signature": "752034646c1defe2ab33066a8e40e1e30c926f4cc53aa87c3bddf3605fbd2d48",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-arena-1": {
+    "asset": "/audio/narrator/game-arena-1.ogg",
+    "duration": 3.427,
+    "bytes": 25933,
+    "signature": "542214030d26544d9231aacfc0f04b44269bfa58addb03abc24b0ba64c8c7cdb",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-arena-2": {
+    "asset": "/audio/narrator/game-arena-2.ogg",
+    "duration": 3.267,
+    "bytes": 24526,
+    "signature": "1cb8fa3854ed36926d8df5375e63e43d0deb5af403e308a12e48d73aecde98ca",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-dodgeball-1": {
+    "asset": "/audio/narrator/game-dodgeball-1.ogg",
+    "duration": 3.2,
+    "bytes": 24608,
+    "signature": "5cbfb1a2783653312f546a3ee6826e1669898ca8bdb9444275ce24312c9adeb2",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-dodgeball-2": {
+    "asset": "/audio/narrator/game-dodgeball-2.ogg",
+    "duration": 2.503,
+    "bytes": 20314,
+    "signature": "cc6e43efdeb2f70d25bf47d79825f696e0cfd6f3d3f54cfba795925cff0320ac",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-soccer-1": {
+    "asset": "/audio/narrator/game-soccer-1.ogg",
+    "duration": 3.266,
+    "bytes": 25421,
+    "signature": "93e0ed0ad98fe9805c2220573b48bf023a45c78be2a7b4c7b0a6fa193602dad2",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-soccer-2": {
+    "asset": "/audio/narrator/game-soccer-2.ogg",
+    "duration": 3.242,
+    "bytes": 24604,
+    "signature": "b4ac18513d38abdb0d6e537997682b27b21364d9a14181307adcb90137289c20",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-volleyball-1": {
+    "asset": "/audio/narrator/game-volleyball-1.ogg",
+    "duration": 3.327,
+    "bytes": 25516,
+    "signature": "1fbfeb306b4dec86b8e88e7128346cf1d7d1c219fca766a9242f539dfbb46284",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-volleyball-2": {
+    "asset": "/audio/narrator/game-volleyball-2.ogg",
+    "duration": 3.136,
+    "bytes": 23861,
+    "signature": "c68cf6d47aabba7db29677b6d6ecb309057ef715740509b24574b43a4532e34d",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-kart3d-1": {
+    "asset": "/audio/narrator/game-kart3d-1.ogg",
+    "duration": 2.838,
+    "bytes": 22284,
+    "signature": "98a5c51879713bb90da4a79601c603cb2d876575cb6ae2237f2f72f553082cbb",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-kart3d-2": {
+    "asset": "/audio/narrator/game-kart3d-2.ogg",
+    "duration": 2.676,
+    "bytes": 20480,
+    "signature": "0eac451a05f962d49755d6ddc42301057b9fe9fd061ae9fcea3bf9f60411eaf5",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-cultura-1": {
+    "asset": "/audio/narrator/game-cultura-1.ogg",
+    "duration": 3.025,
+    "bytes": 23661,
+    "signature": "05e5ea2d35507b6e3b0c6dcbc11c328f0ad81ea8c11ec94882030c3b55153db3",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-cultura-2": {
+    "asset": "/audio/narrator/game-cultura-2.ogg",
+    "duration": 3.026,
+    "bytes": 23816,
+    "signature": "21b4364d11582425606286d39e79ad160bd3debc8942f97d3441525864f796b8",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-fps-1": {
+    "asset": "/audio/narrator/game-fps-1.ogg",
+    "duration": 2.954,
+    "bytes": 23274,
+    "signature": "a4d9d7360e4c1d83a73970b95e8a95c609f74ca4929151d06840d38575727cb7",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-fps-2": {
+    "asset": "/audio/narrator/game-fps-2.ogg",
+    "duration": 3.254,
+    "bytes": 24287,
+    "signature": "6d41795c3b1d2f699ecb325c60ecaf3cf28858166116f3d13fd0966c4a563f1f",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-cornicione-1": {
+    "asset": "/audio/narrator/game-cornicione-1.ogg",
+    "duration": 3.046,
+    "bytes": 23547,
+    "signature": "9e711f56dd6adaf6815efc2185048d3125682dc6e93b24238bc2c9e56f64c472",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-cornicione-2": {
+    "asset": "/audio/narrator/game-cornicione-2.ogg",
+    "duration": 2.804,
+    "bytes": 22168,
+    "signature": "04b5de87ea782de5ca99a3d66bab2d02a5f60856f20fd92116e57340dc15d566",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-casacarbo-1": {
+    "asset": "/audio/narrator/game-casacarbo-1.ogg",
+    "duration": 3.146,
+    "bytes": 24351,
+    "signature": "1836ac4bad10071e9d92aebf92a97ce7580db6dbf1526db37da3e5b8c589a2c7",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-casacarbo-2": {
+    "asset": "/audio/narrator/game-casacarbo-2.ogg",
+    "duration": 2.966,
+    "bytes": 23596,
+    "signature": "09cf0d976648e2023859dff2763f431d3c149f7eb818d5f20dc6899a1057e6d3",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-minigolf-1": {
+    "asset": "/audio/narrator/game-minigolf-1.ogg",
+    "duration": 2.978,
+    "bytes": 22983,
+    "signature": "d8e767b1d58889b93ddd3d451c9db128ee046b0c310ff6e233660d51e3dc8736",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-minigolf-2": {
+    "asset": "/audio/narrator/game-minigolf-2.ogg",
+    "duration": 2.889,
+    "bytes": 22282,
+    "signature": "28d74b4cc8481eb1ff912fea33acf0d27188924042bdb6478379f7f90dc6417d",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-geofall-1": {
+    "asset": "/audio/narrator/game-geofall-1.ogg",
+    "duration": 2.953,
+    "bytes": 21879,
+    "signature": "ae160c0772f1392500ef0717920f31f53374c7a6819ef99d382430448fd7e695",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-geofall-2": {
+    "asset": "/audio/narrator/game-geofall-2.ogg",
+    "duration": 2.932,
+    "bytes": 23215,
+    "signature": "bb145b3532710f0dcb7585c2cd807447bc527eae0d7f8567d034db4ca24ac982",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-backrooms-1": {
+    "asset": "/audio/narrator/game-backrooms-1.ogg",
+    "duration": 3.028,
+    "bytes": 24053,
+    "signature": "2ef7cd9c7dc108c581bf05787adeaa112ab3eac584a5815499aace4bc07a6266",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-backrooms-2": {
+    "asset": "/audio/narrator/game-backrooms-2.ogg",
+    "duration": 2.952,
+    "bytes": 22827,
+    "signature": "77f687c05f1bab790de27de2176152409e34e471acb9424e3a3a20479ccb6c63",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-goblinTime-1": {
+    "asset": "/audio/narrator/game-goblinTime-1.ogg",
+    "duration": 2.365,
+    "bytes": 18014,
+    "signature": "15c0527be16ccdc6e5ba2c72f3b24d053ccf37494138d93a3fbc42bcaf64c85d",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-goblinTime-2": {
+    "asset": "/audio/narrator/game-goblinTime-2.ogg",
+    "duration": 2.954,
+    "bytes": 22447,
+    "signature": "04f96fd697a0f673e274725db63f08d4ffa5293c752f8243b09df419c9720537",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-trentuno-1": {
+    "asset": "/audio/narrator/game-trentuno-1.ogg",
+    "duration": 3.541,
+    "bytes": 27270,
+    "signature": "7278aa31c33233c97bbb16ddfb3317d93fb81a208f61b2b86c75f0f378fcb67f",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "game-trentuno-2": {
+    "asset": "/audio/narrator/game-trentuno-2.ogg",
+    "duration": 3.176,
+    "bytes": 23394,
+    "signature": "7cc0607c03cfbd8336d4c699d0e7dcd052d50874ce7dffa987d966048f90f683",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  }
+}

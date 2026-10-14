@@ -54,6 +54,8 @@ export class AudioManager {
   private heldDucks = new Map<symbol, number>();
   private narratorGain: GainNode | null = null;
   private narratorVolume = .9;
+  private narrationStop:(()=>void)|null=null;
+  private narrationToken:symbol|null=null;
 
   // ---- contesto e grafo ----
 
@@ -106,7 +108,7 @@ export class AudioManager {
       g.connect(c === 'music' ? duck : master);
       this.cats[c] = g;
     }
-    this.narratorGain=ctx.createGain();this.narratorGain.gain.value=this.narratorVolume;this.narratorGain.connect(this.cats.voice!);
+    this.narratorGain=ctx.createGain();this.narratorGain.gain.value=this.narratorVolume;this.narratorGain.connect(master);
     this.applySettings();
   }
 
@@ -168,14 +170,16 @@ export class AudioManager {
     g.cancelScheduledValues(t);g.setTargetAtTime(1-depth,t,depth>0?.025:.22);
     if(left>0)g.setTargetAtTime(1-held,t+left,.22);
   }
-  /** Parlato: lo stesso mixer, bus voce, budget e limiter. Una lease libera tutto anche su stop/errore. */
+  /** Parlato: lo stesso mixer, volume dedicato, budget voce e limiter. Una lease libera tutto anche su stop/errore. */
   playNarration(buffer:AudioBuffer,offset:number,onEnd:()=>void):{stop:()=>void;position:()=>number}|null {
-    const ctx=this.ensure();if(!ctx||!this.narratorGain||ctx.state!=='running'||this.isMuted()||this.narratorVolume<=0||!this.claim('voice'))return null;
-    const source=ctx.createBufferSource(),key=Symbol('narrator');let released=false;const start=ctx.currentTime;
-    const release=()=>{if(released)return;released=true;source.disconnect();this.release('voice');this.heldDucks.delete(key);this.applyDucking();onEnd();};
+    const ctx=this.ensure();if(!ctx||!this.narratorGain||ctx.state!=='running'||this.isMuted()||this.narratorVolume<=0)return null;
+    this.narrationStop?.();let source:AudioBufferSourceNode;try{source=ctx.createBufferSource();}catch{return null;}if(!this.claim('voice'))return null;
+    const key=Symbol('narrator');let released=false;const start=ctx.currentTime;
+    const release=()=>{if(released)return;released=true;source.disconnect();this.release('voice');this.heldDucks.delete(key);if(this.narrationToken===key){this.narrationToken=null;this.narrationStop=null;}this.applyDucking();onEnd();};
     try{source.buffer=buffer;source.connect(this.narratorGain);this.heldDucks.set(key,.6);this.applyDucking();source.onended=release;source.start(0,offset);}
     catch{release();return null;}
-    return {stop:()=>{if(released)return;try{source.stop();}catch{}release();},position:()=>Math.min(buffer.duration,offset+ctx.currentTime-start)};
+    const stop=()=>{if(released)return;try{source.stop();}catch{}release();};this.narrationToken=key;this.narrationStop=stop;
+    return {stop,position:()=>Math.min(buffer.duration,offset+ctx.currentTime-start)};
   }
   setNarratorVolume(volume:number):void{this.narratorVolume=Math.max(0,Math.min(1,volume));if(this.narratorGain)this.narratorGain.gain.value=this.narratorVolume;}
   getNarratorVolume():number{return this.narratorVolume;}

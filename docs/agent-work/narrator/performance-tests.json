@@ -1,0 +1,42 @@
+{
+  "compiled": true,
+  "game": "trentuno",
+  "players": 2,
+  "pairedComparison": true,
+  "samples": [
+    {
+      "narrator": false,
+      "fps": 59.94,
+      "p95FrameMs": 16.8
+    },
+    {
+      "narrator": true,
+      "fps": 59.94,
+      "p95FrameMs": 16.8
+    },
+    {
+      "narrator": true,
+      "fps": 59.94,
+      "p95FrameMs": 16.8
+    },
+    {
+      "narrator": false,
+      "fps": 59.94,
+      "p95FrameMs": 16.8
+    },
+    {
+      "narrator": false,
+      "fps": 59.94,
+      "p95FrameMs": 16.8
+    },
+    {
+      "narrator": true,
+      "fps": 59.94,
+      "p95FrameMs": 16.8
+    }
+  ],
+  "medianOffFps": 59.94,
+  "medianOnFps": 59.94,
+  "onOffRatio": 1,
+  "noRegressionWithin3Percent": true
+}

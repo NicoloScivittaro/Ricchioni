@@ -1,0 +1,49 @@
+{
+  "naturalThreeHands": true,
+  "resultRound": 1,
+  "nextGame": "soccer",
+  "actualSpokenEvents": [
+    {
+      "id": "roller-22",
+      "event": "roller",
+      "started": 4812.799999998882,
+      "ended": 7631.0999999996275,
+      "reason": "ended"
+    },
+    {
+      "id": "game-trentuno-2",
+      "event": "game",
+      "started": 9405.799999998882,
+      "ended": 12571.099999999627,
+      "reason": "ended"
+    },
+    {
+      "id": "personal-goblin-7",
+      "event": "result",
+      "started": 51593.29999999888,
+      "ended": 54901.59999999963,
+      "reason": "ended"
+    },
+    {
+      "id": "roller-16",
+      "event": "roller",
+      "started": 58807.29999999888,
+      "ended": 61971.199999999255,
+      "reason": "ended"
+    },
+    {
+      "id": "game-soccer-1",
+      "event": "game",
+      "started": 62887.79999999888,
+      "ended": 66141.59999999963,
+      "reason": "ended"
+    }
+  ],
+  "subtitles": true,
+  "hostOnly": true,
+  "oneResultLine": true,
+  "noOverlap": true,
+  "noVoiceDuringGameplay": true,
+  "lobbyCleanup": true,
+  "errors": []
+}

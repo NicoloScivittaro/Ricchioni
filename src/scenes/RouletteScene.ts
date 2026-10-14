@@ -191,6 +191,7 @@ export class RouletteScene extends Phaser.Scene {
       });
     });
 
+    this.time.delayedCall(250,()=>gm.events.emit('narrator.roller'));
     // L'host può saltare le animazioni (il server sceglie già tutto).
     const kb = this.input.keyboard;
     kb?.on('keydown-ENTER', () => gm.skip());
@@ -210,6 +211,7 @@ export class RouletteScene extends Phaser.Scene {
     // STOP: clunk meccanico, la musica del rullo si chiude, parte lo stinger DEL GIOCO uscito (piu' spettacolare per i giochi
     // lunghi come Sparatoria e Kart, senza effetto "jackpot": le probabilita' del rullo non cambiano)
     audio.rouletteClunk();
+    gm.events.emit('narrator.game');
     this.backdrop?.tint(minigameId); // per un attimo lo studio prende i colori del gioco uscito (nessun effetto sui tempi)
     music.stop(0.25, 'roulette');
     audio.gameSting(minigameId, minigameId === 'fps' || minigameId === 'kart3d');

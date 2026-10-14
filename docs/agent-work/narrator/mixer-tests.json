@@ -1,0 +1,819 @@
+{
+  "checks": 170,
+  "decoded": 134,
+  "allAssets": [
+    {
+      "id": "roller-1",
+      "duration": 3.0296666666666665,
+      "containerDuration": 3.04,
+      "bytes": 24375
+    },
+    {
+      "id": "roller-2",
+      "duration": 2.7626666666666666,
+      "containerDuration": 2.763,
+      "bytes": 20748
+    },
+    {
+      "id": "roller-3",
+      "duration": 3.2877083333333332,
+      "containerDuration": 3.298,
+      "bytes": 25027
+    },
+    {
+      "id": "roller-4",
+      "duration": 2.805625,
+      "containerDuration": 2.806,
+      "bytes": 21535
+    },
+    {
+      "id": "roller-5",
+      "duration": 3.2456666666666667,
+      "containerDuration": 3.256,
+      "bytes": 24929
+    },
+    {
+      "id": "roller-6",
+      "duration": 2.9120833333333334,
+      "containerDuration": 2.912,
+      "bytes": 23135
+    },
+    {
+      "id": "roller-7",
+      "duration": 2.402041666666667,
+      "containerDuration": 2.402,
+      "bytes": 19142
+    },
+    {
+      "id": "roller-8",
+      "duration": 2.6460833333333333,
+      "containerDuration": 2.646,
+      "bytes": 20837
+    },
+    {
+      "id": "roller-9",
+      "duration": 2.657958333333333,
+      "containerDuration": 2.658,
+      "bytes": 21068
+    },
+    {
+      "id": "roller-10",
+      "duration": 2.5040833333333334,
+      "containerDuration": 2.504,
+      "bytes": 18863
+    },
+    {
+      "id": "roller-11",
+      "duration": 3.1057083333333333,
+      "containerDuration": 3.116,
+      "bytes": 23419
+    },
+    {
+      "id": "roller-12",
+      "duration": 2.5621666666666667,
+      "containerDuration": 2.562,
+      "bytes": 20668
+    },
+    {
+      "id": "roller-13",
+      "duration": 3.16675,
+      "containerDuration": 3.177,
+      "bytes": 23947
+    },
+    {
+      "id": "roller-14",
+      "duration": 3.2872916666666665,
+      "containerDuration": 3.298,
+      "bytes": 25218
+    },
+    {
+      "id": "roller-15",
+      "duration": 3.311,
+      "containerDuration": 3.322,
+      "bytes": 25297
+    },
+    {
+      "id": "roller-16",
+      "duration": 3.165,
+      "containerDuration": 3.176,
+      "bytes": 24508
+    },
+    {
+      "id": "roller-17",
+      "duration": 2.872625,
+      "containerDuration": 2.873,
+      "bytes": 22990
+    },
+    {
+      "id": "roller-18",
+      "duration": 2.5258333333333334,
+      "containerDuration": 2.526,
+      "bytes": 19644
+    },
+    {
+      "id": "roller-19",
+      "duration": 2.4955,
+      "containerDuration": 2.495,
+      "bytes": 20109
+    },
+    {
+      "id": "roller-20",
+      "duration": 3.3465416666666665,
+      "containerDuration": 3.357,
+      "bytes": 25919
+    },
+    {
+      "id": "roller-21",
+      "duration": 2.9334583333333333,
+      "containerDuration": 2.933,
+      "bytes": 23581
+    },
+    {
+      "id": "roller-22",
+      "duration": 2.815916666666667,
+      "containerDuration": 2.816,
+      "bytes": 22015
+    },
+    {
+      "id": "roller-23",
+      "duration": 3.588375,
+      "containerDuration": 3.599,
+      "bytes": 27150
+    },
+    {
+      "id": "roller-24",
+      "duration": 3.34175,
+      "containerDuration": 3.352,
+      "bytes": 25818
+    },
+    {
+      "id": "roller-25",
+      "duration": 3.161958333333333,
+      "containerDuration": 3.173,
+      "bytes": 24006
+    },
+    {
+      "id": "result-1",
+      "duration": 2.54125,
+      "containerDuration": 2.541,
+      "bytes": 20267
+    },
+    {
+      "id": "result-2",
+      "duration": 2.8381666666666665,
+      "containerDuration": 2.838,
+      "bytes": 22199
+    },
+    {
+      "id": "result-3",
+      "duration": 2.977125,
+      "containerDuration": 2.977,
+      "bytes": 21961
+    },
+    {
+      "id": "result-4",
+      "duration": 2.690166666666667,
+      "containerDuration": 2.69,
+      "bytes": 20431
+    },
+    {
+      "id": "result-5",
+      "duration": 2.8881666666666668,
+      "containerDuration": 2.888,
+      "bytes": 22756
+    },
+    {
+      "id": "result-6",
+      "duration": 2.744375,
+      "containerDuration": 2.744,
+      "bytes": 20054
+    },
+    {
+      "id": "result-7",
+      "duration": 3.0380416666666665,
+      "containerDuration": 3.049,
+      "bytes": 23573
+    },
+    {
+      "id": "result-8",
+      "duration": 3.2077916666666666,
+      "containerDuration": 3.218,
+      "bytes": 23956
+    },
+    {
+      "id": "result-9",
+      "duration": 2.9142083333333333,
+      "containerDuration": 2.914,
+      "bytes": 22384
+    },
+    {
+      "id": "result-10",
+      "duration": 2.674125,
+      "containerDuration": 2.674,
+      "bytes": 20479
+    },
+    {
+      "id": "result-11",
+      "duration": 2.934083333333333,
+      "containerDuration": 2.934,
+      "bytes": 21440
+    },
+    {
+      "id": "result-12",
+      "duration": 3.117583333333333,
+      "containerDuration": 3.128,
+      "bytes": 23405
+    },
+    {
+      "id": "result-13",
+      "duration": 3.6195,
+      "containerDuration": 3.63,
+      "bytes": 27541
+    },
+    {
+      "id": "result-14",
+      "duration": 2.9695833333333335,
+      "containerDuration": 2.97,
+      "bytes": 24003
+    },
+    {
+      "id": "result-15",
+      "duration": 3.6810416666666668,
+      "containerDuration": 3.692,
+      "bytes": 29013
+    },
+    {
+      "id": "result-16",
+      "duration": 3.3794583333333335,
+      "containerDuration": 3.39,
+      "bytes": 25642
+    },
+    {
+      "id": "result-17",
+      "duration": 3.523458333333333,
+      "containerDuration": 3.534,
+      "bytes": 27516
+    },
+    {
+      "id": "result-18",
+      "duration": 3.212083333333333,
+      "containerDuration": 3.223,
+      "bytes": 25767
+    },
+    {
+      "id": "result-19",
+      "duration": 3.6158333333333332,
+      "containerDuration": 3.627,
+      "bytes": 26307
+    },
+    {
+      "id": "result-20",
+      "duration": 4.107291666666667,
+      "containerDuration": 4.2,
+      "bytes": 30162
+    },
+    {
+      "id": "result-21",
+      "duration": 3.0829166666666667,
+      "containerDuration": 3.094,
+      "bytes": 24042
+    },
+    {
+      "id": "result-22",
+      "duration": 4.214041666666667,
+      "containerDuration": 4.3,
+      "bytes": 30793
+    },
+    {
+      "id": "result-23",
+      "duration": 3.3715,
+      "containerDuration": 3.382,
+      "bytes": 26616
+    },
+    {
+      "id": "result-24",
+      "duration": 2.699291666666667,
+      "containerDuration": 2.699,
+      "bytes": 20866
+    },
+    {
+      "id": "result-25",
+      "duration": 3.362375,
+      "containerDuration": 3.373,
+      "bytes": 25661
+    },
+    {
+      "id": "personal-goblin-1",
+      "duration": 3.2190416666666666,
+      "containerDuration": 3.23,
+      "bytes": 24694
+    },
+    {
+      "id": "personal-goblin-2",
+      "duration": 3.072875,
+      "containerDuration": 3.084,
+      "bytes": 23475
+    },
+    {
+      "id": "personal-goblin-3",
+      "duration": 2.9907916666666665,
+      "containerDuration": 2.991,
+      "bytes": 22629
+    },
+    {
+      "id": "personal-goblin-4",
+      "duration": 3.7625,
+      "containerDuration": 3.773,
+      "bytes": 28857
+    },
+    {
+      "id": "personal-goblin-5",
+      "duration": 2.870041666666667,
+      "containerDuration": 2.87,
+      "bytes": 21868
+    },
+    {
+      "id": "personal-goblin-6",
+      "duration": 3.1437916666666665,
+      "containerDuration": 3.154,
+      "bytes": 23923
+    },
+    {
+      "id": "personal-goblin-7",
+      "duration": 3.3063333333333333,
+      "containerDuration": 3.317,
+      "bytes": 24628
+    },
+    {
+      "id": "personal-goblin-8",
+      "duration": 2.8260833333333335,
+      "containerDuration": 2.826,
+      "bytes": 21582
+    },
+    {
+      "id": "personal-goblin-9",
+      "duration": 3.3595,
+      "containerDuration": 3.37,
+      "bytes": 24800
+    },
+    {
+      "id": "personal-goblin-10",
+      "duration": 3.2918333333333334,
+      "containerDuration": 3.3,
+      "bytes": 25015
+    },
+    {
+      "id": "personal-buttafuori-1",
+      "duration": 3.080375,
+      "containerDuration": 3.091,
+      "bytes": 23367
+    },
+    {
+      "id": "personal-buttafuori-2",
+      "duration": 3.1415416666666665,
+      "containerDuration": 3.152,
+      "bytes": 23749
+    },
+    {
+      "id": "personal-buttafuori-3",
+      "duration": 3.2524166666666665,
+      "containerDuration": 3.263,
+      "bytes": 25054
+    },
+    {
+      "id": "personal-buttafuori-4",
+      "duration": 2.7644583333333332,
+      "containerDuration": 2.764,
+      "bytes": 22520
+    },
+    {
+      "id": "personal-buttafuori-5",
+      "duration": 3.330208333333333,
+      "containerDuration": 3.341,
+      "bytes": 25049
+    },
+    {
+      "id": "personal-buttafuori-6",
+      "duration": 3.011791666666667,
+      "containerDuration": 3.022,
+      "bytes": 23493
+    },
+    {
+      "id": "personal-buttafuori-7",
+      "duration": 3.2123333333333335,
+      "containerDuration": 3.223,
+      "bytes": 24602
+    },
+    {
+      "id": "personal-buttafuori-8",
+      "duration": 3.085875,
+      "containerDuration": 3.097,
+      "bytes": 23843
+    },
+    {
+      "id": "personal-buttafuori-9",
+      "duration": 2.9871666666666665,
+      "containerDuration": 2.987,
+      "bytes": 22824
+    },
+    {
+      "id": "personal-buttafuori-10",
+      "duration": 3.3181666666666665,
+      "containerDuration": 3.329,
+      "bytes": 25439
+    },
+    {
+      "id": "personal-dottore-1",
+      "duration": 3.380541666666667,
+      "containerDuration": 3.391,
+      "bytes": 25267
+    },
+    {
+      "id": "personal-dottore-2",
+      "duration": 2.4655,
+      "containerDuration": 2.466,
+      "bytes": 19096
+    },
+    {
+      "id": "personal-dottore-3",
+      "duration": 3.228375,
+      "containerDuration": 3.239,
+      "bytes": 24434
+    },
+    {
+      "id": "personal-dottore-4",
+      "duration": 2.9025416666666666,
+      "containerDuration": 2.903,
+      "bytes": 21486
+    },
+    {
+      "id": "personal-dottore-5",
+      "duration": 2.7943333333333333,
+      "containerDuration": 2.794,
+      "bytes": 21574
+    },
+    {
+      "id": "personal-dottore-6",
+      "duration": 3.192458333333333,
+      "containerDuration": 3.2,
+      "bytes": 24098
+    },
+    {
+      "id": "personal-dottore-7",
+      "duration": 3.0949583333333335,
+      "containerDuration": 3.1,
+      "bytes": 23498
+    },
+    {
+      "id": "personal-dottore-8",
+      "duration": 2.968583333333333,
+      "containerDuration": 2.969,
+      "bytes": 22488
+    },
+    {
+      "id": "personal-dottore-9",
+      "duration": 3.521541666666667,
+      "containerDuration": 3.532,
+      "bytes": 26657
+    },
+    {
+      "id": "personal-dottore-10",
+      "duration": 3.6475833333333334,
+      "containerDuration": 3.658,
+      "bytes": 27773
+    },
+    {
+      "id": "personal-judoka-1",
+      "duration": 3.0082916666666666,
+      "containerDuration": 3.019,
+      "bytes": 23376
+    },
+    {
+      "id": "personal-judoka-2",
+      "duration": 3.491125,
+      "containerDuration": 3.5,
+      "bytes": 26873
+    },
+    {
+      "id": "personal-judoka-3",
+      "duration": 2.5875833333333333,
+      "containerDuration": 2.588,
+      "bytes": 20591
+    },
+    {
+      "id": "personal-judoka-4",
+      "duration": 2.8676666666666666,
+      "containerDuration": 2.868,
+      "bytes": 21341
+    },
+    {
+      "id": "personal-judoka-5",
+      "duration": 3.124375,
+      "containerDuration": 3.135,
+      "bytes": 23857
+    },
+    {
+      "id": "personal-judoka-6",
+      "duration": 3.321,
+      "containerDuration": 3.332,
+      "bytes": 24888
+    },
+    {
+      "id": "personal-judoka-7",
+      "duration": 3.0415833333333335,
+      "containerDuration": 3.052,
+      "bytes": 23385
+    },
+    {
+      "id": "personal-judoka-8",
+      "duration": 3.1165416666666665,
+      "containerDuration": 3.127,
+      "bytes": 23142
+    },
+    {
+      "id": "personal-judoka-9",
+      "duration": 3.7855833333333333,
+      "containerDuration": 3.796,
+      "bytes": 28049
+    },
+    {
+      "id": "personal-judoka-10",
+      "duration": 3.519041666666667,
+      "containerDuration": 3.53,
+      "bytes": 27035
+    },
+    {
+      "id": "personal-ciro-1",
+      "duration": 2.6141666666666667,
+      "containerDuration": 2.614,
+      "bytes": 20028
+    },
+    {
+      "id": "personal-ciro-2",
+      "duration": 2.97725,
+      "containerDuration": 2.977,
+      "bytes": 21631
+    },
+    {
+      "id": "personal-ciro-3",
+      "duration": 3.3156666666666665,
+      "containerDuration": 3.326,
+      "bytes": 24574
+    },
+    {
+      "id": "personal-ciro-4",
+      "duration": 3.062666666666667,
+      "containerDuration": 3.073,
+      "bytes": 22824
+    },
+    {
+      "id": "personal-ciro-5",
+      "duration": 2.7395,
+      "containerDuration": 2.74,
+      "bytes": 20105
+    },
+    {
+      "id": "personal-ciro-6",
+      "duration": 2.88875,
+      "containerDuration": 2.889,
+      "bytes": 21613
+    },
+    {
+      "id": "personal-ciro-7",
+      "duration": 2.8171666666666666,
+      "containerDuration": 2.817,
+      "bytes": 20955
+    },
+    {
+      "id": "personal-ciro-8",
+      "duration": 3.1164583333333336,
+      "containerDuration": 3.127,
+      "bytes": 23196
+    },
+    {
+      "id": "personal-ciro-9",
+      "duration": 3.4898333333333333,
+      "containerDuration": 3.5,
+      "bytes": 26524
+    },
+    {
+      "id": "personal-ciro-10",
+      "duration": 3.253791666666667,
+      "containerDuration": 3.264,
+      "bytes": 23939
+    },
+    {
+      "id": "game-quiz-1",
+      "duration": 2.5392083333333333,
+      "containerDuration": 2.539,
+      "bytes": 20213
+    },
+    {
+      "id": "game-quiz-2",
+      "duration": 3.4571666666666667,
+      "containerDuration": 3.468,
+      "bytes": 26571
+    },
+    {
+      "id": "game-reaction-1",
+      "duration": 3.404625,
+      "containerDuration": 3.415,
+      "bytes": 26816
+    },
+    {
+      "id": "game-reaction-2",
+      "duration": 2.9345,
+      "containerDuration": 2.934,
+      "bytes": 22125
+    },
+    {
+      "id": "game-memory-1",
+      "duration": 3.209,
+      "containerDuration": 3.22,
+      "bytes": 25242
+    },
+    {
+      "id": "game-memory-2",
+      "duration": 3.0404166666666668,
+      "containerDuration": 3.051,
+      "bytes": 23222
+    },
+    {
+      "id": "game-arena-1",
+      "duration": 3.415875,
+      "containerDuration": 3.427,
+      "bytes": 25933
+    },
+    {
+      "id": "game-arena-2",
+      "duration": 3.2561666666666667,
+      "containerDuration": 3.267,
+      "bytes": 24526
+    },
+    {
+      "id": "game-dodgeball-1",
+      "duration": 3.1902083333333335,
+      "containerDuration": 3.2,
+      "bytes": 24608
+    },
+    {
+      "id": "game-dodgeball-2",
+      "duration": 2.5030833333333335,
+      "containerDuration": 2.503,
+      "bytes": 20314
+    },
+    {
+      "id": "game-soccer-1",
+      "duration": 3.255125,
+      "containerDuration": 3.266,
+      "bytes": 25421
+    },
+    {
+      "id": "game-soccer-2",
+      "duration": 3.23125,
+      "containerDuration": 3.242,
+      "bytes": 24604
+    },
+    {
+      "id": "game-volleyball-1",
+      "duration": 3.316375,
+      "containerDuration": 3.327,
+      "bytes": 25516
+    },
+    {
+      "id": "game-volleyball-2",
+      "duration": 3.1258333333333335,
+      "containerDuration": 3.136,
+      "bytes": 23861
+    },
+    {
+      "id": "game-kart3d-1",
+      "duration": 2.837666666666667,
+      "containerDuration": 2.838,
+      "bytes": 22284
+    },
+    {
+      "id": "game-kart3d-2",
+      "duration": 2.6759583333333334,
+      "containerDuration": 2.676,
+      "bytes": 20480
+    },
+    {
+      "id": "game-cultura-1",
+      "duration": 3.0138333333333334,
+      "containerDuration": 3.025,
+      "bytes": 23661
+    },
+    {
+      "id": "game-cultura-2",
+      "duration": 3.0149166666666667,
+      "containerDuration": 3.026,
+      "bytes": 23816
+    },
+    {
+      "id": "game-fps-1",
+      "duration": 2.9542916666666668,
+      "containerDuration": 2.954,
+      "bytes": 23274
+    },
+    {
+      "id": "game-fps-2",
+      "duration": 3.2435,
+      "containerDuration": 3.254,
+      "bytes": 24287
+    },
+    {
+      "id": "game-cornicione-1",
+      "duration": 3.0349166666666667,
+      "containerDuration": 3.046,
+      "bytes": 23547
+    },
+    {
+      "id": "game-cornicione-2",
+      "duration": 2.803916666666667,
+      "containerDuration": 2.804,
+      "bytes": 22168
+    },
+    {
+      "id": "game-casacarbo-1",
+      "duration": 3.135625,
+      "containerDuration": 3.146,
+      "bytes": 24351
+    },
+    {
+      "id": "game-casacarbo-2",
+      "duration": 2.9659166666666668,
+      "containerDuration": 2.966,
+      "bytes": 23596
+    },
+    {
+      "id": "game-minigolf-1",
+      "duration": 2.978083333333333,
+      "containerDuration": 2.978,
+      "bytes": 22983
+    },
+    {
+      "id": "game-minigolf-2",
+      "duration": 2.88925,
+      "containerDuration": 2.889,
+      "bytes": 22282
+    },
+    {
+      "id": "game-geofall-1",
+      "duration": 2.953125,
+      "containerDuration": 2.953,
+      "bytes": 21879
+    },
+    {
+      "id": "game-geofall-2",
+      "duration": 2.9319166666666665,
+      "containerDuration": 2.932,
+      "bytes": 23215
+    },
+    {
+      "id": "game-backrooms-1",
+      "duration": 3.0170833333333333,
+      "containerDuration": 3.028,
+      "bytes": 24053
+    },
+    {
+      "id": "game-backrooms-2",
+      "duration": 2.952,
+      "containerDuration": 2.952,
+      "bytes": 22827
+    },
+    {
+      "id": "game-goblinTime-1",
+      "duration": 2.36475,
+      "containerDuration": 2.365,
+      "bytes": 18014
+    },
+    {
+      "id": "game-goblinTime-2",
+      "duration": 2.9538333333333333,
+      "containerDuration": 2.954,
+      "bytes": 22447
+    },
+    {
+      "id": "game-trentuno-1",
+      "duration": 3.530125,
+      "containerDuration": 3.541,
+      "bytes": 27270
+    },
+    {
+      "id": "game-trentuno-2",
+      "duration": 3.1657083333333333,
+      "containerDuration": 3.176,
+      "bytes": 23394
+    }
+  ],
+  "mixer": true,
+  "legacyPrefs": true,
+  "pauseOffset": true,
+  "exclusiveVoice": true,
+  "loadFailure": true,
+  "lateFetchCancelled": true,
+  "cacheBound": 8,
+  "cleanup": true,
+  "errors": []
+}
