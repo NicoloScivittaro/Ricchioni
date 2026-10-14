@@ -1,0 +1,5 @@
+export interface NarratorPrefs {enabled:boolean;volume:number;subtitles:boolean;frequency:'normal'|'chatty'}
+const DEFAULT:NarratorPrefs={enabled:true,volume:.9,subtitles:true,frequency:'normal'};
+let value:NarratorPrefs={...DEFAULT};const listeners=new Set<()=>void>();
+try{const saved=JSON.parse(localStorage.getItem('ricchioni.narrator')??'{}');value={enabled:typeof saved.enabled==='boolean'?saved.enabled:true,volume:typeof saved.volume==='number'&&Number.isFinite(saved.volume)?Math.max(0,Math.min(1,saved.volume)):.9,subtitles:typeof saved.subtitles==='boolean'?saved.subtitles:true,frequency:saved.frequency==='chatty'?'chatty':'normal'};}catch{}
+export const narratorSettings={get:():Readonly<NarratorPrefs>=>value,set:(patch:Partial<NarratorPrefs>):void=>{value={...value,...patch};if(!Number.isFinite(value.volume))value.volume=.9;value.volume=Math.max(0,Math.min(1,value.volume));try{localStorage.setItem('ricchioni.narrator',JSON.stringify(value));}catch{}listeners.forEach(fn=>fn());},on:(fn:()=>void):(()=>void)=>{listeners.add(fn);return()=>listeners.delete(fn);}};

@@ -51,6 +51,9 @@ export class AudioManager {
   private dropped = 0;
   private duckUntil = 0;
   private duckDepth = 0;
+  private heldDucks = new Map<symbol, number>();
+  private narratorGain: GainNode | null = null;
+  private narratorVolume = .9;
 
   // ---- contesto e grafo ----
 
@@ -103,6 +106,7 @@ export class AudioManager {
       g.connect(c === 'music' ? duck : master);
       this.cats[c] = g;
     }
+    this.narratorGain=ctx.createGain();this.narratorGain.gain.value=this.narratorVolume;this.narratorGain.connect(this.cats.voice!);
     this.applySettings();
   }
 
@@ -155,12 +159,26 @@ export class AudioManager {
       this.duckDepth = depth;
       this.duckUntil = now + ms;
     }
-    const g = this.duckNode.gain;
-    const t = ctx.currentTime;
-    g.cancelScheduledValues(t);
-    g.setTargetAtTime(1 - this.duckDepth, t, 0.02);
-    g.setTargetAtTime(1, t + (this.duckUntil - now) / 1000, 0.22);
+    this.applyDucking();
   }
+
+  private applyDucking():void {
+    if(!this.ctx||!this.duckNode)return;
+    const held=Math.max(0,...this.heldDucks.values()),left=Math.max(0,(this.duckUntil-performance.now())/1000),depth=Math.max(held,left>0?this.duckDepth:0),t=this.ctx.currentTime,g=this.duckNode.gain;
+    g.cancelScheduledValues(t);g.setTargetAtTime(1-depth,t,depth>0?.025:.22);
+    if(left>0)g.setTargetAtTime(1-held,t+left,.22);
+  }
+  /** Parlato: lo stesso mixer, bus voce, budget e limiter. Una lease libera tutto anche su stop/errore. */
+  playNarration(buffer:AudioBuffer,offset:number,onEnd:()=>void):{stop:()=>void;position:()=>number}|null {
+    const ctx=this.ensure();if(!ctx||!this.narratorGain||ctx.state!=='running'||this.isMuted()||this.narratorVolume<=0||!this.claim('voice'))return null;
+    const source=ctx.createBufferSource(),key=Symbol('narrator');let released=false;const start=ctx.currentTime;
+    const release=()=>{if(released)return;released=true;source.disconnect();this.release('voice');this.heldDucks.delete(key);this.applyDucking();onEnd();};
+    try{source.buffer=buffer;source.connect(this.narratorGain);this.heldDucks.set(key,.6);this.applyDucking();source.onended=release;source.start(0,offset);}
+    catch{release();return null;}
+    return {stop:()=>{if(released)return;try{source.stop();}catch{}release();},position:()=>Math.min(buffer.duration,offset+ctx.currentTime-start)};
+  }
+  setNarratorVolume(volume:number):void{this.narratorVolume=Math.max(0,Math.min(1,volume));if(this.narratorGain)this.narratorGain.gain.value=this.narratorVolume;}
+  getNarratorVolume():number{return this.narratorVolume;}
 
   /** Ingresso della musica (sotto al ducking): core/music.ts collega qui le sue tracce. */
   getMusicInput(): AudioNode | null {

@@ -49,15 +49,36 @@ export interface RouletteOptions {
 /**
  * Selezione del rullo (server-authoritative):
  * - filtra i giochi incompatibili con il numero di giocatori (minPlayers/maxPlayers)
+ * - nessun gioco ritorna prima che siano usciti tutti gli altri compatibili
  * - categoria pesata con anti-ripetizione (+ pity: una categoria con un gioco "in ritardo" pesa di piu')
  * - minigioco pesato per rarità + anti-ripetizione + pity
  * - modificatore opzionale (~25%) tra quelli compatibili
  */
 export class RouletteEngine {
-  static pick(playerCount: number, history: RouletteHistoryEntry[], rng: Rng, opts: RouletteOptions = {}): RoulettePick {
+  /**
+   * Prima uscita: scegli fra i giochi mai visti. Dopo il giro completo, il
+   * prossimo è quello la cui ultima uscita è più lontana: tutti gli altri
+   * sono passati da allora. Non rimescolare a fine giro, altrimenti un gioco
+   * in fondo al primo giro potrebbe riapparire subito all'inizio del secondo.
+   * Storia della stanza come unica fonte: reset partita = nuovo giro casuale.
+   */
+  static available(playerCount: number, history: readonly RouletteHistoryEntry[]): MinigameDefinition[] {
     const all = MINIGAME_DEFINITIONS.filter(
-      (d) => d.enabled !== false && playerCount >= d.minPlayers && playerCount <= d.maxPlayers
+      d => d.enabled !== false && playerCount >= d.minPlayers && playerCount <= d.maxPlayers
     );
+    const byId = new Map(all.map(d => [d.id, d]));
+    const seen = new Set<string>();
+    for (let i = history.length - 1; i >= 0; i--) {
+      const id = history[i].minigameId;
+      if (!byId.has(id) || seen.has(id)) continue;
+      seen.add(id);
+      if (seen.size === all.length) return [byId.get(id)!];
+    }
+    return all.filter(d => !seen.has(d.id));
+  }
+
+  static pick(playerCount: number, history: RouletteHistoryEntry[], rng: Rng, opts: RouletteOptions = {}): RoulettePick {
+    const all = this.available(playerCount, history);
     if (all.length === 0) throw new Error('Nessun minigioco compatibile con questo numero di giocatori');
 
     const usePity = opts.pity !== false;
@@ -85,30 +106,16 @@ export class RouletteEngine {
       })
     );
 
-    const lastId = history[history.length - 1]?.minigameId;
-    const recentIds = new Set(history.slice(-3).map((h) => h.minigameId));
     const weightOf = (d: MinigameDefinition): number => {
-      let w = RARITY_WEIGHT[d.rarity];
-      if (d.id === lastId) w = 0;
-      else {
-        if (recentIds.has(d.id)) w *= 0.3;
-        w *= pityOf(d.id);
-      }
-      return w;
+      return RARITY_WEIGHT[d.rarity] * pityOf(d.id);
     };
 
-    // Minigiochi della categoria, escludendo quelli a peso 0.
-    let pool = all
+    // Categoria e pesi agiscono solo sui giochi che rispettano il giro completo.
+    const pool = all
       .filter((d) => d.category === category)
       .map((d) => ({ item: d, weight: weightOf(d) }))
       .filter((x) => x.weight > 0);
 
-    // Se la categoria aveva solo il gioco appena uscito, ripiega su TUTTI i giochi (mai l'ultimo).
-    if (pool.length === 0) {
-      pool = all
-        .map((d) => ({ item: d, weight: weightOf(d) }))
-        .filter((x) => x.weight > 0);
-    }
     const minigame = pool.length > 0 ? rng.weighted(pool) : rng.pick(all);
 
     let modifierId: string | null = null;

@@ -1,0 +1,20 @@
+[
+  {
+    "asset": "http://localhost:5175/audio/narrator/demo-sarcasm.ogg",
+    "duration": 3.910667,
+    "played": true,
+    "decoded": true
+  },
+  {
+    "asset": "http://localhost:5175/audio/narrator/demo-roller.ogg",
+    "duration": 3.110667,
+    "played": true,
+    "decoded": true
+  },
+  {
+    "asset": "http://localhost:5175/audio/narrator/demo-victory.ogg",
+    "duration": 3.310667,
+    "played": true,
+    "decoded": true
+  }
+]

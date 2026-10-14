@@ -1,0 +1,26 @@
+{
+  "demo-sarcasm": {
+    "asset": "/audio/narrator/demo-sarcasm.ogg",
+    "duration": 3.821,
+    "bytes": 28937,
+    "signature": "c50903a0e6352abd93b8b25722bda8aca75b493372ec12abc6d6c464c1afc6f4",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "demo-roller": {
+    "asset": "/audio/narrator/demo-roller.ogg",
+    "duration": 3.073,
+    "bytes": 23129,
+    "signature": "4bd76581d92aed5a4adf7936418c9815f46fcd40d090da08f781f16394d53e13",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  },
+  "demo-victory": {
+    "asset": "/audio/narrator/demo-victory.ogg",
+    "duration": 3.23,
+    "bytes": 24694,
+    "signature": "5554fe8752f3a2976d06c3a86e7a68c3f0d069764bf5c9acc70a738199d3a571",
+    "voice": "Kokoro im_nicola · radio originale",
+    "sampleRate": 24000
+  }
+}
