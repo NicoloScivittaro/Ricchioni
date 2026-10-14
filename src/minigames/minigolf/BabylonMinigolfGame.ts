@@ -24,9 +24,11 @@ export class BabylonMinigolfGame {
  readonly camera:FreeCamera;readonly cameraRig:MinigolfCamera;private bots:MinigolfBot;private disposed=false;private paused=false;
  private controlsReady=false;private courseIndex=-1;private courseId='';private resultsSent=false;private resultTime=8;
  private signals=new Map<string,string>();private lastFeed=-Infinity;private clock=0;private turn=-1;private drag={x:0,y:0};private cameraCancelVersion=-1;
+ private characterElapsed=0;
  private onResize=()=>{this.engine.resize();};
  constructor(canvas:HTMLCanvasElement,private ctx:MinigameContext){
   const opts=engineOptions();this.engine=new Engine(canvas,opts.antialias,opts);this.scene=new Scene(this.engine);
+  this.scene.skipPointerMovePicking=true; // Le mosse arrivano da InputManager, non dal picking delle mesh.
   this.scene.clearColor=new Color4(.56,.78,.89,1);this.scene.ambientColor=new Color3(.12,.12,.12);
   this.cameraRig=new MinigolfCamera(this.scene);this.camera=this.cameraRig.camera;
   new HemisphericLight('golfSky',new Vector3(0,1,0),this.scene).intensity=.75;
@@ -99,14 +101,21 @@ export class BabylonMinigolfGame {
   this.ctx.input.update();
  }
  private updateCharacters(dt:number):void{
+  this.characterElapsed+=dt;
+  const visible=this.phase==='intro'||this.phase==='ended',animate=visible||this.characterElapsed>=.25;
+  const visualDt=this.characterElapsed;if(animate)this.characterElapsed=0;
   for(const [i,p] of this.players.entries()){
-   const e=this.entities.get(p.id)!,b=p.ball,ready=!p.finished&&b.grounded&&speed(b)<GOLF.readySpeed;
-   const x=ready?b.x-p.aim.z*.95:-13,z=ready?b.z+p.aim.x*.95:9-i*2.2,y=ready?b.y-GOLF.radius:0;
-   e.updateVisual({x,y,z,vx:0,vz:0,facing:Math.atan2(p.aim.x,p.aim.z),alive:true,falling:false,spin:0,dashing:false,stunTime:0,hitFlash:0},dt,performance.now());
+   const e=this.entities.get(p.id)!,club=this.clubs.get(p.id)!;
+   if(e.root.isEnabled()!==visible)e.root.setEnabled(visible);
    const swing=Math.max(0,(this.swings.get(p.id)??0)-dt);this.swings.set(p.id,swing);
+   if(!visible){if(club.isEnabled())club.setEnabled(false);if(!animate)continue;}
+   const b=p.ball,ready=!p.finished&&b.grounded&&speed(b)<GOLF.readySpeed;
+   const x=ready?b.x-p.aim.z*.95:-13,z=ready?b.z+p.aim.x*.95:9-i*2.2,y=ready?b.y-GOLF.radius:0;
+   // I personaggi nascosti avanzano i timer senza animare tutti i rig a ogni fotogramma.
+   e.updateVisual({x,y,z,vx:0,vz:0,facing:Math.atan2(p.aim.x,p.aim.z),alive:true,falling:false,spin:0,dashing:false,stunTime:0,hitFlash:0},visualDt,performance.now());
+   if(!visible)continue;
    e.root.rotation.x=p.charging?.12+p.charge*.1:swing>0?Math.sin(swing*12)*.12:0;
-   e.root.setEnabled(this.phase==='intro'||this.phase==='ended');
-   e.root.computeWorldMatrix(true);const hand=e.rightHandPosition(),club=this.clubs.get(p.id)!;club.position.copyFrom(hand);
+   e.root.computeWorldMatrix(true);const hand=e.rightHandPosition();club.position.copyFrom(hand);
    club.rotation.set(0,Math.atan2(p.aim.x,p.aim.z),p.charging?-.4-p.charge*.6:swing>0?Math.sin(swing*12)*1.15:.15);
    club.setEnabled((this.phase==='intro'||this.phase==='ended')&&(ready||swing>0));
   }

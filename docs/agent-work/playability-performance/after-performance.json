@@ -1,0 +1,93 @@
+{
+  "reports": [
+    {
+      "id": "backrooms",
+      "players": 5,
+      "seed": 12345,
+      "course": null,
+      "fps": 58.69,
+      "frames": {
+        "count": 471,
+        "meanMs": 17.038,
+        "p95Ms": 16.8,
+        "maxMs": 66.7
+      },
+      "step": {
+        "count": 474,
+        "meanMs": 2.182,
+        "p95Ms": 3.3,
+        "maxMs": 8.3
+      },
+      "render": {
+        "count": 472,
+        "meanMs": 9.167,
+        "p95Ms": 15.9,
+        "maxMs": 47.6
+      },
+      "hud": {
+        "count": 750,
+        "meanMs": 0.027,
+        "p95Ms": 0.1,
+        "maxMs": 0.3
+      },
+      "characters": {
+        "count": 0,
+        "meanMs": 0,
+        "p95Ms": 0,
+        "maxMs": 0
+      },
+      "entityUpdates": 2370,
+      "hudCalls": 0,
+      "meshes": 1016,
+      "scale": 1.25,
+      "width": 1024,
+      "height": 576,
+      "shadows": true
+    },
+    {
+      "id": "minigolf",
+      "players": 5,
+      "seed": 12345,
+      "course": "cancelli",
+      "fps": 59.44,
+      "frames": {
+        "count": 476,
+        "meanMs": 16.824,
+        "p95Ms": 16.8,
+        "maxMs": 50
+      },
+      "step": {
+        "count": 478,
+        "meanMs": 0.772,
+        "p95Ms": 2,
+        "maxMs": 3.7
+      },
+      "render": {
+        "count": 477,
+        "meanMs": 3.301,
+        "p95Ms": 5.2,
+        "maxMs": 52.9
+      },
+      "hud": {
+        "count": 478,
+        "meanMs": 0.029,
+        "p95Ms": 0.1,
+        "maxMs": 0.2
+      },
+      "characters": {
+        "count": 478,
+        "meanMs": 0.109,
+        "p95Ms": 1.1,
+        "maxMs": 2.5
+      },
+      "entityUpdates": 170,
+      "hudCalls": 478,
+      "meshes": 516,
+      "scale": 1,
+      "width": 1280,
+      "height": 720,
+      "shadows": true
+    }
+  ],
+  "errors": []
+}

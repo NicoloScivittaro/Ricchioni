@@ -115,6 +115,9 @@ export function buildBackWorld(scene: Scene, maze: Maze, tasks: number[], puzzle
     const vent = inscription(scene, 'lockerVent', '||||||||\n||||||||', .6, .25); vent.position.set(p.x + .9, 1.68, p.z + .38);
   }
   const start = center(maze, maze.spawn), poster = inscription(scene, 'spawnInstructions', 'DO NOT RUN\nLISTEN. HIDE.\nFIND THE LAST DOOR', 1.35, .75); poster.position.set(start.x, 1.7, start.z - 1.47);
+  // Cartelli, arredi e strutture sono immobili; porte e chiave restano animabili.
+  const moving=new Set([...doors.flatMap(root=>root.getChildMeshes()),...key.getChildMeshes()]);
+  for(const mesh of scene.meshes)if(!moving.has(mesh))mesh.freezeWorldMatrix();
   return { doors, exit, key, tasks: taskModels, flicker: lit, shadows };
 }
 

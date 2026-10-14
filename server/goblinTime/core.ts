@@ -4,6 +4,7 @@ import { abilityFor } from '../../shared/abilityCatalog';
 import { CARD_BY_ID, catalog, GT } from '../../shared/goblinTime/catalog';
 import type { Card, Choice, Command, CommandAck, GameEvent, EventKind, Option, PrivateState, PublicState, Seat } from '../../shared/goblinTime/types';
 import type { PlayerResult } from '../../shared/types';
+import { eventLabel } from '../../shared/goblinTime/presentation';
 import { effect, responseEligible, responseEffect, trapMatches, trapEffect, HANDLERS } from './effects';
 
 export interface Player extends Seat {
@@ -113,7 +114,7 @@ export class GoblinGame {
       const cardsAllowed=!(this.turnNumber<=this.blackoutUntil&&!this.blackoutExempt.has(p.id))&&!this.status(p,'noResponse');
       const options = (cardsAllowed?p.hand:[]).filter(c => CARD_BY_ID[c].type === 'RISPOSTA' && responseEligible(c, p.id, e, this)).map(c => this.cardOption(c));
       if (this.abilityAvailable(p.id, e)) options.push({ id: 'ability', label: abilityFor('goblinTime', p.characterId)?.name ?? 'ABILITÀ' });
-      if (options.length) requests.push({ player: p.id, title: `${e.kind}: ${this.player(e.actor).name} → ${this.player(e.target).name}`, options: [{ id: 'pass', label: 'PASSA' }, ...options], kind: 'reaction', eventId: e.id, min: 1, max: 1 });
+      if (options.length) requests.push({ player: p.id, title: `${eventLabel(e.kind)}: ${this.player(e.actor).name} → ${this.player(e.target).name}`, options: [{ id: 'pass', label: 'NON REAGIRE' }, ...options], kind: 'reaction', eventId: e.id, min: 1, max: 1 });
     }
     if (!requests.length) return;
     const answers = yield { requests, seconds: this.timing.reaction };
@@ -417,7 +418,8 @@ export class GoblinGame {
     return { type: 'goblinPublic', roundId: this.roundId, matchId: this.matchId, version: this.version, mode: this.mode, phase: this.phase, turn: this.active.id, turnNumber: this.turnNumber,
       remaining: Math.max(0, (this.pending?.until ?? this.mainUntil) - this.clock), matchRemaining: Math.max(0, this.timing.limit - this.clock), deckCount: this.deck.length, discardCount: this.discard.length, discardTop: this.discard.slice(-3),
       players: this.players.map(p => ({ id: p.id, name: p.name, characterId: p.characterId, bot: p.bot, count: this.status(p, 'hidden') ? null : p.hand.length, traps: this.traps.filter(t => t.owner === p.id).length, declared: p.declaredAt !== null, abilityUsed: p.abilityUsed, debts: p.debts.length })),
-      log: this.log.map(e => ({ ...e })), resolving: this.resolving, winner: this.winner, endReason: this.endReason, results: this.results?.map(r => ({ ...r })) ?? null, paused: this.paused };
+      log: this.log.map(e => ({ ...e })), resolving: this.resolving, winner: this.winner, endReason: this.endReason, results: this.results?.map(r => ({ ...r })) ?? null, paused: this.paused,
+      waitingFor:this.pending?.requests.filter(r=>!this.pending!.answers[r.player]).map(r=>r.player)??[],shortTurn:this.phase==='main'&&(this.turnNumber<=this.fastUntil&&!this.fastExempt.has(this.active.id)||this.status(this.active,'short')) };
   }
   privateState(id: string): PrivateState {
     const p = this.player(id); const request = this.pending?.requests.find(r => r.player === id && !this.pending!.answers[id]); const def = abilityFor('goblinTime', p.characterId);

@@ -22,6 +22,8 @@ export class BabylonBackroomsGame {
   private creatures: ReturnType<typeof createCreature>[] = []; private imitations = new Map<number, ArenaEntity>();
   private scares: ReturnType<typeof createCreature>[] = []; private captureKinds = new Map<string, string>();
   private hud: HTMLDivElement; private panels: HTMLElement[] = []; private spectators = new Map<string, number>();
+  private panelNodes: {clock:HTMLElement;life:HTMLElement;stamina:HTMLElement;center:HTMLElement;prompt:HTMLElement;scare:HTMLElement;white:HTMLElement}[]=[];
+  private panelElapsed=0;private layersDirty=true;
   private signals = new Map<string, string>(); private signalTime = 0; private endTime = 3; private submitted = false;
   private interactions = new BackroomsInteractionInput();
   private perceptionDebug: BackroomsPerceptionDebug | null = null;
@@ -30,6 +32,8 @@ export class BabylonBackroomsGame {
   private onResize = () => this.engine.resize();
   constructor(canvas: HTMLCanvasElement, private ctx: MinigameContext) {
     const options = engineOptions(); this.engine = new Engine(canvas, options.antialias, options); this.scene = new Scene(this.engine);
+    this.scene.skipPointerMovePicking=true;
+    this.scene.onNewMeshAddedObservable.add(()=>{this.layersDirty=true;});
     let seed = ctx.rng.int(1, 0x7fffffff);
     const debugSeed = import.meta.env.DEV ? new URLSearchParams(location.search).get('backroomsSeed') : null;
     const replay = debugSeed !== null && /^\d{1,10}$/.test(debugSeed);
@@ -64,6 +68,9 @@ export class BabylonBackroomsGame {
       const panel = document.createElement('div'); panel.className = 'back-view'; panel.style.cssText = `left:${rect.x * 100}%;top:${(1 - rect.y - rect.h) * 100}%;width:${rect.w * 100}%;height:${rect.h * 100}%;--player:${p.color}`;
       panel.innerHTML = '<div class="back-name"><span></span><b class="back-clock"></b></div><div class="back-reticle"></div><div class="back-center"></div><div class="back-prompt"></div><div class="back-bottom"><div class="back-life"></div><div class="back-stamina"><i></i></div></div><div class="back-scare"><div class="back-face"></div></div><div class="back-white"></div>';
       panel.querySelector('.back-name span')!.textContent = `${p.displayName}${p.bot && !p.displayName.startsWith('BOT ') ? ' · BOT' : ''}`;
+      const node=(selector:string)=>panel.querySelector<HTMLElement>(selector)!;
+      node('.back-prompt').style.whiteSpace='pre-line';node('.back-face').style.display='none';
+      this.panelNodes.push({clock:node('.back-clock'),life:node('.back-life'),stamina:node('.back-stamina i'),center:node('.back-center'),prompt:node('.back-prompt'),scare:node('.back-scare'),white:node('.back-white')});
       const scare = createCreature(this.scene, 'stalker'); scare.root.getChildMeshes().forEach(mesh => mesh.layerMask = 1 << (20 + i)); scare.root.setEnabled(false); this.scares.push(scare);
       this.hud.appendChild(panel); this.panels.push(panel);
     });
@@ -93,12 +100,12 @@ export class BabylonBackroomsGame {
       this.match.advance(dt); this.sound.update(this.match);
     }
     this.perceptionDebug?.update();
+    if(this.layersDirty){this.layersDirty=false;this.match.players.forEach((p,i)=>this.entities.get(p.id)!.root.getChildMeshes().forEach(mesh=>{mesh.layerMask=1<<(10+i);}));}
+    this.panelElapsed+=dt;const refreshPanels=this.panelElapsed>=.05;if(refreshPanels)this.panelElapsed=0;
     const alive = this.match.players.filter(p => p.state === 'exploring');
     this.match.players.forEach((p, i) => {
       const entity = this.entities.get(p.id)!; entity.root.setEnabled(p.state === 'exploring' && !p.hiding);
-      entity.updateVisual({ x: p.x, y: 0, z: p.z, vx: p.dx, vz: p.dz, facing: p.yaw, alive: p.state === 'exploring', falling: false, spin: 0, dashing: false, stunTime: 0, hitFlash: 0 }, dt, this.match.time * 1000);
-      // Includes asynchronously imported GLB child meshes; only the owner's camera hides that body.
-      entity.root.getChildMeshes().forEach(mesh => mesh.layerMask = 1 << (10 + i));
+      if(entity.root.isEnabled())entity.updateVisual({ x: p.x, y: 0, z: p.z, vx: p.dx, vz: p.dz, facing: p.yaw, alive: p.state === 'exploring', falling: false, spin: 0, dashing: false, stunTime: 0, hitFlash: 0 }, dt, this.match.time * 1000);
       let subject = p;
       if (p.state === 'eliminated' || (p.state === 'escaped' && p.stateTime > 2)) subject = alive[(this.spectators.get(p.id) ?? 0) % Math.max(1, alive.length)] ?? p;
       const camera = this.cameras[i], own = this.match.players.indexOf(subject); camera.layerMask = (0x0fffffff & ~(1 << (10 + own)) & ~(0x1f << 20)) | (1 << (20 + i));
@@ -112,7 +119,7 @@ export class BabylonBackroomsGame {
         scare.root.position.set(camera.position.x + Math.sin(p.yaw) * .55, camera.position.y - 2.36, camera.position.z + Math.cos(p.yaw) * .55);
         scare.root.rotation.y = p.yaw + Math.PI; scare.head.rotation.z = phase * (.18 + Math.sin(p.stateTime * 41) * .06); scare.jaw.position.y = -.31;
       }
-      this.updatePanel(p, subject, i);
+      if(refreshPanels)this.updatePanel(p, subject, i);
     });
     this.world.doors.forEach((root, i) => { const door = this.match.maze.doors[i], base = door.horizontal ? 0 : Math.PI / 2; root.rotation.y += (base + (door.open ? Math.PI / 2 : 0) - root.rotation.y) * Math.min(1, dt * 9); });
     const key = this.match.key; this.world.key.setEnabled(!!key); if (key) { this.world.key.position.set(key.x, .65 + Math.sin(this.match.time * 2) * .035, key.z); this.world.key.rotation.y = this.match.time * .3; }
@@ -127,20 +134,18 @@ export class BabylonBackroomsGame {
     if (this.match.ended && !this.submitted && this.controlsReady) { this.endTime -= dt; if (this.endTime <= 0) { this.submitted = true; this.ctx.finish({ results: this.match.results() }); } }
   }
   private updatePanel(p: BackPlayer, subject: BackPlayer, i: number): void {
-    const panel = this.panels[i], m = this.match, prompt = m.prompt(p), spectator = p !== subject;
-    panel.querySelector('.back-clock')!.textContent = `${Math.floor(m.remaining / 60)}:${String(Math.floor(m.remaining % 60)).padStart(2, '0')}`;
-    panel.querySelector('.back-life')!.textContent = p.state === 'eliminated' ? 'ELIMINATO · SPETTATORE' : p.state === 'escaped' ? `FUGGITO · ${p.escapedAt.toFixed(1)}s` : `${p.lives === 2 ? '● ● · DUE POSSIBILITÀ' : '● ○ · ULTIMA POSSIBILITÀ'}${p.hiding ? ' · NASCOSTO' : p.immunity > 0 ? ' · PROTETTO' : ''}${m.keyHolder === p.id ? ' · CHIAVE' : ''}`;
-    (panel.querySelector('.back-stamina i') as HTMLElement).style.width = `${p.stamina * 100}%`;
-    panel.querySelector('.back-center')!.textContent = !this.controlsReady ? 'PREPARATEVI' : m.intro > 0 ? `L’ULTIMA PORTA\n${Math.ceil(m.intro)} · ASCOLTA. ESPLORA. SOPRAVVIVI.` : m.ended ? 'IL LABIRINTO HA SCELTO\nFUGGITI → SUPERSTITI → ELIMINATI\nSUPERSTITI: VITE, POI ZONE\nELIMINATI: TEMPO DI SOPRAVVIVENZA' : spectator ? `OSSERVI ${subject.name}\nA/✕ · CAMBIA GIOCATORE` : p.state === 'escaped' ? 'SEI FUORI. RESPIRA.' : p.state === 'eliminated' ? 'NON È RIMASTO NESSUNO' : p.hiding ? 'RESTA IN SILENZIO' : '';
+    const nodes=this.panelNodes[i],m=this.match,prompt=m.prompt(p),spectator=p!==subject;
+    const text=(node:HTMLElement,value:string)=>{if(node.textContent!==value)node.textContent=value;};
+    text(nodes.clock,`${Math.floor(m.remaining / 60)}:${String(Math.floor(m.remaining % 60)).padStart(2, '0')}`);
+    text(nodes.life,p.state === 'eliminated' ? 'ELIMINATO · SPETTATORE' : p.state === 'escaped' ? `FUGGITO · ${p.escapedAt.toFixed(1)}s` : `${p.lives === 2 ? '● ● · DUE POSSIBILITÀ' : '● ○ · ULTIMA POSSIBILITÀ'}${p.hiding ? ' · NASCOSTO' : p.immunity > 0 ? ' · PROTETTO' : ''}${m.keyHolder === p.id ? ' · CHIAVE' : ''}`);
+    nodes.stamina.style.width=`${p.stamina*100}%`;
+    text(nodes.center,!this.controlsReady ? 'PREPARATEVI' : m.intro > 0 ? `L’ULTIMA PORTA\n${Math.ceil(m.intro)} · ASCOLTA. ESPLORA. SOPRAVVIVI.` : m.ended ? 'IL LABIRINTO HA SCELTO\nFUGGITI → SUPERSTITI → ELIMINATI\nSUPERSTITI: VITE, POI ZONE\nELIMINATI: TEMPO DI SOPRAVVIVENZA' : spectator ? `OSSERVI ${subject.name}\nA/✕ · CAMBIA GIOCATORE` : p.state === 'escaped' ? 'SEI FUORI. RESPIRA.' : p.state === 'eliminated' ? 'NON È RIMASTO NESSUNO' : p.hiding ? 'RESTA IN SILENZIO' : '');
     const action = prompt ? `A/✕ · ${prompt.text}` : '';
     const message = p.noticeTime > 0 ? p.notice : '';
-    const promptElement = panel.querySelector<HTMLElement>('.back-prompt')!;
-    promptElement.style.whiteSpace = 'pre-line';
-    promptElement.textContent = m.intro > 0 ? 'LS MUOVI · RS GUARDA · LB CORRI · A INTERAGISCI' : [message, action].filter(Boolean).join('\n');
-    const scare = panel.querySelector<HTMLElement>('.back-scare')!, face = panel.querySelector<HTMLElement>('.back-face')!;
+    text(nodes.prompt,m.intro > 0 ? 'LS MUOVI · RS GUARDA · LB CORRI · A INTERAGISCI' : [message, action].filter(Boolean).join('\n'));
     const captured = p.state === 'captured' || (p.state === 'eliminated' && p.stateTime < 1.6);
-    scare.style.display = captured && p.stateTime >= .32 ? 'block' : 'none'; face.style.display = 'none';
-    (panel.querySelector('.back-white') as HTMLElement).style.opacity = p.state === 'escaped' && p.stateTime < 2 ? String(Math.max(0, .95 - p.stateTime / 2)) : '0';
+    nodes.scare.style.display = captured && p.stateTime >= .32 ? 'block' : 'none';
+    nodes.white.style.opacity = p.state === 'escaped' && p.stateTime < 2 ? String(Math.max(0, .95 - p.stateTime / 2)) : '0';
   }
   private sendStatus(p: BackPlayer): void {
     const status: BackPhoneStatus = { type: 'backroomsStatus', state: p.state, lives: p.lives, available: this.controlsReady && this.match.intro <= 0 && !this.match.ended && p.state === 'exploring', stamina: Math.round(p.stamina * 20) / 20,

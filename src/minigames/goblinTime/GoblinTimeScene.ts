@@ -10,6 +10,7 @@ import { PauseMenu } from '../../core/PauseMenu';
 import { abilityHub } from '../../core/abilityHub';
 import { audio } from '../../core/AudioManager';
 import { presentationOf } from '../../../shared/characterPresentation';
+import { clockText, tableInstruction } from '../../../shared/goblinTime/presentation';
 import type { GoblinAvatars } from './avatars';
 export class GoblinTimeScene extends Phaser.Scene {
   private ctx!:MinigameContext;private menu!:PauseMenu;private view:Phaser.GameObjects.GameObject[]=[];private state:PublicState|null=null;
@@ -35,13 +36,14 @@ export class GoblinTimeScene extends Phaser.Scene {
     this.clear();this.keep(this.add.rectangle(640,360,1280,720,0x0b1424));
     this.text(640,135,'GOBLIN TIME',60,'#c4ec85').setFontFamily(FONT_DISPLAY);
     this.text(640,212,'L’amicizia finisce quando qualcuno sta per vincere.',24,'#b4c7dd');
-    this.text(640,290,'5 carte esatte → DICHIARA → resisti fino al tuo prossimo turno',27);
+    ['1 · ARRIVA A 5 CARTE','2 · PREMI DICHIARA','3 · RESTA A 5 FINO AL TUO TURNO'].forEach((label,i)=>{this.keep(this.add.rectangle(230+i*410,285,390,76,0x1a3045).setStrokeStyle(1,0x6a8f6b));this.text(230+i*410,285,label,19,'#d6f2bf').setWordWrapWidth(365);});
     const button=(x:number,label:string,mode:'base'|'personal')=>{
       const rect=this.keep(this.add.rectangle(x,420,440,145,0x24384f).setStrokeStyle(2,mode==='base'?0x71b8ff:0xcaa0ff).setInteractive({useHandCursor:true}));
       this.text(x,400,label,28);this.text(x,444,mode==='base'?'100 carte originali':'125 carte · incluse le nostre 25',18,'#c2cee0');
       rect.once('pointerdown',()=>{this.mode=mode;this.clear();this.text(640,340,'PRENDETE I TELEFONI',42);(this.ctx.showControls?.()??Promise.resolve()).then(()=>{if(this.scene.isActive())gm.startGoblin(mode);});});
     };button(390,'MAZZO ORIGINALE','base');button(890,'NOI CINQUE','personal');
-    this.text(640,580,'Il telefono custodisce la tua mano. La TV mostra solo il tavolo.',20,'#8ea7c6');
+    this.text(640,563,'1 MINUTO PER SCEGLIERE · puoi confermare subito',22,'#ffda78');
+    this.text(640,607,'Sul telefono leggi le carte, scegli e confermi. Sulla TV segui il turno.',19,'#a8c1dc');
   }
   private renderState(s:PublicState):void {
     if(s.roundId!==this.ctx.roundId)return;
@@ -49,31 +51,29 @@ export class GoblinTimeScene extends Phaser.Scene {
     if(!this.avatarsStarted){this.avatarsStarted=true;const stamp=this.generation;import('./avatars').then(({GoblinAvatars})=>{if(!this.scene.isActive()||stamp!==this.generation)return;this.avatars=new GoblinAvatars(this.game.canvas,s.players);this.avatars.update(this.state!,this.positions);for(const o of this.view)if(o.name.startsWith('gt-portrait'))(o as Phaser.GameObjects.Image).setVisible(false);}).catch(error=>{document.getElementById('goblin-avatars')?.remove();console.warn('GOBLIN TIME: uso i ritratti esistenti, render 3D non disponibile',error);});}
     if(previous?.version===s.version&&previous.paused===s.paused)return;
     this.clear();this.keep(this.add.rectangle(640,360,1280,720,0x0a1220));
-    const table=this.keep(this.add.graphics());table.fillStyle(0x243c45,.9);table.fillEllipse(640,385,1070,460);table.lineStyle(9,0x735232);table.strokeEllipse(640,385,1070,460);table.lineStyle(2,0xa58355,.5);table.strokeEllipse(640,385,1045,435);
-    this.text(640,48,'GOBLIN TIME',38,'#c4ec85').setFontFamily(FONT_DISPLAY);
-    this.text(640,88,`${s.mode==='base'?'MAZZO 100':'NOI CINQUE · 125'} · TURNO ${s.turnNumber} · ${s.paused?'PAUSA':s.phase==='reaction'?'FINESTRA RISPOSTE':s.phase==='choice'?'SCELTA PRIVATA':s.phase==='finished'?'PARTITA CONCLUSA':'TOCCA A '+s.players.find(p=>p.id===s.turn)?.name}`,18,'#9eb5cd');
-    this.text(1160,48,`${Math.ceil(s.remaining)} s`,26,'#ffda78').setName('gt-timer');
-    this.text(1120,88,`Limite ${Math.ceil(s.matchRemaining/60)} min`,14,'#9eb5cd');
+    this.text(260,40,'GOBLIN TIME',34,'#c4ec85').setFontFamily(FONT_DISPLAY);
+    this.text(700,40,`${s.mode==='base'?'MAZZO ORIGINALE':'NOI CINQUE'} · TURNO ${s.turnNumber}`,16,'#9eb5cd');
+    this.text(1145,40,clockText(s.remaining),30,'#ffda78').setName('gt-timer');
+    const instruction=tableInstruction(s);this.keep(this.add.rectangle(640,115,1180,94,0x1c3047).setStrokeStyle(2,s.phase==='reaction'?0x69d99e:0x83bfff));
+    this.text(640,97,instruction.title,27,'#f1f8ff').setName('gt-phase');
+    this.text(640,137,instruction.detail,17,'#c9daed').setWordWrapWidth(1130).setName('gt-instruction');
+    this.text(640,176,'OBIETTIVO: 5 CARTE IN MANO → DICHIARA → MANTIENILE FINO AL TUO TURNO',16,'#c4ec85');
     const n=s.players.length;this.positions.clear();
     s.players.forEach((p,i)=>{
-      const angle=n===2?Math.PI+(i*Math.PI):-Math.PI/2+i*2*Math.PI/n;
-      const x=640+Math.cos(angle)*430,y=375+Math.sin(angle)*190;this.positions.set(p.id,{x,y});
+      const x=640+(i-(n-1)/2)*226,y=248;this.positions.set(p.id,{x,y});
       const accent=Phaser.Display.Color.HexStringToColor(presentationOf(p.characterId)?.accent??'#69c49b').color;
-      this.keep(this.add.rectangle(x,y,200,145,0x142136,.97).setStrokeStyle(p.declared?4:2,p.declared?0xff4c76:p.id===s.turn?0xffda78:accent));
+      const waiting=s.waitingFor?.includes(p.id);this.keep(this.add.rectangle(x,y,210,120,0x142136,.97).setStrokeStyle(p.declared?4:2,p.declared?0xff4c76:waiting?0x6fe8bd:p.id===s.turn?0xffda78:accent));
       if(!this.avatars)this.keep(addPortrait(this,x-65,y-25,p.characterId,58)).setName(`gt-portrait-${p.id}`);
-      this.text(x+20,y-45,p.name,20).setWordWrapWidth(120);this.text(x+20,y-10,`${p.count??'?'} CARTE`,24,p.declared?'#ff97b3':'#fff');
-      this.text(x,y+38,`${p.traps} TRAPPOLE · ${p.abilityUsed?'⭐ USATA':'⭐ PRONTA'}`,13,'#a9bed4');
-      if(p.declared)this.text(x,y+60,'GOBLIN TIME!',15,'#ff92a8');
+      this.text(x+24,y-34,p.name,18).setWordWrapWidth(128);this.text(x+24,y+2,`${p.count??'?'} / 5`,26,p.declared?'#ff97b3':'#fff');
+      this.text(x,y+32,p.declared?'HA DICHIARATO!':waiting?'DEVE SCEGLIERE':p.id===s.turn?'GIOCATORE DI TURNO':`${p.traps} trappole · ${p.abilityUsed?'abilità usata':'abilità pronta'}`,12,p.declared?'#ff92a8':waiting?'#6fe8bd':'#a9bed4');
       abilityHub.setStatus(p.id,{state:p.abilityUsed?'SPENT':'READY'});
       if(p.abilityUsed&&!previous?.players.find(old=>old.id===p.id)?.abilityUsed)abilityHub.activated(p.id);
     });
     this.avatars?.update(s,this.positions);
-    this.keep(this.add.rectangle(430,350,86,120,0x273954).setStrokeStyle(2,0x9abddd));this.text(430,339,'GT',32,'#c4ec85');this.text(430,377,`${s.deckCount}`,18);
-    this.text(430,426,'MAZZO',13,'#9bb2ca');
-    this.keep(this.add.rectangle(850,350,105,120,0x3f344c).setStrokeStyle(2,0xb495c9));this.text(850,339,`${s.discardCount}`,24);this.text(850,426,'SCARTI',13,'#b2a0c5');
-    const played=s.resolving??s.discardTop.at(-1);if(played) {const c=CARD_BY_ID[played];const color=Phaser.Display.Color.HexStringToColor(TYPE_COLOR[c.type]).color;this.keep(this.add.rectangle(640,381,250,244,0x142035).setStrokeStyle(2,color));this.text(640,281,c.type,10,TYPE_COLOR[c.type]);this.text(640,304,c.name,17).setWordWrapWidth(225);this.paintArt(played);this.text(640,451,brief(c.shortEffect??c.effect),13,'#c8d7e9').setWordWrapWidth(226).setLineSpacing(3);}
-    const latest=s.log.at(-1);if(latest)this.text(640,620,latest.text,24,latest.kind==='declare'?'#ff9eba':'#e3edf9').setWordWrapWidth(1150);
-    this.text(640,659,s.log.slice(-3,-1).map(e=>e.text).join('  ·  '),14,'#89a1bd').setWordWrapWidth(1150);
+    this.keep(this.add.rectangle(640,449,1180,250,0x142035).setStrokeStyle(1,0x3e5b76));
+    const played=s.resolving??s.discardTop.at(-1);if(played) {const c=CARD_BY_ID[played];this.text(760,352,`${s.resolving?'CARTA IN RISOLUZIONE':'ULTIMO SCARTO'} · ${c.type}`,13,TYPE_COLOR[c.type]);this.text(760,386,c.name,25).setWordWrapWidth(820);this.paintArt(played);this.text(760,475,c.effect,20,'#e0eaf5').setWordWrapWidth(815).setLineSpacing(5);}else {this.text(640,420,'LA PARTITA È INIZIATA',26,'#c4ec85');this.text(640,473,'Quando tocca a te, pesca oppure tocca una carta sul telefono per leggerla e giocarla.',21).setWordWrapWidth(1000);}
+    const latest=s.log.at(-1);this.text(640,595,'ULTIMA MOSSA',12,'#89a1bd');if(latest)this.text(640,627,latest.text,23,latest.kind==='declare'?'#ff9eba':'#e3edf9').setWordWrapWidth(1150);
+    this.text(640,689,`${s.deckCount} carte nel mazzo · ${s.discardCount} negli scarti · ${Math.ceil(s.matchRemaining/60)} min alla fine · cronologia sul telefono`,14,'#89a1bd');
     if(s.phase==='finished') {this.keep(this.add.rectangle(640,360,920,180,0x0c1729,.97).setStrokeStyle(3,s.winner?0xa3e635:0xffb15d));this.text(640,338,s.winner?`${s.players.find(p=>p.id===s.winner)?.name} HA FATTO GOBLIN TIME!`:'TEMPO SCADUTO',34,s.winner?'#c4ec85':'#ffcc94');this.text(640,398,s.winner?'Esattamente cinque. Nessuno è riuscito a fermarlo.':'Classifica di emergenza · nessuna vittoria GOBLIN TIME',22);}
     for(const e of s.log)if(!this.seen.has(e.id)){this.seen.add(e.id);if(previous)this.animate(e);}
     if(this.seen.size>300)this.seen=new Set(s.log.map(e=>e.id));
@@ -87,12 +87,11 @@ export class GoblinTimeScene extends Phaser.Scene {
   }
   private paintArt(id:string):void {
     const key=`gt-art-${id}`;
-    if(this.textures.exists(key)){this.keep(this.add.image(640,366,key).setDisplaySize(125,85));return;}
+    if(this.textures.exists(key)){this.keep(this.add.image(222,449,key).setDisplaySize(160,110));return;}
     if(this.artPending.has(key))return;this.artPending.add(key);const stamp=this.generation;const img=new Image();
-    img.onload=()=>{this.artPending.delete(key);if(!this.scene.isActive()||stamp!==this.generation)return;const canvas=document.createElement('canvas');canvas.width=220;canvas.height=150;canvas.getContext('2d')!.drawImage(img,0,0);this.textures.addCanvas(key,canvas);this.artKeys.add(key);if((this.state?.resolving??this.state?.discardTop.at(-1))===id)this.keep(this.add.image(640,366,key).setDisplaySize(125,85));};
+    img.onload=()=>{this.artPending.delete(key);if(!this.scene.isActive()||stamp!==this.generation)return;const canvas=document.createElement('canvas');canvas.width=220;canvas.height=150;canvas.getContext('2d')!.drawImage(img,0,0);this.textures.addCanvas(key,canvas);this.artKeys.add(key);if((this.state?.resolving??this.state?.discardTop.at(-1))===id)this.keep(this.add.image(222,449,key).setDisplaySize(160,110));};
     img.src=`data:image/svg+xml;charset=utf-8,${encodeURIComponent(cardArt(id))}`;
   }
-  update():void {if(this.menu.update())return;if(this.state){const timer=this.children.getByName('gt-timer') as Phaser.GameObjects.Text|null;if(timer)timer.setText(`${Math.ceil(this.state.remaining)} s`);}}
+  update():void {if(this.menu.update())return;if(this.state){const timer=this.children.getByName('gt-timer') as Phaser.GameObjects.Text|null;if(timer)timer.setText(clockText(this.state.remaining));}}
 }
 
-function brief(text:string):string {if(text.length<=112)return text;const short=text.slice(0,109);return short.slice(0,short.lastIndexOf(' '))+'…';}

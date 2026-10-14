@@ -11,6 +11,7 @@ export interface PublicState {
   remaining: number; matchRemaining: number; deckCount: number; discardCount: number; discardTop: string[];
   players: PublicSeat[]; log: { id: string; text: string; cardId?: string; kind: string; from?: string; to?: string }[];
   resolving: string | null; winner: string | null; endReason: string | null; results: PlayerResult[] | null; paused: boolean;
+  waitingFor?: string[]; shortTurn?: boolean;
 }
 export interface PrivateState {
   type: 'goblinPrivate'; roundId: number; matchId: string; version: number; playerId: string;

@@ -1,0 +1,10 @@
+{
+  "checks": 23,
+  "main": 60,
+  "choice": 60,
+  "reaction": 60,
+  "goblinAbilitySeconds": 60,
+  "privacy": true,
+  "pause": true,
+  "immediateConfirm": true
+}
