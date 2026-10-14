@@ -1,0 +1,159 @@
+{
+  "reports": [
+    {
+      "players": 2,
+      "humans": 2,
+      "bots": 0,
+      "compiled": false,
+      "privacy": true,
+      "reconnect": true,
+      "pause": true,
+      "smallPortraitAndLandscape": true,
+      "threeNaturalHands": true,
+      "handReasons": [
+        "bussata",
+        "31",
+        "bussata"
+      ],
+      "abilitiesUsed": [
+        "goblin",
+        "buttafuori"
+      ],
+      "performance": {
+        "fps": 59.9,
+        "p95FrameMs": 16.8,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "canvases": 1
+      },
+      "wallSeconds": 23.2,
+      "lobby": true,
+      "resourcesDisposed": true
+    },
+    {
+      "players": 3,
+      "humans": 3,
+      "bots": 0,
+      "compiled": false,
+      "privacy": true,
+      "reconnect": true,
+      "pause": true,
+      "smallPortraitAndLandscape": true,
+      "threeNaturalHands": true,
+      "handReasons": [
+        "bussata",
+        "bussata",
+        "bussata"
+      ],
+      "abilitiesUsed": [
+        "goblin",
+        "buttafuori",
+        "dottore"
+      ],
+      "performance": {
+        "fps": 59.9,
+        "p95FrameMs": 16.8,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "canvases": 1
+      },
+      "wallSeconds": 43.8,
+      "lobby": true,
+      "resourcesDisposed": true
+    },
+    {
+      "players": 4,
+      "humans": 4,
+      "bots": 0,
+      "compiled": false,
+      "privacy": true,
+      "reconnect": true,
+      "pause": true,
+      "smallPortraitAndLandscape": true,
+      "threeNaturalHands": true,
+      "handReasons": [
+        "bussata",
+        "31",
+        "31"
+      ],
+      "abilitiesUsed": [
+        "goblin",
+        "buttafuori",
+        "dottore",
+        "judoka"
+      ],
+      "performance": {
+        "fps": 59.9,
+        "p95FrameMs": 16.8,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "canvases": 1
+      },
+      "wallSeconds": 45.7,
+      "lobby": true,
+      "resourcesDisposed": true
+    },
+    {
+      "players": 5,
+      "humans": 5,
+      "bots": 0,
+      "compiled": false,
+      "privacy": true,
+      "reconnect": true,
+      "pause": true,
+      "smallPortraitAndLandscape": true,
+      "threeNaturalHands": true,
+      "handReasons": [
+        "bussata",
+        "31",
+        "bussata"
+      ],
+      "abilitiesUsed": [
+        "goblin",
+        "buttafuori",
+        "dottore",
+        "judoka",
+        "ciro"
+      ],
+      "performance": {
+        "fps": 59.9,
+        "p95FrameMs": 16.8,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "canvases": 1
+      },
+      "wallSeconds": 44.1,
+      "lobby": true,
+      "resourcesDisposed": true
+    },
+    {
+      "players": 5,
+      "humans": 1,
+      "bots": 4,
+      "compiled": false,
+      "privacy": true,
+      "reconnect": true,
+      "pause": true,
+      "smallPortraitAndLandscape": true,
+      "threeNaturalHands": true,
+      "handReasons": [
+        "bussata",
+        "bussata",
+        "bussata"
+      ],
+      "abilitiesUsed": [
+        "goblin",
+        "buttafuori",
+        "judoka",
+        "ciro",
+        "dottore"
+      ],
+      "performance": {
+        "fps": 59.9,
+        "p95FrameMs": 16.8,
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "canvases": 1
+      },
+      "wallSeconds": 91.8,
+      "lobby": true,
+      "resourcesDisposed": true
+    }
+  ],
+  "errors": []
+}

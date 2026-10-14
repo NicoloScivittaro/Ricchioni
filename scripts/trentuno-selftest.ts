@@ -80,4 +80,26 @@ for(let seed=0;seed<80;seed++){
  for(let step=0;g.phase!=='finished'&&step<1500;step++){g.tick(.7);g.assertInvariants();}
  ok(g.phase==='finished'&&g.history.length===3,`bot naturali ${seed}`);ok(g.used.size>0,'bot usano abilità');
 }
+// Casi limite: riciclo, autorità dei comandi, capacità e due 31 simultanei.
+{
+ const g=make(2);for(let i=0;i<45;i++){const id=g.turn;cmd(g,id,'draw');cmd(g,id,'discard',{cardId:g.hands.get(id)!.at(-1)!});g.tick(.1);g.assertInvariants();}
+ ok(g.publicState().log.some(e=>e.kind==='shuffle')||g.deck.length>10,'riciclo mazzo conserva40 e cima');
+ const id=g.turn,v=g.version;ok(!cmd(g,id,'draw',{version:v-1}).ok,'versione vecchia negata');ok(!cmd(g,id,'draw',{matchId:'wrong'}).ok,'match estraneo negato');
+ const request:Command={roundId:g.roundId,matchId:g.matchId,version:g.version,requestId:'duplicate-case',op:'draw'};ok(g.command(id,request).ok,'comando accettato');const hand=g.hands.get(id)!.slice();ok(g.command(id,request).ok&&g.hands.get(id)!.join()===hand.join(),'duplicato non pesca di nuovo');ok(!cmd(g,id,'knock').ok,'bussata dopo pesca vietata');g.tick(10.1);ok(g.hands.get(id)!.length===3,'AFK termina scarto');
+}
+{
+ const g=make(5);g.turnIndex=1;cmd(g,'1','ability');cmd(g,'1','draw');cmd(g,'1','discard',{cardId:g.hands.get('1')!.at(-1)!});cmd(g,'2','knock');ok(g.blockedFor===null,'bussata consuma turno bloccato');
+ const q=make(5);q.turnIndex=0;cmd(q,'0','draw');cmd(q,'0','ability');q.tick(101);q.tick(4.1);ok(q.used.has('0')&&!q.privateState('0').ability.available,'uso persiste seconda mano');
+}
+{
+ let both=false;
+ for(let seed=0;seed<25&&!both;seed++){
+  const g=make(5,seed);rig(g,[['DENARI-A','DENARI-R','COPPE-C'],['SPADE-2','SPADE-3','SPADE-4'],['COPPE-3','COPPE-4','COPPE-5'],['BASTONI-2','BASTONI-3','BASTONI-4'],['COPPE-A','COPPE-R','DENARI-C']]);g.turnIndex=4;cmd(g,'4','ability',{cardId:'DENARI-C',targetId:'0'});
+  if(g.history.length&&g.history[0].rows.filter(r=>r.score===31).length===2){both=true;ok(g.history[0].rows.filter(r=>r.score===31).every(r=>r.placement===1),'scambio: due31 simultanei condividono primo posto');}
+ }ok(both,'due31 simultanei testati');
+}
+{
+ const g=make(2);cmd(g,g.turn,'draw');g.tick(1000);ok(g.phase==='finished'&&g.history.length===1&&g.history[0].reason==='limite totale','hard cap reale conclude senza inventare31');g.assertInvariants();
+ const q=make(2);const top=q.discard.at(-1)!;cmd(q,q.turn,'take');const id=q.turn;q.tick(10.1);ok(q.hands.get(id)!.includes(top),'timeout non rescarta presa visibile');
+}
 writeFileSync('docs/agent-work/trentuno/core-tests.json',JSON.stringify({checks,naturalGames:160},null,2));console.log(`${checks} controlli Trentuno superati · 160 partite naturali.`);

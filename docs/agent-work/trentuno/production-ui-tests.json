@@ -1,0 +1,21 @@
+{
+  "scroll": {
+    "scrollTop": 380,
+    "height": 568,
+    "content": 1227,
+    "overflow": "auto",
+    "barTop": 0,
+    "barBottom": 64
+  },
+  "sticky": {
+    "top": 0,
+    "bottom": 64
+  },
+  "realClickFourthCard": true,
+  "restartMatchId": true,
+  "lobbyFromMenu": true,
+  "compiled": true,
+  "texturesDisposed": false,
+  "phoneStyleRestored": true,
+  "errors": []
+}

@@ -1,0 +1,444 @@
+{
+  "date": "2026-10-14T09:31:51.599Z",
+  "baseline": "faa2ae69c1c32af85d00f339972be609a27c7d4a",
+  "root": "Sol diretto, autorizzazione utente",
+  "core": {
+    "checks": 326,
+    "naturalGames": 160
+  },
+  "network": {
+    "checks": 21,
+    "privacy": true,
+    "authority": true,
+    "reconnection": true,
+    "oldSocketDenied": true,
+    "restartIdentity": true
+  },
+  "assets": {
+    "checks": 203,
+    "distinctFronts": 40,
+    "totalSvgBytes": 287788,
+    "originalVectors": true,
+    "sharedBack": true
+  },
+  "art": {
+    "fronts": 40,
+    "loaded": true,
+    "backRotationMeanError": 0.5642245989304813,
+    "backRotationDifferentFraction": 0.004884135472370766
+  },
+  "dev": {
+    "reports": [
+      {
+        "players": 2,
+        "humans": 2,
+        "bots": 0,
+        "compiled": false,
+        "privacy": true,
+        "reconnect": true,
+        "pause": true,
+        "smallPortraitAndLandscape": true,
+        "threeNaturalHands": true,
+        "handReasons": [
+          "bussata",
+          "31",
+          "bussata"
+        ],
+        "abilitiesUsed": [
+          "goblin",
+          "buttafuori"
+        ],
+        "performance": {
+          "fps": 59.9,
+          "p95FrameMs": 16.8,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "canvases": 1
+        },
+        "wallSeconds": 23.2,
+        "lobby": true,
+        "resourcesDisposed": true
+      },
+      {
+        "players": 3,
+        "humans": 3,
+        "bots": 0,
+        "compiled": false,
+        "privacy": true,
+        "reconnect": true,
+        "pause": true,
+        "smallPortraitAndLandscape": true,
+        "threeNaturalHands": true,
+        "handReasons": [
+          "bussata",
+          "bussata",
+          "bussata"
+        ],
+        "abilitiesUsed": [
+          "goblin",
+          "buttafuori",
+          "dottore"
+        ],
+        "performance": {
+          "fps": 59.9,
+          "p95FrameMs": 16.8,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "canvases": 1
+        },
+        "wallSeconds": 43.8,
+        "lobby": true,
+        "resourcesDisposed": true
+      },
+      {
+        "players": 4,
+        "humans": 4,
+        "bots": 0,
+        "compiled": false,
+        "privacy": true,
+        "reconnect": true,
+        "pause": true,
+        "smallPortraitAndLandscape": true,
+        "threeNaturalHands": true,
+        "handReasons": [
+          "bussata",
+          "31",
+          "31"
+        ],
+        "abilitiesUsed": [
+          "goblin",
+          "buttafuori",
+          "dottore",
+          "judoka"
+        ],
+        "performance": {
+          "fps": 59.9,
+          "p95FrameMs": 16.8,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "canvases": 1
+        },
+        "wallSeconds": 45.7,
+        "lobby": true,
+        "resourcesDisposed": true
+      },
+      {
+        "players": 5,
+        "humans": 5,
+        "bots": 0,
+        "compiled": false,
+        "privacy": true,
+        "reconnect": true,
+        "pause": true,
+        "smallPortraitAndLandscape": true,
+        "threeNaturalHands": true,
+        "handReasons": [
+          "bussata",
+          "31",
+          "bussata"
+        ],
+        "abilitiesUsed": [
+          "goblin",
+          "buttafuori",
+          "dottore",
+          "judoka",
+          "ciro"
+        ],
+        "performance": {
+          "fps": 59.9,
+          "p95FrameMs": 16.8,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "canvases": 1
+        },
+        "wallSeconds": 44.1,
+        "lobby": true,
+        "resourcesDisposed": true
+      },
+      {
+        "players": 5,
+        "humans": 1,
+        "bots": 4,
+        "compiled": false,
+        "privacy": true,
+        "reconnect": true,
+        "pause": true,
+        "smallPortraitAndLandscape": true,
+        "threeNaturalHands": true,
+        "handReasons": [
+          "bussata",
+          "bussata",
+          "bussata"
+        ],
+        "abilitiesUsed": [
+          "goblin",
+          "buttafuori",
+          "judoka",
+          "ciro",
+          "dottore"
+        ],
+        "performance": {
+          "fps": 59.9,
+          "p95FrameMs": 16.8,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "canvases": 1
+        },
+        "wallSeconds": 91.8,
+        "lobby": true,
+        "resourcesDisposed": true
+      }
+    ],
+    "errors": []
+  },
+  "prod": {
+    "reports": [
+      {
+        "players": 2,
+        "humans": 2,
+        "bots": 0,
+        "compiled": true,
+        "privacy": true,
+        "reconnect": true,
+        "pause": true,
+        "smallPortraitAndLandscape": true,
+        "threeNaturalHands": true,
+        "handReasons": [
+          "bussata",
+          "bussata",
+          "bussata"
+        ],
+        "abilitiesUsed": [
+          "goblin",
+          "buttafuori"
+        ],
+        "performance": {
+          "fps": 59.9,
+          "p95FrameMs": 16.8,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "canvases": 1
+        },
+        "wallSeconds": 33.2,
+        "lobby": false,
+        "resourcesDisposed": false
+      },
+      {
+        "players": 5,
+        "humans": 1,
+        "bots": 4,
+        "compiled": true,
+        "privacy": true,
+        "reconnect": true,
+        "pause": true,
+        "smallPortraitAndLandscape": true,
+        "threeNaturalHands": true,
+        "handReasons": [
+          "bussata",
+          "bussata",
+          "31"
+        ],
+        "abilitiesUsed": [
+          "goblin",
+          "buttafuori",
+          "judoka",
+          "ciro",
+          "dottore"
+        ],
+        "performance": {
+          "fps": 59.9,
+          "p95FrameMs": 16.8,
+          "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+          "canvases": 1
+        },
+        "wallSeconds": 91.7,
+        "lobby": false,
+        "resourcesDisposed": false
+      }
+    ],
+    "errors": []
+  },
+  "ui": {
+    "scroll": {
+      "scrollTop": 380,
+      "height": 568,
+      "content": 1227,
+      "overflow": "auto",
+      "barTop": 0,
+      "barBottom": 64
+    },
+    "sticky": {
+      "top": 0,
+      "bottom": 64
+    },
+    "realClickFourthCard": true,
+    "restartMatchId": true,
+    "lobbyFromMenu": true,
+    "texturesDisposed": true,
+    "phoneStyleRestored": true,
+    "errors": []
+  },
+  "productionUi": {
+    "scroll": {
+      "scrollTop": 380,
+      "height": 568,
+      "content": 1227,
+      "overflow": "auto",
+      "barTop": 0,
+      "barBottom": 64
+    },
+    "sticky": {
+      "top": 0,
+      "bottom": 64
+    },
+    "realClickFourthCard": true,
+    "restartMatchId": true,
+    "lobbyFromMenu": true,
+    "compiled": true,
+    "texturesDisposed": false,
+    "phoneStyleRestored": true,
+    "errors": []
+  },
+  "build": true,
+  "regression": [
+    "catalogo1242",
+    "rounds60",
+    "pad",
+    "audio",
+    "Goblin Time241 +17 rete",
+    "Minigolf40 partite naturali"
+  ],
+  "sourceFiles": [
+    "dist/index.html",
+    "docs/PARTY_GAME_PER_CHATGPT.md",
+    "docs/agent-work/trentuno/CHECKPOINT.md",
+    "docs/agent-work/trentuno/PLAN.md",
+    "docs/agent-work/trentuno/REPORT.md",
+    "docs/agent-work/trentuno/VERIFICATION.json",
+    "docs/agent-work/trentuno/ability-tests.log",
+    "docs/agent-work/trentuno/art-browser-tests.json",
+    "docs/agent-work/trentuno/assets-tests.json",
+    "docs/agent-work/trentuno/audio-tests.log",
+    "docs/agent-work/trentuno/browser/2p-finish.png",
+    "docs/agent-work/trentuno/browser/2p-phone-320.png",
+    "docs/agent-work/trentuno/browser/2p-phone-740.png",
+    "docs/agent-work/trentuno/browser/2p-phone-discard.png",
+    "docs/agent-work/trentuno/browser/2p-phone.png",
+    "docs/agent-work/trentuno/browser/2p-tv.png",
+    "docs/agent-work/trentuno/browser/3p-finish.png",
+    "docs/agent-work/trentuno/browser/3p-phone-320.png",
+    "docs/agent-work/trentuno/browser/3p-phone-740.png",
+    "docs/agent-work/trentuno/browser/3p-phone-discard.png",
+    "docs/agent-work/trentuno/browser/3p-phone.png",
+    "docs/agent-work/trentuno/browser/3p-tv.png",
+    "docs/agent-work/trentuno/browser/4p-finish.png",
+    "docs/agent-work/trentuno/browser/4p-phone-320.png",
+    "docs/agent-work/trentuno/browser/4p-phone-740.png",
+    "docs/agent-work/trentuno/browser/4p-phone-discard.png",
+    "docs/agent-work/trentuno/browser/4p-phone.png",
+    "docs/agent-work/trentuno/browser/4p-tv.png",
+    "docs/agent-work/trentuno/browser/5p-finish.png",
+    "docs/agent-work/trentuno/browser/5p-phone-320.png",
+    "docs/agent-work/trentuno/browser/5p-phone-740.png",
+    "docs/agent-work/trentuno/browser/5p-phone-discard.png",
+    "docs/agent-work/trentuno/browser/5p-phone.png",
+    "docs/agent-work/trentuno/browser/5p-tv.png",
+    "docs/agent-work/trentuno/browser/mazzo-40.png",
+    "docs/agent-work/trentuno/browser/phone-scroll-320.png",
+    "docs/agent-work/trentuno/browser/results.json",
+    "docs/agent-work/trentuno/browser/solo-5p-finish.png",
+    "docs/agent-work/trentuno/browser/solo-5p-phone-320.png",
+    "docs/agent-work/trentuno/browser/solo-5p-phone-740.png",
+    "docs/agent-work/trentuno/browser/solo-5p-phone-discard.png",
+    "docs/agent-work/trentuno/browser/solo-5p-phone.png",
+    "docs/agent-work/trentuno/browser/solo-5p-tv.png",
+    "docs/agent-work/trentuno/build.log",
+    "docs/agent-work/trentuno/core-tests.json",
+    "docs/agent-work/trentuno/goblin-network-regression.log",
+    "docs/agent-work/trentuno/goblin-regression.log",
+    "docs/agent-work/trentuno/minigolf-regression.log",
+    "docs/agent-work/trentuno/network-tests.json",
+    "docs/agent-work/trentuno/pad-tests.log",
+    "docs/agent-work/trentuno/production-ui-tests.json",
+    "docs/agent-work/trentuno/production/2p-finish.png",
+    "docs/agent-work/trentuno/production/2p-phone-320.png",
+    "docs/agent-work/trentuno/production/2p-phone-740.png",
+    "docs/agent-work/trentuno/production/2p-phone-discard.png",
+    "docs/agent-work/trentuno/production/2p-phone.png",
+    "docs/agent-work/trentuno/production/2p-tv.png",
+    "docs/agent-work/trentuno/production/mazzo-40.png",
+    "docs/agent-work/trentuno/production/results.json",
+    "docs/agent-work/trentuno/production/solo-5p-finish.png",
+    "docs/agent-work/trentuno/production/solo-5p-phone-320.png",
+    "docs/agent-work/trentuno/production/solo-5p-phone-740.png",
+    "docs/agent-work/trentuno/production/solo-5p-phone-discard.png",
+    "docs/agent-work/trentuno/production/solo-5p-phone.png",
+    "docs/agent-work/trentuno/production/solo-5p-tv.png",
+    "docs/agent-work/trentuno/rounds-tests.log",
+    "docs/agent-work/trentuno/ui-tests.json",
+    "public/trentuno/BASTONI-2.svg",
+    "public/trentuno/BASTONI-3.svg",
+    "public/trentuno/BASTONI-4.svg",
+    "public/trentuno/BASTONI-5.svg",
+    "public/trentuno/BASTONI-6.svg",
+    "public/trentuno/BASTONI-7.svg",
+    "public/trentuno/BASTONI-A.svg",
+    "public/trentuno/BASTONI-C.svg",
+    "public/trentuno/BASTONI-F.svg",
+    "public/trentuno/BASTONI-R.svg",
+    "public/trentuno/COPPE-2.svg",
+    "public/trentuno/COPPE-3.svg",
+    "public/trentuno/COPPE-4.svg",
+    "public/trentuno/COPPE-5.svg",
+    "public/trentuno/COPPE-6.svg",
+    "public/trentuno/COPPE-7.svg",
+    "public/trentuno/COPPE-A.svg",
+    "public/trentuno/COPPE-C.svg",
+    "public/trentuno/COPPE-F.svg",
+    "public/trentuno/COPPE-R.svg",
+    "public/trentuno/DENARI-2.svg",
+    "public/trentuno/DENARI-3.svg",
+    "public/trentuno/DENARI-4.svg",
+    "public/trentuno/DENARI-5.svg",
+    "public/trentuno/DENARI-6.svg",
+    "public/trentuno/DENARI-7.svg",
+    "public/trentuno/DENARI-A.svg",
+    "public/trentuno/DENARI-C.svg",
+    "public/trentuno/DENARI-F.svg",
+    "public/trentuno/DENARI-R.svg",
+    "public/trentuno/SPADE-2.svg",
+    "public/trentuno/SPADE-3.svg",
+    "public/trentuno/SPADE-4.svg",
+    "public/trentuno/SPADE-5.svg",
+    "public/trentuno/SPADE-6.svg",
+    "public/trentuno/SPADE-7.svg",
+    "public/trentuno/SPADE-A.svg",
+    "public/trentuno/SPADE-C.svg",
+    "public/trentuno/SPADE-F.svg",
+    "public/trentuno/SPADE-R.svg",
+    "public/trentuno/atlas.html",
+    "public/trentuno/back.svg",
+    "scripts/ability-selftest.ts",
+    "scripts/e2e/trentuno-assets.mjs",
+    "scripts/e2e/trentuno-ui.mjs",
+    "scripts/e2e/trentuno.mjs",
+    "scripts/generate-trentuno-assets.ts",
+    "scripts/rounds-selftest.ts",
+    "scripts/trentuno-assets-selftest.ts",
+    "scripts/trentuno-network-selftest.ts",
+    "scripts/trentuno-report.mjs",
+    "scripts/trentuno-selftest.ts",
+    "server/GameSession.ts",
+    "server/RoomManager.ts",
+    "server/trentuno/core.ts",
+    "server/trentuno/service.ts",
+    "shared/abilityCatalog.ts",
+    "shared/minigames.ts",
+    "shared/protocol.ts",
+    "shared/trentuno/deck.ts",
+    "shared/trentuno/rules.ts",
+    "shared/trentuno/scoring.ts",
+    "shared/trentuno/types.ts",
+    "src/controller/main.ts",
+    "src/controller/style.css",
+    "src/controller/trentunoController.ts",
+    "src/core/GameManager.ts",
+    "src/core/musicThemes.ts",
+    "src/minigames/trentuno/TrentunoScene.ts",
+    "src/minigames/trentuno/index.ts"
+  ]
+}

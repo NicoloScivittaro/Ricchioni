@@ -2,6 +2,8 @@ import { CARDS,cardAsset } from '../../shared/trentuno/deck';
 import type { Ack,Command,PrivateState } from '../../shared/trentuno/types';
 const esc=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 export function mountTrentuno(root:HTMLElement,send:(c:Command,cb:(ack:Ack)=>void)=>void){
+  const oldOverflow=root.style.overflowY,oldOverscroll=root.style.overscrollBehavior;
+  root.style.overflowY='auto';root.style.overscrollBehavior='contain';
   let state:PrivateState|null=null,selected='',target='',busy=false,error='',serial=0,received=performance.now(),destroyed=false;
   let pending:ReturnType<typeof setTimeout>|null=null;
   function command(op:Command['op'],extra:Partial<Command>={}){
@@ -29,5 +31,5 @@ export function mountTrentuno(root:HTMLElement,send:(c:Command,cb:(ack:Ack)=>voi
     const select=root.querySelector<HTMLSelectElement>('[data-target]');if(select)select.onchange=()=>{target=select.value;render();};
   }
   render();const clock=setInterval(()=>{if(!state)return;const el=root.querySelector('.t31-clock');if(el)el.textContent=`${Math.max(0,Math.ceil(state.table.remaining-(state.table.paused?0:(performance.now()-received)/1000)))}s`;},200);
-  return {update(s:PrivateState){if(state?.matchId!==s.matchId){selected='';target='';error='';}const changed=!state||state.version!==s.version||state.table.paused!==s.table.paused;state=s;received=performance.now();if(!s.hand.includes(selected))selected='';if(changed)render();},destroy(){destroyed=true;clearInterval(clock);if(pending)clearTimeout(pending);state=null;}};
+  return {update(s:PrivateState){if(state?.matchId!==s.matchId){selected='';target='';error='';root.scrollTop=0;}const changed=!state||state.version!==s.version||state.table.paused!==s.table.paused;state=s;received=performance.now();if(!s.hand.includes(selected))selected='';if(changed)render();},destroy(){destroyed=true;clearInterval(clock);if(pending)clearTimeout(pending);state=null;root.style.overflowY=oldOverflow;root.style.overscrollBehavior=oldOverscroll;}};
 }
