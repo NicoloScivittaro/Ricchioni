@@ -27,6 +27,8 @@ import { audio } from '../core/AudioManager';
 import { initMobileDebug } from './mobileDebug';
 import { companionHtml, failAbility, flashAbility, isAbilityFailMsg, isAbilityMsg, isAbilityUsedMsg, onAbilityMessage, resetAbilityLive } from './abilityCard';
 import './style.css';
+import { mountTrentuno } from './trentunoController';
+import type { PrivateState as TrentunoPrivate } from '../../shared/trentuno/types';
 import { mountGoblin } from './goblinTimeController';
 import type { PrivateState as GoblinPrivate } from '../../shared/goblinTime/types';
 
@@ -44,6 +46,8 @@ let state: RoomState | null = null;
 let lastMinigameId: string | null = null;
 /** Controller attivo (per instradare i segnali): 'memory' | 'quiz' | null. */
 let activeController: string | null = null;
+let trentunoPhone:ReturnType<typeof mountTrentuno>|null=null;
+const destroyTrentuno=()=>{trentunoPhone?.destroy();trentunoPhone=null;};
 let goblinPhone:ReturnType<typeof mountGoblin>|null=null;
 const destroyGoblin=()=>{goblinPhone?.destroy();goblinPhone=null;};
 let backroomsPhone: ReturnType<typeof mountBackrooms>|null=null;
@@ -137,6 +141,7 @@ socket.on(EVT.roomState, (payload) => {
   const t0 = performance.now();
   state = payload as RoomState;
   if(state.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='goblinTime')destroyGoblin();
+  if(state.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='trentuno')destroyTrentuno();
   render();
   if (activeController === 'quiz') updateQuizUI();
   if (PHASE_DBG) phaseTiming.push({ kind: 'roomState', phase: state.phase, recvAt, renderMs: +(performance.now() - t0).toFixed(1) });
@@ -1807,6 +1812,12 @@ function isCulturaState(data: unknown): data is CulturaState {
 }
 
 socket.on(EVT.privateData, (data) => {
+  if(data?.type==='trentunoPrivate'){
+    const s=data as TrentunoPrivate;
+    if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='trentuno'||s.roundId!==state.roundId||s.playerId!==playerId)return;
+    if(!trentunoPhone)trentunoPhone=mountTrentuno(app,(cmd,cb)=>socket.emit(EVT.trentunoCommand,cmd,cb));
+    trentunoPhone.update(s);return;
+  }
   if(data?.type==='goblinPrivate') {
     const s=data as GoblinPrivate;
     if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='goblinTime'||s.roundId!==state.roundId||s.playerId!==playerId)return;
@@ -2145,6 +2156,7 @@ function renderPlaying(state: RoomState, me: PlayerPublic): void {
 }
 
 function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
+  if(mg.minigameId==='trentuno'){disposeFps();destroyBackroomsPhone();destroyMinigolfPhone();destroyGoblin();destroyTrentuno();activeController='trentuno';trentunoPhone=mountTrentuno(app,(cmd,cb)=>socket.emit(EVT.trentunoCommand,cmd,cb));socket.emit(EVT.trentunoSync);return;}
   if(mg.minigameId==='goblinTime') {disposeFps();destroyBackroomsPhone();destroyMinigolfPhone();destroyGoblin();activeController='goblinTime';goblinPhone=mountGoblin(app,(cmd,cb)=>socket.emit(EVT.goblinCommand,cmd,cb));socket.emit(EVT.goblinSync);return;}
   destroyGoblin();
   destroyBackroomsPhone();

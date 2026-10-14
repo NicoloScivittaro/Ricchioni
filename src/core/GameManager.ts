@@ -29,6 +29,7 @@ import { InputManager } from '../network/InputManager';
 import type { MinigameContext } from '../minigames/types';
 import { preloadMinigame } from '../minigames/preload';
 import { showMinigameError, hideMinigameError } from './HostOverlay';
+import type { PublicState as TrentunoPublic } from '../../shared/trentuno/types';
 import type { PublicState as GoblinPublic } from '../../shared/goblinTime/types';
 
 /**
@@ -47,6 +48,8 @@ export class GameManager {
   private reconnecting = false;
 
   pendingMinigame: MinigameSelectedPayload | null = null;
+  trentunoState:TrentunoPublic|null=null;
+  startTrentuno(restart=false):void{this.socket?.emit(EVT.trentunoReady,{roundId:this.state?.roundId,restart});}
   goblinState: GoblinPublic | null = null;
   startGoblin(mode:'base'|'personal',restart=false):void { this.socket?.emit(EVT.goblinReady,{roundId:this.state?.roundId,mode,restart}); }
   syncGoblin():void {this.socket?.emit(EVT.goblinSync);}
@@ -83,6 +86,7 @@ export class GameManager {
     });
 
     s.on(EVT.roomState, (payload) => this.onRoomState(payload as RoomState));
+    s.on(EVT.trentunoPublic,payload=>{const data=payload as TrentunoPublic;if(data.roundId!==this.state?.roundId)return;this.trentunoState=data;this.events.emit('trentuno',data);});
     s.on(EVT.goblinPublic, payload=>{const data=payload as GoblinPublic;if(data.roundId!==this.state?.roundId)return;this.goblinState=data;this.events.emit('goblin',data);});
     s.on(EVT.minigameSelected, (payload) => this.onMinigameSelected(payload as MinigameSelectedPayload));
     s.on(EVT.inputRelay, (payload) => this.onInputRelay(payload as InputRelayEvent));

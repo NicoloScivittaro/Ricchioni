@@ -109,7 +109,7 @@ export class TrentunoGame {
       case 'draw':if(!privateState.canDraw)return {ok:false,error:'Non puoi pescare ora'};this.draw();break;
       case 'take':if(!privateState.canTake)return {ok:false,error:'Scarti bloccati o vuoti'};this.draw(true);break;
       case 'discard':if(!c.cardId||!privateState.discardable.includes(c.cardId))return {ok:false,error:'Scarto non valido'};this.drop(c.cardId);break;
-      case 'knock':if(!privateState.canKnock)return {ok:false,error:'Non puoi bussare ora'};this.knocker=id;this.finalTurns=this.seats.length-1;this.event('knock',`${this.name(id)} · HA BUSSATO STO INFAME!`,id);this.enter('knockWindow',RULES.knockWindow);break;
+      case 'knock':if(!privateState.canKnock)return {ok:false,error:'Non puoi bussare ora'};if(this.blockedFor===id)this.blockedFor=null;this.knocker=id;this.finalTurns=this.seats.length-1;this.event('knock',`${this.name(id)} · HA BUSSATO STO INFAME!`,id);this.enter('knockWindow',RULES.knockWindow);break;
       case 'ability':if(!privateState.ability.available)return {ok:false,error:'Abilità non disponibile'};try{this.ability(id,c);}catch(e){return {ok:false,error:(e as Error).message};}break;
       case 'order':if(id!==this.turn||this.phase!=='peek'||typeof c.reverse!=='boolean')return {ok:false,error:'Ordine non valido'};if(c.reverse)[this.deck[0],this.deck[1]]=[this.deck[1],this.deck[0]];this.peek=[];this.enter('draw',RULES.decision);break;
       default:return {ok:false,error:'Comando sconosciuto'};

@@ -26,6 +26,8 @@ import { GameSession } from './GameSession';
 import { PlayerSession } from './PlayerSession';
 import { ReconnectionManager } from './ReconnectionManager';
 import { log } from './log';
+import { TrentunoService } from './trentuno/service';
+import type { Command as TrentunoCommand, Ack as TrentunoAck } from '../shared/trentuno/types';
 import { GoblinService } from './goblinTime/service';
 import type { Command, CommandAck } from '../shared/goblinTime/types';
 
@@ -52,6 +54,7 @@ function clampInt(v: unknown, min: number, max: number, fallback: number): numbe
  */
 export class RoomManager {
   private rooms = new Map<RoomCode, GameSession>();
+  private trentunoGames = new Map<GameSession, TrentunoService>();
   private goblinGames = new Map<GameSession, GoblinService>();
   // Solo snapshot Quiz: privati per giocatore, limitati al round e liberati con la stanza.
   private quizSnapshots = new WeakMap<GameSession, Map<string, { roundId: number; data: unknown }>>();
@@ -69,6 +72,26 @@ export class RoomManager {
   constructor(private io: Server) {}
 
   handleConnection(socket: Socket): void {
+    socket.on(EVT.trentunoReady,(p:{roundId:number;restart?:boolean},cb?:(r:TrentunoAck)=>void)=>{
+      const room=this.roomOfHost(socket);
+      if(!room||room.phase!=='MINIGAME_PLAYING'||room.currentMinigame?.minigameId!=='trentuno'||p?.roundId!==room.minigameSeq){cb?.({ok:false,error:'Round non valido'});return;}
+      let service=this.trentunoGames.get(room);
+      if(p.restart&&service){service.destroy();this.trentunoGames.delete(room);service=undefined;room.setPaused(false);}
+      if(!service){service=new TrentunoService(room,(pub,getPrivate)=>{
+        if(room.hostConnectionId)this.io.to(room.hostConnectionId).emit(EVT.trentunoPublic,pub);
+        for(const player of room.players)if(player.connectionId)this.io.to(player.connectionId).emit(EVT.privateData,getPrivate(player.id));
+      });this.trentunoGames.set(room,service);}else service.sync();cb?.({ok:true});
+    });
+    socket.on(EVT.trentunoCommand,(p:TrentunoCommand,cb?:(r:TrentunoAck)=>void)=>{
+      const loc=this.socketToPlayer.get(socket.id),room=loc?this.rooms.get(loc.roomCode):undefined,service=room?this.trentunoGames.get(room):undefined;
+      if(!loc||!room||room.phase!=='MINIGAME_PLAYING'||room.currentMinigame?.minigameId!=='trentuno'||room.getPlayer(loc.playerId)?.connectionId!==socket.id||!service){cb?.({ok:false,error:'Sessione non valida'});return;}
+      const ack=service.command(loc.playerId,p);cb?.(ack);
+    });
+    socket.on(EVT.trentunoSync,()=>{
+      const loc=this.socketToPlayer.get(socket.id),room=loc?this.rooms.get(loc.roomCode):this.roomOfHost(socket);
+      if(loc&&room?.getPlayer(loc.playerId)?.connectionId!==socket.id)return;
+      if(room)this.trentunoGames.get(room)?.sync();
+    });
     socket.on(EVT.goblinReady, (p: {roundId:number;mode?:string;restart?:boolean}, cb?: (r:CommandAck)=>void) => {
       const room=this.roomOfHost(socket);
       if(!room||room.phase!=='MINIGAME_PLAYING'||room.currentMinigame?.minigameId!=='goblinTime'||p?.roundId!==room.minigameSeq) { cb?.({ok:false,error:'Round non valido'});return; }
@@ -193,6 +216,7 @@ export class RoomManager {
           cb?.(ack);
           this.broadcast(room.roomCode);
           this.goblinGames.get(room)?.sync();
+          this.trentunoGames.get(room)?.sync();
           const quiz = this.quizSnapshots.get(room)?.get(player.id);
           const current = room.toRoomState();
           if (quiz && current.phase === 'MINIGAME_PLAYING' && current.currentMinigame?.minigameId === 'quiz' && quiz.roundId === current.roundId) {
@@ -317,7 +341,7 @@ export class RoomManager {
   private onMinigameFinished(socket: Socket, p: MinigameFinishedPayload): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
-    if(room.currentMinigame?.minigameId==='goblinTime')return; // il ranking viene dal motore server
+    if(['goblinTime','trentuno'].includes(room.currentMinigame?.minigameId??''))return; // il ranking viene dal motore server
     room.finishMinigame(p?.results ?? [], typeof p?.roundId === 'number' ? p.roundId : undefined);
   }
 
@@ -349,7 +373,7 @@ export class RoomManager {
   private onPrivateData(socket: Socket, p: PrivateDataPayload): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
-    if(room.currentMinigame?.minigameId==='goblinTime')return; // l'host non possiede le mani e non può simulare snapshot privati
+    if(['goblinTime','trentuno'].includes(room.currentMinigame?.minigameId??''))return; // l'host non possiede le mani e non può simulare snapshot privati
     const player = room.getPlayer(p.playerId);
     const data = p.data as { type?: string; roundId?: number } | null;
     const current = room.toRoomState();
@@ -466,6 +490,9 @@ export class RoomManager {
     const room = this.rooms.get(roomCode);
     if (!room) return;
     const state = room.toRoomState();
+    const trentuno=this.trentunoGames.get(room);
+    if(trentuno&&(state.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='trentuno')){trentuno.destroy();this.trentunoGames.delete(room);}
+    else trentuno?.sync();
     const goblin=this.goblinGames.get(room);
     if(goblin&&(state.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='goblinTime')) {goblin.destroy();this.goblinGames.delete(room);}
     else goblin?.sync();

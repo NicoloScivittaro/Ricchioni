@@ -13,6 +13,10 @@ import type {
  * server, host e controller usano queste stesse stringhe.
  */
 export const EVT = {
+  trentunoReady: 'trentuno:ready',
+  trentunoCommand: 'trentuno:command',
+  trentunoSync: 'trentuno:sync',
+  trentunoPublic: 'trentuno:public',
   goblinReady: 'goblin:ready',
   goblinCommand: 'goblin:command',
   goblinSync: 'goblin:sync',

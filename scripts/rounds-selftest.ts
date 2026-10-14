@@ -92,6 +92,7 @@ console.log('\n[TETTO SERVER] copre la durata REALE massima di ogni gioco (con â
     fps: 112, // match 100s + countdown/risultati
     cornicione: 185, // countdown + 150s + spareggio 20s + festeggiamenti + risultati
     minigolf: 1225, // configura fino a 300s/buca: tre buche + tolleranza tiro + intro/classifiche + spareggio + controlli/risultati
+    trentuno: 370, // cap330 + controlli, risultati e margine
     goblinTime: 700, // limite360s + conclusione ordinata di finestre/decisioni complesse + scelta mazzo e risultati
     casacarbo: 140 // CONTROLLI 5s + countdown + 120s di temporale + finale col vicino 6,5s + risultati
   };

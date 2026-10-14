@@ -197,7 +197,7 @@ export class GameSession {
   /**
    * Risultati di un minigioco sanificati: solo partecipanti della stanza, nessun duplicato,
    * placement finiti; chi manca (disconnesso/non piazzato) va in coda. Restituisce
-   * Classifica completa; soltanto Minigolf conserva gli ex aequo dello spareggio.
+   * Classifica completa; Minigolf e Trentuno conservano gli ex aequo dello spareggio.
    */
   private normalizeResults(results: PlayerResult[]): PlayerResult[] {
     const known = new Set(this.players.map((p) => p.id));
@@ -218,7 +218,7 @@ export class GameSession {
     for (const p of this.players) {
       if (!seen.has(p.id)) valid.push({ playerId: p.id, placement: 1e7, score: 0 });
     }
-    const golf=this.currentMinigame?.minigameId==='minigolf';let place=1;
+    const golf=['minigolf','trentuno'].includes(this.currentMinigame?.minigameId??'');let place=1;
     return valid.map((r,i)=>{if(!golf||i===0||r.placement!==valid[i-1].placement||r.placement===1e7)place=i+1;return {...r,placement:place};});
   }
 
@@ -239,7 +239,7 @@ export class GameSession {
     const ranking = ordered.map((r) => r.playerId);
     const double = this.currentMinigame?.modifierId === 'punti_doppi';
     const scoresMap = new Map(this.players.map((p) => [p.id, p.score]));
-    const golf=this.currentMinigame?.minigameId==='minigolf';
+    const golf=['minigolf','trentuno'].includes(this.currentMinigame?.minigameId??'');
     const deltas = ScoreManager.awardRound(scoresMap, ranking, this.targetScore, double,golf?Object.fromEntries(ordered.map(r=>[r.playerId,r.placement])):undefined);
 
     for (const pid of ranking) {

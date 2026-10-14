@@ -353,6 +353,13 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     category:'CULTURA',rarity:'rare',minPlayers:2,maxPlayers:5,durationSec:360,hardCapSec:900,
     compatibleModifiers:['punti_doppi'],sceneKey:'goblinTime',inputMode:'PHONE_TEXT',
     controllerLayout:{type:'custom',id:'goblin-time'}
+  },
+  {
+    id:'trentuno',icon:'👑',name:'31 DEGLI INFAMI',
+    description:'Tre mani, quaranta carte e cinque infamie. Pesca, scarta e bussa: vince il miglior seme, non la faccia tosta.',
+    category:'CULTURA',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:330,hardCapSec:600,
+    compatibleModifiers:['punti_doppi'],sceneKey:'trentuno',inputMode:'PHONE_TEXT',
+    controllerLayout:{type:'custom',id:'trentuno'}
   }
 ];
 
