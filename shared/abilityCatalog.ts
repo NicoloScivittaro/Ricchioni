@@ -1,5 +1,5 @@
 /**
- * CATALOGO DELLE ABILITA' — UNA SOLA FONTE per 5 personaggi x 15 minigiochi (75 combinazioni).
+ * CATALOGO DELLE ABILITA' — UNA SOLA FONTE per 5 personaggi x 16 minigiochi (80 combinazioni).
  *
  * Da qui nascono TUTTE le cose che parlano di un'abilita': nome, descrizione breve e completa, limiti (usi / ricarica), tipo e
  * impatto, e i NUMERI della meccanica (`p`). I giochi importano i numeri da qui (nessuna costante duplicata nel codice del gioco),
@@ -10,7 +10,7 @@
  * qui: lo decide ogni gioco (unica autorita') e lo pubblica con AbilityStatus (src/core/abilityHub.ts) — il catalogo e' solo statico.
  */
 
-export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione' | 'casacarbo' | 'minigolf' | 'geofall' | 'goblinTime';
+export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione' | 'casacarbo' | 'minigolf' | 'geofall' | 'goblinTime' | 'trentuno';
 export type AbilityCharacterId = 'goblin' | 'buttafuori' | 'judoka' | 'dottore' | 'ciro';
 
 /** I 6 tipi di abilita' del progetto: ogni voce ne ha UNO principale. */
@@ -1136,6 +1136,20 @@ GTC.dottore.full=`Tra le azioni, senza un tuo annuncio GOBLIN TIME: guardi in pr
 GTC.judoka.full=`Nella finestra di un trasferimento che ti coinvolge scegli un altro destinatario valido. Se non esiste, annulli il trasferimento e peschi ${GTC.judoka.p.penalty} carta. ${GTC.judoka.limit} per partita.`;
 GTC.ciro.full=`Prima di un furto o scarto forzato singolo contro di te lo blocchi, ma scarti ${GTC.ciro.p.debt} carta all’inizio del prossimo turno effettivo, prima della verifica vittoria. ${GTC.ciro.limit} per partita.`;
 
+const T31 = {
+  goblin:add(def({game:'trentuno',character:'goblin',name:"N'CULO, CI RIPROVO!",kind:'RISK_REWARD',impact:'MEDIUM',charges:1,cooldown:0,p:{replace:1},short:'Rifiuti la pescata coperta e accetti la successiva.',full:'Dopo una tua pesca coperta, prima dello scarto: metti la carta pescata in fondo al mazzo e la sostituisci con 1 nuova carta obbligatoria. Poi scarti normalmente. Un uso nelle tre mani.'})),
+  buttafuori:add(def({game:'trentuno',character:'buttafuori',name:'TU QUA NON ENTRI!',kind:'RULE_BEND',impact:'MEDIUM',charges:1,cooldown:0,p:{turns:1},short:'Il prossimo giocatore non può prendere dagli scarti.',full:'Prima della tua pesca: blocchi gli scarti per 1 turno valido del prossimo giocatore, che può pescare coperto oppure bussare. Il blocco termina alla fine di quel turno. Un uso nelle tre mani.'})),
+  dottore:add(def({game:'trentuno',character:'dottore',name:"M'HO SVEJATO!",kind:'INFORMATION',impact:'MEDIUM',charges:1,cooldown:0,p:{peek:2},short:'Guardi due carte coperte e decidi il loro ordine.',full:'Prima della tua pesca: guardi in privato le prime 2 carte del mazzo. Mantieni o inverti il loro ordine, poi scegli da dove pescare. Nessuna carta aggiunta alla mano. Un uso nelle tre mani.'})),
+  judoka:add(def({game:'trentuno',character:'judoka',name:'NO, ASPETTA!',kind:'REACTIVE',impact:'MEDIUM',charges:1,cooldown:0,p:{window:3,extra:1},short:'Dopo una bussata avversaria aggiungi un giro completo.',full:'Entro 3 s da una bussata avversaria aggiungi 1 giro completo dopo gli ultimi turni standard, incluso il bussante. Non funziona dopo un 31 confermato. Un uso nelle tre mani.'})),
+  ciro:add(def({game:'trentuno',character:'ciro',name:'PAGO DOMANI!',kind:'RISK_REWARD',impact:'MEDIUM',charges:1,cooldown:0,p:{swap:1},short:'Dai una tua carta e ricevi una carta casuale avversaria.',full:'Prima della tua pesca: scegli avversario e 1 carta da consegnare. Il server ti dà una carta casuale della sua mano; entrambi restate a tre carte. Un eventuale 31 di uno o entrambi chiude subito la mano. Un uso nelle tre mani.'}))
+};
+
+T31.goblin.full=`Dopo la tua pesca coperta, prima dello scarto: rifiuti ${T31.goblin.p.replace} carta, la metti in fondo e accetti obbligatoriamente la successiva. Poi scarti normalmente. ${T31.goblin.limit} nelle tre mani.`;
+T31.buttafuori.full=`Prima della tua pesca: blocchi gli scarti per ${T31.buttafuori.p.turns} turno valido del prossimo giocatore. Può pescare coperto oppure bussare; il blocco termina alla fine del turno. ${T31.buttafuori.limit} nelle tre mani.`;
+T31.dottore.full=`Prima della tua pesca: guardi in privato le prime ${T31.dottore.p.peek} carte del mazzo. Mantieni o inverti il loro ordine, poi scegli da dove pescare. Nessuna carta aggiunta alla mano. ${T31.dottore.limit} nelle tre mani.`;
+T31.judoka.full=`Entro ${sec(T31.judoka.p.window)} da una bussata avversaria aggiungi ${T31.judoka.p.extra} giro completo dopo gli ultimi turni standard, incluso il bussante. Non funziona dopo un 31 confermato. ${T31.judoka.limit} nelle tre mani.`;
+T31.ciro.full=`Prima della tua pesca: scegli avversario e ${T31.ciro.p.swap} carta da consegnare. Ricevi una carta casuale della sua mano; entrambi restate a tre. Un eventuale 31 di uno o entrambi chiude subito la mano. ${T31.ciro.limit} nelle tre mani.`;
+
 /** Tutte le abilita' del catalogo. */
 export const ABILITY_CATALOG: readonly AbilityDef[] = Object.values(R).flatMap((byChar) => Object.values(byChar));
 
@@ -1155,7 +1169,7 @@ export function abilityParam(game: AbilityGameId, character: AbilityCharacterId,
 export const CHARACTER_ORDER_ABILITY: AbilityCharacterId[] = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'];
 
 /** Accesso tipizzato ai numeri: `AB.arena.goblin.p.window`. Letto dai giochi. */
-export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO, casacarbo: CC, minigolf: MG, geofall: GF, goblinTime:GTC } as const;
+export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO, casacarbo: CC, minigolf: MG, geofall: GF, goblinTime:GTC, trentuno:T31 } as const;
 
 /**
  * Tabella {personaggio: {name, desc}} di un gioco, nella forma che i vecchi file shared/<gioco>Abilities.ts esportavano. Quei file ora

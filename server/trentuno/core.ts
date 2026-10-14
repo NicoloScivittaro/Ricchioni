@@ -5,6 +5,7 @@ import { bestDiscard,handScore } from '../../shared/trentuno/scoring';
 import { RULES } from '../../shared/trentuno/rules';
 import type { Ack,Command,HandResult,Phase,PrivateState,PublicState,Seat } from '../../shared/trentuno/types';
 import type { PlayerResult } from '../../shared/types';
+import { AB,abilityFor } from '../../shared/abilityCatalog';
 
 /** RNG di produzione non predicibile da UUID/stato pubblico; seed solo nei test. */
 class SecretRng extends Rng { override next():number {return randomInt(0,0x100000000)/0x100000000;} }
@@ -59,8 +60,44 @@ export class TrentunoGame {
     this.results=totals.map(r=>({playerId:r.playerId,score:r.score,placement:1+totals.filter(q=>q.score>r.score||q.score===r.score&&q.sum>r.sum).length,stats:[`Punti delle mani: ${r.score}`,`Somma carte: ${r.sum}`,`Mani giocate: ${this.history.length}`]}));this.enter('finished',RULES.resultHold);
   }
   private name(id:string):string{return this.seats.find(s=>s.id===id)!.name;}
-  private available(_id:string):boolean {return false;}
-  private ability(_id:string,_c:Command):void {throw Error('Abilità non disponibile');}
+  private available(id:string):boolean {
+    if(this.used.has(id)||this.paused)return false;
+    const char=this.seats.find(s=>s.id===id)!.characterId;
+    if(char==='judoka')return this.phase==='knockWindow'&&this.knocker!==id&&!this.extended;
+    if(id!==this.turn)return false;
+    if(char==='goblin')return this.phase==='discard'&&this.source==='deck';
+    return ['buttafuori','dottore','ciro'].includes(char)&&this.phase==='draw';
+  }
+  private ability(id:string,c:Command):void {
+    const char=this.seats.find(s=>s.id===id)!.characterId;
+    if(char==='ciro'&&(!c.cardId||!this.hands.get(id)!.includes(c.cardId)||!c.targetId||c.targetId===id||!this.hands.has(c.targetId)))throw Error('Scegli una tua carta e un avversario');
+    this.used.add(id);this.event('ability',`${this.name(id)} · ${abilityFor('trentuno',char)!.name}`,id);
+    if(char==='goblin'){
+      const hand=this.hands.get(id)!,old=this.drawn!;hand.splice(hand.indexOf(old),1);this.ensureDeck();this.deck.push(old);this.drawn=this.deck.shift()!;hand.push(this.drawn);
+      // La seconda sostituisce la prima, che non è più una scelta in mano.
+    }else if(char==='buttafuori')this.blockedFor=this.seats[(this.turnIndex+AB.trentuno.buttafuori.p.turns)%this.seats.length].id;
+    else if(char==='dottore'){this.ensureDeck(AB.trentuno.dottore.p.peek);this.peek=this.deck.slice(0,AB.trentuno.dottore.p.peek);this.enter('peek',RULES.peek);}
+    else if(char==='judoka'){this.finalTurns!+=AB.trentuno.judoka.p.extra*this.seats.length;this.extended=true;}
+    else if(char==='ciro'){
+      const own=this.hands.get(id)!,other=this.hands.get(c.targetId!)!,a=own.indexOf(c.cardId!),b=this.rng.int(0,other.length-1);[own[a],other[b]]=[other[b],own[a]];this.check31();
+    }
+  }
+  /** I bot consultano soltanto il proprio snapshot autorizzato. */
+  private runBot(id:string):void {
+    const s=this.privateState(id),char=this.seats.find(p=>p.id===id)!.characterId;
+    const send=(op:Command['op'],extra:Partial<Command>={})=>this.command(id,{roundId:this.roundId,matchId:this.matchId,version:this.version,requestId:`bot-${++this.sequence}`,op,...extra});
+    if(s.ability.available){
+      const want=char==='judoka'||char==='buttafuori'||char==='dottore'||char==='ciro'||char==='goblin'&&handScore(s.hand.slice(0,-1))>=handScore(s.hand.filter(c=>c!==bestDiscard(s.hand)));
+      if(want&&this.rng.chance(.7)){
+        if(char==='ciro'){const targets=s.table.players.filter(p=>p.id!==id).sort((a,b)=>b.points-a.points);send('ability',{cardId:bestDiscard(s.hand),targetId:targets[0].id});}else send('ability');this.botAt=this.now+RULES.botDelay;return;
+      }
+    }
+    if(this.phase==='peek'&&id===this.turn){const first=s.peek[0],second=s.peek[1];send('order',{reverse:handScore([...s.hand,second].filter(c=>c!==bestDiscard([...s.hand,second])))>handScore([...s.hand,first].filter(c=>c!==bestDiscard([...s.hand,first])))});}
+    else if(s.canKnock&&s.score>=25)send('knock');
+    else if(s.canDraw){const top=s.table.discardTop,h=[...s.hand,top];const better=top&&handScore(h.filter(c=>c!==bestDiscard(h,top)))>s.score;send(s.canTake&&better&&!this.rng.chance(.06)?'take':'draw');}
+    else if(s.discardable.length){const best=bestDiscard(s.hand,s.discardable.length===3?s.hand.find(c=>!s.discardable.includes(c))!:null);send('discard',{cardId:this.rng.chance(.04)?this.rng.pick(s.discardable):best});}
+    this.botAt=this.now+RULES.botDelay;
+  }
   command(id:string,c:Command):Ack {
     if(!c||typeof c.requestId!=='string'||c.requestId.length<1||c.requestId.length>100)return {ok:false,error:'Richiesta non valida'};
     const key=id+':'+c.requestId,previous=this.accepted.get(key);if(previous)return previous;
@@ -91,13 +128,15 @@ export class TrentunoGame {
       else if(this.phase==='peek'){this.peek=[];this.enter('draw',RULES.decision);}else if(this.phase==='knockWindow'){this.turnIndex=(this.turnIndex+1)%this.seats.length;this.turnNumber++;this.enter('draw',RULES.decision);}
       this.version++;this.assertInvariants();
     }
+    if(this.now>=this.botAt){const bot=this.phase==='knockWindow'?this.seats.find(s=>s.bot&&s.characterId==='judoka'&&this.available(s.id)):this.seats.find(s=>s.bot&&s.id===this.turn);if(bot)this.runBot(bot.id);}
   }
   publicState():PublicState {
     return {type:'trentunoPublic',roundId:this.roundId,matchId:this.matchId,version:this.version,phase:this.phase,handNumber:this.handNumber,turn:this.turn,turnNumber:this.turnNumber,remaining:Math.max(0,this.deadline-this.now),handRemaining:Math.max(0,RULES.handLimit-this.now+this.handStart),matchRemaining:Math.max(0,RULES.matchLimit-this.now),paused:this.paused,deckCount:this.deck.length,discardTop:this.discard.at(-1)??'',knocker:this.knocker,finalTurns:this.finalTurns,blockedFor:this.blockedFor,players:this.seats.map(s=>({...s,count:this.hands.get(s.id)!.length,abilityUsed:this.used.has(s.id),points:this.history.reduce((sum,h)=>sum+h.rows.find(r=>r.playerId===s.id)!.points,0)})),history:structuredClone(this.history),results:this.results?structuredClone(this.results):null,log:structuredClone(this.log)};
   }
   privateState(id:string):PrivateState {
     const hand=[...this.hands.get(id)!],active=id===this.turn&&!this.paused,drawing=active&&this.phase==='draw';
-    return {type:'trentunoPrivate',roundId:this.roundId,matchId:this.matchId,version:this.version,playerId:id,hand,score:handScore(hand),table:this.publicState(),canDraw:drawing,canTake:drawing&&this.blockedFor!==id&&this.discard.length>0,canKnock:drawing&&!this.knocker,discardable:active&&this.phase==='discard'?hand.filter(c=>this.source!=='discard'||c!==this.drawn):[],peek:active&&this.phase==='peek'?[...this.peek]:[],ability:{name:'Abilità',full:'Disponibile una volta nelle tre mani.',used:this.used.has(id),available:this.available(id)}};
+    const ability=abilityFor('trentuno',this.seats.find(s=>s.id===id)!.characterId)!;
+    return {type:'trentunoPrivate',roundId:this.roundId,matchId:this.matchId,version:this.version,playerId:id,hand,score:handScore(hand),table:this.publicState(),canDraw:drawing,canTake:drawing&&this.blockedFor!==id&&this.discard.length>0,canKnock:drawing&&!this.knocker,discardable:active&&this.phase==='discard'?hand.filter(c=>this.source!=='discard'||c!==this.drawn):[],peek:active&&this.phase==='peek'?[...this.peek]:[],ability:{name:ability.name,full:ability.full,used:this.used.has(id),available:this.available(id)}};
   }
   assertInvariants():void {
     const cards=[...this.deck,...this.discard,...this.hands.values()].flat();

@@ -52,4 +52,32 @@ for(let seed=0;seed<80;seed++){
   g.tick(.8);g.assertInvariants();
  }ok(g.phase==='finished'&&g.history.length===3,`partita naturale ${seed}`);
 }
-writeFileSync('docs/agent-work/trentuno/core-tests.json',JSON.stringify({checks,naturalGames:80},null,2));console.log(`${checks} controlli M1 superati.`);
+{
+ const g=make(5);g.turnIndex=0;cmd(g,'0','draw');const first=g.hands.get('0')!.at(-1)!,second=g.deck[0];ok(cmd(g,'0','ability').ok,'Goblin sostituisce');ok(g.hands.get('0')!.at(-1)===second&&!g.hands.get('0')!.includes(first)&&g.deck.at(-1)===first,'prima carta fondo, seconda obbligatoria');ok(!cmd(g,'0','ability').ok,'Goblin non doppio uso');g.assertInvariants();
+}
+{
+ const g=make(5);g.turnIndex=1;ok(cmd(g,'1','ability').ok,'Boschi blocca');cmd(g,'1','draw');cmd(g,'1','discard',{cardId:bestDiscard(g.hands.get('1')!)});ok(g.turn==='2'&&!g.privateState('2').canTake&&!cmd(g,'2','take').ok,'blocco effettivo prossimo');cmd(g,'2','draw');cmd(g,'2','discard',{cardId:bestDiscard(g.hands.get('2')!)});ok(g.blockedFor===null,'blocco un turno');
+}
+{
+ const g=make(5);g.turnIndex=2;const top=g.deck.slice(0,3);ok(cmd(g,'2','ability').ok,'Victor');ok(g.privateState('2').peek.join()===top.slice(0,2).join()&&g.privateState('0').peek.length===0,'peek solo proprietario');ok(!('peek' in g.publicState())&&top.slice(0,2).every(c=>!JSON.stringify(g.publicState()).includes(c)),'nessun peek pubblico');cmd(g,'2','order',{reverse:true});ok(g.deck[0]===top[1]&&g.deck[1]===top[0]&&g.deck[2]===top[2]&&g.hands.get('2')!.length===3,'solo prime due invertite');ok(!cmd(g,'2','ability').ok,'Victor consumato');
+}
+{
+ const g=make(5);g.turnIndex=0;cmd(g,'0','knock');ok(cmd(g,'3','ability').ok&&g.finalTurns===9,'Carbo aggiunge giro completo');ok(!cmd(g,'3','ability').ok,'Carbo non doppio');g.tick(3.1);let turns=0;
+ while(g.phase==='draw'){const id=g.turn;cmd(g,id,'draw');cmd(g,id,'discard',{cardId:bestDiscard(g.hands.get(id)!)});turns++;}ok(turns===9,'ultimo giro esteso N-1+N');
+ const own=make(5);own.turnIndex=3;cmd(own,'3','knock');ok(!cmd(own,'3','ability').ok,'non prolunga propria bussata');
+}
+{
+ const g=make(5);g.turnIndex=4;const own=g.hands.get('4')!.slice(),other=g.hands.get('0')!.slice();ok(!cmd(g,'4','ability',{cardId:other[0],targetId:'0'}).ok&&!g.used.has('4'),'scelta estranea non consuma');ok(cmd(g,'4','ability',{cardId:own[0],targetId:'0'}).ok,'Ciro scambia');ok(g.hands.get('4')!.length===3&&g.hands.get('0')!.length===3&&g.hands.get('0')!.includes(own[0]),'Ciro conserva dimensioni');ok(g.hands.get('4')!.filter(c=>other.includes(c)).length===1,'ricevuta casuale tra avversarie');g.assertInvariants();
+}
+{
+ const g=make(5);const hand=[['DENARI-A','DENARI-R','COPPE-2'],['SPADE-2','SPADE-3','SPADE-4'],['COPPE-3','COPPE-4','COPPE-5'],['BASTONI-2','BASTONI-3','BASTONI-4'],['DENARI-C','BASTONI-A','BASTONI-R']];rig(g,hand);g.turnIndex=4;
+ // Ciro regala la carta che completa il 31 avversario. La scelta casuale può toglierne una: cerchiamo seed con l'Asso/Re conservati.
+ let confirmed=false;for(let seed=0;seed<20&&!confirmed;seed++){const q=make(5,seed);rig(q,hand.map(h=>h.slice()));q.turnIndex=4;cmd(q,'4','ability',{cardId:'DENARI-C',targetId:'0'});if(q.phase==='handResult'){confirmed=true;ok(q.history[0].reason==='31'&&q.history[0].rows[0].playerId==='0','scambio conferma31 anche avversario');ok(!cmd(q,'3','ability').ok,'Carbo non annulla31');}}
+ ok(confirmed,'caso31 da Ciro raggiunto');
+}
+for(let seed=0;seed<80;seed++){
+ const g=new TrentunoGame(7,chars.slice(0,2+seed%4).map((characterId,i)=>({id:String(i),name:characterId,characterId,bot:true})),seed);
+ for(let step=0;g.phase!=='finished'&&step<1500;step++){g.tick(.7);g.assertInvariants();}
+ ok(g.phase==='finished'&&g.history.length===3,`bot naturali ${seed}`);ok(g.used.size>0,'bot usano abilità');
+}
+writeFileSync('docs/agent-work/trentuno/core-tests.json',JSON.stringify({checks,naturalGames:160},null,2));console.log(`${checks} controlli Trentuno superati · 160 partite naturali.`);

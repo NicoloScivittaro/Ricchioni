@@ -35,12 +35,12 @@ const ok = (c: boolean, m: string): void => {
 };
 const section = (t: string): void => console.log(`\n=== ${t} ===`);
 
-const GAMES: AbilityGameId[] = ['arena', 'dodgeball', 'soccer', 'volleyball', 'kart3d', 'fps', 'memory', 'reaction', 'quiz', 'cultura', 'cornicione', 'casacarbo', 'minigolf','geofall','goblinTime'];
+const GAMES: AbilityGameId[] = ['arena', 'dodgeball', 'soccer', 'volleyball', 'kart3d', 'fps', 'memory', 'reaction', 'quiz', 'cultura', 'cornicione', 'casacarbo', 'minigolf','geofall','goblinTime','trentuno'];
 const CHARS = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'] as const;
 
 // ----------------------------------------------------------------------------------------------------------- 1. catalogo
 section('1. CATALOGO — 75 abilita\' complete e coerenti');
-ok(ABILITY_CATALOG.length === 75, `75 abilita' nel catalogo (sono ${ABILITY_CATALOG.length})`);
+ok(ABILITY_CATALOG.length === 80, `80 abilita' nel catalogo (sono ${ABILITY_CATALOG.length})`);
 const ids = new Set<string>();
 for (const g of GAMES) {
   for (const c of CHARS) {
@@ -57,7 +57,7 @@ for (const g of GAMES) {
     ok(/\.$/.test(d.full.trim()), `${g}/${c}: la descrizione finisce con un punto`);
   }
 }
-ok(ids.size === 75, '75 combinazioni uniche');
+ok(ids.size === 80, '80 combinazioni uniche');
 
 // i numeri in secondi citati nella descrizione devono essere quelli del parametro (stessa fonte)
 const fmt = (n: number): string => (Number.isInteger(n) ? String(n) : String(n).replace('.', ','));
