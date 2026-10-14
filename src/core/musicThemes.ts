@@ -28,6 +28,7 @@ export type ThemeId =
   | 'reaction'
   | 'quiz'
   | 'cultura'
+  | 'trentuno'
   | 'goblinTime'
   | 'results'
   | 'podium';
@@ -228,6 +229,14 @@ export const THEMES: Record<ThemeId, Theme> = {
     chords: { wave: 'sine', style: 'stab', stabs: '...x......x.....', octave: 0 },
     motif: [4, _, _, 6, _, 7, _, _, 6, _, 4, _, 2, _, _, _, 2, _, _, 4, _, 6, _, _, 7, _, 6, _, 4, _, _, _],
     lead: { wave: 'triangle', octave: 1 }, gain: 0.55
+  },
+  trentuno: {
+    id:'trentuno',bpm:94,swing:.26,root:45,scale:DORIAN,progression:[0,3,0,4,0,6,3,4],
+    kick:'x.......x.......',snare:'....o.......o...',hat:'x..ox..ox..ox..o',kickB:'x.....x.x.......',
+    perc:{kind:'brush',pattern:'o.o.o.o.o.o.o.o.'},bass:{pattern:'1...3...5...6...',wave:'triangle',octave:-2},
+    chords:{wave:'sine',style:'stab',stabs:'...x......x.....',octave:0},
+    motif:[0,_,3,_,4,_,3,_,0,_,_,2,4,_,2,_,0,_,3,_,6,_,4,_,3,_,2,_,0,_,_,_],
+    lead:{wave:'triangle',octave:1},gain:.5
   },
   goblinTime: {
     id:'goblinTime',bpm:108,swing:.18,root:48,scale:DORIAN,progression:[0,0,3,4,0,6,3,4],
