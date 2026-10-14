@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {launch,createRoomOnHost,addPhone,hostEval,hostSnapshot,sleep} from './lib.mjs';
 import {gameEval,startGame,until,installMock,add,remove,tap,btn,XBOX,DS,GENERIC,slot} from './padmock.mjs';
-const out='docs/agent-work/minigolf-2',report={errors:[],transitions:[]};mkdirSync(out,{recursive:true});const browser=await launch();
+const out=process.env.GOLF_OUT??'docs/agent-work/minigolf-2',report={errors:[],transitions:[]};mkdirSync(out,{recursive:true});const browser=await launch();
 try{
  const {page,code}=await createRoomOnHost(browser,{targetKeyPresses:3});page.on('pageerror',e=>report.errors.push(String(e)));const phones=[];
  for(let i=0;i<5;i++){const p=await addPhone(browser,code,['Niko','Christian','Victor','Carbo','Ciro'][i],i);p.page.on('pageerror',e=>report.errors.push(String(e)));phones.push(p);}

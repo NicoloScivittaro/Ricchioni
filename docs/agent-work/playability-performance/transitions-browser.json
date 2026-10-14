@@ -1,0 +1,216 @@
+{
+  "errors": [],
+  "transitions": [
+    {
+      "hole": 2,
+      "remaining": 3.8583333333333334,
+      "active": 1,
+      "ids": [
+        "b8fdc167-ba0c-46fe-86a4-d2a87452fd69",
+        "092f6f2c-22b5-45e4-9d3d-c33d2ff27954",
+        "8e06b340-90d2-46e0-b2f2-b9fa1d8b4688",
+        "63efb274-f549-4b54-b275-0881a954dcc5",
+        "85f5e675-78ad-4bf7-b5fb-3e94e85b1bf3"
+      ],
+      "records": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "strokes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "used": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "extras": 0,
+      "charging": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "hole": 3,
+      "remaining": 3.8833333333333333,
+      "active": 2,
+      "ids": [
+        "b8fdc167-ba0c-46fe-86a4-d2a87452fd69",
+        "092f6f2c-22b5-45e4-9d3d-c33d2ff27954",
+        "8e06b340-90d2-46e0-b2f2-b9fa1d8b4688",
+        "63efb274-f549-4b54-b275-0881a954dcc5",
+        "85f5e675-78ad-4bf7-b5fb-3e94e85b1bf3"
+      ],
+      "records": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "strokes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "used": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "extras": 0,
+      "charging": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    }
+  ],
+  "final": {
+    "courses": [
+      "cancelli",
+      "saliscendi",
+      "serpentina"
+    ],
+    "playoff": true,
+    "results": [
+      {
+        "playerId": "b8fdc167-ba0c-46fe-86a4-d2a87452fd69",
+        "placement": 1,
+        "score": 42,
+        "stats": [
+          "EX AEQUO · 42 colpi",
+          "B1: 14 DNF · B2: 14 DNF · B3: 14 DNF",
+          "EX AEQUO"
+        ]
+      },
+      {
+        "playerId": "092f6f2c-22b5-45e4-9d3d-c33d2ff27954",
+        "placement": 1,
+        "score": 42,
+        "stats": [
+          "EX AEQUO · 42 colpi",
+          "B1: 14 DNF · B2: 14 DNF · B3: 14 DNF",
+          "EX AEQUO"
+        ]
+      },
+      {
+        "playerId": "8e06b340-90d2-46e0-b2f2-b9fa1d8b4688",
+        "placement": 1,
+        "score": 42,
+        "stats": [
+          "EX AEQUO · 42 colpi",
+          "B1: 14 DNF · B2: 14 DNF · B3: 14 DNF",
+          "EX AEQUO"
+        ]
+      },
+      {
+        "playerId": "63efb274-f549-4b54-b275-0881a954dcc5",
+        "placement": 1,
+        "score": 42,
+        "stats": [
+          "EX AEQUO · 42 colpi",
+          "B1: 14 DNF · B2: 14 DNF · B3: 14 DNF",
+          "EX AEQUO"
+        ]
+      },
+      {
+        "playerId": "85f5e675-78ad-4bf7-b5fb-3e94e85b1bf3",
+        "placement": 1,
+        "score": 42,
+        "stats": [
+          "EX AEQUO · 42 colpi",
+          "B1: 14 DNF · B2: 14 DNF · B3: 14 DNF",
+          "EX AEQUO"
+        ]
+      }
+    ]
+  },
+  "sharedResults": {
+    "results": [
+      {
+        "playerId": "b8fdc167-ba0c-46fe-86a4-d2a87452fd69",
+        "placement": 1,
+        "score": 42,
+        "stats": [
+          "EX AEQUO · 42 colpi",
+          "B1: 14 DNF · B2: 14 DNF · B3: 14 DNF",
+          "EX AEQUO"
+        ]
+      },
+      {
+        "playerId": "092f6f2c-22b5-45e4-9d3d-c33d2ff27954",
+        "placement": 1,
+        "score": 42,
+        "stats": [
+          "EX AEQUO · 42 colpi",
+          "B1: 14 DNF · B2: 14 DNF · B3: 14 DNF",
+          "EX AEQUO"
+        ]
+      },
+      {
+        "playerId": "8e06b340-90d2-46e0-b2f2-b9fa1d8b4688",
+        "placement": 1,
+        "score": 42,
+        "stats": [
+          "EX AEQUO · 42 colpi",
+          "B1: 14 DNF · B2: 14 DNF · B3: 14 DNF",
+          "EX AEQUO"
+        ]
+      },
+      {
+        "playerId": "63efb274-f549-4b54-b275-0881a954dcc5",
+        "placement": 1,
+        "score": 42,
+        "stats": [
+          "EX AEQUO · 42 colpi",
+          "B1: 14 DNF · B2: 14 DNF · B3: 14 DNF",
+          "EX AEQUO"
+        ]
+      },
+      {
+        "playerId": "85f5e675-78ad-4bf7-b5fb-3e94e85b1bf3",
+        "placement": 1,
+        "score": 42,
+        "stats": [
+          "EX AEQUO · 42 colpi",
+          "B1: 14 DNF · B2: 14 DNF · B3: 14 DNF",
+          "EX AEQUO"
+        ]
+      }
+    ],
+    "ranking": [
+      "b8fdc167-ba0c-46fe-86a4-d2a87452fd69",
+      "092f6f2c-22b5-45e4-9d3d-c33d2ff27954",
+      "8e06b340-90d2-46e0-b2f2-b9fa1d8b4688",
+      "63efb274-f549-4b54-b275-0881a954dcc5",
+      "85f5e675-78ad-4bf7-b5fb-3e94e85b1bf3"
+    ],
+    "deltas": {
+      "b8fdc167-ba0c-46fe-86a4-d2a87452fd69": 5,
+      "092f6f2c-22b5-45e4-9d3d-c33d2ff27954": 5,
+      "8e06b340-90d2-46e0-b2f2-b9fa1d8b4688": 5,
+      "63efb274-f549-4b54-b275-0881a954dcc5": 5,
+      "85f5e675-78ad-4bf7-b5fb-3e94e85b1bf3": 5
+    },
+    "double": false
+  }
+}

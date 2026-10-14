@@ -40,6 +40,8 @@ export class BackroomsMatch {
   private safeCells: Set<number>;
   readonly senses: Record<CreatureKind, Senses>;
   private spawnPoints = new Map<string, Point>();
+  private promptTargets:(Omit<Prompt,'text'>&{y:number})[]=[];
+  private promptDoorMazes:Maze[]=[];
   constructor(roster: { id: string; name: string; bot?: boolean }[], seed: number, config: BackConfig = {}) {
     this.senses = Object.fromEntries(Object.entries(CREATURE_SENSES).map(([k, v]) => [k, { ...v, ...config.senses?.[k as CreatureKind] }])) as Record<CreatureKind, Senses>;
     this.rng = new Rng(seed ^ 0x218843); this.maze = generateMaze(seed, roster.length);
@@ -49,6 +51,13 @@ export class BackroomsMatch {
     this.tasks = this.mode === 'puzzle' ? this.maze.tasks.slice(0, this.puzzle === 'switches' ? 3 : 2) : [];
     this.taskProgress = this.tasks.map(() => 0); this.unlocked = this.mode === 'free';
     this.duration = clamp(config.duration ?? 420, 360, 480); this.key = this.mode === 'key' ? center(this.maze, this.maze.key) : null;
+    const exit=center(this.maze,this.maze.exit);
+    this.promptTargets=[{kind:'exit',index:0,point:{x:exit.x,z:exit.z+.55},y:1.25},
+      ...this.tasks.map((cell,index)=>{const p=center(this.maze,cell);return{kind:'task' as const,index,point:{x:p.x,z:p.z+.24},y:.9};}),
+      ...this.maze.doors.map((door,index)=>({kind:'door' as const,index,point:center(this.maze,door.cell),y:1.3})),
+      ...this.maze.refuges.map((cell,index)=>{const p=center(this.maze,cell);return{kind:'hide' as const,index,point:{x:p.x+.9,z:p.z+.38},y:1.35};})];
+    // Le porte sono gli stessi oggetti mutabili: aprirle/chiuderle resta visibile anche alle viste senza la porta bersaglio.
+    this.promptDoorMazes=this.maze.doors.map((_,index)=>({...this.maze,doors:this.maze.doors.filter((_,i)=>i!==index)}));
     const start = center(this.maze, this.maze.spawn);
     this.players = roster.map((p, i) => {
       const spawn = { x: start.x + (i % 3) * CELL, z: start.z + Math.floor(i / 3) * CELL }; this.spawnPoints.set(p.id, spawn);
@@ -72,23 +81,21 @@ export class BackroomsMatch {
   prompt(p: BackPlayer): Prompt | null {
     if (p.state !== 'exploring') return null;
     if (p.hiding) return { kind: 'hide', index: -1, text: 'ESCI DAL NASCONDIGLIO', point: p };
-    const targets: (Prompt & { y: number })[] = [{ kind: 'exit', index: 0,
-      text: this.unlocked || this.keyHolder === p.id ? 'APRI · FUGGI' : this.mode === 'key' ? 'PORTA BLOCCATA · SERVE UNA CHIAVE' : 'PORTA BLOCCATA · MANCA CORRENTE',
-      point: { ...center(this.maze, this.maze.exit), z: center(this.maze, this.maze.exit).z + .55 }, y: 1.25 }];
-    if (this.key) targets.push({ kind: 'key', index: 0, text: 'RACCOGLI LA CHIAVE', point: this.key, y: .65 });
-    this.tasks.forEach((cell, i) => { if (this.taskProgress[i] < 1) { const v = center(this.maze, cell);
-      targets.push({ kind: 'task', index: i, text: this.puzzle === 'switches' ? 'ATTIVA INTERRUTTORE' : `TIENI PREMUTO · ATTIVA GENERATORE ${Math.round(this.taskProgress[i] * 100)}%`, point: { x: v.x, z: v.z + .24 }, y: .9 }); } });
-    this.maze.doors.forEach((door, i) => targets.push({ kind: 'door', index: i, text: door.open ? 'CHIUDI LA PORTA' : 'APRI LA PORTA', point: center(this.maze, door.cell), y: 1.3 }));
-    this.maze.refuges.forEach((c, i) => { const v = center(this.maze, c); targets.push({ kind: 'hide', index: i, text: 'NASCONDITI · RESTA IN SILENZIO', point: { x: v.x + .9, z: v.z + .38 }, y: 1.35 }); });
-    const score = (t: typeof targets[number]) => {
-      const dx = t.point.x - p.x, dz = t.point.z - p.z, dy = t.y - 1.58, d = Math.hypot(dx, dz);
-      const alignment = (Math.sin(p.yaw) * Math.cos(p.pitch) * dx + Math.cos(p.yaw) * Math.cos(p.pitch) * dz - Math.sin(p.pitch) * dy) / Math.max(.01, Math.hypot(d, dy));
-      if (d >= 2.4 || (d >= .8 && alignment < .45)) return -Infinity;
-      // Ignore only the targeted door slab. Other closed doors and walls still occlude it.
-      const maze = t.kind === 'door' ? { ...this.maze, doors: this.maze.doors.filter((_, i) => i !== t.index) } : this.maze;
-      return lineOfSight(maze, p, t.point) ? alignment * 2 - d * .15 : -Infinity;
+    const sy=Math.sin(p.yaw),cy=Math.cos(p.yaw),cp=Math.cos(p.pitch),sp=Math.sin(p.pitch);
+    let best:typeof this.promptTargets[number]|null=null,bestScore=-Infinity;
+    const consider=(t:typeof this.promptTargets[number])=>{
+      const dx=t.point.x-p.x,dz=t.point.z-p.z,dy=t.y-1.58,d=Math.hypot(dx,dz);if(d>=2.4)return;
+      const alignment=(sy*cp*dx+cy*cp*dz-sp*dy)/Math.max(.01,Math.hypot(d,dy));if(d>=.8&&alignment<.45)return;
+      const score=alignment*2-d*.15;if(!Number.isFinite(score)||score<=bestScore)return;
+      if(lineOfSight(t.kind==='door'?this.promptDoorMazes[t.index]:this.maze,p,t.point)){best=t;bestScore=score;}
     };
-    return targets.map(t => ({ t, score: score(t) })).filter(v => Number.isFinite(v.score)).sort((a, b) => b.score - a.score)[0]?.t ?? null;
+    consider(this.promptTargets[0]);if(this.key)consider({kind:'key',index:0,point:this.key,y:.65});
+    for(let i=1;i<this.promptTargets.length;i++){const t=this.promptTargets[i];if(t.kind!=='task'||this.taskProgress[t.index]<1)consider(t);}
+    if(!best)return null;const t=best as typeof this.promptTargets[number];
+    const text=t.kind==='exit'?(this.unlocked||this.keyHolder===p.id?'APRI · FUGGI':this.mode==='key'?'PORTA BLOCCATA · SERVE UNA CHIAVE':'PORTA BLOCCATA · MANCA CORRENTE'):
+      t.kind==='key'?'RACCOGLI LA CHIAVE':t.kind==='task'?(this.puzzle==='switches'?'ATTIVA INTERRUTTORE':`TIENI PREMUTO · ATTIVA GENERATORE ${Math.round(this.taskProgress[t.index]*100)}%`):
+      t.kind==='door'?(this.maze.doors[t.index].open?'CHIUDI LA PORTA':'APRI LA PORTA'):'NASCONDITI · RESTA IN SILENZIO';
+    return {...t,text};
   }
 
   advance(dt: number): void {

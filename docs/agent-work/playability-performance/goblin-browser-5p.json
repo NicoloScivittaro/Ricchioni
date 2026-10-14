@@ -1,0 +1,20 @@
+{
+  "naturalWinner": true,
+  "mode": "personal",
+  "players": 5,
+  "choiceSurvivesOldTimeout": true,
+  "choiceSeconds": 60,
+  "pause": true,
+  "reload": true,
+  "mobileWidths": [
+    320,
+    390,
+    740
+  ],
+  "fullOptionEffects": true,
+  "reactionReadable": true,
+  "hostPrivacy": true,
+  "avatarsCleanup": true,
+  "overflowRestored": true,
+  "errors": []
+}

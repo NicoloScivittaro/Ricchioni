@@ -1,0 +1,13 @@
+{
+  "compiled": true,
+  "players": 2,
+  "mode": "personal",
+  "choiceSeconds": 60,
+  "survivesOldTimeout": true,
+  "realPauseKeys": true,
+  "reconnect": true,
+  "naturalWinner": true,
+  "hostPrivacy": true,
+  "cleanup": true,
+  "errors": []
+}

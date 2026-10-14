@@ -60,7 +60,7 @@ export class GoblinTimeScene extends Phaser.Scene {
     this.text(640,176,'OBIETTIVO: 5 CARTE IN MANO → DICHIARA → MANTIENILE FINO AL TUO TURNO',16,'#c4ec85');
     const n=s.players.length;this.positions.clear();
     s.players.forEach((p,i)=>{
-      const x=640+(i-(n-1)/2)*226,y=248;this.positions.set(p.id,{x,y});
+      const x=640+(i-(n-1)/2)*226,y=260;this.positions.set(p.id,{x,y});
       const accent=Phaser.Display.Color.HexStringToColor(presentationOf(p.characterId)?.accent??'#69c49b').color;
       const waiting=s.waitingFor?.includes(p.id);this.keep(this.add.rectangle(x,y,210,120,0x142136,.97).setStrokeStyle(p.declared?4:2,p.declared?0xff4c76:waiting?0x6fe8bd:p.id===s.turn?0xffda78:accent));
       if(!this.avatars)this.keep(addPortrait(this,x-65,y-25,p.characterId,58)).setName(`gt-portrait-${p.id}`);

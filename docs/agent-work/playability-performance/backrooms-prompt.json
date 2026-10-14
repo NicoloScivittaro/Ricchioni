@@ -1,0 +1,9 @@
+{
+  "checks": 18036,
+  "previousSemanticsPreserved": true,
+  "liveDoors": true,
+  "keyMoves": true,
+  "tasks": true,
+  "hiding": true,
+  "occlusion": true
+}
