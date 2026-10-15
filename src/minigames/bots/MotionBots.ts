@@ -93,7 +93,10 @@ export class MotionBots extends BotInputs {
       this.move(p.id, (primary ? tx : homeX) - p.x, (primary ? tz : side * 5) - p.z);
       const touch = `${ball.state}:${ball.lastTouchId}:${ball.teamTouches}`;
       if (this.volleyReads.get(p.id)?.touch !== touch) this.volleyReads.set(p.id, { touch, miss: this.rng.chance(0.17) });
-      const near = Math.hypot(ball.x - p.x, ball.z - p.z) < 2.4;
+      const distance = Math.hypot(ball.x - p.x, ball.z - p.z);
+      this.hold(p.id, 'sprint', ball.state === 'flying' && onSide && primary && distance > 3 && p.sprintEnergy > .15);
+      if (ball.state === 'flying' && onSide && primary && ball.lastTouchId !== p.id && ball.y < 1.8 && ball.vy < 0 && distance < 5 && p.diveCooldown <= 0 && this.every(p.id, 'dive', .3, .6)) this.tap(p.id, 'dive');
+      const near = distance < 2.4;
       if (ball.state === 'held' && ball.holderId === p.id && this.every(p.id, 'serve', 1, 1.5)) this.tap(p.id, 'hit');
       if (ball.state === 'flying' && ball.lastTouchId !== p.id && primary && onSide && near && !this.volleyReads.get(p.id)!.miss) {
         if (ball.y > 3 && ball.y < 4.7 && p.y <= 0.01 && this.every(p.id, 'jump', 0.2, 0.4)) this.tap(p.id, 'jump');

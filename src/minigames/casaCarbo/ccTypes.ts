@@ -16,6 +16,7 @@ export type CCAbilityResult = 'ok' | 'spent' | 'cooldown' | 'notNear' | 'busy' |
 
 export interface CCStats {
   emergencyBonus: number;
+  raceBonus: number;
   drainedBucket: number;
   drainedSqueegee: number;
   drainedAbility: number;
@@ -114,6 +115,7 @@ export type CCEvent =
   | { t: 'ability'; id: string; a: CCAbilityEvent; door?: 'front' | 'back'; at?: number; amount?: number }
   | { t: 'emergency'; kind: 'tv' | 'bedroom' | 'door'; state: 'start' | 'won' | 'lost'; door?: 'front' | 'back'; rewards?: Record<string, number> }
   | { t: 'waterAction'; id: string; via: 'scoop' | 'push'; amount: number }
+  | { t: 'race'; state: 'start' | 'won' | 'expired'; drain: string; id?: string; bonus?: number }
   | { t: 'end'; dry: number; saved: boolean };
 
 export type CCAbilityEvent =
@@ -132,7 +134,7 @@ export type CCAbilityEvent =
   | 'ciro_lost';
 
 export function freshCCStats(): CCStats {
-  return { emergencyBonus: 0, drainedBucket: 0, drainedSqueegee: 0, drainedAbility: 0, stopped: 0, spilled: 0, tvSaved: 0, unclogged: 0, slips: 0, abilityUses: 0, abilitySuccess: 0, abilityFail: 0, impact: {} };
+  return { emergencyBonus: 0, raceBonus: 0, drainedBucket: 0, drainedSqueegee: 0, drainedAbility: 0, stopped: 0, spilled: 0, tvSaved: 0, unclogged: 0, slips: 0, abilityUses: 0, abilitySuccess: 0, abilityFail: 0, impact: {} };
 }
 
 export function freshCCAbility(): CCAbilityState {

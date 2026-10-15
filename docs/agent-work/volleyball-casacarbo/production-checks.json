@@ -1,0 +1,45 @@
+{
+  "games": [
+    {
+      "id": "volleyball",
+      "compiled": true,
+      "players": 5,
+      "humans": 1,
+      "bots": 4,
+      "phoneInput": true,
+      "featureStatus": {
+        "type": "defense",
+        "value": 100,
+        "cooldown": 0
+      },
+      "minSprintEnergy": 77,
+      "maxDiveCooldown": 1.6,
+      "naturalPoints": 1,
+      "fps": 57.9355692320029,
+      "pause": true,
+      "cleanup": true
+    },
+    {
+      "id": "casacarbo",
+      "compiled": true,
+      "players": 5,
+      "humans": 1,
+      "bots": 4,
+      "phoneInput": true,
+      "featureStatus": {
+        "type": "carboRace",
+        "name": "TOMBINO",
+        "value": 0,
+        "cooldown": 13,
+        "available": true
+      },
+      "minSprintEnergy": 100,
+      "maxDiveCooldown": 0,
+      "naturalPoints": 0,
+      "fps": 59.94005994005994,
+      "pause": true,
+      "cleanup": true
+    }
+  ],
+  "errors": []
+}

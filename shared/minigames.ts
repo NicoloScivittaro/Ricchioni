@@ -158,7 +158,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id: 'volleyball',
     icon: '🏖️',
-    description: 'Beach volley a squadre: chi arriva a 5 punti vince.',
+    description: 'Beach volley a squadre: sprint per raggiungere la palla, tuffo per salvarla. Primo a 5 punti.',
     name: 'PALLAVOLO DEI DISAGIATI',
     category: 'SPORT',
     rarity: 'uncommon',
@@ -174,7 +174,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     sceneKey: 'volleyball',
 
     inputMode: 'GAMEPAD',
-    // Controller dedicato: joystick + SALTA + COLPISCI + ABILITÀ (renderVolleyballController()).
+    // Controller dedicato: joystick + SALTA + COLPISCI + TUFFO + SPRINT + ABILITÀ (renderVolleyballController()).
     controllerLayout: { type: 'custom', id: 'volleyball-tv' }
   },
   {
@@ -291,7 +291,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id: 'casacarbo',
     icon: '🌧️',
-    description: "Il temporale allaga casa di Carbo: tiracqua, secchi e scarichi. Asciugate almeno il 75% e dimostrate chi ha lavorato di più.",
+    description: "Salvate casa dal temporale e sfidatevi: primo a 4 litri allo scarico segnalato vince +6! Asciugate almeno il 75%.",
     name: 'CASA CARBO',
     category: 'SKILL',
     rarity: 'uncommon',

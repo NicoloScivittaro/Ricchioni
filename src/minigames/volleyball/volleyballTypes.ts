@@ -118,6 +118,11 @@ export interface VolleyballPlayer {
   falling: boolean;
   spin: number;
   dashing: boolean;
+  sprintEnergy: number;
+  sprinting: boolean;
+  diveTime: number;
+  diveCooldown: number;
+  diveReceived: boolean;
   hitCooldown: number;
   stunTime: number;
   hitFlash: number;
@@ -170,6 +175,11 @@ export function createVolleyballPlayer(
     falling: false,
     spin: 0,
     dashing: false,
+    sprintEnergy: 1,
+    sprinting: false,
+    diveTime: 0,
+    diveCooldown: 0,
+    diveReceived: false,
     hitCooldown: 0,
     stunTime: 0,
     hitFlash: 0,

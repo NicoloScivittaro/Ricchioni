@@ -56,6 +56,7 @@ import { abilityHub } from '../../core/abilityHub';
 import { VOLLEYBALL_ABILITIES } from '../../../shared/volleyballAbilities';
 import { abilityLabel } from '../characters/reactions';
 
+import { DEFENSE, beginDive, canDiveReceive, updateSprint } from './volleyballDefense';
 import { readMove } from '../moveInput';
 import { runSteps } from '../../core/frameClock';
 import { guardLoop, safely } from '../../core/loopGuard';
@@ -123,6 +124,7 @@ export class BabylonVolleyballGame {
   private resultsSent = false;
   private disposed = false;
   private paused = false;
+  private defenseHudTime = 0;
   private celebrateTime = 0;
   private winnerTeam: Team | null = null;
   private stats: VolleyStats | null = debugEnabled() ? new VolleyStats() : null; // statistiche di bilanciamento (solo debug)
@@ -265,6 +267,9 @@ export class BabylonVolleyballGame {
       p.vx = 0;
       p.vz = 0;
       p.hitCooldown = 0;
+      p.diveTime = p.diveCooldown = 0;
+      p.dashing = p.sprinting = false;
+      p.sprintEnergy = 1;
       const teamIdx = this.players.filter((q) => q.team === p.team).indexOf(p);
       const count = this.players.filter((q) => q.team === p.team).length;
       p.x = count > 1 ? -FIELD_HALF_W * 0.7 + teamIdx * ((FIELD_HALF_W * 1.4) / (count - 1)) : 0;
@@ -356,7 +361,9 @@ export class BabylonVolleyballGame {
 
     // Visuali
     for (const p of this.players) {
-      this.entities.get(p.id)?.updateVisual(p, dt, now);
+      const entity=this.entities.get(p.id);
+      entity?.updateVisual(p, dt, now);
+      if(entity && p.diveTime>0) entity.root.rotation.x=.42+.65*Math.sin(Math.PI*(1-p.diveTime/DEFENSE.diveSeconds));
       // atterraggio sulla sabbia: un "pff" sordo (solo suono, il salto e' del gioco)
       const py = this.prevY.get(p.id) ?? 0;
       if (py > 0.25 && p.y <= 0.02) audio.sand(this.pan(p.x));
@@ -400,6 +407,12 @@ export class BabylonVolleyballGame {
     this.stats?.tick(dt);
     for (const p of this.players) this.stepPlayer(p, dt);
     this.updateBall(dt);
+    this.defenseHudTime -= dt;
+    if (this.defenseHudTime <= 0) {
+      this.defenseHudTime=.25;
+      for (const p of this.players) this.ctx.signal(p.id, {type:'defense',value:Math.round(p.sprintEnergy*100),cooldown:Math.round(p.diveCooldown*10)/10});
+      this.hud.actionFeedback(this.players.map(p=>`${p.name.slice(0,6)} ${Math.round(p.sprintEnergy*100)}% T:${p.diveCooldown>0?p.diveCooldown.toFixed(1):'OK'}`).join('   '), '#67e8f9', 400, '94%');
+    }
     void now;
   }
 
@@ -429,21 +442,31 @@ export class BabylonVolleyballGame {
       ax = 0;
       az = 0;
     }
-    const effSpeed = p.speedMult * this.abilities.speedFactor(p) * (this.freeze?.by === p.id ? VOLLEY_JUDOKA.p.speed : 1);
+    p.diveTime = Math.max(0, p.diveTime - dt);
+    p.diveCooldown = Math.max(0, p.diveCooldown - dt);
+    if (!frozenOut && input.justPressed('dive') && beginDive(p, this.ball, ax, az)) {
+      this.entities.get(p.id)?.playMove('dodge', DEFENSE.diveSeconds);
+      audio.sand(this.pan(p.x)); this.ctx.vibrate(p.id, 30);
+    }
+    updateSprint(p, input.pressed('sprint'), mag > .15, !frozenOut && p.stunTime <= 0 && this.ball.holderId !== p.id, dt);
+    p.dashing = p.diveTime > 0;
+    const effSpeed = (p.sprinting ? DEFENSE.sprintMult : 1) * p.speedMult * this.abilities.speedFactor(p) * (this.freeze?.by === p.id ? VOLLEY_JUDOKA.p.speed : 1);
     const effAccel = ACCEL * effSpeed;
     const effMax = MAX_SPEED * effSpeed;
 
     // Movimento (non attraversare la rete)
-    if (!frozenOut && mag > 0.15) p.facing = Math.atan2(ax, az);
-    p.vx += ax * effAccel * dt;
-    p.vz += az * effAccel * dt;
-    const damp = Math.exp(-FRICTION * dt * (p.dizzyTime > 0 ? 0.35 : 1)); // Dottore dopo M'HO SVEJATO: scivola
-    p.vx *= damp;
-    p.vz *= damp;
-    const sp = Math.hypot(p.vx, p.vz);
-    if (sp > effMax) {
-      p.vx = (p.vx / sp) * effMax;
-      p.vz = (p.vz / sp) * effMax;
+    if (p.diveTime <= 0) {
+      if (!frozenOut && mag > 0.15) p.facing = Math.atan2(ax, az);
+      p.vx += ax * effAccel * dt;
+      p.vz += az * effAccel * dt;
+      const damp = Math.exp(-FRICTION * dt * (p.dizzyTime > 0 ? 0.35 : 1)); // Dottore dopo M'HO SVEJATO: scivola
+      p.vx *= damp;
+      p.vz *= damp;
+      const sp = Math.hypot(p.vx, p.vz);
+      if (sp > effMax) {
+        p.vx = (p.vx / sp) * effMax;
+        p.vz = (p.vz / sp) * effMax;
+      }
     }
     p.x += p.vx * dt;
     p.z += p.vz * dt;
@@ -454,7 +477,7 @@ export class BabylonVolleyballGame {
     p.z = Math.max(-FIELD_HALF_D + PLAYER_RADIUS, Math.min(FIELD_HALF_D - PLAYER_RADIUS, p.z));
 
     // Salto
-    if (!frozenOut && input.justPressed('jump') && p.y <= 0.01) {
+    if (!frozenOut && input.justPressed('jump') && p.y <= 0.01 && p.diveTime <= 0) {
       p.vy = JUMP_VY * p.jumpMult * this.abilities.jumpFactor(p);
       p.y = 0.02;
       audio.select();
@@ -471,8 +494,13 @@ export class BabylonVolleyballGame {
       }
     }
 
+    if (!frozenOut && canDiveReceive(p, this.ball)) {
+      this.tryHit(p, true); p.diveReceived = true; p.saves++;
+      this.hud.feedMessage(`🙌 ${p.name}: SALVATAGGIO IN TUFFO!`, TEAM_COLOR[p.team], 1300);
+    }
+
     // Colpo / servizio
-    if (!frozenOut && input.justPressed('hit')) {
+    if (!frozenOut && p.diveTime <= 0 && input.justPressed('hit')) {
       if (this.ball.state === 'held' && this.ball.holderId === p.id) {
         this.serve(p);
       } else {
@@ -509,13 +537,13 @@ export class BabylonVolleyballGame {
     this.ctx.signal(p.id, { type: 'served' });
   }
 
-  private tryHit(p: VolleyballPlayer): void {
+  private tryHit(p: VolleyballPlayer, diving = false): void {
     if (this.ball.state !== 'flying') return;
     if (p.hitCooldown > 0) return;
     // MURO DEL POLIGONO: a rete le braccia del Buttafuori arrivano piu' lontano
     const muroZone = p.muroTime > 0 && Math.abs(p.z) < VOLLEY_BUTTAFUORI.p.netZone;
     const dist = Math.hypot(this.ball.x - p.x, this.ball.z - p.z);
-    if (dist > HIT_RADIUS * (muroZone ? VOLLEY_BUTTAFUORI.p.reach : 1)) return;
+    if (dist > (diving ? DEFENSE.diveRadius : HIT_RADIUS) * (muroZone ? VOLLEY_BUTTAFUORI.p.reach : 1)) return;
     if (this.ball.y < p.y - 0.4 || this.ball.y > p.y + HIT_REACH) return;
 
     p.hitCooldown = HIT_COOLDOWN * p.hitCooldownMult;
@@ -528,13 +556,17 @@ export class BabylonVolleyballGame {
       this.onAbilityFeedback(p, { type: 'judoka_resume' });
     }
 
-    const wall = muroZone && this.ball.y > 1.2; // muro: colpo in alto davanti alla rete
-    const canSmash = wall || (p.y > 0.4 && this.ball.y > NET_HEIGHT * 0.8 && Math.abs(p.z) < 2.4);
+    const wall = !diving && muroZone && this.ball.y > 1.2; // muro: colpo in alto davanti alla rete
+    const canSmash = !diving && (wall || (p.y > 0.4 && this.ball.y > NET_HEIGHT * 0.8 && Math.abs(p.z) < 2.4));
     const perfect = this.ball.y > p.y + 1.1 && this.ball.y < p.y + 2.2;
     const dirZ = p.team === 'red' ? 1 : -1;
     // Direzione orizzontale unitaria (avanti + lieve assist verso il centro): la velocità orizzontale
     // del colpo è quella nominale, non dipende più da dove si trova la palla.
-    const shot=volleyShot(this.ball,p.team,this.ctx.input.get(p.id).axis('move'),canSmash,perfect,wall);
+    const shot=volleyShot(this.ball,p.team,diving ? {x:0,y:1} : this.ctx.input.get(p.id).axis('move'),canSmash,perfect,wall);
+    if (diving) {
+      shot.vy = 10.4;
+      shot.speed = Math.min(shot.speed, Math.max(1.2, (Math.abs(this.ball.z)-.56)/.32));
+    }
     const isSmash=shot.smash;
     let aim = {dx:shot.dx,dz:shot.dz};
     // DOTTORE — M'HO SVEJATO: lo smash va da solo dove nessuno difende
@@ -795,6 +827,10 @@ export class BabylonVolleyballGame {
     this.ctx.signal(null, { type: 'point', team: scoringTeam });
     // ESULTANZA DEL PUNTO: breve, nello stile di ciascuno (chi l'ha fatto un po' di piu'); chi l'ha subito ci resta male
     for (const p of this.players) {
+      p.diveTime = p.diveCooldown = 0;
+      p.dashing = p.sprinting = false;
+      p.vx = p.vz = 0;
+      p.sprintEnergy = 1;
       const e = this.entities.get(p.id);
       if (p.team === scoringTeam) e?.playVictory(p.id === last ? POINT_PAUSE_SECONDS * 0.8 : POINT_PAUSE_SECONDS * 0.5);
       else e?.playDefeat(POINT_PAUSE_SECONDS * 0.5);

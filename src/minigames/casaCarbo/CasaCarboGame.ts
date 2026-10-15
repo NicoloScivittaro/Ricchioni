@@ -140,6 +140,7 @@ export class CasaCarboGame {
   private shakeT = 0;
   private gameTime = 0;
   private lastCount = 0;
+  private raceStatusAt = 0;
   private lastPeakWarned = false;
   private camBase = new Vector3();
   private interiorMask: Uint8Array;
@@ -364,7 +365,7 @@ export class CasaCarboGame {
     if(this.tutorialT>=18 || this.tutorialStage===3){
       this.world=this.matchWorld!;this.matchWorld=null;this.phase='countdown';this.ctx.input.reset();
       this.actionFeedback.clear();this.hud.tutorial('','');this.hud.setCountdown('3');
-      this.hud.feedMessage('SCARICA = +PUNTI · SOLO SPOSTARE = 0 · ASCIUTTA ALMENO 75%', '#93c5fd',3500);
+      this.hud.feedMessage('GARE: PRIMO A 4 L ALLO SCARICO D’ORO = +6 · CASA ASCIUTTA ALMENO 75%', '#93c5fd',3500);
     }
   }
 
@@ -413,6 +414,16 @@ export class CasaCarboGame {
 
   private handle(e: CCEvent): void {
     switch (e.t) {
+      case 'race': {
+        const drain=DRAIN_NAME[e.drain] ?? e.drain;
+        if(e.state==='start') this.hud.feedMessage(`GARA! PRIMO A ${CC.race.target} L AL ${drain}: +${CC.race.prize} PT`, '#fbbf24', 3400);
+        else if(e.state==='won') {
+          this.hud.feedMessage(`🏆 ${this.label(e.id!)} VINCE LA GARA! +${e.bonus} PT`, '#4ade80', 3000);
+          this.actionFeedback.set(e.id!,{text:`GARA VINTA +${e.bonus}`,until:this.gameTime+2});
+          audio.fanfare(); this.ctx.vibrate(e.id!, 90);
+        } else this.hud.feedMessage('GARA SCADUTA · TRA POCO CAMBIA SCARICO', '#9ca3af', 1600);
+        break;
+      }
       case 'waterAction': {
         const p=this.player(e.id);if(p){
           this.env.waterFeedback(p.x+p.fx*30,p.y+p.fy*30,e.via==='push'?p.fx:0,e.via==='push'?p.fy:0);
@@ -664,7 +675,8 @@ export class CasaCarboGame {
     for (const d of DRAINS) {
       const l = this.drainLabels.get(d.id)!;
       if (this.phase === 'ending') l.set('', '#fff');
-      else if (w.clogged.has(d.id)) l.set('⛔ INTASATO', '#f87171');
+      else if (w.clogged.has(d.id)) l.set(w.drainRace?.drain===d.id?'🏆 GARA · INTASATO':'⛔ INTASATO', '#f87171');
+      else if(w.drainRace?.drain===d.id) l.set(`🏆 GARA: ${CC.race.target} L = +${CC.race.prize}`, '#fbbf24');
       else l.set(d.id === 'bagno' ? '💧 SCARICO' : d.id === 'lavello' ? '🚰 LAVELLO' : '⭕ TOMBINO', '#93c5fd');
     }
     this.emergencyLabel.set(w.emergency?.kind==='bedroom'?'CAMERA: RACCOGLI E SCARICA':'','#fbbf24');
@@ -697,13 +709,24 @@ export class CasaCarboGame {
       else if(p.bucket<.02)label=p.squeegee?'SPINGO →':'VUOTO · Y / △';
       const feedback=this.actionFeedback.get(p.id);if(feedback && feedback.until>this.gameTime)label=feedback.text;
       const guide=this.guidance.get(p.id)!;
-      if(p.bucket>=w.bucketCap(p)*.9 && this.phase!=='ending'){
-        const route=drainRoute(w,p);
+      if(p.bucket>=(w.drainRace ? .5 : w.bucketCap(p)*.9) && this.phase!=='ending'){
+        const route=drainRoute(w,p,w.drainRace?.drain) ?? drainRoute(w,p);
         if(route){const dx=route.x-p.x,dy=route.y-p.y,l=Math.hypot(dx,dy)||1;guide.mesh.position.set(toWorldX(p.x+dx/l*55),.25,toWorldZ(p.y+dy/l*55));guide.set(route.steps===0?'Y / △ SVUOTA':`→ ${route.id.toUpperCase()}`,'#fbbf24');}
         else guide.set('NESSUNO SCARICO LIBERO','#f87171');
       }else guide.set('','#fff');
       if (this.phase === 'ending') this.hud.setTag(p.id, 0, ''); // nel finale parlano banner, titoli e vicino
       else this.hud.setTag(p.id, p.bucket / CC.bucketCap, label);
+    }
+    const race=w.drainRace;
+    if(race) {
+      const leader=w.players.reduce((best,p)=>(race.progress.get(p.id)??0)>(race.progress.get(best.id)??0)?p:best,w.players[0]);
+      const liters=(race.progress.get(leader.id)??0).toFixed(1);
+      this.hud.race(`GARA +${CC.race.prize} · ${DRAIN_NAME[race.drain]} · ${Math.ceil(Math.max(0,race.until-w.time))}s`,
+        `${w.clogged.has(race.drain)?'INTASATO: TIENI INTERAGISCI PER LIBERARLO':`PRIMO A ${CC.race.target} L VINCE · ${this.label(leader.id)} ${liters}/${CC.race.target} L`}`);
+    } else this.hud.race('','');
+    if(this.phase==='playing' && w.time>=this.raceStatusAt){
+      this.raceStatusAt=w.time+.4;
+      for(const p of w.players)this.ctx.signal(p.id,{type:'carboRace',name:race?(DRAIN_NAME[race.drain]??race.drain):'',value:race?(race.progress.get(p.id)??0):0,cooldown:race?Math.ceil(Math.max(0,race.until-w.time)):0,available:!!race&&!w.clogged.has(race.drain)});
     }
     const em=w.emergency;
     this.hud.objective(em?`${em.kind==='tv'?'SALVA LA TV':em.kind==='bedroom'?'CAMERA: -35% ACQUA':'CONTIENI LA '+DOOR_NAME[em.door??'front']} · ${Math.ceil(Math.max(0,em.until-w.time))}s · ${Math.round(em.progress*100)}%`:'X / □ SPINGI   ·   Y / △ RACCOGLI / SCARICA   ·   B / ◯ INTERAGISCI');
@@ -793,6 +816,7 @@ export class CasaCarboGame {
       const stats = [`${Math.round(contribution(p.stats))} punti contributo`];
       const title = t.get(p.id);
       if (title) stats.push(title);
+      if(p.stats.raceBonus>0)stats.push(`gare +${p.stats.raceBonus}`);
       stats.push(`${Math.round(drainedOf(p.stats) * 10) / 10} acqua tolta`);
       return { playerId: p.id, placement: i + 1, score: Math.round(contribution(p.stats)), stats: stats.slice(0, 3) };
     });

@@ -6,7 +6,7 @@ import type { CCStats } from './ccTypes';
  * alla posizione). Valori iniziali per il playtest:
  *   +1  per ogni unita' d'acqua che lascia DAVVERO la casa da uno scarico (secchio, tiracqua o abilita')
  *   +0,5 per ogni unita' fermata alla porta, con un tetto per giocatore
- *   +6  TV messa in salvo · +4 scarico intasato liberato
+ *   +6  gara di scarico vinta · +6 TV messa in salvo · +4 scarico intasato liberato
  *    0  acqua solo spostata fra stanze · acqua raccolta e poi rovesciata
  */
 export function drainedOf(s: CCStats): number {
@@ -18,7 +18,7 @@ export function stoppedPoints(s: CCStats): number {
 }
 
 export function contribution(s: CCStats): number {
-  return s.emergencyBonus + drainedOf(s) + stoppedPoints(s) + s.tvSaved * CC.points.tv + s.unclogged * CC.points.unclog;
+  return s.raceBonus + s.emergencyBonus + drainedOf(s) + stoppedPoints(s) + s.tvSaved * CC.points.tv + s.unclogged * CC.points.unclog;
 }
 
 export interface CCTitleInput {

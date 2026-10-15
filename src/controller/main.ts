@@ -1033,6 +1033,9 @@ let volleyJoystickEl: HTMLElement | null = null;
 let volleyThumbEl: HTMLElement | null = null;
 let volleyHitBtn: HTMLButtonElement | null = null;
 let volleyJumpBtn: HTMLButtonElement | null = null;
+let volleyDiveBtn: HTMLButtonElement | null = null;
+let volleySprintBtn: HTMLButtonElement | null = null;
+let cancelVolleySprint: (() => void) | null = null;
 let volleyAbilityBtn: HTMLButtonElement | null = null;
 let volleyStatusEl: HTMLElement | null = null;
 let volleyTeam: string | null = null;
@@ -1044,6 +1047,9 @@ function lockVolleyControls(locked: boolean, statusText?: string): void {
   if (volleyJoystickEl) volleyJoystickEl.classList.toggle('arena-locked', locked);
   if (volleyHitBtn) volleyHitBtn.disabled = locked;
   if (volleyJumpBtn) volleyJumpBtn.disabled = locked;
+  if (volleyDiveBtn) volleyDiveBtn.disabled = locked;
+  if (volleySprintBtn) volleySprintBtn.disabled = locked;
+  if (locked) cancelVolleySprint?.();
   if (volleyAbilityBtn) volleyAbilityBtn.disabled = locked;
   if (statusText && volleyStatusEl) volleyStatusEl.textContent = statusText;
   if (locked) volleyJoy?.reset();
@@ -1051,6 +1057,11 @@ function lockVolleyControls(locked: boolean, statusText?: string): void {
 
 function handleVolleyballSignal(s: SignalPayload): void {
   switch (s.type) {
+    case 'defense': {
+      const info=app.querySelector<HTMLElement>('#volley-defense');
+      if(info) info.textContent=`FIATO ${s.value ?? 100}% · TUFFO ${s.cooldown ? `${s.cooldown.toFixed(1)}s` : 'PRONTO'}`;
+      break;
+    }
     case 'countdown':
       if (s.value === 0) {
         if (volleyStatusEl) volleyStatusEl.textContent = '⚡ VIA!';
@@ -1129,8 +1140,16 @@ function handleVolleyballSignal(s: SignalPayload): void {
   }
 }
 
+function destroyVolleyballController(): void {
+  cancelVolleySprint?.(); cancelVolleySprint=null;
+  volleyJoy?.destroy(); volleyJoy=null;
+  volleyDiveBtn=volleySprintBtn=volleyJumpBtn=volleyHitBtn=volleyAbilityBtn=null;
+  volleyJoystickEl=volleyThumbEl=volleyStatusEl=null;
+}
+
 /** Controller dedicato a PALLAVOLO DEI DISAGIATI (layout custom: volleyball-tv). */
 function renderVolleyballController(): void {
+  destroyVolleyballController();
   volleyJoystickEl = null;
   volleyThumbEl = null;
   volleyHitBtn = null;
@@ -1147,7 +1166,7 @@ function renderVolleyballController(): void {
   const ab = VOLLEYBALL_ABILITIES[cid];
 
   app.innerHTML = `
-    <div class="arena-shell">
+    <div class="arena-shell volley-shell">
       <div class="arena-topbar">
         <div class="arena-brand">🏐 PALLAVOLO DEI DISAGIATI</div>
         <div id="volley-status" class="arena-status">PRONTO</div>
@@ -1161,9 +1180,12 @@ function renderVolleyballController(): void {
         <div class="arena-actions">
           <button id="volley-hit" class="arena-dash">👊<span>COLPISCI</span></button>
           <button id="volley-jump" class="db-dodge">🦘<span>SALTA</span></button>
+          <button id="volley-dive" class="db-dodge">🙌<span>TUFFO</span></button>
+          <button id="volley-sprint" class="db-dodge" aria-pressed="false">💨<span>SPRINT · TIENI</span></button>
+          <p id="volley-defense" class="arena-ability-desc">FIATO 100% · TUFFO PRONTO</p>
           <button id="volley-ability" class="arena-ability">⭐<span>${ab?.name ?? 'ABILITÀ'}</span></button>
           <p id="volley-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
-          <p class="arena-ability-desc">Al colpo: ↔ scegli il lato · ↑ teso · ↓ pallonetto · neutro standard. Salta vicino alla rete per schiacciare.</p>
+          <p class="arena-ability-desc">Al colpo: ↔ scegli il lato · ↑ teso · ↓ pallonetto · neutro standard. Salta vicino alla rete per schiacciare. Tuffo: ricezione automatica delle palle basse. Sprint: rilascia per riprendere fiato.</p>
         </div>
       </div>
     </div>`;
@@ -1172,6 +1194,8 @@ function renderVolleyballController(): void {
   volleyHitBtn = app.querySelector<HTMLButtonElement>('#volley-hit')!;
   volleyJumpBtn = app.querySelector<HTMLButtonElement>('#volley-jump')!;
   volleyAbilityBtn = app.querySelector<HTMLButtonElement>('#volley-ability')!;
+  volleyDiveBtn = app.querySelector<HTMLButtonElement>('#volley-dive')!;
+  volleySprintBtn = app.querySelector<HTMLButtonElement>('#volley-sprint')!;
   volleyJoystickEl = app.querySelector<HTMLElement>('.arena-joy')!;
   volleyThumbEl = app.querySelector<HTMLElement>('.arena-joy-thumb')!;
   const baseEl = app.querySelector<HTMLElement>('.arena-joy-base')!;
@@ -1192,6 +1216,27 @@ function renderVolleyballController(): void {
     sendInput({ kind: 'action', controlId: 'ability' });
   });
 
+  volleyDiveBtn.addEventListener('pointerdown', e=>{
+    e.preventDefault(); if(!volleyLocked && !state?.paused) sendInput({kind:'action',controlId:'dive'});
+  });
+  const sprint=volleySprintBtn;
+  let sprintPointer: number | null=null;
+  cancelVolleySprint=()=>{
+    const pointer=sprintPointer; sprintPointer=null;
+    sprint.classList.remove('held'); sprint.setAttribute('aria-pressed','false');
+    sendInput({kind:'up',controlId:'sprint'});
+    if(pointer!==null && sprint.hasPointerCapture(pointer)) sprint.releasePointerCapture(pointer);
+  };
+  sprint.addEventListener('pointerdown',e=>{
+    e.preventDefault(); if(sprintPointer!==null || volleyLocked || state?.paused || sprint.disabled)return;
+    sprintPointer=e.pointerId;
+    try{sprint.setPointerCapture(e.pointerId);}catch{ /* emulated pointer */ }
+    sprint.classList.add('held');sprint.setAttribute('aria-pressed','true');
+    sendInput({kind:'down',controlId:'sprint'});
+  });
+  for(const ev of ['pointerup','pointercancel','lostpointercapture']) sprint.addEventListener(ev,e=>{
+    if((e as PointerEvent).pointerId===sprintPointer)cancelVolleySprint?.();
+  });
   volleyJoy = mountJoystick(baseEl, volleyThumbEl, () => volleyLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
 }
 
@@ -1584,6 +1629,12 @@ socket.on(EVT.controllerSignal, (data) => {
     if(status.confusionWarning||status.confusion)line.textContent+=status.confusionWarning?' · ⚠ COMANDI INVERTITI TRA POCO':' · ↔ COMANDI INVERTITI';
     return;
   }
+  if(s.type==='carboRace' && state?.phase==='MINIGAME_PLAYING' && state.currentMinigame?.minigameId==='casacarbo'){
+    let line=document.getElementById('carbo-race');
+    if(!line){line=document.createElement('p');line.id='carbo-race';line.className='sub';app.querySelector('.screen')?.appendChild(line);}
+    line.textContent=s.name?`🏆 GARA +6 · ${s.name} · ${s.cooldown}s · TU ${(s.value??0).toFixed(1)}/4 L${s.available?'':' · INTASATO: INTERAGISCI'}`:'RACCOGLI → SCARICA · LA PROSSIMA GARA ARRIVA TRA POCO';
+    return;
+  }
   if(s.type==='minigolfStatus'){if(activeController==='minigolf')minigolfPhone?.update(data as GolfPhoneStatus);else updateGolfCompanion(data as GolfPhoneStatus);return;}
   if (s.type === 'objectThrowStatus' && state?.phase === 'MINIGAME_PLAYING' && state.currentMinigame?.minigameId === 'cornicione') {
     let label=document.getElementById('corn-throw-status');
@@ -1886,6 +1937,7 @@ function render(): void {
   if (!state || state.phase !== 'MINIGAME_PLAYING') disposeFps();
   const me: PlayerPublic | undefined =
     playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  if(state?.phase!=='MINIGAME_PLAYING' || state.currentMinigame?.minigameId!=='volleyball' || me?.pad) destroyVolleyballController();
 
   if (!state || !playerId || !me) {
     if (reconnectToken && !state) renderReconnecting();
@@ -2506,6 +2558,7 @@ function syncQuizPadPrivateInfo(data: QuizStatePayload): void {
 
 /** Losing a touch stream must release both network state and the local pointer ownership. */
 function releaseControllerInput(): void {
+  cancelVolleySprint?.();
   backroomsPhone?.cancel();
   minigolfPhone?.cancel();
   cancelArenaAttack();

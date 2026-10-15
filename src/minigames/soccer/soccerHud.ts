@@ -15,7 +15,7 @@ export class SoccerHud extends GameHud {
     this.teamScoreBar();
   }
   /** Una sola riga, creata solo dal Calcio: non copre il campo e non modifica la Pallavolo. */
-  actionFeedback(text: string, color: string, ms = 1400): void {
+  actionFeedback(text: string, color: string, ms = 1400, width = '650px'): void {
     if (!this.action) {
       this.action = hudText('soccerAction', '', 18, color);
       this.action.width = '650px'; this.action.height = '26px'; this.action.top = '-105px';
@@ -27,6 +27,7 @@ export class SoccerHud extends GameHud {
         if (this.actionTime === 0) this.action!.text = '';
       });
     }
+    this.action.width = width;
     this.action.text = text; this.action.color = color; this.actionTime = ms;
   }
 }

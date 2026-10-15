@@ -125,6 +125,7 @@ export class CCBot {
       if (w.clogged.has(d.id) && this.closestTo(w, d.cx, d.cy) === p) return this.goAndHold(w, p, out, d.cx, d.cy, 'interact');
     }
 
+    if (w.drainRace && this.role !== 'door') return this.bucket(w, p, out);
     if (this.role === 'door') return this.door(w, p, out);
     if (this.role === 'squeegee') return this.squeegee(w, p, out, dt);
     return this.bucket(w, p, out);
@@ -182,7 +183,8 @@ export class CCBot {
 
   private bucket(w: CasaCarboWorld, p: CCPlayer, out: CCInput): CCInput {
     const cap = w.bucketCap(p);
-    const full = p.bucket >= cap * 0.92 || (p.ab.deadlineT > 0 && p.ab.deadlineT < 3);
+    const raceRemaining = w.drainRace ? Math.max(.5, CC.race.target-(w.drainRace.progress.get(p.id)??0)) : cap;
+    const full = p.bucket >= Math.min(cap * 0.92, raceRemaining) || (p.ab.deadlineT > 0 && p.ab.deadlineT < 3);
     const nothing = this.target < 0 && this.plan > 0;
     const worthIt = p.bucket >= cap * 0.6 || (nothing && p.bucket > 0.5);
     if (full || (worthIt && (this.target < 0 || w.h[this.target] < CC.dry || nothing))) {
@@ -191,6 +193,7 @@ export class CCBot {
       let best: { id: string; d: number } | null = null;
       for (const dr of DRAINS) {
         if (w.clogged.has(dr.id)) continue;
+        if (w.drainRace && !w.clogged.has(w.drainRace.drain) && dr.id !== w.drainRace.drain) continue;
         const f = CCBot.drainField.get(dr.id)!;
         const dd = here >= 0 ? f[here] : -1;
         if (dd >= 0 && (!best || dd < best.d)) best = { id: dr.id, d: dd };

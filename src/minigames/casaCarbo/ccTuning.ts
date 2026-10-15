@@ -5,6 +5,7 @@
  */
 export const CC = {
   duration: 120,
+  race: { firstAt: 8, duration: 18, rest: 4, target: 4, prize: 6 },
   /** soglia dell'obiettivo comune: % di pavimento asciutto a fine partita */
   saveThreshold: 0.75,
   /** una cella e' "asciutta" sotto questa quantita' d'acqua */

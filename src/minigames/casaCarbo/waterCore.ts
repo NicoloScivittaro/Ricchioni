@@ -75,6 +75,9 @@ export class CasaCarboWorld {
   private bedroomBuckets = new Map<string,number>();
   private actionBuf = new Map<string,number>();
   private emergenciesOn = true;
+  drainRace: { drain: string; until: number; progress: Map<string, number> } | null = null;
+  private raceAt: number = CC.race.firstAt;
+  private raceIndex = 2; // first race: rear garden drain, nearest to the early flood
   private lastBump = new Map<string, number>();
 
   constructor(opts: CCWorldOptions) {
@@ -302,6 +305,7 @@ export class CasaCarboWorld {
       this.time += sub;
       this.updatePhase();
       this.updateSchedule();
+      this.updateDrainRace();
       for (const p of this.players) {
         const raw = get(p.id);
         const inp = i === 0 ? raw : { ...raw, bucketPressed: false, dashPressed: false, abilityPressed: false };
@@ -334,6 +338,7 @@ export class CasaCarboWorld {
     this.flushDrainEvents(true);
     this.flushActions(true);
     if(this.emergency)this.endEmergency(false);
+    if(this.drainRace)this.endDrainRace();
     this.over = true;
     const dry = this.dryFraction();
     this.emit({ t: 'end', dry, saved: dry >= CC.saveThreshold });
@@ -752,12 +757,35 @@ export class CasaCarboWorld {
 
   credit(p: CCPlayer, drain: string, amount: number, via: 'bucket' | 'squeegee' | 'ability'): void {
     if (amount <= 0) return;
+    if (this.drainRace?.drain === drain && this.time < this.drainRace.until) {
+      const race = this.drainRace;
+      const total = (race.progress.get(p.id) ?? 0) + amount;
+      race.progress.set(p.id, total);
+      if (total >= CC.race.target) this.endDrainRace(p);
+    }
     if (via === 'bucket') p.stats.drainedBucket += amount;
     else if (via === 'squeegee') p.stats.drainedSqueegee += amount;
     else p.stats.drainedAbility += amount;
     this.drainedCredited += amount;
     const key = `${p.id}|${drain}|${via}`;
     this.drainBuf.set(key, (this.drainBuf.get(key) ?? 0) + amount);
+  }
+
+  private updateDrainRace(): void {
+    if (!this.emergenciesOn) return;
+    if (this.drainRace && this.time >= this.drainRace.until) this.endDrainRace();
+    if (!this.drainRace && this.time >= this.raceAt && this.duration-this.time >= CC.race.duration) {
+      const drain = DRAINS[this.raceIndex % DRAINS.length].id;
+      this.raceIndex++;
+      this.drainRace = {drain, until:this.time+CC.race.duration, progress:new Map()};
+      this.emit({t:'race',state:'start',drain});
+    }
+  }
+  private endDrainRace(winner?: CCPlayer): void {
+    const race=this.drainRace; if (!race) return;
+    if (winner) winner.stats.raceBonus += CC.race.prize;
+    this.emit({t:'race',state:winner?'won':'expired',drain:race.drain,id:winner?.id,bonus:winner?CC.race.prize:0});
+    this.drainRace=null; this.raceAt=this.time+CC.race.rest;
   }
 
   /** Gli scarichi del tiracqua arrivano a gocce: un evento ogni ~unita' (non uno per passo). */

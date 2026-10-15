@@ -50,6 +50,9 @@ export class CasaCarboHud extends GameHud {
   private tutorialText: TextBlock;
   private tutorialSub: TextBlock;
   private objectiveText: TextBlock;
+  private raceBox: Rectangle;
+  private raceTitle: TextBlock;
+  private raceProgress: TextBlock;
 
   constructor(scene: Scene) {
     super(scene, 'casaCarboHud', '🌧️ CASA CARBO');
@@ -97,6 +100,11 @@ export class CasaCarboHud extends GameHud {
     this.tutorialSub=hudText('ccTutorialSub','',18,'#93c5fd');this.tutorialSub.top='23px';this.tutorialSub.height='30px';this.tutorialBox.addControl(this.tutorialSub);
     this.objectiveText=hudText('ccObjective','',18,'#ffffff');this.objectiveText.verticalAlignment=Control.VERTICAL_ALIGNMENT_BOTTOM;this.objectiveText.top='-7px';this.objectiveText.height='28px';this.adt.addControl(this.objectiveText);
 
+    this.raceBox=hudPanel('ccRace','760px','64px','#fbbf24');
+    this.raceBox.verticalAlignment=Control.VERTICAL_ALIGNMENT_BOTTOM; this.raceBox.top='-40px'; this.raceBox.isVisible=false;
+    this.raceTitle=hudText('ccRaceTitle','',22,'#fbbf24'); this.raceTitle.top='-13px'; this.raceTitle.height='30px';
+    this.raceProgress=hudText('ccRaceProgress','',18,'#ffffff'); this.raceProgress.top='15px'; this.raceProgress.height='26px';
+    this.raceBox.addControl(this.raceTitle); this.raceBox.addControl(this.raceProgress); this.adt.addControl(this.raceBox);
     this.chip.isVisible = false; // il nome del gioco lo dice gia' la casa: spazio alla classifica
     this.feed.top = `${UI.safe.y + 92}px`;
 
@@ -124,6 +132,7 @@ export class CasaCarboHud extends GameHud {
     });
   }
 
+  race(title:string,progress:string):void {this.raceBox.isVisible=!!title&&!this.ending&&!this.tutorialBox.isVisible;this.raceTitle.text=title;this.raceProgress.text=progress;}
   tutorial(text:string,sub:string):void {this.tutorialBox.isVisible=!!text;this.tutorialText.text=text;this.tutorialSub.text=sub;}
   objective(text:string):void {this.objectiveText.text=this.ending?'':text;}
 

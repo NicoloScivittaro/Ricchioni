@@ -1879,3 +1879,16 @@ body:has(#pad-fallback-badge) .dpad-screen:has(#geo-phone-status){padding-top:62
 
 .t31-turn-actions{position:sticky;top:0;z-index:5;background:#0b352b;padding:8px 0;box-shadow:0 6px 12px #08281f88}
 
+
+/* Volleyball: five actions stay reachable on narrow phones and in landscape. */
+.volley-shell .arena-actions { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px; }
+.volley-shell .arena-actions button { width:100%;max-width:none;height:68px;max-height:none;min-height:48px;border-radius:18px;font-size:25px; }
+.volley-shell .arena-actions button span { font-size:12px; }
+.volley-shell #volley-ability,.volley-shell .arena-ability-desc { grid-column:1/-1; }
+.volley-shell #volley-defense { color:#67e8f9;font-weight:800; }
+.volley-shell #volley-sprint.held { background:#67e8f9;transform:scale(.96); }
+@media (max-height:500px) {
+ .volley-shell .arena-actions { gap:4px; }
+ .volley-shell .arena-actions button {height:48px;font-size:18px;}
+ .volley-shell .arena-ability-desc {font-size:10px;line-height:1.15;}
+}

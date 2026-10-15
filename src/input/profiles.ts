@@ -111,6 +111,8 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
   volleyball: defineProfile('volleyball', [
     { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI / MIRA · ↔ LATO · ↑ TESO · ↓ PALLONETTO' },
     { action: 'JUMP', binding: 'LEFT', control: 'jump', label: 'SALTA' },
+    { action: 'DIVE', binding: 'TOP', control: 'dive', label: 'TUFFO · RICEVE AUTOMATICAMENTE LE PALLE BASSE' },
+    { action: 'SPRINT', binding: 'LB', control: 'sprint', label: 'SPRINT (TIENI) · RILASCIA PER RICARICARE IL FIATO' },
     { action: 'HIT', binding: 'PRIMARY', control: 'hit', label: 'COLPISCI / SMASH' },
     { action: 'ABILITY', binding: 'SECONDARY', control: 'ability', label: 'ABILITÀ' }
   ]),

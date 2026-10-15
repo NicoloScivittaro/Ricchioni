@@ -1,0 +1,23 @@
+{
+  "checks": [
+    "mock Xbox paired",
+    "new pad controls tutorial",
+    "phone buttons reachable 320x740",
+    "phone buttons reachable 390x800",
+    "phone buttons reachable 740x360",
+    "touch dive auto-receives low ball once",
+    "touch dive cooldown",
+    "LB sprint faster with limited energy",
+    "Y dive auto-receives",
+    "phone sprint cancel releases input",
+    "volley pause freezes movement and cooldowns",
+    "cleanup one canvas",
+    "race target on phone",
+    "race counts actual delivered liters",
+    "race ends after single winner",
+    "pause freezes race timer",
+    "cleanup one canvas",
+    "no page errors"
+  ],
+  "errors": []
+}

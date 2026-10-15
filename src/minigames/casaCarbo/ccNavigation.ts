@@ -60,7 +60,7 @@ let owner: CasaCarboWorld | null = null;
 let rug: unknown;
 let fields = new Map<string, Int32Array>();
 /** Next waypoint on the shortest walkable path; never chooses a clogged/unreachable drain. */
-export function drainRoute(w: CasaCarboWorld, p: {x:number;y:number}): {id:string;x:number;y:number;steps:number} | null {
+export function drainRoute(w: CasaCarboWorld, p: {x:number;y:number}, destination?: string): {id:string;x:number;y:number;steps:number} | null {
  if (owner !== w || rug !== w.rug) {
   owner=w; rug=w.rug; fields=new Map();
   for(const d of DRAINS) {
@@ -72,6 +72,7 @@ export function drainRoute(w: CasaCarboWorld, p: {x:number;y:number}): {id:strin
  const here=cellAtPx(p.x,p.y); if(here<0)return null;
  let best:{id:string;x:number;y:number;steps:number}|null=null;
  for(const d of DRAINS){
+  if(destination && d.id!==destination)continue;
   if(w.clogged.has(d.id))continue;
   const f=fields.get(d.id)!;
   const i=here%COLS;
