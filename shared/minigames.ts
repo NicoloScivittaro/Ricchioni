@@ -180,14 +180,14 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id: 'kart3d',
     icon: '🏎️',
-    description: 'Corri sul circuito e taglia il traguardo per primo.',
+    description: 'Tre giri fra lungomare, viadotti, salti e porto: scegli la corsia turbo e conquista il Litorale.',
     name: 'RIBALTATI — CIRCUITO DEL LITORALE',
     category: 'GUIDA',
     rarity: 'rare',
     minPlayers: 1,
     maxPlayers: 5,
-    // Limite di tempo della GARA (3 giri): con i kart più lenti (vmax 44) serve più margine di 130s.
-    durationSec: 170,
+    // Circuito 2.0: tre giri più lunghi, margine per incidenti e recuperi.
+    durationSec: 230,
     // Rete di sicurezza server (gara con limite di tempo durationSec + countdown/arrivo).
     hardCapSec: 480,
     compatibleModifiers: ['controlli_invertiti', 'punti_doppi'],

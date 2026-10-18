@@ -129,6 +129,7 @@ export class CameraManager {
     const right = spline.rightAt(state.distance);
     const forward = tangent.scale(Math.cos(state.heading)).add(right.scale(Math.sin(state.heading))).normalize();
     const kartPos = spline.worldPoint(state.distance, state.lateral, 0.1);
+    kartPos.y+=state.jumpHeight;
 
     const speedFrac = Math.max(0, Math.min(1, state.speed / MAX_SPEED));
     const boosting = state.boostTimer > 0;
@@ -138,7 +139,9 @@ export class CameraManager {
     // in derapata la camera scivola appena verso l'esterno della curva: si sente il kart di traverso (sterzo invariato)
     rig.driftOff += ((state.drifting ? -state.driftDir * 0.45 : 0) - rig.driftOff) * Math.min(1, dt * 4);
     const anticipate = right.scale(state.heading * 2.2 + rig.driftOff);
+    const futureRoad=spline.worldPoint(state.distance+CAM_LOOK_AHEAD,state.lateral,.8);
     const desiredLook = kartPos.add(forward.scale(CAM_LOOK_AHEAD)).add(anticipate).add(new Vector3(0, 0.8, 0));
+    desiredLook.y=Math.max(desiredLook.y,futureRoad.y+.8);
 
     const alpha = 1 - Math.exp(-CAM_FOLLOW_SPEED * dt);
     rig.smoothPos = Vector3.Lerp(rig.smoothPos, desiredPos, alpha);
@@ -163,6 +166,8 @@ export class CameraManager {
       shakeOffset = new Vector3((Math.random() - 0.5) * mag, (Math.random() - 0.5) * mag, (Math.random() - 0.5) * mag);
     }
 
+    const roadBehind=spline.worldPoint(state.distance-CAM_BACK,state.lateral);
+    rig.smoothPos.y=Math.max(rig.smoothPos.y,roadBehind.y+1.15);
     rig.camera.position.copyFrom(rig.smoothPos.add(shakeOffset));
     rig.camera.setTarget(rig.smoothLook);
     rig.camera.fov = rig.smoothFov + rig.fovKick * 0.2;
@@ -180,6 +185,7 @@ interface HudEntry {
   panel: Rectangle;
   posText: TextBlock;
   lapText: TextBlock;
+  sector: TextBlock;
   itemText: TextBlock;
   driftBar: Rectangle;
   driftFill: Rectangle;
@@ -375,6 +381,7 @@ export class KartHud {
     countdownText.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
     adt.addControl(countdownText);
 
+    const sector=new TextBlock('trackSector','');sector.fontFamily=FONT_DISPLAY;sector.fontSize=14;sector.color='#b4fff3';sector.height='42px';sector.width='94%';sector.textWrapping=true;sector.outlineColor='#092334';sector.outlineWidth=3;sector.verticalAlignment=Control.VERTICAL_ALIGNMENT_BOTTOM;sector.top='-8px';adt.addControl(sector);
     const panel = new Rectangle(`hudPanel_${playerId}`);
     panel.width = '178px';
     panel.height = '208px';
@@ -530,7 +537,7 @@ export class KartHud {
       adt.addControl(l);
       speedLines.push(l);
     }
-    e = { mapBox, dots: new Map(), adt, countdownText, panel, posText, lapText, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, abilityStatus: null, debtText, flashText, flashTimer: 0, speedLines, speedT: 0 };
+    e = { mapBox, dots: new Map(), adt, countdownText, panel, posText, lapText, sector, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, abilityStatus: null, debtText, flashText, flashTimer: 0, speedLines, speedT: 0 };
     this.entries.set(playerId, e);
     return e;
   }
@@ -571,6 +578,8 @@ export class KartHud {
       e.flashText.width = `${Math.max(120, idealW - 20)}px`;
     });
   }
+
+  setSector(id:PlayerId,label:string,time:number):void {const e=this.entries.get(id);if(e)e.sector.text=`${label} · ${Math.floor(time/60)}:${String(Math.floor(time)%60).padStart(2,'0')}`;}
 
   /** Il gioco pubblica lo stato dell'abilita' del giocatore (da AbilityHub). */
   setAbility(playerId: PlayerId, status: AbilityStatus): void {

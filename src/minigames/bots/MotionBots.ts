@@ -113,7 +113,8 @@ export class MotionBots extends BotInputs {
       // Tangent feed-forward + lane correction; real steering/acceleration/collisions remain in kartPhysics.
       const tangent = spline.tangentAngleAt(k.distance);
       const future = spline.tangentAngleAt(k.distance + 7 + Math.abs(k.speed) * 0.23);
-      const desired = future - clamp(k.lateral * 0.055, -0.45, 0.45);
+      const lane=spline.botLateralAt(k.distance,id,this.time);
+      const desired = future - clamp((k.lateral-lane) * 0.055, -0.45, 0.45);
       const error = angle(desired - k.absHeading);
       const turn = clamp(error * 2.5, -1, 1);
       this.ctx.input.get(id).setAxis('steer', this.ctx.modifier?.id === 'controlli_invertiti' ? -turn : turn, 0);

@@ -465,7 +465,8 @@ export class KartEntity {
     const cosH = Math.cos(state.heading);
     const sinH = Math.sin(state.heading);
     const forward = tangent.scale(cosH).add(right.scale(sinH)).normalize();
-    const newRight = Vector3.Cross(Vector3.Up(), forward).normalize();
+    const normal=Vector3.Cross(tangent,right).normalize();
+    const newRight = Vector3.Cross(normal, forward).normalize();
     const up = Vector3.Cross(forward, newRight).normalize();
 
     const m = Matrix.Identity();

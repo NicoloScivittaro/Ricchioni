@@ -185,7 +185,7 @@ async function run(browser) {
   // sterzo) dalla geometria della pista, cosi' non esce fuori strada/non sbatte in un test che non riguarda quello.
   for (let k = 0; k < 6; k++) {
     await sleep(200);
-    await G(page, (g, id) => { const kk = g.karts.get(id); kk.lateral = 0; kk.stunTimer = 0; kk.offTrackTimer = 0; }, P1);
+    await G(page, (g, id) => { const kk = g.karts.get(id); kk.lateral = 0; kk.absHeading = g.trackAngleAt(kk.distance); kk.speed = 35; kk.slipVelocity=0; kk.collisionYawVelocity=0; kk.wallContact=false; kk.stunTimer = 0; kk.offTrackTimer = 0; }, P1);
   }
   const charge1 = await G(page, (g, id) => g.karts.get(id).driftCharge, P1);
   check(charge1 > 0.3, `A/✕ hold: la carica sale (${charge1.toFixed(2)})`);
@@ -200,7 +200,7 @@ async function run(browser) {
   await stick(page, 0, 0, 0);
 
   // ------------------------------------------------------------ ITEM one-shot (nessuno spam se tenuto)
-  await G(page, (g, id) => { g.karts.get(id).heldItem = 'shell'; }, P1);
+  await G(page, (g, id) => { g.karts.get(id).heldItem = 'sfera'; }, P1);
   await sleep(200);
   if (!(await f3Text(page))) await page.keyboard.press('F3');
   await sleep(500);

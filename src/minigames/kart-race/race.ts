@@ -145,13 +145,13 @@ export class RaceManager {
 
   private endRace(karts: KartState[]): void {
     if (this.phase === 'ended') return;
+    this.computeRanking(karts); // Freeze progress order before assigning equal timeout/grace times.
     for (const k of karts) {
       if (!k.finished) {
         k.finished = true;
         k.finishTime = this.raceTime;
       }
     }
-    this.computeRanking(karts);
     this.phase = 'ended';
   }
 

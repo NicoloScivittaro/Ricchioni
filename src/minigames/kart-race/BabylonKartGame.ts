@@ -40,6 +40,8 @@ import type { KartWorld } from './kartEnvironment';
 import { registerEnvScene } from '../env/envDebug';
 import { telemetry } from '../../core/telemetry';
 
+import {buildTrackSetPieces} from './trackSetPieces';
+import {stepTrackDynamics,trackSurface,trackSection} from './trackDynamics';
 import { resolveKartContact } from './kartCollisions';
 
 /** Orchestratore del minigioco 3D: una sola scena Babylon, più camere/viewport. */
@@ -70,6 +72,7 @@ export class BabylonKartGame {
   private paused = false;
   private onResize = (): void => this.engine.resize();
   private world: KartWorld;
+  private setPieces: ReturnType<typeof buildTrackSetPieces>;
   private trackAngleAt = (d: number): number => this.spline.tangentAngleAt(d);
   /** false finche' la schermata CONTROLLI e' visibile: countdown/gara restano fermi (vedi step()). */
   private controlsDone = false;
@@ -90,6 +93,7 @@ export class BabylonKartGame {
     shadowGen.usePoissonSampling = true;
     shadowGen.bias = 0.002;
     buildTrackVisuals(this.scene, this.spline);
+    this.setPieces=buildTrackSetPieces(this.scene,this.spline);
     buildTrackGuides(this.scene, this.spline); // cartelli e frecce prima delle curve, portali dei checkpoint
     registerEnvScene(this.scene);
     this.checkpoints = buildCheckpoints(this.spline);
@@ -137,6 +141,10 @@ export class BabylonKartGame {
       }
     });
 
+    // Bloom draws only its actual emitters, preserving light without five extra full-scene passes.
+    for(const layer of this.scene.effectLayers)if(layer instanceof GlowLayer){
+      for(const mesh of this.scene.meshes){const mat=mesh.material;if(mat instanceof StandardMaterial && (Math.max(mat.emissiveColor.r,mat.emissiveColor.g,mat.emissiveColor.b)>.35 || /lamp|light|tail/i.test(mesh.name)))layer.addIncludedOnlyMesh(mesh as Mesh);}
+    }
     this.cameraManager.applyLayout(this.order);
     this.hud.layout(this.order);
     this.hud.setCountdown('3');
@@ -165,6 +173,7 @@ export class BabylonKartGame {
   private step(dt:number):void {
     const n=Math.max(1,Math.ceil(dt*120-1e-9));
     for(let i=0;i<n;i++)this.substep(dt/n);
+    if(!this.disposed)this.present(dt);
   }
 
   private substep(dt: number): void {
@@ -223,7 +232,13 @@ export class BabylonKartGame {
         // Stessa condizione usata dentro stepKartPhysics per decidere se assegnare il mini-turbo (vedi releaseDrift li'):
         // un azzeramento forzato (pausa/disconnessione/contesto) non deve contare ne' qui ne' nel meter delle abilita'.
         const wasGenuineDriftEnd = snapshot.drift || snapshot.driftReleased;
-        stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier);
+        const from={distance:state.distance,lateral:state.lateral},wasAirborne=state.jumpHeight>0;
+        stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier,trackSurface(state.distance,state.lateral,this.spline.totalLength));
+        stepTrackDynamics(state,from,this.spline.totalLength,d=>this.spline.widthAt(d),this.race.raceTime,event=>{
+          if(event==='launch'){audio.kartBoost(9);this.ctx.vibrate(pid,30);this.hud.flash(pid,'DECOLLO!','#ffd166',.6);}
+          if(event==='obstacle'){audio.hit();this.cameraManager.shake(pid,.14);this.ctx.vibrate(pid,50);}
+        });
+        if(wasAirborne && state.jumpHeight===0){audio.thump(.45);this.cameraManager.shake(pid,.08);this.ctx.vibrate(pid,22);}
 
         const wallCrashed = !wasStunned && state.stunTimer > 0;
         const respawnTriggered = !wasAwaitingRespawn && state.respawnTimer > 0;
@@ -261,21 +276,6 @@ export class BabylonKartGame {
       }
     }
 
-    for (const [pid, state] of this.karts) {
-      abilityHub.setStatus(pid, this.abilities.status(state)); // HUD + Companion Card (solo presentazione)
-      const watch = this.rankWatch.get(pid);
-      if (watch && this.race.raceTime >= watch.until) {
-        this.rankWatch.delete(pid);
-        abilityHub.impact(pid, 'posizioni guadagnate', watch.start - this.race.rankOf(kartsList, pid)); // durante e subito dopo l'abilita'
-      }
-      const throttle = this.race.phase === 'racing' && this.ctx.input.get(pid).pressed('up') ? 1 : 0;
-      this.entities.get(pid)?.updateVisual(state, this.spline, throttle);
-      this.trackFeedback(pid, state);
-      this.cameraManager.update(dt, pid, state, this.spline);
-      this.hud.update(pid, state, this.karts.size, LAPS, DRIFT_THRESHOLDS, dt);
-    }
-    this.hud.updateMinimap([...this.karts.values()], this.spline);
-    this.hud.layout(this.order);
 
     if (this.race.phase === 'ended' && !this.resultsSent) {
       this.resultsSent = true;
@@ -296,6 +296,28 @@ export class BabylonKartGame {
     // render loop (Babylon), non quello di Phaser, quindi non possiamo fare
     // affidamento sull'update() della Scene Phaser per il timing corretto.
     this.ctx.input.update();
+  }
+
+  private present(dt:number):void {
+    const kartsList=[...this.karts.values()];
+    for (const [pid, state] of this.karts) {
+      abilityHub.setStatus(pid, this.abilities.status(state)); // HUD + Companion Card (solo presentazione)
+      const watch = this.rankWatch.get(pid);
+      if (watch && this.race.raceTime >= watch.until) {
+        this.rankWatch.delete(pid);
+        abilityHub.impact(pid, 'posizioni guadagnate', watch.start - this.race.rankOf(kartsList, pid)); // durante e subito dopo l'abilita'
+      }
+      const throttle = this.race.phase === 'racing' && this.ctx.input.get(pid).pressed('up') ? 1 : 0;
+      this.entities.get(pid)?.updateVisual(state, this.spline, throttle);
+      this.trackFeedback(pid, state);
+      this.cameraManager.update(dt, pid, state, this.spline);
+      this.hud.update(pid, state, this.karts.size, LAPS, DRIFT_THRESHOLDS, dt);
+    }
+    this.hud.updateMinimap([...this.karts.values()], this.spline);
+    this.hud.layout(this.order);
+
+    this.setPieces.update(this.race.raceTime);
+    for(const [id,state] of this.karts)this.hud.setSector(id,trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
   }
 
   /**

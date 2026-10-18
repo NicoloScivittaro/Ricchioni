@@ -33,6 +33,7 @@ export interface KartWorld {
 const GROUND_Y = -1.8;
 
 export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
+  const initialMeshes=new Set(scene.meshes);
   const kit = new EnvKit(scene);
   const L = spline.totalLength;
   const rnd = seeded(97);
@@ -64,7 +65,7 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
   };
 
   // ---- CIELO e LUCE: pomeriggio mediterraneo ----
-  scene.clearColor.set(0.86, 0.93, 0.98, 1);
+  scene.clearColor.set(0.68, 0.86, 0.96, 1);
   kit.sky([[0, '#2a78c8'], [0.5, '#8ccaf2'], [0.85, '#d6eefb'], [1, '#f3f9ff']], 850);
   kit.clouds({ count: 18, radius: 400, yMin: 55, yMax: 130, tint: '#ffffff', size: 75, seed: 2 });
   // colline dell'entroterra solo dal lato terra (ovest/sud), il mare resta aperto
@@ -83,7 +84,7 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
     fillI: 0.66,
     rim: { dir: [0.5, -0.4, 0.6], color: '#cfe8ff', i: 0.22 }
   });
-  kit.glow(0.5);
+  kit.glow(0.32);
 
   // ---- TERRENO a zone (piani piatti: costano zero) ----
   const ground = MeshBuilder.CreateGround('ground', { width: 900, height: 900, subdivisions: 2 }, scene);
@@ -98,8 +99,8 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
     kit.freeze(g);
   };
   // spiagge (lungomare) — est e nord
-  patch('beachEast', PAL.sand, 104, -40, 118, 165);
-  patch('beachNorth', PAL.sand, -60, 150, 118, 166);
+  patch('beachEast', PAL.sand, 198, -80, 216, 250);
+  patch('beachNorth', PAL.sand, -130, 232, 216, 250);
   // paese: lastricato chiaro
   patch('townPaving', '#cfc4b0', -175, 40, -30, 175, 0.02);
   // porto: banchine di cemento
@@ -131,10 +132,10 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
     g.position.set((x0 + x1) / 2, GROUND_Y + 0.08, (z0 + z1) / 2);
     waters.push(g);
   };
-  water(118, -40, 700, 700);
-  water(-700, 166, 118, 700);
-  water(-120, -420, 75, -125);
-  water(75, -420, 700, -40);
+  water(216, -80, 700, 700);
+  water(-700, 250, 216, 700);
+  water(-190, -420, 45, -145);
+  water(190, -420, 700, -80);
   const sea = kit.merge('sea', waters, waterMat);
   if (sea) sea.material = waterMat;
 
@@ -264,7 +265,7 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
     addBuilding(b.x, b.z, 10, 14 + rnd() * 8, 9, b.ry, ['#f5efe4', '#f2d9c4', '#dfe9ee', '#f0e2b6'][i % 4], false);
   }
   // LANDMARK: palma gigante sulla spiaggia est, ben visibile dal rettilineo di partenza
-  addPalm(112, 62, 3.2);
+  const palmSpot=beside(.07,1,9);addPalm(palmSpot.x,palmSpot.z,3.2);
   kit.sign('LIDO\nDEL DISAGIO', { style: 'neon', color: PAL.neonCyan, w: 7, h: 3, x: 110, y: 6, z: 10, ry: -Math.PI / 2 - 0.3, billboard: false });
 
   // ================================================================ 2 PAESE
@@ -294,8 +295,9 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
   // LANDMARK: campanile all'esterno del tornante
   const bell: Mesh[] = [];
   const stone = kit.mat('#d8c7a8', { emissive: 0.1 });
-  const tx = -158;
-  const tz = 26;
+  const bellSpot=beside(.36,-1,25);
+  const tx = bellSpot.x;
+  const tz = bellSpot.z;
   bell.push(kit.box('belfry', 6, 26, 6, { x: tx, y: GROUND_Y + 13, z: tz }, stone));
   bell.push(kit.box('belfryTop', 7, 1, 7, { x: tx, y: GROUND_Y + 26.5, z: tz }, stone));
   kit.merge('campanile', bell, stone);
@@ -504,6 +506,11 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
   kit.freeze(lampPole);
   kit.freeze(lampHead);
 
+  const groups=new Map<NonNullable<Mesh['material']>,Mesh[]>();
+  for(const m of scene.meshes)if(!initialMeshes.has(m)&&m instanceof Mesh&&!m.hasThinInstances&&m.material&&!m.material.needAlphaBlending()&&!/sky|cloud|sea/i.test(m.name)){
+    const list=groups.get(m.material)??[];list.push(m);groups.set(m.material,list);
+  }
+  for(const [mat,list]of groups)if(list.length>1)kit.merge('coastalStaticBatch',list,mat);
   return {
     sun: rig.sun,
     update(now: number): void {

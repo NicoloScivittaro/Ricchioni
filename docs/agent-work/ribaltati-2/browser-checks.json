@@ -1,0 +1,27 @@
+{
+  "checks": [
+    "2 players and cameras load new track",
+    "updated 230s cap delivered by server",
+    "phone throttle drives kart on a clear section",
+    "2 pause freezes race and jumps",
+    "rejoin retains identity",
+    "2 cleanup releases 3D canvas",
+    "4 players and cameras load new track",
+    "updated 230s cap delivered by server",
+    "phone throttle drives kart on a clear section",
+    "4 pause freezes race and jumps",
+    "rejoin retains identity",
+    "4 cleanup releases 3D canvas",
+    "5 players and cameras load new track",
+    "updated 230s cap delivered by server",
+    "phone throttle drives kart on a clear section",
+    "5 pause freezes race and jumps",
+    "rejoin retains identity",
+    "natural full three-lap race reaches real results",
+    "ramps used repeatedly, cameras above road throughout natural race",
+    "actual browser race longer than old 55–59s",
+    "5 cleanup releases 3D canvas",
+    "no runtime page errors"
+  ],
+  "errors": []
+}

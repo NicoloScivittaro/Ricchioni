@@ -1,0 +1,57 @@
+{
+  "seconds": 95.418,
+  "results": [
+    {
+      "playerId": "52cd0976-683d-4f24-83c5-9ac8fbbba1d7",
+      "placement": 1,
+      "score": 95418,
+      "stats": [
+        "tempo 1:35.4",
+        "miglior giro 0:31.0"
+      ]
+    },
+    {
+      "playerId": "44c86250-5306-4c42-8cfd-fcf75147f200",
+      "placement": 2,
+      "score": 97031,
+      "stats": [
+        "tempo 1:37.0",
+        "miglior giro 0:30.9"
+      ]
+    },
+    {
+      "playerId": "6c872625-4fba-4685-92e2-e0541cc49505",
+      "placement": 3,
+      "score": 97422,
+      "stats": [
+        "tempo 1:37.4",
+        "miglior giro 0:31.9"
+      ]
+    },
+    {
+      "playerId": "ae63119f-01c7-48e2-a5e9-22aaabe5533d",
+      "placement": 4,
+      "score": 98345,
+      "stats": [
+        "tempo 1:38.3",
+        "miglior giro 0:31.6"
+      ]
+    },
+    {
+      "playerId": "8e2f0ac6-2a43-4de0-b610-98f3c92513d4",
+      "placement": 5,
+      "score": 99687,
+      "stats": [
+        "tempo 1:39.7",
+        "miglior giro 0:31.9"
+      ]
+    }
+  ],
+  "audit": {
+    "launches": 29,
+    "cameraSamples": 15255,
+    "badCameras": 0,
+    "peakHeight": 1.3487819924166458
+  },
+  "wallSeconds": 99.901
+}

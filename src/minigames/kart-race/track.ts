@@ -9,43 +9,21 @@ import {
   TransformNode,
   DynamicTexture
 } from '@babylonjs/core';
+import {TRACK_RAMPS,EXPRESS,SWEEPER_AT,expressLateral,sweeperLateral} from './trackDynamics';
 
-/**
- * "RIBALTATI — CIRCUITO DEL LITORALE"
- * Circuito chiuso originale ispirato vagamente a un lungomare: rettilineo di
- * partenza, curva larga, esse, tornante, rettilineo veloce, curva sopraelevata
- * (ampia e rapida), chicane stretta, curva finale. Nessun asset/nome Nintendo.
+/** Coastal circuit 2.0: 25 ordered control points retain the original closed-spline race.
+ * Two elevated promenades, a port descent and the paddock S add length and distinct driving phases.
+ * Widths follow the original Catmull parameter when resampled by arc length; road, items,
+ * barriers and karts share the same banked frame. Non-adjacent ribbons are checked by selftest.
  */
-// Nota: l'elevazione (Y) resta SEMPRE >= 0 e ben sopra il piano del terreno
-// (vedi buildEnvironment) — un punto sotto il livello del terreno fa sparire
-// la strada dietro di esso (il terreno, opaco, la occlude).
-//
-// I punti sono generati ad angoli crescenti e regolari (18/giro) attorno a un
-// centro, con raggio variabile: garantisce per costruzione che il tracciato
-// non si autointersechi mai (un tracciato precedente aveva due tratti che si
-// incrociavano vicino al traguardo — vedi PR precedente). Verificato anche
-// numericamente campionando la curva risultante.
-const CONTROL_POINTS: [number, number, number][] = [
-  [95, 0, 0], // 0: START/FINISH
-  [91.4, 0, 35.4], // 1: fine rettilineo
-  [90.2, 0.4, 82.2], // 2: ingresso curva larga
-  [64.6, 1.4, 129.8], // 3: curva larga
-  [12.9, 2.1, 139.4], // 4: uscita curva larga
-  [-39.7, 2.1, 139.5], // 5: esse - primo bordo
-  [-72.3, 1.1, 95.8], // 6: esse - secondo bordo
-  [-112.2, 0.5, 69.5], // 7: ingresso tornante
-  [-135.7, 0.2, 25.4], // 8: apice tornante
-  [-108.1, 0.2, -20.2], // 9: uscita tornante
-  [-85, 0.2, -52.6], // 10: inizio rettilineo veloce
-  [-62.7, 0.2, -83], // 11: rettilineo veloce (boost)
-  [-26.8, 1.2, -94.3], // 12: ingresso curva ampia
-  [8.5, 2.6, -91.6], // 13: apice curva ampia
-  [39.2, 1.5, -78.8], // 14: uscita curva ampia
-  [66.5, 0.6, -60.6], // 15: chicane sx
-  [85.8, 0.2, -33.2] // 16: chicane dx -> rientro al finish
+export const CONTROL_POINTS: [number, number, number][] = [
+ [170,0,0],[178,0,45],[184,1,95],[169,4,148],[130,8,188],
+ [72,11,211],[10,12,212],[-48,11,207],[-100,7,198],[-145,3,165],
+ [-170,1,120],[-203,0,75],[-221,0,20],[-213,0,-40],[-180,2,-86],
+ [-155,6,-120],[-112,10,-155],[-63,12,-176],[-8,10,-184],[38,7,-174],
+ [62,4,-142],[108,2,-149],[148,1,-116],[150,.5,-72],[172,0,-36]
 ];
-
-const CONTROL_WIDTHS = [18, 18, 20, 20, 18, 15, 15, 14, 13, 14, 16, 18, 18, 19, 16, 10, 12];
+const CONTROL_WIDTHS = [20,20,22,22,21,20,19,18,18,17,16,18,20,21,23,24,23,22,23,25,24,20,17,16,18];
 
 /** Sezioni "corner difficile" (per l'abilità EXPLOIT di Goblin): [sStart%, sEnd%] del giro. */
 export const HARD_CORNER_RANGES: [number, number][] = [
@@ -71,7 +49,7 @@ export class TrackSpline {
   private readonly samples: TrackSample[];
   private readonly sampleSpacing: number;
 
-  constructor(controlPoints: Vector3[], controlWidths: number[], rawResolution = 3000) {
+  constructor(controlPoints: Vector3[], controlWidths: number[], rawResolution = 3000, ramps = false) {
     const n = controlPoints.length;
     const rawPositions: Vector3[] = [];
     for (let i = 0; i <= rawResolution; i++) {
@@ -81,6 +59,14 @@ export class TrackSpline {
     const cumLen: number[] = [0];
     for (let i = 1; i < rawPositions.length; i++) {
       cumLen.push(cumLen[i - 1] + Vector3.Distance(rawPositions[i - 1], rawPositions[i]));
+    }
+    if(ramps){
+      const initialLength=cumLen[cumLen.length-1];
+      for(let i=0;i<rawPositions.length;i++)for(const ramp of TRACK_RAMPS){
+        const d=cumLen[i]-ramp.at*initialLength;
+        if(d>=-14&&d<=7){const t=d<=0?(d+14)/14:1-d/7;rawPositions[i].y+=2.1*t*t*(3-2*t);}
+      }
+      for(let i=1;i<rawPositions.length;i++)cumLen[i]=cumLen[i-1]+Vector3.Distance(rawPositions[i-1],rawPositions[i]);
     }
     this.totalLength = cumLen[cumLen.length - 1];
 
@@ -94,7 +80,7 @@ export class TrackSpline {
       const segLen = cumLen[rawIdx + 1] - cumLen[rawIdx];
       const localT = segLen > 0 ? (targetLen - cumLen[rawIdx]) / segLen : 0;
       const pos = Vector3.Lerp(rawPositions[rawIdx], rawPositions[rawIdx + 1], localT);
-      this.samples.push({ pos, tangent: Vector3.Zero(), right: Vector3.Zero(), up: Vector3.Up(), width: 0 });
+      this.samples.push({ pos, tangent: Vector3.Zero(), right: Vector3.Zero(), up: Vector3.Up(), width: (()=>{const f=(rawIdx+localT)/rawResolution*n,j=Math.floor(f)%n,u=f-Math.floor(f),q=u*u*(3-2*u);return controlWidths[j]*(1-q)+controlWidths[(j+1)%n]*q;})() });
     }
     for (let i = 0; i < sampleCount; i++) {
       const prev = this.samples[(i - 1 + sampleCount) % sampleCount].pos;
@@ -106,13 +92,15 @@ export class TrackSpline {
       this.samples[i].right = right;
       this.samples[i].up = up;
     }
-    for (let i = 0; i < sampleCount; i++) {
-      const cf = (i / sampleCount) * n;
-      const i0 = Math.floor(cf) % n;
-      const i1 = (i0 + 1) % n;
-      const lt = cf - Math.floor(cf);
-      const smooth = lt * lt * (3 - 2 * lt);
-      this.samples[i].width = controlWidths[i0] * (1 - smooth) + controlWidths[i1] * smooth;
+    // Gentle banking from local curvature, same frame for road, kart, items and barriers.
+    for(let i=0;i<sampleCount;i++){
+      const p=this.samples[(i-4+sampleCount)%sampleCount].tangent;
+      const q=this.samples[(i+4)%sampleCount].tangent;
+      const turn=Math.atan2(p.z*q.x-p.x*q.z,p.x*q.x+p.z*q.z);
+      const bank=Math.max(-.14,Math.min(.14,turn*.8));
+      const frame=this.samples[i],right=frame.right,up=frame.up;
+      frame.right=right.scale(Math.cos(bank)).add(up.scale(Math.sin(bank))).normalize();
+      frame.up=Vector3.Cross(frame.tangent,frame.right).normalize();
     }
   }
 
@@ -176,6 +164,14 @@ export class TrackSpline {
     return pos.add(right.scale(lateral)).add(up.scale(rideHeight));
   }
 
+  /** Bots choose a lane through the same steering input as players, never teleport. */
+  botLateralAt(distance:number,id:string,time:number):number {
+    const f=this.wrap(distance)/this.totalLength,lead=40/this.totalLength;
+    if(f>=EXPRESS[0]-lead && f<=EXPRESS[1])return id.charCodeAt(id.length-1)%2?expressLateral(this.widthAt(distance)):this.widthAt(distance)*.25;
+    if(f>=SWEEPER_AT-lead && f<=SWEEPER_AT+.012)return sweeperLateral(time+.7,this.widthAt(distance))>0?-this.widthAt(distance)*.27:this.widthAt(distance)*.27;
+    return 0;
+  }
+
   get sampleCount(): number {
     return this.samples.length;
   }
@@ -183,7 +179,7 @@ export class TrackSpline {
 
 export function buildTrack(): TrackSpline {
   const pts = CONTROL_POINTS.map(([x, y, z]) => new Vector3(x, y, z));
-  return new TrackSpline(pts, CONTROL_WIDTHS);
+  return new TrackSpline(pts, CONTROL_WIDTHS,3000,true);
 }
 
 /** Posizioni s (0..totalLength) dei checkpoint, equidistanti. */
@@ -216,6 +212,8 @@ export function buildTrackVisuals(scene: Scene, spline: TrackSpline): TrackVisua
   const road = buildRibbon(scene, spline, root);
   buildBarriers(scene, spline, root);
   buildStartGate(scene, spline, root);
+  buildDeck(scene,spline,root);
+  for(const m of root.getChildMeshes()){m.isPickable=false;m.freezeWorldMatrix();}
   return { root, road };
 }
 
@@ -223,6 +221,7 @@ function buildRibbon(scene: Scene, spline: TrackSpline, parent: TransformNode): 
   const slices = spline.sampleCount;
   const positions: number[] = [];
   const colors: number[] = [];
+  const uvs: number[] = [];
   const indices: number[] = [];
 
   const asphaltA = [0.29, 0.3, 0.34];
@@ -246,6 +245,8 @@ function buildRibbon(scene: Scene, spline: TrackSpline, parent: TransformNode): 
     const pri = pos.add(right.scale(half - cw));
     const pr = pos.add(right.scale(half));
     positions.push(pl.x, pl.y, pl.z, pli.x, pli.y, pli.z, pli.x, pli.y, pli.z, pri.x, pri.y, pri.z, pri.x, pri.y, pri.z, pr.x, pr.y, pr.z);
+
+    for(const u of [0,.06,.06,.94,.94,1])uvs.push(u,(i/slices)*spline.totalLength/18);
 
     // Asfalto a bande leggere + un po' di rumore (segni di gomme/usura); cordoli alternati rosso/bianco.
     const stripe = Math.floor(idx / 6) % 2 === 0 ? asphaltA : asphaltB;
@@ -275,6 +276,7 @@ function buildRibbon(scene: Scene, spline: TrackSpline, parent: TransformNode): 
   vertexData.positions = positions;
   vertexData.indices = indices;
   vertexData.colors = colors;
+  vertexData.uvs = uvs;
   VertexData.ComputeNormals(positions, indices, (vertexData.normals = []));
   vertexData.applyToMesh(mesh);
   mesh.parent = parent;
@@ -285,6 +287,10 @@ function buildRibbon(scene: Scene, spline: TrackSpline, parent: TransformNode): 
   mat.backFaceCulling = false;
   // le normali calcolate dal winding puntano verso il basso: senza questo la strada veniva illuminata come se fosse capovolta (nera)
   mat.twoSidedLighting = true;
+  const grain=new DynamicTexture('coastalAsphalt',256,scene,false);
+  const ctx=grain.getContext();ctx.fillStyle='#d3dae0';ctx.fillRect(0,0,256,256);
+  for(let i=0;i<4500;i++){const x=(i*73.131)%256,y=(i*37.717)%256;ctx.fillStyle=i%2?'rgba(30,45,65,.12)':'rgba(255,255,255,.18)';ctx.fillRect(x,y,1.5,1.5);}
+  grain.update();grain.wrapU=grain.wrapV=1;mat.diffuseTexture=grain;
   mesh.material = mat;
 
   // Striscia centrale tratteggiata gialla, leggermente sollevata per evitare z-fighting.
@@ -389,3 +395,16 @@ function buildStartGate(scene: Scene, spline: TrackSpline, parent: TransformNode
   banner.parent = parent;
 }
 
+
+function buildDeck(scene:Scene,spline:TrackSpline,parent:TransformNode):void {
+ const positions:number[]=[],indices:number[]=[];let v=0;
+ for(let s=0;s<spline.totalLength;s+=3){
+  const end=Math.min(s+3,spline.totalLength);
+  for(const side of [-1,1]){
+   for(const d of [s,end]){const p=spline.worldPoint(d,side*spline.widthAt(d)/2);positions.push(p.x,p.y-.04,p.z,p.x,p.y-.85,p.z);}
+   indices.push(v,v+1,v+2,v+1,v+3,v+2);v+=4;
+  }
+ }
+ const mesh=new Mesh('viaductDeck',scene),vd=new VertexData();vd.positions=positions;vd.indices=indices;VertexData.ComputeNormals(positions,indices,vd.normals=[]);vd.applyToMesh(mesh);
+ const mat=new StandardMaterial('deckConcrete',scene);mat.diffuseColor=Color3.FromHexString('#153449');mat.specularColor=Color3.Black();mat.backFaceCulling=false;mesh.material=mat;mesh.parent=parent;
+}

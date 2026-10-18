@@ -128,7 +128,8 @@ export function stepKartPhysics(
   dt: number,
   halfWidthAt: (distance: number) => number,
   trackAngleAt: (distance: number) => number,
-  invertSteer: boolean
+  invertSteer: boolean,
+  surface: {grip:number;speed:number} = {grip:1,speed:1}
 ): void {
   const C = KART_CONFIG;
   if (k.respawnTimer > 0) {
@@ -198,8 +199,8 @@ export function stepKartPhysics(
 
   const half = halfWidthAt(k.distance);
   k.offRoad = Math.abs(k.lateral) > half;
-  const centerRate = (k.offRoad ? C.centerRateOffRoad : C.centerRateOnRoad) * (1 - oil * .8);
-  const roadCap = Math.max(C.maxSpeed, boostCap);
+  const centerRate = surface.grip * (k.offRoad ? C.centerRateOffRoad : C.centerRateOnRoad) * (1 - oil * .8);
+  const roadCap = Math.max(C.maxSpeed * surface.speed, boostCap);
   const maxSpeed = (k.offRoad ? C.maxSpeed * C.offroadSpeedFactor : roadCap) * k.speedCapMultiplier;
   if (C.boostSpeedGain > 0 && !k.offRoad && k.speed > maxSpeed) {
     // Boost finito: atterraggio morbido sul tetto normale.
