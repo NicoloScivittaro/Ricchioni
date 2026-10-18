@@ -1,3 +1,4 @@
 /** Simulation seconds; pause never consumes this budget. */
-export const GOLF_TOURNAMENT = { holes: 3, holeSeconds: 150, aimSeconds: 15, intermission: 4,
-  maxStrokes: 12, playoffAimSeconds: 12, maxHoleSeconds: 300 } as const;
+// Long chained courses: a full minute per shot and a hole budget that fits five players.
+export const GOLF_TOURNAMENT = { holes: 3, holeSeconds: 720, aimSeconds: 60, intermission: 4,
+  maxStrokes: 18, playoffAimSeconds: 20, maxHoleSeconds: 900 } as const;

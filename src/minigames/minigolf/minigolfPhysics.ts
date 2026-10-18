@@ -63,7 +63,7 @@ export function physicsStep(balls:GolfBall[],course:Course,time:number,dt:number
    b.contacts=contacts;cap(b);
    if(b.grounded&&Math.abs(b.y-GOLF.radius-course.holeY)<.2&&Math.hypot(b.x-course.hole.x,b.z-course.hole.z)<.5&&speed(b)<=GOLF.captureSpeed){
     b.done=true;b.vx=b.vz=b.vy=0;events.push({type:'hole',id:b.id,x:b.x,z:b.z});continue;}
-   if(b.y< -4||Math.abs(b.x)>28||Math.abs(b.z)>28){events.push({type:'fall',id:b.id,x:b.x,z:b.z});restoreBall(b);}
+   if(b.y< -4||Math.abs(b.x)>32||Math.abs(b.z)>48){events.push({type:'fall',id:b.id,x:b.x,z:b.z});restoreBall(b);}
   }
   for(let i=0;i<active.length;i++)for(let j=i+1;j<active.length;j++){
    const a=active[i],b=active[j];if(a.done||b.done||Math.abs(a.y-b.y)>GOLF.radius*1.6)continue;

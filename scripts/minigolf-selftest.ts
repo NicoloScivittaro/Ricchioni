@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {COURSES,selectCourses,supportAt,heightAt} from '../src/minigames/minigolf/minigolfCourses';
+import {COURSES,SECTIONS,selectCourses,supportAt,heightAt} from '../src/minigames/minigolf/minigolfCourses';
 import {GOLF} from '../src/minigames/minigolf/minigolfTypes';
 import {createBall,physicsStep,impulse,speed,restoreBall,predict} from '../src/minigames/minigolf/minigolfPhysics';
 import {MinigolfMatch} from '../src/minigames/minigolf/minigolfRules';
@@ -11,7 +11,7 @@ import {AB} from '../shared/abilityCatalog';
 const chars=['goblin','buttafuori','dottore','judoka','ciro'];
 const roster=(n:number)=>Array.from({length:n},(_,i)=>({id:`p${i}`,characterId:chars[i],displayName:`P${i}`,name:`P${i}`,color:'#22cc88',bot:true,score:0,avatar:'',roleTitle:'',quote:''} satisfies PlayerSnapshot));
 const cmd=(extra:Partial<GolfCommand>={}):GolfCommand=>({aim:{x:0,z:-1},pressed:false,held:false,released:false,cancel:false,ability:false,version:0,...extra});
-const c={...COURSES[0],walls:[],bumpers:[],hole:{x:8,z:-11}};
+const c={...SECTIONS[0],walls:[],bumpers:[],hole:{x:8,z:-11}};
 const b=createBall('a',{x:0,z:0});impulse(b,{x:0,z:-1},.5);
 const initial=speed(b);for(let i=0;i<120;i++)physicsStep([b],c,i/120,1/120);
 assert.ok(speed(b)<initial&&b.z< -5);for(let i=0;i<1200;i++)physicsStep([b],c,i/120,1/120);assert.equal(speed(b),0);
@@ -22,16 +22,16 @@ let hit=false;for(let i=0;i<20;i++)hit=physicsStep([a,d],c,i/120,GOLF.step).some
 assert.ok(hit&&a.x<d.x&&a.vx<0&&d.vx>0,'fast balls transfer impulse, no crossing');
 const near=createBall('near',{x:.8,z:2});near.vx=8;const alone=createBall('alone',{x:.8,z:2});alone.vx=8;
 physicsStep([createBall('s',{x:0,z:2}),near],c,0,GOLF.step);physicsStep([alone],c,0,GOLF.step);assert.equal(near.vx,alone.vx,'no proximity braking');
-const w=createBall('w',{x:10,z:0});w.vx=28;for(let i=0;i<10;i++)physicsStep([w],COURSES[0],i/120,GOLF.step);assert.ok(w.vx<0&&w.x<11,'wall no tunneling');
-const slope=createBall('slope',{x:0,z:2},2);for(let i=0;i<120;i++)physicsStep([slope],COURSES[4],i/120,GOLF.step);assert.ok(slope.z<2&&speed(slope)>1,'gravity on slope');
+const w=createBall('w',{x:10,z:0});w.vx=28;for(let i=0;i<10;i++)physicsStep([w],SECTIONS[0],i/120,GOLF.step);assert.ok(w.vx<0&&w.x<11,'wall no tunneling');
+const slope=createBall('slope',{x:0,z:2},2);for(let i=0;i<120;i++)physicsStep([slope],SECTIONS[4],i/120,GOLF.step);assert.ok(slope.z<2&&speed(slope)>1,'gravity on slope');
 const sand=createBall('sand',{x:0,z:-7},.015),ice=createBall('ice',{x:0,z:4},.015);sand.vx=ice.vx=1;
-for(let i=0;i<30;i++){physicsStep([sand],COURSES[3],i/120,GOLF.step);physicsStep([ice],COURSES[3],i/120,GOLF.step);}assert.ok(speed(ice)>speed(sand));
-const mobile=createBall('mobile',{x:3,z:.6});let mobileHit=false;for(let i=0;i<120;i++)mobileHit=physicsStep([mobile],COURSES[1],i/120,GOLF.step).some(e=>e.type==='wall')||mobileHit;assert.ok(mobileHit&&mobile.travel>0,'rotating arms transfer velocity');
-const out=createBall('out',{x:0,z:11});out.x=20;let fell=false;for(let i=0;i<180;i++)fell=physicsStep([out],COURSES[2],i/120,GOLF.step).some(e=>e.type==='fall')||fell;assert.ok(fell);assert.equal(out.x,0);
-const hole=createBall('hole',COURSES[0].hole);assert.ok(physicsStep([hole],COURSES[0],0,GOLF.step).some(e=>e.type==='hole'));assert.ok(hole.done);assert.equal(physicsStep([hole],COURSES[0],1,GOLF.step).length,0);
-const fast=createBall('fast',{x:0,z:-11});fast.vz=-8;physicsStep([fast],COURSES[0],0,GOLF.step);assert.ok(!fast.done,'fast balls overshoot cup');
-const corrupt=createBall('bad',{x:0,z:11});corrupt.vx=NaN;assert.ok(physicsStep([corrupt],COURSES[0],0,GOLF.step).some(e=>e.type==='stuck'));assert.ok(Number.isFinite(corrupt.x));
-for(const course of COURSES){assert.ok(supportAt(course,course.spawn,0));assert.ok(supportAt(course,course.hole,0));assert.ok(course.par<=course.maxStrokes);assert.equal(course.maxStrokes,12);}
+for(let i=0;i<30;i++){physicsStep([sand],SECTIONS[3],i/120,GOLF.step);physicsStep([ice],SECTIONS[3],i/120,GOLF.step);}assert.ok(speed(ice)>speed(sand));
+const mobile=createBall('mobile',{x:3,z:.6});let mobileHit=false;for(let i=0;i<120;i++)mobileHit=physicsStep([mobile],SECTIONS[1],i/120,GOLF.step).some(e=>e.type==='wall')||mobileHit;assert.ok(mobileHit&&mobile.travel>0,'rotating arms transfer velocity');
+const out=createBall('out',{x:0,z:11});out.x=20;let fell=false;for(let i=0;i<180;i++)fell=physicsStep([out],SECTIONS[2],i/120,GOLF.step).some(e=>e.type==='fall')||fell;assert.ok(fell);assert.equal(out.x,0);
+const hole=createBall('hole',SECTIONS[0].hole);assert.ok(physicsStep([hole],SECTIONS[0],0,GOLF.step).some(e=>e.type==='hole'));assert.ok(hole.done);assert.equal(physicsStep([hole],SECTIONS[0],1,GOLF.step).length,0);
+const fast=createBall('fast',{x:0,z:-11});fast.vz=-8;physicsStep([fast],SECTIONS[0],0,GOLF.step);assert.ok(!fast.done,'fast balls overshoot cup');
+const corrupt=createBall('bad',{x:0,z:11});corrupt.vx=NaN;assert.ok(physicsStep([corrupt],SECTIONS[0],0,GOLF.step).some(e=>e.type==='stuck'));assert.ok(Number.isFinite(corrupt.x));
+for(const course of COURSES){assert.ok(supportAt(course,course.spawn,0));assert.ok(supportAt(course,course.hole,0));assert.ok(course.par<=course.maxStrokes);assert.equal(course.maxStrokes,GOLF.maxStrokes);}
 for(let seed=0;seed<60;seed++){const cs=selectCourses(()=>seed/60);assert.equal(cs.length,3);assert.equal(new Set(cs.map(c=>c.id)).size,3);assert.ok(COURSES.includes(cs[0]));}
 assert.equal(new Set(Array.from({length:60},(_,i)=>selectCourses(()=>(i+.5)/60)).flat().map(c=>c.id)).size,10);
 
@@ -49,21 +49,21 @@ for(const course of COURSES){
 }
 // The descent's entry must actually pass its wall opening and capture the cup.
 const descent=createBall('descent',{x:5,z:-6.1});descent.vz=-5;
-for(let i=0;i<600&&!descent.done;i++)physicsStep([descent],COURSES[4],i/120,GOLF.step);
+for(let i=0;i<600&&!descent.done;i++)physicsStep([descent],SECTIONS[4],i/120,GOLF.step);
 assert.ok(descent.done,'descent goal reachable through gate');
 // A stationary ball is carried by the actual moving platform, without an impulse.
 const carry=createBall('carry',{x:-3,z:-4});const initialX=carry.x;
-for(let i=0;i<120;i++)physicsStep([carry],COURSES[2],i/120,GOLF.step);
+for(let i=0;i<120;i++)physicsStep([carry],SECTIONS[2],i/120,GOLF.step);
 assert.ok(carry.grounded&&carry.x>initialX+.4&&speed(carry)===0);
 const boosted=createBall('boost',{x:10,z:10});boosted.vx=5;boosted.bounceBoost=AB.minigolf.goblin.p.bounce;
 const plain=createBall('plain',{x:10,z:10});plain.vx=5;
-for(let i=0;i<30;i++){physicsStep([boosted],COURSES[0],i/120,GOLF.step);physicsStep([plain],COURSES[0],i/120,GOLF.step);}
+for(let i=0;i<30;i++){physicsStep([boosted],SECTIONS[0],i/120,GOLF.step);physicsStep([plain],SECTIONS[0],i/120,GOLF.step);}
 assert.ok(speed(boosted)>speed(plain)*1.2);assert.equal(boosted.bounceBoost,1,'first static bounce consumes boost');
 const rotor=createBall('rotor',{x:3,z:.6});rotor.bounceBoost=AB.minigolf.goblin.p.bounce;
-for(let i=0;i<20;i++)physicsStep([rotor],COURSES[1],i/120,GOLF.step);
+for(let i=0;i<20;i++)physicsStep([rotor],SECTIONS[1],i/120,GOLF.step);
 assert.equal(rotor.bounceBoost,AB.minigolf.goblin.p.bounce,'mobile arm never consumes static boost');
 // Turn authority: never mutate an inactive ball from its own controls.
-const fresh=(n=5,course=COURSES[0])=>{const v=new MinigolfMatch(roster(n),()=>.99,[course]);v.advance(GOLF.intro+.02);for(const p of v.players)v.command(p,cmd(),.01);return v;};
+const fresh=(n=5,course=SECTIONS[0])=>{const v=new MinigolfMatch(roster(n),()=>.99,[course]);v.advance(GOLF.intro+.02);for(const p of v.players)v.command(p,cmd(),.01);return v;};
 const shoot=(m:MinigolfMatch,p=m.active,power=.3,aim={x:0,z:-1})=>{m.command(p,cmd({aim}),.01);m.command(p,cmd({aim,pressed:true,held:true}),power*GOLF.chargeTime);m.command(p,cmd({aim,released:true}),.01);};
 const m=fresh(),p=m.active,other=m.players[1];const inactive=JSON.stringify(other.ball),otherAim={...other.aim};
 shoot(m,other);m.command(other,cmd({ability:true}),.1);assert.equal(JSON.stringify(other.ball),inactive);assert.equal(other.used,false);assert.deepEqual(other.aim,otherAim);
@@ -77,7 +77,7 @@ const firsts=new Set(Array.from({length:30},(_,i)=>new MinigolfMatch(roster(5),(
 // Last permitted shot still reaches the hole before DNF is decided.
 const last=fresh(2),lp=last.active;lp.strokes=last.course.maxStrokes-1;lp.holeShots=lp.strokes;lp.ball.x=0;lp.ball.z=-10.2;lp.ball.readyFor=1;
 shoot(last,lp,0);last.advance(1);assert.equal(lp.completed,1);assert.equal(lp.strokes,last.course.maxStrokes);assert.ok(lp.finished);
-const exhausted=fresh(2);exhausted.advance(400);assert.equal(exhausted.phase,'ended');assert.ok(exhausted.players.every(p=>p.records.length===1&&p.total===14&&p.totalPenalties===2));
+const exhausted=fresh(2);exhausted.advance(GOLF.holeSeconds+80);/* include tie playoff (2 × 20 s timeouts) */assert.equal(exhausted.phase,'ended');assert.ok(exhausted.players.every(p=>p.records.length===1&&p.total===GOLF.maxStrokes+2&&p.totalPenalties===2));
 // Both balls move from a real impulse, victim's strokes and new position persist.
 const bump=fresh(2,{...c,id:'collision'}),shooter=bump.active,victim=bump.players[1];
 Object.assign(shooter.ball,createBall(shooter.id,{x:0,z:1}));Object.assign(victim.ball,createBall(victim.id,{x:0,z:0}));
@@ -85,7 +85,7 @@ shoot(bump,shooter,.2);bump.advance(.3);assert.ok(victim.ball.z<-.5);assert.equa
 for(let i=0;i<200&&bump.active.id===shooter.id;i++)bump.advance(.05);assert.equal(bump.active.id,victim.id);assert.ok(victim.ball.z<-.5,'bocce position persists for next turn');
 const help=fresh(2,{...c,id:'help',hole:{x:0,z:-1}}),helper=help.active,helped=help.players[1];Object.assign(helper.ball,createBall(helper.id,{x:0,z:1}));Object.assign(helped.ball,createBall(helped.id,{x:0,z:-.4}));
 shoot(help,helper,0);help.advance(2);assert.ok(helped.finished&&helped.completed);assert.equal(helped.strokes,0,'opponent can be holed with no extra stroke');
-const falls=fresh(2,COURSES[2]),falling=falls.active,fallVictim=falls.players[1];shoot(falls,falling,0);
+const falls=fresh(2,SECTIONS[2]),falling=falls.active,fallVictim=falls.players[1];shoot(falls,falling,0);
 falling.ball.x=fallVictim.ball.x=20;falls.advance(2);assert.equal(falling.penalties,1);assert.equal(fallVictim.penalties,0);assert.equal(fallVictim.strokes,0);assert.ok(fallVictim.ball.x<6);
 const bad=fresh(2);bad.active.ball.vx=NaN;bad.advance(.02);assert.equal(bad.active.penalties,0);assert.ok(Number.isFinite(bad.active.ball.x));
 // All five catalog abilities stay usable with the same ball parameters.
@@ -104,9 +104,9 @@ ra.total=11;rb.totalPenalties=1;rc.ones=1;rd.completionTime=15;assert.deepEqual(
 const outcomes=[];
 for(const n of [2,3,4,5])for(const course of COURSES){
  let seed=123+n;const rng=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};const match=new MinigolfMatch(roster(n),rng,[course]),bot=new MinigolfBot(rng);
- for(let i=0;i<240*60&&match.phase!=='ended';i++){match.command(match.active,bot.command(match.active,match.course,1/60),1/60);match.advance(1/60);match.events=[];}
- assert.equal(match.phase,'ended');assert.equal(match.results().length,n);assert.ok(match.players.every(q=>q.records.length===1&&Number.isFinite(q.completionTime)));assert.ok(match.time<=230.02);
+ for(let i=0;i<(GOLF.holeSeconds+GOLF.rollSeconds+5)*60&&match.phase!=='ended';i++){match.command(match.active,bot.command(match.active,match.course,1/60),1/60);match.advance(1/60);match.events=[];}
+ assert.equal(match.phase,'ended');assert.equal(match.results().length,n);assert.ok(match.players.every(q=>q.records.length===1&&Number.isFinite(q.completionTime)));assert.ok(match.time<=GOLF.holeSeconds+GOLF.rollSeconds+.02);
  outcomes.push({n,course:course.id,seconds:+match.time.toFixed(1),completed:match.players.reduce((a,p)=>a+p.completed,0)});
 }
-const deadline=fresh(2);deadline.time=GOLF.holeSeconds-.1;shoot(deadline,deadline.active,.5);deadline.advance(.3);assert.equal(deadline.phase,'playing','deadline does not interrupt shot in flight');deadline.advance(200);assert.equal(deadline.phase,'ended');assert.ok(deadline.players.every(p=>p.records.length===1));
+const deadline=fresh(2);deadline.time=GOLF.holeSeconds-.1;shoot(deadline,deadline.active,.5);deadline.advance(.3);assert.equal(deadline.phase,'playing','deadline does not interrupt shot in flight');deadline.advance(GOLF.rollSeconds+80);assert.equal(deadline.phase,'ended');assert.ok(deadline.players.every(p=>p.records.length===1));
 console.log('PASS minigolf physics 30/60/120, ten courses, turns/timeout/fair order, persistent ball collisions and opponent hole, cancellation, all abilities, active-time ranking, deadline grace, 40 natural bot rounds.');console.log(JSON.stringify(outcomes));

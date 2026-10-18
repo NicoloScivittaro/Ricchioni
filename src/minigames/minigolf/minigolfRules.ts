@@ -25,7 +25,7 @@ export class MinigolfMatch {
   this.courses=(courses??selectCourses(next)).slice(0,TOURNAMENT.holes);
   if(!this.courses.length)throw new Error('Minigolf requires at least one course');
   this.holeSeconds=Number.isFinite(options.holeSeconds)?Math.max(1,Math.min(TOURNAMENT.maxHoleSeconds,options.holeSeconds!)):GOLF.holeSeconds;
-  this.aimSeconds=Number.isFinite(options.aimSeconds)?Math.max(1,Math.min(30,options.aimSeconds!)):GOLF.aimSeconds;
+  this.aimSeconds=Number.isFinite(options.aimSeconds)?Math.max(1,Math.min(120,options.aimSeconds!)):GOLF.aimSeconds;
   this.players=roster.map(p=>({id:p.id,characterId:p.characterId,name:p.displayName,color:p.color,bot:!!p.bot,ball:createBall(p.id,{x:0,z:0}),
    aim:{x:0,z:-1},charge:0,charging:false,blocked:true,cancelVersion:0,strokes:0,penalties:0,total:0,totalPenalties:0,finished:false,
    completed:0,ones:0,completionTime:0,holeTime:0,holeShots:0,used:false,armed:null,prediction:0,debt:0,specialShot:false,records:[]}));

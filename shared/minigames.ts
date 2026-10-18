@@ -323,8 +323,8 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   },
   {
     id:'minigolf',icon:'⛳',name:'MINIGOLF DEI DISAGIATI',
-    description:`Torneo di tre piste diverse: ${GOLF_TOURNAMENT.holeSeconds} secondi per buca. Dosa la forza e boccia gli amici: meno colpi totali vince.`,
-    category:'SPORT',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:GOLF_TOURNAMENT.holes*GOLF_TOURNAMENT.holeSeconds,hardCapSec:1600,
+    description:`Torneo di tre piste lunghe e piene di insidie: ${GOLF_TOURNAMENT.aimSeconds} secondi per tiro. Dosa la forza e boccia gli amici: meno colpi totali vince.`,
+    category:'SPORT',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:GOLF_TOURNAMENT.holes*GOLF_TOURNAMENT.holeSeconds,hardCapSec:3800,
     compatibleModifiers:['punti_doppi'],sceneKey:'minigolf',inputMode:'GAMEPAD',
     controllerLayout:{type:'custom',id:'minigolf-tv'}
   },

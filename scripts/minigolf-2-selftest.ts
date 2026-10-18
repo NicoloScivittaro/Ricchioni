@@ -24,11 +24,12 @@ test('10 physical layouts;3 unique selections;progression;no immediately repeate
  assert.equal(ids.size,10);assert.equal(new Set(COURSES.map(c=>JSON.stringify([c.floors,c.walls,c.bumpers,c.hole]))).size,10);
  for(const r of [0,.99]){const a=selectCourses(()=>r,''),b=selectCourses(()=>r,key(a));assert.notEqual(key(a),key(b));}
 });
-test('default150s and15s turn;bounded configurable timer;metadata/watchdog cover even300s option',()=>{
- const m=new MinigolfMatch(roster(5),()=>.4);assert.equal(m.courses.length,3);assert.equal(m.remaining,150);assert.equal(m.aimRemaining,15);
+test('default hole budget and 60s turn;bounded configurable timer;metadata/watchdog cover the longest option',()=>{
+ const m=new MinigolfMatch(roster(5),()=>.4);assert.equal(m.courses.length,3);assert.equal(m.remaining,GOLF_TOURNAMENT.holeSeconds);assert.equal(m.aimRemaining,60);
  assert.equal(new MinigolfMatch(roster(2),()=>.2,undefined,{holeSeconds:200}).remaining,200);
- assert.equal(new MinigolfMatch(roster(2),()=>.2,undefined,{holeSeconds:NaN}).remaining,150);
- const d=MINIGAME_DEFINITIONS.find(d=>d.id==='minigolf')!;assert.equal(d.durationSec,450);assert.ok(safetyCapSec(d)>=1225*1.25);
+ assert.equal(new MinigolfMatch(roster(2),()=>.2,undefined,{holeSeconds:NaN}).remaining,GOLF_TOURNAMENT.holeSeconds);
+ const d=MINIGAME_DEFINITIONS.find(d=>d.id==='minigolf')!;assert.equal(d.durationSec,GOLF_TOURNAMENT.holes*GOLF_TOURNAMENT.holeSeconds);
+ assert.ok(safetyCapSec(d)>=(GOLF_TOURNAMENT.holes*GOLF_TOURNAMENT.maxHoleSeconds+325)*1.25);
 });
 test('2–5 tees supported, no overlaps, identical distance to first target on all10 courses',()=>{
  for(const c of COURSES)for(let n=2;n<=5;n++){const m=new MinigolfMatch(roster(n),()=>.5,[c]),target=c.waypoints[0];
@@ -43,10 +44,10 @@ test('deadline freezes during no advance/pause contract;timeout3holes,resets,rot
   if(m.phase==='playing'&&m.time===0){starts.push(m.activeIndex);}
   const before=m.courseIndex;m.advance(1/60);
   if(before!==m.courseIndex){records++;assert.equal(m.remaining,1);assert.equal(m.time,0);assert.equal(m.phase,'intro');assert.equal(m.extras.length,0);
-   for(const p of m.players){assert.equal(p.records.length,records);assert.equal(p.total,records*14);assert.equal(p.strokes,0);assert.equal(p.used,false);assert.equal(p.armed,null);assert.equal(p.debt,0);assert.equal(p.charging,false);assert.equal(p.ball.vx,0);assert.equal(p.ball.vz,0);assert.ok(p.blocked);}}
+   for(const p of m.players){assert.equal(p.records.length,records);assert.equal(p.total,records*(GOLF.maxStrokes+2));assert.equal(p.strokes,0);assert.equal(p.used,false);assert.equal(p.armed,null);assert.equal(p.debt,0);assert.equal(p.charging,false);assert.equal(p.ball.vx,0);assert.equal(p.ball.vz,0);assert.ok(p.blocked);}}
  }
  assert.equal(m.phase,'ended');assert.equal(m.courseIndex,2);assert.equal(m.playoff,true);assert.deepEqual(m.players.map(p=>p.id),identities);
- assert.ok(m.players.every(p=>p.records.length===3&&p.total===42&&p.completionTime===0));assert.equal(m.playoffScores.size,5);assert.ok(m.results().every(r=>r.placement===1));
+ assert.ok(m.players.every(p=>p.records.length===3&&p.total===3*(GOLF.maxStrokes+2)&&p.completionTime===0));assert.equal(m.playoffScores.size,5);assert.ok(m.results().every(r=>r.placement===1));
  // Same zero-input outcome cannot turn roster position into an arbitrary champion.
  assert.equal(m.results().filter(r=>r.placement===1).length,5);
 });
@@ -71,7 +72,7 @@ test('actual one-putt playoff,one isolated ball per turn,does not add fourth sco
  assert.equal(m.players.filter(p=>!p.ball.done).length,1);m.command(p,idle,.01);
  const power=(Math.sqrt(2*GOLF.drag*8)-GOLF.minSpeed)/(GOLF.maxSpeed-GOLF.minSpeed);
  m.command(p,{...idle,pressed:true,held:true},power*GOLF.chargeTime);m.command(p,{...idle,released:true},.01);
- m.advance(80);assert.equal(m.phase,'ended');assert.equal(m.playoffScores.get(p.id)!.distance,0);assert.equal(m.results()[0].playerId,p.id);assert.ok(m.players.every(p=>p.records.length===3&&p.total===42));
+ m.advance(80);assert.equal(m.phase,'ended');assert.equal(m.playoffScores.get(p.id)!.distance,0);assert.equal(m.results()[0].playerId,p.id);assert.ok(m.players.every(p=>p.records.length===3&&p.total===3*(GOLF.maxStrokes+2)));
 });
 test('shared ex-aequo points scoped to Minigolf;double and catch-up preserved;missing/duplicate sanitization',()=>{
  const scores=new Map([['a',0],['b',0],['c',0]]),rank=['a','b','c'];
@@ -89,7 +90,7 @@ const simulations:any[]=[];
 test('24 complete3hole bot tournaments:2–5 players,6 seeds each,unique courses,no skipped record,finite scoring',()=>{
  for(let n=2;n<=5;n++)for(let seed=1;seed<=6;seed++){
   const rng=new Rng(seed*91+n),m=new MinigolfMatch(roster(n),()=>rng.next()),bot=new MinigolfBot(()=>rng.next());let elapsed=0;
-  for(let i=0;i<800*60&&m.phase!=='ended';i++){m.command(m.active,bot.command(m.active,m.course,1/60),1/60);m.advance(1/60);m.events=[];elapsed+=1/60;}
+  for(let i=0;i<(3*(GOLF.holeSeconds+GOLF.rollSeconds+10)+300)*60&&m.phase!=='ended';i++){m.command(m.active,bot.command(m.active,m.course,1/60),1/60);m.advance(1/60);m.events=[];elapsed+=1/60;}
   assert.equal(m.phase,'ended');assert.equal(new Set(m.courses.map(c=>c.id)).size,3);assert.ok(m.players.every(p=>p.records.length===3&&p.total===p.records.reduce((a,r)=>a+r.strokes,0)&&Number.isFinite(p.completionTime)));
   assert.ok(m.players.every(p=>Math.abs(p.completionTime-p.records.filter(r=>r.completed).reduce((a,r)=>a+r.seconds,0))<1e-6));
   simulations.push({n,seed,seconds:+elapsed.toFixed(2),courses:m.courses.map(c=>c.id),playoff:m.playoff,results:m.results(),completed:m.players.map(p=>p.completed)});

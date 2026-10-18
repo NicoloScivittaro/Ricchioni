@@ -45,12 +45,12 @@ export class BabylonMinigolfGame {
    const grip=new TransformNode(`golfClub:${p.id}`,this.scene),shaft=MeshBuilder.CreateCylinder('clubShaft',{height:1.05,diameter:.04},this.scene);shaft.parent=grip;shaft.position.y=-.525;shaft.material=metal;
    const head=MeshBuilder.CreateBox('putterHead',{width:.38,height:.14,depth:.17},this.scene);head.parent=grip;head.position.set(.11,-1.03,0);head.material=metal;this.clubs.set(p.id,grip);
   }
-  const sea=MeshBuilder.CreateGround('sea',{width:100,height:100},this.scene),seaMat=new StandardMaterial('golfSea',this.scene);sea.position.y=-2.8;seaMat.diffuseColor=Color3.FromHexString('#207e9b').toLinearSpace();seaMat.specularColor=Color3.FromHexString('#5fabc3').toLinearSpace();sea.material=seaMat;
+  const sea=MeshBuilder.CreateGround('sea',{width:140,height:200},this.scene),seaMat=new StandardMaterial('golfSea',this.scene);sea.position.y=-2.8;seaMat.diffuseColor=Color3.FromHexString('#207e9b').toLinearSpace();seaMat.specularColor=Color3.FromHexString('#5fabc3').toLinearSpace();sea.material=seaMat;
   // Original seaside scenery stays outside the playable geometry.
   const decor=new StandardMaterial('golfDecor',this.scene);decor.diffuseColor=Color3.FromHexString('#edbe78');
-  for(const x of [-15,15])for(const z of [-12,0,12]){const pole=MeshBuilder.CreateCylinder('golfLamp',{height:3,diameter:.1},this.scene);pole.position.set(x,-.3,z);pole.material=metal;const top=MeshBuilder.CreateSphere('golfLampGlow',{diameter:.5,segments:8},this.scene);top.position.set(x,1.3,z);top.material=decor;}
+  for(const x of [-15,15])for(const z of [-36,-24,-12,0,12,24,36]){const pole=MeshBuilder.CreateCylinder('golfLamp',{height:3,diameter:.1},this.scene);pole.position.set(x,-.3,z);pole.material=metal;const top=MeshBuilder.CreateSphere('golfLampGlow',{diameter:.5,segments:8},this.scene);top.position.set(x,1.3,z);top.material=decor;}
   const leaf=new StandardMaterial('golfPalmLeaf',this.scene);leaf.diffuseColor=Color3.FromHexString('#238c67');
-  for(const x of [-19,19])for(const z of [-10,9]){
+  for(const x of [-19,19])for(const z of [-32,-10,9,31]){
    const island=MeshBuilder.CreateCylinder('golfBeach',{diameter:9,height:.4,tessellation:20},this.scene);island.position.set(x,-1.1,z);island.material=decor;
    const trunk=MeshBuilder.CreateCylinder('golfPalm',{height:5,diameterTop:.18,diameterBottom:.35,tessellation:7},this.scene);trunk.position.set(x,1.5,z);trunk.material=decor;trunk.rotation.z=x>0?.12:-.12;
    for(let i=0;i<5;i++){const frond=MeshBuilder.CreateSphere('golfFrond',{diameter:1,segments:6},this.scene);frond.scaling.set(2.7,.16,.65);frond.position.set(x,4,z);frond.rotation.y=i*Math.PI/2.5;frond.material=leaf;}

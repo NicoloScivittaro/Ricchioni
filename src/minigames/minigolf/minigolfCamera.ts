@@ -37,7 +37,11 @@ export class MinigolfCamera {
   // Tracking lag is bounded even on fast ramps, so the ball stays in frame.
   if(Vector3.Distance(this.focus,ball)>1)this.focus.copyFrom(ball.add(this.focus.subtract(ball).normalize()));
   let eye:Vector3,target:Vector3;
-  if(this.overview){const aspect=this.camera.getEngine().getAspectRatio(this.camera),radius=Math.max(34,27/aspect);eye=new Vector3(0,radius,c.spawn.z+radius*.4);target=new Vector3(0,1,0);}
+  if(this.overview){
+   // Frame the whole chained course, not a fixed 28 m square.
+   const aspect=this.camera.getEngine().getAspectRatio(this.camera),x0=Math.min(...c.floors.map(f=>f.x-f.w/2)),x1=Math.max(...c.floors.map(f=>f.x+f.w/2)),z0=Math.min(...c.floors.map(f=>f.z-f.d/2)),z1=Math.max(...c.floors.map(f=>f.z+f.d/2));
+   const radius=Math.max(34,(z1-z0)*1.2,(x1-x0)*1.25/aspect),cx=(x0+x1)/2,cz=(z0+z1)/2;
+   eye=new Vector3(cx,radius,z1-3+radius*.4);target=new Vector3(cx,1,cz);}
   else {
    const yaw=this.heading+this.orbit,forward=new Vector3(Math.sin(yaw),0,Math.cos(yaw)),distance=3.35+Math.min(1.8,speed(p.ball)*.085);
    const origin=ball.add(new Vector3(0,.2,0));

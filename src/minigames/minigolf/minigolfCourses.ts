@@ -3,7 +3,8 @@ import {GOLF_TOURNAMENT} from '../../../shared/minigolfTournament';
 const floor=(x:number,z:number,w:number,d:number,y=0,extra:Partial<Floor>={}):Floor=>({x,z,w,d,y,...extra});
 const wall=(x:number,z:number,xx:number,zz:number,y=0):Wall=>({a:{x,z},b:{x:xx,z:zz},y,radius:.18});
 const rim=(w:number,d:number):Wall[]=>[wall(-w,-d,w,-d),wall(-w,d,w,d),wall(-w,-d,-w,d),wall(w,-d,w,d)];
-export const COURSES: readonly Course[] = [
+/** Single-screen holes (28 m). They are no longer played alone: long courses chain 2–3 of them. */
+export const SECTIONS: readonly Course[] = [
  {id:'corridoio',name:'IL CORRIDOIO MALEDETTO',difficulty:'easy',par:4,maxStrokes:5,color:'#42bd82',tip:'Dosala. Usa le sponde, oppure rischia il passaggio stretto a sinistra.',
   spawn:{x:0,z:11},hole:{x:0,z:-11},holeY:0,
   floors:[floor(0,0,22,28)],walls:[...rim(11,14),wall(-11,5,3,5),wall(-3,-3,11,-3)],
@@ -47,6 +48,70 @@ export const COURSES: readonly Course[] = [
   floors:[floor(0,11,12,6),floor(4,6,4,8),floor(0,2,12,4),floor(-4,-2,4,8),floor(0,-6,12,4),floor(3,-10,4,8)],
   walls:[wall(-6,14,6,14)],bumpers:[],waypoints:[{x:4,z:10},{x:4,z:2},{x:-4,z:2},{x:-4,z:-6},{x:3,z:-6},{x:3,z:-11}]}
 ].map(c=>({...c,maxStrokes:GOLF_TOURNAMENT.maxStrokes})) as Course[];
+const SECTION_LENGTH=28;
+const shift=(p:Point,dz:number):Point=>({x:p.x,z:p.z+dz});
+/** X span where the floors of two adjacent sections meet on the shared edge. */
+function junctionGap(upper:Floor[],lower:Floor[],z:number):[number,number] {
+ const touching=(fs:Floor[],edge:(f:Floor)=>number)=>fs.filter(f=>!f.motion&&Math.abs(edge(f)-z)<1e-6);
+ const span=(fs:Floor[])=>[Math.min(...fs.map(f=>f.x-f.w/2)),Math.max(...fs.map(f=>f.x+f.w/2))];
+ const [a0,a1]=span(touching(upper,f=>f.z-f.d/2)),[b0,b1]=span(touching(lower,f=>f.z+f.d/2));
+ const lo=Math.max(a0,b0),hi=Math.min(a1,b1);
+ if(!(hi-lo>1.5))throw new Error(`Minigolf: giunzione troppo stretta a z=${z}`);
+ return [lo,hi];
+}
+/** A rail lying on the junction keeps its stretches beside the gap, never across it. */
+function openGap(walls:Wall[],z:number,[lo,hi]:[number,number]):Wall[] {
+ return walls.flatMap(w=>{
+  if(w.rotation||Math.abs(w.a.z-z)>1e-6||Math.abs(w.b.z-z)>1e-6)return [w];
+  const x0=Math.min(w.a.x,w.b.x),x1=Math.max(w.a.x,w.b.x),parts:Wall[]=[];
+  if(lo-x0>.3)parts.push({...w,a:{x:x0,z},b:{x:Math.min(lo,x1),z}});
+  if(x1-hi>.3)parts.push({...w,a:{x:Math.max(hi,x0),z},b:{x:x1,z}});
+  return parts;
+ });
+}
+/**
+ * Chains sections from the tee (+z) to the cup (−z). Heights are matched so each section starts
+ * where the previous ended; intermediate cups disappear and the bot route passes through each gap.
+ */
+function chain(id:string,name:string,difficulty:Course['difficulty'],color:string,tip:string,ids:string[]):Course {
+ const parts=ids.map(k=>{const c=SECTIONS.find(c=>c.id===k);if(!c)throw new Error(`Minigolf: sezione ${k} mancante`);return c;});
+ const n=parts.length,dz=parts.map((_,i)=>SECTION_LENGTH*((n-1)/2-i));
+ const lift=new Array<number>(n).fill(0);
+ for(let i=n-2;i>=0;i--){const next=parts[i+1],start=heightAt(supportAt(next,next.spawn,0)!,next.spawn);lift[i]=lift[i+1]+start-parts[i].holeY;}
+ const moved=parts.map((c,i)=>({
+  floors:c.floors.map(f=>({...f,z:f.z+dz[i],y:f.y+lift[i]})),
+  walls:c.walls.map(w=>({...w,a:shift(w.a,dz[i]),b:shift(w.b,dz[i]),y:w.y+lift[i],...(w.rotation?{rotation:{...w.rotation,center:shift(w.rotation.center,dz[i])}}:{})})),
+  bumpers:c.bumpers.map(b=>({...b,z:b.z+dz[i],y:b.y+lift[i]})),
+  waypoints:c.waypoints.map(p=>shift(p,dz[i]))
+ }));
+ const waypoints:Point[]=[...moved[0].waypoints];
+ for(let i=0;i<n-1;i++){
+  const z=dz[i]-SECTION_LENGTH/2,gap=junctionGap(moved[i].floors,moved[i+1].floors,z);
+  moved[i].walls=openGap(moved[i].walls,z,gap);moved[i+1].walls=openGap(moved[i+1].walls,z,gap);
+  // Wide junctions get a central divider: no straight tee-to-cup line, two side passages instead.
+  const mid=(gap[0]+gap[1])/2,divided=gap[1]-gap[0]>=6,y=Math.min(...moved[i].floors.filter(f=>Math.abs(f.z-f.d/2-z)<1e-6).map(f=>f.y));
+  if(divided)moved[i].walls.push({a:{x:mid-1.4,z},b:{x:mid+1.4,z},y,radius:.18});
+  const pass=divided?(i%2?(mid+1.4+gap[1])/2:(gap[0]+mid-1.4)/2):mid;
+  waypoints.push({x:pass,z:z+1.2},{x:pass,z},{x:pass,z:z-1.2},...moved[i+1].waypoints);
+ }
+ const last=parts[n-1];
+ return {id,name,difficulty,color,tip,par:parts.reduce((a,c)=>a+c.par,0)-(n-1),maxStrokes:GOLF_TOURNAMENT.maxStrokes,
+  spawn:shift(parts[0].spawn,dz[0]),hole:shift(last.hole,dz[n-1]),holeY:last.holeY+lift[n-1],
+  floors:moved.flatMap(m=>m.floors),walls:moved.flatMap(m=>m.walls),bumpers:moved.flatMap(m=>m.bumpers),waypoints};
+}
+/** Tournament holes: two or three sections each, 56–84 m from tee to cup. */
+export const COURSES: readonly Course[] = [
+ chain('lungomare','IL LUNGOMARE INFINITO','easy','#74b848','Lungo e largo: un tiro forte nel prato, poi scegli la sponda nel corridoio.',['prato','corridoio']),
+ chain('scampagnata','LA SCAMPAGNATA','easy','#8bbf55','Prato tranquillo, poi le montagne: non sottovalutare la salita.',['prato','saliscendi']),
+ chain('giostra','LA GIOSTRA DEI DANNATI','medium','#35b9ad','Prima i bracci rotanti, poi i cancelli: il tempismo conta due volte.',['rotonda','cancelli']),
+ chain('flipperone','IL FLIPPERONE','medium','#707fcb','I bumper ti sparano verso le montagne. Frena prima della salita.',['flipper','saliscendi']),
+ chain('traversata','LA TRAVERSATA','medium','#58a8c0','Cancelli, ponte mobile e corridoio finale. Tre pezzi, nessuna fretta.',['cancelli','ponte','corridoio']),
+ chain('altalena','SU E GIÙ PER LA ROTONDA','medium','#c09b62','Dopo le montagne la rotonda gira: aspetta il varco giusto.',['saliscendi','rotonda']),
+ chain('maratona','LA MARATONA DEL DISAGIO','medium','#42bd82','Tre sezioni larghe: corridoio, flipper e prato. Gestisci la forza.',['corridoio','flipper','prato']),
+ chain('inferno','IL GIRO DELL’INFERNO','hard','#9981c5','Rotonda, discesa e serpentina sul mare. Ogni errore costa caro.',['rotonda','discesa','serpentina']),
+ chain('odissea','L’ODISSEA','hard','#b299ce','Flipper, ultima buca e una discesa finale. Il mare è sempre lì.',['flipper','ultima','discesa']),
+ chain('disperati','IL PERCORSO DEI DISPERATI','hard','#52bfa3','Ponte, cancelli e serpentina: niente parapetti, tanti rimpianti.',['ponte','cancelli','serpentina'])
+];
 let previousTriple='';
 /** Session guard compares sets, so even reordering the last triple is avoided. */
 export function selectCourses(next:()=>number,previous=previousTriple):Course[] {
