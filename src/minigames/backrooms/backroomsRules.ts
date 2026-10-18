@@ -2,9 +2,11 @@ import { Rng } from '../../../shared/rng';
 import type { PlayerResult } from '../../../shared/types';
 import { CELL, generateMaze, center, cellAt, neighbors, route, distances, move, lineOfSight } from './maze';
 import type { Maze, Point } from './maze';
+import { LEVELS } from './levels';
+import type { BackLevel, LevelId } from './levels';
 
 export type EscapeMode = 'free' | 'key' | 'puzzle';
-export type CreatureKind = 'stalker' | 'runner' | 'imitator';
+export type CreatureKind = 'stalker' | 'runner' | 'imitator' | 'hound' | 'watcher' | 'smiler' | 'howler';
 export type PlayerState = 'exploring' | 'captured' | 'eliminated' | 'escaped';
 export interface BackPlayer extends Point {
   id: string; name: string; bot?: boolean; yaw: number; pitch: number; lives: number;
@@ -19,20 +21,28 @@ export interface Creature extends Point {
   noiseArea: (Point & { radius: number }) | null; noiseTime: number; witness: string | null; reason: string;
   path: number[]; timer: number; repath: number; foot: number; seen: boolean; revealed: boolean;
 }
-export interface BackEvent { type: 'capture' | 'escape' | 'step' | 'monsterStep' | 'door' | 'task' | 'key' | 'reveal' | 'generator'; player?: string; point: Point; kind?: CreatureKind; power?: number }
-export interface BackConfig { duration?: number; mode?: EscapeMode; puzzle?: 'switches' | 'generators'; weights?: [number, number, number]; imitator?: boolean; monsters?: CreatureKind[]; senses?: Partial<Record<CreatureKind, Partial<Senses>>> }
+export interface BackEvent { type: 'capture' | 'escape' | 'step' | 'monsterStep' | 'door' | 'task' | 'key' | 'reveal' | 'generator' | 'howl'; player?: string; point: Point; kind?: CreatureKind; power?: number }
+export interface BackConfig { level?: LevelId; duration?: number; mode?: EscapeMode; puzzle?: 'switches' | 'generators'; weights?: [number, number, number]; imitator?: boolean; monsters?: CreatureKind[]; senses?: Partial<Record<CreatureKind, Partial<Senses>>> }
 export interface Prompt { kind: 'exit' | 'key' | 'task' | 'door' | 'hide'; index: number; text: string; point: Point }
 export interface Senses { fov: number; range: number; darkRange: number; reaction: number; search: number; hearing: number; walk: number; chase: number }
 export const CREATURE_SENSES: Record<CreatureKind, Senses> = {
   stalker: { fov: 105, range: 18, darkRange: 9, reaction: .7, search: 9, hearing: .95, walk: 2, chase: 4.6 },
   runner: { fov: 105, range: 18, darkRange: 9, reaction: .08, search: 8, hearing: 1.35, walk: 3, chase: 6.1 },
-  imitator: { fov: 105, range: 16, darkRange: 8, reaction: .2, search: 8, hearing: 1.05, walk: 2.8, chase: 5.3 }
+  imitator: { fov: 105, range: 16, darkRange: 8, reaction: .2, search: 8, hearing: 1.05, walk: 2.8, chase: 5.3 },
+  // Livello 1: il segugio è quasi cieco ma sente tutto; l'osservatore vede lontanissimo ma reagisce piano.
+  hound: { fov: 70, range: 9, darkRange: 9, reaction: .1, search: 10, hearing: 2.1, walk: 2.7, chase: 6.4 },
+  watcher: { fov: 150, range: 26, darkRange: 14, reaction: .9, search: 12, hearing: .5, walk: 1.7, chase: 4.7 },
+  // Livello 2: il sorridente vede meglio al buio che alla luce; l'urlatore chiama gli altri quando ti trova.
+  smiler: { fov: 105, range: 8, darkRange: 22, reaction: .25, search: 8, hearing: .8, walk: 2.4, chase: 5.7 },
+  howler: { fov: 115, range: 15, darkRange: 8, reaction: .45, search: 9, hearing: 1.6, walk: 2.5, chase: 5.2 }
 };
+/** A howler's cry carries this far: every creature within earshot converges on the spot. */
+const HOWL_LOUDNESS = 60;
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 const dist = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.z - b.z);
 export class BackroomsMatch {
   readonly maze: Maze; readonly players: BackPlayer[]; readonly monsters: Creature[];
-  readonly mode: EscapeMode; readonly puzzle: 'switches' | 'generators'; readonly duration: number;
+  readonly level: BackLevel; readonly mode: EscapeMode; readonly puzzle: 'switches' | 'generators'; readonly duration: number;
   readonly rng: Rng; tasks: number[]; taskProgress: number[]; unlocked: boolean;
   key: Point | null; keyHolder: string | null = null;
   time = 0; intro = 4; ended = false; events: BackEvent[] = []; private commands = new Map<string, Command>();
@@ -44,7 +54,12 @@ export class BackroomsMatch {
   private promptDoorMazes:Maze[]=[];
   constructor(roster: { id: string; name: string; bot?: boolean }[], seed: number, config: BackConfig = {}) {
     this.senses = Object.fromEntries(Object.entries(CREATURE_SENSES).map(([k, v]) => [k, { ...v, ...config.senses?.[k as CreatureKind] }])) as Record<CreatureKind, Senses>;
-    this.rng = new Rng(seed ^ 0x218843); this.maze = generateMaze(seed, roster.length);
+    this.rng = new Rng(seed ^ 0x218843); this.maze = generateMaze(seed, roster.length); this.level = LEVELS[config.level ?? 'lobby'];
+    // Darker levels add shadow on a separate stream, so the lobby keeps the exact same seed behaviour.
+    if (this.level.extraDark > 0) {
+      const shade = new Rng(seed ^ 0x1e7e1), d = distances(this.maze, this.maze.spawn);
+      for (const c of this.maze.cells) if (d.get(c)! > 5 && !this.maze.dark.has(c) && shade.chance(this.level.extraDark)) this.maze.dark.add(c);
+    }
     const weights = config.weights ?? [1, 1, 1];
     this.mode = config.mode ?? this.rng.weighted(['free', 'key', 'puzzle'].map((item, i) => ({ item: item as EscapeMode, weight: weights[i] })));
     this.puzzle = config.puzzle ?? this.rng.pick(['switches', 'generators']);
@@ -66,7 +81,8 @@ export class BackroomsMatch {
       visited: new Set([cellAt(this.maze, spawn)]), escapedAt: Infinity, eliminatedAt: 0, dx: 0, dz: 0, running: false, lastFoot: 0, notice: '', noticeTime: 0 };
     });
     this.safeCells = new Set([...distances(this.maze, this.maze.spawn)].filter(([, d]) => d < 3).map(([c]) => c));
-    const types = config.monsters ?? this.rng.shuffle<CreatureKind>(config.imitator ? ['stalker', 'runner', 'imitator'] : ['stalker', 'runner']).slice(0, roster.length < 3 && this.rng.chance(.5) ? 1 : 2);
+    const pool = this.level.id === 'lobby' && !config.imitator ? this.level.monsters.filter(k => k !== 'imitator') : this.level.monsters;
+    const types = config.monsters ?? this.rng.shuffle<CreatureKind>(pool).slice(0, roster.length < 3 && this.rng.chance(.5) ? 1 : 2);
     this.monsters = types.map((kind, i) => ({ ...center(this.maze, this.maze.monsterSpawns[i % this.maze.monsterSpawns.length]), kind,
       yaw: this.rng.next() * Math.PI * 2, state: 'patrol', target: null, memory: null, memoryTime: 0,
       noiseArea: null, noiseTime: -Infinity, witness: null, reason: 'spawn',
@@ -173,7 +189,9 @@ export class BackroomsMatch {
   perception(monster: Creature, p: BackPlayer): { visible: boolean; los: boolean; reason: string } {
     const los = lineOfSight(this.maze, monster, p), senses = this.senses[monster.kind];
     if (p.state !== 'exploring' || p.hiding || p.immunity > 0) return { visible: false, los, reason: p.hiding ? 'hidden' : 'inactive/protected' };
-    const d = dist(monster, p), range = this.maze.dark.has(cellAt(this.maze, p)) && !p.running ? senses.darkRange : senses.range;
+    // Running in the dark makes you as visible as in light — or more, for creatures that hunt in darkness.
+    const d = dist(monster, p), inDark = this.maze.dark.has(cellAt(this.maze, p));
+    const range = !inDark ? senses.range : p.running ? Math.max(senses.range, senses.darkRange) : senses.darkRange;
     if (d > range) return { visible: false, los, reason: 'range/light' };
     const dot = (Math.sin(monster.yaw) * (p.x - monster.x) + Math.cos(monster.yaw) * (p.z - monster.z)) / Math.max(.00001, d);
     if (dot < Math.cos(senses.fov * Math.PI / 360)) return { visible: false, los, reason: 'outside FOV' };
@@ -201,7 +219,13 @@ export class BackroomsMatch {
       m.target = visible.id; m.memory = { x: visible.x, z: visible.z }; m.memoryTime = this.time; m.seen = true; m.witness = null;
       if (m.kind === 'imitator' && !m.revealed && dist(m, visible) < 4) { m.revealed = true; this.events.push({ type: 'reveal', point: { x: m.x, z: m.z }, kind: m.kind }); }
       if (m.state !== 'chase' && m.state !== 'watch') this.transition(m, 'watch', 'visual acquisition');
-      if (m.state === 'watch' && m.timer >= senses.reaction) this.transition(m, 'chase', 'visual reaction complete');
+      if (m.state === 'watch' && m.timer >= senses.reaction) {
+        this.transition(m, 'chase', 'visual reaction complete');
+        if (m.kind === 'howler') {
+          this.noise.push({ point: { x: visible.x, z: visible.z }, id: visible.id, loud: HOWL_LOUDNESS, time: this.time });
+          this.events.push({ type: 'howl', point: { x: m.x, z: m.z }, kind: m.kind });
+        }
+      }
     } else {
       if (m.state === 'chase' || m.state === 'watch') this.transition(m, 'search', 'visual contact lost');
       if (m.state === 'search' && this.time - m.memoryTime > senses.search) { this.forget(m); this.transition(m, 'return', 'visual search expired'); }
@@ -252,7 +276,7 @@ export class BackroomsMatch {
         // No initial incursion. Later paths can traverse spawn; individual respawn immunity prevents cheap captures.
         if (!protectedEntry) { m.x = next.x; m.z = next.z; }
         else { this.forget(m); this.transition(m, 'rest', 'initial spawn grace'); }
-        if (m.foot > (m.kind === 'runner' ? .33 : .65)) { m.foot = 0; this.events.push({ type: 'monsterStep', point: { x: m.x, z: m.z }, kind: m.kind }); }
+        if (m.foot > (m.kind === 'runner' || m.kind === 'hound' ? .3 : m.kind === 'watcher' ? .8 : .65)) { m.foot = 0; this.events.push({ type: 'monsterStep', point: { x: m.x, z: m.z }, kind: m.kind }); }
       }
     }
     for (const p of this.players) {

@@ -59,9 +59,9 @@ for(let n=2;n<=5;n++){
    else room.skipMinigame();
   }
   check(room.players.some(p=>p.score>0),'risultato completato passa dal sistema punti');
-  check(compatible(n).length===17,'pool attuale:17 giochi');
+  check(compatible(n).length===16,'pool attuale:16 giochi (goblinTime disattivato)');
   room.restartMatch();room.players.forEach(p=>p.ready=true);room.selectMinigame('trentuno');room.startGame();check(room.currentMinigame!.minigameId==='trentuno','nuova partita riparte senza giochi bloccati');
  }finally{room.resetToLobby();}
 }
-check(RouletteEngine.available(5,[]).length===17,'nessuno stato condiviso tra stanze');
+check(RouletteEngine.available(5,[]).length===16,'nessuno stato condiviso tra stanze');
 console.log(`RULLO: ${checks} controlli superati · nessuna ripetizione prima di tutti gli altri, anche tra giri.`);

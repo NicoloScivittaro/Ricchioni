@@ -1,7 +1,9 @@
 import { audio } from '../../core/AudioManager';
 import { lineOfSight, cellAt } from './maze';
 import { splitScreenLayout } from '../kart-race/cameraHud';
-import type { BackroomsMatch, BackEvent } from './backroomsRules';
+import type { BackroomsMatch, BackEvent, CreatureKind } from './backroomsRules';
+
+const STEP_HZ: Record<CreatureKind, number> = { stalker: 105, runner: 145, imitator: 230, hound: 170, watcher: 70, smiler: 200, howler: 120 };
 
 /** One TV mix through the existing global buses; two sustained fluorescent voices. */
 export class BackroomsAudio {
@@ -63,7 +65,8 @@ export class BackroomsAudio {
     const attenuation = Math.max(0, 1 - distance / 22) * (lineOfSight(match.maze, listener, event.point) ? 1 : .3);
     if (event.type === 'capture') { this.voice(180, .6, .22, viewportPan, false, 45, true); this.voice(2300, .45, .2, viewportPan, true, undefined, true); this.voice(620, .4, .12, viewportPan, false, 90, true); }
     else if (event.type === 'escape') { this.voice(220, .8, .05, viewportPan, false, 880, true); this.voice(1800, .35, .025, viewportPan, true, undefined, true); }
-    else if (event.type === 'monsterStep') { this.voice(event.kind === 'runner' ? 145 : event.kind === 'imitator' ? 230 : 105, .2, .11 * attenuation, pan, false, 65); this.voice(1100, .12, .09 * attenuation, pan, true); }
+    else if (event.type === 'monsterStep') { this.voice(STEP_HZ[event.kind ?? 'stalker'], .2, .11 * attenuation, pan, false, 65); this.voice(1100, .12, .09 * attenuation, pan, true); }
+    else if (event.type === 'howl') { this.voice(260, 1.4, .2 * Math.max(.5, attenuation), pan, false, 520, true); this.voice(140, 1.6, .14 * Math.max(.5, attenuation), pan, false, 60, true); }
     else if (event.type === 'step') { this.voice(1050, .11, .16 * attenuation * (event.power ?? 1), pan, true); this.voice(175, .1, .045 * attenuation, pan, false, 95); }
     else if (event.type === 'door') this.voice(330, .45, .12 * attenuation, pan, false, 100);
     else if (event.type === 'reveal') this.voice(90, .4, .08 * attenuation, pan, false, 30);
@@ -85,8 +88,9 @@ export class BackroomsAudio {
     const room = listeners.length ? listeners.reduce((n, p) => n + cellAt(match.maze, p) % 7, 0) / listeners.length : 0;
     const silence = match.time % 29 > 26 && danger < .15;
     this.humGain.gain.setTargetAtTime(silence ? .0001 : .055 + Math.sin(match.time * 1.4) * .005 + danger * (.055 + Math.sin(match.time * 8) * .015), c.currentTime, .12);
-    this.hum[0].frequency.setTargetAtTime(116 + room * 1.3 + danger * 25, c.currentTime, .3);
-    this.hum[1].frequency.setTargetAtTime(239 + room * 1.8 + danger * 17, c.currentTime, .3);
+    const tone = match.level.theme.humHz / 120;
+    this.hum[0].frequency.setTargetAtTime((116 + room * 1.3 + danger * 25) * tone, c.currentTime, .3);
+    this.hum[1].frequency.setTargetAtTime((239 + room * 1.8 + danger * 17) * tone, c.currentTime, .3);
     if (match.time - this.lastAmbient > (danger > .3 ? 2.4 : 9)) {
       this.lastAmbient = match.time;
       if (listeners.length && !silence) {

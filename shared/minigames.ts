@@ -352,6 +352,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     description:'Esattamente cinque carte. Dichiara GOBLIN TIME e resisti fino al tuo prossimo turno: gli amici cercheranno di fermarti.',
     category:'CULTURA',rarity:'rare',minPlayers:2,maxPlayers:5,durationSec:360,hardCapSec:900,
     compatibleModifiers:['punti_doppi'],sceneKey:'goblinTime',inputMode:'PHONE_TEXT',
+    enabled:false, // disattivato: codice intatto, fuori dal rullo e dalla scelta manuale
     controllerLayout:{type:'custom',id:'goblin-time'}
   },
   {

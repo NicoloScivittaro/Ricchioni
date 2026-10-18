@@ -3,27 +3,47 @@ import { Rng } from '../../../shared/rng';
 import { CELL, center, neighbors } from './maze';
 import type { Maze } from './maze';
 import type { CreatureKind } from './backroomsRules';
+import { LEVELS } from './levels';
+import type { LevelTheme } from './levels';
 import {paintRecess} from '../env/surfaceDetail';
 
 function material(scene: Scene, name: string, hex: string): StandardMaterial {
   const m = new StandardMaterial(name, scene); m.diffuseColor = Color3.FromHexString(hex); m.specularColor = Color3.Black(); return m;
 }
 /** Original seamless textures, authored at runtime. Seeded grain does not flicker between frames. */
-function surface(scene: Scene, name: string, kind: 'wall' | 'carpet' | 'ceiling'): StandardMaterial {
+function surface(scene: Scene, name: string, kind: 'wall' | 'carpet' | 'ceiling', theme: LevelTheme): StandardMaterial {
   const mat = material(scene, name, '#ffffff'), t = new DynamicTexture(name, 512, scene, false), c = t.getContext() as CanvasRenderingContext2D, rng = new Rng(812 + kind.length);
   const image = c.createImageData(512, 512);
   for (let i = 0; i < image.data.length; i += 4) {
-    const n = rng.int(-13, 13), color = kind === 'wall' ? [162, 148, 90] : kind === 'carpet' ? [81, 76, 48] : [145, 140, 116];
+    const n = rng.int(-13, 13), color = kind === 'wall' ? theme.wall : kind === 'carpet' ? theme.floor : theme.ceiling;
     image.data[i] = color[0] + n; image.data[i + 1] = color[1] + n; image.data[i + 2] = color[2] + n; image.data[i + 3] = 255;
   }
   c.putImageData(image, 0, 0);
-  if (kind === 'wall') {
+  if (kind === 'wall' && theme.pattern === 'concrete') {
+    // Poured concrete: formwork seams, a painted bay stripe and run-off stains.
+    c.strokeStyle = '#4a4c4a55'; c.lineWidth = 2;
+    for (let x = 0; x < 512; x += 128) { c.beginPath(); c.moveTo(x, 0); c.lineTo(x, 512); c.stroke(); }
+    for (let y = 0; y < 512; y += 170) { c.beginPath(); c.moveTo(0, y); c.lineTo(512, y); c.stroke(); }
+    c.fillStyle = '#b39a3c99'; c.fillRect(0, 395, 512, 26); c.fillStyle = '#2a2a2a55'; for (let x = 0; x < 512; x += 48) c.fillRect(x, 395, 22, 26);
+    for (let i = 0; i < 14; i++) { const x = rng.int(0, 512), w = rng.int(6, 30), g = c.createLinearGradient(0, 0, 0, 512); g.addColorStop(0, '#2c2a2400'); g.addColorStop(.6, '#2c2a2440'); g.addColorStop(1, '#2c2a2400'); c.fillStyle = g; c.fillRect(x, 0, w, 512); }
+  } else if (kind === 'wall' && theme.pattern === 'tiles') {
+    // Dirty service tiles with grout and rust bleeding from the joints.
+    c.strokeStyle = '#2a1a1288'; c.lineWidth = 3;
+    for (let y = 0; y < 512; y += 32) { c.beginPath(); c.moveTo(0, y); c.lineTo(512, y); c.stroke(); for (let x = (y / 32) % 2 ? 0 : 32; x < 512; x += 64) { c.beginPath(); c.moveTo(x, y); c.lineTo(x, y + 32); c.stroke(); } }
+    for (let i = 0; i < 26; i++) { const x = rng.int(0, 512), y = rng.int(0, 512), g = c.createRadialGradient(x, y, 0, x, y, rng.int(12, 70)); g.addColorStop(0, '#3b140844'); g.addColorStop(1, '#3b140800'); c.fillStyle = g; c.fillRect(0, 0, 512, 512); }
+    const g = c.createLinearGradient(0, 0, 0, 512); g.addColorStop(0, '#00000050'); g.addColorStop(.2, '#00000000'); g.addColorStop(1, '#14080290'); c.fillStyle = g; c.fillRect(0, 0, 512, 512);
+  } else if (kind === 'wall') {
     c.strokeStyle = '#877a4d66'; c.lineWidth = 1.5;
     for (let x = 0; x < 512; x += 32) for (let y = 0; y < 512; y += 64) {
       c.beginPath(); c.moveTo(x, y); c.quadraticCurveTo(x + 16, y + 25, x, y + 64); c.quadraticCurveTo(x - 16, y + 25, x, y); c.stroke();
     }
     for (let i = 0; i < 20; i++) { const x = rng.int(0, 512), y = rng.int(0, 512), g = c.createRadialGradient(x, y, 0, x, y, rng.int(15, 65)); g.addColorStop(0, '#55482b22'); g.addColorStop(1, '#55482b00'); c.fillStyle = g; c.fillRect(0, 0, 512, 512); }
     const g = c.createLinearGradient(0, 0, 0, 512); g.addColorStop(0, '#10100040'); g.addColorStop(.15, '#00000000'); g.addColorStop(.8, '#00000000'); g.addColorStop(1, '#1d1c0b80'); c.fillStyle = g; c.fillRect(0, 0, 512, 512);
+  } else if (kind === 'carpet' && theme.pattern !== 'wallpaper') {
+    // Bare floor: hairline cracks and oil/water stains instead of carpet fibres.
+    c.strokeStyle = '#1e1e1e50'; c.lineWidth = 1.2;
+    for (let i = 0; i < 18; i++) { let x = rng.int(0, 512), y = rng.int(0, 512); c.beginPath(); c.moveTo(x, y); for (let k = 0; k < 6; k++) { x += rng.int(-25, 25); y += rng.int(-25, 25); c.lineTo(x, y); } c.stroke(); }
+    c.fillStyle = '#10101030'; for (let i = 0; i < 12; i++) { c.beginPath(); c.ellipse(rng.int(0, 512), rng.int(0, 512), rng.int(10, 60), rng.int(8, 40), rng.next(), 0, Math.PI * 2); c.fill(); }
   } else if (kind === 'carpet') {
     c.strokeStyle = '#aaaa7540'; for (let i = 0; i < 11000; i++) { const x = rng.int(0, 512), y = rng.int(0, 512); c.beginPath(); c.moveTo(x, y); c.lineTo(x + 1, y + 3); c.stroke(); }
     c.fillStyle = '#21271925'; for (let i = 0; i < 16; i++) { c.beginPath(); c.ellipse(rng.int(0, 512), rng.int(0, 512), rng.int(8, 55), rng.int(8, 34), rng.next(), 0, Math.PI * 2); c.fill(); }
@@ -45,13 +65,13 @@ export function inscription(scene: Scene, name: string, text: string, width: num
   const mesh = MeshBuilder.CreatePlane(name, { width, height, sideOrientation: Mesh.DOUBLESIDE }, scene); mesh.material = mat; return mesh;
 }
 export interface BackWorld { doors: TransformNode[]; exit: TransformNode; key: TransformNode; tasks: { root: TransformNode; light: StandardMaterial }[]; flicker: StandardMaterial; shadows: ShadowGenerator | null }
-export function buildBackWorld(scene: Scene, maze: Maze, tasks: number[], puzzle: string, shadowBudget = false): BackWorld {
-  const wall = surface(scene, 'agedWallpaper', 'wall'), floor = surface(scene, 'wornCarpet', 'carpet'), ceiling = surface(scene, 'acousticCeiling', 'ceiling');
+export function buildBackWorld(scene: Scene, maze: Maze, tasks: number[], puzzle: string, shadowBudget = false, theme: LevelTheme = LEVELS.lobby.theme): BackWorld {
+  const wall = surface(scene, 'agedWallpaper', 'wall', theme), floor = surface(scene, 'wornCarpet', 'carpet', theme), ceiling = surface(scene, 'acousticCeiling', 'ceiling', theme);
   const trim = material(scene, 'skirting', '#393b28'), metal = material(scene, 'oldMetal', '#555849'), wood = material(scene, 'doorLaminate', '#53543c');
-  const lit = material(scene, 'fluorescent', '#b9c78b'); lit.emissiveColor = new Color3(.5, .55, .32);
+  const lit = material(scene, 'fluorescent', theme.light); lit.emissiveColor = new Color3(...theme.glow);
   const dim = material(scene, 'failedFluorescent', '#333e29'), darkFloor = material(scene, 'darkCarpet', '#6a6b47'); darkFloor.diffuseTexture = floor.diffuseTexture;
   darkFloor.diffuseColor = new Color3(.45, .47, .39);
-  const sky = new HemisphericLight('backAmbient', new Vector3(0, 1, 0), scene); sky.intensity = .68; sky.groundColor = new Color3(.22, .22, .12);
+  const sky = new HemisphericLight('backAmbient', new Vector3(0, 1, 0), scene); sky.intensity = theme.ambient; sky.groundColor = new Color3(.22, .22, .12);
   const sun = new DirectionalLight('backNeonBounce', new Vector3(.25, -1, .15), scene); sun.intensity = .32;
   const shadows = shadowBudget ? new ShadowGenerator(1024, sun) : null;
   if (shadows) { shadows.usePercentageCloserFiltering = true; shadows.bias = .003; shadows.darkness = .55; }
@@ -72,7 +92,7 @@ export function buildBackWorld(scene: Scene, maze: Maze, tasks: number[], puzzle
       box('wallPanel', x, 1.43, z, dx ? .16 : CELL + .16, 2.86, dz ? .16 : CELL + .16, wall, cell);
       box('wallSkirting', x - dx * .035, .09, z - dz * .035, dx ? .19 : CELL + .16, .18, dz ? .19 : CELL + .16, trim, cell);
       if (rng.chance(.15)) {
-        const mesh = inscription(scene, 'roomPlate', `SECTOR ${rng.int(0, 9)}\n${rng.pick(['NO SIGNAL', 'SERVICE', 'RESTRICTED', 'LEVEL 00'])}`, .65, .32);
+        const mesh = inscription(scene, 'roomPlate', `SECTOR ${rng.int(0, 9)}\n${rng.pick(theme.signs)}`, .65, .32);
         mesh.position.set(x - dx * .105, 1.8, z - dz * .105); mesh.rotation.y = Math.atan2(dx, dz);
       }
     }
@@ -122,14 +142,27 @@ export function buildBackWorld(scene: Scene, maze: Maze, tasks: number[], puzzle
 }
 
 export interface CreatureVisual { root: TransformNode; joints: TransformNode[]; head: TransformNode; jaw: Mesh; update(time: number, chasing: boolean, watch: boolean): void }
+/** Per-kind silhouette and colouring on the shared articulated anatomy. */
+const CREATURE_LOOK: Record<CreatureKind, { skin: string; bone: string; eye: [number, number, number]; scale: [number, number, number]; glow?: boolean }> = {
+  stalker: { skin: '#41463c', bone: '#a29c80', eye: [.24, .28, .19], scale: [1, 1, 1] },
+  runner: { skin: '#56574f', bone: '#a29c80', eye: [.24, .28, .19], scale: [.9, .86, .95] },
+  imitator: { skin: '#41463c', bone: '#a29c80', eye: [.24, .28, .19], scale: [1, 1, 1] },
+  hound: { skin: '#4b3a30', bone: '#8f7b62', eye: [.55, .12, .05], scale: [1.15, .6, 1.35] },
+  watcher: { skin: '#8d8b7e', bone: '#cfcab0', eye: [.85, .85, .7], scale: [.8, 1.25, .8] },
+  smiler: { skin: '#121212', bone: '#e8e6dc', eye: [1, 1, .92], scale: [1, 1.05, 1], glow: true },
+  howler: { skin: '#5a4636', bone: '#b09a78', eye: [.7, .35, .1], scale: [1.08, 1.02, 1.08] }
+};
 /** Articulated original creature direction: elongated anatomy, exposed jaw, tendons and jointed hands. */
 export function createCreature(scene: Scene, kind: CreatureKind): CreatureVisual {
-  const root = new TransformNode(`creature:${kind}`, scene), skin = material(scene, `${kind}Skin`, kind === 'runner' ? '#56574f' : '#41463c'), bone = material(scene, `${kind}Bone`, '#a29c80'), mouth = material(scene, `${kind}Mouth`, '#17130f');
+  const look = CREATURE_LOOK[kind];
+  const root = new TransformNode(`creature:${kind}`, scene), skin = material(scene, `${kind}Skin`, look.skin), bone = material(scene, `${kind}Bone`, look.bone), mouth = material(scene, `${kind}Mouth`, '#17130f');
   const grain = new DynamicTexture(`${kind}SkinGrain`, 128, scene, false), paint = grain.getContext() as CanvasRenderingContext2D, rng = new Rng(kind.length * 8821);
   paint.fillStyle = '#adad9b'; paint.fillRect(0, 0, 128, 128);
   for (let i = 0; i < 1800; i++) { paint.fillStyle = `rgba(30,30,20,${rng.next() * .35})`; paint.fillRect(rng.int(0, 127), rng.int(0, 127), 2, rng.int(1, 6)); }
-  grain.update(); skin.diffuseTexture = grain; bone.diffuseTexture = grain; bone.diffuseColor = new Color3(.58, .55, .43);
-  const eye = material(scene, `${kind}Eyes`, '#6f7467'); eye.emissiveColor = new Color3(.24, .28, .19);
+  grain.update(); skin.diffuseTexture = grain; bone.diffuseTexture = grain; bone.diffuseColor = Color3.FromHexString(look.bone).scale(.86);
+  // The smiler's teeth glow: in the dark you see the grin before the body.
+  if (look.glow) bone.emissiveColor = new Color3(.75, .74, .68);
+  const eye = material(scene, `${kind}Eyes`, '#6f7467'); eye.emissiveColor = new Color3(...look.eye);
   const sphere = (name: string, parent: TransformNode, x: number, y: number, z: number, sx: number, sy: number, sz: number, mat = skin) => {
     const b = MeshBuilder.CreateSphere(name, { diameter: 1, segments: 12 }, scene); b.parent = parent; b.position.set(x, y, z); b.scaling.set(sx, sy, sz); b.material = mat; return b;
   };
@@ -158,11 +191,15 @@ export function createCreature(scene: Scene, kind: CreatureKind): CreatureVisual
     const leg = new TransformNode('leg', scene); leg.parent = root; leg.position.set(side * .13, 1.12, 0);
     sphere('thigh', leg, 0, -.27, 0, .15, .58, .14); sphere('kneecap', leg, 0, -.57, .05, .12, .12, .12, bone); sphere('shin', leg, 0, -.85, -.03, .075, .6, .085); sphere('foot', leg, 0, -1.07, .1, .13, .11, .32); joints.push(leg);
   }
-  if (kind === 'runner') { root.scaling.set(.9, .86, .95); neck.rotation.x = .35; }
+  root.scaling.set(...look.scale);
+  if (kind === 'runner' || kind === 'hound') neck.rotation.x = kind === 'hound' ? .9 : .35;
+  if (kind === 'hound') head.position.z = .25;
+  if (kind === 'smiler') head.getChildMeshes().filter(m => m.name === 'pinpointEye').forEach(m => m.scaling.set(.03, .03, .02));
+  const gape = kind === 'howler' ? .12 : 0;
   return { root, head, jaw, joints, update(time, chasing, watch) {
     const stride = watch ? 0 : Math.sin(time * (chasing ? 10 : 3)); joints.forEach((joint, i) => joint.rotation.x = stride * (i % 2 ? .48 : .22) * (i < 2 ? 1 : -1));
     head.rotation.z = .16 + Math.sin(time * .6) * .1; head.rotation.x = chasing ? -.2 : .1;
-    jaw.position.y = -.2 - (chasing ? .1 + Math.sin(time * 17) * .025 : .015); root.position.y = Math.sin(time * 2) * .018;
+    jaw.position.y = -.2 - gape - (chasing ? .1 + Math.sin(time * 17) * .025 : .015); root.position.y = Math.sin(time * 2) * .018;
     cavity.scaling.y = chasing ? .2 : .12;
   } };
 }

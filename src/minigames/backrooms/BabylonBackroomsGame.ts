@@ -8,6 +8,8 @@ import { runSteps } from '../../core/frameClock';
 import { BackroomsMatch, BackroomsBots } from './backroomsRules';
 import { buildBackWorld, createCreature } from './backroomsWorld';
 import { freshMazeSeed, topologySignature } from './maze';
+import { LEVEL_IDS } from './levels';
+import type { LevelId } from './levels';
 import { BackroomsInteractionInput } from './backroomsInput';
 import { BackroomsPerceptionDebug } from './backroomsDebug';
 import { BackroomsAudio } from './backroomsAudio';
@@ -27,7 +29,7 @@ export class BabylonBackroomsGame {
   private signals = new Map<string, string>(); private signalTime = 0; private endTime = 3; private submitted = false;
   private interactions = new BackroomsInteractionInput();
   private perceptionDebug: BackroomsPerceptionDebug | null = null;
-  private static previousSeed = -1; private static previousTopology = '';
+  private static previousSeed = -1; private static previousTopology = ''; private static previousLevel = '';
   private paused = false; private disposed = false; private controlsReady = false;
   private onResize = () => this.engine.resize();
   constructor(canvas: HTMLCanvasElement, private ctx: MinigameContext) {
@@ -40,16 +42,23 @@ export class BabylonBackroomsGame {
     let previousSeed = BabylonBackroomsGame.previousSeed, previousTopology = BabylonBackroomsGame.previousTopology;
     try { previousSeed = Number(sessionStorage.getItem('backrooms.lastSeed') ?? previousSeed); previousTopology = sessionStorage.getItem('backrooms.lastTopology') ?? previousTopology; } catch { /* in-memory guard remains */ }
     seed = replay ? Number(debugSeed) >>> 0 : freshMazeSeed(seed, ctx.players.length, previousSeed, previousTopology);
-    this.match = new BackroomsMatch(ctx.players.map(p => ({ id: p.id, name: p.displayName, bot: p.bot })), seed, { duration: ctx.durationSec, imitator: true });
+    // A different level (and so a different pair of creatures) every match; DEV can force one with ?backroomsLevel=.
+    let previousLevel = BabylonBackroomsGame.previousLevel;
+    try { previousLevel = sessionStorage.getItem('backrooms.lastLevel') ?? previousLevel; } catch { /* in-memory guard remains */ }
+    const debugLevel = import.meta.env.DEV ? new URLSearchParams(location.search).get('backroomsLevel') : null;
+    const choices = LEVEL_IDS.filter(id => id !== previousLevel);
+    const level: LevelId = LEVEL_IDS.includes(debugLevel as LevelId) ? debugLevel as LevelId : choices[ctx.rng.int(0, choices.length - 1)];
+    this.match = new BackroomsMatch(ctx.players.map(p => ({ id: p.id, name: p.displayName, bot: p.bot })), seed, { level, duration: ctx.durationSec, imitator: true });
     if (!replay) {
-      BabylonBackroomsGame.previousSeed = seed; BabylonBackroomsGame.previousTopology = topologySignature(this.match.maze);
-      try { sessionStorage.setItem('backrooms.lastSeed', String(seed)); sessionStorage.setItem('backrooms.lastTopology', BabylonBackroomsGame.previousTopology); } catch { /* disabled storage */ }
+      BabylonBackroomsGame.previousSeed = seed; BabylonBackroomsGame.previousTopology = topologySignature(this.match.maze); BabylonBackroomsGame.previousLevel = level;
+      try { sessionStorage.setItem('backrooms.lastSeed', String(seed)); sessionStorage.setItem('backrooms.lastTopology', BabylonBackroomsGame.previousTopology); sessionStorage.setItem('backrooms.lastLevel', level); } catch { /* disabled storage */ }
     }
     if (import.meta.env.DEV && new URLSearchParams(location.search).get('backroomsDebug') === '1') this.perceptionDebug = new BackroomsPerceptionDebug(this.scene, this.match);
 
-    this.scene.clearColor = new Color4(.075, .082, .05, 1); this.scene.fogMode = Scene.FOGMODE_LINEAR;
-    this.scene.fogColor = new Color3(.075, .082, .05); this.scene.fogStart = 9; this.scene.fogEnd = 27;
-    this.world = buildBackWorld(this.scene, this.match.maze, this.match.tasks, this.match.puzzle, ctx.players.length <= 3 && getQualityLevel() !== 'low');
+    const theme = this.match.level.theme;
+    this.scene.clearColor = new Color4(...theme.fog, 1); this.scene.fogMode = Scene.FOGMODE_LINEAR;
+    this.scene.fogColor = new Color3(...theme.fog); this.scene.fogStart = 9; this.scene.fogEnd = 27;
+    this.world = buildBackWorld(this.scene, this.match.maze, this.match.tasks, this.match.puzzle, ctx.players.length <= 3 && getQualityLevel() !== 'low', theme);
     const dot = new DynamicTexture('backDot', 16, this.scene, false); dot.getContext().fillStyle = 'white'; dot.getContext().fillRect(0, 0, 16, 16); dot.update();
     const layout = splitScreenLayout(ctx.players.length);
     this.hud = document.createElement('div'); this.hud.id = 'backrooms-hud';
@@ -71,10 +80,10 @@ export class BabylonBackroomsGame {
       const node=(selector:string)=>panel.querySelector<HTMLElement>(selector)!;
       node('.back-prompt').style.whiteSpace='pre-line';node('.back-face').style.display='none';
       this.panelNodes.push({clock:node('.back-clock'),life:node('.back-life'),stamina:node('.back-stamina i'),center:node('.back-center'),prompt:node('.back-prompt'),scare:node('.back-scare'),white:node('.back-white')});
-      const scare = createCreature(this.scene, 'stalker'); scare.root.getChildMeshes().forEach(mesh => mesh.layerMask = 1 << (20 + i)); scare.root.setEnabled(false); this.scares.push(scare);
+      const scare = createCreature(this.scene, this.match.monsters[0]?.kind ?? 'stalker'); scare.root.getChildMeshes().forEach(mesh => mesh.layerMask = 1 << (20 + i)); scare.root.setEnabled(false); this.scares.push(scare);
       this.hud.appendChild(panel); this.panels.push(panel);
     });
-    const seedLabel = document.createElement('div'); seedLabel.className = 'back-seed'; seedLabel.textContent = `SEED ${seed}`; this.hud.appendChild(seedLabel); document.body.appendChild(this.hud);
+    const seedLabel = document.createElement('div'); seedLabel.className = 'back-seed'; seedLabel.textContent = `${this.match.level.name} · SEED ${seed}`; this.hud.appendChild(seedLabel); document.body.appendChild(this.hud);
     this.match.monsters.forEach((m, i) => { const c = createCreature(this.scene, m.kind); this.creatures.push(c);
       if (m.kind === 'imitator') { const snap = ctx.players[ctx.rng.int(0, ctx.players.length - 1)], entity = new ArenaEntity(this.scene, dot, snap.color, snap.characterId, snap.avatar, snap.displayName, null, { context: 'arena', nameplate: false }); entity.setSizeMul(.84); entity.root.getChildTransformNodes(false).filter(node => node.name === 'prop').forEach(node => node.setEnabled(false)); this.imitations.set(i, entity); }
     });
@@ -139,7 +148,7 @@ export class BabylonBackroomsGame {
     text(nodes.clock,`${Math.floor(m.remaining / 60)}:${String(Math.floor(m.remaining % 60)).padStart(2, '0')}`);
     text(nodes.life,p.state === 'eliminated' ? 'ELIMINATO · SPETTATORE' : p.state === 'escaped' ? `FUGGITO · ${p.escapedAt.toFixed(1)}s` : `${p.lives === 2 ? '● ● · DUE POSSIBILITÀ' : '● ○ · ULTIMA POSSIBILITÀ'}${p.hiding ? ' · NASCOSTO' : p.immunity > 0 ? ' · PROTETTO' : ''}${m.keyHolder === p.id ? ' · CHIAVE' : ''}`);
     nodes.stamina.style.width=`${p.stamina*100}%`;
-    text(nodes.center,!this.controlsReady ? 'PREPARATEVI' : m.intro > 0 ? `L’ULTIMA PORTA\n${Math.ceil(m.intro)} · ASCOLTA. ESPLORA. SOPRAVVIVI.` : m.ended ? 'IL LABIRINTO HA SCELTO\nFUGGITI → SUPERSTITI → ELIMINATI\nSUPERSTITI: VITE, POI ZONE\nELIMINATI: TEMPO DI SOPRAVVIVENZA' : spectator ? `OSSERVI ${subject.name}\nA/✕ · CAMBIA GIOCATORE` : p.state === 'escaped' ? 'SEI FUORI. RESPIRA.' : p.state === 'eliminated' ? 'NON È RIMASTO NESSUNO' : p.hiding ? 'RESTA IN SILENZIO' : '');
+    text(nodes.center,!this.controlsReady ? 'PREPARATEVI' : m.intro > 0 ? `${m.level.name}\n${Math.ceil(m.intro)} · ${m.level.tagline}` : m.ended ? 'IL LABIRINTO HA SCELTO\nFUGGITI → SUPERSTITI → ELIMINATI\nSUPERSTITI: VITE, POI ZONE\nELIMINATI: TEMPO DI SOPRAVVIVENZA' : spectator ? `OSSERVI ${subject.name}\nA/✕ · CAMBIA GIOCATORE` : p.state === 'escaped' ? 'SEI FUORI. RESPIRA.' : p.state === 'eliminated' ? 'NON È RIMASTO NESSUNO' : p.hiding ? 'RESTA IN SILENZIO' : '');
     const action = prompt ? `A/✕ · ${prompt.text}` : '';
     const message = p.noticeTime > 0 ? p.notice : '';
     text(nodes.prompt,m.intro > 0 ? 'LS MUOVI · RS GUARDA · LB CORRI · A INTERAGISCI' : [message, action].filter(Boolean).join('\n'));

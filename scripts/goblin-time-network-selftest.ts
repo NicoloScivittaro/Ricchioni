@@ -5,6 +5,9 @@ import { EVT } from '../shared/protocol';
 import type { Server, Socket } from 'socket.io';
 import type { Command, PrivateState, PublicState } from '../shared/goblinTime/types';
 import { writeFileSync } from 'node:fs';
+import { getMinigame } from '../shared/minigames';
+// Il gioco è disattivato nel rullo, ma il motore resta verificato: lo riattiviamo solo in questo processo.
+getMinigame('goblinTime')!.enabled = true;
 const packets:{to:string;event:string;data:any}[]=[];
 const io={to:(to:string)=>({emit:(event:string,data:any)=>packets.push({to,event,data})})} as unknown as Server;
 const manager=new RoomManager(io);

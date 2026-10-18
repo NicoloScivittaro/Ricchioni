@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { generateMaze, distances, center, canStand, route, lineOfSight, move, cellAt } from '../src/minigames/backrooms/maze';
 import { BackroomsMatch, BackroomsBots } from '../src/minigames/backrooms/backroomsRules';
 import type { Command } from '../src/minigames/backrooms/backroomsRules';
+import { LEVELS, LEVEL_IDS } from '../src/minigames/backrooms/levels';
 let checks = 0;
 function test(name: string, fn: () => void) { fn(); checks++; console.log('PASS', name); }
 const roster = (n = 5) => Array.from({ length: n }, (_, i) => ({ id: String(i), name: `P${i}`, bot: true }));
@@ -110,5 +111,35 @@ for (const n of [2, 3, 4, 5]) for (const mode of ['free', 'key', 'puzzle'] as co
   for (let i = 0; i < 430 * 60 && !m.ended; i++) { for (const p of m.players) m.command(p.id, bots.command(p, m)); m.advance(1 / 60); }
   assert.ok(m.ended); assert.equal(m.results().length, n); assert.ok(m.players.every(p => p.visited.size > 1));
   console.log('  escaped', m.players.filter(p => p.state === 'escaped').length, 'at', m.time.toFixed(1));
+});
+test('levels: each map spawns only its own creatures, lobby unchanged, darker levels add shadow', () => {
+  for (const id of LEVEL_IDS) for (let seed = 1; seed <= 60; seed++) for (const n of [2, 5]) {
+    const m = new BackroomsMatch(roster(n), seed, { level: id, imitator: true });
+    assert.equal(m.level.id, id); assert.ok(m.monsters.length >= 1);
+    assert.ok(m.monsters.every(c => LEVELS[id].monsters.includes(c.kind)), `${id}: ${m.monsters.map(c => c.kind)}`);
+  }
+  const plain = new BackroomsMatch(roster(4), 77, { imitator: true }), lobby = new BackroomsMatch(roster(4), 77, { level: 'lobby', imitator: true });
+  assert.deepEqual(plain.monsters.map(c => c.kind), lobby.monsters.map(c => c.kind)); assert.equal(plain.maze.dark.size, lobby.maze.dark.size);
+  assert.ok(new BackroomsMatch(roster(4), 77, { level: 'tunnels' }).maze.dark.size > lobby.maze.dark.size);
+});
+test('smiler: sees farther in darkness than in light; running in the dark never hides you', () => {
+  const m = new BackroomsMatch(roster(2), 5, { level: 'tunnels', monsters: ['smiler'] }); m.intro = 0; m.maze.doors.forEach(d => d.open = true);
+  const c = m.monsters[0], p = m.players[0]; p.immunity = 0;
+  const pair = m.maze.cells.map(a => [a, m.maze.cells.find(b => { const d = Math.hypot(center(m.maze, a).x - center(m.maze, b).x, center(m.maze, a).z - center(m.maze, b).z); return d > 12 && d < 20 && lineOfSight(m.maze, center(m.maze, a), center(m.maze, b)); })] as const).find(([, b]) => b !== undefined)!;
+  Object.assign(c, center(m.maze, pair[0])); Object.assign(p, center(m.maze, pair[1]!)); c.yaw = Math.atan2(p.x - c.x, p.z - c.z);
+  const cell = pair[1]!; m.maze.dark.delete(cell); assert.equal(m.canSee(c, p), false);
+  m.maze.dark.add(cell); assert.equal(m.canSee(c, p), true); p.running = true; assert.equal(m.canSee(c, p), true);
+});
+test('howler: spotting a player cries out and pulls the other creature to the spot', () => {
+  const m = new BackroomsMatch(roster(2), 5, { level: 'tunnels', monsters: ['howler', 'smiler'] }); m.intro = 0; m.maze.doors.forEach(d => d.open = true);
+  const [howler, other] = m.monsters, p = m.players[0]; p.immunity = 0; m.players[1].hiding = true;
+  const c = m.maze.monsterSpawns[0], ns = route(m.maze, c, m.maze.exit);
+  Object.assign(howler, center(m.maze, c)); Object.assign(p, center(m.maze, ns[1] ?? c)); howler.yaw = Math.atan2(p.x - howler.x, p.z - howler.z);
+  const far = m.maze.cells.find(cell => { const v = center(m.maze, cell); const d = Math.hypot(v.x - p.x, v.z - p.z); return d > 12 && d < 22 && !lineOfSight(m.maze, v, p); })!;
+  Object.assign(other, center(m.maze, far)); other.yaw = Math.atan2(other.x - p.x, other.z - p.z);
+  let howled = false;
+  for (let i = 0; i < 90 && !howled; i++) { m.advance(1 / 60); howled = m.events.some(e => e.type === 'howl'); m.events = []; }
+  assert.ok(howled); assert.equal(howler.state, 'chase'); advance(m, .1);
+  assert.ok(['suspicious', 'investigate'].includes(other.state), other.state); assert.ok(other.noiseArea && Math.hypot(other.noiseArea.x - p.x, other.noiseArea.z - p.z) < 6);
 });
 console.log(`Backrooms: ${checks} test groups passed`);
