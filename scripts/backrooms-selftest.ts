@@ -67,7 +67,7 @@ for (const kind of ['stalker', 'runner'] as const) test(`${kind}: sees FOV, wall
   Object.assign(monster, center(m.maze, c)); Object.assign(p, center(m.maze, ns[1] ?? c)); monster.yaw = Math.atan2(p.x - monster.x, p.z - monster.z);
   assert.ok(m.canSee(monster, p)); m.advance(.02); assert.equal(monster.target, p.id); const remembered = { ...monster.memory! };
   Object.assign(p, center(m.maze, m.maze.spawn)); p.hiding = true; advance(m, .2); assert.deepEqual(monster.memory, remembered); assert.equal(monster.state, 'search');
-  advance(m, 5.1); assert.equal(monster.target, null); assert.equal(monster.memory, null);
+  advance(m, m.senses[kind].search + .1); assert.equal(monster.target, null); assert.equal(monster.memory, null);
 });
 test('rank: escape order, living before eliminated, lives then explored when no escape, timeout', () => {
   const m = new BackroomsMatch(roster(), 8, { monsters: [] }); m.intro = 0;

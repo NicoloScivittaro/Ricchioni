@@ -24,9 +24,9 @@ export interface BackConfig { duration?: number; mode?: EscapeMode; puzzle?: 'sw
 export interface Prompt { kind: 'exit' | 'key' | 'task' | 'door' | 'hide'; index: number; text: string; point: Point }
 export interface Senses { fov: number; range: number; darkRange: number; reaction: number; search: number; hearing: number; walk: number; chase: number }
 export const CREATURE_SENSES: Record<CreatureKind, Senses> = {
-  stalker: { fov: 105, range: 14, darkRange: 7, reaction: 1.2, search: 5, hearing: .6, walk: 1.35, chase: 3.45 },
-  runner: { fov: 105, range: 14, darkRange: 7, reaction: .12, search: 5, hearing: 1, walk: 2.45, chase: 4.8 },
-  imitator: { fov: 105, range: 14, darkRange: 7, reaction: .3, search: 5, hearing: .7, walk: 2.4, chase: 3.9 }
+  stalker: { fov: 105, range: 18, darkRange: 9, reaction: .7, search: 9, hearing: .95, walk: 2, chase: 4.6 },
+  runner: { fov: 105, range: 18, darkRange: 9, reaction: .08, search: 8, hearing: 1.35, walk: 3, chase: 6.1 },
+  imitator: { fov: 105, range: 16, darkRange: 8, reaction: .2, search: 8, hearing: 1.05, walk: 2.8, chase: 5.3 }
 };
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 const dist = (a: Point, b: Point) => Math.hypot(a.x - b.x, a.z - b.z);
@@ -258,7 +258,7 @@ export class BackroomsMatch {
     for (const p of this.players) {
       // A recent pursuit can expose a hiding player at the remembered entry point, never elsewhere through walls.
       const exposed = m.target === p.id && m.seen && (visible?.id === p.id || (p.hiding && m.witness === p.id && this.time - m.memoryTime < 4 && m.memory && dist(p, m.memory) < .8));
-      if ((m.state === 'chase' || m.state === 'search') && p.state === 'exploring' && p.immunity <= 0 && exposed && dist(m, p) < .7 && lineOfSight(this.maze, m, p)) { this.capture(p, m); break; }
+      if ((m.state === 'chase' || m.state === 'search') && p.state === 'exploring' && p.immunity <= 0 && exposed && dist(m, p) < .9 && lineOfSight(this.maze, m, p)) { this.capture(p, m); break; }
     }
   }
   capture(p: BackPlayer, m: Creature): void {
