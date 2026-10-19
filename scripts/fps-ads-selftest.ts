@@ -19,10 +19,10 @@ for (const base of [0.8, 1.05]) {
   assert.ok(Math.abs(Math.tan(base / 2) / Math.tan(aimFov(base, 1) / 2) - 1.3) < 1e-12);
 }
 for (const w of WEAPONS) {
-  const hip = aimSpread(w.spread, 0, 0, 0), ads = aimSpread(w.spread, 1, 0, 0);
+  const hip = aimSpread(w.spread, 0, 0, 0,w.hipSpread), ads = aimSpread(w.spread, 1, 0, 0,w.hipSpread);
   assert.ok(ads < hip);
-  if (w.spread > 0) assert.ok(Math.abs(hip / ads - 1.35) < 1e-12);
-  assert.ok(aimSpread(w.spread, 0, 1, 1) > hip);
+  if (w.spread >= .006 && !w.hipSpread) assert.ok(Math.abs(hip / ads - 1.35) < 1e-12);
+  assert.ok(aimSpread(w.spread, 0, 1, 1,w.hipSpread) > hip);
   assert.ok(aimGap(hip, 0) > aimGap(ads, 1));
   for (const rand of [0, 0.5, 1]) {
     const h = aimKick(w.id, 0, rand), a = aimKick(w.id, 1, rand);

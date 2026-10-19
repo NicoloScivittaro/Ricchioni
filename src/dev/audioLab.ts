@@ -116,7 +116,7 @@ export function buildCues(): Record<string, Cue[]> {
       ['arrivo', () => audio.kartFinish(false)]
     ],
     SPARATORIA: [
-      ...['mitraglia', 'spaccatutto', 'laser', 'raffica', 'bombarda', 'sparapiselli'].map((w): Cue => [`sparo ${w}`, () => fps.shot(w)]),
+      ...['mitraglia', 'pistola', 'laser', 'raffica', 'bombarda', 'sparapiselli'].map((w): Cue => [`sparo ${w}`, () => fps.shot(w)]),
       ['sparo nemico lontano (sx)', () => fps.shot('mitraglia', { gain: 0.2, pan: -0.7 })],
       ['colpo a segno', () => fps.hitTick(20)],
       ['colpo pesante', () => fps.hitTick(50)],
@@ -156,7 +156,7 @@ export function buildCues(): Record<string, Cue[]> {
 /** Caos massimo realistico: 4 armi della Sparatoria a raffica + colpi + un'esplosione + musica. Il limiter deve tenere. */
 export function stress(): void {
   music.play('fps', 2);
-  const weapons = ['mitraglia', 'raffica', 'spaccatutto', 'laser'];
+  const weapons = ['mitraglia', 'raffica', 'pistola', 'laser'];
   for (let i = 0; i < 24; i++) {
     window.setTimeout(() => {
       for (let w = 0; w < 4; w++) if (audio.reserveVoice('sfx', 0.12)) fps.shot(weapons[w], { gain: 0.42, pan: [-0.6, -0.2, 0.2, 0.6][w] });

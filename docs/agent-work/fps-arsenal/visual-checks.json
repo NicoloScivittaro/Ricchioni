@@ -1,0 +1,119 @@
+{
+  "models": [
+    {
+      "id": "mitraglia",
+      "loaded": true,
+      "meshes": 2
+    },
+    {
+      "id": "laser",
+      "loaded": true,
+      "meshes": 15
+    },
+    {
+      "id": "raffica",
+      "loaded": true,
+      "meshes": 3
+    },
+    {
+      "id": "bombarda",
+      "loaded": true,
+      "meshes": 2
+    },
+    {
+      "id": "sparapiselli",
+      "loaded": true,
+      "meshes": 5
+    },
+    {
+      "id": "pistola",
+      "loaded": true,
+      "meshes": 8
+    }
+  ],
+  "views": [
+    {
+      "count": 1,
+      "scoped": [
+        {
+          "scope": 1,
+          "zoom": 4,
+          "hidden": true
+        }
+      ],
+      "reload": 0,
+      "death": 0,
+      "pause": 0,
+      "swapped": 0
+    },
+    {
+      "count": 2,
+      "scoped": [
+        {
+          "scope": 1,
+          "zoom": 4,
+          "hidden": true
+        },
+        {
+          "scope": 1,
+          "zoom": 4,
+          "hidden": true
+        }
+      ],
+      "reload": 0,
+      "death": 0,
+      "pause": 0,
+      "swapped": 0
+    },
+    {
+      "count": 5,
+      "scoped": [
+        {
+          "scope": 1,
+          "zoom": 4,
+          "hidden": true
+        },
+        {
+          "scope": 1,
+          "zoom": 4,
+          "hidden": true
+        },
+        {
+          "scope": 1,
+          "zoom": 4,
+          "hidden": true
+        },
+        {
+          "scope": 1,
+          "zoom": 4,
+          "hidden": true
+        },
+        {
+          "scope": 1,
+          "zoom": 4,
+          "hidden": true
+        }
+      ],
+      "reload": 0,
+      "death": 0,
+      "pause": 0,
+      "swapped": 0
+    }
+  ],
+  "phone": {
+    "scope": {
+      "alpha": "1",
+      "hidden": true,
+      "zoom": 4,
+      "src": true
+    },
+    "held": 1,
+    "tapped": 6,
+    "cancel": 0
+  },
+  "resize": {
+    "correct": true,
+    "alpha": "1"
+  },
+  "errors": []
+}

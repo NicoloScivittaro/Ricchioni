@@ -11,7 +11,7 @@ import { FPS_MAP, rayVsAabb } from '../../../shared/fpsMap';
 const clamp = (v: number, a: number, b: number): number => Math.max(a, Math.min(b, v));
 const angle = (v: number): number => Math.atan2(Math.sin(v), Math.cos(v));
 interface Position { id: string; x: number; z: number }
-interface FpsActor extends Position { alive: boolean; yaw: number; pitch: number; magazine: number; spawnProtection: number }
+interface FpsActor extends Position { weaponId:string; alive: boolean; yaw: number; pitch: number; magazine: number; spawnProtection: number }
 const nearest = <T extends Position>(p: Position, choices: T[]): T | undefined =>
   choices.reduce<T | undefined>((best, q) => !best || Math.hypot(q.x - p.x, q.z - p.z) < Math.hypot(best.x - p.x, best.z - p.z) ? q : best, undefined);
 
@@ -167,7 +167,7 @@ export class MotionBots extends BotInputs {
       this.ctx.input.get(p.id).setAxis('move', wx * Math.cos(p.yaw) - wz * Math.sin(p.yaw), -(wx * Math.sin(p.yaw) + wz * Math.cos(p.yaw)));
       const firing = canSee && e.spawnProtection <= 0 && this.time - target!.since > 0.45 && Math.abs(angle(aim - yaw)) < 0.12 && this.time % 2.2 < 1.6;
       this.hold(p.id, 'aim', canSee && dist > 10 && Math.abs(angle(aim - yaw)) < 0.18);
-      this.hold(p.id, 'fire', firing);
+      this.fireWeapon(p.id,firing,p.weaponId);
       if (p.magazine === 0 && this.every(p.id, 'reload', 0.4, 0.7)) this.tap(p.id, 'reload');
       if (firing) this.ability(p.id);
     }

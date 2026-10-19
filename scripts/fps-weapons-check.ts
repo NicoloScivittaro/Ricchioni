@@ -1,6 +1,12 @@
-import assert from'node:assert/strict';import{execFileSync}from'node:child_process';import{readFileSync,writeFileSync}from'node:fs';import{createHash}from'node:crypto';import ts from'typescript';import{WEAPONS}from'../shared/fpsWeapons';
-const oldSource=execFileSync('git',['show','HEAD:shared/fpsWeapons.ts'],{encoding:'utf8'});const code=ts.transpileModule(oldSource,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText;
-const old=await import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));const strip=(w:any)=>Object.fromEntries(Object.entries(w).filter(([k])=>k!=='name'&&k!=='icon'));
-for(const weapon of old.WEAPONS)assert.deepEqual(strip(WEAPONS.find(w=>w.id===weapon.id)),strip(weapon));assert.equal(WEAPONS.length,7);assert.ok(WEAPONS.find(w=>w.id==='pistola')?.magazine===12);
+import assert from'node:assert/strict';import{readFileSync,writeFileSync}from'node:fs';import{createHash}from'node:crypto';import{WEAPONS,getWeapon}from'../shared/fpsWeapons';
+import {aimFov,aimSpread} from '../shared/fpsAim';
+assert.equal(WEAPONS.length,6);assert.equal(WEAPONS.filter(w=>w.name.includes('RAY GUN')).length,1);
+assert.equal(getWeapon('spaccatutto').id,'bombarda');
+assert.equal(getWeapon('pistola').fireMode,'semi');assert.equal(getWeapon('pistola').fireRate,7);
+assert.ok(getWeapon('laser').damage>=100);assert.equal(getWeapon('laser').scopeZoom,4);
+assert.ok(Math.abs(Math.tan(.8/2)/Math.tan(aimFov(.8,1,4)/2)-4)<1e-9);
+assert.ok(aimSpread(.0005,0,0,0,.055)>50*aimSpread(.0005,1,0,0,.055));
+assert.equal(getWeapon('bombarda').projectileKind,'energy');assert.ok(getWeapon('bombarda').projectileSpeed>0);
+assert.equal(getWeapon('raffica').burst,3);
 const assets=JSON.parse(readFileSync('docs/agent-work/fps-weapons/assets.json','utf8'));for(const a of assets)assert.equal(createHash('sha256').update(readFileSync(a.source)).digest('hex'),a.sha256);
-const report={weapons:WEAPONS.map(w=>w.name),existingCombatStatsUnchanged:true,newPistol:true,originalFilesUnchanged:true,originalBytes:assets.reduce((n:number,a:any)=>n+a.originalBytes,0),optimizedBytes:assets.reduce((n:number,a:any)=>n+a.bytes,0)};writeFileSync('docs/agent-work/fps-weapons/contracts.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+const report={weapons:WEAPONS,scopeZoom:4,oneRayGun:true,originalFilesUnchanged:true,originalBytes:assets.reduce((n:number,a:any)=>n+a.originalBytes,0),optimizedBytes:assets.reduce((n:number,a:any)=>n+a.bytes,0)};writeFileSync('docs/agent-work/fps-arsenal/contracts.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));

@@ -1,3 +1,6 @@
+import {FpsEnergyFx} from '../../controller/fpsEnergyFx';
+import type {EnergyLaunch,EnergyImpact} from '../../controller/fpsEnergyFx';
+import {scopeAlpha,scopeSvg} from '../../controller/fpsScope';
 import {FPS_BODY,FPS_KILL_TARGET} from '../../../shared/fpsRules';
 import {RemoteWeaponModel} from '../../controller/fpsWeaponModels';
 import { Engine, Scene, Color4, Color3, StandardMaterial, MeshBuilder, Mesh, UniversalCamera, Viewport, Vector3, TransformNode, DynamicTexture, HemisphericLight, DirectionalLight, AbstractMesh } from '@babylonjs/core';
@@ -198,6 +201,7 @@ interface AvatarRig {
 
 interface HudEntry {
   adt: AdvancedDynamicTexture;
+  scope:GuiImage;scopeSize:string;
   hpFill: Rectangle;
   hpText: TextBlock;
   ammoText: TextBlock;
@@ -224,6 +228,7 @@ interface HudEntry {
 
 export class BabylonFpsGame {
   readonly ready:Promise<void>;
+  private energyFx:FpsEnergyFx;
   private engine: Engine;
   private scene: Scene;
   private cams: CamRig[] = [];
@@ -266,6 +271,7 @@ export class BabylonFpsGame {
     for (const l of locals) this.abilityName.set(l.id, abilityFor('fps', l.characterId ?? null)?.name ?? '');
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
+    this.energyFx=new FpsEnergyFx(this.scene);
     this.scene.clearColor = new Color4(0.07, 0.08, 0.12, 1);
     // LUCI: le stesse del client telefono (fpsClient). buildFpsWorld non ne crea: senza queste, sulla TV mondo e
     // personaggi erano neri (bug di M6: lo split-screen non aveva luci, il telefono si').
@@ -326,6 +332,7 @@ export class BabylonFpsGame {
       const vpW = Math.max(2, Math.round(r.w * rw));
       const vpH = Math.max(2, Math.round(r.h * rh));
       c.vm.aspect = vpW / vpH;
+      const scopeSize=vpW+'x'+vpH;if(h.scopeSize!==scopeSize){h.scopeSize=scopeSize;h.scope.source=scopeSvg(vpW,vpH);}
       const size = h.adt.getSize();
       if (size.width !== vpW || size.height !== vpH) h.adt.scaleTo(vpW, vpH);
       const idealH = 720 * r.h * (this.cams.length >= 3 ? 1.25 : 1);
@@ -360,6 +367,7 @@ export class BabylonFpsGame {
 
   setPaused(paused: boolean): void {
     this.paused = paused;
+    if(paused)for(const h of this.hud.values())h.scope.alpha=0;
   }
 
   isLocal(playerId: PlayerId): boolean {
@@ -406,7 +414,7 @@ export class BabylonFpsGame {
     }
     if (name) parts.push(this.buildTag(pid, body, name, pres?.accent ?? color, characterId, avatar));
     const flash = MeshBuilder.CreatePlane(`fpsRemoteFlash_${pid}`, { size: 0.55 }, this.scene);
-    flash.material = this.remoteFlashMat;
+    flash.material = this.remoteFlashMat.clone('remoteFlash:'+flash.uniqueId);
     flash.billboardMode = Mesh.BILLBOARDMODE_ALL;
     flash.parent = gun;
     flash.position.set(0, 0, 0.38);
@@ -498,6 +506,8 @@ export class BabylonFpsGame {
     const adt = AdvancedDynamicTexture.CreateFullscreenUI(`fpsHud_${index}`, true, this.scene);
     if (adt.layer) adt.layer.layerMask = hudBit(index);
 
+    const scope=new GuiImage('fpsScope_'+index,scopeSvg(640,360));
+    scope.width='100%';scope.height='100%';scope.stretch=GuiImage.STRETCH_FILL;scope.alpha=0;scope.isHitTestVisible=false;adt.addControl(scope);
     // di chi e' questa finestra: nome nel colore del giocatore, in alto a sinistra (in 2x2 nessuno deve chiedersi "quale sono?")
     const nameTag = new TextBlock(`fpsName_${index}`, name.toUpperCase());
     nameTag.color = color;
@@ -527,7 +537,7 @@ export class BabylonFpsGame {
 
     const panel = new Rectangle(`fpsPanel_${index}`);
     panel.width = '236px';
-    panel.height = '84px';
+    panel.height = '104px';
     panel.thickness = 0;
     panel.background = 'rgba(11,11,20,0.82)';
     panel.thickness = 2;
@@ -542,7 +552,7 @@ export class BabylonFpsGame {
     const hpBar = new Rectangle('hpBar');
     hpBar.width = '208px';
     hpBar.height = '20px';
-    hpBar.top = '-22px';
+    hpBar.top = '-32px';
     hpBar.thickness = 1;
     hpBar.color = '#00000055';
     hpBar.background = '#1f2430';
@@ -568,8 +578,8 @@ export class BabylonFpsGame {
     const ammoText = new TextBlock('ammoText', '');
     ammoText.color = '#e5e7eb';
     ammoText.fontFamily = FONT_DISPLAY;
-    ammoText.fontSize = 22;
-    ammoText.top = '8px';
+    ammoText.fontSize = 20;
+    ammoText.top = '0px';
     ammoText.height = '28px';
     ammoText.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
     ammoText.left = '14px';
@@ -577,12 +587,12 @@ export class BabylonFpsGame {
 
     const killText = new TextBlock('killText', '0 kill');
     killText.color = '#facc15';
-    killText.fontSize = 17;
+    killText.fontSize = 15;
     killText.fontFamily = FONT_DISPLAY;
-    killText.top = '10px';
+    killText.top = '32px';
     killText.height = '24px';
-    killText.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
-    killText.left = '-14px';
+    killText.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    killText.left = '14px';
     panel.addControl(killText);
 
     const crossBars: Rectangle[] = [];
@@ -646,7 +656,7 @@ export class BabylonFpsGame {
     // ---- ABILITA' ----
     const abilityText = new TextBlock(`fpsAbility_${index}`, '');
     abilityText.fontFamily = FONT_DISPLAY;
-    abilityText.fontSize = 17;
+    abilityText.fontSize = 13;
     abilityText.color = '#e5e7eb';
     abilityText.outlineColor = '#000000';
     abilityText.outlineWidth = 4;
@@ -654,9 +664,9 @@ export class BabylonFpsGame {
     abilityText.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
     abilityText.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
     abilityText.left = '18px';
-    abilityText.top = '-108px';
+    abilityText.top = '-132px';
     abilityText.height = '24px';
-    abilityText.width = '420px';
+    abilityText.width = '90%';
     adt.addControl(abilityText);
 
     // barra ricarica del Goblin: la zona verde e' dove premere RB (N'CULO!) per la ricarica perfetta
@@ -670,7 +680,7 @@ export class BabylonFpsGame {
     reloadBar.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
     reloadBar.verticalAlignment = Control.VERTICAL_ALIGNMENT_BOTTOM;
     reloadBar.left = '16px';
-    reloadBar.top = '-134px';
+    reloadBar.top = '-158px';
     reloadBar.isVisible = false;
     adt.addControl(reloadBar);
     const sweet = new Rectangle(`fpsReloadSweet_${index}`);
@@ -716,7 +726,7 @@ export class BabylonFpsGame {
     lockText.isVisible = false;
     adt.addControl(lockText);
 
-    return { crossBars, crossDot, adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText, hitKill: false, dmgInds, dmgIdx: 0, abilityText, reloadBar, reloadFill, guardFrame, lockText };
+    return { scope,scopeSize:"",crossBars, crossDot, adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText, hitKill: false, dmgInds, dmgIdx: 0, abilityText, reloadBar, reloadFill, guardFrame, lockText };
   }
 
   /** Pool di effetti condivisi (visibili a tutte le finestre): traccianti, proiettili, esplosioni, detriti. Nessuna allocazione per colpo. */
@@ -793,6 +803,7 @@ export class BabylonFpsGame {
     }
     const a = this.avatars.get(shooterId);
     if (a) {
+      (a.flash.material as StandardMaterial).emissiveColor.set(...prof.color);
       a.flashT = 0.06;
       a.flash.isVisible = true;
       a.flash.rotation.z = Math.random() * Math.PI;
@@ -830,6 +841,8 @@ export class BabylonFpsGame {
   onSignal(pid: PlayerId | null, msg: Record<string, unknown>): void {
     if (this.disposed) return;
     const type = msg.type;
+    if(type==='energyBolt'){this.energyFx.launch(msg as unknown as EnergyLaunch);return;}
+    if(type==='energyImpact'){this.energyFx.impact(msg as unknown as EnergyImpact);if(Number(msg.r)>0)sfx.energyImpact({gain:.35});return;}
     if (type === 'proj') {
       const slot = this.projs.find((q) => !q.on);
       if (!slot) return;
@@ -1003,8 +1016,9 @@ export class BabylonFpsGame {
     cam.vm.ads = snap.ads;
     const hud = this.hud.get(snap.id);
     if (hud) {
-      const gap = aimGap(aimSpread(getWeapon(snap.weaponId).spread, snap.ads, snap.moving, snap.heat), snap.ads);
-      hud.crossDot.isVisible = snap.alive;
+      const gap = aimGap(aimSpread(getWeapon(snap.weaponId).spread, snap.ads, snap.moving, snap.heat,getWeapon(snap.weaponId).hipSpread), snap.ads);
+      const a=scopeAlpha(!!getWeapon(snap.weaponId).scopeZoom,snap.ads,snap.alive,snap.reloading);hud.scope.alpha=a;
+      hud.crossDot.isVisible = snap.alive&&a<.95;
       hud.crossBars.forEach((b, k) => { b.alpha = snap.alive ? 1 - snap.ads : 0; b.left = k >= 2 ? `${(k === 2 ? -1 : 1) * (gap + 4)}px` : '0px'; b.top = k < 2 ? `${(k === 0 ? -1 : 1) * (gap + 4)}px` : '0px'; });
     }
     cam.vm.update(dt, speedFrac, lookDx, lookDy, reloadP, cam.dashT > 0);
@@ -1019,11 +1033,12 @@ export class BabylonFpsGame {
     cam.camera.rotation.y = snap.yaw + snap.recoilYaw;
     cam.camera.rotation.x = -(Math.max(-1.4, Math.min(1.4, snap.pitch + snap.recoilPitch)) + cam.kickP);
     cam.camera.rotation.z = cam.kickR;
-    cam.camera.fov = aimFov(BASE_FOV, snap.ads) + 0.12 * cam.vm.fovKick;
+    cam.camera.fov = aimFov(BASE_FOV, snap.ads,getWeapon(snap.weaponId).scopeZoom) + 0.12 * cam.vm.fovKick;
   }
 
   /** Effetti condivisi: traccianti che sfumano, proiettili in volo, esplosioni, detriti. */
   private updateFx(dt: number): void {
+    this.energyFx.update(dt);
     for (const t of this.tracers) {
       if (t.life <= 0) continue;
       t.life -= dt;

@@ -53,7 +53,7 @@ export class TerminalBots extends BotInputs{
       const firing=!!enemy&&enemy.spawnProtection<=0&&this.time-(memory?.acquired??this.time)>.42&&Math.abs(error)<.12&&distance<weapon.range*.95&&this.time%2.2<1.65;
       this.hold(p.id,'crouch',(arena.headroomAt?.(p.x,p.z,p.y??0)??12)<1.8||(arena.headroomAt?.(dest.x,dest.z,dest.y??0)??12)<1.8);
       this.hold(p.id,'aim',!!enemy&&distance>10&&Math.abs(error)<.2);
-      this.hold(p.id,'fire',firing);
+      this.fireWeapon(p.id,firing,p.weaponId);
       if((p.magazine===0||!enemy&&p.magazine<weapon.magazine*.3)&&this.every(p.id,'reload',.4,.8))this.tap(p.id,'reload');
       if(firing)this.ability(p.id);
     }

@@ -1,7 +1,7 @@
 import { audio } from '../core/AudioManager';
 
 /**
- * AUDIO DELLA SPARATORIA: tutti i suoni sono sintetizzati (WebAudio), stile CARTONE animato, non militare:
+ * AUDIO DELLA SPARATORIA: tutti i suoni sono sintetizzati (WebAudio), con firme distinte per armi balistiche ed energetiche:
  * ogni arma ha una firma sonora riconoscibile. Passano dalla categoria SFX (volume generale e muto rispettati).
  * `opt.gain`/`opt.pan` servono per i colpi dei nemici (attenuati in base alla distanza e spostati a destra/sinistra).
  */
@@ -111,24 +111,24 @@ export function shot(weaponId: string, opt?: SfxOpt): void {
       tone(b, 'square', 420, 300, 0.03, 0.09, 0.32, opt);
       tone(b, 'square', 300, 220, 0.04, 0.09, 0.42, opt);
       break;
-    case 'laser': // pew energetico con brillio
-      tone(b, 'sawtooth', 1500 * j, 260, 0.24, 0.13, 0, opt);
-      tone(b, 'sine', 2200 * j, 700, 0.16, 0.1, 0, opt);
-      tone(b, 'triangle', 780, 1300, 0.12, 0.08, 0.02, opt);
-      hiss(b, 'highpass', 6500, 3000, 0.07, 0.07, 0, 0.7, opt);
+    case 'laser': // Rifle crack, low report and delayed bolt clack
+      hiss(b,'highpass',4800,1800,.12,.3,0,.7,opt);
+      tone(b,'triangle',180*j,42,.28,.3,0,opt);
+      hiss(b,'bandpass',1800,700,.055,.12,.26,1,opt);
+      tone(b,'square',480,220,.04,.06,.34,opt);
       break;
     case 'raffica': // tk secco (ogni impulso della raffica)
       hiss(b, 'bandpass', 2300, 1400, 0.035, 0.2, 0, 1.2, opt);
       tone(b, 'square', 420 * j, 190, 0.045, 0.11, 0, opt);
       break;
-    case 'bombarda': // POP di tappo + FOMP grave
-      tone(b, 'sine', 320, 620, 0.06, 0.16, 0, opt);
-      hiss(b, 'lowpass', 900, 120, 0.42, 0.34, 0.02, 0.7, opt);
-      tone(b, 'sine', 95 * j, 30, 0.5, 0.4, 0.02, opt);
+    case 'bombarda': // Bright electrical pulse
+      tone(b,'sawtooth',1150*j,260,.16,.085,0,opt);
+      tone(b,'sine',1900*j,580,.12,.13,0,opt);
+      hiss(b,'bandpass',4200,1300,.075,.08,0,1.4,opt);
       break;
-    case 'sparapiselli': // ptù ptù comico
-      tone(b, 'sine', 900 * j, 1500, 0.045, 0.1, 0, opt);
-      hiss(b, 'bandpass', 3200, 2400, 0.025, 0.06, 0, 1.5, opt);
+    case 'sparapiselli':
+      hiss(b,'bandpass',2400,850,.04,.16,0,1,opt);
+      tone(b,'triangle',180*j,70,.045,.12,0,opt);
       break;
     default: // mitraglia: tatatata
       hiss(b, 'bandpass', 1900, 900, 0.05, 0.2, 0, 0.9, opt);
@@ -142,10 +142,11 @@ export function reload(weaponId: string, dur: number): void {
   if (!b) return;
   const end = Math.max(0.3, dur);
   switch (weaponId) {
-    case 'laser': // batteria che si carica: whine crescente + ping
-      tone(b, 'sawtooth', 220, 1100, end * 0.85, 0.06);
-      tone(b, 'sine', 440, 1760, end * 0.85, 0.05);
-      tone(b, 'sine', 1900, 1900, 0.16, 0.1, end - 0.1);
+    case 'laser':
+      hiss(b,'highpass',3000,1400,.07,.13,.05,1);
+      tone(b,'square',380,190,.06,.1,end*.58);
+      hiss(b,'bandpass',2200,700,.09,.15,end-.22,1);
+      tone(b,'square',320,180,.04,.09,end-.08);
       break;
     case 'spaccatutto': // cartucce una a una + pompa
       for (let i = 0; i < 3; i++) tone(b, 'square', 520 - i * 40, 300, 0.04, 0.1, 0.18 + (i * (end - 0.6)) / 3);
@@ -157,9 +158,10 @@ export function reload(weaponId: string, dur: number): void {
       tone(b, 'sine', 1200, 800, 0.2, 0.07, end * 0.5);
       tone(b, 'triangle', 90, 55, 0.16, 0.25, end - 0.18);
       break;
-    case 'sparapiselli': // piselli che rotolano
-      for (let i = 0; i < 7; i++) hiss(b, 'bandpass', 3000 + Math.random() * 1500, 2500, 0.02, 0.06, 0.1 + Math.random() * (end - 0.35), 2);
-      tone(b, 'sine', 700, 1100, 0.07, 0.1, end - 0.12);
+    case 'sparapiselli':
+      tone(b,'triangle',150,65,.13,.16,.05);
+      for(let i=0;i<4;i++)hiss(b,'bandpass',1800,800,.05,.08,end*.3+i*.13,1);
+      tone(b,'square',280,140,.09,.13,end-.12);
       break;
     default: // caricatore fuori, dentro, otturatore
       hiss(b, 'highpass', 3200, 2800, 0.03, 0.12, 0.04, 0.8);
@@ -249,4 +251,11 @@ export function whistle(dur: number): void {
   const b = bus();
   if (!b) return;
   tone(b, 'sine', 900, 500, Math.max(0.2, dur), 0.035);
+}
+
+/** Short green energy impact; no long grenade boom. */
+export function energyImpact(opt?:SfxOpt):void {
+  const b=bus();if(!b)return;
+  hiss(b,'bandpass',3200,450,.2,.2,0,1,opt);
+  tone(b,'sine',700,80,.22,.2,0,opt);
 }

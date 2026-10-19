@@ -1,0 +1,92 @@
+{
+  "combat": {
+    "held": 1,
+    "taps": 6,
+    "substeps": 1,
+    "buffered": 1,
+    "cancelled": 0,
+    "automatic": 8,
+    "burst": 3,
+    "sniper": {
+      "hp": 0,
+      "alive": false,
+      "kills": 1
+    },
+    "armorPreserved": true,
+    "rayAtLaunch": {
+      "hp": 100,
+      "bolts": 1
+    },
+    "rayHit": {
+      "hp": 20,
+      "ownerHp": 100,
+      "bolts": 0
+    },
+    "dodged": 100,
+    "blocked": 100,
+    "splash": 71,
+    "autoReload": true,
+    "reloaded": true,
+    "bag": [
+      "mitraglia",
+      "sparapiselli",
+      "bombarda",
+      "laser",
+      "raffica",
+      "pistola"
+    ],
+    "botSemi": 6,
+    "target10": true,
+    "importedMaps": [
+      {
+        "name": "terminal",
+        "clearHp": 20,
+        "coveredHp": 100
+      },
+      {
+        "name": "nuketown",
+        "clearHp": 20,
+        "coveredHp": null
+      }
+    ]
+  },
+  "fiveScopes": [
+    {
+      "scope": 1,
+      "fov": 0.2876109040443374,
+      "gunHidden": true,
+      "scopeSize": "427x360"
+    },
+    {
+      "scope": 1,
+      "fov": 0.2876109040443374,
+      "gunHidden": true,
+      "scopeSize": "427x360"
+    },
+    {
+      "scope": 1,
+      "fov": 0.2876109040443374,
+      "gunHidden": true,
+      "scopeSize": "427x360"
+    },
+    {
+      "scope": 1,
+      "fov": 0.2876109040443374,
+      "gunHidden": true,
+      "scopeSize": "640x360"
+    },
+    {
+      "scope": 1,
+      "fov": 0.2876109040443374,
+      "gunHidden": true,
+      "scopeSize": "640x360"
+    }
+  ],
+  "fxPool": {
+    "before": 665,
+    "after": 665,
+    "bolts": 32,
+    "impacts": 8
+  },
+  "errors": []
+}

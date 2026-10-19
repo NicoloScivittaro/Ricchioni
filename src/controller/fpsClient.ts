@@ -1,3 +1,6 @@
+import {FpsEnergyFx} from './fpsEnergyFx';
+import type {EnergyLaunch,EnergyImpact} from './fpsEnergyFx';
+import {scopeAlpha,scopeSvg} from './fpsScope';
 import {FPS_BODY,FPS_KILL_TARGET} from '../../shared/fpsRules';
 import {
   Color3,
@@ -104,13 +107,12 @@ interface Tracer {
 
 /** Nome e ruolo mostrati all'estrazione: cosa aspettarsi da quest'arma. */
 const ROLE: Record<string, string> = {
-  pistola:'PRECISA E MANEGGEVOLE',
+  pistola:'UN COLPO PER PRESSIONE · CADENZA RAPIDA',
   mitraglia: 'TUTTOFARE',
-  spaccatutto: 'DA VICINO: DEVASTANTE',
-  laser: 'PRECISIONE: 2 COLPI',
+  laser: 'OTTICA 4× · 125 DANNI',
   raffica: 'RAFFICHE DA 3',
-  bombarda: 'ESPLOSIONE AD AREA',
-  sparapiselli: 'PIOGGIA DI PISELLI'
+  bombarda: 'IMPULSI VERDI · DANNO AD AREA',
+  sparapiselli: 'FUOCO CONTINUO · ARMA PESANTE'
 };
 
 /** Vibrazione con feature detection: se il telefono non la supporta non succede nulla (nessun errore). */
@@ -132,7 +134,7 @@ export class FpsClient {
   private remotes = new Map<string, RemoteEntity>();
   private lastPos = new Map<string, { x: number; z: number }>();
   private remoteFlashMat: StandardMaterial;
-  private readonly onResize = (): void => this.engine.resize();
+  private readonly onResize = (): void => {this.engine.resize();this.scopeSize="";this.updateScope();};
   private tmpTarget = new Vector3();
   private tmpStart = new Vector3();
 
@@ -187,6 +189,10 @@ export class FpsClient {
 
   // HUD
   private crossEl!: HTMLElement;
+  private scopeEl!:HTMLImageElement;
+  private scopeSize="";
+  private fireBuffer=0;
+  private energyFx:FpsEnergyFx;
   private crossBars: HTMLElement[] = [];
   private hitEl!: HTMLElement;
   private hpNumEl!: HTMLElement;
@@ -229,6 +235,7 @@ export class FpsClient {
     // Telefoni: qualita' automatica (i dispositivi deboli renderizzano a risoluzione ridotta, con risoluzione dinamica)
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
+    this.energyFx=new FpsEnergyFx(this.scene);
 
     buildFpsLights(this.scene); // luci uniformi della Sparatoria (stesse su TV e telefono: fpsWorld)
 
@@ -312,6 +319,9 @@ export class FpsClient {
     };
     const text = 'font-family:Arial,sans-serif;text-shadow:0 1px 3px #000,0 0 6px rgba(0,0,0,.6);pointer-events:none;';
 
+    this.scopeEl=document.createElement('img');this.scopeEl.className='fps-sniper-scope';this.scopeEl.alt='';
+    this.scopeEl.style.cssText='position:absolute;inset:0;width:100%;height:100%;z-index:29;pointer-events:none;opacity:0';
+    this.container.appendChild(this.scopeEl);
     // mirino: quattro tacche + puntino, SEMPRE al centro (non segue il movimento cosmetico dell'arma)
     this.crossEl = mk('position:absolute;left:50%;top:50%;width:0;height:0;z-index:30;pointer-events:none;filter:drop-shadow(0 0 2px rgba(0,0,0,.9));transition:filter 90ms;');
     for (let i = 0; i < 4; i++) {
@@ -368,6 +378,22 @@ export class FpsClient {
     this.deathEl = mk('position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(0,0,0,0.55);color:#f87171;font:900 34px Arial;z-index:40;');
   }
 
+  private updateScope():void {
+    if(!this.scopeSize){const size=this.container.getBoundingClientRect();this.scopeSize=Math.round(size.width)+"x"+Math.round(size.height);this.scopeEl.src=scopeSvg(size.width,size.height);}
+    const a=scopeAlpha(!!getWeapon(this.weaponId).scopeZoom,this.ads,this.alive&&!this.paused,this.reloading);
+    this.scopeEl.style.opacity=String(a);this.crossEl.style.opacity=String(1-a);
+  }
+  remoteShot(owner:string,weaponId:string):void {
+    if(owner===this.selfId)return;
+    const e=this.remotes.get(owner);if(!e||!e.alive)return;
+    e.flashT=.06;e.flash.isVisible=true;
+    const c=recoilOf(weaponId).color;(e.flash.material as StandardMaterial).emissiveColor.set(...c);
+    const dx=e.x-this.selfX,dz=e.z-this.selfZ,dist=Math.hypot(dx,dz);
+    if(dist<38)sfx.shot(weaponId,{gain:Math.pow(1-dist/38,1.6)*.85,pan:Math.sin(Math.atan2(dx,dz)-this.yaw)*.9});
+  }
+  energyBolt(p:EnergyLaunch):void {this.energyFx.launch(p);}
+  energyImpact(p:EnergyImpact):void {this.energyFx.impact(p);if(p.r>0)sfx.energyImpact({gain:.35});}
+
   private setGap(g: number): void {
     if (Math.abs(g - this.lastGap) < 0.4) return;
     this.lastGap = g;
@@ -412,8 +438,11 @@ export class FpsClient {
         }
       }
     }
-    if (this.firePressed && this.alive && !this.reloading && this.fireCooldown <= 0 && this.burstLeft <= 0) {
+    this.fireBuffer=Math.max(0,this.fireBuffer-dt);
+    if(this.reloading||!this.alive)this.fireBuffer=0;
+    if ((w.fireMode==='semi'?this.fireBuffer>0:this.firePressed) && this.alive && !this.reloading && this.fireCooldown <= 0 && this.burstLeft <= 0) {
       if (this.mag > 0) {
+        this.fireBuffer=0;
         const burst = w.burst ?? 1;
         this.fireCooldown = burst / w.fireRate;
         this.localShot(w);
@@ -447,9 +476,10 @@ export class FpsClient {
 
     // mirino: si allarga con la dispersione dell'arma, il movimento e i colpi (mai col rinculo cosmetico)
     this.bloom = Math.max(0, this.bloom - dt * 5);
-    this.setGap(aimGap(aimSpread(w.spread, this.ads, this.moving, this.heat), this.ads));
+    this.setGap(aimGap(aimSpread(w.spread, this.ads, this.moving, this.heat,w.hipSpread), this.ads));
     for (const bar of this.crossBars) bar.style.opacity = String(1 - this.ads);
 
+    this.updateScope();
     this.updateCamera(dt);
     this.interpolateRemotes(dt);
     this.updateEffects(dt);
@@ -505,7 +535,7 @@ export class FpsClient {
     this.tmpTarget.set(this.camera.position.x + Math.sin(yaw) * cp, this.camera.position.y + Math.sin(pitch), this.camera.position.z + Math.cos(yaw) * cp);
     this.camera.upVector.set(Math.sin(this.dmgKickR), Math.cos(this.dmgKickR), 0);
     this.camera.setTarget(this.tmpTarget);
-    this.camera.fov = aimFov(BASE_FOV, this.ads) + 0.17 * this.vm.fovKick;
+    this.camera.fov = aimFov(BASE_FOV, this.ads,getWeapon(this.weaponId).scopeZoom) + 0.17 * this.vm.fovKick;
   }
 
   private interpolateRemotes(dt: number): void {
@@ -548,23 +578,7 @@ export class FpsClient {
           alive: e.alive, falling: e.grounded===false, dashing: e.dashing, stunned: !e.alive, grounded: e.grounded!==false, koDuration: .45
         });
       }
-      // spari dei nemici: lampo + suono attenuato dalla distanza e spostato a destra/sinistra (si sente da dove arrivano)
-      if (e.firing && e.alive) {
-        const w = getWeapon(e.weaponId);
-        e.fireAcc += dt;
-        const interval = Math.max(0.09, 1 / w.fireRate);
-        if (e.fireAcc >= interval) {
-          e.fireAcc = 0;
-          const dx = e.x - this.selfX;
-          const dz = e.z - this.selfZ;
-          const dist = Math.hypot(dx, dz);
-          e.flashT = 0.06;
-          if (dist < 38) {
-            const rel = Math.atan2(dx, dz) - this.yaw;
-            sfx.shot(e.weaponId, { gain: Math.pow(Math.max(0, 1 - dist / 38), 1.6) * 0.85, pan: Math.max(-0.9, Math.min(0.9, Math.sin(rel))) });
-          }
-        }
-      }
+      // Enemy shots arrive as exact authoritative events; only fade their flashes here.
       if (e.flashT > 0) {
         e.flashT -= dt;
         e.flash.isVisible = e.flashT > 0;
@@ -574,6 +588,7 @@ export class FpsClient {
   }
 
   private updateEffects(dt: number): void {
+    this.energyFx.update(dt);
     for (const t of this.tracers) {
       if (t.life <= 0) continue;
       t.life -= dt;
@@ -620,6 +635,7 @@ export class FpsClient {
   // ---------------------------------------------------------------- eventi dall'host
 
   private startReloadUi(duration: number, weaponId: string): void {
+    this.fireBuffer=0;this.ads=this.adsTarget=0;
     this.reloading = true;
     this.reloadT = 0;
     this.reloadDur = Math.max(0.3, duration);
@@ -735,8 +751,8 @@ export class FpsClient {
 
   look(dx: number, dy: number): void {
     if (this.paused || !this.alive) return;
-    this.yaw += dx * SENSITIVITY_X * aimSensitivity(this.ads);
-    this.pitch -= dy * SENSITIVITY_Y * aimSensitivity(this.ads);
+    this.yaw += dx * SENSITIVITY_X * aimSensitivity(this.ads,getWeapon(this.weaponId).scopeZoom ? .3 : FPS_ADS.sensitivity);
+    this.pitch -= dy * SENSITIVITY_Y * aimSensitivity(this.ads,getWeapon(this.weaponId).scopeZoom ? .3 : FPS_ADS.sensitivity);
     this.pitch = Math.max(-1.4, Math.min(1.4, this.pitch));
     this.lastLookDx = dx;
     this.lastLookDy = dy;
@@ -745,10 +761,11 @@ export class FpsClient {
 
   setPaused(paused: boolean): void {
     this.paused = paused;
-    if (paused) { this.ads = this.adsTarget = this.recoilPitch = this.recoilYaw = 0; this.firePressed = false; this.burstLeft = 0; this.vm.ads = 0; }
+    if (paused) { this.ads = this.adsTarget = this.recoilPitch = this.recoilYaw = 0; this.firePressed = false; this.fireBuffer=0; this.burstLeft = 0; this.vm.ads = 0; this.updateScope(); }
   }
 
   setFirePressed(pressed: boolean): void {
+    if(pressed&&!this.firePressed&&!this.paused&&this.alive&&!this.reloading)this.fireBuffer=.12;
     this.firePressed = pressed;
   }
 
@@ -807,9 +824,10 @@ export class FpsClient {
         this.adsTarget = !this.paused && ps.alive ? ps.ads ?? 0 : 0;
         this.recoilPitch = ps.recoilPitch ?? 0; this.recoilYaw = ps.recoilYaw ?? 0;
         this.heat = ps.heat ?? 0; this.moving = ps.moving ?? 0;
-        if (!ps.alive || ps.locked) { this.firePressed = false; this.burstLeft = 0; }
+        if (!ps.alive || ps.locked) { this.firePressed = false; this.fireBuffer=0; this.burstLeft = 0; }
         this.dashing = Boolean(ps.dashing);
         if (ps.weaponId !== this.weaponId) {
+          this.fireBuffer=0;this.fireCooldown=.35;this.burstLeft=0;
           this.weaponId = ps.weaponId;
           this.vm.equip(ps.weaponId);
           this.reloading = false;
@@ -900,7 +918,7 @@ export class FpsClient {
     tag.billboardMode = Mesh.BILLBOARDMODE_ALL;
 
     const flash = MeshBuilder.CreatePlane('rflash', { size: 0.7 }, this.scene);
-    flash.material = this.remoteFlashMat;
+    flash.material = this.remoteFlashMat.clone('remoteFlash:'+flash.uniqueId);
     flash.billboardMode = Mesh.BILLBOARDMODE_ALL;
     flash.isVisible = false;
     flash.isPickable = false;
@@ -999,6 +1017,7 @@ export class FpsClient {
   static lastDispose: { stop: number; vm: number; scene: number; engine: number } | null = null;
 
   dispose(): void {
+    this.scopeEl.remove();
     const t0 = performance.now();
     this.engine.stopRenderLoop();
     window.removeEventListener('resize', this.onResize);

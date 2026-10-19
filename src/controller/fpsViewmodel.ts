@@ -1,3 +1,4 @@
+import {getWeapon} from '../../shared/fpsWeapons';
 import {
   Color3,
   DynamicTexture,
@@ -46,17 +47,17 @@ export const RECOIL: Record<string, RecoilProfile> = {
   mitraglia: { back: 0.3, up: 1.0, side: 0.05, k: 320, c: 26, camPitch: 0.004, camYaw: 0.002, flash: 0.3, color: [1, 0.8, 0.3], smoke: false, sparks: 3, buzz: 0, tracer: { color: [1, 0.85, 0.4], thick: 0.04, life: 0.06 } },
   // forte rinculo singolo + pompa
   spaccatutto: { back: 1.5, up: 5.2, side: 0.12, k: 85, c: 9.5, camPitch: 0.032, camYaw: 0.006, flash: 0.75, color: [1, 0.65, 0.2], smoke: true, sparks: 8, pump: true, buzz: 38, tracer: { color: [1, 0.7, 0.3], thick: 0.03, life: 0.05 } },
-  // quasi nessun rinculo meccanico, molto bagliore
-  laser: { back: 0.1, up: 0.45, side: 0, k: 300, c: 24, camPitch: 0.005, camYaw: 0, flash: 0.5, color: [0.35, 0.95, 1], smoke: false, sparks: 6, energy: true, buzz: 14, tracer: { color: [0.4, 0.95, 1], thick: 0.09, life: 0.16 } },
+  // Heavy single rifle report and quick bolt recovery
+  laser: { back: 1.1, up: 4.5, side: .035, k: 115, c: 17, camPitch: .018, camYaw: .001, flash: .6, color: [1,.85,.55], smoke: true, sparks: 3, buzz: 32, tracer: {color:[1,.88,.65],thick:.025,life:.045} },
   // tre impulsi distinti (uno per colpo della raffica)
   raffica: { back: 0.55, up: 1.8, side: 0.08, k: 240, c: 20, camPitch: 0.008, camYaw: 0.003, flash: 0.45, color: [1, 0.55, 0.35], smoke: false, sparks: 4, buzz: 12, tracer: { color: [1, 0.55, 0.4], thick: 0.05, life: 0.07 } },
-  // rinculo lento e pesante
-  bombarda: { back: 1.7, up: 3.4, side: 0.05, k: 36, c: 8, camPitch: 0.045, camYaw: 0.005, flash: 1.0, color: [1, 0.55, 0.15], smoke: true, sparks: 10, buzz: 55, tracer: { color: [1, 0.6, 0.2], thick: 0.0, life: 0 } },
-  // micro rinculo comico molto rapido
-  sparapiselli: { back: 0.07, up: 0.25, side: 0.05, k: 520, c: 16, camPitch: 0.0008, camYaw: 0, flash: 0.22, color: [0.6, 1, 0.5], smoke: false, sparks: 1, wobble: 5, buzz: 0, tracer: { color: [0.55, 1, 0.45], thick: 0.035, life: 0.05 } }
+  // Compact energy recoil with green muzzle feedback
+  bombarda: { back: .75, up: 2.3, side: .035, k: 180, c: 21, camPitch: .012, camYaw: .002, flash: .5, color: [.3,1,.08], smoke: false, sparks: 2, energy:true, buzz: 20, tracer: {color:[.3,1,.08],thick:0,life:0} },
+  // Controlled sustained fire with short warm tracers
+  sparapiselli: { back: .14, up: .45, side: .035, k: 520, c: 30, camPitch: .0015, camYaw: .0005, flash: .3, color: [1,.73,.28], smoke: false, sparks: 1, buzz: 0, tracer: {color:[1,.8,.35],thick:.025,life:.04} }
 };
 
-RECOIL.pistola={...RECOIL.raffica,back:.6,up:2.2,side:.055,buzz:18,flash:.3,sparks:3};
+RECOIL.pistola={...RECOIL.raffica,back:.6,up:2.2,side:.035,k:350,c:28,buzz:18,flash:.3,sparks:3};
 
 export function recoilOf(weaponId: string): RecoilProfile {
   return RECOIL[weaponId] ?? RECOIL.mitraglia;
@@ -494,6 +495,7 @@ export class FpsViewmodel {
   update(dt: number, speedFrac: number, lookDx: number, lookDy: number, reloadP: number, dashing: boolean): void {
     const m = this.current;
     if (!m) return;
+    m.root.setEnabled(!(getWeapon(this.weaponId).scopeZoom&&this.ads>.8&&reloadP===0));
     dt = Math.min(dt, 0.05);
     const p = this.profile;
 

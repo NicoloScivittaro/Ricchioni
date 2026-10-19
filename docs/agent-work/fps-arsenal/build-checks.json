@@ -1,0 +1,12 @@
+{
+  "command": "npm run build",
+  "success": true,
+  "viteDuration": "4m 23s",
+  "modules": 3832,
+  "warnings": [
+    "Existing large chunk size warning"
+  ],
+  "commit": false,
+  "push": false,
+  "deploy": false
+}

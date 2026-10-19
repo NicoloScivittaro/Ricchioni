@@ -249,6 +249,7 @@ socket.on(EVT.vibrate, (ms?: number) => {
 });
 
 interface SignalPayload {
+  owner?:string;weaponId?:string;
   instability?: number;
   recovering?: boolean;
   alive?: boolean;
@@ -1442,6 +1443,12 @@ function handleFpsSignal(s: SignalPayload): void {
     case 'dash':
       fpsClient?.dashed();
       break;
+    case 'weaponShot':
+      fpsClient?.remoteShot(String(s.owner),String(s.weaponId));break;
+    case 'energyBolt':
+      fpsClient?.energyBolt(s as unknown as import('./fpsEnergyFx').EnergyLaunch);break;
+    case 'energyImpact':
+      fpsClient?.energyImpact(s as unknown as import('./fpsEnergyFx').EnergyImpact);break;
     case 'proj':
       fpsClient?.projectile(s as unknown as { ox: number; oy: number; oz: number; tx: number; ty: number; tz: number; dur: number });
       break;

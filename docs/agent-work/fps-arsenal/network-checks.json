@@ -1,0 +1,71 @@
+{
+  "scopeDelivered": true,
+  "delivered": [
+    [
+      {
+        "type": "remoteShot",
+        "arg": "4e7d9eda-1f28-45d3-957c-cffcfb455ec0"
+      },
+      {
+        "type": "energyBolt",
+        "arg": {
+          "type": "energyBolt",
+          "id": 1,
+          "ox": -20,
+          "oy": 1.5,
+          "oz": -20,
+          "dx": -0.004147376146233642,
+          "dy": 0.003626603253242057,
+          "dz": 0.9999848233948079,
+          "speed": 55,
+          "range": 60
+        }
+      },
+      {
+        "type": "energyImpact",
+        "arg": {
+          "type": "energyImpact",
+          "id": 1,
+          "x": -20.03929698695398,
+          "y": 1.534362588707897,
+          "z": -10.52499962058487,
+          "r": 1.8
+        }
+      }
+    ],
+    [
+      {
+        "type": "remoteShot",
+        "arg": "4e7d9eda-1f28-45d3-957c-cffcfb455ec0"
+      },
+      {
+        "type": "energyBolt",
+        "arg": {
+          "type": "energyBolt",
+          "id": 1,
+          "ox": -20,
+          "oy": 1.5,
+          "oz": -20,
+          "dx": -0.004147376146233642,
+          "dy": 0.003626603253242057,
+          "dz": 0.9999848233948079,
+          "speed": 55,
+          "range": 60
+        }
+      },
+      {
+        "type": "energyImpact",
+        "arg": {
+          "type": "energyImpact",
+          "id": 1,
+          "x": -20.03929698695398,
+          "y": 1.534362588707897,
+          "z": -10.52499962058487,
+          "r": 1.8
+        }
+      }
+    ]
+  ],
+  "targetHp": 20,
+  "errors": []
+}

@@ -1,3 +1,4 @@
+import {getWeapon} from '../../../shared/fpsWeapons';
 import { Rng } from '../../../shared/rng';
 import type { MinigameContext } from '../types';
 
@@ -16,6 +17,12 @@ export class BotInputs {
   protected hold(id: string, control: string, down: boolean): void {
     const input = this.ctx.input.get(id);
     if (down) input.setDown(control); else input.setUp(control);
+  }
+  protected fireWeapon(id:string,down:boolean,weaponId:string):void {
+    const w=getWeapon(weaponId);
+    if(w.fireMode!=='semi'){this.hold(id,'fire',down);return;}
+    this.hold(id,'fire',false);
+    if(down&&this.every(id,'semi:'+w.id,1/w.fireRate,1.15/w.fireRate))this.tap(id,'fire');
   }
   protected tap(id: string, control: string): void { this.ctx.input.get(id).tap(control); }
   protected move(id: string, x: number, z: number, inverted = false): void {

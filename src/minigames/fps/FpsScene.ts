@@ -118,6 +118,7 @@ interface FpsPlayer {
   recoilYaw: number;
   moving: number;
   cancelVersion: number;
+  firePressSeen:number; fireBuffer:number;
   /** Sacchetto di armi: a ogni vita se ne pesca una, e non si ripete finche' non le hai usate tutte. */
   bag: string[];
   burstLeft: number;
@@ -138,7 +139,12 @@ interface FpsPlayer {
   abKills: number; // kill fatte durante la finestra dell'abilita' (statistica)
 }
 
-/** Proiettile lento (bombarda): esplode dopo il tempo di volo nel punto d'impatto calcolato allo sparo. */
+/** Finite-speed projectile; collision is evaluated during flight. */
+interface EnergyBolt {
+  id:number; owner:PlayerId; x:number;y:number;z:number; dx:number;dy:number;dz:number;
+  remaining:number; speed:number; damage:number; splashDamage:number; radius:number;
+}
+
 interface Blast {
   x: number;
   y: number;
@@ -170,6 +176,8 @@ export class FpsScene extends Phaser.Scene {
   private radarTags: Phaser.GameObjects.Text[] = [];
   private radarNames: Phaser.GameObjects.Text[] = [];
   private blasts: Blast[] = [];
+  private energyBolts:EnergyBolt[]=[];
+  private nextBoltId=0;
   private fpsAb = new FpsAbilities();
   private clock = 0; // secondi di gioco (tempi di esplosione)
 
@@ -207,7 +215,7 @@ export class FpsScene extends Phaser.Scene {
     this.players = [];
     this.finished = false;this.winnerId=null;
     this.broadcastAcc = 0;
-    this.clock=0;this.blasts=[];
+    this.clock=0;this.blasts=[];this.energyBolts=[];this.nextBoltId=0;
     this.rankTexts = [];
     this.radarTags = [];
     this.radarNames = [];
@@ -264,6 +272,7 @@ export class FpsScene extends Phaser.Scene {
         dashDirX: 0,
         dashDirZ: 0,
         firing: false, ads: 0, heat: 0, recoilPitch: 0, recoilYaw: 0, moving: 0, cancelVersion: this.ctx.input.get(snap.id).cancellationVersion,
+        firePressSeen:this.ctx.input.get(snap.id).pressCount('fire'),fireBuffer:0,
         bag: [],
         burstLeft: 0,
         burstTimer: 0,
@@ -442,6 +451,7 @@ export class FpsScene extends Phaser.Scene {
       this.clock += sub;
       if(this.nuketown)this.nuketownBots!.step(sub,this.players,this.nuketown);else this.soloBots.fps(sub, this.players);
       for (const p of this.players) this.stepPlayer(p, sub);
+      this.stepEnergyBolts(sub);
       this.stepBlasts();
       if(this.winnerId){this.endGame();return;}
     }
@@ -486,6 +496,10 @@ export class FpsScene extends Phaser.Scene {
 
     const input = this.ctx.input.get(p.id);
     if (p.cancelVersion !== input.cancellationVersion) { this.resetAim(p); p.burstLeft = 0; p.firing = false; p.cancelVersion = input.cancellationVersion; }
+    p.fireBuffer=Math.max(0,p.fireBuffer-dt);
+    const presses=input.pressCount('fire');
+    if(presses!==p.firePressSeen){p.firePressSeen=presses;if(!noFire&&!p.reloading)p.fireBuffer=.12;}
+    if(noFire||p.reloading)p.fireBuffer=0;
     p.ads = aimBlend(p.ads, input.pressed('aim') && !noFire && !p.reloading && p.dashTime <= 0, dt);
     p.heat = Math.max(0, p.heat - dt * FPS_ADS.heatDecay);
     const recoilDecay = Math.exp(-FPS_ADS.recoilDecay * dt);
@@ -528,7 +542,7 @@ export class FpsScene extends Phaser.Scene {
       // Riscala la GRANDEZZA con la curva di risposta (mantiene la direzione): con curveExponent=1 e' l'identita',
       // quindi con i valori di default il comportamento resta ESATTAMENTE quello di prima di M6.1.
       const curved = mag > 0 ? responseCurve(mag, AIM_CONFIG.curveExponent) / mag : 0;
-      const sens = pads.settingsOf(p.id).sensitivity * aimSensitivity(p.ads); // 0.5..2 per giocatore, gia' esistente (prima inutilizzato)
+      const sens = pads.settingsOf(p.id).sensitivity * aimSensitivity(p.ads,weapon.scopeZoom? .3:FPS_ADS.sensitivity); // 0.5..2 per giocatore, gia' esistente (prima inutilizzato)
       const rateX = Math.max(-AIM_CONFIG.maxTurnSpeed, Math.min(AIM_CONFIG.maxTurnSpeed, stick.x * curved * AIM_CONFIG.sensX * sens));
       const rateY = Math.max(-AIM_CONFIG.maxTurnSpeed, Math.min(AIM_CONFIG.maxTurnSpeed, stick.y * curved * AIM_CONFIG.sensY * sens));
       p.yaw += rateX * dt;
@@ -607,10 +621,11 @@ export class FpsScene extends Phaser.Scene {
       }
     }
 
-    // Spara (hold)
-    p.firing = !noFire && input.pressed('fire');
+    // Semi fire consumes one monotonic press; holding an automatic weapon repeats.
+    p.firing = !noFire && (weapon.fireMode==='semi'?p.fireBuffer>0:input.pressed('fire'));
     if (p.firing && p.fireCooldown <= 0 && !p.reloading && p.burstLeft <= 0) {
       if (p.magazine > 0) {
+        p.fireBuffer=0;
         const burst = weapon.burst ?? 1;
         p.fireCooldown = burst / weapon.fireRate; // cadenza MEDIA: la raffica e' compressa all'inizio del ciclo
         this.fireShot(p, weapon);
@@ -624,7 +639,7 @@ export class FpsScene extends Phaser.Scene {
 
   private startReload(p: FpsPlayer, weapon: WeaponConfig): void {
     if (p.reloading || p.lockTime > 0 || p.stunTime > 0) return;
-    p.ads = 0;
+    p.ads = 0; p.fireBuffer=0;
     p.reloading = true;
     p.reloadTimer = weapon.reload;
     p.burstLeft = 0;
@@ -655,11 +670,12 @@ export class FpsScene extends Phaser.Scene {
     this.ctx.signal(p.id, { type: 'equip', weaponId: next });
   }
 
-  /** Un colpo (tutti i pallini): hitscan; la bombarda lancia invece un proiettile lento con esplosione ad area. */
+  /** One shot: ballistic weapons use hitscan; the Ray Gun launches a swept energy bolt. */
   private fireShot(p: FpsPlayer, weapon: WeaponConfig): void {
     p.spawnProtection = 0; // spara → protezione rimossa subito
     p.magazine--;
     p.shotsFired++;
+    this.ctx.signal(null,{type:'weaponShot',owner:p.id,weaponId:weapon.id});
     p.firing = true;
     // sulla TV senza split-screen solo un tick per le armi lente; con lo split-screen ogni arma ha il suo suono (BabylonFpsGame)
     if (weapon.fireRate < 4 && !this.splitScreen) audio.tick(0.75);
@@ -669,7 +685,7 @@ export class FpsScene extends Phaser.Scene {
     const oy = p.eyeHeight+p.y;
     const oz = p.z;
     const pellets = weapon.pellets ?? 1;
-    const spread = aimSpread(weapon.spread, p.ads, p.moving, p.heat) * this.fpsAb.spreadFactor(p); // Dottore dopo M'HO SVEJATO: la mira trema
+    const spread = aimSpread(weapon.spread, p.ads, p.moving, p.heat,weapon.hipSpread) * this.fpsAb.spreadFactor(p); // Dottore dopo M'HO SVEJATO: la mira trema
     const dmgMult = this.fpsAb.damageFactor(p); // Goblin dopo la ricarica perfetta: piu' danno
     const damageBy = new Map<FpsPlayer, number>(); // un solo hit/danno per bersaglio per colpo, anche con 8 pallini
     for (let i = 0; i < pellets; i++) {
@@ -680,6 +696,15 @@ export class FpsScene extends Phaser.Scene {
       const dy = Math.sin(pitch);
       const dz = Math.cos(yaw) * Math.cos(pitch);
 
+      if(weapon.projectileKind==='energy'){
+        const bolt:EnergyBolt={id:++this.nextBoltId,owner:p.id,x:ox,y:oy,z:oz,dx,dy,dz,remaining:weapon.range,speed:weapon.projectileSpeed,damage:weapon.damage*dmgMult,splashDamage:(weapon.splashDamage??0)*dmgMult,radius:weapon.splashRadius};
+        // At six players the fire rate/range allow fewer than 24 live bolts.
+        if(this.energyBolts.length>=32){const old=this.energyBolts.shift()!;this.ctx.signal(null,{type:'energyImpact',id:old.id,x:old.x,y:old.y,z:old.z,r:0});}
+        this.energyBolts.push(bolt);
+        this.ctx.signal(null,{type:'energyBolt',id:bolt.id,ox,oy,oz,dx,dy,dz,speed:bolt.speed,range:bolt.remaining});
+        segs.push({ox,oy,oz,ex:ox+dx,ey:oy+dy,ez:oz+dz});
+        continue;
+      }
       // Raggio contro ostacoli + altri giocatori
       let bestT = weapon.range;
       if(dy<0&&!this.nuketown)bestT=Math.min(bestT,Math.max(0,(.2-oy)/dy));
@@ -729,6 +754,38 @@ export class FpsScene extends Phaser.Scene {
     const dur = t / (weapon.projectileSpeed || 20);
     this.blasts.push({ x: tx, y: ty, z: tz, at: this.clock + dur, owner: p.id, dmg: weapon.damage * dmgMult, radius: weapon.splashRadius });
     this.ctx.signal(null, { type: 'proj', ox, oy: oy - 0.25, oz, tx, ty, tz, dur });
+  }
+
+  /** Sweep each real energy projectile against current bodies and map geometry. */
+  private stepEnergyBolts(dt:number):void {
+    for(let i=this.energyBolts.length-1;i>=0;i--){
+      const b=this.energyBolts[i],travel=Math.min(b.remaining,b.speed*dt);
+      let hit=this.nuketown?this.nuketown.ray(b.x,b.y,b.z,b.dx,b.dy,b.dz,travel):travel;
+      if(!this.nuketown)for(const box of FPS_MAP.obstacles){const t=rayVsAabb(b.x,b.y,b.z,b.dx,b.dy,b.dz,box);if(t!==null&&t<hit)hit=t;}
+      if(b.dy<0){const t=(.05-b.y)/b.dy;if(t>=0&&t<hit)hit=t;}
+      let victim:FpsPlayer|null=null;
+      for(const q of this.players){
+        if(q.id===b.owner||!q.alive)continue;
+        const t=rayVsAabb(b.x,b.y,b.z,b.dx,b.dy,b.dz,{x:q.x,z:q.z,w:1,d:1,base:q.y-.1,h:(q.crouching?FPS_BODY.crouched:FPS_BODY.standing)+.2});
+        if(t!==null&&t<hit){hit=t;victim=q;}
+      }
+      const collided=hit<travel;
+      const advance=Math.max(0,hit-(collided ? .025 : 0));
+      b.x+=b.dx*advance;b.y+=b.dy*advance;b.z+=b.dz*advance;b.remaining-=travel;
+      if(!collided&&b.remaining>0)continue;
+      this.energyBolts.splice(i,1);
+      this.ctx.signal(null,{type:'energyImpact',id:b.id,x:b.x,y:b.y,z:b.z,r:collided?b.radius:0});
+      const owner=this.players.find(q=>q.id===b.owner);if(!owner||!collided)continue;
+      let connected=false;
+      if(victim)connected=this.applyDamage(victim,Math.round(b.damage),owner,b);
+      for(const q of this.players){
+        if(q===victim||q.id===b.owner||!q.alive)continue;
+        const dist=Math.max(0,Math.hypot(q.x-b.x,q.y+(q.crouching ? .5 : .9)-b.y,q.z-b.z)-.4);
+        if(dist>b.radius||!(this.nuketown?this.nuketown.blastVisible(b,q):blastVisible(b,q,FPS_MAP.obstacles)))continue;
+        if(this.applyDamage(q,Math.round(b.splashDamage*(1-.7*dist/b.radius)),owner,b))connected=true;
+      }
+      if(connected)owner.shotsHit++;
+    }
   }
 
   private stepBlasts(): void {
@@ -857,6 +914,7 @@ export class FpsScene extends Phaser.Scene {
 
   private resetAim(p: FpsPlayer): void {
     p.ads = p.heat = p.recoilPitch = p.recoilYaw = p.moving = 0;
+    p.fireBuffer=0;p.firePressSeen=this.ctx.input.get(p.id).pressCount('fire');
   }
 
   private respawn(p: FpsPlayer): void {
