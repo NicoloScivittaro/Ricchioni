@@ -17,6 +17,7 @@ import { getWeapon } from '../../shared/fpsWeapons';
 import { audio } from '../core/AudioManager';
 import { applyQuality, engineOptions, getQualityLevel } from '../core/quality';
 import * as sfx from './fpsAudio';
+import {RemoteWeaponModel} from './fpsWeaponModels';
 import { FpsViewmodel, recoilOf } from './fpsViewmodel';
 import { buildFpsWorld, buildFpsLights, makeBlobShadow } from './fpsWorld';
 import { presentationOf } from '../../shared/characterPresentation';
@@ -68,6 +69,7 @@ export interface FpsStatePayload {
 }
 
 interface RemoteEntity {
+  weapon:RemoteWeaponModel;
   tripo: GoblinVisualInstance | null;
   tripoRoot: TransformNode | null;
   dashing: boolean;
@@ -98,6 +100,7 @@ interface Tracer {
 
 /** Nome e ruolo mostrati all'estrazione: cosa aspettarsi da quest'arma. */
 const ROLE: Record<string, string> = {
+  pistola:'PRECISA E MANEGGEVOLE',
   mitraglia: 'TUTTOFARE',
   spaccatutto: 'DA VICINO: DEVASTANTE',
   laser: 'PRECISIONE: 2 COLPI',
@@ -557,7 +560,7 @@ export class FpsClient {
       if (e.flashT > 0) {
         e.flashT -= dt;
         e.flash.isVisible = e.flashT > 0;
-        e.flash.position.set(e.body.position.x + Math.sin(e.yaw) * 0.75, 1.1+(e.y??0), e.body.position.z + Math.cos(e.yaw) * 0.75);
+        e.weapon.muzzle.computeWorldMatrix(true);e.flash.position.copyFrom(e.weapon.muzzle.getAbsolutePosition());
       }
     }
   }
@@ -845,7 +848,7 @@ export class FpsClient {
           if (ps.alive) e.tripo?.playHitReaction('body', .22);
         }
         e.hp = ps.hp;
-        e.weaponId = ps.weaponId;
+        e.weaponId = ps.weaponId;e.weapon.equip(ps.weaponId);e.weapon.setEnabled(ps.alive);
         e.firing = ps.firing;
         e.dashing = !!ps.dashing;
         const wasAlive = e.alive;
@@ -909,6 +912,7 @@ export class FpsClient {
     ghost.isVisible = false;
 
     const e: RemoteEntity = {
+      weapon:new RemoteWeaponModel(this.scene,body),
       tripo: null, tripoRoot: null, dashing: false,
       body,
       head,
@@ -927,6 +931,7 @@ export class FpsClient {
       firing: false,
       fireAcc: 0
     };
+    e.weapon.equip(ps.weaponId);
     const character = this.characterOf(ps.id);
     const profile = importedCharacterProfile(character);
     if (profile && importedCharacterEnabled(character)) {

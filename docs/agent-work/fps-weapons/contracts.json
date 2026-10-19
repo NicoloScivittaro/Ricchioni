@@ -1,0 +1,16 @@
+{
+  "weapons": [
+    "AK-47 DEL GOBLIN",
+    "RAY GUN V1",
+    "CECCHINO",
+    "M4A1 · RAFFICA 3X",
+    "RAY GUN",
+    "MINIGUN",
+    "USP45"
+  ],
+  "existingCombatStatsUnchanged": true,
+  "newPistol": true,
+  "originalFilesUnchanged": true,
+  "originalBytes": 92577188,
+  "optimizedBytes": 30967124
+}

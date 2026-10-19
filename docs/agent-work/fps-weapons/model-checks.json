@@ -1,0 +1,33 @@
+{
+  "assets": [
+    {
+      "id": "spaccatutto",
+      "meshes": 12
+    },
+    {
+      "id": "bombarda",
+      "meshes": 2
+    },
+    {
+      "id": "pistola",
+      "meshes": 7
+    },
+    {
+      "id": "mitraglia",
+      "meshes": 1
+    },
+    {
+      "id": "sparapiselli",
+      "meshes": 5
+    },
+    {
+      "id": "laser",
+      "meshes": 14
+    },
+    {
+      "id": "raffica",
+      "meshes": 2
+    }
+  ],
+  "errors": []
+}

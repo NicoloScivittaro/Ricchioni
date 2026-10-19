@@ -1,3 +1,4 @@
+import {RemoteWeaponModel} from '../../controller/fpsWeaponModels';
 import { Engine, Scene, Color4, Color3, StandardMaterial, MeshBuilder, Mesh, UniversalCamera, Viewport, Vector3, TransformNode, DynamicTexture, HemisphericLight, DirectionalLight, AbstractMesh } from '@babylonjs/core';
 import { AdvancedDynamicTexture, TextBlock, Rectangle, Control } from '@babylonjs/gui';
 import type { PlayerId } from '../../../shared/types';
@@ -172,6 +173,7 @@ interface Debris {
 }
 
 interface AvatarRig {
+  weapon:RemoteWeaponModel;
   body: Mesh;
   gun: Mesh;
   bodyMat: StandardMaterial;
@@ -284,7 +286,8 @@ export class BabylonFpsGame {
       camera.layerMask = (DEFAULT_LAYER_MASK & ~(0x1f << HUD_LAYER_BIT0) & ~(0x1f << VM_LAYER_BIT0) & ~(0x1f << WALL_LAYER_BIT0) & ~avatarBit(i)) | hudBit(i) | vmBit(i) | wallBit(i);
       const vm = new FpsViewmodel(this.scene, camera, false, vmBit(i));
       vm.aspect = (rects[i].w * cw) / Math.max(1, rects[i].h * ch);
-      vm.scale = locals.length >= 3 ? 0.5 : 0.58;
+      // Perspective is already relative to each viewport; do not shrink split-screen guns.
+      vm.scale = 1;
       vm.equip('mitraglia');
       const pan = Math.max(-0.6, Math.min(0.6, (rects[i].x + rects[i].w / 2) * 2 - 1));
       this.cams.push({ index: i, playerId: pid, camera, vm, pan, prevX: 0, prevZ: 0, prevYaw: 0, prevPitch: 0, weaponId: 'mitraglia', reloadAt: 0, reloadDur: 0, dashT: 0, kickP: 0, kickR: 0, shake: 0 });
@@ -319,6 +322,7 @@ export class BabylonFpsGame {
       if (!h || !r) return;
       const vpW = Math.max(2, Math.round(r.w * rw));
       const vpH = Math.max(2, Math.round(r.h * rh));
+      c.vm.aspect = vpW / vpH;
       const size = h.adt.getSize();
       if (size.width !== vpW || size.height !== vpH) h.adt.scaleTo(vpW, vpH);
       const idealH = 720 * r.h * (this.cams.length >= 3 ? 1.25 : 1);
@@ -446,7 +450,8 @@ export class BabylonFpsGame {
       });
     }
 
-    rig = { body, gun, bodyMat: mat, flash, flashT: 0, parts, wasAlive: true, deathT: 0, hitT: 0, ghost, goblin };
+    const weapon=new RemoteWeaponModel(this.scene,body,body.layerMask,gun);weapon.root.position.y=.2;flash.parent=weapon.muzzle;flash.position.set(0,0,.02);
+    rig = { weapon,body, gun, bodyMat: mat, flash, flashT: 0, parts, wasAlive: true, deathT: 0, hitT: 0, ghost, goblin };
     this.avatars.set(pid, rig);
     return rig;
   }
@@ -1073,6 +1078,7 @@ export class BabylonFpsGame {
     this.updateFx(dt);
     for (const snap of players) {
       const rig = this.ensureAvatar(snap.id, snap.color, snap.characterId ?? null, snap.avatar ?? '', snap.displayName ?? snap.name);
+      rig.weapon.equip(snap.weaponId);rig.weapon.setEnabled(snap.alive);
       // reazione all'eliminazione: la capsula si accascia per un attimo invece di sparire di colpo (solo grafica)
       if (rig.wasAlive && !snap.alive) rig.deathT = 0.45;
       rig.wasAlive = snap.alive;

@@ -102,6 +102,8 @@ export function shot(weaponId: string, opt?: SfxOpt): void {
   if (!b) return;
   const j = jit();
   switch (weaponId) {
+    case 'pistola':
+      hiss(b,'bandpass',2600,1100,.065,.22,0,1,opt);tone(b,'triangle',210*j,70,.11,.14,0,opt);break;
     case 'spaccatutto': // BUM secco + pompa "ka-ciak"
       hiss(b, 'lowpass', 1400, 300, 0.2, 0.32, 0, 0.7, opt);
       tone(b, 'sine', 130 * j, 42, 0.24, 0.34, 0, opt);

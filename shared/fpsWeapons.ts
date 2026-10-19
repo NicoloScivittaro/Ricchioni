@@ -30,7 +30,7 @@ export interface WeaponConfig {
 export const WEAPONS: WeaponConfig[] = [
   {
     id: 'mitraglia',
-    name: 'MITRAGLIA DEL GOBLIN',
+    name: 'AK-47 DEL GOBLIN',
     icon: '🔫',
     damage: 12,
     fireRate: 8,
@@ -45,7 +45,7 @@ export const WEAPONS: WeaponConfig[] = [
   },
   {
     id: 'spaccatutto',
-    name: 'SPACCATUTTO',
+    name: 'RAY GUN V1',
     icon: '💥',
     damage: 11, // per pallino
     fireRate: 1.4,
@@ -61,7 +61,7 @@ export const WEAPONS: WeaponConfig[] = [
   },
   {
     id: 'laser',
-    name: 'LASER DEL DISAGIO',
+    name: 'CECCHINO',
     icon: '🔦',
     damage: 55,
     fireRate: 1.05,
@@ -76,7 +76,7 @@ export const WEAPONS: WeaponConfig[] = [
   },
   {
     id: 'raffica',
-    name: 'RAFFICA 3X',
+    name: 'M4A1 · RAFFICA 3X',
     icon: '💨',
     damage: 22,
     fireRate: 3.2, // colpi/s medi: 3 colpi ravvicinati, poi pausa
@@ -93,7 +93,7 @@ export const WEAPONS: WeaponConfig[] = [
   },
   {
     id: 'bombarda',
-    name: 'BOMBARDA',
+    name: 'RAY GUN',
     icon: '🧨',
     damage: 75,
     fireRate: 0.9,
@@ -108,7 +108,7 @@ export const WEAPONS: WeaponConfig[] = [
   },
   {
     id: 'sparapiselli',
-    name: 'SPARAPISELLI TURBO',
+    name: 'MINIGUN',
     icon: '🫛',
     damage: 6,
     fireRate: 14,
@@ -120,7 +120,8 @@ export const WEAPONS: WeaponConfig[] = [
     splashRadius: 0,
     movementModifier: 1.05,
     difficulty: 'FACILE'
-  }
+  },
+  {id:'pistola',name:'USP45',icon:'🔫',damage:24,fireRate:3.5,range:32,spread:.015,magazine:12,reload:1.35,projectileSpeed:0,splashRadius:0,movementModifier:1.03,difficulty:'FACILE'}
 ];
 
 export function getWeapon(id: string): WeaponConfig {

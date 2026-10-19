@@ -1,0 +1,198 @@
+[
+  {
+    "id": "usp45",
+    "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\mwr_usp45.glb",
+    "sha256": "f761b4f13229ee811afe971d15752a4b4ccc3dd662198767f7fd961e424150fc",
+    "originalBytes": 2139712,
+    "bytes": 2066856,
+    "sourceBoundsBlender": [
+      [
+        -0.010099546983838081,
+        -0.440669447183609,
+        -0.0660175085067749
+      ],
+      [
+        0.041849471628665924,
+        -0.01631583459675312,
+        0.11799094080924988
+      ]
+    ],
+    "sourceForwardAxis": 1,
+    "sourceForwardSign": -1,
+    "length": 0.4,
+    "muzzle": [
+      0,
+      0.17,
+      0.30000000000000004
+    ],
+    "resizedTextures": 0
+  },
+  {
+    "id": "raygun",
+    "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\ray_gun_-_call_of_duty.glb",
+    "sha256": "c79a243fee2a5a3922e0988d005d5c489f1684bca8c424ab6dcc0ea71bc9a20b",
+    "originalBytes": 2435688,
+    "bytes": 1070508,
+    "sourceBoundsBlender": [
+      [
+        -0.3639029860496521,
+        -1.5303939580917358,
+        0.0009263957617804408
+      ],
+      [
+        0.3639029860496521,
+        1.5813848972320557,
+        1.7932665348052979
+      ]
+    ],
+    "sourceForwardAxis": 1,
+    "sourceForwardSign": 1,
+    "length": 0.5,
+    "muzzle": [
+      0,
+      0.17,
+      0.375
+    ],
+    "resizedTextures": 1
+  },
+  {
+    "id": "raygun-v1",
+    "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\ray_gun_v1.glb",
+    "sha256": "db4d8af6d6806c610995177c18691b4c9cd0bcfc7b476b721a0b09cf0bebfea2",
+    "originalBytes": 1141576,
+    "bytes": 938808,
+    "sourceBoundsBlender": [
+      [
+        -0.9449554681777954,
+        -5.04520845413208,
+        -4.111837863922119
+      ],
+      [
+        0.9047593474388123,
+        3.6453661918640137,
+        1.58168625831604
+      ]
+    ],
+    "sourceForwardAxis": 1,
+    "sourceForwardSign": -1,
+    "length": 0.5,
+    "muzzle": [
+      0,
+      0.17,
+      0.375
+    ],
+    "resizedTextures": 0
+  },
+  {
+    "id": "sniper",
+    "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\sniper.glb",
+    "sha256": "58ec8a38784f4806b45ae83ccf2cb10c90af7fb6b3f3516f3a64b2b2eb20da40",
+    "originalBytes": 5829228,
+    "bytes": 5274720,
+    "sourceBoundsBlender": [
+      [
+        -3.2790775299072266,
+        -15.058154106140137,
+        -4.816575050354004
+      ],
+      [
+        3.2921974658966064,
+        38.28296661376953,
+        5.863096237182617
+      ]
+    ],
+    "sourceForwardAxis": 1,
+    "sourceForwardSign": 1,
+    "length": 0.85,
+    "muzzle": [
+      0,
+      0.17,
+      0.6375
+    ],
+    "resizedTextures": 1
+  },
+  {
+    "id": "minigun",
+    "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\call_of_duty_modern_warfare_2019_minigun.glb",
+    "sha256": "c684320c4bf42b859b6181f4408b6e4f24c1b689cbfec64391a3c81364b7dec0",
+    "originalBytes": 10716316,
+    "bytes": 5042380,
+    "sourceBoundsBlender": [
+      [
+        -8.514850616455078,
+        -2.343876600265503,
+        -2.7064692974090576
+      ],
+      [
+        8.136466979980469,
+        2.3434622287750244,
+        1.43631112575531
+      ]
+    ],
+    "sourceForwardAxis": 0,
+    "sourceForwardSign": 1,
+    "length": 0.65,
+    "muzzle": [
+      0,
+      0.17,
+      0.48750000000000004
+    ],
+    "resizedTextures": 2
+  },
+  {
+    "id": "m4a1",
+    "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\custom_m4a1_cod_warzone.glb",
+    "sha256": "df87c489ea4a94cfa0aa79c6c75d40bf17d10736b16aab89308d783fffe5dff1",
+    "originalBytes": 31003212,
+    "bytes": 12057780,
+    "sourceBoundsBlender": [
+      [
+        -3.4779584407806396,
+        -43.987796783447266,
+        -18.112491607666016
+      ],
+      [
+        3.4318485260009766,
+        32.55510711669922,
+        8.518640518188477
+      ]
+    ],
+    "sourceForwardAxis": 1,
+    "sourceForwardSign": -1,
+    "length": 0.65,
+    "muzzle": [
+      0,
+      0.17,
+      0.48750000000000004
+    ],
+    "resizedTextures": 6
+  },
+  {
+    "id": "ak47",
+    "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\ak-47__-_game_ready_assault_rifle_weapon.glb",
+    "sha256": "7839e911662f317137d434010c24ff165cd11c101c2b441583cd79760ee65ff4",
+    "originalBytes": 39311456,
+    "bytes": 4516072,
+    "sourceBoundsBlender": [
+      [
+        -0.5004797577857971,
+        -0.032780081033706665,
+        -0.15047277510166168
+      ],
+      [
+        0.5004797577857971,
+        0.032780081033706665,
+        0.15047277510166168
+      ]
+    ],
+    "sourceForwardAxis": 0,
+    "sourceForwardSign": 1,
+    "length": 0.65,
+    "muzzle": [
+      0,
+      0.17,
+      0.48750000000000004
+    ],
+    "resizedTextures": 3
+  }
+]

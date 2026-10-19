@@ -1,0 +1,27 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "bytes": "964"
+  },
+  {
+    "path": "/fps-weapons/",
+    "status": 200,
+    "bytes": "1499"
+  },
+  {
+    "path": "/fps-weapons/framing-1-views.png",
+    "status": 200,
+    "bytes": "297016"
+  },
+  {
+    "path": "/fps-weapons/framing-5-views.png",
+    "status": 200,
+    "bytes": "387136"
+  },
+  {
+    "path": "/assets/fps/weapons/m4a1.glb",
+    "status": 200,
+    "bytes": "12057780"
+  }
+]

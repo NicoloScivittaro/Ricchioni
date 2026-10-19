@@ -68,3 +68,31 @@
 18:23:04 [MINIGAME] [CQLRG] cornicione saltato senza punti (fase MINIGAME_PLAYING)
 18:23:04 [ROUND] [CQLRG] #1 (id 7) → memory · 5 giocatori
 18:23:14 [MINIGAME] [CQLRG] memory via (id 7)
+18:27:14 [ERROR] [CQLRG] rete di sicurezza: memory non ha risposto in tempo
+18:27:14 [MINIGAME] [CQLRG] memory saltato senza punti (fase MINIGAME_PLAYING)
+18:27:14 [ROUND] [CQLRG] #1 (id 8) → soccer · 5 giocatori
+18:27:23 [MINIGAME] [CQLRG] soccer via (id 8)
+18:33:23 [ERROR] [CQLRG] rete di sicurezza: soccer non ha risposto in tempo
+18:33:23 [MINIGAME] [CQLRG] soccer saltato senza punti (fase MINIGAME_PLAYING)
+18:33:23 [ROUND] [CQLRG] #1 (id 9) → arena · 5 giocatori
+18:33:33 [MINIGAME] [CQLRG] arena via (id 9)
+18:38:33 [ERROR] [CQLRG] rete di sicurezza: arena non ha risposto in tempo
+18:38:33 [MINIGAME] [CQLRG] arena saltato senza punti (fase MINIGAME_PLAYING)
+18:38:33 [ROUND] [CQLRG] #1 (id 10) → backrooms · 5 giocatori
+18:38:58 [MINIGAME] [CQLRG] backrooms via (id 10)
+18:53:58 [ERROR] [CQLRG] rete di sicurezza: backrooms non ha risposto in tempo
+18:53:58 [MINIGAME] [CQLRG] backrooms saltato senza punti (fase MINIGAME_PLAYING)
+18:53:58 [ROUND] [CQLRG] #1 (id 11) → cultura · 5 giocatori
+18:54:07 [MINIGAME] [CQLRG] cultura via (id 11)
+19:09:07 [ERROR] [CQLRG] rete di sicurezza: cultura non ha risposto in tempo
+19:09:07 [MINIGAME] [CQLRG] cultura saltato senza punti (fase MINIGAME_PLAYING)
+19:09:07 [ROUND] [CQLRG] #1 (id 12) → casacarbo · 5 giocatori
+19:09:17 [MINIGAME] [CQLRG] casacarbo via (id 12)
+19:14:17 [MINIGAME] [CQLRG] casacarbo saltato senza punti (fase MINIGAME_PLAYING)
+19:14:17 [ERROR] [CQLRG] rete di sicurezza: casacarbo non ha risposto in tempo
+19:14:17 [ROUND] [CQLRG] #1 (id 13) → dodgeball · 5 giocatori
+19:14:27 [MINIGAME] [CQLRG] dodgeball via (id 13)
+19:18:27 [ERROR] [CQLRG] rete di sicurezza: dodgeball non ha risposto in tempo
+19:18:27 [MINIGAME] [CQLRG] dodgeball saltato senza punti (fase MINIGAME_PLAYING)
+19:18:27 [ROUND] [CQLRG] #1 (id 14) → quiz · 5 giocatori
+19:18:36 [MINIGAME] [CQLRG] quiz via (id 14)

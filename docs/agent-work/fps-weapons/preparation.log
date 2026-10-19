@@ -1,0 +1,183 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+20:46:34 | INFO: Data are loaded, start creating Blender stuff
+20:46:34 | INFO: Blender create Mesh node Object_0
+20:46:35 | INFO: Blender create Mesh node Object_1
+20:46:35 | INFO: Blender create Mesh node Object_2
+20:46:35 | INFO: Blender create Mesh node Object_3
+20:46:35 | INFO: Blender create Mesh node Object_4
+20:46:35 | INFO: Blender create Mesh node Object_5
+20:46:35 | INFO: Blender create Mesh node Object_6
+20:46:35 | INFO: glTF import finished in 0.11s
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+20:46:35 | INFO: Starting glTF 2.0 export
+20:46:35 | INFO: Extracting primitive: Object_0.001
+20:46:35 | INFO: Primitives created: 7
+20:46:35 | INFO: Finished glTF 2.0 export in 0.1464095115661621 s
+
+WEAPON_RESULT {"id": "usp45", "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\mwr_usp45.glb", "sha256": "f761b4f13229ee811afe971d15752a4b4ccc3dd662198767f7fd961e424150fc", "originalBytes": 2139712, "bytes": 2066856, "sourceBoundsBlender": [[-0.010099546983838081, -0.440669447183609, -0.0660175085067749], [0.041849471628665924, -0.01631583459675312, 0.11799094080924988]], "sourceForwardAxis": 1, "sourceForwardSign": -1, "length": 0.4, "muzzle": [0, 0.17, 0.30000000000000004], "resizedTextures": 0}
+20:46:35 | INFO: Data are loaded, start creating Blender stuff
+20:46:35 | INFO: Blender create Mesh node LP_RayGun_Material_0
+20:46:35 | INFO: glTF import finished in 0.08s
+Warning: No mesh data to join
+20:46:36 | INFO: Starting glTF 2.0 export
+20:46:36 | INFO: Extracting primitive: LP_RayGun_Material_0.001
+20:46:36 | INFO: Primitives created: 1
+20:46:36 | INFO: Finished glTF 2.0 export in 0.018069744110107422 s
+
+WEAPON_RESULT {"id": "raygun", "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\ray_gun_-_call_of_duty.glb", "sha256": "c79a243fee2a5a3922e0988d005d5c489f1684bca8c424ab6dcc0ea71bc9a20b", "originalBytes": 2435688, "bytes": 1070508, "sourceBoundsBlender": [[-0.3639029860496521, -1.5303939580917358, 0.0009263957617804408], [0.3639029860496521, 1.5813848972320557, 1.7932665348052979]], "sourceForwardAxis": 1, "sourceForwardSign": 1, "length": 0.5, "muzzle": [0, 0.17, 0.375], "resizedTextures": 1}
+20:46:36 | INFO: Data are loaded, start creating Blender stuff
+20:46:36 | INFO: Blender create Mesh node Object_0
+20:46:36 | INFO: Blender create Mesh node Object_1
+20:46:36 | INFO: Blender create Mesh node Object_2
+20:46:36 | INFO: Blender create Mesh node Object_3
+20:46:36 | INFO: Blender create Mesh node Object_4
+20:46:36 | INFO: Blender create Mesh node Object_5
+20:46:36 | INFO: Blender create Mesh node Object_6
+20:46:36 | INFO: Blender create Mesh node Object_7
+20:46:36 | INFO: Blender create Mesh node Object_8
+20:46:36 | INFO: Blender create Mesh node Object_9
+20:46:36 | INFO: Blender create Mesh node Object_10
+20:46:36 | INFO: Blender create Mesh node Object_11
+20:46:36 | INFO: Blender create Mesh node Object_12
+20:46:36 | INFO: Blender create Mesh node Object_13
+20:46:36 | INFO: Blender create Mesh node Object_14
+20:46:36 | INFO: Blender create Mesh node Object_15
+20:46:36 | INFO: Blender create Mesh node Object_16
+20:46:36 | INFO: Blender create Mesh node Object_17
+20:46:36 | INFO: Blender create Mesh node Object_18
+20:46:36 | INFO: Blender create Mesh node Object_19
+20:46:36 | INFO: Blender create Mesh node Object_20
+20:46:36 | INFO: Blender create Mesh node Object_21
+20:46:36 | INFO: Blender create Mesh node Object_22
+20:46:36 | INFO: Blender create Mesh node Object_23
+20:46:36 | INFO: Blender create Mesh node Object_24
+20:46:36 | INFO: Blender create Mesh node Object_25
+20:46:36 | INFO: Blender create Mesh node Object_26
+20:46:36 | INFO: Blender create Mesh node Object_27
+20:46:36 | INFO: Blender create Mesh node Object_28
+20:46:36 | INFO: Blender create Mesh node Object_29
+20:46:36 | INFO: Blender create Mesh node Object_30
+20:46:36 | INFO: Blender create Mesh node Object_31
+20:46:36 | INFO: Blender create Mesh node Object_32
+20:46:36 | INFO: Blender create Mesh node Object_33
+20:46:36 | INFO: Blender create Mesh node Object_34
+20:46:36 | INFO: Blender create Mesh node Object_35
+20:46:36 | INFO: Blender create Mesh node Object_36
+20:46:36 | INFO: Blender create Mesh node Object_37
+20:46:36 | INFO: Blender create Mesh node Object_38
+20:46:36 | INFO: Blender create Mesh node Object_39
+20:46:36 | INFO: Blender create Mesh node Object_40
+20:46:36 | INFO: Blender create Mesh node Object_41
+20:46:36 | INFO: Blender create Mesh node Object_42
+20:46:36 | INFO: Blender create Mesh node Object_43
+20:46:36 | INFO: Blender create Mesh node Object_44
+20:46:36 | INFO: Blender create Mesh node Object_45
+20:46:36 | INFO: Blender create Mesh node Object_46
+20:46:36 | INFO: Blender create Mesh node Object_47
+20:46:36 | INFO: Blender create Mesh node Object_48
+20:46:36 | INFO: Blender create Mesh node Object_49
+20:46:36 | INFO: Blender create Mesh node Object_50
+20:46:36 | INFO: Blender create Mesh node Object_51
+20:46:36 | INFO: Blender create Mesh node Object_52
+20:46:36 | INFO: Blender create Mesh node Object_53
+20:46:36 | INFO: glTF import finished in 0.24s
+20:46:36 | INFO: Starting glTF 2.0 export
+20:46:36 | INFO: Extracting primitive: Object_0.001
+20:46:36 | INFO: Primitives created: 12
+20:46:36 | INFO: Finished glTF 2.0 export in 0.09435153007507324 s
+
+WEAPON_RESULT {"id": "raygun-v1", "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\ray_gun_v1.glb", "sha256": "db4d8af6d6806c610995177c18691b4c9cd0bcfc7b476b721a0b09cf0bebfea2", "originalBytes": 1141576, "bytes": 938808, "sourceBoundsBlender": [[-0.9449554681777954, -5.04520845413208, -4.111837863922119], [0.9047593474388123, 3.6453661918640137, 1.58168625831604]], "sourceForwardAxis": 1, "sourceForwardSign": -1, "length": 0.5, "muzzle": [0, 0.17, 0.375], "resizedTextures": 0}
+20:46:37 | INFO: Data are loaded, start creating Blender stuff
+20:46:37 | INFO: Blender create Mesh node Object_0
+20:46:37 | INFO: Blender create Mesh node Object_1
+20:46:37 | INFO: Blender create Mesh node Object_2
+20:46:37 | INFO: Blender create Mesh node Object_3
+20:46:37 | INFO: Blender create Mesh node Object_4
+20:46:37 | INFO: Blender create Mesh node Object_5
+20:46:37 | INFO: Blender create Mesh node Object_6
+20:46:37 | INFO: Blender create Mesh node Object_7
+20:46:37 | INFO: Blender create Mesh node Object_8
+20:46:37 | INFO: Blender create Mesh node Object_9
+20:46:37 | INFO: Blender create Mesh node Object_10
+20:46:37 | INFO: Blender create Mesh node Object_11
+20:46:37 | INFO: Blender create Mesh node Object_12
+20:46:37 | INFO: Blender create Mesh node Object_13
+20:46:37 | INFO: glTF import finished in 0.31s
+20:46:38 | INFO: Starting glTF 2.0 export
+20:46:38 | INFO: Extracting primitive: Object_0.001
+20:46:38 | INFO: Primitives created: 14
+20:46:38 | INFO: Finished glTF 2.0 export in 0.10781717300415039 s
+
+WEAPON_RESULT {"id": "sniper", "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\sniper.glb", "sha256": "58ec8a38784f4806b45ae83ccf2cb10c90af7fb6b3f3516f3a64b2b2eb20da40", "originalBytes": 5829228, "bytes": 5274720, "sourceBoundsBlender": [[-3.2790775299072266, -15.058154106140137, -4.816575050354004], [3.2921974658966064, 38.28296661376953, 5.863096237182617]], "sourceForwardAxis": 1, "sourceForwardSign": 1, "length": 0.85, "muzzle": [0, 0.17, 0.6375], "resizedTextures": 1}
+20:46:38 | INFO: Data are loaded, start creating Blender stuff
+20:46:38 | INFO: Blender create Mesh node Minigun_smd_MinigunBarrel_0
+20:46:38 | INFO: Blender create Mesh node Minigun_smd_MinigunTexture_0
+20:46:38 | INFO: Blender create Mesh node Minigun_smd_Black_0
+20:46:38 | INFO: Blender create Mesh node Minigun_smd_MinigunGrip_0
+20:46:38 | INFO: glTF import finished in 0.40s
+20:46:39 | INFO: Starting glTF 2.0 export
+20:46:39 | INFO: Extracting primitive: Minigun_smd_MinigunBarrel_0.001
+20:46:39 | INFO: Primitives created: 4
+20:46:39 | INFO: Finished glTF 2.0 export in 0.1226491928100586 s
+
+WEAPON_RESULT {"id": "minigun", "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\call_of_duty_modern_warfare_2019_minigun.glb", "sha256": "c684320c4bf42b859b6181f4408b6e4f24c1b689cbfec64391a3c81364b7dec0", "originalBytes": 10716316, "bytes": 5042380, "sourceBoundsBlender": [[-8.514850616455078, -2.343876600265503, -2.7064692974090576], [8.136466979980469, 2.3434622287750244, 1.43631112575531]], "sourceForwardAxis": 0, "sourceForwardSign": 1, "length": 0.65, "muzzle": [0, 0.17, 0.48750000000000004], "resizedTextures": 2}
+20:46:39 | INFO: Data are loaded, start creating Blender stuff
+20:46:39 | INFO: Blender create Mesh node Object_0
+20:46:39 | INFO: Blender create Mesh node Object_1
+20:46:39 | INFO: glTF import finished in 0.35s
+20:46:41 | INFO: Starting glTF 2.0 export
+20:46:41 | INFO: Extracting primitive: Object_0.001
+20:46:41 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+20:46:41 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+20:46:41 | INFO: Primitives created: 2
+20:46:41 | INFO: Finished glTF 2.0 export in 0.16570758819580078 s
+
+WEAPON_RESULT {"id": "m4a1", "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\custom_m4a1_cod_warzone.glb", "sha256": "df87c489ea4a94cfa0aa79c6c75d40bf17d10736b16aab89308d783fffe5dff1", "originalBytes": 31003212, "bytes": 12057780, "sourceBoundsBlender": [[-3.4779584407806396, -43.987796783447266, -18.112491607666016], [3.4318485260009766, 32.55510711669922, 8.518640518188477]], "sourceForwardAxis": 1, "sourceForwardSign": -1, "length": 0.65, "muzzle": [0, 0.17, 0.48750000000000004], "resizedTextures": 6}
+20:46:42 | INFO: Data are loaded, start creating Blender stuff
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: Blender create Mesh node defaultMaterial
+20:46:42 | INFO: glTF import finished in 0.11s
+20:46:44 | INFO: Starting glTF 2.0 export
+20:46:44 | INFO: Extracting primitive: defaultMaterial.031
+20:46:44 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+20:46:44 | INFO: Primitives created: 1
+20:46:44 | INFO: Finished glTF 2.0 export in 0.03835177421569824 s
+
+WEAPON_RESULT {"id": "ak47", "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\ak-47__-_game_ready_assault_rifle_weapon.glb", "sha256": "7839e911662f317137d434010c24ff165cd11c101c2b441583cd79760ee65ff4", "originalBytes": 39311456, "bytes": 4516072, "sourceBoundsBlender": [[-0.5004797577857971, -0.032780081033706665, -0.15047277510166168], [0.5004797577857971, 0.032780081033706665, 0.15047277510166168]], "sourceForwardAxis": 0, "sourceForwardSign": 1, "length": 0.65, "muzzle": [0, 0.17, 0.48750000000000004], "resizedTextures": 3}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

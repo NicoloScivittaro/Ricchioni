@@ -8,12 +8,13 @@ import {
   TransformNode,
   Vector3
 } from '@babylonjs/core';
+import {attachWeaponModel,FPS_WEAPON_MODELS} from './fpsWeaponModels';
 import { FPS_ADS } from '../../shared/fpsAim';
 import type { Scene, UniversalCamera } from '@babylonjs/core';
 
 /**
  * VIEWMODEL DELLA SPARATORIA: l'arma in prima persona.
- *  - un modello diverso per ogni arma (solo primitive: leggero anche sui telefoni economici)
+ *  - un modello diverso per ogni arma (modelli GLB originali ottimizzati, geometria condivisa fra le visuali)
  *  - rinculo con MOLLE (rigidezza/smorzamento diversi per arma: la mitraglia vibra veloce, la bombarda "pesa")
  *  - idle (respiro), bob del passo, sway sul movimento della camera, estrazione, ricarica, reazione al dash
  *  - muzzle flash + scintille + fumo con POOL (nessuna allocazione per colpo) e luce puntuale solo su qualita' HIGH
@@ -55,12 +56,17 @@ export const RECOIL: Record<string, RecoilProfile> = {
   sparapiselli: { back: 0.07, up: 0.25, side: 0.05, k: 520, c: 16, camPitch: 0.0008, camYaw: 0, flash: 0.22, color: [0.6, 1, 0.5], smoke: false, sparks: 1, wobble: 5, buzz: 0, tracer: { color: [0.55, 1, 0.45], thick: 0.035, life: 0.05 } }
 };
 
+RECOIL.pistola={...RECOIL.raffica,back:.6,up:2.2,side:.055,buzz:18,flash:.3,sparks:3};
+
 export function recoilOf(weaponId: string): RecoilProfile {
   return RECOIL[weaponId] ?? RECOIL.mitraglia;
 }
 
 interface WeaponModel {
   root: TransformNode;
+  ready?:Promise<boolean>;
+  sightY?:number;
+  imported?:TransformNode;
   muzzle: TransformNode;
   mag?: Mesh;
   magBaseY: number;
@@ -89,9 +95,9 @@ function mat(scene: Scene, hex: string, emissive?: string): StandardMaterial {
 }
 
 // posizione di riposo dell'arma (nel riquadro della camera): in basso, verso il centro-destra, TRA joystick e pulsanti
-const BASE_X = 0.18;
-const BASE_Y = -0.15;
-const BASE_Z = 0.56;
+const BASE_X = 0.24;
+const BASE_Y = -0.22;
+const BASE_Z = 0.22;
 
 const smooth = (t: number): number => t * t * (3 - 2 * t);
 const clamp01 = (t: number): number => Math.max(0, Math.min(1, t));
@@ -104,8 +110,10 @@ function easeOutBack(t: number): number {
 
 export class FpsViewmodel {
   private holder: TransformNode;
+  private readonly muzzleCamera = new Vector3();
   private models = new Map<string, WeaponModel>();
   private current: WeaponModel | null = null;
+  private disposed=false;
   private weaponId = '';
 
   // molle del rinculo (offset e velocita')
@@ -160,7 +168,7 @@ export class FpsViewmodel {
    * `layerMask`: solo per lo split-screen della TV (piu' camere nella stessa scena): ogni mesh del viewmodel porta il bit della
    * SUA camera, cosi' le altre finestre non la vedono. Sul telefono resta quella di default (una camera sola).
    */
-  constructor(private scene: Scene, camera: UniversalCamera, highQuality: boolean, private layerMask?: number) {
+  constructor(private scene: Scene, private camera: UniversalCamera, highQuality: boolean, private layerMask?: number) {
     this.holder = new TransformNode('vmHolder', scene);
     this.holder.parent = camera;
     this.holder.position.set(BASE_X, BASE_Y, BASE_Z);
@@ -379,6 +387,12 @@ export class FpsViewmodel {
     if (!m) {
       m = this.build(weaponId);
       this.models.set(weaponId, m);
+      const model=m,fallback=m.root.getChildMeshes();
+      m.ready=attachWeaponModel(this.scene,weaponId,m.root,this.layerMask).then(v=>{
+        if(this.disposed||model.root.isDisposed()){v.root.dispose();return false;}
+        model.imported=v.root;model.sightY=v.sightY;for(const mesh of fallback)mesh.setEnabled(false);
+        model.muzzle.position.set(0,.17,FPS_WEAPON_MODELS[weaponId].length*.75);return true;
+      }).catch(e=>{if(!this.disposed&&!this.scene.isDisposed)console.warn('Weapon model unavailable',weaponId,e);return false;});
     }
     if (this.current) this.current.root.setEnabled(false);
     this.current = m;
@@ -391,6 +405,9 @@ export class FpsViewmodel {
     this.equipT = 0;
     this.z = this.vz = this.y = this.vy = this.rx = this.vrx = this.rz = this.vrz = this.x = this.vx = 0;
   }
+
+  /** Resolves when the currently equipped original model is visible. */
+  whenReady():Promise<boolean>{return this.current?.ready??Promise.resolve(false);}
 
   // ---------------------------------------------------------------- eventi
 
@@ -415,13 +432,20 @@ export class FpsViewmodel {
       this.light.diffuse.set(p.color[0], p.color[1], p.color[2]);
       this.lightK = 1;
     }
+    // The close-up framing and ADS move the muzzle; particles follow its actual
+    // camera-space position instead of a fixed offset at the hip.
+    if (this.current) {
+      this.holder.computeWorldMatrix(true);
+      Vector3.TransformCoordinatesToRef(this.current.muzzle.position, this.current.root.computeWorldMatrix(true), this.muzzleCamera);
+      Vector3.TransformCoordinatesToRef(this.muzzleCamera, this.camera.getViewMatrix(), this.muzzleCamera);
+    }
     // scintille dal vivo di volata (coordinate della camera)
     let n = p.sparks;
     for (const sp of this.sparks) {
       if (n <= 0) break;
       if (sp.life > 0) continue;
       sp.life = 0.12 + Math.random() * 0.08;
-      sp.m.position.set(BASE_X + 0.01, BASE_Y + 0.02, BASE_Z + 0.44);
+      sp.m.position.copyFrom(this.muzzleCamera);
       sp.vx = (Math.random() - 0.3) * 1.6;
       sp.vy = (Math.random() - 0.4) * 1.2;
       sp.vz = 1 + Math.random() * 1.4;
@@ -432,7 +456,7 @@ export class FpsViewmodel {
       for (const sm of this.smokes) {
         if (sm.life > 0) continue;
         sm.life = 0.55;
-        sm.m.position.set(BASE_X, BASE_Y + 0.03, BASE_Z + 0.42);
+        sm.m.position.copyFrom(this.muzzleCamera);
         sm.m.scaling.setAll(0.3);
         sm.m.isVisible = true;
         break;
@@ -565,14 +589,19 @@ export class FpsViewmodel {
       for (let i = 0; i < m.glow.length; i++) m.glowBase[i].scaleToRef(gk, m.glow[i].emissiveColor);
     }
 
+    // Keep the stock close to the near plane: the perspective fills the lower
+    // right corner while the barrel converges toward the reticle. Each weapon
+    // keeps its authored proportions, including the shorter pistols.
+    const weaponLength = FPS_WEAPON_MODELS[this.weaponId]?.length ?? 0.65;
+    const restZ = weaponLength * 0.25 * m.root.scaling.z * this.scale + 0.065;
     this.holder.position.set(
       BASE_X * Math.max(0.3, Math.min(1, this.aspect / 1.9)) * (1 - this.ads) + (bobX + this.swayX + this.x) * (1 - this.ads * 0.9),
-      BASE_Y * (1 - this.ads) - 0.17 * m.root.scaling.y * this.scale * this.ads + bobY * (1 - this.ads * 0.9) + eoY + rdY + this.y * 0.5 - 0.03 * dk,
-      BASE_Z + this.z - 0.07 * dk
+      BASE_Y * (1 - this.ads) - (m.sightY??0.17) * m.root.scaling.y * this.scale * this.ads + bobY * (1 - this.ads * 0.9) + eoY + rdY + this.y * 0.5 - 0.03 * dk,
+      restZ + this.ads * 0.10 + this.z - 0.025 * dk
     );
     this.holder.rotation.x = this.rx * (1 - this.ads * 0.9) + eoRx + rdRx + 0.04 * dk;
     this.holder.rotation.z = (-this.swayY * 4 + this.rz) * (1 - this.ads * 0.9) + rdRz + 0.3 * dk;
-    this.holder.rotation.y = (-0.07 - this.x * 0.6) * (1 - this.ads); // la canna punta un filo verso il centro
+    this.holder.rotation.y = (-0.18 - this.x * 0.6) * (1 - this.ads); // la canna punta un filo verso il centro
     this.holder.scaling.setAll(this.scale);
     if (this.scale !== 1) this.holder.position.y -= 0.04 * (1 - this.scale) * (1 - this.ads);
 
@@ -615,6 +644,7 @@ export class FpsViewmodel {
 
   dispose(): void {
     // le mesh appartengono alla scena, che viene distrutta dal client
+    this.disposed=true;
     this.models.clear();
     this.current = null;
     this.light = null;
