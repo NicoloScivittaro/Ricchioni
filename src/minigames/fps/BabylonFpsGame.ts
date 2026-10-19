@@ -1,3 +1,4 @@
+import {FPS_BODY,FPS_KILL_TARGET} from '../../../shared/fpsRules';
 import {RemoteWeaponModel} from '../../controller/fpsWeaponModels';
 import { Engine, Scene, Color4, Color3, StandardMaterial, MeshBuilder, Mesh, UniversalCamera, Viewport, Vector3, TransformNode, DynamicTexture, HemisphericLight, DirectionalLight, AbstractMesh } from '@babylonjs/core';
 import { AdvancedDynamicTexture, TextBlock, Rectangle, Control } from '@babylonjs/gui';
@@ -59,6 +60,7 @@ const GOBLIN_FPS_WALK_SPEED = 9;
  */
 
 export interface FpsRenderSnapshot {
+  crouching?:boolean;grounded?:boolean;eyeHeight?:number;
   id: PlayerId;
   name: string;
   color: string;
@@ -135,6 +137,7 @@ interface CamRig {
   kickP: number;
   kickR: number;
   shake: number;
+  eyeHeight?:number;
 }
 
 interface Tracer {
@@ -1011,7 +1014,8 @@ export class BabylonFpsGame {
     cam.shake = Math.max(0, cam.shake - dt * 2.5);
     if (!snap.alive) return;
     const sh = cam.shake * 0.1;
-    cam.camera.position.set(snap.x + (Math.random() - 0.5) * sh, EYE_HEIGHT + (snap.y??0) + (Math.random() - 0.5) * sh, snap.z + (Math.random() - 0.5) * sh);
+    cam.eyeHeight=(cam.eyeHeight??FPS_BODY.eye)+((snap.eyeHeight??FPS_BODY.eye)-(cam.eyeHeight??FPS_BODY.eye))*(1-Math.exp(-20*dt));
+    cam.camera.position.set(snap.x + (Math.random() - 0.5) * sh, (cam.eyeHeight??FPS_BODY.eye) + (snap.y??0) + (Math.random() - 0.5) * sh, snap.z + (Math.random() - 0.5) * sh);
     cam.camera.rotation.y = snap.yaw + snap.recoilYaw;
     cam.camera.rotation.x = -(Math.max(-1.4, Math.min(1.4, snap.pitch + snap.recoilPitch)) + cam.kickP);
     cam.camera.rotation.z = cam.kickR;
@@ -1108,7 +1112,7 @@ export class BabylonFpsGame {
       this.lastPos.set(snap.id, { x: snap.x, z: snap.z });
       rig.body.setEnabled(snap.alive || rig.deathT > 0);
       if (snap.alive) {
-        rig.body.position.y=.9+(snap.y??0);
+        rig.body.position.y=.9*(snap.crouching?FPS_BODY.crouched/FPS_BODY.standing:1)+(snap.y??0);
         rig.body.position.x = snap.x;
         rig.body.position.z = snap.z;
         rig.body.rotation.y = snap.yaw;
@@ -1119,11 +1123,12 @@ export class BabylonFpsGame {
         const gp = this.goblinPose;
         gp.speedFrac = Math.min(1, speed / GOBLIN_FPS_WALK_SPEED);
         gp.alive = snap.alive;
-        gp.falling = false;
+        gp.falling = snap.grounded===false;
         gp.dashing = false; // la Sparatoria non ha scatto in avanti: nessuna posa dedicata
         gp.stunned = !snap.alive;
         rig.goblin.update(dt, gp);
       }
+      if(snap.alive&&snap.crouching)rig.body.scaling.y*=FPS_BODY.crouched/FPS_BODY.standing;
       const cam = this.cams.find((c) => c.playerId === snap.id);
       if (cam) this.updateCam(cam, snap, dt);
       const h = this.hud.get(snap.id);
@@ -1134,7 +1139,7 @@ export class BabylonFpsGame {
       h.hpText.text = `${Math.max(0, Math.round(snap.hp))}`;
       const w = getWeapon(snap.weaponId);
       h.ammoText.text = snap.reloading ? `${w.icon} RICARICO…` : `${w.icon} ${snap.magazine}/${w.magazine}`;
-      h.killText.text = `${snap.kills} kill`;
+      h.killText.text = `${snap.kills}/${FPS_KILL_TARGET} kill`;
 
       if (h.hitmarkerTimer > 0) {
         h.hitmarkerTimer -= dt;

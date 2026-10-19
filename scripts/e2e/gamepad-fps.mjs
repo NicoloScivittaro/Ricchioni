@@ -244,10 +244,10 @@ try {
     await stick(page, 0, 1, 0);
     await btn(page, 0, 'RT', true);
     if (n === 2) {
-      // Dash (A/✕) e ricarica (X/□) tenuti attraverso la pausa: stessa classe di bug gia' trovata in Soccer/Kart
+      // Dash (LB/L1) e ricarica (X/□) tenuti attraverso la pausa: stessa classe di bug gia' trovata in Soccer/Kart
       // (azione fantasma al rilascio/ripristino) — verificati una volta sola (round 2p), il meccanismo non cambia
       // con il numero di giocatori.
-      await btn(page, 0, 'A', true);
+      await btn(page, 0, 'LB', true);
       await btn(page, 0, 'X', true);
     }
     await sleep(600);
@@ -258,13 +258,13 @@ try {
     check(posDuring.magazine === posBefore.magazine, 'in pausa lo sparo non viene processato (RT tenuto, caricatore invariato)');
     if (n === 2) {
       const midPause = await F(page, (g, a) => { const p = g.players.find((q) => q.id === a); return { dashCooldown: p.dashCooldown, reloading: p.reloading }; }, pids[0]);
-      check(midPause.dashCooldown === dashBefore, `in pausa nessuno scatto fantasma (A/✕ tenuto, dashCooldown invariato ${midPause.dashCooldown})`);
+      check(midPause.dashCooldown === dashBefore, `in pausa nessuno scatto fantasma (LB/L1 tenuto, dashCooldown invariato ${midPause.dashCooldown})`);
       check(midPause.reloading === false, 'in pausa nessuna ricarica fantasma (X/□ tenuto, reloading resta false)');
     }
     await stick(page, 0, 0, 0);
     await btn(page, 0, 'RT', false);
     if (n === 2) {
-      await btn(page, 0, 'A', false);
+      await btn(page, 0, 'LB', false);
       await btn(page, 0, 'X', false);
     }
     await page.keyboard.press('Escape');
@@ -274,12 +274,12 @@ try {
     check(Math.hypot(posAfterResume.x - posBefore.x, posAfterResume.z - posBefore.z) < 0.05, 'alla ripresa nessun input accumulato (nessuno scatto fantasma)');
     if (n === 2) {
       const afterResume = await F(page, (g, a) => { const p = g.players.find((q) => q.id === a); return { dashCooldown: p.dashCooldown, reloading: p.reloading }; }, pids[0]);
-      check(afterResume.dashCooldown === dashBefore && afterResume.reloading === false, `alla ripresa nessuno scatto/ricarica fantasma da A/✕/X tenuti (dashCooldown ${afterResume.dashCooldown}, reloading ${afterResume.reloading})`);
-      // Rilascio + pressione VERA dopo la ripresa: A/✕ e X/□ devono tornare a funzionare normalmente (non restare bloccati).
-      await tap(page, 0, 'A', 150);
+      check(afterResume.dashCooldown === dashBefore && afterResume.reloading === false, `alla ripresa nessuno scatto/ricarica fantasma da LB/L1/X tenuti (dashCooldown ${afterResume.dashCooldown}, reloading ${afterResume.reloading})`);
+      // Rilascio + pressione VERA dopo la ripresa: LB/L1 e X/□ devono tornare a funzionare normalmente (non restare bloccati).
+      await tap(page, 0, 'LB', 150);
       await sleep(150);
       const afterRealDash = await F(page, (g, a) => g.players.find((p) => p.id === a).dashCooldown, pids[0]);
-      check(afterRealDash > 0, `dopo il rilascio, una pressione VERA di A/✕ funziona normalmente (dashCooldown ${afterRealDash.toFixed(2)})`);
+      check(afterRealDash > 0, `dopo il rilascio, una pressione VERA di LB/L1 funziona normalmente (dashCooldown ${afterRealDash.toFixed(2)})`);
     }
 
     // ---- DISCONNESSIONE: il player non si muove/spara da solo; RECONNECT: torna a rispondere

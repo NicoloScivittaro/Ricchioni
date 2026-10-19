@@ -183,8 +183,8 @@ try {
   const samples = [];
   for (let i = 0; i < 5; i++) { await sleep(1000); samples.push(await F(page, g => ({ fps: g.splitScreen.engine.getFps(), meshes: g.splitScreen.scene.meshes.length }))); }
   report.renderSamples = samples;
-  // Natural scene end, accelerated simulation time only; no fabricated result.
-  await F(page, g => { g.matchTime = 0.01; });
+  // Natural score-race end: accelerate to the final authoritative elimination.
+  await F(page,g=>{const[killer,victim]=g.players;killer.kills=9;Object.assign(victim,{alive:true,hp:100,spawnProtection:0,guardTime:0,debtTime:0,armTime:0});g.applyDamage(victim,10000,killer);});
   await until(async () => (await hostSnapshot(page)).phase === 'ROUND_RESULTS', 15000, 'natural results');
   report.results = await hostEval(page, gm => gm.state.lastResults.results);
   await hostEval(page, gm => gm.restartMatch());

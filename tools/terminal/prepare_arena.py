@@ -7,8 +7,8 @@ from collections import defaultdict,deque,Counter
 import json,struct,io,copy,time
 import numpy as np
 from PIL import Image
-ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'docs/agent-work/terminal-2';OUT.mkdir(exist_ok=True)
-CELL=.4;R=.28;BOUNDS=(-75,45,-78,64);X0,X1,Z0,Z1=BOUNDS
+ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'docs/agent-work/terminal-fixes';OUT.mkdir(exist_ok=True)
+CELL=.3;R=.22;BOUNDS=(-75,45,-78,64);X0,X1,Z0,Z1=BOUNDS
 W=round((X1-X0)/CELL)+1;H=round((Z1-Z0)/CELL)+1
 
 def dump(n,o): (OUT/n).write_text(json.dumps(o,indent=2),encoding='utf8')
@@ -61,14 +61,27 @@ def gameplay(d,b):
   inside=np.minimum.reduce(uv)>=-.0001;y=sum(uv[i]*t[i,1] for i in range(3))
   for i,h in zip(ids[inside],y[inside]):
    if -.15<=h<=6.8:floors[int(i)].add(round(float(h),2))
+ # A capsule can straddle a narrow seam between two supported floor pieces.
+ # Fill at most one sampled cell, only with matching support on BOTH sides;
+ # the wall/headroom collision pass still tests every generated candidate.
+ original={i:tuple(hs)for i,hs in floors.items()};seams=0
+ for iz in range(1,H-1):
+  for ix in range(1,W-1):
+   cell=iz*W+ix
+   for a,b in [(cell-1,cell+1),(cell-W,cell+W)]:
+    for ha in original.get(a,()):
+     for hb in original.get(b,()):
+      if abs(ha-hb)<=.16 and not any(abs(h-ha)<.2 for h in floors.get(cell,())):
+       floors[cell].add(round((ha+hb)/2,2));seams+=1
+ print('supported narrow floor seams',seams,flush=True)
  pts=[];grid=defaultdict(list)
  for i,hs in floors.items():
   # Collapse coplanar surfaces/decals, retain stacked floors.
-  last=-100
-  for h in sorted(hs):
-   if h-last<.12:continue
+  last=100
+  for h in sorted(hs,reverse=True):
+   if last-h<.12:continue
    grid[i].append(len(pts));pts.append([X0+(i%W)*CELL,h,Z0+(i//W)*CELL]);last=h
- pts=np.array(pts);blocked=np.zeros(len(pts),dtype=bool)
+ pts=np.array(pts);blocked=np.zeros(len(pts),dtype=bool);headroom=np.full(len(pts),12.0)
  print('floors',len(pts),'shot triangles',len(ts),flush=True)
  for t in ts:
   ids=np.array([j for i in cells(t,R) for j in grid[int(i)]],dtype=int)
@@ -77,14 +90,15 @@ def gameplay(d,b):
   if not len(ids):continue
   p=pts[ids];miny=t[:,1].min();maxy=t[:,1].max()
   low=.08 if maxy-miny<1e-5 else .52
-  use=(p[:,1]+1.68>=miny)&(p[:,1]+low<=maxy)
+  use=(p[:,1]+12>=miny)&(p[:,1]+low<=maxy)
   ids=ids[use];p=p[use]
   if not len(ids):continue
   if maxy-miny<1e-5:
    uv=bary(t,p[:,0],p[:,2]);
-   if uv is not None:blocked[ids[np.minimum.reduce(uv)>=-1e-5]]=True
+   if uv is not None:
+    hit=ids[np.minimum.reduce(uv)>=-1e-5];headroom[hit]=np.minimum(headroom[hit],miny-pts[hit,1]-.02);blocked[hit[headroom[hit]<1.04]]=True
    continue
-  for offset in [.52,.95,1.4,1.65]:
+  for offset in [.52,.78,1.02,1.4,1.65,1.8,2.2,3.0]:
    h=p[:,1]+offset;ends=[];valid=[]
    for a,c in [(t[0],t[1]),(t[1],t[2]),(t[2],t[0])]:
     if abs(c[1]-a[1])<1e-8:ends.append(np.tile(a[[0,2]],(len(p),1)));valid.append(np.zeros(len(p),bool));continue
@@ -92,7 +106,7 @@ def gameplay(d,b):
    for a,c in [(0,1),(1,2),(2,0)]:
     v=ends[c]-ends[a];q=p[:,[0,2]]-ends[a];f=np.clip((q*v).sum(1)/np.maximum((v*v).sum(1),1e-10),0,1)
     distance=np.linalg.norm(q-f[:,None]*v,axis=1)
-    blocked[ids[(valid[a]&valid[c])&(distance<R+.005)]]=True
+    hit=ids[(valid[a]&valid[c])&(distance<R+.005)];headroom[hit]=np.minimum(headroom[hit],offset-.025);blocked[hit[headroom[hit]<1.04]]=True
  # Require support near the centre rather than allow a capsule on a paper-thin rim.
  good=(~blocked)&(pts[:,0]>X0+R)&(pts[:,0]<X1-R)&(pts[:,2]>Z0+R)&(pts[:,2]<Z1-R)
  def nearby(i):return grid.get(i,())
@@ -111,10 +125,10 @@ def gameplay(d,b):
    for v in adjacency[u]:
     if v not in seen:seen.add(v);q.append(v)
   components.append(q)
- components.sort(key=len,reverse=True);dump('components.json',[{'count':len(c),'min':pts[c].min(0).tolist(),'max':pts[c].max(0).tolist()}for c in components[:30]]);keep=components[0];mapping={old:i for i,old in enumerate(keep)}
+ components.sort(key=len,reverse=True);dump('components.json',[{'count':len(c),'min':pts[c].min(0).tolist(),'max':pts[c].max(0).tolist()}for c in components[:30]]);keep=[i for component in components for i in component];mapping={old:i for i,old in enumerate(keep)}
  points=np.round(pts[keep],3);edges=[[mapping[v]for v in adjacency[u]if v in mapping]for u in keep]
  spawns=[];checks=[]
- source=json.loads((OUT/'source-spawns.json').read_text())
+ source=json.loads((ROOT/'docs/agent-work/terminal-2/source-spawns.json').read_text())
  for s in source:
   if s['kind']!='mp_dm_spawn':continue
   p=np.array(s['p']);dist=np.linalg.norm(points[:,[0,2]]-p[[0,2]],axis=1)+abs(points[:,1]-p[1])*.6
@@ -124,7 +138,7 @@ def gameplay(d,b):
   if ok and all(np.linalg.norm(points[i]-points[j])>3 for j in spawns):spawns.append(i)
  # Visible original-design perimeter fence coincides with the chosen bounds.
  barriers=[{'x':X0,'z':(Z0+Z1)/2,'w':.25,'d':Z1-Z0,'h':8,'base':-.2},{'x':X1,'z':(Z0+Z1)/2,'w':.25,'d':Z1-Z0,'h':8,'base':-.2},{'x':(X0+X1)/2,'z':Z0,'w':X1-X0,'d':.25,'h':8,'base':-.2},{'x':(X0+X1)/2,'z':Z1,'w':X1-X0,'d':.25,'h':8,'base':-.2}]
- data={'cell':CELL,'radius':R,'bounds':list(BOUNDS),'triangles':np.round(ts,4).reshape(-1,9).tolist(),'nodes':points.tolist(),'edges':edges,'spawns':spawns,'barriers':barriers}
+ data={'cell':CELL,'radius':R,'bounds':list(BOUNDS),'triangles':np.round(ts,4).reshape(-1,9).tolist(),'nodes':points.tolist(),'edges':edges,'headroom':np.round(headroom[keep],3).tolist(),'spawns':spawns,'barriers':barriers}
  (ROOT/'public/assets/fps/terminal/arena.json').write_text(json.dumps(data,separators=(',',':')),encoding='utf8')
  dump('spawn-validation.json',checks);dump('geometry.json',{'selectedSourceTriangles':len(ts),'selectedByKind':dict(counts),'walkCandidates':len(pts),'clearCandidates':int(good.sum()),'components':[len(c)for c in components[:20]],'connectedNodes':len(keep),'spawns':len(spawns),'bounds':BOUNDS,'cell':CELL,'radius':R,'heightRange':points[:,1].min().item().__str__()+'..'+str(points[:,1].max())})
  print('arena',len(keep),'nodes',len(spawns),'spawns', 'components',[len(c)for c in components[:8]],flush=True)

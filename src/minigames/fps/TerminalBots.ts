@@ -2,7 +2,7 @@ import {BotInputs} from '../bots/BotInputs';
 import {getWeapon} from '../../../shared/fpsWeapons';
 import type {FpsArenaPoint as ArenaPoint,ImportedFpsArena} from './importedFpsArena';
 
-interface Actor extends ArenaPoint{id:string;alive:boolean;yaw:number;pitch:number;magazine:number;spawnProtection:number;weaponId:string}
+interface Actor extends ArenaPoint{id:string;alive:boolean;yaw:number;pitch:number;magazine:number;spawnProtection:number;weaponId:string;crouching?:boolean;eyeHeight?:number}
 interface Memory {id:string;point:ArenaPoint;seen:number;acquired:number}
 const angle=(v:number)=>Math.atan2(Math.sin(v),Math.cos(v));
 const clamp=(v:number,a:number,b:number)=>Math.max(a,Math.min(b,v));
@@ -46,11 +46,12 @@ export class TerminalBots extends BotInputs{
       }
       const aim=enemy?Math.atan2(enemy.x-p.x,enemy.z-p.z)+Math.sin(this.time*2.7+p.id.length)*.035:Math.atan2(dest.x-p.x,dest.z-p.z);
       const error=angle(aim-p.yaw),turn=clamp(error,-dt*2.5,dt*2.5),yaw=p.yaw+turn;
-      const pitch=enemy?Math.atan2((enemy.y??0)-(p.y??0),Math.max(.1,distance)):0;
+      const pitch=enemy?Math.atan2((enemy.y??0)+(enemy.crouching?.7:1.2)-(p.y??0)-(p.eyeHeight??1.5),Math.max(.1,distance)):0;
       input.setAxis('look',yaw,pitch);input.setAxis('lookStick',turn/Math.max(dt,1e-5)/2.6,-clamp(pitch-p.pitch,-dt*2,dt*2)/Math.max(dt,1e-5)/2);
       let wx=dest.x-p.x,wz=dest.z-p.z;const n=Math.max(1,Math.hypot(wx,wz));wx/=n;wz/=n;
       input.setAxis('move',wx*Math.cos(p.yaw)-wz*Math.sin(p.yaw),-(wx*Math.sin(p.yaw)+wz*Math.cos(p.yaw)));
       const firing=!!enemy&&enemy.spawnProtection<=0&&this.time-(memory?.acquired??this.time)>.42&&Math.abs(error)<.12&&distance<weapon.range*.95&&this.time%2.2<1.65;
+      this.hold(p.id,'crouch',(arena.headroomAt?.(p.x,p.z,p.y??0)??12)<1.8||(arena.headroomAt?.(dest.x,dest.z,dest.y??0)??12)<1.8);
       this.hold(p.id,'aim',!!enemy&&distance>10&&Math.abs(error)<.2);
       this.hold(p.id,'fire',firing);
       if((p.magazine===0||!enemy&&p.magazine<weapon.magazine*.3)&&this.every(p.id,'reload',.4,.8))this.tap(p.id,'reload');

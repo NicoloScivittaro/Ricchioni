@@ -86,7 +86,7 @@ function header(minigameId: string): string {
  */
 const FIRST_TIME_TIPS: Record<string, string[]> = {
   arena: ['TOCCA: SPINTA. TIENI E RILASCIA: SPALLATA.', 'PIÙ INSTABILITÀ = PIÙ LONTANO VOLI.', 'SPALLATA A VUOTO? IL BORDO NON PERDONA.'],
-  fps: ['MIRARE: PIÙ PRECISO, MA PIÙ LENTO.', 'DA VICINO SPARA AL VOLO E MUOVITI.'],
+  fps: ['VINCE IL PRIMO A 10 UCCISIONI.', 'SALTA O ACCOVACCIATI PER SUPERARE I PASSAGGI.'],
   cornicione: ['PIÙ % HAI, PIÙ LONTANO VOLI.', 'CADI FUORI = PERDI UNA VITA.', 'SALTI + SCHIVATA + RECOVERY TI FANNO TORNARE.']
 };
 /** Giochi con 6 comandi + 5 abilita' + consigli: la scheda diventa compatta (3 colonne) per stare in 1280x720. */
@@ -115,7 +115,7 @@ function build(minigameId: string, mode: 'pad' | 'phone', consumeTips = true): s
   const profile = profileFor(minigameId)!;
   const fams = families();
   // l'ABILITA' e' il comando speciale: sempre presente (anche se i comandi fossero piu' di 6) e disegnata in evidenza
-  const ordered = [...profile.controls.filter((c) => c.action !== 'ABILITY').slice(0, minigameId === 'cornicione' ? 8 : minigameId === 'fps' ? 6 : 5), ...profile.controls.filter((c) => c.action === 'ABILITY')];
+  const ordered = [...profile.controls.filter((c) => c.action !== 'ABILITY').slice(0, minigameId === 'cornicione' ? 8 : minigameId === 'fps' ? 8 : 5), ...profile.controls.filter((c) => c.action === 'ABILITY')];
   const labelsOf = (c: (typeof ordered)[number]): string => [...new Set(fams.map((f) => bindingLabel(c.binding, f)))].join(' / ');
   const rows = ordered
     .map((c) => {

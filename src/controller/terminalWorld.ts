@@ -1,3 +1,4 @@
+import type {Engine} from '@babylonjs/core';
 import {Color3,Color4,DirectionalLight,HemisphericLight,ImageProcessingConfiguration,InstancedMesh,Mesh,MeshBuilder,PBRMaterial,Matrix,Scene,SceneLoader,ShaderMaterial,StandardMaterial,TransformNode} from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
 import {terminalAtlasMaterial} from './terminalAtlasMaterial';
@@ -26,7 +27,7 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
   const models=new Map<string,{source:Mesh;mat:ShaderMaterial|null;matrices:number[]}>(),kept:Mesh[]=[],staticGroups=new Map<string,Mesh[]>();let instances=0,triangles=0,instanceGroups=0;
   const staticNode=(source:Mesh,matrix:Matrix,mat:ShaderMaterial|null)=>{
     const node=new Mesh('terminalStatic',scene);source.geometry?.applyToMesh(node);node.makeGeometryUnique();node.bakeTransformIntoVertices(matrix);node.material=mat;node.computeWorldMatrix(true);
-    const c=node.getBoundingInfo().boundingBox.centerWorld,k=`${mat?.uniqueId}:${Math.floor(c.x/16)}:${Math.floor(c.z/16)}`,list=staticGroups.get(k);if(list)list.push(node);else staticGroups.set(k,[node]);
+    const c=node.getBoundingInfo().boundingBox.centerWorld,k=`${mat?.uniqueId}:${Math.floor(c.x/32)}:${Math.floor(c.z/32)}`,list=staticGroups.get(k);if(list)list.push(node);else staticGroups.set(k,[node]);
   };
   // Gather transforms before disposing any imported hierarchy/source geometry.
   for(const imported of result.meshes){
@@ -49,10 +50,13 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
     instanceGroups++;
     const mesh=new Mesh('terminalInstances:'+key,scene);g.source.geometry?.applyToMesh(mesh);mesh.material=g.mat;mesh.isPickable=false;mesh.checkCollisions=false;
     mesh.thinInstanceSetBuffer('matrix',new Float32Array(g.matrices),16,true);mesh.thinInstanceRefreshBoundingInfo(true);mesh.freezeWorldMatrix();
-    const size=mesh.getBoundingInfo().boundingBox.extendSizeWorld.length()*2;
-    mesh.addLODLevel(size<3?42:size<10?85:160,null);kept.push(mesh);
+    const size=g.source.getBoundingInfo().boundingBox.extendSize.length()*2;
+    // Cull small repeated props by the size of ONE prop, not the whole cell.
+    // Large structural models (including the aircraft) keep their full range.
+    mesh.addLODLevel(size<.7?24:size<2?38:size<4?58:size<10?95:190,null);
+    mesh.doNotSyncBoundingInfo=true;kept.push(mesh);
   }
-  for(const [key,list]of staticGroups){const mesh=list.length>1?Mesh.MergeMeshes(list,true,true,undefined,false,false):list[0];if(!mesh)continue;mesh.name='terminalBatch:'+key;mesh.isPickable=false;mesh.checkCollisions=false;mesh.freezeWorldMatrix();mesh.addLODLevel(85,null);kept.push(mesh);}
+  for(const [key,list]of staticGroups){const mesh=list.length>1?Mesh.MergeMeshes(list,true,true,undefined,false,false):list[0];if(!mesh)continue;mesh.name='terminalBatch:'+key;mesh.isPickable=false;mesh.checkCollisions=false;mesh.freezeWorldMatrix();mesh.doNotSyncBoundingInfo=true;kept.push(mesh);}
   coordinates.dispose();for(const node of result.transformNodes)if(!node.isDisposed())node.dispose();
   for(const original of materials.keys())original.dispose(false,false);for(const m of materials.values())m.freeze();
   // Original-design, visibly marked safety fence; its exact volumes are shared
@@ -71,6 +75,9 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
   const staticWorld=new Set(kept);const octree=scene.createOrUpdateSelectionOctree(48,3);
   octree.dynamicContent=scene.meshes.filter(m=>!staticWorld.has(m as Mesh));
   scene.onNewMeshAddedObservable.add(m=>{if(!staticWorld.has(m as Mesh))octree.dynamicContent.push(m);});
+  // Asset containers temporarily add their source meshes to the scene. They
+  // must leave the dynamic octree when removed, before visible instances load.
+  scene.onMeshRemovedObservable.add(m=>{const i=octree.dynamicContent.indexOf(m);if(i>=0)octree.dynamicContent.splice(i,1);});
 
-  scene.metadata={...scene.metadata,terminal:{partial:true,spatialBatches:kept.length-instanceGroups,instanceGroups,modelPrimitives:instances,triangles,materials:materials.size,loadMs:performance.now()-started,source:'terminal-play.glb',shadows:'existing character blobs; no dynamic map shadow pass'}};
+  scene.metadata={...scene.metadata,terminal:{partial:true,spatialBatches:kept.length-instanceGroups,instanceGroups,modelPrimitives:instances,triangles,materials:materials.size,loadMs:performance.now()-started,source:'terminal-play.glb',staticBatchMeters:32,stableAtlasGradients:(scene.getEngine() as Engine).webGLVersion>=2,shadows:'existing character blobs; no dynamic map shadow pass'}};
 }

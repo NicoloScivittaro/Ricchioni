@@ -1911,3 +1911,14 @@ body:has(#pad-fallback-badge) .dpad-screen:has(#geo-phone-status){padding-top:62
 #map-vote-status{min-height:2.4em;font-size:13px;line-height:1.4;color:#a8ffdf;margin:14px 0 0}
 .map-vote-foot{font-size:12px!important;line-height:1.5!important}
 @media(max-width:340px){.map-vote-option{padding:12px 8px}.map-vote-option strong{font-size:12px}}
+
+/* The movement pair stays compact, leaving room for aim + fire + touch look. */
+.fps-move-action{width:78px;height:54px;max-width:23vw;border-radius:14px;border:2px solid #b8d8ed;background:#164867;color:white;font:900 25px Arial;display:flex;flex-direction:column;align-items:center;justify-content:center;touch-action:none}
+.fps-move-action span{font:900 10px Arial}
+.fps-move-action.held{background:#96650a;border-color:#facc15}
+@media(orientation:landscape) and (max-height:600px){.fps-btns{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.fps-reload{grid-column:auto}.fps-move-action{height:52px}.fps-joy{left:14px;bottom:14px}}
+
+@media(orientation:portrait){.fps-btns{gap:6px}.fps-btns .fps-aim,.fps-btns .fps-fire,.fps-btns .fps-dash,.fps-btns .fps-ability{width:74px;height:74px;font-size:25px}.fps-btns .fps-reload{width:154px;height:44px;min-height:44px;padding:5px}.fps-aim span,.fps-fire span{font-size:10px}}
+
+body:has(#pad-fallback-badge) .fps-shell{--fps-hud-inset:36px}
+@media(orientation:portrait){body:has(#pad-fallback-badge) .fps-shell{--fps-hud-inset:58px}}

@@ -89,7 +89,7 @@ console.log('\n[TETTO SERVER] copre la durata REALE massima di ogni gioco (con â
     volleyball: 420, // primo a 5: nessun cap di tempo in gioco; scambi lunghi
     kart3d: 185, // countdown + gara (cap durationSec) + arrivo
     cultura: 430, // 8 round Ã— ~51s (bluff 20 + voto 12 + reveal ~9 + spiegazione 5.5) + 3 classifiche; con fine anticipata ~5 min
-    fps: 112, // match 100s + countdown/risultati
+    fps: 900, // corsa a 10 uccisioni: margine per una partita lunga, cap tecnico 1200s
     cornicione: 185, // countdown + 150s + spareggio 20s + festeggiamenti + risultati
     minigolf: 1225, // configura fino a 300s/buca: tre buche + tolleranza tiro + intro/classifiche + spareggio + controlli/risultati
     trentuno: 370, // cap330 + controlli, risultati e margine

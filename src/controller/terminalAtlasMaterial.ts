@@ -1,4 +1,5 @@
-import {Effect,Scene,ShaderMaterial,BaseTexture,Vector3,Vector4} from '@babylonjs/core';
+import type {Engine} from '@babylonjs/core';
+import {Effect,Scene,ShaderMaterial,BaseTexture,Texture,Vector3,Vector4} from '@babylonjs/core';
 export interface TerminalAtlas {grid:number;size:number;padding:number;mode:string}
 const vertex=`precision highp float;
 attribute vec3 position;attribute vec3 normal;attribute vec2 uv;attribute vec2 uv2;attribute vec4 color;
@@ -10,7 +11,7 @@ void main(){
  gl_Position=viewProjection*finalWorld*vec4(position,1.0);vUV=uv;vTile=uv2;vColor=color.rgb;vNormal=normalize(mat3(finalWorld)*normal);
 }`;
 const fragment=`precision highp float;
-uniform sampler2D atlas;uniform vec4 atlasInfo;uniform vec3 sunDirection;
+uniform sampler2D atlas;uniform vec4 atlasInfo;uniform vec3 sunDirection;uniform float maxGradient;
 varying vec2 vUV;varying vec2 vTile;varying vec3 vColor;varying vec3 vNormal;
 void main(){
  float grid=atlasInfo.x;float tile=floor(vTile.x+0.1);
@@ -25,7 +26,16 @@ void main(){
 /** Terminal-only, shared texture-atlas shader. Repeating source UVs are wrapped
  * inside each padded tile, so floors/walls keep their authored texture scale. */
 export function terminalAtlasMaterial(scene:Scene,name:string,texture:BaseTexture,layout:TerminalAtlas):ShaderMaterial{
- Effect.ShadersStore.terminalAtlasVertexShader=vertex;Effect.ShadersStore.terminalAtlasFragmentShader=fragment;
- const m=new ShaderMaterial(name,scene,'terminalAtlas',{attributes:['position','normal','uv','uv2','color'],uniforms:['world','viewProjection','atlasInfo','sunDirection'],samplers:['atlas'],needAlphaBlending:layout.mode==='BLEND',needAlphaTesting:layout.mode==='MASK'});
- const stride=layout.size+layout.padding*2;m.setTexture('atlas',texture);m.setVector4('atlasInfo',new Vector4(layout.grid,layout.padding/stride,layout.size/stride,layout.mode==='BLEND'?1:0));m.setVector3('sunDirection',new Vector3(.35,.9,-.25).normalize());m.backFaceCulling=false;return m;
+ const gradients=(scene.getEngine() as Engine).webGLVersion>=2;
+ const shader=gradients?'terminalAtlasGrad':'terminalAtlasLegacy';
+ // Derivatives must be computed BEFORE fract(): wrapping a source UV must not
+ // switch mip level or sample an adjacent material in the atlas.
+ const sample=`vec2 gx=dFdx(vUV)*atlasInfo.z/grid,gy=dFdy(vUV)*atlasInfo.z/grid;
+ gx*=min(1.0,maxGradient/max(length(gx),0.0000001));gy*=min(1.0,maxGradient/max(length(gy),0.0000001));
+ vec4 tex=textureGrad(atlas,tileUV,gx,gy);`;
+ Effect.ShadersStore[shader+'VertexShader']=vertex;
+ Effect.ShadersStore[shader+'FragmentShader']=gradients?fragment.replace('vec4 tex=texture2D(atlas,tileUV);',sample):fragment;
+ if(texture instanceof Texture){texture.updateSamplingMode(gradients?Texture.TRILINEAR_SAMPLINGMODE:Texture.BILINEAR_SAMPLINGMODE);texture.anisotropicFilteringLevel=2;}
+ const m=new ShaderMaterial(name,scene,shader,{attributes:['position','normal','uv','uv2','color'],uniforms:['world','viewProjection','atlasInfo','sunDirection','maxGradient'],samplers:['atlas'],needAlphaBlending:layout.mode==='BLEND',needAlphaTesting:layout.mode==='MASK'});
+ const stride=layout.size+layout.padding*2;m.setFloat('maxGradient',4/(layout.grid*stride));m.setTexture('atlas',texture);m.setVector4('atlasInfo',new Vector4(layout.grid,layout.padding/stride,layout.size/stride,layout.mode==='BLEND'?1:0));m.setVector3('sunDirection',new Vector3(.35,.9,-.25).normalize());m.backFaceCulling=false;return m;
 }

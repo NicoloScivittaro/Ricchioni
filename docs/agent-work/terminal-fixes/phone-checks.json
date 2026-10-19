@@ -1,0 +1,54 @@
+{
+  "maps": [
+    "cantiere",
+    "nuketown",
+    "terminal"
+  ],
+  "crouch": {
+    "active": true,
+    "eye": 0.86
+  },
+  "release": true,
+  "jump": {
+    "airborne": true,
+    "height": 0.7616959035999988
+  },
+  "landed": true,
+  "layout": [
+    {
+      "id": "#fps-jump",
+      "visible": true,
+      "crosshairClear": true
+    },
+    {
+      "id": "#fps-crouch",
+      "visible": true,
+      "crosshairClear": true
+    },
+    {
+      "id": "#fps-fire",
+      "visible": true,
+      "crosshairClear": true
+    },
+    {
+      "id": "#fps-aim",
+      "visible": true,
+      "crosshairClear": true
+    },
+    {
+      "id": "#fps-dash",
+      "visible": true,
+      "crosshairClear": true
+    },
+    {
+      "id": "#fps-reload",
+      "visible": true,
+      "crosshairClear": true
+    }
+  ],
+  "score": {
+    "text": "0/10 UCCISIONI",
+    "clear": true
+  },
+  "errors": []
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "bytes": 964
+  },
+  {
+    "path": "/controller.html",
+    "status": 200,
+    "bytes": 1155
+  },
+  {
+    "path": "/terminal-fixes/",
+    "status": 200,
+    "bytes": 1212
+  },
+  {
+    "path": "/terminal-fixes/REPORT.md",
+    "status": 200,
+    "bytes": 3684
+  },
+  {
+    "path": "/assets/fps/terminal/arena.json",
+    "status": 200,
+    "bytes": 14157228,
+    "nodes": 157350,
+    "cell": 0.3,
+    "radius": 0.22,
+    "headroom": 157350,
+    "distMatchesSource": true
+  }
+]

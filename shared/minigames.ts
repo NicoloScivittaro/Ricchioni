@@ -232,18 +232,18 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id: 'fps',
     icon: '🔫',
-    description: 'Tutti contro tutti: mira per la precisione, spara al volo da vicino. Più kill, più punti.',
+    description: 'Tutti contro tutti: salta, accovacciati e combatti. Vince il primo a 10 uccisioni.',
     name: 'SPARATORIA DEI DISAGIATI',
     category: 'ARENA',
     rarity: 'rare',
     minPlayers: 1,
     maxPlayers: 5,
     // FPS free-for-all: chi ha il controller gioca in split-screen sul PC (Milestone 6); chi non ce l'ha continua
-    // dal telefono ESATTAMENTE come prima (rendering 3D privato sul telefono, invariato). 100s di match; il timer
+    // dal telefono ESATTAMENTE come prima (rendering 3D privato sul telefono, invariato). Vince il primo a 10 uccisioni; il timer
     // server è solo la rete di sicurezza.
-    durationSec: 100,
-    // Rete di sicurezza server (match di 100s + countdown/risultati).
-    hardCapSec: 300,
+    durationSec: 120,
+    // Rete di sicurezza server (solo cap tecnico: nessuna vittoria a tempo).
+    hardCapSec: 1200,
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'fps',
 

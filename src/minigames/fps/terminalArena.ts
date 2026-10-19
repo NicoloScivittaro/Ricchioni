@@ -1,7 +1,7 @@
 import type {Aabb} from '../../../shared/fpsMap';
 import {rayVsAabb} from '../../../shared/fpsMap';
-import type {ArenaPoint} from './nuketownArena';
-interface TerminalData {cell:number;radius:number;bounds:number[];triangles:number[][];nodes:number[][];edges:number[][];spawns:number[];barriers:Aabb[]}
+import type {FpsArenaPoint as ArenaPoint} from './importedFpsArena';
+interface TerminalData {cell:number;radius:number;bounds:number[];triangles:number[][];nodes:number[][];edges:number[][];spawns:number[];barriers:Aabb[];headroom?:number[]}
 const SIZE=4;
 /** Source architecture/large covers only for shots. Locomotion is a separate,
  * radius-eroded multilevel graph sampled from floors, stairs and body clearance. */
@@ -17,9 +17,9 @@ export class TerminalArena {
     this.nav.forEach((p,i)=>{const k=this.key(p.x,p.z),list=this.walk.get(k);if(list)list.push(i);else this.walk.set(k,[i]);});
   }
   private key(x:number,z:number):string{return Math.round((x-this.data.bounds[0])/this.data.cell)+':'+Math.round((z-this.data.bounds[2])/this.data.cell);}
-  private at(x:number,z:number,y?:number):number{
+  private at(x:number,z:number,y?:number,height=0):number{
     const list=this.walk.get(this.key(x,z))??[];let best=-1,score=Infinity;
-    for(const i of list){const n=this.nav[i],s=y===undefined?-(n.y??0):Math.abs((n.y??0)-y);if(s<score){score=s;best=i;}}
+    for(const i of list){if((this.data.headroom?.[i]??12)<height)continue;const n=this.nav[i],s=y===undefined?-(n.y??0):Math.abs((n.y??0)-y);if(s<score){score=s;best=i;}}
     return best;
   }
   floorAt(x:number,z:number,y?:number):number|null{const i=this.at(x,z,y);return i<0?null:this.nav[i].y??0;}
@@ -28,17 +28,40 @@ export class TerminalArena {
     const exact=this.at(p.x,p.z,p.y);if(exact>=0)return exact;
     let best=0,score=Infinity;this.nav.forEach((q,i)=>{const d=(q.x-p.x)**2+(q.z-p.z)**2+((q.y??0)-(p.y??0))**2*4;if(d<score){score=d;best=i;}});return best;
   }
-  move(from:ArenaPoint,to:ArenaPoint):ArenaPoint{
+  headroomAt(x:number,z:number,y:number):number{const i=this.at(x,z,y);return i<0?0:this.data.headroom?.[i]??12;}
+  floorBelow(x:number,z:number,y:number):number|null{
+    let floor:number|null=null;for(const i of this.walk.get(this.key(x,z))??[]){const h=this.nav[i].y??0;if(h<=y&&(floor===null||h>floor))floor=h;}return floor;
+  }
+  /** Air movement uses real supported layers and their body clearance, without
+   * requiring a ground-walking edge across a low cover or a stair lip. */
+  moveAir(from:ArenaPoint,to:ArenaPoint,height:number):ArenaPoint{
+    let p={...from};const steps=Math.max(1,Math.ceil(Math.hypot(to.x-from.x,to.z-from.z)/.1)),dx=(to.x-from.x)/steps,dz=(to.z-from.z)/steps;
+    const attempt=(x:number,z:number)=>{
+      const r=this.data.radius,[x0,x1,z0,z1]=this.data.bounds;
+      if(x<x0+r||x>x1-r||z<z0+r||z>z1-r)return false;
+      const mx=x-p.x,mz=z-p.z,length=Math.hypot(mx,mz);if(length<1e-7)return true;
+      const ux=mx/length,uz=mz/length;
+      // Swept body samples, only while airborne: missing floor below is a real
+      // gap to jump, while walls and cover still stop the body at every step.
+      for(const h of [.08,height*.5,height-.03])for(const side of[-r,0,r]){
+        const hit=this.ray(p.x-uz*side,(p.y??0)+h,p.z+ux*side,ux,0,uz,length+r);
+        if(hit<length+r-.008)return false;
+      }
+      p={x,z,y:p.y};return true;
+    };
+    for(let n=0;n<steps;n++)if(!attempt(p.x+dx,p.z+dz)){attempt(p.x+dx,p.z);attempt(p.x,p.z+dz);}return p;
+  }
+  move(from:ArenaPoint,to:ArenaPoint,height=1.8):ArenaPoint{
     let p={...from};const distance=Math.hypot(to.x-from.x,to.z-from.z),steps=Math.max(1,Math.ceil(distance/.12));const dx=(to.x-from.x)/steps,dz=(to.z-from.z)/steps;
     const attempt=(x:number,z:number):boolean=>{
-      const a=this.at(p.x,p.z,p.y),b=this.at(x,z,p.y);if(a<0||b<0||Math.abs((this.nav[b].y??0)-(p.y??0))>.53)return false;
+      const a=this.at(p.x,p.z,p.y),b=this.at(x,z,p.y,height);if(a<0||b<0||Math.abs((this.nav[b].y??0)-(p.y??0))>.53)return false;
       if(a!==b&&!this.data.edges[a].includes(b))return false;
       p={x,z,y:this.nav[b].y};return true;
     };
     for(let i=0;i<steps;i++)if(!attempt(p.x+dx,p.z+dz)){attempt(p.x+dx,p.z);attempt(p.x,p.z+dz);}
     return p;
   }
-  canTraverse(p:ArenaPoint,q:ArenaPoint):boolean{const dest=this.move(p,q);return Math.hypot(dest.x-q.x,dest.z-q.z)<.08&&Math.abs((dest.y??0)-(q.y??dest.y??0))<.35;}
+  canTraverse(p:ArenaPoint,q:ArenaPoint):boolean{const dest=this.move(p,q,1.05);return Math.hypot(dest.x-q.x,dest.z-q.z)<.08&&Math.abs((dest.y??0)-(q.y??dest.y??0))<.35;}
   nextWaypoint(p:ArenaPoint,q:ArenaPoint):ArenaPoint{
     const goal=this.closest(q);let f=this.fields.get(goal);
     if(!f){f=new Int32Array(this.nav.length).fill(-1);f[goal]=0;const queue=[goal];for(let n=0;n<queue.length;n++)for(const v of this.data.edges[queue[n]])if(f[v]<0){f[v]=f[queue[n]]+1;queue.push(v);}if(this.fields.size>=16)this.fields.clear();this.fields.set(goal,f);}
@@ -58,6 +81,6 @@ export class TerminalArena {
     let nextX=dx?((cx+(dx>0?1:0))*SIZE-ox)/dx:Infinity,nextZ=dz?((cz+(dz>0?1:0))*SIZE-oz)/dz:Infinity;
     while(travel<=best){test(cx,cz);if(!dx&&!dz)break;if(nextX<nextZ){travel=nextX;nextX+=strideX;cx+=sx;}else{travel=nextZ;nextZ+=strideZ;cz+=sz;}}return best;
   }
-  visible(p:ArenaPoint,q:ArenaPoint):boolean{const dx=q.x-p.x,dy=(q.y??0)-(p.y??0),dz=q.z-p.z,d=Math.hypot(dx,dy,dz);return d<.01||this.ray(p.x,(p.y??0)+1.5,p.z,dx/d,dy/d,dz/d,d)>=d-.025;}
-  blastVisible(p:{x:number;y:number;z:number},q:ArenaPoint):boolean{return[.35,1,1.65].some(h=>{const dx=q.x-p.x,dy=(q.y??0)+h-p.y,dz=q.z-p.z,d=Math.hypot(dx,dy,dz);return d<.01||this.ray(p.x,p.y,p.z,dx/d,dy/d,dz/d,d)>=d-.02;});}
+  visible(p:ArenaPoint,q:ArenaPoint):boolean{const dx=q.x-p.x,dy=(q.y??0)+(q.eyeHeight??1.5)-(p.y??0)-(p.eyeHeight??1.5),dz=q.z-p.z,d=Math.hypot(dx,dy,dz);return d<.01||this.ray(p.x,(p.y??0)+(p.eyeHeight??1.5),p.z,dx/d,dy/d,dz/d,d)>=d-.025;}
+  blastVisible(p:{x:number;y:number;z:number},q:ArenaPoint):boolean{return(q.crouching?[.25,.6,.95]:[.35,1,1.65]).some(h=>{const dx=q.x-p.x,dy=(q.y??0)+h-p.y,dz=q.z-p.z,d=Math.hypot(dx,dy,dz);return d<.01||this.ray(p.x,p.y,p.z,dx/d,dy/d,dz/d,d)>=d-.02;});}
 }

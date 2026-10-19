@@ -1,3 +1,4 @@
+import {FPS_BODY,FPS_KILL_TARGET} from '../../shared/fpsRules';
 import {
   Color3,
   DirectionalLight,
@@ -50,12 +51,14 @@ export interface FpsPlayerState {
   y?:number;spawnProtection?:number;
   hp: number;
   alive: boolean;
+  kills?:number;
   weaponId: string;
   firing: boolean;
   ads?: number; recoilPitch?: number; recoilYaw?: number; heat?: number; moving?: number;
   magazine?: number;
   reloading?: boolean;
   dashing?: boolean;
+  crouching?:boolean;grounded?:boolean;eyeHeight?:number;
   /** ABILITA' (stato pubblicato dall'host: il telefono disegna soltanto) */
   ability?: AbilityStatus;
   guard?: boolean;
@@ -64,7 +67,7 @@ export interface FpsPlayerState {
 }
 
 export interface FpsStatePayload {
-  matchTime: number;
+  matchTime: number;killTarget?:number;
   players: FpsPlayerState[];
 }
 
@@ -73,6 +76,7 @@ interface RemoteEntity {
   tripo: GoblinVisualInstance | null;
   tripoRoot: TransformNode | null;
   dashing: boolean;
+  crouching?:boolean;grounded?:boolean;
   y?:number;
   body: Mesh;
   head: Mesh;
@@ -138,6 +142,8 @@ export class FpsClient {
 
   private selfId: string;
   private selfY=0;
+  private eyeHeight=Number(FPS_BODY.eye);
+  private eyeTarget=Number(FPS_BODY.eye);
   private selfX = 0;
   private selfZ = 0;
   private selfSpeed = 0;
@@ -322,20 +328,21 @@ export class FpsClient {
     );
 
     // in alto a sinistra: HP e arma/munizioni (i pulsanti stanno a destra e in basso: qui non vengono coperti)
-    const hp = mk(`position:absolute;left:14px;top:10px;z-index:30;${text}`);
+    const hp = mk(`position:absolute;left:14px;top:calc(10px + var(--fps-hud-inset, 0px));z-index:30;${text}`);
     this.hpNumEl = mk('color:#fff;font:800 20px Arial;', '❤️ 100', hp);
     const bar = mk('margin-top:4px;width:118px;height:8px;border-radius:5px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.35);overflow:hidden;', '', hp);
     this.hpBarEl = mk('height:100%;width:100%;background:#4ade80;transition:width 120ms,background 120ms;', '', bar);
-    const weapon = mk(`position:absolute;left:14px;top:62px;z-index:30;${text}`);
+    const weapon = mk(`position:absolute;left:14px;top:calc(62px + var(--fps-hud-inset, 0px));z-index:30;${text}`);
     this.weaponEl = mk('color:#fbbf24;font:800 12px Arial;letter-spacing:.04em;', '', weapon);
     this.ammoEl = mk('color:#fff;font:900 28px "Arial Black",Arial;line-height:1.05;', '', weapon);
 
     // ABILITA': riga di stato sotto l'arma (nome + PRONTA / ATTIVA 3,2 s / RICARICA), cornice del giubbotto e avviso BLOCCATO
-    this.abilityEl = mk(`position:absolute;left:14px;top:112px;z-index:30;font:900 13px "Arial Black",Arial;letter-spacing:.03em;color:#e5e7eb;max-width:46vw;${text}`);
+    this.abilityEl = mk(`position:absolute;left:14px;top:calc(112px + var(--fps-hud-inset, 0px));z-index:30;font:900 13px "Arial Black",Arial;letter-spacing:.03em;color:#e5e7eb;max-width:46vw;${text}`);
     this.guardEl = mk('position:absolute;inset:0;z-index:23;pointer-events:none;opacity:0;border:8px solid #38bdf8;box-sizing:border-box;transition:opacity 120ms;');
     this.lockEl = mk(`position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);z-index:34;pointer-events:none;opacity:0;color:#fbbf24;font:900 26px "Arial Black",Arial;white-space:nowrap;${text}`, '✋ BLOCCATO!');
-    this.timerEl = mk(`position:absolute;left:50%;top:10px;transform:translateX(-50%);color:#fbbf24;font:800 24px Arial;z-index:30;${text}`);
-    this.feedEl = mk(`position:absolute;right:12px;top:10px;color:#fff;font:700 13px Arial;z-index:30;text-align:right;${text}`);
+    this.timerEl = mk(`position:absolute;right:12px;top:calc(10px + var(--fps-hud-inset, 0px));color:#fbbf24;font:800 16px Arial;z-index:30;${text}`);
+    this.timerEl.className='fps-score';
+    this.feedEl = mk(`position:absolute;right:12px;top:calc(38px + var(--fps-hud-inset, 0px));color:#fff;font:700 13px Arial;z-index:30;text-align:right;${text}`);
 
     // ricarica: barra di avanzamento al centro-basso (tra joystick e pulsanti)
     this.reloadWrapEl = mk('position:absolute;left:50%;bottom:16%;transform:translateX(-50%);z-index:30;pointer-events:none;opacity:0;transition:opacity 100ms;text-align:center;');
@@ -470,7 +477,7 @@ export class FpsClient {
     const rx = Math.cos(this.yaw);
     const rz = -Math.sin(this.yaw);
     // dal vivo di volata, verso il punto mirato
-    this.tmpStart.set(this.selfX + dx * 0.95 + rx * 0.2, EYE_HEIGHT+this.selfY - 0.13 + dy * 0.95, this.selfZ + dz * 0.95 + rz * 0.2);
+    this.tmpStart.set(this.selfX + dx * 0.95 + rx * 0.2, this.eyeHeight+this.selfY - 0.13 + dy * 0.95, this.selfZ + dz * 0.95 + rz * 0.2);
     const len = style.thick > 0.06 ? 16 : 2.6;
     t.m.position.copyFrom(this.tmpStart);
     t.m.scaling.set(style.thick, style.thick, len);
@@ -493,7 +500,8 @@ export class FpsClient {
     const pitch = Math.max(-1.4, Math.min(1.4, this.pitch + this.recoilPitch + this.dmgKickP));
     const cp = Math.cos(pitch);
     const sh = this.shake * 0.12;
-    this.camera.position.set(this.selfX + (Math.random() - 0.5) * sh, EYE_HEIGHT+this.selfY + (Math.random() - 0.5) * sh, this.selfZ + (Math.random() - 0.5) * sh);
+    this.eyeHeight+=(this.eyeTarget-this.eyeHeight)*(1-Math.exp(-20*dt));
+    this.camera.position.set(this.selfX + (Math.random() - 0.5) * sh, this.eyeHeight+this.selfY + (Math.random() - 0.5) * sh, this.selfZ + (Math.random() - 0.5) * sh);
     this.tmpTarget.set(this.camera.position.x + Math.sin(yaw) * cp, this.camera.position.y + Math.sin(pitch), this.camera.position.z + Math.cos(yaw) * cp);
     this.camera.upVector.set(Math.sin(this.dmgKickR), Math.cos(this.dmgKickR), 0);
     this.camera.setTarget(this.tmpTarget);
@@ -506,7 +514,7 @@ export class FpsClient {
       const cx = e.body.position.x;
       const cz = e.body.position.z;
       e.body.position.set(cx + (e.x - cx) * k, e.body.position.y, cz + (e.z - cz) * k);
-      if(e.alive){e.body.position.y=.7+(e.y??0);e.head.position.y=1.55+(e.y??0);}
+      if(e.alive){const stance=e.crouching?FPS_BODY.crouched/FPS_BODY.standing:1;e.body.scaling.y=stance;e.body.position.y=.7*stance+(e.y??0);e.head.position.y=(e.crouching?.91:1.55)+(e.y??0);}
       e.nameTag.position.y=2.1+(e.y??0);e.blob.position.y=.03+(e.y??0);
       e.head.position.x = e.body.position.x;
       e.head.position.z = e.body.position.z;
@@ -537,7 +545,7 @@ export class FpsClient {
         e.tripoRoot.rotation.y = e.yaw;
         e.tripo.update(dt, {
           speedFrac: Math.min(1, Math.hypot(e.body.position.x - cx, e.body.position.z - cz) / Math.max(dt, .001) / 10),
-          alive: e.alive, falling: false, dashing: e.dashing, stunned: !e.alive, grounded: true, koDuration: .45
+          alive: e.alive, falling: e.grounded===false, dashing: e.dashing, stunned: !e.alive, grounded: e.grounded!==false, koDuration: .45
         });
       }
       // spari dei nemici: lampo + suono attenuato dalla distanza e spostato a destra/sinistra (si sente da dove arrivano)
@@ -776,14 +784,14 @@ export class FpsClient {
   }
 
   updateState(state: FpsStatePayload): void {
-    this.timerEl.textContent = `⏱ ${Math.max(0, Math.ceil(state.matchTime))}`;
+    this.timerEl.textContent = `${state.players.find(p=>p.id===this.selfId)?.kills??0}/${state.killTarget??FPS_KILL_TARGET} UCCISIONI`;
     for (const ps of state.players) {
       this.lastPos.set(ps.id, { x: ps.x, z: ps.z });
       if (ps.id === this.selfId) {
         const dx = ps.x - this.selfX;
         const dz = ps.z - this.selfZ;
         this.selfSpeed = Math.hypot(dx, dz) / 0.05; // ~velocita' (tick 20Hz)
-        this.selfY=ps.y??0;
+        this.selfY=ps.y??0;this.eyeTarget=ps.eyeHeight??FPS_BODY.eye;
         this.selfX = ps.x;
         this.selfZ = ps.z;
         // Spawn equo: la visuale e' comandata dal telefono, quindi al primo stato e a ogni rinascita ci si gira verso il
@@ -850,7 +858,7 @@ export class FpsClient {
         e.hp = ps.hp;
         e.weaponId = ps.weaponId;e.weapon.equip(ps.weaponId);e.weapon.setEnabled(ps.alive);
         e.firing = ps.firing;
-        e.dashing = !!ps.dashing;
+        e.dashing = !!ps.dashing;e.crouching=!!ps.crouching;e.grounded=ps.grounded??true;
         const wasAlive = e.alive;
         e.alive = ps.alive;
         if (wasAlive && !ps.alive) {

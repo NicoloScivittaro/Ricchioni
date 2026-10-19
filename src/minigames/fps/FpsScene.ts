@@ -1,3 +1,4 @@
+import {FPS_BODY,FPS_KILL_TARGET,stepFpsVertical} from '../../../shared/fpsRules';
 import {blastVisible} from '../../../shared/fpsCover';
 import { FPS_ADS, aimBlend, aimMovement, aimSensitivity, aimSpread, aimKick } from '../../../shared/fpsAim';
 import { MotionBots } from '../bots/MotionBots';
@@ -87,6 +88,7 @@ interface FpsPlayer {
   color: string;
   x: number;
   y: number;
+  groundY:number;verticalSpeed:number;grounded:boolean;crouching:boolean;eyeHeight:number;
   z: number;
   yaw: number;
   pitch: number;
@@ -159,6 +161,7 @@ export class FpsScene extends Phaser.Scene {
   private players: FpsPlayer[] = [];
   private matchTime = 0;
   private finished = false;
+  private winnerId:PlayerId|null=null;
   private broadcastAcc = 0;
   private pauseMenu!: PauseMenu;
   private graphics!: Phaser.GameObjects.Graphics;
@@ -202,13 +205,13 @@ export class FpsScene extends Phaser.Scene {
     this.ctx = data.ctx;
     this.soloBots = new MotionBots(this.ctx);
     this.players = [];
-    this.finished = false;
+    this.finished = false;this.winnerId=null;
     this.broadcastAcc = 0;
     this.clock=0;this.blasts=[];
     this.rankTexts = [];
     this.radarTags = [];
     this.radarNames = [];
-    this.matchTime = Math.min(100, data.ctx.durationSec);
+    this.matchTime = 0; // Score race: there is no gameplay time limit.
     this.controlsDone = false;
     this.splitScreen = null;
     this.splitScreenCanvas = null;
@@ -237,6 +240,7 @@ export class FpsScene extends Phaser.Scene {
         color: snap.color,
         x: spawn.x,
         y: spawn.y??this.nuketown?.floorAt(spawn.x,spawn.z)??0,
+        groundY:spawn.y??this.nuketown?.floorAt(spawn.x,spawn.z)??0,verticalSpeed:0,grounded:true,crouching:false,eyeHeight:FPS_BODY.eye,
         z: spawn.z,
         yaw: Math.atan2(-spawn.x, -spawn.z), // verso il centro (il telefono allinea la visuale al primo stato)
         pitch: 0,
@@ -360,7 +364,7 @@ export class FpsScene extends Phaser.Scene {
       characterId: this.ctx.players.find((s) => s.id === p.id)?.characterId ?? null,
       displayName: this.ctx.players.find((s) => s.id === p.id)?.displayName,
       x: p.x,
-      y:p.y,spawnProtection:p.spawnProtection,
+      y:p.y,spawnProtection:p.spawnProtection,crouching:p.crouching,grounded:p.grounded,eyeHeight:p.eyeHeight,
       z: p.z,
       yaw: p.yaw,
       pitch: p.pitch,
@@ -429,19 +433,17 @@ export class FpsScene extends Phaser.Scene {
     // Tempo reale (vedi core/frameClock): il timer scala con l'orologio, la simulazione va a sotto-passi.
     const steps = splitFrameDelta((delta / 1000) * getTimeScale()); // getTimeScale: 1, salvo rallentatore di debug
     const dt = steps.reduce((a, b) => a + b, 0);
-    this.matchTime -= dt;
-    if (this.matchTime <= 20) setGameIntensity(2); // ultimi 20 secondi: strato musicale finale (nessun effetto sul tempo)
-    this.timerText.setText(`TEMPO ${Math.max(0, Math.ceil(this.matchTime))}`);
-    if (this.matchTime <= 0) {
-      this.endGame();
-      return;
-    }
+    this.matchTime += dt;
+    const leader=Math.max(0,...this.players.map(p=>p.kills));
+    if(leader>=FPS_KILL_TARGET-2)setGameIntensity(2);
+    this.timerText.setText(`PRIMO A ${FPS_KILL_TARGET} UCCISIONI · ${leader}/${FPS_KILL_TARGET}`);
 
     for (const sub of steps) {
       this.clock += sub;
       if(this.nuketown)this.nuketownBots!.step(sub,this.players,this.nuketown);else this.soloBots.fps(sub, this.players);
       for (const p of this.players) this.stepPlayer(p, sub);
       this.stepBlasts();
+      if(this.winnerId){this.endGame();return;}
     }
 
     for (const q of this.players) abilityHub.setStatus(q.id, this.fpsAb.status(q, getWeapon(q.weaponId))); // HUD + Companion Card (solo presentazione)
@@ -457,6 +459,7 @@ export class FpsScene extends Phaser.Scene {
   }
 
   private stepPlayer(p: FpsPlayer, dt: number): void {
+    if(this.winnerId)return;
     if (!p.alive) {
       p.respawnTimer -= dt;
       if (p.respawnTimer <= 0) this.respawn(p);
@@ -493,6 +496,13 @@ export class FpsScene extends Phaser.Scene {
         visible:(a,b)=>this.nuketown!.visible(a,b),move:(a,b)=>this.nuketown!.move(a,b)
       }:undefined);
       if (res !== 'ok') abilityHub.failed(p.id, res === 'cooldown' ? 'IN RICARICA' : res === 'spent' ? 'ESAURITA' : res === 'notreloading' ? 'RICARICA PRIMA' : res === 'nobody' ? 'NESSUNO DAVANTI' : 'NON ORA');
+    }
+    const room=p.grounded?(this.nuketown?.headroomAt?.(p.x,p.z,p.groundY)??12):12;
+    p.crouching=(!stunned&&input.pressed('crouch'))||room<FPS_BODY.standing;
+    p.eyeHeight=p.crouching?FPS_BODY.crouchEye:FPS_BODY.eye;
+    if(!stunned&&input.justPressed('jump')&&p.grounded&&!p.crouching){
+      p.grounded=false;p.verticalSpeed=FPS_BODY.jumpSpeed;
+      this.ctx.signal(p.id,{type:'jump'});
     }
     const mv = stunned ? { x: 0, y: 0 } : input.axis('move');
     // Movimento relativo alla visuale (yaw): su = avanti, destra = strafe destra.
@@ -533,7 +543,7 @@ export class FpsScene extends Phaser.Scene {
     }
 
     // Dash
-    if (!stunned && input.justPressed('dash') && p.dashCooldown <= 0 && p.dashTime <= 0) {
+    if (!stunned && !p.crouching && input.justPressed('dash') && p.dashCooldown <= 0 && p.dashTime <= 0) {
       p.ads = 0;
       p.dashTime = DASH_TIME;
       p.dashCooldown = DASH_COOLDOWN;
@@ -550,17 +560,34 @@ export class FpsScene extends Phaser.Scene {
       p.x += p.dashDirX * DASH_SPEED * dt;
       p.z += p.dashDirZ * DASH_SPEED * dt;
     } else if (mag > 0.15) {
-      const sp = PLAYER_SPEED * weapon.movementModifier * this.fpsAb.speedFactor(p) * aimMovement(p.ads);
+      const sp = PLAYER_SPEED * (p.crouching?FPS_BODY.crouchSpeed:1) * weapon.movementModifier * this.fpsAb.speedFactor(p) * aimMovement(p.ads);
       p.x += ax * sp * dt;
       p.z += az * sp * dt;
     }
 
-    if(this.nuketown){Object.assign(p,this.nuketown.move(previous,p));}
+    let supportFloor:number|null=p.groundY;
+    if(this.nuketown){
+      const height=p.crouching?FPS_BODY.crouched:FPS_BODY.standing;
+      if(!p.grounded&&this.nuketown.moveAir){
+        const moved=this.nuketown.moveAir(previous,p,height);p.x=moved.x;p.z=moved.z;
+        supportFloor=this.nuketown.floorBelow?.(p.x,p.z,p.y+.1)??null;
+        if(supportFloor!==null)p.groundY=supportFloor;
+      }else {
+        const moved=this.nuketown.move({...previous,y:p.groundY},p,height);
+        p.x=moved.x;p.z=moved.z;p.groundY=moved.y??0;supportFloor=p.groundY;
+      }
+    }
     else {
       const res = resolveCollisions(p.x, p.z, PLAYER_RADIUS, FPS_MAP.obstacles);
       p.x = Math.max(-FPS_MAP.halfSize+PLAYER_RADIUS,Math.min(FPS_MAP.halfSize-PLAYER_RADIUS,res.x));
       p.z = Math.max(-FPS_MAP.halfSize+PLAYER_RADIUS,Math.min(FPS_MAP.halfSize-PLAYER_RADIUS,res.z));
     }
+
+    const headroom=supportFloor===null?12:this.nuketown?.headroomAt?.(p.x,p.z,p.groundY)??12;
+    if(headroom<FPS_BODY.standing){p.crouching=true;p.eyeHeight=FPS_BODY.crouchEye;}
+    stepFpsVertical(p,dt,supportFloor??-50,supportFloor===null?50:p.groundY+headroom,p.crouching?FPS_BODY.crouched:FPS_BODY.standing);
+
+    if(p.y < -6){this.collectDebt(p,'CADUTA');return;}
 
     // Ricarica manuale (pulsante): serve per non restare a secco nel momento sbagliato
     if (!noFire && input.justPressed('reload') && !p.reloading && p.magazine < weapon.magazine) this.startReload(p, weapon);
@@ -639,7 +666,7 @@ export class FpsScene extends Phaser.Scene {
     const segs: { ox: number; oy: number; oz: number; ex: number; ey: number; ez: number }[] = [];
 
     const ox = p.x;
-    const oy = EYE_HEIGHT+p.y;
+    const oy = p.eyeHeight+p.y;
     const oz = p.z;
     const pellets = weapon.pellets ?? 1;
     const spread = aimSpread(weapon.spread, p.ads, p.moving, p.heat) * this.fpsAb.spreadFactor(p); // Dottore dopo M'HO SVEJATO: la mira trema
@@ -664,7 +691,7 @@ export class FpsScene extends Phaser.Scene {
       }
       for (const other of this.players) {
         if (other.id === p.id || !other.alive) continue;
-        const box: Aabb = { x: other.x, z: other.z, w: 0.8, d: 0.8, h: 1.8,base:other.y };
+        const box: Aabb = { x: other.x, z: other.z, w: 0.8, d: 0.8, h: other.crouching?FPS_BODY.crouched:FPS_BODY.standing,base:other.y };
         const t = rayVsAabb(ox, oy, oz, dx, dy, dz, box);
         if (t !== null && t < bestT) {
           bestT = t;
@@ -725,6 +752,7 @@ export class FpsScene extends Phaser.Scene {
 
   /** Applica il danno; ritorna false se non e' stato inflitto (bersaglio protetto). L'hit al tiratore parte SOLO da qui: conferma reale. */
   private applyDamage(target: FpsPlayer, damage: number, source: FpsPlayer, origin: { x: number; z: number } = source): boolean {
+    if(this.winnerId)return false;
     if (!target.alive || target.spawnProtection > 0) return false;
     // BUTTAFUORI: il giubbotto assorbe parte del danno (che poi in parte torna come vita)
     const taken = this.fpsAb.reduceDamage(target, damage);
@@ -744,12 +772,14 @@ export class FpsScene extends Phaser.Scene {
   }
 
   private kill(target: FpsPlayer, killer: FpsPlayer): void {
+    if(this.winnerId)return;
     target.hp = 0;
     target.alive = false;
     this.resetAim(target); this.ctx.input.get(target.id).setUp('aim'); this.ctx.input.get(target.id).setUp('fire'); target.firing = false; target.burstLeft = 0;
     target.respawnTimer = RESPAWN_TIME;
     target.deaths++;
     killer.kills++;
+    if(killer.kills>=FPS_KILL_TARGET&&!this.winnerId)this.winnerId=killer.id;
     this.fpsAb.onKill(killer, (f) => this.onAbilityFeedback(killer, f), (hp) => (killer.hp = Math.min(MAX_HP, killer.hp + hp)));
     this.fpsAb.onDeath(target); // le finestre aperte non sopravvivono alla morte (le cariche restano com'erano)
     audio.wrong();
@@ -812,7 +842,7 @@ export class FpsScene extends Phaser.Scene {
   }
 
   /** L'esattore: il debito di Ciro scade e muore (senza regalare una kill a nessuno). */
-  private collectDebt(p: FpsPlayer): void {
+  private collectDebt(p: FpsPlayer,by='ESATTORE'): void {
     if (!p.alive) return;
     p.hp = 0;
     p.alive = false;
@@ -822,7 +852,7 @@ export class FpsScene extends Phaser.Scene {
     this.fpsAb.onDeath(p);
     audio.wrong();
     this.ctx.vibrate(p.id, HAPTIC.HEAVY);
-    this.ctx.signal(p.id, { type: 'eliminated', by: 'ESATTORE' });
+    this.ctx.signal(p.id, { type: 'eliminated', by });
   }
 
   private resetAim(p: FpsPlayer): void {
@@ -833,6 +863,7 @@ export class FpsScene extends Phaser.Scene {
     const spawn = this.pickSpawn(this.players.filter((q) => q.id !== p.id));
     p.x = spawn.x;
     p.y=spawn.y??this.nuketown?.floorAt(spawn.x,spawn.z)??0;
+    p.groundY=p.y;p.grounded=true;p.verticalSpeed=0;p.crouching=false;p.eyeHeight=FPS_BODY.eye;
     p.z = spawn.z;
     p.yaw = Math.atan2(-spawn.x, -spawn.z);
     p.pitch = 0;
@@ -848,14 +879,14 @@ export class FpsScene extends Phaser.Scene {
     this.ctx.signal(null, {
       type: 'fpsState',
       mapId:this.ctx.mapId==='terminal'?'terminal':this.nuketown?'nuketown':'cantiere',
-      matchTime: Math.max(0, this.matchTime),
+      matchTime: this.matchTime,killTarget:FPS_KILL_TARGET,
       players: this.players.map((p) => ({
         id: p.id,
         name: p.name,
         avatar: p.avatar,
         color: p.color,
         x: p.x,
-        y:p.y,
+        y:p.y,crouching:p.crouching,grounded:p.grounded,eyeHeight:p.eyeHeight,
         z: p.z,
         yaw: p.yaw,
         pitch: p.pitch,
@@ -954,7 +985,7 @@ export class FpsScene extends Phaser.Scene {
     if (this.finished) return;
     this.finished = true;
     for (const p of this.players) { this.resetAim(p); p.firing = false; p.burstLeft = 0; this.ctx.input.get(p.id).setUp('aim'); this.ctx.input.get(p.id).setUp('fire'); }
-    this.splitScreen?.setRoundEndMessage('⏱ TEMPO SCADUTO');
+    this.splitScreen?.setRoundEndMessage(`🏆 ${this.players.find(p=>p.id===this.winnerId)?.name??'VITTORIA'} · ${FPS_KILL_TARGET} UCCISIONI`);
     const sorted = [...this.players].sort((a, b) => {
       if (a.kills !== b.kills) return b.kills - a.kills;
       if (a.deaths !== b.deaths) return a.deaths - b.deaths;
@@ -966,7 +997,7 @@ export class FpsScene extends Phaser.Scene {
       placement: i + 1,
       score: p.kills,
       stats: [
-        `${p.kills} kill · ${p.deaths} morti`,
+        `${p.kills}/${FPS_KILL_TARGET} kill · ${p.deaths} morti`,
         p.shotsFired > 0 ? `precisione ${Math.round((p.shotsHit / p.shotsFired) * 100)}%` : 'nessun colpo sparato'
       ]
     }));
@@ -976,7 +1007,7 @@ export class FpsScene extends Phaser.Scene {
       accuracyPct: Math.round((this.players.reduce((a, p) => a + p.shotsHit, 0) / Math.max(1, this.players.reduce((a, p) => a + p.shotsFired, 0))) * 100)
     });
     abilityHub.end();
-    this.ctx.signal(null, { type: 'fpsEnd', players: sorted.map((p) => ({ id: p.id, name: p.name, kills: p.kills, deaths: p.deaths })) });
+    this.ctx.signal(null, { type: 'fpsEnd', winnerId:this.winnerId,killTarget:FPS_KILL_TARGET,players: sorted.map((p) => ({ id: p.id, name: p.name, kills: p.kills, deaths: p.deaths })) });
     this.ctx.finish({ results });
   }
 }

@@ -1,0 +1,75 @@
+{
+  "nodes": 157350,
+  "reachableFromApron": 91773,
+  "walkableSquareMetres": 14161.5,
+  "cabinRoutes": [
+    {
+      "target": {
+        "x": -39.3,
+        "y": 5.14,
+        "z": -42
+      },
+      "nodes": 178,
+      "failures": 0
+    },
+    {
+      "target": {
+        "x": -39.3,
+        "y": 5.14,
+        "z": -45
+      },
+      "nodes": 188,
+      "failures": 0
+    },
+    {
+      "target": {
+        "x": -39.3,
+        "y": 5.14,
+        "z": -50.1
+      },
+      "nodes": 205,
+      "failures": 0
+    },
+    {
+      "target": {
+        "x": -39.3,
+        "y": 5.14,
+        "z": -54.9
+      },
+      "nodes": 221,
+      "failures": 0
+    }
+  ],
+  "aircraftJump": {
+    "end": {
+      "x": -39.3,
+      "y": 5.13,
+      "z": -59.92500000000018,
+      "verticalSpeed": 0,
+      "grounded": true
+    },
+    "jumpCount": 1,
+    "airborneFrames": 23
+  },
+  "jumpFrameRates": [
+    {
+      "hz": 30,
+      "apex": 1.0666666666666667
+    },
+    {
+      "hz": 60,
+      "apex": 1.0675000000000012
+    },
+    {
+      "hz": 120,
+      "apex": 1.0677083333333315
+    }
+  ],
+  "spawnClear": true,
+  "coverBlocked": true,
+  "crouchPassage": {
+    "x": -41.4,
+    "y": 5.14,
+    "z": -29.1
+  }
+}

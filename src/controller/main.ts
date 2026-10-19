@@ -1449,7 +1449,7 @@ function handleFpsSignal(s: SignalPayload): void {
       fpsClient?.boom(s as unknown as { x: number; y: number; z: number; r: number });
       break;
     case 'fpsEnd':
-      if (fpsClient) fpsClient.showDeath('⏱ TEMPO!');
+      if (fpsClient) fpsClient.showDeath('🏆 TRAGUARDO: 10 UCCISIONI');
       break;
   }
 }
@@ -1504,6 +1504,8 @@ function renderFpsController(): void {
         <button id="fps-aim" class="fps-aim" aria-label="Mira: tieni premuto" aria-pressed="false">◎<span>MIRA · TIENI</span></button>
         <button id="fps-fire" class="fps-fire">🔫<span>SPARA</span></button>
         <button id="fps-ability" class="fps-ability">⚡<span>ABILITÀ</span></button>
+        <button id="fps-jump" class="fps-move-action">↑<span>SALTA</span></button>
+        <button id="fps-crouch" class="fps-move-action" aria-label="Accovacciati: tieni premuto" aria-pressed="false">↓<span>ACCOVACCIATI</span></button>
         <button id="fps-dash" class="fps-dash">💨<span>DASH</span></button>
         <button id="fps-reload" class="arena-ability fps-reload">🔄<span>RICARICA</span></button>
       </div>
@@ -1555,7 +1557,7 @@ function renderFpsController(): void {
   fpsLookEl.addEventListener('fps-cancel', () => { activeLookPointer = null; lastX = lastY = -1; });
 
   // SPARA and MIRA have separate pointer ownership; aim + fire + look can coexist.
-  const bindHold = (button: HTMLButtonElement, control: 'aim' | 'fire'): void => {
+  const bindHold = (button: HTMLButtonElement, control: 'aim' | 'fire' | 'crouch'): void => {
     let owner: number | null = null;
     const release = (): void => {
       const pointer = owner; owner = null;
@@ -1578,6 +1580,8 @@ function renderFpsController(): void {
     }
     button.addEventListener('fps-cancel', release);
   };
+  bindHold(app.querySelector<HTMLButtonElement>('#fps-crouch')!, 'crouch');
+  app.querySelector<HTMLButtonElement>('#fps-jump')!.addEventListener('pointerdown',e=>{e.preventDefault();if(!state?.paused&&!fpsLocked)sendInput({kind:'action',controlId:'jump'});});
   bindHold(fpsFireBtn, 'fire');
   bindHold(app.querySelector<HTMLButtonElement>('#fps-aim')!, 'aim');
 
@@ -2583,7 +2587,7 @@ function releaseControllerInput(): void {
   cancelArenaAttack();
   arenaJoy?.reset(); dbJoy?.reset(); soccerJoy?.reset(); volleyJoy?.reset(); fpsJoy?.reset();
   fpsClient?.setFirePressed(false);
-  for (const id of ['fps-aim', 'fps-fire', 'fps-look']) app.querySelector(`#${id}`)?.dispatchEvent(new Event('fps-cancel'));
+  for (const id of ['fps-aim', 'fps-fire', 'fps-crouch', 'fps-look']) app.querySelector(`#${id}`)?.dispatchEvent(new Event('fps-cancel'));
   endSoccerCharge();
   if (!phoneIsOnTable() && state?.currentMinigame?.minigameId==='cornicione') {
     sendInput({kind:'action',controlId:'throwCancel'});
