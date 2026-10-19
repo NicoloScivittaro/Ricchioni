@@ -1,0 +1,14 @@
+import type {Aabb} from '../../../shared/fpsMap';
+export interface FpsArenaPoint {x:number;z:number;y?:number}
+/** Structural contract shared by imported FPS arenas; rendering stays separate. */
+export interface ImportedFpsArena {
+ name:string;halfSize:number;obstacles:Aabb[];spawns:FpsArenaPoint[];nav:FpsArenaPoint[];
+ floorAt(x:number,z:number,y?:number):number|null;
+ isClear(x:number,z:number,r?:number,y?:number):boolean;
+ move(from:FpsArenaPoint,to:FpsArenaPoint):FpsArenaPoint;
+ ray(ox:number,oy:number,oz:number,dx:number,dy:number,dz:number,max:number):number;
+ visible(p:FpsArenaPoint,q:FpsArenaPoint):boolean;
+ blastVisible(origin:{x:number;y:number;z:number},target:FpsArenaPoint):boolean;
+ canTraverse(p:FpsArenaPoint,q:FpsArenaPoint):boolean;
+ nextWaypoint(p:FpsArenaPoint,q:FpsArenaPoint):FpsArenaPoint;
+}

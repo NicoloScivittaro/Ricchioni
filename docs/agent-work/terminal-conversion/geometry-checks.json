@@ -1,0 +1,20 @@
+{
+  "validGLB": true,
+  "sha256": "d0710fe34be74f7f581348e797f9b99173c31ec279e8d9ff14082392cd82d356",
+  "uniqueTriangles": 820606,
+  "sceneTrianglesWithInstances": 1985376,
+  "images": 534,
+  "finiteGeometry": true,
+  "validIndices": true,
+  "unitNormals": true,
+  "prefabRotationProbe": true,
+  "properAxisRotation": true,
+  "metersPerSourceUnit": 0.0254,
+  "measuredSeatMetersSourceXYZ": [
+    0.7787931125640869,
+    0.6085587844848632,
+    1.2995263954162597
+  ],
+  "actualPlacementsChecked": 2618,
+  "spawnDataUsedAsProof": false
+}

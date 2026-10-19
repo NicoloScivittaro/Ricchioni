@@ -19,7 +19,8 @@ export const GOLF_MAPS:readonly MapOption[]=[
 ];
 export const FPS_MAPS:readonly MapOption[]=[
   {id:'cantiere',name:'CANTIERE DEL DISAGIO',description:'2–5 giocatori · container e coperture.',color:'#ddaa55',icon:'▤'},
-  {id:'nuketown',name:'NUKETOWN',description:'2–5 giocatori · case, cortili e veicoli.',color:'#65b4dd',icon:'⌂'}
+  {id:'nuketown',name:'NUKETOWN',description:'2–5 giocatori · case, cortili e veicoli.',color:'#65b4dd',icon:'⌂'},
+  {id:'terminal',name:'TERMINAL',description:'2–5 giocatori · aeroporto, corridoi e aereo.',color:'#c9b784',icon:'✈'}
 ];
 const KART_MAPS:readonly MapOption[]=[
   {id:'litorale',name:'CIRCUITO DEL LITORALE',description:'Curve, rampe e derapate sul mare.',color:'#ffbf69',icon:'⌁'},

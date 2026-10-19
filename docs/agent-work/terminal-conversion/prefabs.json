@@ -1,0 +1,637 @@
+{
+  "prefabs/mp_terminal/props/moving_stairs.map": {
+    "sha256": "06c058d40606352e5f19473bf235f1f4b9d2d532da573562bccf70f059bb54ff",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\moving_stairs.map"
+  },
+  "prefabs/mp_terminal/props/flower_crate_01.map": {
+    "sha256": "41a0e951a3169ca75c74fef4124481cf5ba7e7ff099464490d8c049a1ef47b74",
+    "instances": 3,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\flower_crate_01.map"
+  },
+  "prefabs/mp_terminal/walls/holding_column_01.map": {
+    "sha256": "4598f19697cfc94965a740fd4b1ddad48b57fa0b7b6729415daf23864d83b621",
+    "instances": 13,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\walls\\holding_column_01.map"
+  },
+  "prefabs/mp_terminal/bldg/athroom.map": {
+    "sha256": "0803e7062854e5ad2675ebeccc51c05d78689b1f81ba09b988297f1d79b064e0",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\athroom.map"
+  },
+  "prefabs/mp_terminal/props/aehnh.map": {
+    "sha256": "6b1437dc91457a565e3ab8c3644f3efe922742da56303205d0fe8fbf7f47fff1",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\aehnh.map"
+  },
+  "prefabs/mp_terminal/props/flower_crate_03.map": {
+    "sha256": "5aa8bb26affae03b4c98f81f23219e605b3ce84843b6ad62730b904e7919fb7a",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\flower_crate_03.map"
+  },
+  "prefabs/mp_terminal/walls/holding_column_02.map": {
+    "sha256": "2c4303d1f38fae2742b25572e770574780a171475a3f821edebf0240868ee5be",
+    "instances": 34,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\walls\\holding_column_02.map"
+  },
+  "prefabs/mp_terminal/props/signboard_01.map": {
+    "sha256": "084746a182ce14954cb6a5434c6caeace24be2e4136005b022ce34fd3928ac50",
+    "instances": 3,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\signboard_01.map"
+  },
+  "prefabs/mp_terminal/props/signboard_02.map": {
+    "sha256": "7b02895ee7365695cadcd1a87e18d1120dfc97e6e461629dbf0bb9f1d4d285fd",
+    "instances": 3,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\signboard_02.map"
+  },
+  "prefabs/mp_terminal/props/flower_crate_04.map": {
+    "sha256": "22594bb6a3013a9a6a5b271e68fe6f9e48557eb9a982393346a81d49ce3b6145",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\flower_crate_04.map"
+  },
+  "prefabs/mp_terminal/props/lightfluohang_double_on.map": {
+    "sha256": "d042d937acd1c46f05192dd0198b28293f415351d509ec311ecfa04b01cccb3e",
+    "instances": 25,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\lightfluohang_double_on.map"
+  },
+  "prefabs/mp_terminal/props/waiting_forlearn.map": {
+    "sha256": "648941d4f9d7efb5c26a86ae0034e88a7ac196e534f06957293619c3dfd15378",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\waiting_forlearn.map"
+  },
+  "prefabs/mp_terminal/props/flower_crate_02.map": {
+    "sha256": "ebadd4171d617ff3ada53f35660bedf5cf34620ee665270fc8da75942723d684",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\flower_crate_02.map"
+  },
+  "prefabs/mp_terminal/props/glass_ornament_holder.map": {
+    "sha256": "3b1fef53df2cd66f2f31a32105b0d4b8cebe382f394c8821463d146b6b9b69ce",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\glass_ornament_holder.map"
+  },
+  "prefabs/mp_terminal/bldg/library.map": {
+    "sha256": "6ed6ee0842c8d1cd2c4b4dcfde6aebf76d293e2e55cf5f46116202806ae4e1c2",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\library.map"
+  },
+  "prefabs/misc_models/ap_couch01.map": {
+    "sha256": "67b6f241d8374b1490097ff7c7b3220438301ed352746859bb672271f099a2b7",
+    "instances": 10,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ap_couch01.map"
+  },
+  "prefabs/mp_terminal/props/bookshelf_02.map": {
+    "sha256": "b077d51646e34184c5d1c4a38f0f3470154e1d03feae1abfc42ca460e5519e1d",
+    "instances": 3,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\bookshelf_02.map"
+  },
+  "prefabs/mp_terminal/props/bookshelf_01.map": {
+    "sha256": "7fec18453b1f7d6845961ac344cefaf023807a84f40b4d4e68019e594bc5664e",
+    "instances": 4,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\bookshelf_01.map"
+  },
+  "prefabs/mp_terminal/props/bookshelf_03.map": {
+    "sha256": "99540ca94f633f681741e69f58559aa6503a5d9c82eff99f94c3ccbe19312821",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\bookshelf_03.map"
+  },
+  "prefabs/mp_terminal/bldg/hamburger_cafe_01.map": {
+    "sha256": "6c16b50e987cb176cce835ad20357554c5b9f206660cde251edadd5b17035f7b",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\hamburger_cafe_01.map"
+  },
+  "prefabs/misc_models/com_restaurantkitchenvent.map": {
+    "sha256": "d6b5d27f9aa185f69f7f7eb42c3c23f0a574763207720392c2518deb21074ed7",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_restaurantkitchenvent.map"
+  },
+  "prefabs/misc_models/com_restaurantstove.map": {
+    "sha256": "d97b60bfd982e8e29438b7a564b373a4859c5aa57537d4db2d36e716ed70edd3",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_restaurantstove.map"
+  },
+  "prefabs/misc_models/com_restaurantstovewithburner.map": {
+    "sha256": "8da134e97a60180546c4702f1984d2da0fafd26c52abd80fea16b0c9bd5e4612",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_restaurantstovewithburner.map"
+  },
+  "prefabs/mp_terminal/props/burgertown.map": {
+    "sha256": "f0b0ce1215b51c5e6d6f7c4704fc9cf230ac2578a26be29e88b755e51cb9d551",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\burgertown.map"
+  },
+  "prefabs/mp_terminal/interactable_objects/flatscreen_tv_wallmount_broken_02.map": {
+    "sha256": "a371386da35de4e635cea9b319b79b3ea0a1bbe6d4059ed831a8a94467fe9a9b",
+    "instances": 26,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\interactable_objects\\flatscreen_tv_wallmount_broken_02.map"
+  },
+  "prefabs/mp_terminal/props/flower_crate_05.map": {
+    "sha256": "e2444d05ea736e395c40d366a83fb88ba9b36435ebe6cea06428f2c636b03794",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\flower_crate_05.map"
+  },
+  "prefabs/mp_terminal/props/flower_crate_06.map": {
+    "sha256": "970cad9f6f3ec627c41d7610d625a67f9f928aa0e9be93578c8380feca07734c",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\flower_crate_06.map"
+  },
+  "prefabs/mp_terminal/props/flower_crate_07.map": {
+    "sha256": "d8c2fa849ffb57521ba03ea07f32b013c8892270e6afa2bbab6d03c44a059f63",
+    "instances": 4,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\flower_crate_07.map"
+  },
+  "prefabs/misc_models/furniture_bench_plastic.map": {
+    "sha256": "fe66b164d3229b92c3b3d48969de89c1c780963f7ac35564fe2ab08af772273c",
+    "instances": 43,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\furniture_bench_plastic.map"
+  },
+  "prefabs/misc_models/furniture_chair_airport.map": {
+    "sha256": "532edb9cc83b8cefae1caa705a6f3c20838b9a14ed0071964e4e408eb0dc96b2",
+    "instances": 25,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\furniture_chair_airport.map"
+  },
+  "prefabs/misc_models/ma_longseat_left_1.map": {
+    "sha256": "3d082c7c8ac48d3bafc8da14b075674f6d4ac52c835a293a728654b6d19a65f6",
+    "instances": 6,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ma_longseat_left_1.map"
+  },
+  "prefabs/misc_models/ma_longseat_right_1.map": {
+    "sha256": "538089578aea394776e3723014b69e7a8a851c3fb64807ae15b9c749714d3c83",
+    "instances": 6,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ma_longseat_right_1.map"
+  },
+  "prefabs/misc_models/machinery_baggage_container_white.map": {
+    "sha256": "7963e5c8a5e03ff1212af9a7320d68b070166c56be3bfd7332eccd2d40a2f2f2",
+    "instances": 31,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\machinery_baggage_container_white.map"
+  },
+  "prefabs/misc_models/machinery_baggage_container_blue.map": {
+    "sha256": "be096b97eaf64a3d5ec1095764f805c1260bcd64e42bb38f4311e5b39be8cfbf",
+    "instances": 31,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\machinery_baggage_container_blue.map"
+  },
+  "prefabs/misc_models/machinery_baggage_container.map": {
+    "sha256": "7a556c461851ba9ae1ac0357e492f40c9694bb0d3d093b936451d70ae841366b",
+    "instances": 24,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\machinery_baggage_container.map"
+  },
+  "prefabs/mp_terminal/props/plastic_fence_01.map": {
+    "sha256": "3f50d36edde57f4364ebb1229b83d68d4fdf5bf0b9d224842894b7d9fc05be81",
+    "instances": 68,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\plastic_fence_01.map"
+  },
+  "prefabs/misc_models/road_barrier_orange.map": {
+    "sha256": "b609b3b0a68484d68e34c62b0c5011ea08905a0c0ecb0c9983a81a63357f7333",
+    "instances": 69,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\road_barrier_orange.map"
+  },
+  "prefabs/mp_terminal/props/plastic_fence_02.map": {
+    "sha256": "b3a0dc560b560aa86648401639850b97e0f521a4b71584dd2577e8b583e5a4c8",
+    "instances": 68,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\plastic_fence_02.map"
+  },
+  "prefabs/misc_models/road_barrier_white.map": {
+    "sha256": "e7a3d95a7286a3368bf9d1e1b386872f86bb42bfd3c719dfcb8bf9325ae0173b",
+    "instances": 70,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\road_barrier_white.map"
+  },
+  "prefabs/mp_terminal/props/package_carrier_auto_01.map": {
+    "sha256": "2618a358620e639d5b88b0ee50599230000232d65561f5893c71447521b7f990",
+    "instances": 5,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\package_carrier_auto_01.map"
+  },
+  "prefabs/misc_models/com_trashcan.map": {
+    "sha256": "06b6ee285dd4a9ed0b4bef690f3f50b01ac3701fae0fde4b986158806c217561",
+    "instances": 23,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_trashcan.map"
+  },
+  "prefabs/misc_models/com_vending_can_new2_lit.map": {
+    "sha256": "a8b8f1b02162a1c45cee5275789cf5b838e36a727a58034288580c016d66d5dc",
+    "instances": 5,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_vending_can_new2_lit.map"
+  },
+  "prefabs/misc_models/furniture_table1_airport.map": {
+    "sha256": "c3693a4978d98151c675be188ccfbf2d1d2d4581eb85a7200e923ba5e9569a87",
+    "instances": 10,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\furniture_table1_airport.map"
+  },
+  "prefabs/misc_models/tvs_table_1.map": {
+    "sha256": "8c4c86e446e691abad16b122a95c029200623d6bb77cc228555cfc9cef730dd3",
+    "instances": 5,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\tvs_table_1.map"
+  },
+  "prefabs/misc_models/machinery_xray_scanner.map": {
+    "sha256": "9cf1c11a36b105dc9825135de395ed17ae75e3a3fe8e77fc46a709fb1e73ef3a",
+    "instances": 4,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\machinery_xray_scanner.map"
+  },
+  "prefabs/misc_models/com_plasticcase_rifle.map": {
+    "sha256": "9d19fe7774f3bbde3c24885e19b36b01a8347d5654a882c476c52f2860fe6499",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_plasticcase_rifle.map"
+  },
+  "prefabs/misc_models/com_plasticcase_black_big.map": {
+    "sha256": "8f7da99cbf13c498da4abcf8380a29534cba931631a31f0e5e3e88c42d1ec3b4",
+    "instances": 3,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_plasticcase_black_big.map"
+  },
+  "prefabs/misc_models/com_plasticcase_green_big.map": {
+    "sha256": "0206d50a6f92a22676cf5360292b25d71864519d47d7da5d73b689f08dfdb555",
+    "instances": 6,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_plasticcase_green_big.map"
+  },
+  "prefabs/mp_terminal/windows/windows_all.map": {
+    "sha256": "b0db5e45cca554b455d78f36bc1b61bb49ce145f80a812eb43ee8cbd75f24c6c",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\windows\\windows_all.map"
+  },
+  "prefabs/misc_models/concrete_barrier_damaged_1.map": {
+    "sha256": "e16f56dedd57da7b306c876a37a5b41456ca8fc0e3f809c070b8cf8559683323",
+    "instances": 3,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\concrete_barrier_damaged_1.map"
+  },
+  "prefabs/misc_models/concrete_barrier_damaged_3.map": {
+    "sha256": "b62d07dc08749a45c235f122f50db6007fd9d6685861a44af479544ada391c17",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\concrete_barrier_damaged_3.map"
+  },
+  "prefabs/misc_models/vehicle_cart_airport.map": {
+    "sha256": "0eb8149152be1408098b024502c0a23a730fa4ad2bb59be59c84362146da87bf",
+    "instances": 8,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\vehicle_cart_airport.map"
+  },
+  "prefabs/misc_models/ma_garbage_bin_1.map": {
+    "sha256": "8fe964de440e4cde59c193376d83b6b074ac1204ab987ccd99d077bace0dbe9c",
+    "instances": 4,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ma_garbage_bin_1.map"
+  },
+  "prefabs/misc_models/ma_rectangular_table_1.map": {
+    "sha256": "a1c03b2284cf0ff4e355db9fa0d4c12218a18b97ff9aca702cac210ed5ef2ddd",
+    "instances": 6,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ma_rectangular_table_1.map"
+  },
+  "prefabs/misc_models/ma_square_table_1.map": {
+    "sha256": "ca54b41818dba411a9141598c483cc7425dbe600638ec0fbb93e6cf1bf9557c9",
+    "instances": 3,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ma_square_table_1.map"
+  },
+  "prefabs/misc_models/ma_stacking_chair_1.map": {
+    "sha256": "a5fd3e4a201a3f065e03b5b41d0530310b97bcd9c7c933c8a87e75da622d20cf",
+    "instances": 6,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ma_stacking_chair_1.map"
+  },
+  "prefabs/misc_models/bank_side_table.map": {
+    "sha256": "4bddf35b3bc9bd8a20866405ba4f1071df474e247d1ec681786b55c7ba26ce40",
+    "instances": 5,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\bank_side_table.map"
+  },
+  "prefabs/mp_terminal/props/deflector_01.map": {
+    "sha256": "3570247b0810320d990e2d280ab52f7f7145377423314e57dda8cbcf5b310804",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\deflector_01.map"
+  },
+  "prefabs/mp_terminal/props/value_storage_table.map": {
+    "sha256": "b21d242a26e5690fda67e24f859077307e2b470b112670f55e4cd39713e1581e",
+    "instances": 5,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\value_storage_table.map"
+  },
+  "prefabs/mp_terminal/props/some_table.map": {
+    "sha256": "cd0e8ac84675235c7e2f579418be32a2df0f933d2194654d282f111be5d51535",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\some_table.map"
+  },
+  "prefabs/interactable_objects/prop_barrel_benzin.map": {
+    "sha256": "1ff0ffed4011a4884ab0165be1bbd58cbe988308cf98b6cbad6b6294a60f3d84",
+    "instances": 12,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\interactable_objects\\prop_barrel_benzin.map"
+  },
+  "prefabs/mp/ctf_flag_axis.map": {
+    "sha256": "01ed67015dd7fc48169ada924889b2edc591028955fc575e985632ca79991ecb",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp\\ctf_flag_axis.map"
+  },
+  "prefabs/mp/sab_bomb_axis.map": {
+    "sha256": "bfc2d7896fc4f8edf001cdd1ef7dca117ec928fcab2d450a4956e60560c0e3bc",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp\\sab_bomb_axis.map"
+  },
+  "prefabs/mp/ctf_flag_allies.map": {
+    "sha256": "d54e7e7ad4e280e505d18240931f6e124df4c5587025b3e4a29869d34ea55f3d",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp\\ctf_flag_allies.map"
+  },
+  "prefabs/mp/sab_bomb_allies.map": {
+    "sha256": "235d76a7e469199662080365194fc1ce61dfebe1c7ecde0f40e5e4140e4e6582",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp\\sab_bomb_allies.map"
+  },
+  "prefabs/mp/sd_bomb.map": {
+    "sha256": "7dc5dcf3c3f5953d64fec1a4b914909417046f1a8b00ac01b2a3fdbc5bcd3df3",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp\\sd_bomb.map"
+  },
+  "prefabs/mp/sab_bomb.map": {
+    "sha256": "701bb05713801f5d8858ed236ceb7bf849ba122e92f420ad9408077ab924e046",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp\\sab_bomb.map"
+  },
+  "prefabs/mp/sd_bombzone_nuke_a.map": {
+    "sha256": "1cd79b435d89fa18bb37323035058889fde3a7b24b7aea120249774d0f258f61",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp\\sd_bombzone_nuke_a.map"
+  },
+  "prefabs/mp/sd_bombzone_nuke_b.map": {
+    "sha256": "605bb3eb21848e6cc4b47dbdb005ad2dffe56ac1b3cdc0011a295120ba8ffd72",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp\\sd_bombzone_nuke_b.map"
+  },
+  "prefabs/mp/sd_bombtrigger.map": {
+    "sha256": "b3835212f49a9eec8aee791ff295c7b6969eeff7e8118eea54de2007d73296c2",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp\\sd_bombtrigger.map"
+  },
+  "prefabs/misc_models/ap_food_cart.map": {
+    "sha256": "6351809d818102b1112333f5ec55cf8102af15b0f7cb9f0e93f751e9a06304d1",
+    "instances": 39,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ap_food_cart.map"
+  },
+  "prefabs/misc_models/com_vending_can_new2_destroyed.map": {
+    "sha256": "d96d8bcea6251e67b23c5f707c47977c54a7a800377948a051f35d300122bbe9",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_vending_can_new2_destroyed.map"
+  },
+  "prefabs/misc_models/com_folding_table.map": {
+    "sha256": "3559f3fa18844cbdf2307d04821af53e6056a999d812065c3c37cb15dde0cd23",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_folding_table.map"
+  },
+  "prefabs/mp_terminal/props/waiting_forlearn2.map": {
+    "sha256": "df35e01ea1c1c40fa2bdf223db0f3de3db364beef37e462c6afb810dec48c6eb",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\waiting_forlearn2.map"
+  },
+  "prefabs/misc_models/mil_ammo_case_3.map": {
+    "sha256": "c7d851b90b4037f3f6b57342562b14261b66d13fbd274d8a2a08e81b1e1d60ec",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\mil_ammo_case_3.map"
+  },
+  "prefabs/misc_models/mil_ammo_case_brown_3.map": {
+    "sha256": "ccb20ce3da4b0517cc7d67e04e8110cffdac4d65d968f4dd6eed07ab4e491d76",
+    "instances": 4,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\mil_ammo_case_brown_3.map"
+  },
+  "prefabs/misc_models/com_smallcoffeetable.map": {
+    "sha256": "165c53d248eaf7f3b60b21a87ea897fb41acfdc0848de1f9ea398d0991d8b6d8",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_smallcoffeetable.map"
+  },
+  "prefabs/misc_models/com_filecabinetblackclosed.map": {
+    "sha256": "94cf3e6b7da02aedf35fdb1a25840c166baa2a4a28510ccf4c7292d9631c72f7",
+    "instances": 3,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_filecabinetblackclosed.map"
+  },
+  "prefabs/mp_terminal/props/office_table_01.map": {
+    "sha256": "af607f77bfa282ce8c44c60860ceba9e1054bc097ebfc1bd22e8a4adc8a6670b",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\office_table_01.map"
+  },
+  "prefabs/misc_models/com_folding_chair.map": {
+    "sha256": "42b3fc9466bd0c8102fa3410bcfe295b505d33d6df3ab02c796f51aa2741c3ba",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_folding_chair.map"
+  },
+  "prefabs/misc_models/ma_sloped_back_chair_1.map": {
+    "sha256": "55f8e895413b703f77f5628f6c6ea5b46bf0ca52955ee10dc4c44c6cb52b2bff",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ma_sloped_back_chair_1.map"
+  },
+  "prefabs/mp_terminal/bldg/fashion_jewelry_store.map": {
+    "sha256": "278de0aae23f466fa7d9b0642c53d8c9d15bf9e77f6ed2131b4e6805323fe659",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\fashion_jewelry_store.map"
+  },
+  "prefabs/mp_terminal/props/bookshelf_buyer_01.map": {
+    "sha256": "1abf13337b58880e6580b0c13b813470cc7440819638411bfedce4860109b9d9",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\bookshelf_buyer_01.map"
+  },
+  "prefabs/mp_terminal/props/bookshelf_buyer_02.map": {
+    "sha256": "7c68a09a6950784e30427f43940738242def0b6e2fd8ed40913cf03f293f3c74",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\bookshelf_buyer_02.map"
+  },
+  "prefabs/mp_terminal/props/sign_russian_airport_dutyfree_01.map": {
+    "sha256": "8c13a3bc777ccc1359330ae3823d6f8df3e755fd74723db43a594d1bef13be0f",
+    "instances": 4,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\sign_russian_airport_dutyfree_01.map"
+  },
+  "prefabs/mp_terminal/props/sign_russian_airport_dutyfree_02.map": {
+    "sha256": "bae8d0817903d6ef1aedc1d858e225b3742a104487777a807e1ba1a22d0d15ef",
+    "instances": 6,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\sign_russian_airport_dutyfree_02.map"
+  },
+  "prefabs/mp_terminal/props/sign_russian_airport_dutyfree_03.map": {
+    "sha256": "751b3ba0952ff65d51b8376c32fe17910f0cc1f3d428648e48ead7633025da22",
+    "instances": 4,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\sign_russian_airport_dutyfree_03.map"
+  },
+  "prefabs/mp_terminal/props/sign_russian_airport_dutyfree_04.map": {
+    "sha256": "5ecd72ce9c1a7bf1db064eca6720e38fe9ceb698996280445ee2d28025b932e1",
+    "instances": 3,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\sign_russian_airport_dutyfree_04.map"
+  },
+  "prefabs/mp_terminal/props/sign_russian_airport_dutyfree_05.map": {
+    "sha256": "519e2af88eaa4b85fff004bf199aee7047b6a8f0ad0bd3753840e5e33d7e0c9b",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\sign_russian_airport_dutyfree_05.map"
+  },
+  "prefabs/mp_terminal/props/sign_russian_airport_dutyfree_06.map": {
+    "sha256": "80cdc533aadd47c988f252406f7b957d3c187643a342a07e0836595f7ca3eca6",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\sign_russian_airport_dutyfree_06.map"
+  },
+  "prefabs/mp_terminal/props/sign_russian_airport_dutyfree_07.map": {
+    "sha256": "f4c5ffe7272f593dcc0bc1e9ddada6fab8257af530a581ef1362bdbcc15806c8",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\sign_russian_airport_dutyfree_07.map"
+  },
+  "prefabs/mp_terminal/props/sign_russian_airport_dutyfree_08.map": {
+    "sha256": "810686ada3626cff5c49635650e38431355263425b737ac3c91077db78ee6685",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\sign_russian_airport_dutyfree_08.map"
+  },
+  "prefabs/mp_terminal/props/sign_russian_airport_dutyfree_09.map": {
+    "sha256": "e8793d9cd7de3f761fc50fa789fbaa8adfb197bfd0eca76596b3bd5f6fdeccdd",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\sign_russian_airport_dutyfree_09.map"
+  },
+  "prefabs/mp_terminal/props/sign_russian_airport_dutyfree_10.map": {
+    "sha256": "b57a9b7793a15e0ff6427692192212fc691a77d3a034401a611f759bd94b9ad1",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\sign_russian_airport_dutyfree_10.map"
+  },
+  "prefabs/mp_terminal/bldg/phone_booth_01.map": {
+    "sha256": "01e7c4046150ea42d7e4d7b5b47db296acdf3453d2891dded2a8acccb75da055",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\phone_booth_01.map"
+  },
+  "prefabs/misc_models/icbm_electronic_cabinet5.map": {
+    "sha256": "29b539c9db6bcef9e1ae72794703cc80e615ad1ade48d50ba2aa351428219a07",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\icbm_electronic_cabinet5.map"
+  },
+  "prefabs/misc_models/icbm_electronic_cabinet8.map": {
+    "sha256": "d9c761360043417bcda9e658fc99582d5503707610bb6037edbfa9812b1b54af",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\icbm_electronic_cabinet8.map"
+  },
+  "prefabs/misc_models/machinery_trashcomp02_roof.map": {
+    "sha256": "e3a3da869c890b88f4a1f953f0f71e4d4b2e86f277c745a780c50b7bf1213f48",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\machinery_trashcomp02_roof.map"
+  },
+  "prefabs/misc_models/com_restaurantstainlessteelshelf_01.map": {
+    "sha256": "69d1fba0cbde7e7dea4c96871a427f16f8f140f8c3a74ef18ec4c168645780c7",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_restaurantstainlessteelshelf_01.map"
+  },
+  "prefabs/misc_models/com_locker_double.map": {
+    "sha256": "a7982e2a0c712d5cec859b27eb3582b8c49049d29a1add836348619ebcf3afe5",
+    "instances": 3,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\com_locker_double.map"
+  },
+  "prefabs/mp_terminal/props/streetlightdual_on.map": {
+    "sha256": "a78513615da1ba12b8bbe45ed3277aeae070de52be477e3d3eb0c51d1288bc20",
+    "instances": 7,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\streetlightdual_on.map"
+  },
+  "prefabs/mp_terminal/bldg/haburger_restaurant.map": {
+    "sha256": "58999b41930e46598e11b9d8af083b637b86b8496ae1adbd02dcbe4254403d3b",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\haburger_restaurant.map"
+  },
+  "prefabs/mp_terminal/props/cargo_cage_64x96x48_01.map": {
+    "sha256": "787a1c326ac7a990e6bd99035eced9e062f2f6cd9328f2508a955b798ebe263e",
+    "instances": 4,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\cargo_cage_64x96x48_01.map"
+  },
+  "prefabs/misc_models/vehicle_cart_baggage_airport_small.map": {
+    "sha256": "7c9c994b1ccc32e0705184e5121de6d627138053e799444043c06340e18e8c4b",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\vehicle_cart_baggage_airport_small.map"
+  },
+  "prefabs/misc_models/ch_road_post.map": {
+    "sha256": "14b17e1fefee673b3894c2ea2a4a54ff7a2bf81a203eae50ce0a6df9fb9ed137",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ch_road_post.map"
+  },
+  "prefabs/misc_models/vehicle_mack_truck_short.map": {
+    "sha256": "9909d567d334aca9b8f54180c017eedb73ff40b085eab36f65ad6bc3ae02766a",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\vehicle_mack_truck_short.map"
+  },
+  "prefabs/mp_terminal/bldg/library_02.map": {
+    "sha256": "7bf3766dccdc722edd371b8cca401175c698c66b1ea2f096974432c0bbec4582",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\library_02.map"
+  },
+  "prefabs/mp_terminal/props/ventilation_system.map": {
+    "sha256": "53dffb71b37febe4cc7ac55e8b2eff0824e94d748d1d75b8416ce42a798d4ddb",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\ventilation_system.map"
+  },
+  "prefabs/mp_terminal/walls/holding_column_03.map": {
+    "sha256": "ea6817d4438d9a04472440efdb337f53c4ab8f909900fa6df7bc4a448641bd5c",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\walls\\holding_column_03.map"
+  },
+  "prefabs/mp_terminal/props/bar_counter.map": {
+    "sha256": "c6a397613516b840a734591295c9c9a7e3953bbb686e9eb99bcf1d1beb8b74b9",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\bar_counter.map"
+  },
+  "prefabs/misc_models/ma_restaurant_barstool.map": {
+    "sha256": "f72173b50266ada79e6106e85302434a3178c3eb7b2f60405b1f146513634f02",
+    "instances": 5,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ma_restaurant_barstool.map"
+  },
+  "prefabs/mp_terminal/props/bar_counter_02.map": {
+    "sha256": "3ea1b24cdd483845688c17da7b61d01b614eec13eb489317449037e8ee244b20",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\bar_counter_02.map"
+  },
+  "prefabs/misc_models/ch_russian_table.map": {
+    "sha256": "07ccc496c0231d7023ed83c183ec29eb9bfd15a9f560c9183a57cd48e82646b9",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ch_russian_table.map"
+  },
+  "prefabs/misc_models/evacslide.map": {
+    "sha256": "480df99a6370c938adead19d9a03582c053a5c286d905aaae92b763b32c3e819",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\evacslide.map"
+  },
+  "prefabs/mp_terminal/props/flying_entrance.map": {
+    "sha256": "68dc885b7f0d8328bcf5eb022d82289515ff5bf00393580420a7c4c56075bdc9",
+    "instances": 3,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\flying_entrance.map"
+  },
+  "prefabs/mp_terminal/bldg/airliner_flying.map": {
+    "sha256": "77a928d82cf331a207b602f82dc126482a58b28159ccff9cb25067c0483eb560",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\airliner_flying.map"
+  },
+  "prefabs/misc_models/ap_airbus_seat_1.map": {
+    "sha256": "afe2bc1f4af2f3e9aa1e048f3e75cc2fafcb39430c314790505613e0c9f7f4c9",
+    "instances": 9,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\misc_models\\ap_airbus_seat_1.map"
+  },
+  "prefabs/mp_terminal/bldg/assorted_shops.map": {
+    "sha256": "cafc99826f7a0d7fb0c0858c0550b1e9a0ac4323bfc7f6a3b19c65fc239f81dd",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\assorted_shops.map"
+  },
+  "prefabs/mp_terminal/bldg/library_03.map": {
+    "sha256": "43b687c25a382d3657b248ffcb5fcc987ff036a11e532d79c34cf45cafde2cfc",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\library_03.map"
+  },
+  "prefabs/mp_terminal/props/signal_lines.map": {
+    "sha256": "b17f478aab64b6ff70b814d1d506fceaef471da4a9abceedc3ef1a1e769315bd",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\signal_lines.map"
+  },
+  "prefabs/mp_terminal/props/lift.map": {
+    "sha256": "e8fc7a577f0a4f4d7d37f0accda9ac643a2615addd32242dbb4fdeb39189eefc",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\props\\lift.map"
+  },
+  "prefabs/mp_terminal/bldg/exterior_building_01.map": {
+    "sha256": "c5903bf55d2ca124d354fe49849808e2b2172aed9e4ac89db9c028fb40527aa2",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\exterior_building_01.map"
+  },
+  "prefabs/mp_terminal/bldg/exterior_building_02.map": {
+    "sha256": "70c3a2d711be37d3efc6d96b7202a587529711a336ab6d38c00b21c1066fc232",
+    "instances": 2,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\exterior_building_02.map"
+  },
+  "prefabs/mp_terminal/bldg/exterior_building_03.map": {
+    "sha256": "768f96e23720ff61002fc9ef81a0b5d871e558b3efa58ff7d98f289c3db01fce",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\exterior_building_03.map"
+  },
+  "prefabs/mp_terminal/bldg/exterior_building_04.map": {
+    "sha256": "d4f345b62e958817671758567a384d1923ff5212ac54d30a9d56e6a7217d559a",
+    "instances": 1,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\exterior_building_04.map"
+  },
+  "prefabs/mp_terminal/bldg/airliner_flying2.map": {
+    "sha256": "69348ff2f1d904007da50b239ae0321eccf580ea67849daac1cfdbe5682f82e4",
+    "instances": 4,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp_terminal\\bldg\\airliner_flying2.map"
+  },
+  "prefabs/mp/war_hq_obj.map": {
+    "sha256": "2f7426bf557953f36ea60d94b809a7309a08fb2d1b151d03bda2b19846042233",
+    "instances": 6,
+    "source": "docs\\agent-work\\terminal-conversion\\source\\zip\\map_source\\prefabs\\mp\\war_hq_obj.map"
+  }
+}

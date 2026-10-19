@@ -1,0 +1,34 @@
+{
+  "cabin": {
+    "x": -39.4,
+    "y": 5.14,
+    "z": -50
+  },
+  "routeReachable": true,
+  "pathNodes": 308,
+  "routeMovementFailures": 0,
+  "uphillSteps": 15,
+  "world": {
+    "partial": true,
+    "spatialBatches": 456,
+    "instanceGroups": 184,
+    "modelPrimitives": 2500,
+    "triangles": 1704739,
+    "materials": 10,
+    "loadMs": 5502.89999999851,
+    "source": "terminal-play.glb",
+    "shadows": "existing character blobs; no dynamic map shadow pass"
+  },
+  "phone": {
+    "partial": true,
+    "spatialBatches": 456,
+    "instanceGroups": 184,
+    "modelPrimitives": 2500,
+    "triangles": 1704739,
+    "materials": 10,
+    "loadMs": 5012.29999999702,
+    "source": "terminal-play.glb",
+    "shadows": "existing character blobs; no dynamic map shadow pass"
+  },
+  "errors": []
+}

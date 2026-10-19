@@ -1,0 +1,31 @@
+{
+  "sourceGLBSHA256": "d0710fe34be74f7f581348e797f9b99173c31ec279e8d9ff14082392cd82d356",
+  "sourceGLBUnchanged": true,
+  "distAssetsMatchPublic": {
+    "arena.json": "5bc1b569818fbb76144eb84624908083e3271d2f65c0bdc01a97f0206558f4e6",
+    "atlas.json": "ce883cf0b7e1383dc724b123f41c26fc13deea435f4e80830a977029f9d264a9",
+    "terminal-play.glb": "39cdf786e6a4117e88bb4785586afd330944d5483496e36060958e30c6b86676"
+  },
+  "http": {
+    "http://localhost:3012/": {
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8"
+    },
+    "http://localhost:3012/controller.html": {
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8"
+    },
+    "http://localhost:3012/assets/fps/terminal/atlas.json": {
+      "status": 200,
+      "contentType": "application/json; charset=UTF-8"
+    },
+    "http://localhost:3012/assets/fps/terminal/arena.json": {
+      "status": 200,
+      "contentType": "application/json; charset=UTF-8"
+    }
+  },
+  "head": "adf92e672bd3b345d65351c7da693e706a30de80",
+  "noCommitPushDeploy": true,
+  "noNewDependency": true,
+  "preexistingServer3008Preserved": true
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "path": "/",
+    "status": 200
+  },
+  {
+    "path": "/track-corrections/preview.html",
+    "status": 200
+  },
+  {
+    "path": "/track-corrections/REPORT.md",
+    "status": 200
+  },
+  {
+    "path": "/track-corrections/sydney-wall-after.png",
+    "status": 200
+  },
+  {
+    "path": "/nuketown/preview.html",
+    "status": 200
+  },
+  {
+    "path": "/primo-karting/preview.html",
+    "status": 200
+  },
+  {
+    "path": "/sydney-sprint/preview.html",
+    "status": 200
+  },
+  {
+    "path": "/assets/main-BT-bpWgG.js",
+    "status": 200
+  },
+  {
+    "path": "/assets/presentation-C8qSto_l.js",
+    "status": 200
+  },
+  {
+    "path": "/assets/ciroVisualMode--ztHNE0w.js",
+    "status": 200
+  },
+  {
+    "path": "/assets/BabylonKartGame-8fgywQIM.js",
+    "status": 200
+  }
+]

@@ -1,0 +1,6245 @@
+{
+  "mtl_gardenflowers_bright": {
+    "name": "mtl_gardenflowers_bright",
+    "techset": "l_sm_t0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "garden_flowers_bright_col#0"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_flatscreen_tv_02": {
+    "name": "mtl_flatscreen_tv_02",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "flatscreen_02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "flatscreen_02_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~flatscreen_02_spc-r66g66b66&~9706a770"
+      }
+    ]
+  },
+  "filmstrip": {
+    "name": "filmstrip",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "filmstrip"
+      }
+    ]
+  },
+  "mtl_lightfluo": {
+    "name": "mtl_lightfluo",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "lightfluohang_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "lightfluohang_norm"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~lightfluohang_spec-rgb&light~20d8db0f"
+      }
+    ]
+  },
+  "mtl_lightfluohang_on": {
+    "name": "mtl_lightfluohang_on",
+    "techset": "unlit",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "lightfluohang_col"
+      }
+    ]
+  },
+  "mtl_militarytentceilinglight": {
+    "name": "mtl_militarytentceilinglight",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "militarytentceilinglight_col#0"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "militarytentceilinglight_norm#0"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~militarytentceilinglight_spe~669269fa"
+      }
+    ]
+  },
+  "usa_bookstore_books_02": {
+    "name": "usa_bookstore_books_02",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "books02"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_sign_airport_bookstore": {
+    "name": "mtl_sign_airport_bookstore",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_sign_bookstore"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "mtl_sign_bookstore_bump"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~mtl_sign_bookstore_spec-r-71~0ef733fd"
+      }
+    ]
+  },
+  "com_black2": {
+    "name": "com_black2",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "com_black2"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~com_black2_spc-r-71g-71b-71&~9706a770"
+      }
+    ]
+  },
+  "ap_light_round_embedded": {
+    "name": "ap_light_round_embedded",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_light_embedded_1_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_light_embedded_1_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_light_embedded_1_spc-rgb&~b678cc30"
+      }
+    ]
+  },
+  "mtl_security_camera_dome": {
+    "name": "mtl_security_camera_dome",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "black_surveillance_dome_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~black_surveillance_dome_spc-~bd7f165c"
+      }
+    ]
+  },
+  "mtl_sign_book": {
+    "name": "mtl_sign_book",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_sign_book_col"
+      }
+    ]
+  },
+  "russia_bookstore_books_01": {
+    "name": "russia_bookstore_books_01",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "books01_russian"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "russia_bookstore_books_02": {
+    "name": "russia_bookstore_books_02",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "books02_russian"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_door_handle_chrome": {
+    "name": "mtl_door_handle_chrome",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "chrome_doorhandle_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "chrome_doorhandle_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~chrome_doorhandle_spc-r29g29~26b659e8"
+      }
+    ]
+  },
+  "mtl_potted_plant01": {
+    "name": "mtl_potted_plant01",
+    "techset": "l_sm_t0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "potted_plant01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "potted_plant01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~potted_plant01_spc-rgb&potte~c7262fc3"
+      }
+    ]
+  },
+  "mtl_flower_pot_dirt": {
+    "name": "mtl_flower_pot_dirt",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "flower_pot_dirt_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "flower_pot_dirt_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~flower_pot_dirt_spc-rgb&flow~412ab4fe"
+      }
+    ]
+  },
+  "mtl_flower_pot_large": {
+    "name": "mtl_flower_pot_large",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "flower_pot_large_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "flower_pot_large_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~flower_pot_large_spc-rgb&flo~a893d326"
+      }
+    ]
+  },
+  "mtl_restaurantkitchentables": {
+    "name": "mtl_restaurantkitchentables",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "restaurantkitchentables_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~restaurantkitchentables_spc-~599d9206"
+      }
+    ]
+  },
+  "mtl_burger_warmer": {
+    "name": "mtl_burger_warmer",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "burger_warmer_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "burger_warmer_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~burger_warmer_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "mtl_cups": {
+    "name": "mtl_cups",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "cups_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "cups_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~cups_spc-r-71g-71b-71&$white-l-11"
+      }
+    ]
+  },
+  "mtl_tray": {
+    "name": "mtl_tray",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "tray_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "tray_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~tray_spc-r-71g-71b-71&$white-l-11"
+      }
+    ]
+  },
+  "mtl_industrial_fridge": {
+    "name": "mtl_industrial_fridge",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "industrial_fridge_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "industrial_fridge_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~~industrial_fridge_spc-rgb&i~18943cad"
+      }
+    ]
+  },
+  "mtl_flatscreen_tv_02_d": {
+    "name": "mtl_flatscreen_tv_02_d",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "flatscreen_02_d_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "flatscreen_02_d_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~flatscreen_02_d_spc-r-71g-71~2b461272"
+      }
+    ]
+  },
+  "mtl_furniture_chair_airport_wood_metal": {
+    "name": "mtl_furniture_chair_airport_wood_metal",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_chair_airport_wood_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "mtl_chair_airport_wood_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~mtl_chair_airport_wood_spc-r~a3a57a34"
+      }
+    ]
+  },
+  "mtl_furniture_chair_airport_wood_wood": {
+    "name": "mtl_furniture_chair_airport_wood_wood",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_chair_airport_wood_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "mtl_chair_airport_wood_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~mtl_chair_airport_wood_spc-r~a3a57a34"
+      }
+    ]
+  },
+  "mtl_furniture_chair_airport": {
+    "name": "mtl_furniture_chair_airport",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "p_msc_chair_airport_c"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "p_msc_chair_airport_n"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~p_msc_chair_airport_s-r-71g-~eccf43ad"
+      }
+    ]
+  },
+  "mtl_longseat_yellow": {
+    "name": "mtl_longseat_yellow",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "longseat_yellow_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "longseat_yellow_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~longseat_yellow_spc-r-71g-71~2b461272"
+      }
+    ]
+  },
+  "mtl_machinery_baggage_container_white": {
+    "name": "mtl_machinery_baggage_container_white",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "baggage_container_white_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "baggage_container_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~baggage_container_spc-r-71g-~eccf43ad"
+      }
+    ]
+  },
+  "mtl_machinery_baggage_container_blue": {
+    "name": "mtl_machinery_baggage_container_blue",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "baggage_container_blue_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "baggage_container_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~baggage_container_spc-r-71g-~eccf43ad"
+      }
+    ]
+  },
+  "mtl_machinery_baggage_container": {
+    "name": "mtl_machinery_baggage_container",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "baggage_container_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "baggage_container_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~baggage_container_spc-r-71g-~eccf43ad"
+      }
+    ]
+  },
+  "mtl_roadbarriers_orange": {
+    "name": "mtl_roadbarriers_orange",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "roadbarrier_orange_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "roadbarrier_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~roadbarrier_white_spc-r-71g-~eccf43ad"
+      }
+    ]
+  },
+  "mtl_roadbarriers_white": {
+    "name": "mtl_roadbarriers_white",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "roadbarrier_white_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "roadbarrier_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~roadbarrier_white_spc-r-71g-~eccf43ad"
+      }
+    ]
+  },
+  "usa_police_tape": {
+    "name": "usa_police_tape",
+    "techset": "l_sm_t0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "police_tape_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "ch_plywood01": {
+    "name": "ch_plywood01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ch_plywood01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ch_plywood01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ch_plywood01_spc-rgb&ch_plyw~506b1735"
+      }
+    ]
+  },
+  "mtl_bm_21_truck_tires": {
+    "name": "mtl_bm_21_truck_tires",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "bm21_body_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "bm21_body_nrm"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~bm21_body_spc-rgb&bm21_body_cos-l-11"
+      }
+    ]
+  },
+  "mtl_bumper_car": {
+    "name": "mtl_bumper_car",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "bumper_car_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "bumper_car_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~bumper_car_spc-rgb&bumper_ca~b29f56f1"
+      }
+    ]
+  },
+  "mtl_machinery_railing01": {
+    "name": "mtl_machinery_railing01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_railing01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_railing01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~machinery_railing01_spc-r-71~0ef733fd"
+      }
+    ]
+  },
+  "mtl_machinery_scaffolding01": {
+    "name": "mtl_machinery_scaffolding01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_scaffolding01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_scaffolding01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~machinery_scaffolding01_spc-~56fe7592"
+      }
+    ]
+  },
+  "mtl_can_machine4": {
+    "name": "mtl_can_machine4",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_soda_can_04_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "mtl_soda_can_03_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~mtl_soda_can_03_spc-rgb&mtl_~f2491b9b"
+      }
+    ]
+  },
+  "mtl_can_machine4_lit": {
+    "name": "mtl_can_machine4_lit",
+    "techset": "unlit",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_soda_can_04_col"
+      }
+    ]
+  },
+  "mtl_furniture_table1_airport": {
+    "name": "mtl_furniture_table1_airport",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "furniture_table1_airport_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~furniture_table1_airport_spc~90805ddd"
+      }
+    ]
+  },
+  "ap_wood_tile_brown": {
+    "name": "ap_wood_tile_brown",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_wood_tile_brown_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_wood_tile_brown_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_wood_tile_brown_spc-rgb&a~3bca95f8"
+      }
+    ]
+  },
+  "office_whitewall_01": {
+    "name": "office_whitewall_01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "officewall01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "officewall01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~officewall01_spec-rgb&office~f65856fa"
+      }
+    ]
+  },
+  "ch_trim_stainlessteel_1": {
+    "name": "ch_trim_stainlessteel_1",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ch_trim_stainlessteel_1_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ch_trim_stainlessteel_1_spc-~dac1f48f"
+      }
+    ]
+  },
+  "office_floortrim_black": {
+    "name": "office_floortrim_black",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "office_floortrim_black_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "office_floortrim_black_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~office_floortrim_black_spc-rgbl-11"
+      }
+    ]
+  },
+  "mtl_machinery_xray_scanner_metal": {
+    "name": "mtl_machinery_xray_scanner_metal",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_xray_scanner_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_xray_scanner_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~machinery_xray_scanner_spc-r~a3a57a34"
+      }
+    ]
+  },
+  "mtl_machinery_xray_scanner_rubber": {
+    "name": "mtl_machinery_xray_scanner_rubber",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_xray_scanner_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_xray_scanner_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~machinery_xray_scanner_spc-r~a3a57a34"
+      }
+    ]
+  },
+  "mtl_machinery_metal_detector": {
+    "name": "mtl_machinery_metal_detector",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_metal_detector_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_metal_detector_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~machinery_metal_detector_spc~90805ddd"
+      }
+    ]
+  },
+  "mtl_divider_pole": {
+    "name": "mtl_divider_pole",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "divider_pole_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "divider_pole_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~divider_pole_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "mtl_ammo_case": {
+    "name": "mtl_ammo_case",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ammo_cases_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ammo_cases_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ammo_cases_spc-r-71g-71b-71&~9706a770"
+      }
+    ]
+  },
+  "mtl_ammo_case_brown": {
+    "name": "mtl_ammo_case_brown",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ammo_cases_brown_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ammo_cases_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ammo_cases_spc-r-71g-71b-71&~9706a770"
+      }
+    ]
+  },
+  "mtl_vehicle_shattered_glass_out": {
+    "name": "mtl_vehicle_shattered_glass_out",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "shattered_glass_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_policecar_lapd_destroy": {
+    "name": "mtl_policecar_lapd_destroy",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "policecar_lapd_destroy_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "policecar_lapd_destroy_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~policecar_lapd_destroy_spc-r~41a311ef"
+      }
+    ]
+  },
+  "mtl_policecar_glass_outside": {
+    "name": "mtl_policecar_glass_outside",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "policecar_glass_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_policecar_interior": {
+    "name": "mtl_policecar_interior",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "policecar_lapd_int_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "policecar_lapd_int_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~policecar_lapd_int_spc-r66g6~7c7928ff"
+      }
+    ]
+  },
+  "mtl_policecar_glass_inside": {
+    "name": "mtl_policecar_glass_inside",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "policecar_glass_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_policecar_chrome": {
+    "name": "mtl_policecar_chrome",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "policecar_chrome_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "policecar_chrome_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~policecar_chrome_spc-r66g66b~12fd6d31"
+      }
+    ]
+  },
+  "mtl_policecar_lapd": {
+    "name": "mtl_policecar_lapd",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "policecar_metro_c"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "policecar_metro_n"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~policecar_lapd_s-r66g66b66&$~ae6da276"
+      }
+    ]
+  },
+  "mtl_suburban_bottom": {
+    "name": "mtl_suburban_bottom",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "suburban_bottom_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "suburban_bottom_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~suburban_bottom_spc-r66g66b6~306b9093"
+      }
+    ]
+  },
+  "mtl_vehicle_shattered_glass_in": {
+    "name": "mtl_vehicle_shattered_glass_in",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "shattered_glass_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_policecar_metro_decal": {
+    "name": "mtl_policecar_metro_decal",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "policecar_metro_decal_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_policecar_interior_plastic": {
+    "name": "mtl_policecar_interior_plastic",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "policecar_lapd_int_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "policecar_lapd_int_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~policecar_lapd_int_spc-r66g6~7c7928ff"
+      }
+    ]
+  },
+  "mtl_policecar_lapd_plastic": {
+    "name": "mtl_policecar_lapd_plastic",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "policecar_metro_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "policecar_metro_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~policecar_lapd_int_spc-r66g6~7c7928ff"
+      }
+    ]
+  },
+  "mtl_policecar_lapd_metal": {
+    "name": "mtl_policecar_lapd_metal",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "policecar_metro_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "policecar_metro_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~policecar_lapd_int_spc-r66g6~7c7928ff"
+      }
+    ]
+  },
+  "mtl_policecar_lapd_rubber": {
+    "name": "mtl_policecar_lapd_rubber",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "policecar_metro_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "policecar_metro_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~policecar_lapd_int_spc-r66g6~7c7928ff"
+      }
+    ]
+  },
+  "mtl_barrier_damaged_1": {
+    "name": "mtl_barrier_damaged_1",
+    "techset": "l_sm_r0c0d0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "barrier_destroyed_col"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "barrier_destroyed_more_dtl"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "barrier_destroyed_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~barrier_destroyed_spc-r29g29~26b659e8"
+      }
+    ]
+  },
+  "mtl_barrier_damaged_2": {
+    "name": "mtl_barrier_damaged_2",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "barrier_destroyed_more_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "barrier_destroyed_more_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~barrier_destroyed_more_spc-r~a3a57a34"
+      }
+    ]
+  },
+  "mtl_cart_airport": {
+    "name": "mtl_cart_airport",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "p_msc_cart_airport_c"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "p_msc_cart_airport_n"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~p_msc_cart_airport_s-r-71g-7~c8affc40"
+      }
+    ]
+  },
+  "mtl_cart_airport_shadow": {
+    "name": "mtl_cart_airport_shadow",
+    "techset": "l_sm_t0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "cart_airport_shadow"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "me_metal_grey_01": {
+    "name": "me_metal_grey_01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "me_metal_grey01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "me_metal_grey01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~me_metal_grey01_spc-rgb&me_m~a98149b3"
+      }
+    ]
+  },
+  "me_office_ceiling_vent_dark_1": {
+    "name": "me_office_ceiling_vent_dark_1",
+    "techset": "l_sm_t0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "me_office_ceiling_vent_1_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "me_office_ceiling_vent_1_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~me_office_ceiling_vent_1_spc~1337a79b"
+      }
+    ]
+  },
+  "me_trim_metalplate_1": {
+    "name": "me_trim_metalplate_1",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "me_trim_metalplate_1_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "me_trim_metalplate_1_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~me_trim_metalplate_1_spc-rgb~ebe39b71"
+      }
+    ]
+  },
+  "mtl_garbage_bin": {
+    "name": "mtl_garbage_bin",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "garbage_bin_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "garbage_bin_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~garbage_bin_spc-r-71g-71b-71~aedebf0f"
+      }
+    ]
+  },
+  "mtl_table_1": {
+    "name": "mtl_table_1",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "table_1_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "table_1_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~table_1_spc-r-71g-71b-71&$white-l-11"
+      }
+    ]
+  },
+  "mtl_stacking_chair_black": {
+    "name": "mtl_stacking_chair_black",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "plastic_chair_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "com_black": {
+    "name": "com_black",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "com_black"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~com_black_spc-r-25g-25b-25&c~3e8e4fa0"
+      }
+    ]
+  },
+  "ap_glass_sanded": {
+    "name": "ap_glass_sanded",
+    "techset": "l_sm_b0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_glass_sanded_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_glass_sanded_spc-rgb&ap_g~8dec99d4"
+      }
+    ]
+  },
+  "ap_wood_tile_big": {
+    "name": "ap_wood_tile_big",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_wood_tile_big_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_wood_tile_big_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_wood_tile_big_spc-r64g64b~54fc5470"
+      }
+    ]
+  },
+  "ma_brushedmetal_panel": {
+    "name": "ma_brushedmetal_panel",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_brushedmetal_panel_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_brushedmetal_panel_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_brushedmetal_panel_spc-r-~69de51fa"
+      }
+    ]
+  },
+  "lambert1": {
+    "name": "lambert1",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "grey"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_modern_light_fixture": {
+    "name": "mtl_modern_light_fixture",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_modern_light_fixture_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_modern_light_fixture_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_modern_light_fixture_spc-~bd7f165c"
+      }
+    ]
+  },
+  "mtl_modern_light_fixture_add": {
+    "name": "mtl_modern_light_fixture_add",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_modern_light_fixture_add_col"
+      }
+    ]
+  },
+  "mtl_sign_nates_restaurant": {
+    "name": "mtl_sign_nates_restaurant",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "nates_restaurant_col"
+      }
+    ]
+  },
+  "mtl_parkingcone01": {
+    "name": "mtl_parkingcone01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "parkingcone01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "parkingcone01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~parkingcone01_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "mtl_northafrica_tables": {
+    "name": "mtl_northafrica_tables",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "northafrica_tables_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "northafrica_tables_normal"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~northafrica_tables_spec-rgb&~eadf0665"
+      }
+    ]
+  },
+  "mtl_chair_restaurant": {
+    "name": "mtl_chair_restaurant",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_restaurant_chair_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_restaurant_chair_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_restaurant_chair_spc-r-71~0ef733fd"
+      }
+    ]
+  },
+  "mtl_food_soda01": {
+    "name": "mtl_food_soda01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "food_sodas01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "food_sodas01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~food_sodas01_spc-rgb&$white-l-11"
+      }
+    ]
+  },
+  "mtl_food_soda02": {
+    "name": "mtl_food_soda02",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "food_sodas02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "food_sodas01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~food_sodas02_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "mtl_accessories_ashtray_standing": {
+    "name": "mtl_accessories_ashtray_standing",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ashtray_standing_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ashtray_standing_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ashtray_standing_spc-r-71g-7~c8affc40"
+      }
+    ]
+  },
+  "mtl_com_vending_can_new2_destroyed": {
+    "name": "mtl_com_vending_can_new2_destroyed",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "soda_machine_destroyed02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "soda_machine_destroyed01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~soda_machine_destroyed01_spc~675e7179"
+      }
+    ]
+  },
+  "mtl_metal_briefcase": {
+    "name": "mtl_metal_briefcase",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 747,
+        "name": "xpec_metal_briefcase_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "xpec_metal_briefcase_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2283,
+        "name": "~xpec_metal_briefcase_spc-rgb~78c049ea"
+      }
+    ]
+  },
+  "mtl_potted_plant02": {
+    "name": "mtl_potted_plant02",
+    "techset": "l_sm_t0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "potted_plant02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "potted_plant02_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~potted_plant02_spc-rgb&potte~9e1f1335"
+      }
+    ]
+  },
+  "mtl_flower_pot_medium": {
+    "name": "mtl_flower_pot_medium",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "flower_pot_medium_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "flower_pot_medium_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~flower_pot_medium_spc-rgb&fl~8e2e0a9c"
+      }
+    ]
+  },
+  "mtl_small_hatchback_wagon_d_white": {
+    "name": "mtl_small_hatchback_wagon_d_white",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "small_hatchback_wagon_d_white_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "small_hatchback_wagon_d_nrml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~small_hatchback_wagon_d_spec~7e6ea94c"
+      }
+    ]
+  },
+  "mtl_utility_sign_wet_floor": {
+    "name": "mtl_utility_sign_wet_floor",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "p_msc_sign_wet_floor_c"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "p_msc_sign_wet_floor_n"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~p_msc_sign_wet_floor_s-r-71g~ef3914a3"
+      }
+    ]
+  },
+  "sign_russian_airport_01": {
+    "name": "sign_russian_airport_01",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_airport_01_col#0"
+      }
+    ]
+  },
+  "me_floor_shinyblack": {
+    "name": "me_floor_shinyblack",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "me_floor_shinyblack_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~me_floor_shinyblack_spc-rgb&~b2472d46"
+      }
+    ]
+  },
+  "mtl_air_duct01": {
+    "name": "mtl_air_duct01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "air_duct_vent_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "air_duct_vent_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~air_duct_vent_spc-rgb&air_du~a248684c"
+      }
+    ]
+  },
+  "mtl_machinery_trashcompactor02": {
+    "name": "mtl_machinery_trashcompactor02",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_trashcompactor02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_trashcompactor01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~machinery_trashcompactor01_s~ec1ba52c"
+      }
+    ]
+  },
+  "mtl_storefront_door": {
+    "name": "mtl_storefront_door",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_storefront_door"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "mtl_storefront_door_bump"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~mtl_storefront_door_spec-r-7~affb5ea5"
+      }
+    ]
+  },
+  "mtl_sloped_back_chair": {
+    "name": "mtl_sloped_back_chair",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sloped_back_chair_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "sloped_back_chair_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~sloped_back_chair_spc-r-71g-~eccf43ad"
+      }
+    ]
+  },
+  "mtl_flatscreen_tv_01": {
+    "name": "mtl_flatscreen_tv_01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "flatscreen_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "flatscreen_01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~flatscreen_01_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "metal_blue": {
+    "name": "metal_blue",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_blue_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_xxx_spc-r-71g-71b-71&$~ae6da276"
+      }
+    ]
+  },
+  "usa_bookstore_magazines_01": {
+    "name": "usa_bookstore_magazines_01",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "magazines01"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_coffeemug": {
+    "name": "mtl_coffeemug",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "coffee_vodka01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~coffee_vodka01_spc-rgb&coffe~6f818879"
+      }
+    ]
+  },
+  "mtl_duty_free_props_cardboard": {
+    "name": "mtl_duty_free_props_cardboard",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "duty_free_props_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "duty_free_props_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~duty_free_props_spc-r-71g-71~2b461272"
+      }
+    ]
+  },
+  "mtl_duty_free_props_plastic": {
+    "name": "mtl_duty_free_props_plastic",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "duty_free_props_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "duty_free_props_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~duty_free_props_spc-r-71g-71~2b461272"
+      }
+    ]
+  },
+  "mtl_emergencylight": {
+    "name": "mtl_emergencylight",
+    "techset": "unlit",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "emergency_light01_col"
+      }
+    ]
+  },
+  "mtl_emergencylightopaque": {
+    "name": "mtl_emergencylightopaque",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "emergency_light01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "emergency_light01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~emergency_light01_spc-rgb&em~c31fc090"
+      }
+    ]
+  },
+  "mtl_bunker_doorway_01": {
+    "name": "mtl_bunker_doorway_01",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ch_trim_stainlessteel_1_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ch_trim_stainlessteel_1_spc-~dac1f48f"
+      }
+    ]
+  },
+  "mtl_machinery_jetway_brace": {
+    "name": "mtl_machinery_jetway_brace",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_jetway_brace_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_jetway_brace_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~machinery_jetway_brace_spc-r~a3a57a34"
+      }
+    ]
+  },
+  "mtl_telephone_box": {
+    "name": "mtl_telephone_box",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "telephone_box_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "telephone_box_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~telephone_box_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "mtl_phonebooth_russian": {
+    "name": "mtl_phonebooth_russian",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "phonebooth_russian_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "phonebooth_america_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~phonebooth_america_spc-r-71g~ef3914a3"
+      }
+    ]
+  },
+  "mtl_machinery_generator": {
+    "name": "mtl_machinery_generator",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "generator_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "generator_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~generator_spc-r-25g-25b-25&$~ae6da276"
+      }
+    ]
+  },
+  "mtl_machinery_cart": {
+    "name": "mtl_machinery_cart",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_cart_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_cart_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~machinery_cart_spc-r-25g-25b~2d20a3d9"
+      }
+    ]
+  },
+  "mtl_machinery_hose01": {
+    "name": "mtl_machinery_hose01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_hose01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_hose01_coln"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~machinery_hose01_cols-r-71g-~eccf43ad"
+      }
+    ]
+  },
+  "mtl_machinery_hose01_rubber": {
+    "name": "mtl_machinery_hose01_rubber",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_hose01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_hose01_coln"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~machinery_hose01_cols-r-71g-~eccf43ad"
+      }
+    ]
+  },
+  "mtl_machinery_hose02": {
+    "name": "mtl_machinery_hose02",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_hose02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_hose01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~~machinery_hose01_spc-rgb&ma~c6f88b67"
+      }
+    ]
+  },
+  "mtl_machinery_hose02_rubber": {
+    "name": "mtl_machinery_hose02_rubber",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "machinery_hose02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "machinery_hose01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~~machinery_hose01_spc-rgb&ma~c6f88b67"
+      }
+    ]
+  },
+  "mtl_machinery_welder": {
+    "name": "mtl_machinery_welder",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mig_welder_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "mig_welder_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~mig_welder_spc-r-25g-25b-25&~9706a770"
+      }
+    ]
+  },
+  "mtl_newspaper_folded": {
+    "name": "mtl_newspaper_folded",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "newspaper_folded_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_furniture_lawn_chair_2_metal": {
+    "name": "mtl_furniture_lawn_chair_2_metal",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "lawn_chair_2_metal_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "lawn_chair_1_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~lawn_chair_2_metal_col-r-71g~ef3914a3"
+      }
+    ]
+  },
+  "mtl_furniture_lawn_chair_2_cloth": {
+    "name": "mtl_furniture_lawn_chair_2_cloth",
+    "techset": "l_sm_t0c0d0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "lawn_chair_2_col"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "cloth01_nml"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "lawn_chair_1_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~lawn_chair_1_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "mtl_hand_rail_yel": {
+    "name": "mtl_hand_rail_yel",
+    "techset": "l_sm_r0c0d0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "hand_rail_yellow_col"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "detail_painted_rail01_nml"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "hand_rail_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~hand_rail_spc-r29g29b29&$white-l-11"
+      }
+    ]
+  },
+  "mtl_propane_tank02": {
+    "name": "mtl_propane_tank02",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "propane_tank2_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "propane_tank2_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~propane_tank2_spc-rgb&propan~1d2f3436"
+      }
+    ]
+  },
+  "mtl_touchscreen_register": {
+    "name": "mtl_touchscreen_register",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "touchscreen_register_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "touchscreen_register_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~touchscreen_register_spc-rgb~aedebf0f"
+      }
+    ]
+  },
+  "mtl_touchscreen_screen": {
+    "name": "mtl_touchscreen_screen",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "touchscreen_screen_col"
+      }
+    ]
+  },
+  "mtl_food_snacks01": {
+    "name": "mtl_food_snacks01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "food_snacks01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "food_snacks01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~food_snacks01_spc-r66g66b66&~9706a770"
+      }
+    ]
+  },
+  "mtl_table_cloth": {
+    "name": "mtl_table_cloth",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_table_cloth_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_table_cloth_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_table_cloth_spc-r-71g-71b~d42a55ac"
+      }
+    ]
+  },
+  "mtl_table_cloth_bottom": {
+    "name": "mtl_table_cloth_bottom",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_table_cloth_bottom_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_table_cloth_bottom_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_table_cloth_bottom_spc-r-~69de51fa"
+      }
+    ]
+  },
+  "mtl_coffeemug_vodkabottle": {
+    "name": "mtl_coffeemug_vodkabottle",
+    "techset": "l_sm_b0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "coffee_vodka01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~coffee_vodka01_spc-rgb&coffe~6f818879"
+      }
+    ]
+  },
+  "mtl_coffeemug_vodkabottle_inside": {
+    "name": "mtl_coffeemug_vodkabottle_inside",
+    "techset": "l_sm_b0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "coffee_vodka01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~coffee_vodka01_spc-rgb&coffe~6f818879"
+      }
+    ]
+  },
+  "me_cargocontainergreen_roof": {
+    "name": "me_cargocontainergreen_roof",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "me_cargocontainergreen_ext_roof_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "me_cargocontainertop_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~me_cargocontainertop_spc-rgb~4465eb4f"
+      }
+    ]
+  },
+  "me_trim_metal_conduit": {
+    "name": "me_trim_metal_conduit",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "me_trim_metal_conduit_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "me_trim_metal_conduit_norm"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~me_trim_metal_conduit_spec-r~27a891f0"
+      }
+    ]
+  },
+  "me_fence_chainlink": {
+    "name": "me_fence_chainlink",
+    "techset": "l_sm_t0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "me_chainlink_fence_color#0"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "me_chainlink_fence_normal"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~me_chainlink_fence_spec-r-44~92a16537"
+      }
+    ]
+  },
+  "me_cargocontainergreen_trimwide": {
+    "name": "me_cargocontainergreen_trimwide",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "me_cargocontainergreen_trimwide_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~me_cargocontainer_exttrimwid~28f51640"
+      }
+    ]
+  },
+  "mtl_cart_baggage_airport": {
+    "name": "mtl_cart_baggage_airport",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "cart_baggage_airport_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "cart_baggage_airport_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~cart_baggage_airport_spc-r-7~affb5ea5"
+      }
+    ]
+  },
+  "mtl_truck_trailer": {
+    "name": "mtl_truck_trailer",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_truck_trailer_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "mtl_truck_trailer_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~mtl_truck_trailer_spc-rgb&mt~8d60244a"
+      }
+    ]
+  },
+  "mtl_truck_cab": {
+    "name": "mtl_truck_cab",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_truck_cab_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "mtl_truck_cab_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~mtl_truck_cab_spc-rgb&mtl_tr~9004f4e3"
+      }
+    ]
+  },
+  "mtl_mack_truck_glass_inside": {
+    "name": "mtl_mack_truck_glass_inside",
+    "techset": "l_sm_b0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_mack_truck_glass_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~mtl_mack_truck_glass_spc-r-2~8ed971b9"
+      }
+    ]
+  },
+  "mtl_mack_truck_glass_outside": {
+    "name": "mtl_mack_truck_glass_outside",
+    "techset": "l_sm_b0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_mack_truck_glass_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~mtl_mack_truck_glass_spc-rgb~aedebf0f"
+      }
+    ]
+  },
+  "mtl_sign_bookstore": {
+    "name": "mtl_sign_bookstore",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_sign_bookstore_col"
+      }
+    ]
+  },
+  "mtl_sign01": {
+    "name": "mtl_sign01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "streetsigns_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "streetsigns_01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~~streetsigns_01_spc-rgb&stre~badb3b2b"
+      }
+    ]
+  },
+  "mtl_sign02": {
+    "name": "mtl_sign02",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "streetsigns_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "streetsigns_01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~~streetsigns_01_spc-rgb&stre~badb3b2b"
+      }
+    ]
+  },
+  "ma_sign_traffic01": {
+    "name": "ma_sign_traffic01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "traffic_signs_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "traffic_signs_01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~traffic_signs_01_spc-r-71g-7~c8affc40"
+      }
+    ]
+  },
+  "mtl_bunker_wires": {
+    "name": "mtl_bunker_wires",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "bunker_wires_details_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "bunker_wires_details_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~bunker_wires_details_spc-rgb~4ee76dac"
+      }
+    ]
+  },
+  "mtl_trash_bottles_glass_outside": {
+    "name": "mtl_trash_bottles_glass_outside",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "trash_bottles_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "trash_bottles_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~trash_bottles_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "mtl_trash_bottles_cap": {
+    "name": "mtl_trash_bottles_cap",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "trash_bottles_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "trash_bottles_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~trash_bottles_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "mtl_trash_bottles_plastic_inside": {
+    "name": "mtl_trash_bottles_plastic_inside",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "trash_bottles_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "trash_bottles_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~trash_bottles_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "mtl_trash_bottles_plastic_outside": {
+    "name": "mtl_trash_bottles_plastic_outside",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "trash_bottles_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "trash_bottles_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~trash_bottles_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "mtl_trash_bottles_glass_inside": {
+    "name": "mtl_trash_bottles_glass_inside",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "trash_bottles_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "trash_bottles_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~trash_bottles_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "mtl_trash_bottles_wine": {
+    "name": "mtl_trash_bottles_wine",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "trash_bottles_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "trash_bottles_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~trash_bottles_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "mtl_tree_oak_trunk": {
+    "name": "mtl_tree_oak_trunk",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "tree_oak_trunk_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_tree_oak_canopy": {
+    "name": "mtl_tree_oak_canopy",
+    "techset": "l_sm_t0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "tree_oak_canopy_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "usa_bookstore_books_01": {
+    "name": "usa_bookstore_books_01",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "books01"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_stairs_moveable_large": {
+    "name": "mtl_stairs_moveable_large",
+    "techset": "l_sm_t0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "p_msc_stairmov_lrg_c"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "p_msc_stairmov_lrg_n"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~p_msc_stairmov_lrg_s-r-71g-7~c8affc40"
+      }
+    ]
+  },
+  "mtl_accessories_windsock": {
+    "name": "mtl_accessories_windsock",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "windsock_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "windsock_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~windsock_spc-r-71g-71b-71&$white-l-11"
+      }
+    ]
+  },
+  "mtl_evacslide_silver": {
+    "name": "mtl_evacslide_silver",
+    "techset": "l_sm_r0c0d0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "evacslide_silver_col"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "detail_grooves01"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "evacslide_silver_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~evacslide_silver_spc-r-71g-7~c8affc40"
+      }
+    ]
+  },
+  "mtl_evacslide_tape": {
+    "name": "mtl_evacslide_tape",
+    "techset": "l_sm_r0c0d0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "evacslide_tape_col"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "detail_grooves01"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "evacslide_tape_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~evacslide_tape_spc-r-71g-71b~d42a55ac"
+      }
+    ]
+  },
+  "mtl_evacslide_roundtape": {
+    "name": "mtl_evacslide_roundtape",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "evacslide_roundtape_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "evacslide_roundtape_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~evacslide_roundtape_spc-r-71~0ef733fd"
+      }
+    ]
+  },
+  "mtl_evacslide_ramp": {
+    "name": "mtl_evacslide_ramp",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "evacslide_ramp_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "evacslide_ramp_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~evacslide_ramp_spc-r-71g-71b~d42a55ac"
+      }
+    ]
+  },
+  "mtl_evacslide_sidearm": {
+    "name": "mtl_evacslide_sidearm",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "evacslide_arm_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "evacslide_arm_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~evacslide_arm_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "mtl_evacslide_belt": {
+    "name": "mtl_evacslide_belt",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "evacslide_belt_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "evacslide_belt_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~evacslide_belt_spc-r-71g-71b~d42a55ac"
+      }
+    ]
+  },
+  "mtl_evacslide_text": {
+    "name": "mtl_evacslide_text",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "evacslide_text_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "mtl_evacslide_beltwhite": {
+    "name": "mtl_evacslide_beltwhite",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "evacslide_beltwhite_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "evacslide_beltwhite_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~evacslide_beltwhite_spc-r-71~0ef733fd"
+      }
+    ]
+  },
+  "mtl_dutyfree_liquorboxes_01": {
+    "name": "mtl_dutyfree_liquorboxes_01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "duty_free_liquor_boxes_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "duty_free_liquor_boxes_01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~duty_free_liquor_boxes_01_sp~0a69817f"
+      }
+    ]
+  },
+  "mtl_dutyfree_liquorboxes_02": {
+    "name": "mtl_dutyfree_liquorboxes_02",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "duty_free_liquor_boxes_02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "duty_free_liquor_boxes_02_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~duty_free_liquor_boxes_02_sp~0a69817f"
+      }
+    ]
+  },
+  "mtl_icbm_facilitysign": {
+    "name": "mtl_icbm_facilitysign",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "icbm_facilitysign"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ch_concretewall02_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ch_concretewall02_spc-rgbl-11"
+      }
+    ]
+  },
+  "mtl_taxi_yellow_rubber": {
+    "name": "mtl_taxi_yellow_rubber",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "taxi_yellow_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "policecar_lapd_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~policecar_lapd_spc-r-71g-71b~d42a55ac"
+      }
+    ]
+  },
+  "ch_metal_rusty_02": {
+    "name": "ch_metal_rusty_02",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ch_metal_rusty_02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ch_metal_rusty_02_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ch_metal_rusty_02_spc-rgb&ch~ce22ca64"
+      }
+    ]
+  },
+  "mtl_poster_internationalsamurai": {
+    "name": "mtl_poster_internationalsamurai",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "poster_internationalsamurai_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "movie_poster_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~movie_poster_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "mtl_movieposterframe": {
+    "name": "mtl_movieposterframe",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "movieposterframe"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~movieposterframe_spec-r66g66~23a5212b"
+      }
+    ]
+  },
+  "mtl_poster_players": {
+    "name": "mtl_poster_players",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "poster_players_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "movie_poster_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~movie_poster_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "mtl_poster_vengeance": {
+    "name": "mtl_poster_vengeance",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "poster_vengeance_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "movie_poster_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~movie_poster_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "mtl_standpipe01": {
+    "name": "mtl_standpipe01",
+    "techset": "l_sm_t0c0n0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "standpipe01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "standpipe01_col_n"
+      }
+    ]
+  },
+  "mtl_cart_baggage_airport_curtain": {
+    "name": "mtl_cart_baggage_airport_curtain",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "cart_baggage_airport_curtain_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "cart_baggage_airport_curtain_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~cart_baggage_airport_curtain~1e2282f4"
+      }
+    ]
+  },
+  "mtl_flap_large": {
+    "name": "mtl_flap_large",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_flap_long_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_flap_long_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_flap_long_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "mtl_flap_small": {
+    "name": "mtl_flap_small",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_flap_small_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_flap_small_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_flap_small_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "mtl_machinery_turbine_engine_exposed": {
+    "name": "mtl_machinery_turbine_engine_exposed",
+    "techset": "l_sm_t0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "p_lvl_turbineopen_c"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "p_lvl_turbineopen_n"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~p_lvl_turbineopen_s-r-71g-71~2b461272"
+      }
+    ]
+  },
+  "mtl_727_cross_section01": {
+    "name": "mtl_727_cross_section01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "airplane_cross_section01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "airplane_cross_section01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~airplane_cross_section01_spc~cacb45d1"
+      }
+    ]
+  },
+  "ap_chrome_trim": {
+    "name": "ap_chrome_trim",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_metal_trim_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_metal_trim_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_metal_trim_spc-rgb&ap_met~1a3993da"
+      }
+    ]
+  },
+  "mtl_icbm_connector": {
+    "name": "mtl_icbm_connector",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "mtl_icbm_connectors"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "mtl_icbm_connectors_bump"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~mtl_icbm_connectors_spec-rgbl-11"
+      }
+    ]
+  },
+  "ap_overhead_compartment": {
+    "name": "ap_overhead_compartment",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_overhead_luggage_compartment_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_overhead_luggage_compartment_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_overhead_luggage_compartm~6c39bcf1"
+      }
+    ]
+  },
+  "me_dec_wall_stain_1": {
+    "name": "me_dec_wall_stain_1",
+    "techset": "unlit_multiply",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "me_dec_wall_stain_1_col"
+      }
+    ]
+  },
+  "mtl_air_mask": {
+    "name": "mtl_air_mask",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "air_mask_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "air_mask_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~air_mask_spc-rgb&air_mask_cos-l-11"
+      }
+    ]
+  },
+  "mtl_727_coach_seat01": {
+    "name": "mtl_727_coach_seat01",
+    "techset": "l_sm_r0c0d0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "727_coach_seat01_col"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "727_coach_seat01_dtl"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "727_coach_seat01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~727_coach_seat01_spc-r-71g-7~c8affc40"
+      }
+    ]
+  },
+  "mtl_727_coach_seat01_fabric": {
+    "name": "mtl_727_coach_seat01_fabric",
+    "techset": "l_sm_r0c0d0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "727_coach_seat01_col"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "727_coach_seat01_dtl"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "727_coach_seat01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~727_coach_seat01_spc-r-71g-7~c8affc40"
+      }
+    ]
+  },
+  "mtl_727_landing_gear01": {
+    "name": "mtl_727_landing_gear01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "727_landing_gear01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "727_landing_gear01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~727_landing_gear01_spc-r-71g~ef3914a3"
+      }
+    ]
+  },
+  "mtl_727_tire01": {
+    "name": "mtl_727_tire01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "727_tire01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "727_tire01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~727_tire01_spc-r-71g-71b-71&~9706a770"
+      }
+    ]
+  },
+  "mtl_727_tire01_rubber": {
+    "name": "mtl_727_tire01_rubber",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "727_tire01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "727_tire01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~727_tire01_spc-r-71g-71b-71&~9706a770"
+      }
+    ]
+  },
+  "mtl_airplane_window_clean": {
+    "name": "mtl_airplane_window_clean",
+    "techset": "l_sm_r0c0d0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ai_interior_plastic_window_clean_col"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "ai_interior_plastic_window_detail_nml"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ai_interior_plastic_window_clean_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ai_interior_plastic_window_c~36dbbc60"
+      }
+    ]
+  },
+  "mtl_cockpit_nodamage": {
+    "name": "mtl_cockpit_nodamage",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_cockpit_nodamage"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_cockpit_damaged_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_cockpit_nodamage_spc-r-71~0ef733fd"
+      }
+    ]
+  },
+  "mtl_machinery_turbine_fan": {
+    "name": "mtl_machinery_turbine_fan",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "turbine_fan_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "turbine_fan_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~turbine_fan_spc-r-71g-71b-71~aedebf0f"
+      }
+    ]
+  },
+  "icbm_missilebody": {
+    "name": "icbm_missilebody",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "icbm_missilebody"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "icbm_missilebody_bump"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~icbm_missilebody_spec-rgbl-11"
+      }
+    ]
+  },
+  "metal_aluminum01": {
+    "name": "metal_aluminum01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_aluminum01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_aluminum01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_aluminum01_painted_spc~675e7179"
+      }
+    ]
+  },
+  "metal_aluminum01_painted": {
+    "name": "metal_aluminum01_painted",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_aluminum01_painted_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_aluminum01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_aluminum01_painted_spc~aec6e77a"
+      }
+    ]
+  },
+  "metal_aluminum01_painted_blue": {
+    "name": "metal_aluminum01_painted_blue",
+    "techset": "l_sm_r0c0d0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_aluminum01_painted_col"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "detail_drk_blue_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_aluminum01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_aluminum01_painted_spc~aec6e77a"
+      }
+    ]
+  },
+  "com_wall_red": {
+    "name": "com_wall_red",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "red_wall_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "metal_silver": {
+    "name": "metal_silver",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_silver_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_silver_spc-r66g66b66&$~ae6da276"
+      }
+    ]
+  },
+  "ap_door_blue": {
+    "name": "ap_door_blue",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_door_blue_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_door_blue_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_door_blue_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "ap_door_white": {
+    "name": "ap_door_white",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_door_white_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_door_blue_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_door_blue_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "ap_windows_clean": {
+    "name": "ap_windows_clean",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_window_clean_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_window_clean_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_window_clean_spc-r-25g-25~5b8ddc8e"
+      }
+    ]
+  },
+  "glass_green": {
+    "name": "glass_green",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "glass_green_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "metal_aluminum01_dirty": {
+    "name": "metal_aluminum01_dirty",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_aluminum01_dirty_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_aluminum01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_aluminum01_painted_spc~675e7179"
+      }
+    ]
+  },
+  "com_birdshit01": {
+    "name": "com_birdshit01",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_birdshit01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "city_building_exterior03_cls": {
+    "name": "city_building_exterior03_cls",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "city_building_exterior03_cls_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "city_building_exterior02_cls_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~city_building_exterior02_cls~db7a4fce"
+      }
+    ]
+  },
+  "airport_floor_mat1": {
+    "name": "airport_floor_mat1",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "airport_floor_mat1_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "airport_floor_mat1_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~airport_floor_mat1_spc-r-71g~ef3914a3"
+      }
+    ]
+  },
+  "metal_brushed_elevator_panel": {
+    "name": "metal_brushed_elevator_panel",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_brushed_elevator_panel"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_brushed_elevator_panel_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_brushed_elevator_panel~1e2282f4"
+      }
+    ]
+  },
+  "metal_brusheddark_panel": {
+    "name": "metal_brusheddark_panel",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_brusheddark_panel_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_brusheddark_panel_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_brusheddark_panel_spc-~bd7f165c"
+      }
+    ]
+  },
+  "concrete_grey02": {
+    "name": "concrete_grey02",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "concrete_grey02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "concrete_grey02_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~concrete_grey02_spc-r-71g-71~2b461272"
+      }
+    ]
+  },
+  "ma_modern_door_01": {
+    "name": "ma_modern_door_01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_modern_door_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_modern_door_01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_modern_door_01_spc-rgb&$white-l-11"
+      }
+    ]
+  },
+  "glass_blue": {
+    "name": "glass_blue",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "glass_blue_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "ma_cb_bground_motif": {
+    "name": "ma_cb_bground_motif",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "cb_background_motif"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~cb_background_motif_spc-r-25~4eefddfa"
+      }
+    ]
+  },
+  "ap_linear_light": {
+    "name": "ap_linear_light",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_linear_light_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "sign_russian_earth": {
+    "name": "sign_russian_earth",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_earth_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "gate_roller_shutter": {
+    "name": "gate_roller_shutter",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "gate_roller_shutter_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "gate_roller_shutter_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~gate_roller_shutter_spc-rgb&~9706a770"
+      }
+    ]
+  },
+  "sign_russian_airline_02": {
+    "name": "sign_russian_airline_02",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_airline_02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "marble_floor_tiles_01": {
+    "name": "marble_floor_tiles_01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "marble_floor_tiles_01_col#0"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "marble_floor_tiles_01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~marble_floor_tiles_01_spc-r-~69de51fa"
+      }
+    ]
+  },
+  "airport_compass_rose": {
+    "name": "airport_compass_rose",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "airport_compass_rose_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "concrete_square_panels_tan": {
+    "name": "concrete_square_panels_tan",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "concrete_square_panels_tan_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "concrete_square_panels_tan_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~concrete_square_panels_tan_s~ff691752"
+      }
+    ]
+  },
+  "crossbeam_detail_c": {
+    "name": "crossbeam_detail_c",
+    "techset": "l_sm_t0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "crossbeam_detail_c"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "office_lighttanwall_01": {
+    "name": "office_lighttanwall_01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "officewall01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "officewall01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~officewall01_spec-rgb&office~f65856fa"
+      }
+    ]
+  },
+  "city_building_exterior02": {
+    "name": "city_building_exterior02",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "city_building_exterior02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~city_building_exterior01_spc~2242b5dc"
+      }
+    ]
+  },
+  "city_window03": {
+    "name": "city_window03",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "city_window03_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "city_window03_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~city_window03_spc-r-71g-71b-~6ace21b3"
+      }
+    ]
+  },
+  "concrete_grey01": {
+    "name": "concrete_grey01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "concrete_grey01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "concrete_grey01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~concrete_grey01_spc-rgb&$white-l-11"
+      }
+    ]
+  },
+  "airport_departure_sign": {
+    "name": "airport_departure_sign",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "airport_departure_sign"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "sign_russian_shopping": {
+    "name": "sign_russian_shopping",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_shopping_col"
+      }
+    ]
+  },
+  "ma_wood_trim": {
+    "name": "ma_wood_trim",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_wood_trim_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_wood_trim_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_wood_trim_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "facade_door_securityroller_black": {
+    "name": "facade_door_securityroller_black",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "door_securityroller_black_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "door_securityroller_black_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~door_securityroller_black_sp~0a69817f"
+      }
+    ]
+  },
+  "sign_russian_phone_backlit": {
+    "name": "sign_russian_phone_backlit",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_phone_backlit_col"
+      }
+    ]
+  },
+  "sign_russian_explorerussia": {
+    "name": "sign_russian_explorerussia",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_explorerussia_col"
+      }
+    ]
+  },
+  "black_rubber_trim": {
+    "name": "black_rubber_trim",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "black_rubber_trim"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "black_rubber_trim_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~black_rubber_trim_spc-rgb&$white-l-11"
+      }
+    ]
+  },
+  "me_cube_base": {
+    "name": "me_cube_base",
+    "techset": "l_sm_r0c0n0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "me_cubicle_base"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "me_cubicle_base_bump"
+      }
+    ]
+  },
+  "crossbeam_detail_b": {
+    "name": "crossbeam_detail_b",
+    "techset": "l_sm_t0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "crossbeam_detail_b"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "london_granite_01_cls": {
+    "name": "london_granite_01_cls",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "london_granite_01_cls_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "london_granite_01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~london_granite_01_spc-r-71g-~eccf43ad"
+      }
+    ]
+  },
+  "concrete_sidewalk_dirty": {
+    "name": "concrete_sidewalk_dirty",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "concrete_sidewalk_dirty_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "concrete_sidewalk_dirty_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~concrete_sidewalk_dirty_spc-~bd7f165c"
+      }
+    ]
+  },
+  "gravel_pebbles_garden": {
+    "name": "gravel_pebbles_garden",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "gravel_pebbles_garden_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "gravel_pebbles_garden_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~gravel_pebbles_garden_spc-rg~bb1ac844"
+      }
+    ]
+  },
+  "metal_fence_01": {
+    "name": "metal_fence_01",
+    "techset": "l_sm_t0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_fence_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "marble_floor_tiles_02": {
+    "name": "marble_floor_tiles_02",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "marble_floor_tiles_02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "marble_floor_tiles_02_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~marble_floor_tiles_02_spc-r-~69de51fa"
+      }
+    ]
+  },
+  "city_building_exterior02_cls": {
+    "name": "city_building_exterior02_cls",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "city_building_exterior02_cls_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "city_building_exterior02_cls_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~city_building_exterior02_cls~db7a4fce"
+      }
+    ]
+  },
+  "stone_flagstone_tile": {
+    "name": "stone_flagstone_tile",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "stone_flagstone_tile_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "stone_flagstone_tile_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~stone_flagstone_tile_spc-r-7~affb5ea5"
+      }
+    ]
+  },
+  "tile_floor02": {
+    "name": "tile_floor02",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "tile_floor02"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "tile_floor02_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~tile_floor02_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "concrete_dirty_cracked_decal": {
+    "name": "concrete_dirty_cracked_decal",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "concrete_dirty_cracked_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "concrete_dirty_cracked_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~concrete_dirty_cracked_spc-r~a371169a"
+      }
+    ]
+  },
+  "concrete_vertical_stained": {
+    "name": "concrete_vertical_stained",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "concrete_vertical_stained_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "concrete_vertical_stained_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~concrete_vertical_stained_sp~0a69817f"
+      }
+    ]
+  },
+  "ap_interior_standard_door": {
+    "name": "ap_interior_standard_door",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_door_standard_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_door_standard_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_door_standard_spc-rgb&ap_~6eee7ecc"
+      }
+    ]
+  },
+  "ma_restroom_women_sign": {
+    "name": "ma_restroom_women_sign",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_restroom_women_sign_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_restroom_women_sign_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_restroom_women_sign_spc-r~a3a57a34"
+      }
+    ]
+  },
+  "ap_signage_interior_set_2": {
+    "name": "ap_signage_interior_set_2",
+    "techset": "l_sm_t0c0n0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_signage_interior_set_2_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_signage_interior_set_2_nml"
+      }
+    ]
+  },
+  "ma_restroom_men_sign": {
+    "name": "ma_restroom_men_sign",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_restroom_men_sign_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_restroom_men_sign_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_restroom_men_sign_spc-r-7~affb5ea5"
+      }
+    ]
+  },
+  "sign_ad_alcohol_02_off": {
+    "name": "sign_ad_alcohol_02_off",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_ad_alcohol_02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "sign_ad_alcohol_01_off": {
+    "name": "sign_ad_alcohol_01_off",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_ad_alcohol_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "sign_russian_phone2": {
+    "name": "sign_russian_phone2",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_phone2_col"
+      }
+    ]
+  },
+  "la_glass_banister01": {
+    "name": "la_glass_banister01",
+    "techset": "l_sm_t0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "glass_banister01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~glass_banister01_spc-rgb&$white-l-11"
+      }
+    ]
+  },
+  "concrete_dirty_cracked": {
+    "name": "concrete_dirty_cracked",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "concrete_dirty_cracked_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "concrete_dirty_cracked_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~concrete_dirty_cracked_spc-r~a3a57a34"
+      }
+    ]
+  },
+  "asphalt_grooved": {
+    "name": "asphalt_grooved",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "asphalt_grooved_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "asphalt_grooved_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~asphalt_grooved_spc-r66g66b6~306b9093"
+      }
+    ]
+  },
+  "plaster_rough_red01": {
+    "name": "plaster_rough_red01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "plaster_rough_red01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "plaster_rough_red01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~plaster_rough_red01_spc-rgb&~9706a770"
+      }
+    ]
+  },
+  "decal_wires_bunch01": {
+    "name": "decal_wires_bunch01",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "decal_wires_bunch01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "decal_wires_bunch01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~decal_wires_bunch01_spc-r-71~0ef733fd"
+      }
+    ]
+  },
+  "decal_wires_ratnest01": {
+    "name": "decal_wires_ratnest01",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "decal_wires_ratnest01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "decal_wires_ratnest01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~decal_wires_ratnest01_spc-rg~bb1ac844"
+      }
+    ]
+  },
+  "brick_modern_cement": {
+    "name": "brick_modern_cement",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "brick_modern_cement_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "brick_modern_cement_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~brick_modern_cement_spc-rgb&~9706a770"
+      }
+    ]
+  },
+  "glass_banister01": {
+    "name": "glass_banister01",
+    "techset": "l_sm_b0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "glass_banister01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~glass_banister01_spc-rgb&$white-l-11"
+      }
+    ]
+  },
+  "ap_interior_plastic_tile": {
+    "name": "ap_interior_plastic_tile",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_interior_plastic_tile_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_interior_plastic_tile_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_interior_plastic_tile_spc~b1542d11"
+      }
+    ]
+  },
+  "metal_white": {
+    "name": "metal_white",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_white_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_silver_spc-r66g66b66&$~ae6da276"
+      }
+    ]
+  },
+  "sign_russian_camera": {
+    "name": "sign_russian_camera",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_camera_col"
+      }
+    ]
+  },
+  "icbm_braidedhose": {
+    "name": "icbm_braidedhose",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "icbm_braidedhose"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "icbm_braidedhose_bump"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~icbm_braidedhose_spec-rgbl-11"
+      }
+    ]
+  },
+  "metal_ridged": {
+    "name": "metal_ridged",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_ridged_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_ridged_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_ridged_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "screw_head": {
+    "name": "screw_head",
+    "techset": "l_sm_b0c0n0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "screw_head_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "screw_head_nml"
+      }
+    ]
+  },
+  "corner_panel": {
+    "name": "corner_panel",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "corner_panel_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "corner_panel_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~corner_panel_spc-r-71g-71b-7~35c330be"
+      }
+    ]
+  },
+  "nyc_whitescroll": {
+    "name": "nyc_whitescroll",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "nyc_whitescroll_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "nyc_whitescroll_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~nyc_whitescroll_spc-r-71g-71~2b461272"
+      }
+    ]
+  },
+  "sign_russian_banner_01": {
+    "name": "sign_russian_banner_01",
+    "techset": "l_sm_t0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_banner_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "sign_burgertown_main": {
+    "name": "sign_burgertown_main",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_burgertown_main_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "sign_burgertown_main_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~sign_burgertown_main_spc-rgb~aedebf0f"
+      }
+    ]
+  },
+  "burgertown_main_long": {
+    "name": "burgertown_main_long",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "burgertown_main_long_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "sign_russian_airport_02": {
+    "name": "sign_russian_airport_02",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_airport_02_col"
+      }
+    ]
+  },
+  "sign_ad_alcohol_01_unlit": {
+    "name": "sign_ad_alcohol_01_unlit",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_ad_alcohol_01_col"
+      }
+    ]
+  },
+  "sign_ad_alcohol_01": {
+    "name": "sign_ad_alcohol_01",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_ad_alcohol_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "sign_ad_alcohol_02_unlit": {
+    "name": "sign_ad_alcohol_02_unlit",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_ad_alcohol_02_col"
+      }
+    ]
+  },
+  "sign_ad_alcohol_02": {
+    "name": "sign_ad_alcohol_02",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_ad_alcohol_02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "glass_clear": {
+    "name": "glass_clear",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "glass_clear_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "ma_tile_wood_01": {
+    "name": "ma_tile_wood_01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_tile_wood_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_tile_wood_01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_tile_wood_01_spc-rgb&$white-l-11"
+      }
+    ]
+  },
+  "sign_russian_airport_dutyfree_ads01": {
+    "name": "sign_russian_airport_dutyfree_ads01",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_airport_dutyfree_ads01"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "plastic_panel_backlit": {
+    "name": "plastic_panel_backlit",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "plastic_panel_backlit_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "ma_cb_bground_motif_red": {
+    "name": "ma_cb_bground_motif_red",
+    "techset": "l_sm_r0c0d0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "cb_background_motif"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "detail_red_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~cb_background_motif_spc-r-25~4eefddfa"
+      }
+    ]
+  },
+  "sign_russian_airport_dutyfree_ads01_unlit": {
+    "name": "sign_russian_airport_dutyfree_ads01_unlit",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_russian_airport_dutyfree_ads01"
+      }
+    ]
+  },
+  "ma_cb_bground_motif_blue": {
+    "name": "ma_cb_bground_motif_blue",
+    "techset": "l_sm_r0c0d0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "cb_background_motif"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "detail_urban_blue_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~cb_background_motif_spc-r-25~4eefddfa"
+      }
+    ]
+  },
+  "concrete_cracks_large": {
+    "name": "concrete_cracks_large",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "concrete_cracks_large_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "concrete_cracks_large_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~concrete_cracks_large_spc-rg~bb1ac844"
+      }
+    ]
+  },
+  "ma_wallpaper": {
+    "name": "ma_wallpaper",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_wallpaper_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_wallpaper_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_wallpaper_spc-rgb&$white-l-11"
+      }
+    ]
+  },
+  "metal_vent_big_dc": {
+    "name": "metal_vent_big_dc",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_vent_big_col_dc"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_vent_big_nml_dc"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_vent_big_spc_dc-r-71g-~eccf43ad"
+      }
+    ]
+  },
+  "ma_ornament_overlay": {
+    "name": "ma_ornament_overlay",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_ornament_overlay_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "ma_ironwork_railing": {
+    "name": "ma_ironwork_railing",
+    "techset": "l_sm_t0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_ironwork_railing_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_ironwork_railing_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_ironwork_railing_spc-r-71~0ef733fd"
+      }
+    ]
+  },
+  "ma_restaurant_sign": {
+    "name": "ma_restaurant_sign",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_restaurant_sign_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ma_restaurant_sign_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ma_restaurant_sign_spc-r-71g~ef3914a3"
+      }
+    ]
+  },
+  "marble_tan_01": {
+    "name": "marble_tan_01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "marble_tan_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "marble_tan_01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~marble_tan_01_spc-rgb&$white-l-11"
+      }
+    ]
+  },
+  "ma_fastfood_menu": {
+    "name": "ma_fastfood_menu",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ma_fastfood_menu_col"
+      }
+    ]
+  },
+  "icbm_metal_vent2": {
+    "name": "icbm_metal_vent2",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "icbm_metal_vent"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "icbm_metal_vent_bump"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~icbm_metal_vent_spec-rgb&$white-l-11"
+      }
+    ]
+  },
+  "metal_gray_trim": {
+    "name": "metal_gray_trim",
+    "techset": "l_sm_r0c0n0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_gray_trim_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_gray_trim_nml"
+      }
+    ]
+  },
+  "ma_metal_paintedwhite_trim01": {
+    "name": "ma_metal_paintedwhite_trim01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_paintedwhite_trim01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_paintedwhite_trim01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_paintedwhite_trim01_sp~7ab7b10b"
+      }
+    ]
+  },
+  "metal_darkbrown01": {
+    "name": "metal_darkbrown01",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_darkbrown01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_darkbrown01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_darkbrown01_spc-r-25g-~2e178cb8"
+      }
+    ]
+  },
+  "metal_aluminum01_painted_red": {
+    "name": "metal_aluminum01_painted_red",
+    "techset": "l_sm_r0c0d0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_aluminum01_col"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "detail_red_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "metal_aluminum01_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_aluminum01_painted_spc~675e7179"
+      }
+    ]
+  },
+  "ap_cockpit_1": {
+    "name": "ap_cockpit_1",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_cockpit_1_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_cockpit_1_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_cockpit_1_spc-rgb&$white-l-11"
+      }
+    ]
+  },
+  "ap_compartment_trim": {
+    "name": "ap_compartment_trim",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_luggage_compartment_trim_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_luggage_compartment_trim_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_luggage_compartment_trim_~bd6dc9b8"
+      }
+    ]
+  },
+  "ap_compartment_side_trim": {
+    "name": "ap_compartment_side_trim",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_overhead_luggage_trim_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_overhead_luggage_trim_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_overhead_luggage_trim_spc~9b2aa361"
+      }
+    ]
+  },
+  "ap_cockpit_panel_nodestroy": {
+    "name": "ap_cockpit_panel_nodestroy",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_cockpit_panel_nodestroy_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_cockpit_panel_nodestroy_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_cockpit_panel_nodestroy_s~90805ddd"
+      }
+    ]
+  },
+  "ap_interior_plastic_trim": {
+    "name": "ap_interior_plastic_trim",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_interior_plastic_trim_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_interior_plastic_trim_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_interior_plastic_trim_spc~0f70e6bb"
+      }
+    ]
+  },
+  "ap_cockpit_2": {
+    "name": "ap_cockpit_2",
+    "techset": "l_sm_r0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_cockpit_2_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_cockpit_2_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_cockpit_2_spc-rgb&$white-l-11"
+      }
+    ]
+  },
+  "flugruger_long": {
+    "name": "flugruger_long",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "flugruger_long_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "ap_interior_closet_lights": {
+    "name": "ap_interior_closet_lights",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_interior_lights_closet_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "ap_interior_lights_closet_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_interior_lights_closet_sp~4840b52e"
+      }
+    ]
+  },
+  "sign_ad_chensky_01": {
+    "name": "sign_ad_chensky_01",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_ad_chensky_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "sign_ad_candy_backlit_01": {
+    "name": "sign_ad_candy_backlit_01",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_ad_candy_backlit_01_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "plastic_panel_backlit_2": {
+    "name": "plastic_panel_backlit_2",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "plastic_panel_backlit_2_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "sign_ad_candyshop_1": {
+    "name": "sign_ad_candyshop_1",
+    "techset": "l_sm_r0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_ad_candyshop_1_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "sign_alcohol_2_russian": {
+    "name": "sign_alcohol_2_russian",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_alcohol_2_russian_col"
+      }
+    ]
+  },
+  "sign_alcohol_1_russian": {
+    "name": "sign_alcohol_1_russian",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_alcohol_1_russian_col"
+      }
+    ]
+  },
+  "sign_dutyfree_1_russian": {
+    "name": "sign_dutyfree_1_russian",
+    "techset": "effect",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "sign_dutyfree_1_russian_col"
+      }
+    ]
+  },
+  "com_street_crosswalk": {
+    "name": "com_street_crosswalk",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "com_street_crosswalk_col#0"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "com_street_crosswalk_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~com_street_crosswalk_spec-r-~69de51fa"
+      }
+    ]
+  },
+  "com_street_crosswalk2": {
+    "name": "com_street_crosswalk2",
+    "techset": "l_sm_b0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "com_street_crosswalk2_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "com_street_crosswalk_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~com_street_crosswalk_spec-r-~69de51fa"
+      }
+    ]
+  },
+  "com_streetlines2": {
+    "name": "com_streetlines2",
+    "techset": "l_sm_t0c0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "com_crosswalklinewhitelong02_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "com_crosswalklinewhitelong02_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~com_crosswalklinewhitelong02~c511c516"
+      }
+    ]
+  },
+  "com_street_crosswalk_red": {
+    "name": "com_street_crosswalk_red",
+    "techset": "l_sm_b0c0d0n0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "com_street_crosswalk_col#0"
+      },
+      {
+        "kind": "detailMap",
+        "flags": 523,
+        "name": "detail_red_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1291,
+        "name": "com_street_crosswalk_nml"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~com_street_crosswalk_spec-r-~69de51fa"
+      }
+    ]
+  },
+  "com_parkinglot_arrow": {
+    "name": "com_parkinglot_arrow",
+    "techset": "l_sm_b0c0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "road_arrow"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      }
+    ]
+  },
+  "ap_glass_sanded_opaque": {
+    "name": "ap_glass_sanded_opaque",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "ap_glass_sanded_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~ap_glass_sanded_spc-rgb&ap_g~8dec99d4"
+      }
+    ]
+  },
+  "metal_tan": {
+    "name": "metal_tan",
+    "techset": "l_sm_r0c0s0",
+    "textures": [
+      {
+        "kind": "colorMap",
+        "flags": 523,
+        "name": "metal_tan_col"
+      },
+      {
+        "kind": "normalMap",
+        "flags": 1281,
+        "name": "$identitynormalmap"
+      },
+      {
+        "kind": "specularMap",
+        "flags": 2059,
+        "name": "~metal_silver_spc-r66g66b66&$~ae6da276"
+      }
+    ]
+  }
+}

@@ -1,0 +1,883 @@
+{
+  "models": {
+    "critical": [
+      {
+        "name": "com_steel_ladder",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_steel_ladder_top",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_concrete_barrier",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "furniture_metal_door01_handleright",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      }
+    ],
+    "important": [
+      {
+        "name": "ap_couch01",
+        "instances": 10,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_restaurantstove",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_restaurantstovewithburner",
+        "instances": 5,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ap_food_cart",
+        "instances": 55,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_folding_table",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_filecabinetblackclosed",
+        "instances": 5,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "icbm_electronic_cabinet5",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "icbm_electronic_cabinet8",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_restaurantstainlessteelshelf_01",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_locker_double",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "vehicle_semi_truck",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_refrigerator2",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "vehicle_bus2",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ap_airbus_seat_1",
+        "instances": 9,
+        "availability": "raw/xmodel file absent"
+      }
+    ],
+    "secondary": [
+      {
+        "name": "com_office_chair_killhouse",
+        "instances": 5,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_office_book_blue_paper_folder",
+        "instances": 7,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_office_book_pink_paper_folder",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_restaurantkitchenvent",
+        "instances": 4,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "foliage_cod5_tree_pine05_large_animated",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "foliage_pacific_fern01_animated",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_trashcan",
+        "instances": 23,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_plasticcase_rifle",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_plasticcase_black_big",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_plasticcase_green_big",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_plasticcase_bomb_open",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_tv1",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_electricbox4",
+        "instances": 5,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x512_ceramic",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "usa_gas_station_trash_bin_01",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_barrel_benzin",
+        "instances": 12,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "prop_flag_neutral",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_bomb_objective",
+        "instances": 4,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_bomb_objective_d",
+        "instances": 4,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "mil_tntbomb_mp",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ap_luggage01",
+        "instances": 41,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ap_luggage04",
+        "instances": 61,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ap_luggage02",
+        "instances": 27,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "foliage_ivy_corner01",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "foliage_ivy_corner02",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ap_luggage03",
+        "instances": 47,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_widescreen_monitor_on_2",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_widescreen_monitor_on_1",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_widescreen_monitor_on_3",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_computer_mouse",
+        "instances": 9,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_computer_keyboard",
+        "instances": 9,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4_fit_ceramic",
+        "instances": 49,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x64_ceramic",
+        "instances": 5,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4_90angle_ceramic",
+        "instances": 5,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x96_ceramic",
+        "instances": 10,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_studio_light_on",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ch_stagelight01_on",
+        "instances": 63,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_folding_chair",
+        "instances": 4,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_smallcoffeetable",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "cs_wallfan1",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "tvs_cubicle_connector",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "tvs_cubicle_desktop",
+        "instances": 4,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_office_book_set1",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_widescreen_monitor_2",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_office_lamp02",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_telephone_desk",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_computer_case",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_teddy_bear",
+        "instances": 9,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_ex_airconditioner",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_lightbox",
+        "instances": 11,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_electricbox1",
+        "instances": 53,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_electricbox3",
+        "instances": 12,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_electricbox4_dest",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4_90angle_gas",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4_coupling_gas",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4_fit_gas",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x96_gas",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x32_gas",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_gas_pipes02",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_gas_pipes01",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_two_light_fixture_on",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "machinery_welder_handle",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4_90angle_metal",
+        "instances": 17,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4_coupling_metal",
+        "instances": 110,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4_fit_metal",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x128_metal",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x64_metal",
+        "instances": 16,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x96_metal",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4_coupling_ceramic",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x128_ceramic",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_roofvent2",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_tv2",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_barrel_tan_rust",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_streetlightdual_on",
+        "instances": 7,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_streetlightlone_on",
+        "instances": 14,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_cafe_light_part1_on",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_picture5",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_picture18",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_picture22",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_cafe_light_part1_off",
+        "instances": 4,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_canopy_03",
+        "instances": 8,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "foliage_ivy_bottom01",
+        "instances": 4,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_trashbag2_white",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ch_road_post",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "bathroom_towel_rack",
+        "instances": 10,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "foliage_hedge_wall_1",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "foliage_hedge_wall_group_1",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ch_russian_table",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_barrel_shard1",
+        "instances": 1,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "jeepride_treefacade_lg_grp_01_lr",
+        "instances": 24,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_tower_crane",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ch_street_wall_light_01_on",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_lightbox_on",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_lightfluohang",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "me_lightfluohang_on",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ch_rubble_particleboard01",
+        "instances": 9,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "ch_rubble_woodplank01",
+        "instances": 10,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x512_gas",
+        "instances": 7,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_airduct_s_up_down",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_airduct_square",
+        "instances": 18,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x512_metal",
+        "instances": 18,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "wiremess",
+        "instances": 3,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_airduct_circle",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_airduct_s_holder",
+        "instances": 17,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4_45angle_metal",
+        "instances": 15,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_pipe_4x32_metal",
+        "instances": 15,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_cinderblockstack",
+        "instances": 2,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_plasticcase_beige_big",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_laptop_2_open",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      },
+      {
+        "name": "com_cellphone_on",
+        "instances": 6,
+        "availability": "raw/xmodel file absent"
+      }
+    ]
+  },
+  "materialNames": [
+    "ap_chrome",
+    "ap_interior_carpet",
+    "ap_stairs_edge",
+    "case512grey",
+    "ch_ceilingtiles_1",
+    "ch_concrete_05",
+    "ch_concrete_ceiling_01",
+    "ch_concrete_strips01",
+    "ch_concretewall03",
+    "ch_concretewall06",
+    "ch_countertop_sidetrim",
+    "ch_dec_burntstain_01",
+    "ch_dec_darkstain_01",
+    "ch_dec_darkstain_03",
+    "ch_dec_plaster02",
+    "ch_door_14",
+    "ch_door_18",
+    "ch_factory_diamondplate2",
+    "ch_factory_rustybeam",
+    "ch_factory_rustybeam3",
+    "ch_graffiti_9",
+    "ch_grass_01",
+    "ch_ground_dirt02",
+    "ch_ground_dirt03",
+    "ch_kitchenstainlessteelpanels",
+    "ch_metal_diamondplating",
+    "ch_tile_floor06",
+    "ch_wallpaintchipped_2",
+    "ch_wood01",
+    "ch_woodpaint_white01",
+    "com_blue_tarp",
+    "com_glass_clear",
+    "com_plastic_wall",
+    "icbm_conc_stripedwall",
+    "icbm_conduit",
+    "icbm_decal_bloodpool",
+    "icbm_decal_bloodsplat4",
+    "icbm_decal_bloodsplat6",
+    "icbm_freightelevator",
+    "icbm_hazardstripe2",
+    "icbm_hazardstripe2decal",
+    "icbm_metal_vent",
+    "icbm_russianbanner2",
+    "icbm_striped_conc_decal",
+    "icbm_tunnelfloor",
+    "icbm_wirescreen",
+    "kh_tarmac_trim1",
+    "me_cargocontainer_exteriorwall_wet",
+    "me_cargocontainer_exttrimwide",
+    "me_cargocontainerwhite_ext_wall",
+    "me_cinderblock_wall2_top",
+    "me_cubewall",
+    "me_curtains_1",
+    "me_decal_darkstain_01",
+    "me_decal_papers",
+    "me_decal_water_puddle",
+    "me_desktop_granite",
+    "me_door_08",
+    "me_drywall_02",
+    "me_floor_metalgratingparallel",
+    "me_ground_drygrass_dec",
+    "me_i_beam",
+    "me_metal_rust_02",
+    "me_office_carpet01",
+    "me_office_ceiling_light_1_on",
+    "me_office_ceiling_light_2_effect",
+    "me_office_ceiling_light_2_off",
+    "me_office_ceiling_tiles",
+    "me_office_ceiling_tiles_black",
+    "me_office_ceiling_vent_2",
+    "me_oilstain",
+    "me_particleboard",
+    "me_pinewood",
+    "me_plaster_brown",
+    "me_tile1",
+    "me_trash01",
+    "me_trim_metal_01",
+    "me_trim_metal_red",
+    "me_wire_black",
+    "mil_decal_number5",
+    "mil_decal_number6",
+    "mil_decal_number7",
+    "mil_decal_tan_arrow",
+    "office_bluewall_01",
+    "office_carpet_01_red",
+    "office_graywall_01",
+    "office_orangewall_01",
+    "office_tanwall_01",
+    "office_tilefloor",
+    "ship_boxes01",
+    "ship_ceiling01",
+    "ship_rubbermat01",
+    "ship_wall_stain5",
+    "window_stain"
+  ],
+  "missingTextureNames": [
+    "lightfluohang_col",
+    "lightfluohang_norm",
+    "~lightfluohang_spec-rgb&light~20d8db0f",
+    "militarytentceilinglight_col#0",
+    "militarytentceilinglight_norm#0",
+    "~militarytentceilinglight_spe~669269fa",
+    "~ap_light_embedded_1_spc-rgb&~b678cc30",
+    "potted_plant01_col",
+    "potted_plant01_nml",
+    "~potted_plant01_spc-rgb&potte~c7262fc3",
+    "flower_pot_dirt_col",
+    "flower_pot_dirt_nml",
+    "~flower_pot_dirt_spc-rgb&flow~412ab4fe",
+    "flower_pot_large_col",
+    "flower_pot_large_nml",
+    "~flower_pot_large_spc-rgb&flo~a893d326",
+    "~restaurantkitchentables_spc-~599d9206",
+    "ch_plywood01_col",
+    "ch_plywood01_nml",
+    "~ch_plywood01_spc-rgb&ch_plyw~506b1735",
+    "bm21_body_col",
+    "bm21_body_nrm",
+    "~bm21_body_spc-rgb&bm21_body_cos-l-11",
+    "bumper_car_col",
+    "bumper_car_nml",
+    "~bumper_car_spc-rgb&bumper_ca~b29f56f1",
+    "mtl_soda_can_04_col",
+    "mtl_soda_can_03_nml",
+    "~mtl_soda_can_03_spc-rgb&mtl_~f2491b9b",
+    "ap_wood_tile_brown_col",
+    "ap_wood_tile_brown_nml",
+    "~ap_wood_tile_brown_spc-rgb&a~3bca95f8",
+    "~officewall01_spec-rgb&office~f65856fa",
+    "ch_trim_stainlessteel_1_col",
+    "~ch_trim_stainlessteel_1_spc-~dac1f48f",
+    "office_floortrim_black_col",
+    "office_floortrim_black_nml",
+    "~office_floortrim_black_spc-rgbl-11",
+    "me_metal_grey01_col",
+    "me_metal_grey01_nml",
+    "~me_metal_grey01_spc-rgb&me_m~a98149b3",
+    "me_office_ceiling_vent_1_col",
+    "me_office_ceiling_vent_1_nml",
+    "~me_office_ceiling_vent_1_spc~1337a79b",
+    "me_trim_metalplate_1_col",
+    "me_trim_metalplate_1_nml",
+    "~me_trim_metalplate_1_spc-rgb~ebe39b71",
+    "com_black",
+    "~com_black_spc-r-25g-25b-25&c~3e8e4fa0",
+    "~ap_glass_sanded_spc-rgb&ap_g~8dec99d4",
+    "~ap_wood_tile_big_spc-r64g64b~54fc5470",
+    "northafrica_tables_col",
+    "northafrica_tables_normal",
+    "~northafrica_tables_spec-rgb&~eadf0665",
+    "xpec_metal_briefcase_col",
+    "xpec_metal_briefcase_nml",
+    "~xpec_metal_briefcase_spc-rgb~78c049ea",
+    "potted_plant02_col",
+    "potted_plant02_nml",
+    "~potted_plant02_spc-rgb&potte~9e1f1335",
+    "flower_pot_medium_col",
+    "flower_pot_medium_nml",
+    "~flower_pot_medium_spc-rgb&fl~8e2e0a9c",
+    "~small_hatchback_wagon_d_spec~7e6ea94c",
+    "~me_floor_shinyblack_spc-rgb&~b2472d46",
+    "air_duct_vent_col",
+    "air_duct_vent_nml",
+    "~air_duct_vent_spc-rgb&air_du~a248684c",
+    "coffee_vodka01_col",
+    "~coffee_vodka01_spc-rgb&coffe~6f818879",
+    "emergency_light01_col",
+    "emergency_light01_nml",
+    "~emergency_light01_spc-rgb&em~c31fc090",
+    "~propane_tank2_spc-rgb&propan~1d2f3436",
+    "~me_cargocontainertop_spc-rgb~4465eb4f",
+    "me_trim_metal_conduit_col",
+    "me_trim_metal_conduit_norm",
+    "~me_trim_metal_conduit_spec-r~27a891f0",
+    "~me_chainlink_fence_spec-r-44~92a16537",
+    "me_cargocontainergreen_trimwide_col",
+    "~mtl_truck_trailer_spc-rgb&mt~8d60244a",
+    "~mtl_truck_cab_spc-rgb&mtl_tr~9004f4e3",
+    "bunker_wires_details_col",
+    "bunker_wires_details_nml",
+    "~bunker_wires_details_spc-rgb~4ee76dac",
+    "icbm_facilitysign",
+    "ch_concretewall02_nml",
+    "~ch_concretewall02_spc-rgbl-11",
+    "ch_metal_rusty_02_col",
+    "ch_metal_rusty_02_nml",
+    "~ch_metal_rusty_02_spc-rgb&ch~ce22ca64",
+    "~ap_metal_trim_spc-rgb&ap_met~1a3993da",
+    "mtl_icbm_connectors",
+    "mtl_icbm_connectors_bump",
+    "~mtl_icbm_connectors_spec-rgbl-11",
+    "~ap_overhead_luggage_compartm~6c39bcf1",
+    "me_dec_wall_stain_1_col",
+    "air_mask_col",
+    "air_mask_nml",
+    "~air_mask_spc-rgb&air_mask_cos-l-11",
+    "icbm_missilebody",
+    "icbm_missilebody_bump",
+    "~icbm_missilebody_spec-rgbl-11",
+    "ap_linear_light_col",
+    "me_cubicle_base",
+    "me_cubicle_base_bump",
+    "ap_door_standard_col",
+    "ap_door_standard_nml",
+    "~ap_door_standard_spc-rgb&ap_~6eee7ecc",
+    "ap_interior_plastic_tile_col",
+    "ap_interior_plastic_tile_nml",
+    "~ap_interior_plastic_tile_spc~b1542d11",
+    "icbm_braidedhose",
+    "icbm_braidedhose_bump",
+    "~icbm_braidedhose_spec-rgbl-11",
+    "icbm_metal_vent",
+    "icbm_metal_vent_bump",
+    "ap_luggage_compartment_trim_col",
+    "ap_luggage_compartment_trim_nml",
+    "~ap_luggage_compartment_trim_~bd6dc9b8",
+    "ap_overhead_luggage_trim_col",
+    "ap_overhead_luggage_trim_nml",
+    "~ap_overhead_luggage_trim_spc~9b2aa361",
+    "ap_interior_plastic_trim_col",
+    "ap_interior_plastic_trim_nml",
+    "~ap_interior_plastic_trim_spc~0f70e6bb",
+    "ap_interior_lights_closet_col",
+    "ap_interior_lights_closet_nml",
+    "~ap_interior_lights_closet_sp~4840b52e",
+    "sign_ad_chensky_01_col",
+    "com_crosswalklinewhitelong02_col",
+    "com_crosswalklinewhitelong02_nml",
+    "~com_crosswalklinewhitelong02~c511c516"
+  ],
+  "assessment": "Critical missing ladders/door hardware are not required connectors in the selected, geometry-validated connected arena. Missing concrete barrier instances omitted; no invisible replacement colliders. Airport shell, original stairs, aircraft skin/interior and recovered covers retained. No additional original assets recovered: source archive and IWD already exhaustively inventoried. Dominant unavailable surface materials use documented compatible textures from the same available source, explicitly substitutions.",
+  "sourceGeometryFailure": "World brush 3021 (line 37654) invalid; omitted, no invented original brush."
+}

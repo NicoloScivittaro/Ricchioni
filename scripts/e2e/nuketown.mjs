@@ -16,7 +16,7 @@ try{
   await hostEval(page,gm=>{gm.selectMinigame('fps');gm.startGame();});
   await until(()=>hostEval(page,gm=>gm.state.phase==='MINIGAME_ROULETTE'),15000,'roulette');await hostEval(page,gm=>gm.skip());
   await until(()=>hostEval(page,gm=>gm.state.phase==='MINIGAME_MAP_VOTE'),15000,'map ballot');
-  report.maps=await hostEval(page,gm=>gm.state.mapVote.options.map(m=>m.id));assert.deepEqual(report.maps,['cantiere','nuketown']);
+  report.maps=await hostEval(page,gm=>gm.state.mapVote.options.map(m=>m.id));assert.ok(['cantiere','nuketown'].every(id=>report.maps.includes(id)));
   for(const phone of phones){await phone.page.waitForSelector('[data-map-id="nuketown"]');await phone.page.click('[data-map-id="nuketown"]');}
   await until(()=>hostEval(page,gm=>Object.values(gm.state.mapVote?.votes??{}).filter(v=>v==='nuketown').length===5),6000,'five votes');report.votes=5;
   const G=(fn,arg)=>sceneEval(page,'fps',fn,arg);

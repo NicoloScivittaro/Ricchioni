@@ -1,0 +1,4808 @@
+{
+  "garden_flowers_bright_col#0": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "flatscreen_02_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "flatscreen_02_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~flatscreen_02_spc-r66g66b66&~9706a770": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "filmstrip": {
+    "size": [
+      4096,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "books02": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "mtl_sign_bookstore": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "mtl_sign_bookstore_bump": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~mtl_sign_bookstore_spec-r-71~0ef733fd": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "com_black2": {
+    "size": [
+      32,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~com_black2_spc-r-71g-71b-71&~9706a770": {
+    "size": [
+      32,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ap_light_embedded_1_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_light_embedded_1_nml": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "black_surveillance_dome_col": {
+    "size": [
+      32,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~black_surveillance_dome_spc-~bd7f165c": {
+    "size": [
+      32,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "mtl_sign_book_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "books01_russian": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "books02_russian": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "chrome_doorhandle_col": {
+    "size": [
+      32,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "chrome_doorhandle_nml": {
+    "size": [
+      32,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~chrome_doorhandle_spc-r29g29~26b659e8": {
+    "size": [
+      32,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "restaurantkitchentables_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "burger_warmer_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "burger_warmer_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~burger_warmer_spc-r-71g-71b-~6ace21b3": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "cups_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "cups_nml": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~cups_spc-r-71g-71b-71&$white-l-11": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "tray_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "tray_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~tray_spc-r-71g-71b-71&$white-l-11": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "industrial_fridge_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "industrial_fridge_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~~industrial_fridge_spc-rgb&i~18943cad": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "flatscreen_02_d_col": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "flatscreen_02_d_nml": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~flatscreen_02_d_spc-r-71g-71~2b461272": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "mtl_chair_airport_wood_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "mtl_chair_airport_wood_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~mtl_chair_airport_wood_spc-r~a3a57a34": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "p_msc_chair_airport_c": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "p_msc_chair_airport_n": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~p_msc_chair_airport_s-r-71g-~eccf43ad": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "longseat_yellow_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "longseat_yellow_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~longseat_yellow_spc-r-71g-71~2b461272": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "baggage_container_white_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "baggage_container_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~baggage_container_spc-r-71g-~eccf43ad": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "baggage_container_blue_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "baggage_container_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "roadbarrier_orange_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "roadbarrier_nml": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~roadbarrier_white_spc-r-71g-~eccf43ad": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "roadbarrier_white_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "police_tape_col": {
+    "size": [
+      256,
+      16
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "machinery_railing01_col": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "machinery_railing01_nml": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~machinery_railing01_spc-r-71~0ef733fd": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "machinery_scaffolding01_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "machinery_scaffolding01_nml": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~machinery_scaffolding01_spc-~56fe7592": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "furniture_table1_airport_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~furniture_table1_airport_spc~90805ddd": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "officewall01_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "officewall01_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "machinery_xray_scanner_col": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "machinery_xray_scanner_nml": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~machinery_xray_scanner_spc-r~a3a57a34": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "machinery_metal_detector_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "machinery_metal_detector_nml": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~machinery_metal_detector_spc~90805ddd": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "divider_pole_col": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "divider_pole_nml": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~divider_pole_spc-r-71g-71b-7~35c330be": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ammo_cases_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ammo_cases_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ammo_cases_spc-r-71g-71b-71&~9706a770": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ammo_cases_brown_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "shattered_glass_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "policecar_lapd_destroy_col": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "policecar_lapd_destroy_nml": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~policecar_lapd_destroy_spc-r~41a311ef": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "policecar_glass_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "policecar_lapd_int_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "policecar_lapd_int_nml": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~policecar_lapd_int_spc-r66g6~7c7928ff": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "policecar_chrome_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "policecar_chrome_nml": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~policecar_chrome_spc-r66g66b~12fd6d31": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "policecar_metro_c": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "policecar_metro_n": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~policecar_lapd_s-r66g66b66&$~ae6da276": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "suburban_bottom_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "suburban_bottom_nml": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~suburban_bottom_spc-r66g66b6~306b9093": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "policecar_metro_decal_col": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "policecar_metro_col": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "policecar_metro_nml": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "barrier_destroyed_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "barrier_destroyed_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~barrier_destroyed_spc-r29g29~26b659e8": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "barrier_destroyed_more_col": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "barrier_destroyed_more_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~barrier_destroyed_more_spc-r~a3a57a34": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "p_msc_cart_airport_c": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "p_msc_cart_airport_n": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~p_msc_cart_airport_s-r-71g-7~c8affc40": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "cart_airport_shadow": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "garbage_bin_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "garbage_bin_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~garbage_bin_spc-r-71g-71b-71~aedebf0f": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "table_1_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "table_1_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~table_1_spc-r-71g-71b-71&$white-l-11": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "plastic_chair_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_glass_sanded_col": {
+    "size": [
+      32,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_wood_tile_big_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_wood_tile_big_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "ma_brushedmetal_panel_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_brushedmetal_panel_nml": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_brushedmetal_panel_spc-r-~69de51fa": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "grey": {
+    "size": [
+      16,
+      16
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_modern_light_fixture_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_modern_light_fixture_nml": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_modern_light_fixture_spc-~bd7f165c": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ma_modern_light_fixture_add_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "nates_restaurant_col": {
+    "size": [
+      2048,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "parkingcone01_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "parkingcone01_nml": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~parkingcone01_spc-r-71g-71b-~6ace21b3": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ma_restaurant_chair_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_restaurant_chair_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_restaurant_chair_spc-r-71~0ef733fd": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "food_sodas01_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "food_sodas01_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~food_sodas01_spc-rgb&$white-l-11": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "food_sodas02_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~food_sodas02_spc-r-71g-71b-7~35c330be": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ashtray_standing_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ashtray_standing_nml": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ashtray_standing_spc-r-71g-7~c8affc40": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "soda_machine_destroyed02_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "soda_machine_destroyed01_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~soda_machine_destroyed01_spc~675e7179": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "small_hatchback_wagon_d_white_col": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "small_hatchback_wagon_d_nrml": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "p_msc_sign_wet_floor_c": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "p_msc_sign_wet_floor_n": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~p_msc_sign_wet_floor_s-r-71g~ef3914a3": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "sign_russian_airport_01_col#0": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "me_floor_shinyblack_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "machinery_trashcompactor02_col": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "machinery_trashcompactor01_nml": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~machinery_trashcompactor01_s~ec1ba52c": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "mtl_storefront_door": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "mtl_storefront_door_bump": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~mtl_storefront_door_spec-r-7~affb5ea5": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "sloped_back_chair_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sloped_back_chair_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~sloped_back_chair_spc-r-71g-~eccf43ad": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "flatscreen_01_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "flatscreen_01_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~flatscreen_01_spc-r-71g-71b-~6ace21b3": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "metal_blue_col": {
+    "size": [
+      16,
+      16
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~metal_xxx_spc-r-71g-71b-71&$~ae6da276": {
+    "size": [
+      16,
+      16
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "magazines01": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "duty_free_props_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "duty_free_props_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~duty_free_props_spc-r-71g-71~2b461272": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "machinery_jetway_brace_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "machinery_jetway_brace_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~machinery_jetway_brace_spc-r~a3a57a34": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "telephone_box_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "telephone_box_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~telephone_box_spc-r-71g-71b-~6ace21b3": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "phonebooth_russian_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "phonebooth_america_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~phonebooth_america_spc-r-71g~ef3914a3": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "generator_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "generator_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~generator_spc-r-25g-25b-25&$~ae6da276": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "machinery_cart_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "machinery_cart_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~machinery_cart_spc-r-25g-25b~2d20a3d9": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "machinery_hose01_col": {
+    "size": [
+      128,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "machinery_hose01_coln": {
+    "size": [
+      128,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~machinery_hose01_cols-r-71g-~eccf43ad": {
+    "size": [
+      128,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "machinery_hose02_col": {
+    "size": [
+      128,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "machinery_hose01_nml": {
+    "size": [
+      128,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~~machinery_hose01_spc-rgb&ma~c6f88b67": {
+    "size": [
+      128,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "mig_welder_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "mig_welder_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~mig_welder_spc-r-25g-25b-25&~9706a770": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "newspaper_folded_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "lawn_chair_2_metal_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "lawn_chair_1_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~lawn_chair_2_metal_col-r-71g~ef3914a3": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "lawn_chair_2_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~lawn_chair_1_spc-r-71g-71b-7~35c330be": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "hand_rail_yellow_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "hand_rail_nml": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~hand_rail_spc-r29g29b29&$white-l-11": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "propane_tank2_col": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "propane_tank2_nml": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "touchscreen_register_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "touchscreen_register_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~touchscreen_register_spc-rgb~aedebf0f": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "touchscreen_screen_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "food_snacks01_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "food_snacks01_nml": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~food_snacks01_spc-r66g66b66&~9706a770": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ma_table_cloth_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_table_cloth_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_table_cloth_spc-r-71g-71b~d42a55ac": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ma_table_cloth_bottom_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_table_cloth_bottom_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_table_cloth_bottom_spc-r-~69de51fa": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "me_cargocontainergreen_ext_roof_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "me_cargocontainertop_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "me_chainlink_fence_color#0": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "me_chainlink_fence_normal": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~me_cargocontainer_exttrimwid~28f51640": {
+    "size": [
+      512,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "cart_baggage_airport_col": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "cart_baggage_airport_nml": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~cart_baggage_airport_spc-r-7~affb5ea5": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "mtl_truck_trailer_col": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "mtl_truck_trailer_nml": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "mtl_truck_cab_col": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "mtl_truck_cab_nml": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "mtl_mack_truck_glass_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~mtl_mack_truck_glass_spc-r-2~8ed971b9": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "~mtl_mack_truck_glass_spc-rgb~aedebf0f": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "mtl_sign_bookstore_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "streetsigns_01_col": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "streetsigns_01_nml": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~~streetsigns_01_spc-rgb&stre~badb3b2b": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "traffic_signs_01_col": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "traffic_signs_01_nml": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~traffic_signs_01_spc-r-71g-7~c8affc40": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "trash_bottles_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "trash_bottles_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~trash_bottles_spc-r-71g-71b-~6ace21b3": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "tree_oak_trunk_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "tree_oak_canopy_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "books01": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "p_msc_stairmov_lrg_c": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "p_msc_stairmov_lrg_n": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~p_msc_stairmov_lrg_s-r-71g-7~c8affc40": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "windsock_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "windsock_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~windsock_spc-r-71g-71b-71&$white-l-11": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "evacslide_silver_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "evacslide_silver_nml": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~evacslide_silver_spc-r-71g-7~c8affc40": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "evacslide_tape_col": {
+    "size": [
+      64,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "evacslide_tape_nml": {
+    "size": [
+      64,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~evacslide_tape_spc-r-71g-71b~d42a55ac": {
+    "size": [
+      64,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "evacslide_roundtape_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "evacslide_roundtape_nml": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~evacslide_roundtape_spc-r-71~0ef733fd": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "evacslide_ramp_col": {
+    "size": [
+      128,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "evacslide_ramp_nml": {
+    "size": [
+      128,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~evacslide_ramp_spc-r-71g-71b~d42a55ac": {
+    "size": [
+      128,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "evacslide_arm_col": {
+    "size": [
+      128,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "evacslide_arm_nml": {
+    "size": [
+      128,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~evacslide_arm_spc-r-71g-71b-~6ace21b3": {
+    "size": [
+      128,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "evacslide_belt_col": {
+    "size": [
+      16,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "evacslide_belt_nml": {
+    "size": [
+      16,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~evacslide_belt_spc-r-71g-71b~d42a55ac": {
+    "size": [
+      16,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "evacslide_text_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "evacslide_beltwhite_col": {
+    "size": [
+      16,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "evacslide_beltwhite_nml": {
+    "size": [
+      16,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~evacslide_beltwhite_spc-r-71~0ef733fd": {
+    "size": [
+      16,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "duty_free_liquor_boxes_01_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "duty_free_liquor_boxes_01_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~duty_free_liquor_boxes_01_sp~0a69817f": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "duty_free_liquor_boxes_02_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "duty_free_liquor_boxes_02_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~duty_free_liquor_boxes_02_sp~0a69817f": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "taxi_yellow_col": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "policecar_lapd_nml": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~policecar_lapd_spc-r-71g-71b~d42a55ac": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "poster_internationalsamurai_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "movie_poster_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~movie_poster_spc-r-71g-71b-7~35c330be": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "movieposterframe": {
+    "size": [
+      64,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~movieposterframe_spec-r66g66~23a5212b": {
+    "size": [
+      64,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "poster_players_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "poster_vengeance_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "standpipe01_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "standpipe01_col_n": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "cart_baggage_airport_curtain_col": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "cart_baggage_airport_curtain_nml": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~cart_baggage_airport_curtain~1e2282f4": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ap_flap_long_col": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_flap_long_nml": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ap_flap_long_spc-r-71g-71b-7~35c330be": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ap_flap_small_col": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_flap_small_nml": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ap_flap_small_spc-r-71g-71b-~6ace21b3": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "p_lvl_turbineopen_c": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "p_lvl_turbineopen_n": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~p_lvl_turbineopen_s-r-71g-71~2b461272": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "airplane_cross_section01_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "airplane_cross_section01_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~airplane_cross_section01_spc~cacb45d1": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ap_metal_trim_col": {
+    "size": [
+      256,
+      16
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_metal_trim_nml": {
+    "size": [
+      256,
+      16
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "ap_overhead_luggage_compartment_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_overhead_luggage_compartment_nml": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "727_coach_seat01_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "727_coach_seat01_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~727_coach_seat01_spc-r-71g-7~c8affc40": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "727_landing_gear01_col": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "727_landing_gear01_nml": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~727_landing_gear01_spc-r-71g~ef3914a3": {
+    "size": [
+      1024,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "727_tire01_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "727_tire01_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~727_tire01_spc-r-71g-71b-71&~9706a770": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ai_interior_plastic_window_clean_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ai_interior_plastic_window_clean_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ai_interior_plastic_window_c~36dbbc60": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ap_cockpit_nodamage": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_cockpit_damaged_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ap_cockpit_nodamage_spc-r-71~0ef733fd": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "turbine_fan_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "turbine_fan_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~turbine_fan_spc-r-71g-71b-71~aedebf0f": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "metal_aluminum01_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_aluminum01_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~metal_aluminum01_painted_spc~675e7179": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "metal_aluminum01_painted_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~metal_aluminum01_painted_spc~aec6e77a": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "red_wall_col": {
+    "size": [
+      16,
+      16
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_silver_col": {
+    "size": [
+      16,
+      16
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~metal_silver_spc-r66g66b66&$~ae6da276": {
+    "size": [
+      16,
+      16
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ap_door_blue_col": {
+    "size": [
+      128,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_door_blue_nml": {
+    "size": [
+      128,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ap_door_blue_spc-r-71g-71b-7~35c330be": {
+    "size": [
+      128,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ap_door_white_col": {
+    "size": [
+      128,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_window_clean_col": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_window_clean_nml": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ap_window_clean_spc-r-25g-25~5b8ddc8e": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "glass_green_col": {
+    "size": [
+      32,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_aluminum01_dirty_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_birdshit01_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "city_building_exterior03_cls_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "city_building_exterior02_cls_nml": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~city_building_exterior02_cls~db7a4fce": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "airport_floor_mat1_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "airport_floor_mat1_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~airport_floor_mat1_spc-r-71g~ef3914a3": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "metal_brushed_elevator_panel": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_brushed_elevator_panel_nml": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~metal_brushed_elevator_panel~1e2282f4": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "metal_brusheddark_panel_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_brusheddark_panel_nml": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~metal_brusheddark_panel_spc-~bd7f165c": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "concrete_grey02_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "concrete_grey02_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~concrete_grey02_spc-r-71g-71~2b461272": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ma_modern_door_01_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_modern_door_01_nml": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_modern_door_01_spc-rgb&$white-l-11": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "glass_blue_col": {
+    "size": [
+      32,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "cb_background_motif": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~cb_background_motif_spc-r-25~4eefddfa": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "sign_russian_earth_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "gate_roller_shutter_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "gate_roller_shutter_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~gate_roller_shutter_spc-rgb&~9706a770": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "sign_russian_airline_02_col": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "marble_floor_tiles_01_col#0": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "marble_floor_tiles_01_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~marble_floor_tiles_01_spc-r-~69de51fa": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "airport_compass_rose_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "concrete_square_panels_tan_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "concrete_square_panels_tan_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~concrete_square_panels_tan_s~ff691752": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "crossbeam_detail_c": {
+    "size": [
+      128,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "city_building_exterior02_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~city_building_exterior01_spc~2242b5dc": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "city_window03_col": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "city_window03_nml": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~city_window03_spc-r-71g-71b-~6ace21b3": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "concrete_grey01_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "concrete_grey01_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~concrete_grey01_spc-rgb&$white-l-11": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "airport_departure_sign": {
+    "size": [
+      1024,
+      1024
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_russian_shopping_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_wood_trim_col": {
+    "size": [
+      512,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_wood_trim_nml": {
+    "size": [
+      512,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_wood_trim_spc-r-71g-71b-7~35c330be": {
+    "size": [
+      512,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "door_securityroller_black_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "door_securityroller_black_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~door_securityroller_black_sp~0a69817f": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "sign_russian_phone_backlit_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_russian_explorerussia_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "black_rubber_trim": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "black_rubber_trim_nml": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~black_rubber_trim_spc-rgb&$white-l-11": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "crossbeam_detail_b": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "london_granite_01_cls_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "london_granite_01_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~london_granite_01_spc-r-71g-~eccf43ad": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "concrete_sidewalk_dirty_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "concrete_sidewalk_dirty_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~concrete_sidewalk_dirty_spc-~bd7f165c": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "gravel_pebbles_garden_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "gravel_pebbles_garden_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~gravel_pebbles_garden_spc-rg~bb1ac844": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "metal_fence_01_col": {
+    "size": [
+      64,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "marble_floor_tiles_02_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "marble_floor_tiles_02_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~marble_floor_tiles_02_spc-r-~69de51fa": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "city_building_exterior02_cls_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "stone_flagstone_tile_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "stone_flagstone_tile_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~stone_flagstone_tile_spc-r-7~affb5ea5": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "tile_floor02": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "tile_floor02_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~tile_floor02_spc-r-71g-71b-7~35c330be": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "concrete_dirty_cracked_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "concrete_dirty_cracked_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~concrete_dirty_cracked_spc-r~a371169a": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "concrete_vertical_stained_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "concrete_vertical_stained_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~concrete_vertical_stained_sp~0a69817f": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ma_restroom_women_sign_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_restroom_women_sign_nml": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_restroom_women_sign_spc-r~a3a57a34": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ap_signage_interior_set_2_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_signage_interior_set_2_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "ma_restroom_men_sign_col": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_restroom_men_sign_nml": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_restroom_men_sign_spc-r-7~affb5ea5": {
+    "size": [
+      128,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "sign_ad_alcohol_02_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_ad_alcohol_01_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_russian_phone2_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "glass_banister01_col": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~glass_banister01_spc-rgb&$white-l-11": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "~concrete_dirty_cracked_spc-r~a3a57a34": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "asphalt_grooved_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "asphalt_grooved_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~asphalt_grooved_spc-r66g66b6~306b9093": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "plaster_rough_red01_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "plaster_rough_red01_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~plaster_rough_red01_spc-rgb&~9706a770": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "decal_wires_bunch01_col": {
+    "size": [
+      2048,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "decal_wires_bunch01_nml": {
+    "size": [
+      2048,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~decal_wires_bunch01_spc-r-71~0ef733fd": {
+    "size": [
+      2048,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "decal_wires_ratnest01_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "decal_wires_ratnest01_nml": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~decal_wires_ratnest01_spc-rg~bb1ac844": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "brick_modern_cement_col": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "brick_modern_cement_nml": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~brick_modern_cement_spc-rgb&~9706a770": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "metal_white_col": {
+    "size": [
+      16,
+      16
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_russian_camera_col": {
+    "size": [
+      512,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_ridged_col": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_ridged_nml": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~metal_ridged_spc-r-71g-71b-7~35c330be": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "screw_head_col": {
+    "size": [
+      64,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "screw_head_nml": {
+    "size": [
+      64,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "corner_panel_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "corner_panel_nml": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~corner_panel_spc-r-71g-71b-7~35c330be": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "nyc_whitescroll_col": {
+    "size": [
+      256,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "nyc_whitescroll_nml": {
+    "size": [
+      512,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~nyc_whitescroll_spc-r-71g-71~2b461272": {
+    "size": [
+      256,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "sign_russian_banner_01_col": {
+    "size": [
+      512,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_burgertown_main_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_burgertown_main_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~sign_burgertown_main_spc-rgb~aedebf0f": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "burgertown_main_long_col": {
+    "size": [
+      1024,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_russian_airport_02_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "glass_clear_col": {
+    "size": [
+      32,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_tile_wood_01_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_tile_wood_01_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_tile_wood_01_spc-rgb&$white-l-11": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "sign_russian_airport_dutyfree_ads01": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "plastic_panel_backlit_col": {
+    "size": [
+      256,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "concrete_cracks_large_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "concrete_cracks_large_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~concrete_cracks_large_spc-rg~bb1ac844": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ma_wallpaper_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_wallpaper_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_wallpaper_spc-rgb&$white-l-11": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "metal_vent_big_col_dc": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_vent_big_nml_dc": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~metal_vent_big_spc_dc-r-71g-~eccf43ad": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ma_ornament_overlay_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_ironwork_railing_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_ironwork_railing_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_ironwork_railing_spc-r-71~0ef733fd": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ma_restaurant_sign_col": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ma_restaurant_sign_nml": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ma_restaurant_sign_spc-r-71g~ef3914a3": {
+    "size": [
+      512,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "marble_tan_01_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "marble_tan_01_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~marble_tan_01_spc-rgb&$white-l-11": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ma_fastfood_menu_col": {
+    "size": [
+      1024,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "~icbm_metal_vent_spec-rgb&$white-l-11": {
+    "size": [
+      256,
+      128
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "metal_gray_trim_col": {
+    "size": [
+      512,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_gray_trim_nml": {
+    "size": [
+      512,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "metal_paintedwhite_trim01_col": {
+    "size": [
+      32,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_paintedwhite_trim01_nml": {
+    "size": [
+      32,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~metal_paintedwhite_trim01_sp~7ab7b10b": {
+    "size": [
+      32,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "metal_darkbrown01_col": {
+    "size": [
+      128,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_darkbrown01_nml": {
+    "size": [
+      128,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~metal_darkbrown01_spc-r-25g-~2e178cb8": {
+    "size": [
+      128,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ap_cockpit_1_col": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_cockpit_1_nml": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ap_cockpit_1_spc-rgb&$white-l-11": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ap_cockpit_panel_nodestroy_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_cockpit_panel_nodestroy_nml": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ap_cockpit_panel_nodestroy_s~90805ddd": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "ap_cockpit_2_col": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "ap_cockpit_2_nml": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~ap_cockpit_2_spc-rgb&$white-l-11": {
+    "size": [
+      256,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "flugruger_long_col": {
+    "size": [
+      512,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_ad_candy_backlit_01_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "plastic_panel_backlit_2_col": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_ad_candyshop_1_col": {
+    "size": [
+      512,
+      64
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_alcohol_2_russian_col": {
+    "size": [
+      128,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_alcohol_1_russian_col": {
+    "size": [
+      128,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "sign_dutyfree_1_russian_col": {
+    "size": [
+      256,
+      32
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "com_street_crosswalk_col#0": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "com_street_crosswalk_nml": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "normal",
+    "embedded": true
+  },
+  "~com_street_crosswalk_spec-r-~69de51fa": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "specular",
+    "embedded": true
+  },
+  "com_street_crosswalk2_col": {
+    "size": [
+      512,
+      512
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "road_arrow": {
+    "size": [
+      256,
+      256
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  },
+  "metal_tan_col": {
+    "size": [
+      16,
+      16
+    ],
+    "sourceVersion": 6,
+    "role": "baseColor",
+    "embedded": true
+  }
+}

@@ -1,0 +1,45 @@
+ M dist/index.html
+ M docs/agent-work/nuketown/server.log
+ M docs/agent-work/track-corrections/sydney-audit-after.log
+ M docs/agent-work/track-corrections/sydney-probes.json
+ M docs/agent-work/track-corrections/sydney-wall-audit.json
+ M docs/agent-work/track-corrections/vite.log
+ M scripts/e2e/track-correction-photo.mjs
+ M src/minigames/kart-race/BabylonKartGame.ts
+ M src/minigames/kart-race/importedTrackCollision.ts
+ M src/minigames/kart-race/importedTrackGuides.ts
+ M src/minigames/kart-race/sydneyCollision.json
+ M src/minigames/kart-race/sydneyRoute.json
+ M src/minigames/kart-race/sydneyTrack.ts
+ M src/minigames/kart-race/sydneyWorld.ts
+?? docs/agent-work/terminal-2/
+?? docs/agent-work/terminal-conversion/
+?? docs/agent-work/track-corrections/REPORT.md
+?? docs/agent-work/track-corrections/build-interrupted.log
+?? docs/agent-work/track-corrections/build.log
+?? docs/agent-work/track-corrections/debug-smoke.log
+?? docs/agent-work/track-corrections/http-checks.json
+?? docs/agent-work/track-corrections/photo-after.log
+?? docs/agent-work/track-corrections/photo-multi.log
+?? docs/agent-work/track-corrections/photo-visual.log
+?? docs/agent-work/track-corrections/preservation.json
+?? docs/agent-work/track-corrections/preview.html
+?? docs/agent-work/track-corrections/sydney-checks.json
+?? docs/agent-work/track-corrections/sydney-checks.log
+?? docs/agent-work/track-corrections/sydney-debug.capture.json
+?? docs/agent-work/track-corrections/sydney-multi.capture.json
+?? docs/agent-work/track-corrections/sydney-multi.png
+?? docs/agent-work/track-corrections/sydney-route-meta.json
+?? docs/agent-work/track-corrections/sydney-visual-after.capture.json
+?? docs/agent-work/track-corrections/sydney-visual-after.png
+?? docs/agent-work/track-corrections/sydney-wall-after.capture.json
+?? docs/agent-work/track-corrections/sydney-wall-after.png
+?? docs/agent-work/track-corrections/targeted-checks.json
+?? docs/agent-work/track-corrections/targeted-checks.log
+?? docs/agent-work/track-corrections/typecheck.log
+?? public/assets/fps/terminal/
+?? scripts/sydney-track-corrections-check.ts
+?? scripts/track-correction-final-checks.ts
+?? scripts/track-correction-geometry.py
+?? scripts/track-correction-probes.ts
+?? tools/

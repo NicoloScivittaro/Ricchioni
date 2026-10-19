@@ -1,0 +1,42 @@
+{
+  "selectedSourceTriangles": 86252,
+  "selectedByKind": {
+    "cover": 32079,
+    "architecture": 54445
+  },
+  "walkCandidates": 102415,
+  "clearCandidates": 85219,
+  "components": [
+    48617,
+    10686,
+    10519,
+    1925,
+    1256,
+    1034,
+    960,
+    950,
+    770,
+    723,
+    502,
+    490,
+    490,
+    409,
+    233,
+    166,
+    153,
+    148,
+    145,
+    121
+  ],
+  "connectedNodes": 48617,
+  "spawns": 19,
+  "bounds": [
+    -75,
+    45,
+    -78,
+    64
+  ],
+  "cell": 0.4,
+  "radius": 0.28,
+  "heightRange": "0.25..5.59"
+}

@@ -1,9 +1,14 @@
-import {Color3,Color4,DirectionalLight,DynamicTexture,HemisphericLight,Mesh,MeshBuilder,Scene,SceneLoader,StandardMaterial,SubMesh,TransformNode,Vector3} from '@babylonjs/core';
+import {Color3,Color4,DirectionalLight,DynamicTexture,HemisphericLight,ImageProcessingConfiguration,Mesh,MeshBuilder,Scene,SceneLoader,StandardMaterial,SubMesh,TransformNode,Vector3} from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
 import type {KartWorld} from './kartEnvironment';
 import type {SydneyTrack} from './sydneyTrack';
 
 export function buildSydneyWorld(scene:Scene):KartWorld{
+  // The source has no image textures. Preserve its vertex palette while avoiding
+  // clipped white road surfaces under the combined hemisphere and sun lights.
+  scene.imageProcessingConfiguration.toneMappingEnabled=true;
+  scene.imageProcessingConfiguration.toneMappingType=ImageProcessingConfiguration.TONEMAPPING_ACES;
+  scene.imageProcessingConfiguration.exposure=.75;
   scene.clearColor=new Color4(.57,.8,.95,1);scene.ambientColor=new Color3(.15,.17,.2);
   scene.fogMode=Scene.FOGMODE_LINEAR;scene.fogColor=new Color3(.61,.81,.92);scene.fogStart=650;scene.fogEnd=2300;
   const sky=new HemisphericLight('sydneySky',Vector3.Up(),scene);sky.intensity=.85;sky.groundColor=new Color3(.38,.43,.48);
@@ -31,7 +36,7 @@ export async function importSydney(scene:Scene,track:SydneyTrack):Promise<void>{
       if(!mat){
         const source=original as unknown as {albedoColor?:Color3;emissiveColor?:Color3};
         mat=new StandardMaterial(original.name+'_sydney',scene);mat.diffuseColor=source.albedoColor?.clone()??Color3.White();mat.emissiveColor=source.emissiveColor?.clone()??Color3.Black();
-        mat.specularColor=new Color3(.07,.08,.1);mat.backFaceCulling=false;
+        mat.specularColor=new Color3(.07,.08,.1);mat.backFaceCulling=false;mat.twoSidedLighting=true;
         if(original.name.includes('Sea01')){mat.specularColor=new Color3(.48,.65,.75);mat.specularPower=64;mat.emissiveColor.set(.015,.04,.06);}
         if(original.name.includes('Window')){mat.specularColor=new Color3(.4,.5,.6);mat.specularPower=48;}
         if(original.name.includes('Emission'))mat.emissiveColor.set(.8,.68,.35);
@@ -46,12 +51,29 @@ export async function importSydney(scene:Scene,track:SydneyTrack):Promise<void>{
     if(original?.name.includes('Sea01'))imported.useVertexColors=false;
     imported.receiveShadows=/N_Road|N_Operahouse.*Road/.test(imported.name);
     const matrix=imported.computeWorldMatrix(true),positions=imported.getVerticesData('position'),indices=imported.getIndices();
-    if(positions&&indices&&indices.length>1500){
-      const groups=new Map<string,number[]>();
+    // Exact duplicate coloured/UV faces fight for the same depth. Remove only
+    // attribute-identical copies; keep every city part and its original palette.
+    if(positions&&indices&&/FountainTop|N_Ground_M_Cmn_MainColor|FarBuildingSet_M_Mobs1_Window|TreeSet|TreeBlock_M_Cmn/.test(imported.name)){
+      const colors=imported.getVerticesData('color'),uv=imported.getVerticesData('uv'),seen=new Set<string>(),clean:number[]=[];
       for(let i=0;i<indices.length;i+=3){
-        let x=0,y=0,z=0;for(let j=0;j<3;j++){const v=indices[i+j]*3;x+=positions[v];y+=positions[v+1];z+=positions[v+2];}
+        const face=[indices[i],indices[i+1],indices[i+2]],key=face.map(v=>[...positions.slice(v*3,v*3+3),...(colors?.slice(v*4,v*4+4)??[]),...(uv?.slice(v*2,v*2+2)??[])].map(n=>Math.round(n*10000)).join(',')).sort().join('|');
+        if(seen.has(key))continue;seen.add(key);clean.push(...face);
+      }
+      const removed=(indices.length-clean.length)/3;if(removed){imported.setIndices(clean);scene.metadata={...scene.metadata,sydneyDuplicateFacesRemoved:(scene.metadata?.sydneyDuplicateFacesRemoved??0)+removed};}
+    }
+    if(original?.name.includes('VR1')){
+      // The source sky radius (~2,800 m) was outside every 1,200 m race camera.
+      // A camera-centred sky preserves its vertex-colour panorama in all views.
+      const world=imported.getWorldMatrix().clone();imported.makeGeometryUnique();imported.bakeTransformIntoVertices(world);imported.parent=null;imported.position.setAll(0);imported.scaling.setAll(1);imported.rotationQuaternion=null;imported.rotation.setAll(0);
+      imported.infiniteDistance=true;imported.alwaysSelectAsActiveMesh=true;imported.material!.disableDepthWrite=true;imported.computeWorldMatrix(true);continue;
+    }
+    const visibleIndices=imported.getIndices();
+    if(positions&&visibleIndices&&visibleIndices.length>1500){
+      const groups=new Map<string,number[]>();
+      for(let i=0;i<visibleIndices.length;i+=3){
+        let x=0,y=0,z=0;for(let j=0;j<3;j++){const v=visibleIndices[i+j]*3;x+=positions[v];y+=positions[v+1];z+=positions[v+2];}
         const p=Vector3.TransformCoordinates(new Vector3(x/3,y/3,z/3),matrix),key=`${Math.floor(p.x/130)},${Math.floor(p.z/130)}`;
-        let list=groups.get(key);if(!list){list=[];groups.set(key,list);}list.push(indices[i],indices[i+1],indices[i+2]);
+        let list=groups.get(key);if(!list){list=[];groups.set(key,list);}list.push(visibleIndices[i],visibleIndices[i+1],visibleIndices[i+2]);
       }
       const sorted:number[]=[];for(const list of groups.values())sorted.push(...list);
       imported.setIndices(sorted);imported.releaseSubMeshes();let start=0;
@@ -70,6 +92,9 @@ function buildSydneyMarkers(scene:Scene,track:SydneyTrack):void{
   for(const ramp of track.accessRamps){
     const paths=[-1,1].map(side=>{const points:Vector3[]=[];for(let s=ramp.start;s<ramp.end;s+=.5)points.push(track.worldPoint(s,side*track.widthAt(s)/2,.015));points.push(track.worldPoint(ramp.end,side*track.widthAt(ramp.end)/2,.015));return points;});
     const deck=MeshBuilder.CreateRibbon('sydneyStairAccessRamp',{pathArray:paths,sideOrientation:Mesh.DOUBLESIDE},scene);deck.material=rampMaterial;deck.isPickable=false;deck.receiveShadows=true;deck.freezeWorldMatrix();
+    for(const edge of paths){
+      const side=MeshBuilder.CreateRibbon('sydneyAccessDeckEdge',{pathArray:[edge,edge.map(p=>p.subtract(new Vector3(0,.35,0)))],sideOrientation:Mesh.DOUBLESIDE},scene);side.material=rampMaterial;side.isPickable=false;side.freezeWorldMatrix();
+    }
   }
   const fence=new StandardMaterial('sydneyRaceFence',scene);fence.diffuseColor=new Color3(.88,.94,.98);fence.emissiveColor=new Color3(.07,.09,.1);
   const end=track.totalLength;

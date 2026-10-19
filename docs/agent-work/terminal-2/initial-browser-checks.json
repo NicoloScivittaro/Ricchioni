@@ -1,0 +1,260 @@
+{
+  "maps": [
+    "cantiere",
+    "nuketown",
+    "terminal"
+  ],
+  "load": {
+    "partial": true,
+    "spatialBatches": 2010,
+    "instanceGroups": 982,
+    "modelPrimitives": 3113,
+    "triangles": 1704739,
+    "materials": 408,
+    "loadMs": 4564.5,
+    "source": "terminal-play.glb",
+    "shadows": "existing character blobs; no dynamic map shadow pass"
+  },
+  "spawn": [
+    {
+      "x": 14.2,
+      "y": 4.88,
+      "z": 18,
+      "clear": true,
+      "floor": 4.88
+    },
+    {
+      "x": -61.8,
+      "y": 4.88,
+      "z": -9.2,
+      "clear": true,
+      "floor": 4.88
+    },
+    {
+      "x": -3.4,
+      "y": 1.22,
+      "z": -25.2,
+      "clear": true,
+      "floor": 1.22
+    },
+    {
+      "x": -43.8,
+      "y": 4.88,
+      "z": 40.4,
+      "clear": true,
+      "floor": 4.88
+    },
+    {
+      "x": -39,
+      "y": 1.02,
+      "z": -70.4,
+      "clear": true,
+      "floor": 1.02
+    }
+  ],
+  "geometry": {
+    "levels": [
+      0.25,
+      5.69
+    ],
+    "pathNodes": 264,
+    "routeReachable": true,
+    "routeMovementFailures": 0,
+    "uphillSteps": 13,
+    "clear": [
+      {
+        "x": -21,
+        "y": 4.88,
+        "z": 2.8
+      },
+      {
+        "x": -24.6,
+        "y": 4.88,
+        "z": 3.6
+      }
+    ],
+    "covered": [
+      {
+        "x": -20.6,
+        "y": 4.88,
+        "z": -1.6
+      },
+      {
+        "x": -21,
+        "y": 4.88,
+        "z": -6.8
+      }
+    ],
+    "anchors": {
+      "lower": {
+        "x": 4.6,
+        "y": 1.22,
+        "z": -35.2
+      },
+      "plane": {
+        "x": -29.8,
+        "y": 4.88,
+        "z": 35.6
+      },
+      "inside": {
+        "x": -25,
+        "y": 4.88,
+        "z": 2.8
+      }
+    }
+  },
+  "combat": {
+    "coveredHp": 100,
+    "exposedHp": 45,
+    "protectionCancelled": true,
+    "reload": true
+  },
+  "ads": {
+    "value": 1,
+    "fov": 0.8383008169266069
+  },
+  "humanMovement": 4.540535999999967,
+  "performance": {
+    "fps": 12.98658053344876,
+    "p95": 100.19999999999709,
+    "width": 1280,
+    "height": 720,
+    "scale": 1,
+    "views": 5,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "activeMeshes": 65,
+    "drawCalls": 2281,
+    "world": {
+      "partial": true,
+      "spatialBatches": 2010,
+      "instanceGroups": 982,
+      "modelPrimitives": 3113,
+      "triangles": 1704739,
+      "materials": 408,
+      "loadMs": 4564.5,
+      "source": "terminal-play.glb",
+      "shadows": "existing character blobs; no dynamic map shadow pass"
+    }
+  },
+  "match": {
+    "clock": 99.93837000000052,
+    "results": [
+      {
+        "playerId": "6159f17b-eca0-4148-ad79-98e610c96cc2",
+        "placement": 1,
+        "score": 6,
+        "stats": [
+          "6 kill · 3 morti",
+          "precisione 42%"
+        ]
+      },
+      {
+        "playerId": "fcd7d5c9-5950-4a94-acd6-4175ee59a70d",
+        "placement": 2,
+        "score": 5,
+        "stats": [
+          "5 kill · 4 morti",
+          "precisione 35%"
+        ]
+      },
+      {
+        "playerId": "de48c13e-17a9-4535-9272-140b2cdf2354",
+        "placement": 3,
+        "score": 4,
+        "stats": [
+          "4 kill · 3 morti",
+          "precisione 44%"
+        ]
+      },
+      {
+        "playerId": "a5257b8a-f789-47bb-9bcf-360cef1f2df7",
+        "placement": 4,
+        "score": 4,
+        "stats": [
+          "4 kill · 5 morti",
+          "precisione 32%"
+        ]
+      },
+      {
+        "playerId": "0df28d68-4b9a-485e-99f0-fb04d1246bb3",
+        "placement": 5,
+        "score": 2,
+        "stats": [
+          "2 kill · 6 morti",
+          "precisione 38%"
+        ]
+      }
+    ],
+    "players": [
+      {
+        "id": "a5257b8a-f789-47bb-9bcf-360cef1f2df7",
+        "kills": 4,
+        "deaths": 5,
+        "shots": 69,
+        "hit": 22,
+        "x": -27.725930008434496,
+        "y": 1.02,
+        "z": -49.743704054697986
+      },
+      {
+        "id": "6159f17b-eca0-4148-ad79-98e610c96cc2",
+        "kills": 6,
+        "deaths": 3,
+        "shots": 107,
+        "hit": 45,
+        "x": -46.41416261364879,
+        "y": 4.88,
+        "z": 16.80000004075537
+      },
+      {
+        "id": "de48c13e-17a9-4535-9272-140b2cdf2354",
+        "kills": 4,
+        "deaths": 3,
+        "shots": 25,
+        "hit": 11,
+        "x": -5.2523447770131195,
+        "y": 1.22,
+        "z": -37.59998723400047
+      },
+      {
+        "id": "0df28d68-4b9a-485e-99f0-fb04d1246bb3",
+        "kills": 2,
+        "deaths": 6,
+        "shots": 55,
+        "hit": 21,
+        "x": 12.611585725128734,
+        "y": 4.88,
+        "z": 14.19575056134089
+      },
+      {
+        "id": "fcd7d5c9-5950-4a94-acd6-4175ee59a70d",
+        "kills": 5,
+        "deaths": 4,
+        "shots": 52,
+        "hit": 18,
+        "x": -49.976484799999994,
+        "y": 1.02,
+        "z": -16
+      }
+    ],
+    "clear": true
+  },
+  "cleanup": true,
+  "otherMaps": [
+    {
+      "id": "cantiere",
+      "meshes": 117,
+      "loaded": true
+    },
+    {
+      "id": "nuketown",
+      "meshes": 189,
+      "loaded": true
+    }
+  ],
+  "errors": []
+}

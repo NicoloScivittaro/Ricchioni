@@ -1,0 +1,19 @@
+{
+  "unchangedFiles": [
+    "src\\minigames\\fps\\BabylonFpsGame.ts",
+    "src\\minigames\\fps\\fpsAbilities.ts",
+    "src\\minigames\\fps\\FpsScene.ts",
+    "src\\minigames\\fps\\index.ts",
+    "src\\minigames\\fps\\nuketownArena.ts",
+    "src\\minigames\\fps\\NuketownBots.ts",
+    "shared\\fpsAim.ts",
+    "shared\\fpsCover.ts",
+    "shared\\fpsMap.ts",
+    "shared\\fpsWeapons.ts",
+    "shared\\minigameMaps.ts",
+    "package.json",
+    "package-lock.json"
+  ],
+  "zipMapsDifferentFromOriginalRar": [],
+  "noGameCodeChanges": true
+}

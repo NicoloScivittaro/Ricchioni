@@ -23,8 +23,9 @@ import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
 import { AB, stateLabel } from '../../../shared/abilityCatalog';
 import type { AbilityStatus } from '../../../shared/abilityCatalog';
 import { abilityHub } from '../../core/abilityHub';
-import type {NuketownArena} from './nuketownArena';
+import type {ImportedFpsArena} from './importedFpsArena';
 import type {NuketownBots} from './NuketownBots';
+import type {TerminalBots} from './TerminalBots';
 import { FpsAbilities, FPS_MAX_HP } from './fpsAbilities';
 import type { FpsAbilityFeedback } from './fpsAbilities';
 
@@ -148,8 +149,8 @@ interface Blast {
 
 export class FpsScene extends Phaser.Scene {
   private soloBots!: MotionBots;
-  private nuketown:NuketownArena|null=null;
-  private nuketownBots:NuketownBots|null=null;
+  private nuketown:ImportedFpsArena|null=null;
+  private nuketownBots:NuketownBots|TerminalBots|null=null;
   private map=FPS_MAP;
   private roundReady=false;
   private worldReady=true;
@@ -184,7 +185,12 @@ export class FpsScene extends Phaser.Scene {
     this.roundReady=false;this.nuketown=null;this.nuketownBots=null;this.map=FPS_MAP;this.worldReady=true;
     const version=++this.bootVersion;
     this.events.once(Phaser.Scenes.Events.SHUTDOWN,()=>{this.bootVersion++;this.roundReady=false;});
-    if(data.ctx.mapId==='nuketown'){
+    if(data.ctx.mapId==='terminal'){
+      void Promise.all([import('./terminalArena'),import('./TerminalBots')]).then(async ([{TerminalArena},{TerminalBots}])=>{
+        const arena=await TerminalArena.load();if(version!==this.bootVersion)return;
+        this.nuketown=arena;this.map=arena;this.nuketownBots=new TerminalBots(data.ctx);this.createRound(data);
+      }).catch(e=>{console.error('Terminal loading failed',e);if(version===this.bootVersion)this.add.text(100,300,'TERMINAL: caricamento fallito. Torna alla lobby.',{fontSize:'24px'});});
+    }else if(data.ctx.mapId==='nuketown'){
       void Promise.all([import('./nuketownArena'),import('./NuketownBots')]).then(([{NuketownArena},{NuketownBots}])=>{
         if(version!==this.bootVersion)return;
         this.nuketown=new NuketownArena();this.map=this.nuketown;this.nuketownBots=new NuketownBots(data.ctx);this.createRound(data);
@@ -212,7 +218,7 @@ export class FpsScene extends Phaser.Scene {
 
     this.graphics = this.add.graphics();
     this.add.text(640, 24, '🔫 SPARATORIA DEI DISAGIATI', { fontFamily: FONT_DISPLAY, fontSize: '34px', color: '#ffffff' }).setOrigin(0.5);
-    this.add.text(640, 58, this.nuketown?'NUKETOWN · CASE, CORTILI E COPERTURE':'RADAR / REGIA — i giocatori guardano il telefono', { fontFamily: FONT_BODY, fontSize: '16px', color: '#9ca3af' }).setOrigin(0.5);
+    this.add.text(640, 58, this.ctx.mapId==='terminal'?'TERMINAL · AEROPORTO, CORRIDOI E AEREO':this.nuketown?'NUKETOWN · CASE, CORTILI E COPERTURE':'RADAR / REGIA — i giocatori guardano il telefono', { fontFamily: FONT_BODY, fontSize: '16px', color: '#9ca3af' }).setOrigin(0.5);
     this.timerText = this.add.text(640, 90, '', { fontFamily: FONT_DISPLAY, fontSize: '26px', color: '#fbbf24' }).setOrigin(0.5);
     this.add.text(BOARD_X, 136, 'CLASSIFICA', { fontFamily: FONT_DISPLAY, fontSize: '22px', color: '#94a3b8' });
     this.ctx.players.forEach((_, i) => {
@@ -230,7 +236,7 @@ export class FpsScene extends Phaser.Scene {
         initial: characterInitial(snap.characterId),
         color: snap.color,
         x: spawn.x,
-        y: this.nuketown?.floorAt(spawn.x,spawn.z)??0,
+        y: spawn.y??this.nuketown?.floorAt(spawn.x,spawn.z)??0,
         z: spawn.z,
         yaw: Math.atan2(-spawn.x, -spawn.z), // verso il centro (il telefono allinea la visuale al primo stato)
         pitch: 0,
@@ -327,7 +333,7 @@ export class FpsScene extends Phaser.Scene {
     canvas.style.outline = 'none';
     document.body.appendChild(canvas);
     this.splitScreenCanvas = canvas;
-    this.splitScreen = new BabylonFpsGame(canvas, locals,this.nuketown?'nuketown':'cantiere');
+    this.splitScreen = new BabylonFpsGame(canvas, locals,this.ctx.mapId==='terminal'?'terminal':this.nuketown?'nuketown':'cantiere');
     this.worldReady=!this.nuketown;
     try{await this.splitScreen.ready;if(!this.splitScreenCancelled&&version===this.bootVersion)this.worldReady=true;}
     catch(e){console.error('Nuketown rendering failed',e);this.splitScreen?.setRoundEndMessage('ERRORE CARICAMENTO MAPPA');}
@@ -375,7 +381,7 @@ export class FpsScene extends Phaser.Scene {
     };
   }
 
-  private pickSpawn(exclude: FpsPlayer[]): { x: number; z: number } {
+  private pickSpawn(exclude: FpsPlayer[]): { x: number; z: number; y?:number } {
     // Sceglie lo spawn più lontano dai nemici vivi.
     let best = this.map.spawns[0];
     let bestScore = -Infinity;
@@ -404,7 +410,7 @@ export class FpsScene extends Phaser.Scene {
         best = s;
       }
     }
-    return { x: best.x, z: best.z };
+    return { x: best.x, z: best.z, y:(best as {y?:number}).y };
   }
 
   update(_t: number, delta: number): void {
@@ -826,7 +832,7 @@ export class FpsScene extends Phaser.Scene {
   private respawn(p: FpsPlayer): void {
     const spawn = this.pickSpawn(this.players.filter((q) => q.id !== p.id));
     p.x = spawn.x;
-    p.y=this.nuketown?.floorAt(spawn.x,spawn.z)??0;
+    p.y=spawn.y??this.nuketown?.floorAt(spawn.x,spawn.z)??0;
     p.z = spawn.z;
     p.yaw = Math.atan2(-spawn.x, -spawn.z);
     p.pitch = 0;
@@ -841,7 +847,7 @@ export class FpsScene extends Phaser.Scene {
   private broadcastState(): void {
     this.ctx.signal(null, {
       type: 'fpsState',
-      mapId:this.nuketown?'nuketown':'cantiere',
+      mapId:this.ctx.mapId==='terminal'?'terminal':this.nuketown?'nuketown':'cantiere',
       matchTime: Math.max(0, this.matchTime),
       players: this.players.map((p) => ({
         id: p.id,
@@ -875,7 +881,7 @@ export class FpsScene extends Phaser.Scene {
   private renderRadar(): void {
     const g = this.graphics;
     g.clear();
-    const scale = this.nuketown?6.3:RADAR_SCALE;
+    const scale = this.ctx.mapId==='terminal'?3.1:this.nuketown?6.3:RADAR_SCALE;
     const cx = RADAR_CX;
     const cy = RADAR_CY;
 

@@ -1,0 +1,16 @@
+import{writeFileSync}from'node:fs';import assert from'node:assert/strict';import{launch,sleep}from'./lib.mjs';
+const browser=await launch(),out='docs/agent-work/terminal-2',errors=[];let report={};
+try{
+ const page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto('http://localhost:5185/?quality=high');await page.waitForFunction(()=>performance.getEntriesByType('resource').some(e=>e.name.includes('GameManager.ts')));
+ report=await page.evaluate(async()=>{
+  const url=performance.getEntriesByType('resource').map(e=>e.name).find(n=>n.includes('GameManager.ts'));const{game:gm}=await import(url);while(!gm.game)await new Promise(r=>setTimeout(r,100));gm.game.loop.sleep();gm.game.canvas.style.display='none';
+  const[{BabylonFpsGame},{TerminalArena}]=await Promise.all([import('/src/minigames/fps/BabylonFpsGame.ts'),import('/src/minigames/fps/terminalArena.ts')]);const arena=await TerminalArena.load();
+  const start=arena.closest({x:4.6,y:1.22,z:-35.2}),goal=arena.closest({x:-39.4,y:5.14,z:-50}),nav=arena.nav,parent=new Int32Array(nav.length).fill(-1),q=[start];parent[start]=start;
+  for(let n=0;n<q.length&&parent[goal]<0;n++)for(const v of arena.data.edges[q[n]])if(parent[v]<0){parent[v]=q[n];q.push(v);}
+  const path=[];for(let v=goal;v!==start&&v>=0;v=parent[v])path.push(v);path.push(start);path.reverse();let p=nav[start],failures=0,uphillSteps=0;
+  for(const i of path.slice(1)){const next=nav[i],m=arena.move(p,next);if(Math.hypot(m.x-next.x,m.z-next.z)>.06||Math.abs(m.y-next.y)>.03)failures++;if(m.y-p.y>.05)uphillSteps++;p=m;}
+  const canvas=document.createElement('canvas');canvas.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:10001';document.body.append(canvas);const r=window.__terminalPlane=new BabylonFpsGame(canvas,[{id:'plane',name:'TERMINAL',color:'#ffffff'}],'terminal');await r.ready;await r.scene.whenReadyAsync();r.engine.stopRenderLoop();const c=r.cams[0].camera;c.layerMask=0x7fff;c.fov=.9;c.position.set(-7,22,-18);c.setTarget(c.position.clone().set(-39.4,5.14,-50));for(const m of r.scene.meshes)for(const l of m.getLODLevels?.().slice()??[])m.removeLODLevel(l.mesh);r.scene.render();r.scene.render();
+  return{cabin:nav[goal],routeReachable:parent[goal]>=0,pathNodes:path.length,routeMovementFailures:failures,uphillSteps,world:r.scene.metadata.terminal};
+ });assert.ok(report.routeReachable&&report.uphillSteps>0);assert.equal(report.routeMovementFailures,0);await sleep(150);await page.screenshot({path:out+'/plane.png'});
+ report.phone=await page.evaluate(async()=>{window.__terminalPlane.dispose();const{FpsClient}=await import('/src/controller/fpsClient.ts');const box=document.createElement('div');box.style.cssText='position:fixed;inset:0';document.body.append(box);const c=new FpsClient(box,'probe',()=>{},()=>null,'terminal');const t=performance.now();while(!c.scene.metadata?.terminal&&performance.now()-t<30000)await new Promise(r=>setTimeout(r,100));const metadata=c.scene.metadata?.terminal;await c.scene.whenReadyAsync();c.dispose();box.remove();return metadata;});assert.equal(report.phone.materials,10);assert.deepEqual(errors,[]);console.log(JSON.stringify(report));
+}finally{writeFileSync(out+'/plane-phone-checks.json',JSON.stringify({...report,errors},null,2));await browser.close();}

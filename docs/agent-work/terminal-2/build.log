@@ -1,0 +1,152 @@
+
+> party-game@0.2.0 build
+> tsc --noEmit && vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 3828 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                      0.96 kB │ gzip:     0.55 kB
+dist/controller.html                                                 1.16 kB │ gzip:     0.56 kB
+dist/assets/controller-C9FYEE21.css                                 50.89 kB │ gzip:    10.93 kB
+dist/assets/moveInput-CReEq0-Q.js                                    0.08 kB │ gzip:     0.08 kB
+dist/assets/arenaAbilities-DUSxZ9Zq.js                               0.08 kB │ gzip:     0.10 kB
+dist/assets/soccerAbilities-DcPtBNTE.js                              0.08 kB │ gzip:     0.10 kB
+dist/assets/dodgeballAbilities-CHLtMHZ5.js                           0.09 kB │ gzip:     0.10 kB
+dist/assets/volleyballAbilities-D94dBiwQ.js                          0.09 kB │ gzip:     0.10 kB
+dist/assets/abstractAudioBus-CyErvdBH.js                             0.11 kB │ gzip:     0.13 kB
+dist/assets/loopGuard-CLhVFplb.js                                    0.23 kB │ gzip:     0.19 kB
+dist/assets/tgaTextureLoader-CpH4pnp_.js                             0.36 kB │ gzip:     0.28 kB
+dist/assets/oitFinalSimpleBlend.fragment-DvRwIPH7.js                 0.42 kB │ gzip:     0.29 kB
+dist/assets/flowGraphGLTFDataProvider-BtG8SyMX.js                    0.47 kB │ gzip:     0.30 kB
+dist/assets/oitFinalSimpleBlend.fragment-DhUJelP4.js                 0.50 kB │ gzip:     0.32 kB
+dist/assets/flowGraphCodeExecutionBlock-BHmNY5WF.js                  0.52 kB │ gzip:     0.30 kB
+dist/assets/flowGraphObjectReferenceBlock-DbCHr95L.js                0.57 kB │ gzip:     0.36 kB
+dist/assets/importedCharacters-C7FFzXIT.js                           0.58 kB │ gzip:     0.34 kB
+dist/assets/hdrTextureLoader-CMnTxz5U.js                             0.58 kB │ gzip:     0.41 kB
+dist/assets/envTextureLoader-Bd4YhJ7s.js                             0.61 kB │ gzip:     0.40 kB
+dist/assets/volumetricLightingRenderVolume.vertex-DQs_oRy0.js        0.63 kB │ gzip:     0.37 kB
+dist/assets/lod3D.fragment-nmst8LgK.js                               0.67 kB │ gzip:     0.39 kB
+dist/assets/volumetricLightingRenderVolume.vertex-aJ-YHr4G.js        0.72 kB │ gzip:     0.40 kB
+dist/assets/soccerHud-DSpRg3Rc.js                                    0.80 kB │ gzip:     0.48 kB
+dist/assets/lod3D.fragment-BYYRKflG.js                               0.81 kB │ gzip:     0.45 kB
+dist/assets/volumetricLightingBlendVolume.fragment-CWvyfsNb.js       0.86 kB │ gzip:     0.49 kB
+dist/assets/iblCopyVoxelBufferToGrid.compute-DHdBRBzl.js             0.88 kB │ gzip:     0.53 kB
+dist/assets/webAudioMainBus-D02WWIHB.js                              0.95 kB │ gzip:     0.44 kB
+dist/assets/mesh.vertexData.functions-ayNlGC5K.js                    0.96 kB │ gzip:     0.49 kB
+dist/assets/surfaceDetail-CFvYLkyL.js                                0.96 kB │ gzip:     0.49 kB
+dist/assets/flowGraphPointerUpEventBlock.pure-CFPpcYAx.js            0.97 kB │ gzip:     0.47 kB
+dist/assets/flowGraphPointerDownEventBlock.pure-D4zt92Za.js          0.98 kB │ gzip:     0.47 kB
+dist/assets/flowGraphPointerMoveEventBlock.pure-7R8o65yx.js          1.00 kB │ gzip:     0.48 kB
+dist/assets/volumetricLightingBlendVolume.fragment-DSu6ahxX.js       1.06 kB │ gzip:     0.55 kB
+dist/assets/selection.fragment-Bsud94hO.js                           1.07 kB │ gzip:     0.53 kB
+dist/assets/announcer-BMYbM8Fa.js                                    1.14 kB │ gzip:     0.81 kB
+dist/assets/flowGraphUnsupportedInteractivityBlock-1_wdQ_w_.js       1.18 kB │ gzip:     0.50 kB
+dist/assets/gaussianSplatting.fragment-CyUS8wvf.js                   1.19 kB │ gzip:     0.58 kB
+dist/assets/arenaCamera-B0h9w1lk.js                                  1.20 kB │ gzip:     0.57 kB
+dist/assets/basisTextureLoader-BHF7v0vy.js                           1.23 kB │ gzip:     0.60 kB
+dist/assets/gaussianSplatting.fragment-DHfFedA0.js                   1.28 kB │ gzip:     0.59 kB
+dist/assets/selection.fragment-GN-ok-3e.js                           1.29 kB │ gzip:     0.60 kB
+dist/assets/noise.fragment-BtssdjD7.js                               1.29 kB │ gzip:     0.68 kB
+dist/assets/workerPool-CfMXSLnf.js                                   1.30 kB │ gzip:     0.53 kB
+dist/assets/ddsTextureLoader-Dp7mmnxy.js                             1.31 kB │ gzip:     0.64 kB
+dist/assets/noise.fragment-KCdKyzTf.js                               1.45 kB │ gzip:     0.74 kB
+dist/assets/gaussianSplattingVoxel.fragment-Gj7rd89f.js              1.48 kB │ gzip:     0.72 kB
+dist/assets/gpuRenderParticles.fragment-Bq1j_kSS.js                  1.48 kB │ gzip:     0.65 kB
+dist/assets/flowGraphDebugBlock.pure-D0qYOk87.js                     1.49 kB │ gzip:     0.66 kB
+dist/assets/minigameMaps-ZeJ91_IH.js                                 1.52 kB │ gzip:     0.72 kB
+dist/assets/screenSpaceCurvature.fragment-BWVbfGkT.js                1.64 kB │ gzip:     0.68 kB
+dist/assets/volumetricLightingRenderVolume.fragment-DhZYRZ_F.js      1.68 kB │ gzip:     0.81 kB
+dist/assets/goblinResults-DkSq7OEr.js                                1.69 kB │ gzip:     0.98 kB
+dist/assets/gaussianSplattingVoxel.fragment-CFsBAIcd.js              1.80 kB │ gzip:     0.62 kB
+dist/assets/gaussianSplattingVoxel.vertex-D3iDWTal.js                1.81 kB │ gzip:     0.75 kB
+dist/assets/fluent.vertex-CjmixfAT.js                                1.84 kB │ gzip:     0.69 kB
+dist/assets/envDebug-Gytqycf-.js                                     1.90 kB │ gzip:     0.97 kB
+dist/assets/volumetricLightingRenderVolume.fragment-Catjfm0p.js      1.92 kB │ gzip:     0.89 kB
+dist/assets/arenaHud-DU0tx-Gi.js                                     2.01 kB │ gzip:     1.10 kB
+dist/assets/fluent.fragment-Cyx4YF-r.js                              2.14 kB │ gzip:     0.84 kB
+dist/assets/selection.vertex-C8yw_avW.js                             2.16 kB │ gzip:     0.84 kB
+dist/assets/impactFx-CKa_WXUW.js                                     2.19 kB │ gzip:     1.07 kB
+dist/assets/NuketownBots-DZCEmA3T.js                                 2.26 kB │ gzip:     1.10 kB
+dist/assets/flowGraphEventReferenceBlock-Bd8AqXE2.js                 2.29 kB │ gzip:     0.78 kB
+dist/assets/webAudioBus-Dt-EzWwY.js                                  2.34 kB │ gzip:     0.77 kB
+dist/assets/TerminalBots-BXjC6t3Y.js                                 2.37 kB │ gzip:     1.14 kB
+dist/assets/selection.vertex-DfbE6svs.js                             2.51 kB │ gzip:     0.92 kB
+dist/assets/gaussianSplattingVoxel.vertex-B77wdh9k.js                2.52 kB │ gzip:     0.91 kB
+dist/assets/iesTextureLoader-D2tPJN30.js                             2.53 kB │ gzip:     1.13 kB
+dist/assets/avatars-DFOhDAe0.js                                      2.79 kB │ gzip:     1.42 kB
+dist/assets/fluentButton.fragment-D2Ggsn1o.js                        2.85 kB │ gzip:     1.03 kB
+dist/assets/nuketownWorld-WghBySpd.js                                3.21 kB │ gzip:     1.67 kB
+dist/assets/textureProcessor.fragment-B8DyOjXH.js                    3.53 kB │ gzip:     1.03 kB
+dist/assets/gaussianSplatting.vertex-CIxVl3jd.js                     3.76 kB │ gzip:     1.35 kB
+dist/assets/fluentBackplate.fragment-RoN_tHAU.js                     3.80 kB │ gzip:     1.31 kB
+dist/assets/terminalArena-BqMPap7i.js                                3.80 kB │ gzip:     1.87 kB
+dist/assets/textureProcessor.fragment-qCaW03n2.js                    4.42 kB │ gzip:     1.21 kB
+dist/assets/ciroVisualMode--ztHNE0w.js                               4.60 kB │ gzip:     1.92 kB
+dist/assets/fpsAudio-B-29R0MH.js                                     4.61 kB │ gzip:     1.80 kB
+dist/assets/gaussianSplatting.vertex-Bs5XGOYM.js                     4.65 kB │ gzip:     1.48 kB
+dist/assets/selectionOutline.fragment-CKhn_XX1.js                    5.04 kB │ gzip:     1.08 kB
+dist/assets/subSurfaceScattering.fragment-Bu86WNRr.js                5.44 kB │ gzip:     2.06 kB
+dist/assets/terminalWorld-CYndQGk_.js                                6.02 kB │ gzip:     2.73 kB
+dist/assets/subSurfaceScattering.fragment-Cs8wvx-O.js                6.06 kB │ gzip:     2.16 kB
+dist/assets/uiGallery-PJvAfH0A.js                                    6.17 kB │ gzip:     3.02 kB
+dist/assets/selectionOutline.fragment-Dfzirtdf.js                    6.31 kB │ gzip:     1.19 kB
+dist/assets/audioLab-DESjkAU6.js                                     6.39 kB │ gzip:     2.95 kB
+dist/assets/gpuRenderParticles.vertex-oOeKU5RT.js                    6.67 kB │ gzip:     1.67 kB
+dist/assets/index-D4Dms8kY.js                                        6.85 kB │ gzip:     2.42 kB
+dist/assets/dds.pure-Bb2YliN9.js                                     7.04 kB │ gzip:     2.49 kB
+dist/assets/hudKit-DUSjOloN.js                                       7.89 kB │ gzip:     2.82 kB
+dist/assets/fluentBackplate.vertex-DoYPsTy6.js                       7.91 kB │ gzip:     2.26 kB
+dist/assets/deviceTest-BMdzE1Ur.js                                   8.18 kB │ gzip:     3.72 kB
+dist/assets/soccerEnvironment-Dg-400PQ.js                            8.43 kB │ gzip:     3.86 kB
+dist/assets/environmentGallery-759SGjNH.js                           8.55 kB │ gzip:     4.31 kB
+dist/assets/dodgeballEnvironment-ECCStHFJ.js                         8.55 kB │ gzip:     3.79 kB
+dist/assets/arenaEnvironment-C7wXhSIT.js                             9.00 kB │ gzip:     4.03 kB
+dist/assets/fluentButton.vertex-CF6MqBVo.js                          9.57 kB │ gzip:     2.42 kB
+dist/assets/impactLab-CUlpsxqM.js                                    9.75 kB │ gzip:     4.35 kB
+dist/assets/fpsWorld-BFPErLpg.js                                     9.77 kB │ gzip:     4.19 kB
+dist/assets/volleyballEnvironment-DAdEdetr.js                       10.29 kB │ gzip:     4.73 kB
+dist/assets/constants-VMTtjmhB.js                                   11.77 kB │ gzip:     3.21 kB
+dist/assets/fpsViewmodel-DvNHI-Qt.js                                11.88 kB │ gzip:     4.48 kB
+dist/assets/pbrMaterialLoadingAdapter-G19uxqQh.js                   12.51 kB │ gzip:     2.42 kB
+dist/assets/envKit-Dqge2KKk.js                                      12.97 kB │ gzip:     5.52 kB
+dist/assets/judokaProfile-juZZNxff.js                               13.41 kB │ gzip:     2.13 kB
+dist/assets/buttafuoriProfile-CPQI8PQE.js                           14.49 kB │ gzip:     2.36 kB
+dist/assets/ciroProfile-8IGAkmIm.js                                 15.15 kB │ gzip:     2.49 kB
+dist/assets/ktxTextureLoader-wbZR0EOh.js                            15.22 kB │ gzip:     4.40 kB
+dist/assets/openpbrMaterialLoadingAdapter-Cj8AeurV.js               21.98 kB │ gzip:     5.03 kB
+dist/assets/BabylonFpsGame-DovLufcy.js                              25.00 kB │ gzip:     9.62 kB
+dist/assets/characterGallery-Dbj3DipM.js                            25.10 kB │ gzip:     6.94 kB
+dist/assets/BabylonArenaGame-Dh3EaNqk.js                            25.27 kB │ gzip:     8.79 kB
+dist/assets/arenaEntity-cqmuHMk7.js                                 25.33 kB │ gzip:     9.02 kB
+dist/assets/fpsClient-BvAWPEF1.js                                   25.36 kB │ gzip:     8.94 kB
+dist/assets/BabylonDodgeballGame-BlghFYM-.js                        26.51 kB │ gzip:     9.35 kB
+dist/assets/characterModel-DNSz2HLt.js                              27.24 kB │ gzip:     9.06 kB
+dist/assets/BabylonVolleyballGame-BgesViPo.js                       28.18 kB │ gzip:    10.15 kB
+dist/assets/kartEntity-58N9MzGg.js                                  33.12 kB │ gzip:    11.87 kB
+dist/assets/BabylonSoccerGame-DVG2iHpA.js                           35.30 kB │ gzip:    12.85 kB
+dist/assets/cameraHud-_i35-Aca.js                                   35.41 kB │ gzip:    12.95 kB
+dist/assets/kartEnvironment-BjDtp94j.js                             35.84 kB │ gzip:    14.96 kB
+dist/assets/goblinVisual-Bt4hL_U5.js                                39.25 kB │ gzip:    10.90 kB
+dist/assets/meshBlending.fragment-Crpbiz_F.js                       39.50 kB │ gzip:     8.31 kB
+dist/assets/meshBlending.fragment-BHPMaV-s.js                       42.63 kB │ gzip:     8.65 kB
+dist/assets/BabylonBackroomsGame-C2Az_J4J.js                        53.35 kB │ gzip:    20.28 kB
+dist/assets/BabylonMinigolfGame-ijUCmlHq.js                         56.14 kB │ gzip:    20.28 kB
+dist/assets/CasaCarboGame-iC4xtq6j.js                               82.88 kB │ gzip:    30.41 kB
+dist/assets/BabylonCornicioneGame-D69Nt0aE.js                       84.66 kB │ gzip:    29.52 kB
+dist/assets/controller-D8q8Fz2N.js                                  95.73 kB │ gzip:    30.75 kB
+dist/assets/BabylonGeofallGame-B8GmUR1g.js                         165.27 kB │ gzip:    18.36 kB
+dist/assets/presentation-C8qSto_l.js                               190.08 kB │ gzip:    60.46 kB
+dist/assets/ExtrasAsMetadata-BQUiSVY2.js                           335.92 kB │ gzip:    76.41 kB
+dist/assets/countdownFx-DpmRwSLS.js                                506.56 kB │ gzip:    95.85 kB
+dist/assets/nuketownArena-GE2o5PXB.js                            1,356.07 kB │ gzip:   134.40 kB
+dist/assets/main-BlX5XJFj.js                                     2,067.06 kB │ gzip:   534.20 kB
+dist/assets/BabylonKartGame-8Pt8F2Wb.js                          5,227.72 kB │ gzip:   700.99 kB
+dist/assets/nativeXRFrame-DsxbrXpt.js                            6,916.09 kB │ gzip: 1,527.74 kB
+
+(!) Some chunks are larger than 1500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4m 8s

@@ -1,6 +1,6 @@
 import {BotInputs} from '../bots/BotInputs';
 import {getWeapon} from '../../../shared/fpsWeapons';
-import type {ArenaPoint,NuketownArena} from './nuketownArena';
+import type {FpsArenaPoint as ArenaPoint,ImportedFpsArena} from './importedFpsArena';
 
 interface Actor extends ArenaPoint{id:string;alive:boolean;yaw:number;magazine:number;spawnProtection:number;weaponId:string}
 interface Memory {id:string;point:ArenaPoint;seen:number;acquired:number}
@@ -13,7 +13,7 @@ export class NuketownBots extends BotInputs{
   private memory=new Map<string,Memory>();
   private patrol=new Map<string,ArenaPoint>();
   private routes=new Map<string,{at:number;point:ArenaPoint}>();
-  step(dt:number,players:Actor[],arena:NuketownArena):void{
+  step(dt:number,players:Actor[],arena:ImportedFpsArena):void{
     this.tick(dt);
     for(const p of players)if(this.ids.has(p.id)){
       if(!p.alive){this.ctx.input.cancelPlayer(p.id);this.memory.delete(p.id);this.patrol.delete(p.id);continue;}

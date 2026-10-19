@@ -1,0 +1,230 @@
+[
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      6.78,
+      1.63,
+      -51.51
+    ],
+    "node": 27832,
+    "horizontalAdjustment": 0.20124611797498315,
+    "verticalToFloor": 0.4099999999999999,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      18.56,
+      5.28,
+      -7.92
+    ],
+    "node": 13642,
+    "horizontalAdjustment": 0.08944271909999287,
+    "verticalToFloor": 0.40000000000000036,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -39.14,
+      1.12,
+      -70.21
+    ],
+    "node": 47614,
+    "horizontalAdjustment": 0.2360084744241289,
+    "verticalToFloor": 0.10000000000000009,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -20.25,
+      5.28,
+      34.54
+    ],
+    "node": 9678,
+    "horizontalAdjustment": 0.14866068747318584,
+    "verticalToFloor": 0.40000000000000036,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      14.11,
+      5.28,
+      18.03
+    ],
+    "node": 20078,
+    "horizontalAdjustment": 0.09486832980505161,
+    "verticalToFloor": 0.40000000000000036,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -36.39,
+      1.12,
+      -41.94
+    ],
+    "node": 36648,
+    "horizontalAdjustment": 0.19924858845171126,
+    "verticalToFloor": 0.10000000000000009,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -66.83,
+      5.28,
+      8.15
+    ],
+    "node": 18666,
+    "horizontalAdjustment": 0.2267156809750942,
+    "verticalToFloor": 0.40000000000000036,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -61.79,
+      5.28,
+      -9.34
+    ],
+    "node": 19987,
+    "horizontalAdjustment": 0.14035668847618243,
+    "verticalToFloor": 0.40000000000000036,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -5.02,
+      5.69,
+      -18.91
+    ],
+    "node": 6609,
+    "horizontalAdjustment": 0.11180339887498886,
+    "verticalToFloor": 0.8100000000000005,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -1.86,
+      1.22,
+      -56.59
+    ],
+    "node": 33990,
+    "horizontalAdjustment": 0.1992485884517174,
+    "verticalToFloor": 0.19999999999999996,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -48.78,
+      5.28,
+      -14.01
+    ],
+    "node": 9539,
+    "horizontalAdjustment": 0.18027756377319917,
+    "verticalToFloor": 0.40000000000000036,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -15.59,
+      1.12,
+      -58.95
+    ],
+    "node": 36731,
+    "horizontalAdjustment": 0.24207436873820723,
+    "verticalToFloor": 0.10000000000000009,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      18.56,
+      1.63,
+      -41.05
+    ],
+    "node": 27807,
+    "horizontalAdjustment": 0.15524174696260643,
+    "verticalToFloor": 0.4099999999999999,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -3.59,
+      1.63,
+      -25.1
+    ],
+    "node": 23920,
+    "horizontalAdjustment": 0.21470910553583783,
+    "verticalToFloor": 0.4099999999999999,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -43.82,
+      5.28,
+      40.44
+    ],
+    "node": 18955,
+    "horizontalAdjustment": 0.04472135954999643,
+    "verticalToFloor": 0.40000000000000036,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -22.26,
+      5.28,
+      10.09
+    ],
+    "node": 421,
+    "horizontalAdjustment": 0.10816653826392082,
+    "verticalToFloor": 0.40000000000000036,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -2.01,
+      5.28,
+      27.25
+    ],
+    "node": 15824,
+    "horizontalAdjustment": 0.19646882704388555,
+    "verticalToFloor": 0.40000000000000036,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -40.06,
+      5.28,
+      8.84
+    ],
+    "node": 3832,
+    "horizontalAdjustment": 0.14560219778561068,
+    "verticalToFloor": 0.40000000000000036,
+    "accepted": true
+  },
+  {
+    "kind": "mp_dm_spawn",
+    "p": [
+      -51.73,
+      1.12,
+      -16.03
+    ],
+    "node": 47900,
+    "horizontalAdjustment": 0.0761577310586398,
+    "verticalToFloor": 0.10000000000000009,
+    "accepted": true
+  }
+]

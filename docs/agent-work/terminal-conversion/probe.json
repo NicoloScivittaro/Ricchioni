@@ -1,0 +1,77 @@
+{
+  "literalRadiantParser": "rejected iwmap 4 header; see radiant-compatibility.log",
+  "samples": [
+    {
+      "type": "brush",
+      "sourceLine": 301,
+      "surfaces": 6,
+      "triangles": 12,
+      "bounds": [
+        [
+          592.0,
+          6544.0,
+          448.0
+        ],
+        [
+          1488.0,
+          6864.0,
+          454.0
+        ]
+      ]
+    },
+    {
+      "type": "mesh",
+      "sourceLine": 17,
+      "surfaces": 1,
+      "triangles": 2,
+      "bounds": [
+        [
+          784.0,
+          6769.0,
+          448.0
+        ],
+        [
+          833.0,
+          6833.0,
+          448.0
+        ]
+      ]
+    },
+    {
+      "type": "curve",
+      "sourceLine": 2154,
+      "surfaces": 1,
+      "triangles": 512,
+      "bounds": [
+        [
+          1280.0,
+          8107.0,
+          493.0
+        ],
+        [
+          1284.0,
+          8111.0,
+          509.0
+        ]
+      ]
+    }
+  ],
+  "xmodel": {
+    "name": "727_coach_seat01",
+    "lod": {
+      "name": "727_coach_seat01_LOD01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_727_coach_seat01",
+        "mtl_727_coach_seat01_fabric"
+      ]
+    },
+    "surfaces": 2,
+    "triangles": 1846,
+    "texture": "727_coach_seat01_col",
+    "textureSize": [
+      512,
+      512
+    ]
+  }
+}

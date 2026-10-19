@@ -1,0 +1,534 @@
+{
+  "lightfluohang_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\lightfluohang_col.iwi"
+  },
+  "lightfluohang_norm": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\lightfluohang_norm.iwi"
+  },
+  "~lightfluohang_spec-rgb&light~20d8db0f": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~lightfluohang_spec-rgb&light~20d8db0f.iwi"
+  },
+  "militarytentceilinglight_col#0": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\militarytentceilinglight_col#0.iwi"
+  },
+  "militarytentceilinglight_norm#0": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\militarytentceilinglight_norm#0.iwi"
+  },
+  "~militarytentceilinglight_spe~669269fa": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~militarytentceilinglight_spe~669269fa.iwi"
+  },
+  "~ap_light_embedded_1_spc-rgb&~b678cc30": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_light_embedded_1_spc-rgb&~b678cc30.iwi"
+  },
+  "potted_plant01_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\potted_plant01_col.iwi"
+  },
+  "potted_plant01_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\potted_plant01_nml.iwi"
+  },
+  "~potted_plant01_spc-rgb&potte~c7262fc3": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~potted_plant01_spc-rgb&potte~c7262fc3.iwi"
+  },
+  "flower_pot_dirt_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\flower_pot_dirt_col.iwi"
+  },
+  "flower_pot_dirt_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\flower_pot_dirt_nml.iwi"
+  },
+  "~flower_pot_dirt_spc-rgb&flow~412ab4fe": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~flower_pot_dirt_spc-rgb&flow~412ab4fe.iwi"
+  },
+  "flower_pot_large_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\flower_pot_large_col.iwi"
+  },
+  "flower_pot_large_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\flower_pot_large_nml.iwi"
+  },
+  "~flower_pot_large_spc-rgb&flo~a893d326": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~flower_pot_large_spc-rgb&flo~a893d326.iwi"
+  },
+  "~restaurantkitchentables_spc-~599d9206": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~restaurantkitchentables_spc-~599d9206.iwi"
+  },
+  "ch_plywood01_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ch_plywood01_col.iwi"
+  },
+  "ch_plywood01_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ch_plywood01_nml.iwi"
+  },
+  "~ch_plywood01_spc-rgb&ch_plyw~506b1735": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ch_plywood01_spc-rgb&ch_plyw~506b1735.iwi"
+  },
+  "bm21_body_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\bm21_body_col.iwi"
+  },
+  "bm21_body_nrm": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\bm21_body_nrm.iwi"
+  },
+  "~bm21_body_spc-rgb&bm21_body_cos-l-11": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~bm21_body_spc-rgb&bm21_body_cos-l-11.iwi"
+  },
+  "bumper_car_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\bumper_car_col.iwi"
+  },
+  "bumper_car_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\bumper_car_nml.iwi"
+  },
+  "~bumper_car_spc-rgb&bumper_ca~b29f56f1": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~bumper_car_spc-rgb&bumper_ca~b29f56f1.iwi"
+  },
+  "mtl_soda_can_04_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\mtl_soda_can_04_col.iwi"
+  },
+  "mtl_soda_can_03_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\mtl_soda_can_03_nml.iwi"
+  },
+  "~mtl_soda_can_03_spc-rgb&mtl_~f2491b9b": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~mtl_soda_can_03_spc-rgb&mtl_~f2491b9b.iwi"
+  },
+  "ap_wood_tile_brown_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_wood_tile_brown_col.iwi"
+  },
+  "ap_wood_tile_brown_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_wood_tile_brown_nml.iwi"
+  },
+  "~ap_wood_tile_brown_spc-rgb&a~3bca95f8": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_wood_tile_brown_spc-rgb&a~3bca95f8.iwi"
+  },
+  "~officewall01_spec-rgb&office~f65856fa": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~officewall01_spec-rgb&office~f65856fa.iwi"
+  },
+  "ch_trim_stainlessteel_1_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ch_trim_stainlessteel_1_col.iwi"
+  },
+  "~ch_trim_stainlessteel_1_spc-~dac1f48f": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ch_trim_stainlessteel_1_spc-~dac1f48f.iwi"
+  },
+  "office_floortrim_black_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\office_floortrim_black_col.iwi"
+  },
+  "office_floortrim_black_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\office_floortrim_black_nml.iwi"
+  },
+  "~office_floortrim_black_spc-rgbl-11": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~office_floortrim_black_spc-rgbl-11.iwi"
+  },
+  "me_metal_grey01_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_metal_grey01_col.iwi"
+  },
+  "me_metal_grey01_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_metal_grey01_nml.iwi"
+  },
+  "~me_metal_grey01_spc-rgb&me_m~a98149b3": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~me_metal_grey01_spc-rgb&me_m~a98149b3.iwi"
+  },
+  "me_office_ceiling_vent_1_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_office_ceiling_vent_1_col.iwi"
+  },
+  "me_office_ceiling_vent_1_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_office_ceiling_vent_1_nml.iwi"
+  },
+  "~me_office_ceiling_vent_1_spc~1337a79b": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~me_office_ceiling_vent_1_spc~1337a79b.iwi"
+  },
+  "me_trim_metalplate_1_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_trim_metalplate_1_col.iwi"
+  },
+  "me_trim_metalplate_1_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_trim_metalplate_1_nml.iwi"
+  },
+  "~me_trim_metalplate_1_spc-rgb~ebe39b71": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~me_trim_metalplate_1_spc-rgb~ebe39b71.iwi"
+  },
+  "com_black": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\com_black.iwi"
+  },
+  "~com_black_spc-r-25g-25b-25&c~3e8e4fa0": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~com_black_spc-r-25g-25b-25&c~3e8e4fa0.iwi"
+  },
+  "~ap_glass_sanded_spc-rgb&ap_g~8dec99d4": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_glass_sanded_spc-rgb&ap_g~8dec99d4.iwi"
+  },
+  "~ap_wood_tile_big_spc-r64g64b~54fc5470": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_wood_tile_big_spc-r64g64b~54fc5470.iwi"
+  },
+  "northafrica_tables_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\northafrica_tables_col.iwi"
+  },
+  "northafrica_tables_normal": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\northafrica_tables_normal.iwi"
+  },
+  "~northafrica_tables_spec-rgb&~eadf0665": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~northafrica_tables_spec-rgb&~eadf0665.iwi"
+  },
+  "xpec_metal_briefcase_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\xpec_metal_briefcase_col.iwi"
+  },
+  "xpec_metal_briefcase_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\xpec_metal_briefcase_nml.iwi"
+  },
+  "~xpec_metal_briefcase_spc-rgb~78c049ea": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~xpec_metal_briefcase_spc-rgb~78c049ea.iwi"
+  },
+  "potted_plant02_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\potted_plant02_col.iwi"
+  },
+  "potted_plant02_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\potted_plant02_nml.iwi"
+  },
+  "~potted_plant02_spc-rgb&potte~9e1f1335": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~potted_plant02_spc-rgb&potte~9e1f1335.iwi"
+  },
+  "flower_pot_medium_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\flower_pot_medium_col.iwi"
+  },
+  "flower_pot_medium_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\flower_pot_medium_nml.iwi"
+  },
+  "~flower_pot_medium_spc-rgb&fl~8e2e0a9c": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~flower_pot_medium_spc-rgb&fl~8e2e0a9c.iwi"
+  },
+  "~small_hatchback_wagon_d_spec~7e6ea94c": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~small_hatchback_wagon_d_spec~7e6ea94c.iwi"
+  },
+  "~me_floor_shinyblack_spc-rgb&~b2472d46": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~me_floor_shinyblack_spc-rgb&~b2472d46.iwi"
+  },
+  "air_duct_vent_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\air_duct_vent_col.iwi"
+  },
+  "air_duct_vent_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\air_duct_vent_nml.iwi"
+  },
+  "~air_duct_vent_spc-rgb&air_du~a248684c": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~air_duct_vent_spc-rgb&air_du~a248684c.iwi"
+  },
+  "coffee_vodka01_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\coffee_vodka01_col.iwi"
+  },
+  "~coffee_vodka01_spc-rgb&coffe~6f818879": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~coffee_vodka01_spc-rgb&coffe~6f818879.iwi"
+  },
+  "emergency_light01_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\emergency_light01_col.iwi"
+  },
+  "emergency_light01_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\emergency_light01_nml.iwi"
+  },
+  "~emergency_light01_spc-rgb&em~c31fc090": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~emergency_light01_spc-rgb&em~c31fc090.iwi"
+  },
+  "~propane_tank2_spc-rgb&propan~1d2f3436": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~propane_tank2_spc-rgb&propan~1d2f3436.iwi"
+  },
+  "~me_cargocontainertop_spc-rgb~4465eb4f": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~me_cargocontainertop_spc-rgb~4465eb4f.iwi"
+  },
+  "me_trim_metal_conduit_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_trim_metal_conduit_col.iwi"
+  },
+  "me_trim_metal_conduit_norm": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_trim_metal_conduit_norm.iwi"
+  },
+  "~me_trim_metal_conduit_spec-r~27a891f0": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~me_trim_metal_conduit_spec-r~27a891f0.iwi"
+  },
+  "~me_chainlink_fence_spec-r-44~92a16537": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~me_chainlink_fence_spec-r-44~92a16537.iwi"
+  },
+  "me_cargocontainergreen_trimwide_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_cargocontainergreen_trimwide_col.iwi"
+  },
+  "~mtl_truck_trailer_spc-rgb&mt~8d60244a": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~mtl_truck_trailer_spc-rgb&mt~8d60244a.iwi"
+  },
+  "~mtl_truck_cab_spc-rgb&mtl_tr~9004f4e3": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~mtl_truck_cab_spc-rgb&mtl_tr~9004f4e3.iwi"
+  },
+  "bunker_wires_details_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\bunker_wires_details_col.iwi"
+  },
+  "bunker_wires_details_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\bunker_wires_details_nml.iwi"
+  },
+  "~bunker_wires_details_spc-rgb~4ee76dac": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~bunker_wires_details_spc-rgb~4ee76dac.iwi"
+  },
+  "icbm_facilitysign": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\icbm_facilitysign.iwi"
+  },
+  "ch_concretewall02_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ch_concretewall02_nml.iwi"
+  },
+  "~ch_concretewall02_spc-rgbl-11": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ch_concretewall02_spc-rgbl-11.iwi"
+  },
+  "ch_metal_rusty_02_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ch_metal_rusty_02_col.iwi"
+  },
+  "ch_metal_rusty_02_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ch_metal_rusty_02_nml.iwi"
+  },
+  "~ch_metal_rusty_02_spc-rgb&ch~ce22ca64": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ch_metal_rusty_02_spc-rgb&ch~ce22ca64.iwi"
+  },
+  "~ap_metal_trim_spc-rgb&ap_met~1a3993da": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_metal_trim_spc-rgb&ap_met~1a3993da.iwi"
+  },
+  "mtl_icbm_connectors": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\mtl_icbm_connectors.iwi"
+  },
+  "mtl_icbm_connectors_bump": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\mtl_icbm_connectors_bump.iwi"
+  },
+  "~mtl_icbm_connectors_spec-rgbl-11": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~mtl_icbm_connectors_spec-rgbl-11.iwi"
+  },
+  "~ap_overhead_luggage_compartm~6c39bcf1": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_overhead_luggage_compartm~6c39bcf1.iwi"
+  },
+  "me_dec_wall_stain_1_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_dec_wall_stain_1_col.iwi"
+  },
+  "air_mask_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\air_mask_col.iwi"
+  },
+  "air_mask_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\air_mask_nml.iwi"
+  },
+  "~air_mask_spc-rgb&air_mask_cos-l-11": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~air_mask_spc-rgb&air_mask_cos-l-11.iwi"
+  },
+  "icbm_missilebody": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\icbm_missilebody.iwi"
+  },
+  "icbm_missilebody_bump": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\icbm_missilebody_bump.iwi"
+  },
+  "~icbm_missilebody_spec-rgbl-11": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~icbm_missilebody_spec-rgbl-11.iwi"
+  },
+  "ap_linear_light_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_linear_light_col.iwi"
+  },
+  "me_cubicle_base": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_cubicle_base.iwi"
+  },
+  "me_cubicle_base_bump": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\me_cubicle_base_bump.iwi"
+  },
+  "ap_door_standard_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_door_standard_col.iwi"
+  },
+  "ap_door_standard_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_door_standard_nml.iwi"
+  },
+  "~ap_door_standard_spc-rgb&ap_~6eee7ecc": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_door_standard_spc-rgb&ap_~6eee7ecc.iwi"
+  },
+  "ap_interior_plastic_tile_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_interior_plastic_tile_col.iwi"
+  },
+  "ap_interior_plastic_tile_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_interior_plastic_tile_nml.iwi"
+  },
+  "~ap_interior_plastic_tile_spc~b1542d11": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_interior_plastic_tile_spc~b1542d11.iwi"
+  },
+  "icbm_braidedhose": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\icbm_braidedhose.iwi"
+  },
+  "icbm_braidedhose_bump": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\icbm_braidedhose_bump.iwi"
+  },
+  "~icbm_braidedhose_spec-rgbl-11": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~icbm_braidedhose_spec-rgbl-11.iwi"
+  },
+  "icbm_metal_vent": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\icbm_metal_vent.iwi"
+  },
+  "icbm_metal_vent_bump": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\icbm_metal_vent_bump.iwi"
+  },
+  "ap_luggage_compartment_trim_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_luggage_compartment_trim_col.iwi"
+  },
+  "ap_luggage_compartment_trim_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_luggage_compartment_trim_nml.iwi"
+  },
+  "~ap_luggage_compartment_trim_~bd6dc9b8": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_luggage_compartment_trim_~bd6dc9b8.iwi"
+  },
+  "ap_overhead_luggage_trim_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_overhead_luggage_trim_col.iwi"
+  },
+  "ap_overhead_luggage_trim_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_overhead_luggage_trim_nml.iwi"
+  },
+  "~ap_overhead_luggage_trim_spc~9b2aa361": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_overhead_luggage_trim_spc~9b2aa361.iwi"
+  },
+  "ap_interior_plastic_trim_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_interior_plastic_trim_col.iwi"
+  },
+  "ap_interior_plastic_trim_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_interior_plastic_trim_nml.iwi"
+  },
+  "~ap_interior_plastic_trim_spc~0f70e6bb": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_interior_plastic_trim_spc~0f70e6bb.iwi"
+  },
+  "ap_interior_lights_closet_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_interior_lights_closet_col.iwi"
+  },
+  "ap_interior_lights_closet_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\ap_interior_lights_closet_nml.iwi"
+  },
+  "~ap_interior_lights_closet_sp~4840b52e": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~ap_interior_lights_closet_sp~4840b52e.iwi"
+  },
+  "sign_ad_chensky_01_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\sign_ad_chensky_01_col.iwi"
+  },
+  "com_crosswalklinewhitelong02_col": {
+    "role": "baseColor",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\com_crosswalklinewhitelong02_col.iwi"
+  },
+  "com_crosswalklinewhitelong02_nml": {
+    "role": "normal",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\com_crosswalklinewhitelong02_nml.iwi"
+  },
+  "~com_crosswalklinewhitelong02~c511c516": {
+    "role": "specular",
+    "path": "docs\\agent-work\\terminal-conversion\\source\\rar\\mp_mw2_terminal_map_source_full\\raw\\images\\~com_crosswalklinewhitelong02~c511c516.iwi"
+  }
+}

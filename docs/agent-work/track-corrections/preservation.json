@@ -1,0 +1,10 @@
+{
+  "src\\minigames\\kart-race\\primoWorld.ts": true,
+  "src\\minigames\\kart-race\\primoRoute.json": true,
+  "src\\minigames\\kart-race\\kartPhysics.ts": true,
+  "src\\minigames\\kart-race\\race.ts": true,
+  "src\\minigames\\kart-race\\track.ts": true,
+  "src\\minigames\\kart-race\\rainbowTrack.ts": true,
+  "src\\minigames\\kart-race\\items.ts": true,
+  "src\\minigames\\kart-race\\abilities.ts": true
+}

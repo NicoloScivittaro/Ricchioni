@@ -1,0 +1,104 @@
+{
+  "playable": true,
+  "partial": true,
+  "mapIds": [
+    "cantiere",
+    "nuketown",
+    "terminal"
+  ],
+  "nodes": 48617,
+  "spawns": 19,
+  "performance": {
+    "fps": 28.89021717473599,
+    "p95": 50.099999999998545,
+    "width": 1280,
+    "height": 720,
+    "scale": 1,
+    "views": 5,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "activeMeshes": 512,
+    "drawCalls": 1154,
+    "world": {
+      "partial": true,
+      "spatialBatches": 456,
+      "instanceGroups": 184,
+      "modelPrimitives": 2500,
+      "triangles": 1704739,
+      "materials": 10,
+      "loadMs": 4012,
+      "source": "terminal-play.glb",
+      "shadows": "existing character blobs; no dynamic map shadow pass"
+    }
+  },
+  "kills": 23,
+  "finalMatchClock": 99.97002000000097,
+  "geometry": {
+    "levels": [
+      0.25,
+      5.59
+    ],
+    "pathNodes": 308,
+    "routeReachable": true,
+    "routeMovementFailures": 0,
+    "uphillSteps": 15,
+    "clear": [
+      {
+        "x": -21,
+        "y": 4.88,
+        "z": 2.8
+      },
+      {
+        "x": -24.6,
+        "y": 4.88,
+        "z": 3.6
+      }
+    ],
+    "covered": [
+      {
+        "x": -23.4,
+        "y": 4.88,
+        "z": 8.8
+      },
+      {
+        "x": -26.6,
+        "y": 4.88,
+        "z": 11.6
+      }
+    ],
+    "anchors": {
+      "lower": {
+        "x": 4.6,
+        "y": 1.22,
+        "z": -35.2
+      },
+      "plane": {
+        "x": -39.4,
+        "y": 5.14,
+        "z": -50
+      },
+      "inside": {
+        "x": -25,
+        "y": 4.88,
+        "z": 2.8
+      }
+    }
+  },
+  "phone": {
+    "partial": true,
+    "spatialBatches": 456,
+    "instanceGroups": 184,
+    "modelPrimitives": 2500,
+    "triangles": 1704739,
+    "materials": 10,
+    "loadMs": 5012.29999999702,
+    "source": "terminal-play.glb",
+    "shadows": "existing character blobs; no dynamic map shadow pass"
+  },
+  "buildPassed": true,
+  "sourceGLBUnchanged": true,
+  "noCommitPushDeploy": true
+}

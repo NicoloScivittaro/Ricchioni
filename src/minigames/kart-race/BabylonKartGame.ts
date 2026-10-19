@@ -1,7 +1,7 @@
 import {PrimoTrack,guidePrimoBots} from './primoTrack';
 import {buildImportedTrackGuides,showImportedTrackDebug} from './importedTrackGuides';
 import {buildPrimoWorld,importPrimo} from './primoWorld';
-import {SydneyTrack} from './sydneyTrack';
+import {SydneyTrack,guideSydneyBots} from './sydneyTrack';
 import {buildSydneyWorld,importSydney} from './sydneyWorld';
 import type {GlideTrack} from './rainbowTrack';
 import {showRainbowFinish} from './rainbowFinish';
@@ -127,7 +127,8 @@ export class BabylonKartGame {
     if(!this.sydney&&!this.primo)buildTrackGuides(this.scene, this.spline,this.rainbow?.checkpoints); // cartelli e frecce prima delle curve, portali dei checkpoint
     registerEnvScene(this.scene);
     this.checkpoints = this.primo?.checkpoints??this.sydney?.checkpoints??this.rainbow?.checkpoints??buildCheckpoints(this.spline);
-    if(this.primo){buildImportedTrackGuides(this.scene,this.primo,this.checkpoints,this.primo.physical.data);showImportedTrackDebug(this.scene,this.primo,this.checkpoints,this.primo.physical.data);}
+    if(this.primo){buildImportedTrackGuides(this.scene,this.primo,this.checkpoints,this.primo.physical.data);showImportedTrackDebug(this.scene,this.primo,this.checkpoints,this.primo.physical.data,()=>ctx.players.filter(p=>p.bot).map(p=>this.karts.get(p.id)!).filter(Boolean));}
+    if(this.sydney){buildImportedTrackGuides(this.scene,this.sydney,this.checkpoints,undefined,'#244657');showImportedTrackDebug(this.scene,this.sydney,this.checkpoints,this.sydney.physical.data,()=>ctx.players.filter(p=>p.bot).map(p=>this.karts.get(p.id)!).filter(Boolean));}
     const boxPlacements = this.primo?.boxes??this.sydney?.boxes??buildItemBoxes(this.spline).filter(p=>!this.rainbow?.gapAt(p.s,18));
 
     this.abilities = new CharacterAbilities();
@@ -178,7 +179,8 @@ export class BabylonKartGame {
       const camStart = this.spline.worldPoint(state.distance, state.lateral, 3.5);
       if (!p.bot) {
         if(this.flightTrack)this.landingGuides.set(p.id,new GlideLandingGuide(this.scene,1<<(20+this.order.indexOf(p.id))));
-        this.cameraManager.ensure(p.id, camStart);
+        const camera=this.cameraManager.ensure(p.id, camStart);
+        if(this.sydney)camera.maxZ=4000; // retain the supplied 2,800 m sky panorama
         this.hud.ensure(p.id, p.color);
       }
     });
@@ -233,6 +235,7 @@ export class BabylonKartGame {
     if (this.race.phase === 'racing') {
       this.soloBots.kart(dt, kartsList, this.spline);
       if(this.primo)guidePrimoBots(this.primo,this.ctx,kartsList);
+      if(this.sydney)guideSydneyBots(this.sydney,this.ctx,kartsList);
       for (const [pid, state] of this.karts) {
         if (state.finished) continue;
         const pin = this.ctx.input.get(pid);
@@ -274,7 +277,7 @@ export class BabylonKartGame {
         // Stessa condizione usata dentro stepKartPhysics per decidere se assegnare il mini-turbo (vedi releaseDrift li'):
         // un azzeramento forzato (pausa/disconnessione/contesto) non deve contare ne' qui ne' nel meter delle abilita'.
         const wasGenuineDriftEnd = snapshot.drift || snapshot.driftReleased;
-        const from={distance:state.distance,lateral:state.lateral},wasAirborne=state.jumpHeight>0;
+        const from={distance:state.distance,lateral:state.lateral,jumpHeight:state.jumpHeight},wasAirborne=state.jumpHeight>0;
         if(this.flightTrack)stepRainbowKart(state,snapshot,dt,this.flightTrack,invertModifier,event=>{
           if(event==='launch'){this.sendInfoLine(pid,state);audio.kartGlide('launch');this.hud.flash(pid,this.sydney?'ALI APERTE · VERSO IL PONTE':'ALI APERTE · MIRA AL PORTALE','#6cfff1',1.25);this.ctx.vibrate(pid,50);}
           else if(event==='land'){this.sendInfoLine(pid,state);audio.kartGlide('land');this.hud.flash(pid,'ATTERRAGGIO!','#b4ff9e',.75);this.ctx.vibrate(pid,25);this.cameraManager.shake(pid,.045);}
@@ -282,6 +285,7 @@ export class BabylonKartGame {
         },!!this.sydney);
         else stepKartPhysics(state, snapshot, dt, (d) => this.primo?this.primo.physical.floorHalfWidth(this.primo,d,state.lateral):this.spline.widthAt(d)/2, this.trackAngleAt, invertModifier,this.primo?{grip:1,speed:1,barriers:false}:trackSurface(state.distance,state.lateral,this.spline.totalLength));
         if(this.primo)this.primo.physical.resolve(this.primo,state,from);
+        if(this.sydney)this.sydney.physical.resolve(this.sydney,state,from);
         if(!this.flightTrack&&!this.primo)stepTrackDynamics(state,from,this.spline.totalLength,d=>this.spline.widthAt(d),this.race.raceTime,event=>{
           if(event==='launch'){audio.kartBoost(9);this.ctx.vibrate(pid,30);this.hud.flash(pid,'DECOLLO!','#ffd166',.6);}
           if(event==='obstacle'){audio.hit();this.cameraManager.shake(pid,.14);this.ctx.vibrate(pid,50);}

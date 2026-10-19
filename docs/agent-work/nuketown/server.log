@@ -52,3 +52,19 @@
 16:03:40 [ERROR] [CQLRG] rete di sicurezza: volleyball non ha risposto in tempo
 16:03:40 [ROUND] [CQLRG] #1 (id 3) → geofall · 5 giocatori
 16:03:50 [MINIGAME] [CQLRG] geofall via (id 3)
+17:03:45 [MINIGAME] [CQLRG] geofall saltato senza punti (fase MINIGAME_PLAYING)
+17:03:45 [ERROR] [CQLRG] rete di sicurezza: geofall non ha risposto in tempo
+17:03:45 [ROUND] [CQLRG] #1 (id 4) → kart3d [punti_doppi] · 5 giocatori
+17:04:10 [MINIGAME] [CQLRG] kart3d via (id 4)
+17:12:10 [ERROR] [CQLRG] rete di sicurezza: kart3d non ha risposto in tempo
+17:12:10 [MINIGAME] [CQLRG] kart3d saltato senza punti (fase MINIGAME_PLAYING)
+17:12:10 [ROUND] [CQLRG] #1 (id 5) → minigolf · 5 giocatori
+17:12:35 [MINIGAME] [CQLRG] minigolf via (id 5)
+18:15:55 [ERROR] [CQLRG] rete di sicurezza: minigolf non ha risposto in tempo
+18:15:55 [MINIGAME] [CQLRG] minigolf saltato senza punti (fase MINIGAME_PLAYING)
+18:15:55 [ROUND] [CQLRG] #1 (id 6) → cornicione [punti_doppi] · 5 giocatori
+18:16:04 [MINIGAME] [CQLRG] cornicione via (id 6)
+18:23:04 [ERROR] [CQLRG] rete di sicurezza: cornicione non ha risposto in tempo
+18:23:04 [MINIGAME] [CQLRG] cornicione saltato senza punti (fase MINIGAME_PLAYING)
+18:23:04 [ROUND] [CQLRG] #1 (id 7) → memory · 5 giocatori
+18:23:14 [MINIGAME] [CQLRG] memory via (id 7)

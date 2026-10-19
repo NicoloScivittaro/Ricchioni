@@ -1,0 +1,23 @@
+{
+  "caulk": 54381,
+  "clip": 2518,
+  "nodraw_decal": 56,
+  "lightgrid_volume": 170,
+  "clip_nosight_metal": 2078,
+  "mantle_on": 428,
+  "clip_nosight_for_bridge_on_jeepride_fire_clip": 64,
+  "clip_snow": 42,
+  "portal_nodraw": 188,
+  "portal": 47,
+  "hint": 12,
+  "mantle_over": 176,
+  "clip_weap": 30,
+  "clip_player": 48,
+  "clip_nosight_nothing": 156,
+  "clip_nosight": 925,
+  "sky_artgallery": 30,
+  "ladder": 12,
+  "clip_ai": 177,
+  "clip_nosight_rock": 299,
+  "clip_nosight_dirt": 24
+}

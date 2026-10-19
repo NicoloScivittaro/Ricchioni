@@ -1,0 +1,15 @@
+{
+  "src\\minigames\\fps\\BabylonFpsGame.ts": "d862d3a2827d38206432610c243aaf4341a72b8e3d1e48c2676d991aac5869fc",
+  "src\\minigames\\fps\\fpsAbilities.ts": "361cb1f87fe378f465c54ee362c65ae38b9a973ec14c28d09b93e22c58f2e4c3",
+  "src\\minigames\\fps\\FpsScene.ts": "ca7cce382d72a21eea81c5e7676b7b58e1e90b93f8672334f5295cd7a4ac6afd",
+  "src\\minigames\\fps\\index.ts": "fa74a5c83d58a83363b5c9be4deeb46e06d438ac2e860375405058d50e7ce5e5",
+  "src\\minigames\\fps\\nuketownArena.ts": "9045b8cc50d8dccfb24a9095273db20cfbf3a3607dee0216147f229cb7a66f4e",
+  "src\\minigames\\fps\\NuketownBots.ts": "876db27bc527749ede409b163646b9eb64e26de24ff520fcac6407bdb4850fed",
+  "shared\\fpsAim.ts": "ad1847957da98d8d257dcf87b887be2855d0a4278b4285915338f9e930c97e9e",
+  "shared\\fpsCover.ts": "19231218ac5d3da64564ac962ee5c477719ae06f9512943b07bca39744216914",
+  "shared\\fpsMap.ts": "88f67a7e9f0ff60bb6ac2fadd8d0a4216d9da1f756858c3d3b5b474d4ed81760",
+  "shared\\fpsWeapons.ts": "714b8d42cfe66aaa23d481838b165d60080f7cff28547879a852347f7dba6510",
+  "shared\\minigameMaps.ts": "f2d278d7e2d06bff0d1553e81e9f233370ddd8128a5bb3afb1e89764c9487d21",
+  "package.json": "506807d09ce7341e7a69803dffb6ad7b7e5ecf08e072674036c5356937ee136d",
+  "package-lock.json": "14ae70fa84602ca73ebd5815bae9816541adb4e022882011efeede322b587e5f"
+}

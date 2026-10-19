@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="it"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ribaltati · correzione piste</title>
+<style>
+body{margin:0;background:#10171f;color:#ecf2f7;font:16px/1.6 system-ui,sans-serif}main{max-width:1280px;margin:auto;padding:32px 20px}h1{font-size:clamp(28px,4vw,46px);line-height:1.15}h2{margin-top:40px}p{max-width:85ch;color:#c3ced9}a{color:#77dcff}.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}figure{margin:0;background:#1b2633;border-radius:12px;overflow:hidden}img{width:100%;display:block}figcaption{padding:14px 18px}strong{color:#fff}.tag{color:#8ee3c4}small{color:#b4c4d2}@media(max-width:750px){.pair{grid-template-columns:1fr}}details{margin:24px 0}
+</style><main>
+<p class="tag">PARTY GAME · RIBALTATI</p><h1>Passaggi aperti, ostacoli visibili</h1>
+<p>Correzioni mirate di Primo Karting e Sydney Sprint. Le immagini mostrano i punti individuati nell’analisi: il punto esatto segnalato inizialmente non era noto.</p>
+<p><a href="REPORT.md">Report e limiti delle verifiche</a> · <a href="primo-checks.json">Gara Primo</a> · <a href="sydney-checks.json">Gara Sydney</a> · <a href="build.log">Build</a></p>
+<h2>Primo Karting · asfalto libero e direzione chiara</h2>
+<p>Il vecchio limite laterale bloccava un passaggio senza un ostacolo visibile. Ora le collisioni seguono la geometria reale. Le frecce dipinte indicano il percorso; i box esclusi dalla gara hanno una chiusura visibile.</p>
+<div class="pair"><figure><img src="primo-before.png" alt="Primo prima: asfalto aperto nel punto del vecchio limite invisibile"><figcaption><strong>Prima.</strong> Caso candidato a s=758, lato destro: l’asfalto sembra libero ma il limite della spline blocca il kart.</figcaption></figure><figure><img src="primo-after.png" alt="Primo dopo con frecce direzionali dipinte"><figcaption><strong>Dopo.</strong> Stessa zona, passaggio libero e segnaletica dipinta. La prova fisica verifica il superamento del vecchio limite.</figcaption></figure></div>
+<h2>Sydney · accesso all’Opera House</h2>
+<p>L’accesso passa intorno alla facciata chiusa e raggiunge il varco reale tramite un raccordo visibile. La gara di tre giri utilizza le stesse pareti fisiche per bot e giocatori.</p>
+<div class="pair"><figure><img src="sydney-wall-before.png" alt="Sydney prima: direzione della pista contro la facciata vetrata"><figcaption><strong>Prima.</strong> Il tracciato punta contro l’angolo chiuso della facciata.</figcaption></figure><figure><img src="sydney-wall-after.png" alt="Sydney dopo: raccordo aperto verso l’ingresso"><figcaption><strong>Dopo.</strong> Accesso al varco reale, raccordo percorribile e frecce in contrasto con la pavimentazione.</figcaption></figure></div>
+<h2>Sydney · raccordo e superfici</h2>
+<p>Stessa camera prima e dopo: il vecchio raccordo attraversava la facciata. La luce finale conserva le differenze sulle superfici chiare. Le facce duplicate sono state rimosse senza nascondere parti della città.</p>
+<div class="pair"><figure><img src="sydney-entry-overview.png" alt="Vista dall’alto prima: raccordo attraverso la facciata e superfici bianche bruciate"><figcaption><strong>Prima.</strong> Collegamento diagonale errato e alte luci bruciate.</figcaption></figure><figure><img src="sydney-visual-after.png" alt="Vista dall’alto dopo: raccordo esterno e toni leggibili"><figcaption><strong>Dopo.</strong> Collegamento esterno e tono delle superfici più leggibile.</figcaption></figure></div>
+<details><summary>Verifiche mirate</summary><p>Primo: 3 giri, 12 checkpoint. Sydney: 3 giri, 12 checkpoint, 3 decolli/atterraggi, zero cadute o contatti sulle traiettorie provate. Catalogo delle quattro piste e split screen a 5 visuali verificati. Sono prove automatiche con input ordinari e controlli visivi del renderer; resta utile una prova umana con telefono o gamepad.</p><p><a href="targeted-checks.json">Collisioni e selezione</a> · <a href="preservation.json">File preservati</a> · <a href="sydney-multi.png">Smoke test a cinque visuali</a></p></details>
+<p><small>Anteprima locale. Nessun commit, push o deploy.</small></p>
+</main></html>

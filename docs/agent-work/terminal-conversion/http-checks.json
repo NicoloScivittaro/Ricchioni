@@ -1,0 +1,18 @@
+[
+  {
+    "path": "/docs/agent-work/terminal-conversion/preview.html",
+    "status": 200
+  },
+  {
+    "path": "/docs/agent-work/terminal-conversion/REPORT.md",
+    "status": 200
+  },
+  {
+    "path": "/docs/agent-work/terminal-conversion/missing-assets.csv",
+    "status": 200
+  },
+  {
+    "path": "/assets/fps/terminal/terminal.glb",
+    "status": 200
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "track": "sydney",
+  "laps": 3,
+  "time": 142.941666666701,
+  "raceTime": 142.941666666701,
+  "distance": 4300.31668956709,
+  "checkpoints": 12,
+  "checkpointEvents": 37,
+  "flight": [
+    "launch",
+    "land",
+    "launch",
+    "land",
+    "launch",
+    "land"
+  ],
+  "wallFrames": 0,
+  "badContacts": 0,
+  "maxStep": 0.36666666666667425,
+  "maxLateral": 3.1969685841475806,
+  "firstWall": null,
+  "physicalTriangles": 28708
+}

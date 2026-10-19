@@ -229,7 +229,8 @@ export class FpsClient {
     this.camera.fov = BASE_FOV;
     this.scene.activeCamera = this.camera;
 
-    if(mapId==='nuketown'){void import('./nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)).catch(e=>{console.error('Nuketown loading failed',e);if(!this.scene.isDisposed)this.showDeath('ERRORE CARICAMENTO NUKETOWN');});}
+    if(mapId==='terminal'){void import('./terminalWorld').then(m=>m.buildTerminalWorld(this.scene)).catch(e=>{console.error('Terminal loading failed',e);if(!this.scene.isDisposed)this.showDeath('ERRORE CARICAMENTO TERMINAL');});}
+    else if(mapId==='nuketown'){void import('./nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)).catch(e=>{console.error('Nuketown loading failed',e);if(!this.scene.isDisposed)this.showDeath('ERRORE CARICAMENTO NUKETOWN');});}
     else buildFpsWorld(this.scene);
     this.vm = new FpsViewmodel(this.scene, this.camera, getQualityLevel() === 'high');
     this.vm.equip(this.weaponId);
@@ -822,7 +823,7 @@ export class FpsClient {
           if (this.abilityEl.textContent !== t) this.abilityEl.textContent = t;
           this.abilityEl.style.color = col;
         }
-        const spawn=this.mapId==='nuketown'&&(ps.spawnProtection??0)>0&&ps.alive;
+        const spawn=(this.mapId==='nuketown'||this.mapId==='terminal')&&(ps.spawnProtection??0)>0&&ps.alive;
         this.guardEl.style.opacity = (ps.guard||spawn) && ps.alive ? '0.6' : '0';
         if(spawn)this.abilityEl.textContent='PROTETTO · SPARA PER COMBATTERE';
         this.lockEl.style.opacity = ps.locked && ps.alive ? '1' : '0';

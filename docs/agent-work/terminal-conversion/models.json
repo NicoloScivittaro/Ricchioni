@@ -1,0 +1,5158 @@
+{
+  "foliage_gardenflowers_red_group_bright": {
+    "lod": {
+      "name": "foliage_gardenflowers_red_group_bright_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_gardenflowers_bright"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 824,
+    "localBounds": [
+      [
+        -23.077468872070312,
+        -17.554431915283203,
+        -1.0397059917449951
+      ],
+      [
+        23.077438354492188,
+        17.554433822631836,
+        25.083608627319336
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "foliage_gardenflowers_white_group_bright": {
+    "lod": {
+      "name": "foliage_gardenflowers_white_group_bright_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_gardenflowers_bright"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 824,
+    "localBounds": [
+      [
+        -23.077457427978516,
+        -17.554431915283203,
+        -1.0397059917449951
+      ],
+      [
+        23.077457427978516,
+        17.554433822631836,
+        25.083608627319336
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "foliage_gardenflowers_yellow_group_bright": {
+    "lod": {
+      "name": "foliage_gardenflowers_yellow_group_bright_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_gardenflowers_bright"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 824,
+    "localBounds": [
+      [
+        -23.07746124267578,
+        -17.554431915283203,
+        -1.0397059917449951
+      ],
+      [
+        23.077457427978516,
+        17.554433822631836,
+        25.083608627319336
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_flatscreen_tv_on_wallmount_02_static": {
+    "lod": {
+      "name": "ma_flatscreen_tv_on_wallmount_02_static_LOD01",
+      "distance": 9000.0,
+      "materials": [
+        "mtl_flatscreen_tv_02",
+        "filmstrip"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 44,
+    "localBounds": [
+      [
+        -26.000003814697266,
+        -7.481856822967529,
+        0.0
+      ],
+      [
+        25.999998092651367,
+        0.0,
+        36.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "foliage_gardenflowers_blue_group_bright": {
+    "lod": {
+      "name": "foliage_gardenflowers_blue_group_bright_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_gardenflowers_bright"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 824,
+    "localBounds": [
+      [
+        -23.077484130859375,
+        -17.554431915283203,
+        -1.0397059917449951
+      ],
+      [
+        23.077438354492188,
+        17.554433822631836,
+        25.083608627319336
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "foliage_gardenflowers_blue_bright": {
+    "lod": {
+      "name": "foliage_gardenflowers_blue_bright_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_gardenflowers_bright"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 352,
+    "localBounds": [
+      [
+        -13.844161987304688,
+        -11.910887718200684,
+        -1.0397059917449951
+      ],
+      [
+        13.844161987304688,
+        11.910886764526367,
+        25.083608627319336
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "foliage_gardenflowers_red_bright": {
+    "lod": {
+      "name": "foliage_gardenflowers_red_bright_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_gardenflowers_bright"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 352,
+    "localBounds": [
+      [
+        -13.844161987304688,
+        -11.910887718200684,
+        -1.0397059917449951
+      ],
+      [
+        13.844161987304688,
+        11.910886764526367,
+        25.083608627319336
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "foliage_gardenflowers_white_bright": {
+    "lod": {
+      "name": "foliage_gardenflowers_white_bright_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_gardenflowers_bright"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 352,
+    "localBounds": [
+      [
+        -13.844161033630371,
+        -11.910887718200684,
+        -1.0397059917449951
+      ],
+      [
+        13.844161033630371,
+        11.910886764526367,
+        25.083608627319336
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "foliage_gardenflowers_yellow_bright": {
+    "lod": {
+      "name": "foliage_gardenflowers_yellow_bright_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_gardenflowers_bright"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 352,
+    "localBounds": [
+      [
+        -13.844161987304688,
+        -11.910887718200684,
+        -1.0397059917449951
+      ],
+      [
+        13.844160079956055,
+        11.910886764526367,
+        25.083608627319336
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "me_lightfluohang_double_on": {
+    "lod": {
+      "name": "me_lightfluohang_double_on_LOD01",
+      "distance": 250.0,
+      "materials": [
+        "mtl_lightfluo",
+        "mtl_lightfluohang_on"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 792,
+    "localBounds": [
+      [
+        -13.339925765991211,
+        -27.695165634155273,
+        5.477959156036377
+      ],
+      [
+        13.339926719665527,
+        27.695171356201172,
+        9.82225513458252
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "bc_militarytentceilinglight_on": {
+    "lod": {
+      "name": "ma_militarytentceilinglight_lod01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_militarytentceilinglight"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 396,
+    "localBounds": [
+      [
+        -6.450161933898926,
+        -27.69516372680664,
+        -4.345560073852539
+      ],
+      [
+        6.450162887573242,
+        27.69516372680664,
+        -0.0012722015380859375
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book23": {
+    "lod": {
+      "name": "usa_bookstore_book23_LOD01",
+      "distance": 999.0,
+      "materials": [
+        "usa_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -3.999999989900971e-06,
+        -3.999969005584717,
+        0.0
+      ],
+      [
+        2.0000040531158447,
+        4.000030994415283,
+        10.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book25": {
+    "lod": {
+      "name": "usa_bookstore_book25_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -3.999999989900971e-06,
+        -4.0,
+        0.0
+      ],
+      [
+        1.0,
+        4.000030994415283,
+        10.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book33": {
+    "lod": {
+      "name": "usa_bookstore_book33_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -3.999999989900971e-06,
+        -4.0,
+        0.0
+      ],
+      [
+        1.0,
+        5.0,
+        11.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "sign_airport_bookstore": {
+    "lod": {
+      "name": "sign_airport_bookstore_LOD01",
+      "distance": 1000000.0,
+      "materials": [
+        "mtl_sign_airport_bookstore"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 565,
+    "localBounds": [
+      [
+        -81.29287719726562,
+        -3.9609620571136475,
+        -5.984426021575928
+      ],
+      [
+        81.32145690917969,
+        0.01819000020623207,
+        9.936763763427734
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_light_exposed_can_off": {
+    "lod": {
+      "name": "usa_light_exposed_can_off_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "com_black2",
+        "ap_light_round_embedded"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 50,
+    "localBounds": [
+      [
+        -4.300000190734863,
+        -4.30000114440918,
+        -12.0
+      ],
+      [
+        4.300000190734863,
+        4.299999237060547,
+        0.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_security_camera_dome": {
+    "lod": {
+      "name": "ma_security_camera_dome_LOD01",
+      "distance": 3500.0,
+      "materials": [
+        "mtl_security_camera_dome"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 100,
+    "localBounds": [
+      [
+        -11.995772361755371,
+        -11.962809562683105,
+        -0.05641400068998337
+      ],
+      [
+        11.995772361755371,
+        11.962809562683105,
+        10.211030006408691
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "sign_book": {
+    "lod": {
+      "name": "sign_book_LOD01",
+      "distance": 11000.0,
+      "materials": [
+        "mtl_sign_book"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 166,
+    "localBounds": [
+      [
+        -2.5,
+        -28.557449340820312,
+        -22.369186401367188
+      ],
+      [
+        1.532251000404358,
+        33.9989013671875,
+        16.300518035888672
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "russia_bookstore_shelf_tall_3part_a": {
+    "lod": {
+      "name": "russia_bookstore_shelf_tall_3part_a_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "russia_bookstore_books_01",
+        "russia_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 2213,
+    "localBounds": [
+      [
+        0.9275670051574707,
+        -98.00003051757812,
+        4.5352702140808105
+      ],
+      [
+        18.867279052734375,
+        98.00003051757812,
+        102.09237670898438
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "russia_bookstore_book25": {
+    "lod": {
+      "name": "russia_bookstore_book25_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "russia_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -3.999999989900971e-06,
+        -4.0,
+        0.0
+      ],
+      [
+        1.0,
+        4.000030994415283,
+        10.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "russia_bookstore_book27": {
+    "lod": {
+      "name": "russia_bookstore_book27_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "russia_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -3.999999989900971e-06,
+        -4.0,
+        0.0
+      ],
+      [
+        1.0,
+        4.0,
+        10.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "russia_bookstore_book29": {
+    "lod": {
+      "name": "russia_bookstore_book29_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "russia_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -3.999999989900971e-06,
+        -4.0,
+        0.0
+      ],
+      [
+        1.5000040531158447,
+        4.0,
+        10.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book22": {
+    "lod": {
+      "name": "usa_bookstore_book22_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -0.5,
+        -3.9999849796295166,
+        0.0
+      ],
+      [
+        0.5,
+        4.000014781951904,
+        11.5
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book24": {
+    "lod": {
+      "name": "usa_bookstore_book24_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -3.999999989900971e-06,
+        -2.9999849796295166,
+        0.0
+      ],
+      [
+        1.0,
+        3.0000150203704834,
+        8.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book29": {
+    "lod": {
+      "name": "usa_bookstore_book29_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -3.999999989900971e-06,
+        -4.0,
+        0.0
+      ],
+      [
+        1.5000040531158447,
+        4.0,
+        10.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book30": {
+    "lod": {
+      "name": "usa_bookstore_book30_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -3.999999989900971e-06,
+        -2.999969005584717,
+        0.0
+      ],
+      [
+        1.0,
+        3.000030994415283,
+        8.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_door_handle_chrome": {
+    "lod": {
+      "name": "ma_door_handle_chrome_LOD01",
+      "distance": 4000.0,
+      "materials": [
+        "mtl_door_handle_chrome"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 160,
+    "localBounds": [
+      [
+        -0.6634849905967712,
+        -4.3551411628723145,
+        -16.477519989013672
+      ],
+      [
+        0.6634560227394104,
+        6.000000212225132e-06,
+        0.6632580161094666
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "russia_bookstore_shelf_1part_b": {
+    "lod": {
+      "name": "russia_bookstore_shelf_1part_b_LOD01",
+      "distance": 800.0,
+      "materials": [
+        "russia_bookstore_books_01",
+        "russia_bookstore_books_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 374,
+    "localBounds": [
+      [
+        0.9609299898147583,
+        -32.0,
+        4.499149799346924
+      ],
+      [
+        14.792952537536621,
+        32.000030517578125,
+        59.084861755371094
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_potted_plant_large": {
+    "lod": {
+      "name": "com_potted_plant_large_LOD01",
+      "distance": 350.0,
+      "materials": [
+        "mtl_potted_plant01",
+        "mtl_flower_pot_dirt",
+        "mtl_flower_pot_large"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 657,
+    "localBounds": [
+      [
+        -31.69464111328125,
+        -22.586170196533203,
+        0.03626000136137009
+      ],
+      [
+        20.826004028320312,
+        29.251920700073242,
+        71.9732894897461
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_restaurantkitchentable_5": {
+    "lod": {
+      "name": "com_restaurantkitchentable_5_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_restaurantkitchentables"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 372,
+    "localBounds": [
+      [
+        -29.522537231445312,
+        -16.475845336914062,
+        0.0
+      ],
+      [
+        29.522537231445312,
+        16.475845336914062,
+        39.936805725097656
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_burger_warmer_1": {
+    "lod": {
+      "name": "ma_burger_warmer_1_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_burger_warmer"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 260,
+    "localBounds": [
+      [
+        -58.82481384277344,
+        -25.526554107666016,
+        -7.999999979801942e-06
+      ],
+      [
+        0.17518599331378937,
+        0.0,
+        36.041954040527344
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_cup_stack": {
+    "lod": {
+      "name": "ma_cup_stack_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_cups"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 96,
+    "localBounds": [
+      [
+        -1.9216899871826172,
+        -1.8499829769134521,
+        -0.0006580000044777989
+      ],
+      [
+        1.9216899871826172,
+        1.8499829769134521,
+        10.601879119873047
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_tray_1": {
+    "lod": {
+      "name": "ma_tray_1_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_tray"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 134,
+    "localBounds": [
+      [
+        -12.007501602172852,
+        -7.338438987731934,
+        0.06041000038385391
+      ],
+      [
+        12.007501602172852,
+        7.338438987731934,
+        1.430987000465393
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_industrial_fridge_1": {
+    "lod": {
+      "name": "ma_industrial_fridge_1_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_industrial_fridge"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 442,
+    "localBounds": [
+      [
+        -27.000001907348633,
+        -15.09728717803955,
+        0.0
+      ],
+      [
+        27.000001907348633,
+        14.990438461303711,
+        88.92997741699219
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_flatscreen_tv_wallmount_broken_02": {
+    "lod": {
+      "name": "ma_flatscreen_tv_wallmount_broken_02_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "mtl_flatscreen_tv_02",
+        "mtl_flatscreen_tv_02_d"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 70,
+    "localBounds": [
+      [
+        -26.000003814697266,
+        -7.4979248046875,
+        0.0
+      ],
+      [
+        25.999998092651367,
+        0.0,
+        36.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "furniture_bench_plastic": {
+    "lod": {
+      "name": "furniture_bench_plastic_LOD01",
+      "distance": 250.0,
+      "materials": [
+        "mtl_furniture_chair_airport_wood_metal",
+        "mtl_furniture_chair_airport_wood_wood"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 2490,
+    "localBounds": [
+      [
+        -14.999993324279785,
+        -58.000003814697266,
+        0.0
+      ],
+      [
+        16.000001907348633,
+        58.000003814697266,
+        37.967044830322266
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "furniture_chair_airport": {
+    "lod": {
+      "name": "furniture_chair_airport_LOD01",
+      "distance": 450.0,
+      "materials": [
+        "mtl_furniture_chair_airport"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1248,
+    "localBounds": [
+      [
+        -54.76176452636719,
+        -16.59012794494629,
+        0.0
+      ],
+      [
+        54.76176452636719,
+        16.59012794494629,
+        40.95321273803711
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_longseat_left_1": {
+    "lod": {
+      "name": "ma_longseat_left_1_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_longseat_yellow"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 152,
+    "localBounds": [
+      [
+        -36.0,
+        -15.000003814697266,
+        -0.14898599684238434
+      ],
+      [
+        36.0,
+        15.000005722045898,
+        36.165767669677734
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_longseat_right_1": {
+    "lod": {
+      "name": "ma_longseat_right_1_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_longseat_yellow"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 152,
+    "localBounds": [
+      [
+        -36.00001525878906,
+        -15.000003814697266,
+        -9.999999974752427e-07
+      ],
+      [
+        36.00001525878906,
+        15.000005722045898,
+        36.31475067138672
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_baggage_container_white": {
+    "lod": {
+      "name": "machinery_baggage_container_white_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_machinery_baggage_container_white"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 303,
+    "localBounds": [
+      [
+        -36.000003814697266,
+        -36.000003814697266,
+        0.0
+      ],
+      [
+        39.000003814697266,
+        36.000003814697266,
+        71.99999237060547
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_baggage_container_blue": {
+    "lod": {
+      "name": "machinery_baggage_container_blue_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_machinery_baggage_container_blue"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 303,
+    "localBounds": [
+      [
+        -36.000003814697266,
+        -36.000003814697266,
+        0.0
+      ],
+      [
+        39.000003814697266,
+        36.000003814697266,
+        71.99999237060547
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_baggage_container": {
+    "lod": {
+      "name": "machinery_baggage_container_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_machinery_baggage_container"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 303,
+    "localBounds": [
+      [
+        -36.000003814697266,
+        -36.000003814697266,
+        0.0
+      ],
+      [
+        39.000003814697266,
+        36.000003814697266,
+        71.99999237060547
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "road_barrier_orange": {
+    "lod": {
+      "name": "road_barrier_orange_LOD01",
+      "distance": 800.0,
+      "materials": [
+        "mtl_roadbarriers_orange"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 224,
+    "localBounds": [
+      [
+        -5.738941192626953,
+        -13.000007629394531,
+        -6.000000212225132e-06
+      ],
+      [
+        109.05333709716797,
+        12.999995231628418,
+        39.980506896972656
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "road_barrier_white": {
+    "lod": {
+      "name": "road_barrier_white_LOD01",
+      "distance": 800.0,
+      "materials": [
+        "mtl_roadbarriers_white"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 224,
+    "localBounds": [
+      [
+        -5.738941192626953,
+        -13.000007629394531,
+        -6.000000212225132e-06
+      ],
+      [
+        109.05333709716797,
+        12.999995231628418,
+        39.980506896972656
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "police_barrier_01": {
+    "lod": {
+      "name": "police_barrier_01_LOD01",
+      "distance": 7500.0,
+      "materials": [
+        "usa_police_tape",
+        "ch_plywood01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 112,
+    "localBounds": [
+      [
+        -45.0,
+        -17.000001907348633,
+        0.0
+      ],
+      [
+        45.0,
+        19.0,
+        54.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "vehicle_bm21_wheel_rf": {
+    "lod": {
+      "name": "BM_21_wheel_RF_LOD01",
+      "distance": 800.0,
+      "materials": [
+        "mtl_bm_21_truck_tires"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 250,
+    "localBounds": [
+      [
+        -28.416015625,
+        -9.157169342041016,
+        -28.687114715576172
+      ],
+      [
+        28.416015625,
+        9.157169342041016,
+        28.687116622924805
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ch_bumper_car_st_wheel": {
+    "lod": {
+      "name": "bumper_car_ST_wheelLOD_01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_bumper_car"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 332,
+    "localBounds": [
+      [
+        -8.399999618530273,
+        -8.399998664855957,
+        0.019301999360322952
+      ],
+      [
+        8.399999618530273,
+        8.399998664855957,
+        23.588111877441406
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_railing_single_long01": {
+    "lod": {
+      "name": "machinery_railing_single_long01_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "mtl_machinery_railing01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 212,
+    "localBounds": [
+      [
+        0.0,
+        -1.712939977645874,
+        -9.999999974752427e-07
+      ],
+      [
+        104.37751007080078,
+        1.7129310369491577,
+        37.79743194580078
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_scaffolding_end_railing_controls01": {
+    "lod": {
+      "name": "machinery_scaffolding_end_railing_controls01_lod01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_machinery_railing01",
+        "mtl_machinery_scaffolding01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1114,
+    "localBounds": [
+      [
+        -8.858572959899902,
+        -39.98244094848633,
+        -3.269315004348755
+      ],
+      [
+        5.764589786529541,
+        39.98244857788086,
+        34.07950210571289
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_scaffolding_controlbox01": {
+    "lod": {
+      "name": "machinery_scaffolding_controlbox01_LOD01",
+      "distance": 5000.0,
+      "materials": [
+        "mtl_machinery_scaffolding01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 142,
+    "localBounds": [
+      [
+        0.0,
+        -1.3332879543304443,
+        0.0
+      ],
+      [
+        6.882081985473633,
+        10.371326446533203,
+        17.426410675048828
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_flatscreen_tv_wallmount_02": {
+    "lod": {
+      "name": "ma_flatscreen_tv_wallmount_02_LOD01",
+      "distance": 1000000.0,
+      "materials": [
+        "mtl_flatscreen_tv_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 36,
+    "localBounds": [
+      [
+        -26.000003814697266,
+        -7.481856822967529,
+        0.0
+      ],
+      [
+        25.999998092651367,
+        0.0,
+        36.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_vending_can_new2_lit": {
+    "lod": {
+      "name": "can_machine_new1_lod01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_can_machine4",
+        "mtl_can_machine4_lit"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 664,
+    "localBounds": [
+      [
+        -0.0017242431640625,
+        -36.831214904785156,
+        -0.0014219880104064941
+      ],
+      [
+        40.322052001953125,
+        0.000457763671875,
+        74.8440933227539
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "furniture_table1_airport": {
+    "lod": {
+      "name": "furniture_table1_airport_LOD01",
+      "distance": 250.0,
+      "materials": [
+        "mtl_furniture_table1_airport"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 320,
+    "localBounds": [
+      [
+        -19.978242874145508,
+        -40.967262268066406,
+        0.0
+      ],
+      [
+        19.97823715209961,
+        39.986793518066406,
+        33.96637725830078
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "tvs_table_1": {
+    "lod": {
+      "name": "tvs_table_11",
+      "distance": 0.0,
+      "materials": [
+        "ap_wood_tile_brown",
+        "office_whitewall_01",
+        "ch_trim_stainlessteel_1",
+        "office_floortrim_black"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 374,
+    "localBounds": [
+      [
+        -43.999996185302734,
+        -20.0,
+        0.0
+      ],
+      [
+        40.0,
+        20.0,
+        34.000003814697266
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_xray_scanner": {
+    "lod": {
+      "name": "machinery_xray_scanner_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_machinery_xray_scanner_metal",
+        "mtl_machinery_xray_scanner_rubber"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 972,
+    "localBounds": [
+      [
+        -201.98619079589844,
+        -21.32419776916504,
+        -1.9999999949504854e-06
+      ],
+      [
+        161.0,
+        27.090192794799805,
+        60.91333770751953
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_metal_detector": {
+    "lod": {
+      "name": "machinery_metal_detector_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_machinery_metal_detector"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 142,
+    "localBounds": [
+      [
+        -11.585737228393555,
+        -24.373788833618164,
+        0.0
+      ],
+      [
+        11.585734367370605,
+        24.343894958496094,
+        105.99999237060547
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "bank_divider_pole": {
+    "lod": {
+      "name": "bank_divider_pole_LOD01",
+      "distance": 250.0,
+      "materials": [
+        "mtl_divider_pole"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 186,
+    "localBounds": [
+      [
+        -6.999999046325684,
+        -7.0,
+        0.0020260000601410866
+      ],
+      [
+        7.0,
+        6.999998092651367,
+        41.999996185302734
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "mil_ammo_case_1_open": {
+    "lod": {
+      "name": "mil_ammo_case_1_open_LOD01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_ammo_case"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 82,
+    "localBounds": [
+      [
+        -3.334918975830078,
+        -9.334918975830078,
+        -0.00980599969625473
+      ],
+      [
+        3.334918975830078,
+        9.334918975830078,
+        10.5
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "mil_ammo_case_brown_1": {
+    "lod": {
+      "name": "mil_ammo_case_brown_1_LOD01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_ammo_case_brown"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 516,
+    "localBounds": [
+      [
+        -3.4354729652404785,
+        -9.989479064941406,
+        -0.009806999936699867
+      ],
+      [
+        3.4354729652404785,
+        9.976551055908203,
+        10.986933708190918
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "mil_ammo_case_brown_1_open": {
+    "lod": {
+      "name": "mil_ammo_case_brown_1_open_LOD01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_ammo_case_brown"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 82,
+    "localBounds": [
+      [
+        -3.334918975830078,
+        -9.334918975830078,
+        -0.00980599969625473
+      ],
+      [
+        3.334918975830078,
+        9.334918975830078,
+        10.5
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "vehicle_policecar_lapd_destructible": {
+    "lod": {
+      "name": "vehicle_policecar_lapd_destructible_LOD01",
+      "distance": 800.0,
+      "materials": [
+        "mtl_vehicle_shattered_glass_out",
+        "mtl_policecar_lapd_destroy",
+        "mtl_policecar_lapd_destroy",
+        "mtl_policecar_glass_outside",
+        "mtl_policecar_interior",
+        "mtl_policecar_glass_inside",
+        "mtl_policecar_chrome",
+        "mtl_policecar_lapd",
+        "mtl_policecar_lapd",
+        "mtl_suburban_bottom",
+        "mtl_vehicle_shattered_glass_in",
+        "mtl_policecar_metro_decal",
+        "mtl_policecar_interior_plastic",
+        "mtl_policecar_lapd_plastic",
+        "mtl_policecar_lapd_metal",
+        "mtl_policecar_lapd_rubber",
+        "mtl_policecar_lapd_rubber",
+        "mtl_policecar_lapd_rubber",
+        "mtl_policecar_lapd_rubber"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 6975,
+    "localBounds": [
+      [
+        -113.87836456298828,
+        -45.638187408447266,
+        -0.10514800250530243
+      ],
+      [
+        116.25755310058594,
+        45.638187408447266,
+        71.05338287353516
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "concrete_barrier_damaged_1": {
+    "lod": {
+      "name": "concrete_barrier_damaged_1_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "mtl_barrier_damaged_1"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 282,
+    "localBounds": [
+      [
+        -36.00008010864258,
+        -11.277653694152832,
+        -3.000000106112566e-06
+      ],
+      [
+        36.00008010864258,
+        11.277653694152832,
+        41.079322814941406
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "concrete_barrier_damaged_3": {
+    "lod": {
+      "name": "concrete_barrier_damaged_3_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "mtl_barrier_damaged_2"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 506,
+    "localBounds": [
+      [
+        -36.00008010864258,
+        -11.277653694152832,
+        -3.000000106112566e-06
+      ],
+      [
+        4.492613792419434,
+        11.277652740478516,
+        39.74219512939453
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "vehicle_cart_airport": {
+    "lod": {
+      "name": "vehicle_cart_airport_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_cart_airport",
+        "mtl_cart_airport",
+        "mtl_cart_airport",
+        "mtl_cart_airport",
+        "mtl_cart_airport",
+        "mtl_cart_airport",
+        "mtl_cart_airport_shadow"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 3094,
+    "localBounds": [
+      [
+        -85.27945709228516,
+        -40.977787017822266,
+        0.0
+      ],
+      [
+        79.77566528320312,
+        40.977787017822266,
+        89.97577667236328
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "airport_wall_vent": {
+    "lod": {
+      "name": "airport_wall_vent_LOD01",
+      "distance": 1500.0,
+      "materials": [
+        "me_metal_grey_01",
+        "me_office_ceiling_vent_dark_1",
+        "me_trim_metalplate_1"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 208,
+    "localBounds": [
+      [
+        -18.0,
+        -20.5,
+        -18.0
+      ],
+      [
+        18.0,
+        0.0,
+        18.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_garbage_bin_1": {
+    "lod": {
+      "name": "ma_garbage_bin_1_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_garbage_bin"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 194,
+    "localBounds": [
+      [
+        -12.444230079650879,
+        -13.615124702453613,
+        -0.05232900008559227
+      ],
+      [
+        12.444232940673828,
+        13.458155632019043,
+        50.7022819519043
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_rectangular_table_1": {
+    "lod": {
+      "name": "ma_rectangular_table_1_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_table_1"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 348,
+    "localBounds": [
+      [
+        -33.0,
+        -16.70684814453125,
+        0.0
+      ],
+      [
+        33.0,
+        16.706878662109375,
+        32.40412139892578
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_square_table_1": {
+    "lod": {
+      "name": "ma_square_table_1_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_table_1"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 272,
+    "localBounds": [
+      [
+        -18.0,
+        -16.73992919921875,
+        0.0
+      ],
+      [
+        18.0,
+        16.739898681640625,
+        32.40412139892578
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_stacking_chair_1": {
+    "lod": {
+      "name": "ma_stacking_chair_1_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_stacking_chair_black"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 178,
+    "localBounds": [
+      [
+        -10.264572143554688,
+        -12.968413352966309,
+        -9.999999974752427e-07
+      ],
+      [
+        10.264579772949219,
+        12.968412399291992,
+        43.8026008605957
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "bank_side_table": {
+    "lod": {
+      "name": "bank_side_table_LOD01",
+      "distance": 4500.0,
+      "materials": [
+        "com_black",
+        "ap_glass_sanded",
+        "ap_wood_tile_big",
+        "ma_brushedmetal_panel",
+        "ch_trim_stainlessteel_1"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 332,
+    "localBounds": [
+      [
+        -15.99998664855957,
+        -16.0,
+        0.0
+      ],
+      [
+        15.99999713897705,
+        16.0000057220459,
+        26.999998092651367
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_light_modern_on": {
+    "lod": {
+      "name": "ma_light_modern_on_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "lambert1",
+        "mtl_modern_light_fixture",
+        "mtl_modern_light_fixture_add"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 238,
+    "localBounds": [
+      [
+        -1.4625790119171143,
+        -1.4625790119171143,
+        -3.6637539863586426
+      ],
+      [
+        1.4625790119171143,
+        1.4625790119171143,
+        13.817449569702148
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "sign_nates_restaurant": {
+    "lod": {
+      "name": "sign_nates_restaurant_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "mtl_sign_nates_restaurant"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 989,
+    "localBounds": [
+      [
+        -146.3849334716797,
+        5.832489967346191,
+        0.0
+      ],
+      [
+        163.95594787597656,
+        85.17814636230469,
+        11.409036636352539
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_parkingcone01": {
+    "lod": {
+      "name": "com_parkingcone01_LOD01",
+      "distance": 3500.0,
+      "materials": [
+        "mtl_parkingcone01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 78,
+    "localBounds": [
+      [
+        -7.90573787689209,
+        -7.90573787689209,
+        0.0
+      ],
+      [
+        7.90573787689209,
+        7.90573787689209,
+        27.617300033569336
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_northafrica_coffeetable": {
+    "lod": {
+      "name": "com_northafrica_coffeetable_lod11",
+      "distance": 300.0,
+      "materials": [
+        "mtl_northafrica_tables"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 310,
+    "localBounds": [
+      [
+        -27.873329162597656,
+        -20.58432960510254,
+        -0.007734999991953373
+      ],
+      [
+        27.847896575927734,
+        20.58432960510254,
+        17.992311477661133
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_restaurant_barstool": {
+    "lod": {
+      "name": "ma_restaurant_barstool_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_chair_restaurant"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 148,
+    "localBounds": [
+      [
+        -9.997759819030762,
+        -13.137130737304688,
+        0.0
+      ],
+      [
+        10.023322105407715,
+        9.404314041137695,
+        47.03588104248047
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "food_soda_single01": {
+    "lod": {
+      "name": "food_soda_single01_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_food_soda01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 28,
+    "localBounds": [
+      [
+        -1.2097649574279785,
+        -1.2097669839859009,
+        0.0
+      ],
+      [
+        1.2097690105438232,
+        1.2097669839859009,
+        5.003084182739258
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "food_soda_single02": {
+    "lod": {
+      "name": "food_soda_single02_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_food_soda02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 28,
+    "localBounds": [
+      [
+        -1.2097669839859009,
+        -1.2097669839859009,
+        0.0
+      ],
+      [
+        1.2097669839859009,
+        1.2097669839859009,
+        5.003084182739258
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "accessories_ashtray_standing": {
+    "lod": {
+      "name": "accessories_ashtray_standing_LOD01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_accessories_ashtray_standing"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 214,
+    "localBounds": [
+      [
+        -3.7331149578094482,
+        -3.725555896759033,
+        0.18542300164699554
+      ],
+      [
+        3.6870980262756348,
+        3.7789978981018066,
+        27.33705711364746
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_vending_can_new2_destroyed": {
+    "lod": {
+      "name": "com_vending_can_new2_destroyed_LOD01",
+      "distance": 700.0,
+      "materials": [
+        "mtl_com_vending_can_new2_destroyed"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 670,
+    "localBounds": [
+      [
+        -0.004912999924272299,
+        -36.82442855834961,
+        -0.008785000070929527
+      ],
+      [
+        40.31886291503906,
+        0.00724400021135807,
+        74.83673095703125
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_metal_briefcase": {
+    "lod": {
+      "name": "metal_briefcase_lod01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_metal_briefcase"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 300,
+    "localBounds": [
+      [
+        -11.638724327087402,
+        -2.6323978900909424,
+        0.06931400299072266
+      ],
+      [
+        11.638724327087402,
+        2.6323978900909424,
+        20.38300895690918
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_potted_plant_medium": {
+    "lod": {
+      "name": "com_potted_plant_medium_LOD01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_potted_plant02",
+        "mtl_flower_pot_dirt",
+        "mtl_flower_pot_medium"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 738,
+    "localBounds": [
+      [
+        -32.01713180541992,
+        -30.798315048217773,
+        0.0360260009765625
+      ],
+      [
+        27.140823364257812,
+        29.916391372680664,
+        56.914791107177734
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_debris_paper": {
+    "lod": {
+      "name": "com_debris_paper_lod01",
+      "distance": 0.0,
+      "materials": [
+        "mtl_small_hatchback_wagon_d_white"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 26,
+    "localBounds": [
+      [
+        -29.809711456298828,
+        -24.011350631713867,
+        0.13579100370407104
+      ],
+      [
+        29.809711456298828,
+        24.01132583618164,
+        4.352791786193848
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "utility_sign_wet_floor": {
+    "lod": {
+      "name": "utility_sign_wet_floor_LOD01",
+      "distance": 250.0,
+      "materials": [
+        "mtl_utility_sign_wet_floor"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 180,
+    "localBounds": [
+      [
+        -6.859695911407471,
+        -6.537024021148682,
+        0.0
+      ],
+      [
+        6.859695911407471,
+        6.537024974822998,
+        33.36550521850586
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "mil_ammo_case_3": {
+    "lod": {
+      "name": "mil_ammo_case_3_LOD01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_ammo_case"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 576,
+    "localBounds": [
+      [
+        -3.4354729652404785,
+        -9.989479064941406,
+        -0.009806999936699867
+      ],
+      [
+        3.444704055786133,
+        9.976547241210938,
+        32.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "mil_ammo_case_brown_3": {
+    "lod": {
+      "name": "mil_ammo_case_brown_3_LOD01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_ammo_case_brown"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 576,
+    "localBounds": [
+      [
+        -3.4354729652404785,
+        -9.989479064941406,
+        -0.009806999936699867
+      ],
+      [
+        3.444704055786133,
+        9.976547241210938,
+        32.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "sign_airport_security": {
+    "lod": {
+      "name": "sign_airport_security_LOD01",
+      "distance": 1000000.0,
+      "materials": [
+        "sign_russian_airport_01",
+        "me_floor_shinyblack"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 14,
+    "localBounds": [
+      [
+        -125.0,
+        0.0,
+        -23.0
+      ],
+      [
+        3.0,
+        1.2923680543899536,
+        3.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_airduct_01": {
+    "lod": {
+      "name": "com_air_duct_lod01",
+      "distance": 800.0,
+      "materials": [
+        "mtl_air_duct01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 66,
+    "localBounds": [
+      [
+        -12.795275688171387,
+        -12.7952241897583,
+        0.0
+      ],
+      [
+        12.795275688171387,
+        12.795223236083984,
+        25.590553283691406
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_trashcomp02_roof": {
+    "lod": {
+      "name": "machinery_trashcomp02_roof_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "mtl_machinery_trashcompactor02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 474,
+    "localBounds": [
+      [
+        -40.30849838256836,
+        -28.308757781982422,
+        0.0
+      ],
+      [
+        40.42333984375,
+        28.308757781982422,
+        76.23484802246094
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "storefront_door03": {
+    "lod": {
+      "name": "storefront_door03_LOD01",
+      "distance": 1000000.0,
+      "materials": [
+        "mtl_storefront_door"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 104,
+    "localBounds": [
+      [
+        -4.999999873689376e-06,
+        -2.410029888153076,
+        0.5259659886360168
+      ],
+      [
+        51.000003814697266,
+        4.410029888153076,
+        103.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_sloped_back_chair_1": {
+    "lod": {
+      "name": "ma_sloped_back_chair_1_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_sloped_back_chair"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 330,
+    "localBounds": [
+      [
+        -10.860420227050781,
+        -12.93873405456543,
+        -1.9999999949504854e-06
+      ],
+      [
+        10.860417366027832,
+        12.93873405456543,
+        46.850563049316406
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_flatscreen_tv_wallmount_01": {
+    "lod": {
+      "name": "ma_flatscreen_tv_wallmount_01_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_flatscreen_tv_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 68,
+    "localBounds": [
+      [
+        -21.0,
+        -2.2942049503326416,
+        3.0
+      ],
+      [
+        21.0,
+        3.9635419845581055,
+        31.000001907348633
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "sign_dreams": {
+    "lod": {
+      "name": "sign_dreams_LOD01",
+      "distance": 1000000.0,
+      "materials": [
+        "metal_blue"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 562,
+    "localBounds": [
+      [
+        -1.0000009536743164,
+        -58.000003814697266,
+        -0.0012250000145286322
+      ],
+      [
+        1.0,
+        58.17593002319336,
+        18.422800064086914
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "furniture_news_stand_magazines": {
+    "lod": {
+      "name": "furniture_news_stand_magazines_LOD01",
+      "distance": 6000.0,
+      "materials": [
+        "usa_bookstore_magazines_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1620,
+    "localBounds": [
+      [
+        0.0,
+        -64.5,
+        3.5
+      ],
+      [
+        8.0,
+        64.5,
+        34.5
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "cs_coffeemug01": {
+    "lod": {
+      "name": "coffee_mug011",
+      "distance": 0.0,
+      "materials": [
+        "mtl_coffeemug"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 128,
+    "localBounds": [
+      [
+        -3.4025330543518066,
+        -1.9656389951705933,
+        -1.9702258110046387
+      ],
+      [
+        1.9644930362701416,
+        1.9656389951705933,
+        1.9422531127929688
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "perfume_box02_group": {
+    "lod": {
+      "name": "perfume_box02_group_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_duty_free_props_cardboard"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 540,
+    "localBounds": [
+      [
+        0.172652006149292,
+        -7.4866228103637695,
+        -1.9999999949504854e-06
+      ],
+      [
+        9.222770690917969,
+        6.8610920906066895,
+        15.006065368652344
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "perfume_box01_group": {
+    "lod": {
+      "name": "perfume_box01_group_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_duty_free_props_cardboard"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 540,
+    "localBounds": [
+      [
+        0.1163259968161583,
+        -7.471041202545166,
+        -1.9999999949504854e-06
+      ],
+      [
+        10.732253074645996,
+        7.456532001495361,
+        13.904492378234863
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "makeup_assorted02": {
+    "lod": {
+      "name": "makeup_assorted02_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_duty_free_props_cardboard"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1228,
+    "localBounds": [
+      [
+        0.1421860009431839,
+        -37.26972198486328,
+        -1.9999999949504854e-06
+      ],
+      [
+        11.216691970825195,
+        33.58395004272461,
+        18.055654525756836
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "makeup_assorted03": {
+    "lod": {
+      "name": "makeup_assorted03_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_duty_free_props_cardboard"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1144,
+    "localBounds": [
+      [
+        0.05078500136733055,
+        -39.849876403808594,
+        -1.9999999949504854e-06
+      ],
+      [
+        10.219534873962402,
+        37.598045349121094,
+        15.213438987731934
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "makeup_assorted01": {
+    "lod": {
+      "name": "makeup_assorted01_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_duty_free_props_cardboard",
+        "mtl_duty_free_props_plastic"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 364,
+    "localBounds": [
+      [
+        -0.7477909922599792,
+        -5.390507221221924,
+        -1.9999999949504854e-06
+      ],
+      [
+        5.260382175445557,
+        5.785375118255615,
+        8.645882606506348
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "makeup_box01_group": {
+    "lod": {
+      "name": "makeup_box01_group_LOD01",
+      "distance": 2000.0,
+      "materials": [
+        "mtl_duty_free_props_cardboard"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 432,
+    "localBounds": [
+      [
+        -0.025807999074459076,
+        -5.460558891296387,
+        -1.9999999949504854e-06
+      ],
+      [
+        5.528098106384277,
+        4.807139873504639,
+        6.004354000091553
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "makeup02_group": {
+    "lod": {
+      "name": "makeup02_group_LOD01",
+      "distance": 1500.0,
+      "materials": [
+        "mtl_duty_free_props_plastic"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 616,
+    "localBounds": [
+      [
+        -2.387147903442383,
+        -0.061980001628398895,
+        0.0
+      ],
+      [
+        2.9136641025543213,
+        4.989071846008301,
+        6.382715225219727
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "makeup03_group": {
+    "lod": {
+      "name": "makeup03_group_LOD01",
+      "distance": 1500.0,
+      "materials": [
+        "mtl_duty_free_props_plastic"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1836,
+    "localBounds": [
+      [
+        0.062376998364925385,
+        -5.195013999938965,
+        0.0
+      ],
+      [
+        8.802868843078613,
+        5.38873815536499,
+        4.793713092803955
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "makeup04_group": {
+    "lod": {
+      "name": "makeup04_group_LOD01",
+      "distance": 1500.0,
+      "materials": [
+        "mtl_duty_free_props_plastic"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 360,
+    "localBounds": [
+      [
+        -0.4917289912700653,
+        -4.057228088378906,
+        0.00634300010278821
+      ],
+      [
+        8.363109588623047,
+        3.7372400760650635,
+        8.645882606506348
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_emergencylightcase": {
+    "lod": {
+      "name": "emergencylightcase01_lod01",
+      "distance": 0.0,
+      "materials": [
+        "mtl_emergencylight",
+        "mtl_emergencylightopaque"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 154,
+    "localBounds": [
+      [
+        -3.9982481002807617,
+        -4.0,
+        -0.0019199997186660767
+      ],
+      [
+        4.001751899719238,
+        4.0,
+        9.474340438842773
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_railing_single_short01": {
+    "lod": {
+      "name": "machinery_railing_single_short01_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "mtl_machinery_railing01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 212,
+    "localBounds": [
+      [
+        0.0,
+        -1.712939977645874,
+        -9.999999974752427e-07
+      ],
+      [
+        56.37751770019531,
+        1.7129310369491577,
+        37.79743194580078
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ch_bunker_support_spring": {
+    "lod": {
+      "name": "ch_bunker_support_spring1",
+      "distance": 0.0,
+      "materials": [
+        "mtl_bunker_doorway_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 512,
+    "localBounds": [
+      [
+        -21.323083877563477,
+        -20.788471221923828,
+        0.05852000042796135
+      ],
+      [
+        21.32308578491211,
+        20.788469314575195,
+        35.09440612792969
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_jetway_brace": {
+    "lod": {
+      "name": "machinery_jetway_brace_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_machinery_jetway_brace"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 372,
+    "localBounds": [
+      [
+        -7.281377792358398,
+        -7.999999979801942e-06,
+        -0.5503590106964111
+      ],
+      [
+        0.0,
+        128.0,
+        129.44964599609375
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "prop_telephone_box": {
+    "lod": {
+      "name": "prop_telephone_box_LOD01",
+      "distance": 4000.0,
+      "materials": [
+        "mtl_telephone_box"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 232,
+    "localBounds": [
+      [
+        -4.9571709632873535,
+        -4.9571709632873535,
+        9.999999974752427e-07
+      ],
+      [
+        4.9571709632873535,
+        4.9571709632873535,
+        45.23405838012695
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_payphone_russian": {
+    "lod": {
+      "name": "com_payphone_russian_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_phonebooth_russian"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 318,
+    "localBounds": [
+      [
+        -0.001563000027090311,
+        -5.598992824554443,
+        -4.095603942871094
+      ],
+      [
+        7.4557881355285645,
+        4.368023872375488,
+        20.351306915283203
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_generator": {
+    "lod": {
+      "name": "machinery_generator_LOD01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_machinery_generator",
+        "mtl_machinery_generator"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 2111,
+    "localBounds": [
+      [
+        -9.993266105651855,
+        -14.918805122375488,
+        0.0007479999912902713
+      ],
+      [
+        9.993265151977539,
+        14.918805122375488,
+        20.553634643554688
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_cart": {
+    "lod": {
+      "name": "machinery_cart_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_machinery_cart"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1508,
+    "localBounds": [
+      [
+        -13.661520957946777,
+        -29.30710220336914,
+        -0.00520200002938509
+      ],
+      [
+        13.661520957946777,
+        27.0557918548584,
+        41.75381851196289
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_hose01": {
+    "lod": {
+      "name": "machinery_hose01_lod01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_machinery_hose01",
+        "mtl_machinery_hose01_rubber"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1888,
+    "localBounds": [
+      [
+        0.0,
+        -11.898356437683105,
+        3.155895948410034
+      ],
+      [
+        13.146742820739746,
+        13.299455642700195,
+        51.5136604309082
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_hose02": {
+    "lod": {
+      "name": "machinery_hose02_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "mtl_machinery_hose02",
+        "mtl_machinery_hose02_rubber"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1888,
+    "localBounds": [
+      [
+        0.0,
+        -11.898356437683105,
+        3.155895948410034
+      ],
+      [
+        13.146742820739746,
+        13.299455642700195,
+        51.5136604309082
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_welder_1": {
+    "lod": {
+      "name": "machinery_welder_1_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_machinery_welder"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 358,
+    "localBounds": [
+      [
+        -7.5,
+        -13.85257625579834,
+        0.005882000084966421
+      ],
+      [
+        7.5,
+        11.890522956848145,
+        17.605735778808594
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_welder_hose": {
+    "lod": {
+      "name": "machinery_welder_hose_LOD01",
+      "distance": 250.0,
+      "materials": [
+        "mtl_machinery_welder"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 852,
+    "localBounds": [
+      [
+        -17.913436889648438,
+        -6.230276107788086,
+        -0.0715629979968071
+      ],
+      [
+        17.91948699951172,
+        6.316528797149658,
+        3.274561882019043
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "newspaper_folded": {
+    "lod": {
+      "name": "newspaper_folded_LOD01",
+      "distance": 1500.0,
+      "materials": [
+        "mtl_newspaper_folded"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 28,
+    "localBounds": [
+      [
+        -3.6100659370422363,
+        -5.051544189453125,
+        -0.6691740155220032
+      ],
+      [
+        3.443916082382202,
+        5.213720798492432,
+        0.5120180249214172
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "furniture_lawn_chair_2_fold": {
+    "lod": {
+      "name": "furniture_lawn_chair_2_fold_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_furniture_lawn_chair_2_metal",
+        "mtl_furniture_lawn_chair_2_cloth"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 396,
+    "localBounds": [
+      [
+        -3.6967430114746094,
+        -12.812631607055664,
+        0.0
+      ],
+      [
+        2.631783962249756,
+        12.825824737548828,
+        38.39799880981445
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "cs_handrail_64_double_yel": {
+    "lod": {
+      "name": "cs_handrail_64_double_yel_LOD01",
+      "distance": 750.0,
+      "materials": [
+        "mtl_hand_rail_yel"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 80,
+    "localBounds": [
+      [
+        -1.5878520011901855,
+        -31.999996185302734,
+        -7.999999979801942e-06
+      ],
+      [
+        1.5730819702148438,
+        32.000003814697266,
+        36.041038513183594
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "cs_handrail_128_double_yel": {
+    "lod": {
+      "name": "cs_handrail_128_double_yel_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_hand_rail_yel"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 108,
+    "localBounds": [
+      [
+        -1.5811309814453125,
+        -64.0,
+        -7.999999979801942e-06
+      ],
+      [
+        1.5811350345611572,
+        64.0,
+        36.041038513183594
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "cs_handrail_64_end_yel": {
+    "lod": {
+      "name": "cs_handrail_64_end_yel_LOD01",
+      "distance": 1500.0,
+      "materials": [
+        "mtl_hand_rail_yel"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 118,
+    "localBounds": [
+      [
+        -1.5804669857025146,
+        -24.00615692138672,
+        0.0
+      ],
+      [
+        1.5804669857025146,
+        24.00615692138672,
+        35.897708892822266
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_propane_tank02_small": {
+    "lod": {
+      "name": "com_propane_tank02_small_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_propane_tank02",
+        "mtl_propane_tank02",
+        "mtl_propane_tank02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1724,
+    "localBounds": [
+      [
+        -101.61648559570312,
+        -35.69675064086914,
+        -65.69020080566406
+      ],
+      [
+        103.09923553466797,
+        46.87457275390625,
+        38.748382568359375
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_credit_card_touchpad": {
+    "lod": {
+      "name": "ma_credit_card_touchpad_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_touchscreen_register",
+        "mtl_touchscreen_screen"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 222,
+    "localBounds": [
+      [
+        -4.376836776733398,
+        -7.337614059448242,
+        0.0
+      ],
+      [
+        5.054516792297363,
+        0.7801349759101868,
+        1.4603530168533325
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_touchscreen_register": {
+    "lod": {
+      "name": "ma_touchscreen_register_LOD01",
+      "distance": 250.0,
+      "materials": [
+        "mtl_touchscreen_screen",
+        "mtl_touchscreen_register"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 316,
+    "localBounds": [
+      [
+        -9.42760181427002,
+        -7.745491027832031,
+        0.0
+      ],
+      [
+        9.42760181427002,
+        7.745491981506348,
+        19.45741081237793
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "food_snacks_sweetnsexy01": {
+    "lod": {
+      "name": "food_snacks_sweetnsexy01_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_food_snacks01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 24,
+    "localBounds": [
+      [
+        -5.043403148651123,
+        -3.7967050075531006,
+        0.0
+      ],
+      [
+        5.043403148651123,
+        3.796699047088623,
+        3.484847068786621
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_restaurant_roundtable": {
+    "lod": {
+      "name": "ma_restaurant_roundtable_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_table_cloth",
+        "mtl_table_cloth_bottom"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 690,
+    "localBounds": [
+      [
+        -35.32266616821289,
+        -35.322654724121094,
+        0.020163999870419502
+      ],
+      [
+        35.32266616821289,
+        35.32265853881836,
+        32.536834716796875
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_restaurant_table_side": {
+    "lod": {
+      "name": "ma_restaurant_table_side_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_table_cloth",
+        "mtl_table_cloth_bottom"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 678,
+    "localBounds": [
+      [
+        -16.980817794799805,
+        -20.989442825317383,
+        0.11789599806070328
+      ],
+      [
+        20.535627365112305,
+        21.345748901367188,
+        32.58271408081055
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_restaurant_boothchair": {
+    "lod": {
+      "name": "ma_restaurant_boothchair_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_chair_restaurant"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 264,
+    "localBounds": [
+      [
+        -29.252803802490234,
+        -25.240800857543945,
+        0.0
+      ],
+      [
+        29.252805709838867,
+        0.0021989999804645777,
+        42.283451080322266
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ma_restaurant_chair": {
+    "lod": {
+      "name": "ma_restaurant_chair_LOD01",
+      "distance": 3200.0,
+      "materials": [
+        "mtl_chair_restaurant"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 116,
+    "localBounds": [
+      [
+        -11.993033409118652,
+        -12.61901569366455,
+        0.0
+      ],
+      [
+        11.993035316467285,
+        12.62398910522461,
+        42.283451080322266
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "cs_vodkabottle01": {
+    "lod": {
+      "name": "vodkabottle011",
+      "distance": 0.0,
+      "materials": [
+        "mtl_coffeemug_vodkabottle",
+        "mtl_coffeemug_vodkabottle_inside"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 328,
+    "localBounds": [
+      [
+        -1.96213698387146,
+        -1.96213698387146,
+        -4.842978000640869
+      ],
+      [
+        1.96213698387146,
+        1.96213698387146,
+        7.154783725738525
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "cargo_cage_64x96x48": {
+    "lod": {
+      "name": "cargo_cage_64x96x48_LOD01",
+      "distance": 1000000.0,
+      "materials": [
+        "me_cargocontainergreen_roof",
+        "me_trim_metal_conduit",
+        "me_fence_chainlink",
+        "me_cargocontainergreen_trimwide"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 442,
+    "localBounds": [
+      [
+        -32.0,
+        -48.000003814697266,
+        0.0
+      ],
+      [
+        32.0,
+        48.000003814697266,
+        49.000003814697266
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "vehicle_cart_baggage_airport_small": {
+    "lod": {
+      "name": "vehicle_cart_baggage_airport_small_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "mtl_cart_baggage_airport"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1044,
+    "localBounds": [
+      [
+        -31.000001907348633,
+        -2.0000009536743164,
+        1.9999999949504854e-06
+      ],
+      [
+        31.000001907348633,
+        108.0,
+        46.22478485107422
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "vehicle_mack_truck_short": {
+    "lod": {
+      "name": "vehicle_mack_truck_short_LOD01",
+      "distance": 1300.0,
+      "materials": [
+        "lambert1",
+        "mtl_truck_trailer",
+        "mtl_truck_cab",
+        "mtl_truck_cab",
+        "mtl_mack_truck_glass_inside",
+        "mtl_mack_truck_glass_outside"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 7328,
+    "localBounds": [
+      [
+        -189.06350708007812,
+        -50.15735626220703,
+        0.2757810056209564
+      ],
+      [
+        149.1964569091797,
+        54.137474060058594,
+        134.58885192871094
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "sign_bookstore": {
+    "lod": {
+      "name": "sign_bookstore_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_sign_bookstore"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1248,
+    "localBounds": [
+      [
+        -2.000005006790161,
+        -78.74016571044922,
+        0.051736000925302505
+      ],
+      [
+        2.0000009536743164,
+        78.74016571044922,
+        24.718202590942383
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_sign_phone": {
+    "lod": {
+      "name": "usa_sign_phone_LOD01",
+      "distance": 6000.0,
+      "materials": [
+        "mtl_sign01",
+        "mtl_sign02",
+        "ma_sign_traffic01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 76,
+    "localBounds": [
+      [
+        -13.37750244140625,
+        -0.7756059765815735,
+        0.0
+      ],
+      [
+        13.377685546875,
+        1.9999999949504854e-06,
+        26.754867553710938
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ch_bunker_wires_02": {
+    "lod": {
+      "name": "ch_bunker_wires_021",
+      "distance": 1500.0,
+      "materials": [
+        "mtl_bunker_wires"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1468,
+    "localBounds": [
+      [
+        -5.497412204742432,
+        -35.12791442871094,
+        -8.31783390045166
+      ],
+      [
+        11.485074043273926,
+        38.58808517456055,
+        36.489891052246094
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "trash_bottle_tea": {
+    "lod": {
+      "name": "trash_bottle_tea_LOD01",
+      "distance": 250.0,
+      "materials": [
+        "mtl_trash_bottles_glass_outside",
+        "mtl_trash_bottles_cap",
+        "mtl_trash_bottles_plastic_inside",
+        "shadowcaster"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 454,
+    "localBounds": [
+      [
+        -1.5373109579086304,
+        -1.5364149808883667,
+        0.0
+      ],
+      [
+        1.5365560054779053,
+        1.537453055381775,
+        11.086398124694824
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "trash_bottle_water1": {
+    "lod": {
+      "name": "trash_bottle_water1_LOD01",
+      "distance": 250.0,
+      "materials": [
+        "mtl_trash_bottles_plastic_outside",
+        "mtl_trash_bottles_cap",
+        "mtl_trash_bottles_plastic_inside",
+        "shadowcaster"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 456,
+    "localBounds": [
+      [
+        -2.0654900074005127,
+        -2.0654830932617188,
+        0.0
+      ],
+      [
+        2.065493106842041,
+        2.065498113632202,
+        15.47046947479248
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "trash_bottle_whisky": {
+    "lod": {
+      "name": "trash_bottle_whisky_LOD01",
+      "distance": 250.0,
+      "materials": [
+        "mtl_trash_bottles_glass_outside",
+        "mtl_trash_bottles_cap",
+        "mtl_trash_bottles_glass_inside",
+        "shadowcaster"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 456,
+    "localBounds": [
+      [
+        -1.2827939987182617,
+        -2.0247879028320312,
+        0.0
+      ],
+      [
+        1.282791018486023,
+        2.0247879028320312,
+        10.952485084533691
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "trash_bottle_wine": {
+    "lod": {
+      "name": "trash_bottle_wine_LOD01",
+      "distance": 250.0,
+      "materials": [
+        "mtl_trash_bottles_wine"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 156,
+    "localBounds": [
+      [
+        -2.0514841079711914,
+        -2.051476001739502,
+        0.0
+      ],
+      [
+        2.051481008529663,
+        2.051482915878296,
+        15.913796424865723
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "foliage_tree_oak_1": {
+    "lod": {
+      "name": "foliage_tree_oak_1_LOD01",
+      "distance": 1500.0,
+      "materials": [
+        "mtl_tree_oak_trunk",
+        "mtl_tree_oak_canopy",
+        "mtl_tree_shadow_caster"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1773,
+    "localBounds": [
+      [
+        -381.33404541015625,
+        -367.69580078125,
+        -12.620779037475586
+      ],
+      [
+        359.8643493652344,
+        381.049072265625,
+        669.8660278320312
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "russia_bookstore_book03": {
+    "lod": {
+      "name": "russia_bookstore_book03_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "russia_bookstore_books_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        7.999999979801942e-06,
+        -3.999969005584717,
+        0.0
+      ],
+      [
+        2.0,
+        4.000030994415283,
+        10.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "russia_bookstore_book07": {
+    "lod": {
+      "name": "russia_bookstore_book07_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "russia_bookstore_books_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        7.999999979801942e-06,
+        -3.9999849796295166,
+        0.0
+      ],
+      [
+        1.0,
+        4.000014781951904,
+        10.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "russia_bookstore_book10": {
+    "lod": {
+      "name": "russia_bookstore_book10_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "russia_bookstore_books_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        7.999999979801942e-06,
+        -2.999969005584717,
+        0.0
+      ],
+      [
+        1.0,
+        3.0,
+        8.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "russia_bookstore_book11": {
+    "lod": {
+      "name": "russia_bookstore_book11_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "russia_bookstore_books_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        7.999999979801942e-06,
+        -2.999969005584717,
+        0.0
+      ],
+      [
+        2.0,
+        3.000030994415283,
+        8.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book02": {
+    "lod": {
+      "name": "usa_bookstore_book02_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        7.999999979801942e-06,
+        -3.999969005584717,
+        0.0
+      ],
+      [
+        1.0,
+        4.000030994415283,
+        11.5
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book05": {
+    "lod": {
+      "name": "usa_bookstore_book05_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        7.999999979801942e-06,
+        -4.0,
+        0.0
+      ],
+      [
+        1.0,
+        4.000030994415283,
+        10.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book06": {
+    "lod": {
+      "name": "usa_bookstore_book06_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        7.999999979801942e-06,
+        -4.999985218048096,
+        0.0
+      ],
+      [
+        2.0,
+        5.000014781951904,
+        12.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book09": {
+    "lod": {
+      "name": "usa_bookstore_book09_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        7.999999979801942e-06,
+        -3.999969005584717,
+        0.0
+      ],
+      [
+        1.5000040531158447,
+        4.000030994415283,
+        10.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book13": {
+    "lod": {
+      "name": "usa_bookstore_book13_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        7.999999979801942e-06,
+        -3.999969005584717,
+        0.0
+      ],
+      [
+        1.0,
+        5.000030994415283,
+        11.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "food_snacks_gumbox01": {
+    "lod": {
+      "name": "food_snacks_gumbox01_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_food_snacks01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -3.4918060302734375,
+        -2.6459670066833496,
+        0.0
+      ],
+      [
+        3.4918060302734375,
+        2.6459670066833496,
+        2.68823504447937
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "food_snacks_krustbar01": {
+    "lod": {
+      "name": "food_snacks_krustbar01_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_food_snacks01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        -1.6811339855194092,
+        -3.71329402923584,
+        0.0
+      ],
+      [
+        1.6811339855194092,
+        3.71329402923584,
+        0.932200014591217
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "food_snacks_peanuts01": {
+    "lod": {
+      "name": "food_snacks_peanuts01_LOD01",
+      "distance": 1200.0,
+      "materials": [
+        "mtl_food_snacks01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 16,
+    "localBounds": [
+      [
+        -0.5310249924659729,
+        -1.87391996383667,
+        0.0
+      ],
+      [
+        1.403216004371643,
+        1.87391996383667,
+        10.244682312011719
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "russia_bookstore_book12": {
+    "lod": {
+      "name": "russia_bookstore_book12_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "russia_bookstore_books_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        0.0,
+        -2.999969005584717,
+        0.0
+      ],
+      [
+        1.0,
+        3.000030994415283,
+        8.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "usa_bookstore_book08": {
+    "lod": {
+      "name": "usa_bookstore_book08_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "usa_bookstore_books_01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 12,
+    "localBounds": [
+      [
+        7.999999979801942e-06,
+        -2.999969005584717,
+        0.0
+      ],
+      [
+        1.0,
+        3.000030994415283,
+        8.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_stairs_moveable_large": {
+    "lod": {
+      "name": "machinery_stairs_moveable_large_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "mtl_stairs_moveable_large"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1388,
+    "localBounds": [
+      [
+        -67.0374984741211,
+        -104.00035095214844,
+        -0.7348799705505371
+      ],
+      [
+        67.0374984741211,
+        104.00035095214844,
+        172.6919403076172
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "accessories_windsock": {
+    "lod": {
+      "name": "accessories_windsock_LOD00",
+      "distance": 500.0,
+      "materials": [
+        "mtl_accessories_windsock"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 214,
+    "localBounds": [
+      [
+        -7.865893840789795,
+        -11.848682403564453,
+        -7.845624923706055
+      ],
+      [
+        7.866182804107666,
+        59.92388916015625,
+        7.88645076751709
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "evacslide": {
+    "lod": {
+      "name": "evacslide_LOD01",
+      "distance": 800.0,
+      "materials": [
+        "mtl_evacslide_silver",
+        "mtl_evacslide_tape",
+        "mtl_evacslide_roundtape",
+        "mtl_evacslide_ramp",
+        "mtl_evacslide_sidearm",
+        "mtl_evacslide_belt",
+        "mtl_evacslide_text",
+        "mtl_evacslide_beltwhite"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 2068,
+    "localBounds": [
+      [
+        -63.506805419921875,
+        -86.4659652709961,
+        -0.1753779947757721
+      ],
+      [
+        68.71056365966797,
+        159.0482940673828,
+        163.83981323242188
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "liquor_box_group_01": {
+    "lod": {
+      "name": "liquor_box_group_01_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_dutyfree_liquorboxes_01",
+        "mtl_dutyfree_liquorboxes_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 648,
+    "localBounds": [
+      [
+        -12.25,
+        -64.4360122680664,
+        0.00291600008495152
+      ],
+      [
+        12.25,
+        64.4360122680664,
+        18.36632537841797
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "liquor_box_group_02": {
+    "lod": {
+      "name": "liquor_box_group_02_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_dutyfree_liquorboxes_01",
+        "mtl_dutyfree_liquorboxes_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 648,
+    "localBounds": [
+      [
+        -12.249984741210938,
+        -64.4360122680664,
+        0.00291600008495152
+      ],
+      [
+        12.250015258789062,
+        64.9232177734375,
+        18.36632537841797
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "liquor_box_group_03": {
+    "lod": {
+      "name": "liquor_box_group_03_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_dutyfree_liquorboxes_01",
+        "mtl_dutyfree_liquorboxes_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 720,
+    "localBounds": [
+      [
+        -12.25,
+        -64.4360122680664,
+        0.00291600008495152
+      ],
+      [
+        12.25,
+        64.4360122680664,
+        18.36632537841797
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "liquor_box_group_04": {
+    "lod": {
+      "name": "liquor_box_group_04_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_dutyfree_liquorboxes_01",
+        "mtl_dutyfree_liquorboxes_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 720,
+    "localBounds": [
+      [
+        -12.25,
+        -64.4360122680664,
+        0.00291600008495152
+      ],
+      [
+        12.25,
+        64.4360122680664,
+        18.36632537841797
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "liquor_box_group_05": {
+    "lod": {
+      "name": "liquor_box_group_05_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_dutyfree_liquorboxes_01",
+        "mtl_dutyfree_liquorboxes_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 720,
+    "localBounds": [
+      [
+        -12.25,
+        -64.4360122680664,
+        0.00291600008495152
+      ],
+      [
+        12.25,
+        63.923213958740234,
+        18.36632537841797
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "liquor_box_group_06": {
+    "lod": {
+      "name": "liquor_box_group_06_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_dutyfree_liquorboxes_01",
+        "mtl_dutyfree_liquorboxes_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 324,
+    "localBounds": [
+      [
+        -38.436012268066406,
+        -12.25,
+        0.00291600008495152
+      ],
+      [
+        30.436012268066406,
+        8.25,
+        18.36632537841797
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "liquor_box_group_08": {
+    "lod": {
+      "name": "liquor_box_group_08_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_dutyfree_liquorboxes_01",
+        "mtl_dutyfree_liquorboxes_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 324,
+    "localBounds": [
+      [
+        -38.436012268066406,
+        -12.25,
+        0.0031270000617951155
+      ],
+      [
+        30.923215866088867,
+        8.25,
+        18.36632537841797
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "liquor_box_group_09": {
+    "lod": {
+      "name": "liquor_box_group_09_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_dutyfree_liquorboxes_01",
+        "mtl_dutyfree_liquorboxes_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 324,
+    "localBounds": [
+      [
+        -38.43600845336914,
+        -10.25,
+        0.00291600008495152
+      ],
+      [
+        30.43601417541504,
+        10.25,
+        18.36632537841797
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "liquor_box_group_10": {
+    "lod": {
+      "name": "liquor_box_group_10_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_dutyfree_liquorboxes_01",
+        "mtl_dutyfree_liquorboxes_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 324,
+    "localBounds": [
+      [
+        -38.436012268066406,
+        -12.25,
+        0.00291600008495152
+      ],
+      [
+        30.436012268066406,
+        8.25,
+        18.36632537841797
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "liquor_box_group_11": {
+    "lod": {
+      "name": "liquor_box_group_11_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "mtl_dutyfree_liquorboxes_01",
+        "mtl_dutyfree_liquorboxes_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 324,
+    "localBounds": [
+      [
+        -38.436012268066406,
+        -12.25,
+        0.003014999907463789
+      ],
+      [
+        30.436016082763672,
+        8.25,
+        18.36632537841797
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "icbm_staircasesign": {
+    "lod": {
+      "name": "icbm_facilitysign0",
+      "distance": 0.0,
+      "materials": [
+        "mtl_icbm_facilitysign"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 437,
+    "localBounds": [
+      [
+        -62.19057846069336,
+        -11.602746963500977,
+        -63.106536865234375
+      ],
+      [
+        61.987335205078125,
+        4.303380012512207,
+        65.15190124511719
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "vehicle_taxi_wheel_lf": {
+    "lod": {
+      "name": "vehicle_taxi_wheel_lf_LOD01",
+      "distance": 800.0,
+      "materials": [
+        "mtl_taxi_yellow_rubber"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 124,
+    "localBounds": [
+      [
+        -14.944847106933594,
+        -5.549140930175781,
+        -14.944846153259277
+      ],
+      [
+        14.944847106933594,
+        5.549145221710205,
+        14.94485092163086
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "carwash_gear": {
+    "lod": {
+      "name": "carwash_gear_LOD01",
+      "distance": 1500.0,
+      "materials": [
+        "ch_metal_rusty_02"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 156,
+    "localBounds": [
+      [
+        -4.0,
+        -0.5000039935112,
+        -4.000865936279297
+      ],
+      [
+        4.000865936279297,
+        0.5000039935112,
+        4.000865936279297
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_posterframe_internationalsamurai": {
+    "lod": {
+      "name": "com_posterframe_internationalsamurai_LOD01",
+      "distance": 8000.0,
+      "materials": [
+        "mtl_poster_internationalsamurai",
+        "mtl_movieposterframe"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 58,
+    "localBounds": [
+      [
+        -16.0,
+        -3.0,
+        -22.0
+      ],
+      [
+        16.0,
+        0.0,
+        22.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_posterframe_players": {
+    "lod": {
+      "name": "com_posterframe_players_LOD01",
+      "distance": 8000.0,
+      "materials": [
+        "mtl_poster_players",
+        "mtl_movieposterframe"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 58,
+    "localBounds": [
+      [
+        -16.0,
+        -3.0,
+        -22.0
+      ],
+      [
+        16.0,
+        0.0,
+        22.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_posterframe_vengeance": {
+    "lod": {
+      "name": "com_posterframe_vengeance_LOD01",
+      "distance": 8000.0,
+      "materials": [
+        "mtl_poster_vengeance",
+        "mtl_movieposterframe"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 58,
+    "localBounds": [
+      [
+        -16.0,
+        -3.0,
+        -22.0
+      ],
+      [
+        16.0,
+        0.0,
+        22.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_scaffolding_electricbox01": {
+    "lod": {
+      "name": "machinery_scaffolding_electricbox01_LOD01",
+      "distance": 7000.0,
+      "materials": [
+        "mtl_machinery_scaffolding01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 22,
+    "localBounds": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        4.507340908050537,
+        11.704611778259277,
+        15.638981819152832
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "com_standpipe": {
+    "lod": {
+      "name": "com_standpipe_lod01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_standpipe01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 86,
+    "localBounds": [
+      [
+        -2.928162097930908,
+        -9.64438247680664,
+        -2.744191884994507
+      ],
+      [
+        2.7481191158294678,
+        0.0018769999733194709,
+        2.766990900039673
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "vehicle_cart_baggage_airport_curtain": {
+    "lod": {
+      "name": "vehicle_cart_baggage_airport_curtain_LOD01",
+      "distance": 1000000.0,
+      "materials": [
+        "mtl_cart_baggage_airport_curtain"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 64,
+    "localBounds": [
+      [
+        -4.571671009063721,
+        -64.0,
+        26.0
+      ],
+      [
+        5.415192127227783,
+        64.0,
+        84.00000762939453
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "vehicle_cart_baggage_airport_big": {
+    "lod": {
+      "name": "vehicle_cart_baggage_airport_big_LOD01",
+      "distance": 400.0,
+      "materials": [
+        "mtl_cart_baggage_airport"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 880,
+    "localBounds": [
+      [
+        -37.00000762939453,
+        -2.0000009536743164,
+        1.9999999949504854e-06
+      ],
+      [
+        37.0,
+        162.0,
+        86.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "727_wing_flaps_long_right_new": {
+    "lod": {
+      "name": "727_wing_flaps_long_right_new_LOD01",
+      "distance": 600.0,
+      "materials": [
+        "mtl_flap_large"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 307,
+    "localBounds": [
+      [
+        -150.36924743652344,
+        -123.75003051757812,
+        -30.042966842651367
+      ],
+      [
+        148.54620361328125,
+        123.75003051757812,
+        23.157657623291016
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "727_wing_flaps_short_right_new": {
+    "lod": {
+      "name": "727_wing_flaps_short_right_new_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "mtl_flap_small"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 315,
+    "localBounds": [
+      [
+        -157.06802368164062,
+        -75.00001525878906,
+        -29.774398803710938
+      ],
+      [
+        147.5,
+        75.0000228881836,
+        20.836669921875
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_turbine_engine_front": {
+    "lod": {
+      "name": "machinery_turbine_engine_front_LOD01",
+      "distance": 1000000.0,
+      "materials": [
+        "mtl_machinery_turbine_engine_exposed"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 60,
+    "localBounds": [
+      [
+        -48.98551940917969,
+        -77.5857162475586,
+        -8.239468574523926
+      ],
+      [
+        48.985538482666016,
+        -62.170650482177734,
+        89.73160552978516
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "727_wing_flaps_long_left_new": {
+    "lod": {
+      "name": "727_wing_flaps_long_left_new_LOD01",
+      "distance": 600.0,
+      "materials": [
+        "mtl_flap_large"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 307,
+    "localBounds": [
+      [
+        -150.46644592285156,
+        -123.75004577636719,
+        -30.33260726928711
+      ],
+      [
+        148.44900512695312,
+        123.75003051757812,
+        22.868017196655273
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "727_wing_flaps_short_left_new": {
+    "lod": {
+      "name": "727_wing_flaps_short_left_new_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "mtl_flap_small"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 315,
+    "localBounds": [
+      [
+        -157.030029296875,
+        -74.96600341796875,
+        -29.529808044433594
+      ],
+      [
+        147.53799438476562,
+        75.03402709960938,
+        21.081260681152344
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_turbine_engine_exposed": {
+    "lod": {
+      "name": "machinery_turbine_engine_exposed_LOD01",
+      "distance": 1000.0,
+      "materials": [
+        "mtl_machinery_turbine_engine_exposed"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1912,
+    "localBounds": [
+      [
+        -44.957801818847656,
+        -98.18756103515625,
+        -5.219631195068359
+      ],
+      [
+        44.95779800415039,
+        98.18755340576172,
+        85.70386505126953
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "727_cross_section01": {
+    "lod": {
+      "name": "727_cross_section01_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "mtl_727_cross_section01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 272,
+    "localBounds": [
+      [
+        -2.0,
+        -101.0,
+        0.0
+      ],
+      [
+        2.0,
+        101.0,
+        230.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "727_lower_frame": {
+    "lod": {
+      "name": "727_lower_frame_LOD01",
+      "distance": 4000.0,
+      "materials": [
+        "ap_chrome_trim"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 180,
+    "localBounds": [
+      [
+        -1.0,
+        -94.0,
+        0.0
+      ],
+      [
+        1.0,
+        94.0,
+        78.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "727_lower_frame2": {
+    "lod": {
+      "name": "727_lower_frame2_LOD01",
+      "distance": 4000.0,
+      "materials": [
+        "ap_chrome_trim"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 40,
+    "localBounds": [
+      [
+        -1.0,
+        -64.0,
+        0.0
+      ],
+      [
+        1.0,
+        64.0,
+        76.0
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ch_bunker_wires_01": {
+    "lod": {
+      "name": "ch_bunker_wires_011",
+      "distance": 1000.0,
+      "materials": [
+        "mtl_bunker_wires"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 896,
+    "localBounds": [
+      [
+        -13.0,
+        0.24999800324440002,
+        -19.50179100036621
+      ],
+      [
+        9.001897811889648,
+        71.2259750366211,
+        -11.110177040100098
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ch_bunker_wires_03": {
+    "lod": {
+      "name": "ch_bunker_wires_031",
+      "distance": 0.0,
+      "materials": [
+        "mtl_bunker_wires"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1258,
+    "localBounds": [
+      [
+        -16.982492446899414,
+        -4.211884021759033,
+        0.9979249835014343
+      ],
+      [
+        -1.780148983001709,
+        70.17715454101562,
+        17.865093231201172
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ch_bunker_wires_04": {
+    "lod": {
+      "name": "ch_bunker_wires_041",
+      "distance": 1000.0,
+      "materials": [
+        "mtl_bunker_wires"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1342,
+    "localBounds": [
+      [
+        -10.074629783630371,
+        -66.185302734375,
+        6.5
+      ],
+      [
+        7.990623950958252,
+        12.740330696105957,
+        24.33191680908203
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "icbm_electricconnector": {
+    "lod": {
+      "name": "icbm_electricconnector 1",
+      "distance": 0.0,
+      "materials": [
+        "mtl_icbm_connector"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 316,
+    "localBounds": [
+      [
+        -3.253732681274414,
+        -11.645039558410645,
+        -3.257061004638672
+      ],
+      [
+        3.251734733581543,
+        0.01447799988090992,
+        3.2484021186828613
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "727_overhead_door": {
+    "lod": {
+      "name": "727_overhead_door_LOD01",
+      "distance": 3000.0,
+      "materials": [
+        "ap_overhead_compartment",
+        "me_dec_wall_stain_1"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 72,
+    "localBounds": [
+      [
+        -30.171146392822266,
+        -7.051293849945068,
+        -19.536907196044922
+      ],
+      [
+        30.20244789123535,
+        0.5737339854240417,
+        -0.4035930037498474
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ap_air_mask": {
+    "lod": {
+      "name": "ap_air_mask_lod01",
+      "distance": 0.0,
+      "materials": [
+        "mtl_air_mask"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 186,
+    "localBounds": [
+      [
+        -4.488563060760498,
+        -4.112311840057373,
+        -28.875
+      ],
+      [
+        4.480173110961914,
+        4.11230993270874,
+        28.875
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "727_coach_seat01": {
+    "lod": {
+      "name": "727_coach_seat01_LOD01",
+      "distance": 200.0,
+      "materials": [
+        "mtl_727_coach_seat01",
+        "mtl_727_coach_seat01_fabric"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 1846,
+    "localBounds": [
+      [
+        -19.83139991760254,
+        -11.98974323272705,
+        0.0
+      ],
+      [
+        10.82974624633789,
+        11.969264030456543,
+        51.16245651245117
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_727_landing_gear01_lt": {
+    "lod": {
+      "name": "machinery_727_landing_gear01_lt_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "mtl_727_landing_gear01",
+        "mtl_727_tire01",
+        "mtl_727_tire01_rubber"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 5394,
+    "localBounds": [
+      [
+        -64.3912124633789,
+        -94.63264465332031,
+        0.00393499992787838
+      ],
+      [
+        64.3912124633789,
+        43.32054138183594,
+        201.61898803710938
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_727_landing_gear01_rt": {
+    "lod": {
+      "name": "machinery_727_landing_gear01_rt_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "mtl_727_landing_gear01",
+        "mtl_727_tire01",
+        "mtl_727_tire01_rubber"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 5394,
+    "localBounds": [
+      [
+        -64.3912124633789,
+        -43.32054138183594,
+        0.00393499992787838
+      ],
+      [
+        64.3912124633789,
+        94.63264465332031,
+        201.61898803710938
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_727_landing_gear01_ft": {
+    "lod": {
+      "name": "machinery_727_landing_gear01_ft_LOD01",
+      "distance": 500.0,
+      "materials": [
+        "mtl_727_landing_gear01",
+        "mtl_727_tire01",
+        "mtl_727_tire01_rubber"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 2762,
+    "localBounds": [
+      [
+        -29.939966201782227,
+        -94.63267517089844,
+        0.00393499992787838
+      ],
+      [
+        60.76386642456055,
+        94.63262939453125,
+        201.6189727783203
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "ap_window_clean": {
+    "lod": {
+      "name": "ap_window_clean_LOD01",
+      "distance": 300.0,
+      "materials": [
+        "mtl_airplane_window_clean"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 468,
+    "localBounds": [
+      [
+        -11.5,
+        -7.041748046875,
+        -18.00006675720215
+      ],
+      [
+        11.5,
+        7.769412040710449,
+        22.999969482421875
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "cockpit_nodamage": {
+    "lod": {
+      "name": "cockpit_nodamage_LOD01",
+      "distance": 1000000.0,
+      "materials": [
+        "mtl_cockpit_nodamage"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 581,
+    "localBounds": [
+      [
+        15.606761932373047,
+        -51.152809143066406,
+        -0.01613299921154976
+      ],
+      [
+        48.69553756713867,
+        51.152809143066406,
+        52.73796844482422
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "machinery_turbine_fan": {
+    "lod": {
+      "name": "machinery_turbine_fan_LOD01",
+      "distance": 700.0,
+      "materials": [
+        "mtl_machinery_turbine_fan"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 304,
+    "localBounds": [
+      [
+        -49.34891128540039,
+        -11.0,
+        -49.34891128540039
+      ],
+      [
+        49.34891128540039,
+        6.083310127258301,
+        49.34891128540039
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "airliner_flying2": {
+    "lod": {
+      "name": "airliner_flying2_lod00",
+      "distance": 0.0,
+      "materials": [
+        "icbm_missilebody",
+        "metal_aluminum01",
+        "metal_aluminum01_painted",
+        "metal_aluminum01_painted_blue",
+        "ch_trim_stainlessteel_1",
+        "com_wall_red",
+        "com_black",
+        "metal_blue",
+        "metal_silver",
+        "ap_door_blue",
+        "ap_door_white",
+        "ap_windows_clean",
+        "glass_green"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 4184,
+    "localBounds": [
+      [
+        322.0,
+        -88.0,
+        101.95210266113281
+      ],
+      [
+        3070.0,
+        2758.0,
+        820.5
+      ]
+    ],
+    "xmodelpartsPresent": true
+  },
+  "airliner_flying_turbine": {
+    "lod": {
+      "name": "airliner_flying_turbine_lod00",
+      "distance": 0.0,
+      "materials": [
+        "metal_silver",
+        "icbm_missilebody",
+        "metal_aluminum01",
+        "metal_aluminum01_dirty",
+        "metal_aluminum01_painted",
+        "ch_trim_stainlessteel_1",
+        "com_birdshit01"
+      ]
+    },
+    "lodFallback": false,
+    "lodFailures": [],
+    "triangles": 7829,
+    "localBounds": [
+      [
+        696.0,
+        1155.8984375,
+        98.0156021118164
+      ],
+      [
+        2696.0,
+        1805.76171875,
+        285.1933898925781
+      ]
+    ],
+    "xmodelpartsPresent": true
+  }
+}

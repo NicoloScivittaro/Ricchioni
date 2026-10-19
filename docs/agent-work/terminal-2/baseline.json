@@ -1,0 +1,7 @@
+{
+  "shared/minigameMaps.ts": "f2d278d7e2d06bff0d1553e81e9f233370ddd8128a5bb3afb1e89764c9487d21",
+  "src/minigames/fps/FpsScene.ts": "ca7cce382d72a21eea81c5e7676b7b58e1e90b93f8672334f5295cd7a4ac6afd",
+  "src/minigames/fps/BabylonFpsGame.ts": "d862d3a2827d38206432610c243aaf4341a72b8e3d1e48c2676d991aac5869fc",
+  "src/controller/fpsClient.ts": "175967f4ee2e6e797682739520c4d5f3bc42fd5563c2276c95b72bf2ead62fdc",
+  "src/minigames/fps/NuketownBots.ts": "876db27bc527749ede409b163646b9eb64e26de24ff520fcac6407bdb4850fed"
+}

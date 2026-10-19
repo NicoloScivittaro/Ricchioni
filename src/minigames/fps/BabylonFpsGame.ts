@@ -265,7 +265,7 @@ export class BabylonFpsGame {
     // LUCI: le stesse del client telefono (fpsClient). buildFpsWorld non ne crea: senza queste, sulla TV mondo e
     // personaggi erano neri (bug di M6: lo split-screen non aveva luci, il telefono si').
     buildFpsLights(this.scene); // luci uniformi della Sparatoria (stesse su TV e telefono: fpsWorld)
-    this.ready=mapId==='nuketown'?import('../../controller/nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)):Promise.resolve(buildFpsWorld(this.scene));
+    this.ready=mapId==='terminal'?import('../../controller/terminalWorld').then(m=>m.buildTerminalWorld(this.scene)):mapId==='nuketown'?import('../../controller/nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)):Promise.resolve(buildFpsWorld(this.scene));
 
     const rects = splitScreenLayout(locals.length);
     this.fxLow = getQualityLevel() === 'low' || locals.length >= 4;
@@ -1089,7 +1089,7 @@ export class BabylonFpsGame {
       rig.body.rotation.z = rig.hitT > 0 ? Math.sin(rig.hitT * 45) * 0.14 : 0;
       // lampo bianco brevissimo sulla capsula colpita (si vede CHI e' stato colpito anche da lontano)
       const fl = rig.hitT > 0.14 ? 0.85 : 0;
-      const protectedSpawn=this.mapId==='nuketown'&&(snap.spawnProtection??0)>0&&snap.alive;
+      const protectedSpawn=(this.mapId==='nuketown'||this.mapId==='terminal')&&(snap.spawnProtection??0)>0&&snap.alive;
       rig.bodyMat.emissiveColor.set(fl,fl+(protectedSpawn?.15:0),fl+(protectedSpawn?.32:0));
       if (rig.flashT > 0) {
         rig.flashT -= dt;

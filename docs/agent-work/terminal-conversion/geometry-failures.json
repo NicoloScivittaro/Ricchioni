@@ -1,0 +1,8 @@
+[
+  {
+    "type": "geometry",
+    "source": "mp_mw2_terminal.map:entity0",
+    "line": 37654,
+    "reason": "empty convex brush at line 37654"
+  }
+]
