@@ -1,0 +1,18 @@
+ M dist/index.html
+ M shared/fpsMap.ts
+ M shared/minigameMaps.ts
+ M src/controller/fpsClient.ts
+ M src/controller/main.ts
+ M src/minigames/fps/BabylonFpsGame.ts
+ M src/minigames/fps/FpsScene.ts
+ M src/minigames/fps/fpsAbilities.ts
+?? docs/agent-work/nuketown/
+?? public/assets/fps/
+?? scripts/e2e/nuketown-photos.mjs
+?? scripts/e2e/nuketown.mjs
+?? scripts/nuketown-analyze.py
+?? scripts/nuketown-selftest.ts
+?? src/controller/nuketownWorld.ts
+?? src/minigames/fps/NuketownBots.ts
+?? src/minigames/fps/nuketownArena.ts
+?? src/minigames/fps/nuketownGeometry.json

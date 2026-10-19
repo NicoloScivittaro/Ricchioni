@@ -1605,7 +1605,8 @@ function renderFpsController(): void {
       canvasHost,
       playerId ?? '',
       (yaw, pitch) => sendInput({ kind: 'axis', controlId: 'look', x: yaw, y: pitch }),
-      (id) => state?.players.find((p) => p.id === id)?.characterId ?? null
+      (id) => state?.players.find((p) => p.id === id)?.characterId ?? null,
+      state?.currentMinigame?.mapId??'cantiere'
     );
     if (fpsPendingState) {
       fpsClient.setPaused(!!state?.paused);

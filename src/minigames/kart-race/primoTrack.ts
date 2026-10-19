@@ -5,6 +5,8 @@ import type {KartState} from './raceTypes';
 import type {MinigameContext} from '../types';
 import {KART_CONFIG} from './kartPhysics';
 import route from './primoRoute.json';
+import physical from './primoCollision.json';
+import {ImportedTrackCollision} from './importedTrackCollision';
 
 const angle=(v:number)=>Math.atan2(Math.sin(v),Math.cos(v));
 const clamp=(v:number,a:number,b:number)=>Math.max(a,Math.min(b,v));
@@ -13,6 +15,7 @@ export const PRIMO_SCALE=5;
 /** Closed lap surveyed from the original skid ribbon and the physical tyre/plastic
  * boundaries. The supplied textured meshes remain the entire visible circuit. */
 export class PrimoTrack extends TrackSpline {
+  readonly physical=new ImportedTrackCollision(physical);
   readonly checkpoints:number[];
   readonly boxes:ItemBoxPlacement[];
   constructor(){

@@ -1,0 +1,12 @@
+{
+  "track": "primo",
+  "laps": 3,
+  "time": 115.67500000003812,
+  "checkpoints": 12,
+  "checkpointEvents": 37,
+  "wallFrames": 0,
+  "badContacts": 0,
+  "maxProjection": 0.3968973810360694,
+  "formerInvisibleBoundaryOpened": true,
+  "physicalSegments": 6915
+}

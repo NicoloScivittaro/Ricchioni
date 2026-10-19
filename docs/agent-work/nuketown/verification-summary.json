@@ -1,0 +1,140 @@
+{
+  "sourceSha256": "5e01f54a947486076ef2a980ce5ee2c432ceab88be91886ef67a2d8d9746b489",
+  "byteIdentical": true,
+  "preserved": [
+    "shared/fpsWeapons.ts",
+    "shared/fpsAim.ts",
+    "src/controller/fpsWorld.ts",
+    "src/controller/fpsViewmodel.ts",
+    "src/controller/fpsAudio.ts",
+    "src/minigames/bots/MotionBots.ts",
+    "src/core/ScoreManager.ts",
+    "src/input/GamepadManager.ts"
+  ],
+  "finalRendering": {
+    "fps": 56.06823091619736,
+    "p95": 33.299999999995634,
+    "width": 1280,
+    "height": 720,
+    "scale": 1,
+    "views": 5,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "world": {
+      "sourceMeshes": 1374,
+      "importedPrimitives": 1374,
+      "batches": 102,
+      "triangles": 16488,
+      "scale": 0.025
+    },
+    "meshes": 438,
+    "shadows": true
+  },
+  "functionalMatch": {
+    "clock": 99.97993999999882,
+    "results": [
+      {
+        "playerId": "6a11c478-6a6a-452d-b24d-a2105b668d35",
+        "placement": 1,
+        "score": 10,
+        "stats": [
+          "10 kill \u00b7 9 morti",
+          "precisione 41%"
+        ]
+      },
+      {
+        "playerId": "d1970cf5-4cdd-40ac-8431-89a751a2611e",
+        "placement": 2,
+        "score": 9,
+        "stats": [
+          "9 kill \u00b7 7 morti",
+          "precisione 42%"
+        ]
+      },
+      {
+        "playerId": "b60f9ff1-a83c-4e2c-9db0-31c776419718",
+        "placement": 3,
+        "score": 8,
+        "stats": [
+          "8 kill \u00b7 8 morti",
+          "precisione 53%"
+        ]
+      },
+      {
+        "playerId": "1e9cb4ec-d8b3-4120-91aa-27a1c459b7ad",
+        "placement": 4,
+        "score": 7,
+        "stats": [
+          "7 kill \u00b7 8 morti",
+          "precisione 48%"
+        ]
+      },
+      {
+        "playerId": "873ad3b2-c01e-4fd6-b0bb-1ff13c28ea99",
+        "placement": 5,
+        "score": 6,
+        "stats": [
+          "6 kill \u00b7 8 morti",
+          "precisione 53%"
+        ]
+      }
+    ],
+    "players": [
+      {
+        "kills": 10,
+        "deaths": 9,
+        "shots": 148,
+        "hit": 61,
+        "x": -12.138946394353255,
+        "z": 9.266559698314154
+      },
+      {
+        "kills": 7,
+        "deaths": 8,
+        "shots": 126,
+        "hit": 61,
+        "x": 5.89135895931282,
+        "z": -18.431251720812494
+      },
+      {
+        "kills": 9,
+        "deaths": 7,
+        "shots": 86,
+        "hit": 36,
+        "x": -13.19840103149013,
+        "z": 22.12124094764536
+      },
+      {
+        "kills": 8,
+        "deaths": 8,
+        "shots": 68,
+        "hit": 36,
+        "x": -14.734742209884216,
+        "z": 10.88795166874493
+      },
+      {
+        "kills": 6,
+        "deaths": 8,
+        "shots": 97,
+        "hit": 51,
+        "x": -13.600000000000001,
+        "z": -3.9701046649850924
+      }
+    ],
+    "clear": true
+  },
+  "scope": "Nuketown arena; existing weapon models and balance preserved",
+  "build": "passed",
+  "screenshots": [
+    "general.png",
+    "central.png",
+    "combat.png",
+    "five-views.png"
+  ],
+  "typecheck": "passed",
+  "buildDuration": "3m 47s",
+  "targetedChecks": 15
+}

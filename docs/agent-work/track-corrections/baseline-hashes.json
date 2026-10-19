@@ -1,0 +1,15 @@
+{
+  "src\\minigames\\kart-race\\primoTrack.ts": "7fe90c6da5f18796a8218bee80cdb7a917ae60b9f85631e98023b7e51ac47161",
+  "src\\minigames\\kart-race\\primoWorld.ts": "9b4d6129dae9536b5bbc730c479f057f0208d2009dc4f17876fb78673958e9a4",
+  "src\\minigames\\kart-race\\primoRoute.json": "c7fc8ad16ed9f1c421f422de39bd071d4b771f8a69be0862a62f78a6d9606b0b",
+  "src\\minigames\\kart-race\\sydneyTrack.ts": "e904e1d8fa1994ed4563dc28139be5f264b553c05990c633464012b22bb9fe65",
+  "src\\minigames\\kart-race\\sydneyWorld.ts": "196cb03f3eb203f87ff85376e9bdcbe72c5243edfebe8c3f06cc3ba20b1f16d0",
+  "src\\minigames\\kart-race\\sydneyRoute.json": "971cbd166608fdf34cc0c07f0b675edace5ea2929759977abfebceb19dfef9b2",
+  "src\\minigames\\kart-race\\BabylonKartGame.ts": "fcd4bf8ba596a2f08dac5fe60631f3e7071af0e327c6132cbf73792182f7ab94",
+  "src\\minigames\\kart-race\\kartPhysics.ts": "17a82a97125a6af4ec3267f010e26c145b5b3c2a90b942f8abd920e7d194922c",
+  "src\\minigames\\kart-race\\race.ts": "c99d5ddd2268a8b3dc42895ccfb0f5a4815c8dfcaf96554070018c4c1f785d78",
+  "src\\minigames\\kart-race\\track.ts": "7a063eb8fe9039f269b2e4e6cd75175f3ae663419ba0c05b1dc94fb970b661ba",
+  "src\\minigames\\kart-race\\rainbowTrack.ts": "8d3218ac761daadf46bbd158fe60ff2dc4afac7677516879a88311269e383276",
+  "src\\minigames\\kart-race\\items.ts": "2c91d1a99e7fd299ad0e13ad4f12b96ea3cc6a47f5c21ac60808c30c6c8f1b10",
+  "src\\minigames\\kart-race\\abilities.ts": "829269f138c9099243835efba346ef531a063465fd3311917294eaea0418e7a6"
+}

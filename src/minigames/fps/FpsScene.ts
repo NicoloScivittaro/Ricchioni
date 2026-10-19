@@ -23,6 +23,8 @@ import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
 import { AB, stateLabel } from '../../../shared/abilityCatalog';
 import type { AbilityStatus } from '../../../shared/abilityCatalog';
 import { abilityHub } from '../../core/abilityHub';
+import type {NuketownArena} from './nuketownArena';
+import type {NuketownBots} from './NuketownBots';
 import { FpsAbilities, FPS_MAX_HP } from './fpsAbilities';
 import type { FpsAbilityFeedback } from './fpsAbilities';
 
@@ -83,6 +85,7 @@ interface FpsPlayer {
   initial: string;
   color: string;
   x: number;
+  y: number;
   z: number;
   yaw: number;
   pitch: number;
@@ -145,6 +148,12 @@ interface Blast {
 
 export class FpsScene extends Phaser.Scene {
   private soloBots!: MotionBots;
+  private nuketown:NuketownArena|null=null;
+  private nuketownBots:NuketownBots|null=null;
+  private map=FPS_MAP;
+  private roundReady=false;
+  private worldReady=true;
+  private bootVersion=0;
   private ctx!: MinigameContext;
   private players: FpsPlayer[] = [];
   private matchTime = 0;
@@ -172,11 +181,24 @@ export class FpsScene extends Phaser.Scene {
   }
 
   create(data: { ctx: MinigameContext }): void {
+    this.roundReady=false;this.nuketown=null;this.nuketownBots=null;this.map=FPS_MAP;this.worldReady=true;
+    const version=++this.bootVersion;
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN,()=>{this.bootVersion++;this.roundReady=false;});
+    if(data.ctx.mapId==='nuketown'){
+      void Promise.all([import('./nuketownArena'),import('./NuketownBots')]).then(([{NuketownArena},{NuketownBots}])=>{
+        if(version!==this.bootVersion)return;
+        this.nuketown=new NuketownArena();this.map=this.nuketown;this.nuketownBots=new NuketownBots(data.ctx);this.createRound(data);
+      }).catch(e=>{console.error('Nuketown loading failed',e);if(version===this.bootVersion)this.add.text(100,300,'NUKETOWN: caricamento fallito. Torna alla lobby.',{fontSize:'24px'});});
+    }else this.createRound(data);
+  }
+
+  private createRound(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
     this.soloBots = new MotionBots(this.ctx);
     this.players = [];
     this.finished = false;
     this.broadcastAcc = 0;
+    this.clock=0;this.blasts=[];
     this.rankTexts = [];
     this.radarTags = [];
     this.radarNames = [];
@@ -190,7 +212,7 @@ export class FpsScene extends Phaser.Scene {
 
     this.graphics = this.add.graphics();
     this.add.text(640, 24, '🔫 SPARATORIA DEI DISAGIATI', { fontFamily: FONT_DISPLAY, fontSize: '34px', color: '#ffffff' }).setOrigin(0.5);
-    this.add.text(640, 58, 'RADAR / REGIA — i giocatori guardano il telefono', { fontFamily: FONT_BODY, fontSize: '16px', color: '#9ca3af' }).setOrigin(0.5);
+    this.add.text(640, 58, this.nuketown?'NUKETOWN · CASE, CORTILI E COPERTURE':'RADAR / REGIA — i giocatori guardano il telefono', { fontFamily: FONT_BODY, fontSize: '16px', color: '#9ca3af' }).setOrigin(0.5);
     this.timerText = this.add.text(640, 90, '', { fontFamily: FONT_DISPLAY, fontSize: '26px', color: '#fbbf24' }).setOrigin(0.5);
     this.add.text(BOARD_X, 136, 'CLASSIFICA', { fontFamily: FONT_DISPLAY, fontSize: '22px', color: '#94a3b8' });
     this.ctx.players.forEach((_, i) => {
@@ -208,6 +230,7 @@ export class FpsScene extends Phaser.Scene {
         initial: characterInitial(snap.characterId),
         color: snap.color,
         x: spawn.x,
+        y: this.nuketown?.floorAt(spawn.x,spawn.z)??0,
         z: spawn.z,
         yaw: Math.atan2(-spawn.x, -spawn.z), // verso il centro (il telefono allinea la visuale al primo stato)
         pitch: 0,
@@ -281,6 +304,7 @@ export class FpsScene extends Phaser.Scene {
     // Schermata CONTROLLI: finche' e' su, la simulazione resta ferma (vedi update()).
     if (this.ctx.showControls) void this.ctx.showControls().then(() => (this.controlsDone = true));
     else this.controlsDone = true;
+    this.roundReady=true;
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.disposeSplitScreen, this);
     this.events.once(Phaser.Scenes.Events.DESTROY, this.disposeSplitScreen, this);
@@ -288,8 +312,10 @@ export class FpsScene extends Phaser.Scene {
   }
 
   private async bootSplitScreen(locals: FpsLocalPlayer[]): Promise<void> {
+    const version=this.bootVersion;
+    this.worldReady=!this.nuketown;
     const { BabylonFpsGame } = await import('./BabylonFpsGame');
-    if (this.splitScreenCancelled) return; // scena chiusa/riavviata mentre il modulo si caricava
+    if (this.splitScreenCancelled||version!==this.bootVersion) return;
 
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
@@ -301,7 +327,10 @@ export class FpsScene extends Phaser.Scene {
     canvas.style.outline = 'none';
     document.body.appendChild(canvas);
     this.splitScreenCanvas = canvas;
-    this.splitScreen = new BabylonFpsGame(canvas, locals);
+    this.splitScreen = new BabylonFpsGame(canvas, locals,this.nuketown?'nuketown':'cantiere');
+    this.worldReady=!this.nuketown;
+    try{await this.splitScreen.ready;if(!this.splitScreenCancelled&&version===this.bootVersion)this.worldReady=true;}
+    catch(e){console.error('Nuketown rendering failed',e);this.splitScreen?.setRoundEndMessage('ERRORE CARICAMENTO MAPPA');}
   }
 
   private disposeSplitScreen(): void {
@@ -325,6 +354,7 @@ export class FpsScene extends Phaser.Scene {
       characterId: this.ctx.players.find((s) => s.id === p.id)?.characterId ?? null,
       displayName: this.ctx.players.find((s) => s.id === p.id)?.displayName,
       x: p.x,
+      y:p.y,spawnProtection:p.spawnProtection,
       z: p.z,
       yaw: p.yaw,
       pitch: p.pitch,
@@ -347,14 +377,27 @@ export class FpsScene extends Phaser.Scene {
 
   private pickSpawn(exclude: FpsPlayer[]): { x: number; z: number } {
     // Sceglie lo spawn più lontano dai nemici vivi.
-    let best = FPS_MAP.spawns[0];
+    let best = this.map.spawns[0];
     let bestScore = -Infinity;
-    for (const s of FPS_MAP.spawns) {
+    for (const s of this.map.spawns) {
       let minD = Infinity;
       for (const p of exclude) {
         if (!p.alive) continue;
         const d = Math.hypot(s.x - p.x, s.z - p.z);
         minD = Math.min(minD, d);
+      }
+      if(this.nuketown){
+        let exposure=0;
+        for(const p of exclude)if(p.alive){
+          const d=Math.hypot(s.x-p.x,s.z-p.z);
+          if(this.nuketown.visible(s,p)){
+            exposure+=Math.max(0,38-d)*.8;
+            const aim=Math.abs(Math.atan2(Math.sin(Math.atan2(s.x-p.x,s.z-p.z)-p.yaw),Math.cos(Math.atan2(s.x-p.x,s.z-p.z)-p.yaw)));
+            if(aim<.45)exposure+=p.firing?25:12;
+          }
+          if(d<5)exposure+=50;
+        }
+        minD=Math.min(45,minD)-exposure+this.ctx.rng.next()*.5;
       }
       if (minD > bestScore) {
         bestScore = minD;
@@ -365,6 +408,7 @@ export class FpsScene extends Phaser.Scene {
   }
 
   update(_t: number, delta: number): void {
+    if(!this.roundReady)return;
     if (this.pauseMenu.update()) {
       for (const p of this.players) { this.resetAim(p); this.ctx.input.get(p.id).setUp('aim'); this.ctx.input.get(p.id).setUp('fire'); p.firing = false; p.burstLeft = 0; }
       this.splitScreen?.setPaused(true);
@@ -372,7 +416,7 @@ export class FpsScene extends Phaser.Scene {
     }
     this.splitScreen?.setPaused(false);
     if (this.finished) return;
-    if (!this.controlsDone) {
+    if (!this.controlsDone || !this.worldReady) {
       this.ctx.input.update(); // schermata CONTROLLI: nessuna fase avanza, nessun input di gioco consumato
       return;
     }
@@ -389,7 +433,7 @@ export class FpsScene extends Phaser.Scene {
 
     for (const sub of steps) {
       this.clock += sub;
-      this.soloBots.fps(sub, this.players);
+      if(this.nuketown)this.nuketownBots!.step(sub,this.players,this.nuketown);else this.soloBots.fps(sub, this.players);
       for (const p of this.players) this.stepPlayer(p, sub);
       this.stepBlasts();
     }
@@ -439,7 +483,9 @@ export class FpsScene extends Phaser.Scene {
     p.recoilPitch *= recoilDecay; p.recoilYaw *= recoilDecay;
     // ABILITA' (premuta ma non partita: avviso privato, mai silenzio)
     if (input.justPressed('ability')) {
-      const res = this.fpsAb.onAbilityPress(p, weapon, this.players, (f) => this.onAbilityFeedback(p, f));
+      const res = this.fpsAb.onAbilityPress(p, weapon, this.players, (f) => this.onAbilityFeedback(p, f),this.nuketown?{
+        visible:(a,b)=>this.nuketown!.visible(a,b),move:(a,b)=>this.nuketown!.move(a,b)
+      }:undefined);
       if (res !== 'ok') abilityHub.failed(p.id, res === 'cooldown' ? 'IN RICARICA' : res === 'spent' ? 'ESAURITA' : res === 'notreloading' ? 'RICARICA PRIMA' : res === 'nobody' ? 'NESSUNO DAVANTI' : 'NON ORA');
     }
     const mv = stunned ? { x: 0, y: 0 } : input.axis('move');
@@ -492,6 +538,7 @@ export class FpsScene extends Phaser.Scene {
       this.ctx.signal(p.id, { type: 'dash' });
     }
 
+    const previous={x:p.x,y:p.y,z:p.z};
     if (p.dashTime > 0) {
       p.dashTime -= dt;
       p.x += p.dashDirX * DASH_SPEED * dt;
@@ -502,11 +549,12 @@ export class FpsScene extends Phaser.Scene {
       p.z += az * sp * dt;
     }
 
-    const res = resolveCollisions(p.x, p.z, PLAYER_RADIUS, FPS_MAP.obstacles);
-    p.x = res.x;
-    p.z = res.z;
-    p.x = Math.max(-FPS_MAP.halfSize + PLAYER_RADIUS, Math.min(FPS_MAP.halfSize - PLAYER_RADIUS, p.x));
-    p.z = Math.max(-FPS_MAP.halfSize + PLAYER_RADIUS, Math.min(FPS_MAP.halfSize - PLAYER_RADIUS, p.z));
+    if(this.nuketown){Object.assign(p,this.nuketown.move(previous,p));}
+    else {
+      const res = resolveCollisions(p.x, p.z, PLAYER_RADIUS, FPS_MAP.obstacles);
+      p.x = Math.max(-FPS_MAP.halfSize+PLAYER_RADIUS,Math.min(FPS_MAP.halfSize-PLAYER_RADIUS,res.x));
+      p.z = Math.max(-FPS_MAP.halfSize+PLAYER_RADIUS,Math.min(FPS_MAP.halfSize-PLAYER_RADIUS,res.z));
+    }
 
     // Ricarica manuale (pulsante): serve per non restare a secco nel momento sbagliato
     if (!noFire && input.justPressed('reload') && !p.reloading && p.magazine < weapon.magazine) this.startReload(p, weapon);
@@ -585,7 +633,7 @@ export class FpsScene extends Phaser.Scene {
     const segs: { ox: number; oy: number; oz: number; ex: number; ey: number; ez: number }[] = [];
 
     const ox = p.x;
-    const oy = EYE_HEIGHT;
+    const oy = EYE_HEIGHT+p.y;
     const oz = p.z;
     const pellets = weapon.pellets ?? 1;
     const spread = aimSpread(weapon.spread, p.ads, p.moving, p.heat) * this.fpsAb.spreadFactor(p); // Dottore dopo M'HO SVEJATO: la mira trema
@@ -601,15 +649,16 @@ export class FpsScene extends Phaser.Scene {
 
       // Raggio contro ostacoli + altri giocatori
       let bestT = weapon.range;
-      if(dy<0)bestT=Math.min(bestT,Math.max(0,(.2-oy)/dy));
+      if(dy<0&&!this.nuketown)bestT=Math.min(bestT,Math.max(0,(.2-oy)/dy));
       let hitPlayer: FpsPlayer | null = null;
-      for (const b of FPS_MAP.obstacles) {
+      if(this.nuketown)bestT=this.nuketown.ray(ox,oy,oz,dx,dy,dz,bestT);
+      else for (const b of FPS_MAP.obstacles) {
         const t = rayVsAabb(ox, oy, oz, dx, dy, dz, b);
         if (t !== null && t < bestT) bestT = t;
       }
       for (const other of this.players) {
         if (other.id === p.id || !other.alive) continue;
-        const box: Aabb = { x: other.x, z: other.z, w: 0.8, d: 0.8, h: 1.8 };
+        const box: Aabb = { x: other.x, z: other.z, w: 0.8, d: 0.8, h: 1.8,base:other.y };
         const t = rayVsAabb(ox, oy, oz, dx, dy, dz, box);
         if (t !== null && t < bestT) {
           bestT = t;
@@ -660,7 +709,7 @@ export class FpsScene extends Phaser.Scene {
       for (const q of this.players) {
         if (!q.alive || q.id === b.owner) continue; // niente danno a se stessi: arcade
         const dist = Math.max(0, Math.hypot(q.x - b.x, q.z - b.z) - 0.4);
-        if (dist > b.radius || b.y>1.8+b.radius || !blastVisible(b,q,FPS_MAP.obstacles)) continue;
+        if (dist > b.radius || b.y>q.y+1.8+b.radius || !(this.nuketown?this.nuketown.blastVisible(b,q):blastVisible(b,q,FPS_MAP.obstacles))) continue;
         // colpo diretto = danno pieno; poi cala fino al 30% al bordo dello splash
         const k = dist <= 1 ? 1 : Math.max(0.3, 1 - (0.7 * (dist - 1)) / (b.radius - 1));
         this.applyDamage(q, Math.round(b.dmg * k), owner, b);
@@ -777,6 +826,7 @@ export class FpsScene extends Phaser.Scene {
   private respawn(p: FpsPlayer): void {
     const spawn = this.pickSpawn(this.players.filter((q) => q.id !== p.id));
     p.x = spawn.x;
+    p.y=this.nuketown?.floorAt(spawn.x,spawn.z)??0;
     p.z = spawn.z;
     p.yaw = Math.atan2(-spawn.x, -spawn.z);
     p.pitch = 0;
@@ -791,6 +841,7 @@ export class FpsScene extends Phaser.Scene {
   private broadcastState(): void {
     this.ctx.signal(null, {
       type: 'fpsState',
+      mapId:this.nuketown?'nuketown':'cantiere',
       matchTime: Math.max(0, this.matchTime),
       players: this.players.map((p) => ({
         id: p.id,
@@ -798,6 +849,7 @@ export class FpsScene extends Phaser.Scene {
         avatar: p.avatar,
         color: p.color,
         x: p.x,
+        y:p.y,
         z: p.z,
         yaw: p.yaw,
         pitch: p.pitch,
@@ -823,18 +875,18 @@ export class FpsScene extends Phaser.Scene {
   private renderRadar(): void {
     const g = this.graphics;
     g.clear();
-    const scale = RADAR_SCALE;
+    const scale = this.nuketown?6.3:RADAR_SCALE;
     const cx = RADAR_CX;
     const cy = RADAR_CY;
 
     g.lineStyle(2, 0x334155, 1);
     g.fillStyle(0x0f172a, 1);
-    g.fillRoundedRect(cx - FPS_MAP.halfSize * scale - 20, cy - FPS_MAP.halfSize * scale - 20, FPS_MAP.halfSize * scale * 2 + 40, FPS_MAP.halfSize * scale * 2 + 40, 12);
-    g.strokeRoundedRect(cx - FPS_MAP.halfSize * scale - 20, cy - FPS_MAP.halfSize * scale - 20, FPS_MAP.halfSize * scale * 2 + 40, FPS_MAP.halfSize * scale * 2 + 40, 12);
+    g.fillRoundedRect(cx - this.map.halfSize * scale - 20, cy - this.map.halfSize * scale - 20, this.map.halfSize * scale * 2 + 40, this.map.halfSize * scale * 2 + 40, 12);
+    g.strokeRoundedRect(cx - this.map.halfSize * scale - 20, cy - this.map.halfSize * scale - 20, this.map.halfSize * scale * 2 + 40, this.map.halfSize * scale * 2 + 40, 12);
 
     // Ostacoli
     g.fillStyle(0x475569, 1);
-    for (const b of FPS_MAP.obstacles) {
+    for (const b of this.map.obstacles) {
       const x = cx + b.x * scale;
       const y = cy + b.z * scale;
       g.fillRect(x - (b.w * scale) / 2, y - (b.d * scale) / 2, b.w * scale, b.d * scale);

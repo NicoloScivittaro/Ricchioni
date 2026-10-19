@@ -1,0 +1,100 @@
+{
+  "maps": [
+    "cantiere",
+    "nuketown"
+  ],
+  "votes": 5,
+  "phoneCompanions": [
+    {
+      "canvas": 0,
+      "text": "GOBLIN MBRIACONE\n🔫 SPARATORIA DEI DISAGIATI\nN'CULO!\nRB\n\nTIMING · illimitata · ricarica 14 s\n\nRicarica, poi premi nella parte finale della ricarica (z"
+    },
+    {
+      "canvas": 0,
+      "text": "BOSCHI\n🔫 SPARATORIA DEI DISAGIATI\nTU QUA NON ENTRI\nR1\n\nREATTIVA · illimitata · ricarica 25 s\n\nPer 4 s subisci il 40% del danno e corri un po' più pia"
+    },
+    {
+      "canvas": 0,
+      "text": "IL DOTTORE SCEMO\n🔫 SPARATORIA DEI DISAGIATI\nM'HO SVEJATO\nRB\n\nINFORMAZIONE · illimitata · ricarica 22 s\n\nPer 5 s vedi tutti gli avversari anche dietro"
+    },
+    {
+      "canvas": 0,
+      "text": "Carbo\n🔫 SPARATORIA DEI DISAGIATI\nNO, ASPETTA!\nR1\n\nTIMING · illimitata · ricarica 15 s\n\nSpinta davanti a te (6 metri): chi colpisci non può sparare né"
+    },
+    {
+      "canvas": 0,
+      "text": "IL NAPOLETANO STEMPIATO\n🔫 SPARATORIA DEI DISAGIATI\n20c\nPAGO DOMANI\nRB\n\nRISCHIO / PREMIO · 2 usi\n\nPremi (armata 8 s): se stai per morire resti a 1 di "
+    }
+  ],
+  "phoneScene": {
+    "sourceMeshes": 1374,
+    "importedPrimitives": 1374,
+    "batches": 102,
+    "triangles": 16488,
+    "scale": 0.025
+  },
+  "spawns": [
+    {
+      "x": -8.100000000000001,
+      "y": 0.08996631729965235,
+      "z": -28.799999999999997,
+      "clear": true
+    },
+    {
+      "x": 5.899999999999999,
+      "y": 0.08996000000000001,
+      "z": 32.2,
+      "clear": true
+    },
+    {
+      "x": -12.100000000000001,
+      "y": 0.08996000000000004,
+      "z": 8.200000000000003,
+      "clear": true
+    },
+    {
+      "x": -13.600000000000001,
+      "y": 0.08996000000000004,
+      "z": -7.799999999999997,
+      "clear": true
+    },
+    {
+      "x": -0.10000000000000142,
+      "y": 0.12281999999999998,
+      "z": 13.200000000000003,
+      "clear": true
+    }
+  ],
+  "ads": {
+    "amount": 1,
+    "fov": 0.8383008169266069
+  },
+  "humanMovement": {
+    "distance": 3.8593419852000053,
+    "clear": true
+  },
+  "performance": {
+    "fps": 56.06823091619736,
+    "p95": 33.299999999995634,
+    "width": 1280,
+    "height": 720,
+    "scale": 1,
+    "views": 5,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "world": {
+      "sourceMeshes": 1374,
+      "importedPrimitives": 1374,
+      "batches": 102,
+      "triangles": 16488,
+      "scale": 0.025
+    },
+    "meshes": 438,
+    "shadows": true
+  },
+  "cleanup": true,
+  "errors": []
+}

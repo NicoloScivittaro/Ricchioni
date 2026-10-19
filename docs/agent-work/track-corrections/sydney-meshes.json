@@ -1,0 +1,612 @@
+[
+  {
+    "id": 0,
+    "name": "N_FountainTop_M_Mobs1_FountainTop_0",
+    "mat": "M_Mobs1_FountainTop",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 1,
+    "name": "N_Ground_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "N_Ground_M_Mobs1_RoadTile_0",
+    "mat": "M_Mobs1_RoadTile",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "N_Ground_M_Mobs1_Window_0",
+    "mat": "M_Mobs1_Window",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "N_Ground_M_Mobs1_Sea01_0",
+    "mat": "M_Mobs1_Sea01",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "N_Ground_M_Cmn_Emission_0",
+    "mat": "M_Cmn_Emission",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "N_Harberbridge_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "N_Harberbridge_M_Mobs1_Window_0",
+    "mat": "M_Mobs1_Window",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "N_ObjA_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "N_ObjA_M_Mobs1_Window_0",
+    "mat": "M_Mobs1_Window",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "N_ObjA_M_Cmn_Emission_0",
+    "mat": "M_Cmn_Emission",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "N_Operahouse_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 12,
+    "name": "N_Operahouse_M_Mobs1_Window_0",
+    "mat": "M_Mobs1_Window",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 13,
+    "name": "N_Operahouse_M_Cmn_DashGlide01_0",
+    "mat": "M_Cmn_DashGlide01",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 14,
+    "name": "N_Operahouse_M_Mobs1_Road02_0",
+    "mat": "M_Mobs1_Road02",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "N_Operahouse_M_Mobs1_RoadTile_0",
+    "mat": "M_Mobs1_RoadTile",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "N_Operahouse_M_Cmn_Emission_0",
+    "mat": "M_Cmn_Emission",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 17,
+    "name": "N_Operahouse_M_Cmn_Audience_0",
+    "mat": "M_Cmn_Audience",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "N_Road01_M_Mobs1_Road02_0",
+    "mat": "M_Mobs1_Road02",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 19,
+    "name": "N_Road01_M_Mobs1_RoadTile_0",
+    "mat": "M_Mobs1_RoadTile",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 20,
+    "name": "N_Road01_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 21,
+    "name": "N_Road01_M_Mobs1_Road01_0",
+    "mat": "M_Mobs1_Road01",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 22,
+    "name": "N_Road02_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 23,
+    "name": "N_Road02_M_Mobs1_RoadTile_0",
+    "mat": "M_Mobs1_RoadTile",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 24,
+    "name": "N_Road02_M_Mobs1_Road01_0",
+    "mat": "M_Mobs1_Road01",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "N_Sidewalk_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "N_Sidewalk_M_Mobs1_Window_0",
+    "mat": "M_Mobs1_Window",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "N_Sidewalk_M_Cmn_Emission_0",
+    "mat": "M_Cmn_Emission",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 28,
+    "name": "ShadowCollision_M_Cmn_ShadowCollision_0",
+    "mat": "M_Cmn_ShadowCollision",
+    "attrs": [
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0"
+    ]
+  },
+  {
+    "id": 29,
+    "name": "N_BuildingsA_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 30,
+    "name": "N_BuildingsA_M_Mobs1_Window_0",
+    "mat": "M_Mobs1_Window",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 31,
+    "name": "N_BuildingsB_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 32,
+    "name": "N_BuildingsB_M_Mobs1_Window_0",
+    "mat": "M_Mobs1_Window",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 33,
+    "name": "N_BuildingsC_M_Mobs1_Window_0",
+    "mat": "M_Mobs1_Window",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 34,
+    "name": "N_BuildingsC_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 35,
+    "name": "N_SignBoardSet_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 36,
+    "name": "N_SignBoardSet_M_Mobs1_Signboard02_0",
+    "mat": "M_Mobs1_Signboard02",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 37,
+    "name": "N_SignBoardSet_M_Mobs1_Window_0",
+    "mat": "M_Mobs1_Window",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 38,
+    "name": "VR_M_Mobs1_VR1_0",
+    "mat": "M_Mobs1_VR1",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 39,
+    "name": "F_mirror_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 40,
+    "name": "M_FarBuildingSet_M_Mobs1_Signboard02_0",
+    "mat": "M_Mobs1_Signboard02",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 41,
+    "name": "M_FarBuildingSet_M_Mobs1_Window_0",
+    "mat": "M_Mobs1_Window",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 42,
+    "name": "M_FarBuildingSet_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 43,
+    "name": "N_ObjSet_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 44,
+    "name": "N_ObjSet_M_Mobs1_Fence_Msk_0",
+    "mat": "M_Mobs1_Fence_Msk",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 45,
+    "name": "N_ObjSet_M_Cmn_Emission_0",
+    "mat": "M_Cmn_Emission",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 46,
+    "name": "N_ObjSet_M_Mobs1_Road01_0",
+    "mat": "M_Mobs1_Road01",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 47,
+    "name": "N_TreeSet_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 48,
+    "name": "TreeBlock_M_Mobs1_Signboard02_0",
+    "mat": "M_Mobs1_Signboard02",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 49,
+    "name": "TreeBlock_M_Cmn_MainColor_Detail_0",
+    "mat": "M_Cmn_MainColor_Detail",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Gallery_M_Cmn_AudienceModel_0",
+    "mat": "M_Cmn_AudienceModel",
+    "attrs": [
+      "COLOR_0",
+      "NORMAL",
+      "POSITION",
+      "TEXCOORD_0",
+      "TEXCOORD_1"
+    ]
+  }
+]

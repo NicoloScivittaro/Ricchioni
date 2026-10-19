@@ -1,0 +1,705 @@
+[
+  {
+    "name": "N_FountainTop_M_Mobs1_FountainTop_0",
+    "zero": 0,
+    "count": 1168,
+    "mean": [
+      1.0,
+      1.0,
+      1.0,
+      0.603
+    ],
+    "alpha": [
+      0.0,
+      0.10196078568696976,
+      0.501960813999176,
+      1.0
+    ]
+  },
+  {
+    "name": "N_Ground_M_Cmn_MainColor_Detail_0",
+    "zero": 4,
+    "count": 41109,
+    "mean": [
+      0.619,
+      0.516,
+      0.234,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Ground_M_Mobs1_RoadTile_0",
+    "zero": 0,
+    "count": 797,
+    "mean": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Ground_M_Mobs1_Window_0",
+    "zero": 0,
+    "count": 52,
+    "mean": [
+      0.192,
+      0.584,
+      0.714,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Ground_M_Mobs1_Sea01_0",
+    "zero": 986,
+    "count": 986,
+    "mean": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "alpha": [
+      0.0
+    ]
+  },
+  {
+    "name": "N_Ground_M_Cmn_Emission_0",
+    "zero": 0,
+    "count": 162,
+    "mean": [
+      0.227,
+      0.227,
+      0.227,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Harberbridge_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 20900,
+    "mean": [
+      0.645,
+      0.469,
+      0.273,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Harberbridge_M_Mobs1_Window_0",
+    "zero": 0,
+    "count": 96,
+    "mean": [
+      0.365,
+      0.345,
+      0.306,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_ObjA_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 27163,
+    "mean": [
+      0.592,
+      0.476,
+      0.356,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_ObjA_M_Mobs1_Window_0",
+    "zero": 0,
+    "count": 458,
+    "mean": [
+      0.574,
+      0.638,
+      0.657,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_ObjA_M_Cmn_Emission_0",
+    "zero": 0,
+    "count": 100,
+    "mean": [
+      0.251,
+      0.251,
+      0.251,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Operahouse_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 20160,
+    "mean": [
+      0.539,
+      0.411,
+      0.305,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Operahouse_M_Mobs1_Window_0",
+    "zero": 0,
+    "count": 1660,
+    "mean": [
+      0.426,
+      0.617,
+      0.68,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Operahouse_M_Cmn_DashGlide01_0",
+    "zero": 0,
+    "count": 20,
+    "mean": [
+      0.0,
+      0.5,
+      1.0,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Operahouse_M_Mobs1_Road02_0",
+    "zero": 0,
+    "count": 222,
+    "mean": [
+      0.822,
+      0.795,
+      0.756,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Operahouse_M_Mobs1_RoadTile_0",
+    "zero": 0,
+    "count": 96,
+    "mean": [
+      0.762,
+      0.705,
+      0.701,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Operahouse_M_Cmn_Emission_0",
+    "zero": 0,
+    "count": 265,
+    "mean": [
+      0.221,
+      0.25,
+      0.253,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Operahouse_M_Cmn_Audience_0",
+    "zero": 0,
+    "count": 136,
+    "mean": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Road01_M_Mobs1_Road02_0",
+    "zero": 0,
+    "count": 770,
+    "mean": [
+      0.84,
+      0.809,
+      0.764,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Road01_M_Mobs1_RoadTile_0",
+    "zero": 0,
+    "count": 465,
+    "mean": [
+      0.829,
+      0.798,
+      0.76,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Road01_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 4219,
+    "mean": [
+      0.721,
+      0.47,
+      0.265,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Road01_M_Mobs1_Road01_0",
+    "zero": 0,
+    "count": 1115,
+    "mean": [
+      0.847,
+      0.818,
+      0.784,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Road02_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 5032,
+    "mean": [
+      0.621,
+      0.476,
+      0.19,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Road02_M_Mobs1_RoadTile_0",
+    "zero": 0,
+    "count": 1328,
+    "mean": [
+      0.824,
+      0.793,
+      0.766,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Road02_M_Mobs1_Road01_0",
+    "zero": 0,
+    "count": 994,
+    "mean": [
+      0.9,
+      0.877,
+      0.853,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Sidewalk_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 34299,
+    "mean": [
+      0.642,
+      0.445,
+      0.299,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Sidewalk_M_Mobs1_Window_0",
+    "zero": 0,
+    "count": 104,
+    "mean": [
+      0.647,
+      0.647,
+      0.647,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_Sidewalk_M_Cmn_Emission_0",
+    "zero": 0,
+    "count": 24,
+    "mean": [
+      0.227,
+      0.227,
+      0.227,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_BuildingsA_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 26708,
+    "mean": [
+      0.746,
+      0.655,
+      0.464,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_BuildingsA_M_Mobs1_Window_0",
+    "zero": 0,
+    "count": 658,
+    "mean": [
+      0.213,
+      0.596,
+      0.711,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_BuildingsB_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 20730,
+    "mean": [
+      0.539,
+      0.438,
+      0.336,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_BuildingsB_M_Mobs1_Window_0",
+    "zero": 0,
+    "count": 4956,
+    "mean": [
+      0.204,
+      0.352,
+      0.424,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_BuildingsC_M_Mobs1_Window_0",
+    "zero": 0,
+    "count": 1753,
+    "mean": [
+      0.246,
+      0.653,
+      0.793,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_BuildingsC_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 18460,
+    "mean": [
+      0.55,
+      0.452,
+      0.396,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_SignBoardSet_M_Cmn_MainColor_Detail_0",
+    "zero": 8,
+    "count": 33186,
+    "mean": [
+      0.707,
+      0.601,
+      0.447,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_SignBoardSet_M_Mobs1_Signboard02_0",
+    "zero": 0,
+    "count": 2337,
+    "mean": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_SignBoardSet_M_Mobs1_Window_0",
+    "zero": 0,
+    "count": 172,
+    "mean": [
+      0.192,
+      0.588,
+      0.714,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "VR_M_Mobs1_VR1_0",
+    "zero": 0,
+    "count": 294,
+    "mean": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "F_mirror_M_Cmn_MainColor_Detail_0",
+    "zero": 8,
+    "count": 19415,
+    "mean": [
+      0.176,
+      0.239,
+      0.427,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "M_FarBuildingSet_M_Mobs1_Signboard02_0",
+    "zero": 0,
+    "count": 15016,
+    "mean": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "M_FarBuildingSet_M_Mobs1_Window_0",
+    "zero": 0,
+    "count": 862,
+    "mean": [
+      0.192,
+      0.588,
+      0.714,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "M_FarBuildingSet_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 6293,
+    "mean": [
+      0.641,
+      0.487,
+      0.401,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_ObjSet_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 36760,
+    "mean": [
+      0.394,
+      0.426,
+      0.294,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_ObjSet_M_Mobs1_Fence_Msk_0",
+    "zero": 0,
+    "count": 56,
+    "mean": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_ObjSet_M_Cmn_Emission_0",
+    "zero": 0,
+    "count": 1562,
+    "mean": [
+      0.224,
+      0.224,
+      0.224,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_ObjSet_M_Mobs1_Road01_0",
+    "zero": 0,
+    "count": 1450,
+    "mean": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "N_TreeSet_M_Cmn_MainColor_Detail_0",
+    "zero": 0,
+    "count": 43608,
+    "mean": [
+      0.548,
+      0.509,
+      0.14,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "TreeBlock_M_Mobs1_Signboard02_0",
+    "zero": 0,
+    "count": 240,
+    "mean": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "TreeBlock_M_Cmn_MainColor_Detail_0",
+    "zero": 2,
+    "count": 11167,
+    "mean": [
+      0.644,
+      0.54,
+      0.178,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  },
+  {
+    "name": "Gallery_M_Cmn_AudienceModel_0",
+    "zero": 0,
+    "count": 4323,
+    "mean": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "alpha": [
+      1.0
+    ]
+  }
+]

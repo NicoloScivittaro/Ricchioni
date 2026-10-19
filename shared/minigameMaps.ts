@@ -17,6 +17,10 @@ export const GOLF_MAPS:readonly MapOption[]=[
   {id:'odissea',name:'L’ODISSEA',description:'Difficile · flipper e discesa',color:'#b299ce',icon:'◆'},
   {id:'disperati',name:'IL PERCORSO DEI DISPERATI',description:'Difficile · ponte e serpentina',color:'#52bfa3',icon:'▰'}
 ];
+export const FPS_MAPS:readonly MapOption[]=[
+  {id:'cantiere',name:'CANTIERE DEL DISAGIO',description:'2–5 giocatori · container e coperture.',color:'#ddaa55',icon:'▤'},
+  {id:'nuketown',name:'NUKETOWN',description:'2–5 giocatori · case, cortili e veicoli.',color:'#65b4dd',icon:'⌂'}
+];
 const KART_MAPS:readonly MapOption[]=[
   {id:'litorale',name:'CIRCUITO DEL LITORALE',description:'Curve, rampe e derapate sul mare.',color:'#ffbf69',icon:'⌁'},
   {id:'arcobaleno',name:'STRADA ARCOBALENO',description:'Pista sospesa e passaggi in planata.',color:'#74e7e0',icon:'✦'},
@@ -24,7 +28,7 @@ const KART_MAPS:readonly MapOption[]=[
   {id:'primo',name:'PRIMO KARTING',description:'Tornanti, staccate e derapate tra le barriere.',color:'#ffcc55',icon:'⚑'}
 ];
 export const mapsFor=(minigameId:string):readonly MapOption[]=>
-  minigameId==='kart3d'?KART_MAPS:minigameId==='backrooms'?BACKROOM_MAPS:minigameId==='minigolf'?GOLF_MAPS:[];
+  minigameId==='fps'?FPS_MAPS:minigameId==='kart3d'?KART_MAPS:minigameId==='backrooms'?BACKROOM_MAPS:minigameId==='minigolf'?GOLF_MAPS:[];
 export const mapById=(game:string,id:unknown):MapOption|undefined=>mapsFor(game).find(m=>m.id===id);
 export interface MapVoteState {
   roundId:number;

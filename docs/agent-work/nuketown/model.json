@@ -1,0 +1,27 @@
+{
+  "sourceBytes": 2632480,
+  "meshes": 1374,
+  "nodes": 2751,
+  "materials": 20,
+  "images": 0,
+  "triangles": 16488,
+  "movementBoxes": 831,
+  "bounds": [
+    -20.32277,
+    -0.45032,
+    -40.51548,
+    20.31854,
+    22.78291,
+    40.74366
+  ],
+  "asset": {
+    "extras": {
+      "author": "HiPER_FX (https://sketchfab.com/treanch2)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/nuketown-from-call-of-duty-cod-warzonecodm-ffbcce48aea344b4b705f2be071c1d55",
+      "title": "Nuketown from Call of Duty #cod #warzone#codm"
+    },
+    "generator": "Sketchfab-12.66.0",
+    "version": "2.0"
+  }
+}

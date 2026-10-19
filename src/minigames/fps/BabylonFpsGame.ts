@@ -69,6 +69,7 @@ export interface FpsRenderSnapshot {
   z: number;
   yaw: number;
   pitch: number;
+  y?:number;spawnProtection?:number;
   hp: number;
   maxHp: number;
   alive: boolean;
@@ -217,6 +218,7 @@ interface HudEntry {
 }
 
 export class BabylonFpsGame {
+  readonly ready:Promise<void>;
   private engine: Engine;
   private scene: Scene;
   private cams: CamRig[] = [];
@@ -252,7 +254,8 @@ export class BabylonFpsGame {
 
   constructor(
     private canvas: HTMLCanvasElement,
-    locals: FpsLocalPlayer[] // ordine stabile: chi ha il controller ALL'AVVIO del round, nell'ordine dei giocatori
+    locals: FpsLocalPlayer[], // ordine stabile: chi ha il controller ALL'AVVIO del round, nell'ordine dei giocatori
+    private mapId='cantiere'
   ) {
     this.localPlayerIds = locals.map((l) => l.id);
     for (const l of locals) this.abilityName.set(l.id, abilityFor('fps', l.characterId ?? null)?.name ?? '');
@@ -262,7 +265,7 @@ export class BabylonFpsGame {
     // LUCI: le stesse del client telefono (fpsClient). buildFpsWorld non ne crea: senza queste, sulla TV mondo e
     // personaggi erano neri (bug di M6: lo split-screen non aveva luci, il telefono si').
     buildFpsLights(this.scene); // luci uniformi della Sparatoria (stesse su TV e telefono: fpsWorld)
-    buildFpsWorld(this.scene);
+    this.ready=mapId==='nuketown'?import('../../controller/nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)):Promise.resolve(buildFpsWorld(this.scene));
 
     const rects = splitScreenLayout(locals.length);
     this.fxLow = getQualityLevel() === 'low' || locals.length >= 4;
@@ -1003,7 +1006,7 @@ export class BabylonFpsGame {
     cam.shake = Math.max(0, cam.shake - dt * 2.5);
     if (!snap.alive) return;
     const sh = cam.shake * 0.1;
-    cam.camera.position.set(snap.x + (Math.random() - 0.5) * sh, EYE_HEIGHT + (Math.random() - 0.5) * sh, snap.z + (Math.random() - 0.5) * sh);
+    cam.camera.position.set(snap.x + (Math.random() - 0.5) * sh, EYE_HEIGHT + (snap.y??0) + (Math.random() - 0.5) * sh, snap.z + (Math.random() - 0.5) * sh);
     cam.camera.rotation.y = snap.yaw + snap.recoilYaw;
     cam.camera.rotation.x = -(Math.max(-1.4, Math.min(1.4, snap.pitch + snap.recoilPitch)) + cam.kickP);
     cam.camera.rotation.z = cam.kickR;
@@ -1086,7 +1089,8 @@ export class BabylonFpsGame {
       rig.body.rotation.z = rig.hitT > 0 ? Math.sin(rig.hitT * 45) * 0.14 : 0;
       // lampo bianco brevissimo sulla capsula colpita (si vede CHI e' stato colpito anche da lontano)
       const fl = rig.hitT > 0.14 ? 0.85 : 0;
-      rig.bodyMat.emissiveColor.set(fl, fl, fl);
+      const protectedSpawn=this.mapId==='nuketown'&&(snap.spawnProtection??0)>0&&snap.alive;
+      rig.bodyMat.emissiveColor.set(fl,fl+(protectedSpawn?.15:0),fl+(protectedSpawn?.32:0));
       if (rig.flashT > 0) {
         rig.flashT -= dt;
         if (rig.flashT <= 0) rig.flash.isVisible = false;
@@ -1098,6 +1102,7 @@ export class BabylonFpsGame {
       this.lastPos.set(snap.id, { x: snap.x, z: snap.z });
       rig.body.setEnabled(snap.alive || rig.deathT > 0);
       if (snap.alive) {
+        rig.body.position.y=.9+(snap.y??0);
         rig.body.position.x = snap.x;
         rig.body.position.z = snap.z;
         rig.body.rotation.y = snap.yaw;
@@ -1168,6 +1173,8 @@ export class BabylonFpsGame {
       const lockOn = !!snap.locked && snap.alive;
       h.lockText.isVisible = lockOn;
       if (lockOn) h.lockText.text = '✋ BLOCCATO!';
+      if(protectedSpawn&&(!h.centerText.text||h.centerText.text.startsWith('PROTETTO')))h.centerText.text='PROTETTO';
+      if(!protectedSpawn&&h.centerText.text.startsWith('PROTETTO'))h.centerText.text='';
       h.centerText.isVisible = !snap.alive || h.centerText.text.length > 0;
       if (!snap.alive && h.centerText.text.length === 0) h.centerText.text = '💀 RESPAWN…';
       if (snap.alive && h.centerText.text === '💀 RESPAWN…') h.centerText.text = '';
@@ -1186,7 +1193,7 @@ export class BabylonFpsGame {
       rig.ghost.layerMask = mask;
       rig.ghost.isVisible = mask !== 0;
       if (mask !== 0) {
-        rig.ghost.position.set(snap.x, 0.98, snap.z);
+        rig.ghost.position.set(snap.x, 0.98+(snap.y??0), snap.z);
         rig.ghost.rotation.y = snap.yaw;
       }
     }

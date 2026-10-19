@@ -1,0 +1,10 @@
+17:43:56 [vite] (client) Re-optimizing dependencies because lockfile has changed
+
+  VITE v6.4.3  ready in 2551 ms
+
+  ➜  Local:   http://127.0.0.1:5180/
+17:50:20 [vite] (client) page reload src/controller/nuketownWorld.ts
+17:50:20 [vite] (client) page reload src/minigames/fps/FpsScene.ts
+17:54:11 [vite] (client) page reload src/minigames/fps/BabylonFpsGame.ts
+17:56:10 [vite] (client) page reload docs/agent-work/nuketown/preview.html
+17:58:09 [vite] (client) page reload src/minigames/fps/fpsAbilities.ts

@@ -12,6 +12,7 @@ export interface Aabb {
   z: number; // centro Z
   w: number; // larghezza (X)
   d: number; // profondità (Z)
+  base?: number; // optional bottom, preserving the original arena
   h: number; // altezza (Y)
 }
 
@@ -97,8 +98,8 @@ export function resolveCollisions(px: number, pz: number, r: number, obstacles: 
 export function rayVsAabb(ox: number, oy: number, oz: number, dx: number, dy: number, dz: number, b: Aabb): number | null {
   const minX = b.x - b.w / 2;
   const maxX = b.x + b.w / 2;
-  const minY = 0;
-  const maxY = b.h;
+  const minY = b.base ?? 0;
+  const maxY = minY + b.h;
   const minZ = b.z - b.d / 2;
   const maxZ = b.z + b.d / 2;
 

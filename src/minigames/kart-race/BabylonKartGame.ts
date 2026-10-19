@@ -1,4 +1,5 @@
 import {PrimoTrack,guidePrimoBots} from './primoTrack';
+import {buildImportedTrackGuides,showImportedTrackDebug} from './importedTrackGuides';
 import {buildPrimoWorld,importPrimo} from './primoWorld';
 import {SydneyTrack} from './sydneyTrack';
 import {buildSydneyWorld,importSydney} from './sydneyWorld';
@@ -126,6 +127,7 @@ export class BabylonKartGame {
     if(!this.sydney&&!this.primo)buildTrackGuides(this.scene, this.spline,this.rainbow?.checkpoints); // cartelli e frecce prima delle curve, portali dei checkpoint
     registerEnvScene(this.scene);
     this.checkpoints = this.primo?.checkpoints??this.sydney?.checkpoints??this.rainbow?.checkpoints??buildCheckpoints(this.spline);
+    if(this.primo){buildImportedTrackGuides(this.scene,this.primo,this.checkpoints,this.primo.physical.data);showImportedTrackDebug(this.scene,this.primo,this.checkpoints,this.primo.physical.data);}
     const boxPlacements = this.primo?.boxes??this.sydney?.boxes??buildItemBoxes(this.spline).filter(p=>!this.rainbow?.gapAt(p.s,18));
 
     this.abilities = new CharacterAbilities();
@@ -278,7 +280,8 @@ export class BabylonKartGame {
           else if(event==='land'){this.sendInfoLine(pid,state);audio.kartGlide('land');this.hud.flash(pid,'ATTERRAGGIO!','#b4ff9e',.75);this.ctx.vibrate(pid,25);this.cameraManager.shake(pid,.045);}
           else {audio.fall();this.hud.flash(pid,'CADUTA · RIPARTI DAL CHECKPOINT','#ffb796',1.2);}
         },!!this.sydney);
-        else stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier,this.primo?{grip:1,speed:1}:trackSurface(state.distance,state.lateral,this.spline.totalLength));
+        else stepKartPhysics(state, snapshot, dt, (d) => this.primo?this.primo.physical.floorHalfWidth(this.primo,d,state.lateral):this.spline.widthAt(d)/2, this.trackAngleAt, invertModifier,this.primo?{grip:1,speed:1,barriers:false}:trackSurface(state.distance,state.lateral,this.spline.totalLength));
+        if(this.primo)this.primo.physical.resolve(this.primo,state,from);
         if(!this.flightTrack&&!this.primo)stepTrackDynamics(state,from,this.spline.totalLength,d=>this.spline.widthAt(d),this.race.raceTime,event=>{
           if(event==='launch'){audio.kartBoost(9);this.ctx.vibrate(pid,30);this.hud.flash(pid,'DECOLLO!','#ffd166',.6);}
           if(event==='obstacle'){audio.hit();this.cameraManager.shake(pid,.14);this.ctx.vibrate(pid,50);}

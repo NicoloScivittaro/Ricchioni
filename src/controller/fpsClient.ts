@@ -46,6 +46,7 @@ export interface FpsPlayerState {
   x: number;
   z: number;
   yaw: number;
+  y?:number;spawnProtection?:number;
   hp: number;
   alive: boolean;
   weaponId: string;
@@ -70,6 +71,7 @@ interface RemoteEntity {
   tripo: GoblinVisualInstance | null;
   tripoRoot: TransformNode | null;
   dashing: boolean;
+  y?:number;
   body: Mesh;
   head: Mesh;
   nameTag: Mesh;
@@ -132,6 +134,7 @@ export class FpsClient {
   private booms: { m: Mesh; ring: Mesh; t: number; r: number; on: boolean }[] = [];
 
   private selfId: string;
+  private selfY=0;
   private selfX = 0;
   private selfZ = 0;
   private selfSpeed = 0;
@@ -203,7 +206,8 @@ export class FpsClient {
     selfId: string,
     private onLook: (yaw: number, pitch: number) => void,
     /** Character from room state, used only to render other players. */
-    private characterOf: (id: string) => string | null = () => null
+    private characterOf: (id: string) => string | null = () => null,
+    private mapId='cantiere'
   ) {
     this.selfId = selfId;
     this.buildHud();
@@ -225,7 +229,8 @@ export class FpsClient {
     this.camera.fov = BASE_FOV;
     this.scene.activeCamera = this.camera;
 
-    buildFpsWorld(this.scene);
+    if(mapId==='nuketown'){void import('./nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)).catch(e=>{console.error('Nuketown loading failed',e);if(!this.scene.isDisposed)this.showDeath('ERRORE CARICAMENTO NUKETOWN');});}
+    else buildFpsWorld(this.scene);
     this.vm = new FpsViewmodel(this.scene, this.camera, getQualityLevel() === 'high');
     this.vm.equip(this.weaponId);
 
@@ -461,7 +466,7 @@ export class FpsClient {
     const rx = Math.cos(this.yaw);
     const rz = -Math.sin(this.yaw);
     // dal vivo di volata, verso il punto mirato
-    this.tmpStart.set(this.selfX + dx * 0.95 + rx * 0.2, EYE_HEIGHT - 0.13 + dy * 0.95, this.selfZ + dz * 0.95 + rz * 0.2);
+    this.tmpStart.set(this.selfX + dx * 0.95 + rx * 0.2, EYE_HEIGHT+this.selfY - 0.13 + dy * 0.95, this.selfZ + dz * 0.95 + rz * 0.2);
     const len = style.thick > 0.06 ? 16 : 2.6;
     t.m.position.copyFrom(this.tmpStart);
     t.m.scaling.set(style.thick, style.thick, len);
@@ -484,7 +489,7 @@ export class FpsClient {
     const pitch = Math.max(-1.4, Math.min(1.4, this.pitch + this.recoilPitch + this.dmgKickP));
     const cp = Math.cos(pitch);
     const sh = this.shake * 0.12;
-    this.camera.position.set(this.selfX + (Math.random() - 0.5) * sh, EYE_HEIGHT + (Math.random() - 0.5) * sh, this.selfZ + (Math.random() - 0.5) * sh);
+    this.camera.position.set(this.selfX + (Math.random() - 0.5) * sh, EYE_HEIGHT+this.selfY + (Math.random() - 0.5) * sh, this.selfZ + (Math.random() - 0.5) * sh);
     this.tmpTarget.set(this.camera.position.x + Math.sin(yaw) * cp, this.camera.position.y + Math.sin(pitch), this.camera.position.z + Math.cos(yaw) * cp);
     this.camera.upVector.set(Math.sin(this.dmgKickR), Math.cos(this.dmgKickR), 0);
     this.camera.setTarget(this.tmpTarget);
@@ -497,6 +502,8 @@ export class FpsClient {
       const cx = e.body.position.x;
       const cz = e.body.position.z;
       e.body.position.set(cx + (e.x - cx) * k, e.body.position.y, cz + (e.z - cz) * k);
+      if(e.alive){e.body.position.y=.7+(e.y??0);e.head.position.y=1.55+(e.y??0);}
+      e.nameTag.position.y=2.1+(e.y??0);e.blob.position.y=.03+(e.y??0);
       e.head.position.x = e.body.position.x;
       e.head.position.z = e.body.position.z;
       e.nameTag.position.x = e.body.position.x;
@@ -522,7 +529,7 @@ export class FpsClient {
         e.head.position.y = Math.max(0.3, e.head.position.y - 0.05);
       }
       if (e.tripo && e.tripoRoot) {
-        e.tripoRoot.position.set(e.body.position.x, 0, e.body.position.z);
+        e.tripoRoot.position.set(e.body.position.x, e.y??0, e.body.position.z);
         e.tripoRoot.rotation.y = e.yaw;
         e.tripo.update(dt, {
           speedFrac: Math.min(1, Math.hypot(e.body.position.x - cx, e.body.position.z - cz) / Math.max(dt, .001) / 10),
@@ -549,7 +556,7 @@ export class FpsClient {
       if (e.flashT > 0) {
         e.flashT -= dt;
         e.flash.isVisible = e.flashT > 0;
-        e.flash.position.set(e.body.position.x + Math.sin(e.yaw) * 0.75, 1.1, e.body.position.z + Math.cos(e.yaw) * 0.75);
+        e.flash.position.set(e.body.position.x + Math.sin(e.yaw) * 0.75, 1.1+(e.y??0), e.body.position.z + Math.cos(e.yaw) * 0.75);
       }
     }
   }
@@ -772,6 +779,7 @@ export class FpsClient {
         const dx = ps.x - this.selfX;
         const dz = ps.z - this.selfZ;
         this.selfSpeed = Math.hypot(dx, dz) / 0.05; // ~velocita' (tick 20Hz)
+        this.selfY=ps.y??0;
         this.selfX = ps.x;
         this.selfZ = ps.z;
         // Spawn equo: la visuale e' comandata dal telefono, quindi al primo stato e a ogni rinascita ci si gira verso il
@@ -814,7 +822,9 @@ export class FpsClient {
           if (this.abilityEl.textContent !== t) this.abilityEl.textContent = t;
           this.abilityEl.style.color = col;
         }
-        this.guardEl.style.opacity = ps.guard && ps.alive ? '0.6' : '0';
+        const spawn=this.mapId==='nuketown'&&(ps.spawnProtection??0)>0&&ps.alive;
+        this.guardEl.style.opacity = (ps.guard||spawn) && ps.alive ? '0.6' : '0';
+        if(spawn)this.abilityEl.textContent='PROTETTO · SPARA PER COMBATTERE';
         this.lockEl.style.opacity = ps.locked && ps.alive ? '1' : '0';
         for (const re of this.remotes.values()) re.ghost.isVisible = this.selfWall && re.alive;
         if (!ps.alive) this.showDeath('💀 ELIMINATO');
@@ -825,6 +835,7 @@ export class FpsClient {
       let e = this.remotes.get(ps.id);
       if (!e) e = this.spawnRemote(ps);
       if (e) {
+        e.y=ps.y??0;
         e.x = ps.x;
         e.z = ps.z;
         e.yaw = ps.yaw;

@@ -1,0 +1,54 @@
+🚀 Server Ricchioni Party su http://localhost:3008
+15:46:05 [ROOM] [CQLRG] creata: 5 giocatori, target 60 (stanze attive 1)
+15:46:06 [ROOM] [CQLRG] entra NUKE 1 (1/5)
+15:46:07 [ROOM] [CQLRG] entra NUKE 2 (2/5)
+15:46:08 [ROOM] [CQLRG] entra NUKE 3 (3/5)
+15:46:09 [ROOM] [CQLRG] entra NUKE 4 (4/5)
+15:46:10 [ROOM] [CQLRG] entra NUKE 5 (5/5)
+15:46:12 [ROUND] [CQLRG] #1 (id 1) → fps · 5 giocatori
+15:46:30 [MINIGAME] [CQLRG] fps via (id 1)
+15:46:36 [RECONNECT] [CQLRG] NUKE 5 disconnesso (fase MINIGAME_PLAYING)
+15:46:36 [RECONNECT] [CQLRG] NUKE 4 disconnesso (fase MINIGAME_PLAYING)
+15:46:36 [RECONNECT] [CQLRG] NUKE 3 disconnesso (fase MINIGAME_PLAYING)
+15:46:36 [RECONNECT] [CQLRG] NUKE 2 disconnesso (fase MINIGAME_PLAYING)
+15:46:36 [RECONNECT] [CQLRG] NUKE 1 disconnesso (fase MINIGAME_PLAYING)
+15:46:36 [RECONNECT] [CQLRG] host disconnesso (fase MINIGAME_PLAYING)
+15:47:11 [ROOM] [43ZGG] creata: 5 giocatori, target 60 (stanze attive 2)
+15:47:11 [ROOM] [43ZGG] entra NUKE 1 (1/5)
+15:47:12 [ROOM] [43ZGG] entra NUKE 2 (2/5)
+15:47:13 [ROOM] [43ZGG] entra NUKE 3 (3/5)
+15:47:14 [ROOM] [43ZGG] entra NUKE 4 (4/5)
+15:47:15 [ROOM] [43ZGG] entra NUKE 5 (5/5)
+15:47:18 [ROUND] [43ZGG] #1 (id 1) → fps · 5 giocatori
+15:47:36 [MINIGAME] [43ZGG] fps via (id 1)
+15:49:25 [RESULT] [43ZGG] fps · NUKE 1 +10, NUKE 3 +7, NUKE 4 +5, NUKE 2 +3, NUKE 5 +1
+15:49:25 [ROOM] [43ZGG] nuova partita: punteggi azzerati, stessi giocatori
+15:49:25 [RECONNECT] [43ZGG] NUKE 3 disconnesso (fase LOBBY)
+15:49:25 [RECONNECT] [43ZGG] NUKE 5 disconnesso (fase LOBBY)
+15:49:25 [RECONNECT] [43ZGG] NUKE 4 disconnesso (fase LOBBY)
+15:49:25 [RECONNECT] [43ZGG] NUKE 2 disconnesso (fase LOBBY)
+15:49:25 [RECONNECT] [43ZGG] NUKE 1 disconnesso (fase LOBBY)
+15:49:25 [RECONNECT] [43ZGG] host disconnesso (fase LOBBY)
+15:51:30 [MINIGAME] [CQLRG] fps saltato senza punti (fase MINIGAME_PLAYING)
+15:51:30 [ERROR] [CQLRG] rete di sicurezza: fps non ha risposto in tempo
+15:51:30 [ROUND] [CQLRG] #1 (id 2) → volleyball · 5 giocatori
+15:51:40 [MINIGAME] [CQLRG] volleyball via (id 2)
+15:51:45 [ROOM] [VVTPS] creata: 5 giocatori, target 60 (stanze attive 3)
+15:51:46 [ROOM] [VVTPS] entra NUKE 1 (1/5)
+15:51:47 [ROOM] [VVTPS] entra NUKE 2 (2/5)
+15:51:48 [ROOM] [VVTPS] entra NUKE 3 (3/5)
+15:51:50 [ROOM] [VVTPS] entra NUKE 4 (4/5)
+15:51:51 [ROOM] [VVTPS] entra NUKE 5 (5/5)
+15:51:54 [ROUND] [VVTPS] #1 (id 1) → fps [punti_doppi] · 5 giocatori
+15:52:12 [MINIGAME] [VVTPS] fps via (id 1)
+15:52:34 [ROOM] [VVTPS] nuova partita: punteggi azzerati, stessi giocatori
+15:52:35 [RECONNECT] [VVTPS] NUKE 5 disconnesso (fase LOBBY)
+15:52:35 [RECONNECT] [VVTPS] NUKE 4 disconnesso (fase LOBBY)
+15:52:35 [RECONNECT] [VVTPS] NUKE 3 disconnesso (fase LOBBY)
+15:52:35 [RECONNECT] [VVTPS] NUKE 2 disconnesso (fase LOBBY)
+15:52:35 [RECONNECT] [VVTPS] NUKE 1 disconnesso (fase LOBBY)
+15:52:35 [RECONNECT] [VVTPS] host disconnesso (fase LOBBY)
+16:03:40 [MINIGAME] [CQLRG] volleyball saltato senza punti (fase MINIGAME_PLAYING)
+16:03:40 [ERROR] [CQLRG] rete di sicurezza: volleyball non ha risposto in tempo
+16:03:40 [ROUND] [CQLRG] #1 (id 3) → geofall · 5 giocatori
+16:03:50 [MINIGAME] [CQLRG] geofall via (id 3)

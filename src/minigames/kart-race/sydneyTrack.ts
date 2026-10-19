@@ -15,8 +15,8 @@ export class SydneyTrack extends TrackSpline {
   private readonly cityAt:number;
   constructor(){
     super(route.map(([x,y,z])=>new Vector3(x,y,z)),route.map(p=>p[3]),route.length*5,false,false,route.map(p=>new Vector3(p[5],p[6],p[7])));
-    this.gaps=[{name:'VOLO SUL PORTO',launch:this.atSurvey(13),landing:this.atSurvey(17.2),height:11}];
-    this.accessRamps=[{start:this.atSurvey(6.12),end:this.atSurvey(6.9)},{start:this.atSurvey(12.05),end:this.atSurvey(12.65)}];
+    this.gaps=[{name:'VOLO SUL PORTO',launch:this.atSurvey(13),landing:this.atSurvey(17.2),height:18}];
+    this.accessRamps=[{start:this.atSurvey(4.4),end:this.atSurvey(9)},{start:this.atSurvey(12.05),end:this.atSurvey(12.65)}];
     this.operaAt=this.atSurvey(5);this.cityAt=this.atSurvey(34);
     const safe=[0,this.gaps[0].launch-10,this.gaps[0].landing+15];
     for(let i=1;i<12;i++){const s=i*this.totalLength/12;if(!this.gapAt(s,22))safe.push(s);}

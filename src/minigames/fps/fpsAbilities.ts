@@ -98,7 +98,7 @@ export class FpsAbilities {
     return { state: 'SPENT' };
   }
 
-  onAbilityPress(p: AbPlayer, weapon: WeaponConfig, players: AbPlayer[], fb: (f: FpsAbilityFeedback) => void): FpsPressResult {
+  onAbilityPress(p: AbPlayer, weapon: WeaponConfig, players: AbPlayer[], fb: (f: FpsAbilityFeedback) => void, world?:{visible:(a:AbPlayer,b:AbPlayer)=>boolean;move:(a:AbPlayer,b:{x:number;z:number})=>{x:number;z:number}}): FpsPressResult {
     if (!p.alive) return 'busy';
     switch (p.characterId) {
       case 'goblin': {
@@ -139,12 +139,13 @@ export class FpsAbilities {
           const dx = t.x - p.x;
           const dz = t.z - p.z;
           const d = Math.hypot(dx, dz);
-          if (d > J.p.range || d < 0.001) continue;
+          if (d > J.p.range || d < 0.001 || world&&!world.visible(p,t)) continue;
           if ((dx * fx + dz * fz) / d < Math.cos(J.p.cone)) continue;
           hits.push({ t, d, dx: dx / d, dz: dz / d });
         }
         if (hits.length === 0) return 'nobody'; // nessuno davanti: non costa niente
         p.abCd = J.cooldown;
+        if(world)p.spawnProtection=0; // Nuketown: an offensive shove ends spawn safety too.
         let ippon = false;
         for (const h of hits) {
           h.t.lockTime = Math.max(h.t.lockTime, J.p.lock);
@@ -152,8 +153,8 @@ export class FpsAbilities {
           h.t.reloadTimer = 0;
           h.t.burstLeft = 0;
           const k = J.p.push * (1 - 0.5 * (h.d / J.p.range));
-          h.t.x += h.dx * k;
-          h.t.z += h.dz * k;
+          if(world){const moved=world.move(h.t,{x:h.t.x+h.dx*k,z:h.t.z+h.dz*k});Object.assign(h.t,moved);}
+          else{h.t.x += h.dx * k;h.t.z += h.dz * k;}
           if (h.d <= J.p.ipponRange) {
             ippon = true;
             h.t.stunTime = Math.max(h.t.stunTime, J.p.ipponStun);

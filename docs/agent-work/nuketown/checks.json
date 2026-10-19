@@ -1,0 +1,39 @@
+{
+  "checks": 15,
+  "vehicleCover": true,
+  "finiteBotMemory": true,
+  "offensiveAbilityEndsProtection": true,
+  "spawnCount": 16,
+  "connectedNavCells": 4882,
+  "movementBoxes": 838,
+  "wall": {
+    "from": {
+      "x": -6.5,
+      "z": -16,
+      "y": 0.245
+    },
+    "to": {
+      "x": -3.5,
+      "z": -16,
+      "y": 0.245
+    }
+  },
+  "movement": {
+    "x": -6.0287,
+    "z": -16,
+    "y": 0.24487639326246502
+  },
+  "edge": {
+    "x": -16.250000000000004,
+    "z": 0,
+    "y": 0.2434
+  },
+  "path": {
+    "x": -12.100000000000001,
+    "z": -32.3
+  },
+  "arenaMaps": [
+    "cantiere",
+    "nuketown"
+  ]
+}
