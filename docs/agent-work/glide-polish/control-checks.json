@@ -1,0 +1,106 @@
+{
+  "config": {
+    "yaw": 0.24,
+    "frequency": 6,
+    "safetyYaw": 0.48,
+    "landingTime": 0.3
+  },
+  "rows": [
+    {
+      "hz": 30,
+      "atRelease": 0.6064124743285062,
+      "headingAtRelease": 0.060511960470881095,
+      "forecast": 1.6156027499804553,
+      "touchdown": 1.4779419572678825,
+      "error": 0.1376607927125728
+    },
+    {
+      "hz": 60,
+      "atRelease": 0.5484693510705364,
+      "headingAtRelease": 0.05937618339635767,
+      "forecast": 1.54736864488561,
+      "touchdown": 1.4779381295972718,
+      "error": 0.06943051528833832
+    },
+    {
+      "hz": 120,
+      "atRelease": 0.5200823968303362,
+      "headingAtRelease": 0.05875100525715871,
+      "forecast": 1.5128881667306282,
+      "touchdown": 1.4779356827596475,
+      "error": 0.03495248397098072
+    },
+    {
+      "gap": "VOLO STELLARE",
+      "hz": 30,
+      "lateral": -4,
+      "touchdown": -0.0000014736679154182693
+    },
+    {
+      "gap": "VOLO STELLARE",
+      "hz": 60,
+      "lateral": -4,
+      "touchdown": -0.000008731170764752941
+    },
+    {
+      "gap": "VOLO STELLARE",
+      "hz": 120,
+      "lateral": -4,
+      "touchdown": -0.000013346522346806023
+    },
+    {
+      "gap": "VOLO STELLARE",
+      "hz": 30,
+      "lateral": 4,
+      "touchdown": 0.0000014736679154182693
+    },
+    {
+      "gap": "VOLO STELLARE",
+      "hz": 60,
+      "lateral": 4,
+      "touchdown": 0.000008731170764752941
+    },
+    {
+      "gap": "VOLO STELLARE",
+      "hz": 120,
+      "lateral": 4,
+      "touchdown": 0.000013346522346806023
+    },
+    {
+      "gap": "SALTO AURORA",
+      "hz": 30,
+      "lateral": -4,
+      "touchdown": -0.18258718749285557
+    },
+    {
+      "gap": "SALTO AURORA",
+      "hz": 60,
+      "lateral": -4,
+      "touchdown": -0.16827181234823071
+    },
+    {
+      "gap": "SALTO AURORA",
+      "hz": 120,
+      "lateral": -4,
+      "touchdown": -0.16196889539983622
+    },
+    {
+      "gap": "SALTO AURORA",
+      "hz": 30,
+      "lateral": 4,
+      "touchdown": 0.18258718749285557
+    },
+    {
+      "gap": "SALTO AURORA",
+      "hz": 60,
+      "lateral": 4,
+      "touchdown": 0.16827181234823071
+    },
+    {
+      "gap": "SALTO AURORA",
+      "hz": 120,
+      "lateral": 4,
+      "touchdown": 0.16196889539983622
+    }
+  ]
+}

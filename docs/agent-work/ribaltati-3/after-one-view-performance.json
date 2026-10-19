@@ -1,0 +1,33 @@
+{
+  "phase": "after-one-view",
+  "metrics": {
+    "shadowPasses": 0,
+    "topDraws": [],
+    "players": 5,
+    "viewports": 1,
+    "fps": 59.68881896056544,
+    "step": {
+      "mean": 1.1031315240032955,
+      "p95": 1.7999999998137355
+    },
+    "render": {
+      "mean": 6.1691022964567725,
+      "p95": 11.299999999813735
+    },
+    "meshes": 278,
+    "active": 79,
+    "draw": 106,
+    "materials": 229,
+    "scale": 1,
+    "shadows": true,
+    "width": 1280,
+    "height": 720,
+    "length": 1305.6590673576634,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    }
+  },
+  "errors": []
+}

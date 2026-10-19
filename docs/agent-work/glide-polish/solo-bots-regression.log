@@ -1,0 +1,47 @@
+09:41:26 [ROUND] [TEST] #1 (id 1) → quiz [punti_doppi] · 2 giocatori
+09:41:26 [MINIGAME] [TEST] quiz via (id 1)
+09:41:26 [RESULT] [TEST] quiz · human +20, BOT BOSCHI +10 (punti doppi)
+09:41:26 [ROOM] [TEST] nuova partita: punteggi azzerati, stessi giocatori
+09:41:26 [ROUND] [TEST] #1 (id 2) → reaction [punti_doppi] · 2 giocatori
+09:41:26 [ROOM] [TEST] reset alla lobby
+09:41:26 [ROUND] [TEST] #1 (id 1) → quiz · 3 giocatori
+09:41:26 [MINIGAME] [TEST] quiz via (id 1)
+09:41:26 [RESULT] [TEST] quiz · human +10, BOT BOSCHI +6, BOT Carbo +3
+09:41:26 [ROOM] [TEST] nuova partita: punteggi azzerati, stessi giocatori
+09:41:26 [ROUND] [TEST] #1 (id 2) → volleyball · 3 giocatori
+09:41:26 [ROOM] [TEST] reset alla lobby
+09:41:26 [ROUND] [TEST] #1 (id 1) → quiz · 4 giocatori
+09:41:26 [MINIGAME] [TEST] quiz via (id 1)
+09:41:26 [RESULT] [TEST] quiz · human +10, BOT BOSCHI +7, BOT Carbo +4, BOT Ciro +2
+09:41:26 [ROOM] [TEST] nuova partita: punteggi azzerati, stessi giocatori
+09:41:26 [ROUND] [TEST] #1 (id 2) → arena · 4 giocatori
+09:41:26 [ROOM] [TEST] reset alla lobby
+09:41:26 [ROUND] [TEST] #1 (id 1) → quiz · 5 giocatori
+09:41:26 [MINIGAME] [TEST] quiz via (id 1)
+09:41:26 [RESULT] [TEST] quiz · human +10, BOT BOSCHI +7, BOT Carbo +5, BOT Ciro +3, BOT Victor +1
+09:41:26 [ROOM] [TEST] nuova partita: punteggi azzerati, stessi giocatori
+09:41:26 [ROUND] [TEST] #1 (id 2) → reaction · 5 giocatori
+09:41:26 [ROOM] [TEST] reset alla lobby
+09:41:26 [ROUND] [MULTI] #1 (id 1) → dodgeball · 2 giocatori
+09:41:26 [ROOM] [MULTI] reset alla lobby
+PASS server: solo 2–5 seats, readiness/offline, unique characters, payload, normal scoring, no duplicates, restart, multiplayer
+PASS quiz: 10 complete questions, 30 delayed bot responses, imperfect scores, no human input
+PASS reaction, memory and cultura: no false start, observed tiles, completed sequences, unique bluffs, valid votes
+Kart simulation {
+  lap: 3,
+  distance: 3917.0485931285402,
+  finished: true,
+  onRoad: 1,
+  time: 93.48333333332931
+}
+FPS navigation {
+  id: 'p1',
+  x: 19.967494447785775,
+  z: 15.664390222050338,
+  yaw: 0.01691723459806107,
+  pitch: 0,
+  alive: true,
+  magazine: 10,
+  spawnProtection: 0
+} { fires: 1045 }
+SOLO BOTS SELFTEST PASS

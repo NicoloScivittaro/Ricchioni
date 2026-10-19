@@ -544,6 +544,13 @@ export class AudioManager {
     this.noiseBurst(0.14, 1800, 300, 0.09 * power, 0, 0.7, pan);
   }
 
+  /** Shared SFX bus: mute/pause/disposal do not leave a separate audio loop alive. */
+  kartGlide(kind:'launch'|'wind'|'land'):void {
+    if(kind==='launch'){this.sweep('sine',340,1180,.3,.045);this.sweep('triangle',620,1450,.16,.018,.08);this.noiseBurst(.24,650,3200,.04);}
+    else if(kind==='land'){this.thump(.65);this.noiseBurst(.09,1800,420,.027);}
+    else this.noiseBurst(.48,850,1200,.012,0,.45);
+  }
+
   /** Caduta nel vuoto (arena): fischio discendente + soffio d'aria. */
   fall(pan?: number): void {
     this.sweep('sine', 880, 130, 0.7, 0.07, 0, pan, 'sfx', true);

@@ -1,0 +1,50 @@
+{
+  "checks": [
+    "five landing markers are private to their viewport",
+    "prediction turns green in lane and orange outside",
+    "swept foils: two meshes, matching normals and fading trails",
+    "touchdown compresses the suspension",
+    "touchdown hides the prediction",
+    "no presentation runtime errors"
+  ],
+  "errors": [],
+  "details": {
+    "ownership": [
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "green": [
+      0.35,
+      1,
+      0.65
+    ],
+    "red": [
+      1,
+      0.3,
+      0.15
+    ],
+    "foil": {
+      "meshes": 2,
+      "vertices": [
+        13,
+        13
+      ],
+      "alpha": [
+        true,
+        true
+      ],
+      "normalY": [
+        0.9727381768665763,
+        0.9727381768665763
+      ]
+    },
+    "landing": {
+      "compression": 0.12102625804880383,
+      "bodyY": -0.10314445499064147,
+      "markerEnabled": false
+    }
+  }
+}

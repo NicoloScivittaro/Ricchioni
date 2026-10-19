@@ -1,0 +1,259 @@
+{
+  "length": 2200.7326075763294,
+  "gaps": [
+    {
+      "name": "VOLO STELLARE",
+      "launch": 151.89999999999876,
+      "landing": 528.5000000000148,
+      "height": 18
+    },
+    {
+      "name": "SALTO AURORA",
+      "launch": 946.0500000000419,
+      "landing": 990.8500000000448,
+      "height": 3.5
+    }
+  ],
+  "checkpoints": [
+    0,
+    139.89999999999876,
+    546.5000000000148,
+    825.2747278411235,
+    934.0500000000419,
+    1008.8500000000448,
+    1100.3663037881647,
+    1375.457879735206,
+    1650.5494556822473,
+    1925.6410316292886
+  ],
+  "races": [
+    {
+      "n": 2,
+      "seed": 11,
+      "time": 167.6666666666785,
+      "completed": 2,
+      "launches": 12,
+      "landings": 12,
+      "falls": 0,
+      "progress": [
+        {
+          "lap": 3,
+          "distance": 6605.010316477839,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6602.207914621394,
+          "flight": "DRIVE"
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "seed": 32,
+      "time": 167.64166666667853,
+      "completed": 2,
+      "launches": 12,
+      "landings": 12,
+      "falls": 0,
+      "progress": [
+        {
+          "lap": 3,
+          "distance": 6605.0094737606405,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6602.207071616563,
+          "flight": "DRIVE"
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "seed": 11,
+      "time": 167.78333333334507,
+      "completed": 3,
+      "launches": 18,
+      "landings": 18,
+      "falls": 0,
+      "progress": [
+        {
+          "lap": 3,
+          "distance": 6607.652314430753,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6605.094376636566,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6602.292006701938,
+          "flight": "DRIVE"
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "seed": 32,
+      "time": 167.74166666667844,
+      "completed": 3,
+      "launches": 18,
+      "landings": 18,
+      "falls": 0,
+      "progress": [
+        {
+          "lap": 3,
+          "distance": 6607.564685000732,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6605.006698916624,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6602.204413796361,
+          "flight": "DRIVE"
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "seed": 11,
+      "time": 167.9250000000116,
+      "completed": 4,
+      "launches": 24,
+      "landings": 24,
+      "falls": 0,
+      "progress": [
+        {
+          "lap": 3,
+          "distance": 6610.210647451979,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6607.5916586163885,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6605.064451441161,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6602.262111655526,
+          "flight": "DRIVE"
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "seed": 32,
+      "time": 167.9250000000116,
+      "completed": 4,
+      "launches": 24,
+      "landings": 24,
+      "falls": 0,
+      "progress": [
+        {
+          "lap": 3,
+          "distance": 6610.225874461467,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6607.606804222697,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6605.079599328591,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6602.27726888572,
+          "flight": "DRIVE"
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "seed": 11,
+      "time": 168.14166666667808,
+      "completed": 5,
+      "launches": 30,
+      "landings": 30,
+      "falls": 0,
+      "progress": [
+        {
+          "lap": 3,
+          "distance": 6612.766035208492,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6610.110256116594,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6607.52816839938,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6605.019320071954,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6602.216687572668,
+          "flight": "DRIVE"
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "seed": 32,
+      "time": 168.14166666667808,
+      "completed": 5,
+      "launches": 30,
+      "landings": 30,
+      "falls": 0,
+      "progress": [
+        {
+          "lap": 3,
+          "distance": 6612.760596000631,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6610.104877543735,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6607.522743011766,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6605.01391589707,
+          "flight": "DRIVE"
+        },
+        {
+          "lap": 3,
+          "distance": 6602.211300318557,
+          "flight": "DRIVE"
+        }
+      ]
+    }
+  ]
+}

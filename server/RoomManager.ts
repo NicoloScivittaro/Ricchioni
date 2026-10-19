@@ -1,3 +1,4 @@
+import type {KartTrackId} from '../shared/kartTracks';
 import { Server, Socket } from 'socket.io';
 import { randomUUID } from 'node:crypto';
 import { EVT } from '../shared/protocol';
@@ -149,7 +150,7 @@ export class RoomManager {
     socket.on(EVT.hostSkipMinigame, () => this.onSkipMinigame(socket));
     socket.on(EVT.hostPause, (p: PausePayload) => this.onPause(socket, p));
     socket.on(EVT.hostSelectMinigame, (p: SelectMinigamePayload) =>
-      this.onSelectMinigame(socket, p.minigameId)
+      this.onSelectMinigame(socket, p.minigameId, p.kartTrackId)
     );
     socket.on(EVT.hostPrivateData, (p: PrivateDataPayload) => this.onPrivateData(socket, p));
     socket.on(EVT.hostRestartMatch, () => this.onRestartMatch(socket));
@@ -363,10 +364,10 @@ export class RoomManager {
     room.setPaused(Boolean(p?.paused));
   }
 
-  private onSelectMinigame(socket: Socket, minigameId: string | null): void {
+  private onSelectMinigame(socket: Socket, minigameId: string | null, kartTrackId?: KartTrackId): void {
     const room = this.roomOfHost(socket);
     if (!room) return;
-    room.selectMinigame(minigameId);
+    room.selectMinigame(minigameId, kartTrackId);
     this.broadcast(room.roomCode);
   }
 

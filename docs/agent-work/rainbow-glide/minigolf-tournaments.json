@@ -1,0 +1,1286 @@
+[
+  {
+    "n": 2,
+    "seed": 1,
+    "seconds": 277.07,
+    "courses": [
+      "scampagnata",
+      "traversata",
+      "inferno"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "1",
+        "placement": 1,
+        "score": 30,
+        "stats": [
+          "30 colpi · 119.2s attivi",
+          "B1: 3 · B2: 16 · B3: 11",
+          "3/3 imbucate · 2 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 32,
+        "stats": [
+          "32 colpi · 126.3s attivi",
+          "B1: 2 · B2: 15 · B3: 15",
+          "3/3 imbucate · 4 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3
+    ]
+  },
+  {
+    "n": 2,
+    "seed": 2,
+    "seconds": 227.23,
+    "courses": [
+      "scampagnata",
+      "maratona",
+      "disperati"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "0",
+        "placement": 1,
+        "score": 17,
+        "stats": [
+          "17 colpi · 78.9s attivi",
+          "B1: 3 · B2: 6 · B3: 8",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 2,
+        "score": 28,
+        "stats": [
+          "28 colpi · 119.4s attivi",
+          "B1: 7 · B2: 11 · B3: 10",
+          "3/3 imbucate · 1 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3
+    ]
+  },
+  {
+    "n": 2,
+    "seed": 3,
+    "seconds": 247.67,
+    "courses": [
+      "traversata",
+      "giostra",
+      "disperati"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "0",
+        "placement": 1,
+        "score": 20,
+        "stats": [
+          "20 colpi · 98.3s attivi",
+          "B1: 8 · B2: 3 · B3: 9",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 2,
+        "score": 26,
+        "stats": [
+          "26 colpi · 120.4s attivi",
+          "B1: 10 · B2: 5 · B3: 11",
+          "3/3 imbucate · 2 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3
+    ]
+  },
+  {
+    "n": 2,
+    "seed": 4,
+    "seconds": 264.58,
+    "courses": [
+      "altalena",
+      "traversata",
+      "odissea"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "1",
+        "placement": 1,
+        "score": 30,
+        "stats": [
+          "30 colpi · 46.3s attivi",
+          "B1: 4 · B2: 6 · B3: 20 DNF",
+          "2/3 imbucate · 8 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 37,
+        "stats": [
+          "37 colpi · 68.5s attivi",
+          "B1: 4 · B2: 13 · B3: 20 DNF",
+          "2/3 imbucate · 11 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      2,
+      2
+    ]
+  },
+  {
+    "n": 2,
+    "seed": 5,
+    "seconds": 236.22,
+    "courses": [
+      "altalena",
+      "giostra",
+      "odissea"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "0",
+        "placement": 1,
+        "score": 22,
+        "stats": [
+          "22 colpi · 101.8s attivi",
+          "B1: 4 · B2: 6 · B3: 12",
+          "3/3 imbucate · 3 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 2,
+        "score": 23,
+        "stats": [
+          "23 colpi · 106.2s attivi",
+          "B1: 6 · B2: 7 · B3: 10",
+          "3/3 imbucate · 1 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3
+    ]
+  },
+  {
+    "n": 2,
+    "seed": 6,
+    "seconds": 201.6,
+    "courses": [
+      "scampagnata",
+      "flipperone",
+      "odissea"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "1",
+        "placement": 1,
+        "score": 22,
+        "stats": [
+          "22 colpi · 87.2s attivi",
+          "B1: 4 · B2: 4 · B3: 14",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 25,
+        "stats": [
+          "25 colpi · 28.3s attivi",
+          "B1: 2 · B2: 3 · B3: 20 DNF",
+          "2/3 imbucate · 9 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      2,
+      3
+    ]
+  },
+  {
+    "n": 3,
+    "seed": 1,
+    "seconds": 291.28,
+    "courses": [
+      "scampagnata",
+      "giostra",
+      "disperati"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "2",
+        "placement": 1,
+        "score": 19,
+        "stats": [
+          "19 colpi · 88.9s attivi",
+          "B1: 3 · B2: 4 · B3: 12",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 20,
+        "stats": [
+          "20 colpi · 75.9s attivi",
+          "B1: 2 · B2: 2 · B3: 16",
+          "3/3 imbucate · 4 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 3,
+        "score": 24,
+        "stats": [
+          "24 colpi · 94.9s attivi",
+          "B1: 9 · B2: 3 · B3: 12",
+          "3/3 imbucate · 3 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 3,
+    "seed": 2,
+    "seconds": 362.12,
+    "courses": [
+      "altalena",
+      "giostra",
+      "odissea"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "0",
+        "placement": 1,
+        "score": 27,
+        "stats": [
+          "27 colpi · 42.5s attivi",
+          "B1: 4 · B2: 3 · B3: 20 DNF",
+          "2/3 imbucate · 10 penalità"
+        ]
+      },
+      {
+        "playerId": "2",
+        "placement": 2,
+        "score": 28,
+        "stats": [
+          "28 colpi · 52.4s attivi",
+          "B1: 6 · B2: 2 · B3: 20 DNF",
+          "2/3 imbucate · 9 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 3,
+        "score": 30,
+        "stats": [
+          "30 colpi · 53.1s attivi",
+          "B1: 6 · B2: 4 · B3: 20 DNF",
+          "2/3 imbucate · 11 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      2,
+      2,
+      2
+    ]
+  },
+  {
+    "n": 3,
+    "seed": 3,
+    "seconds": 359.58,
+    "courses": [
+      "traversata",
+      "altalena",
+      "odissea"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "1",
+        "placement": 1,
+        "score": 25,
+        "stats": [
+          "25 colpi · 102.2s attivi",
+          "B1: 6 · B2: 6 · B3: 13",
+          "3/3 imbucate · 2 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 25,
+        "stats": [
+          "25 colpi · 115.7s attivi",
+          "B1: 13 · B2: 4 · B3: 8",
+          "3/3 imbucate · 1 penalità"
+        ]
+      },
+      {
+        "playerId": "2",
+        "placement": 3,
+        "score": 33,
+        "stats": [
+          "33 colpi · 106.0s attivi",
+          "B1: 16 · B2: 5 · B3: 12",
+          "3/3 imbucate · 5 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 3,
+    "seed": 4,
+    "seconds": 283.37,
+    "courses": [
+      "flipperone",
+      "giostra",
+      "inferno"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "1",
+        "placement": 1,
+        "score": 14,
+        "stats": [
+          "14 colpi · 79.7s attivi",
+          "B1: 4 · B2: 3 · B3: 7",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "2",
+        "placement": 2,
+        "score": 18,
+        "stats": [
+          "18 colpi · 89.5s attivi",
+          "B1: 3 · B2: 5 · B3: 10",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 3,
+        "score": 19,
+        "stats": [
+          "19 colpi · 83.7s attivi",
+          "B1: 6 · B2: 4 · B3: 9",
+          "3/3 imbucate · 0 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 3,
+    "seed": 5,
+    "seconds": 227.28,
+    "courses": [
+      "altalena",
+      "flipperone",
+      "giostra"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "2",
+        "placement": 1,
+        "score": 11,
+        "stats": [
+          "11 colpi · 54.2s attivi",
+          "B1: 5 · B2: 2 · B3: 4",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 11,
+        "stats": [
+          "11 colpi · 57.2s attivi",
+          "B1: 4 · B2: 5 · B3: 2",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 3,
+        "score": 16,
+        "stats": [
+          "16 colpi · 87.5s attivi",
+          "B1: 3 · B2: 8 · B3: 5",
+          "3/3 imbucate · 0 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 3,
+    "seed": 6,
+    "seconds": 397.53,
+    "courses": [
+      "flipperone",
+      "altalena",
+      "odissea"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "2",
+        "placement": 1,
+        "score": 29,
+        "stats": [
+          "29 colpi · 47.9s attivi",
+          "B1: 4 · B2: 5 · B3: 20 DNF",
+          "2/3 imbucate · 5 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 29,
+        "stats": [
+          "29 colpi · 118.1s attivi",
+          "B1: 9 · B2: 3 · B3: 17",
+          "3/3 imbucate · 4 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 3,
+        "score": 35,
+        "stats": [
+          "35 colpi · 69.4s attivi",
+          "B1: 8 · B2: 7 · B3: 20 DNF",
+          "2/3 imbucate · 10 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      2,
+      2
+    ]
+  },
+  {
+    "n": 4,
+    "seed": 1,
+    "seconds": 412.97,
+    "courses": [
+      "traversata",
+      "altalena",
+      "flipperone"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "2",
+        "placement": 1,
+        "score": 13,
+        "stats": [
+          "13 colpi · 72.5s attivi",
+          "B1: 8 · B2: 3 · B3: 2",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 18,
+        "stats": [
+          "18 colpi · 76.0s attivi",
+          "B1: 9 · B2: 3 · B3: 6",
+          "3/3 imbucate · 1 penalità"
+        ]
+      },
+      {
+        "playerId": "3",
+        "placement": 3,
+        "score": 19,
+        "stats": [
+          "19 colpi · 89.0s attivi",
+          "B1: 9 · B2: 5 · B3: 5",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 4,
+        "score": 29,
+        "stats": [
+          "29 colpi · 139.6s attivi",
+          "B1: 17 · B2: 7 · B3: 5",
+          "3/3 imbucate · 2 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 4,
+    "seed": 2,
+    "seconds": 506.43,
+    "courses": [
+      "traversata",
+      "flipperone",
+      "disperati"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "2",
+        "placement": 1,
+        "score": 22,
+        "stats": [
+          "22 colpi · 100.8s attivi",
+          "B1: 8 · B2: 7 · B3: 7",
+          "3/3 imbucate · 1 penalità"
+        ]
+      },
+      {
+        "playerId": "3",
+        "placement": 2,
+        "score": 26,
+        "stats": [
+          "26 colpi · 100.1s attivi",
+          "B1: 11 · B2: 6 · B3: 9",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 3,
+        "score": 30,
+        "stats": [
+          "30 colpi · 118.0s attivi",
+          "B1: 12 · B2: 5 · B3: 13",
+          "3/3 imbucate · 3 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 4,
+        "score": 31,
+        "stats": [
+          "31 colpi · 145.8s attivi",
+          "B1: 15 · B2: 6 · B3: 10",
+          "3/3 imbucate · 2 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 4,
+    "seed": 3,
+    "seconds": 469.45,
+    "courses": [
+      "traversata",
+      "altalena",
+      "disperati"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "2",
+        "placement": 1,
+        "score": 19,
+        "stats": [
+          "19 colpi · 92.7s attivi",
+          "B1: 8 · B2: 4 · B3: 7",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 23,
+        "stats": [
+          "23 colpi · 106.8s attivi",
+          "B1: 9 · B2: 4 · B3: 10",
+          "3/3 imbucate · 1 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 3,
+        "score": 28,
+        "stats": [
+          "28 colpi · 106.7s attivi",
+          "B1: 12 · B2: 4 · B3: 12",
+          "3/3 imbucate · 3 penalità"
+        ]
+      },
+      {
+        "playerId": "3",
+        "placement": 4,
+        "score": 28,
+        "stats": [
+          "28 colpi · 123.7s attivi",
+          "B1: 11 · B2: 4 · B3: 13",
+          "3/3 imbucate · 1 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 4,
+    "seed": 4,
+    "seconds": 583.85,
+    "courses": [
+      "altalena",
+      "traversata",
+      "odissea"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "2",
+        "placement": 1,
+        "score": 26,
+        "stats": [
+          "26 colpi · 108.6s attivi",
+          "B1: 5 · B2: 10 · B3: 11",
+          "3/3 imbucate · 4 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 30,
+        "stats": [
+          "30 colpi · 134.6s attivi",
+          "B1: 4 · B2: 11 · B3: 15",
+          "3/3 imbucate · 1 penalità"
+        ]
+      },
+      {
+        "playerId": "3",
+        "placement": 3,
+        "score": 34,
+        "stats": [
+          "34 colpi · 143.2s attivi",
+          "B1: 6 · B2: 13 · B3: 15",
+          "3/3 imbucate · 5 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 4,
+        "score": 38,
+        "stats": [
+          "38 colpi · 84.7s attivi",
+          "B1: 5 · B2: 13 · B3: 20 DNF",
+          "2/3 imbucate · 8 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      2,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 4,
+    "seed": 5,
+    "seconds": 389.15,
+    "courses": [
+      "traversata",
+      "giostra",
+      "altalena"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "0",
+        "placement": 1,
+        "score": 16,
+        "stats": [
+          "16 colpi · 77.6s attivi",
+          "B1: 6 · B2: 7 · B3: 3",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "2",
+        "placement": 2,
+        "score": 16,
+        "stats": [
+          "16 colpi · 84.2s attivi",
+          "B1: 7 · B2: 4 · B3: 5",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 3,
+        "score": 18,
+        "stats": [
+          "18 colpi · 90.3s attivi",
+          "B1: 8 · B2: 6 · B3: 4",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "3",
+        "placement": 4,
+        "score": 20,
+        "stats": [
+          "20 colpi · 101.8s attivi",
+          "B1: 10 · B2: 5 · B3: 5",
+          "3/3 imbucate · 0 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 4,
+    "seed": 6,
+    "seconds": 421.93,
+    "courses": [
+      "altalena",
+      "giostra",
+      "odissea"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "1",
+        "placement": 1,
+        "score": 13,
+        "stats": [
+          "13 colpi · 65.5s attivi",
+          "B1: 4 · B2: 4 · B3: 5",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "3",
+        "placement": 2,
+        "score": 28,
+        "stats": [
+          "28 colpi · 40.7s attivi",
+          "B1: 3 · B2: 4 · B3: 21 DNF",
+          "2/3 imbucate · 5 penalità"
+        ]
+      },
+      {
+        "playerId": "2",
+        "placement": 3,
+        "score": 28,
+        "stats": [
+          "28 colpi · 43.4s attivi",
+          "B1: 5 · B2: 3 · B3: 20 DNF",
+          "2/3 imbucate · 7 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 4,
+        "score": 28,
+        "stats": [
+          "28 colpi · 44.5s attivi",
+          "B1: 4 · B2: 4 · B3: 20 DNF",
+          "2/3 imbucate · 9 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      2,
+      3,
+      2,
+      2
+    ]
+  },
+  {
+    "n": 5,
+    "seed": 1,
+    "seconds": 543.6,
+    "courses": [
+      "lungomare",
+      "giostra",
+      "traversata"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "2",
+        "placement": 1,
+        "score": 15,
+        "stats": [
+          "15 colpi · 78.7s attivi",
+          "B1: 5 · B2: 2 · B3: 8",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "3",
+        "placement": 2,
+        "score": 19,
+        "stats": [
+          "19 colpi · 91.1s attivi",
+          "B1: 5 · B2: 5 · B3: 9",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 3,
+        "score": 19,
+        "stats": [
+          "19 colpi · 99.9s attivi",
+          "B1: 4 · B2: 8 · B3: 7",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "4",
+        "placement": 4,
+        "score": 21,
+        "stats": [
+          "21 colpi · 101.6s attivi",
+          "B1: 6 · B2: 1 · B3: 14",
+          "3/3 imbucate · 3 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 5,
+        "score": 23,
+        "stats": [
+          "23 colpi · 132.5s attivi",
+          "B1: 3 · B2: 7 · B3: 13",
+          "3/3 imbucate · 0 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 5,
+    "seed": 2,
+    "seconds": 517.35,
+    "courses": [
+      "altalena",
+      "flipperone",
+      "odissea"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "1",
+        "placement": 1,
+        "score": 20,
+        "stats": [
+          "20 colpi · 94.5s attivi",
+          "B1: 6 · B2: 6 · B3: 8",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 23,
+        "stats": [
+          "23 colpi · 90.2s attivi",
+          "B1: 4 · B2: 5 · B3: 14",
+          "3/3 imbucate · 4 penalità"
+        ]
+      },
+      {
+        "playerId": "3",
+        "placement": 3,
+        "score": 23,
+        "stats": [
+          "23 colpi · 92.7s attivi",
+          "B1: 4 · B2: 4 · B3: 15",
+          "3/3 imbucate · 3 penalità"
+        ]
+      },
+      {
+        "playerId": "2",
+        "placement": 4,
+        "score": 23,
+        "stats": [
+          "23 colpi · 94.6s attivi",
+          "B1: 5 · B2: 3 · B3: 15",
+          "3/3 imbucate · 2 penalità"
+        ]
+      },
+      {
+        "playerId": "4",
+        "placement": 5,
+        "score": 32,
+        "stats": [
+          "32 colpi · 49.2s attivi",
+          "B1: 5 · B2: 7 · B3: 20 DNF",
+          "2/3 imbucate · 11 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3,
+      3,
+      2
+    ]
+  },
+  {
+    "n": 5,
+    "seed": 3,
+    "seconds": 508.98,
+    "courses": [
+      "giostra",
+      "flipperone",
+      "traversata"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "2",
+        "placement": 1,
+        "score": 14,
+        "stats": [
+          "14 colpi · 69.0s attivi",
+          "B1: 2 · B2: 4 · B3: 8",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 2,
+        "score": 18,
+        "stats": [
+          "18 colpi · 89.4s attivi",
+          "B1: 4 · B2: 5 · B3: 9",
+          "3/3 imbucate · 1 penalità"
+        ]
+      },
+      {
+        "playerId": "4",
+        "placement": 3,
+        "score": 19,
+        "stats": [
+          "19 colpi · 97.2s attivi",
+          "B1: 9 · B2: 2 · B3: 8",
+          "3/3 imbucate · 2 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 4,
+        "score": 22,
+        "stats": [
+          "22 colpi · 104.1s attivi",
+          "B1: 5 · B2: 4 · B3: 13",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "3",
+        "placement": 5,
+        "score": 22,
+        "stats": [
+          "22 colpi · 110.0s attivi",
+          "B1: 7 · B2: 4 · B3: 11",
+          "3/3 imbucate · 0 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 5,
+    "seed": 4,
+    "seconds": 596.43,
+    "courses": [
+      "altalena",
+      "maratona",
+      "traversata"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "3",
+        "placement": 1,
+        "score": 12,
+        "stats": [
+          "12 colpi · 61.4s attivi",
+          "B1: 4 · B2: 4 · B3: 4",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "4",
+        "placement": 2,
+        "score": 23,
+        "stats": [
+          "23 colpi · 98.6s attivi",
+          "B1: 5 · B2: 11 · B3: 7",
+          "3/3 imbucate · 3 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 3,
+        "score": 23,
+        "stats": [
+          "23 colpi · 100.7s attivi",
+          "B1: 4 · B2: 5 · B3: 14",
+          "3/3 imbucate · 2 penalità"
+        ]
+      },
+      {
+        "playerId": "2",
+        "placement": 4,
+        "score": 33,
+        "stats": [
+          "33 colpi · 131.9s attivi",
+          "B1: 7 · B2: 10 · B3: 16",
+          "3/3 imbucate · 3 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 5,
+        "score": 34,
+        "stats": [
+          "34 colpi · 159.3s attivi",
+          "B1: 4 · B2: 16 · B3: 14",
+          "3/3 imbucate · 1 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 5,
+    "seed": 5,
+    "seconds": 497.95,
+    "courses": [
+      "maratona",
+      "giostra",
+      "flipperone"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "2",
+        "placement": 1,
+        "score": 16,
+        "stats": [
+          "16 colpi · 82.5s attivi",
+          "B1: 7 · B2: 6 · B3: 3",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "3",
+        "placement": 2,
+        "score": 17,
+        "stats": [
+          "17 colpi · 76.0s attivi",
+          "B1: 11 · B2: 4 · B3: 2",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "0",
+        "placement": 3,
+        "score": 17,
+        "stats": [
+          "17 colpi · 79.5s attivi",
+          "B1: 9 · B2: 4 · B3: 4",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "4",
+        "placement": 4,
+        "score": 21,
+        "stats": [
+          "21 colpi · 85.5s attivi",
+          "B1: 12 · B2: 2 · B3: 7",
+          "3/3 imbucate · 3 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 5,
+        "score": 28,
+        "stats": [
+          "28 colpi · 134.1s attivi",
+          "B1: 12 · B2: 9 · B3: 7",
+          "3/3 imbucate · 0 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      3,
+      3,
+      3
+    ]
+  },
+  {
+    "n": 5,
+    "seed": 6,
+    "seconds": 410.97,
+    "courses": [
+      "altalena",
+      "flipperone",
+      "giostra"
+    ],
+    "playoff": false,
+    "results": [
+      {
+        "playerId": "0",
+        "placement": 1,
+        "score": 11,
+        "stats": [
+          "11 colpi · 61.5s attivi",
+          "B1: 4 · B2: 4 · B3: 3",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "4",
+        "placement": 2,
+        "score": 14,
+        "stats": [
+          "14 colpi · 52.1s attivi",
+          "B1: 5 · B2: 5 · B3: 4",
+          "3/3 imbucate · 4 penalità"
+        ]
+      },
+      {
+        "playerId": "1",
+        "placement": 3,
+        "score": 16,
+        "stats": [
+          "16 colpi · 80.0s attivi",
+          "B1: 5 · B2: 7 · B3: 4",
+          "3/3 imbucate · 1 penalità"
+        ]
+      },
+      {
+        "playerId": "3",
+        "placement": 4,
+        "score": 16,
+        "stats": [
+          "16 colpi · 80.7s attivi",
+          "B1: 4 · B2: 5 · B3: 7",
+          "3/3 imbucate · 0 penalità"
+        ]
+      },
+      {
+        "playerId": "2",
+        "placement": 5,
+        "score": 31,
+        "stats": [
+          "31 colpi · 48.5s attivi",
+          "B1: 4 · B2: 21 DNF · B3: 6",
+          "2/3 imbucate · 10 penalità"
+        ]
+      }
+    ],
+    "completed": [
+      3,
+      3,
+      2,
+      3,
+      3
+    ]
+  }
+]

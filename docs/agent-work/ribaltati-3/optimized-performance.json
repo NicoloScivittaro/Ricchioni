@@ -1,0 +1,106 @@
+{
+  "phase": "optimized",
+  "metrics": {
+    "shadowPasses": 291,
+    "topDraws": [
+      [
+        "kartWheel",
+        19244
+      ],
+      [
+        "coastalDetailBatch",
+        19180
+      ],
+      [
+        "batchedTrackGuide",
+        9530
+      ],
+      [
+        "tailLamp",
+        9520
+      ],
+      [
+        "messy",
+        5961
+      ],
+      [
+        "frontHeadlight_merged",
+        4808
+      ],
+      [
+        "coastalStaticBatch",
+        3342
+      ],
+      [
+        "kartLampPoles",
+        2910
+      ],
+      [
+        "kartLampHeads",
+        2910
+      ],
+      [
+        "coastalRailLights",
+        2910
+      ],
+      [
+        "bumperHoop_merged",
+        2446
+      ],
+      [
+        "kartBody_merged",
+        2445
+      ],
+      [
+        "kartContactShadow",
+        2441
+      ],
+      [
+        "kartCabin_merged",
+        2437
+      ],
+      [
+        "liveryStripe_merged",
+        2423
+      ],
+      [
+        "itemBox",
+        1857
+      ],
+      [
+        "driverArm",
+        1490
+      ],
+      [
+        "roundLens",
+        1489
+      ]
+    ],
+    "players": 5,
+    "viewports": 5,
+    "fps": 36.21288179615895,
+    "step": {
+      "mean": 1.4160958903950116,
+      "p95": 2.400000000372529
+    },
+    "render": {
+      "mean": 25.43848797249131,
+      "p95": 34.10000000055879
+    },
+    "meshes": 337,
+    "active": 84,
+    "draw": 700,
+    "materials": 229,
+    "scale": 1,
+    "shadows": true,
+    "width": 1280,
+    "height": 720,
+    "length": 1305.6590673576634,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    }
+  },
+  "errors": []
+}

@@ -46,10 +46,11 @@ export interface TrackSample {
 /** Percorso a spline chiusa (Catmull-Rom) riparametrizzato per lunghezza d'arco. */
 export class TrackSpline {
   readonly totalLength: number;
+  readonly suspended:boolean=false;
   private readonly samples: TrackSample[];
   private readonly sampleSpacing: number;
 
-  constructor(controlPoints: Vector3[], controlWidths: number[], rawResolution = 3000, ramps = false) {
+  constructor(controlPoints: Vector3[], controlWidths: number[], rawResolution = 3000, ramps = false, banked = true, controlUps?:Vector3[]) {
     const n = controlPoints.length;
     const rawPositions: Vector3[] = [];
     for (let i = 0; i <= rawResolution; i++) {
@@ -80,13 +81,14 @@ export class TrackSpline {
       const segLen = cumLen[rawIdx + 1] - cumLen[rawIdx];
       const localT = segLen > 0 ? (targetLen - cumLen[rawIdx]) / segLen : 0;
       const pos = Vector3.Lerp(rawPositions[rawIdx], rawPositions[rawIdx + 1], localT);
-      this.samples.push({ pos, tangent: Vector3.Zero(), right: Vector3.Zero(), up: Vector3.Up(), width: (()=>{const f=(rawIdx+localT)/rawResolution*n,j=Math.floor(f)%n,u=f-Math.floor(f),q=u*u*(3-2*u);return controlWidths[j]*(1-q)+controlWidths[(j+1)%n]*q;})() });
+      const f=(rawIdx+localT)/rawResolution*n,j=Math.floor(f)%n,u=f-Math.floor(f),q=u*u*(3-2*u);
+      this.samples.push({pos,tangent:Vector3.Zero(),right:Vector3.Zero(),up:controlUps?Vector3.Lerp(controlUps[j],controlUps[(j+1)%n],u).normalize():Vector3.Up(),width:controlWidths[j]*(1-q)+controlWidths[(j+1)%n]*q});
     }
     for (let i = 0; i < sampleCount; i++) {
       const prev = this.samples[(i - 1 + sampleCount) % sampleCount].pos;
       const next = this.samples[(i + 1) % sampleCount].pos;
       const tangent = next.subtract(prev).normalize();
-      const right = Vector3.Cross(Vector3.Up(), tangent).normalize();
+      const right = Vector3.Cross(this.samples[i].up, tangent).normalize();
       const up = Vector3.Cross(tangent, right).normalize();
       this.samples[i].tangent = tangent;
       this.samples[i].right = right;
@@ -97,7 +99,7 @@ export class TrackSpline {
       const p=this.samples[(i-4+sampleCount)%sampleCount].tangent;
       const q=this.samples[(i+4)%sampleCount].tangent;
       const turn=Math.atan2(p.z*q.x-p.x*q.z,p.x*q.x+p.z*q.z);
-      const bank=Math.max(-.14,Math.min(.14,turn*.8));
+      const bank=banked?Math.max(-.14,Math.min(.14,turn*.8)):0;
       const frame=this.samples[i],right=frame.right,up=frame.up;
       frame.right=right.scale(Math.cos(bank)).add(up.scale(Math.sin(bank))).normalize();
       frame.up=Vector3.Cross(frame.tangent,frame.right).normalize();
@@ -172,6 +174,9 @@ export class TrackSpline {
     return 0;
   }
 
+  hasRoadAt(_distance:number): boolean { return true; }
+  flightHeightAt(_distance:number): number { return 0; }
+
   get sampleCount(): number {
     return this.samples.length;
   }
@@ -224,8 +229,8 @@ function buildRibbon(scene: Scene, spline: TrackSpline, parent: TransformNode): 
   const uvs: number[] = [];
   const indices: number[] = [];
 
-  const asphaltA = [0.29, 0.3, 0.34];
-  const asphaltB = [0.26, 0.27, 0.31];
+  const asphaltA = [0.24, 0.27, 0.31];
+  const asphaltB = [0.235, 0.265, 0.305];
   const curbRed = [0.85, 0.16, 0.16];
   const curbWhite = [0.92, 0.92, 0.9];
   const laneYellow = [0.95, 0.78, 0.15];
@@ -384,13 +389,13 @@ function buildStartGate(scene: Scene, spline: TrackSpline, parent: TransformNode
   matBanner.diffuseColor = new Color3(0.9, 0.2, 0.35);
 
   for (const side of [-1, 1]) {
-    const post = MeshBuilder.CreateCylinder('gatePost', { height: 6, diameter: 0.5 }, scene);
-    post.position = pos.add(right.scale(side * half)).add(new Vector3(0, 3, 0));
+    const post = MeshBuilder.CreateCylinder('gatePost', { height: 8, diameter: 0.5 }, scene);
+    post.position = pos.add(right.scale(side * half)).add(new Vector3(0, 4, 0));
     post.material = matPost;
     post.parent = parent;
   }
-  const banner = MeshBuilder.CreateBox('gateBanner', { width: half * 2 + 1, height: 1.4, depth: 0.3 }, scene);
-  banner.position = pos.add(new Vector3(0, 5.6, 0));
+  const banner = MeshBuilder.CreateBox('gateBanner', { width: half * 2 + 1, height: .85, depth: 0.3 }, scene);
+  banner.position = pos.add(new Vector3(0, 8, 0));
   banner.material = matBanner;
   banner.parent = parent;
 }

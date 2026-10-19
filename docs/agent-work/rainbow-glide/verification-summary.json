@@ -1,0 +1,14 @@
+{
+  "typecheck": true,
+  "productionBuild": true,
+  "browserChecks": 38,
+  "browserErrors": 0,
+  "cameraRays": 1212,
+  "cameraOcclusions": 0,
+  "regressionSuites": 15,
+  "compiledSmoke": true,
+  "preview": "http://localhost:3008/",
+  "commit": false,
+  "push": false,
+  "deploy": false
+}

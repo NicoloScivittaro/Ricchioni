@@ -1,0 +1,214 @@
+{
+  "checks": [
+    "2: selection, import, checkpoints and viewports",
+    "2: phone steers glider",
+    "Xbox analog steering in GLIDE",
+    "pad disconnect clears held steering",
+    "2: pause freezes flight",
+    "2: phone reconnect keeps identity",
+    "2: visible missed-landing fall",
+    "2: automatic safe respawn",
+    "2: finite flight cameras",
+    "2: lobby cleanup",
+    "3: selection, import, checkpoints and viewports",
+    "3: phone steers glider",
+    "3: pause freezes flight",
+    "3: phone reconnect keeps identity",
+    "3: visible missed-landing fall",
+    "3: automatic safe respawn",
+    "3: finite flight cameras",
+    "3: lobby cleanup",
+    "4: selection, import, checkpoints and viewports",
+    "4: phone steers glider",
+    "4: pause freezes flight",
+    "4: phone reconnect keeps identity",
+    "4: visible missed-landing fall",
+    "4: automatic safe respawn",
+    "4: finite flight cameras",
+    "4: lobby cleanup",
+    "5: selection, import, checkpoints and viewports",
+    "5: phone steers glider",
+    "5: pause freezes flight",
+    "5: phone reconnect keeps identity",
+    "5: visible missed-landing fall",
+    "5: automatic safe respawn",
+    "5: finite flight cameras",
+    "13 items: ground use and documented airborne retention",
+    "five abilities activate during flight/recovery",
+    "imported surface correctly aligned with race coordinates",
+    "5: lobby cleanup",
+    "no runtime page errors"
+  ],
+  "errors": [],
+  "details": [
+    {
+      "rows": [
+        {
+          "flight": "DRIVE",
+          "item": "turbo",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "super_turbo",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "sfera",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "olio",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "scudo",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "disturbo",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "calamita",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "piccione",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "turbo_difettoso",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "buca",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "raffica",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "paraurti",
+          "retained": false
+        },
+        {
+          "flight": "DRIVE",
+          "item": "mollone",
+          "retained": false
+        },
+        {
+          "flight": "GLIDE",
+          "item": "turbo",
+          "retained": false
+        },
+        {
+          "flight": "GLIDE",
+          "item": "super_turbo",
+          "retained": false
+        },
+        {
+          "flight": "GLIDE",
+          "item": "sfera",
+          "retained": false
+        },
+        {
+          "flight": "GLIDE",
+          "item": "olio",
+          "retained": true
+        },
+        {
+          "flight": "GLIDE",
+          "item": "scudo",
+          "retained": false
+        },
+        {
+          "flight": "GLIDE",
+          "item": "disturbo",
+          "retained": false
+        },
+        {
+          "flight": "GLIDE",
+          "item": "calamita",
+          "retained": true
+        },
+        {
+          "flight": "GLIDE",
+          "item": "piccione",
+          "retained": false
+        },
+        {
+          "flight": "GLIDE",
+          "item": "turbo_difettoso",
+          "retained": false
+        },
+        {
+          "flight": "GLIDE",
+          "item": "buca",
+          "retained": true
+        },
+        {
+          "flight": "GLIDE",
+          "item": "raffica",
+          "retained": true
+        },
+        {
+          "flight": "GLIDE",
+          "item": "paraurti",
+          "retained": false
+        },
+        {
+          "flight": "GLIDE",
+          "item": "mollone",
+          "retained": true
+        }
+      ],
+      "abilities": [
+        {
+          "characterId": "goblin",
+          "result": "ok",
+          "flight": "GLIDE"
+        },
+        {
+          "characterId": "dottore",
+          "result": "ok",
+          "flight": "GLIDE"
+        },
+        {
+          "characterId": "judoka",
+          "result": "ok",
+          "flight": "GLIDE"
+        },
+        {
+          "characterId": "buttafuori",
+          "result": "ok",
+          "flight": "DRIVE"
+        },
+        {
+          "characterId": "ciro",
+          "result": "ok",
+          "flight": "GLIDE"
+        }
+      ]
+    },
+    {
+      "roadBounds": [
+        -255.10797119140625,
+        264.2440185546875
+      ],
+      "meshes": 246,
+      "materials": 166
+    }
+  ]
+}

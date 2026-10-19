@@ -1,3 +1,4 @@
+import {coastalWater,buildCoastalDetails} from './coastalPresentation';
 import { Color3, Mesh, MeshBuilder, Scene, Vector3 } from '@babylonjs/core';
 import type { DirectionalLight } from '@babylonjs/core';
 import type { TrackSpline } from './track';
@@ -66,8 +67,11 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
 
   // ---- CIELO e LUCE: pomeriggio mediterraneo ----
   scene.clearColor.set(0.68, 0.86, 0.96, 1);
-  kit.sky([[0, '#2a78c8'], [0.5, '#8ccaf2'], [0.85, '#d6eefb'], [1, '#f3f9ff']], 850);
-  kit.clouds({ count: 18, radius: 400, yMin: 55, yMax: 130, tint: '#ffffff', size: 75, seed: 2 });
+  kit.sky([[0, '#2366ae'], [0.5, '#77bbdf'], [0.85, '#e3e0c8'], [1, '#fff0d1']], 850);
+  // Rounded volumes share one mesh and avoid the old hard-edged cardboard cloud cards.
+  const cloudParts:Mesh[]=[],cloudMat=kit.mat('#f6f4e7',{spec:0,emissive:.18,key:'coastal3Cloud'});cloudMat.fogEnabled=false;
+  for(let i=0;i<12;i++){const a=i*Math.PI/6,r=320+rnd()*20;for(let j=0;j<5;j++){const puff=MeshBuilder.CreateSphere('cloudVolume',{diameter:1,segments:8},scene);puff.position.set(Math.cos(a)*r+(j-2)*14,52+rnd()*18,Math.sin(a)*r);puff.scaling.set(28,12+rnd()*10,18);cloudParts.push(puff);}}
+  kit.merge('coastalCloudVolumes',cloudParts,cloudMat);
   // colline dell'entroterra solo dal lato terra (ovest/sud), il mare resta aperto
   kit.skyline({ radius: 470, height: 60, y: -12, color: '#9db8b4', kind: 'hills', seed: 4, arc: [Math.PI * 0.55, Math.PI * 1.6] });
   kit.skyline({ radius: 430, height: 36, y: -6, color: '#b5c6c6', kind: 'city', seed: 6, arc: [Math.PI * 0.75, Math.PI * 1.25] });
@@ -78,18 +82,19 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
   const rig = kit.lightRig({
     key: [-0.55, -1, -0.35],
     keyColor: '#fff4e0',
-    keyI: 0.88,
+    keyI: 1.02,
     sky: '#d8ecff',
     ground: '#8a7a5a',
-    fillI: 0.66,
-    rim: { dir: [0.5, -0.4, 0.6], color: '#cfe8ff', i: 0.22 }
+    fillI: 0.51,
+    rim: { dir: [0.5, -0.4, 0.6], color: '#cfe8ff', i: 0.13 }
   });
-  kit.glow(0.32);
+  // Emissive lights and pre-baked sign halos replace repeated fullscreen bloom passes.
+  // Surface resolution and shadow quality remain governed by the normal preset.
 
   // ---- TERRENO a zone (piani piatti: costano zero) ----
   const ground = MeshBuilder.CreateGround('ground', { width: 900, height: 900, subdivisions: 2 }, scene);
   ground.position.y = GROUND_Y;
-  ground.material = kit.mat('#b8ad7c', { spec: 0, key: 'kartGround', dynamic: true });
+  ground.material = kit.mat('#a3b78c', { spec: 0, key: 'kartGround', dynamic: true });
   ground.receiveShadows = true;
   kit.freeze(ground);
   const patch = (name: string, hex: string, x0: number, z0: number, x1: number, z1: number, dy = 0.03): void => {
@@ -125,7 +130,7 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
   }, { wrap: true });
   waterTex.uScale = 40;
   waterTex.vScale = 40;
-  const waterMat = kit.mat('#ffffff', { tex: waterTex, spec: 0.4, emissive: 0.25, key: 'kartWaterMat', dynamic: true });
+  const waterMat = coastalWater(scene);
   const waters: Mesh[] = [];
   const water = (x0: number, z0: number, x1: number, z1: number): void => {
     const g = MeshBuilder.CreateGround('water', { width: x1 - x0, height: z1 - z0 }, scene);
@@ -136,6 +141,7 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
   water(-700, 250, 216, 700);
   water(-190, -420, 45, -145);
   water(190, -420, 700, -80);
+  water(-700,-420,-235,110);
   const sea = kit.merge('sea', waters, waterMat);
   if (sea) sea.material = waterMat;
 
@@ -198,8 +204,8 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
   // PALME
   const palmTrunk = MeshBuilder.CreateCylinder('kartPalmTrunks', { diameterTop: 0.22, diameterBottom: 0.36, height: 1, tessellation: 6 }, scene);
   palmTrunk.material = kit.mat('#8a6440', { key: 'kartPalmTrunk' });
-  const palmLeaf = MeshBuilder.CreateBox('kartPalmLeaves', { width: 0.55, height: 0.06, depth: 2.6 }, scene);
-  palmLeaf.setPivotPoint(new Vector3(0, 0, -1.3));
+  const leafPaths=[-1,1].map(side=>Array.from({length:7},(_,i)=>{const t=i/6;return new Vector3(side*Math.sin(Math.PI*t)*.34,Math.sin(t*Math.PI)*.32-t*.3,(t-.5)*2.9);}));
+  const palmLeaf = MeshBuilder.CreateRibbon('kartPalmLeaves',{pathArray:leafPaths,sideOrientation:Mesh.DOUBLESIDE},scene);
   palmLeaf.material = kit.mat('#3f8a4a', { emissive: 0.15, key: 'kartPalmLeaf' });
   const trunks: Xf[] = [];
   const leaves: Xf[] = [];
@@ -462,24 +468,13 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
   kit.freeze(car);
   for (let i = 0; i < 6; i++) addPalm(beside(0.76 + i * 0.04, 1, 6).x, beside(0.76 + i * 0.04, 1, 6).z, 0.85);
 
+  buildCoastalDetails(scene,spline,beside,clear);
+
   // ================================================================ PORTALI DEI SETTORI (sopra la strada)
-  const gateMat = kit.mat('#e8e2d2', { emissive: 0.2 });
-  const gates: Mesh[] = [];
-  for (const sec of KART_SECTORS.slice(1)) {
-    const s = sec.from * L + 6;
-    const pos = spline.positionAt(s);
-    const right = spline.rightAt(s);
-    const half = spline.widthAt(s) / 2 + 1.4;
-    const ang = spline.tangentAngleAt(s);
-    for (const side of [-1, 1]) {
-      const p = pos.add(right.scale(side * half));
-      gates.push(kit.box('sectorPost', 0.5, 7.6, 0.5, { x: p.x, y: pos.y + 3.8 - 0.4, z: p.z }, gateMat));
-    }
-    gates.push(kit.box('sectorBeam', half * 2 + 0.6, 0.4, 0.4, { x: pos.x, y: pos.y + 7.4, z: pos.z, ry: ang + Math.PI / 2 }, gateMat));
-    // insegna leggibile da chi arriva (lato verso la direzione di provenienza)
-    kit.sign(sec.name, { style: 'neon', color: PAL.neonAmber, w: Math.min(half * 2, 14), h: 2, x: pos.x, y: pos.y + 8.6, z: pos.z, ry: ang, twoSided: true });
+  for(const sec of KART_SECTORS.slice(1)){
+    const b=beside(sec.from+.005,1,4.5);
+    kit.sign(sec.name,{style:'board',color:'#fff0cc',bg:'#1d4555',w:5,h:1.15,x:b.x,y:b.y+3,z:b.z,ry:spline.tangentAngleAt(sec.from*L),twoSided:true});
   }
-  kit.merge('sectorGates', gates, gateMat);
 
   // cartelli delle localita'
   const town = (f: number, text: string): void => {
@@ -507,14 +502,14 @@ export function buildKartWorld(scene: Scene, spline: TrackSpline): KartWorld {
   kit.freeze(lampHead);
 
   const groups=new Map<NonNullable<Mesh['material']>,Mesh[]>();
-  for(const m of scene.meshes)if(!initialMeshes.has(m)&&m instanceof Mesh&&!m.hasThinInstances&&m.material&&!m.material.needAlphaBlending()&&!/sky|cloud|sea/i.test(m.name)){
+  for(const m of scene.meshes)if(!initialMeshes.has(m)&&m instanceof Mesh&&!m.hasThinInstances&&m.material&&!m.material.needAlphaBlending()&&!/sky|cloud|sea|coastalDetailBatch/i.test(m.name)){
     const list=groups.get(m.material)??[];list.push(m);groups.set(m.material,list);
   }
   for(const [mat,list]of groups)if(list.length>1)kit.merge('coastalStaticBatch',list,mat);
   return {
     sun: rig.sun,
     update(now: number): void {
-      waterTex.vOffset = (now * 0.000015) % 1;
+      waterTex.vOffset = (now * 0.000015) % 1;waterMat.setFloat('time',now*.001);
     }
   };
 }

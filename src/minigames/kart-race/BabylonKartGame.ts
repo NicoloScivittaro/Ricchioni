@@ -1,3 +1,8 @@
+import {RainbowTrack,stepRainbowKart} from './rainbowTrack';
+import {buildRainbowWorld,importRainbow,GlideWings,GlideLandingGuide} from './rainbowWorld';
+import {pads} from '../../input/GamepadManager';
+import {bindingLabel,padFamily} from '../../input/padTypes';
+import {profileFor} from '../../input/profiles';
 import { MotionBots } from '../bots/MotionBots';
 import {
   Engine,
@@ -8,7 +13,6 @@ import {
   HemisphericLight,
   DirectionalLight,
   ShadowGenerator,
-  GlowLayer,
   MeshBuilder,
   StandardMaterial,
   DynamicTexture,
@@ -46,6 +50,11 @@ import { resolveKartContact } from './kartCollisions';
 
 /** Orchestratore del minigioco 3D: una sola scena Babylon, più camere/viewport. */
 export class BabylonKartGame {
+  readonly ready:Promise<void>;
+  private rainbow:RainbowTrack|null=null;
+  private wings=new Map<PlayerId,GlideWings>();
+  private landingGuides=new Map<PlayerId,GlideLandingGuide>();
+  private windClock=0;
   private soloBots: MotionBots;
   private engine: Engine;
   private scene: Scene;
@@ -72,7 +81,7 @@ export class BabylonKartGame {
   private paused = false;
   private onResize = (): void => this.engine.resize();
   private world: KartWorld;
-  private setPieces: ReturnType<typeof buildTrackSetPieces>;
+  private setPieces: {update(time:number):void};
   private trackAngleAt = (d: number): number => this.spline.tangentAngleAt(d);
   /** false finche' la schermata CONTROLLI e' visibile: countdown/gara restano fermi (vedi step()). */
   private controlsDone = false;
@@ -86,23 +95,37 @@ export class BabylonKartGame {
     this.soloBots = new MotionBots(ctx);
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
-    this.spline = buildTrack();
+    this.rainbow=ctx.kartTrackId==='arcobaleno'?new RainbowTrack():null;
+    this.spline = this.rainbow??buildTrack();
     // Mondo intorno alla pista (cielo, luce, mare, i 4 settori coi landmark): kartEnvironment.ts. Bagliore solo su neon e luci.
-    this.world = buildKartWorld(this.scene, this.spline);
+    this.world = this.rainbow?buildRainbowWorld(this.scene,this.rainbow):buildKartWorld(this.scene, this.spline);
     const shadowGen = new ShadowGenerator(1024, this.world.sun);
     shadowGen.usePoissonSampling = true;
     shadowGen.bias = 0.002;
-    buildTrackVisuals(this.scene, this.spline);
-    this.setPieces=buildTrackSetPieces(this.scene,this.spline);
-    buildTrackGuides(this.scene, this.spline); // cartelli e frecce prima delle curve, portali dei checkpoint
+    // Standard directional projection encloses all casters. Reuse the identical map across viewports,
+    // refresh every displayed frame (not every camera); moving karts still cast live shadows.
+    const shadowMap=shadowGen.getShadowMap()!;shadowMap.refreshRate=0;
+    this.scene.onBeforeRenderObservable.add(()=>shadowMap.resetRefreshCounter());
+    this.scene.skipPointerMovePicking=true;
+    if(!this.rainbow)buildTrackVisuals(this.scene, this.spline);
+    this.setPieces=this.rainbow?{update:()=>{}}:buildTrackSetPieces(this.scene,this.spline);
+    buildTrackGuides(this.scene, this.spline,this.rainbow?.checkpoints); // cartelli e frecce prima delle curve, portali dei checkpoint
     registerEnvScene(this.scene);
-    this.checkpoints = buildCheckpoints(this.spline);
-    const boxPlacements = buildItemBoxes(this.spline);
+    this.checkpoints = this.rainbow?.checkpoints??buildCheckpoints(this.spline);
+    const boxPlacements = buildItemBoxes(this.spline).filter(p=>!this.rainbow?.gapAt(p.s,18));
 
     this.abilities = new CharacterAbilities();
     abilityHub.begin('kart3d', ctx);
     this.items = new ItemManager(this.scene, boxPlacements, this.spline, ctx.rng, this.abilities, (pid, f) =>
-      this.onAbilityFeedback(pid, f)
+      this.onAbilityFeedback(pid, f),
+      (source,target,kind,hit)=>{
+        if(!this.hud)return;
+        const label=itemLabel(kind);
+        if(!target){this.hud.flash(source,label,'#80fff0',.7);return;}
+        this.hud.flash(source,hit?'COLPO A SEGNO!':'COLPO EVITATO',hit?'#ffd166':'#a9cfe3',.8);
+        this.hud.flash(target,hit?label:'COLPO EVITATO',hit?'#ff9f7e':'#75e4ff',.8);
+        if(hit){this.ctx.vibrate(target,45);this.cameraManager.shake(target,.08);}
+      }
     );
     this.cameraManager = new CameraManager(this.scene);
     this.hud = new KartHud(this.scene, this.engine);
@@ -132,26 +155,27 @@ export class BabylonKartGame {
       const entity = new KartEntity(this.scene, p.color, p.characterId);
       entity.updateVisual(state, this.spline);
       this.entities.set(p.id, entity);
-      for (const mesh of entity.root.getChildMeshes()) shadowGen.addShadowCaster(mesh, false);
+      if(this.rainbow)this.wings.set(p.id,new GlideWings(this.scene,entity.root,p.color));
+      for (const mesh of entity.shadowMeshes) shadowGen.addShadowCaster(mesh, false);
 
       const camStart = this.spline.worldPoint(state.distance, state.lateral, 3.5);
       if (!p.bot) {
+        if(this.rainbow)this.landingGuides.set(p.id,new GlideLandingGuide(this.scene,1<<(20+this.order.indexOf(p.id))));
         this.cameraManager.ensure(p.id, camStart);
         this.hud.ensure(p.id, p.color);
       }
     });
 
-    // Bloom draws only its actual emitters, preserving light without five extra full-scene passes.
-    for(const layer of this.scene.effectLayers)if(layer instanceof GlowLayer){
-      for(const mesh of this.scene.meshes){const mat=mesh.material;if(mat instanceof StandardMaterial && (Math.max(mat.emissiveColor.r,mat.emissiveColor.g,mat.emissiveColor.b)>.35 || /lamp|light|tail/i.test(mesh.name)))layer.addIncludedOnlyMesh(mesh as Mesh);}
-    }
     this.cameraManager.applyLayout(this.order);
     this.hud.layout(this.order);
     this.hud.setCountdown('3');
 
     // Schermata CONTROLLI: finche' e' su, il countdown/la gara restano fermi (vedi step()); alla fine gli input sono azzerati.
-    if (ctx.showControls) void ctx.showControls().then(() => (this.controlsDone = true));
-    else this.controlsDone = true;
+    this.ready=(this.rainbow?importRainbow(this.scene,this.rainbow):Promise.resolve()).then(()=>{
+      if(this.disposed)return;
+      if(ctx.showControls)void ctx.showControls().then(()=>{if(!this.disposed)this.controlsDone=true;});
+      else this.controlsDone=true;
+    });
 
     applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
     this.engine.runRenderLoop(guardLoop(() => {
@@ -212,6 +236,7 @@ export class BabylonKartGame {
         if (snapshot.down) this.stats.brakeFrames++;
         if (snapshot.item && state.heldItem) {
           this.items.useItem(state, kartsList, (id) => this.race.rankOf(kartsList, id));
+          if(state.flight==='GLIDE'&&state.heldItem)this.hud.flash(pid,'OGGETTO DA TERRA · CONSERVATO','#ffd166',1.1);
           audio.select();
           this.ctx.vibrate(pid, 45);
           this.sendInfoLine(pid, state);
@@ -233,12 +258,17 @@ export class BabylonKartGame {
         // un azzeramento forzato (pausa/disconnessione/contesto) non deve contare ne' qui ne' nel meter delle abilita'.
         const wasGenuineDriftEnd = snapshot.drift || snapshot.driftReleased;
         const from={distance:state.distance,lateral:state.lateral},wasAirborne=state.jumpHeight>0;
-        stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier,trackSurface(state.distance,state.lateral,this.spline.totalLength));
-        stepTrackDynamics(state,from,this.spline.totalLength,d=>this.spline.widthAt(d),this.race.raceTime,event=>{
+        if(this.rainbow)stepRainbowKart(state,snapshot,dt,this.rainbow,invertModifier,event=>{
+          if(event==='launch'){this.sendInfoLine(pid,state);audio.kartGlide('launch');this.hud.flash(pid,'ALI APERTE · MIRA AL PORTALE','#6cfff1',1.25);this.ctx.vibrate(pid,50);}
+          else if(event==='land'){this.sendInfoLine(pid,state);audio.kartGlide('land');this.hud.flash(pid,'ATTERRAGGIO!','#b4ff9e',.75);this.ctx.vibrate(pid,25);this.cameraManager.shake(pid,.045);}
+          else {audio.fall();this.hud.flash(pid,'CADUTA · RIPARTI DAL CHECKPOINT','#ffb796',1.2);}
+        });
+        else stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier,trackSurface(state.distance,state.lateral,this.spline.totalLength));
+        if(!this.rainbow)stepTrackDynamics(state,from,this.spline.totalLength,d=>this.spline.widthAt(d),this.race.raceTime,event=>{
           if(event==='launch'){audio.kartBoost(9);this.ctx.vibrate(pid,30);this.hud.flash(pid,'DECOLLO!','#ffd166',.6);}
           if(event==='obstacle'){audio.hit();this.cameraManager.shake(pid,.14);this.ctx.vibrate(pid,50);}
         });
-        if(wasAirborne && state.jumpHeight===0){audio.thump(.45);this.cameraManager.shake(pid,.08);this.ctx.vibrate(pid,22);}
+        if(!this.rainbow && wasAirborne && state.jumpHeight===0){audio.thump(.45);this.cameraManager.shake(pid,.08);this.ctx.vibrate(pid,22);}
 
         const wallCrashed = !wasStunned && state.stunTimer > 0;
         const respawnTriggered = !wasAwaitingRespawn && state.respawnTimer > 0;
@@ -309,15 +339,21 @@ export class BabylonKartGame {
       }
       const throttle = this.race.phase === 'racing' && this.ctx.input.get(pid).pressed('up') ? 1 : 0;
       this.entities.get(pid)?.updateVisual(state, this.spline, throttle);
+      this.wings.get(pid)?.update(dt,state.flight==='GLIDE',state.steerVisual);
+      if(this.rainbow)this.landingGuides.get(pid)?.update(state,this.rainbow);
       this.trackFeedback(pid, state);
       this.cameraManager.update(dt, pid, state, this.spline);
+      const slot=pads.slotOf(pid),binding=profileFor('kart3d')?.controls.find(c=>c.action==='ABILITY')?.binding;
+      this.hud.setAbilityButton(pid,slot?.state==='paired'&&binding?bindingLabel(binding,padFamily(slot.padId)):'📱 ⚡');
       this.hud.update(pid, state, this.karts.size, LAPS, DRIFT_THRESHOLDS, dt);
     }
     this.hud.updateMinimap([...this.karts.values()], this.spline);
     this.hud.layout(this.order);
 
+    this.windClock-=dt;
+    if(this.rainbow&&this.windClock<=0&&this.order.some(id=>this.karts.get(id)?.flight==='GLIDE')){audio.kartGlide('wind');this.windClock=.4;}
     this.setPieces.update(this.race.raceTime);
-    for(const [id,state] of this.karts)this.hud.setSector(id,trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
+    for(const [id,state] of this.karts)this.hud.setSector(id,this.rainbow?(state.flight==='GLIDE'?'PLANATA':state.flight==='FALL'?'RECUPERO':'STRADA ARCOBALENO'):trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
   }
 
   /**
@@ -410,7 +446,7 @@ export class BabylonKartGame {
     this.ctx.sendPrivate(playerId, {
       type: 'info',
       item: state.heldItem ? `${itemLabel(state.heldItem)} — ${itemDescription(state.heldItem)}` : null,
-      ability: abilityDescription(state.characterId)
+      ability: (state.flight==='GLIDE'?'PLANATA: il cerchio indica dove atterri rilasciando lo sterzo. Verde = in linea. Gli oggetti da terra restano conservati. · ':'')+abilityDescription(state.characterId)
     });
   }
 
@@ -508,7 +544,7 @@ export class BabylonKartGame {
       }
     } else if (ev.type === 'lap') {
       audio.select();
-      if ((ev.value ?? 0) === LAPS - 1) setGameIntensity(2); // giro finale: strato musicale in piu'
+      if ((ev.value ?? 0) === LAPS - 1) {setGameIntensity(2);if(ev.playerId)this.hud.flash(ev.playerId,'ULTIMO GIRO','#ffd166',1.6);audio.playTone(660,.12,'triangle',.06);audio.playTone(990,.22,'sine',.05);} // giro finale: strato musicale in piu'
     } else if (ev.type === 'finish') {
       if (ev.playerId) this.ctx.vibrate(ev.playerId, 160);
       if (ev.playerId) this.entities.get(ev.playerId)?.playFinish(!this.firstFinishPlayed);

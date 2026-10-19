@@ -1,0 +1,436 @@
+--- before/src/minigames/kart-race/BabylonKartGame.ts
++++ src/minigames/kart-race/BabylonKartGame.ts
+@@ -1,5 +1,5 @@
+ import {RainbowTrack,stepRainbowKart} from './rainbowTrack';
+-import {buildRainbowWorld,importRainbow,GlideWings} from './rainbowWorld';
++import {buildRainbowWorld,importRainbow,GlideWings,GlideLandingGuide} from './rainbowWorld';
+ import {pads} from '../../input/GamepadManager';
+ import {bindingLabel,padFamily} from '../../input/padTypes';
+ import {profileFor} from '../../input/profiles';
+@@ -53,6 +53,7 @@
+   readonly ready:Promise<void>;
+   private rainbow:RainbowTrack|null=null;
+   private wings=new Map<PlayerId,GlideWings>();
++  private landingGuides=new Map<PlayerId,GlideLandingGuide>();
+   private windClock=0;
+   private soloBots: MotionBots;
+   private engine: Engine;
+@@ -159,6 +160,7 @@
+ 
+       const camStart = this.spline.worldPoint(state.distance, state.lateral, 3.5);
+       if (!p.bot) {
++        if(this.rainbow)this.landingGuides.set(p.id,new GlideLandingGuide(this.scene,1<<(20+this.order.indexOf(p.id))));
+         this.cameraManager.ensure(p.id, camStart);
+         this.hud.ensure(p.id, p.color);
+       }
+@@ -257,8 +259,8 @@
+         const wasGenuineDriftEnd = snapshot.drift || snapshot.driftReleased;
+         const from={distance:state.distance,lateral:state.lateral},wasAirborne=state.jumpHeight>0;
+         if(this.rainbow)stepRainbowKart(state,snapshot,dt,this.rainbow,invertModifier,event=>{
+-          if(event==='launch'){this.sendInfoLine(pid,state);audio.kartGlide('launch');this.hud.flash(pid,'PLANATA · STERZA PER ATTERRARE','#6cfff1',1.8);this.ctx.vibrate(pid,35);}
+-          else if(event==='land'){this.sendInfoLine(pid,state);audio.kartGlide('land');this.hud.flash(pid,'ATTERRAGGIO!','#b4ff9e',.75);this.ctx.vibrate(pid,25);this.cameraManager.shake(pid,.06);}
++          if(event==='launch'){this.sendInfoLine(pid,state);audio.kartGlide('launch');this.hud.flash(pid,'ALI APERTE · MIRA AL PORTALE','#6cfff1',1.25);this.ctx.vibrate(pid,50);}
++          else if(event==='land'){this.sendInfoLine(pid,state);audio.kartGlide('land');this.hud.flash(pid,'ATTERRAGGIO!','#b4ff9e',.75);this.ctx.vibrate(pid,25);this.cameraManager.shake(pid,.045);}
+           else {audio.fall();this.hud.flash(pid,'CADUTA · RIPARTI DAL CHECKPOINT','#ffb796',1.2);}
+         });
+         else stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier,trackSurface(state.distance,state.lateral,this.spline.totalLength));
+@@ -338,6 +340,7 @@
+       const throttle = this.race.phase === 'racing' && this.ctx.input.get(pid).pressed('up') ? 1 : 0;
+       this.entities.get(pid)?.updateVisual(state, this.spline, throttle);
+       this.wings.get(pid)?.update(dt,state.flight==='GLIDE',state.steerVisual);
++      if(this.rainbow)this.landingGuides.get(pid)?.update(state,this.rainbow);
+       this.trackFeedback(pid, state);
+       this.cameraManager.update(dt, pid, state, this.spline);
+       const slot=pads.slotOf(pid),binding=profileFor('kart3d')?.controls.find(c=>c.action==='ABILITY')?.binding;
+@@ -443,7 +446,7 @@
+     this.ctx.sendPrivate(playerId, {
+       type: 'info',
+       item: state.heldItem ? `${itemLabel(state.heldItem)} — ${itemDescription(state.heldItem)}` : null,
+-      ability: (state.flight==='GLIDE'?'PLANATA: sterza per atterrare. Gli oggetti da terra restano conservati. · ':'')+abilityDescription(state.characterId)
++      ability: (state.flight==='GLIDE'?'PLANATA: il cerchio indica dove atterri rilasciando lo sterzo. Verde = in linea. Gli oggetti da terra restano conservati. · ':'')+abilityDescription(state.characterId)
+     });
+   }
+ 
+--- before/src/minigames/kart-race/cameraHud.ts
++++ src/minigames/kart-race/cameraHud.ts
+@@ -1,3 +1,4 @@
++import {predictGlideLanding} from './glideDynamics';
+ import { Scene, UniversalCamera, Vector3, Engine, Viewport } from '@babylonjs/core';
+ import { AdvancedDynamicTexture, TextBlock, Rectangle, Control, Ellipse, Image as GuiImage } from '@babylonjs/gui';
+ import type { PlayerId } from '../../../shared/types';
+@@ -129,11 +130,13 @@
+ 
+     const tangent = spline.tangentAt(state.distance);
+     const right = spline.rightAt(state.distance);
+-    const forward = tangent.scale(Math.cos(state.heading)).add(right.scale(Math.sin(state.heading))).normalize();
++    const cameraHeading=state.heading*(state.flight==='GLIDE'?.6:1);
++    const forward = tangent.scale(Math.cos(cameraHeading)).add(right.scale(Math.sin(cameraHeading))).normalize();
+     const kartPos = spline.worldPoint(state.distance, state.lateral, 0.1);
+     kartPos.y+=state.jumpHeight;
+ 
+-    rig.glide+=(Number(state.flight==='GLIDE')-rig.glide)*(1-Math.exp(-dt*3));
++    const approach=spline.suspended&&state.flight==='DRIVE'&&!spline.hasRoadAt(state.distance+18);
++    rig.glide+=((state.flight==='GLIDE'?1:approach?.22:0)-rig.glide)*(1-Math.exp(-dt*3));
+     const speedFrac = Math.max(0, Math.min(1, state.speed / MAX_SPEED));
+     const boosting = state.boostTimer > 0;
+ 
+@@ -146,14 +149,15 @@
+     const futureRoad=spline.worldPoint(state.distance+CAM_LOOK_AHEAD,state.lateral,.8);
+     const desiredLook = kartPos.add(forward.scale(CAM_LOOK_AHEAD)).add(anticipate).add(new Vector3(0, 0.8, 0));
+     desiredLook.y=Math.max(desiredLook.y,futureRoad.y+.8);
+-    if(rig.glide>.01&&state.flight!=='FALL'){
+-      const ahead=Math.max(state.distance+8,Math.min(state.distance+32,state.glideEnd));
++    if(rig.glide>.01&&state.flight==='GLIDE'){
++      const ahead=Math.max(state.distance+8,Math.min(state.distance+58,state.glideEnd));
+       const guide=spline.worldPoint(ahead,state.lateral,1);guide.y+=spline.flightHeightAt(ahead)*.5;
+-      desiredLook.copyFrom(Vector3.Lerp(desiredLook,guide,rig.glide*.32));
++      desiredLook.copyFrom(Vector3.Lerp(desiredLook,guide,rig.glide*.38));
+     }
+     if(state.flight==='FALL')desiredLook.copyFrom(kartPos.add(forward.scale(6)).add(new Vector3(0,.8,0)));
+     if(state.jumpHeight>.15)desiredLook.y-=Math.min(.6,state.jumpHeight*.2);
+ 
++    if(state.glideLanding>0)desiredPos.y-=Math.sin((1-state.glideLanding/.3)*Math.PI)*.11;
+     const alpha = 1 - Math.exp(-CAM_FOLLOW_SPEED * dt);
+     rig.smoothPos = Vector3.Lerp(rig.smoothPos, desiredPos, alpha);
+     rig.smoothLook = Vector3.Lerp(rig.smoothLook, desiredLook, alpha);
+@@ -225,6 +229,7 @@
+ /** HUD essenziale: un AdvancedDynamicTexture PER GIOCATORE, disegnato solo nel viewport della sua camera. */
+ export class KartHud {
+   private entries = new Map<PlayerId, HudEntry>();
++  private trackWidthAt:(distance:number)=>number=()=>13.2;
+   private mapUrl: string | null = null;
+   private mapView = { minX: 0, maxZ: 0, scale: 1, offX: 0, offY: 0 };
+ 
+@@ -235,6 +240,7 @@
+    * Va chiamato prima di ensure(): ogni viewport ne riceve una copia con i kart che si muovono.
+    */
+   setTrack(spline: TrackSpline, checkpoints: number[]): void {
++    this.trackWidthAt=s=>spline.widthAt(s);
+     const N = 260;
+     const pts: { x: number; z: number }[] = [];
+     let minX = Infinity;
+@@ -665,7 +671,8 @@
+ 
+     // linee di velocita': scorrono dai bordi verso l'esterno finche' dura il boost, poi sfumano
+     const boosting = state.boostTimer > 0;
+-    e.boostLabel.text=state.flight==='FALL'?'RECUPERO AL CHECKPOINT':state.flight==='GLIDE'?'PLANATA · ← STERZA →':boosting?`TURBO  ${state.boostTimer.toFixed(1)} s`:state.jumpHeight>.15?`IN VOLO  ${state.jumpHeight.toFixed(1)} m`:state.drifting?`MINI-TURBO ${driftLevelOf(state.driftCharge)}/3`:"";
++    e.boostLabel.color=state.flight==='GLIDE'?(Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'#8affbe':'#ffc078'):'#63fff0';
++    e.boostLabel.text=state.flight==='FALL'?'RECUPERO AL CHECKPOINT':state.flight==='GLIDE'?`PLANATA · ${Math.max(0,Math.ceil(state.glideEnd-state.distance))} m · ${Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'IN LINEA':'CORREGGI'}`:boosting?`TURBO  ${state.boostTimer.toFixed(1)} s`:state.jumpHeight>.15?`IN VOLO  ${state.jumpHeight.toFixed(1)} m`:state.drifting?`MINI-TURBO ${driftLevelOf(state.driftCharge)}/3`:"";
+     e.speedT += dt * (boosting ? 3.2 : 0);
+     for (let i = 0; i < e.speedLines.length; i++) {
+       const l = e.speedLines[i];
+--- before/src/minigames/kart-race/kartEntity.ts
++++ src/minigames/kart-race/kartEntity.ts
+@@ -473,16 +473,23 @@
+   }
+ 
+   /** Sincronizza mesh + effetti con lo stato fisico del kart. */
++  private previousFlight:KartState['flight']='DRIVE';
++
+   updateVisual(state: KartState, spline: TrackSpline, throttle = 0): void {
+     const now=performance.now(),dt=this.lastVisualAt?Math.min(.05,(now-this.lastVisualAt)/1000):1/60;this.lastVisualAt=now;
+-    const landed=this.previousJump>.05 && state.jumpHeight<=.01;
+-    if(landed){this.compression=Math.min(.22,.08+this.previousJump*.12);this.dustFx.manualEmitCount=22;}
++    const glideLanded=this.previousFlight==='GLIDE'&&state.flight==='DRIVE'&&state.glideLanding>0;
++    const launched=this.previousFlight==='DRIVE'&&state.flight==='GLIDE';
++    const landed=glideLanded||(this.previousJump>.05 && state.jumpHeight<=.01);
++    if(launched)this.dustFx.manualEmitCount=10;
++    if(glideLanded){this.compression=.21;this.dustFx.manualEmitCount=18;}
++    this.previousFlight=state.flight;
++    if(landed&&!glideLanded){this.compression=Math.min(.22,.08+this.previousJump*.12);this.dustFx.manualEmitCount=22;}
+     this.previousJump=state.jumpHeight;
+     if(state.stunTimer>0 && !this.previousStun)this.impact=.16;
+     this.previousStun=state.stunTimer>0;this.compression*=Math.exp(-dt*11);this.impact*=Math.exp(-dt*9);
+     this.carriage.position.y=-this.compression+Math.sin(now*.012+this.bobSeed)*.018*Math.min(1,Math.abs(state.speed)/20);
+     this.carriage.rotation.x=state.jumpHeight>.03?Math.max(-.13,Math.min(.13,-state.jumpVelocity*.025)):this.compression*.8;
+-    this.carriage.rotation.z=-state.steerVisual*.055+Math.sin(now*.09)*this.impact;
++    this.carriage.rotation.z=-(state.flight==='GLIDE'?state.heading*.72:state.steerVisual*.055)+Math.sin(now*.09)*this.impact;
+     this.carriage.rotation.y=Math.cos(now*.08)*this.impact*.5;
+     const ground=spline.worldPoint(state.distance,state.lateral,.04);this.contactShadow.position.copyFrom(ground);this.contactShadow.rotation.y=spline.tangentAngleAt(state.distance);
+     this.contactShadow.setEnabled(state.flight==='DRIVE');
+@@ -510,7 +517,7 @@
+     // Derapata: il kart si inclina e il MUSO punta dentro la curva (scivola di traverso), con morbidezza in entrata/uscita
+     this.slide += ((state.drifting ? 1 : 0) - this.slide) * (1-Math.exp(-dt*14));
+     if (this.slide > 0.01) this.root.rotate(Axis.Y, state.driftDir * 0.24 * this.slide, Space.LOCAL);
+-    const roll = state.drifting ? -state.driftDir * 0.16 : 0;
++    const roll = state.flight==='GLIDE'?-state.heading*.35:state.drifting ? -state.driftDir * 0.16 : 0;
+     if (roll !== 0) this.root.rotate(Axis.Z, roll, Space.LOCAL);
+ 
+     const squash = state.stunTimer > 0 ? 0.82 : 1;
+--- before/src/minigames/kart-race/kartPhysics.ts
++++ src/minigames/kart-race/kartPhysics.ts
+@@ -1,3 +1,4 @@
++import {GLIDE} from './glideDynamics';
+ import type { KartState } from './raceTypes';
+ import { MIN_RACE_DISTANCE } from './raceTypes';
+ import { KART_HALF_WIDTH, KART_HALF_LENGTH } from './kartCollisions';
+@@ -244,8 +245,8 @@
+   // --- Sterzata: velocità angolare ASSOLUTA (vedi commento sopra la funzione) ---
+   const speedFracForSteer = Math.min(1, Math.abs(k.speed) / C.maxSpeed);
+   const itemSteer = (k.faultyTimer > 0 ? .58 : 1) * (k.bumperTimer > 0 ? .85 : 1);
+-  const turnRate = (surface.air ? .38 : 1) * C.maxTurnRate * (1 - C.highSpeedSteerLoss * speedFracForSteer * speedFracForSteer) * k.steerMultiplier * itemSteer;
+-  if (!stunned) {
++  const turnRate = C.maxTurnRate * (1 - C.highSpeedSteerLoss * speedFracForSteer * speedFracForSteer) * k.steerMultiplier * itemSteer;
++  if (!stunned && !surface.air) {
+     k.absHeading += steerDir * turnRate * dt;
+     if (k.drifting) k.absHeading += k.driftDir * C.driftExtraRate * dt;
+   }
+@@ -253,23 +254,32 @@
+   k.collisionYawVelocity *= Math.exp(-4 * dt);
+ 
+   let relHeading = wrapAngle(k.absHeading - trackAngleAt(k.distance));
++  if(surface.air){
++    // Keep the air control frame continuous across bends in the gap guide.
++    // Only input and real contact impulses change the relative heading.
++    relHeading=wrapAngle(k.heading+k.collisionYawVelocity*dt);
++    const target=steerDir*GLIDE.yaw*k.steerMultiplier*itemSteer;
++    k.glideYawVelocity+=((target-relHeading)*GLIDE.frequency**2-2*GLIDE.frequency*k.glideYawVelocity)*dt;
++    relHeading+=k.glideYawVelocity*dt;
++    k.absHeading=trackAngleAt(k.distance)+relHeading;
++  }
+ 
+   // Auto-allineamento naturale (grip) SOLO quando non si sterza attivamente:
+   // previene una deriva laterale infinita su un rettilineo, restando comunque
+   // molto più lento della curvatura di una curva vera (serve sterzare per
+   // seguirla, non basta aspettare che il kart si raddrizzi da solo).
+-  if (!k.drifting && steerDir === 0) {
++  if (!surface.air && !k.drifting && steerDir === 0) {
+     const correction = relHeading * Math.min(1, centerRate * dt);
+     k.absHeading -= correction;
+     relHeading -= correction;
+   }
+-  if (stunned) {
++  if (stunned && !surface.air) {
+     const correction = relHeading * Math.min(1, 2 * dt);
+     k.absHeading -= correction;
+     relHeading -= correction;
+   }
+ 
+-  relHeading = clamp(relHeading, surface.air ? -.3 : -1.25, surface.air ? .3 : 1.25);
++  relHeading = clamp(relHeading, surface.air ? -GLIDE.safetyYaw : -1.25, surface.air ? GLIDE.safetyYaw : 1.25);
+   if(surface.air)k.absHeading=trackAngleAt(k.distance)+relHeading;
+   // Sull'olio le gomme non possono cambiare istantaneamente la velocità laterale:
+   // conserva parte della traiettoria mentre il muso sterza. Più veloce = più inerzia.
+@@ -326,7 +336,7 @@
+ }
+ 
+ export function respawnKart(k: KartState, trackAngleAt: (distance: number) => number): void {
+-  k.flight='DRIVE';k.flightTime=0;
++  k.flight='DRIVE';k.flightTime=0;k.glideYawVelocity=0;k.glideLanding=0;
+   k.distance = k.lastValidCheckpointS;
+   k.lateral = 0;
+   k.absHeading = trackAngleAt(k.distance);
+--- before/src/minigames/kart-race/raceTypes.ts
++++ src/minigames/kart-race/raceTypes.ts
+@@ -12,6 +12,8 @@
+   avatar: string;
+ 
+   flight: 'DRIVE' | 'GLIDE' | 'FALL';
++  glideYawVelocity: number;
++  glideLanding: number;
+   glideStart: number;
+   glideEnd: number;
+   flightTime: number;
+@@ -110,7 +112,7 @@
+     characterId,
+     colorHex,
+     avatar,
+-    flight: 'DRIVE', glideStart: 0, glideEnd: 0, flightTime: 0, flightEntryHeight: 0,
++    flight: 'DRIVE', glideYawVelocity: 0, glideLanding: 0, glideStart: 0, glideEnd: 0, flightTime: 0, flightEntryHeight: 0,
+     distance: 0,
+     lateral: 0,
+     absHeading: 0,
+--- before/src/minigames/kart-race/rainbowTrack.ts
++++ src/minigames/kart-race/rainbowTrack.ts
+@@ -1,3 +1,4 @@
++import {glideLift,smooth01,GLIDE} from './glideDynamics';
+ import {Vector3} from '@babylonjs/core';
+ import route from './rainbowRoute.json';
+ import {TrackSpline} from './track';
+@@ -33,14 +34,17 @@
+   }
+   gapAt(s:number,margin=0):GlideGap|undefined{const d=this.wrap(s);return this.gaps.find(g=>d>=g.launch-margin&&d<=g.landing+margin);}
+   override hasRoadAt(s:number):boolean{return !this.gapAt(s);}
+-  override flightHeightAt(s:number):number {const g=this.gapAt(s);return g?Math.sin(Math.PI*clamp((this.wrap(s)-g.launch)/(g.landing-g.launch),0,1))*g.height:0;}
++  override flightHeightAt(s:number):number {const g=this.gapAt(s);return g?glideLift((this.wrap(s)-g.launch)/(g.landing-g.launch),g.height):0;}
+   override botLateralAt():number{return 0;}
+ }
+ 
+ export type FlightEvent='launch'|'land'|'fall';
+ /** Reuses the ground physics and timers. Only marked launch intervals enable lift. */
+ export function stepRainbowKart(k:KartState,input:KartInputSnapshot,dt:number,track:RainbowTrack,invert:boolean,onEvent:(event:FlightEvent)=>void):void {
+-  if(k.respawnTimer>0){stepKartPhysics(k,input,dt,d=>track.widthAt(d)/2,d=>track.tangentAngleAt(d),invert);return;}
++  k.glideLanding=Math.max(0,k.glideLanding-dt);
++  if(k.respawnTimer>0){
++    if(k.flight==='FALL'){k.jumpVelocity-=18*dt;k.jumpHeight+=k.jumpVelocity*dt;}
++    stepKartPhysics(k,input,dt,d=>track.widthAt(d)/2,d=>track.tangentAngleAt(d),invert);return;}
+   if(k.flight==='FALL'){
+     k.flightTime+=dt;k.jumpVelocity-=18*dt;k.jumpHeight+=k.jumpVelocity*dt;k.speed=0;
+     if(k.flightTime>.9){k.respawnTimer=1;k.offTrackTimer=0;}
+@@ -52,7 +56,7 @@
+   let gap=track.gapAt(k.distance);
+   if(!air&&k.distance>before&&gap){
+     k.flight='GLIDE';k.glideStart=k.distance-track.wrap(k.distance)+gap.launch;k.glideEnd=k.glideStart+gap.landing-gap.launch;
+-    k.flightEntryHeight=Math.max(0,k.jumpHeight);k.flightTime=0;k.drifting=false;k.driftCharge=0;k.driftDir=0;k.offRoad=false;
++    k.flightEntryHeight=Math.max(0,k.jumpHeight);k.flightTime=0;k.glideYawVelocity=0;k.glideLanding=0;k.drifting=false;k.driftCharge=0;k.driftDir=0;k.offRoad=false;
+     k.speed=Math.max(28,k.speed);onEvent('launch');
+   }
+   if(k.flight==='GLIDE'){
+@@ -61,11 +65,11 @@
+     gap=track.gaps.find(g=>Math.abs(track.wrap(k.glideStart)-g.launch)<1)!;
+     // Arcade lift: reduced apparent gravity, finite wing corridor, steerable lateral inertia.
+     // Holding brake reduces forward speed; there is no free vertical flight or forced lateral centering.
+-    k.jumpHeight=Math.max(0,Math.sin(Math.PI*t)*gap.height+k.flightEntryHeight*(1-t));
++    k.jumpHeight=Math.max(0,glideLift(t,gap.height)+k.flightEntryHeight*(1-smooth01(t)));
+     k.jumpVelocity=(k.jumpHeight-previousHeight)/dt;
+     if(k.distance>=k.glideEnd){
+       if(Math.abs(k.lateral)<=track.widthAt(k.distance)/2-1.15){
+-        k.flight='DRIVE';k.jumpHeight=k.jumpVelocity=0;k.slipVelocity*=.5;k.drifting=false;k.driftCharge=0;onEvent('land');
++        k.flight='DRIVE';k.glideLanding=GLIDE.landingTime;k.glideYawVelocity=0;k.jumpHeight=k.jumpVelocity=0;k.slipVelocity*=.5;k.drifting=false;k.driftCharge=0;onEvent('land');
+       }else fall();
+     }else if(Math.abs(k.lateral)>23||k.flightTime>25)fall();
+   }else if(Math.abs(k.lateral)>track.widthAt(k.distance)/2+.4)fall();
+--- before/src/minigames/kart-race/rainbowWorld.ts
++++ src/minigames/kart-race/rainbowWorld.ts
+@@ -1,4 +1,6 @@
+-import {Color3,Color4,DirectionalLight,HemisphericLight,Mesh,MeshBuilder,Scene,SceneLoader,StandardMaterial,TransformNode,Vector3,DynamicTexture} from '@babylonjs/core';
++import {predictGlideLanding} from './glideDynamics';
++import type {KartState} from './raceTypes';
++import {Color3,Color4,DirectionalLight,HemisphericLight,Mesh,MeshBuilder,Scene,SceneLoader,StandardMaterial,TransformNode,Vector3,DynamicTexture,VertexData} from '@babylonjs/core';
+ import '@babylonjs/loaders/glTF';
+ import type {KartWorld} from './kartEnvironment';
+ import {RainbowTrack,RAINBOW_SCALE} from './rainbowTrack';
+@@ -16,6 +18,15 @@
+     for(const s of [gap.launch-14,gap.landing+9])for(const side of [-1,1]){
+       const pole=MeshBuilder.CreateBox('glideBeacon',{width:.3,height:6,depth:.3},scene);pole.position.copyFrom(track.worldPoint(s,side*7.7,3));parts.push(pole);
+     }
++    // Landing runway: open brackets frame the surface without painting a bridge over the gap.
++    for(const side of [-1,1])for(const ahead of [1,5,9]){
++      const edge=MeshBuilder.CreateBox('landingRunway',{width:.24,height:.06,depth:2.8},scene);
++      edge.position.copyFrom(track.worldPoint(gap.landing+ahead,side*5.9,.13));edge.rotation.y=track.tangentAngleAt(gap.landing+ahead);parts.push(edge);
++    }
++    for(const side of [-1,1]){
++      const upright=MeshBuilder.CreateBox('landingFrame',{width:.18,height:5.4,depth:.18},scene);upright.position.copyFrom(track.worldPoint(gap.landing+3,side*7.3,2.7));parts.push(upright);
++      const cap=MeshBuilder.CreateBox('landingFrameCorner',{width:2.2,height:.18,depth:.18},scene);cap.position.copyFrom(track.worldPoint(gap.landing+3,side*6.3,5.3));cap.rotation.y=track.tangentAngleAt(gap.landing+3);parts.push(cap);
++    }
+     // Air guide rings are sparse, non-colliding and never cover the landing surface.
+     const count=gap.landing-gap.launch>100?5:1;
+     for(let i=1;i<=count;i++){
+@@ -24,7 +35,7 @@
+       ring.position.copyFrom(track.worldPoint(s,0,track.flightHeightAt(s)+2));ring.rotation.x=Math.PI/2;ring.rotation.y=track.tangentAngleAt(s);parts.push(ring);
+     }
+     const tex=new DynamicTexture('glideInstruction',{width:1024,height:256},scene,false);const c=tex.getContext() as CanvasRenderingContext2D;
+-    c.fillStyle='#101432';c.fillRect(0,0,1024,256);c.fillStyle='#6cfff1';c.font='bold 64px Arial';c.textAlign='center';c.fillText('PLANATA AUTOMATICA',512,90);c.fillStyle='#ffffff';c.font='40px Arial';c.fillText('STERZA • MIRA ALLA PISTA',512,170);tex.update();
++    c.fillStyle='#101432';c.fillRect(0,0,1024,256);c.fillStyle='#6cfff1';c.font='bold 64px Arial';c.textAlign='center';c.fillText('DECOLLO AUTOMATICO',512,90);c.fillStyle='#ffffff';c.font='40px Arial';c.fillText('STERZA · VERDE = ATTERRI',512,170);tex.update();
+     const signMat=new StandardMaterial('glideSign',scene);signMat.diffuseTexture=tex;signMat.emissiveTexture=tex;signMat.disableLighting=true;signMat.backFaceCulling=false;
+     const sign=MeshBuilder.CreatePlane('glideSign',{width:13,height:3.25},scene);sign.position.copyFrom(track.worldPoint(gap.launch-24,10,5));sign.rotation.y=track.tangentAngleAt(gap.launch-24);sign.material=signMat;sign.isPickable=false;
+   }
+@@ -88,19 +99,47 @@
+   for(const material of scene.materials.filter(m=>result.meshes.some(mesh=>mesh.material===m))){material.backFaceCulling=false;material.freeze();}
+ }
+ 
+-/** One reusable pair of folded energy foils per kart, no particles or per-frame geometry. */
++/** Swept foils and fading tip trails: one mesh per side, reused for the whole race. */
+ export class GlideWings {
+-  private wings:Mesh[]=[];private open=0;
++  private wings:Mesh[]=[];private open=0;private time=0;
+   constructor(scene:Scene,parent:TransformNode,color:string){
+-    const mat=new StandardMaterial('glideFoil',scene);mat.diffuseColor=Color3.FromHexString(color);mat.emissiveColor=new Color3(.12,.4,.55);mat.specularColor=new Color3(.7,.9,1);mat.alpha=.9;
++    const mat=new StandardMaterial('glideFoil',scene);mat.diffuseColor=Color3.FromHexString(color);mat.emissiveColor=new Color3(.16,.46,.58);mat.specularColor=new Color3(.7,.9,1);mat.backFaceCulling=false;
+     for(const side of [-1,1]){
+-      const foil=MeshBuilder.CreateBox('glideFoilPart',{width:2.4,height:.06,depth:1.1},scene);
+-      const trail=MeshBuilder.CreateBox('glideTrailPart',{width:.09,height:.06,depth:3.3},scene);trail.position.set(side*1.08,0,-1.8);
+-      const wing=Mesh.MergeMeshes([foil,trail],true,true)!;wing.name='glideWing';wing.parent=parent;wing.position.set(side*1.8,2.1,-.5);wing.material=mat;wing.isPickable=false;wing.setEnabled(false);this.wings.push(wing);
++      const wing=new Mesh('glideWing',scene),data=new VertexData();
++      // A swept, shallow V section rather than flat rectangular planks.
++      const positions=[-.95,0,.62, 1.35,.08,-.15, 1.05,.02,-.95, -.9,0,-.42, .05,.14,.08,
++        1.02,.025,-.85,1.12,.025,-.85,1.17,.025,-4.3,1.01,.025,-4.3,
++        .65,.025,-.75,.71,.025,-.75,.76,.025,-3.2,.64,.025,-3.2];
++      for(let i=0;i<positions.length;i+=3)positions[i]*=side;
++      const indices=[0,1,4,1,2,4,2,3,4,3,0,4,5,6,7,5,7,8,9,10,11,9,11,12],normals:number[]=[],colors:number[]=[];
++      if(side>0)for(let i=0;i<indices.length;i+=3)[indices[i+1],indices[i+2]]=[indices[i+2],indices[i+1]];
++      for(let i=0;i<13;i++)colors.push(1,1,1,i===7||i===8||i===11||i===12?0:i>=5?.6:.94);
++      VertexData.ComputeNormals(positions,indices,normals);data.positions=positions;data.indices=indices;data.normals=normals;data.colors=colors;data.applyToMesh(wing);wing.hasVertexAlpha=true;
++      wing.parent=parent;wing.position.set(side*1.1,2.05,-.85);wing.material=mat;wing.isPickable=false;wing.setEnabled(false);this.wings.push(wing);
+     }
+   }
+   update(dt:number,gliding:boolean,steer:number):void {
+-    this.open+=(Number(gliding)-this.open)*Math.min(1,dt*9);
+-    this.wings.forEach((wing,i)=>{wing.setEnabled(this.open>.015);wing.scaling.x=Math.max(.01,this.open);wing.rotation.z=(i?1:-1)*(1-this.open)*1.3-steer*.16;});
++    this.time+=dt;this.open+=(Number(gliding)-this.open)*(1-Math.exp(-dt*11));
++    this.wings.forEach((wing,i)=>{const side=i?1:-1;wing.setEnabled(this.open>.015);wing.scaling.x=Math.max(.01,this.open);wing.rotation.z=side*(1-this.open)*1.3-steer*.11+Math.sin(this.time*5)*.012*this.open;wing.position.y=2.05+Math.sin(this.open*Math.PI)*.12;});
+   }
+ }
++
++/** Only the owning viewport sees this prediction; no collision, light or particle system. */
++export class GlideLandingGuide {
++  private mesh:Mesh;private material:StandardMaterial;
++  constructor(scene:Scene,layerMask:number){
++    const circle=MeshBuilder.CreateTorus('landingPredictionRing',{diameter:2.4,thickness:.075,tessellation:24},scene),parts=[circle];
++    const pin=MeshBuilder.CreateTorus('landingPredictionPin',{diameter:1.6,thickness:.06,tessellation:20},scene);pin.rotation.x=Math.PI/2;pin.position.y=1.6;parts.push(pin);
++    const stem=MeshBuilder.CreateCylinder('landingPredictionStem',{height:.8,diameter:.045,tessellation:6},scene);stem.position.y=.4;parts.push(stem);
++    for(const side of [-1,1]){const arrow=MeshBuilder.CreateBox('landingPredictionArrow',{width:.09,height:.04,depth:.95},scene);arrow.position.set(side*.26,0,.4);arrow.rotation.y=side*.6;parts.push(arrow);}
++    this.mesh=Mesh.MergeMeshes(parts,true,true)!;this.mesh.name='glideLandingPrediction';this.mesh.layerMask=layerMask;this.mesh.isPickable=false;
++    this.material=new StandardMaterial('landingPredictionMaterial',scene);this.material.disableLighting=true;this.mesh.material=this.material;this.mesh.setEnabled(false);
++  }
++  update(k:KartState,track:RainbowTrack):void {
++    const active=k.flight==='GLIDE';this.mesh.setEnabled(active);if(!active)return;
++    const prediction=predictGlideLanding(k),safe=Math.abs(prediction)<=track.widthAt(k.glideEnd)/2-1.15;
++    this.mesh.position.copyFrom(track.worldPoint(k.glideEnd+1,Math.max(-20,Math.min(20,prediction)),.16));this.mesh.rotation.y=track.tangentAngleAt(k.glideEnd);
++    this.material.emissiveColor.set(safe?.35:1,safe?1:.3,safe?.65:.15);
++    const pulse=1+Math.sin(k.flightTime*7)*.05;this.mesh.scaling.set(pulse,1,pulse);
++  }
++}
+--- before/src/minigames/bots/MotionBots.ts
++++ src/minigames/bots/MotionBots.ts
+@@ -116,7 +116,11 @@
+       const lane=spline.botLateralAt(k.distance,id,this.time);
+       const desired = future - clamp((k.lateral-lane) * (spline.suspended?.1:.055), -0.45, 0.45);
+       const error = angle(desired - k.absHeading);
+-      const turn = clamp(error * 2.5, -1, 1);
++      // In air the stick requests a heading, rather than a yaw rate. Predict
++      // drift from contact impulses and aim early; use the same input as humans.
++      const turn = k.flight==='GLIDE'
++        ? clamp((clamp(-(k.lateral-lane)*.045-k.slipVelocity*.012,-.18,.18)-k.glideYawVelocity*.025)/.24,-1,1)
++        : clamp(error * 2.5, -1, 1);
+       this.ctx.input.get(id).setAxis('steer', (this.ctx.modifier?.id === 'controlli_invertiti') !== (!spline.hasRoadAt(k.distance) && k.disturbTimer>0) ? -turn : turn, 0);
+       const tight = Math.abs(angle(future - tangent)) > (spline.suspended?.23:.5) || Math.abs(error) > (spline.suspended?.6:.85);
+       this.hold(id, 'up', !tight || k.speed < 28);
+--- before/src/core/AudioManager.ts
++++ src/core/AudioManager.ts
+@@ -546,8 +546,8 @@
+ 
+   /** Shared SFX bus: mute/pause/disposal do not leave a separate audio loop alive. */
+   kartGlide(kind:'launch'|'wind'|'land'):void {
+-    if(kind==='launch'){this.sweep('sine',300,1050,.35,.035);this.noiseBurst(.32,500,2800,.035);}
+-    else if(kind==='land')this.thump(.5);
++    if(kind==='launch'){this.sweep('sine',340,1180,.3,.045);this.sweep('triangle',620,1450,.16,.018,.08);this.noiseBurst(.24,650,3200,.04);}
++    else if(kind==='land'){this.thump(.65);this.noiseBurst(.09,1800,420,.027);}
+     else this.noiseBurst(.48,850,1200,.012,0,.45);
+   }
+ 
+--- /dev/null
++++ src/minigames/kart-race/glideDynamics.ts
+@@ -0,0 +1,22 @@
++import type {KartState} from './raceTypes';
++
++/** Critically damped heading response: input aims the nose, release settles it,
++ * but neither this controller nor the landing predictor moves the kart to a lane. */
++export const GLIDE = {yaw: .24, frequency: 6, safetyYaw: .48, landingTime: .3} as const;
++export const smooth01=(t:number):number=>{const u=Math.max(0,Math.min(1,t));return u*u*(3-2*u);};
++
++/** Same lift profile for karts, guides and airborne items. Zero vertical speed at both ends. */
++export function glideLift(t:number,height:number):number {
++  const u=Math.max(0,Math.min(1,t));return Math.sin(Math.PI*u)**2*height;
++}
++
++/** Predict the lateral touchdown if steering is released now. Includes residual
++ * yaw and contact impulses; it is information, never an aim/position assist. */
++export function predictGlideLanding(k:KartState):number {
++  const time=Math.max(0,(k.glideEnd-k.distance)/Math.max(20,k.speed*Math.cos(k.heading)));
++  const w=GLIDE.frequency,e=Math.exp(-w*time),yaw=k.heading,rate=k.glideYawVelocity;
++  const integral=yaw*(1-e)/w+(w*yaw+rate)*(1-(1+w*time)*e)/(w*w);
++  // Oil retains its reduced lateral grip; do not display a dry-road forecast for it.
++  const decay=Math.max(.6,4.5-Math.min(1,k.oilTimer/.4)*3.9);
++  return k.lateral+k.speed*integral+k.slipVelocity*(1-Math.exp(-decay*time))/decay;
++}

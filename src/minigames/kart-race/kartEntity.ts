@@ -15,6 +15,7 @@ import {
   DynamicTexture,
   Color4
 } from '@babylonjs/core';
+import {kartShell, detailCoachwork, detailedWheel, coachworkShadow, paintedChassis} from './kartCoachwork';
 import type { KartState } from './raceTypes';
 import type { TrackSpline } from './track';
 import { audio, EngineSound } from '../../core/AudioManager';
@@ -90,6 +91,7 @@ function shapeFor(characterId: string | null): Shape {
 export class KartEntity {
   readonly root: TransformNode;
   readonly body: Mesh;
+  readonly shadowMeshes: Mesh[];
   private readonly driftSmoke: ParticleSystem;
   private readonly boostFx: ParticleSystem;
   private readonly dustFx: ParticleSystem;
@@ -117,6 +119,17 @@ export class KartEntity {
   private goblinDriver: GoblinVisualInstance | null = null;
   private goblinDriverSeat: TransformNode | null = null;
   private lean = 0;
+  private carriage: TransformNode;
+  private previousJump = 0;
+  private lastVisualAt = 0;
+  private compression = 0;
+  private impact = 0;
+  private previousStun = false;
+  private contactShadow: Mesh;
+  private boostStreaks: Mesh[] = [];
+  private itemHalo: Mesh;
+  private haloMat: StandardMaterial;
+
 
   constructor(scene: Scene, colorHex: string, private readonly characterId: string | null = null) {
     this.root = new TransformNode('kartRoot', scene);
@@ -129,29 +142,31 @@ export class KartEntity {
 
     const bodyMat = new StandardMaterial('kartBodyMat', scene);
     bodyMat.diffuseColor = color;
+    bodyMat.specularColor=new Color3(.8,.85,.9);bodyMat.specularPower=96;
     const darkMat = new StandardMaterial('kartDarkMat', scene);
-    darkMat.diffuseColor = new Color3(0.1, 0.11, 0.14);
+    darkMat.diffuseColor = new Color3(0.065, 0.08, 0.11);
     const wheelMat = new StandardMaterial('kartWheelMat', scene);
-    wheelMat.diffuseColor = new Color3(0.07, 0.07, 0.08);
+    wheelMat.diffuseColor = new Color3(0.045, 0.05, 0.065);
     const rimMat = new StandardMaterial('kartRimMat', scene);
-    rimMat.diffuseColor = new Color3(0.55, 0.56, 0.6);
+    rimMat.diffuseColor = new Color3(0.55, 0.62, 0.69);rimMat.specularColor=new Color3(.9,.95,1);rimMat.specularPower=96;
+    wheelMat.specularColor=new Color3(.08,.08,.09);
     const accentMat = new StandardMaterial('kartAccentMat', scene);
     accentMat.diffuseColor = accent;
     accentMat.emissiveColor = accent.scale(0.25);
 
-    const body = MeshBuilder.CreateBox('kartBody', { width: shape.bodyW, height: shape.bodyH, depth: shape.bodyD }, scene);
+    const body = kartShell(scene,'kartBody',shape.bodyW,shape.bodyH,shape.bodyD);
     body.position.y = 0.42;
     body.material = bodyMat;
     body.parent = this.root;
     this.body = body;
 
-    const nose = MeshBuilder.CreateBox('kartNose', { width: shape.bodyW * 0.78, height: 0.32, depth: shape.noseD }, scene);
+    const nose = kartShell(scene,'kartNose',shape.bodyW*.78,.26,shape.noseD+.2);
     nose.position = new Vector3(0, 0.34, shape.bodyD / 2 + shape.noseD / 2 - 0.05);
     nose.material = bodyMat;
     nose.parent = this.root;
 
-    const cabin = MeshBuilder.CreateBox('kartCabin', { width: 0.72, height: 0.4, depth: 0.7 }, scene);
-    cabin.position = new Vector3(0, 0.78, -0.15);
+    const cabin = kartShell(scene,'kartCabin',.7,.22,.8);
+    cabin.position = new Vector3(0, 0.69, -0.15);
     cabin.material = darkMat;
     cabin.parent = this.root;
 
@@ -175,7 +190,7 @@ export class KartEntity {
     // forma "a disco" è cotta nei vertici così il rotolamento resta pulito.
     this.frontPivots = [];
     this.wheels = [];
-    const halfW = shape.bodyW / 2 - 0.02;
+    const halfW = shape.bodyW / 2 + 0.16;
     const mountFront: [number, number][] = [
       [-halfW, shape.bodyD / 2 - 0.3],
       [halfW, shape.bodyD / 2 - 0.3]
@@ -186,15 +201,7 @@ export class KartEntity {
     ];
 
     const makeWheelMesh = (): Mesh => {
-      const w = MeshBuilder.CreateCylinder('kartWheel', { diameter: shape.wheelD, height: 0.36, tessellation: 14 }, scene);
-      w.rotation.z = Math.PI / 2;
-      w.bakeCurrentTransformIntoVertices();
-      w.material = wheelMat;
-      const hub = MeshBuilder.CreateCylinder('kartHub', { diameter: shape.wheelD * 0.4, height: 0.38, tessellation: 8 }, scene);
-      hub.rotation.z = Math.PI / 2;
-      hub.bakeCurrentTransformIntoVertices();
-      hub.material = rimMat;
-      hub.parent = w;
+      const w = detailedWheel(scene,shape.wheelD,wheelMat,rimMat,rimMat);
       return w;
     };
 
@@ -271,6 +278,20 @@ export class KartEntity {
       lamp.parent = this.root;
     }
 
+    detailCoachwork(scene,this.root,shape.bodyW,shape.bodyD,bodyMat,rimMat,darkMat);
+    // Merge rigid, opaque parts only; driver joints, wheels and dynamic lamps remain independent.
+    const rigid=this.root.getChildren().filter((m):m is Mesh=>m instanceof Mesh && m.isVisible && !this.wheels.includes(m) && !this.driverArms.includes(m) && m!==this.driverTorso && m!==this.symbol && m.material!==this.tailMat);
+    this.body=paintedChassis(scene,rigid);this.body.parent=this.root;
+    const lamps=this.root.getChildMeshes().filter((m):m is Mesh=>m instanceof Mesh && m.material===this.tailMat);const tail=Mesh.MergeMeshes(lamps,true,true);if(tail){tail.material=this.tailMat;tail.parent=this.root;tail.name='tailLamp';}
+    this.carriage=new TransformNode('kartSuspension',scene);this.carriage.parent=this.root;
+    for(const node of this.root.getChildren())if(node!==this.carriage && !this.frontPivots.includes(node as TransformNode) && !this.wheels.includes(node as Mesh) && !(node instanceof Mesh && !node.isVisible))node.parent=this.carriage;
+    for(const x of [-.45,.45]){const streak=MeshBuilder.CreateCylinder('turboStreak',{diameterTop:.025,diameterBottom:.13,height:2.2,tessellation:6},scene);streak.rotation.x=Math.PI/2;streak.parent=this.root;streak.position.set(x,.35,-2);streak.material=accentMat;streak.isVisible=false;this.boostStreaks.push(streak);}
+    this.itemHalo=MeshBuilder.CreateTorus('kartItemHalo',{diameter:2.2,thickness:.055,tessellation:24},scene);this.itemHalo.parent=this.root;this.itemHalo.position.y=.75;this.itemHalo.isVisible=false;
+    this.haloMat=new StandardMaterial('itemHaloMat',scene);this.haloMat.disableLighting=true;this.itemHalo.material=this.haloMat;
+    this.contactShadow=MeshBuilder.CreateDisc('kartContactShadow',{radius:1,tessellation:16},scene);this.contactShadow.rotation.x=Math.PI/2;this.contactShadow.scaling.set(.9,1.4,1);
+    const shade=new StandardMaterial('kartContactShadowMat',scene);shade.diffuseColor=Color3.Black();shade.disableLighting=true;shade.alpha=.18;shade.backFaceCulling=false;this.contactShadow.material=shade;this.contactShadow.isPickable=false;
+    const shadow=coachworkShadow(scene,this.root,this.root.getChildMeshes().filter((m):m is Mesh=>m instanceof Mesh && (m===this.body || /kartWheel|_merged|tailLamp/.test(m.name))));
+    this.shadowMeshes=[shadow,...(this.driverTorso?[this.driverTorso]:[]),...this.driverArms,...(this.driverHead?.getChildMeshes()??[]) as Mesh[]];
     this.engine = audio.createEngine();
     this.engine.start();
   }
@@ -452,7 +473,27 @@ export class KartEntity {
   }
 
   /** Sincronizza mesh + effetti con lo stato fisico del kart. */
+  private previousFlight:KartState['flight']='DRIVE';
+
   updateVisual(state: KartState, spline: TrackSpline, throttle = 0): void {
+    const now=performance.now(),dt=this.lastVisualAt?Math.min(.05,(now-this.lastVisualAt)/1000):1/60;this.lastVisualAt=now;
+    const glideLanded=this.previousFlight==='GLIDE'&&state.flight==='DRIVE'&&state.glideLanding>0;
+    const launched=this.previousFlight==='DRIVE'&&state.flight==='GLIDE';
+    const landed=glideLanded||(this.previousJump>.05 && state.jumpHeight<=.01);
+    if(launched)this.dustFx.manualEmitCount=10;
+    if(glideLanded){this.compression=.21;this.dustFx.manualEmitCount=18;}
+    this.previousFlight=state.flight;
+    if(landed&&!glideLanded){this.compression=Math.min(.22,.08+this.previousJump*.12);this.dustFx.manualEmitCount=22;}
+    this.previousJump=state.jumpHeight;
+    if(state.stunTimer>0 && !this.previousStun)this.impact=.16;
+    this.previousStun=state.stunTimer>0;this.compression*=Math.exp(-dt*11);this.impact*=Math.exp(-dt*9);
+    this.carriage.position.y=-this.compression+Math.sin(now*.012+this.bobSeed)*.018*Math.min(1,Math.abs(state.speed)/20);
+    this.carriage.rotation.x=state.jumpHeight>.03?Math.max(-.13,Math.min(.13,-state.jumpVelocity*.025)):this.compression*.8;
+    this.carriage.rotation.z=-(state.flight==='GLIDE'?state.heading*.72:state.steerVisual*.055)+Math.sin(now*.09)*this.impact;
+    this.carriage.rotation.y=Math.cos(now*.08)*this.impact*.5;
+    const ground=spline.worldPoint(state.distance,state.lateral,.04);this.contactShadow.position.copyFrom(ground);this.contactShadow.rotation.y=spline.tangentAngleAt(state.distance);
+    this.contactShadow.setEnabled(state.flight==='DRIVE');
+    this.contactShadow.visibility=Math.max(.18,1-state.jumpHeight*.25);this.contactShadow.scaling.x=.9+state.jumpHeight*.1;
     const pos = spline.worldPoint(state.distance, state.lateral, 0.05);
     pos.y += state.jumpHeight;
     const speedFrac = Math.min(1, Math.abs(state.speed) / MAX_SPEED);
@@ -474,16 +515,16 @@ export class KartEntity {
     this.root.rotationQuaternion = Quaternion.FromRotationMatrix(m);
 
     // Derapata: il kart si inclina e il MUSO punta dentro la curva (scivola di traverso), con morbidezza in entrata/uscita
-    this.slide += ((state.drifting ? 1 : 0) - this.slide) * 0.22;
+    this.slide += ((state.drifting ? 1 : 0) - this.slide) * (1-Math.exp(-dt*14));
     if (this.slide > 0.01) this.root.rotate(Axis.Y, state.driftDir * 0.24 * this.slide, Space.LOCAL);
-    const roll = state.drifting ? -state.driftDir * 0.16 : 0;
+    const roll = state.flight==='GLIDE'?-state.heading*.35:state.drifting ? -state.driftDir * 0.16 : 0;
     if (roll !== 0) this.root.rotate(Axis.Z, roll, Space.LOCAL);
 
     const squash = state.stunTimer > 0 ? 0.82 : 1;
     this.root.scaling.set(squash, squash, squash);
 
     // Ruote anteriori: sterzano visivamente seguendo l'input smussato.
-    for (const pivot of this.frontPivots) pivot.rotation.y = state.steerVisual * MAX_VISUAL_STEER_ANGLE;
+    for (const pivot of this.frontPivots) {pivot.rotation.y = state.steerVisual * MAX_VISUAL_STEER_ANGLE;pivot.position.y=shapeFor(this.characterId).wheelD/2-(state.jumpHeight>.03?.1:0);}
     // Tutte le ruote rotolano in base alla velocità percorsa.
     for (const w of this.wheels) w.rotation.x = state.wheelSpin;
 
@@ -504,9 +545,13 @@ export class KartEntity {
       this.tailMat.emissiveColor.set(lamp[0], lamp[1], lamp[2]);
     }
     this.boostFx.emitRate = state.boostTimer > 0 ? 70 : 0;
+    for(const streak of this.boostStreaks){streak.isVisible=state.boostTimer>0;streak.scaling.y=.8+Math.sin(now*.06)*.15;}
     this.dustFx.emitRate = state.offRoad && Math.abs(state.speed) > 8 ? 30 : 0;
 
     this.engine.update(speedFrac, state.boostTimer > 0, throttle, state.drifting ? Math.min(1, 0.45 + state.driftCharge * 0.5) : 0);
+    this.itemHalo.isVisible=state.shielded||state.disturbTimer>0||state.debtPending;
+    this.itemHalo.rotation.x=state.shielded?.22:Math.sin(now*.008)*.45;this.itemHalo.rotation.z=state.disturbTimer>0?now*.004:0;
+    this.haloMat.emissiveColor=Color3.FromHexString(state.shielded?'#56d9ff':state.disturbTimer>0?'#ffcf51':'#c796ff');
     this.updateDriver(state);
   }
 
@@ -538,7 +583,7 @@ export class KartEntity {
       if (this.driverTorso) this.driverTorso.rotation.z = this.lean;
       if (this.driverHead) this.driverHead.rotation.z = this.lean * 1.4;
       // stesso movimento del pilota disegnato: il Goblin importato si piega in curva/derapata (solo posa)
-      if (this.goblinDriverSeat) this.goblinDriverSeat.rotation.z = this.lean;
+      if (this.goblinDriverSeat) {this.goblinDriverSeat.rotation.z = this.lean;this.goblinDriverSeat.position.y=GOBLIN_DRIVER_SEAT_Y+(state.jumpHeight>0?.04:0);}
     }
     const [armL, armR] = this.driverArms;
     if (armL && armR) {
@@ -575,6 +620,7 @@ export class KartEntity {
     this.goblinDriverSeat?.dispose(false, false);
     this.goblinDriverSeat = null;
     for (const m of this.driverMats) m.dispose();
+    this.contactShadow.dispose(false,true);
     this.root.dispose();
   }
 

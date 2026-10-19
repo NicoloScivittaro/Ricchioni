@@ -31,7 +31,7 @@ export class IntroScene extends Phaser.Scene {
     const icon = this.add.text(640, 150, def?.icon ?? '🎮', { fontSize: '96px' }).setOrigin(0.5).setScale(0.5).setAlpha(0);
     const name = titleText(this, 640, 265, pick.name, pick.name.length > 26 ? 52 : UI.size.XL + 4, THEME.text).setStroke(UI.outline.color, UI.outline.thick).setAlpha(0);
     const cat = pill(this, 640, 336, pick.category, THEME.gold, UI.size.S).setAlpha(0);
-    const desc = bodyText(this, 640, 396, def?.description ?? 'Usa il telefono per giocare', UI.size.S + 4, THEME.textDim).setWordWrapWidth(1080).setAlpha(0);
+    const desc = bodyText(this, 640, 396, pick.kartTrackId==='arcobaleno'?'Tre giri su una pista sospesa. Le ali si aprono nei tratti azzurri: sterza verso la piattaforma successiva. Fuori pista riparti dal checkpoint.':def?.description ?? 'Usa il telefono per giocare', UI.size.S + 4, THEME.textDim).setWordWrapWidth(1080).setAlpha(0);
     this.tweens.add({ targets: icon, alpha: 1, scale: 1, duration: THEME.normal, ease: 'Back.easeOut' });
     this.tweens.add({ targets: [name, cat, desc], alpha: 1, duration: THEME.normal, delay: 120 });
 

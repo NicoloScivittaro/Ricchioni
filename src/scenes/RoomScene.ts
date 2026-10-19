@@ -1,3 +1,4 @@
+import {kartTrackName} from '../../shared/kartTracks';
 import Phaser from 'phaser';
 import QRCode from 'qrcode';
 import { game as gm } from '../core/GameManager';
@@ -178,16 +179,16 @@ export class RoomScene extends Phaser.Scene {
     const st = gm.state;
     if (!st) return [null];
     const compat = MINIGAME_DEFINITIONS.filter((d) => d.enabled !== false && st.playerCount >= d.minPlayers && st.playerCount <= d.maxPlayers).map((d) => d.id);
-    return [null, ...compat];
+    return [null, ...compat, ...(compat.includes('kart3d') ? ['kart3d:arcobaleno'] : [])];
   }
 
   private cycleMinigame(dir: number): void {
     const opts = this.options();
-    const cur = gm.state?.selectedMinigameId ?? null;
+    const cur = gm.state?.selectedMinigameId === 'kart3d' && gm.state.selectedKartTrackId === 'arcobaleno' ? 'kart3d:arcobaleno' : gm.state?.selectedMinigameId ?? null;
     const idx = Math.max(0, opts.indexOf(cur));
     const next = opts[(idx + dir + opts.length) % opts.length];
     audio.ui('move');
-    gm.selectMinigame(next);
+    gm.selectMinigame(next === 'kart3d:arcobaleno' ? 'kart3d' : next, next === 'kart3d:arcobaleno' ? 'arcobaleno' : 'litorale');
   }
 
   private tryStart(): void {
@@ -220,11 +221,11 @@ export class RoomScene extends Phaser.Scene {
 
     const sel = st.selectedMinigameId;
     const withPad = st.players.filter((p) => pads.slotOf(p.id)?.state === 'paired').length;
-    const key = `${sel}|${st.targetScore}|${withPad}|${st.players.map((p) => `${p.id}:${p.characterId}:${p.ready}:${p.connected}:${pads.slotOf(p.id)?.state ?? ''}`).join(',')}`;
+    const key = `${sel}|${st.selectedKartTrackId}|${st.targetScore}|${withPad}|${st.players.map((p) => `${p.id}:${p.characterId}:${p.ready}:${p.connected}:${pads.slotOf(p.id)?.state ?? ''}`).join(',')}`;
     if (key === this.lastKey) return; // niente setText a ogni frame
     this.lastKey = key;
 
-    this.mgText.setText(sel ? `MINIGIOCO: ${getMinigame(sel)?.name ?? sel}` : 'MINIGIOCO: 🎰 IL RULLO DECIDE');
+    this.mgText.setText(sel ? `MINIGIOCO: ${sel === 'kart3d' ? kartTrackName(st.selectedKartTrackId) : getMinigame(sel)?.name ?? sel}` : 'MINIGIOCO: 🎰 IL RULLO DECIDE');
     this.targetText.setText(`🎯 OBIETTIVO ${st.targetScore} PUNTI · ~${estimateGameMinutes(st.targetScore)} MIN`);
 
     const byChar = new Map<string, PlayerPublic>();

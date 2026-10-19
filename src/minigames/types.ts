@@ -1,3 +1,4 @@
+import type {KartTrackId} from '../../shared/kartTracks';
 import type Phaser from 'phaser';
 import type {
   ActiveModifier,
@@ -15,6 +16,7 @@ import type { InputManager } from '../network/InputManager';
  * input tramite ctx.input (InputManager) e termina con ctx.finish(ranking).
  */
 export interface MinigameContext {
+  kartTrackId?: KartTrackId;
   /** Identità server del round, anche per rifiutare risposte private tardive. */
   roundId?: number;
   players: PlayerSnapshot[];

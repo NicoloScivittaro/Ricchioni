@@ -1,0 +1,32 @@
+[
+  {
+    "test": "fighter-selftest.ts",
+    "exit": 0,
+    "seconds": 2.08,
+    "tail": "\n\u2705 165/165 controlli ok\n"
+  },
+  {
+    "test": "fighter-abilities-selftest.ts",
+    "exit": 0,
+    "seconds": 1.96,
+    "tail": "\n\u2705 82/82 controlli ok (abilita')\n"
+  },
+  {
+    "test": "fighter-projectile-selftest.ts",
+    "exit": 0,
+    "seconds": 2.0,
+    "tail": "{ botThrows: 23, botKicks: 286, matchSeconds: 150.0000000000279 }\nPASS: equal five skins; tap/charge/aim/air/cooldown; cancellation; swept first hit/parry/dodge/invulnerability/roof/expiry/KO/end; bots and finite match.\n"
+  },
+  {
+    "test": "quality-selftest.ts",
+    "exit": 0,
+    "seconds": 1.88,
+    "tail": "llo di sessione)\n\u2705 fra 24 e 57 FPS non cambia nulla per 40 s (isteresi)\n\u2705 60 FPS da 7 s: ancora LOW (serve 8 s stabili)\n\u2705 dopo 8 s stabili sale a MEDIUM \u2014 medium scala 1 ombre true particelle true glow false\n\u2705 nel cooldown non sale ancora\n\u2705 poi HIGH (desktop) \u2014 high scala 1 ombre true particelle true glow true\n\u2705 HIGH non regge: torna a MEDIUM\n\u2705 anche con 60 FPS per 60 s NON riprova HIGH (bloccato per la sessione: niente altalena)\n\u2705 setQualityLevel: da ora scelta manuale\n\u2705 a mano LOW: neppure con 60 FPS l'auto-quality alza il livello\n\nTutto ok\n\n"
+  },
+  {
+    "test": "audio-selftest.ts",
+    "exit": 0,
+    "seconds": 1.95,
+    "tail": "(405 \u2192 661 eventi per giro)\n\u2705 podium: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n\u2705 podium: livello 2 ha almeno gli strati del livello 1 (429 \u2192 645 eventi per giro)\n\u2705 memory: nessuna melodia (le note di Memoria / il VIA di Botta al Volo sono gameplay)\n\u2705 reaction: nessuna melodia (le note di Memoria / il VIA di Botta al Volo sono gameplay)\n\u2705 Memoria e Botta al Volo: musica bassa\n\u2705 4 note di Memoria distinte (distanza minima 4.0 semitoni)\n\u2705 il pad di Memoria resta grave, lontano dalle note delle tessere\n\nTUTTO OK\n"
+  }
+]

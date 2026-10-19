@@ -1,3 +1,4 @@
+import type {KartTrackId} from './kartTracks';
 // ============================================================================
 // Tipi condivisi tra server, host (Phaser) e controller (smartphone).
 // Nessuna dipendenza da Phaser, DOM o Node: pura definizione di dati.
@@ -269,6 +270,7 @@ export interface RoomState {
   suddenDeath: boolean;
   /** null = rullo (casuale); altrimenti il minigioco scelto manualmente dall'host. */
   selectedMinigameId: string | null;
+  selectedKartTrackId?: KartTrackId;
   /** true = host in pausa (ESC) durante MINIGAME_PLAYING: i telefoni mostrano PAUSA. */
   paused?: boolean;
   /** Id incrementale del minigioco in corso: scarta eventi tardivi di round vecchi. */

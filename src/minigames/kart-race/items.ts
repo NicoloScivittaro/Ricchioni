@@ -40,6 +40,7 @@ interface ItemBox {
 
 interface Projectile {
   kind: 'sfera' | 'piccione';
+  airborne:boolean;
   firedBy: PlayerId;
   distance: number;
   lateral: number;
@@ -90,7 +91,8 @@ export class ItemManager {
     private spline: TrackSpline,
     private rng: Rng,
     private abilities: CharacterAbilities,
-    private onFeedback: (playerId: PlayerId, f: AbilityFeedback) => void
+    private onFeedback: (playerId: PlayerId, f: AbilityFeedback) => void,
+    private onPresentation: (source:PlayerId,target:PlayerId|null,kind:ItemId,hit:boolean)=>void = ()=>undefined
   ) {
     this.root = new TransformNode('itemsRoot', scene);
     this.visuals = new KartItemVisuals(scene);
@@ -173,8 +175,11 @@ export class ItemManager {
     if(k.finished || k.respawnTimer>0)return;
     const item = k.heldItem;
     if (!item) return;
+    if(k.flight==='FALL')return;
+    if(k.flight==='GLIDE'&&['olio','buca','raffica','mollone','calamita'].includes(item))return;
     k.heldItem = null;
 
+    let outcome:{target:PlayerId;hit:boolean}|null=null;
     switch (item) {
       case 'turbo':
         // Divertente e utile, ma non ribalta la gara da solo.
@@ -196,7 +201,7 @@ export class ItemManager {
       case 'disturbo': {
         // Fastidioso ma leggero: mai frustrante, solo simpatico.
         const target = this.findTargetAhead(k, allKarts, rankOf);
-        if (target) this.applyEffect(target, { disturb: 2.6 });
+        if (target) {const hit=this.applyEffect(target, { disturb: 2.6 });outcome={target:target.playerId,hit};}
         break;
       }
       case 'calamita': {
@@ -215,6 +220,8 @@ export class ItemManager {
         if(k.jumpHeight>.05){k.heldItem=item;return;}
         k.jumpVelocity=6.2;this.spawnTimed(k,item);break;
     }
+    this.onPresentation(k.playerId,null,item,true);
+    if(outcome)this.onPresentation(k.playerId,outcome.target,item,outcome.hit);
     audio.kartItem(item);
   }
 
@@ -235,11 +242,12 @@ export class ItemManager {
 
   private spawnProjectile(k: KartState, kind: 'sfera'|'piccione' = 'sfera'): void {
     const mesh = kind==='piccione'?this.visuals.object(kind):MeshBuilder.CreateSphere('projectile', { diameter: 0.5 }, this.scene);
-    if(kind==='sfera') mesh.material = this.visuals.material('#ee3344',.7);
+    if(kind==='sfera') {mesh.material = this.visuals.material('#ee3344',.35);const belt=MeshBuilder.CreateTorus('impactSphereBand',{diameter:.51,thickness:.055,tessellation:12},this.scene);belt.material=this.visuals.material('#ffe0a1',.3);belt.parent=mesh;}
     mesh.parent = this.root;
     this.projectiles.push({
       kind,
       firedBy: k.playerId,
+      airborne:k.flight==='GLIDE',
       distance: k.distance + 2.5,
       lateral: k.lateral,
       speed: kind==='piccione'?k.speed*.65+24:k.speed+PROJECTILE_SPEED,
@@ -274,6 +282,7 @@ export class ItemManager {
       p.lateral += p.lateralVelocity * dt;
       p.life -= dt;
       p.mesh.position.copyFrom(this.spline.worldPoint(p.distance, p.lateral, p.kind==='piccione'?.7:.4));
+      if(p.airborne)p.mesh.position.y+=this.spline.flightHeightAt(p.distance);
       if(p.kind==='piccione') {
         p.mesh.rotation.y=this.spline.tangentAngleAt(p.distance);
         for(const wing of p.mesh.getChildMeshes().filter(m=>m.name==='birdWing'))wing.rotation.z=Math.sign(wing.position.x)*(.2+Math.sin(p.life*24)*.35);
@@ -282,14 +291,15 @@ export class ItemManager {
       let hit = false;
       if (p.life > 0) {
         for (const k of karts) {
-          if (k.playerId === p.firedBy || k.finished || k.respawnTimer>0 || k.jumpHeight>.8) continue;
+          if (k.playerId === p.firedBy || k.finished || k.respawnTimer>0 || Math.abs(k.jumpHeight-(p.airborne?this.spline.flightHeightAt(p.distance):0))>.8) continue;
           const ds = Math.abs(trackDelta(k.distance,p.distance,this.spline.totalLength));
           const dl = Math.abs(k.lateral - p.lateral);
           const previous=this.previous.get(k.playerId)??k;
           const relativeFrom={distance:trackDelta(previous.distance,oldDistance,this.spline.totalLength),lateral:previous.lateral-oldLateral};
           const relativeTo={distance:relativeFrom.distance+(k.distance-previous.distance)-(p.distance-oldDistance),lateral:k.lateral-p.lateral};
           if (crossesSurface(relativeFrom,relativeTo,0,0,PROJECTILE_HIT_S+(p.kind==='piccione'?.15:0),PROJECTILE_HIT_LAT+(p.kind==='piccione'?.15:0),this.spline.totalLength)) {
-            this.applyEffect(k, p.kind==='piccione'?{oil:.85}:{stun:PROJECTILE_STUN});
+            const applied=this.applyEffect(k, p.kind==='piccione'?{oil:.85}:{stun:PROJECTILE_STUN});
+            this.onPresentation(p.firedBy,k.playerId,p.kind,applied);
             if(p.kind==='piccione')audio.kartSkid();
             hit = true;
             break;
@@ -324,7 +334,9 @@ export class ItemManager {
           }
           if (!t.visitors.has(k.playerId)) {
             t.visitors.add(k.playerId);
-            if(this.applyEffect(k,t.kind==='buca'?{oil:.7,bounce:3}:{oil:1.6})){
+            const applied=this.applyEffect(k,t.kind==='buca'?{oil:.7,bounce:3}:{oil:1.6});
+            this.onPresentation(t.firedBy,k.playerId,t.kind,applied);
+            if(applied){
               audio.kartSkid();
               if(t.kind==='buca')audio.kartBump(.3);
             }
@@ -382,6 +394,8 @@ export class ItemManager {
       const active=k&&!k.finished&&k.respawnTimer<=0&&(v.kind==='paraurti'?k.bumperTimer>0:v.kind==='turbo_difettoso'?k.faultyTimer>0:v.kind==='calamita'?k.magnetTimer>0:k.jumpHeight>.01||k.jumpVelocity>0);
       if(!active){v.mesh.dispose();v.tether?.dispose();this.timed.delete(key);continue;}
       v.mesh.position.copyFrom(this.spline.worldPoint(k.distance,k.lateral,.05));v.mesh.position.y+=k.jumpHeight;v.mesh.rotation.y=k.absHeading;
+      if(v.kind==='mollone')v.mesh.scaling.y=.7+Math.min(1,k.jumpHeight)*.5;
+      if(v.kind==='turbo_difettoso')for(const flame of v.mesh.getChildMeshes().filter(m=>m.name==='rocketFlame'))flame.scaling.z=1.4+Math.sin(k.faultyTimer*45)*.5;
       if(v.kind==='calamita'){
         const target=karts.find(other=>other.playerId===k.magnetTarget)!;
         const path=[this.spline.worldPoint(k.distance,k.lateral,1),this.spline.worldPoint(target.distance,target.lateral,.8)];

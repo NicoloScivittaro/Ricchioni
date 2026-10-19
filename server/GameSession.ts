@@ -1,3 +1,4 @@
+import {normalizeKartTrack,kartTrackName,type KartTrackId} from '../shared/kartTracks';
 import { randomUUID } from 'node:crypto';
 import { CHARACTERS } from '../shared/characters';
 import { Emitter } from '../shared/events';
@@ -56,6 +57,7 @@ export class GameSession {
   suddenDeath = false;
   /** null = rullo casuale; altrimenti il minigioco scelto manualmente dall'host. */
   manualMinigameId: string | null = null;
+  manualKartTrackId: KartTrackId = 'litorale';
   /** Ultimo payload "minigame:selected" (per la ripresa dell'host dopo una riconnessione). */
   lastSelectedPayload: MinigameSelectedPayload | null = null;
 
@@ -165,6 +167,7 @@ export class GameSession {
       winner: this.winner,
       suddenDeath: this.suddenDeath,
       selectedMinigameId: this.manualMinigameId,
+      selectedKartTrackId: this.manualKartTrackId,
       paused: this.paused,
       roundId: this.minigameSeq,
       lastPlayedMinigameId: this.history.length > 0 ? this.history[this.history.length - 1].minigameId : null,
@@ -306,11 +309,12 @@ export class GameSession {
    * lobby e tra un round e l'altro (risultati/classifica), ma non mentre rullo, intro o gioco sono in corso: cambierebbe
    * un gioco già estratto o in svolgimento.
    */
-  selectMinigame(minigameId: string | null): void {
+  selectMinigame(minigameId: string | null, kartTrackId?: KartTrackId): void {
     const selectable: GamePhase[] = ['LOBBY', 'MINIGAME_FINISHED', 'ROUND_RESULTS', 'GLOBAL_LEADERBOARD', 'CHECK_WINNER', 'NEXT_ROUND'];
     if (!selectable.includes(this.phase)) return;
     if (minigameId && !getMinigame(minigameId)) return;
     this.manualMinigameId = minigameId;
+    this.manualKartTrackId = minigameId === 'kart3d' ? normalizeKartTrack(kartTrackId) : 'litorale';
   }
 
   /** L'host salta le animazioni (non il calcolo punti né il controllo vittoria). */
@@ -373,6 +377,7 @@ export class GameSession {
   // ---- FSM ----
 
   private pickAndEnterRoulette(): void {
+    const kartTrackId = this.manualMinigameId === 'kart3d' ? this.manualKartTrackId : 'litorale';
     let minigameId: string;
     let modifierId: string | null;
 
@@ -413,7 +418,7 @@ export class GameSession {
 
     this.currentMinigame = {
       minigameId: def.id,
-      name: def.name,
+      name: def.id === 'kart3d' ? kartTrackName(kartTrackId) : def.name,
       category: def.category,
       modifierId,
       durationSec: duration,
@@ -428,8 +433,9 @@ export class GameSession {
     this.minigameSeq += 1;
     const payload: MinigameSelectedPayload = {
       roundId: this.minigameSeq,
+      kartTrackId: def.id === 'kart3d' ? kartTrackId : undefined,
       minigameId: def.id,
-      name: def.name,
+      name: def.id === 'kart3d' ? kartTrackName(kartTrackId) : def.name,
       category: def.category,
       modifierId: modifierId ?? null,
       modifierName: modifier?.name ?? null,

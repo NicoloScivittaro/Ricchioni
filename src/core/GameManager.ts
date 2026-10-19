@@ -1,3 +1,4 @@
+import type {KartTrackId} from '../../shared/kartTracks';
 import Phaser from 'phaser';
 import { Emitter } from '../../shared/events';
 import { Rng } from '../../shared/rng';
@@ -130,8 +131,8 @@ export class GameManager {
   }
 
   /** L'host sceglie manualmente il minigioco (null = rullo). */
-  selectMinigame(minigameId: string | null): void {
-    this.socket?.emit(EVT.hostSelectMinigame, { minigameId });
+  selectMinigame(minigameId: string | null, kartTrackId?: KartTrackId): void {
+    this.socket?.emit(EVT.hostSelectMinigame, { minigameId, kartTrackId });
   }
 
   /** Invia dati privati a un singolo telefono (es. carte segrete, ruoli, obiettivi). */
@@ -263,6 +264,7 @@ export class GameManager {
 
     return {
       roundId,
+      kartTrackId: payload.kartTrackId,
       players: snapshots,
       playerIds: snapshots.map((p) => p.id),
       rng: new Rng(),

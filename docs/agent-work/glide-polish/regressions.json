@@ -1,0 +1,57 @@
+[
+  {
+    "name": "ribaltati-2",
+    "code": 0,
+    "last": "PASS: geometry, seam, widths, banking, ramps, collision sweeps, shield/air clearance, split lanes, respawn, 24 complete races at 30/60/120 Hz with 2\u20135 bots."
+  },
+  {
+    "name": "ribaltati-camera",
+    "code": 0,
+    "last": "PASS camera: 336 elevated/banked/jumping positions, 2\u20135 split layouts, full coverage, road clearance and kart projection."
+  },
+  {
+    "name": "kart-contact",
+    "code": 0,
+    "last": "PASS muro a 30/60/120 FPS: strisciata senza freno esponenziale; respawn azzera gli impulsi"
+  },
+  {
+    "name": "kart-oil",
+    "code": 0,
+    "last": "PASS olio: 30/60/120 FPS, nessuna frenata/stun, inerzia in sterzata, recupero, sweep e cambio giro, bordo evitabile, debito Ciro."
+  },
+  {
+    "name": "kart-items",
+    "code": 0,
+    "last": "PASS 13 item: distribuzione, sette effetti, magnete e break, salto/landing e scadenze 30/60/120, traiettorie rapide, miscele boost/drift, contatto bumper, fine gara e cleanup."
+  },
+  {
+    "name": "kart-abilities",
+    "code": 0,
+    "last": "=== RISULTATO: TUTTI I TEST PASSATI \u2705 ==="
+  },
+  {
+    "name": "pad",
+    "code": 0,
+    "last": "\u2705 fps: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)"
+  },
+  {
+    "name": "solo-bots",
+    "code": 0,
+    "last": "SOLO BOTS SELFTEST PASS"
+  },
+  {
+    "name": "rounds",
+    "code": 0,
+    "last": "\u2705 ROUNDS SELFTEST OK (60 controlli)"
+  },
+  {
+    "name": "quality",
+    "code": 0,
+    "last": "Tutto ok"
+  },
+  {
+    "name": "audio",
+    "code": 0,
+    "last": "TUTTO OK"
+  }
+]

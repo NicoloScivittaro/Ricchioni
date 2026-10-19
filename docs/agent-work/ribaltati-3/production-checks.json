@@ -1,0 +1,42 @@
+{
+  "errors": [],
+  "scripts": [
+    "http://localhost:3007/assets/ciroVisualMode-BMQON2NF.js",
+    "http://localhost:3007/assets/presentation-C7qN73ir.js",
+    "http://localhost:3007/assets/main-fAAo2GlN.js",
+    "http://localhost:3007/assets/BabylonKartGame-CRNLDZIM.js",
+    "http://localhost:3007/assets/kartEnvironment-CcQOCTqM.js",
+    "http://localhost:3007/assets/kartEntity-BZCF_GAN.js",
+    "http://localhost:3007/assets/characterModel-DQf_O5QC.js",
+    "http://localhost:3007/assets/goblinVisual-BSsfucTr.js",
+    "http://localhost:3007/assets/importedCharacters-C8Kpw604.js",
+    "http://localhost:3007/assets/buttafuoriProfile-CPQI8PQE.js",
+    "http://localhost:3007/assets/judokaProfile-juZZNxff.js",
+    "http://localhost:3007/assets/surfaceDetail-CFvYLkyL.js",
+    "http://localhost:3007/assets/ciroProfile-8IGAkmIm.js",
+    "http://localhost:3007/assets/envKit-DLTY6W4W.js",
+    "http://localhost:3007/assets/loopGuard-DU2KG3k7.js",
+    "http://localhost:3007/assets/envDebug-BQYq2Ch_.js",
+    "http://localhost:3007/assets/constants-VMTtjmhB.js",
+    "http://localhost:3007/assets/cameraHud-QRY_j-dX.js",
+    "http://localhost:3007/assets/countdownFx-Bgi-aufH.js",
+    "http://localhost:3007/assets/nativeXRFrame-A7MlqzwI.js",
+    "http://localhost:3007/assets/noise.fragment-D04fhCAS.js",
+    "http://localhost:3007/assets/workerPool-CfMXSLnf.js",
+    "http://localhost:3007/assets/index-BZM99Ut5.js"
+  ],
+  "models": [
+    "http://localhost:3007/models/goblin-tripo/green_goblin_casacarbo.glb",
+    "http://localhost:3007/models/judoka-tripo/judo_figure_casacarbo.glb",
+    "http://localhost:3007/models/detailed-tripo/detailed_character_casacarbo.glb",
+    "http://localhost:3007/models/man-tripo/man_animated.glb"
+  ],
+  "compiled": true,
+  "players": 5,
+  "humans": 1,
+  "bots": 4,
+  "liveSeconds": 18,
+  "touchInput": true,
+  "pause": true,
+  "cleanup": true
+}

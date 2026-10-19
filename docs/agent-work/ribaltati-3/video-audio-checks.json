@@ -1,0 +1,795 @@
+{
+  "errors": [],
+  "audio": [
+    {
+      "stage": "live",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 0,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.139
+    },
+    {
+      "stage": "muted",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": true,
+      "voices": {
+        "music": 0,
+        "sfx": 0,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0
+    },
+    {
+      "stage": "restored",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 0,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.115
+    },
+    {
+      "stage": "pause",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 0,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.144
+    },
+    {
+      "stage": "resume",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 0,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.116
+    }
+  ],
+  "samples": [
+    {
+      "time": 7.15133333333339,
+      "karts": [
+        {
+          "distance": 193.7731038376548,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 285.3047936966673,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 285.6441841176978,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 282.3376365256212,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 254.72790159053523,
+          "lap": 0,
+          "jump": 0.8359205266653046
+        }
+      ],
+      "audio": {
+        "state": "running",
+        "master": 0.85,
+        "music": 0.55,
+        "sfx": 1,
+        "muted": false,
+        "voices": {
+          "music": 0,
+          "sfx": 5,
+          "ui": 0,
+          "voice": 0,
+          "ambience": 0
+        },
+        "dropped": 0,
+        "duck": 0,
+        "peak": 0.149
+      }
+    },
+    {
+      "time": 12.156433333333004,
+      "karts": [
+        {
+          "distance": 413.95820734499966,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 505.1555334552259,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 505.2414123843235,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 502.2619647837524,
+          "lap": 0,
+          "jump": 0.23390925000028323
+        },
+        {
+          "distance": 474.8533374265981,
+          "lap": 0,
+          "jump": 0
+        }
+      ],
+      "audio": {
+        "state": "running",
+        "master": 0.85,
+        "music": 0.55,
+        "sfx": 1,
+        "muted": false,
+        "voices": {
+          "music": 0,
+          "sfx": 4,
+          "ui": 0,
+          "voice": 0,
+          "ambience": 0
+        },
+        "dropped": 0,
+        "duck": 0,
+        "peak": 0.152
+      }
+    },
+    {
+      "time": 17.17903333333355,
+      "karts": [
+        {
+          "distance": 634.6180503508742,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 721.4419644361993,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 720.9910425400932,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 717.8394706567739,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 692.3244424252439,
+          "lap": 0,
+          "jump": 0
+        }
+      ],
+      "audio": {
+        "state": "running",
+        "master": 0.85,
+        "music": 0.55,
+        "sfx": 1,
+        "muted": false,
+        "voices": {
+          "music": 0,
+          "sfx": 4,
+          "ui": 0,
+          "voice": 0,
+          "ambience": 0
+        },
+        "dropped": 0,
+        "duck": 0,
+        "peak": 0.082
+      }
+    },
+    {
+      "time": 22.183633333333084,
+      "karts": [
+        {
+          "distance": 850.1015267748551,
+          "lap": 0,
+          "jump": 1.06818960333353
+        },
+        {
+          "distance": 939.5885487081408,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 940.030642723013,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 935.8468274955836,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 909.9846282479705,
+          "lap": 0,
+          "jump": 0
+        }
+      ],
+      "audio": {
+        "state": "running",
+        "master": 0.85,
+        "music": 0.55,
+        "sfx": 1,
+        "muted": false,
+        "voices": {
+          "music": 0,
+          "sfx": 6,
+          "ui": 0,
+          "voice": 0,
+          "ambience": 0
+        },
+        "dropped": 0,
+        "duck": 0,
+        "peak": 0.095
+      }
+    },
+    {
+      "time": 27.18843333333272,
+      "karts": [
+        {
+          "distance": 1045.8896293005344,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 1119.1278752247551,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 1131.0950562102278,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 1106.9283185752056,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 1089.1024307482298,
+          "lap": 0,
+          "jump": 0
+        }
+      ],
+      "audio": {
+        "state": "running",
+        "master": 0.85,
+        "music": 0.55,
+        "sfx": 1,
+        "muted": false,
+        "voices": {
+          "music": 0,
+          "sfx": 0,
+          "ui": 0,
+          "voice": 0,
+          "ambience": 0
+        },
+        "dropped": 0,
+        "duck": 0,
+        "peak": 0.098
+      }
+    },
+    {
+      "time": 32.21133333333301,
+      "karts": [
+        {
+          "distance": 1219.6272888341566,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 1338.552638122591,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 1341.5823536004755,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 1305.4642507264366,
+          "lap": 0,
+          "jump": 0
+        },
+        {
+          "distance": 1284.9901037074599,
+          "lap": 0,
+          "jump": 0
+        }
+      ],
+      "audio": {
+        "state": "running",
+        "master": 0.85,
+        "music": 0.55,
+        "sfx": 1,
+        "muted": false,
+        "voices": {
+          "music": 0,
+          "sfx": 0,
+          "ui": 0,
+          "voice": 0,
+          "ambience": 0
+        },
+        "dropped": 0,
+        "duck": 0,
+        "peak": 0.083
+      }
+    },
+    {
+      "time": 37.21523333333261,
+      "karts": [
+        {
+          "distance": 1431.5368860063982,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 1558.6613442208538,
+          "lap": 1,
+          "jump": 0.9449237333341775
+        },
+        {
+          "distance": 1568.4664324240878,
+          "lap": 1,
+          "jump": 0.09123921166801491
+        },
+        {
+          "distance": 1525.488674770379,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 1504.3224167511157,
+          "lap": 1,
+          "jump": 0
+        }
+      ],
+      "audio": {
+        "state": "running",
+        "master": 0.85,
+        "music": 0.55,
+        "sfx": 1,
+        "muted": false,
+        "voices": {
+          "music": 0,
+          "sfx": 0,
+          "ui": 0,
+          "voice": 0,
+          "ambience": 0
+        },
+        "dropped": 0,
+        "duck": 0,
+        "peak": 0.091
+      }
+    },
+    {
+      "time": 42.23813333333313,
+      "karts": [
+        {
+          "distance": 1652.5120277478413,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 1779.5709751357385,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 1789.3810283159794,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 1746.4087916753908,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 1725.2812932261152,
+          "lap": 1,
+          "jump": 0
+        }
+      ],
+      "audio": {
+        "state": "running",
+        "master": 0.85,
+        "music": 0.55,
+        "sfx": 1,
+        "muted": false,
+        "voices": {
+          "music": 0,
+          "sfx": 0,
+          "ui": 0,
+          "voice": 0,
+          "ambience": 0
+        },
+        "dropped": 0,
+        "duck": 0,
+        "peak": 0.118
+      }
+    },
+    {
+      "time": 47.259133333333246,
+      "karts": [
+        {
+          "distance": 1873.2161422203528,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 1997.1000541446856,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 2005.9809329821305,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 1966.560571485931,
+          "lap": 1,
+          "jump": 0
+        },
+        {
+          "distance": 1945.9225644257585,
+          "lap": 1,
+          "jump": 0
+        }
+      ],
+      "audio": {
+        "state": "running",
+        "master": 0.85,
+        "music": 0.55,
+        "sfx": 1,
+        "muted": false,
+        "voices": {
+          "music": 0,
+          "sfx": 0,
+          "ui": 0,
+          "voice": 0,
+          "ambience": 0
+        },
+        "dropped": 0,
+        "duck": 0,
+        "peak": 0.107
+      }
+    }
+  ],
+  "capture": {
+    "mime": "video/webm;codecs=vp9,opus",
+    "videoTracks": 1,
+    "audioTracks": 1,
+    "initial": {
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 6,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.129
+    },
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "views": 1
+  },
+  "naturalCues": {
+    "kartBump": 626,
+    "kartItem": 20,
+    "kartBoost": 23,
+    "thump": 21,
+    "hit": 19
+  },
+  "volumeProbe": {
+    "requested": 0.25,
+    "gain": 0.25
+  },
+  "itemCueProbe": [
+    {
+      "kind": "turbo",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 1,
+        "ui": 1,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.102
+    },
+    {
+      "kind": "super_turbo",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 2,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.106
+    },
+    {
+      "kind": "sfera",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 2,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.126
+    },
+    {
+      "kind": "olio",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 4,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.12
+    },
+    {
+      "kind": "scudo",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 1,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.113
+    },
+    {
+      "kind": "disturbo",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 2,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.125
+    },
+    {
+      "kind": "calamita",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 8,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.144
+    },
+    {
+      "kind": "piccione",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 4,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.128
+    },
+    {
+      "kind": "turbo_difettoso",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 1,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.072
+    },
+    {
+      "kind": "buca",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 1,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.11
+    },
+    {
+      "kind": "raffica",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 5,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.121
+    },
+    {
+      "kind": "paraurti",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 2,
+        "ui": 0,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.133
+    },
+    {
+      "kind": "mollone",
+      "state": "running",
+      "master": 0.85,
+      "music": 0.55,
+      "sfx": 1,
+      "muted": false,
+      "voices": {
+        "music": 0,
+        "sfx": 3,
+        "ui": 1,
+        "voice": 0,
+        "ambience": 0
+      },
+      "dropped": 0,
+      "duck": 0,
+      "peak": 0.096
+    }
+  ]
+}

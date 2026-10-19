@@ -1,0 +1,22 @@
+{
+  "unchanged": [
+    "src/minigames/kart-race/track.ts",
+    "src/minigames/kart-race/race.ts",
+    "src/minigames/kart-race/items.ts",
+    "src/minigames/kart-race/itemCatalog.ts",
+    "src/minigames/kart-race/abilities.ts",
+    "src/minigames/kart-race/trackGuides.ts"
+  ],
+  "gapCheckpointLengthIdentical": true,
+  "modified": [
+    "src/minigames/kart-race/BabylonKartGame.ts",
+    "src/minigames/kart-race/cameraHud.ts",
+    "src/minigames/kart-race/kartEntity.ts",
+    "src/minigames/kart-race/kartPhysics.ts",
+    "src/minigames/kart-race/raceTypes.ts",
+    "src/minigames/kart-race/rainbowTrack.ts",
+    "src/minigames/kart-race/rainbowWorld.ts",
+    "src/minigames/bots/MotionBots.ts",
+    "src/core/AudioManager.ts"
+  ]
+}

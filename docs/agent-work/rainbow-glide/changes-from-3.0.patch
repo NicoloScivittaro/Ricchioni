@@ -1,0 +1,782 @@
+--- baseline-3.0/src/minigames/kart-race/BabylonKartGame.ts
++++ src/minigames/kart-race/BabylonKartGame.ts
+@@ -1,3 +1,5 @@
++import {RainbowTrack,stepRainbowKart} from './rainbowTrack';
++import {buildRainbowWorld,importRainbow,GlideWings} from './rainbowWorld';
+ import {pads} from '../../input/GamepadManager';
+ import {bindingLabel,padFamily} from '../../input/padTypes';
+ import {profileFor} from '../../input/profiles';
+@@ -48,6 +50,10 @@
+ 
+ /** Orchestratore del minigioco 3D: una sola scena Babylon, più camere/viewport. */
+ export class BabylonKartGame {
++  readonly ready:Promise<void>;
++  private rainbow:RainbowTrack|null=null;
++  private wings=new Map<PlayerId,GlideWings>();
++  private windClock=0;
+   private soloBots: MotionBots;
+   private engine: Engine;
+   private scene: Scene;
+@@ -74,7 +80,7 @@
+   private paused = false;
+   private onResize = (): void => this.engine.resize();
+   private world: KartWorld;
+-  private setPieces: ReturnType<typeof buildTrackSetPieces>;
++  private setPieces: {update(time:number):void};
+   private trackAngleAt = (d: number): number => this.spline.tangentAngleAt(d);
+   /** false finche' la schermata CONTROLLI e' visibile: countdown/gara restano fermi (vedi step()). */
+   private controlsDone = false;
+@@ -88,9 +94,10 @@
+     this.soloBots = new MotionBots(ctx);
+     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
+     this.scene = new Scene(this.engine);
+-    this.spline = buildTrack();
++    this.rainbow=ctx.kartTrackId==='arcobaleno'?new RainbowTrack():null;
++    this.spline = this.rainbow??buildTrack();
+     // Mondo intorno alla pista (cielo, luce, mare, i 4 settori coi landmark): kartEnvironment.ts. Bagliore solo su neon e luci.
+-    this.world = buildKartWorld(this.scene, this.spline);
++    this.world = this.rainbow?buildRainbowWorld(this.scene,this.rainbow):buildKartWorld(this.scene, this.spline);
+     const shadowGen = new ShadowGenerator(1024, this.world.sun);
+     shadowGen.usePoissonSampling = true;
+     shadowGen.bias = 0.002;
+@@ -99,12 +106,12 @@
+     const shadowMap=shadowGen.getShadowMap()!;shadowMap.refreshRate=0;
+     this.scene.onBeforeRenderObservable.add(()=>shadowMap.resetRefreshCounter());
+     this.scene.skipPointerMovePicking=true;
+-    buildTrackVisuals(this.scene, this.spline);
+-    this.setPieces=buildTrackSetPieces(this.scene,this.spline);
+-    buildTrackGuides(this.scene, this.spline); // cartelli e frecce prima delle curve, portali dei checkpoint
++    if(!this.rainbow)buildTrackVisuals(this.scene, this.spline);
++    this.setPieces=this.rainbow?{update:()=>{}}:buildTrackSetPieces(this.scene,this.spline);
++    buildTrackGuides(this.scene, this.spline,this.rainbow?.checkpoints); // cartelli e frecce prima delle curve, portali dei checkpoint
+     registerEnvScene(this.scene);
+-    this.checkpoints = buildCheckpoints(this.spline);
+-    const boxPlacements = buildItemBoxes(this.spline);
++    this.checkpoints = this.rainbow?.checkpoints??buildCheckpoints(this.spline);
++    const boxPlacements = buildItemBoxes(this.spline).filter(p=>!this.rainbow?.gapAt(p.s,18));
+ 
+     this.abilities = new CharacterAbilities();
+     abilityHub.begin('kart3d', ctx);
+@@ -147,6 +154,7 @@
+       const entity = new KartEntity(this.scene, p.color, p.characterId);
+       entity.updateVisual(state, this.spline);
+       this.entities.set(p.id, entity);
++      if(this.rainbow)this.wings.set(p.id,new GlideWings(this.scene,entity.root,p.color));
+       for (const mesh of entity.shadowMeshes) shadowGen.addShadowCaster(mesh, false);
+ 
+       const camStart = this.spline.worldPoint(state.distance, state.lateral, 3.5);
+@@ -161,8 +169,11 @@
+     this.hud.setCountdown('3');
+ 
+     // Schermata CONTROLLI: finche' e' su, il countdown/la gara restano fermi (vedi step()); alla fine gli input sono azzerati.
+-    if (ctx.showControls) void ctx.showControls().then(() => (this.controlsDone = true));
+-    else this.controlsDone = true;
++    this.ready=(this.rainbow?importRainbow(this.scene,this.rainbow):Promise.resolve()).then(()=>{
++      if(this.disposed)return;
++      if(ctx.showControls)void ctx.showControls().then(()=>{if(!this.disposed)this.controlsDone=true;});
++      else this.controlsDone=true;
++    });
+ 
+     applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
+     this.engine.runRenderLoop(guardLoop(() => {
+@@ -223,6 +234,7 @@
+         if (snapshot.down) this.stats.brakeFrames++;
+         if (snapshot.item && state.heldItem) {
+           this.items.useItem(state, kartsList, (id) => this.race.rankOf(kartsList, id));
++          if(state.flight==='GLIDE'&&state.heldItem)this.hud.flash(pid,'OGGETTO DA TERRA · CONSERVATO','#ffd166',1.1);
+           audio.select();
+           this.ctx.vibrate(pid, 45);
+           this.sendInfoLine(pid, state);
+@@ -244,12 +256,17 @@
+         // un azzeramento forzato (pausa/disconnessione/contesto) non deve contare ne' qui ne' nel meter delle abilita'.
+         const wasGenuineDriftEnd = snapshot.drift || snapshot.driftReleased;
+         const from={distance:state.distance,lateral:state.lateral},wasAirborne=state.jumpHeight>0;
+-        stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier,trackSurface(state.distance,state.lateral,this.spline.totalLength));
+-        stepTrackDynamics(state,from,this.spline.totalLength,d=>this.spline.widthAt(d),this.race.raceTime,event=>{
++        if(this.rainbow)stepRainbowKart(state,snapshot,dt,this.rainbow,invertModifier,event=>{
++          if(event==='launch'){this.sendInfoLine(pid,state);audio.kartGlide('launch');this.hud.flash(pid,'PLANATA · STERZA PER ATTERRARE','#6cfff1',1.8);this.ctx.vibrate(pid,35);}
++          else if(event==='land'){this.sendInfoLine(pid,state);audio.kartGlide('land');this.hud.flash(pid,'ATTERRAGGIO!','#b4ff9e',.75);this.ctx.vibrate(pid,25);this.cameraManager.shake(pid,.06);}
++          else {audio.fall();this.hud.flash(pid,'CADUTA · RIPARTI DAL CHECKPOINT','#ffb796',1.2);}
++        });
++        else stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier,trackSurface(state.distance,state.lateral,this.spline.totalLength));
++        if(!this.rainbow)stepTrackDynamics(state,from,this.spline.totalLength,d=>this.spline.widthAt(d),this.race.raceTime,event=>{
+           if(event==='launch'){audio.kartBoost(9);this.ctx.vibrate(pid,30);this.hud.flash(pid,'DECOLLO!','#ffd166',.6);}
+           if(event==='obstacle'){audio.hit();this.cameraManager.shake(pid,.14);this.ctx.vibrate(pid,50);}
+         });
+-        if(wasAirborne && state.jumpHeight===0){audio.thump(.45);this.cameraManager.shake(pid,.08);this.ctx.vibrate(pid,22);}
++        if(!this.rainbow && wasAirborne && state.jumpHeight===0){audio.thump(.45);this.cameraManager.shake(pid,.08);this.ctx.vibrate(pid,22);}
+ 
+         const wallCrashed = !wasStunned && state.stunTimer > 0;
+         const respawnTriggered = !wasAwaitingRespawn && state.respawnTimer > 0;
+@@ -320,6 +337,7 @@
+       }
+       const throttle = this.race.phase === 'racing' && this.ctx.input.get(pid).pressed('up') ? 1 : 0;
+       this.entities.get(pid)?.updateVisual(state, this.spline, throttle);
++      this.wings.get(pid)?.update(dt,state.flight==='GLIDE',state.steerVisual);
+       this.trackFeedback(pid, state);
+       this.cameraManager.update(dt, pid, state, this.spline);
+       const slot=pads.slotOf(pid),binding=profileFor('kart3d')?.controls.find(c=>c.action==='ABILITY')?.binding;
+@@ -329,8 +347,10 @@
+     this.hud.updateMinimap([...this.karts.values()], this.spline);
+     this.hud.layout(this.order);
+ 
++    this.windClock-=dt;
++    if(this.rainbow&&this.windClock<=0&&this.order.some(id=>this.karts.get(id)?.flight==='GLIDE')){audio.kartGlide('wind');this.windClock=.4;}
+     this.setPieces.update(this.race.raceTime);
+-    for(const [id,state] of this.karts)this.hud.setSector(id,trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
++    for(const [id,state] of this.karts)this.hud.setSector(id,this.rainbow?(state.flight==='GLIDE'?'PLANATA':state.flight==='FALL'?'RECUPERO':'STRADA ARCOBALENO'):trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
+   }
+ 
+   /**
+@@ -423,7 +443,7 @@
+     this.ctx.sendPrivate(playerId, {
+       type: 'info',
+       item: state.heldItem ? `${itemLabel(state.heldItem)} — ${itemDescription(state.heldItem)}` : null,
+-      ability: abilityDescription(state.characterId)
++      ability: (state.flight==='GLIDE'?'PLANATA: sterza per atterrare. Gli oggetti da terra restano conservati. · ':'')+abilityDescription(state.characterId)
+     });
+   }
+ 
+--- baseline-3.0/src/minigames/kart-race/cameraHud.ts
++++ src/minigames/kart-race/cameraHud.ts
+@@ -73,6 +73,7 @@
+   prevStunned: boolean;
+   /** spostamento laterale della camera in derapata (leggerissimo, smussato) */
+   driftOff: number;
++  glide: number;
+ }
+ 
+ /** Camera third-person per kart + split-screen via viewport multipli sulla STESSA scena. */
+@@ -88,7 +89,7 @@
+       camera.fov = CAM_BASE_FOV;
+       camera.minZ = 0.3;
+       camera.maxZ = 1200;
+-      rig = { camera, smoothPos: startPos.clone(), smoothLook: startPos.clone(), smoothFov: CAM_BASE_FOV, fovKick: 0, shakeTimer: 0, shakeMag: 0.18, prevStunned: false, driftOff: 0 };
++      rig = { camera, smoothPos: startPos.clone(), smoothLook: startPos.clone(), smoothFov: CAM_BASE_FOV, fovKick: 0, shakeTimer: 0, shakeMag: 0.18, prevStunned: false, driftOff: 0, glide: 0 };
+       this.rigs.set(playerId, rig);
+     }
+     return rig.camera;
+@@ -132,18 +133,25 @@
+     const kartPos = spline.worldPoint(state.distance, state.lateral, 0.1);
+     kartPos.y+=state.jumpHeight;
+ 
++    rig.glide+=(Number(state.flight==='GLIDE')-rig.glide)*(1-Math.exp(-dt*3));
+     const speedFrac = Math.max(0, Math.min(1, state.speed / MAX_SPEED));
+     const boosting = state.boostTimer > 0;
+ 
+ 
+     rig.fovKick = Math.max(0, rig.fovKick - dt * 2.2);
+-    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1 + rig.fovKick * 0.9)).add(new Vector3(0, CAM_UP + Math.min(.75,state.jumpHeight*.25) + Math.max(0,tangent.y)*2, 0));
++    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1 + rig.fovKick * 0.9 + rig.glide*3)).add(new Vector3(0, CAM_UP + rig.glide*2 + Math.max(0,Math.min(.75,state.jumpHeight*.25)) + Math.max(0,tangent.y)*2, 0));
+     // in derapata la camera scivola appena verso l'esterno della curva: si sente il kart di traverso (sterzo invariato)
+     rig.driftOff += ((state.drifting ? -state.driftDir * 0.45 : 0) - rig.driftOff) * Math.min(1, dt * 4);
+     const anticipate = right.scale(state.heading * 2.2 + rig.driftOff);
+     const futureRoad=spline.worldPoint(state.distance+CAM_LOOK_AHEAD,state.lateral,.8);
+     const desiredLook = kartPos.add(forward.scale(CAM_LOOK_AHEAD)).add(anticipate).add(new Vector3(0, 0.8, 0));
+     desiredLook.y=Math.max(desiredLook.y,futureRoad.y+.8);
++    if(rig.glide>.01&&state.flight!=='FALL'){
++      const ahead=Math.max(state.distance+8,Math.min(state.distance+32,state.glideEnd));
++      const guide=spline.worldPoint(ahead,state.lateral,1);guide.y+=spline.flightHeightAt(ahead)*.5;
++      desiredLook.copyFrom(Vector3.Lerp(desiredLook,guide,rig.glide*.32));
++    }
++    if(state.flight==='FALL')desiredLook.copyFrom(kartPos.add(forward.scale(6)).add(new Vector3(0,.8,0)));
+     if(state.jumpHeight>.15)desiredLook.y-=Math.min(.6,state.jumpHeight*.2);
+ 
+     const alpha = 1 - Math.exp(-CAM_FOLLOW_SPEED * dt);
+@@ -170,7 +178,7 @@
+     }
+ 
+     const roadBehind=spline.worldPoint(state.distance-CAM_BACK,state.lateral);
+-    rig.smoothPos.y=Math.max(rig.smoothPos.y,roadBehind.y+1.15);
++    if(state.flight!=='FALL')rig.smoothPos.y=Math.max(rig.smoothPos.y,roadBehind.y+1.15);
+     rig.camera.position.copyFrom(rig.smoothPos.add(shakeOffset));
+     rig.camera.setTarget(rig.smoothLook);
+     rig.camera.fov = rig.smoothFov + rig.fovKick * 0.2;
+@@ -269,6 +277,14 @@
+     c.strokeStyle = '#cbd5e1';
+     c.lineWidth = 11;
+     c.stroke();
++    if(spline.suspended){
++      c.beginPath();let wasGap=false;
++      for(let i=0;i<N;i++){
++        const gap=!spline.hasRoadAt((i+.5)/N*spline.totalLength),p=pts[i],q=pts[(i+1)%N];
++        if(gap){if(!wasGap)c.moveTo(u(p.x),v(p.z));c.lineTo(u(q.x),v(q.z));}wasGap=gap;
++      }
++      c.strokeStyle='#5af5ef';c.lineWidth=5;c.setLineDash([4,5]);c.stroke();c.setLineDash([]);
++    }
+     for (let i = 1; i < checkpoints.length; i++) {
+       const p = spline.positionAt(checkpoints[i]);
+       c.fillStyle = '#22d3ee';
+@@ -649,7 +665,7 @@
+ 
+     // linee di velocita': scorrono dai bordi verso l'esterno finche' dura il boost, poi sfumano
+     const boosting = state.boostTimer > 0;
+-    e.boostLabel.text=boosting?`TURBO  ${state.boostTimer.toFixed(1)} s`:state.jumpHeight>.15?`IN VOLO  ${state.jumpHeight.toFixed(1)} m`:state.drifting?`MINI-TURBO ${driftLevelOf(state.driftCharge)}/3`:"";
++    e.boostLabel.text=state.flight==='FALL'?'RECUPERO AL CHECKPOINT':state.flight==='GLIDE'?'PLANATA · ← STERZA →':boosting?`TURBO  ${state.boostTimer.toFixed(1)} s`:state.jumpHeight>.15?`IN VOLO  ${state.jumpHeight.toFixed(1)} m`:state.drifting?`MINI-TURBO ${driftLevelOf(state.driftCharge)}/3`:"";
+     e.speedT += dt * (boosting ? 3.2 : 0);
+     for (let i = 0; i < e.speedLines.length; i++) {
+       const l = e.speedLines[i];
+--- baseline-3.0/src/minigames/kart-race/itemCatalog.ts
++++ src/minigames/kart-race/itemCatalog.ts
+@@ -25,6 +25,8 @@
+   if(k.magnetTimer>0)return `🧲 TRAZIONE ${k.magnetTimer.toFixed(1)}s`;
+   if(k.faultyTimer>0)return `🚀 DIFETTOSO ${k.faultyTimer.toFixed(1)}s`;
+   if(k.bumperTimer>0)return `🚧 PARAURTI ${k.bumperTimer.toFixed(1)}s`;
++  if(k.flight==='GLIDE')return 'PLANATA';
++  if(k.flight==='FALL')return 'RECUPERO';
+   if(k.jumpHeight>.05)return '🌀 IN VOLO';
+   if(k.oilTimer>0)return `🛢️ SLITTA ${k.oilTimer.toFixed(1)}s`;
+   return '—';
+--- baseline-3.0/src/minigames/kart-race/items.ts
++++ src/minigames/kart-race/items.ts
+@@ -40,6 +40,7 @@
+ 
+ interface Projectile {
+   kind: 'sfera' | 'piccione';
++  airborne:boolean;
+   firedBy: PlayerId;
+   distance: number;
+   lateral: number;
+@@ -174,6 +175,8 @@
+     if(k.finished || k.respawnTimer>0)return;
+     const item = k.heldItem;
+     if (!item) return;
++    if(k.flight==='FALL')return;
++    if(k.flight==='GLIDE'&&['olio','buca','raffica','mollone','calamita'].includes(item))return;
+     k.heldItem = null;
+ 
+     let outcome:{target:PlayerId;hit:boolean}|null=null;
+@@ -244,6 +247,7 @@
+     this.projectiles.push({
+       kind,
+       firedBy: k.playerId,
++      airborne:k.flight==='GLIDE',
+       distance: k.distance + 2.5,
+       lateral: k.lateral,
+       speed: kind==='piccione'?k.speed*.65+24:k.speed+PROJECTILE_SPEED,
+@@ -278,6 +282,7 @@
+       p.lateral += p.lateralVelocity * dt;
+       p.life -= dt;
+       p.mesh.position.copyFrom(this.spline.worldPoint(p.distance, p.lateral, p.kind==='piccione'?.7:.4));
++      if(p.airborne)p.mesh.position.y+=this.spline.flightHeightAt(p.distance);
+       if(p.kind==='piccione') {
+         p.mesh.rotation.y=this.spline.tangentAngleAt(p.distance);
+         for(const wing of p.mesh.getChildMeshes().filter(m=>m.name==='birdWing'))wing.rotation.z=Math.sign(wing.position.x)*(.2+Math.sin(p.life*24)*.35);
+@@ -286,7 +291,7 @@
+       let hit = false;
+       if (p.life > 0) {
+         for (const k of karts) {
+-          if (k.playerId === p.firedBy || k.finished || k.respawnTimer>0 || k.jumpHeight>.8) continue;
++          if (k.playerId === p.firedBy || k.finished || k.respawnTimer>0 || Math.abs(k.jumpHeight-(p.airborne?this.spline.flightHeightAt(p.distance):0))>.8) continue;
+           const ds = Math.abs(trackDelta(k.distance,p.distance,this.spline.totalLength));
+           const dl = Math.abs(k.lateral - p.lateral);
+           const previous=this.previous.get(k.playerId)??k;
+--- baseline-3.0/src/minigames/kart-race/kartEntity.ts
++++ src/minigames/kart-race/kartEntity.ts
+@@ -485,6 +485,7 @@
+     this.carriage.rotation.z=-state.steerVisual*.055+Math.sin(now*.09)*this.impact;
+     this.carriage.rotation.y=Math.cos(now*.08)*this.impact*.5;
+     const ground=spline.worldPoint(state.distance,state.lateral,.04);this.contactShadow.position.copyFrom(ground);this.contactShadow.rotation.y=spline.tangentAngleAt(state.distance);
++    this.contactShadow.setEnabled(state.flight==='DRIVE');
+     this.contactShadow.visibility=Math.max(.18,1-state.jumpHeight*.25);this.contactShadow.scaling.x=.9+state.jumpHeight*.1;
+     const pos = spline.worldPoint(state.distance, state.lateral, 0.05);
+     pos.y += state.jumpHeight;
+--- baseline-3.0/src/minigames/kart-race/kartPhysics.ts
++++ src/minigames/kart-race/kartPhysics.ts
+@@ -129,7 +129,7 @@
+   halfWidthAt: (distance: number) => number,
+   trackAngleAt: (distance: number) => number,
+   invertSteer: boolean,
+-  surface: {grip:number;speed:number} = {grip:1,speed:1}
++  surface: {grip:number;speed:number;air?:boolean;barriers?:boolean} = {grip:1,speed:1}
+ ): void {
+   const C = KART_CONFIG;
+   if (k.respawnTimer > 0) {
+@@ -145,7 +145,7 @@
+   k.oilTimer = Math.max(0, k.oilTimer - dt);
+   k.faultyTimer = Math.max(0, k.faultyTimer - dt);
+   k.bumperTimer = Math.max(0, k.bumperTimer - dt);
+-  if (k.jumpHeight > 0 || k.jumpVelocity > 0) {
++  if (!surface.air && (k.jumpHeight > 0 || k.jumpVelocity > 0)) {
+     k.jumpVelocity -= 14 * dt; k.jumpHeight += k.jumpVelocity * dt;
+     if (k.jumpHeight <= 0) {
+       k.jumpHeight = 0; k.jumpVelocity = 0;
+@@ -167,7 +167,12 @@
+   const up = !stunned && input.up;
+   const down = !stunned && input.down;
+ 
+-  if (up) {
++  if (surface.air) {
++    // Lift sustains forward inertia even after a hit; braking trims speed but cannot reverse in flight.
++    const target = down ? 28 : 44;
++    k.speed += (target-k.speed)*Math.min(1,dt*(stunned?.22:.55));
++    k.speed=Math.max(24,k.speed);
++  } else if (up) {
+     // Curva di accelerazione arcade: parte pronta, si assottiglia avvicinandosi
+     // al fondo scala, così il massimo si sente come un vero tetto da raggiungere.
+     // accelMultiplier: Dottore "20 KG IN UN MESE" (kart leggerissimo).
+@@ -198,7 +203,7 @@
+   }
+ 
+   const half = halfWidthAt(k.distance);
+-  k.offRoad = Math.abs(k.lateral) > half;
++  k.offRoad = !surface.air && Math.abs(k.lateral) > half;
+   const centerRate = surface.grip * (k.offRoad ? C.centerRateOffRoad : C.centerRateOnRoad) * (1 - oil * .8);
+   const roadCap = Math.max(C.maxSpeed * surface.speed, boostCap);
+   const maxSpeed = (k.offRoad ? C.maxSpeed * C.offroadSpeedFactor : roadCap) * k.speedCapMultiplier;
+@@ -212,7 +217,7 @@
+   }
+ 
+   // --- Drift ---
+-  const wantsDrift = input.drift && !stunned && Math.abs(steerDir) > 0 && k.speed > C.driftMinSpeed;
++  const wantsDrift = !surface.air && input.drift && !stunned && Math.abs(steerDir) > 0 && k.speed > C.driftMinSpeed;
+   if (wantsDrift && !k.drifting) {
+     k.drifting = true;
+     k.driftDir = steerDir > 0 ? 1 : -1;
+@@ -239,7 +244,7 @@
+   // --- Sterzata: velocità angolare ASSOLUTA (vedi commento sopra la funzione) ---
+   const speedFracForSteer = Math.min(1, Math.abs(k.speed) / C.maxSpeed);
+   const itemSteer = (k.faultyTimer > 0 ? .58 : 1) * (k.bumperTimer > 0 ? .85 : 1);
+-  const turnRate = C.maxTurnRate * (1 - C.highSpeedSteerLoss * speedFracForSteer * speedFracForSteer) * k.steerMultiplier * itemSteer;
++  const turnRate = (surface.air ? .38 : 1) * C.maxTurnRate * (1 - C.highSpeedSteerLoss * speedFracForSteer * speedFracForSteer) * k.steerMultiplier * itemSteer;
+   if (!stunned) {
+     k.absHeading += steerDir * turnRate * dt;
+     if (k.drifting) k.absHeading += k.driftDir * C.driftExtraRate * dt;
+@@ -264,7 +269,8 @@
+     relHeading -= correction;
+   }
+ 
+-  relHeading = clamp(relHeading, -1.25, 1.25);
++  relHeading = clamp(relHeading, surface.air ? -.3 : -1.25, surface.air ? .3 : 1.25);
++  if(surface.air)k.absHeading=trackAngleAt(k.distance)+relHeading;
+   // Sull'olio le gomme non possono cambiare istantaneamente la velocità laterale:
+   // conserva parte della traiettoria mentre il muso sterza. Più veloce = più inerzia.
+   k.slipVelocity += oil * .82 * k.speed * (Math.sin(k.heading) - Math.sin(relHeading));
+@@ -284,7 +290,7 @@
+   const bodyExtent = KART_HALF_WIDTH * Math.abs(Math.cos(relHeading)) + KART_HALF_LENGTH * Math.abs(Math.sin(relHeading));
+   const wallLimit = Math.max(1, half + C.wallMargin - bodyExtent);
+   if (Math.abs(k.lateral) < wallLimit - .08) k.wallContact = false;
+-  if (Math.abs(k.lateral) > wallLimit) {
++  if (surface.barriers !== false && Math.abs(k.lateral) > wallLimit) {
+     const side = Math.sign(k.lateral);
+     const outward = (k.speed * Math.sin(relHeading) + k.slipVelocity) * side;
+     k.lateral = side * wallLimit;
+@@ -320,6 +326,7 @@
+ }
+ 
+ export function respawnKart(k: KartState, trackAngleAt: (distance: number) => number): void {
++  k.flight='DRIVE';k.flightTime=0;
+   k.distance = k.lastValidCheckpointS;
+   k.lateral = 0;
+   k.absHeading = trackAngleAt(k.distance);
+--- baseline-3.0/src/minigames/kart-race/KartRaceScene.ts
++++ src/minigames/kart-race/KartRaceScene.ts
+@@ -81,9 +81,6 @@
+     const { BabylonKartGame } = await import('./BabylonKartGame');
+     if (this.cancelled) return;
+ 
+-    this.hideLoading?.();
+-    this.hideLoading = null;
+-
+     const canvas = document.createElement('canvas');
+     canvas.style.position = 'fixed';
+     canvas.style.inset = '0';
+@@ -92,10 +89,15 @@
+     canvas.style.zIndex = '10000';
+     canvas.style.touchAction = 'none';
+     canvas.style.outline = 'none';
++    canvas.style.visibility='hidden';
+     document.body.appendChild(canvas);
+     this.overlayCanvas = canvas;
+ 
+     this.game3d = new BabylonKartGame(canvas, ctx);
++    await this.game3d.ready;
++    if(this.cancelled)return;
++    canvas.style.visibility='visible';
++    this.hideLoading?.();this.hideLoading=null;
+   }
+ 
+   private cleanup(): void {
+--- baseline-3.0/src/minigames/kart-race/race.ts
++++ src/minigames/kart-race/race.ts
+@@ -69,8 +69,8 @@
+ 
+     for (const k of karts) {
+       if (k.finished) continue;
+-      this.checkCheckpoints(k);
+-      if (k.respawnTimer > 0.001 && k.respawnTimer - dt <= 0) {
++      if(k.flight==='DRIVE' && k.respawnTimer<=0)this.checkCheckpoints(k);
++      if (k.respawnTimer > 0 && k.respawnTimer <= dt + 1e-6) {
+         respawnKart(k, this.trackAngleAt);
+       }
+     }
+--- baseline-3.0/src/minigames/kart-race/raceTypes.ts
++++ src/minigames/kart-race/raceTypes.ts
+@@ -11,6 +11,11 @@
+   colorHex: string;
+   avatar: string;
+ 
++  flight: 'DRIVE' | 'GLIDE' | 'FALL';
++  glideStart: number;
++  glideEnd: number;
++  flightTime: number;
++  flightEntryHeight: number;
+   distance: number; // progresso totale non wrappato (per giri + classifica)
+   lateral: number; // offset laterale dal centro pista (m)
+   absHeading: number; // imbardata assoluta persistente (rad) — NON si resetta con la tangente locale
+@@ -105,6 +110,7 @@
+     characterId,
+     colorHex,
+     avatar,
++    flight: 'DRIVE', glideStart: 0, glideEnd: 0, flightTime: 0, flightEntryHeight: 0,
+     distance: 0,
+     lateral: 0,
+     absHeading: 0,
+--- baseline-3.0/src/minigames/kart-race/track.ts
++++ src/minigames/kart-race/track.ts
+@@ -46,10 +46,11 @@
+ /** Percorso a spline chiusa (Catmull-Rom) riparametrizzato per lunghezza d'arco. */
+ export class TrackSpline {
+   readonly totalLength: number;
++  readonly suspended:boolean=false;
+   private readonly samples: TrackSample[];
+   private readonly sampleSpacing: number;
+ 
+-  constructor(controlPoints: Vector3[], controlWidths: number[], rawResolution = 3000, ramps = false) {
++  constructor(controlPoints: Vector3[], controlWidths: number[], rawResolution = 3000, ramps = false, banked = true, controlUps?:Vector3[]) {
+     const n = controlPoints.length;
+     const rawPositions: Vector3[] = [];
+     for (let i = 0; i <= rawResolution; i++) {
+@@ -80,13 +81,14 @@
+       const segLen = cumLen[rawIdx + 1] - cumLen[rawIdx];
+       const localT = segLen > 0 ? (targetLen - cumLen[rawIdx]) / segLen : 0;
+       const pos = Vector3.Lerp(rawPositions[rawIdx], rawPositions[rawIdx + 1], localT);
+-      this.samples.push({ pos, tangent: Vector3.Zero(), right: Vector3.Zero(), up: Vector3.Up(), width: (()=>{const f=(rawIdx+localT)/rawResolution*n,j=Math.floor(f)%n,u=f-Math.floor(f),q=u*u*(3-2*u);return controlWidths[j]*(1-q)+controlWidths[(j+1)%n]*q;})() });
++      const f=(rawIdx+localT)/rawResolution*n,j=Math.floor(f)%n,u=f-Math.floor(f),q=u*u*(3-2*u);
++      this.samples.push({pos,tangent:Vector3.Zero(),right:Vector3.Zero(),up:controlUps?Vector3.Lerp(controlUps[j],controlUps[(j+1)%n],u).normalize():Vector3.Up(),width:controlWidths[j]*(1-q)+controlWidths[(j+1)%n]*q});
+     }
+     for (let i = 0; i < sampleCount; i++) {
+       const prev = this.samples[(i - 1 + sampleCount) % sampleCount].pos;
+       const next = this.samples[(i + 1) % sampleCount].pos;
+       const tangent = next.subtract(prev).normalize();
+-      const right = Vector3.Cross(Vector3.Up(), tangent).normalize();
++      const right = Vector3.Cross(this.samples[i].up, tangent).normalize();
+       const up = Vector3.Cross(tangent, right).normalize();
+       this.samples[i].tangent = tangent;
+       this.samples[i].right = right;
+@@ -97,7 +99,7 @@
+       const p=this.samples[(i-4+sampleCount)%sampleCount].tangent;
+       const q=this.samples[(i+4)%sampleCount].tangent;
+       const turn=Math.atan2(p.z*q.x-p.x*q.z,p.x*q.x+p.z*q.z);
+-      const bank=Math.max(-.14,Math.min(.14,turn*.8));
++      const bank=banked?Math.max(-.14,Math.min(.14,turn*.8)):0;
+       const frame=this.samples[i],right=frame.right,up=frame.up;
+       frame.right=right.scale(Math.cos(bank)).add(up.scale(Math.sin(bank))).normalize();
+       frame.up=Vector3.Cross(frame.tangent,frame.right).normalize();
+@@ -171,6 +173,9 @@
+     if(f>=SWEEPER_AT-lead && f<=SWEEPER_AT+.012)return sweeperLateral(time+.7,this.widthAt(distance))>0?-this.widthAt(distance)*.27:this.widthAt(distance)*.27;
+     return 0;
+   }
++
++  hasRoadAt(_distance:number): boolean { return true; }
++  flightHeightAt(_distance:number): number { return 0; }
+ 
+   get sampleCount(): number {
+     return this.samples.length;
+--- baseline-3.0/src/minigames/kart-race/trackGuides.ts
++++ src/minigames/kart-race/trackGuides.ts
+@@ -170,7 +170,7 @@
+ 
+ // ---------------------------------------------------------------- costruzione
+ 
+-export function buildTrackGuides(scene: Scene, spline: TrackSpline): TransformNode {
++export function buildTrackGuides(scene: Scene, spline: TrackSpline, checkpoints?:number[]): TransformNode {
+   const root = new TransformNode('trackGuides', scene);
+   const mats = new Map<string, StandardMaterial>();
+   const board = (key: string, make: () => DynamicTexture): StandardMaterial => {
+@@ -247,7 +247,7 @@
+   }
+ 
+   // portali dei checkpoint (il numero 0 e' il traguardo, gia' con il suo cancello rosso)
+-  const cps = buildCheckpoints(spline);
++  const cps = checkpoints??buildCheckpoints(spline);
+   const gateMat = new StandardMaterial('cpGateMat', scene);
+   gateMat.emissiveColor = new Color3(0.2, 0.85, 1);
+   gateMat.diffuseColor = new Color3(0, 0, 0);
+--- baseline-3.0/src/minigames/bots/MotionBots.ts
++++ src/minigames/bots/MotionBots.ts
+@@ -112,16 +112,16 @@
+       if (k.finished) { this.hold(id, 'up', false); this.hold(id, 'drift', false); continue; }
+       // Tangent feed-forward + lane correction; real steering/acceleration/collisions remain in kartPhysics.
+       const tangent = spline.tangentAngleAt(k.distance);
+-      const future = spline.tangentAngleAt(k.distance + 7 + Math.abs(k.speed) * 0.23);
++      const future = spline.tangentAngleAt(k.distance + (spline.suspended?5:7) + Math.abs(k.speed) * (spline.suspended?.14:.23));
+       const lane=spline.botLateralAt(k.distance,id,this.time);
+-      const desired = future - clamp((k.lateral-lane) * 0.055, -0.45, 0.45);
++      const desired = future - clamp((k.lateral-lane) * (spline.suspended?.1:.055), -0.45, 0.45);
+       const error = angle(desired - k.absHeading);
+       const turn = clamp(error * 2.5, -1, 1);
+-      this.ctx.input.get(id).setAxis('steer', this.ctx.modifier?.id === 'controlli_invertiti' ? -turn : turn, 0);
+-      const tight = Math.abs(angle(future - tangent)) > 0.5 || Math.abs(error) > 0.85;
++      this.ctx.input.get(id).setAxis('steer', (this.ctx.modifier?.id === 'controlli_invertiti') !== (!spline.hasRoadAt(k.distance) && k.disturbTimer>0) ? -turn : turn, 0);
++      const tight = Math.abs(angle(future - tangent)) > (spline.suspended?.23:.5) || Math.abs(error) > (spline.suspended?.6:.85);
+       this.hold(id, 'up', !tight || k.speed < 28);
+       this.hold(id, 'down', tight && k.speed > 34);
+-      this.hold(id, 'drift', Math.abs(turn) > 0.35 && Math.abs(turn) < 0.8 && k.speed > 24 && Math.abs(k.lateral) < 3);
++      this.hold(id, 'drift', !spline.suspended && k.flight==='DRIVE' && Math.abs(turn) > 0.35 && Math.abs(turn) < 0.8 && k.speed > 24 && Math.abs(k.lateral) < 3);
+       if (k.heldItem && this.every(id, 'item', 1, 2)) this.tap(id, 'item');
+       if (k.recoverWindow > 0 || k.refundTimer > 0) {
+         if (this.every(id, 'recover', 0.12, 0.25)) this.tap(id, 'ability');
+--- baseline-3.0/src/core/GameManager.ts
++++ src/core/GameManager.ts
+@@ -1,3 +1,4 @@
++import type {KartTrackId} from '../../shared/kartTracks';
+ import Phaser from 'phaser';
+ import { Emitter } from '../../shared/events';
+ import { Rng } from '../../shared/rng';
+@@ -130,8 +131,8 @@
+   }
+ 
+   /** L'host sceglie manualmente il minigioco (null = rullo). */
+-  selectMinigame(minigameId: string | null): void {
+-    this.socket?.emit(EVT.hostSelectMinigame, { minigameId });
++  selectMinigame(minigameId: string | null, kartTrackId?: KartTrackId): void {
++    this.socket?.emit(EVT.hostSelectMinigame, { minigameId, kartTrackId });
+   }
+ 
+   /** Invia dati privati a un singolo telefono (es. carte segrete, ruoli, obiettivi). */
+@@ -263,6 +264,7 @@
+ 
+     return {
+       roundId,
++      kartTrackId: payload.kartTrackId,
+       players: snapshots,
+       playerIds: snapshots.map((p) => p.id),
+       rng: new Rng(),
+--- baseline-3.0/src/scenes/RoomScene.ts
++++ src/scenes/RoomScene.ts
+@@ -1,3 +1,4 @@
++import {kartTrackName} from '../../shared/kartTracks';
+ import Phaser from 'phaser';
+ import QRCode from 'qrcode';
+ import { game as gm } from '../core/GameManager';
+@@ -178,16 +179,16 @@
+     const st = gm.state;
+     if (!st) return [null];
+     const compat = MINIGAME_DEFINITIONS.filter((d) => d.enabled !== false && st.playerCount >= d.minPlayers && st.playerCount <= d.maxPlayers).map((d) => d.id);
+-    return [null, ...compat];
++    return [null, ...compat, ...(compat.includes('kart3d') ? ['kart3d:arcobaleno'] : [])];
+   }
+ 
+   private cycleMinigame(dir: number): void {
+     const opts = this.options();
+-    const cur = gm.state?.selectedMinigameId ?? null;
++    const cur = gm.state?.selectedMinigameId === 'kart3d' && gm.state.selectedKartTrackId === 'arcobaleno' ? 'kart3d:arcobaleno' : gm.state?.selectedMinigameId ?? null;
+     const idx = Math.max(0, opts.indexOf(cur));
+     const next = opts[(idx + dir + opts.length) % opts.length];
+     audio.ui('move');
+-    gm.selectMinigame(next);
++    gm.selectMinigame(next === 'kart3d:arcobaleno' ? 'kart3d' : next, next === 'kart3d:arcobaleno' ? 'arcobaleno' : 'litorale');
+   }
+ 
+   private tryStart(): void {
+@@ -220,11 +221,11 @@
+ 
+     const sel = st.selectedMinigameId;
+     const withPad = st.players.filter((p) => pads.slotOf(p.id)?.state === 'paired').length;
+-    const key = `${sel}|${st.targetScore}|${withPad}|${st.players.map((p) => `${p.id}:${p.characterId}:${p.ready}:${p.connected}:${pads.slotOf(p.id)?.state ?? ''}`).join(',')}`;
++    const key = `${sel}|${st.selectedKartTrackId}|${st.targetScore}|${withPad}|${st.players.map((p) => `${p.id}:${p.characterId}:${p.ready}:${p.connected}:${pads.slotOf(p.id)?.state ?? ''}`).join(',')}`;
+     if (key === this.lastKey) return; // niente setText a ogni frame
+     this.lastKey = key;
+ 
+-    this.mgText.setText(sel ? `MINIGIOCO: ${getMinigame(sel)?.name ?? sel}` : 'MINIGIOCO: 🎰 IL RULLO DECIDE');
++    this.mgText.setText(sel ? `MINIGIOCO: ${sel === 'kart3d' ? kartTrackName(st.selectedKartTrackId) : getMinigame(sel)?.name ?? sel}` : 'MINIGIOCO: 🎰 IL RULLO DECIDE');
+     this.targetText.setText(`🎯 OBIETTIVO ${st.targetScore} PUNTI · ~${estimateGameMinutes(st.targetScore)} MIN`);
+ 
+     const byChar = new Map<string, PlayerPublic>();
+--- baseline-3.0/src/minigames/types.ts
++++ src/minigames/types.ts
+@@ -1,3 +1,4 @@
++import type {KartTrackId} from '../../shared/kartTracks';
+ import type Phaser from 'phaser';
+ import type {
+   ActiveModifier,
+@@ -15,6 +16,7 @@
+  * input tramite ctx.input (InputManager) e termina con ctx.finish(ranking).
+  */
+ export interface MinigameContext {
++  kartTrackId?: KartTrackId;
+   /** Identità server del round, anche per rifiutare risposte private tardive. */
+   roundId?: number;
+   players: PlayerSnapshot[];
+--- baseline-3.0/server/GameSession.ts
++++ server/GameSession.ts
+@@ -1,3 +1,4 @@
++import {normalizeKartTrack,kartTrackName,type KartTrackId} from '../shared/kartTracks';
+ import { randomUUID } from 'node:crypto';
+ import { CHARACTERS } from '../shared/characters';
+ import { Emitter } from '../shared/events';
+@@ -56,6 +57,7 @@
+   suddenDeath = false;
+   /** null = rullo casuale; altrimenti il minigioco scelto manualmente dall'host. */
+   manualMinigameId: string | null = null;
++  manualKartTrackId: KartTrackId = 'litorale';
+   /** Ultimo payload "minigame:selected" (per la ripresa dell'host dopo una riconnessione). */
+   lastSelectedPayload: MinigameSelectedPayload | null = null;
+ 
+@@ -165,6 +167,7 @@
+       winner: this.winner,
+       suddenDeath: this.suddenDeath,
+       selectedMinigameId: this.manualMinigameId,
++      selectedKartTrackId: this.manualKartTrackId,
+       paused: this.paused,
+       roundId: this.minigameSeq,
+       lastPlayedMinigameId: this.history.length > 0 ? this.history[this.history.length - 1].minigameId : null,
+@@ -306,11 +309,12 @@
+    * lobby e tra un round e l'altro (risultati/classifica), ma non mentre rullo, intro o gioco sono in corso: cambierebbe
+    * un gioco già estratto o in svolgimento.
+    */
+-  selectMinigame(minigameId: string | null): void {
++  selectMinigame(minigameId: string | null, kartTrackId?: KartTrackId): void {
+     const selectable: GamePhase[] = ['LOBBY', 'MINIGAME_FINISHED', 'ROUND_RESULTS', 'GLOBAL_LEADERBOARD', 'CHECK_WINNER', 'NEXT_ROUND'];
+     if (!selectable.includes(this.phase)) return;
+     if (minigameId && !getMinigame(minigameId)) return;
+     this.manualMinigameId = minigameId;
++    this.manualKartTrackId = minigameId === 'kart3d' ? normalizeKartTrack(kartTrackId) : 'litorale';
+   }
+ 
+   /** L'host salta le animazioni (non il calcolo punti né il controllo vittoria). */
+@@ -373,6 +377,7 @@
+   // ---- FSM ----
+ 
+   private pickAndEnterRoulette(): void {
++    const kartTrackId = this.manualMinigameId === 'kart3d' ? this.manualKartTrackId : 'litorale';
+     let minigameId: string;
+     let modifierId: string | null;
+ 
+@@ -413,7 +418,7 @@
+ 
+     this.currentMinigame = {
+       minigameId: def.id,
+-      name: def.name,
++      name: def.id === 'kart3d' ? kartTrackName(kartTrackId) : def.name,
+       category: def.category,
+       modifierId,
+       durationSec: duration,
+@@ -428,8 +433,9 @@
+     this.minigameSeq += 1;
+     const payload: MinigameSelectedPayload = {
+       roundId: this.minigameSeq,
++      kartTrackId: def.id === 'kart3d' ? kartTrackId : undefined,
+       minigameId: def.id,
+-      name: def.name,
++      name: def.id === 'kart3d' ? kartTrackName(kartTrackId) : def.name,
+       category: def.category,
+       modifierId: modifierId ?? null,
+       modifierName: modifier?.name ?? null,
+--- baseline-3.0/server/RoomManager.ts
++++ server/RoomManager.ts
+@@ -1,3 +1,4 @@
++import type {KartTrackId} from '../shared/kartTracks';
+ import { Server, Socket } from 'socket.io';
+ import { randomUUID } from 'node:crypto';
+ import { EVT } from '../shared/protocol';
+@@ -149,7 +150,7 @@
+     socket.on(EVT.hostSkipMinigame, () => this.onSkipMinigame(socket));
+     socket.on(EVT.hostPause, (p: PausePayload) => this.onPause(socket, p));
+     socket.on(EVT.hostSelectMinigame, (p: SelectMinigamePayload) =>
+-      this.onSelectMinigame(socket, p.minigameId)
++      this.onSelectMinigame(socket, p.minigameId, p.kartTrackId)
+     );
+     socket.on(EVT.hostPrivateData, (p: PrivateDataPayload) => this.onPrivateData(socket, p));
+     socket.on(EVT.hostRestartMatch, () => this.onRestartMatch(socket));
+@@ -363,10 +364,10 @@
+     room.setPaused(Boolean(p?.paused));
+   }
+ 
+-  private onSelectMinigame(socket: Socket, minigameId: string | null): void {
+-    const room = this.roomOfHost(socket);
+-    if (!room) return;
+-    room.selectMinigame(minigameId);
++  private onSelectMinigame(socket: Socket, minigameId: string | null, kartTrackId?: KartTrackId): void {
++    const room = this.roomOfHost(socket);
++    if (!room) return;
++    room.selectMinigame(minigameId, kartTrackId);
+     this.broadcast(room.roomCode);
+   }
+ 
+--- baseline-3.0/shared/types.ts
++++ shared/types.ts
+@@ -1,3 +1,4 @@
++import type {KartTrackId} from './kartTracks';
+ // ============================================================================
+ // Tipi condivisi tra server, host (Phaser) e controller (smartphone).
+ // Nessuna dipendenza da Phaser, DOM o Node: pura definizione di dati.
+@@ -269,6 +270,7 @@
+   suddenDeath: boolean;
+   /** null = rullo (casuale); altrimenti il minigioco scelto manualmente dall'host. */
+   selectedMinigameId: string | null;
++  selectedKartTrackId?: KartTrackId;
+   /** true = host in pausa (ESC) durante MINIGAME_PLAYING: i telefoni mostrano PAUSA. */
+   paused?: boolean;
+   /** Id incrementale del minigioco in corso: scarta eventi tardivi di round vecchi. */
+--- baseline-3.0/shared/protocol.ts
++++ shared/protocol.ts
+@@ -1,3 +1,4 @@
++import type {KartTrackId} from './kartTracks';
+ import type {
+   ActiveModifier,
+   Category,
+@@ -112,6 +113,7 @@
+ }
+ 
+ export interface SelectMinigamePayload {
++  kartTrackId?: KartTrackId;
+   /** null = torna al rullo casuale. */
+   minigameId: string | null;
+ }
+@@ -159,6 +161,7 @@
+ 
+ /** Payload inviato al solo HOST quando parte un minigioco. */
+ export interface MinigameSelectedPayload {
++  kartTrackId?: KartTrackId;
+   /** Id incrementale del minigioco (round): il risultato deve riportarlo indietro. */
+   roundId?: number;
+   minigameId: string;
+--- baseline-3.0/src/core/AudioManager.ts
++++ src/core/AudioManager.ts
+@@ -542,6 +542,13 @@
+     this.sweep('sine', 190, 48, 0.24, 0.16 * Math.min(1.4, power), 0, pan);
+     this.sweep('square', 320, 90, 0.09, 0.06 * power, 0, pan);
+     this.noiseBurst(0.14, 1800, 300, 0.09 * power, 0, 0.7, pan);
++  }
++
++  /** Shared SFX bus: mute/pause/disposal do not leave a separate audio loop alive. */
++  kartGlide(kind:'launch'|'wind'|'land'):void {
++    if(kind==='launch'){this.sweep('sine',300,1050,.35,.035);this.noiseBurst(.32,500,2800,.035);}
++    else if(kind==='land')this.thump(.5);
++    else this.noiseBurst(.48,850,1200,.012,0,.45);
+   }
+ 
+   /** Caduta nel vuoto (arena): fischio discendente + soffio d'aria. */
+--- baseline-3.0/src/scenes/IntroScene.ts
++++ src/scenes/IntroScene.ts
+@@ -31,7 +31,7 @@
+     const icon = this.add.text(640, 150, def?.icon ?? '🎮', { fontSize: '96px' }).setOrigin(0.5).setScale(0.5).setAlpha(0);
+     const name = titleText(this, 640, 265, pick.name, pick.name.length > 26 ? 52 : UI.size.XL + 4, THEME.text).setStroke(UI.outline.color, UI.outline.thick).setAlpha(0);
+     const cat = pill(this, 640, 336, pick.category, THEME.gold, UI.size.S).setAlpha(0);
+-    const desc = bodyText(this, 640, 396, def?.description ?? 'Usa il telefono per giocare', UI.size.S + 4, THEME.textDim).setWordWrapWidth(1080).setAlpha(0);
++    const desc = bodyText(this, 640, 396, pick.kartTrackId==='arcobaleno'?'Tre giri su una pista sospesa. Le ali si aprono nei tratti azzurri: sterza verso la piattaforma successiva. Fuori pista riparti dal checkpoint.':def?.description ?? 'Usa il telefono per giocare', UI.size.S + 4, THEME.textDim).setWordWrapWidth(1080).setAlpha(0);
+     this.tweens.add({ targets: icon, alpha: 1, scale: 1, duration: THEME.normal, ease: 'Back.easeOut' });
+     this.tweens.add({ targets: [name, cat, desc], alpha: 1, duration: THEME.normal, delay: 120 });
+ 
+--- baseline-3.0/src/scenes/RouletteScene.ts
++++ src/scenes/RouletteScene.ts
+@@ -74,6 +74,7 @@
+     const pickDef = getMinigame(pick.minigameId);
+     if (pickDef && !eligible.some((d) => d.id === pickDef.id)) eligible = [...eligible, pickDef];
+     if (eligible.length === 0 && pickDef) eligible = [pickDef];
++    if(pick.kartTrackId==='arcobaleno')eligible=eligible.map(d=>d.id===pick.minigameId?{...d,name:pick.name}:d);
+     eligible = Phaser.Utils.Array.Shuffle([...eligible]);
+     const pickIdx = Math.max(
+       0,

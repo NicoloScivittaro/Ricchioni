@@ -1,0 +1,17 @@
+{
+  "typecheck": "pass (standalone and npm run build)",
+  "build": {
+    "exitCode": 0,
+    "modules": 3805,
+    "viteSeconds": 226,
+    "warning": "Existing large Babylon/WebXR chunks; build successful"
+  },
+  "compiledSmoke": "pass: 1 touch client, 4 bots, GLB loaded, pause and lobby cleanup",
+  "sourceManifestVerified": true,
+  "protectedScopeVerified": true,
+  "committed": false,
+  "pushed": false,
+  "deployed": false,
+  "backend": "http://localhost:3008",
+  "preview": "http://localhost:3008/glide-polish/preview.html"
+}

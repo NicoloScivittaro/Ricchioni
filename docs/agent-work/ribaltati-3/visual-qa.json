@@ -1,0 +1,630 @@
+{
+  "layouts": [
+    {
+      "n": 2,
+      "entries": [
+        {
+          "font": "  40px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  28px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "SO GUIDARE IO\n📱 ⚡ · IN CARICA 0%",
+          "size": {
+            "width": 640,
+            "height": 720
+          },
+          "panel": {
+            "w": 178,
+            "h": 208
+          }
+        },
+        {
+          "font": "  40px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  28px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "RIBALTATO MA NON MORTO\n📱 ⚡ · PRONTA",
+          "size": {
+            "width": 640,
+            "height": 720
+          },
+          "panel": {
+            "w": 178,
+            "h": 208
+          }
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "entries": [
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "SO GUIDARE IO\n📱 ⚡ · IN CARICA 0%",
+          "size": {
+            "width": 640,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        },
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "RIBALTATO MA NON MORTO\n📱 ⚡ · PRONTA",
+          "size": {
+            "width": 640,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        },
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "20 KG IN UN MESE\n📱 ⚡ · IN CARICA 0%",
+          "size": {
+            "width": 1280,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "entries": [
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "SO GUIDARE IO\n📱 ⚡ · IN CARICA 0%",
+          "size": {
+            "width": 640,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        },
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "RIBALTATO MA NON MORTO\n📱 ⚡ · PRONTA",
+          "size": {
+            "width": 640,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        },
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "20 KG IN UN MESE\n📱 ⚡ · IN CARICA 0%",
+          "size": {
+            "width": 640,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        },
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "CARICO E SCARICO\n📱 ⚡ · IN CARICA 0%",
+          "size": {
+            "width": 640,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "entries": [
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "SO GUIDARE IO\n📱 ⚡ · IN CARICA 0%",
+          "size": {
+            "width": 427,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        },
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "RIBALTATO MA NON MORTO\n📱 ⚡ · PRONTA",
+          "size": {
+            "width": 427,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        },
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "20 KG IN UN MESE\n📱 ⚡ · IN CARICA 0%",
+          "size": {
+            "width": 427,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        },
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "CARICO E SCARICO\n📱 ⚡ · IN CARICA 0%",
+          "size": {
+            "width": 640,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        },
+        {
+          "font": "  34px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "flash": "  16px \"Arial Black\", \"Segoe UI Black\", \"Helvetica Neue\", Arial, sans-serif",
+          "ability": "PAGO DOPO\n📱 ⚡ · PRONTA",
+          "size": {
+            "width": 640,
+            "height": 360
+          },
+          "panel": {
+            "w": 149,
+            "h": 174
+          }
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "animation": {
+    "compression": -0.2271734268801701,
+    "steer": 0.336,
+    "wheels": 4,
+    "bodyVertices": 1733,
+    "skins": [
+      {
+        "character": "goblin",
+        "procedural": false,
+        "animator": null,
+        "activeTracks": 0,
+        "sampleMs": 0,
+        "clips": 52,
+        "state": "ready",
+        "error": null,
+        "bones": 65,
+        "meshes": 2,
+        "meshNames": [
+          "__root__~g1(0v)",
+          "tripo_node_9724ae93-c510-4a38-8cf5-0152240ba84c~g1(33613v)"
+        ],
+        "geometryIds": [
+          -1,
+          7943
+        ],
+        "animation": "run.001~g1",
+        "animationPlaying": false,
+        "animationSpeed": 1,
+        "animationFrame": 0,
+        "skeletonId": 18342,
+        "clipHipsOffset": null,
+        "holdFrame": 0,
+        "seated": true,
+        "seatedApplied": true,
+        "restHips": [
+          0.0019,
+          0.4764,
+          0.0172
+        ],
+        "hipsNow": [
+          0.0019,
+          0.4764,
+          0.0172
+        ],
+        "joints": {
+          "Hips": [
+            -0.0019,
+            0.4764,
+            0.0172
+          ],
+          "Spine": [
+            -0.0019,
+            0.5149,
+            0.0174
+          ],
+          "Head": [
+            -0.0056,
+            0.7538,
+            0.0706
+          ],
+          "LeftUpLeg": [
+            -0.0555,
+            0.4308,
+            0.0124
+          ],
+          "LeftLeg": [
+            -0.0619,
+            0.3808,
+            0.1681
+          ],
+          "LeftFoot": [
+            -0.062,
+            0.1997,
+            0.1204
+          ],
+          "RightUpLeg": [
+            0.0517,
+            0.4308,
+            0.0124
+          ],
+          "RightLeg": [
+            0.058,
+            0.3808,
+            0.1681
+          ],
+          "RightFoot": [
+            0.1382,
+            0.2171,
+            0.1251
+          ],
+          "LeftHand": [
+            -0.0918,
+            0.6003,
+            0.2325
+          ],
+          "RightHand": [
+            0.0848,
+            0.6027,
+            0.2237
+          ]
+        },
+        "height": 1.33571860541393,
+        "width": 0.5452998044019792,
+        "depth": 0.5206925553695981,
+        "scale": 1.378069739264406,
+        "vertices": 33613
+      },
+      {
+        "character": "buttafuori",
+        "procedural": false,
+        "animator": null,
+        "activeTracks": 0,
+        "sampleMs": 0,
+        "clips": 54,
+        "state": "ready",
+        "error": null,
+        "bones": 65,
+        "meshes": 2,
+        "meshNames": [
+          "__root__~g2(0v)",
+          "tripo_node_15d71480-45c9-4b21-9e34-83df28c07d0d~g2(28141v)"
+        ],
+        "geometryIds": [
+          -1,
+          71499
+        ],
+        "animation": "run.001~g2",
+        "animationPlaying": false,
+        "animationSpeed": 1,
+        "animationFrame": 0,
+        "skeletonId": 82289,
+        "clipHipsOffset": null,
+        "holdFrame": 0,
+        "seated": true,
+        "seatedApplied": true,
+        "restHips": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "hipsNow": [
+          -0.0134,
+          0.4985,
+          -0.0821
+        ],
+        "joints": {
+          "Hips": [
+            0.0134,
+            0.4985,
+            -0.0821
+          ],
+          "Spine": [
+            0.0172,
+            0.5567,
+            -0.0875
+          ],
+          "Head": [
+            0.0313,
+            0.8266,
+            -0.0648
+          ],
+          "LeftUpLeg": [
+            -0.0554,
+            0.4639,
+            -0.0819
+          ],
+          "LeftLeg": [
+            -0.0356,
+            0.4229,
+            0.1195
+          ],
+          "LeftFoot": [
+            -0.0309,
+            0.2473,
+            0.0943
+          ],
+          "RightUpLeg": [
+            0.0783,
+            0.4661,
+            -0.0663
+          ],
+          "RightLeg": [
+            0.0921,
+            0.4106,
+            0.1343
+          ],
+          "RightFoot": [
+            0.1691,
+            0.2556,
+            0.0887
+          ],
+          "LeftHand": [
+            -0.0679,
+            0.6694,
+            0.1245
+          ],
+          "RightHand": [
+            0.1269,
+            0.6757,
+            0.1858
+          ]
+        },
+        "height": 1.3377258471043403,
+        "width": 0.5883377528452596,
+        "depth": 0.6269218797542012,
+        "scale": 1.3804525962237442,
+        "vertices": 28141
+      },
+      null,
+      {
+        "character": "judoka",
+        "procedural": false,
+        "animator": null,
+        "activeTracks": 0,
+        "sampleMs": 0,
+        "clips": 49,
+        "state": "ready",
+        "error": null,
+        "bones": 65,
+        "meshes": 2,
+        "meshNames": [
+          "__root__~g3(0v)",
+          "tripo_node_251cf5c8-cf0f-4a4c-a2bc-69279b21f4d4~g3(24403v)"
+        ],
+        "geometryIds": [
+          -1,
+          40309
+        ],
+        "animation": "run.001~g3",
+        "animationPlaying": false,
+        "animationSpeed": 1,
+        "animationFrame": 0,
+        "skeletonId": 61823,
+        "clipHipsOffset": null,
+        "holdFrame": 0,
+        "seated": true,
+        "seatedApplied": true,
+        "restHips": [
+          0.0057,
+          0.4989,
+          0.0096
+        ],
+        "hipsNow": [
+          0.0057,
+          0.4989,
+          0.0096
+        ],
+        "joints": {
+          "Hips": [
+            -0.0057,
+            0.4989,
+            0.0096
+          ],
+          "Spine": [
+            -0.0057,
+            0.5403,
+            0.0178
+          ],
+          "Head": [
+            -0.0074,
+            0.8359,
+            0.0799
+          ],
+          "LeftUpLeg": [
+            -0.0631,
+            0.4841,
+            0.0042
+          ],
+          "LeftLeg": [
+            -0.0732,
+            0.411,
+            0.2195
+          ],
+          "LeftFoot": [
+            -0.0633,
+            0.2125,
+            0.168
+          ],
+          "RightUpLeg": [
+            0.0554,
+            0.4841,
+            0.0042
+          ],
+          "RightLeg": [
+            0.058,
+            0.41,
+            0.2194
+          ],
+          "RightFoot": [
+            0.1312,
+            0.2238,
+            0.1714
+          ],
+          "LeftHand": [
+            -0.1069,
+            0.6587,
+            0.2915
+          ],
+          "RightHand": [
+            0.0975,
+            0.6628,
+            0.2851
+          ]
+        },
+        "height": 1.3308206531215203,
+        "width": 0.527179522863347,
+        "depth": 0.631817795632087,
+        "scale": 1.3794838111084116,
+        "vertices": 24403
+      },
+      {
+        "character": "ciro",
+        "procedural": false,
+        "animator": null,
+        "activeTracks": 0,
+        "sampleMs": 0,
+        "clips": 59,
+        "state": "ready",
+        "error": null,
+        "bones": 65,
+        "meshes": 2,
+        "meshNames": [
+          "__root__~g4(0v)",
+          "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g4(29981v)"
+        ],
+        "geometryIds": [
+          -1,
+          28606
+        ],
+        "animation": "run.001~g4",
+        "animationPlaying": false,
+        "animationSpeed": 1,
+        "animationFrame": 0,
+        "skeletonId": 50120,
+        "clipHipsOffset": null,
+        "holdFrame": 0,
+        "seated": true,
+        "seatedApplied": true,
+        "restHips": [
+          0.0096,
+          0.5064,
+          -0.0019
+        ],
+        "hipsNow": [
+          0.0096,
+          0.5064,
+          -0.0019
+        ],
+        "joints": {
+          "Hips": [
+            -0.0096,
+            0.5064,
+            -0.0019
+          ],
+          "Spine": [
+            -0.0096,
+            0.5676,
+            0.0007
+          ],
+          "Head": [
+            -0.0135,
+            0.8501,
+            0.0512
+          ],
+          "LeftUpLeg": [
+            -0.0745,
+            0.4714,
+            0.0021
+          ],
+          "LeftLeg": [
+            -0.0889,
+            0.3975,
+            0.1952
+          ],
+          "LeftFoot": [
+            -0.0886,
+            0.2214,
+            0.164
+          ],
+          "RightUpLeg": [
+            0.0592,
+            0.471,
+            0.0059
+          ],
+          "RightLeg": [
+            0.052,
+            0.3952,
+            0.199
+          ],
+          "RightFoot": [
+            0.0881,
+            0.2225,
+            0.1671
+          ],
+          "LeftHand": [
+            -0.1039,
+            0.6845,
+            0.2483
+          ],
+          "RightHand": [
+            0.0853,
+            0.6828,
+            0.2455
+          ]
+        },
+        "height": 1.3340159209623133,
+        "width": 0.4897721659686219,
+        "depth": 0.599416827154405,
+        "scale": 1.3797521794031824,
+        "vertices": 29981
+      }
+    ]
+  },
+  "occlusion": {
+    "samples": 392,
+    "hits": []
+  },
+  "cleanup": {
+    "engineDisposed": true,
+    "sceneDisposed": true,
+    "particles": 0,
+    "canvases": 1
+  }
+}

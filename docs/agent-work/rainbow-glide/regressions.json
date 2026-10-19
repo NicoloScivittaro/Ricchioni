@@ -1,0 +1,77 @@
+[
+  {
+    "test": "audio",
+    "passed": true,
+    "lastLine": "TUTTO OK"
+  },
+  {
+    "test": "backrooms-fixes",
+    "passed": true,
+    "lastLine": "Backrooms fixes: 22 test groups passed"
+  },
+  {
+    "test": "geofall-2",
+    "passed": true,
+    "lastLine": "Geofall2: 10 test groups passed"
+  },
+  {
+    "test": "kart-abilities",
+    "passed": true,
+    "lastLine": "=== RISULTATO: TUTTI I TEST PASSATI ✅ ==="
+  },
+  {
+    "test": "kart-contact",
+    "passed": true,
+    "lastLine": "PASS muro a 30/60/120 FPS: strisciata senza freno esponenziale; respawn azzera gli impulsi"
+  },
+  {
+    "test": "kart-items",
+    "passed": true,
+    "lastLine": "PASS 13 item: distribuzione, sette effetti, magnete e break, salto/landing e scadenze 30/60/120, traiettorie rapide, miscele boost/drift, contatto bumper, fine gara e cleanup."
+  },
+  {
+    "test": "kart-oil",
+    "passed": true,
+    "lastLine": "PASS olio: 30/60/120 FPS, nessuna frenata/stun, inerzia in sterzata, recupero, sweep e cambio giro, bordo evitabile, debito Ciro."
+  },
+  {
+    "test": "pad",
+    "passed": true,
+    "lastLine": "✅ fps: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)"
+  },
+  {
+    "test": "quality",
+    "passed": true,
+    "lastLine": "Tutto ok"
+  },
+  {
+    "test": "ribaltati-2",
+    "passed": true,
+    "lastLine": "PASS: geometry, seam, widths, banking, ramps, collision sweeps, shield/air clearance, split lanes, respawn, 24 complete races at 30/60/120 Hz with 2–5 bots."
+  },
+  {
+    "test": "ribaltati-camera",
+    "passed": true,
+    "lastLine": "PASS camera: 336 elevated/banked/jumping positions, 2–5 split layouts, full coverage, road clearance and kart projection."
+  },
+  {
+    "test": "roulette-cycle",
+    "passed": true,
+    "lastLine": "RULLO: 42653 controlli superati · nessuna ripetizione prima di tutti gli altri, anche tra giri."
+  },
+  {
+    "test": "rounds",
+    "passed": true,
+    "lastLine": "✅ ROUNDS SELFTEST OK (60 controlli)"
+  },
+  {
+    "test": "solo-bots",
+    "passed": true,
+    "lastLine": "SOLO BOTS SELFTEST PASS"
+  },
+  {
+    "test": "minigolf-2",
+    "passed": true,
+    "status": "Direct node/tsx rerun: exit0,9 groups and24 full tournaments passed; initial160s runner timeout resolved"
+  }
+]

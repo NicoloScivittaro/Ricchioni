@@ -170,7 +170,7 @@ function roadArrowTexture(scene: Scene, dir: 1 | -1): DynamicTexture {
 
 // ---------------------------------------------------------------- costruzione
 
-export function buildTrackGuides(scene: Scene, spline: TrackSpline): TransformNode {
+export function buildTrackGuides(scene: Scene, spline: TrackSpline, checkpoints?:number[]): TransformNode {
   const root = new TransformNode('trackGuides', scene);
   const mats = new Map<string, StandardMaterial>();
   const board = (key: string, make: () => DynamicTexture): StandardMaterial => {
@@ -247,12 +247,13 @@ export function buildTrackGuides(scene: Scene, spline: TrackSpline): TransformNo
   }
 
   // portali dei checkpoint (il numero 0 e' il traguardo, gia' con il suo cancello rosso)
-  const cps = buildCheckpoints(spline);
+  const cps = checkpoints??buildCheckpoints(spline);
   const gateMat = new StandardMaterial('cpGateMat', scene);
   gateMat.emissiveColor = new Color3(0.2, 0.85, 1);
   gateMat.diffuseColor = new Color3(0, 0, 0);
   gateMat.disableLighting = true;
-  gateMat.alpha = 0.85;
+  gateMat.alpha = 1;
+  gateMat.emissiveColor.scaleInPlace(.55);
   for (let i = 1; i < cps.length; i++) {
     const s = cps[i];
     const half = spline.widthAt(s) / 2 + 3.6; // pali OLTRE le barriere: fuori pista la camera non ci finisce dentro
@@ -264,10 +265,6 @@ export function buildTrackGuides(scene: Scene, spline: TrackSpline): TransformNo
       post.position = pos.add(right.scale(side * half)).add(new Vector3(0, 2.1, 0));
       parts.push(post);
     }
-    const bar = MeshBuilder.CreateBox('cpBar', { width: half * 2, height: 0.3, depth: 0.3 }, scene);
-    bar.position = pos.add(new Vector3(0, 4.2, 0));
-    bar.rotation.y = spline.tangentAngleAt(s);
-    parts.push(bar);
     const merged = Mesh.MergeMeshes(parts, true, false);
     if (merged) {
       merged.material = gateMat;
@@ -275,5 +272,8 @@ export function buildTrackGuides(scene: Scene, spline: TrackSpline): TransformNo
       merged.isPickable = false;
     }
   }
+  const batches=new Map<NonNullable<Mesh['material']>,Mesh[]>();
+  for(const m of root.getChildMeshes())if(m instanceof Mesh && m.material){const a=batches.get(m.material)??[];a.push(m);batches.set(m.material,a);}
+  for(const [mat,list]of batches){if(list.length<2)continue;const m=Mesh.MergeMeshes(list,true,true);if(m){m.material=mat;m.parent=root;m.name='batchedTrackGuide';m.isPickable=false;m.freezeWorldMatrix();}}
   return root;
 }

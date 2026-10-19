@@ -7,10 +7,10 @@ import {EXPRESS,PORT_WET,SWEEPER_AT,TRACK_RAMPS,expressLateral,sweeperLateral} f
 
 /** Surface strip conforms to banking/elevation, one mesh per material. */
 function strip(scene:Scene,spline:TrackSpline,name:string,from:number,to:number,left:(s:number)=>number,right:(s:number)=>number,mat:Material):Mesh {
- const p:number[]=[],indices:number[]=[];const step=spline.totalLength/spline.sampleCount,first=Math.floor(from/step),last=Math.ceil(to/step),count=last-first;
- for(let i=0;i<=count;i++){const s=(first+i)*step;for(const lat of [left(s),right(s)]){const v=spline.worldPoint(s,lat,.055);p.push(v.x,v.y,v.z);}}
+ const p:number[]=[],indices:number[]=[],uvs:number[]=[];const step=spline.totalLength/spline.sampleCount,first=Math.floor(from/step),last=Math.ceil(to/step),count=last-first;
+ for(let i=0;i<=count;i++){const s=(first+i)*step;for(const lat of [left(s),right(s)]){const v=spline.worldPoint(s,lat,.055);p.push(v.x,v.y,v.z);uvs.push(lat===left(s)?0:1,(s-from)/7);}}
  for(let i=0;i<count;i++){const a=i*2;indices.push(a,a+2,a+1,a+1,a+2,a+3);}
- const mesh=new Mesh(name,scene),vd=new VertexData();vd.positions=p;vd.indices=indices;VertexData.ComputeNormals(p,indices,vd.normals=[]);vd.applyToMesh(mesh);mat.backFaceCulling=false;if(mat instanceof StandardMaterial)mat.twoSidedLighting=true;mesh.material=mat;mesh.isPickable=false;mesh.freezeWorldMatrix();return mesh;
+ const mesh=new Mesh(name,scene),vd=new VertexData();vd.positions=p;vd.indices=indices;vd.uvs=uvs;VertexData.ComputeNormals(p,indices,vd.normals=[]);vd.applyToMesh(mesh);mat.backFaceCulling=false;if(mat instanceof StandardMaterial)mat.twoSidedLighting=true;mesh.material=mat;mesh.isPickable=false;mesh.freezeWorldMatrix();return mesh;
 }
 
 /** Matrix instances use exactly the road frame, including slope and banking. */
@@ -23,9 +23,9 @@ function roadInstances(mesh:Mesh,spline:TrackSpline,entries:{s:number;up:number;
 
 export function buildTrackSetPieces(scene:Scene,spline:TrackSpline):{update(time:number):void} {
  const kit=new EnvKit(scene),L=spline.totalLength;
- const steel=kit.mat('#12384c',{spec:.25}),gold=kit.mat('#ffc84c',{emissive:.1}),cyan=kit.mat('#38e0d8',{emissive:.5}),dark=kit.mat('#273c53',{spec:.2});
+ const steel=kit.mat('#12384c',{spec:.25}),gold=kit.mat('#eab04f',{emissive:.02}),cyan=kit.mat('#32bdb9',{emissive:.22}),dark=kit.mat('#273c53',{spec:.2});
  const at=(f:number,lat=0,up=0)=>spline.worldPoint(f*L,lat,up);
- const sign=(f:number,text:string,color:string)=>{const p=at(f,0,7);kit.sign(text,{x:p.x,y:p.y,z:p.z,w:15,h:1.7,ry:spline.tangentAngleAt(f*L),color,bg:'#102c40',style:'neon',twoSided:true});};
+ const sign=(f:number,text:string,color:string)=>{const p=at(f,spline.widthAt(f*L)/2+5,3.8);kit.sign(text,{x:p.x,y:p.y,z:p.z,w:7,h:1.1,ry:spline.tangentAngleAt(f*L),color,bg:'#102c40',style:'neon',twoSided:true});};
  // Solid bridge decks, pier pairs, safety rails and bracket supports.
  const pier=MeshBuilder.CreateBox('viaductPiers',{width:1.6,height:1,depth:2},scene);pier.material=steel;const piers:Xf[]=[];
  const brace=MeshBuilder.CreateBox('viaductCrossbeams',{width:1,height:.65,depth:1.5},scene);brace.material=dark;const braces:Xf[]=[];
@@ -41,8 +41,11 @@ export function buildTrackSetPieces(scene:Scene,spline:TrackSpline):{update(time
   const ribs=MeshBuilder.CreateBox('rampRibs',{width:1,height:.08,depth:.3},scene);ribs.material=dark;const transforms:{s:number;up:number;width:number;depth:number}[]=[];
   for(let j=0;j<5;j++){const d=s-8+j*1.8;transforms.push({s:d,up:.12,width:spline.widthAt(d)-2,depth:1});}roadInstances(ribs,spline,transforms);sign(ramp.at-.018,ramp.name+' ↑','#ffc84c');
  }
- const wet=kit.mat('#325f78',{spec:.85,emissive:.02});strip(scene,spline,'wetPortSurface',PORT_WET[0]*L,PORT_WET[1]*L,d=>-spline.widthAt(d)/2+1,d=>spline.widthAt(d)/2-1,wet);sign(PORT_WET[0]-.018,'PORTO · ASFALTO BAGNATO','#71d4ff');
- const lane=(s:number)=>expressLateral(spline.widthAt(s));strip(scene,spline,'expressLane',EXPRESS[0]*L,EXPRESS[1]*L,s=>lane(s)-1.3,s=>lane(s)+1.3,cyan);
+ const wetTex=kit.texture('wetAsphalt3',128,128,(c,w,h)=>{c.fillStyle='#677f87';c.fillRect(0,0,w,h);c.strokeStyle='#bedae0';c.lineWidth=2;for(let i=0;i<12;i++){c.beginPath();c.ellipse((i*47)%w,(i*31)%h,20,3,.3,0,Math.PI*2);c.stroke();}},{wrap:true});
+ const wet=kit.mat('#65808a',{tex:wetTex,spec:.85,emissive:.02});strip(scene,spline,'wetPortSurface',PORT_WET[0]*L,PORT_WET[1]*L,d=>-spline.widthAt(d)/2+1,d=>spline.widthAt(d)/2-1,wet);sign(PORT_WET[0]-.018,'PORTO · ASFALTO BAGNATO','#71d4ff');
+ const arrowTex=kit.texture('expressArrows3',128,128,(c,w,h)=>{c.fillStyle='#155e68';c.fillRect(0,0,w,h);c.fillStyle='#73fff0';c.beginPath();c.moveTo(10,45);c.lineTo(64,6);c.lineTo(118,45);c.lineTo(118,75);c.lineTo(64,35);c.lineTo(10,75);c.closePath();c.fill();c.fillRect(5,0,4,h);c.fillRect(w-9,0,4,h);},{wrap:true});
+ const laneMat=kit.mat('#ffffff',{tex:arrowTex,spec:.4,emissive:.15});
+ const lane=(s:number)=>expressLateral(spline.widthAt(s));strip(scene,spline,'expressLane' ,EXPRESS[0]*L,EXPRESS[1]*L,s=>lane(s)-1.3,s=>lane(s)+1.3,laneMat);
  strip(scene,spline,'splitterIsland',EXPRESS[0]*L,EXPRESS[1]*L,()=>-1.05,()=>1.05,gold);
  const separator=MeshBuilder.CreateBox('laneDivider',{width:1.5,height:.9,depth:1.8},scene);separator.material=steel;const separators:{s:number;up:number;width:number;depth:number}[]=[];
  for(let s=EXPRESS[0]*L;s<EXPRESS[1]*L;s+=3){const end=Math.min(s+3,EXPRESS[1]*L);separators.push({s:(s+end)/2,up:.45,width:1,depth:(end-s+.08)/1.8});}roadInstances(separator,spline,separators);sign(EXPRESS[0]-.02,'← TURBO STRETTO    |    SICURA →','#63fff0');
@@ -50,9 +53,13 @@ export function buildTrackSetPieces(scene:Scene,spline:TrackSpline):{update(time
  const s=SWEEPER_AT*L,side=spline.widthAt(s)/2+3,p=spline.worldPoint(s,side,0),angle=spline.tangentAngleAt(s);
  const tower=kit.box('loadingCraneTower',1.6,12,1.6,{x:p.x,y:p.y+6,z:p.z},gold);kit.freeze(tower);
  const beam=kit.box('loadingCraneBeam',side*2,1,1,{x:spline.positionAt(s).x,y:p.y+12,z:spline.positionAt(s).z,ry:angle},gold);kit.freeze(beam);
- const load=MeshBuilder.CreateBox('swingingCargo',{width:2.7,height:2.2,depth:3.4},scene);load.material=gold;load.isPickable=false;
+ const load=MeshBuilder.CreateBox('swingingCargo',{width:2.7,height:2.2,depth:3.4},scene);const cargoTex=kit.texture('cargoHazard3',128,128,(c,w,h)=>{c.fillStyle='#d7a24d';c.fillRect(0,0,w,h);c.fillStyle='#1c3441';for(let x=-64;x<192;x+=32){c.beginPath();c.moveTo(x,110);c.lineTo(x+14,110);c.lineTo(x+32,128);c.lineTo(x+18,128);c.closePath();c.fill();}c.strokeStyle='#f4d98a';c.lineWidth=3;c.strokeRect(6,6,116,116);c.fillStyle='#203d4c';c.font='bold 24px Arial';c.textAlign='center';c.fillText('CARICO',64,55);c.font='bold 31px Arial';c.fillText('31',64,90);});load.material=kit.mat('#ffffff',{tex:cargoTex,spec:.35});load.isPickable=false;
  const cable=MeshBuilder.CreateCylinder('cargoCable',{diameter:.08,height:1,tessellation:6},scene);cable.material=steel;cable.isPickable=false;
  const warn=kit.mat('#ff704b',{emissive:.3});strip(scene,spline,'cargoWarning',s-4,s+4,d=>-spline.widthAt(d)/2+1,d=>spline.widthAt(d)/2-1,warn);sign(SWEEPER_AT-.025,'GRU MOBILE · CAMBIA CORSIA','#ffd166');
+ // Lattice braces give the working crane a readable industrial silhouette, batched once.
+ const lattice:Mesh[]=[];
+ for(let y=1;y<11;y+=2)for(const sideSign of [-1,1]){const m=kit.box('craneLattice',.12,2.5,.12,{x:p.x+sideSign*.85,y:p.y+y,z:p.z,rz:sideSign*.6,ry:angle},steel);lattice.push(m);}
+ kit.merge('craneLatticeBatch',lattice,steel);
  // Landscaped infield under the new high promenade; large details remain batched.
  const pennant=MeshBuilder.CreateCylinder('coastalPennants',{diameterTop:0,diameterBottom:1.3,height:2,tessellation:3},scene);pennant.material=gold;const flags:Xf[]=[];
  for(let f=.03;f<1;f+=.026){const d=f*L,half=spline.widthAt(d)/2+2,q=spline.worldPoint(d,half,3);flags.push({x:q.x,y:q.y,z:q.z,ry:spline.tangentAngleAt(d)});}kit.thin(pennant,flags,['#ff714c','#36d8d4','#ffd567','#bda0ff']);kit.freeze(pennant);

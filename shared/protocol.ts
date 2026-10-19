@@ -1,3 +1,4 @@
+import type {KartTrackId} from './kartTracks';
 import type {
   ActiveModifier,
   Category,
@@ -112,6 +113,7 @@ export interface PausePayload {
 }
 
 export interface SelectMinigamePayload {
+  kartTrackId?: KartTrackId;
   /** null = torna al rullo casuale. */
   minigameId: string | null;
 }
@@ -159,6 +161,7 @@ export interface GamepadsPayload {
 
 /** Payload inviato al solo HOST quando parte un minigioco. */
 export interface MinigameSelectedPayload {
+  kartTrackId?: KartTrackId;
   /** Id incrementale del minigioco (round): il risultato deve riportarlo indietro. */
   roundId?: number;
   minigameId: string;

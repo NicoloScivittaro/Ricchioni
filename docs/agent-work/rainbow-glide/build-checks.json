@@ -1,0 +1,10 @@
+{
+  "typecheck": true,
+  "build": true,
+  "modules": 3804,
+  "duration": "3m45s",
+  "warnings": [
+    "existing large Babylon/WebXR chunks"
+  ],
+  "assetSha256": "cd38878316f88b8578036a129dce2bd2114987c595bdc4e3ee029036b2599250"
+}

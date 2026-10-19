@@ -25,6 +25,8 @@ export function activeItemLabel(k: KartState): string {
   if(k.magnetTimer>0)return `🧲 TRAZIONE ${k.magnetTimer.toFixed(1)}s`;
   if(k.faultyTimer>0)return `🚀 DIFETTOSO ${k.faultyTimer.toFixed(1)}s`;
   if(k.bumperTimer>0)return `🚧 PARAURTI ${k.bumperTimer.toFixed(1)}s`;
+  if(k.flight==='GLIDE')return 'PLANATA';
+  if(k.flight==='FALL')return 'RECUPERO';
   if(k.jumpHeight>.05)return '🌀 IN VOLO';
   if(k.oilTimer>0)return `🛢️ SLITTA ${k.oilTimer.toFixed(1)}s`;
   return '—';

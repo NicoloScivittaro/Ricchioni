@@ -1,3 +1,4 @@
+import {GLIDE} from './glideDynamics';
 import type { KartState } from './raceTypes';
 import { MIN_RACE_DISTANCE } from './raceTypes';
 import { KART_HALF_WIDTH, KART_HALF_LENGTH } from './kartCollisions';
@@ -129,7 +130,7 @@ export function stepKartPhysics(
   halfWidthAt: (distance: number) => number,
   trackAngleAt: (distance: number) => number,
   invertSteer: boolean,
-  surface: {grip:number;speed:number} = {grip:1,speed:1}
+  surface: {grip:number;speed:number;air?:boolean;barriers?:boolean} = {grip:1,speed:1}
 ): void {
   const C = KART_CONFIG;
   if (k.respawnTimer > 0) {
@@ -145,7 +146,7 @@ export function stepKartPhysics(
   k.oilTimer = Math.max(0, k.oilTimer - dt);
   k.faultyTimer = Math.max(0, k.faultyTimer - dt);
   k.bumperTimer = Math.max(0, k.bumperTimer - dt);
-  if (k.jumpHeight > 0 || k.jumpVelocity > 0) {
+  if (!surface.air && (k.jumpHeight > 0 || k.jumpVelocity > 0)) {
     k.jumpVelocity -= 14 * dt; k.jumpHeight += k.jumpVelocity * dt;
     if (k.jumpHeight <= 0) {
       k.jumpHeight = 0; k.jumpVelocity = 0;
@@ -167,7 +168,12 @@ export function stepKartPhysics(
   const up = !stunned && input.up;
   const down = !stunned && input.down;
 
-  if (up) {
+  if (surface.air) {
+    // Lift sustains forward inertia even after a hit; braking trims speed but cannot reverse in flight.
+    const target = down ? 28 : 44;
+    k.speed += (target-k.speed)*Math.min(1,dt*(stunned?.22:.55));
+    k.speed=Math.max(24,k.speed);
+  } else if (up) {
     // Curva di accelerazione arcade: parte pronta, si assottiglia avvicinandosi
     // al fondo scala, così il massimo si sente come un vero tetto da raggiungere.
     // accelMultiplier: Dottore "20 KG IN UN MESE" (kart leggerissimo).
@@ -198,7 +204,7 @@ export function stepKartPhysics(
   }
 
   const half = halfWidthAt(k.distance);
-  k.offRoad = Math.abs(k.lateral) > half;
+  k.offRoad = !surface.air && Math.abs(k.lateral) > half;
   const centerRate = surface.grip * (k.offRoad ? C.centerRateOffRoad : C.centerRateOnRoad) * (1 - oil * .8);
   const roadCap = Math.max(C.maxSpeed * surface.speed, boostCap);
   const maxSpeed = (k.offRoad ? C.maxSpeed * C.offroadSpeedFactor : roadCap) * k.speedCapMultiplier;
@@ -212,7 +218,7 @@ export function stepKartPhysics(
   }
 
   // --- Drift ---
-  const wantsDrift = input.drift && !stunned && Math.abs(steerDir) > 0 && k.speed > C.driftMinSpeed;
+  const wantsDrift = !surface.air && input.drift && !stunned && Math.abs(steerDir) > 0 && k.speed > C.driftMinSpeed;
   if (wantsDrift && !k.drifting) {
     k.drifting = true;
     k.driftDir = steerDir > 0 ? 1 : -1;
@@ -240,7 +246,7 @@ export function stepKartPhysics(
   const speedFracForSteer = Math.min(1, Math.abs(k.speed) / C.maxSpeed);
   const itemSteer = (k.faultyTimer > 0 ? .58 : 1) * (k.bumperTimer > 0 ? .85 : 1);
   const turnRate = C.maxTurnRate * (1 - C.highSpeedSteerLoss * speedFracForSteer * speedFracForSteer) * k.steerMultiplier * itemSteer;
-  if (!stunned) {
+  if (!stunned && !surface.air) {
     k.absHeading += steerDir * turnRate * dt;
     if (k.drifting) k.absHeading += k.driftDir * C.driftExtraRate * dt;
   }
@@ -248,23 +254,33 @@ export function stepKartPhysics(
   k.collisionYawVelocity *= Math.exp(-4 * dt);
 
   let relHeading = wrapAngle(k.absHeading - trackAngleAt(k.distance));
+  if(surface.air){
+    // Keep the air control frame continuous across bends in the gap guide.
+    // Only input and real contact impulses change the relative heading.
+    relHeading=wrapAngle(k.heading+k.collisionYawVelocity*dt);
+    const target=steerDir*GLIDE.yaw*k.steerMultiplier*itemSteer;
+    k.glideYawVelocity+=((target-relHeading)*GLIDE.frequency**2-2*GLIDE.frequency*k.glideYawVelocity)*dt;
+    relHeading+=k.glideYawVelocity*dt;
+    k.absHeading=trackAngleAt(k.distance)+relHeading;
+  }
 
   // Auto-allineamento naturale (grip) SOLO quando non si sterza attivamente:
   // previene una deriva laterale infinita su un rettilineo, restando comunque
   // molto più lento della curvatura di una curva vera (serve sterzare per
   // seguirla, non basta aspettare che il kart si raddrizzi da solo).
-  if (!k.drifting && steerDir === 0) {
+  if (!surface.air && !k.drifting && steerDir === 0) {
     const correction = relHeading * Math.min(1, centerRate * dt);
     k.absHeading -= correction;
     relHeading -= correction;
   }
-  if (stunned) {
+  if (stunned && !surface.air) {
     const correction = relHeading * Math.min(1, 2 * dt);
     k.absHeading -= correction;
     relHeading -= correction;
   }
 
-  relHeading = clamp(relHeading, -1.25, 1.25);
+  relHeading = clamp(relHeading, surface.air ? -GLIDE.safetyYaw : -1.25, surface.air ? GLIDE.safetyYaw : 1.25);
+  if(surface.air)k.absHeading=trackAngleAt(k.distance)+relHeading;
   // Sull'olio le gomme non possono cambiare istantaneamente la velocità laterale:
   // conserva parte della traiettoria mentre il muso sterza. Più veloce = più inerzia.
   k.slipVelocity += oil * .82 * k.speed * (Math.sin(k.heading) - Math.sin(relHeading));
@@ -284,7 +300,7 @@ export function stepKartPhysics(
   const bodyExtent = KART_HALF_WIDTH * Math.abs(Math.cos(relHeading)) + KART_HALF_LENGTH * Math.abs(Math.sin(relHeading));
   const wallLimit = Math.max(1, half + C.wallMargin - bodyExtent);
   if (Math.abs(k.lateral) < wallLimit - .08) k.wallContact = false;
-  if (Math.abs(k.lateral) > wallLimit) {
+  if (surface.barriers !== false && Math.abs(k.lateral) > wallLimit) {
     const side = Math.sign(k.lateral);
     const outward = (k.speed * Math.sin(relHeading) + k.slipVelocity) * side;
     k.lateral = side * wallLimit;
@@ -320,6 +336,7 @@ export function stepKartPhysics(
 }
 
 export function respawnKart(k: KartState, trackAngleAt: (distance: number) => number): void {
+  k.flight='DRIVE';k.flightTime=0;k.glideYawVelocity=0;k.glideLanding=0;
   k.distance = k.lastValidCheckpointS;
   k.lateral = 0;
   k.absHeading = trackAngleAt(k.distance);

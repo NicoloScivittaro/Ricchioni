@@ -81,9 +81,6 @@ export class KartRaceScene extends Phaser.Scene {
     const { BabylonKartGame } = await import('./BabylonKartGame');
     if (this.cancelled) return;
 
-    this.hideLoading?.();
-    this.hideLoading = null;
-
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
     canvas.style.inset = '0';
@@ -92,10 +89,15 @@ export class KartRaceScene extends Phaser.Scene {
     canvas.style.zIndex = '10000';
     canvas.style.touchAction = 'none';
     canvas.style.outline = 'none';
+    canvas.style.visibility='hidden';
     document.body.appendChild(canvas);
     this.overlayCanvas = canvas;
 
     this.game3d = new BabylonKartGame(canvas, ctx);
+    await this.game3d.ready;
+    if(this.cancelled)return;
+    canvas.style.visibility='visible';
+    this.hideLoading?.();this.hideLoading=null;
   }
 
   private cleanup(): void {

@@ -11,6 +11,13 @@ export interface KartState {
   colorHex: string;
   avatar: string;
 
+  flight: 'DRIVE' | 'GLIDE' | 'FALL';
+  glideYawVelocity: number;
+  glideLanding: number;
+  glideStart: number;
+  glideEnd: number;
+  flightTime: number;
+  flightEntryHeight: number;
   distance: number; // progresso totale non wrappato (per giri + classifica)
   lateral: number; // offset laterale dal centro pista (m)
   absHeading: number; // imbardata assoluta persistente (rad) — NON si resetta con la tangente locale
@@ -105,6 +112,7 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     characterId,
     colorHex,
     avatar,
+    flight: 'DRIVE', glideYawVelocity: 0, glideLanding: 0, glideStart: 0, glideEnd: 0, flightTime: 0, flightEntryHeight: 0,
     distance: 0,
     lateral: 0,
     absHeading: 0,

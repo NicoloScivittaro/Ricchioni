@@ -112,16 +112,20 @@ export class MotionBots extends BotInputs {
       if (k.finished) { this.hold(id, 'up', false); this.hold(id, 'drift', false); continue; }
       // Tangent feed-forward + lane correction; real steering/acceleration/collisions remain in kartPhysics.
       const tangent = spline.tangentAngleAt(k.distance);
-      const future = spline.tangentAngleAt(k.distance + 7 + Math.abs(k.speed) * 0.23);
+      const future = spline.tangentAngleAt(k.distance + (spline.suspended?5:7) + Math.abs(k.speed) * (spline.suspended?.14:.23));
       const lane=spline.botLateralAt(k.distance,id,this.time);
-      const desired = future - clamp((k.lateral-lane) * 0.055, -0.45, 0.45);
+      const desired = future - clamp((k.lateral-lane) * (spline.suspended?.1:.055), -0.45, 0.45);
       const error = angle(desired - k.absHeading);
-      const turn = clamp(error * 2.5, -1, 1);
-      this.ctx.input.get(id).setAxis('steer', this.ctx.modifier?.id === 'controlli_invertiti' ? -turn : turn, 0);
-      const tight = Math.abs(angle(future - tangent)) > 0.5 || Math.abs(error) > 0.85;
+      // In air the stick requests a heading, rather than a yaw rate. Predict
+      // drift from contact impulses and aim early; use the same input as humans.
+      const turn = k.flight==='GLIDE'
+        ? clamp((clamp(-(k.lateral-lane)*.045-k.slipVelocity*.012,-.18,.18)-k.glideYawVelocity*.025)/.24,-1,1)
+        : clamp(error * 2.5, -1, 1);
+      this.ctx.input.get(id).setAxis('steer', (this.ctx.modifier?.id === 'controlli_invertiti') !== (!spline.hasRoadAt(k.distance) && k.disturbTimer>0) ? -turn : turn, 0);
+      const tight = Math.abs(angle(future - tangent)) > (spline.suspended?.23:.5) || Math.abs(error) > (spline.suspended?.6:.85);
       this.hold(id, 'up', !tight || k.speed < 28);
       this.hold(id, 'down', tight && k.speed > 34);
-      this.hold(id, 'drift', Math.abs(turn) > 0.35 && Math.abs(turn) < 0.8 && k.speed > 24 && Math.abs(k.lateral) < 3);
+      this.hold(id, 'drift', !spline.suspended && k.flight==='DRIVE' && Math.abs(turn) > 0.35 && Math.abs(turn) < 0.8 && k.speed > 24 && Math.abs(k.lateral) < 3);
       if (k.heldItem && this.every(id, 'item', 1, 2)) this.tap(id, 'item');
       if (k.recoverWindow > 0 || k.refundTimer > 0) {
         if (this.every(id, 'recover', 0.12, 0.25)) this.tap(id, 'ability');

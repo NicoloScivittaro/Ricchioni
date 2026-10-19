@@ -1,0 +1,12 @@
+{
+  "src/minigames/kart-race/BabylonKartGame.ts": "a72bcbb6610ac9de391297411bfafccea51c3285f5b3ce9fb40bcd1051214ab2",
+  "src/minigames/kart-race/cameraHud.ts": "ecc13d9f5f021c75aeb7201ed3b6b900c641a067ce3fe0cb4b6cac3ec771dfd6",
+  "src/minigames/kart-race/kartEntity.ts": "7e234e2a3eaafeb60ffba7a51b6e3ca8cac60c308bb653a736984fa89c3fd43b",
+  "src/minigames/kart-race/kartPhysics.ts": "02852f368cf05847977be4b8c743894a0a37eabc367849375b25a0520771ee54",
+  "src/minigames/kart-race/raceTypes.ts": "176f32c206a447aaab9dbef3e5fd8f1bbd20d6b319868b46b1916d4fa8db72cb",
+  "src/minigames/kart-race/rainbowTrack.ts": "09894f52be9b2116312f79a7d3675fe004c10831553891e289c21c37c021aed6",
+  "src/minigames/kart-race/rainbowWorld.ts": "04a6653e0a7270126a8033579abde5f9b5991c36a1fbc2bc5690ad899fe22c43",
+  "src/minigames/bots/MotionBots.ts": "eba9fd52cd0382c8ee6390ebe0d275ebecc77e1fc71e8c9899174dafe8a1f08a",
+  "src/core/AudioManager.ts": "a5267d554c954bc377e46e33a7c863584758f7b32ac40f3530b4817eca583d36",
+  "src/minigames/kart-race/glideDynamics.ts": "b3d6e20aabd03e8b311b2aa03b6d58eb44181d5f524f578dac43f5fd6c2c133e"
+}

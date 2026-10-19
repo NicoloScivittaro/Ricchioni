@@ -74,6 +74,7 @@ export class RouletteScene extends Phaser.Scene {
     const pickDef = getMinigame(pick.minigameId);
     if (pickDef && !eligible.some((d) => d.id === pickDef.id)) eligible = [...eligible, pickDef];
     if (eligible.length === 0 && pickDef) eligible = [pickDef];
+    if(pick.kartTrackId==='arcobaleno')eligible=eligible.map(d=>d.id===pick.minigameId?{...d,name:pick.name}:d);
     eligible = Phaser.Utils.Array.Shuffle([...eligible]);
     const pickIdx = Math.max(
       0,

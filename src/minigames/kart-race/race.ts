@@ -69,8 +69,8 @@ export class RaceManager {
 
     for (const k of karts) {
       if (k.finished) continue;
-      this.checkCheckpoints(k);
-      if (k.respawnTimer > 0.001 && k.respawnTimer - dt <= 0) {
+      if(k.flight==='DRIVE' && k.respawnTimer<=0)this.checkCheckpoints(k);
+      if (k.respawnTimer > 0 && k.respawnTimer <= dt + 1e-6) {
         respawnKart(k, this.trackAngleAt);
       }
     }

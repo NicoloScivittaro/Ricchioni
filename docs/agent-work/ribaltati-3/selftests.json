@@ -1,0 +1,74 @@
+[
+  {
+    "test": "ribaltati-2-selftest.ts",
+    "exit": 0,
+    "seconds": 19.64,
+    "tail": "time\":96.43333333335615,\"completed\":3,\"launches\":18,\"hits\":10}\nRACE {\"n\":4,\"seed\":11,\"hz\":120,\"time\":96.65833333335632,\"completed\":4,\"launches\":24,\"hits\":13}\nRACE {\"n\":4,\"seed\":32,\"hz\":120,\"time\":96.65000000002298,\"completed\":4,\"launches\":24,\"hits\":13}\nRACE {\"n\":5,\"seed\":11,\"hz\":120,\"time\":97.02500000002328,\"completed\":5,\"launches\":30,\"hits\":15}\nRACE {\"n\":5,\"seed\":32,\"hz\":120,\"time\":97.01666666668994,\"completed\":5,\"launches\":30,\"hits\":15}\nPASS: geometry, seam, widths, banking, ramps, collision sweeps, shield/air clearance, split lanes, respawn, 24 complete races at 30/60/120 Hz with 2\u20135 bots.\n"
+  },
+  {
+    "test": "ribaltati-camera-selftest.ts",
+    "exit": 0,
+    "seconds": 11.57,
+    "tail": "BJS - [01:44:53]: Babylon.js v9.26.2 - Null engine\nPASS camera: 336 elevated/banked/jumping positions, 2\u20135 split layouts, full coverage, road clearance and kart projection.\n"
+  },
+  {
+    "test": "kart-contact-selftest.ts",
+    "exit": 0,
+    "seconds": 2.62,
+    "tail": "collisione\nPASS contatto leggero a velocit\u00e0 uguale: separazione, nessuna frenata per frame\nPASS tamponamento: trasferimento di impulso alla vettura davanti, nessun arresto\nPASS urto laterale: scivolata/imbardata determinate da direzione e velocit\u00e0\nPASS urto violento: impulso limitato, perdita di controllo breve e finestra BOSCHI conservata\nPASS collisione reale tra giri diversi, nessuna collisione fra quote separate\nPASS partenza: cinque kart mantengono le file dietro lo zero, nessun ammasso sulla linea\nPASS muro a 30/60/120 FPS: strisciata senza freno esponenziale; respawn azzera gli impulsi\n"
+  },
+  {
+    "test": "kart-oil-selftest.ts",
+    "exit": 0,
+    "seconds": 9.51,
+    "tail": "PASS olio: 30/60/120 FPS, nessuna frenata/stun, inerzia in sterzata, recupero, sweep e cambio giro, bordo evitabile, debito Ciro.\n"
+  },
+  {
+    "test": "kart-items-selftest.ts",
+    "exit": 0,
+    "seconds": 10.61,
+    "tail": "BJS - [01:45:16]: Babylon.js v9.26.2 - Null engine\nPASS 13 item: distribuzione, sette effetti, magnete e break, salto/landing e scadenze 30/60/120, traiettorie rapide, miscele boost/drift, contatto bumper, fine gara e cleanup.\n"
+  },
+  {
+    "test": "kart-abilities-selftest.ts",
+    "exit": 0,
+    "seconds": 2.98,
+    "tail": "la finestra dopo il colpo si chiude da sola\n  \u2705 a finestra chiusa premere non toglie lo stordimento e non consuma la carica\n  \u2705 il tasto arma comunque il rinvio in anticipo (feedback \"armato\")\n\n=== TEST 6: la fisica di base resta invariata per un personaggio senza abilit\u00e0 attive ===\n  \u2705 un kart neutro accelera normalmente entro il tetto massimo (velocit\u00e0: 33.9)\n  \u2705 hitKart senza scudo/invulnerabilit\u00e0 applica normalmente lo stordimento\n  \u2705 uno scudo blocca il colpo e si consuma\n  \u2705 respawnKart riporta il kart al checkpoint valido con velocit\u00e0 azzerata\n\n=== RISULTATO: TUTTI I TEST PASSATI \u2705 ===\n"
+  },
+  {
+    "test": "pad-selftest.ts",
+    "exit": 0,
+    "seconds": 2.82,
+    "tail": "solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 volleyball: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 cornicione: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 casacarbo: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 memory: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 reaction: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 fps: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n"
+  },
+  {
+    "test": "solo-bots-selftest.ts",
+    "exit": 0,
+    "seconds": 9.77,
+    "tail": "ayload, normal scoring, no duplicates, restart, multiplayer\nPASS quiz: 10 complete questions, 30 delayed bot responses, imperfect scores, no human input\nPASS reaction, memory and cultura: no false start, observed tiles, completed sequences, unique bluffs, valid votes\nKart simulation {\n  lap: 3,\n  distance: 3917.0485931285402,\n  finished: true,\n  onRoad: 1,\n  time: 93.48333333332931\n}\nFPS navigation {\n  id: 'p1',\n  x: 19.967494447785775,\n  z: 15.664390222050338,\n  yaw: 0.01691723459806107,\n  pitch: 0,\n  alive: true,\n  magazine: 10,\n  spawnProtection: 0\n} { fires: 1045 }\nSOLO BOTS SELFTEST PASS\n"
+  },
+  {
+    "test": "rounds-selftest.ts",
+    "exit": 0,
+    "seconds": 2.56,
+    "tail": "lo passo con il dt reale\n  \u2714 30 FPS: un solo passo (nessun cambiamento di comportamento)\n  \u2714 10 FPS: 2 sotto-passi \u2264 50ms\n  \u2714 4 FPS: 5 sotto-passi\n  \u2714 blocco lungo (3s): recupera al massimo 250ms, poi rallenta invece di saltare\n  \u2714 delta non valido \u2192 un passo di sicurezza\n  \u2714 4 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 10 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 30 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 60 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 120 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n\n\u2705 ROUNDS SELFTEST OK (60 controlli)\n"
+  },
+  {
+    "test": "geofall-selftest.ts",
+    "exit": 0,
+    "seconds": 5.11,
+    "tail": "ounds\":9},{\"n\":4,\"seed\":12,\"seconds\":218.1,\"rounds\":18},{\"n\":5,\"seed\":1,\"seconds\":155.1,\"rounds\":12},{\"n\":5,\"seed\":2,\"seconds\":134.1,\"rounds\":10},{\"n\":5,\"seed\":3,\"seconds\":144.6,\"rounds\":11},{\"n\":5,\"seed\":4,\"seconds\":134.1,\"rounds\":10},{\"n\":5,\"seed\":5,\"seconds\":207.6,\"rounds\":17},{\"n\":5,\"seed\":6,\"seconds\":144.6,\"rounds\":11},{\"n\":5,\"seed\":7,\"seconds\":176.1,\"rounds\":14},{\"n\":5,\"seed\":8,\"seconds\":165.6,\"rounds\":13},{\"n\":5,\"seed\":9,\"seconds\":176.1,\"rounds\":14},{\"n\":5,\"seed\":10,\"seconds\":165.6,\"rounds\":13},{\"n\":5,\"seed\":11,\"seconds\":165.6,\"rounds\":13},{\"n\":5,\"seed\":12,\"seconds\":165.6,\"rounds\":13}]\n"
+  },
+  {
+    "test": "backrooms-selftest.ts",
+    "exit": 0,
+    "seconds": 47.8,
+    "tail": "\n  escaped 2 at 212.4\nPASS 5 players free: real bot locomotion, natural finite finish, valid ranking\n  escaped 2 at 93.1\nPASS 5 players key: real bot locomotion, natural finite finish, valid ranking\n  escaped 4 at 194.9\nPASS 5 players puzzle: real bot locomotion, natural finite finish, valid ranking\nPASS levels: each map spawns only its own creatures, lobby unchanged, darker levels add shadow\nPASS smiler: sees farther in darkness than in light; running in the dark never hides you\nPASS howler: spotting a player cries out and pulls the other creature to the spot\nBackrooms: 41 test groups passed\n"
+  },
+  {
+    "test": "minigolf-selftest.ts",
+    "exit": 0,
+    "seconds": 139.78,
+    "tail": ",\"completed\":3},{\"n\":5,\"course\":\"lungomare\",\"seconds\":122.2,\"completed\":5},{\"n\":5,\"course\":\"scampagnata\",\"seconds\":125.3,\"completed\":5},{\"n\":5,\"course\":\"giostra\",\"seconds\":98,\"completed\":5},{\"n\":5,\"course\":\"flipperone\",\"seconds\":145.4,\"completed\":4},{\"n\":5,\"course\":\"traversata\",\"seconds\":264.2,\"completed\":4},{\"n\":5,\"course\":\"altalena\",\"seconds\":108.1,\"completed\":5},{\"n\":5,\"course\":\"maratona\",\"seconds\":192.9,\"completed\":5},{\"n\":5,\"course\":\"inferno\",\"seconds\":261.3,\"completed\":5},{\"n\":5,\"course\":\"odissea\",\"seconds\":243.1,\"completed\":5},{\"n\":5,\"course\":\"disperati\",\"seconds\":243.9,\"completed\":5}]\n"
+  }
+]

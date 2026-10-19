@@ -1,3 +1,4 @@
+import {predictGlideLanding} from './glideDynamics';
 import { Scene, UniversalCamera, Vector3, Engine, Viewport } from '@babylonjs/core';
 import { AdvancedDynamicTexture, TextBlock, Rectangle, Control, Ellipse, Image as GuiImage } from '@babylonjs/gui';
 import type { PlayerId } from '../../../shared/types';
@@ -10,6 +11,7 @@ import { activeItemLabel } from './itemCatalog';
 import { MAX_SPEED, DRIFT_THRESHOLDS } from './kartPhysics';
 import { DRIFT_LEVEL_COLORS, driftLevelOf } from './kartEntity';
 import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
+import {abilityFor} from '../../../shared/abilityCatalog';
 import { stateLabel } from '../../../shared/abilityCatalog';
 import type { AbilityStatus } from '../../../shared/abilityCatalog';
 
@@ -72,6 +74,7 @@ interface CamRig {
   prevStunned: boolean;
   /** spostamento laterale della camera in derapata (leggerissimo, smussato) */
   driftOff: number;
+  glide: number;
 }
 
 /** Camera third-person per kart + split-screen via viewport multipli sulla STESSA scena. */
@@ -87,7 +90,7 @@ export class CameraManager {
       camera.fov = CAM_BASE_FOV;
       camera.minZ = 0.3;
       camera.maxZ = 1200;
-      rig = { camera, smoothPos: startPos.clone(), smoothLook: startPos.clone(), smoothFov: CAM_BASE_FOV, fovKick: 0, shakeTimer: 0, shakeMag: 0.18, prevStunned: false, driftOff: 0 };
+      rig = { camera, smoothPos: startPos.clone(), smoothLook: startPos.clone(), smoothFov: CAM_BASE_FOV, fovKick: 0, shakeTimer: 0, shakeMag: 0.18, prevStunned: false, driftOff: 0, glide: 0 };
       this.rigs.set(playerId, rig);
     }
     return rig.camera;
@@ -127,22 +130,34 @@ export class CameraManager {
 
     const tangent = spline.tangentAt(state.distance);
     const right = spline.rightAt(state.distance);
-    const forward = tangent.scale(Math.cos(state.heading)).add(right.scale(Math.sin(state.heading))).normalize();
+    const cameraHeading=state.heading*(state.flight==='GLIDE'?.6:1);
+    const forward = tangent.scale(Math.cos(cameraHeading)).add(right.scale(Math.sin(cameraHeading))).normalize();
     const kartPos = spline.worldPoint(state.distance, state.lateral, 0.1);
     kartPos.y+=state.jumpHeight;
 
+    const approach=spline.suspended&&state.flight==='DRIVE'&&!spline.hasRoadAt(state.distance+18);
+    rig.glide+=((state.flight==='GLIDE'?1:approach?.22:0)-rig.glide)*(1-Math.exp(-dt*3));
     const speedFrac = Math.max(0, Math.min(1, state.speed / MAX_SPEED));
     const boosting = state.boostTimer > 0;
 
+
     rig.fovKick = Math.max(0, rig.fovKick - dt * 2.2);
-    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1 + rig.fovKick * 0.9)).add(new Vector3(0, CAM_UP, 0));
+    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1 + rig.fovKick * 0.9 + rig.glide*3)).add(new Vector3(0, CAM_UP + rig.glide*2 + Math.max(0,Math.min(.75,state.jumpHeight*.25)) + Math.max(0,tangent.y)*2, 0));
     // in derapata la camera scivola appena verso l'esterno della curva: si sente il kart di traverso (sterzo invariato)
     rig.driftOff += ((state.drifting ? -state.driftDir * 0.45 : 0) - rig.driftOff) * Math.min(1, dt * 4);
     const anticipate = right.scale(state.heading * 2.2 + rig.driftOff);
     const futureRoad=spline.worldPoint(state.distance+CAM_LOOK_AHEAD,state.lateral,.8);
     const desiredLook = kartPos.add(forward.scale(CAM_LOOK_AHEAD)).add(anticipate).add(new Vector3(0, 0.8, 0));
     desiredLook.y=Math.max(desiredLook.y,futureRoad.y+.8);
+    if(rig.glide>.01&&state.flight==='GLIDE'){
+      const ahead=Math.max(state.distance+8,Math.min(state.distance+58,state.glideEnd));
+      const guide=spline.worldPoint(ahead,state.lateral,1);guide.y+=spline.flightHeightAt(ahead)*.5;
+      desiredLook.copyFrom(Vector3.Lerp(desiredLook,guide,rig.glide*.38));
+    }
+    if(state.flight==='FALL')desiredLook.copyFrom(kartPos.add(forward.scale(6)).add(new Vector3(0,.8,0)));
+    if(state.jumpHeight>.15)desiredLook.y-=Math.min(.6,state.jumpHeight*.2);
 
+    if(state.glideLanding>0)desiredPos.y-=Math.sin((1-state.glideLanding/.3)*Math.PI)*.11;
     const alpha = 1 - Math.exp(-CAM_FOLLOW_SPEED * dt);
     rig.smoothPos = Vector3.Lerp(rig.smoothPos, desiredPos, alpha);
     rig.smoothLook = Vector3.Lerp(rig.smoothLook, desiredLook, alpha);
@@ -167,7 +182,7 @@ export class CameraManager {
     }
 
     const roadBehind=spline.worldPoint(state.distance-CAM_BACK,state.lateral);
-    rig.smoothPos.y=Math.max(rig.smoothPos.y,roadBehind.y+1.15);
+    if(state.flight!=='FALL')rig.smoothPos.y=Math.max(rig.smoothPos.y,roadBehind.y+1.15);
     rig.camera.position.copyFrom(rig.smoothPos.add(shakeOffset));
     rig.camera.setTarget(rig.smoothLook);
     rig.camera.fov = rig.smoothFov + rig.fovKick * 0.2;
@@ -194,6 +209,8 @@ interface HudEntry {
   abilityLabel: TextBlock;
   /** stato dell'abilita' pubblicato dal gioco (AbilityHub): il disegno legge solo questo */
   abilityStatus: AbilityStatus | null;
+  abilityButton: string;
+  boostLabel: TextBlock;
   debtText: TextBlock;
   flashText: TextBlock;
   flashTimer: number;
@@ -212,6 +229,7 @@ const IDEAL_HEIGHT = 720;
 /** HUD essenziale: un AdvancedDynamicTexture PER GIOCATORE, disegnato solo nel viewport della sua camera. */
 export class KartHud {
   private entries = new Map<PlayerId, HudEntry>();
+  private trackWidthAt:(distance:number)=>number=()=>13.2;
   private mapUrl: string | null = null;
   private mapView = { minX: 0, maxZ: 0, scale: 1, offX: 0, offY: 0 };
 
@@ -222,6 +240,7 @@ export class KartHud {
    * Va chiamato prima di ensure(): ogni viewport ne riceve una copia con i kart che si muovono.
    */
   setTrack(spline: TrackSpline, checkpoints: number[]): void {
+    this.trackWidthAt=s=>spline.widthAt(s);
     const N = 260;
     const pts: { x: number; z: number }[] = [];
     let minX = Infinity;
@@ -264,6 +283,14 @@ export class KartHud {
     c.strokeStyle = '#cbd5e1';
     c.lineWidth = 11;
     c.stroke();
+    if(spline.suspended){
+      c.beginPath();let wasGap=false;
+      for(let i=0;i<N;i++){
+        const gap=!spline.hasRoadAt((i+.5)/N*spline.totalLength),p=pts[i],q=pts[(i+1)%N];
+        if(gap){if(!wasGap)c.moveTo(u(p.x),v(p.z));c.lineTo(u(q.x),v(q.z));}wasGap=gap;
+      }
+      c.strokeStyle='#5af5ef';c.lineWidth=5;c.setLineDash([4,5]);c.stroke();c.setLineDash([]);
+    }
     for (let i = 1; i < checkpoints.length; i++) {
       const p = spline.positionAt(checkpoints[i]);
       c.fillStyle = '#22d3ee';
@@ -386,8 +413,8 @@ export class KartHud {
     panel.width = '178px';
     panel.height = '208px';
     panel.thickness = 2;
-    panel.color = 'rgba(255,255,255,0.16)';
-    panel.background = 'rgba(11,11,20,0.78)';
+    panel.color = colorHex;
+    panel.background = 'rgba(9,28,42,0.86)';
     panel.cornerRadius = 14;
     panel.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
     panel.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
@@ -523,6 +550,7 @@ export class KartHud {
       img.height = '100%';
       mapBox.addControl(img);
     }
+    const boostLabel=new TextBlock('boostDuration','');boostLabel.color='#63fff0';boostLabel.fontFamily=FONT_DISPLAY;boostLabel.fontSize=19;boostLabel.height='28px';boostLabel.verticalAlignment=Control.VERTICAL_ALIGNMENT_BOTTOM;boostLabel.top='-52px';boostLabel.outlineWidth=3;boostLabel.outlineColor='#102a3d';adt.addControl(boostLabel);
     const speedLines: Rectangle[] = [];
     for (let i = 0; i < 8; i++) {
       const l = new Rectangle(`speedLine_${playerId}_${i}`);
@@ -537,7 +565,7 @@ export class KartHud {
       adt.addControl(l);
       speedLines.push(l);
     }
-    e = { mapBox, dots: new Map(), adt, countdownText, panel, posText, lapText, sector, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, abilityStatus: null, debtText, flashText, flashTimer: 0, speedLines, speedT: 0 };
+    e = { mapBox, dots: new Map(), adt, countdownText, panel, posText, lapText, sector, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, abilityStatus: null, abilityButton: '📱 ⚡', boostLabel, debtText, flashText, flashTimer: 0, speedLines, speedT: 0 };
     this.entries.set(playerId, e);
     return e;
   }
@@ -568,16 +596,24 @@ export class KartHud {
       const vpH = Math.max(2, Math.round(r.h * rh));
       if (e.adt.layer && e.adt.layer.layerMask !== hudLayerMask(i)) e.adt.layer.layerMask = hudLayerMask(i);
       const size = e.adt.getSize();
-      if (size.width !== vpW || size.height !== vpH) e.adt.scaleTo(vpW, vpH); // dopo un resize Babylon rimette lo schermo intero
+      const resized=size.width !== vpW || size.height !== vpH;
+      if (resized) e.adt.scaleTo(vpW, vpH); // dopo un resize Babylon rimette lo schermo intero
       // altezza ideale del viewport: la scala resta uguale per tutti i layout; da 3 giocatori i viewport sono piccoli e il
       // pannello si riduce un po' (x0.83) per non coprire la pista
       const idealH = IDEAL_HEIGHT * r.h * (order.length >= 3 ? 1.2 : 1);
-      if (e.adt.idealHeight !== idealH) e.adt.idealHeight = idealH;
+      const changedIdeal=e.adt.idealHeight !== idealH;
+      if (changedIdeal) e.adt.idealHeight = idealH;
+      // scaleTo only dirties the texture; Babylon otherwise retains fonts measured at full-screen size.
+      if(resized||changedIdeal)e.adt.rootContainer._markAllAsDirty();
       const idealW = idealH * (vpW / vpH);
-      e.flashText.top = `${(0.32 - 0.5) * idealH}px`;
+      e.flashText.fontSize=order.length>=3?19:28;e.flashText.outlineWidth=order.length>=3?2:3;
+      e.flashText.height=order.length>=3?'64px':'100px';
+      e.flashText.top = `${(0.63 - 0.5) * idealH}px`;
       e.flashText.width = `${Math.max(120, idealW - 20)}px`;
     });
   }
+
+  setAbilityButton(id:PlayerId,label:string):void {const e=this.entries.get(id);if(e)e.abilityButton=label;}
 
   setSector(id:PlayerId,label:string,time:number):void {const e=this.entries.get(id);if(e)e.sector.text=`${label} · ${Math.floor(time/60)}:${String(Math.floor(time)%60).padStart(2,'0')}`;}
 
@@ -609,7 +645,10 @@ export class KartHud {
     e.abilityLabel.isVisible = st !== null;
     if (st) {
       const color = st.state === 'READY' ? '#4ade80' : st.state === 'ACTIVE' ? '#facc15' : st.state === 'CHARGING' ? '#c4b5fd' : '#6b7280';
-      e.abilityLabel.text = `${st.state === 'SPENT' ? '✕' : '⚡'} ${stateLabel(st)}`;
+      const name=abilityFor('kart3d',state.characterId)?.name??'ABILITÀ';
+      const label=st.state==='READY'?'PRONTA':stateLabel(st);
+      e.abilityLabel.text = `${name}\n${e.abilityButton} · ${label}${st.charges!==undefined?' · '+st.charges+' usi':''}`;
+      e.abilityLabel.fontSize=name.length>23?11:12;
       e.abilityLabel.color = color;
       if (hasMeter) {
         e.abilityFill.width = `${Math.round((st.state === 'READY' || st.state === 'ACTIVE' ? 1 : Math.min(1, st.meter ?? 0)) * 138)}px`;
@@ -632,6 +671,8 @@ export class KartHud {
 
     // linee di velocita': scorrono dai bordi verso l'esterno finche' dura il boost, poi sfumano
     const boosting = state.boostTimer > 0;
+    e.boostLabel.color=state.flight==='GLIDE'?(Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'#8affbe':'#ffc078'):'#63fff0';
+    e.boostLabel.text=state.flight==='FALL'?'RECUPERO AL CHECKPOINT':state.flight==='GLIDE'?`PLANATA · ${Math.max(0,Math.ceil(state.glideEnd-state.distance))} m · ${Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'IN LINEA':'CORREGGI'}`:boosting?`TURBO  ${state.boostTimer.toFixed(1)} s`:state.jumpHeight>.15?`IN VOLO  ${state.jumpHeight.toFixed(1)} m`:state.drifting?`MINI-TURBO ${driftLevelOf(state.driftCharge)}/3`:"";
     e.speedT += dt * (boosting ? 3.2 : 0);
     for (let i = 0; i < e.speedLines.length; i++) {
       const l = e.speedLines[i];
