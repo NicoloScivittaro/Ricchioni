@@ -1,0 +1,339 @@
+{
+  "build": {
+    "passed": true,
+    "typecheckPassed": true
+  },
+  "race": {
+    "length": 1435.2680891104162,
+    "widthMin": 10,
+    "gap": [
+      {
+        "name": "VOLO SUL PORTO",
+        "launch": 301.5,
+        "landing": 446.75,
+        "height": 11
+      }
+    ],
+    "checkpoints": [
+      0,
+      119.60567409253468,
+      239.21134818506937,
+      291.5,
+      461.75,
+      478.42269637013874,
+      598.0283704626735,
+      717.6340445552081,
+      837.2397186477428,
+      956.8453927402775,
+      1076.451066832812,
+      1196.056740925347,
+      1315.6624150178816
+    ],
+    "boxes": 10,
+    "raceTime": 116.32500000003864,
+    "launches": 15,
+    "landings": 15,
+    "falls": 0,
+    "itemUses": 30,
+    "abilityUses": 12,
+    "wallFrames": 1352,
+    "karts": [
+      {
+        "id": "s0",
+        "lap": 3,
+        "finish": 107.50833333336496,
+        "distance": 4312.615946423284,
+        "placement": 1
+      },
+      {
+        "id": "s1",
+        "lap": 3,
+        "finish": 111.48333333336812,
+        "distance": 4309.556975535261,
+        "placement": 2
+      },
+      {
+        "id": "s2",
+        "lap": 3,
+        "finish": 116.32500000003864,
+        "distance": 4305.893656544621,
+        "placement": 5
+      },
+      {
+        "id": "s3",
+        "lap": 3,
+        "finish": 111.68333333336828,
+        "distance": 4305.838392452015,
+        "placement": 3
+      },
+      {
+        "id": "s4",
+        "lap": 3,
+        "finish": 114.64166666670397,
+        "distance": 4309.253175101199,
+        "placement": 4
+      }
+    ],
+    "checks": [
+      "three-track selection",
+      "15 items valid on Sydney",
+      "visible corridor collision",
+      "human steering changes trajectory",
+      "checkpoint and heading respawn",
+      "one full five-bot race"
+    ]
+  },
+  "roadSupport": {
+    "groundSamples": 1893,
+    "connectorSamples": 14,
+    "errors": []
+  },
+  "browser": {
+    "selection": [
+      "litorale",
+      "arcobaleno",
+      "sydney"
+    ],
+    "vote": {
+      "options": [
+        "litorale",
+        "arcobaleno",
+        "sydney"
+      ],
+      "votes": 5
+    },
+    "map": {
+      "mapId": "sydney",
+      "track": "sydney",
+      "name": "RIBALTATI \u00e2\u20ac\u201d SYDNEY SPRINT"
+    },
+    "performance": {
+      "fps": 42.20673809345423,
+      "frameP95": 33.400000000001455,
+      "width": 1280,
+      "height": 720,
+      "scale": 1,
+      "viewports": 5,
+      "renderer": {
+        "vendor": "Google Inc. (NVIDIA)",
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+      },
+      "meshes": 297,
+      "submeshes": 1115,
+      "shadow": true
+    },
+    "geometry": {
+      "technicalVisible": false,
+      "roads": 7,
+      "accessRamps": 2,
+      "waterBlue": true,
+      "checkpoints": [
+        0,
+        119.60567409253468,
+        239.21134818506937,
+        291.5,
+        461.75,
+        478.42269637013874,
+        598.0283704626734,
+        717.634044555208,
+        837.2397186477426,
+        956.8453927402772,
+        1076.4510668328119,
+        1196.0567409253465,
+        1315.6624150178811,
+        1435.2680891104158
+      ],
+      "boxes": 10
+    },
+    "errors": []
+  },
+  "compatibility": {
+    "trackLength": 2200.7326075763294,
+    "events": [
+      "launch",
+      "land",
+      "launch",
+      "land"
+    ],
+    "check": "Both existing Arcobaleno gaps still launch and land with the default flight contract"
+  },
+  "scope": {
+    "unchanged": [
+      "shared/abilityCatalog.ts",
+      "src/minigames/kart-race/abilities.ts",
+      "src/minigames/kart-race/itemCatalog.ts",
+      "src/minigames/kart-race/items.ts",
+      "src/minigames/kart-race/kartPhysics.ts",
+      "src/minigames/kart-race/kartCollisions.ts",
+      "src/minigames/kart-race/track.ts",
+      "src/minigames/kart-race/trackDynamics.ts"
+    ],
+    "sharedFlightContractOnly": [
+      "src/minigames/kart-race/rainbowTrack.ts",
+      "src/minigames/kart-race/rainbowWorld.ts"
+    ],
+    "assetByteIdentical": true,
+    "assetSha256": "53740421d71328c1546ab12eb8d9dac1f46d91206ebc94b46628a50c8225749b"
+  },
+  "production": {
+    "errors": [],
+    "models": [
+      "http://localhost:3008/assets/tracks/sydney_sprint.glb",
+      "http://localhost:3008/models/detailed-tripo/detailed_character_casacarbo.glb",
+      "http://localhost:3008/models/judoka-tripo/judo_figure_casacarbo.glb",
+      "http://localhost:3008/models/goblin-tripo/green_goblin_casacarbo.glb",
+      "http://localhost:3008/models/man-tripo/man_animated.glb"
+    ],
+    "compiled": true,
+    "pick": {
+      "roundId": 1,
+      "kartTrackId": "sydney",
+      "minigameId": "kart3d",
+      "name": "RIBALTATI \u2014 SYDNEY SPRINT",
+      "category": "GUIDA",
+      "modifierId": null,
+      "modifierName": null,
+      "modifierDescription": null,
+      "durationSec": 230,
+      "controllerLayout": {
+        "type": "racing",
+        "controls": [
+          {
+            "id": "up",
+            "label": "ACCELERA",
+            "kind": "hold"
+          },
+          {
+            "id": "down",
+            "label": "FRENO",
+            "kind": "hold"
+          },
+          {
+            "id": "left",
+            "label": "\u25c0",
+            "kind": "hold"
+          },
+          {
+            "id": "right",
+            "label": "\u25b6",
+            "kind": "hold"
+          },
+          {
+            "id": "drift",
+            "label": "DRIFT",
+            "kind": "hold",
+            "icon": "\ud83d\udca8"
+          },
+          {
+            "id": "item",
+            "label": "ITEM",
+            "kind": "button",
+            "icon": "\ud83c\udf81"
+          },
+          {
+            "id": "ability",
+            "label": "ABILIT\u00c0",
+            "kind": "button",
+            "icon": "\u2b50"
+          }
+        ]
+      },
+      "players": [
+        {
+          "id": "7b34712d-68fa-4460-b931-b85b854983e2",
+          "displayName": "SYDNEY BUILD",
+          "characterId": "goblin",
+          "ready": true,
+          "connected": true,
+          "score": 0
+        },
+        {
+          "id": "bot:6fdba737-600b-4ec0-8126-65872db50751",
+          "displayName": "BOT BOSCHI",
+          "characterId": "buttafuori",
+          "ready": true,
+          "connected": true,
+          "score": 0,
+          "bot": true
+        },
+        {
+          "id": "bot:f0a80100-8d85-4103-97e9-bbee365b469e",
+          "displayName": "BOT Carbo",
+          "characterId": "judoka",
+          "ready": true,
+          "connected": true,
+          "score": 0,
+          "bot": true
+        },
+        {
+          "id": "bot:53fa1b97-c90b-427f-aca5-62e2c220cab5",
+          "displayName": "BOT Ciro",
+          "characterId": "ciro",
+          "ready": true,
+          "connected": true,
+          "score": 0,
+          "bot": true
+        },
+        {
+          "id": "bot:60d18e3a-98b0-4053-b0cf-782e0b018841",
+          "displayName": "BOT Victor",
+          "characterId": "dottore",
+          "ready": true,
+          "connected": true,
+          "score": 0,
+          "bot": true
+        }
+      ],
+      "activeModifiers": {
+        "7b34712d-68fa-4460-b931-b85b854983e2": [
+          {
+            "source": "7b34712d-68fa-4460-b931-b85b854983e2",
+            "hook": "race.reveal_obstacle",
+            "label": "EXPLOIT",
+            "uses": 2
+          }
+        ],
+        "bot:6fdba737-600b-4ec0-8126-65872db50751": [
+          {
+            "source": "bot:6fdba737-600b-4ec0-8126-65872db50751",
+            "hook": "race.quick_recover",
+            "label": "MO M'IMPEGNO",
+            "uses": 1
+          }
+        ],
+        "bot:f0a80100-8d85-4103-97e9-bbee365b469e": [
+          {
+            "source": "bot:f0a80100-8d85-4103-97e9-bbee365b469e",
+            "hook": "generic.undo_one_error",
+            "label": "CASA MIA, REGOLE MIE",
+            "uses": 1
+          }
+        ],
+        "bot:53fa1b97-c90b-427f-aca5-62e2c220cab5": [
+          {
+            "source": "bot:53fa1b97-c90b-427f-aca5-62e2c220cab5",
+            "hook": "generic.undo_one_error",
+            "label": "\u00c8 TUTTO REGOLARE",
+            "uses": 1
+          }
+        ],
+        "bot:60d18e3a-98b0-4053-b0cf-782e0b018841": [
+          {
+            "source": "bot:60d18e3a-98b0-4053-b0cf-782e0b018841",
+            "hook": "generic.undo_one_error",
+            "label": "PLACEBO MICIDIALE",
+            "uses": 1
+          }
+        ]
+      },
+      "mapId": "sydney",
+      "mapName": "SYDNEY SPRINT"
+    },
+    "map": "sydney",
+    "players": 5,
+    "botCount": 4,
+    "lazyLoading": true,
+    "cleanup": true
+  }
+}

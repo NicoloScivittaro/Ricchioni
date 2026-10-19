@@ -1,0 +1,61 @@
+{
+  "protocol": "Two alternating before/after pairs, same script and GPU, no build/encoding/other browser tests concurrent, full samples kept",
+  "before": {
+    "fpsMean": 47.51378355072622,
+    "fpsRange": [
+      46.3280928060339,
+      48.69947429541853
+    ],
+    "frameMeanMs": 21.05963888312944,
+    "frameP95Ms": [
+      33.400000000001455,
+      33.400000000001455
+    ],
+    "renderMeanMs": 18.027916082283312,
+    "renderP95Ms": [
+      28,
+      29.300000000745058
+    ],
+    "draws": [
+      283,
+      260
+    ],
+    "meshes": [
+      208,
+      200
+    ],
+    "materials": [
+      165,
+      164
+    ]
+  },
+  "after": {
+    "fpsMean": 56.635381948995594,
+    "fpsRange": [
+      55.20455593355517,
+      58.06620796443602
+    ],
+    "frameMeanMs": 17.668083691351725,
+    "frameP95Ms": [
+      16.80000000000291,
+      33.39999999999418
+    ],
+    "renderMeanMs": 13.910806944303648,
+    "renderP95Ms": [
+      19.200000001117587,
+      23.09999999962747
+    ],
+    "draws": [
+      281,
+      294
+    ],
+    "meshes": [
+      220,
+      215
+    ],
+    "materials": [
+      176,
+      169
+    ]
+  }
+}

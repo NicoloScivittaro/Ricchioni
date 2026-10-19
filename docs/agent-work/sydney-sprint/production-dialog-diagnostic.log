@@ -1,0 +1,17 @@
+file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:108
+    #error = new ProtocolError();
+             ^
+
+ProtocolError: Runtime.callFunctionOn timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+    at <instance_members_initializer> (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:108:14)
+    at new Callback (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:112:16)
+    at CallbackRegistry.create (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/common/CallbackRegistry.js:27:26)
+    at Connection._rawSend (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/cdp/Connection.js:125:26)
+    at CdpCDPSession.send (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/cdp/CdpSession.js:72:14)
+    at #evaluate (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:374:50)
+    at ExecutionContext.evaluate (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/cdp/ExecutionContext.js:288:36)
+    at IsolatedWorld.evaluate (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/cdp/IsolatedWorld.js:104:30)
+    at CdpJSHandle.evaluate (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/api/JSHandle.js:154:37)
+    at CdpElementHandle.$$eval (file:///C:/Users/niluf.PC-NIKO/AppData/Local/Temp/claude/c--Users-niluf-PC-NIKO-Desktop-Ricchioni/c83f64ca-8ac4-4439-afca-2d1675105b94/scratchpad/node_modules/puppeteer-core/lib/puppeteer/api/ElementHandle.js:564:30)
+
+Node.js v24.18.0

@@ -1,0 +1,25 @@
+{
+  "preservedFiles": [
+    "shared/abilityCatalog.ts",
+    "src/minigames/bots/MotionBots.ts",
+    "src/minigames/kart-race/abilities.ts",
+    "src/minigames/kart-race/itemCatalog.ts",
+    "src/minigames/kart-race/items.ts",
+    "src/minigames/kart-race/kartPhysics.ts",
+    "src/minigames/kart-race/kartCollisions.ts",
+    "src/minigames/kart-race/rainbowTrack.ts",
+    "src/minigames/kart-race/rainbowWorld.ts",
+    "src/minigames/kart-race/sydneyTrack.ts",
+    "src/minigames/kart-race/sydneyWorld.ts",
+    "src/minigames/kart-race/track.ts",
+    "src/minigames/kart-race/trackDynamics.ts",
+    "src/minigames/kart-race/sydneyRoute.json",
+    "src/minigames/kart-race/rainbowRoute.json"
+  ],
+  "sharedChange": {
+    "file": "src/minigames/kart-race/race.ts",
+    "change": "Optional finish grace; default stays 12 seconds, Primo explicitly uses 16 seconds. Both paths tested."
+  },
+  "assetByteIdentical": true,
+  "sha256": "69bface90959bd10bfd2f07d1418df1b4c93143d9bf15951cefabd29a49edf84"
+}

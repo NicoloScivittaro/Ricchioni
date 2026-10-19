@@ -1,0 +1,87 @@
+[
+  {
+    "name": "kart-abilities",
+    "code": 0,
+    "tail": "stata premuta di recente\n  \u2705 il colpo NON si sente subito: continua normalmente (DEBITO in sospeso)\n  \u2705 la carica viene consumata al rinvio\n  \u2705 \"PAGO DOPO!\" mostrato subito\n  \u2705 il DEBITO scade e la penalit\u00e0 viene applicata comunque, dopo qualche secondo\n  \u2705 \"DEBITO RISCOSSO!\" mostrato alla scadenza\n  \u2705 senza aver premuto ABILIT\u00c0 in anticipo il colpo non viene rimandato\n  \u2705 la carica non viene consumata se il rinvio non scatta\n\n=== TEST 5b: CIRO \u2014 PAGO DOPO retroattivo (dopo il colpo, entro la finestra, premi e diventa debito) ===\n  \u2705 il colpo si subisce, ma si apre la finestra \"PREMI ORA!\"\n  \u2705 lo stato pubblicato dice PREMI ORA!\n  \u2705 premendo nella finestra lo stordimento sparisce e parte il debito (carica consumata)\n  \u2705 \"PAGO DOPO!\" mostrato\n  \u2705 il debito arriva comunque alla scadenza\n  \u2705 la finestra dopo il colpo si chiude da sola\n  \u2705 a finestra chiusa premere non toglie lo stordimento e non consuma la carica\n  \u2705 il tasto arma comunque il rinvio in anticipo (feedback \"armato\")\n\n=== TEST 6: la fisica di base resta invariata per un personaggio senza abilit\u00e0 attive ===\n  \u2705 un kart neutro accelera normalmente entro il tetto massimo (velocit\u00e0: 33.9)\n  \u2705 hitKart senza scudo/invulnerabilit\u00e0 applica normalmente lo stordimento\n  \u2705 uno scudo blocca il colpo e si consuma\n  \u2705 respawnKart riporta il kart al checkpoint valido con velocit\u00e0 azzerata\n\n=== RISULTATO: TUTTI I TEST PASSATI \u2705 ===\n"
+  },
+  {
+    "name": "kart-items",
+    "code": 0,
+    "tail": "BJS - [12:52:14]: Babylon.js v9.26.2 - Null engine\nPASS 13 item: distribuzione, sette effetti, magnete e break, salto/landing e scadenze 30/60/120, traiettorie rapide, miscele boost/drift, contatto bumper, fine gara e cleanup.\n"
+  },
+  {
+    "name": "kart-contact",
+    "code": 0,
+    "tail": "PASS vicinanza 3 m: zero contatti/penalit\u00e0, mentre il vecchio volume largo 3,4 m la considerava collisione\nPASS contatto leggero a velocit\u00e0 uguale: separazione, nessuna frenata per frame\nPASS tamponamento: trasferimento di impulso alla vettura davanti, nessun arresto\nPASS urto laterale: scivolata/imbardata determinate da direzione e velocit\u00e0\nPASS urto violento: impulso limitato, perdita di controllo breve e finestra BOSCHI conservata\nPASS collisione reale tra giri diversi, nessuna collisione fra quote separate\nPASS partenza: cinque kart mantengono le file dietro lo zero, nessun ammasso sulla linea\nPASS muro a 30/60/120 FPS: strisciata senza freno esponenziale; respawn azzera gli impulsi\n"
+  },
+  {
+    "name": "kart-oil",
+    "code": 0,
+    "tail": "PASS olio: 30/60/120 FPS, nessuna frenata/stun, inerzia in sterzata, recupero, sweep e cambio giro, bordo evitabile, debito Ciro.\n"
+  },
+  {
+    "name": "ribaltati-2",
+    "code": 0,
+    "tail": "RACE {\"n\":2,\"seed\":11,\"hz\":120,\"time\":95.65000000002219,\"completed\":2,\"launches\":12,\"hits\":6}\nRACE {\"n\":2,\"seed\":32,\"hz\":120,\"time\":95.62500000002217,\"completed\":2,\"launches\":12,\"hits\":6}\nRACE {\"n\":3,\"seed\":11,\"hz\":120,\"time\":96.40833333335613,\"completed\":3,\"launches\":18,\"hits\":10}\nRACE {\"n\":3,\"seed\":32,\"hz\":120,\"time\":96.43333333335615,\"completed\":3,\"launches\":18,\"hits\":10}\nRACE {\"n\":4,\"seed\":11,\"hz\":120,\"time\":96.65833333335632,\"completed\":4,\"launches\":24,\"hits\":13}\nRACE {\"n\":4,\"seed\":32,\"hz\":120,\"time\":96.65000000002298,\"completed\":4,\"launches\":24,\"hits\":13}\nRACE {\"n\":5,\"seed\":11,\"hz\":120,\"time\":97.02500000002328,\"completed\":5,\"launches\":30,\"hits\":15}\nRACE {\"n\":5,\"seed\":32,\"hz\":120,\"time\":97.01666666668994,\"completed\":5,\"launches\":30,\"hits\":15}\nPASS: geometry, seam, widths, banking, ramps, collision sweeps, shield/air clearance, split lanes, respawn, 24 complete races at 30/60/120 Hz with 2\u20135 bots.\n"
+  },
+  {
+    "name": "ribaltati-camera",
+    "code": 0,
+    "tail": "BJS - [12:52:23]: Babylon.js v9.26.2 - Null engine\nPASS camera: 336 elevated/banked/jumping positions, 2\u20135 split layouts, full coverage, road clearance and kart projection.\n"
+  },
+  {
+    "name": "pad",
+    "code": 0,
+    "tail": "i nel profilo (il gioco non ha un accel/frenata a magnitudine: adattamento compatibile)\n\u2705 Kart: RT -> \"up\", LT -> \"down\" (stessi controlId digitali del telefono)\n\u2705 Kart: SOLO RT e LT sono holdThrough (RT,LT)\n\u2705 Kart: drift/item/abilit\u00e0 NON sono holdThrough (restano azioni one-shot protette dal blocco)\n\u2705 backrooms: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 geofall: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 minigolf: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 arena: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 dodgeball: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 soccer: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 volleyball: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 cornicione: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 casacarbo: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 memory: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 reaction: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 fps: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n"
+  },
+  {
+    "name": "rounds",
+    "code": 0,
+    "tail": ".25 \u00d7 112s\n  \u2714 cornicione: ha una stima di durata massima\n  \u2714 cornicione: tetto 420s \u2265 1.25 \u00d7 185s\n  \u2714 casacarbo: ha una stima di durata massima\n  \u2714 casacarbo: tetto 300s \u2265 1.25 \u00d7 140s\n  \u2714 minigolf: ha una stima di durata massima\n  \u2714 minigolf: tetto 3800s \u2265 1.25 \u00d7 1225s\n  \u2714 Geofall: watchdog esterno1h, nessun limite artificiale allo spareggio\n  \u2714 Backrooms: 7 minuti, watchdog con margine\n  \u2714 goblinTime: ha una stima di durata massima\n  \u2714 goblinTime: tetto 900s \u2265 1.25 \u00d7 700s\n  \u2714 trentuno: ha una stima di durata massima\n  \u2714 trentuno: tetto 600s \u2265 1.25 \u00d7 370s\n  \u2714 Cultura: il vecchio tetto durationSec+20 era troppo corto (bug)\n  \u2714 Pallavolo: idem (con scambi pi\u00f9 lunghi il vecchio tetto avrebbe troncato la partita)\n\n[FRAME-RATE] il tempo di gioco segue l'orologio, non i frame\n  \u2714 120 FPS: un solo passo con il dt reale\n  \u2714 30 FPS: un solo passo (nessun cambiamento di comportamento)\n  \u2714 10 FPS: 2 sotto-passi \u2264 50ms\n  \u2714 4 FPS: 5 sotto-passi\n  \u2714 blocco lungo (3s): recupera al massimo 250ms, poi rallenta invece di saltare\n  \u2714 delta non valido \u2192 un passo di sicurezza\n  \u2714 4 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 10 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 30 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 60 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 120 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n\n\u2705 ROUNDS SELFTEST OK (60 controlli)\n"
+  },
+  {
+    "name": "ability",
+    "code": 0,
+    "tail": "\n=== 1. CATALOGO \u2014 75 abilita' complete e coerenti ===\n\n=== 2. INPUT \u2014 ogni gioco col controller ha il tasto ABILITA' (stessa fonte della schermata CONTROLLI) ===\n\n=== 3. BUDGET \u2014 niente spam: l'impatto ALTO ha un limite ===\n  impatto: 30 ALTO \u00b7 48 MEDIO \u00b7 2 BASSO\n\n=== 4a. ARENA \u2014 5 personaggi: trigger valido / invalido / doppia attivazione / pulizia ===\n\n=== 4b. DODGEBALL \u2014 trigger valido / invalido / stato / pulizia ===\n\n=== 4c. CALCIO \u2014 trigger valido / invalido / pulizia ===\n\n=== 4d. PALLAVOLO \u2014 trigger valido / invalido / pulizia ===\n\n=== 4e. SPARATORIA \u2014 trigger valido / invalido / pulizia alla morte ===\n\n=== 4f. STATO PRESENTAZIONALE \u2014 etichette leggibili ===\n\n\u2705 1251/1251 controlli ok\n"
+  },
+  {
+    "name": "geofall",
+    "code": 0,
+    "tail": "},{\"n\":3,\"seed\":6,\"seconds\":109.1,\"rounds\":8},{\"n\":3,\"seed\":7,\"seconds\":144.6,\"rounds\":11},{\"n\":3,\"seed\":8,\"seconds\":134.1,\"rounds\":10},{\"n\":3,\"seed\":9,\"seconds\":96.6,\"rounds\":7},{\"n\":3,\"seed\":10,\"seconds\":144.6,\"rounds\":11},{\"n\":3,\"seed\":11,\"seconds\":144.6,\"rounds\":11},{\"n\":3,\"seed\":12,\"seconds\":144.6,\"rounds\":11},{\"n\":4,\"seed\":1,\"seconds\":144.6,\"rounds\":11},{\"n\":4,\"seed\":2,\"seconds\":109.1,\"rounds\":8},{\"n\":4,\"seed\":3,\"seconds\":197.1,\"rounds\":16},{\"n\":4,\"seed\":4,\"seconds\":84.1,\"rounds\":6},{\"n\":4,\"seed\":5,\"seconds\":155.1,\"rounds\":12},{\"n\":4,\"seed\":6,\"seconds\":155.1,\"rounds\":12},{\"n\":4,\"seed\":7,\"seconds\":207.6,\"rounds\":17},{\"n\":4,\"seed\":8,\"seconds\":144.6,\"rounds\":11},{\"n\":4,\"seed\":9,\"seconds\":144.6,\"rounds\":11},{\"n\":4,\"seed\":10,\"seconds\":134.1,\"rounds\":10},{\"n\":4,\"seed\":11,\"seconds\":121.6,\"rounds\":9},{\"n\":4,\"seed\":12,\"seconds\":218.1,\"rounds\":18},{\"n\":5,\"seed\":1,\"seconds\":155.1,\"rounds\":12},{\"n\":5,\"seed\":2,\"seconds\":134.1,\"rounds\":10},{\"n\":5,\"seed\":3,\"seconds\":144.6,\"rounds\":11},{\"n\":5,\"seed\":4,\"seconds\":134.1,\"rounds\":10},{\"n\":5,\"seed\":5,\"seconds\":207.6,\"rounds\":17},{\"n\":5,\"seed\":6,\"seconds\":144.6,\"rounds\":11},{\"n\":5,\"seed\":7,\"seconds\":176.1,\"rounds\":14},{\"n\":5,\"seed\":8,\"seconds\":165.6,\"rounds\":13},{\"n\":5,\"seed\":9,\"seconds\":176.1,\"rounds\":14},{\"n\":5,\"seed\":10,\"seconds\":165.6,\"rounds\":13},{\"n\":5,\"seed\":11,\"seconds\":165.6,\"rounds\":13},{\"n\":5,\"seed\":12,\"seconds\":165.6,\"rounds\":13}]\n"
+  },
+  {
+    "name": "backrooms-fixes",
+    "code": 0,
+    "tail": ", latency, last seen snapshot, unobserved movement/noise cannot overwrite, finite search and reacquisition\nPASS runner: dim rooms shorten visual range, sprint exposes player, immunity suppresses acquisition\nPASS runner: noise behind = suspicious/investigate approximate area, no exact target or visual memory\nPASS runner: wall and closed door block sight AND contact capture; open door restores sight\nPASS runner: hide entry really witnessed through interaction; unseen hiding remains unknown; stable visible target in multiplayer\nPASS imitator: no 360-degree proximity sight, standing/walking behind, 105-degree cone boundary and light range\nPASS imitator: real front acquisition, latency, last seen snapshot, unobserved movement/noise cannot overwrite, finite search and reacquisition\nPASS imitator: dim rooms shorten visual range, sprint exposes player, immunity suppresses acquisition\nPASS imitator: noise behind = suspicious/investigate approximate area, no exact target or visual memory\nPASS imitator: wall and closed door block sight AND contact capture; open door restores sight\nPASS imitator: hide entry really witnessed through interaction; unseen hiding remains unknown; stable visible target in multiplayer\nPASS 1000 consecutive new matches per 2\u20135 count: fresh seed/topology, replay deterministic, objective reachability, respawn retains same maze\nBackrooms fixes: 22 test groups passed\n"
+  },
+  {
+    "name": "minigolf",
+    "code": 0,
+    "tail": "3},{\"n\":3,\"course\":\"maratona\",\"seconds\":142.6,\"completed\":3},{\"n\":3,\"course\":\"inferno\",\"seconds\":162.9,\"completed\":3},{\"n\":3,\"course\":\"odissea\",\"seconds\":157.2,\"completed\":3},{\"n\":3,\"course\":\"disperati\",\"seconds\":149.1,\"completed\":3},{\"n\":4,\"course\":\"lungomare\",\"seconds\":95.1,\"completed\":4},{\"n\":4,\"course\":\"scampagnata\",\"seconds\":61.7,\"completed\":4},{\"n\":4,\"course\":\"giostra\",\"seconds\":99.3,\"completed\":4},{\"n\":4,\"course\":\"flipperone\",\"seconds\":90.4,\"completed\":4},{\"n\":4,\"course\":\"traversata\",\"seconds\":189.7,\"completed\":4},{\"n\":4,\"course\":\"altalena\",\"seconds\":125.3,\"completed\":4},{\"n\":4,\"course\":\"maratona\",\"seconds\":171.9,\"completed\":4},{\"n\":4,\"course\":\"inferno\",\"seconds\":174.4,\"completed\":4},{\"n\":4,\"course\":\"odissea\",\"seconds\":172.1,\"completed\":4},{\"n\":4,\"course\":\"disperati\",\"seconds\":227.1,\"completed\":3},{\"n\":5,\"course\":\"lungomare\",\"seconds\":122.2,\"completed\":5},{\"n\":5,\"course\":\"scampagnata\",\"seconds\":125.3,\"completed\":5},{\"n\":5,\"course\":\"giostra\",\"seconds\":98,\"completed\":5},{\"n\":5,\"course\":\"flipperone\",\"seconds\":145.4,\"completed\":4},{\"n\":5,\"course\":\"traversata\",\"seconds\":264.2,\"completed\":4},{\"n\":5,\"course\":\"altalena\",\"seconds\":108.1,\"completed\":5},{\"n\":5,\"course\":\"maratona\",\"seconds\":192.9,\"completed\":5},{\"n\":5,\"course\":\"inferno\",\"seconds\":261.3,\"completed\":5},{\"n\":5,\"course\":\"odissea\",\"seconds\":243.1,\"completed\":5},{\"n\":5,\"course\":\"disperati\",\"seconds\":243.9,\"completed\":5}]\n"
+  },
+  {
+    "name": "minigolf-camera",
+    "code": 0,
+    "tail": "BJS - [12:52:45]: Babylon.js v9.26.2 - Null engine\nPASS minigolf camera: 816 course/wall/orbit cases, ball visible, no wall penetration or camera inside ball, stable follow at 30/60/120, bounce heading and temporary overview.\n"
+  },
+  {
+    "name": "solo-bots",
+    "code": 0,
+    "tail": "PASS server: solo 2\u20135 seats, readiness/offline, unique characters, payload, normal scoring, no duplicates, restart, multiplayer\nPASS quiz: 10 complete questions, 30 delayed bot responses, imperfect scores, no human input\nPASS reaction, memory and cultura: no false start, observed tiles, completed sequences, unique bluffs, valid votes\nKart simulation {\n  lap: 3,\n  distance: 3917.0485931285402,\n  finished: true,\n  onRoad: 1,\n  time: 93.48333333332931\n}\nFPS navigation {\n  id: 'p1',\n  x: 19.967494447785775,\n  z: 15.664390222050338,\n  yaw: 0.01691723459806107,\n  pitch: 0,\n  alive: true,\n  magazine: 10,\n  spawnProtection: 0\n} { fires: 1045 }\nSOLO BOTS SELFTEST PASS\n"
+  },
+  {
+    "name": "audio",
+    "code": 0,
+    "tail": "enti per giro)\n\u2705 quiz: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n\u2705 quiz: livello 2 ha almeno gli strati del livello 1 (805 \u2192 1061 eventi per giro)\n\u2705 cultura: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n\u2705 cultura: livello 2 ha almeno gli strati del livello 1 (613 \u2192 805 eventi per giro)\n\u2705 trentuno: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n\u2705 trentuno: livello 2 ha almeno gli strati del livello 1 (625 \u2192 817 eventi per giro)\n\u2705 goblinTime: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n\u2705 goblinTime: livello 2 ha almeno gli strati del livello 1 (641 \u2192 865 eventi per giro)\n\u2705 results: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n\u2705 results: livello 2 ha almeno gli strati del livello 1 (405 \u2192 661 eventi per giro)\n\u2705 podium: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n\u2705 podium: livello 2 ha almeno gli strati del livello 1 (429 \u2192 645 eventi per giro)\n\u2705 memory: nessuna melodia (le note di Memoria / il VIA di Botta al Volo sono gameplay)\n\u2705 reaction: nessuna melodia (le note di Memoria / il VIA di Botta al Volo sono gameplay)\n\u2705 Memoria e Botta al Volo: musica bassa\n\u2705 4 note di Memoria distinte (distanza minima 4.0 semitoni)\n\u2705 il pad di Memoria resta grave, lontano dalle note delle tessere\n\nTUTTO OK\n"
+  },
+  {
+    "name": "map-vote",
+    "code": 0,
+    "tail": "PASS map voting: 206 session, catalogue and tournament checks.\n"
+  },
+  {
+    "name": "roulette-cycle",
+    "code": 0,
+    "tail": "RULLO: 42653 controlli superati \u00b7 nessuna ripetizione prima di tutti gli altri, anche tra giri.\n"
+  }
+]

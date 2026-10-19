@@ -1892,3 +1892,22 @@ body:has(#pad-fallback-badge) .dpad-screen:has(#geo-phone-status){padding-top:62
  .volley-shell .arena-actions button {height:48px;font-size:18px;}
  .volley-shell .arena-ability-desc {font-size:10px;line-height:1.15;}
 }
+
+/* Pre-game map ballot: stable cards, readable on narrow phones, no gameplay loop. */
+.map-vote-screen{display:block;width:100%;height:100%;max-width:620px;margin:auto;padding:18px 18px calc(24px + env(safe-area-inset-bottom,0px));text-align:left;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}
+.map-vote-heading{position:sticky;top:-1px;z-index:2;background:#0b0b14;padding:10px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;color:#b8c9e5;font-size:12px;font-weight:800;letter-spacing:.08em}
+#map-vote-clock{font-size:24px;color:#83ffe0;white-space:nowrap;font-variant-numeric:tabular-nums}
+.map-vote-screen h1{font-size:28px;margin:16px 0 8px}
+#map-vote-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+.map-vote-option{min-height:154px;display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;white-space:normal;padding:14px 12px;border:2px solid #33435b;border-top:4px solid var(--map-color);background:#172238;color:#f0f5ff;border-radius:14px;font-family:inherit;touch-action:manipulation}
+.map-vote-option .map-vote-icon{font-size:24px;color:var(--map-color);line-height:1}
+.map-vote-option strong{font-size:14px;line-height:1.25;overflow-wrap:anywhere}
+.map-vote-option small{font-size:12px;line-height:1.35;color:#bacbe0;font-weight:400}
+.map-vote-count{margin-top:auto;font-size:11px;color:#93b5cd;font-weight:800;line-height:1.35}
+.map-vote-option.selected{border-color:#83ffe0;background:#203e46;box-shadow:0 0 0 1px #83ffe0 inset}
+.map-vote-option.selected .map-vote-count{color:#a8ffdf}
+.map-vote-option:focus-visible{outline:3px solid white;outline-offset:2px}
+.map-vote-option:disabled{opacity:.7}
+#map-vote-status{min-height:2.4em;font-size:13px;line-height:1.4;color:#a8ffdf;margin:14px 0 0}
+.map-vote-foot{font-size:12px!important;line-height:1.5!important}
+@media(max-width:340px){.map-vote-option{padding:12px 8px}.map-vote-option strong{font-size:12px}}

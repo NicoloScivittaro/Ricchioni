@@ -1,3 +1,4 @@
+import {GOLF_MAPS} from '../../../shared/minigameMaps';
 import type {Course,Floor,Point,Wall} from './minigolfTypes';
 import {GOLF_TOURNAMENT} from '../../../shared/minigolfTournament';
 const floor=(x:number,z:number,w:number,d:number,y=0,extra:Partial<Floor>={}):Floor=>({x,z,w,d,y,...extra});
@@ -101,22 +102,23 @@ function chain(id:string,name:string,difficulty:Course['difficulty'],color:strin
 }
 /** Tournament holes: two or three sections each, 56–84 m from tee to cup. */
 export const COURSES: readonly Course[] = [
- chain('lungomare','IL LUNGOMARE INFINITO','easy','#74b848','Lungo e largo: un tiro forte nel prato, poi scegli la sponda nel corridoio.',['prato','corridoio']),
- chain('scampagnata','LA SCAMPAGNATA','easy','#8bbf55','Prato tranquillo, poi le montagne: non sottovalutare la salita.',['prato','saliscendi']),
- chain('giostra','LA GIOSTRA DEI DANNATI','medium','#35b9ad','Prima i bracci rotanti, poi i cancelli: il tempismo conta due volte.',['rotonda','cancelli']),
- chain('flipperone','IL FLIPPERONE','medium','#707fcb','I bumper ti sparano verso le montagne. Frena prima della salita.',['flipper','saliscendi']),
- chain('traversata','LA TRAVERSATA','medium','#58a8c0','Cancelli, ponte mobile e corridoio finale. Tre pezzi, nessuna fretta.',['cancelli','ponte','corridoio']),
- chain('altalena','SU E GIÙ PER LA ROTONDA','medium','#c09b62','Dopo le montagne la rotonda gira: aspetta il varco giusto.',['saliscendi','rotonda']),
- chain('maratona','LA MARATONA DEL DISAGIO','medium','#42bd82','Tre sezioni larghe: corridoio, flipper e prato. Gestisci la forza.',['corridoio','flipper','prato']),
- chain('inferno','IL GIRO DELL’INFERNO','hard','#9981c5','Rotonda, discesa e serpentina sul mare. Ogni errore costa caro.',['rotonda','discesa','serpentina']),
- chain('odissea','L’ODISSEA','hard','#b299ce','Flipper, ultima buca e una discesa finale. Il mare è sempre lì.',['flipper','ultima','discesa']),
- chain('disperati','IL PERCORSO DEI DISPERATI','hard','#52bfa3','Ponte, cancelli e serpentina: niente parapetti, tanti rimpianti.',['ponte','cancelli','serpentina'])
+ chain('lungomare',GOLF_MAPS.find(m=>m.id==='lungomare')!.name,'easy','#74b848','Lungo e largo: un tiro forte nel prato, poi scegli la sponda nel corridoio.',['prato','corridoio']),
+ chain('scampagnata',GOLF_MAPS.find(m=>m.id==='scampagnata')!.name,'easy','#8bbf55','Prato tranquillo, poi le montagne: non sottovalutare la salita.',['prato','saliscendi']),
+ chain('giostra',GOLF_MAPS.find(m=>m.id==='giostra')!.name,'medium','#35b9ad','Prima i bracci rotanti, poi i cancelli: il tempismo conta due volte.',['rotonda','cancelli']),
+ chain('flipperone',GOLF_MAPS.find(m=>m.id==='flipperone')!.name,'medium','#707fcb','I bumper ti sparano verso le montagne. Frena prima della salita.',['flipper','saliscendi']),
+ chain('traversata',GOLF_MAPS.find(m=>m.id==='traversata')!.name,'medium','#58a8c0','Cancelli, ponte mobile e corridoio finale. Tre pezzi, nessuna fretta.',['cancelli','ponte','corridoio']),
+ chain('altalena',GOLF_MAPS.find(m=>m.id==='altalena')!.name,'medium','#c09b62','Dopo le montagne la rotonda gira: aspetta il varco giusto.',['saliscendi','rotonda']),
+ chain('maratona',GOLF_MAPS.find(m=>m.id==='maratona')!.name,'medium','#42bd82','Tre sezioni larghe: corridoio, flipper e prato. Gestisci la forza.',['corridoio','flipper','prato']),
+ chain('inferno',GOLF_MAPS.find(m=>m.id==='inferno')!.name,'hard','#9981c5','Rotonda, discesa e serpentina sul mare. Ogni errore costa caro.',['rotonda','discesa','serpentina']),
+ chain('odissea',GOLF_MAPS.find(m=>m.id==='odissea')!.name,'hard','#b299ce','Flipper, ultima buca e una discesa finale. Il mare è sempre lì.',['flipper','ultima','discesa']),
+ chain('disperati',GOLF_MAPS.find(m=>m.id==='disperati')!.name,'hard','#52bfa3','Ponte, cancelli e serpentina: niente parapetti, tanti rimpianti.',['ponte','cancelli','serpentina'])
 ];
 let previousTriple='';
 /** Session guard compares sets, so even reordering the last triple is avoided. */
-export function selectCourses(next:()=>number,previous=previousTriple):Course[] {
+export function selectCourses(next:()=>number,previous=previousTriple,firstId?:string):Course[] {
  const pick=(pool:readonly Course[])=>pool[Math.max(0,Math.min(pool.length-1,Math.floor(next()*pool.length)))];
- const selected=[pick(COURSES.filter(c=>c.difficulty==='easy'||c.difficulty==='medium'))];
+ const first=COURSES.find(c=>c.id===firstId);
+ const selected=[first??pick(COURSES.filter(c=>c.difficulty==='easy'||c.difficulty==='medium'))];
  selected.push(pick(COURSES.filter(c=>c.difficulty==='medium'&&!selected.includes(c))));
  selected.push(pick(COURSES.filter(c=>c.difficulty!=='easy'&&!selected.includes(c))));
  const key=(cs:Course[])=>cs.map(c=>c.id).sort().join('|');

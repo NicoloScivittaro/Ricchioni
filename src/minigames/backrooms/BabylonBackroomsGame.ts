@@ -47,7 +47,7 @@ export class BabylonBackroomsGame {
     try { previousLevel = sessionStorage.getItem('backrooms.lastLevel') ?? previousLevel; } catch { /* in-memory guard remains */ }
     const debugLevel = import.meta.env.DEV ? new URLSearchParams(location.search).get('backroomsLevel') : null;
     const choices = LEVEL_IDS.filter(id => id !== previousLevel);
-    const level: LevelId = LEVEL_IDS.includes(debugLevel as LevelId) ? debugLevel as LevelId : choices[ctx.rng.int(0, choices.length - 1)];
+    const level: LevelId = LEVEL_IDS.includes(ctx.mapId as LevelId) ? ctx.mapId as LevelId : LEVEL_IDS.includes(debugLevel as LevelId) ? debugLevel as LevelId : choices[ctx.rng.int(0, choices.length - 1)];
     this.match = new BackroomsMatch(ctx.players.map(p => ({ id: p.id, name: p.displayName, bot: p.bot })), seed, { level, duration: ctx.durationSec, imitator: true });
     if (!replay) {
       BabylonBackroomsGame.previousSeed = seed; BabylonBackroomsGame.previousTopology = topologySignature(this.match.maze); BabylonBackroomsGame.previousLevel = level;

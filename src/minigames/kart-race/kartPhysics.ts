@@ -91,6 +91,7 @@ const RESPAWN_DELAY = 1;
 const WALL_HIT_STUN = 0.18;
 
 export function applyBoost(k: KartState, power: number, dur: number): void {
+  power=Math.max(0,Math.min(56,power));dur=Math.max(0,Math.min(4.2,dur));
   if (power > k.boostPower) k.boostPower = power;
   k.boostTimer = Math.max(k.boostTimer, dur);
 }
@@ -143,6 +144,7 @@ export function stepKartPhysics(
   if (stunned) k.stunTimer = Math.max(0, k.stunTimer - dt);
   if (k.invulnTimer > 0) k.invulnTimer = Math.max(0, k.invulnTimer - dt);
   if (k.disturbTimer > 0) k.disturbTimer = Math.max(0, k.disturbTimer - dt);
+  k.shieldPerfectTimer=Math.max(0,k.shieldPerfectTimer-dt);k.incomingItemTimer=Math.max(0,k.incomingItemTimer-dt);
   k.oilTimer = Math.max(0, k.oilTimer - dt);
   k.faultyTimer = Math.max(0, k.faultyTimer - dt);
   k.bumperTimer = Math.max(0, k.bumperTimer - dt);
@@ -150,6 +152,7 @@ export function stepKartPhysics(
     k.jumpVelocity -= 14 * dt; k.jumpHeight += k.jumpVelocity * dt;
     if (k.jumpHeight <= 0) {
       k.jumpHeight = 0; k.jumpVelocity = 0;
+      if(k.springLandingBoost){k.springLandingBoost=false;applyBoost(k,24,1.1);}
       if (Math.abs(k.heading) > .3 && k.speed > 15) {
         k.oilTimer = Math.max(k.oilTimer, .45);
         k.slipVelocity = clamp(k.slipVelocity + k.speed * Math.sin(k.heading) * .2, -18, 18);
@@ -170,8 +173,8 @@ export function stepKartPhysics(
 
   if (surface.air) {
     // Lift sustains forward inertia even after a hit; braking trims speed but cannot reverse in flight.
-    const target = down ? 28 : 44;
-    k.speed += (target-k.speed)*Math.min(1,dt*(stunned?.22:.55));
+    const target = down ? 28 : 44*k.abilitySpeedFactor;
+    k.speed += (target-k.speed)*Math.min(1,dt*(stunned?.22:.55*k.accelMultiplier));
     k.speed=Math.max(24,k.speed);
   } else if (up) {
     // Curva di accelerazione arcade: parte pronta, si assottiglia avvicinandosi
@@ -206,7 +209,7 @@ export function stepKartPhysics(
   const half = halfWidthAt(k.distance);
   k.offRoad = !surface.air && Math.abs(k.lateral) > half;
   const centerRate = surface.grip * (k.offRoad ? C.centerRateOffRoad : C.centerRateOnRoad) * (1 - oil * .8);
-  const roadCap = Math.max(C.maxSpeed * surface.speed, boostCap);
+  const roadCap = Math.max(C.maxSpeed * surface.speed*k.abilitySpeedFactor, boostCap);
   const maxSpeed = (k.offRoad ? C.maxSpeed * C.offroadSpeedFactor : roadCap) * k.speedCapMultiplier;
   if (C.boostSpeedGain > 0 && !k.offRoad && k.speed > maxSpeed) {
     // Boost finito: atterraggio morbido sul tetto normale.
@@ -244,7 +247,7 @@ export function stepKartPhysics(
 
   // --- Sterzata: velocità angolare ASSOLUTA (vedi commento sopra la funzione) ---
   const speedFracForSteer = Math.min(1, Math.abs(k.speed) / C.maxSpeed);
-  const itemSteer = (k.faultyTimer > 0 ? .58 : 1) * (k.bumperTimer > 0 ? .85 : 1);
+  const itemSteer = (k.faultyTimer > 0 ? .68 : 1) * (k.bumperTimer > 0 ? .9 : 1);
   const turnRate = C.maxTurnRate * (1 - C.highSpeedSteerLoss * speedFracForSteer * speedFracForSteer) * k.steerMultiplier * itemSteer;
   if (!stunned && !surface.air) {
     k.absHeading += steerDir * turnRate * dt;
@@ -336,6 +339,7 @@ export function stepKartPhysics(
 }
 
 export function respawnKart(k: KartState, trackAngleAt: (distance: number) => number): void {
+  k.shieldPerfectTimer=k.incomingItemTimer=0;k.springLandingBoost=false;
   k.flight='DRIVE';k.flightTime=0;k.glideYawVelocity=0;k.glideLanding=0;
   k.distance = k.lastValidCheckpointS;
   k.lateral = 0;
@@ -362,7 +366,8 @@ export function hitKart(k: KartState, stunDur: number): boolean {
     return false;
   }
   if (k.invulnTimer > 0) return false;
-  k.stunTimer = Math.max(k.stunTimer, stunDur);
+  k.stunTimer = Math.max(k.stunTimer, Math.min(1.6,stunDur));
+  k.invulnTimer=Math.max(k.invulnTimer,Math.min(1.6,stunDur)+.5);
   k.speed *= 0.35;
   if (k.drifting) {
     k.drifting = false;

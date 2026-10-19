@@ -168,6 +168,8 @@ export class GamepadManager {
     switch (s.phase) {
       case 'LOBBY':
         return 'LOBBY';
+      case 'MINIGAME_MAP_VOTE':
+        return 'MAP_VOTE';
       case 'MINIGAME_ROULETTE':
       case 'MINIGAME_INTRO':
         return 'ROULETTE';
@@ -466,6 +468,12 @@ export class GamepadManager {
       const sl = this.padSlot(p.index);
       if (!sl) {
         this.pairingStep(p);
+        continue;
+      }
+      if(this.context==='MAP_VOTE'){
+        const step=(p.nav.right&&!p.navPrev.right)||(p.nav.down&&!p.navPrev.down)?1:(p.nav.left&&!p.navPrev.left)||(p.nav.up&&!p.navPrev.up)?-1:0;
+        if(step)this.events.emit('mapVoteNavigate',{playerId:sl.playerId,step});
+        if(p.edges.PRIMARY.pressed)this.events.emit('mapVoteConfirm',{playerId:sl.playerId});
         continue;
       }
       if (this.context !== 'MINIGAME') continue; // lobby/rullo/risultati/pausa/telefono: nessun gameplay dal controller

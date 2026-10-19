@@ -33,6 +33,8 @@ export const EVT = {
   inputAxis: 'input:axis',
   /** Testo libero dal telefono (es. bluff di CULTURA O CAZZATA). */
   inputText: 'input:text',
+  mapVote: 'map:vote',
+  hostMapVote: 'host:mapVote',
   hostStart: 'host:start',
   hostMinigameFinished: 'host:minigameFinished',
   hostSkip: 'host:skip',
@@ -160,7 +162,12 @@ export interface GamepadsPayload {
 }
 
 /** Payload inviato al solo HOST quando parte un minigioco. */
+export interface MapVotePayload { roundId:number; mapId:string }
+export interface HostMapVotePayload extends MapVotePayload { playerId:string }
+
 export interface MinigameSelectedPayload {
+  mapId?: string;
+  mapName?: string;
   kartTrackId?: KartTrackId;
   /** Id incrementale del minigioco (round): il risultato deve riportarlo indietro. */
   roundId?: number;

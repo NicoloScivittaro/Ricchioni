@@ -1,0 +1,12 @@
+BJS - [14:06:22]: Babylon.js v9.26.2 - Null engine
+PASS distribution: rank + real deficit, leader unchanged, no guaranteed rare item
+PASS five abilities: distinct effects, measurable boosts, finite duration and recharge
+PASS shield perfect counter, attack breaks boost, truck tangible and anti-chain guard
+PASS all fifteen catalog items activate in their intended valid situation
+PASS theft: visible delay, atomic transfer, target can use or shield item, no duplication
+PASS missile: warning precedes finite homing, shield counters, out-of-range attacks retain inventory
+PASS spring grants landing boost; wind respects a shield throughout the same crossing
+PASS both real glides: five powers land, inventory retained when invalid, attacks bounded, no checkpoint/height teleport
+PASS two brief 15s / five-player simulations: real tracks, bot commands, finite effects and cleanup
+PASS boost stacking has explicit power/duration limits
+ESSENTIAL CHECKS COMPLETE

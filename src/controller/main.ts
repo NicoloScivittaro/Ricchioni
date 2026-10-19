@@ -1,3 +1,4 @@
+import {mountMapVote} from './mapVoteController';
 import {stateLabel} from '../../shared/abilityCatalog';
 import type {AbilityStatus} from '../../shared/abilityCatalog';
 import {mountBackrooms,backStatusText} from './backroomsController';
@@ -46,6 +47,9 @@ let state: RoomState | null = null;
 let lastMinigameId: string | null = null;
 /** Controller attivo (per instradare i segnali): 'memory' | 'quiz' | null. */
 let activeController: string | null = null;
+let mapVotePhone:ReturnType<typeof mountMapVote>|null=null;
+let mapVoteRound:number|null=null;
+const destroyMapVote=()=>{mapVotePhone?.destroy();mapVotePhone=null;mapVoteRound=null;};
 let trentunoPhone:ReturnType<typeof mountTrentuno>|null=null;
 const destroyTrentuno=()=>{trentunoPhone?.destroy();trentunoPhone=null;};
 let goblinPhone:ReturnType<typeof mountGoblin>|null=null;
@@ -1931,6 +1935,7 @@ function renderInfoLine(): void {
 // ---- rendering ----
 
 function render(): void {
+  if(state?.phase!=='MINIGAME_MAP_VOTE')destroyMapVote();
   syncPauseOverlay(state);
   if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='backrooms')destroyBackroomsPhone();
   if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='minigolf')destroyMinigolfPhone();
@@ -1956,6 +1961,19 @@ function render(): void {
     case 'MINIGAME_PLAYING':
       renderPlaying(state, me);
       break;
+    case 'MINIGAME_MAP_VOTE': {
+      releaseControllerInput();lastMinigameId=null;
+      if(!state.mapVote){renderWait(state);break;}
+      if(!mapVotePhone||mapVoteRound!==state.mapVote.roundId){
+        destroyMapVote();mapVoteRound=state.mapVote.roundId;
+        const roundId=mapVoteRound;
+        mapVotePhone=mountMapVote(app,state.mapVote,playerId,state.currentMinigame?.minigameId??'',(mapId,done)=>{
+          if(!socket.connected){done(false);return;}
+          socket.timeout(3500).emit(EVT.mapVote,{roundId,mapId},(err:Error|null,ack:AckResponse)=>done(!err&&!!ack?.ok));
+        });
+      }else mapVotePhone.update(state.mapVote);
+      break;
+    }
     case 'MINIGAME_ROULETTE':
     case 'MINIGAME_INTRO':
       lastMinigameId = null;

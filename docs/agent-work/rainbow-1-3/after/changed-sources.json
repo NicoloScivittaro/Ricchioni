@@ -1,0 +1,20 @@
+[
+  "src/minigames/kart-race/abilities.ts",
+  "src/minigames/kart-race/BabylonKartGame.ts",
+  "src/minigames/kart-race/cameraHud.ts",
+  "src/minigames/kart-race/glideDynamics.ts",
+  "src/minigames/kart-race/items.ts",
+  "src/minigames/kart-race/kartCollisions.ts",
+  "src/minigames/kart-race/kartEntity.ts",
+  "src/minigames/kart-race/kartPhysics.ts",
+  "src/minigames/kart-race/raceTypes.ts",
+  "src/minigames/kart-race/rainbowTrack.ts",
+  "src/minigames/kart-race/rainbowWorld.ts",
+  "shared/abilityCatalog.ts",
+  "src/core/AudioManager.ts",
+  "src/minigames/bots/MotionBots.ts",
+  "src/minigames/kart-race/rainbowCosmos.ts",
+  "src/minigames/kart-race/rainbowFinish.ts",
+  "scripts/kart-abilities-selftest.ts",
+  "scripts/kart-oil-selftest.ts"
+]

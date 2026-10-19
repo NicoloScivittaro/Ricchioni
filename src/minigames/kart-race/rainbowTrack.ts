@@ -9,6 +9,8 @@ import type {KartState} from './raceTypes';
 export const RAINBOW_SCALE=4;
 export const rainbowPoint=(x:number,y:number,z:number):Vector3=>new Vector3((x-200)*4,z*4+40,(y-60)*4);
 export interface GlideGap {name:string;launch:number;landing:number;height:number}
+/** Structural contract lets imported circuits reuse the existing flight controller. */
+export type GlideTrack=TrackSpline & {readonly gaps:GlideGap[];gapAt(s:number,margin?:number):GlideGap|undefined};
 const clamp=(v:number,a:number,b:number)=>Math.max(a,Math.min(b,v));
 
 /** Centreline extracted from Object_6. The original mesh remains the visible road. */
@@ -40,7 +42,7 @@ export class RainbowTrack extends TrackSpline {
 
 export type FlightEvent='launch'|'land'|'fall';
 /** Reuses the ground physics and timers. Only marked launch intervals enable lift. */
-export function stepRainbowKart(k:KartState,input:KartInputSnapshot,dt:number,track:RainbowTrack,invert:boolean,onEvent:(event:FlightEvent)=>void):void {
+export function stepRainbowKart(k:KartState,input:KartInputSnapshot,dt:number,track:GlideTrack,invert:boolean,onEvent:(event:FlightEvent)=>void,groundBarriers=false):void {
   k.glideLanding=Math.max(0,k.glideLanding-dt);
   if(k.respawnTimer>0){
     if(k.flight==='FALL'){k.jumpVelocity-=18*dt;k.jumpHeight+=k.jumpVelocity*dt;}
@@ -52,7 +54,7 @@ export function stepRainbowKart(k:KartState,input:KartInputSnapshot,dt:number,tr
   }
   const before=k.distance,previousHeight=k.jumpHeight;
   const air=k.flight==='GLIDE';
-  stepKartPhysics(k,air?{...input,drift:false,driftReleased:false}:input,dt,d=>track.widthAt(d)/2,d=>track.tangentAngleAt(d),invert,{grip:air?2.2:1,speed:1,barriers:false,air});
+  stepKartPhysics(k,air?{...input,drift:false,driftReleased:false}:input,dt,d=>track.widthAt(d)/2,d=>track.tangentAngleAt(d),invert,{grip:air?2.2:1,speed:1,barriers:groundBarriers&&!air,air});
   let gap=track.gapAt(k.distance);
   if(!air&&k.distance>before&&gap){
     k.flight='GLIDE';k.glideStart=k.distance-track.wrap(k.distance)+gap.launch;k.glideEnd=k.glideStart+gap.landing-gap.launch;
@@ -70,10 +72,11 @@ export function stepRainbowKart(k:KartState,input:KartInputSnapshot,dt:number,tr
     if(k.distance>=k.glideEnd){
       if(Math.abs(k.lateral)<=track.widthAt(k.distance)/2-1.15){
         k.flight='DRIVE';k.glideLanding=GLIDE.landingTime;k.glideYawVelocity=0;k.jumpHeight=k.jumpVelocity=0;k.slipVelocity*=.5;k.drifting=false;k.driftCharge=0;onEvent('land');
-      }else fall();
-    }else if(Math.abs(k.lateral)>23||k.flightTime>25)fall();
-  }else if(Math.abs(k.lateral)>track.widthAt(k.distance)/2+.4)fall();
-  function fall(){
+      }else fall('atterraggio fuori piattaforma');
+    }else if(Math.abs(k.lateral)>23||k.flightTime>25)fall(Math.abs(k.lateral)>23?'uscita dal corridoio aereo':'limite planata');
+  }else if(Math.abs(k.lateral)>track.widthAt(k.distance)/2+.4)fall('bordo strada');
+  function fall(reason:string){
+    k.fallReason=reason;
     k.flight='FALL';k.flightTime=0;k.jumpVelocity=Math.min(-2,k.jumpVelocity);k.drifting=false;k.driftCharge=0;k.offRoad=true;
     // Delay checkpoint/rank advancement until recovered; the visible drop precedes the normal penalty.
     onEvent('fall');

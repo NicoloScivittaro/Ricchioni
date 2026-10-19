@@ -1,0 +1,18 @@
+{
+  "shared/abilityCatalog.ts": "54a862b739b6e13aa241935c5e38a27c5c698d9c9a16081f53c37311883aa945",
+  "src/minigames/bots/MotionBots.ts": "bef4244ed3e7e38c9d673a789367c56861eba36d45155f6368741d8de89a3aab",
+  "src/minigames/kart-race/abilities.ts": "829269f138c9099243835efba346ef531a063465fd3311917294eaea0418e7a6",
+  "src/minigames/kart-race/itemCatalog.ts": "dc219a53618f85a16e4ebcc6908ea041d3a1fe07d96f8cdad72e62b86e2a1367",
+  "src/minigames/kart-race/items.ts": "2c91d1a99e7fd299ad0e13ad4f12b96ea3cc6a47f5c21ac60808c30c6c8f1b10",
+  "src/minigames/kart-race/kartPhysics.ts": "17a82a97125a6af4ec3267f010e26c145b5b3c2a90b942f8abd920e7d194922c",
+  "src/minigames/kart-race/kartCollisions.ts": "2a1e5747e3df3c3074fd0e1a7e73c17af33e8ead4dfb11a80c72b7f2ce7465df",
+  "src/minigames/kart-race/rainbowTrack.ts": "8d3218ac761daadf46bbd158fe60ff2dc4afac7677516879a88311269e383276",
+  "src/minigames/kart-race/rainbowWorld.ts": "714696241a74af57c11ad6d9ea5834dce6f36f2625420334a0fb3ea48e62cce0",
+  "src/minigames/kart-race/sydneyTrack.ts": "e904e1d8fa1994ed4563dc28139be5f264b553c05990c633464012b22bb9fe65",
+  "src/minigames/kart-race/sydneyWorld.ts": "196cb03f3eb203f87ff85376e9bdcbe72c5243edfebe8c3f06cc3ba20b1f16d0",
+  "src/minigames/kart-race/track.ts": "7a063eb8fe9039f269b2e4e6cd75175f3ae663419ba0c05b1dc94fb970b661ba",
+  "src/minigames/kart-race/trackDynamics.ts": "28c3e0ce816315ebef46bebc9391bc5e97d0d0ea8c8716c81d7aaba95e822755",
+  "src/minigames/kart-race/sydneyRoute.json": "971cbd166608fdf34cc0c07f0b675edace5ea2929759977abfebceb19dfef9b2",
+  "src/minigames/kart-race/rainbowRoute.json": "6cf17bec7a6240c985a76d42b836b3bdaa224b14a90e7ee162db4a7d727dbb63",
+  "src/minigames/kart-race/race.ts": "34db617558c2de17d511234b8a8c207221ec0f0bbcb62accbcbc0999fab5c26a"
+}

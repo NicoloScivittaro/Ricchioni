@@ -1,0 +1,13 @@
+{
+  "created": 5,
+  "enginesStopped": true,
+  "voices": {
+    "music": 0,
+    "sfx": 0,
+    "ui": 0,
+    "voice": 0,
+    "ambience": 0
+  },
+  "finishPanels": 0,
+  "canvases": 1
+}

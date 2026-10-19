@@ -1,0 +1,890 @@
+--- a/src/minigames/kart-race/abilities.ts
++++ b/src/minigames/kart-race/abilities.ts
+@@ -1,5 +1,5 @@
+ import type { KartState } from './raceTypes';
+-import { applyBoost, respawnKart, hitKart } from './kartPhysics';
++import { applyBoost, respawnKart } from './kartPhysics';
+ import { AB } from '../../../shared/abilityCatalog';
+ import type { AbilityStatus } from '../../../shared/abilityCatalog';
+ 
+@@ -22,22 +22,18 @@
+ export type AbilityFeedback =
+   | { type: 'so_guidare_start' | 'so_guidare_fail' }
+   | { type: 'buttafuori_window' | 'buttafuori_recovery' | 'buttafuori_missed' }
+-  | { type: 'dottore_light_start' }
++  | { type: 'dottore_light_start' | 'ability_block' }
+   | { type: 'judoka_activate' | 'judoka_fail' | 'judoka_end' }
+   | { type: 'ciro_armed' | 'ciro_debt_start' | 'ciro_debt_due' };
+ 
+ /** Esito della pressione del tasto ABILITA': 'ok' = qualcosa e' partito; altrimenti il motivo (avviso privato al giocatore). */
+ export type KartPressResult = 'ok' | 'notready' | 'spent' | 'busy';
+ 
+-/**
+- * Una gimmick unica per personaggio (non bonus statistici). Goblin/Dottore/Judoka caricano una barra giocando bene (drift puliti,
+- * sorpassi, item evitati, checkpoint puliti — vedi addMeter, chiamato da fuori); Buttafuori e Ciro hanno invece 1 carica fissa per
+- * gara, non legata alla barra, e sono REATTIVE: servono premere il tasto nella finestra giusta dopo uno schianto / un colpo
+- * (prima il Buttafuori scattava da solo e Ciro doveva indovinare in anticipo). La fisica (kartPhysics.ts) resta ignara del "perche'":
+- * legge solo flag generici (driftBoostMultiplier, lightMode, steerMultiplier, speedCapMultiplier, ...) che questa classe imposta.
+- */
++/** Existing five character mechanics; finite cooldowns plus a meter earned by driving.
++ * Generic physical flags are consumed by the common kart solver on both tracks. */
+ export class CharacterAbilities {
+   private raceTime = 0;
++  private truckContacts=new Map<string,number>();
+ 
+   setRaceTime(t: number): void {
+     this.raceTime = t;
+@@ -58,17 +54,20 @@
+   status(k: KartState): AbilityStatus {
+     const cid = k.characterId;
+     if (!cid) return { state: 'SPENT' };
++    if(k.abilityCooldown>0&&!k.abilityActive&&!k.debtPending&&!k.recoverWindow&&!k.refundTimer)return {state:'COOLDOWN',remaining:k.abilityCooldown,meter:k.abilityMeter};
+     if (this.hasMeter(cid)) {
+       if (k.abilityActive) return { state: 'ACTIVE', remaining: Math.max(0, k.abilityTimer) };
+       if (k.abilityMeter >= 1) return { state: 'READY', note: 'PRONTA · PREMI!' };
+       return { state: 'CHARGING', meter: k.abilityMeter };
+     }
+     if (cid === 'buttafuori') {
++      if(k.stabilityTimer>0)return {state:'ACTIVE',remaining:k.stabilityTimer,note:'STABILIZZATO'};
+       if (k.recoverWindow > 0) return { state: 'ACTIVE', remaining: k.recoverWindow, note: 'PREMI ORA!' };
+       return k.abilityCharges > 0 ? { state: 'READY', note: 'PRONTA · DOPO UNO SCHIANTO' } : { state: 'SPENT' };
+     }
+     if (cid === 'ciro') {
+       if (k.debtPending) return { state: 'ACTIVE', remaining: Math.max(0, k.debtTimer), note: `DEBITO ${Math.ceil(Math.max(0, k.debtTimer))} s` };
++      if(k.abilityCharges>0&&this.raceTime-k.lastAbilityPressAt<C.p.before)return {state:'ACTIVE',remaining:C.p.before-(this.raceTime-k.lastAbilityPressAt),note:'DIFESA ARMATA'};
+       if (k.refundTimer > 0) return { state: 'ACTIVE', remaining: k.refundTimer, note: 'PREMI ORA!' };
+       return k.abilityCharges > 0 ? { state: 'READY', note: 'PRONTA · RIMANDA UN COLPO' } : { state: 'SPENT' };
+     }
+@@ -78,6 +77,9 @@
+   /** Da chiamare quando il giocatore preme il tasto ABILITÀ. */
+   onAbilityPress(k: KartState, allKarts: KartState[], onFeedback: (f: AbilityFeedback) => void, trackAngleAt: (distance: number) => number = () => 0): KartPressResult {
+     void allKarts;
++    if(k.finished||k.flight==='FALL'&&k.characterId!=='buttafuori')return 'busy';
++    if(k.abilityCooldown>0&&!k.debtPending)return 'notready';
++    if(k.characterId==='ciro'&&this.raceTime-k.lastAbilityPressAt<C.p.before&&!k.refundTimer)return 'busy';
+     k.lastAbilityPressAt = this.raceTime;
+ 
+     switch (k.characterId) {
+@@ -87,6 +89,7 @@
+         k.abilityActive = true;
+         k.abilityTimer = G.p.duration;
+         k.driftBoostMultiplier = G.p.driftMult;
++        k.abilityCooldown=G.cooldown;applyBoost(k,G.p.kick,G.p.kickTime);
+         k.abilityMeter = 0;
+         onFeedback({ type: 'so_guidare_start' });
+         return 'ok';
+@@ -97,6 +100,7 @@
+         k.abilityActive = true;
+         k.abilityTimer = D.p.duration;
+         k.lightMode = true;
++        k.abilityCooldown=D.cooldown;k.abilitySpeedFactor=D.p.topSpeed;
+         k.accelMultiplier = D.p.accel;
+         k.driftChargeRateMultiplier = D.p.driftRate;
+         k.abilityMeter = 0;
+@@ -110,6 +114,7 @@
+         k.abilityActive = true;
+         k.abilityTimer = J.p.duration;
+         k.truckMode = true;
++        k.abilityCooldown=J.cooldown;k.abilityArmor=1;k.stabilityTimer=J.p.duration;
+         k.steerMultiplier = J.p.steer;
+         k.abilityMeter = 0;
+         onFeedback({ type: 'judoka_activate' });
+@@ -117,11 +122,11 @@
+ 
+       case 'buttafuori':
+         // RIBALTATO MA NON MORTO: reattiva. Funziona solo nella finestra aperta da uno schianto grave.
+-        if (k.recoverWindow > 0 && k.abilityCharges > 0) {
++        const unstableAir=k.flight==='GLIDE'&&(k.stunTimer>.2||(Math.abs(k.lateral)>2.8&&(Math.abs(k.slipVelocity)>1||Math.abs(k.heading)>.18)));
++        if ((k.recoverWindow > 0||unstableAir) && k.abilityCharges > 0) {
+           k.recoverWindow = 0;
+           k.abilityCharges -= 1;
+-          k.respawnTimer = 0;
+-          k.stunTimer = 0;
++          k.abilityCooldown=B.cooldown;
+           this.recover(k, trackAngleAt);
+           onFeedback({ type: 'buttafuori_recovery' });
+           return 'ok';
+@@ -139,10 +144,11 @@
+           const bounce = k.refundBounce;
+           k.refundTimer = 0;
+           k.abilityCharges -= 1;
++          k.abilityCooldown=C.cooldown;k.speed=Math.max(k.speed,k.refundSpeed);k.invulnTimer=Math.max(k.invulnTimer,.8);
+           if (stun > 0) k.stunTimer = 0;
+           if (disturb > 0) k.disturbTimer = 0;
+           if (oil > 0) k.oilTimer = 0;
+-          if (bounce > 0) { k.jumpHeight = 0; k.jumpVelocity = 0; }
++          if (bounce > 0 && k.flight==='DRIVE') { k.jumpHeight = 0; k.jumpVelocity = 0; }
+           k.debtPending = true;
+           k.debtTimer = C.p.debt;
+           k.debtStun = stun;
+@@ -171,6 +177,13 @@
+     onFeedback: (f: AbilityFeedback) => void
+   ): void {
+     void allKarts;
++    const definition=k.characterId?AB.kart3d[k.characterId as keyof typeof AB.kart3d]:null;
++    k.abilityCooldown=Math.max(0,k.abilityCooldown-dt);
++    k.stabilityTimer=Math.max(0,k.stabilityTimer-dt);
++    if(definition&&!k.finished){
++      if(this.hasMeter(k.characterId)&&!k.abilityActive)this.addMeter(k,dt/Math.max(8,definition.cooldown-(definition.p.duration??0)));
++      else if(!this.hasMeter(k.characterId)&&k.abilityCooldown===0&&k.abilityCharges===0&&!k.debtPending)k.abilityCharges=1;
++    }
+     // Rallentamento subito per un urto del camion del Judoka (vale per QUALSIASI kart bersaglio, non solo Judoka).
+     if (k.speedCapTimer > 0) {
+       k.speedCapTimer -= dt;
+@@ -182,10 +195,13 @@
+       k.debtTimer -= dt;
+       if (k.debtTimer <= 0) {
+         k.debtPending = false;
+-        if (k.debtStun > 0) hitKart(k, k.debtStun);
+-        if (k.debtDisturb > 0) k.disturbTimer = Math.max(k.disturbTimer, k.debtDisturb);
+-        if (k.debtOil > 0) k.oilTimer = Math.max(k.oilTimer, k.debtOil);
+-        if (k.debtBounce > 0) k.jumpVelocity = Math.max(k.jumpVelocity, k.debtBounce);
++        if (k.debtStun > 0) {
++          k.stunTimer=Math.max(k.stunTimer,k.debtStun*C.p.repayment);k.speed*=.65;
++          k.invulnTimer=Math.max(k.invulnTimer,k.debtStun*C.p.repayment+.5);
++        }
++        if (k.debtDisturb > 0) k.disturbTimer = Math.max(k.disturbTimer, k.debtDisturb*C.p.repayment);
++        if (k.debtOil > 0) k.oilTimer = Math.max(k.oilTimer, k.debtOil*C.p.repayment);
++        if (k.debtBounce > 0&&k.flight==='DRIVE') k.jumpVelocity = Math.max(k.jumpVelocity, k.debtBounce*C.p.repayment);
+         onFeedback({ type: 'ciro_debt_due' });
+       }
+     }
+@@ -218,7 +234,7 @@
+    * Reazione a un urto avvenuto in QUESTO frame (muro/fuori pista, rilevati subito dopo stepKartPhysics, OPPURE un item incassato più
+    * tardi nello stesso frame — vedi il secondo punto di chiamata in BabylonKartGame.step).
+    * Goblin: perde SO GUIDARE IO se attiva. Judoka: il camion si ferma. Buttafuori: dopo uno schianto grave si apre la FINESTRA in cui
+-   * premere ABILITA' per tornare subito in pista (1 volta a gara): prima scattava da solo.
++   * premere ABILITA' per recuperare (una carica ricaricabile): prima scattava da solo.
+    */
+   reactToCrash(
+     k: KartState,
+@@ -249,7 +265,13 @@
+ 
+   /** Torna in pista all'ultimo checkpoint con un piccolo boost (usato dal recupero del Buttafuori). */
+   private recover(k: KartState, trackAngleAt: (distance: number) => number): void {
+-    respawnKart(k, trackAngleAt);
++    if(k.flight==='FALL'||k.respawnTimer>0){
++      k.lastValidCheckpointS=Math.min(k.distance,k.lastValidCheckpointS);respawnKart(k,trackAngleAt);
++    }else{
++      k.stunTimer=0;k.oilTimer=0;k.disturbTimer=0;k.collisionYawVelocity=0;k.slipVelocity*=.2;
++      k.heading*=k.flight==='GLIDE'?.5:.25;k.absHeading=trackAngleAt(k.distance)+k.heading;k.glideYawVelocity*=.2;
++    }
++    k.speed=Math.max(k.speed,28);k.stabilityTimer=1.6;k.invulnTimer=Math.max(k.invulnTimer,1.1);
+     applyBoost(k, B.p.boost, B.p.boostTime);
+   }
+ 
+@@ -260,7 +282,7 @@
+     k.lightMode = false;
+     k.accelMultiplier = 1;
+     k.driftChargeRateMultiplier = 1;
+-    k.truckMode = false;
++    k.truckMode = false;k.abilityArmor=0;k.abilitySpeedFactor=1;
+     k.steerMultiplier = 1;
+   }
+ 
+@@ -272,6 +294,7 @@
+     if (k.characterId !== 'ciro' || k.abilityCharges <= 0 || k.debtPending) return false;
+     if (this.raceTime - k.lastAbilityPressAt > C.p.before) return false;
+     k.abilityCharges -= 1;
++    k.abilityCooldown=C.cooldown;k.invulnTimer=Math.max(k.invulnTimer,.8);
+     k.lastAbilityPressAt = -99;
+     k.debtPending = true;
+     k.debtTimer = C.p.debt;
+@@ -287,12 +310,34 @@
+    * CIRO: un colpo e' passato (non rimandato in anticipo): si apre la finestra `after` in cui premere ABILITÀ lo trasforma in debito.
+    * Chiamato da ItemManager subito DOPO aver applicato l'effetto.
+    */
+-  noteHit(k: KartState, effect: { stun?: number; disturb?: number; oil?: number; bounce?: number }): void {
++  noteHit(k: KartState, effect: { stun?: number; disturb?: number; oil?: number; bounce?: number },previousSpeed=k.speed): void {
+     if (k.characterId !== 'ciro' || k.abilityCharges <= 0 || k.debtPending) return;
++    k.refundSpeed=previousSpeed;
+     k.refundTimer = C.p.after;
+     k.refundStun = effect.stun ?? 0;
+     k.refundDisturb = effect.disturb ?? 0;
+     k.refundOil = effect.oil ?? 0;
+     k.refundBounce = effect.bounce ?? 0;
+   }
++  /** One object absorbed during the truck window, independent of an inventory shield. */
++  blockHit(k:KartState,onFeedback:(f:AbilityFeedback)=>void):boolean {
++    if(k.invulnTimer>0)return true;
++    if(k.shielded){k.shielded=false;return true;}
++    if(k.abilityArmor>0){k.abilityArmor--;k.invulnTimer=.5;onFeedback({type:'ability_block'});return true;}
++    return false;
++  }
++
++  /** One finite impulse per pair per 1.8s; contact never teleports a kart sideways. */
++  truckContact(truck:KartState,other:KartState,away:number,onFeedback:(f:AbilityFeedback)=>void):boolean {
++    const key=truck.playerId+'>'+other.playerId;
++    if(!truck.truckMode||other.truckMode||other.finished||other.flight==='FALL'||this.raceTime-(this.truckContacts.get(key)??-99)<1.8)return false;
++    this.truckContacts.set(key,this.raceTime);
++    if(this.blockHit(other,onFeedback))return false;
++    const air=other.flight==='GLIDE';
++    other.slipVelocity=Math.max(-9,Math.min(9,other.slipVelocity+Math.sign(away)*J.p.shove*(air?.35:1)*(other.stabilityTimer>0?.35:1)));
++    other.speedCapMultiplier=Math.min(other.speedCapMultiplier,air?.82:J.p.slow);
++    other.speedCapTimer=J.p.slowTime;
++    return true;
++  }
++
+ }
+--- a/src/minigames/kart-race/BabylonKartGame.ts
++++ b/src/minigames/kart-race/BabylonKartGame.ts
+@@ -1,3 +1,4 @@
++import {showRainbowFinish} from './rainbowFinish';
+ import {RainbowTrack,stepRainbowKart} from './rainbowTrack';
+ import {buildRainbowWorld,importRainbow,GlideWings,GlideLandingGuide} from './rainbowWorld';
+ import {pads} from '../../input/GamepadManager';
+@@ -76,6 +77,8 @@
+   private order: PlayerId[];
+   private firstFinishPlayed = false;
+   private resultsSent = false;
++  private finishPanel:HTMLElement|null=null;
++  private finishDelay=0;
+   private fxState = new Map<PlayerId, { level: number; boost: number }>();
+   private disposed = false;
+   private paused = false;
+@@ -307,7 +310,9 @@
+     }
+ 
+ 
+-    if (this.race.phase === 'ended' && !this.resultsSent) {
++    if(this.rainbow&&this.race.phase==='ended'&&!this.finishPanel){this.finishPanel=showRainbowFinish(kartsList,this.ctx.players);this.finishDelay=4;}
++    if(this.finishDelay>0)this.finishDelay=Math.max(0,this.finishDelay-dt);
++    if (this.race.phase === 'ended' && !this.resultsSent&&this.finishDelay===0) {
+       this.resultsSent = true;
+       // Solo debug (SESSION REPORT, F4): nessun effetto sul gameplay. Aggregate su tutti i giocatori della gara.
+       const s = this.stats;
+@@ -353,7 +358,7 @@
+     this.windClock-=dt;
+     if(this.rainbow&&this.windClock<=0&&this.order.some(id=>this.karts.get(id)?.flight==='GLIDE')){audio.kartGlide('wind');this.windClock=.4;}
+     this.setPieces.update(this.race.raceTime);
+-    for(const [id,state] of this.karts)this.hud.setSector(id,this.rainbow?(state.flight==='GLIDE'?'PLANATA':state.flight==='FALL'?'RECUPERO':'STRADA ARCOBALENO'):trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
++    for(const [id,state] of this.karts)this.hud.setSector(id,this.rainbow?(state.flight==='GLIDE'?'':state.flight==='FALL'?'RECUPERO':'ARCOBALENO'):trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
+   }
+ 
+   /**
+@@ -386,9 +391,7 @@
+ 
+   /** Il camion del Judoka tocca un altro kart: spinta laterale in piu' e rallentamento (visto dalla fisica come speedCap generico). */
+   private truckBump(truck: KartState, other: KartState, away: number): void {
+-    other.lateral += away * KART_TRUCK.p.shove * 0.1;
+-    other.speedCapMultiplier = Math.min(other.speedCapMultiplier, KART_TRUCK.p.slow);
+-    other.speedCapTimer = Math.max(other.speedCapTimer, KART_TRUCK.p.slowTime);
++    if(!this.abilities.truckContact(truck,other,away,f=>this.onAbilityFeedback(other.playerId,f)))return;
+     const key = `${truck.playerId}>${other.playerId}`;
+     const last = this.lastBumpAt.get(key) ?? -99;
+     if (this.race.raceTime - last > 1.2) {
+@@ -455,10 +458,13 @@
+     // attivazioni (non gli esiti): posa del pilota + simbolo del personaggio sopra il kart + conteggio d'uso
+     if (f.type === 'so_guidare_start' || f.type === 'dottore_light_start' || f.type === 'judoka_activate' || f.type === 'ciro_debt_start' || f.type === 'buttafuori_recovery') {
+       this.entities.get(playerId)?.playAbility();
++      if(state?.characterId)audio.kartAbility(state.characterId as 'goblin');
+       abilityHub.activated(playerId);
+       if (state) this.rankWatch.set(playerId, { start: this.race.rankOf([...this.karts.values()], playerId), until: this.race.raceTime + (state.abilityTimer || 0) + 3 });
+     }
+     switch (f.type) {
++      case 'ability_block':
++        this.hud.flash(playerId,'CORAZZA · COLPO BLOCCATO','#ffd166',.9);audio.kartAbility('block');this.ctx.vibrate(playerId,65);break;
+       case 'so_guidare_start':
+         this.hud.flash(playerId, 'SO GUIDARE IO!', '#4ade80');
+         audio.boost();
+@@ -562,7 +568,7 @@
+     } else if (ev.type === 'checkpoint_clean' && ev.playerId) {
+       const k = this.karts.get(ev.playerId);
+       if (k) this.abilities.addMeter(k, 0.08);
+-      this.hud.flash(ev.playerId, '✔ CHECKPOINT', '#22d3ee', 0.6);
++      if(!this.rainbow)this.hud.flash(ev.playerId, '✔ CHECKPOINT', '#22d3ee', 0.6);
+     } else if (ev.type === 'overtake' && ev.playerId) {
+       const k = this.karts.get(ev.playerId);
+       if (k) this.abilities.addMeter(k, 0.18);
+@@ -572,6 +578,7 @@
+   dispose(): void {
+     if (this.disposed) return;
+     this.disposed = true;
++    this.finishPanel?.remove();this.finishPanel=null;
+     this.unsubAbility();
+     abilityHub.end(); // statistiche del round + card spenta sui telefoni
+     window.removeEventListener('resize', this.onResize);
+--- a/src/minigames/kart-race/cameraHud.ts
++++ b/src/minigames/kart-race/cameraHud.ts
+@@ -128,21 +128,27 @@
+     const rig = this.rigs.get(playerId);
+     if (!rig) return;
+ 
++    if(spline.suspended)rig.camera.maxZ=16000;
+     const tangent = spline.tangentAt(state.distance);
+     const right = spline.rightAt(state.distance);
+     const cameraHeading=state.heading*(state.flight==='GLIDE'?.6:1);
+     const forward = tangent.scale(Math.cos(cameraHeading)).add(right.scale(Math.sin(cameraHeading))).normalize();
++    // The short gap crosses a nearly vertical part of the imported centreline.
++    // Keep the airborne chase offset horizontal so it cannot collapse into the kart.
++    if(state.flight==='GLIDE')forward.set(Math.sin(spline.tangentAngleAt(state.distance)+cameraHeading),0,Math.cos(spline.tangentAngleAt(state.distance)+cameraHeading));
+     const kartPos = spline.worldPoint(state.distance, state.lateral, 0.1);
+     kartPos.y+=state.jumpHeight;
+ 
+     const approach=spline.suspended&&state.flight==='DRIVE'&&!spline.hasRoadAt(state.distance+18);
+     rig.glide+=((state.flight==='GLIDE'?1:approach?.22:0)-rig.glide)*(1-Math.exp(-dt*3));
+     const speedFrac = Math.max(0, Math.min(1, state.speed / MAX_SPEED));
+-    const boosting = state.boostTimer > 0;
++    const boosting = state.boostTimer > 0||state.lightMode;
+ 
+ 
+     rig.fovKick = Math.max(0, rig.fovKick - dt * 2.2);
+-    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1 + rig.fovKick * 0.9 + rig.glide*3)).add(new Vector3(0, CAM_UP + rig.glide*2 + Math.max(0,Math.min(.75,state.jumpHeight*.25)) + Math.max(0,tangent.y)*2, 0));
++    const longGlide=state.glideEnd-state.glideStart>100;
++    // The short gap climbs sharply: an elevated, wider shot shows both kart and deck.
++    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1 + rig.fovKick * 0.9 + rig.glide*(longGlide?3:5.5))).add(new Vector3(0, CAM_UP + rig.glide*(longGlide?2.3:8.5) + Math.max(0,Math.min(.75,state.jumpHeight*.25)) + Math.max(0,tangent.y)*2, 0));
+     // in derapata la camera scivola appena verso l'esterno della curva: si sente il kart di traverso (sterzo invariato)
+     rig.driftOff += ((state.drifting ? -state.driftDir * 0.45 : 0) - rig.driftOff) * Math.min(1, dt * 4);
+     const anticipate = right.scale(state.heading * 2.2 + rig.driftOff);
+@@ -153,6 +159,8 @@
+       const ahead=Math.max(state.distance+8,Math.min(state.distance+58,state.glideEnd));
+       const guide=spline.worldPoint(ahead,state.lateral,1);guide.y+=spline.flightHeightAt(ahead)*.5;
+       desiredLook.copyFrom(Vector3.Lerp(desiredLook,guide,rig.glide*.38));
++      // Keep the player's kart in frame while still showing the raised landing.
++      desiredLook.y=Math.max(kartPos.y-4,Math.min(kartPos.y+(longGlide?2:4),desiredLook.y));
+     }
+     if(state.flight==='FALL')desiredLook.copyFrom(kartPos.add(forward.scale(6)).add(new Vector3(0,.8,0)));
+     if(state.jumpHeight>.15)desiredLook.y-=Math.min(.6,state.jumpHeight*.2);
+@@ -164,7 +172,7 @@
+ 
+     // Espansione FOV con la velocità ridotta (era 0.22 + 0.18 in boost): l'effetto velocità resta ma non
+     // amplifica più la sensazione di "troppo veloce".
+-    const targetFov = CAM_BASE_FOV + speedFrac * 0.14 + (boosting ? 0.1 : 0);
++    const targetFov = CAM_BASE_FOV + speedFrac * 0.14 + (boosting ? 0.1 : 0) + (!longGlide?rig.glide*.18:0);
+     rig.smoothFov = rig.smoothFov + (targetFov - rig.smoothFov) * Math.min(1, dt * 5);
+ 
+     const stunned = state.stunTimer > 0;
+@@ -615,7 +623,7 @@
+ 
+   setAbilityButton(id:PlayerId,label:string):void {const e=this.entries.get(id);if(e)e.abilityButton=label;}
+ 
+-  setSector(id:PlayerId,label:string,time:number):void {const e=this.entries.get(id);if(e)e.sector.text=`${label} · ${Math.floor(time/60)}:${String(Math.floor(time)%60).padStart(2,'0')}`;}
++  setSector(id:PlayerId,label:string,time:number):void {const e=this.entries.get(id);if(e)e.sector.text=label?`${label} · ${Math.floor(time/60)}:${String(Math.floor(time)%60).padStart(2,'0')}`:'';}
+ 
+   /** Il gioco pubblica lo stato dell'abilita' del giocatore (da AbilityHub). */
+   setAbility(playerId: PlayerId, status: AbilityStatus): void {
+@@ -626,6 +634,10 @@
+   update(playerId: PlayerId, state: KartState, total: number, laps: number, driftT: [number, number, number], dt: number): void {
+     const e = this.entries.get(playerId);
+     if (!e) return;
++    const compact=state.flight==='GLIDE';
++    e.panel.height=compact?'180px':'208px';e.posText.top=compact?'-59px':'-70px';e.posText.fontSize=compact?32:40;
++    e.lapText.top=compact?'-27px':'-34px';e.itemText.top=compact?'-4px':'-8px';
++    e.abilityLabel.top=compact?'39px':'50px';e.abilityBar.top=compact?'72px':'86px';e.debtText.top=compact?'74px':'89px';
+     e.posText.text = ordinal(state.placement || 1) + `/${total}`;
+     e.lapText.text = `GIRO ${Math.min(state.lap + 1, laps)}/${laps}`;
+     e.itemText.text = state.heldItem ? itemLabel(state.heldItem) : activeItemLabel(state);
+@@ -644,7 +656,7 @@
+     e.abilityBar.isVisible = hasMeter;
+     e.abilityLabel.isVisible = st !== null;
+     if (st) {
+-      const color = st.state === 'READY' ? '#4ade80' : st.state === 'ACTIVE' ? '#facc15' : st.state === 'CHARGING' ? '#c4b5fd' : '#6b7280';
++      const color = st.state === 'READY' ? '#4ade80' : st.state === 'ACTIVE' ? '#facc15' : st.state === 'CHARGING'||st.state==='COOLDOWN' ? '#c4b5fd' : '#6b7280';
+       const name=abilityFor('kart3d',state.characterId)?.name??'ABILITÀ';
+       const label=st.state==='READY'?'PRONTA':stateLabel(st);
+       e.abilityLabel.text = `${name}\n${e.abilityButton} · ${label}${st.charges!==undefined?' · '+st.charges+' usi':''}`;
+@@ -672,7 +684,7 @@
+     // linee di velocita': scorrono dai bordi verso l'esterno finche' dura il boost, poi sfumano
+     const boosting = state.boostTimer > 0;
+     e.boostLabel.color=state.flight==='GLIDE'?(Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'#8affbe':'#ffc078'):'#63fff0';
+-    e.boostLabel.text=state.flight==='FALL'?'RECUPERO AL CHECKPOINT':state.flight==='GLIDE'?`PLANATA · ${Math.max(0,Math.ceil(state.glideEnd-state.distance))} m · ${Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'IN LINEA':'CORREGGI'}`:boosting?`TURBO  ${state.boostTimer.toFixed(1)} s`:state.jumpHeight>.15?`IN VOLO  ${state.jumpHeight.toFixed(1)} m`:state.drifting?`MINI-TURBO ${driftLevelOf(state.driftCharge)}/3`:"";
++    e.boostLabel.text=state.flight==='FALL'?'RECUPERO AL CHECKPOINT':state.flight==='GLIDE'?`${Math.max(0,Math.ceil(state.glideEnd-state.distance))} m · ${Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'IN LINEA':'CORREGGI'}`:boosting?`TURBO  ${state.boostTimer.toFixed(1)} s`:state.jumpHeight>.15?`IN VOLO  ${state.jumpHeight.toFixed(1)} m`:state.drifting?`MINI-TURBO ${driftLevelOf(state.driftCharge)}/3`:"";
+     e.speedT += dt * (boosting ? 3.2 : 0);
+     for (let i = 0; i < e.speedLines.length; i++) {
+       const l = e.speedLines[i];
+--- a/src/minigames/kart-race/glideDynamics.ts
++++ b/src/minigames/kart-race/glideDynamics.ts
+@@ -13,10 +13,22 @@
+ /** Predict the lateral touchdown if steering is released now. Includes residual
+  * yaw and contact impulses; it is information, never an aim/position assist. */
+ export function predictGlideLanding(k:KartState):number {
+-  const time=Math.max(0,(k.glideEnd-k.distance)/Math.max(20,k.speed*Math.cos(k.heading)));
+-  const w=GLIDE.frequency,e=Math.exp(-w*time),yaw=k.heading,rate=k.glideYawVelocity;
+-  const integral=yaw*(1-e)/w+(w*yaw+rate)*(1-(1+w*time)*e)/(w*w);
+-  // Oil retains its reduced lateral grip; do not display a dry-road forecast for it.
+-  const decay=Math.max(.6,4.5-Math.min(1,k.oilTimer/.4)*3.9);
+-  return k.lateral+k.speed*integral+k.slipVelocity*(1-Math.exp(-decay*time))/decay;
++  if(Math.abs(k.heading)+Math.abs(k.glideYawVelocity)+Math.abs(k.slipVelocity)<1e-5)return k.lateral;
++  const remaining=Math.max(0,k.glideEnd-k.distance),w=GLIDE.frequency;
++  let speed=k.speed,forward=0,lateral=k.lateral,slip=k.slipVelocity,time=0;
++  const dt=Math.max(.004,Math.min(.16,remaining/Math.max(24,speed)/48));
++  // Bounded cheap integration includes cruise/boost decay and the active light mode.
++  // Steering is assumed released; new input or a later collision changes the forecast.
++  for(let i=0;i<96&&forward<remaining;i++){
++    const mid=time+dt*.5,e=Math.exp(-w*mid),yaw=(k.heading+(k.glideYawVelocity+w*k.heading)*mid)*e,previousSpeed=speed;
++    const light=k.lightMode&&time<k.abilityTimer;
++    speed+=(44*(light?k.abilitySpeedFactor:1)-speed)*Math.min(1,dt*.55*(light?k.accelMultiplier:1));
++    if(time<k.boostTimer)speed=Math.min(44*(1+.0075*k.boostPower),speed+45*dt);
++    const cap=Math.max(44*(light?k.abilitySpeedFactor:1),time<k.boostTimer?44*(1+.0075*k.boostPower):0)*(time<k.speedCapTimer?k.speedCapMultiplier:1);
++    if(speed>cap)speed=Math.max(cap,speed-60*dt);
++    const average=(previousSpeed+speed)*.5,rate=Math.max(1,average*Math.cos(yaw)),step=Math.min(dt,(remaining-forward)/rate);
++    const oil=Math.max(0,k.oilTimer-time);slip*=Math.exp(-(4.5-Math.min(1,oil/.4)*3.9)*step);time+=step;
++    lateral+=(average*Math.sin(yaw)+slip)*step;forward+=rate*step;
++  }
++  return lateral;
+ }
+--- a/src/minigames/kart-race/items.ts
++++ b/src/minigames/kart-race/items.ts
+@@ -414,17 +414,14 @@
+    * a Ciro (PAGO DOPO) la possibilità di rimandarlo invece di subirlo subito.
+    */
+   private applyEffect(k: KartState, effect: { stun?: number; disturb?: number; oil?:number; bounce?:number }): boolean {
+-    if (k.invulnTimer > 0) return false;
+-    if (k.shielded) {
+-      k.shielded = false;
+-      return false;
+-    }
++    if(this.abilities.blockHit(k,f=>this.onFeedback(k.playerId,f)))return false;
+     if (this.abilities.tryDelayHit(k, effect, (f) => this.onFeedback(k.playerId, f))) return false;
++    const previousSpeed=k.speed;
+     if (effect.stun) hitKart(k, effect.stun);
+     if (effect.disturb) k.disturbTimer = Math.max(k.disturbTimer, effect.disturb);
+     if (effect.oil) k.oilTimer = Math.max(k.oilTimer, effect.oil);
+     if (effect.bounce) k.jumpVelocity = Math.max(k.jumpVelocity,effect.bounce);
+-    this.abilities.noteHit(k, effect); // Ciro: subito dopo il colpo puo' ancora premere ABILITA' e trasformarlo in debito
++    this.abilities.noteHit(k, effect,previousSpeed); // Ciro: subito dopo il colpo puo' ancora premere ABILITA' e trasformarlo in debito
+     return true;
+   }
+ 
+--- a/src/minigames/kart-race/kartCollisions.ts
++++ b/src/minigames/kart-race/kartCollisions.ts
+@@ -22,7 +22,7 @@
+  if(k.truckMode)return; // identità dell'abilità esistente: il camion non perde velocità negli urti.
+  const deltaSpeed=clamp(dot(impulse,b.t)/Math.max(.31,Math.cos(k.heading)),-18,18);
+  k.speed=clamp(k.speed+deltaSpeed,-18,80);
+- k.slipVelocity=clamp(k.slipVelocity+dot(impulse,b.trackRight)-deltaSpeed*Math.sin(k.heading),-14,14);
++ k.slipVelocity=clamp(k.slipVelocity+(dot(impulse,b.trackRight)-deltaSpeed*Math.sin(k.heading))*(k.stabilityTimer>0?.35:1),-14,14);
+ }
+ 
+ /** SAT di quattro assi sul volume reale orientato; nessun impulso se il contatto non si sta chiudendo. */
+@@ -39,7 +39,7 @@
+   if(overlap<depth){depth=overlap;const sign=dot(delta,axis)<0?-1:1;normal={x:axis.x*sign,z:axis.z*sign};}
+  }
+  const aTruck=a.truckMode&&!b.truckMode,bTruck=b.truckMode&&!a.truckMode;
+-  const aShare=aTruck ? .08 : bTruck ? .92 : a.lightMode && !b.lightMode ? .88 : b.lightMode && !a.lightMode ? .12 : a.bumperTimer>0&&b.bumperTimer<=0 ? .3 : b.bumperTimer>0&&a.bumperTimer<=0 ? .7 : .5;
++  const aShare=aTruck ? .08 : bTruck ? .92 : a.lightMode && !b.lightMode ? .7 : b.lightMode && !a.lightMode ? .3 : a.bumperTimer>0&&b.bumperTimer<=0 ? .3 : b.bumperTimer>0&&a.bumperTimer<=0 ? .7 : .5;
+  const correction=Math.min(depth+.002,1.5);
+  a.distance=Math.max(MIN_RACE_DISTANCE,a.distance-dot(normal,ba.t)*correction*aShare);
+  a.lateral-=dot(normal,ba.trackRight)*correction*aShare;
+@@ -48,7 +48,7 @@
+  const va=velocity(a,ba),vb=velocity(b,bb);
+  const closing=Math.max(0,-dot({x:vb.x-va.x,z:vb.z-va.z},normal));
+  if(closing>.1){
+-  const invA=a.truckMode?0:a.lightMode?7.333:a.bumperTimer>0?.5:1,invB=b.truckMode?0:b.lightMode?7.333:b.bumperTimer>0?.5:1;
++  const invA=a.truckMode?0:a.lightMode?2.4:a.bumperTimer>0?.5:1,invB=b.truckMode?0:b.lightMode?2.4:b.bumperTimer>0?.5:1;
+   const impulse=(1+(a.bumperTimer>0||b.bumperTimer>0?.22:.12))*closing/Math.max(1,invA+invB);
+   addImpulse(a,ba,{x:-normal.x*impulse*invA,z:-normal.z*impulse*invA});
+   addImpulse(b,bb,{x:normal.x*impulse*invB,z:normal.z*impulse*invB});
+--- a/src/minigames/kart-race/kartEntity.ts
++++ b/src/minigames/kart-race/kartEntity.ts
+@@ -503,6 +503,12 @@
+ 
+     const tangent = spline.tangentAt(state.distance);
+     const right = spline.rightAt(state.distance);
++    // Wings carry the kart level through the gap; the road's steep hidden
++    // interpolation must not rotate the airborne body upright.
++    if(state.flight==='GLIDE'){
++      const yaw=spline.tangentAngleAt(state.distance);
++      tangent.set(Math.sin(yaw),0,Math.cos(yaw));right.set(Math.cos(yaw),0,-Math.sin(yaw));
++    }
+     const cosH = Math.cos(state.heading);
+     const sinH = Math.sin(state.heading);
+     const forward = tangent.scale(cosH).add(right.scale(sinH)).normalize();
+@@ -544,14 +550,16 @@
+       const lamp = level > 0 ? DRIFT_LEVEL_COLORS[level] : [0.35, 0.02, 0.02];
+       this.tailMat.emissiveColor.set(lamp[0], lamp[1], lamp[2]);
+     }
+-    this.boostFx.emitRate = state.boostTimer > 0 ? 70 : 0;
+-    for(const streak of this.boostStreaks){streak.isVisible=state.boostTimer>0;streak.scaling.y=.8+Math.sin(now*.06)*.15;}
++    this.boostFx.emitRate = state.boostTimer > 0 ? 70 : state.lightMode?36:0;
++    const abilityColor=state.characterId==='goblin'?[.3,1,.5]:state.characterId==='dottore'?[.2,.8,1]:[1,.65,.2];
++    this.boostFx.color1.set(abilityColor[0],abilityColor[1],abilityColor[2],.9);
++    for(const streak of this.boostStreaks){streak.isVisible=state.boostTimer>0||state.lightMode;streak.scaling.y=(state.abilityActive?1.35:.8)+Math.sin(now*.06)*.15;}
+     this.dustFx.emitRate = state.offRoad && Math.abs(state.speed) > 8 ? 30 : 0;
+ 
+     this.engine.update(speedFrac, state.boostTimer > 0, throttle, state.drifting ? Math.min(1, 0.45 + state.driftCharge * 0.5) : 0);
+-    this.itemHalo.isVisible=state.shielded||state.disturbTimer>0||state.debtPending;
++    this.itemHalo.isVisible=state.shielded||state.disturbTimer>0||state.debtPending||state.truckMode||state.stabilityTimer>0;
+     this.itemHalo.rotation.x=state.shielded?.22:Math.sin(now*.008)*.45;this.itemHalo.rotation.z=state.disturbTimer>0?now*.004:0;
+-    this.haloMat.emissiveColor=Color3.FromHexString(state.shielded?'#56d9ff':state.disturbTimer>0?'#ffcf51':'#c796ff');
++    this.haloMat.emissiveColor=Color3.FromHexString(state.truckMode?'#ffd166':state.stabilityTimer>0?'#ff9c56':state.shielded?'#56d9ff':state.disturbTimer>0?'#ffcf51':'#c796ff');
+     this.updateDriver(state);
+   }
+ 
+--- a/src/minigames/kart-race/kartPhysics.ts
++++ b/src/minigames/kart-race/kartPhysics.ts
+@@ -170,8 +170,8 @@
+ 
+   if (surface.air) {
+     // Lift sustains forward inertia even after a hit; braking trims speed but cannot reverse in flight.
+-    const target = down ? 28 : 44;
+-    k.speed += (target-k.speed)*Math.min(1,dt*(stunned?.22:.55));
++    const target = down ? 28 : 44*k.abilitySpeedFactor;
++    k.speed += (target-k.speed)*Math.min(1,dt*(stunned?.22:.55*k.accelMultiplier));
+     k.speed=Math.max(24,k.speed);
+   } else if (up) {
+     // Curva di accelerazione arcade: parte pronta, si assottiglia avvicinandosi
+@@ -206,7 +206,7 @@
+   const half = halfWidthAt(k.distance);
+   k.offRoad = !surface.air && Math.abs(k.lateral) > half;
+   const centerRate = surface.grip * (k.offRoad ? C.centerRateOffRoad : C.centerRateOnRoad) * (1 - oil * .8);
+-  const roadCap = Math.max(C.maxSpeed * surface.speed, boostCap);
++  const roadCap = Math.max(C.maxSpeed * surface.speed*k.abilitySpeedFactor, boostCap);
+   const maxSpeed = (k.offRoad ? C.maxSpeed * C.offroadSpeedFactor : roadCap) * k.speedCapMultiplier;
+   if (C.boostSpeedGain > 0 && !k.offRoad && k.speed > maxSpeed) {
+     // Boost finito: atterraggio morbido sul tetto normale.
+@@ -362,7 +362,8 @@
+     return false;
+   }
+   if (k.invulnTimer > 0) return false;
+-  k.stunTimer = Math.max(k.stunTimer, stunDur);
++  k.stunTimer = Math.max(k.stunTimer, Math.min(1.6,stunDur));
++  k.invulnTimer=Math.max(k.invulnTimer,Math.min(1.6,stunDur)+.5);
+   k.speed *= 0.35;
+   if (k.drifting) {
+     k.drifting = false;
+--- a/src/minigames/kart-race/raceTypes.ts
++++ b/src/minigames/kart-race/raceTypes.ts
+@@ -64,8 +64,14 @@
+   wheelSpin: number; // angolo accumulato di rotolamento ruote (rad)
+ 
+   // --- Sistema abilità personaggio (una gimmick unica per personaggio, non bonus statistici) ---
++  abilityCooldown:number;
++  abilityArmor:number;
++  stabilityTimer:number;
++  abilitySpeedFactor:number;
++  refundSpeed:number;
++  fallReason?:string;
+   abilityMeter: number; // 0..1, si riempie giocando bene: drift puliti, sorpassi, item evitati, checkpoint puliti
+-  abilityCharges: number; // Buttafuori/Ciro: 1 carica fissa per gara, NON si ricarica col meter
++  abilityCharges: number; // Buttafuori/Ciro: una carica ricaricabile a tempo, senza meter
+   abilityActive: boolean; // finestra generica attiva (Goblin "SO GUIDARE IO", Dottore "20 KG IN UN MESE")
+   abilityTimer: number; // durata residua della finestra attiva
+   lastAbilityPressAt: number; // raceTime dell'ultima pressione del tasto ABILITÀ (usato da Ciro)
+@@ -151,6 +157,7 @@
+     lastValidCheckpointS: 0,
+     steerVisual: 0,
+     wheelSpin: 0,
++    abilityCooldown:0,abilityArmor:0,stabilityTimer:0,abilitySpeedFactor:1,refundSpeed:0,
+     abilityMeter: 0,
+     abilityCharges: characterId === 'ciro' || characterId === 'buttafuori' ? 1 : 0,
+     abilityActive: false,
+--- a/src/minigames/kart-race/rainbowTrack.ts
++++ b/src/minigames/kart-race/rainbowTrack.ts
+@@ -70,10 +70,11 @@
+     if(k.distance>=k.glideEnd){
+       if(Math.abs(k.lateral)<=track.widthAt(k.distance)/2-1.15){
+         k.flight='DRIVE';k.glideLanding=GLIDE.landingTime;k.glideYawVelocity=0;k.jumpHeight=k.jumpVelocity=0;k.slipVelocity*=.5;k.drifting=false;k.driftCharge=0;onEvent('land');
+-      }else fall();
+-    }else if(Math.abs(k.lateral)>23||k.flightTime>25)fall();
+-  }else if(Math.abs(k.lateral)>track.widthAt(k.distance)/2+.4)fall();
+-  function fall(){
++      }else fall('atterraggio fuori piattaforma');
++    }else if(Math.abs(k.lateral)>23||k.flightTime>25)fall(Math.abs(k.lateral)>23?'uscita dal corridoio aereo':'limite planata');
++  }else if(Math.abs(k.lateral)>track.widthAt(k.distance)/2+.4)fall('bordo strada');
++  function fall(reason:string){
++    k.fallReason=reason;
+     k.flight='FALL';k.flightTime=0;k.jumpVelocity=Math.min(-2,k.jumpVelocity);k.drifting=false;k.driftCharge=0;k.offRoad=true;
+     // Delay checkpoint/rank advancement until recovered; the visible drop precedes the normal penalty.
+     onEvent('fall');
+--- a/src/minigames/kart-race/rainbowWorld.ts
++++ b/src/minigames/kart-race/rainbowWorld.ts
+@@ -1,3 +1,4 @@
++import {buildRainbowCosmos} from './rainbowCosmos';
+ import {predictGlideLanding} from './glideDynamics';
+ import type {KartState} from './raceTypes';
+ import {Color3,Color4,DirectionalLight,HemisphericLight,Mesh,MeshBuilder,Scene,SceneLoader,StandardMaterial,TransformNode,Vector3,DynamicTexture,VertexData} from '@babylonjs/core';
+@@ -6,6 +7,7 @@
+ import {RainbowTrack,RAINBOW_SCALE} from './rainbowTrack';
+ 
+ export function buildRainbowWorld(scene:Scene,track:RainbowTrack):KartWorld {
++  const cosmos=buildRainbowCosmos(scene);
+   scene.clearColor=new Color4(.025,.018,.085,1);scene.ambientColor=new Color3(.3,.32,.45);
+   const sky=new HemisphericLight('rainbowSky',Vector3.Up(),scene);sky.intensity=.8;sky.groundColor=new Color3(.2,.15,.35);
+   const sun=new DirectionalLight('rainbowSun',new Vector3(-.4,-1,.3),scene);sun.intensity=1.05;
+@@ -27,20 +29,20 @@
+       const upright=MeshBuilder.CreateBox('landingFrame',{width:.18,height:5.4,depth:.18},scene);upright.position.copyFrom(track.worldPoint(gap.landing+3,side*7.3,2.7));parts.push(upright);
+       const cap=MeshBuilder.CreateBox('landingFrameCorner',{width:2.2,height:.18,depth:.18},scene);cap.position.copyFrom(track.worldPoint(gap.landing+3,side*6.3,5.3));cap.rotation.y=track.tangentAngleAt(gap.landing+3);parts.push(cap);
+     }
+-    // Air guide rings are sparse, non-colliding and never cover the landing surface.
+-    const count=gap.landing-gap.launch>100?5:1;
+-    for(let i=1;i<=count;i++){
++    // Sparse side chevrons: the flight corridor remains open in every viewport.
++    const count=gap.landing-gap.launch>100?3:1;
++    for(let i=1;i<=count;i++)for(const side of [-1,1]){
+       const s=gap.launch+(gap.landing-gap.launch)*i/(count+1);
+-      const ring=MeshBuilder.CreateTorus('glideGuide',{diameter:20,thickness:.14,tessellation:32},scene);
+-      ring.position.copyFrom(track.worldPoint(s,0,track.flightHeightAt(s)+2));ring.rotation.x=Math.PI/2;ring.rotation.y=track.tangentAngleAt(s);parts.push(ring);
++      const path=[track.worldPoint(s-1,side*7,track.flightHeightAt(s)+1.5),track.worldPoint(s,side*6.4,track.flightHeightAt(s)+2),track.worldPoint(s+1,side*7,track.flightHeightAt(s)+1.5)];
++      parts.push(MeshBuilder.CreateTube('glideEdgeChevron',{path,radius:.065,tessellation:4},scene));
+     }
+     const tex=new DynamicTexture('glideInstruction',{width:1024,height:256},scene,false);const c=tex.getContext() as CanvasRenderingContext2D;
+-    c.fillStyle='#101432';c.fillRect(0,0,1024,256);c.fillStyle='#6cfff1';c.font='bold 64px Arial';c.textAlign='center';c.fillText('DECOLLO AUTOMATICO',512,90);c.fillStyle='#ffffff';c.font='40px Arial';c.fillText('STERZA · VERDE = ATTERRI',512,170);tex.update();
++    c.fillStyle='#101432';c.fillRect(0,0,1024,256);c.fillStyle='#6cfff1';c.font='bold 64px Arial';c.textAlign='center';c.fillText(gap.landing-gap.launch>100?'VOLO STELLARE':'SALTO AURORA',512,90);c.fillStyle='#ffffff';c.font='40px Arial';c.fillText('STERZA · VERDE = ATTERRI',512,170);tex.update();
+     const signMat=new StandardMaterial('glideSign',scene);signMat.diffuseTexture=tex;signMat.emissiveTexture=tex;signMat.disableLighting=true;signMat.backFaceCulling=false;
+     const sign=MeshBuilder.CreatePlane('glideSign',{width:13,height:3.25},scene);sign.position.copyFrom(track.worldPoint(gap.launch-24,10,5));sign.rotation.y=track.tangentAngleAt(gap.launch-24);sign.material=signMat;sign.isPickable=false;
+   }
+   const merged=Mesh.MergeMeshes(parts,true,true,undefined,false);if(merged){merged.material=mat;merged.isPickable=false;merged.freezeWorldMatrix();}
+-  return {sun,update:()=>{}};
++  return {sun,update:time=>cosmos.update(time)};
+ }
+ 
+ /** Default LH glTF loader converts original XY/Z-up to Babylon XZ/Y-up. */
+@@ -51,7 +53,7 @@
+   const roots=result.meshes.filter(m=>!m.parent);for(const root of roots)root.parent=anchor;
+   // Replace the large opaque star billboard with the sparse original guide rings:
+   // at chase-camera height it obscures the landing platform.
+-  for(const mesh of result.meshes)if(mesh.material?.name.startsWith('M_StarRing'))mesh.setEnabled(false);
++  for(const mesh of result.meshes)if(mesh.material?.name.startsWith('M_StarRing')||mesh.material?.name.startsWith('M_Sfcmc_VR'))mesh.setEnabled(false);
+   const probes=Array.from({length:Math.ceil(track.totalLength/2)},(_,i)=>({s:i*2,p:track.positionAt(i*2),r:track.rightAt(i*2)}));
+   for(const mesh of result.meshes){
+     if(!mesh.material?.name.startsWith('Nila_1'))continue;
+@@ -76,7 +78,7 @@
+     }
+     mesh.setVerticesData('uv',uv);
+     const source=mesh.material as unknown as {albedoTexture?:import('@babylonjs/core').Texture;emissiveTexture?:import('@babylonjs/core').Texture};
+-    const road=new StandardMaterial('rainbowRoadTiles',scene);road.diffuseColor=Color3.White();road.specularColor=new Color3(.12,.15,.2);road.emissiveColor=new Color3(.7,.7,.7);
++    const road=new StandardMaterial('rainbowRoadTiles',scene);road.diffuseColor=Color3.White();road.specularColor=new Color3(.32,.38,.46);road.specularPower=48;road.emissiveColor=new Color3(.48,.5,.57);
+     for(const [key,texture]of [['diffuseTexture',source.albedoTexture],['emissiveTexture',source.emissiveTexture]] as const){
+       if(!texture)continue;const t=texture.clone();if(!t)continue;t.uScale=t.vScale=1;t.uOffset=t.vOffset=t.wAng=0;t.uRotationCenter=t.vRotationCenter=0;t.anisotropicFilteringLevel=4;road[key]=t;
+     }
+@@ -91,6 +93,7 @@
+       material=new StandardMaterial(original.name+'_arcade',scene);material.diffuseColor=source.albedoColor.clone();material.diffuseTexture=source.albedoTexture??null;material.specularColor=new Color3(.06,.06,.08);
+       material.emissiveTexture=source.emissiveTexture??null;material.emissiveColor=source.emissiveColor.clone();material.backFaceCulling=false;
+       if(original.name.startsWith('M_Sfcmc_VR')){material.disableLighting=true;material.emissiveTexture=source.albedoTexture??null;material.emissiveColor=new Color3(.65,.72,.85);}
++      if(original.name.includes('Gold')||original.name.startsWith('Nila_2')){material.specularColor=new Color3(.65,.42,.16);material.specularPower=48;material.emissiveColor=new Color3(.12,.07,.015);}
+       converted.set(original,material);
+     }
+     mesh.material=material;
+@@ -101,8 +104,15 @@
+ 
+ /** Swept foils and fading tip trails: one mesh per side, reused for the whole race. */
+ export class GlideWings {
+-  private wings:Mesh[]=[];private open=0;private time=0;
++  private wings:Mesh[]=[];private supports:Mesh;private open=0;private time=0;
+   constructor(scene:Scene,parent:TransformNode,color:string){
++    const supports:Mesh[]=[];
++    for(const side of [-1,1]){
++      const strut=MeshBuilder.CreateCylinder('glideStrut',{height:.86,diameter:.09,tessellation:6},scene);strut.position.set(side*.72,1.55,-.72);strut.rotation.z=-side*.45;supports.push(strut);
++      const hinge=MeshBuilder.CreateCylinder('glideHinge',{height:.22,diameter:.24,tessellation:8},scene);hinge.position.set(side*.9,1.93,-.72);hinge.rotation.z=Math.PI/2;supports.push(hinge);
++    }
++    this.supports=Mesh.MergeMeshes(supports,true,true)!;this.supports.name='glideMechanicalSupports';this.supports.parent=parent;this.supports.isPickable=false;
++    const metal=new StandardMaterial('glideMountMetal',scene);metal.diffuseColor=new Color3(.19,.26,.34);metal.specularColor=new Color3(.55,.7,.85);this.supports.material=metal;this.supports.setEnabled(false);
+     const mat=new StandardMaterial('glideFoil',scene);mat.diffuseColor=Color3.FromHexString(color);mat.emissiveColor=new Color3(.16,.46,.58);mat.specularColor=new Color3(.7,.9,1);mat.backFaceCulling=false;
+     for(const side of [-1,1]){
+       const wing=new Mesh('glideWing',scene),data=new VertexData();
+@@ -115,12 +125,13 @@
+       if(side>0)for(let i=0;i<indices.length;i+=3)[indices[i+1],indices[i+2]]=[indices[i+2],indices[i+1]];
+       for(let i=0;i<13;i++)colors.push(1,1,1,i===7||i===8||i===11||i===12?0:i>=5?.6:.94);
+       VertexData.ComputeNormals(positions,indices,normals);data.positions=positions;data.indices=indices;data.normals=normals;data.colors=colors;data.applyToMesh(wing);wing.hasVertexAlpha=true;
+-      wing.parent=parent;wing.position.set(side*1.1,2.05,-.85);wing.material=mat;wing.isPickable=false;wing.setEnabled(false);this.wings.push(wing);
++      wing.parent=parent;wing.position.set(side*.95,1.98,-.85);wing.material=mat;wing.isPickable=false;wing.setEnabled(false);this.wings.push(wing);
+     }
+   }
+   update(dt:number,gliding:boolean,steer:number):void {
+     this.time+=dt;this.open+=(Number(gliding)-this.open)*(1-Math.exp(-dt*11));
+-    this.wings.forEach((wing,i)=>{const side=i?1:-1;wing.setEnabled(this.open>.015);wing.scaling.x=Math.max(.01,this.open);wing.rotation.z=side*(1-this.open)*1.3-steer*.11+Math.sin(this.time*5)*.012*this.open;wing.position.y=2.05+Math.sin(this.open*Math.PI)*.12;});
++    this.supports.setEnabled(this.open>.015);
++    this.wings.forEach((wing,i)=>{const side=i?1:-1;wing.setEnabled(this.open>.015);wing.scaling.x=Math.max(.01,this.open);wing.rotation.z=side*(1-this.open)*1.3-steer*.11+Math.sin(this.time*5)*.012*this.open;wing.position.y=1.98+Math.sin(this.open*Math.PI)*.12;});
+   }
+ }
+ 
+@@ -128,8 +139,8 @@
+ export class GlideLandingGuide {
+   private mesh:Mesh;private material:StandardMaterial;
+   constructor(scene:Scene,layerMask:number){
+-    const circle=MeshBuilder.CreateTorus('landingPredictionRing',{diameter:2.4,thickness:.075,tessellation:24},scene),parts=[circle];
+-    const pin=MeshBuilder.CreateTorus('landingPredictionPin',{diameter:1.6,thickness:.06,tessellation:20},scene);pin.rotation.x=Math.PI/2;pin.position.y=1.6;parts.push(pin);
++    const circle=MeshBuilder.CreateTorus('landingPredictionRing',{diameter:1.8,thickness:.06,tessellation:24},scene),parts=[circle];
++    const pin=MeshBuilder.CreateTorus('landingPredictionPin',{diameter:1.05,thickness:.045,tessellation:20},scene);pin.rotation.x=Math.PI/2;pin.position.y=1.1;parts.push(pin);
+     const stem=MeshBuilder.CreateCylinder('landingPredictionStem',{height:.8,diameter:.045,tessellation:6},scene);stem.position.y=.4;parts.push(stem);
+     for(const side of [-1,1]){const arrow=MeshBuilder.CreateBox('landingPredictionArrow',{width:.09,height:.04,depth:.95},scene);arrow.position.set(side*.26,0,.4);arrow.rotation.y=side*.6;parts.push(arrow);}
+     this.mesh=Mesh.MergeMeshes(parts,true,true)!;this.mesh.name='glideLandingPrediction';this.mesh.layerMask=layerMask;this.mesh.isPickable=false;
+--- a/shared/abilityCatalog.ts
++++ b/shared/abilityCatalog.ts
+@@ -416,10 +416,10 @@
+       kind: 'ACTIVE_TIMING',
+       impact: 'HIGH',
+       charges: 0,
+-      cooldown: 0,
+-      limit: 'a barra piena',
+-      p: { duration: 6, driftMult: 1.6 },
+-      short: 'Drift perfetti = turbo più forti, finché non sbatti.',
++      cooldown: 18,
++      limit: 'barra piena e ricarica completata',
++      p: { duration: 6, driftMult: 1.6, kick:32, kickTime:2.2 },
++      short: 'Scatto potente e drift potenziati. Evita gli urti.',
+       full: ''
+     })
+   ),
+@@ -431,10 +431,10 @@
+       kind: 'REACTIVE',
+       impact: 'HIGH',
+       charges: 1,
+-      cooldown: 0,
+-      limit: '1 uso a gara',
+-      p: { window: 1.2, severeStun: 1, boost: 20, boostTime: 0.9 },
+-      short: 'Dopo uno schianto: premi e torni subito in pista.',
++      cooldown: 26,
++      limit: 'una carica, si ricarica in 26 s',
++      p: { window: 2, severeStun: 1, boost: 28, boostTime: 1.6 },
++      short: 'Dopo un urto riparti sul posto; in caduta torna al checkpoint.',
+       full: ''
+     })
+   ),
+@@ -446,10 +446,10 @@
+       kind: 'RISK_REWARD',
+       impact: 'HIGH',
+       charges: 0,
+-      cooldown: 0,
+-      limit: 'a barra piena',
+-      p: { duration: 5, steer: 0.75, shove: 9, slow: 0.7, slowTime: 1.2 },
+-      short: 'Camion: spingi via chi tocchi, ma sterzi male.',
++      cooldown: 22,
++      limit: 'barra piena e ricarica completata',
++      p: { duration: 5, steer: 0.85, shove: 5, slow: 0.65, slowTime: 1.6 },
++      short: 'Camion corazzato: rallenta chi tocchi, ma sterza più largo.',
+       full: ''
+     })
+   ),
+@@ -461,10 +461,10 @@
+       kind: 'RISK_REWARD',
+       impact: 'HIGH',
+       charges: 0,
+-      cooldown: 0,
+-      limit: 'a barra piena',
+-      p: { duration: 6, accel: 1.35, driftRate: 1.8 },
+-      short: 'Leggerissimo: accelera e drifta, ma voli se ti urtano.',
++      cooldown: 20,
++      limit: 'barra piena e ricarica completata',
++      p: { duration: 6, accel: 1.8, driftRate: 2, topSpeed:1.12 },
++      short: 'Accelerazione forte, +12% al tetto e drift rapidi; fragile agli urti.',
+       full: ''
+     })
+   ),
+@@ -476,19 +476,19 @@
+       kind: 'REACTIVE',
+       impact: 'HIGH',
+       charges: 1,
+-      cooldown: 0,
+-      limit: '1 uso a gara',
+-      p: { before: 0.5, after: 0.6, debt: 4 },
+-      short: 'Rimanda un colpo: lo paghi dopo qualche secondo.',
++      cooldown: 24,
++      limit: 'una carica, si ricarica in 24 s',
++      p: { before: 2, after: 1.2, debt: 8, repayment:.6 },
++      short: 'Rimanda un colpo di 8 s e ne paghi solo il 60%.',
+       full: ''
+     })
+   )
+ };
+-K.goblin.full = `Guida bene (drift puliti, sorpassi) per riempire la barra, poi premi: per ${sec(K.goblin.p.duration)} i mini-turbo dei drift sono ${K.goblin.p.driftMult.toString().replace('.', ',')}× più forti. Se sbatti o esci di pista, l'effetto finisce subito.`;
+-K.buttafuori.full = `Se fai uno schianto grave hai ${sec(K.buttafuori.p.window)} per premere: torni subito in pista con un boost. Se non premi, ti rialzi lentamente come tutti. Una volta a gara.`;
+-K.judoka.full = `Riempi la barra, poi premi: per ${sec(K.judoka.p.duration)} sei un camion. Chi tocchi viene spinto di lato e rallentato, tu non perdi velocità negli urti. Sterzi ${Math.round((1 - K.judoka.p.steer) * 100)}% peggio.`;
+-K.dottore.full = `Riempi la barra, poi premi: per ${sec(K.dottore.p.duration)} accelerazione e drift facilissimi. Ma sei leggerissimo: chi ti urta ti manda lontano.`;
+-K.ciro.full = `Premi appena prima (o subito dopo, entro ${sec(K.ciro.p.after)}) di essere colpito da un oggetto: l'effetto non arriva subito ma dopo ${sec(K.ciro.p.debt)} come DEBITO. Una volta a gara.`;
++K.goblin.full = `Scatto di ${sec(K.goblin.p.kickTime)} (+24% al tetto normale), poi mini-turbo drift ${K.goblin.p.driftMult}× per ${sec(K.goblin.p.duration)}. Un urto interrompe la finestra drift. Ricarica minima ${sec(K.goblin.cooldown)}, barra ricaricata anche guidando.`;
++K.buttafuori.full = `Premi entro ${sec(K.buttafuori.p.window)} da uno schianto: recuperi sul posto con turbo; se cadi torni all'ultimo checkpoint valido. In planata instabile smorzi la deriva, senza ricentrarti. Una carica ogni ${sec(K.buttafuori.cooldown)}.`;
++K.judoka.full = `Per ${sec(K.judoka.p.duration)} sei un camion: assorbi un oggetto, resisti agli urti e rallenti i rivali toccati per ${sec(K.judoka.p.slowTime)}. Sterzo -15%. Ogni bersaglio ha una tregua di 1,8 s. Ricarica minima ${sec(K.judoka.cooldown)}.`;
++K.dottore.full = `Per ${sec(K.dottore.p.duration)}: accelerazione ×1,8, tetto +12% e drift ×2, anche in volo. Gli urti ti spostano di più. Ricarica minima ${sec(K.dottore.cooldown)}.`;
++K.ciro.full = `Arma per ${sec(K.ciro.p.before)} prima del colpo, o premi entro ${sec(K.ciro.p.after)} dopo: riprendi velocità e rimandi l'effetto di ${sec(K.ciro.p.debt)}. Poi paghi il 60%, con una breve tregua dai colpi ripetuti. Una carica ogni ${sec(K.ciro.cooldown)}.`;
+ 
+ // ============================================================================================================================
+ // SPARATORIA DEI DISAGIATI (FPS) — prima abilita' vera: RB era riservato e non faceva niente.
+--- a/src/core/AudioManager.ts
++++ b/src/core/AudioManager.ts
+@@ -545,6 +545,15 @@
+   }
+ 
+   /** Shared SFX bus: mute/pause/disposal do not leave a separate audio loop alive. */
++  kartAbility(kind:'goblin'|'dottore'|'judoka'|'buttafuori'|'ciro'|'block'):void {
++    if(kind==='goblin'){this.sweep('sawtooth',120,680,.38,.045);this.noiseBurst(.25,250,3200,.04);}
++    else if(kind==='dottore'){this.sweep('sine',500,1600,.28,.035);this.sweep('triangle',700,1200,.2,.025,.09);}
++    else if(kind==='judoka'){this.thump(.7);this.sweep('square',90,170,.24,.025);}
++    else if(kind==='buttafuori'){this.sweep('triangle',180,880,.35,.04);this.thump(.5);}
++    else if(kind==='ciro'){this.sweep('sine',850,460,.25,.04);this.sweep('triangle',1100,750,.15,.025,.1);}
++    else {this.sweep('sine',1000,1700,.12,.035);this.noiseBurst(.08,2000,500,.025);}
++  }
++
+   kartGlide(kind:'launch'|'wind'|'land'):void {
+     if(kind==='launch'){this.sweep('sine',340,1180,.3,.045);this.sweep('triangle',620,1450,.16,.018,.08);this.noiseBurst(.24,650,3200,.04);}
+     else if(kind==='land'){this.thump(.65);this.noiseBurst(.09,1800,420,.027);}
+--- a/src/minigames/bots/MotionBots.ts
++++ b/src/minigames/bots/MotionBots.ts
+@@ -127,9 +127,14 @@
+       this.hold(id, 'down', tight && k.speed > 34);
+       this.hold(id, 'drift', !spline.suspended && k.flight==='DRIVE' && Math.abs(turn) > 0.35 && Math.abs(turn) < 0.8 && k.speed > 24 && Math.abs(k.lateral) < 3);
+       if (k.heldItem && this.every(id, 'item', 1, 2)) this.tap(id, 'item');
+-      if (k.recoverWindow > 0 || k.refundTimer > 0) {
++      if (k.abilityCooldown<=0&&k.abilityCharges>0&&(k.recoverWindow > 0 || k.refundTimer > 0||(k.characterId==='buttafuori'&&k.flight==='GLIDE'&&(k.stunTimer>.2||Math.abs(k.lateral)>2.8&&Math.abs(k.slipVelocity)>1)))) {
+         if (this.every(id, 'recover', 0.12, 0.25)) this.tap(id, 'ability');
+-      } else if (k.abilityMeter >= 1) this.ability(id);
++      } else if (k.abilityMeter >= 1&&k.abilityCooldown<=0&&!k.abilityActive) {
++        const ahead=karts.filter(q=>q!==k&&!q.finished&&q.flight===k.flight&&q.distance>=k.distance&&q.distance-k.distance<14&&Math.abs(q.lateral-k.lateral)<3);
++        const stable=Math.abs(k.heading)<.12&&Math.abs(k.lateral)<3&&!tight;
++        const useful=k.characterId==='judoka'?ahead.length>0:k.characterId==='goblin'?stable&&(k.flight==='GLIDE'||spline.hasRoadAt(k.distance+65)):k.characterId==='dottore'?stable&&(k.speed<45||ahead.length>0):false;
++        if(useful&&this.every(id,'kart-ability',.3,.7))this.tap(id,'ability');
++      }
+     }
+   }
+   fps(dt: number, players: FpsActor[]): void {
+--- /dev/null
++++ b/src/minigames/kart-race/rainbowCosmos.ts
+@@ -0,0 +1,35 @@
++import {Color3,DynamicTexture,Mesh,MeshBuilder,Scene,StandardMaterial,Vector3} from '@babylonjs/core';
++
++/** One painted sky draw, one merged near-star layer and three distant planets. No post processing. */
++export function buildRainbowCosmos(scene:Scene):{update:(time:number)=>void} {
++  let seed=9137;const rand=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
++  const texture=new DynamicTexture('cosmicPanorama',{width:2048,height:1024},scene,false);
++  const c=texture.getContext() as CanvasRenderingContext2D;c.fillStyle='#080c27';c.fillRect(0,0,2048,1024);
++  for(let i=0;i<42;i++){
++    const x=rand()*2048,y=200+rand()*580,r=120+rand()*260,g=c.createRadialGradient(x,y,0,x,y,r);
++    g.addColorStop(0,i%3===0?'rgba(58,105,160,.16)':i%3===1?'rgba(106,43,143,.16)':'rgba(31,145,154,.1)');g.addColorStop(1,'rgba(5,8,25,0)');c.fillStyle=g;c.fillRect(x-r,y-r,r*2,r*2);
++  }
++  for(let i=0;i<2600;i++){
++    const x=rand()*2048,y=rand()*1024,r=rand()<.96?.35+rand()*.65:1.4;
++    c.fillStyle=`rgba(${i%3===0?'169,205,255':'239,224,255'},${.2+rand()*.65})`;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();
++  }
++  texture.update();const mat=new StandardMaterial('cosmosSkyMaterial',scene);mat.diffuseTexture=texture;mat.emissiveTexture=texture;mat.emissiveColor=Color3.White();mat.disableLighting=true;mat.backFaceCulling=false;mat.disableDepthWrite=true;mat.freeze();
++  const sky=MeshBuilder.CreateSphere('rainbowCosmosSky',{diameter:12000,segments:24,sideOrientation:Mesh.BACKSIDE},scene);sky.material=mat;sky.infiniteDistance=true;sky.isPickable=false;sky.alwaysSelectAsActiveMesh=true;sky.freezeWorldMatrix();
++  const starMat=new StandardMaterial('nearCosmicDust',scene);starMat.emissiveColor=new Color3(.55,.8,1);starMat.disableLighting=true;starMat.freeze();
++  const pieces:Mesh[]=[];
++  for(let i=0;i<140;i++){
++    const a=rand()*Math.PI*2,r=1700+rand()*700,y=220+rand()*750;
++    const star=MeshBuilder.CreateSphere('cosmicDustPart',{diameter:1.2+rand()*2,segments:3},scene);star.position.set(Math.cos(a)*r,y,Math.sin(a)*r);pieces.push(star);
++  }
++  const stars=Mesh.MergeMeshes(pieces,true,true)!;stars.name='cosmicDepthStars';stars.material=starMat;stars.isPickable=false;stars.freezeWorldMatrix();
++  for(const [i,pos] of [[2200,730,1800],[-2200,850,900],[300,1100,-3000]].entries()){
++    const t=new DynamicTexture('planetBands'+i,{width:256,height:128},scene,false),p=t.getContext() as CanvasRenderingContext2D;
++    p.fillStyle=['#4f6caa','#996376','#387b8d'][i];p.fillRect(0,0,256,128);
++    for(let y=0;y<128;y+=3){p.fillStyle=`rgba(${i===1?'246,180,143':'159,215,238'},${.05+rand()*.2})`;p.fillRect(0,y,256,1+rand()*5);}t.update();
++    const planet=MeshBuilder.CreateSphere('cosmicPlanet'+i,{diameter:210+i*65,segments:20},scene);planet.position.copyFrom(Vector3.FromArray(pos));planet.rotation.z=.25+i*.3;
++    const m=new StandardMaterial('cosmicPlanetMaterial'+i,scene);m.diffuseTexture=t;m.emissiveColor=new Color3(.12,.14,.2);m.specularColor=Color3.Black();m.freeze();planet.material=m;planet.isPickable=false;planet.freezeWorldMatrix();
++    if(i===1){const ring=MeshBuilder.CreateTorus('cosmicPlanetRing',{diameter:410,thickness:6,tessellation:72},scene);ring.position.copyFrom(planet.position);ring.rotation.z=.5;ring.material=starMat;ring.isPickable=false;ring.freezeWorldMatrix();}
++  }
++  // Parallax comes from real world positions of the near stars and planets; the sky stays infinitely distant.
++  return {update:()=>{}};
++}
+--- /dev/null
++++ b/src/minigames/kart-race/rainbowFinish.ts
+@@ -0,0 +1,19 @@
++import type {KartState} from './raceTypes';
++import type {PlayerSnapshot} from '../../../shared/types';
++import {fmtTime} from '../../core/format';
++
++/** Finite finish presentation inside this scene; ScoreManager still owns the subsequent results. */
++export function showRainbowFinish(karts:KartState[],players:PlayerSnapshot[]):HTMLElement {
++  const root=document.createElement('section');root.id='rainbow-finish';root.setAttribute('aria-label','Arrivi Strada Arcobaleno');
++  root.style.cssText='position:fixed;inset:0;z-index:12000;background:radial-gradient(ellipse at 50% 10%,#324e7bdd,#10112bef 65%);color:#eef9ff;font-family:Arial,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;pointer-events:none';
++  const label=document.createElement('div');label.textContent='STRADA ARCOBALENO · TRE GIRI TRA LE STELLE';label.style.cssText='color:#89ffe5;font-weight:bold;letter-spacing:.16em;font-size:clamp(12px,2vw,20px)';
++  const title=document.createElement('h1');title.textContent='TRAGUARDO STELLARE';title.style.cssText='margin:0 0 12px;font-size:clamp(26px,4vw,52px);text-shadow:0 3px 18px #79b5ff80';root.append(label,title);
++  for(const k of [...karts].sort((a,b)=>a.placement-b.placement)){
++    const p=players.find(p=>p.id===k.playerId),row=document.createElement('div');row.dataset.playerId=k.playerId;
++    row.style.cssText=`width:min(820px,88vw);display:flex;align-items:center;gap:20px;padding:14px 24px;border-left:5px solid ${p?.color??'#83ffe0'};background:${k.placement===1?'#89703b55':'#172239cc'};border-radius:10px;font-size:clamp(16px,2vw,25px)`;
++    const rank=document.createElement('strong');rank.textContent=k.placement===1?'★ 1°':`${k.placement}°`;rank.style.width='70px';
++    const name=document.createElement('span');name.textContent=p?.displayName??'Pilota';name.style.flex='1';
++    const time=document.createElement('span');time.textContent=k.lap>=3?fmtTime(k.finishTime*1000):`GIRO ${Math.min(3,k.lap+1)}/3`;row.append(rank,name,time);root.append(row);
++  }
++  const footer=document.createElement('div');footer.textContent='PUNTI PARTITA E CLASSIFICA IN ARRIVO';footer.style.cssText='font-size:14px;color:#b3c6e1;margin-top:8px;letter-spacing:.08em';root.append(footer);document.body.append(root);return root;
++}

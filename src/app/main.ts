@@ -16,6 +16,7 @@ import { BootScene } from '../scenes/BootScene';
 import { LobbyScene } from '../scenes/LobbyScene';
 import { RoomScene } from '../scenes/RoomScene';
 import { RouletteScene } from '../scenes/RouletteScene';
+import { MapVoteScene } from '../scenes/MapVoteScene';
 import { IntroScene } from '../scenes/IntroScene';
 import { FinishedScene } from '../scenes/FinishedScene';
 import { ResultsScene } from '../scenes/ResultsScene';
@@ -68,6 +69,7 @@ const config: Phaser.Types.Core.GameConfig = {
     LobbyScene,
     RoomScene,
     RouletteScene,
+    MapVoteScene,
     IntroScene,
     FinishedScene,
     ResultsScene,

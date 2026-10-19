@@ -1,0 +1,2 @@
+BJS - [12:08:30]: Babylon.js v9.26.2 - Null engine
+PASS minigolf camera: 816 course/wall/orbit cases, ball visible, no wall penetration or camera inside ball, stable follow at 30/60/120, bounce heading and temporary overview.

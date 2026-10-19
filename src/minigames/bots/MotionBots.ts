@@ -126,10 +126,16 @@ export class MotionBots extends BotInputs {
       this.hold(id, 'up', !tight || k.speed < 28);
       this.hold(id, 'down', tight && k.speed > 34);
       this.hold(id, 'drift', !spline.suspended && k.flight==='DRIVE' && Math.abs(turn) > 0.35 && Math.abs(turn) < 0.8 && k.speed > 24 && Math.abs(k.lateral) < 3);
-      if (k.heldItem && this.every(id, 'item', 1, 2)) this.tap(id, 'item');
-      if (k.recoverWindow > 0 || k.refundTimer > 0) {
+      if(k.heldItem&&k.incomingItemTimer>0){if(this.every(id,'defend',.15,.3))this.tap(id,'item');}
+      else if (k.heldItem && this.every(id, 'item', 1, 2)) this.tap(id, 'item');
+      if (k.abilityCooldown<=0&&k.abilityCharges>0&&(k.recoverWindow > 0 || k.refundTimer > 0||k.characterId==='ciro'&&k.incomingItemTimer>0&&k.incomingItemKind==='missile'||(k.characterId==='buttafuori'&&k.flight==='GLIDE'&&(k.stunTimer>.2||Math.abs(k.lateral)>2.8&&Math.abs(k.slipVelocity)>1)))) {
         if (this.every(id, 'recover', 0.12, 0.25)) this.tap(id, 'ability');
-      } else if (k.abilityMeter >= 1) this.ability(id);
+      } else if (k.abilityMeter >= 1&&k.abilityCooldown<=0&&!k.abilityActive) {
+        const ahead=karts.filter(q=>q!==k&&!q.finished&&q.flight===k.flight&&q.distance>=k.distance&&q.distance-k.distance<14&&Math.abs(q.lateral-k.lateral)<3);
+        const stable=Math.abs(k.heading)<.12&&Math.abs(k.lateral)<3&&!tight;
+        const useful=k.characterId==='judoka'?ahead.length>0:k.characterId==='goblin'?stable&&(k.flight==='GLIDE'||spline.hasRoadAt(k.distance+65)):k.characterId==='dottore'?stable&&(k.speed<45||ahead.length>0):false;
+        if(useful&&this.every(id,'kart-ability',.3,.7))this.tap(id,'ability');
+      }
     }
   }
   fps(dt: number, players: FpsActor[]): void {

@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ undefined
+- 'sydney'
+
+    at file:///C:/Users/niluf.PC-NIKO/Desktop/Ricchioni/scripts/e2e/sydney-production.mjs:21:9 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: 'sydney',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.18.0

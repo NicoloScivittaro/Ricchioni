@@ -1,0 +1,53 @@
+[
+  {
+    "name": "roulette-cycle",
+    "code": 0,
+    "last": "a punti (fase MINIGAME_ROULETTE)\n10:07:59 [ROUND] [CYCLE5] #2 (id 30) \u2192 kart3d \u00b7 5 giocatori\n10:07:59 [MINIGAME] [CYCLE5] kart3d saltato senza punti (fase MINIGAME_ROULETTE)\n10:07:59 [ROUND] [CYCLE5] #2 (id 31) \u2192 arena \u00b7 5 giocatori\n10:07:59 [MINIGAME] [CYCLE5] arena saltato senza punti (fase MINIGAME_ROULETTE)\n10:07:59 [ROUND] [CYCLE5] #2 (id 32) \u2192 fps \u00b7 5 giocatori\n10:07:59 [MINIGAME] [CYCLE5] fps saltato senza punti (fase MINIGAME_ROULETTE)\n10:07:59 [ROUND] [CYCLE5] #2 (id 33) \u2192 trentuno [punti_doppi] \u00b7 5 giocatori\n10:07:59 [ROOM] [CYCLE5] nuova partita: punteggi azzerati, stessi giocatori\n10:07:59 [ROUND] [CYCLE5] #1 (id 34) \u2192 trentuno \u00b7 5 giocatori\n10:07:59 [ROOM] [CYCLE5] reset alla lobby\nRULLO: 42653 controlli superati \u00b7 nessuna ripetizione prima di tutti gli altri, anche tra giri.\n"
+  },
+  {
+    "name": "roulette-network",
+    "code": 0,
+    "last": "RULLO rete reale: 48 estrazioni Socket.IO, 16 giochi per giro, zero ripetizioni anticipate.\n",
+    "initialHarnessIssue": "First attempt targeted inactive default port 3003; rerun against test server 3010 passed."
+  },
+  {
+    "name": "solo-bots",
+    "code": 0,
+    "last": "ROOM] [TEST] reset alla lobby\n10:08:09 [ROUND] [MULTI] #1 (id 1) \u2192 backrooms \u00b7 2 giocatori\n10:08:09 [ROOM] [MULTI] reset alla lobby\nPASS server: solo 2\u20135 seats, readiness/offline, unique characters, payload, normal scoring, no duplicates, restart, multiplayer\nPASS quiz: 10 complete questions, 30 delayed bot responses, imperfect scores, no human input\nPASS reaction, memory and cultura: no false start, observed tiles, completed sequences, unique bluffs, valid votes\nKart simulation {\n  lap: 3,\n  distance: 3917.0485931285402,\n  finished: true,\n  onRoad: 1,\n  time: 93.48333333332931\n}\nFPS navigation {\n  id: 'p1',\n  x: 19.967494447785775,\n  z: 15.664390222050338,\n  yaw: 0.01691723459806107,\n  pitch: 0,\n  alive: true,\n  magazine: 10,\n  spawnProtection: 0\n} { fires: 1045 }\nSOLO BOTS SELFTEST PASS\n"
+  },
+  {
+    "name": "pad",
+    "code": 0,
+    "last": "llo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 dodgeball: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 soccer: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 volleyball: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 cornicione: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 casacarbo: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 memory: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 reaction: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n\u2705 fps: nessun controllo holdThrough (solo l'acceleratore/freno del Kart ne ha bisogno)\n"
+  },
+  {
+    "name": "rounds",
+    "code": 0,
+    "last": "nSec+20 era troppo corto (bug)\n  \u2714 Pallavolo: idem (con scambi pi\u00f9 lunghi il vecchio tetto avrebbe troncato la partita)\n\n[FRAME-RATE] il tempo di gioco segue l'orologio, non i frame\n  \u2714 120 FPS: un solo passo con il dt reale\n  \u2714 30 FPS: un solo passo (nessun cambiamento di comportamento)\n  \u2714 10 FPS: 2 sotto-passi \u2264 50ms\n  \u2714 4 FPS: 5 sotto-passi\n  \u2714 blocco lungo (3s): recupera al massimo 250ms, poi rallenta invece di saltare\n  \u2714 delta non valido \u2192 un passo di sicurezza\n  \u2714 4 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 10 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 30 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 60 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n  \u2714 120 FPS: 45s reali \u2192 45.00s di gioco (durata identica)\n\n\u2705 ROUNDS SELFTEST OK (60 controlli)\n"
+  },
+  {
+    "name": "minigolf",
+    "code": 0,
+    "last": ":\"maratona\",\"seconds\":171.9,\"completed\":4},{\"n\":4,\"course\":\"inferno\",\"seconds\":174.4,\"completed\":4},{\"n\":4,\"course\":\"odissea\",\"seconds\":172.1,\"completed\":4},{\"n\":4,\"course\":\"disperati\",\"seconds\":227.1,\"completed\":3},{\"n\":5,\"course\":\"lungomare\",\"seconds\":122.2,\"completed\":5},{\"n\":5,\"course\":\"scampagnata\",\"seconds\":125.3,\"completed\":5},{\"n\":5,\"course\":\"giostra\",\"seconds\":98,\"completed\":5},{\"n\":5,\"course\":\"flipperone\",\"seconds\":145.4,\"completed\":4},{\"n\":5,\"course\":\"traversata\",\"seconds\":264.2,\"completed\":4},{\"n\":5,\"course\":\"altalena\",\"seconds\":108.1,\"completed\":5},{\"n\":5,\"course\":\"maratona\",\"seconds\":192.9,\"completed\":5},{\"n\":5,\"course\":\"inferno\",\"seconds\":261.3,\"completed\":5},{\"n\":5,\"course\":\"odissea\",\"seconds\":243.1,\"completed\":5},{\"n\":5,\"course\":\"disperati\",\"seconds\":243.9,\"completed\":5}]\n"
+  },
+  {
+    "name": "minigolf-camera",
+    "code": 0,
+    "last": "BJS - [12:08:30]: Babylon.js v9.26.2 - Null engine\nPASS minigolf camera: 816 course/wall/orbit cases, ball visible, no wall penetration or camera inside ball, stable follow at 30/60/120, bounce heading and temporary overview.\n"
+  },
+  {
+    "name": "backrooms-fixes",
+    "code": 0,
+    "last": ", 105-degree cone boundary and light range\nPASS imitator: real front acquisition, latency, last seen snapshot, unobserved movement/noise cannot overwrite, finite search and reacquisition\nPASS imitator: dim rooms shorten visual range, sprint exposes player, immunity suppresses acquisition\nPASS imitator: noise behind = suspicious/investigate approximate area, no exact target or visual memory\nPASS imitator: wall and closed door block sight AND contact capture; open door restores sight\nPASS imitator: hide entry really witnessed through interaction; unseen hiding remains unknown; stable visible target in multiplayer\nPASS 1000 consecutive new matches per 2\u20135 count: fresh seed/topology, replay deterministic, objective reachability, respawn retains same maze\nBackrooms fixes: 22 test groups passed\n"
+  },
+  {
+    "name": "audio",
+    "code": 0,
+    "last": "hermata CONTROLLI)\n\u2705 goblinTime: livello 2 ha almeno gli strati del livello 1 (641 \u2192 865 eventi per giro)\n\u2705 results: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n\u2705 results: livello 2 ha almeno gli strati del livello 1 (405 \u2192 661 eventi per giro)\n\u2705 podium: livello 0 senza batteria ne' melodia (musica \"sotto\" la schermata CONTROLLI)\n\u2705 podium: livello 2 ha almeno gli strati del livello 1 (429 \u2192 645 eventi per giro)\n\u2705 memory: nessuna melodia (le note di Memoria / il VIA di Botta al Volo sono gameplay)\n\u2705 reaction: nessuna melodia (le note di Memoria / il VIA di Botta al Volo sono gameplay)\n\u2705 Memoria e Botta al Volo: musica bassa\n\u2705 4 note di Memoria distinte (distanza minima 4.0 semitoni)\n\u2705 il pad di Memoria resta grave, lontano dalle note delle tessere\n\nTUTTO OK\n"
+  },
+  {
+    "name": "quality",
+    "code": 0,
+    "last": "OW (ombre/particelle spente) \u2014 low scala 1.5 ombre false particelle false glow false\n\u2705 a LOW e ancora bassi sale la scala di rendering (2)\n\u2705 il livello raggiunto resta per i minigiochi successivi della sessione\n\u2705 nuovo minigioco: riparte da LOW (livello di sessione)\n\u2705 fra 24 e 57 FPS non cambia nulla per 40 s (isteresi)\n\u2705 60 FPS da 7 s: ancora LOW (serve 8 s stabili)\n\u2705 dopo 8 s stabili sale a MEDIUM \u2014 medium scala 1 ombre true particelle true glow false\n\u2705 nel cooldown non sale ancora\n\u2705 poi HIGH (desktop) \u2014 high scala 1 ombre true particelle true glow true\n\u2705 HIGH non regge: torna a MEDIUM\n\u2705 anche con 60 FPS per 60 s NON riprova HIGH (bloccato per la sessione: niente altalena)\n\u2705 setQualityLevel: da ora scelta manuale\n\u2705 a mano LOW: neppure con 60 FPS l'auto-quality alza il livello\n\nTutto ok\n\n"
+  }
+]

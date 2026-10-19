@@ -1,3 +1,4 @@
+import {mapsFor,mapById,type MapVoteState} from '../shared/minigameMaps';
 import {normalizeKartTrack,kartTrackName,type KartTrackId} from '../shared/kartTracks';
 import { randomUUID } from 'node:crypto';
 import { CHARACTERS } from '../shared/characters';
@@ -48,6 +49,8 @@ export class GameSession {
   readonly events = new Emitter();
 
   phase: GamePhase = 'LOBBY';
+  mapVote: MapVoteState | null = null;
+  private mapFallback: string | null = null;
   round = 1;
   players: PlayerSession[] = [];
   charactersLocked: string[] = [];
@@ -157,6 +160,7 @@ export class GameSession {
     return {
       roomCode: this.roomCode,
       phase: this.phase,
+      mapVote: this.mapVote ? {...this.mapVote, options:this.mapVote.options.map(o=>({...o})), eligible:[...this.mapVote.eligible], votes:{...this.mapVote.votes},serverNow:Date.now()} : null,
       round: this.round,
       targetScore: this.targetScore,
       playerCount: this.playerCount,
@@ -277,6 +281,7 @@ export class GameSession {
     if (
       this.phase !== 'MINIGAME_PLAYING' &&
       this.phase !== 'MINIGAME_INTRO' &&
+      this.phase !== 'MINIGAME_MAP_VOTE' &&
       this.phase !== 'MINIGAME_ROULETTE'
     ) {
       return;
@@ -322,6 +327,7 @@ export class GameSession {
     if (
       this.phase === 'MINIGAME_PLAYING' ||
       this.phase === 'LOBBY' ||
+      this.phase === 'MINIGAME_MAP_VOTE' ||
       this.phase === 'GAME_FINISHED' ||
       this.phase === 'CHECK_WINNER'
     ) {
@@ -339,6 +345,7 @@ export class GameSession {
     this.players = [];
     this.charactersLocked = [];
     this.currentMinigame = null;
+    this.mapVote=null;this.mapFallback=null;this.lastSelectedPayload=null;
     this.lastResults = null;
     this.winner = null;
     this.suddenDeath = false;
@@ -362,6 +369,7 @@ export class GameSession {
       p.ready = false;
     }
     this.currentMinigame = null;
+    this.mapVote=null;this.mapFallback=null;this.lastSelectedPayload=null;
     this.lastResults = null;
     this.winner = null;
     this.suddenDeath = false;
@@ -377,6 +385,8 @@ export class GameSession {
   // ---- FSM ----
 
   private pickAndEnterRoulette(): void {
+    this.mapVote=null;
+    this.mapFallback=this.manualMinigameId==='kart3d'?this.manualKartTrackId:null;
     const kartTrackId = this.manualMinigameId === 'kart3d' ? this.manualKartTrackId : 'litorale';
     let minigameId: string;
     let modifierId: string | null;
@@ -456,6 +466,36 @@ export class GameSession {
     this.setPhase('MINIGAME_ROULETTE');
   }
 
+  private beginMapVote():void {
+    const options=mapsFor(this.currentMinigame?.minigameId??'');
+    this.mapVote={roundId:this.minigameSeq,options:options.map(o=>({...o})),eligible:this.players.filter(p=>!p.bot).map(p=>p.id),votes:{},serverNow:Date.now(),endsAt:Date.now()+FLOW_TIMING.mapVoteMs};
+    this.setPhase('MINIGAME_MAP_VOTE');
+  }
+
+  /** Identity is derived by RoomManager, never from a phone's payload. */
+  castMapVote(playerId:string,roundId:unknown,mapId:unknown,fromPad=false):boolean {
+    const v=this.mapVote,p=this.getPlayer(playerId);
+    if(this.phase!=='MINIGAME_MAP_VOTE'||!v||roundId!==v.roundId||Date.now()>=v.endsAt||!p||p.bot||(!fromPad&&!p.connected)||!v.eligible.includes(playerId)||!v.options.some(o=>o.id===mapId))return false;
+    if(fromPad&&!this.gamepads[playerId])return false;
+    if(v.votes[playerId]===mapId)return true;
+    v.votes[playerId]=mapId as string;this.events.emit('changed');return true;
+  }
+
+  private finishMapVote():void {
+    const v=this.mapVote,game=this.currentMinigame,payload=this.lastSelectedPayload;
+    if(!v||!game||!payload)return;
+    const counts=v.options.map(o=>({id:o.id,n:Object.values(v.votes).filter(id=>id===o.id).length}));
+    const max=Math.max(...counts.map(c=>c.n)),leaders=counts.filter(c=>c.n===max);
+    const chosen=max===0&&leaders.some(c=>c.id===this.mapFallback)?this.mapFallback!:leaders[this.rng.int(0,leaders.length-1)].id;
+    const option=mapById(game.minigameId,chosen)!;
+    game.mapId=payload.mapId=chosen;game.mapName=payload.mapName=option.name;
+    if(game.minigameId==='kart3d'){
+      payload.kartTrackId=normalizeKartTrack(chosen);game.name=payload.name=kartTrackName(payload.kartTrackId);
+    }
+    this.mapVote=null;this.mapFallback=null;
+    this.events.emit('pick',payload);this.setPhase('MINIGAME_INTRO');
+  }
+
   private pickModifier(def: MinigameDefinition): string | null {
     if (def.compatibleModifiers.length === 0 || !this.rng.chance(0.25)) return null;
     const mods = def.compatibleModifiers
@@ -492,6 +532,7 @@ export class GameSession {
     return (
       this.phase === 'MINIGAME_ROULETTE' ||
       this.phase === 'MINIGAME_INTRO' ||
+      this.phase === 'MINIGAME_MAP_VOTE' ||
       this.phase === 'MINIGAME_PLAYING'
     );
   }
@@ -524,7 +565,11 @@ export class GameSession {
   private advanceFrom(phase: GamePhase): void {
     switch (phase) {
       case 'MINIGAME_ROULETTE':
-        this.setPhase('MINIGAME_INTRO');
+        if(mapsFor(this.currentMinigame?.minigameId??'').length>1)this.beginMapVote();
+        else this.setPhase('MINIGAME_INTRO');
+        break;
+      case 'MINIGAME_MAP_VOTE':
+        this.finishMapVote();
         break;
       case 'MINIGAME_INTRO':
         this.setPhase('MINIGAME_PLAYING');
@@ -599,6 +644,8 @@ export class GameSession {
     switch (phase) {
       case 'MINIGAME_ROULETTE':
         return FLOW_TIMING.rouletteMs;
+      case 'MINIGAME_MAP_VOTE':
+        return Math.max(0,(this.mapVote?.endsAt??Date.now())-Date.now());
       case 'MINIGAME_INTRO':
         return FLOW_TIMING.introMs;
       case 'MINIGAME_FINISHED':

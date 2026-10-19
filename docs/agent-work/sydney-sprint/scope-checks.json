@@ -1,0 +1,18 @@
+{
+  "unchanged": [
+    "shared/abilityCatalog.ts",
+    "src/minigames/kart-race/abilities.ts",
+    "src/minigames/kart-race/itemCatalog.ts",
+    "src/minigames/kart-race/items.ts",
+    "src/minigames/kart-race/kartPhysics.ts",
+    "src/minigames/kart-race/kartCollisions.ts",
+    "src/minigames/kart-race/track.ts",
+    "src/minigames/kart-race/trackDynamics.ts"
+  ],
+  "sharedFlightContractOnly": [
+    "src/minigames/kart-race/rainbowTrack.ts",
+    "src/minigames/kart-race/rainbowWorld.ts"
+  ],
+  "assetByteIdentical": true,
+  "assetSha256": "53740421d71328c1546ab12eb8d9dac1f46d91206ebc94b46628a50c8225749b"
+}

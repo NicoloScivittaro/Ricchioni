@@ -128,21 +128,27 @@ export class CameraManager {
     const rig = this.rigs.get(playerId);
     if (!rig) return;
 
+    if(spline.suspended)rig.camera.maxZ=16000;
     const tangent = spline.tangentAt(state.distance);
     const right = spline.rightAt(state.distance);
     const cameraHeading=state.heading*(state.flight==='GLIDE'?.6:1);
     const forward = tangent.scale(Math.cos(cameraHeading)).add(right.scale(Math.sin(cameraHeading))).normalize();
+    // The short gap crosses a nearly vertical part of the imported centreline.
+    // Keep the airborne chase offset horizontal so it cannot collapse into the kart.
+    if(state.flight==='GLIDE')forward.set(Math.sin(spline.tangentAngleAt(state.distance)+cameraHeading),0,Math.cos(spline.tangentAngleAt(state.distance)+cameraHeading));
     const kartPos = spline.worldPoint(state.distance, state.lateral, 0.1);
     kartPos.y+=state.jumpHeight;
 
     const approach=spline.suspended&&state.flight==='DRIVE'&&!spline.hasRoadAt(state.distance+18);
     rig.glide+=((state.flight==='GLIDE'?1:approach?.22:0)-rig.glide)*(1-Math.exp(-dt*3));
     const speedFrac = Math.max(0, Math.min(1, state.speed / MAX_SPEED));
-    const boosting = state.boostTimer > 0;
+    const boosting = state.boostTimer > 0||state.lightMode;
 
 
     rig.fovKick = Math.max(0, rig.fovKick - dt * 2.2);
-    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1 + rig.fovKick * 0.9 + rig.glide*3)).add(new Vector3(0, CAM_UP + rig.glide*2 + Math.max(0,Math.min(.75,state.jumpHeight*.25)) + Math.max(0,tangent.y)*2, 0));
+    const longGlide=state.glideEnd-state.glideStart>100;
+    // The short gap climbs sharply: an elevated, wider shot shows both kart and deck.
+    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1 + rig.fovKick * 0.9 + rig.glide*(longGlide?3:5.5))).add(new Vector3(0, CAM_UP + rig.glide*(longGlide?2.3:8.5) + Math.max(0,Math.min(.75,state.jumpHeight*.25)) + Math.max(0,tangent.y)*2, 0));
     // in derapata la camera scivola appena verso l'esterno della curva: si sente il kart di traverso (sterzo invariato)
     rig.driftOff += ((state.drifting ? -state.driftDir * 0.45 : 0) - rig.driftOff) * Math.min(1, dt * 4);
     const anticipate = right.scale(state.heading * 2.2 + rig.driftOff);
@@ -153,6 +159,8 @@ export class CameraManager {
       const ahead=Math.max(state.distance+8,Math.min(state.distance+58,state.glideEnd));
       const guide=spline.worldPoint(ahead,state.lateral,1);guide.y+=spline.flightHeightAt(ahead)*.5;
       desiredLook.copyFrom(Vector3.Lerp(desiredLook,guide,rig.glide*.38));
+      // Keep the player's kart in frame while still showing the raised landing.
+      desiredLook.y=Math.max(kartPos.y-4,Math.min(kartPos.y+(longGlide?2:4),desiredLook.y));
     }
     if(state.flight==='FALL')desiredLook.copyFrom(kartPos.add(forward.scale(6)).add(new Vector3(0,.8,0)));
     if(state.jumpHeight>.15)desiredLook.y-=Math.min(.6,state.jumpHeight*.2);
@@ -164,7 +172,7 @@ export class CameraManager {
 
     // Espansione FOV con la velocità ridotta (era 0.22 + 0.18 in boost): l'effetto velocità resta ma non
     // amplifica più la sensazione di "troppo veloce".
-    const targetFov = CAM_BASE_FOV + speedFrac * 0.14 + (boosting ? 0.1 : 0);
+    const targetFov = CAM_BASE_FOV + speedFrac * 0.14 + (boosting ? 0.1 : 0) + (!longGlide?rig.glide*.18:0);
     rig.smoothFov = rig.smoothFov + (targetFov - rig.smoothFov) * Math.min(1, dt * 5);
 
     const stunned = state.stunTimer > 0;
@@ -615,7 +623,7 @@ export class KartHud {
 
   setAbilityButton(id:PlayerId,label:string):void {const e=this.entries.get(id);if(e)e.abilityButton=label;}
 
-  setSector(id:PlayerId,label:string,time:number):void {const e=this.entries.get(id);if(e)e.sector.text=`${label} · ${Math.floor(time/60)}:${String(Math.floor(time)%60).padStart(2,'0')}`;}
+  setSector(id:PlayerId,label:string,time:number):void {const e=this.entries.get(id);if(e)e.sector.text=label?`${label} · ${Math.floor(time/60)}:${String(Math.floor(time)%60).padStart(2,'0')}`:'';}
 
   /** Il gioco pubblica lo stato dell'abilita' del giocatore (da AbilityHub). */
   setAbility(playerId: PlayerId, status: AbilityStatus): void {
@@ -626,6 +634,10 @@ export class KartHud {
   update(playerId: PlayerId, state: KartState, total: number, laps: number, driftT: [number, number, number], dt: number): void {
     const e = this.entries.get(playerId);
     if (!e) return;
+    const compact=state.flight==='GLIDE';
+    e.panel.height=compact?'180px':'208px';e.posText.top=compact?'-59px':'-70px';e.posText.fontSize=compact?32:40;
+    e.lapText.top=compact?'-27px':'-34px';e.itemText.top=compact?'-4px':'-8px';
+    e.abilityLabel.top=compact?'39px':'50px';e.abilityBar.top=compact?'72px':'86px';e.debtText.top=compact?'74px':'89px';
     e.posText.text = ordinal(state.placement || 1) + `/${total}`;
     e.lapText.text = `GIRO ${Math.min(state.lap + 1, laps)}/${laps}`;
     e.itemText.text = state.heldItem ? itemLabel(state.heldItem) : activeItemLabel(state);
@@ -644,7 +656,7 @@ export class KartHud {
     e.abilityBar.isVisible = hasMeter;
     e.abilityLabel.isVisible = st !== null;
     if (st) {
-      const color = st.state === 'READY' ? '#4ade80' : st.state === 'ACTIVE' ? '#facc15' : st.state === 'CHARGING' ? '#c4b5fd' : '#6b7280';
+      const color = st.state === 'READY' ? '#4ade80' : st.state === 'ACTIVE' ? '#facc15' : st.state === 'CHARGING'||st.state==='COOLDOWN' ? '#c4b5fd' : '#6b7280';
       const name=abilityFor('kart3d',state.characterId)?.name??'ABILITÀ';
       const label=st.state==='READY'?'PRONTA':stateLabel(st);
       e.abilityLabel.text = `${name}\n${e.abilityButton} · ${label}${st.charges!==undefined?' · '+st.charges+' usi':''}`;
@@ -672,7 +684,7 @@ export class KartHud {
     // linee di velocita': scorrono dai bordi verso l'esterno finche' dura il boost, poi sfumano
     const boosting = state.boostTimer > 0;
     e.boostLabel.color=state.flight==='GLIDE'?(Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'#8affbe':'#ffc078'):'#63fff0';
-    e.boostLabel.text=state.flight==='FALL'?'RECUPERO AL CHECKPOINT':state.flight==='GLIDE'?`PLANATA · ${Math.max(0,Math.ceil(state.glideEnd-state.distance))} m · ${Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'IN LINEA':'CORREGGI'}`:boosting?`TURBO  ${state.boostTimer.toFixed(1)} s`:state.jumpHeight>.15?`IN VOLO  ${state.jumpHeight.toFixed(1)} m`:state.drifting?`MINI-TURBO ${driftLevelOf(state.driftCharge)}/3`:"";
+    e.boostLabel.text=state.flight==='FALL'?'RECUPERO AL CHECKPOINT':state.flight==='GLIDE'?`${Math.max(0,Math.ceil(state.glideEnd-state.distance))} m · ${Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'IN LINEA':'CORREGGI'}`:boosting?`TURBO  ${state.boostTimer.toFixed(1)} s`:state.jumpHeight>.15?`IN VOLO  ${state.jumpHeight.toFixed(1)} m`:state.drifting?`MINI-TURBO ${driftLevelOf(state.driftCharge)}/3`:"";
     e.speedT += dt * (boosting ? 3.2 : 0);
     for (let i = 0; i < e.speedLines.length; i++) {
       const l = e.speedLines[i];

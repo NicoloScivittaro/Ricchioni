@@ -1,0 +1,283 @@
+{
+  "protocol": "10 seconds, 60Hz, same straight and throttle, cruise speed 44 ground /44 air; immediate post-hit recovery; no rubber band",
+  "catalog": {
+    "goblin": {
+      "game": "kart3d",
+      "character": "goblin",
+      "name": "SO GUIDARE IO",
+      "kind": "ACTIVE_TIMING",
+      "impact": "HIGH",
+      "charges": 0,
+      "cooldown": 18,
+      "limit": "barra piena e ricarica completata",
+      "p": {
+        "duration": 6,
+        "driftMult": 1.6,
+        "kick": 32,
+        "kickTime": 2.2
+      },
+      "short": "Scatto potente e drift potenziati. Evita gli urti.",
+      "full": "Scatto di 2,2 s (+24% al tetto normale), poi mini-turbo drift 1.6× per 6 s. Un urto interrompe la finestra drift. Ricarica minima 18 s, barra ricaricata anche guidando."
+    },
+    "buttafuori": {
+      "game": "kart3d",
+      "character": "buttafuori",
+      "name": "RIBALTATO MA NON MORTO",
+      "kind": "REACTIVE",
+      "impact": "HIGH",
+      "charges": 1,
+      "cooldown": 26,
+      "limit": "una carica, si ricarica in 26 s",
+      "p": {
+        "window": 2,
+        "severeStun": 1,
+        "boost": 28,
+        "boostTime": 1.6
+      },
+      "short": "Dopo un urto riparti sul posto; in caduta torna al checkpoint.",
+      "full": "Premi entro 2 s da uno schianto: recuperi sul posto con turbo; se cadi torni all'ultimo checkpoint valido. In planata instabile smorzi la deriva, senza ricentrarti. Una carica ogni 26 s."
+    },
+    "judoka": {
+      "game": "kart3d",
+      "character": "judoka",
+      "name": "CARICO E SCARICO",
+      "kind": "RISK_REWARD",
+      "impact": "HIGH",
+      "charges": 0,
+      "cooldown": 22,
+      "limit": "barra piena e ricarica completata",
+      "p": {
+        "duration": 5,
+        "steer": 0.85,
+        "shove": 5,
+        "slow": 0.65,
+        "slowTime": 1.6
+      },
+      "short": "Camion corazzato: rallenta chi tocchi, ma sterza più largo.",
+      "full": "Per 5 s sei un camion: assorbi un oggetto, resisti agli urti e rallenti i rivali toccati per 1,6 s. Sterzo -15%. Ogni bersaglio ha una tregua di 1,8 s. Ricarica minima 22 s."
+    },
+    "dottore": {
+      "game": "kart3d",
+      "character": "dottore",
+      "name": "20 KG IN UN MESE",
+      "kind": "RISK_REWARD",
+      "impact": "HIGH",
+      "charges": 0,
+      "cooldown": 20,
+      "limit": "barra piena e ricarica completata",
+      "p": {
+        "duration": 6,
+        "accel": 1.8,
+        "driftRate": 2,
+        "topSpeed": 1.12
+      },
+      "short": "Accelerazione forte, +12% al tetto e drift rapidi; fragile agli urti.",
+      "full": "Per 6 s: accelerazione ×1,8, tetto +12% e drift ×2, anche in volo. Gli urti ti spostano di più. Ricarica minima 20 s."
+    },
+    "ciro": {
+      "game": "kart3d",
+      "character": "ciro",
+      "name": "PAGO DOPO",
+      "kind": "REACTIVE",
+      "impact": "HIGH",
+      "charges": 1,
+      "cooldown": 24,
+      "limit": "una carica, si ricarica in 24 s",
+      "p": {
+        "before": 2,
+        "after": 1.2,
+        "debt": 8,
+        "repayment": 0.6
+      },
+      "short": "Rimanda un colpo di 8 s e ne paghi solo il 60%.",
+      "full": "Arma per 2 s prima del colpo, o premi entro 1,2 s dopo: riprendi velocità e rimandi l'effetto di 8 s. Poi paghi il 60%, con una breve tregua dai colpi ripetuti. Una carica ogni 24 s."
+    }
+  },
+  "rows": [
+    {
+      "cid": "goblin",
+      "air": false,
+      "plain": {
+        "distance": 440.0000000000035,
+        "maxSpeed": 44,
+        "stunned": 0,
+        "activations": 0,
+        "events": []
+      },
+      "active": {
+        "distance": 464.14850000000627,
+        "maxSpeed": 54.56,
+        "stunned": 0,
+        "activations": 1,
+        "events": [
+          "so_guidare_start"
+        ]
+      },
+      "gainMetres": 24.14850000000274,
+      "timeEquivalent": 0.5488295454546077
+    },
+    {
+      "cid": "goblin",
+      "air": true,
+      "plain": {
+        "distance": 440.0000000000035,
+        "maxSpeed": 44,
+        "stunned": 0,
+        "activations": 0,
+        "events": []
+      },
+      "active": {
+        "distance": 462.987451663663,
+        "maxSpeed": 54.56,
+        "stunned": 0,
+        "activations": 1,
+        "events": [
+          "so_guidare_start"
+        ]
+      },
+      "gainMetres": 22.9874516636595,
+      "timeEquivalent": 0.5224420832649886
+    },
+    {
+      "cid": "dottore",
+      "air": false,
+      "plain": {
+        "distance": 440.0000000000035,
+        "maxSpeed": 44,
+        "stunned": 0,
+        "activations": 0,
+        "events": []
+      },
+      "active": {
+        "distance": 471.7440000000015,
+        "maxSpeed": 49.28,
+        "stunned": 0,
+        "activations": 1,
+        "events": [
+          "dottore_light_start"
+        ]
+      },
+      "gainMetres": 31.743999999997982,
+      "timeEquivalent": 0.7214545454544996
+    },
+    {
+      "cid": "dottore",
+      "air": true,
+      "plain": {
+        "distance": 440.0000000000035,
+        "maxSpeed": 44,
+        "stunned": 0,
+        "activations": 0,
+        "events": []
+      },
+      "active": {
+        "distance": 466.6278144537638,
+        "maxSpeed": 49.26677471455028,
+        "stunned": 0,
+        "activations": 1,
+        "events": [
+          "dottore_light_start"
+        ]
+      },
+      "gainMetres": 26.627814453760266,
+      "timeEquivalent": 0.6051776012218242
+    },
+    {
+      "cid": "buttafuori",
+      "air": false,
+      "plain": {
+        "distance": 360.24918582125036,
+        "maxSpeed": 44,
+        "stunned": 1.2833333333333337,
+        "activations": 0,
+        "events": [
+          "buttafuori_missed"
+        ]
+      },
+      "active": {
+        "distance": 451.84077992657853,
+        "maxSpeed": 53.239999999999995,
+        "stunned": 0,
+        "activations": 1,
+        "events": [
+          "buttafuori_recovery"
+        ]
+      },
+      "gainMetres": 91.59159410532817,
+      "timeEquivalent": 2.0816271387574585
+    },
+    {
+      "cid": "ciro",
+      "air": false,
+      "plain": {
+        "distance": 360.24918582125036,
+        "maxSpeed": 44,
+        "stunned": 1.2833333333333337,
+        "activations": 0,
+        "events": []
+      },
+      "active": {
+        "distance": 402.6237619260243,
+        "maxSpeed": 44,
+        "stunned": 0.7666666666666674,
+        "activations": 1,
+        "events": [
+          "ciro_debt_start",
+          "ciro_debt_due"
+        ]
+      },
+      "gainMetres": 42.37457610477395,
+      "timeEquivalent": 0.9630585478357716
+    },
+    {
+      "cid": "ciro",
+      "air": true,
+      "plain": {
+        "distance": 390.4199564992056,
+        "maxSpeed": 43.876829553896535,
+        "stunned": 1.2833333333333337,
+        "activations": 0,
+        "events": []
+      },
+      "active": {
+        "distance": 417.5153252482712,
+        "maxSpeed": 44,
+        "stunned": 0.7666666666666674,
+        "activations": 1,
+        "events": [
+          "ciro_debt_start",
+          "ciro_debt_due"
+        ]
+      },
+      "gainMetres": 27.095368749065585,
+      "timeEquivalent": 0.615803835206036
+    }
+  ],
+  "uses": [
+    {
+      "cid": "goblin",
+      "seconds": 170,
+      "eligibleUses": 9
+    },
+    {
+      "cid": "dottore",
+      "seconds": 170,
+      "eligibleUses": 8
+    },
+    {
+      "cid": "judoka",
+      "seconds": 170,
+      "eligibleUses": 7
+    },
+    {
+      "cid": "buttafuori",
+      "seconds": 170,
+      "eligibleUses": 7
+    },
+    {
+      "cid": "ciro",
+      "seconds": 170,
+      "eligibleUses": 7
+    }
+  ]
+}

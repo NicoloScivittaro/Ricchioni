@@ -503,6 +503,12 @@ export class KartEntity {
 
     const tangent = spline.tangentAt(state.distance);
     const right = spline.rightAt(state.distance);
+    // Wings carry the kart level through the gap; the road's steep hidden
+    // interpolation must not rotate the airborne body upright.
+    if(state.flight==='GLIDE'){
+      const yaw=spline.tangentAngleAt(state.distance);
+      tangent.set(Math.sin(yaw),0,Math.cos(yaw));right.set(Math.cos(yaw),0,-Math.sin(yaw));
+    }
     const cosH = Math.cos(state.heading);
     const sinH = Math.sin(state.heading);
     const forward = tangent.scale(cosH).add(right.scale(sinH)).normalize();
@@ -544,14 +550,16 @@ export class KartEntity {
       const lamp = level > 0 ? DRIFT_LEVEL_COLORS[level] : [0.35, 0.02, 0.02];
       this.tailMat.emissiveColor.set(lamp[0], lamp[1], lamp[2]);
     }
-    this.boostFx.emitRate = state.boostTimer > 0 ? 70 : 0;
-    for(const streak of this.boostStreaks){streak.isVisible=state.boostTimer>0;streak.scaling.y=.8+Math.sin(now*.06)*.15;}
+    this.boostFx.emitRate = state.boostTimer > 0 ? 70 : state.lightMode?36:0;
+    const abilityColor=state.characterId==='goblin'?[.3,1,.5]:state.characterId==='dottore'?[.2,.8,1]:[1,.65,.2];
+    this.boostFx.color1.set(abilityColor[0],abilityColor[1],abilityColor[2],.9);
+    for(const streak of this.boostStreaks){streak.isVisible=state.boostTimer>0||state.lightMode;streak.scaling.y=(state.abilityActive?1.35:.8)+Math.sin(now*.06)*.15;}
     this.dustFx.emitRate = state.offRoad && Math.abs(state.speed) > 8 ? 30 : 0;
 
     this.engine.update(speedFrac, state.boostTimer > 0, throttle, state.drifting ? Math.min(1, 0.45 + state.driftCharge * 0.5) : 0);
-    this.itemHalo.isVisible=state.shielded||state.disturbTimer>0||state.debtPending;
+    this.itemHalo.isVisible=state.shielded||state.disturbTimer>0||state.debtPending||state.truckMode||state.stabilityTimer>0;
     this.itemHalo.rotation.x=state.shielded?.22:Math.sin(now*.008)*.45;this.itemHalo.rotation.z=state.disturbTimer>0?now*.004:0;
-    this.haloMat.emissiveColor=Color3.FromHexString(state.shielded?'#56d9ff':state.disturbTimer>0?'#ffcf51':'#c796ff');
+    this.haloMat.emissiveColor=Color3.FromHexString(state.truckMode?'#ffd166':state.stabilityTimer>0?'#ff9c56':state.shielded?'#56d9ff':state.disturbTimer>0?'#ffcf51':'#c796ff');
     this.updateDriver(state);
   }
 

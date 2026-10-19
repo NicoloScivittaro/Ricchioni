@@ -45,7 +45,7 @@ export const STANDARD_BUTTON_INDEX: Record<PadControl, number> = {
 export const PAD_CONTROLS = Object.keys(STANDARD_BUTTON_INDEX) as PadControl[];
 
 /** Contesti di input: la stessa pressione ha significati diversi (A in lobby = conferma, in Kart = drift, nei risultati = niente). */
-export type PadContext = 'LOBBY' | 'ROULETTE' | 'CONTROLS' | 'MINIGAME' | 'PAUSE' | 'RESULTS' | 'PHONE_TEXT';
+export type PadContext = 'LOBBY' | 'MAP_VOTE' | 'ROULETTE' | 'CONTROLS' | 'MINIGAME' | 'PAUSE' | 'RESULTS' | 'PHONE_TEXT';
 
 export type PadFamily = 'xbox' | 'playstation' | 'generic';
 

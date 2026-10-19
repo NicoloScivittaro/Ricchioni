@@ -34,7 +34,8 @@ export class RaceManager {
     private totalLength: number,
     private durationCap: number,
     private trackAngleAt: (distance: number) => number,
-    private onEvent: (ev: RaceHudEvent) => void
+    private onEvent: (ev: RaceHudEvent) => void,
+    private graceAfterFirstFinish = GRACE_AFTER_FIRST_FINISH
   ) {}
 
   /** Da chiamare ogni frame ANCHE durante il countdown (per rilevare partenze anticipate/perfette). */
@@ -79,7 +80,7 @@ export class RaceManager {
 
     if (!this.graceActive && karts.some((k) => k.finished)) {
       this.graceActive = true;
-      this.graceTimer = GRACE_AFTER_FIRST_FINISH;
+      this.graceTimer = this.graceAfterFirstFinish;
     }
     if (this.graceActive) this.graceTimer -= dt;
 

@@ -1,0 +1,59 @@
+{
+  "selection": [
+    "litorale",
+    "arcobaleno",
+    "sydney"
+  ],
+  "vote": {
+    "options": [
+      "litorale",
+      "arcobaleno",
+      "sydney"
+    ],
+    "votes": 5
+  },
+  "map": {
+    "mapId": "sydney",
+    "track": "sydney",
+    "name": "RIBALTATI — SYDNEY SPRINT"
+  },
+  "performance": {
+    "fps": 34.58997764763178,
+    "frameP95": 50,
+    "width": 1280,
+    "height": 720,
+    "scale": 1,
+    "viewports": 5,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "meshes": 293,
+    "submeshes": 2096,
+    "shadow": true
+  },
+  "geometry": {
+    "technicalVisible": false,
+    "roads": 7,
+    "accessRamps": 2,
+    "waterBlue": true,
+    "checkpoints": [
+      0,
+      122.91968479652785,
+      245.8393695930557,
+      298.25,
+      469,
+      491.6787391861114,
+      614.5984239826392,
+      737.518108779167,
+      860.4377935756949,
+      983.3574783722227,
+      1106.2771631687506,
+      1229.1968479652785,
+      1352.1165327618064
+    ],
+    "boxes": 10
+  },
+  "errors": []
+}

@@ -1,3 +1,4 @@
+import {selectCourses} from './minigolfCourses';
 import {Engine,Scene,FreeCamera,HemisphericLight,DirectionalLight,ShadowGenerator,Vector3,Color4,Color3,MeshBuilder,StandardMaterial,DynamicTexture,TransformNode} from '@babylonjs/core';
 import {MinigolfCamera} from './minigolfCamera';
 import type {MinigameContext} from '../types';
@@ -35,7 +36,7 @@ export class BabylonMinigolfGame {
   const sun=new DirectionalLight('golfSun',new Vector3(-.4,-1,.4),this.scene);sun.position.set(8,25,-12);sun.intensity=.85;
   const shadows=new ShadowGenerator(1024,sun);shadows.useBlurExponentialShadowMap=true;shadows.blurKernel=8;
   const dot=new DynamicTexture('golfDot',16,this.scene,false),d=dot.getContext();d.fillStyle='#ffffff';d.fillRect(0,0,16,16);dot.update();
-  this.match=new MinigolfMatch(ctx.players,()=>ctx.rng.next());this.bots=new MinigolfBot(()=>ctx.rng.next());
+  this.match=new MinigolfMatch(ctx.players,()=>ctx.rng.next(),ctx.mapId?selectCourses(()=>ctx.rng.next(),undefined,ctx.mapId):undefined);this.bots=new MinigolfBot(()=>ctx.rng.next());
   this.hud=new MinigolfHud(this.scene,this.match);this.visuals=new MinigolfVisuals(this.scene,this.match.players,shadows);
   abilityHub.begin('minigolf',ctx);
   const metal=new StandardMaterial('golfClubMetal',this.scene);metal.diffuseColor=Color3.FromHexString('#e2edf6');metal.specularColor=Color3.White();

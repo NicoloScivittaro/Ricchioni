@@ -1,0 +1,61 @@
+{
+  "tracks": [
+    "litorale",
+    "arcobaleno",
+    "sydney",
+    "primo"
+  ],
+  "vote": {
+    "options": 4,
+    "votes": 5
+  },
+  "phoneReconnect": true,
+  "map": {
+    "mapId": "primo",
+    "track": "primo"
+  },
+  "layouts": [
+    {
+      "n": 2,
+      "cameras": 2
+    },
+    {
+      "n": 3,
+      "cameras": 3
+    },
+    {
+      "n": 4,
+      "cameras": 4
+    },
+    {
+      "n": 5,
+      "cameras": 5
+    }
+  ],
+  "performance": {
+    "fps": 35.33833647590627,
+    "p95": 50,
+    "width": 1280,
+    "height": 720,
+    "scale": 1,
+    "views": 5,
+    "shadows": true,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "meshes": 306,
+    "staticBatches": 129,
+    "textures": 80
+  },
+  "geometry": {
+    "length": 1186.178804051513,
+    "checkpoints": 12,
+    "boxes": 10,
+    "originalGround": 2,
+    "roofs": 11
+  },
+  "cleanup": true,
+  "errors": []
+}

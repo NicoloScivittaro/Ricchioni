@@ -142,6 +142,16 @@ export class RoomManager {
       const relay: TextRelayEvent = { playerId: loc.playerId, controlId: p.controlId, text: (p.text ?? '').slice(0, 60) };
       this.io.to(room.hostConnectionId).emit(EVT.textRelay, relay);
     });
+    socket.on(EVT.mapVote,(p:{roundId?:unknown;mapId?:unknown},cb?:(r:AckResponse)=>void)=>{
+      const loc=this.socketToPlayer.get(socket.id),room=loc?this.rooms.get(loc.roomCode):undefined;
+      const ok=!!loc&&!!room&&room.getPlayer(loc.playerId)?.connectionId===socket.id&&room.castMapVote(loc.playerId,p?.roundId,p?.mapId);
+      cb?.({ok,error:ok?undefined:'Votazione non valida o conclusa'});
+    });
+    socket.on(EVT.hostMapVote,(p:{roundId?:unknown;mapId?:unknown;playerId?:unknown},cb?:(r:AckResponse)=>void)=>{
+      const room=this.roomOfHost(socket);
+      const ok=!!room&&typeof p?.playerId==='string'&&room.castMapVote(p.playerId,p.roundId,p.mapId,true);
+      cb?.({ok,error:ok?undefined:'Votazione non valida o controller non associato'});
+    });
     socket.on(EVT.hostStart, () => this.onHostStart(socket));
     socket.on(EVT.hostMinigameFinished, (p: MinigameFinishedPayload) =>
       this.onMinigameFinished(socket, p)

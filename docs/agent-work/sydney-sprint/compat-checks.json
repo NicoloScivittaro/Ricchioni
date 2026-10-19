@@ -1,0 +1,10 @@
+{
+  "trackLength": 2200.7326075763294,
+  "events": [
+    "launch",
+    "land",
+    "launch",
+    "land"
+  ],
+  "check": "Both existing Arcobaleno gaps still launch and land with the default flight contract"
+}

@@ -1,0 +1,67 @@
+{
+  "checks": [
+    "distribution: rank + real deficit, leader unchanged, no guaranteed rare item",
+    "five abilities: distinct effects, measurable boosts, finite duration and recharge",
+    "shield perfect counter, attack breaks boost, truck tangible and anti-chain guard",
+    "all fifteen catalog items activate in their intended valid situation",
+    "theft: visible delay, atomic transfer, target can use or shield item, no duplication",
+    "missile: warning precedes finite homing, shield counters, out-of-range attacks retain inventory",
+    "spring grants landing boost; wind respects a shield throughout the same crossing",
+    "both real glides: five powers land, inventory retained when invalid, attacks bounded, no checkpoint/height teleport",
+    "two brief 15s / five-player simulations: real tracks, bot commands, finite effects and cleanup",
+    "boost stacking has explicit power/duration limits"
+  ],
+  "measure": [
+    {
+      "strongItemChance": {
+        "leader": 0.037365421152628246,
+        "lastClose": 0.0783928069682495,
+        "last20sBehind": 0.25
+      }
+    },
+    {
+      "cid": "goblin",
+      "maxSpeed": 59.18,
+      "metresIn10s": 493.3951666666711,
+      "cooldown": 20
+    },
+    {
+      "cid": "dottore",
+      "maxSpeed": 56.32,
+      "metresIn10s": 508.3620000000056,
+      "cooldown": 22
+    },
+    {
+      "cid": "buttafuori",
+      "maxSpeed": 58.52,
+      "metresIn10s": 473.15346365866833,
+      "cooldown": 24
+    },
+    {
+      "cid": "judoka",
+      "maxSpeed": 44,
+      "metresIn10s": 440.0000000000016,
+      "cooldown": 24
+    },
+    {
+      "cid": "ciro",
+      "maxSpeed": 53.900000000000006,
+      "metresIn10s": 426.56727948115497,
+      "cooldown": 24
+    },
+    {
+      "simulation": "litorale",
+      "seconds": 15,
+      "players": 5,
+      "itemUses": 4,
+      "landings": 0
+    },
+    {
+      "simulation": "arcobaleno",
+      "seconds": 15,
+      "players": 5,
+      "itemUses": 5,
+      "landings": 5
+    }
+  ]
+}

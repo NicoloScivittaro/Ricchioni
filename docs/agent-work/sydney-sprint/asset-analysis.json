@@ -1,0 +1,60 @@
+{
+  "asset": {
+    "extras": {
+      "author": "DoodleDoo2 (https://sketchfab.com/DoodleDoo2)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/sydney-sprint-37981e6ff05a4770a23a7ea55fa096ae",
+      "title": "Sydney Sprint"
+    },
+    "generator": "Sketchfab-14.64.0",
+    "version": "2.0"
+  },
+  "meshes": 51,
+  "triangles": 299568,
+  "materials": 15,
+  "images": 0,
+  "nodesWithTransforms": [
+    {
+      "name": "Sketchfab_model",
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        3.828568672208042e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        3.828568672208042e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "name": "0ec726bfd802426ebd44a866ba367a62.fbx",
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  ]
+}

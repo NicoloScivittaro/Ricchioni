@@ -1,0 +1,17 @@
+{
+  "tracksCameraGlbUnchanged": true,
+  "otherGameAbilityCatalogUnchanged": true,
+  "otherGameBotsUnchanged": true,
+  "changedSources": [
+    "shared/abilityCatalog.ts",
+    "src/core/AudioManager.ts",
+    "src/minigames/bots/MotionBots.ts",
+    "src/minigames/kart-race/abilities.ts",
+    "src/minigames/kart-race/itemCatalog.ts",
+    "src/minigames/kart-race/items.ts",
+    "src/minigames/kart-race/raceTypes.ts",
+    "src/minigames/kart-race/kartPhysics.ts",
+    "src/minigames/kart-race/kartCollisions.ts",
+    "src/minigames/kart-race/BabylonKartGame.ts"
+  ]
+}

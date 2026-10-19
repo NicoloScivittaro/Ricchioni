@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {AB} from '../shared/abilityCatalog';
 import { createKartState } from '../src/minigames/kart-race/raceTypes';
 import { stepKartPhysics } from '../src/minigames/kart-race/kartPhysics';
 import { crossesSurface } from '../src/minigames/kart-race/itemSurface';
@@ -20,5 +21,5 @@ assert.ok(!crossesSurface({distance:0,lateral:3},{distance:10,lateral:3},5,0,3.8
 const c=Object.assign(createKartState('c','ciro','#fff',''),{invulnTimer:0}),ab=new CharacterAbilities();
 ab.setRaceTime(1); assert.equal(ab.onAbilityPress(c,[c],()=>{},()=>0),'ok');
 assert.ok(ab.tryDelayHit(c,{oil:1.6},()=>{})); assert.equal(c.oilTimer,0);
-ab.update(5,c,[c],false,false,()=>0,()=>{}); assert.equal(c.oilTimer,1.6);
+ab.update(8.1,c,[c],false,false,()=>0,()=>{}); assert.ok(Math.abs(c.oilTimer-1.6*AB.kart3d.ciro.p.repayment)<1e-6);
 console.log('PASS olio: 30/60/120 FPS, nessuna frenata/stun, inerzia in sterzata, recupero, sweep e cambio giro, bordo evitabile, debito Ciro.');

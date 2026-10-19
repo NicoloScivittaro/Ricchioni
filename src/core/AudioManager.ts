@@ -545,6 +545,15 @@ export class AudioManager {
   }
 
   /** Shared SFX bus: mute/pause/disposal do not leave a separate audio loop alive. */
+  kartAbility(kind:'goblin'|'dottore'|'judoka'|'buttafuori'|'ciro'|'block'):void {
+    if(kind==='goblin'){this.sweep('sawtooth',120,680,.38,.045);this.noiseBurst(.25,250,3200,.04);}
+    else if(kind==='dottore'){this.sweep('sine',500,1600,.28,.035);this.sweep('triangle',700,1200,.2,.025,.09);}
+    else if(kind==='judoka'){this.thump(.7);this.sweep('square',90,170,.24,.025);}
+    else if(kind==='buttafuori'){this.sweep('triangle',180,880,.35,.04);this.thump(.5);}
+    else if(kind==='ciro'){this.sweep('sine',850,460,.25,.04);this.sweep('triangle',1100,750,.15,.025,.1);}
+    else {this.sweep('sine',1000,1700,.12,.035);this.noiseBurst(.08,2000,500,.025);}
+  }
+
   kartGlide(kind:'launch'|'wind'|'land'):void {
     if(kind==='launch'){this.sweep('sine',340,1180,.3,.045);this.sweep('triangle',620,1450,.16,.018,.08);this.noiseBurst(.24,650,3200,.04);}
     else if(kind==='land'){this.thump(.65);this.noiseBurst(.09,1800,420,.027);}
@@ -967,6 +976,8 @@ export class AudioManager {
   /** Timbri sintetici distinti per gli item; nessun file audio o motore nuovo. */
   kartItem(kind: string): void {
     switch(kind) {
+      case 'missile': this.sweep('square',350,1200,.3,.04);break;
+      case 'furto': this.sweep('triangle',900,300,.22,.05);break;
       case 'calamita': this.sweep('triangle',180,680,.28,.08);break;
       case 'piccione': this.sweep('sine',1100,1900,.09,.06);this.sweep('sine',1500,950,.1,.05,.12);break;
       case 'turbo_difettoso': this.sweep('sawtooth',100,500,.3,.055);this.noiseBurst(.16,2500,600,.05);break;

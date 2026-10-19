@@ -3,7 +3,7 @@ import type { PlayerId } from '../../../shared/types';
 export const MIN_RACE_DISTANCE = -12;
 
 /** Sei oggetti originali + sette effetti distinti; separati dalle abilità personali. */
-export type ItemId = 'turbo' | 'sfera' | 'olio' | 'scudo' | 'super_turbo' | 'disturbo' | 'calamita' | 'piccione' | 'turbo_difettoso' | 'buca' | 'raffica' | 'paraurti' | 'mollone';
+export type ItemId = 'turbo' | 'sfera' | 'olio' | 'scudo' | 'super_turbo' | 'disturbo' | 'calamita' | 'piccione' | 'turbo_difettoso' | 'buca' | 'raffica' | 'paraurti' | 'mollone' | 'missile' | 'furto';
 
 export interface KartState {
   playerId: PlayerId;
@@ -45,6 +45,10 @@ export interface KartState {
 
   heldItem: ItemId | null;
   shielded: boolean;
+  shieldPerfectTimer:number;
+  incomingItemTimer:number;
+  incomingItemKind?:'missile'|'furto';
+  springLandingBoost:boolean;
   disturbTimer: number; // sterzo invertito temporaneo (colpito da "disturbo")
   oilTimer: number; // grip laterale ridotto, senza stun né freno longitudinale
   faultyTimer: number;
@@ -64,8 +68,14 @@ export interface KartState {
   wheelSpin: number; // angolo accumulato di rotolamento ruote (rad)
 
   // --- Sistema abilità personaggio (una gimmick unica per personaggio, non bonus statistici) ---
+  abilityCooldown:number;
+  abilityArmor:number;
+  stabilityTimer:number;
+  abilitySpeedFactor:number;
+  refundSpeed:number;
+  fallReason?:string;
   abilityMeter: number; // 0..1, si riempie giocando bene: drift puliti, sorpassi, item evitati, checkpoint puliti
-  abilityCharges: number; // Buttafuori/Ciro: 1 carica fissa per gara, NON si ricarica col meter
+  abilityCharges: number; // Buttafuori/Ciro: una carica ricaricabile a tempo, senza meter
   abilityActive: boolean; // finestra generica attiva (Goblin "SO GUIDARE IO", Dottore "20 KG IN UN MESE")
   abilityTimer: number; // durata residua della finestra attiva
   lastAbilityPressAt: number; // raceTime dell'ultima pressione del tasto ABILITÀ (usato da Ciro)
@@ -136,6 +146,7 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     boostPower: 0,
     heldItem: null,
     shielded: false,
+    shieldPerfectTimer:0,incomingItemTimer:0,springLandingBoost:false,
     disturbTimer: 0,
     oilTimer: 0,
     faultyTimer: 0,
@@ -151,6 +162,7 @@ export function createKartState(playerId: PlayerId, characterId: string | null, 
     lastValidCheckpointS: 0,
     steerVisual: 0,
     wheelSpin: 0,
+    abilityCooldown:0,abilityArmor:0,stabilityTimer:0,abilitySpeedFactor:1,refundSpeed:0,
     abilityMeter: 0,
     abilityCharges: characterId === 'ciro' || characterId === 'buttafuori' ? 1 : 0,
     abilityActive: false,

@@ -28,10 +28,12 @@ export class IntroScene extends Phaser.Scene {
     }
     const def = getMinigame(pick.minigameId);
 
+    if(pick.mapName)bodyText(this,640,492,`${pick.minigameId==='minigolf'?'PRIMA BUCA':'MAPPA'} · ${pick.mapName}`,20,'#8affd7');
+
     const icon = this.add.text(640, 150, def?.icon ?? '🎮', { fontSize: '96px' }).setOrigin(0.5).setScale(0.5).setAlpha(0);
     const name = titleText(this, 640, 265, pick.name, pick.name.length > 26 ? 52 : UI.size.XL + 4, THEME.text).setStroke(UI.outline.color, UI.outline.thick).setAlpha(0);
     const cat = pill(this, 640, 336, pick.category, THEME.gold, UI.size.S).setAlpha(0);
-    const desc = bodyText(this, 640, 396, pick.kartTrackId==='arcobaleno'?'Tre giri su una pista sospesa. Le ali si aprono nei tratti azzurri: sterza verso la piattaforma successiva. Fuori pista riparti dal checkpoint.':def?.description ?? 'Usa il telefono per giocare', UI.size.S + 4, THEME.textDim).setWordWrapWidth(1080).setAlpha(0);
+    const desc = bodyText(this, 640, 396, pick.kartTrackId==='primo'?'Tre giri di karting tecnico. Frena prima dei tornanti, derapa e usa il mini-turbo in uscita. Lucky Block e abilità possono ribaltare la gara.':pick.kartTrackId==='sydney'?'Tre giri tra città, porto e Harbour Bridge. Dalla rampa dell’Opera House plana verso il ponte: sterza e segui il punto di atterraggio.':pick.kartTrackId==='arcobaleno'?'Tre giri su una pista sospesa. Le ali si aprono nei tratti azzurri: sterza verso la piattaforma successiva. Fuori pista riparti dal checkpoint.':def?.description ?? 'Usa il telefono per giocare', UI.size.S + 4, THEME.textDim).setWordWrapWidth(1080).setAlpha(0);
     this.tweens.add({ targets: icon, alpha: 1, scale: 1, duration: THEME.normal, ease: 'Back.easeOut' });
     this.tweens.add({ targets: [name, cat, desc], alpha: 1, duration: THEME.normal, delay: 120 });
 

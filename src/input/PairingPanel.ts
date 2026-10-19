@@ -24,9 +24,9 @@ interface St {
   players: { id: string; displayName: string; characterId: string | null; connected: boolean }[];
 }
 
-/** Gioco attivo (non in pausa): il pannello non deve coprire il gameplay. Fuori da qui (lobby, rullo, risultati, pausa) si puo' aprire con G. */
+/** Voto o gioco attivo (non in pausa): il pannello non deve coprire la scelta o il gameplay. Fuori da qui (lobby, rullo, risultati, pausa) si puo' aprire con G. */
 function activePlay(st: St | null): boolean {
-  return st?.phase === 'MINIGAME_PLAYING' && !st.paused;
+  return st?.phase === 'MINIGAME_MAP_VOTE' || (st?.phase === 'MINIGAME_PLAYING' && !st.paused);
 }
 
 /** Simbolo del tasto principale per TUTTE le famiglie di controller presenti (es. "A / ✕"), mai un nome tecnico. */

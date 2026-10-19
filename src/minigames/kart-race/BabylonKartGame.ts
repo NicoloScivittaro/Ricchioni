@@ -1,3 +1,9 @@
+import {PrimoTrack,guidePrimoBots} from './primoTrack';
+import {buildPrimoWorld,importPrimo} from './primoWorld';
+import {SydneyTrack} from './sydneyTrack';
+import {buildSydneyWorld,importSydney} from './sydneyWorld';
+import type {GlideTrack} from './rainbowTrack';
+import {showRainbowFinish} from './rainbowFinish';
 import {RainbowTrack,stepRainbowKart} from './rainbowTrack';
 import {buildRainbowWorld,importRainbow,GlideWings,GlideLandingGuide} from './rainbowWorld';
 import {pads} from '../../input/GamepadManager';
@@ -52,6 +58,9 @@ import { resolveKartContact } from './kartCollisions';
 export class BabylonKartGame {
   readonly ready:Promise<void>;
   private rainbow:RainbowTrack|null=null;
+  private sydney:SydneyTrack|null=null;
+  private primo:PrimoTrack|null=null;
+  private flightTrack:GlideTrack|null=null;
   private wings=new Map<PlayerId,GlideWings>();
   private landingGuides=new Map<PlayerId,GlideLandingGuide>();
   private windClock=0;
@@ -76,6 +85,8 @@ export class BabylonKartGame {
   private order: PlayerId[];
   private firstFinishPlayed = false;
   private resultsSent = false;
+  private finishPanel:HTMLElement|null=null;
+  private finishDelay=0;
   private fxState = new Map<PlayerId, { level: number; boost: number }>();
   private disposed = false;
   private paused = false;
@@ -96,9 +107,12 @@ export class BabylonKartGame {
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
     this.rainbow=ctx.kartTrackId==='arcobaleno'?new RainbowTrack():null;
-    this.spline = this.rainbow??buildTrack();
+    this.sydney=ctx.kartTrackId==='sydney'?new SydneyTrack():null;
+    this.primo=ctx.kartTrackId==='primo'?new PrimoTrack():null;
+    this.flightTrack=this.rainbow??this.sydney;
+    this.spline = this.primo??this.flightTrack??buildTrack();
     // Mondo intorno alla pista (cielo, luce, mare, i 4 settori coi landmark): kartEnvironment.ts. Bagliore solo su neon e luci.
-    this.world = this.rainbow?buildRainbowWorld(this.scene,this.rainbow):buildKartWorld(this.scene, this.spline);
+    this.world = this.primo?buildPrimoWorld(this.scene):this.sydney?buildSydneyWorld(this.scene):this.rainbow?buildRainbowWorld(this.scene,this.rainbow):buildKartWorld(this.scene, this.spline);
     const shadowGen = new ShadowGenerator(1024, this.world.sun);
     shadowGen.usePoissonSampling = true;
     shadowGen.bias = 0.002;
@@ -107,21 +121,22 @@ export class BabylonKartGame {
     const shadowMap=shadowGen.getShadowMap()!;shadowMap.refreshRate=0;
     this.scene.onBeforeRenderObservable.add(()=>shadowMap.resetRefreshCounter());
     this.scene.skipPointerMovePicking=true;
-    if(!this.rainbow)buildTrackVisuals(this.scene, this.spline);
-    this.setPieces=this.rainbow?{update:()=>{}}:buildTrackSetPieces(this.scene,this.spline);
-    buildTrackGuides(this.scene, this.spline,this.rainbow?.checkpoints); // cartelli e frecce prima delle curve, portali dei checkpoint
+    if(!this.flightTrack&&!this.primo)buildTrackVisuals(this.scene, this.spline);
+    this.setPieces=this.flightTrack||this.primo?{update:()=>{}}:buildTrackSetPieces(this.scene,this.spline);
+    if(!this.sydney&&!this.primo)buildTrackGuides(this.scene, this.spline,this.rainbow?.checkpoints); // cartelli e frecce prima delle curve, portali dei checkpoint
     registerEnvScene(this.scene);
-    this.checkpoints = this.rainbow?.checkpoints??buildCheckpoints(this.spline);
-    const boxPlacements = buildItemBoxes(this.spline).filter(p=>!this.rainbow?.gapAt(p.s,18));
+    this.checkpoints = this.primo?.checkpoints??this.sydney?.checkpoints??this.rainbow?.checkpoints??buildCheckpoints(this.spline);
+    const boxPlacements = this.primo?.boxes??this.sydney?.boxes??buildItemBoxes(this.spline).filter(p=>!this.rainbow?.gapAt(p.s,18));
 
     this.abilities = new CharacterAbilities();
     abilityHub.begin('kart3d', ctx);
     this.items = new ItemManager(this.scene, boxPlacements, this.spline, ctx.rng, this.abilities, (pid, f) =>
       this.onAbilityFeedback(pid, f),
-      (source,target,kind,hit)=>{
+      (source,target,kind,hit,warning)=>{
         if(!this.hud)return;
         const label=itemLabel(kind);
         if(!target){this.hud.flash(source,label,'#80fff0',.7);return;}
+        if(warning){this.hud.flash(target,kind==='furto'?'FURTO IN ARRIVO · USA O DIFENDI L’OGGETTO':'MISSILE IN ARRIVO · SCHIVA O DIFENDITI','#ffcf6c',1.1);this.ctx.vibrate(target,60);audio.playTone(880,.12,'square',.035);return;}
         this.hud.flash(source,hit?'COLPO A SEGNO!':'COLPO EVITATO',hit?'#ffd166':'#a9cfe3',.8);
         this.hud.flash(target,hit?label:'COLPO EVITATO',hit?'#ff9f7e':'#75e4ff',.8);
         if(hit){this.ctx.vibrate(target,45);this.cameraManager.shake(target,.08);}
@@ -131,7 +146,7 @@ export class BabylonKartGame {
     this.hud = new KartHud(this.scene, this.engine);
     this.unsubAbility = abilityHub.onStatus((id, st) => this.hud.setAbility(id, st));
     this.hud.setTrack(this.spline, this.checkpoints); // minimappa (prima di ensure(): ogni viewport ne riceve una)
-    this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), this.trackAngleAt, (ev) => this.onRaceEvent(ev));
+    this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), this.trackAngleAt, (ev) => this.onRaceEvent(ev),this.primo?16:undefined);
 
     this.order = ctx.players.filter((p) => !p.bot).map((p) => p.id);
     // Griglia equa: chi è in testa alla classifica parte dietro, gli ultimi davanti; a parità decide il caso
@@ -155,12 +170,12 @@ export class BabylonKartGame {
       const entity = new KartEntity(this.scene, p.color, p.characterId);
       entity.updateVisual(state, this.spline);
       this.entities.set(p.id, entity);
-      if(this.rainbow)this.wings.set(p.id,new GlideWings(this.scene,entity.root,p.color));
+      if(this.flightTrack)this.wings.set(p.id,new GlideWings(this.scene,entity.root,p.color));
       for (const mesh of entity.shadowMeshes) shadowGen.addShadowCaster(mesh, false);
 
       const camStart = this.spline.worldPoint(state.distance, state.lateral, 3.5);
       if (!p.bot) {
-        if(this.rainbow)this.landingGuides.set(p.id,new GlideLandingGuide(this.scene,1<<(20+this.order.indexOf(p.id))));
+        if(this.flightTrack)this.landingGuides.set(p.id,new GlideLandingGuide(this.scene,1<<(20+this.order.indexOf(p.id))));
         this.cameraManager.ensure(p.id, camStart);
         this.hud.ensure(p.id, p.color);
       }
@@ -171,7 +186,7 @@ export class BabylonKartGame {
     this.hud.setCountdown('3');
 
     // Schermata CONTROLLI: finche' e' su, il countdown/la gara restano fermi (vedi step()); alla fine gli input sono azzerati.
-    this.ready=(this.rainbow?importRainbow(this.scene,this.rainbow):Promise.resolve()).then(()=>{
+    this.ready=(this.primo?importPrimo(this.scene):this.sydney?importSydney(this.scene,this.sydney):this.rainbow?importRainbow(this.scene,this.rainbow):Promise.resolve()).then(()=>{
       if(this.disposed)return;
       if(ctx.showControls)void ctx.showControls().then(()=>{if(!this.disposed)this.controlsDone=true;});
       else this.controlsDone=true;
@@ -215,6 +230,7 @@ export class BabylonKartGame {
 
     if (this.race.phase === 'racing') {
       this.soloBots.kart(dt, kartsList, this.spline);
+      if(this.primo)guidePrimoBots(this.primo,this.ctx,kartsList);
       for (const [pid, state] of this.karts) {
         if (state.finished) continue;
         const pin = this.ctx.input.get(pid);
@@ -235,10 +251,9 @@ export class BabylonKartGame {
         if (snapshot.up) this.stats.throttleFrames++;
         if (snapshot.down) this.stats.brakeFrames++;
         if (snapshot.item && state.heldItem) {
-          this.items.useItem(state, kartsList, (id) => this.race.rankOf(kartsList, id));
-          if(state.flight==='GLIDE'&&state.heldItem)this.hud.flash(pid,'OGGETTO DA TERRA · CONSERVATO','#ffd166',1.1);
-          audio.select();
-          this.ctx.vibrate(pid, 45);
+          const used=this.items.useItem(state, kartsList, (id) => this.race.rankOf(kartsList, id));
+          if(!used)this.hud.flash(pid,'NON ATTIVABILE ORA · CONSERVATO','#ffd166',1.1);
+          else {audio.select();this.ctx.vibrate(pid,45);}
           this.sendInfoLine(pid, state);
         }
         if (pin.justPressed('ability')) {
@@ -258,17 +273,17 @@ export class BabylonKartGame {
         // un azzeramento forzato (pausa/disconnessione/contesto) non deve contare ne' qui ne' nel meter delle abilita'.
         const wasGenuineDriftEnd = snapshot.drift || snapshot.driftReleased;
         const from={distance:state.distance,lateral:state.lateral},wasAirborne=state.jumpHeight>0;
-        if(this.rainbow)stepRainbowKart(state,snapshot,dt,this.rainbow,invertModifier,event=>{
-          if(event==='launch'){this.sendInfoLine(pid,state);audio.kartGlide('launch');this.hud.flash(pid,'ALI APERTE · MIRA AL PORTALE','#6cfff1',1.25);this.ctx.vibrate(pid,50);}
+        if(this.flightTrack)stepRainbowKart(state,snapshot,dt,this.flightTrack,invertModifier,event=>{
+          if(event==='launch'){this.sendInfoLine(pid,state);audio.kartGlide('launch');this.hud.flash(pid,this.sydney?'ALI APERTE · VERSO IL PONTE':'ALI APERTE · MIRA AL PORTALE','#6cfff1',1.25);this.ctx.vibrate(pid,50);}
           else if(event==='land'){this.sendInfoLine(pid,state);audio.kartGlide('land');this.hud.flash(pid,'ATTERRAGGIO!','#b4ff9e',.75);this.ctx.vibrate(pid,25);this.cameraManager.shake(pid,.045);}
           else {audio.fall();this.hud.flash(pid,'CADUTA · RIPARTI DAL CHECKPOINT','#ffb796',1.2);}
-        });
-        else stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier,trackSurface(state.distance,state.lateral,this.spline.totalLength));
-        if(!this.rainbow)stepTrackDynamics(state,from,this.spline.totalLength,d=>this.spline.widthAt(d),this.race.raceTime,event=>{
+        },!!this.sydney);
+        else stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier,this.primo?{grip:1,speed:1}:trackSurface(state.distance,state.lateral,this.spline.totalLength));
+        if(!this.flightTrack&&!this.primo)stepTrackDynamics(state,from,this.spline.totalLength,d=>this.spline.widthAt(d),this.race.raceTime,event=>{
           if(event==='launch'){audio.kartBoost(9);this.ctx.vibrate(pid,30);this.hud.flash(pid,'DECOLLO!','#ffd166',.6);}
           if(event==='obstacle'){audio.hit();this.cameraManager.shake(pid,.14);this.ctx.vibrate(pid,50);}
         });
-        if(!this.rainbow && wasAirborne && state.jumpHeight===0){audio.thump(.45);this.cameraManager.shake(pid,.08);this.ctx.vibrate(pid,22);}
+        if(!this.flightTrack && wasAirborne && state.jumpHeight===0){audio.thump(.45);this.cameraManager.shake(pid,.08);this.ctx.vibrate(pid,22);}
 
         const wallCrashed = !wasStunned && state.stunTimer > 0;
         const respawnTriggered = !wasAwaitingRespawn && state.respawnTimer > 0;
@@ -295,7 +310,7 @@ export class BabylonKartGame {
       const prevStun = new Map(kartsList.map((k) => [k.playerId, k.stunTimer]));
       this.items.update(dt, kartsList, (pid) => this.race.rankOf(kartsList, pid), this.karts.size);
       for (const state of kartsList) {
-        if (prevHeldItem.get(state.playerId) === null && state.heldItem !== null) {
+        if (prevHeldItem.get(state.playerId) !== state.heldItem) {
           this.ctx.vibrate(state.playerId, 40);
           this.sendInfoLine(state.playerId, state);
         }
@@ -307,7 +322,9 @@ export class BabylonKartGame {
     }
 
 
-    if (this.race.phase === 'ended' && !this.resultsSent) {
+    if(this.rainbow&&this.race.phase==='ended'&&!this.finishPanel){this.finishPanel=showRainbowFinish(kartsList,this.ctx.players);this.finishDelay=4;}
+    if(this.finishDelay>0)this.finishDelay=Math.max(0,this.finishDelay-dt);
+    if (this.race.phase === 'ended' && !this.resultsSent&&this.finishDelay===0) {
       this.resultsSent = true;
       // Solo debug (SESSION REPORT, F4): nessun effetto sul gameplay. Aggregate su tutti i giocatori della gara.
       const s = this.stats;
@@ -340,7 +357,7 @@ export class BabylonKartGame {
       const throttle = this.race.phase === 'racing' && this.ctx.input.get(pid).pressed('up') ? 1 : 0;
       this.entities.get(pid)?.updateVisual(state, this.spline, throttle);
       this.wings.get(pid)?.update(dt,state.flight==='GLIDE',state.steerVisual);
-      if(this.rainbow)this.landingGuides.get(pid)?.update(state,this.rainbow);
+      if(this.flightTrack)this.landingGuides.get(pid)?.update(state,this.flightTrack);
       this.trackFeedback(pid, state);
       this.cameraManager.update(dt, pid, state, this.spline);
       const slot=pads.slotOf(pid),binding=profileFor('kart3d')?.controls.find(c=>c.action==='ABILITY')?.binding;
@@ -351,9 +368,9 @@ export class BabylonKartGame {
     this.hud.layout(this.order);
 
     this.windClock-=dt;
-    if(this.rainbow&&this.windClock<=0&&this.order.some(id=>this.karts.get(id)?.flight==='GLIDE')){audio.kartGlide('wind');this.windClock=.4;}
+    if(this.flightTrack&&this.windClock<=0&&this.order.some(id=>this.karts.get(id)?.flight==='GLIDE')){audio.kartGlide('wind');this.windClock=.4;}
     this.setPieces.update(this.race.raceTime);
-    for(const [id,state] of this.karts)this.hud.setSector(id,this.rainbow?(state.flight==='GLIDE'?'PLANATA':state.flight==='FALL'?'RECUPERO':'STRADA ARCOBALENO'):trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
+    for(const [id,state] of this.karts)this.hud.setSector(id,this.primo?this.primo.sector(state.distance):this.sydney?this.sydney.sector(state.distance):this.rainbow?(state.flight==='GLIDE'?'':state.flight==='FALL'?'RECUPERO':'ARCOBALENO'):trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
   }
 
   /**
@@ -386,9 +403,7 @@ export class BabylonKartGame {
 
   /** Il camion del Judoka tocca un altro kart: spinta laterale in piu' e rallentamento (visto dalla fisica come speedCap generico). */
   private truckBump(truck: KartState, other: KartState, away: number): void {
-    other.lateral += away * KART_TRUCK.p.shove * 0.1;
-    other.speedCapMultiplier = Math.min(other.speedCapMultiplier, KART_TRUCK.p.slow);
-    other.speedCapTimer = Math.max(other.speedCapTimer, KART_TRUCK.p.slowTime);
+    if(!this.abilities.truckContact(truck,other,away,f=>this.onAbilityFeedback(other.playerId,f)))return;
     const key = `${truck.playerId}>${other.playerId}`;
     const last = this.lastBumpAt.get(key) ?? -99;
     if (this.race.raceTime - last > 1.2) {
@@ -455,10 +470,13 @@ export class BabylonKartGame {
     // attivazioni (non gli esiti): posa del pilota + simbolo del personaggio sopra il kart + conteggio d'uso
     if (f.type === 'so_guidare_start' || f.type === 'dottore_light_start' || f.type === 'judoka_activate' || f.type === 'ciro_debt_start' || f.type === 'buttafuori_recovery') {
       this.entities.get(playerId)?.playAbility();
+      if(state?.characterId)audio.kartAbility(state.characterId as 'goblin');
       abilityHub.activated(playerId);
       if (state) this.rankWatch.set(playerId, { start: this.race.rankOf([...this.karts.values()], playerId), until: this.race.raceTime + (state.abilityTimer || 0) + 3 });
     }
     switch (f.type) {
+      case 'ability_block':
+        this.hud.flash(playerId,'CORAZZA · COLPO BLOCCATO','#ffd166',.9);audio.kartAbility('block');this.ctx.vibrate(playerId,65);break;
       case 'so_guidare_start':
         this.hud.flash(playerId, 'SO GUIDARE IO!', '#4ade80');
         audio.boost();
@@ -562,7 +580,7 @@ export class BabylonKartGame {
     } else if (ev.type === 'checkpoint_clean' && ev.playerId) {
       const k = this.karts.get(ev.playerId);
       if (k) this.abilities.addMeter(k, 0.08);
-      this.hud.flash(ev.playerId, '✔ CHECKPOINT', '#22d3ee', 0.6);
+      if(!this.rainbow&&!this.primo)this.hud.flash(ev.playerId, '✔ CHECKPOINT', '#22d3ee', 0.6);
     } else if (ev.type === 'overtake' && ev.playerId) {
       const k = this.karts.get(ev.playerId);
       if (k) this.abilities.addMeter(k, 0.18);
@@ -572,6 +590,7 @@ export class BabylonKartGame {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    this.finishPanel?.remove();this.finishPanel=null;
     this.unsubAbility();
     abilityHub.end(); // statistiche del round + card spenta sui telefoni
     window.removeEventListener('resize', this.onResize);

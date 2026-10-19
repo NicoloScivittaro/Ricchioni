@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+const base=process.env.MAP_VOTE_PRODUCTION_URL??'http://localhost:3008';process.env.CTRL_URL=base+'/controller.html';
+const {launch,addPhone,sleep}=await import('./lib.mjs');
+const browser=await launch(),report={compiled:true,errors:[],scripts:[],models:[],phases:[]};let state,started=false;
+const until=async(fn,label,ms=75000)=>{const t=Date.now();while(!await fn()){if(Date.now()-t>ms)throw Error('Timeout '+label);await sleep(100);}};
+async function observe(p){p.on('pageerror',e=>report.errors.push(e.message));p.on('console',m=>{if(m.type()==='error'&&/TypeError|ReferenceError|\[minigioco\]/.test(m.text()))report.errors.push(m.text());});const c=await p.createCDPSession();await c.send('Network.enable');c.on('Network.webSocketFrameReceived',({response})=>{if(!response.payloadData.startsWith('42'))return;try{const [event,data]=JSON.parse(response.payloadData.slice(2));if(event==='room:state'){state=data;report.phases.push(data.phase);if(data.phase==='MINIGAME_PLAYING'&&!report.playingAt)report.playingAt=Date.now();}if(event==='private:data'&&(data.type==='info'||data.data?.type==='info'))started=true;}catch{}});}
+try{
+ const host=await browser.newPage();host.on('dialog',d=>d.accept());await observe(host);host.on('response',r=>{if(/\/assets\/.*\.js/.test(r.url()))report.scripts.push(r.url());if(/\.glb/.test(r.url()))report.models.push(r.url());});
+ await host.goto(base+'/',{waitUntil:'load'});await host.waitForSelector('canvas');await sleep(1000);for(let i=0;i<3;i++){await host.keyboard.press('ArrowRight');await sleep(160);}await host.keyboard.press('Enter');await until(()=>state?.roomCode,'room');
+ const phone=await addPhone(browser,state.roomCode,'VOTO BUILD',0);await observe(phone.page);await until(()=>state.players[0]?.ready,'ready');await host.keyboard.press('ArrowLeft');await until(()=>state.selectedMinigameId==='kart3d'&&state.selectedKartTrackId==='arcobaleno','kart selection');await host.keyboard.press('Enter');await until(()=>state.phase==='MINIGAME_ROULETTE','roulette');await sleep(200);await host.keyboard.press('Enter');await until(()=>state.phase==='MINIGAME_MAP_VOTE','ballot');
+ assert.equal(state.players.length,5);assert.equal(state.mapVote.eligible.length,1);report.deadline=state.mapVote.endsAt;assert.ok(!report.phases.includes('MINIGAME_PLAYING'));
+ await phone.page.waitForSelector('[data-map-id="litorale"]');await phone.page.click('[data-map-id="litorale"]');await phone.page.waitForSelector('[data-map-id="litorale"][aria-pressed="true"]');
+ assert.equal(Object.keys(state.mapVote.votes).length,1);assert.equal(await host.$eval('#pad-root',e=>e.style.display),'none');await host.screenshot({path:'docs/agent-work/map-voting/compiled-vote.png'});
+ await until(()=>state.phase==='MINIGAME_INTRO','map chosen');assert.equal(state.currentMinigame.mapId,'litorale');assert.equal(await phone.page.$('[data-map-id]'),null);
+ await until(()=>state.phase==='MINIGAME_PLAYING'&&started,'compiled game');assert.ok(report.playingAt>=report.deadline,'ballot completes before gameplay');await sleep(1000);
+ assert.ok(!report.models.some(url=>url.endsWith('/gba_rainbow_road.glb')),'voted Litorale overrides Arcobaleno fallback: no Rainbow GLB instantiated');assert.ok(report.scripts.length>5);await host.screenshot({path:'docs/agent-work/map-voting/compiled-playing.png'});
+ await host.keyboard.press('Escape');await until(()=>state.paused,'pause');await host.$$eval('button',bs=>bs.find(b=>b.textContent.includes('TORNA ALLA LOBBY')).dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})));await until(()=>state.phase==='LOBBY','lobby');await sleep(200);
+ assert.equal(await host.evaluate(()=>document.querySelectorAll('canvas').length),1);assert.deepEqual(report.errors,[]);report.players=5;report.humans=1;report.bots=4;report.map='litorale';report.voteOverridesLobbyFallback=true;report.cleanup=true;
+ console.log('PASS compiled map vote: touch ballot, 4 abstaining bots, deadline, map override, actual track, pause, cleanup, no errors.');
+}finally{writeFileSync('docs/agent-work/map-voting/production-checks.json',JSON.stringify(report,null,2));await browser.close();}

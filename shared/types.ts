@@ -1,3 +1,4 @@
+import type {MapVoteState} from './minigameMaps';
 import type {KartTrackId} from './kartTracks';
 // ============================================================================
 // Tipi condivisi tra server, host (Phaser) e controller (smartphone).
@@ -36,6 +37,7 @@ export type HookId = string;
 export type GamePhase =
   | 'LOBBY'
   | 'MINIGAME_ROULETTE'
+  | 'MINIGAME_MAP_VOTE'
   | 'MINIGAME_INTRO'
   | 'MINIGAME_PLAYING'
   | 'MINIGAME_FINISHED'
@@ -51,6 +53,7 @@ export const FLOW_TIMING = {
   revealWinnerDelayMs: 1300,
   revealFinalHoldMs: 2000,
   rouletteMs: 7000,
+  mapVoteMs: 15000,
   introMs: 2600,
   finishedMs: 1000,
   leaderboardMs: 3800,
@@ -238,6 +241,8 @@ export interface ActiveModifier {
 // ---- Stato stanza (broadcast a tutti) ----
 
 export interface CurrentMinigame {
+  mapId?: string;
+  mapName?: string;
   minigameId: string;
   name: string;
   category: Category;
@@ -259,6 +264,7 @@ export interface RoundResults {
 export interface RoomState {
   roomCode: RoomCode;
   phase: GamePhase;
+  mapVote?: MapVoteState | null;
   round: number;
   targetScore: number;
   playerCount: number;

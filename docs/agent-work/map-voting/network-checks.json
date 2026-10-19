@@ -1,0 +1,200 @@
+{
+  "checks": [
+    "unjoined phone rejected",
+    "phone cannot use host relay",
+    "stale round rejected over socket",
+    "map from another game rejected",
+    "phone ballot accepted using socket identity",
+    "payload cannot impersonate another player",
+    "repeat does not double count",
+    "unpaired host relay rejected",
+    "associated host pad ballot accepted",
+    "reconnect preserves voter identity",
+    "replaced socket cannot vote",
+    "reconnected phone can replace ballot",
+    "second player votes",
+    "host reconnect does not reset deadline",
+    "replaced host socket cannot cast",
+    "no early game or animation skip bypass",
+    "deadline delivers selected map in snapshot and payload",
+    "late socket ballot rejected",
+    "restart removes ballot"
+  ],
+  "phases": [
+    "LOBBY",
+    "LOBBY",
+    "LOBBY",
+    "LOBBY",
+    "LOBBY",
+    "LOBBY",
+    "LOBBY",
+    "LOBBY",
+    "MINIGAME_ROULETTE",
+    "MINIGAME_MAP_VOTE",
+    "MINIGAME_MAP_VOTE",
+    "MINIGAME_MAP_VOTE",
+    "MINIGAME_MAP_VOTE",
+    "MINIGAME_MAP_VOTE",
+    "MINIGAME_MAP_VOTE",
+    "MINIGAME_MAP_VOTE",
+    "MINIGAME_MAP_VOTE",
+    "MINIGAME_INTRO",
+    "MINIGAME_PLAYING",
+    "LOBBY"
+  ],
+  "picks": [
+    {
+      "roundId": 1,
+      "minigameId": "backrooms",
+      "name": "BACKROOMS — L’ULTIMA PORTA",
+      "category": "SKILL",
+      "modifierId": null,
+      "modifierName": null,
+      "modifierDescription": null,
+      "durationSec": 420,
+      "controllerLayout": {
+        "type": "custom",
+        "id": "backrooms-tv"
+      },
+      "players": [
+        {
+          "id": "cf892319-eb45-44f1-a4df-7b0489731017",
+          "displayName": "Ada",
+          "characterId": "goblin",
+          "ready": true,
+          "connected": true,
+          "score": 0
+        },
+        {
+          "id": "99bb2eed-7658-4ecd-86d9-900ee0277ad0",
+          "displayName": "Bruno",
+          "characterId": "ciro",
+          "ready": true,
+          "connected": true,
+          "score": 0
+        }
+      ],
+      "activeModifiers": {
+        "cf892319-eb45-44f1-a4df-7b0489731017": [
+          {
+            "source": "cf892319-eb45-44f1-a4df-7b0489731017",
+            "hook": "luck.reroll",
+            "label": "EXPLOIT",
+            "uses": 2
+          }
+        ],
+        "99bb2eed-7658-4ecd-86d9-900ee0277ad0": [
+          {
+            "source": "99bb2eed-7658-4ecd-86d9-900ee0277ad0",
+            "hook": "generic.undo_one_error",
+            "label": "È TUTTO REGOLARE",
+            "uses": 1
+          }
+        ]
+      }
+    },
+    {
+      "roundId": 1,
+      "minigameId": "backrooms",
+      "name": "BACKROOMS — L’ULTIMA PORTA",
+      "category": "SKILL",
+      "modifierId": null,
+      "modifierName": null,
+      "modifierDescription": null,
+      "durationSec": 420,
+      "controllerLayout": {
+        "type": "custom",
+        "id": "backrooms-tv"
+      },
+      "players": [
+        {
+          "id": "cf892319-eb45-44f1-a4df-7b0489731017",
+          "displayName": "Ada",
+          "characterId": "goblin",
+          "ready": true,
+          "connected": true,
+          "score": 0
+        },
+        {
+          "id": "99bb2eed-7658-4ecd-86d9-900ee0277ad0",
+          "displayName": "Bruno",
+          "characterId": "ciro",
+          "ready": true,
+          "connected": true,
+          "score": 0
+        }
+      ],
+      "activeModifiers": {
+        "cf892319-eb45-44f1-a4df-7b0489731017": [
+          {
+            "source": "cf892319-eb45-44f1-a4df-7b0489731017",
+            "hook": "luck.reroll",
+            "label": "EXPLOIT",
+            "uses": 2
+          }
+        ],
+        "99bb2eed-7658-4ecd-86d9-900ee0277ad0": [
+          {
+            "source": "99bb2eed-7658-4ecd-86d9-900ee0277ad0",
+            "hook": "generic.undo_one_error",
+            "label": "È TUTTO REGOLARE",
+            "uses": 1
+          }
+        ]
+      }
+    },
+    {
+      "roundId": 1,
+      "minigameId": "backrooms",
+      "name": "BACKROOMS — L’ULTIMA PORTA",
+      "category": "SKILL",
+      "modifierId": null,
+      "modifierName": null,
+      "modifierDescription": null,
+      "durationSec": 420,
+      "controllerLayout": {
+        "type": "custom",
+        "id": "backrooms-tv"
+      },
+      "players": [
+        {
+          "id": "cf892319-eb45-44f1-a4df-7b0489731017",
+          "displayName": "Ada",
+          "characterId": "goblin",
+          "ready": true,
+          "connected": true,
+          "score": 0
+        },
+        {
+          "id": "99bb2eed-7658-4ecd-86d9-900ee0277ad0",
+          "displayName": "Bruno",
+          "characterId": "ciro",
+          "ready": true,
+          "connected": true,
+          "score": 0
+        }
+      ],
+      "activeModifiers": {
+        "cf892319-eb45-44f1-a4df-7b0489731017": [
+          {
+            "source": "cf892319-eb45-44f1-a4df-7b0489731017",
+            "hook": "luck.reroll",
+            "label": "EXPLOIT",
+            "uses": 2
+          }
+        ],
+        "99bb2eed-7658-4ecd-86d9-900ee0277ad0": [
+          {
+            "source": "99bb2eed-7658-4ecd-86d9-900ee0277ad0",
+            "hook": "generic.undo_one_error",
+            "label": "È TUTTO REGOLARE",
+            "uses": 1
+          }
+        ]
+      },
+      "mapId": "tunnels",
+      "mapName": "LIVELLO 2 · LE CALDAIE"
+    }
+  ],
+  "passed": 19
+}

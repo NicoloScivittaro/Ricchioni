@@ -49,19 +49,21 @@ console.log('=== TEST 1: GOBLIN — SO GUIDARE IO (drift boost potenziato, annul
   assert(!k.abilityActive && k.driftBoostMultiplier === 1, "uno schianto durante l'effetto annulla subito il bonus");
   assert(events.some((e) => e.type === 'so_guidare_fail'), '"EH SÌ, GUIDI BENISSIMO." mostrato dopo lo schianto');
 
-  // Riattivazione + scadenza naturale senza schianto: il bonus si esaurisce da solo.
+  // Nuova finestra isolata: la ricarica è verificata dai test dedicati.
+  k.abilityCooldown=0;
   k.abilityMeter = 1;
   abilities.onAbilityPress(k, [k], onFeedback);
   abilities.update(10, k, [k], false, false, flatAngle, onFeedback);
   assert(!k.abilityActive && k.driftBoostMultiplier === 1, 'la finestra scade naturalmente dopo la durata prevista');
 }
 
-console.log('\n=== TEST 2: BUTTAFUORI — RIBALTATO MA NON MORTO (REATTIVA: premi nella finestra dopo lo schianto, 1 volta a gara) ===');
+console.log('\n=== TEST 2: BUTTAFUORI — RIBALTATO MA NON MORTO (reattiva con ricarica) ===');
 {
   const abilities = new CharacterAbilities();
   const k = createKartState('p0' as PlayerId, 'buttafuori', '#fff', '🥊');
   k.lastValidCheckpointS = 42;
-  k.distance = 5;
+  k.distance = 65;
+  k.flight='FALL';
   k.speed = -3;
   const { events, onFeedback } = collectFeedback();
 
@@ -70,7 +72,7 @@ console.log('\n=== TEST 2: BUTTAFUORI — RIBALTATO MA NON MORTO (REATTIVA: prem
   assert(k.abilityCharges === 1, 'la carica resta intatta se non c\'e\' niente da recuperare');
 
   abilities.update(0.016, k, [k], false, true, flatAngle, onFeedback); // respawnTriggeredThisFrame = true
-  assert(k.abilityCharges === 1 && k.distance === 5, 'lo schianto NON lo recupera piu\' da solo: apre solo la finestra');
+  assert(k.abilityCharges === 1 && k.distance === 65, 'lo schianto NON lo recupera piu\' da solo: apre solo la finestra');
   assert(k.recoverWindow > 0 && events.some((e) => e.type === 'buttafuori_window'), 'si apre la finestra "PREMI ABILITÀ"');
   assert(abilities.status(k).state === 'ACTIVE' && abilities.status(k).note === 'PREMI ORA!', 'lo stato pubblicato dice PREMI ORA!');
 
@@ -85,7 +87,7 @@ console.log('\n=== TEST 2: BUTTAFUORI — RIBALTATO MA NON MORTO (REATTIVA: prem
   k.distance = 5;
   abilities.update(0.016, k, [k], false, true, flatAngle, onFeedback);
   assert(k.recoverWindow === 0 && k.distance === 5, 'senza cariche residue un secondo schianto NON apre piu\' la finestra');
-  assert(abilities.onAbilityPress(k, [k], onFeedback, flatAngle) === 'spent', 'premere senza cariche: ESAURITA');
+  assert(abilities.onAbilityPress(k, [k], onFeedback, flatAngle) === 'notready', 'premere durante la ricarica: NON PRONTA');
 }
 {
   // finestra persa: nessuna carica consumata, si rialza come tutti
@@ -160,7 +162,7 @@ console.log('\n=== TEST 5: CIRO — PAGO DOPO (rimanda un colpo, poi il DEBITO v
   assert(k.abilityCharges === 0, 'la carica viene consumata al rinvio');
   assert(events.some((e) => e.type === 'ciro_debt_start'), '"PAGO DOPO!" mostrato subito');
 
-  abilities.update(4.1, k, [k], false, false, flatAngle, onFeedback);
+  abilities.update(8.1, k, [k], false, false, flatAngle, onFeedback);
   assert(!k.debtPending && k.stunTimer > 0, 'il DEBITO scade e la penalità viene applicata comunque, dopo qualche secondo');
   assert(events.some((e) => e.type === 'ciro_debt_due'), '"DEBITO RISCOSSO!" mostrato alla scadenza');
 }
@@ -190,7 +192,7 @@ console.log('\n=== TEST 5b: CIRO — PAGO DOPO retroattivo (dopo il colpo, entro
   const res = abilities.onAbilityPress(k, [k], onFeedback);
   assert(res === 'ok' && k.stunTimer === 0 && k.debtPending && k.abilityCharges === 0, 'premendo nella finestra lo stordimento sparisce e parte il debito (carica consumata)');
   assert(events.some((e) => e.type === 'ciro_debt_start'), '"PAGO DOPO!" mostrato');
-  abilities.update(4.1, k, [k], false, false, flatAngle, onFeedback);
+  abilities.update(8.1, k, [k], false, false, flatAngle, onFeedback);
   assert(!k.debtPending && k.stunTimer > 0, 'il debito arriva comunque alla scadenza');
 }
 {

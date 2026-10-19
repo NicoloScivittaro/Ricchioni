@@ -1,0 +1,16 @@
+{
+  "images": 20,
+  "allImages1280x720": true,
+  "duration": 169.741,
+  "playing": {
+    "time": 1.635758,
+    "error": null
+  },
+  "end": {
+    "time": 166.741,
+    "ready": 4,
+    "error": null
+  },
+  "reportServed": true,
+  "errors": []
+}

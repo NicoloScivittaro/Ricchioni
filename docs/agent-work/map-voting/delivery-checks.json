@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-19T10:23:34.012488+00:00",
+  "typecheck": "pass",
+  "build": {
+    "exitCode": 0,
+    "modules": 3808,
+    "viteSeconds": 250,
+    "warning": "Pre-existing large Babylon/WebXR chunks"
+  },
+  "sessionChecks": 206,
+  "networkChecks": 19,
+  "browserChecks": 54,
+  "browserCases": 6,
+  "regressionSuites": 10,
+  "allRegressionsPassed": true,
+  "compiledSmoke": "pass",
+  "sourceFiles": 22,
+  "sourceHashesVerified": true,
+  "url": "http://localhost:3008/",
+  "preview": "http://localhost:3008/map-voting/preview.html",
+  "committed": false,
+  "pushed": false,
+  "deployed": false
+}

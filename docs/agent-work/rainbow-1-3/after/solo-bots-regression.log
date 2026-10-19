@@ -1,0 +1,21 @@
+PASS server: solo 2–5 seats, readiness/offline, unique characters, payload, normal scoring, no duplicates, restart, multiplayer
+PASS quiz: 10 complete questions, 30 delayed bot responses, imperfect scores, no human input
+PASS reaction, memory and cultura: no false start, observed tiles, completed sequences, unique bluffs, valid votes
+Kart simulation {
+  lap: 3,
+  distance: 3917.0485931285402,
+  finished: true,
+  onRoad: 1,
+  time: 93.48333333332931
+}
+FPS navigation {
+  id: 'p1',
+  x: 19.967494447785775,
+  z: 15.664390222050338,
+  yaw: 0.01691723459806107,
+  pitch: 0,
+  alive: true,
+  magazine: 10,
+  spawnProtection: 0
+} { fires: 1045 }
+SOLO BOTS SELFTEST PASS

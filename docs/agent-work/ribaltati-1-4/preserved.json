@@ -1,0 +1,12 @@
+{
+  "src/minigames/kart-race/track.ts": "7a063eb8fe9039f269b2e4e6cd75175f3ae663419ba0c05b1dc94fb970b661ba",
+  "src/minigames/kart-race/race.ts": "34db617558c2de17d511234b8a8c207221ec0f0bbcb62accbcbc0999fab5c26a",
+  "src/minigames/kart-race/cameraHud.ts": "087bdc85004cbcfef8d2861045f4abff534c4cb45a3ddf658ffd1dade1eb4bf9",
+  "src/minigames/kart-race/glideDynamics.ts": "be830f11547756e196027067dbc0e4973792b2239a4451c5fcc7e6c0a6933bf5",
+  "src/minigames/kart-race/rainbowTrack.ts": "16194a4a35dff6cfc9e7ef9f7b744973dac784763558a44e9057b62b5d4a2ddc",
+  "src/minigames/kart-race/rainbowWorld.ts": "3405c845d62a5e1f134f37f7b6b39eef4e880ad6973001b50a46fd291bdf49f4",
+  "src/minigames/kart-race/rainbowCosmos.ts": "3f48f7fca2fcad445e60b38161cd78416f6d0c99305c073960a80f3751346ea7",
+  "src/minigames/kart-race/rainbowRoute.json": "6cf17bec7a6240c985a76d42b836b3bdaa224b14a90e7ee162db4a7d727dbb63",
+  "src/minigames/kart-race/coastalPresentation.ts": "d9311ff776fbed22f179b409c55290267a5a5ec07a934f013d099fdc0fbaec9d",
+  "public/assets/tracks/gba_rainbow_road.glb": "cd38878316f88b8578036a129dce2bd2114987c595bdc4e3ee029036b2599250"
+}

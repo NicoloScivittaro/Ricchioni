@@ -1,0 +1,14 @@
+{
+  "otherMinigameAbilitiesUnchanged": true,
+  "preserved": [
+    "src/minigames/kart-race/track.ts",
+    "src/minigames/kart-race/race.ts",
+    "src/minigames/kart-race/itemCatalog.ts",
+    "src/minigames/kart-race/coastalPresentation.ts",
+    "src/minigames/kart-race/trackDynamics.ts",
+    "src/minigames/kart-race/trackGuides.ts",
+    "src/minigames/kart-race/trackSetPieces.ts"
+  ],
+  "rainbowCentrelineAndCheckpointsUnchanged": true,
+  "glbSha256": "cd38878316f88b8578036a129dce2bd2114987c595bdc4e3ee029036b2599250"
+}

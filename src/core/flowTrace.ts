@@ -49,6 +49,7 @@ const t0 = performance.now();
 // dopo quanto (ms) una fase transitoria e' considerata BLOCCATA (molto oltre la durata prevista + skip dell'host)
 const STALL_MS: Record<string, number> = {
   MINIGAME_ROULETTE: 20000,
+  MINIGAME_MAP_VOTE: 25000,
   MINIGAME_INTRO: 15000,
   MINIGAME_FINISHED: 10000,
   ROUND_RESULTS: 25000,

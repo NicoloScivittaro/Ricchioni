@@ -1,0 +1,177 @@
+--- a/shared/kartTracks.ts
++++ b/shared/kartTracks.ts
+@@ -1,4 +1,4 @@
+ /** Variants share the kart3d family: controls, abilities and roulette history. */
+-export type KartTrackId = 'litorale' | 'arcobaleno' | 'sydney';
+-export const kartTrackName = (id?: KartTrackId): string => id === 'sydney' ? 'RIBALTATI — SYDNEY SPRINT' : id === 'arcobaleno' ? 'RIBALTATI — STRADA ARCOBALENO' : 'RIBALTATI — CIRCUITO DEL LITORALE';
+-export const normalizeKartTrack = (id: unknown): KartTrackId => id === 'arcobaleno' || id === 'sydney' ? id : 'litorale';
++export type KartTrackId = 'litorale' | 'arcobaleno' | 'sydney' | 'primo';
++export const kartTrackName = (id?: KartTrackId): string => id === 'primo' ? 'RIBALTATI — PRIMO KARTING' : id === 'sydney' ? 'RIBALTATI — SYDNEY SPRINT' : id === 'arcobaleno' ? 'RIBALTATI — STRADA ARCOBALENO' : 'RIBALTATI — CIRCUITO DEL LITORALE';
++export const normalizeKartTrack = (id: unknown): KartTrackId => id === 'arcobaleno' || id === 'sydney' || id === 'primo' ? id : 'litorale';
+--- a/shared/minigameMaps.ts
++++ b/shared/minigameMaps.ts
+@@ -20,7 +20,8 @@
+ const KART_MAPS:readonly MapOption[]=[
+   {id:'litorale',name:'CIRCUITO DEL LITORALE',description:'Curve, rampe e derapate sul mare.',color:'#ffbf69',icon:'⌁'},
+   {id:'arcobaleno',name:'STRADA ARCOBALENO',description:'Pista sospesa e passaggi in planata.',color:'#74e7e0',icon:'✦'},
+-  {id:'sydney',name:'SYDNEY SPRINT',description:'Città, Harbour Bridge e volo dall’Opera House.',color:'#62c9ff',icon:'⌁'}
++  {id:'sydney',name:'SYDNEY SPRINT',description:'Città, Harbour Bridge e volo dall’Opera House.',color:'#62c9ff',icon:'⌁'},
++  {id:'primo',name:'PRIMO KARTING',description:'Tornanti, staccate e derapate tra le barriere.',color:'#ffcc55',icon:'⚑'}
+ ];
+ export const mapsFor=(minigameId:string):readonly MapOption[]=>
+   minigameId==='kart3d'?KART_MAPS:minigameId==='backrooms'?BACKROOM_MAPS:minigameId==='minigolf'?GOLF_MAPS:[];
+--- a/src/scenes/RoomScene.ts
++++ b/src/scenes/RoomScene.ts
+@@ -179,7 +179,7 @@
+     const st = gm.state;
+     if (!st) return [null];
+     const compat = MINIGAME_DEFINITIONS.filter((d) => d.enabled !== false && st.playerCount >= d.minPlayers && st.playerCount <= d.maxPlayers).map((d) => d.id);
+-    return [null, ...compat, ...(compat.includes('kart3d') ? ['kart3d:arcobaleno','kart3d:sydney'] : [])];
++    return [null, ...compat, ...(compat.includes('kart3d') ? ['kart3d:arcobaleno','kart3d:sydney','kart3d:primo'] : [])];
+   }
+ 
+   private cycleMinigame(dir: number): void {
+@@ -189,7 +189,7 @@
+     const idx = Math.max(0, opts.indexOf(cur));
+     const next = opts[(idx + dir + opts.length) % opts.length];
+     audio.ui('move');
+-    gm.selectMinigame(next?.startsWith('kart3d:') ? 'kart3d' : next, next === 'kart3d:sydney' ? 'sydney' : next === 'kart3d:arcobaleno' ? 'arcobaleno' : 'litorale');
++    gm.selectMinigame(next?.startsWith('kart3d:') ? 'kart3d' : next, next === 'kart3d:primo' ? 'primo' : next === 'kart3d:sydney' ? 'sydney' : next === 'kart3d:arcobaleno' ? 'arcobaleno' : 'litorale');
+   }
+ 
+   private tryStart(): void {
+--- a/src/scenes/IntroScene.ts
++++ b/src/scenes/IntroScene.ts
+@@ -33,7 +33,7 @@
+     const icon = this.add.text(640, 150, def?.icon ?? '🎮', { fontSize: '96px' }).setOrigin(0.5).setScale(0.5).setAlpha(0);
+     const name = titleText(this, 640, 265, pick.name, pick.name.length > 26 ? 52 : UI.size.XL + 4, THEME.text).setStroke(UI.outline.color, UI.outline.thick).setAlpha(0);
+     const cat = pill(this, 640, 336, pick.category, THEME.gold, UI.size.S).setAlpha(0);
+-    const desc = bodyText(this, 640, 396, pick.kartTrackId==='sydney'?'Tre giri tra città, porto e Harbour Bridge. Dalla rampa dell’Opera House plana verso il ponte: sterza e segui il punto di atterraggio.':pick.kartTrackId==='arcobaleno'?'Tre giri su una pista sospesa. Le ali si aprono nei tratti azzurri: sterza verso la piattaforma successiva. Fuori pista riparti dal checkpoint.':def?.description ?? 'Usa il telefono per giocare', UI.size.S + 4, THEME.textDim).setWordWrapWidth(1080).setAlpha(0);
++    const desc = bodyText(this, 640, 396, pick.kartTrackId==='primo'?'Tre giri di karting tecnico. Frena prima dei tornanti, derapa e usa il mini-turbo in uscita. Lucky Block e abilità possono ribaltare la gara.':pick.kartTrackId==='sydney'?'Tre giri tra città, porto e Harbour Bridge. Dalla rampa dell’Opera House plana verso il ponte: sterza e segui il punto di atterraggio.':pick.kartTrackId==='arcobaleno'?'Tre giri su una pista sospesa. Le ali si aprono nei tratti azzurri: sterza verso la piattaforma successiva. Fuori pista riparti dal checkpoint.':def?.description ?? 'Usa il telefono per giocare', UI.size.S + 4, THEME.textDim).setWordWrapWidth(1080).setAlpha(0);
+     this.tweens.add({ targets: icon, alpha: 1, scale: 1, duration: THEME.normal, ease: 'Back.easeOut' });
+     this.tweens.add({ targets: [name, cat, desc], alpha: 1, duration: THEME.normal, delay: 120 });
+ 
+--- a/src/minigames/kart-race/BabylonKartGame.ts
++++ b/src/minigames/kart-race/BabylonKartGame.ts
+@@ -1,3 +1,5 @@
++import {PrimoTrack,guidePrimoBots} from './primoTrack';
++import {buildPrimoWorld,importPrimo} from './primoWorld';
+ import {SydneyTrack} from './sydneyTrack';
+ import {buildSydneyWorld,importSydney} from './sydneyWorld';
+ import type {GlideTrack} from './rainbowTrack';
+@@ -57,6 +59,7 @@
+   readonly ready:Promise<void>;
+   private rainbow:RainbowTrack|null=null;
+   private sydney:SydneyTrack|null=null;
++  private primo:PrimoTrack|null=null;
+   private flightTrack:GlideTrack|null=null;
+   private wings=new Map<PlayerId,GlideWings>();
+   private landingGuides=new Map<PlayerId,GlideLandingGuide>();
+@@ -105,10 +108,11 @@
+     this.scene = new Scene(this.engine);
+     this.rainbow=ctx.kartTrackId==='arcobaleno'?new RainbowTrack():null;
+     this.sydney=ctx.kartTrackId==='sydney'?new SydneyTrack():null;
++    this.primo=ctx.kartTrackId==='primo'?new PrimoTrack():null;
+     this.flightTrack=this.rainbow??this.sydney;
+-    this.spline = this.flightTrack??buildTrack();
++    this.spline = this.primo??this.flightTrack??buildTrack();
+     // Mondo intorno alla pista (cielo, luce, mare, i 4 settori coi landmark): kartEnvironment.ts. Bagliore solo su neon e luci.
+-    this.world = this.sydney?buildSydneyWorld(this.scene):this.rainbow?buildRainbowWorld(this.scene,this.rainbow):buildKartWorld(this.scene, this.spline);
++    this.world = this.primo?buildPrimoWorld(this.scene):this.sydney?buildSydneyWorld(this.scene):this.rainbow?buildRainbowWorld(this.scene,this.rainbow):buildKartWorld(this.scene, this.spline);
+     const shadowGen = new ShadowGenerator(1024, this.world.sun);
+     shadowGen.usePoissonSampling = true;
+     shadowGen.bias = 0.002;
+@@ -117,12 +121,12 @@
+     const shadowMap=shadowGen.getShadowMap()!;shadowMap.refreshRate=0;
+     this.scene.onBeforeRenderObservable.add(()=>shadowMap.resetRefreshCounter());
+     this.scene.skipPointerMovePicking=true;
+-    if(!this.flightTrack)buildTrackVisuals(this.scene, this.spline);
+-    this.setPieces=this.flightTrack?{update:()=>{}}:buildTrackSetPieces(this.scene,this.spline);
+-    if(!this.sydney)buildTrackGuides(this.scene, this.spline,this.rainbow?.checkpoints); // cartelli e frecce prima delle curve, portali dei checkpoint
++    if(!this.flightTrack&&!this.primo)buildTrackVisuals(this.scene, this.spline);
++    this.setPieces=this.flightTrack||this.primo?{update:()=>{}}:buildTrackSetPieces(this.scene,this.spline);
++    if(!this.sydney&&!this.primo)buildTrackGuides(this.scene, this.spline,this.rainbow?.checkpoints); // cartelli e frecce prima delle curve, portali dei checkpoint
+     registerEnvScene(this.scene);
+-    this.checkpoints = this.sydney?.checkpoints??this.rainbow?.checkpoints??buildCheckpoints(this.spline);
+-    const boxPlacements = this.sydney?.boxes??buildItemBoxes(this.spline).filter(p=>!this.rainbow?.gapAt(p.s,18));
++    this.checkpoints = this.primo?.checkpoints??this.sydney?.checkpoints??this.rainbow?.checkpoints??buildCheckpoints(this.spline);
++    const boxPlacements = this.primo?.boxes??this.sydney?.boxes??buildItemBoxes(this.spline).filter(p=>!this.rainbow?.gapAt(p.s,18));
+ 
+     this.abilities = new CharacterAbilities();
+     abilityHub.begin('kart3d', ctx);
+@@ -142,7 +146,7 @@
+     this.hud = new KartHud(this.scene, this.engine);
+     this.unsubAbility = abilityHub.onStatus((id, st) => this.hud.setAbility(id, st));
+     this.hud.setTrack(this.spline, this.checkpoints); // minimappa (prima di ensure(): ogni viewport ne riceve una)
+-    this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), this.trackAngleAt, (ev) => this.onRaceEvent(ev));
++    this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), this.trackAngleAt, (ev) => this.onRaceEvent(ev),this.primo?16:undefined);
+ 
+     this.order = ctx.players.filter((p) => !p.bot).map((p) => p.id);
+     // Griglia equa: chi è in testa alla classifica parte dietro, gli ultimi davanti; a parità decide il caso
+@@ -182,7 +186,7 @@
+     this.hud.setCountdown('3');
+ 
+     // Schermata CONTROLLI: finche' e' su, il countdown/la gara restano fermi (vedi step()); alla fine gli input sono azzerati.
+-    this.ready=(this.sydney?importSydney(this.scene,this.sydney):this.rainbow?importRainbow(this.scene,this.rainbow):Promise.resolve()).then(()=>{
++    this.ready=(this.primo?importPrimo(this.scene):this.sydney?importSydney(this.scene,this.sydney):this.rainbow?importRainbow(this.scene,this.rainbow):Promise.resolve()).then(()=>{
+       if(this.disposed)return;
+       if(ctx.showControls)void ctx.showControls().then(()=>{if(!this.disposed)this.controlsDone=true;});
+       else this.controlsDone=true;
+@@ -226,6 +230,7 @@
+ 
+     if (this.race.phase === 'racing') {
+       this.soloBots.kart(dt, kartsList, this.spline);
++      if(this.primo)guidePrimoBots(this.primo,this.ctx,kartsList);
+       for (const [pid, state] of this.karts) {
+         if (state.finished) continue;
+         const pin = this.ctx.input.get(pid);
+@@ -273,8 +278,8 @@
+           else if(event==='land'){this.sendInfoLine(pid,state);audio.kartGlide('land');this.hud.flash(pid,'ATTERRAGGIO!','#b4ff9e',.75);this.ctx.vibrate(pid,25);this.cameraManager.shake(pid,.045);}
+           else {audio.fall();this.hud.flash(pid,'CADUTA · RIPARTI DAL CHECKPOINT','#ffb796',1.2);}
+         },!!this.sydney);
+-        else stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier,trackSurface(state.distance,state.lateral,this.spline.totalLength));
+-        if(!this.flightTrack)stepTrackDynamics(state,from,this.spline.totalLength,d=>this.spline.widthAt(d),this.race.raceTime,event=>{
++        else stepKartPhysics(state, snapshot, dt, (d) => this.spline.widthAt(d) / 2, this.trackAngleAt, invertModifier,this.primo?{grip:1,speed:1}:trackSurface(state.distance,state.lateral,this.spline.totalLength));
++        if(!this.flightTrack&&!this.primo)stepTrackDynamics(state,from,this.spline.totalLength,d=>this.spline.widthAt(d),this.race.raceTime,event=>{
+           if(event==='launch'){audio.kartBoost(9);this.ctx.vibrate(pid,30);this.hud.flash(pid,'DECOLLO!','#ffd166',.6);}
+           if(event==='obstacle'){audio.hit();this.cameraManager.shake(pid,.14);this.ctx.vibrate(pid,50);}
+         });
+@@ -365,7 +370,7 @@
+     this.windClock-=dt;
+     if(this.flightTrack&&this.windClock<=0&&this.order.some(id=>this.karts.get(id)?.flight==='GLIDE')){audio.kartGlide('wind');this.windClock=.4;}
+     this.setPieces.update(this.race.raceTime);
+-    for(const [id,state] of this.karts)this.hud.setSector(id,this.sydney?this.sydney.sector(state.distance):this.rainbow?(state.flight==='GLIDE'?'':state.flight==='FALL'?'RECUPERO':'ARCOBALENO'):trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
++    for(const [id,state] of this.karts)this.hud.setSector(id,this.primo?this.primo.sector(state.distance):this.sydney?this.sydney.sector(state.distance):this.rainbow?(state.flight==='GLIDE'?'':state.flight==='FALL'?'RECUPERO':'ARCOBALENO'):trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
+   }
+ 
+   /**
+@@ -575,7 +580,7 @@
+     } else if (ev.type === 'checkpoint_clean' && ev.playerId) {
+       const k = this.karts.get(ev.playerId);
+       if (k) this.abilities.addMeter(k, 0.08);
+-      if(!this.rainbow)this.hud.flash(ev.playerId, '✔ CHECKPOINT', '#22d3ee', 0.6);
++      if(!this.rainbow&&!this.primo)this.hud.flash(ev.playerId, '✔ CHECKPOINT', '#22d3ee', 0.6);
+     } else if (ev.type === 'overtake' && ev.playerId) {
+       const k = this.karts.get(ev.playerId);
+       if (k) this.abilities.addMeter(k, 0.18);
+--- a/src/minigames/kart-race/race.ts
++++ b/src/minigames/kart-race/race.ts
+@@ -34,7 +34,8 @@
+     private totalLength: number,
+     private durationCap: number,
+     private trackAngleAt: (distance: number) => number,
+-    private onEvent: (ev: RaceHudEvent) => void
++    private onEvent: (ev: RaceHudEvent) => void,
++    private graceAfterFirstFinish = GRACE_AFTER_FIRST_FINISH
+   ) {}
+ 
+   /** Da chiamare ogni frame ANCHE durante il countdown (per rilevare partenze anticipate/perfette). */
+@@ -79,7 +80,7 @@
+ 
+     if (!this.graceActive && karts.some((k) => k.finished)) {
+       this.graceActive = true;
+-      this.graceTimer = GRACE_AFTER_FIRST_FINISH;
++      this.graceTimer = this.graceAfterFirstFinish;
+     }
+     if (this.graceActive) this.graceTimer -= dt;
+ 

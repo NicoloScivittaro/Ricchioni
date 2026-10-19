@@ -416,10 +416,10 @@ const K = {
       kind: 'ACTIVE_TIMING',
       impact: 'HIGH',
       charges: 0,
-      cooldown: 0,
-      limit: 'a barra piena',
-      p: { duration: 6, driftMult: 1.6 },
-      short: 'Drift perfetti = turbo più forti, finché non sbatti.',
+      cooldown: 20,
+      limit: 'barra piena e ricarica completata',
+      p: { duration: 6, driftMult: 1.7, kick:46, kickTime:3.4 },
+      short: 'Scatto +34,5% per 3,4 s e drift potenziati. Evita gli urti.',
       full: ''
     })
   ),
@@ -431,10 +431,10 @@ const K = {
       kind: 'REACTIVE',
       impact: 'HIGH',
       charges: 1,
-      cooldown: 0,
-      limit: '1 uso a gara',
-      p: { window: 1.2, severeStun: 1, boost: 20, boostTime: 0.9 },
-      short: 'Dopo uno schianto: premi e torni subito in pista.',
+      cooldown: 24,
+      limit: 'una carica, si ricarica in 24 s',
+      p: { window: 2.2, severeStun: 1, boost: 44, boostTime: 2.4 },
+      short: 'Dopo un urto riparti sul posto; in caduta torna al checkpoint.',
       full: ''
     })
   ),
@@ -446,10 +446,10 @@ const K = {
       kind: 'RISK_REWARD',
       impact: 'HIGH',
       charges: 0,
-      cooldown: 0,
-      limit: 'a barra piena',
-      p: { duration: 5, steer: 0.75, shove: 9, slow: 0.7, slowTime: 1.2 },
-      short: 'Camion: spingi via chi tocchi, ma sterzi male.',
+      cooldown: 24,
+      limit: 'barra piena e ricarica completata',
+      p: { duration: 5.5, steer: 0.85, shove: 6, slow: 0.52, slowTime: 1.6 },
+      short: 'Camion corazzato: rallenta chi tocchi, ma sterza più largo.',
       full: ''
     })
   ),
@@ -461,10 +461,10 @@ const K = {
       kind: 'RISK_REWARD',
       impact: 'HIGH',
       charges: 0,
-      cooldown: 0,
-      limit: 'a barra piena',
-      p: { duration: 6, accel: 1.35, driftRate: 1.8 },
-      short: 'Leggerissimo: accelera e drifta, ma voli se ti urtano.',
+      cooldown: 22,
+      limit: 'barra piena e ricarica completata',
+      p: { duration: 5.5, accel: 2.1, driftRate: 2, topSpeed:1.28 },
+      short: 'Accelerazione forte, +28% al tetto e drift rapidi; fragile agli urti.',
       full: ''
     })
   ),
@@ -476,19 +476,19 @@ const K = {
       kind: 'REACTIVE',
       impact: 'HIGH',
       charges: 1,
-      cooldown: 0,
-      limit: '1 uso a gara',
-      p: { before: 0.5, after: 0.6, debt: 4 },
-      short: 'Rimanda un colpo: lo paghi dopo qualche secondo.',
+      cooldown: 24,
+      limit: 'una carica, si ricarica in 24 s',
+      p: { before: 2, after: 1.2, debt: 8, repayment:.4, counterPower:30, counterTime:1.2 },
+      short: 'Rimanda un colpo di 8 s e ne paghi solo il 40%.',
       full: ''
     })
   )
 };
-K.goblin.full = `Guida bene (drift puliti, sorpassi) per riempire la barra, poi premi: per ${sec(K.goblin.p.duration)} i mini-turbo dei drift sono ${K.goblin.p.driftMult.toString().replace('.', ',')}× più forti. Se sbatti o esci di pista, l'effetto finisce subito.`;
-K.buttafuori.full = `Se fai uno schianto grave hai ${sec(K.buttafuori.p.window)} per premere: torni subito in pista con un boost. Se non premi, ti rialzi lentamente come tutti. Una volta a gara.`;
-K.judoka.full = `Riempi la barra, poi premi: per ${sec(K.judoka.p.duration)} sei un camion. Chi tocchi viene spinto di lato e rallentato, tu non perdi velocità negli urti. Sterzi ${Math.round((1 - K.judoka.p.steer) * 100)}% peggio.`;
-K.dottore.full = `Riempi la barra, poi premi: per ${sec(K.dottore.p.duration)} accelerazione e drift facilissimi. Ma sei leggerissimo: chi ti urta ti manda lontano.`;
-K.ciro.full = `Premi appena prima (o subito dopo, entro ${sec(K.ciro.p.after)}) di essere colpito da un oggetto: l'effetto non arriva subito ma dopo ${sec(K.ciro.p.debt)} come DEBITO. Una volta a gara.`;
+K.goblin.full = `Scatto di ${sec(K.goblin.p.kickTime)} (+34,5% al tetto normale), poi mini-turbo drift ${K.goblin.p.driftMult}× per ${sec(K.goblin.p.duration)}. Un urto interrompe la finestra drift. Ricarica minima ${sec(K.goblin.cooldown)}, barra ricaricata anche guidando.`;
+K.buttafuori.full = `Premi entro ${sec(K.buttafuori.p.window)} da uno schianto: recuperi sul posto con turbo; se cadi torni all'ultimo checkpoint valido. In planata instabile smorzi la deriva, senza ricentrarti. Una carica ogni ${sec(K.buttafuori.cooldown)}.`;
+K.judoka.full = `Per ${sec(K.judoka.p.duration)} sei un camion: assorbi un oggetto, resisti agli urti e interrompi i turbo e rallenti i rivali toccati per ${sec(K.judoka.p.slowTime)}. Sterzo -15%. Ogni bersaglio ha una tregua di 1,8 s. Ricarica minima ${sec(K.judoka.cooldown)}.`;
+K.dottore.full = `Per ${sec(K.dottore.p.duration)}: accelerazione ×2,1, tetto +28% e drift ×2, anche in volo. Gli urti ti spostano di più. Ricarica minima ${sec(K.dottore.cooldown)}.`;
+K.ciro.full = `Arma per ${sec(K.ciro.p.before)} prima del colpo, o premi entro ${sec(K.ciro.p.after)} dopo: riprendi velocità e rimandi l'effetto di ${sec(K.ciro.p.debt)}. Poi paghi il 40%, con una breve tregua dai colpi ripetuti. Una difesa in anticipo dà anche un contro-turbo di 1,2 s. Una carica ogni ${sec(K.ciro.cooldown)}.`;
 
 // ============================================================================================================================
 // SPARATORIA DEI DISAGIATI (FPS) — prima abilita' vera: RB era riservato e non faceva niente.

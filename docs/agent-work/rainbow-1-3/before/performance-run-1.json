@@ -1,0 +1,42 @@
+{
+  "phase": "arcobaleno",
+  "metrics": {
+    "variant": {
+      "cosmos": false,
+      "abilityCooldown": false
+    },
+    "frameTime": {
+      "mean": 20.534102564102554,
+      "p95": 33.400000000001455
+    },
+    "shadowPasses": 0,
+    "topDraws": [],
+    "players": 5,
+    "viewports": 5,
+    "fps": 48.69947429541853,
+    "step": {
+      "mean": 1.3145038168640386,
+      "p95": 2.5
+    },
+    "render": {
+      "mean": 17.1173913043726,
+      "p95": 28
+    },
+    "meshes": 208,
+    "active": 35,
+    "draw": 283,
+    "materials": 165,
+    "scale": 1,
+    "shadows": true,
+    "width": 1280,
+    "height": 720,
+    "length": 2200.7326075763294,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    }
+  },
+  "errors": [],
+  "hardwareAfterSample": "2026/10/19 13:34:08.178, 37, 3 %, 20.39 W, 345 MHz"
+}

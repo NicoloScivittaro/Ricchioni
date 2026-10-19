@@ -72,6 +72,9 @@ function onState(s: St | null): void {
       if (phase === 'MINIGAME_ROULETTE') music.play('roulette', 1);
       break;
     }
+    case 'MINIGAME_MAP_VOTE':
+      base=1;music.play('lobby',1,.6);
+      break;
     case 'MINIGAME_INTRO':
       gameLevel = 1;
       music.play(themeForGame(gid), 0, 1.4);

@@ -179,16 +179,17 @@ export class RoomScene extends Phaser.Scene {
     const st = gm.state;
     if (!st) return [null];
     const compat = MINIGAME_DEFINITIONS.filter((d) => d.enabled !== false && st.playerCount >= d.minPlayers && st.playerCount <= d.maxPlayers).map((d) => d.id);
-    return [null, ...compat, ...(compat.includes('kart3d') ? ['kart3d:arcobaleno'] : [])];
+    return [null, ...compat, ...(compat.includes('kart3d') ? ['kart3d:arcobaleno','kart3d:sydney','kart3d:primo'] : [])];
   }
 
   private cycleMinigame(dir: number): void {
     const opts = this.options();
-    const cur = gm.state?.selectedMinigameId === 'kart3d' && gm.state.selectedKartTrackId === 'arcobaleno' ? 'kart3d:arcobaleno' : gm.state?.selectedMinigameId ?? null;
+    const track=gm.state?.selectedKartTrackId;
+    const cur = gm.state?.selectedMinigameId === 'kart3d' && track && track !== 'litorale' ? `kart3d:${track}` : gm.state?.selectedMinigameId ?? null;
     const idx = Math.max(0, opts.indexOf(cur));
     const next = opts[(idx + dir + opts.length) % opts.length];
     audio.ui('move');
-    gm.selectMinigame(next === 'kart3d:arcobaleno' ? 'kart3d' : next, next === 'kart3d:arcobaleno' ? 'arcobaleno' : 'litorale');
+    gm.selectMinigame(next?.startsWith('kart3d:') ? 'kart3d' : next, next === 'kart3d:primo' ? 'primo' : next === 'kart3d:sydney' ? 'sydney' : next === 'kart3d:arcobaleno' ? 'arcobaleno' : 'litorale');
   }
 
   private tryStart(): void {

@@ -13,10 +13,22 @@ export function glideLift(t:number,height:number):number {
 /** Predict the lateral touchdown if steering is released now. Includes residual
  * yaw and contact impulses; it is information, never an aim/position assist. */
 export function predictGlideLanding(k:KartState):number {
-  const time=Math.max(0,(k.glideEnd-k.distance)/Math.max(20,k.speed*Math.cos(k.heading)));
-  const w=GLIDE.frequency,e=Math.exp(-w*time),yaw=k.heading,rate=k.glideYawVelocity;
-  const integral=yaw*(1-e)/w+(w*yaw+rate)*(1-(1+w*time)*e)/(w*w);
-  // Oil retains its reduced lateral grip; do not display a dry-road forecast for it.
-  const decay=Math.max(.6,4.5-Math.min(1,k.oilTimer/.4)*3.9);
-  return k.lateral+k.speed*integral+k.slipVelocity*(1-Math.exp(-decay*time))/decay;
+  if(Math.abs(k.heading)+Math.abs(k.glideYawVelocity)+Math.abs(k.slipVelocity)<1e-5)return k.lateral;
+  const remaining=Math.max(0,k.glideEnd-k.distance),w=GLIDE.frequency;
+  let speed=k.speed,forward=0,lateral=k.lateral,slip=k.slipVelocity,time=0;
+  const dt=Math.max(.004,Math.min(.16,remaining/Math.max(24,speed)/48));
+  // Bounded cheap integration includes cruise/boost decay and the active light mode.
+  // Steering is assumed released; new input or a later collision changes the forecast.
+  for(let i=0;i<96&&forward<remaining;i++){
+    const mid=time+dt*.5,e=Math.exp(-w*mid),yaw=(k.heading+(k.glideYawVelocity+w*k.heading)*mid)*e,previousSpeed=speed;
+    const light=k.lightMode&&time<k.abilityTimer;
+    speed+=(44*(light?k.abilitySpeedFactor:1)-speed)*Math.min(1,dt*.55*(light?k.accelMultiplier:1));
+    if(time<k.boostTimer)speed=Math.min(44*(1+.0075*k.boostPower),speed+45*dt);
+    const cap=Math.max(44*(light?k.abilitySpeedFactor:1),time<k.boostTimer?44*(1+.0075*k.boostPower):0)*(time<k.speedCapTimer?k.speedCapMultiplier:1);
+    if(speed>cap)speed=Math.max(cap,speed-60*dt);
+    const average=(previousSpeed+speed)*.5,rate=Math.max(1,average*Math.cos(yaw)),step=Math.min(dt,(remaining-forward)/rate);
+    const oil=Math.max(0,k.oilTimer-time);slip*=Math.exp(-(4.5-Math.min(1,oil/.4)*3.9)*step);time+=step;
+    lateral+=(average*Math.sin(yaw)+slip)*step;forward+=rate*step;
+  }
+  return lateral;
 }

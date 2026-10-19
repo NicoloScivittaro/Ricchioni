@@ -1,0 +1,19 @@
+15:22:35 [vite] (client) Re-optimizing dependencies because lockfile has changed
+
+  VITE v6.4.3  ready in 1050 ms
+
+  ➜  Local:   http://127.0.0.1:5180/
+15:29:33 [vite] (client) page reload shared/kartTracks.ts
+15:29:33 [vite] (client) page reload src/scenes/RoomScene.ts
+15:29:33 [vite] (client) page reload src/scenes/IntroScene.ts
+15:33:12 [vite] (client) page reload src/minigames/kart-race/primoRoute.json
+15:35:03 [vite] (client) page reload src/minigames/kart-race/primoWorld.ts
+15:38:03 [vite] (client) page reload src/minigames/kart-race/primoWorld.ts
+15:38:03 [vite] (client) page reload src/minigames/kart-race/BabylonKartGame.ts
+15:38:15 [vite] (client) page reload src/minigames/kart-race/primoRoute.json
+15:40:52 [vite] (client) page reload docs/agent-work/primo-karting/preview.html
+15:42:05 [vite] (client) page reload src/minigames/kart-race/primoWorld.ts
+15:43:29 [vite] (client) page reload src/minigames/kart-race/primoTrack.ts
+15:45:34 [vite] (client) page reload src/minigames/kart-race/race.ts
+15:45:34 [vite] (client) page reload src/minigames/kart-race/BabylonKartGame.ts
+15:47:08 [vite] (client) page reload docs/agent-work/primo-karting/preview.html

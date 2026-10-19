@@ -1,0 +1,23 @@
+{
+  "protocol": "1280x720 HIGH scale1, 5 cameras, 8-second samples; intermediate measurements retained, final paired comparison follows",
+  "measurements": [
+    {
+      "stage": "original baseline",
+      "fps": 52.44624260133365,
+      "meanFrameMs": 19.06714285714285,
+      "p95FrameMs": 33.4
+    },
+    {
+      "stage": "upgrade before final short-camera refinement",
+      "fps": 55.81848378516753,
+      "meanFrameMs": 17.915212527964204,
+      "p95FrameMs": 33.3
+    },
+    {
+      "stage": "final code first sample after build",
+      "fps": 44.57986288882503,
+      "meanFrameMs": 22.431652661064444,
+      "p95FrameMs": 33.4
+    }
+  ]
+}

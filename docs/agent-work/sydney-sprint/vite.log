@@ -1,0 +1,13 @@
+14:32:00 [vite] (client) Re-optimizing dependencies because lockfile has changed
+
+  VITE v6.4.3  ready in 975 ms
+
+  ➜  Local:   http://127.0.0.1:5180/
+14:38:11 [vite] (client) page reload src/minigames/kart-race/sydneyTrack.ts
+14:38:11 [vite] (client) page reload src/minigames/kart-race/sydneyWorld.ts
+14:38:12 [vite] (client) page reload src/minigames/kart-race/sydneyRoute.json
+14:39:54 [vite] (client) page reload src/minigames/kart-race/sydneyRoute.json
+14:43:43 [vite] (client) page reload src/minigames/kart-race/sydneyTrack.ts
+14:44:26 [vite] (client) page reload src/minigames/kart-race/sydneyRoute.json
+14:44:42 [vite] (client) page reload src/minigames/kart-race/sydneyWorld.ts
+14:47:45 [vite] (client) page reload src/minigames/kart-race/sydneyTrack.ts

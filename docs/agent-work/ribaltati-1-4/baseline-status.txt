@@ -1,0 +1,59 @@
+ M dist/index.html
+ M scripts/kart-abilities-selftest.ts
+ M scripts/kart-oil-selftest.ts
+ M server/GameSession.ts
+ M server/RoomManager.ts
+ M shared/abilityCatalog.ts
+ M shared/protocol.ts
+ M shared/types.ts
+ M src/app/main.ts
+ M src/controller/main.ts
+ M src/controller/style.css
+ M src/core/AudioManager.ts
+ M src/core/GameManager.ts
+ M src/core/flowTrace.ts
+ M src/core/musicDirector.ts
+ M src/input/GamepadManager.ts
+ M src/input/PairingPanel.ts
+ M src/input/padTypes.ts
+ M src/minigames/backrooms/BabylonBackroomsGame.ts
+ M src/minigames/backrooms/levels.ts
+ M src/minigames/bots/MotionBots.ts
+ M src/minigames/kart-race/BabylonKartGame.ts
+ M src/minigames/kart-race/abilities.ts
+ M src/minigames/kart-race/cameraHud.ts
+ M src/minigames/kart-race/glideDynamics.ts
+ M src/minigames/kart-race/items.ts
+ M src/minigames/kart-race/kartCollisions.ts
+ M src/minigames/kart-race/kartEntity.ts
+ M src/minigames/kart-race/kartPhysics.ts
+ M src/minigames/kart-race/raceTypes.ts
+ M src/minigames/kart-race/rainbowTrack.ts
+ M src/minigames/kart-race/rainbowWorld.ts
+ M src/minigames/minigolf/BabylonMinigolfGame.ts
+ M src/minigames/minigolf/minigolfCourses.ts
+ M src/minigames/types.ts
+ M src/scenes/IntroScene.ts
+?? docs/agent-work/map-voting/
+?? docs/agent-work/rainbow-1-3/
+?? docs/agent-work/ribaltati-1-4/
+?? scripts/e2e/map-voting-production.mjs
+?? scripts/e2e/map-voting.mjs
+?? scripts/e2e/rainbow-13-camera.mjs
+?? scripts/e2e/rainbow-13-gallery.mjs
+?? scripts/e2e/rainbow-13-natural.mjs
+?? scripts/e2e/rainbow-13-performance.mjs
+?? scripts/e2e/rainbow-13-photos.mjs
+?? scripts/e2e/rainbow-13-production.mjs
+?? scripts/e2e/rainbow-13-qa.mjs
+?? scripts/map-vote-network.ts
+?? scripts/map-vote-selftest.ts
+?? scripts/rainbow-13-bots-selftest.ts
+?? scripts/rainbow-13-measure.ts
+?? scripts/rainbow-13-selftest.ts
+?? scripts/rainbow-13-truck-measure.ts
+?? shared/minigameMaps.ts
+?? src/controller/mapVoteController.ts
+?? src/minigames/kart-race/rainbowCosmos.ts
+?? src/minigames/kart-race/rainbowFinish.ts
+?? src/scenes/MapVoteScene.ts

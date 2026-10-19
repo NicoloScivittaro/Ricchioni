@@ -1,0 +1,60 @@
+{
+  "poses": [
+    [
+      "long",
+      0,
+      0.5
+    ],
+    [
+      "short",
+      1,
+      0.5
+    ],
+    [
+      "wings",
+      0,
+      0.76
+    ],
+    [
+      "portal",
+      0,
+      0.94
+    ],
+    [
+      "space",
+      0,
+      0.38
+    ],
+    [
+      "bank",
+      -1,
+      1300
+    ],
+    [
+      "turbo",
+      -1,
+      1100,
+      "goblin"
+    ],
+    [
+      "defence",
+      0,
+      0.6,
+      "ciro"
+    ],
+    [
+      "offence",
+      -1,
+      1100,
+      "judoka"
+    ]
+  ],
+  "contact": {
+    "lateral": 0,
+    "slip": 1.75,
+    "speed": 62,
+    "cap": 0.82,
+    "time": 1.6
+  },
+  "errors": []
+}

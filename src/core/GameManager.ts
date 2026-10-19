@@ -135,6 +135,11 @@ export class GameManager {
     this.socket?.emit(EVT.hostSelectMinigame, { minigameId, kartTrackId });
   }
 
+  voteMapForPad(playerId:string,mapId:string):void {
+    if(this.state?.phase!=='MINIGAME_MAP_VOTE')return;
+    this.socket?.emit(EVT.hostMapVote,{playerId,mapId,roundId:this.state.roundId});
+  }
+
   /** Invia dati privati a un singolo telefono (es. carte segrete, ruoli, obiettivi). */
   sendPrivate(playerId: string, data: unknown): void {
     this.socket?.emit(EVT.hostPrivateData, { playerId, data });
@@ -265,6 +270,7 @@ export class GameManager {
     return {
       roundId,
       kartTrackId: payload.kartTrackId,
+      mapId:payload.mapId,
       players: snapshots,
       playerIds: snapshots.map((p) => p.id),
       rng: new Rng(),
@@ -435,6 +441,8 @@ export class GameManager {
     switch (phase) {
       case 'MINIGAME_ROULETTE':
         return 'RouletteScene';
+      case 'MINIGAME_MAP_VOTE':
+        return 'MapVoteScene';
       case 'MINIGAME_INTRO':
         return 'IntroScene';
       case 'MINIGAME_FINISHED':
@@ -474,6 +482,9 @@ export class GameManager {
       case 'MINIGAME_ROULETTE':
         this.startScene('RouletteScene');
         break;
+      case 'MINIGAME_MAP_VOTE':
+        this.startScene('MapVoteScene');
+        break;
       case 'MINIGAME_INTRO':
         this.startScene('IntroScene');
         break;
@@ -503,7 +514,12 @@ export class GameManager {
   private onMinigameSelected(payload: MinigameSelectedPayload): void {
     // Re-invio dopo una riconnessione host a metà round: stesso roundId → tieni il contesto
     // già in uso (ricrearlo azzererebbe gli input e riaprirebbe la consegna dei risultati).
+    // La mappa definitiva arriva dopo il voto, nello stesso round: aggiorna solo i dati scelti.
     if (payload.roundId !== undefined && this.pendingMinigame?.roundId === payload.roundId && this.minigameContext) {
+      this.pendingMinigame=payload;
+      this.minigameContext.mapId=payload.mapId;
+      this.minigameContext.kartTrackId=payload.kartTrackId;
+      this.events.emit('minigame',payload);
       return;
     }
     this.pendingMinigame = payload;

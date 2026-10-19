@@ -1,0 +1,17 @@
+{
+  "protocol": "Isolated ground slowdown: baseline/final catalog, same neutral solver, 10s at 60Hz, initial speed62 on both karts; no lateral collisions",
+  "result": [
+    {
+      "stage": "before",
+      "slow": 0.7,
+      "seconds": 1.2,
+      "lossMetres": 9.675145306653064
+    },
+    {
+      "stage": "after",
+      "slow": 0.65,
+      "seconds": 1.6,
+      "lossMetres": 17.720582459820093
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "errors": [],
+  "models": [
+    "http://localhost:3008/assets/tracks/sydney_sprint.glb",
+    "http://localhost:3008/models/detailed-tripo/detailed_character_casacarbo.glb",
+    "http://localhost:3008/models/judoka-tripo/judo_figure_casacarbo.glb",
+    "http://localhost:3008/models/goblin-tripo/green_goblin_casacarbo.glb",
+    "http://localhost:3008/models/man-tripo/man_animated.glb"
+  ],
+  "compiled": true,
+  "pick": {
+    "roundId": 1,
+    "kartTrackId": "sydney",
+    "minigameId": "kart3d",
+    "name": "RIBALTATI — SYDNEY SPRINT",
+    "category": "GUIDA",
+    "modifierId": null,
+    "modifierName": null,
+    "modifierDescription": null,
+    "durationSec": 230,
+    "controllerLayout": {
+      "type": "racing",
+      "controls": [
+        {
+          "id": "up",
+          "label": "ACCELERA",
+          "kind": "hold"
+        },
+        {
+          "id": "down",
+          "label": "FRENO",
+          "kind": "hold"
+        },
+        {
+          "id": "left",
+          "label": "◀",
+          "kind": "hold"
+        },
+        {
+          "id": "right",
+          "label": "▶",
+          "kind": "hold"
+        },
+        {
+          "id": "drift",
+          "label": "DRIFT",
+          "kind": "hold",
+          "icon": "💨"
+        },
+        {
+          "id": "item",
+          "label": "ITEM",
+          "kind": "button",
+          "icon": "🎁"
+        },
+        {
+          "id": "ability",
+          "label": "ABILITÀ",
+          "kind": "button",
+          "icon": "⭐"
+        }
+      ]
+    },
+    "players": [
+      {
+        "id": "7b34712d-68fa-4460-b931-b85b854983e2",
+        "displayName": "SYDNEY BUILD",
+        "characterId": "goblin",
+        "ready": true,
+        "connected": true,
+        "score": 0
+      },
+      {
+        "id": "bot:6fdba737-600b-4ec0-8126-65872db50751",
+        "displayName": "BOT BOSCHI",
+        "characterId": "buttafuori",
+        "ready": true,
+        "connected": true,
+        "score": 0,
+        "bot": true
+      },
+      {
+        "id": "bot:f0a80100-8d85-4103-97e9-bbee365b469e",
+        "displayName": "BOT Carbo",
+        "characterId": "judoka",
+        "ready": true,
+        "connected": true,
+        "score": 0,
+        "bot": true
+      },
+      {
+        "id": "bot:53fa1b97-c90b-427f-aca5-62e2c220cab5",
+        "displayName": "BOT Ciro",
+        "characterId": "ciro",
+        "ready": true,
+        "connected": true,
+        "score": 0,
+        "bot": true
+      },
+      {
+        "id": "bot:60d18e3a-98b0-4053-b0cf-782e0b018841",
+        "displayName": "BOT Victor",
+        "characterId": "dottore",
+        "ready": true,
+        "connected": true,
+        "score": 0,
+        "bot": true
+      }
+    ],
+    "activeModifiers": {
+      "7b34712d-68fa-4460-b931-b85b854983e2": [
+        {
+          "source": "7b34712d-68fa-4460-b931-b85b854983e2",
+          "hook": "race.reveal_obstacle",
+          "label": "EXPLOIT",
+          "uses": 2
+        }
+      ],
+      "bot:6fdba737-600b-4ec0-8126-65872db50751": [
+        {
+          "source": "bot:6fdba737-600b-4ec0-8126-65872db50751",
+          "hook": "race.quick_recover",
+          "label": "MO M'IMPEGNO",
+          "uses": 1
+        }
+      ],
+      "bot:f0a80100-8d85-4103-97e9-bbee365b469e": [
+        {
+          "source": "bot:f0a80100-8d85-4103-97e9-bbee365b469e",
+          "hook": "generic.undo_one_error",
+          "label": "CASA MIA, REGOLE MIE",
+          "uses": 1
+        }
+      ],
+      "bot:53fa1b97-c90b-427f-aca5-62e2c220cab5": [
+        {
+          "source": "bot:53fa1b97-c90b-427f-aca5-62e2c220cab5",
+          "hook": "generic.undo_one_error",
+          "label": "È TUTTO REGOLARE",
+          "uses": 1
+        }
+      ],
+      "bot:60d18e3a-98b0-4053-b0cf-782e0b018841": [
+        {
+          "source": "bot:60d18e3a-98b0-4053-b0cf-782e0b018841",
+          "hook": "generic.undo_one_error",
+          "label": "PLACEBO MICIDIALE",
+          "uses": 1
+        }
+      ]
+    },
+    "mapId": "sydney",
+    "mapName": "SYDNEY SPRINT"
+  },
+  "map": "sydney",
+  "players": 5,
+  "botCount": 4,
+  "lazyLoading": true,
+  "cleanup": true
+}

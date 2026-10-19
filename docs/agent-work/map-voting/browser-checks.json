@@ -1,0 +1,126 @@
+{
+  "checks": [
+    "pad paired for ballot",
+    "kart3d/2: dedicated vote scene",
+    "kart3d/2: game not booted during ballot",
+    "pairing panel cannot cover the ballot",
+    "physical pad route navigates and confirms its own ballot",
+    "vote confirm does not enter gameplay",
+    "phone clock two minutes ahead still permits voting",
+    "phone changes ballot even with paired pad",
+    "kart3d/2: humans counted once, bots abstain",
+    "kart3d/2: winning map in intro",
+    "phone ballot removed at intro",
+    "kart3d/2: actual game uses winning map",
+    "kart3d/2: cleanup leaves one canvas",
+    "backrooms/3: dedicated vote scene",
+    "backrooms/3: game not booted during ballot",
+    "backrooms/3: humans counted once, bots abstain",
+    "phone reload keeps identity and selected ballot",
+    "host reload restores ballot without extending timer",
+    "backrooms/3: winning map in intro",
+    "phone ballot removed at intro",
+    "backrooms/3: actual game uses winning map",
+    "backrooms/3: cleanup leaves one canvas",
+    "minigolf/5: dedicated vote scene",
+    "minigolf/5: game not booted during ballot",
+    "minigolf/5: humans counted once, bots abstain",
+    "phone 320x568: all ten choices reachable, countdown stays visible",
+    "phone 844x390: all ten choices reachable, countdown stays visible",
+    "minigolf/5: winning map in intro",
+    "phone ballot removed at intro",
+    "minigolf/5: actual game uses winning map",
+    "golf preserves three different holes",
+    "minigolf/5: cleanup leaves one canvas",
+    "kart3d/1: dedicated vote scene",
+    "kart3d/1: game not booted during ballot",
+    "kart3d/1: humans counted once, bots abstain",
+    "kart3d/1: winning map in intro",
+    "phone ballot removed at intro",
+    "kart3d/1: actual game uses winning map",
+    "kart3d/1: cleanup leaves one canvas",
+    "backrooms/2: dedicated vote scene",
+    "backrooms/2: game not booted during ballot",
+    "backrooms/2: humans counted once, bots abstain",
+    "backrooms/2: winning map in intro",
+    "phone ballot removed at intro",
+    "backrooms/2: actual game uses winning map",
+    "backrooms/2: cleanup leaves one canvas",
+    "backrooms/2: dedicated vote scene",
+    "backrooms/2: game not booted during ballot",
+    "backrooms/2: humans counted once, bots abstain",
+    "backrooms/2: winning map in intro",
+    "phone ballot removed at intro",
+    "backrooms/2: actual game uses winning map",
+    "backrooms/2: cleanup leaves one canvas",
+    "no browser runtime errors"
+  ],
+  "errors": [],
+  "cases": [
+    {
+      "game": "kart3d",
+      "n": 2,
+      "map": "arcobaleno",
+      "pad": true,
+      "data": {
+        "ctxMap": "arcobaleno",
+        "map": "arcobaleno",
+        "phase": "countdown"
+      }
+    },
+    {
+      "game": "backrooms",
+      "n": 3,
+      "map": "garage",
+      "reconnect": true,
+      "data": {
+        "ctxMap": "garage",
+        "map": "garage"
+      }
+    },
+    {
+      "game": "minigolf",
+      "n": 5,
+      "map": "odissea",
+      "data": {
+        "ctxMap": "odissea",
+        "map": "odissea",
+        "courses": [
+          "odissea",
+          "traversata",
+          "maratona"
+        ],
+        "phase": "intro"
+      }
+    },
+    {
+      "game": "kart3d",
+      "n": 1,
+      "seats": 5,
+      "map": "litorale",
+      "data": {
+        "ctxMap": "litorale",
+        "map": "litorale",
+        "phase": "countdown"
+      }
+    },
+    {
+      "game": "backrooms",
+      "n": 2,
+      "map": "lobby",
+      "data": {
+        "ctxMap": "lobby",
+        "map": "lobby"
+      }
+    },
+    {
+      "game": "backrooms",
+      "n": 2,
+      "map": "tunnels",
+      "data": {
+        "ctxMap": "tunnels",
+        "map": "tunnels"
+      }
+    }
+  ]
+}

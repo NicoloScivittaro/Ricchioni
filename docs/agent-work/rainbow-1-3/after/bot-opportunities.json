@@ -1,0 +1,41 @@
+{
+  "checks": [
+    "goblin: ground, opportunity=true, cooldown=false",
+    "goblin: ground, opportunity=false, cooldown=false",
+    "goblin: air, opportunity=true, cooldown=false",
+    "goblin: ground, opportunity=true, cooldown=true",
+    "dottore: ground, opportunity=true, cooldown=false",
+    "dottore: ground, opportunity=false, cooldown=false",
+    "dottore: air, opportunity=true, cooldown=false",
+    "dottore: ground, opportunity=true, cooldown=true",
+    "judoka: ground, opportunity=true, cooldown=false",
+    "judoka: ground, opportunity=false, cooldown=false",
+    "judoka: air, opportunity=true, cooldown=false",
+    "judoka: ground, opportunity=true, cooldown=true",
+    "buttafuori: ground, opportunity=true, cooldown=false",
+    "buttafuori: ground, opportunity=false, cooldown=false",
+    "buttafuori: air, opportunity=true, cooldown=false",
+    "buttafuori: ground, opportunity=true, cooldown=true",
+    "ciro: ground, opportunity=true, cooldown=false",
+    "ciro: ground, opportunity=false, cooldown=false",
+    "ciro: air, opportunity=true, cooldown=false",
+    "ciro: ground, opportunity=true, cooldown=true",
+    "goblin: overtakes a 15m lead on a controlled straight",
+    "dottore: overtakes a 15m lead on a controlled straight"
+  ],
+  "passes": [
+    {
+      "cid": "goblin",
+      "initialDeficit": 15,
+      "passedAt": 1.5,
+      "leadAfter10s": 9.14850000000041
+    },
+    {
+      "cid": "dottore",
+      "initialDeficit": 15,
+      "passedAt": 2.9,
+      "leadAfter10s": 16.744000000001733
+    }
+  ],
+  "passed": 22
+}

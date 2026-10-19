@@ -22,7 +22,7 @@ function addImpulse(k:KartState,b:ReturnType<typeof body>,impulse:Vec):void {
  if(k.truckMode)return; // identità dell'abilità esistente: il camion non perde velocità negli urti.
  const deltaSpeed=clamp(dot(impulse,b.t)/Math.max(.31,Math.cos(k.heading)),-18,18);
  k.speed=clamp(k.speed+deltaSpeed,-18,80);
- k.slipVelocity=clamp(k.slipVelocity+dot(impulse,b.trackRight)-deltaSpeed*Math.sin(k.heading),-14,14);
+ k.slipVelocity=clamp(k.slipVelocity+(dot(impulse,b.trackRight)-deltaSpeed*Math.sin(k.heading))*(k.stabilityTimer>0?.35:1),-14,14);
 }
 
 /** SAT di quattro assi sul volume reale orientato; nessun impulso se il contatto non si sta chiudendo. */
@@ -39,7 +39,7 @@ export function resolveKartContact(a:KartState,b:KartState,frameA:KartWorldFrame
   if(overlap<depth){depth=overlap;const sign=dot(delta,axis)<0?-1:1;normal={x:axis.x*sign,z:axis.z*sign};}
  }
  const aTruck=a.truckMode&&!b.truckMode,bTruck=b.truckMode&&!a.truckMode;
-  const aShare=aTruck ? .08 : bTruck ? .92 : a.lightMode && !b.lightMode ? .88 : b.lightMode && !a.lightMode ? .12 : a.bumperTimer>0&&b.bumperTimer<=0 ? .3 : b.bumperTimer>0&&a.bumperTimer<=0 ? .7 : .5;
+  const aShare=aTruck ? .08 : bTruck ? .92 : a.lightMode && !b.lightMode ? .7 : b.lightMode && !a.lightMode ? .3 : a.bumperTimer>0&&b.bumperTimer<=0 ? .22 : b.bumperTimer>0&&a.bumperTimer<=0 ? .78 : .5;
  const correction=Math.min(depth+.002,1.5);
  a.distance=Math.max(MIN_RACE_DISTANCE,a.distance-dot(normal,ba.t)*correction*aShare);
  a.lateral-=dot(normal,ba.trackRight)*correction*aShare;
@@ -48,8 +48,8 @@ export function resolveKartContact(a:KartState,b:KartState,frameA:KartWorldFrame
  const va=velocity(a,ba),vb=velocity(b,bb);
  const closing=Math.max(0,-dot({x:vb.x-va.x,z:vb.z-va.z},normal));
  if(closing>.1){
-  const invA=a.truckMode?0:a.lightMode?7.333:a.bumperTimer>0?.5:1,invB=b.truckMode?0:b.lightMode?7.333:b.bumperTimer>0?.5:1;
-  const impulse=(1+(a.bumperTimer>0||b.bumperTimer>0?.22:.12))*closing/Math.max(1,invA+invB);
+  const invA=a.truckMode?0:a.lightMode?2.4:a.bumperTimer>0?.38:1,invB=b.truckMode?0:b.lightMode?2.4:b.bumperTimer>0?.38:1;
+  const impulse=(1+(a.bumperTimer>0||b.bumperTimer>0?.45:.12))*closing/Math.max(1,invA+invB);
   addImpulse(a,ba,{x:-normal.x*impulse*invA,z:-normal.z*impulse*invA});
   addImpulse(b,bb,{x:normal.x*impulse*invB,z:normal.z*impulse*invB});
   for(const [kart,basis,sign] of [[a,ba,-1],[b,bb,1]] as const){
