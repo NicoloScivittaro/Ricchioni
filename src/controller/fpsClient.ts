@@ -1,3 +1,4 @@
+import {fpsLoading} from './fpsLoading';
 import {FpsEnergyFx} from './fpsEnergyFx';
 import type {EnergyLaunch,EnergyImpact} from './fpsEnergyFx';
 import {scopeAlpha,scopeSvg} from './fpsScope';
@@ -125,6 +126,12 @@ function buzz(pattern: number | number[]): void {
 }
 
 export class FpsClient {
+  readonly ready:Promise<void>;
+  private finishReady!:()=>void;
+  private worldLoaded=false;
+  private poseReceived=false;
+  private presented=false;
+  private loadingEl:HTMLDivElement;
   private engine: Engine;
   private scene: Scene;
   private camera: UniversalCamera;
@@ -225,6 +232,8 @@ export class FpsClient {
     private mapId='cantiere'
   ) {
     this.selfId = selfId;
+    this.ready=new Promise(resolve=>{this.finishReady=resolve;});
+    this.loadingEl=fpsLoading(container,mapId);
     this.buildHud();
     audio.unlock();
 
@@ -245,9 +254,8 @@ export class FpsClient {
     this.camera.fov = BASE_FOV;
     this.scene.activeCamera = this.camera;
 
-    if(mapId==='terminal'){void import('./terminalWorld').then(m=>m.buildTerminalWorld(this.scene)).catch(e=>{console.error('Terminal loading failed',e);if(!this.scene.isDisposed)this.showDeath('ERRORE CARICAMENTO TERMINAL');});}
-    else if(mapId==='nuketown'){void import('./nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)).catch(e=>{console.error('Nuketown loading failed',e);if(!this.scene.isDisposed)this.showDeath('ERRORE CARICAMENTO NUKETOWN');});}
-    else buildFpsWorld(this.scene);
+    const world=mapId==='terminal'?import('./terminalWorld').then(m=>m.buildTerminalWorld(this.scene)):mapId==='nuketown'?import('./nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)):Promise.resolve(buildFpsWorld(this.scene));
+    void world.then(()=>this.scene.whenReadyAsync()).then(()=>{if(this.scene.isDisposed)return;this.worldLoaded=true;this.presentWhenReady();}).catch(e=>{if(this.scene.isDisposed)return;console.error('FPS world loading failed',e);this.loadingEl.textContent='CARICAMENTO FALLITO · RICARICA IL TELEFONO';});
     this.vm = new FpsViewmodel(this.scene, this.camera, getQualityLevel() === 'high');
     this.vm.equip(this.weaponId);
 
@@ -303,7 +311,7 @@ export class FpsClient {
     this.engine.runRenderLoop(() => {
       const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.05) || 0.016;
       this.tick(dt);
-      this.scene.render();
+      if(this.presented)this.scene.render();
     });
   }
 
@@ -375,7 +383,13 @@ export class FpsClient {
       );
       this.dmgInds.push(ind);
     }
-    this.deathEl = mk('position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(0,0,0,0.55);color:#f87171;font:900 34px Arial;z-index:40;');
+    this.deathEl = mk('position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;background:#0b121a;color:#f87171;font:900 clamp(22px,5vw,34px) Arial;z-index:40;');
+  }
+
+  private presentWhenReady():void {
+    if(this.presented||!this.worldLoaded||!this.poseReceived||this.scene.isDisposed)return;
+    this.eyeHeight=this.eyeTarget;this.updateCamera(0);this.scene.render();
+    this.presented=true;this.loadingEl.remove();this.finishReady();
   }
 
   private updateScope():void {
@@ -464,6 +478,7 @@ export class FpsClient {
       if (this.reloadT >= this.reloadDur) this.finishReload();
     }
 
+    this.vm.visible=this.alive;
     this.vm.ads = this.ads;
     this.vm.aspect = this.engine.getRenderWidth() / Math.max(1, this.engine.getRenderHeight());
     this.vm.update(dt, speedFrac, this.lastLookDx, this.lastLookDy, reloadP, this.dashing);
@@ -522,18 +537,20 @@ export class FpsClient {
   }
 
   private updateCamera(dt: number): void {
+    if(!this.alive||!this.poseReceived)return;
     // Recoil is authoritative and also offsets shot direction; damage shake stays cosmetic.
     this.dmgKickP *= Math.max(0, 1 - dt * 9);
     this.dmgKickR *= Math.max(0, 1 - dt * 7);
     this.shake = Math.max(0, this.shake - dt * 2.5);
     const yaw = this.yaw + this.recoilYaw;
-    const pitch = Math.max(-1.4, Math.min(1.4, this.pitch + this.recoilPitch + this.dmgKickP));
+    const cosmetic=getWeapon(this.weaponId).scopeZoom?1-this.ads:1;
+    const pitch = Math.max(-1.4, Math.min(1.4, this.pitch + this.recoilPitch + this.dmgKickP*cosmetic));
     const cp = Math.cos(pitch);
-    const sh = this.shake * 0.12;
+    const sh = this.shake * 0.12*cosmetic;
     this.eyeHeight+=(this.eyeTarget-this.eyeHeight)*(1-Math.exp(-20*dt));
     this.camera.position.set(this.selfX + (Math.random() - 0.5) * sh, this.eyeHeight+this.selfY + (Math.random() - 0.5) * sh, this.selfZ + (Math.random() - 0.5) * sh);
     this.tmpTarget.set(this.camera.position.x + Math.sin(yaw) * cp, this.camera.position.y + Math.sin(pitch), this.camera.position.z + Math.cos(yaw) * cp);
-    this.camera.upVector.set(Math.sin(this.dmgKickR), Math.cos(this.dmgKickR), 0);
+    this.camera.upVector.set(Math.sin(this.dmgKickR*cosmetic), Math.cos(this.dmgKickR*cosmetic), 0);
     this.camera.setTarget(this.tmpTarget);
     this.camera.fov = aimFov(BASE_FOV, this.ads,getWeapon(this.weaponId).scopeZoom) + 0.17 * this.vm.fovKick;
   }
@@ -805,12 +822,13 @@ export class FpsClient {
     for (const ps of state.players) {
       this.lastPos.set(ps.id, { x: ps.x, z: ps.z });
       if (ps.id === this.selfId) {
+        if(!Number.isFinite(ps.x)||!Number.isFinite(ps.z)||!Number.isFinite(ps.y??0))continue;
+        const fresh=ps.alive&&(!this.poseReceived||this.wasDead);
         const dx = ps.x - this.selfX;
         const dz = ps.z - this.selfZ;
-        this.selfSpeed = Math.hypot(dx, dz) / 0.05; // ~velocita' (tick 20Hz)
-        this.selfY=ps.y??0;this.eyeTarget=ps.eyeHeight??FPS_BODY.eye;
-        this.selfX = ps.x;
-        this.selfZ = ps.z;
+        this.selfSpeed = fresh?0:Math.hypot(dx, dz) / 0.05; // ~velocita' (tick 20Hz)
+        if(ps.alive){this.selfY=ps.y??0;this.eyeTarget=ps.eyeHeight??FPS_BODY.eye;this.selfX=ps.x;this.selfZ=ps.z;this.poseReceived=true;}
+        if(fresh){this.eyeHeight=this.eyeTarget;this.recoilPitch=this.recoilYaw=this.dmgKickP=this.dmgKickR=this.shake=0;}
         // Spawn equo: la visuale e' comandata dal telefono, quindi al primo stato e a ogni rinascita ci si gira verso il
         // centro della mappa.
         if (ps.alive && (!this.facingInit || this.wasDead)) {
@@ -857,7 +875,8 @@ export class FpsClient {
         if(spawn)this.abilityEl.textContent='PROTETTO · SPARA PER COMBATTERE';
         this.lockEl.style.opacity = ps.locked && ps.alive ? '1' : '0';
         for (const re of this.remotes.values()) re.ghost.isVisible = this.selfWall && re.alive;
-        if (!ps.alive) this.showDeath('💀 ELIMINATO');
+        this.presentWhenReady();
+        if (!ps.alive) this.showDeath('ELIMINATO · RIENTRO TRA POCO');
         else this.hideDeath();
         // Held fire belongs to the pointer, not a delayed snapshot of the last shot.
         continue;
@@ -1017,7 +1036,7 @@ export class FpsClient {
   static lastDispose: { stop: number; vm: number; scene: number; engine: number } | null = null;
 
   dispose(): void {
-    this.scopeEl.remove();
+    this.scopeEl.remove();this.loadingEl.remove();
     const t0 = performance.now();
     this.engine.stopRenderLoop();
     window.removeEventListener('resize', this.onResize);

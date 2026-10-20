@@ -1619,6 +1619,8 @@ function renderFpsController(): void {
       (id) => state?.players.find((p) => p.id === id)?.characterId ?? null,
       state?.currentMinigame?.mapId??'cantiere'
     );
+    const client=fpsClient,round=state?.roundId;
+    void client.ready.then(()=>{if(fpsClient===client&&state?.roundId===round)sendText('fpsWorldReady',String(round??0));});
     if (fpsPendingState) {
       fpsClient.setPaused(!!state?.paused);
       fpsClient.updateState(fpsPendingState);

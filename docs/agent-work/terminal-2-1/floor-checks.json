@@ -1,0 +1,254 @@
+{
+  "spawns": [
+    {
+      "x": 6.9,
+      "y": 1.22,
+      "z": -51.6,
+      "collisionFloor": 1.2192,
+      "hit": true,
+      "floor": 1.2192000150680542,
+      "delta": 0.0007999849319457741,
+      "mesh": "terminalBatch:4451:0:-1"
+    },
+    {
+      "x": 18.6,
+      "y": 4.88,
+      "z": -7.8,
+      "collisionFloor": 4.8768,
+      "hit": true,
+      "floor": 4.876800060272217,
+      "delta": 0.0031999397277830965,
+      "mesh": "terminalBatch:4451:0:-1"
+    },
+    {
+      "x": -39,
+      "y": 1.02,
+      "z": -70.2,
+      "collisionFloor": 1.016,
+      "hit": true,
+      "floor": 1.0160000324249268,
+      "delta": 0.00399996757507326,
+      "mesh": "terminalBatch:4820:-1:-2"
+    },
+    {
+      "x": -20.4,
+      "y": 4.88,
+      "z": 34.5,
+      "collisionFloor": 4.8768,
+      "hit": true,
+      "floor": 4.876800060272217,
+      "delta": 0.0031999397277830965,
+      "mesh": "terminalBatch:4451:-1:0"
+    },
+    {
+      "x": 14.1,
+      "y": 4.88,
+      "z": 18,
+      "collisionFloor": 4.8768,
+      "hit": true,
+      "floor": 4.876800060272217,
+      "delta": 0.0031999397277830965,
+      "mesh": "terminalBatch:4451:0:0"
+    },
+    {
+      "x": -36.3,
+      "y": 1.02,
+      "z": -42,
+      "collisionFloor": 1.016,
+      "hit": true,
+      "floor": 1.0160000324249268,
+      "delta": 0.00399996757507326,
+      "mesh": "terminalBatch:4820:-1:-1"
+    },
+    {
+      "x": -66.9,
+      "y": 4.88,
+      "z": 8.1,
+      "collisionFloor": 4.8768,
+      "hit": true,
+      "floor": 4.876800060272217,
+      "delta": 0.0031999397277830965,
+      "mesh": "terminalBatch:4451:-2:0"
+    },
+    {
+      "x": -61.8,
+      "y": 4.9,
+      "z": -9.3,
+      "collisionFloor": 4.9022,
+      "hit": true,
+      "floor": 4.902200222015381,
+      "delta": 0.002200222015380504,
+      "mesh": "terminalBatch:4820:-1:-1"
+    },
+    {
+      "x": -5.1,
+      "y": 4.88,
+      "z": -18.9,
+      "collisionFloor": 4.8768,
+      "hit": true,
+      "floor": 4.876800060272217,
+      "delta": 0.0031999397277830965,
+      "mesh": "terminalBatch:4451:-1:-1"
+    },
+    {
+      "x": -1.8,
+      "y": 1.02,
+      "z": -56.7,
+      "collisionFloor": 1.016,
+      "hit": true,
+      "floor": 1.0160000324249268,
+      "delta": 0.00399996757507326,
+      "mesh": "terminalBatch:4450:-1:-1"
+    },
+    {
+      "x": -48.9,
+      "y": 4.88,
+      "z": -14.1,
+      "collisionFloor": 4.8768,
+      "hit": true,
+      "floor": 4.876800060272217,
+      "delta": 0.0031999397277830965,
+      "mesh": "terminalBatch:4451:-1:-1"
+    },
+    {
+      "x": -15.6,
+      "y": 1.02,
+      "z": -59.1,
+      "collisionFloor": 1.016,
+      "hit": true,
+      "floor": 1.0160000324249268,
+      "delta": 0.00399996757507326,
+      "mesh": "terminalBatch:4450:-1:-1"
+    },
+    {
+      "x": 18.6,
+      "y": 1.22,
+      "z": -41.1,
+      "collisionFloor": 1.2192,
+      "hit": true,
+      "floor": 1.2192000150680542,
+      "delta": 0.0007999849319457741,
+      "mesh": "terminalBatch:4451:0:-1"
+    },
+    {
+      "x": -3.6,
+      "y": 1.22,
+      "z": -25.2,
+      "collisionFloor": 1.2192,
+      "hit": true,
+      "floor": 1.2192000150680542,
+      "delta": 0.0007999849319457741,
+      "mesh": "terminalBatch:4451:-1:-1"
+    },
+    {
+      "x": -43.8,
+      "y": 4.88,
+      "z": 40.5,
+      "collisionFloor": 4.8768,
+      "hit": true,
+      "floor": 4.876800060272217,
+      "delta": 0.0031999397277830965,
+      "mesh": "terminalBatch:4448:-1:0"
+    },
+    {
+      "x": -22.2,
+      "y": 4.88,
+      "z": 10.2,
+      "collisionFloor": 4.8768,
+      "hit": true,
+      "floor": 4.876800060272217,
+      "delta": 0.0031999397277830965,
+      "mesh": "terminalBatch:4448:-1:0"
+    },
+    {
+      "x": -2.1,
+      "y": 4.88,
+      "z": 27.3,
+      "collisionFloor": 4.8768,
+      "hit": true,
+      "floor": 4.876800060272217,
+      "delta": 0.0031999397277830965,
+      "mesh": "terminalBatch:4451:-1:0"
+    },
+    {
+      "x": -40.2,
+      "y": 4.88,
+      "z": 8.7,
+      "collisionFloor": 4.8768,
+      "hit": true,
+      "floor": 4.876800060272217,
+      "delta": 0.0031999397277830965,
+      "mesh": "terminalBatch:4451:-1:0"
+    },
+    {
+      "x": -51.6,
+      "y": 1.02,
+      "z": -15.9,
+      "collisionFloor": 1.016,
+      "hit": true,
+      "floor": 1.0160000324249268,
+      "delta": 0.00399996757507326,
+      "mesh": "terminalBatch:4450:-1:-1"
+    }
+  ],
+  "cabin": [
+    {
+      "x": -39.3,
+      "y": 5.14,
+      "z": -42,
+      "collisionFloor": 5.1435,
+      "hit": true,
+      "floor": 5.143499851226807,
+      "delta": 0.0034998512268069604,
+      "mesh": "terminalBatch:4448:-1:-1"
+    },
+    {
+      "x": -39.3,
+      "y": 5.14,
+      "z": -45,
+      "collisionFloor": 5.1435,
+      "hit": true,
+      "floor": 5.143499851226807,
+      "delta": 0.0034998512268069604,
+      "mesh": "terminalBatch:4448:-1:-1"
+    },
+    {
+      "x": -39.3,
+      "y": 5.14,
+      "z": -50.1,
+      "collisionFloor": 5.1435,
+      "hit": true,
+      "floor": 5.143499851226807,
+      "delta": 0.0034998512268069604,
+      "mesh": "terminalBatch:4448:-1:-1"
+    },
+    {
+      "x": -39.3,
+      "y": 5.14,
+      "z": -54.9,
+      "collisionFloor": 5.1435,
+      "hit": true,
+      "floor": 5.143499851226807,
+      "delta": 0.0034998512268069604,
+      "mesh": "terminalBatch:4448:-1:-1"
+    },
+    {
+      "x": -39.3,
+      "y": 3.1,
+      "z": -57,
+      "collisionFloor": 3.0988,
+      "hit": true,
+      "floor": 3.09879994392395,
+      "delta": 0.0012000560760498935,
+      "mesh": "terminalBatch:4452:-1:-1"
+    },
+    {
+      "x": -39.3,
+      "y": 5.13,
+      "z": -59.9,
+      "collisionFloor": 4.659999999999999,
+      "hit": false,
+      "delta": null
+    }
+  ]
+}

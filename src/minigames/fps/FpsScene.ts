@@ -119,6 +119,7 @@ interface FpsPlayer {
   moving: number;
   cancelVersion: number;
   firePressSeen:number; fireBuffer:number;
+  lastSafe?:{x:number;y:number;z:number};
   /** Sacchetto di armi: a ogni vita se ne pesca una, e non si ripete finche' non le hai usate tutte. */
   bag: string[];
   burstLeft: number;
@@ -211,6 +212,7 @@ export class FpsScene extends Phaser.Scene {
 
   private createRound(data: { ctx: MinigameContext }): void {
     this.ctx = data.ctx;
+    for(const p of this.ctx.players)this.ctx.input.get(p.id).clearText('fpsWorldReady');
     this.soloBots = new MotionBots(this.ctx);
     this.players = [];
     this.finished = false;this.winnerId=null;
@@ -348,7 +350,7 @@ export class FpsScene extends Phaser.Scene {
     this.splitScreenCanvas = canvas;
     this.splitScreen = new BabylonFpsGame(canvas, locals,this.ctx.mapId==='terminal'?'terminal':this.nuketown?'nuketown':'cantiere');
     this.worldReady=!this.nuketown;
-    try{await this.splitScreen.ready;if(!this.splitScreenCancelled&&version===this.bootVersion)this.worldReady=true;}
+    try{await this.splitScreen.ready;if(!this.splitScreenCancelled&&version===this.bootVersion){this.splitScreen.update(0,this.players.map(p=>this.toRenderSnapshot(p)));this.worldReady=true;}}
     catch(e){console.error('Nuketown rendering failed',e);this.splitScreen?.setRoundEndMessage('ERRORE CARICAMENTO MAPPA');}
   }
 
@@ -435,7 +437,9 @@ export class FpsScene extends Phaser.Scene {
     }
     this.splitScreen?.setPaused(false);
     if (this.finished) return;
-    if (!this.controlsDone || !this.worldReady) {
+    const waiting=this.ctx.mapId==='terminal'?this.ctx.players.filter(p=>!p.bot&&pads.slotOf(p.id)?.state!=='paired'&&this.ctx.input.get(p.id).text('fpsWorldReady')!==String(this.ctx.roundId??0)):[];
+    if (!this.controlsDone || !this.worldReady || waiting.length>0) {
+      if(waiting.length>0)this.timerText.setText('CARICAMENTO TERMINAL · '+waiting.map(p=>p.displayName).join(', '));
       this.ctx.input.update(); // schermata CONTROLLI: nessuna fase avanza, nessun input di gioco consumato
       return;
     }
@@ -601,6 +605,14 @@ export class FpsScene extends Phaser.Scene {
     if(headroom<FPS_BODY.standing){p.crouching=true;p.eyeHeight=FPS_BODY.crouchEye;}
     stepFpsVertical(p,dt,supportFloor??-50,supportFloor===null?50:p.groundY+headroom,p.crouching?FPS_BODY.crouched:FPS_BODY.standing);
 
+    // Only anomalous loss of support triggers recovery; normal jumps/drops keep
+    // using the same physical floor and walls as bots and human players.
+    if(this.ctx.mapId==='terminal'&&(!Number.isFinite(p.y)||p.y<(supportFloor===null?p.groundY-.7:-5))){
+      const safe=p.lastSafe??this.pickSpawn(this.players.filter(q=>q.id!==p.id));
+      p.x=safe.x;p.z=safe.z;p.y=safe.y??0;p.groundY=p.y;p.verticalSpeed=0;p.grounded=true;
+      this.resetAim(p);p.firing=false;p.burstLeft=0;this.ctx.signal(p.id,{type:'recovered'});
+    }
+    if(p.grounded&&supportFloor!==null)p.lastSafe={x:p.x,y:p.y,z:p.z};
     if(p.y < -6){this.collectDebt(p,'CADUTA');return;}
 
     // Ricarica manuale (pulsante): serve per non restare a secco nel momento sbagliato
@@ -921,6 +933,7 @@ export class FpsScene extends Phaser.Scene {
     const spawn = this.pickSpawn(this.players.filter((q) => q.id !== p.id));
     p.x = spawn.x;
     p.y=spawn.y??this.nuketown?.floorAt(spawn.x,spawn.z)??0;
+    p.lastSafe={x:p.x,y:p.y,z:spawn.z};
     p.groundY=p.y;p.grounded=true;p.verticalSpeed=0;p.crouching=false;p.eyeHeight=FPS_BODY.eye;
     p.z = spawn.z;
     p.yaw = Math.atan2(-spawn.x, -spawn.z);

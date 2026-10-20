@@ -148,6 +148,7 @@ export class FpsViewmodel {
   aspect = 2;
   /** Authoritative ADS blend; sight aperture stays on the camera axis. */
   ads = 0;
+  visible=true;
   /** Dimensione dell'arma (1 = telefono). Lo split-screen della TV la rimpicciolisce: le finestre sono quasi quadrate. */
   scale = 1;
 
@@ -495,7 +496,11 @@ export class FpsViewmodel {
   update(dt: number, speedFrac: number, lookDx: number, lookDy: number, reloadP: number, dashing: boolean): void {
     const m = this.current;
     if (!m) return;
-    m.root.setEnabled(!(getWeapon(this.weaponId).scopeZoom&&this.ads>.8&&reloadP===0));
+    // Hide the entire imported lens BEFORE the transparent scope fades in,
+    // including reload transitions: no solid GLB optic can cover the target.
+    const scoped=!!getWeapon(this.weaponId).scopeZoom&&this.ads>.5;
+    m.root.setEnabled(this.visible&&!scoped);
+    if(scoped||!this.visible)this.flash.isVisible=false;
     dt = Math.min(dt, 0.05);
     const p = this.profile;
 

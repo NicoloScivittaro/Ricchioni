@@ -1,0 +1,79 @@
+{
+  "maps": [
+    "cantiere",
+    "nuketown",
+    "terminal"
+  ],
+  "waiting": {
+    "time": 0,
+    "overlay": "CARICAMENTO TERMINAL…"
+  },
+  "started": true,
+  "shortMatch": {
+    "time": 9.096139999999997,
+    "positions": [
+      {
+        "alive": false,
+        "y": 4.88,
+        "hp": 0,
+        "kills": 0
+      },
+      {
+        "alive": true,
+        "y": 1.02,
+        "hp": 100,
+        "kills": 0
+      },
+      {
+        "alive": true,
+        "y": 4.88,
+        "hp": 100,
+        "kills": 1
+      },
+      {
+        "alive": true,
+        "y": 4.88,
+        "hp": 100,
+        "kills": 1
+      },
+      {
+        "alive": false,
+        "y": 4.88,
+        "hp": 0,
+        "kills": 0
+      }
+    ],
+    "views": 4
+  },
+  "lifecycle": {
+    "before": 6.38,
+    "dead": {
+      "height": 6.38,
+      "shade": 1
+    },
+    "spawn": {
+      "height": 2.7199999999999998,
+      "expected": 2.7199999999999998,
+      "grounded": true
+    },
+    "safe": {
+      "x": 18.6,
+      "y": 1.22,
+      "z": -41.1
+    },
+    "recovered": {
+      "x": 18.6,
+      "y": 1.22,
+      "z": -41.1,
+      "hp": 100
+    }
+  },
+  "phoneDeath": true,
+  "routes": {
+    "nodes": 221,
+    "failures": 84,
+    "wallBlocksShots": true,
+    "spawns": 19
+  },
+  "errors": []
+}

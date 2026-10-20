@@ -1,0 +1,16 @@
+{
+  "disconnected": {
+    "count": 1,
+    "messages": [
+      "⚠️ CONTROLLER DI CONTROLLER DISCONNESSO"
+    ],
+    "alert": "block"
+  },
+  "reconnected": {
+    "count": 1,
+    "messages": [
+      "🎮 CONTROLLER DI CONTROLLER RICONNESSO"
+    ],
+    "alert": "none"
+  }
+}

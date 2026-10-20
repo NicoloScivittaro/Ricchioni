@@ -1,0 +1,39 @@
+{
+  "readyGate": true,
+  "shortMatchSeconds": 9.096139999999997,
+  "deathCameraFrozen": true,
+  "respawnCameraSnapsToEye": true,
+  "phoneDeathOpaque": true,
+  "safeRecovery": true,
+  "spawnGeometryChecks": 19,
+  "spawnMaxErrorMetres": 0.00399996757507326,
+  "cabinRouteNodes": 221,
+  "cabinRouteFailures": 0,
+  "cabinStance": "crouched where headroom requires it",
+  "sniperZoom": 4,
+  "scopeHoleAlpha": 0,
+  "scopeTransitionHidesLens": true,
+  "weaponModelsChecked": 6,
+  "finalMaterials": {
+    "loaded": true,
+    "fill": 1,
+    "ready": true,
+    "geometry": 1704739
+  },
+  "mapOptions": [
+    "cantiere",
+    "nuketown",
+    "terminal"
+  ],
+  "reconnect": {
+    "count": 1,
+    "messages": [
+      "\ud83c\udfae CONTROLLER DI CONTROLLER RICONNESSO"
+    ],
+    "alert": "none"
+  },
+  "beforeFps": 41.3907284768212,
+  "afterFps": 53.193935584750044,
+  "errors": [],
+  "productionBuildVerified": true
+}

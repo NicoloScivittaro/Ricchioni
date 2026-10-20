@@ -1,0 +1,52 @@
+{
+  "ads": {
+    "checks": [
+      {
+        "id": "mitraglia",
+        "models": true,
+        "enabled": true,
+        "scope": true
+      },
+      {
+        "id": "laser",
+        "models": true,
+        "enabled": false,
+        "scope": true
+      },
+      {
+        "id": "raffica",
+        "models": true,
+        "enabled": true,
+        "scope": true
+      },
+      {
+        "id": "bombarda",
+        "models": true,
+        "enabled": true,
+        "scope": true
+      },
+      {
+        "id": "sparapiselli",
+        "models": true,
+        "enabled": true,
+        "scope": true
+      },
+      {
+        "id": "pistola",
+        "models": true,
+        "enabled": true,
+        "scope": true
+      }
+    ],
+    "zoom": 4,
+    "transitionHidden": true,
+    "holeAlpha": 0
+  },
+  "weapon": {
+    "loaded": true,
+    "fill": 0.72,
+    "ready": true,
+    "geometry": 1704739
+  },
+  "errors": []
+}

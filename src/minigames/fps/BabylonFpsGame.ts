@@ -1,3 +1,4 @@
+import {fpsLoading} from '../../controller/fpsLoading';
 import {FpsEnergyFx} from '../../controller/fpsEnergyFx';
 import type {EnergyLaunch,EnergyImpact} from '../../controller/fpsEnergyFx';
 import {scopeAlpha,scopeSvg} from '../../controller/fpsScope';
@@ -141,6 +142,7 @@ interface CamRig {
   kickR: number;
   shake: number;
   eyeHeight?:number;
+  positioned?:boolean;wasAlive?:boolean;
 }
 
 interface Tracer {
@@ -201,7 +203,7 @@ interface AvatarRig {
 
 interface HudEntry {
   adt: AdvancedDynamicTexture;
-  scope:GuiImage;scopeSize:string;
+  scope:GuiImage;scopeSize:string;deathShade:Rectangle;
   hpFill: Rectangle;
   hpText: TextBlock;
   ammoText: TextBlock;
@@ -228,6 +230,7 @@ interface HudEntry {
 
 export class BabylonFpsGame {
   readonly ready:Promise<void>;
+  private loaded=false;private loadingEl:HTMLDivElement;
   private energyFx:FpsEnergyFx;
   private engine: Engine;
   private scene: Scene;
@@ -267,6 +270,7 @@ export class BabylonFpsGame {
     locals: FpsLocalPlayer[], // ordine stabile: chi ha il controller ALL'AVVIO del round, nell'ordine dei giocatori
     private mapId='cantiere'
   ) {
+    this.loadingEl=fpsLoading(document.body,mapId);this.loadingEl.style.position='fixed';this.loadingEl.style.zIndex='10001';
     this.localPlayerIds = locals.map((l) => l.id);
     for (const l of locals) this.abilityName.set(l.id, abilityFor('fps', l.characterId ?? null)?.name ?? '');
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
@@ -277,6 +281,7 @@ export class BabylonFpsGame {
     // personaggi erano neri (bug di M6: lo split-screen non aveva luci, il telefono si').
     buildFpsLights(this.scene); // luci uniformi della Sparatoria (stesse su TV e telefono: fpsWorld)
     this.ready=mapId==='terminal'?import('../../controller/terminalWorld').then(m=>m.buildTerminalWorld(this.scene)):mapId==='nuketown'?import('../../controller/nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)):Promise.resolve(buildFpsWorld(this.scene));
+    this.ready=this.ready.then(()=>this.scene.whenReadyAsync()).then(()=>{this.loaded=true;});
 
     const rects = splitScreenLayout(locals.length);
     this.fxLow = getQualityLevel() === 'low' || locals.length >= 4;
@@ -309,6 +314,8 @@ export class BabylonFpsGame {
     applyQuality(this.engine, this.scene);
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed || this.paused) return;
+      if(!this.loaded||this.cams.some(c=>!c.positioned))return;
+      if(this.loadingEl.isConnected)this.loadingEl.remove();
       this.layoutHud(); // economico (confronta solo le misure): Babylon riporta l'HUD a schermo intero dopo un resize
       this.scene.render();
       if (this.debug) this.checkPerf();
@@ -508,6 +515,7 @@ export class BabylonFpsGame {
 
     const scope=new GuiImage('fpsScope_'+index,scopeSvg(640,360));
     scope.width='100%';scope.height='100%';scope.stretch=GuiImage.STRETCH_FILL;scope.alpha=0;scope.isHitTestVisible=false;adt.addControl(scope);
+    const deathShade=new Rectangle('fpsDeathShade_'+index);deathShade.width=deathShade.height='100%';deathShade.background='#0b121a';deathShade.thickness=0;deathShade.alpha=0;deathShade.isHitTestVisible=false;adt.addControl(deathShade);
     // di chi e' questa finestra: nome nel colore del giocatore, in alto a sinistra (in 2x2 nessuno deve chiedersi "quale sono?")
     const nameTag = new TextBlock(`fpsName_${index}`, name.toUpperCase());
     nameTag.color = color;
@@ -726,7 +734,7 @@ export class BabylonFpsGame {
     lockText.isVisible = false;
     adt.addControl(lockText);
 
-    return { scope,scopeSize:"",crossBars, crossDot, adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText, hitKill: false, dmgInds, dmgIdx: 0, abilityText, reloadBar, reloadFill, guardFrame, lockText };
+    return { scope,scopeSize:"",deathShade,crossBars, crossDot, adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText, hitKill: false, dmgInds, dmgIdx: 0, abilityText, reloadBar, reloadFill, guardFrame, lockText };
   }
 
   /** Pool di effetti condivisi (visibili a tutte le finestre): traccianti, proiettili, esplosioni, detriti. Nessuna allocazione per colpo. */
@@ -993,6 +1001,9 @@ export class BabylonFpsGame {
 
   /** Camera + arma in prima persona di una finestra: calci e scosse SOLO visivi (la mira vera resta quella di FpsScene). */
   private updateCam(cam: CamRig, snap: FpsRenderSnapshot, dt: number): void {
+    const fresh=snap.alive&&(!cam.positioned||cam.wasAlive===false);
+    if(fresh){cam.eyeHeight=snap.eyeHeight??FPS_BODY.eye;cam.prevX=snap.x;cam.prevZ=snap.z;cam.kickP=cam.kickR=cam.shake=0;}
+    cam.wasAlive=snap.alive;cam.vm.visible=snap.alive;
     const d = Math.max(1e-3, dt);
     const speedFrac = snap.alive ? Math.min(1, Math.hypot(snap.x - cam.prevX, snap.z - cam.prevZ) / d / PLAYER_SPEED) : 0;
     let dyaw = snap.yaw - cam.prevYaw;
@@ -1016,6 +1027,7 @@ export class BabylonFpsGame {
     cam.vm.ads = snap.ads;
     const hud = this.hud.get(snap.id);
     if (hud) {
+      hud.deathShade.alpha=snap.alive?0:1;
       const gap = aimGap(aimSpread(getWeapon(snap.weaponId).spread, snap.ads, snap.moving, snap.heat,getWeapon(snap.weaponId).hipSpread), snap.ads);
       const a=scopeAlpha(!!getWeapon(snap.weaponId).scopeZoom,snap.ads,snap.alive,snap.reloading);hud.scope.alpha=a;
       hud.crossDot.isVisible = snap.alive&&a<.95;
@@ -1027,12 +1039,14 @@ export class BabylonFpsGame {
     cam.kickR *= Math.max(0, 1 - dt * 7);
     cam.shake = Math.max(0, cam.shake - dt * 2.5);
     if (!snap.alive) return;
-    const sh = cam.shake * 0.1;
+    const cosmetic=getWeapon(snap.weaponId).scopeZoom?1-snap.ads:1;
+    const sh = cam.shake * 0.1*cosmetic;
     cam.eyeHeight=(cam.eyeHeight??FPS_BODY.eye)+((snap.eyeHeight??FPS_BODY.eye)-(cam.eyeHeight??FPS_BODY.eye))*(1-Math.exp(-20*dt));
     cam.camera.position.set(snap.x + (Math.random() - 0.5) * sh, (cam.eyeHeight??FPS_BODY.eye) + (snap.y??0) + (Math.random() - 0.5) * sh, snap.z + (Math.random() - 0.5) * sh);
     cam.camera.rotation.y = snap.yaw + snap.recoilYaw;
-    cam.camera.rotation.x = -(Math.max(-1.4, Math.min(1.4, snap.pitch + snap.recoilPitch)) + cam.kickP);
-    cam.camera.rotation.z = cam.kickR;
+    cam.camera.rotation.x = -(Math.max(-1.4, Math.min(1.4, snap.pitch + snap.recoilPitch)) + cam.kickP*cosmetic);
+    cam.camera.rotation.z = cam.kickR*cosmetic;
+    cam.positioned=true;
     cam.camera.fov = aimFov(BASE_FOV, snap.ads,getWeapon(snap.weaponId).scopeZoom) + 0.12 * cam.vm.fovKick;
   }
 
@@ -1202,8 +1216,8 @@ export class BabylonFpsGame {
       if(protectedSpawn&&(!h.centerText.text||h.centerText.text.startsWith('PROTETTO')))h.centerText.text='PROTETTO';
       if(!protectedSpawn&&h.centerText.text.startsWith('PROTETTO'))h.centerText.text='';
       h.centerText.isVisible = !snap.alive || h.centerText.text.length > 0;
-      if (!snap.alive && h.centerText.text.length === 0) h.centerText.text = '💀 RESPAWN…';
-      if (snap.alive && h.centerText.text === '💀 RESPAWN…') h.centerText.text = '';
+      if (!snap.alive && h.centerText.text.length === 0) h.centerText.text = 'RIENTRO TRA POCO';
+      if (snap.alive && h.centerText.text === 'RIENTRO TRA POCO') h.centerText.text = '';
     }
     this.updateGhosts(players);
   }
@@ -1227,7 +1241,7 @@ export class BabylonFpsGame {
 
   dispose(): void {
     if (this.disposed) return;
-    this.disposed = true;
+    this.disposed = true;this.loadingEl.remove();
     for (const c of this.cams) safely('fpsVm.dispose', () => c.vm.dispose());
     window.removeEventListener('resize', this.onResize);
     this.perfEl?.remove();

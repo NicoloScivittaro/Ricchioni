@@ -6,7 +6,8 @@ from pathlib import Path
 from collections import defaultdict
 import numpy as np,json,copy,io
 from PIL import Image
-from prepare_arena import ROOT,OUT,read,access,world,Packed
+from prepare_arena import ROOT,read,access,world,Packed
+OUT=ROOT/'docs/agent-work/terminal-2-1';OUT.mkdir(exist_ok=True)
 
 def run():
  d,b=read();out=Packed(d);out.d['materials']=[];out.d['images']=[];out.d['textures']=[];out.d['extensionsUsed']=[]
@@ -20,11 +21,19 @@ def run():
   elif any(s in name for s in ['floor','tile','carpet']):alternate='marble_floor_tiles_02'if'carpet'not in name else'ap_interior_plastic_tile';tint=[.52,.3,.24,1]if'red'in name else[.78,.78,.72,1]
   elif any(s in name for s in ['metal','chrome','beam','stairs','panel']):alternate='metal_aluminum01'
   elif any(s in name for s in ['concrete','ceiling','plaster']):alternate='concrete_grey02'
+  # Targeted repairs on playable interior surfaces, using already recovered textures.
+  if name in ('me_office_ceiling_tiles','me_office_ceiling_tiles_black'):
+   alternate='concrete_grey02';tint=[.72,.74,.75,1]if name.endswith('tiles')else[.32,.34,.35,1]
+  if name=='ap_interior_carpet':alternate='ap_interior_plastic_tile';tint=[.38,.42,.45,1]
+  if name.startswith(('me_decal_','icbm_decal_','ch_dec_','me_dec_'))or name in ('me_office_ceiling_light_2_effect','me_ground_drygrass_dec','kh_tarmac_trim1','me_oilstain'):
+   m['alphaMode']='BLEND';m['pbrMetallicRoughness']['baseColorFactor']=[.65,.64,.6,.16];alternate=None
+  if name in ('com_glass_clear','window_stain'):
+   m['alphaMode']='BLEND';m['pbrMetallicRoughness']['baseColorFactor']=[.65,.79,.84,.22]
   if alternate:m['pbrMetallicRoughness']=copy.deepcopy(byname[alternate]['pbrMetallicRoughness']);m['pbrMetallicRoughness']['baseColorFactor']=tint;substitutions[name]=alternate
  images={};records={};pools=defaultdict(list)
  for i,m in enumerate(mats):
   p=m.get('pbrMetallicRoughness',{});tex=p.get('baseColorTexture',{}).get('index');imageindex=d['textures'][tex]['source']if tex is not None else None
-  mode=m.get('alphaMode','OPAQUE');role=mode if mode=='BLEND'else'MASK'if mode=='MASK'else'OPAQUE'
+  mode=m.get('alphaMode','OPAQUE');role='MULTIPLY'if'multiply'in m.get('extras',{}).get('sourceTechset','')else mode if mode=='BLEND'else'MASK'if mode=='MASK'else'OPAQUE'
   name=m['name'];hero=any(s in name for s in ['727','cockpit','airplane','aluminum01','sign','bookstore','aircraft','ap_door','ap_windows'])
   size=1024 if hero else 512;key=(imageindex,size,role)
   if key not in images:
@@ -47,10 +56,10 @@ def run():
    else:canvas.save(blob,format='PNG',compress_level=5);mime='image/png'
    vi=out.view(blob.getvalue());out.d['images'].append({'bufferView':vi,'mimeType':mime,'name':f'terminal-atlas-{atlasid}'});out.d['textures'].append({'source':atlasid,'sampler':0})
    layout={'grid':grid,'size':size,'padding':pad,'mode':mode,'tiles':len(subset)};layouts.append(layout)
-   out.d['materials'].append({'name':f'terminal-atlas-{atlasid}','doubleSided':True,'alphaMode':mode,'pbrMetallicRoughness':{'baseColorTexture':{'index':atlasid},'metallicFactor':0,'roughnessFactor':.9},'extras':{'terminalAtlas':layout}})
+   out.d['materials'].append({'name':f'terminal-atlas-{atlasid}','doubleSided':True,'alphaMode':'BLEND'if mode=='MULTIPLY'else mode,'pbrMetallicRoughness':{'baseColorTexture':{'index':atlasid},'metallicFactor':0,'roughnessFactor':.9},'extras':{'terminalAtlas':layout}})
  def attrs(pr,positions=None,verts=None):
   data={k:access(d,b,a)for k,a in pr['attributes'].items()};count=len(data['POSITION']);rec=records[pr['material']];ai,tile=atlas[rec['key']]
-  colors=data.get('COLOR_0',np.ones((count,4))).copy()*rec['color'];colors[:,3]=1
+  colors=data.get('COLOR_0',np.ones((count,4))).copy()*rec['color'];colors[:,3]=rec['color'][3]
   data['COLOR_0']=colors;data['TEXCOORD_1']=np.tile([tile,rec['flag']],(count,1))
   if positions is not None:data['POSITION']=positions
   if verts is not None:data={k:v[verts]for k,v in data.items()}

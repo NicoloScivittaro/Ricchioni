@@ -8,6 +8,7 @@ const SIZE=4;
 export class TerminalArena {
   readonly name='TERMINAL';readonly halfSize=78;readonly obstacles:Aabb[];
   readonly spawns:ArenaPoint[];readonly nav:ArenaPoint[];
+  private support=new Map<number,boolean>();
   private cells=new Map<string,number[]>();private walk=new Map<string,number[]>();private fields=new Map<number,Int32Array>();
   static async load():Promise<TerminalArena>{const r=await fetch('/assets/fps/terminal/arena.json');if(!r.ok)throw new Error('Terminal collision HTTP '+r.status);return new TerminalArena(await r.json());}
   constructor(private data:TerminalData){
@@ -15,11 +16,22 @@ export class TerminalArena {
     if(this.spawns.length<5||!this.nav.length)throw new Error('Terminal: arena incompleta');
     data.triangles.forEach((t,i)=>{for(let x=Math.floor(Math.min(t[0],t[3],t[6])/SIZE);x<=Math.floor(Math.max(t[0],t[3],t[6])/SIZE);x++)for(let z=Math.floor(Math.min(t[2],t[5],t[8])/SIZE);z<=Math.floor(Math.max(t[2],t[5],t[8])/SIZE);z++){const k=x+':'+z,list=this.cells.get(k);if(list)list.push(i);else this.cells.set(k,[i]);}});
     this.nav.forEach((p,i)=>{const k=this.key(p.x,p.z),list=this.walk.get(k);if(list)list.push(i);else this.walk.set(k,[i]);});
+    for(const p of this.spawns){const i=this.at(p.x,p.z,p.y,1.8);if(i<0||!this.supported(i))throw new Error('Terminal: spawn senza pavimento '+JSON.stringify(p));}
+  }
+  /** Cached physical support rejects graph-only surfaces and wide source holes.
+   * A body may straddle a narrow seam, but must have real support on both sides. */
+  private supported(i:number):boolean{
+    const cached=this.support.get(i);if(cached!==undefined)return cached;
+    const p=this.nav[i],y=(p.y??0)+.55;
+    // The graph spans stair lips up to the same .53 m step as movement.
+    const hit=(x:number,z:number)=>Math.abs(this.ray(x,y,z,0,-1,0,1.1)-.55)<.54;
+    const ok=hit(p.x,p.z)||(hit(p.x-.18,p.z)&&hit(p.x+.18,p.z))||(hit(p.x,p.z-.18)&&hit(p.x,p.z+.18));
+    this.support.set(i,ok);return ok;
   }
   private key(x:number,z:number):string{return Math.round((x-this.data.bounds[0])/this.data.cell)+':'+Math.round((z-this.data.bounds[2])/this.data.cell);}
   private at(x:number,z:number,y?:number,height=0):number{
     const list=this.walk.get(this.key(x,z))??[];let best=-1,score=Infinity;
-    for(const i of list){if((this.data.headroom?.[i]??12)<height)continue;const n=this.nav[i],s=y===undefined?-(n.y??0):Math.abs((n.y??0)-y);if(s<score){score=s;best=i;}}
+    for(const i of list){if((this.data.headroom?.[i]??12)<height||!this.supported(i))continue;const n=this.nav[i],s=y===undefined?-(n.y??0):Math.abs((n.y??0)-y);if(s<score){score=s;best=i;}}
     return best;
   }
   floorAt(x:number,z:number,y?:number):number|null{const i=this.at(x,z,y);return i<0?null:this.nav[i].y??0;}
@@ -30,7 +42,7 @@ export class TerminalArena {
   }
   headroomAt(x:number,z:number,y:number):number{const i=this.at(x,z,y);return i<0?0:this.data.headroom?.[i]??12;}
   floorBelow(x:number,z:number,y:number):number|null{
-    let floor:number|null=null;for(const i of this.walk.get(this.key(x,z))??[]){const h=this.nav[i].y??0;if(h<=y&&(floor===null||h>floor))floor=h;}return floor;
+    let floor:number|null=null;for(const i of this.walk.get(this.key(x,z))??[]){const h=this.nav[i].y??0;if(h<=y&&(floor===null||h>floor)&&this.supported(i))floor=h;}return floor;
   }
   /** Air movement uses real supported layers and their body clearance, without
    * requiring a ground-walking edge across a low cover or a stair lip. */

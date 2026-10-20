@@ -27,7 +27,7 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
   const models=new Map<string,{source:Mesh;mat:ShaderMaterial|null;matrices:number[]}>(),kept:Mesh[]=[],staticGroups=new Map<string,Mesh[]>();let instances=0,triangles=0,instanceGroups=0;
   const staticNode=(source:Mesh,matrix:Matrix,mat:ShaderMaterial|null)=>{
     const node=new Mesh('terminalStatic',scene);source.geometry?.applyToMesh(node);node.makeGeometryUnique();node.bakeTransformIntoVertices(matrix);node.material=mat;node.computeWorldMatrix(true);
-    const c=node.getBoundingInfo().boundingBox.centerWorld,k=`${mat?.uniqueId}:${Math.floor(c.x/32)}:${Math.floor(c.z/32)}`,list=staticGroups.get(k);if(list)list.push(node);else staticGroups.set(k,[node]);
+    const c=node.getBoundingInfo().boundingBox.centerWorld,k=`${mat?.uniqueId}:${Math.floor(c.x/64)}:${Math.floor(c.z/64)}`,list=staticGroups.get(k);if(list)list.push(node);else staticGroups.set(k,[node]);
   };
   // Gather transforms before disposing any imported hierarchy/source geometry.
   for(const imported of result.meshes){
@@ -39,7 +39,7 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
       staticNode(source,matrix,mat);
     }else{
       const center=imported.getBoundingInfo().boundingBox.centerWorld;
-      const k=`${source.geometry?.uniqueId}:${mat?.uniqueId}:${Math.floor(center.x/16)}:${Math.floor(center.z/16)}`;
+      const k=`${source.geometry?.uniqueId}:${mat?.uniqueId}:${Math.floor(center.x/32)}:${Math.floor(center.z/32)}`;
       let group=models.get(k);if(!group){group={source,mat,matrices:[]};models.set(k,group);}group.matrices.push(...matrix.asArray());instances++;
     }
   }
@@ -79,5 +79,5 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
   // must leave the dynamic octree when removed, before visible instances load.
   scene.onMeshRemovedObservable.add(m=>{const i=octree.dynamicContent.indexOf(m);if(i>=0)octree.dynamicContent.splice(i,1);});
 
-  scene.metadata={...scene.metadata,terminal:{partial:true,spatialBatches:kept.length-instanceGroups,instanceGroups,modelPrimitives:instances,triangles,materials:materials.size,loadMs:performance.now()-started,source:'terminal-play.glb',staticBatchMeters:32,stableAtlasGradients:(scene.getEngine() as Engine).webGLVersion>=2,shadows:'existing character blobs; no dynamic map shadow pass'}};
+  scene.metadata={...scene.metadata,terminal:{partial:true,spatialBatches:kept.length-instanceGroups,instanceGroups,modelPrimitives:instances,triangles,materials:materials.size,loadMs:performance.now()-started,source:'terminal-play.glb',staticBatchMeters:64,stableAtlasGradients:(scene.getEngine() as Engine).webGLVersion>=2,shadows:'existing character blobs; no dynamic map shadow pass'}};
 }

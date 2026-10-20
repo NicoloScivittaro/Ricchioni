@@ -104,6 +104,12 @@ function render(): void {
   const slots = pads.slotList();
   const free = pads.freePads();
 
+  // Connection messages describe current state, never a stale queue.
+  const awaiting=slots.some(s=>s.state==='awaiting');
+  for(const el of Array.from(toasts.children)){
+    const message=el.textContent??'';
+    if((!awaiting&&/DISCONNESS|RICONNETTERE/.test(message))||(awaiting&&/RICONNESSO/.test(message)))el.remove();
+  }
   // auto-apertura: un controller libero viene toccato in lobby
   if (inLobby && !open && !dismissed && free.length && slots.some((s) => s.state !== 'paired')) open = true;
   // si chiude da solo SOLO quando parte il gameplay vero; nei risultati/rullo/pausa resta apribile con G (es. ritoccare la sensibilita' FPS)
@@ -215,6 +221,7 @@ function onClick(e: MouseEvent): void {
 function toast(message: string, ms: number): void {
   // sotto l'avviso fisso in alto (mai sopra la striscia dei giocatori); se l'avviso dice gia' la stessa cosa il toast resta
   // nel DOM (lo leggono i test e le tecnologie assistive) ma non si vede: niente doppione a schermo
+  if(/CONTROLLER/.test(message))for(const old of Array.from(toasts.children))if(/CONTROLLER/.test(old.textContent??''))old.remove();
   const d = document.createElement('div');
   d.className = `ui-toast ${/DISCONNESS|PERSO|ERRORE/.test(message) ? 'warn' : /RICONNESS|COLLEGATO|CONNESSO/.test(message) ? 'ok' : ''}`;
   d.textContent = message;
