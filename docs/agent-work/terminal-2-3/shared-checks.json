@@ -1,0 +1,21 @@
+{
+  "maps": [
+    "cantiere",
+    "nuketown",
+    "terminal"
+  ],
+  "checked": [
+    {
+      "map": "cantiere",
+      "views": 2,
+      "gun": true,
+      "protected": true
+    },
+    {
+      "map": "nuketown",
+      "views": 2,
+      "gun": true,
+      "protected": true
+    }
+  ]
+}

@@ -1,17 +1,17 @@
 import type {Engine} from '@babylonjs/core';
-import {Color3,Color4,DirectionalLight,HemisphericLight,ImageProcessingConfiguration,InstancedMesh,Mesh,MeshBuilder,PBRMaterial,Matrix,Scene,SceneLoader,ShaderMaterial,StandardMaterial,TransformNode,Texture} from '@babylonjs/core';
+import {Color3,Color4,DirectionalLight,HemisphericLight,ImageProcessingConfiguration,Mesh,MeshBuilder,PBRMaterial,Scene,SceneLoader,ShaderMaterial,StandardMaterial,TransformNode,Texture} from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
 import {terminalAtlasMaterial} from './terminalAtlasMaterial';
 import type {TerminalAtlas} from './terminalAtlasMaterial';
 import type {Aabb} from '../../shared/fpsMap';
-/** Shared TV/phone scene. Source models retain their transforms in spatial
- * thin-instance groups; architecture is offline-batched in 16 metre cells. */
+/** Shared TV/phone scene. Static geometry and source GPU instance transforms
+ * are prepared offline; gameplay collision data is loaded separately. */
 export async function buildTerminalWorld(scene:Scene):Promise<void>{
   const started=performance.now();scene.clearColor=new Color4(.57,.7,.78,1);scene.ambientColor=new Color3(.23,.24,.26);
   // Only Terminal needs extra fill for the recovered, unbaked source textures.
   for(const light of scene.lights){if(light instanceof HemisphericLight)light.intensity=1.2;if(light instanceof DirectionalLight)light.intensity=1.5;}
   scene.imageProcessingConfiguration.toneMappingEnabled=true;scene.imageProcessingConfiguration.toneMappingType=ImageProcessingConfiguration.TONEMAPPING_ACES;scene.imageProcessingConfiguration.exposure=1.05;
-  const [result,collision,layouts]=await Promise.all([SceneLoader.ImportMeshAsync('','/assets/fps/terminal/','terminal-play.glb',scene),fetch('/assets/fps/terminal/arena.json').then(r=>{if(!r.ok)throw new Error('Terminal boundary HTTP '+r.status);return r.json() as Promise<{barriers:Aabb[];accessSteps?:Aabb[]}>;}),fetch('/assets/fps/terminal/atlas.json').then(r=>{if(!r.ok)throw new Error('Terminal atlas HTTP '+r.status);return r.json() as Promise<TerminalAtlas[]>;})]);
+  const [result,collision,layouts]=await Promise.all([SceneLoader.ImportMeshAsync('','/assets/fps/terminal/','terminal-fast.glb',scene),fetch('/assets/fps/terminal/render-config.json').then(r=>{if(!r.ok)throw new Error('Terminal boundary HTTP '+r.status);return r.json() as Promise<{barriers:Aabb[];accessSteps?:Aabb[]}>;}),fetch('/assets/fps/terminal/atlas.json').then(r=>{if(!r.ok)throw new Error('Terminal atlas HTTP '+r.status);return r.json() as Promise<TerminalAtlas[]>;})]);
   if(scene.isDisposed){for(const m of result.meshes)m.dispose();return;}
   // Babylon AUTO imports glTF into LH by mirroring X. The arena conversion
   // uses the equivalent Z mirror, so rotate the entire imported hierarchy once.
@@ -24,39 +24,28 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
     if(!layouts[index]||!texture)throw new Error('Terminal: atlante non disponibile '+original.name);
     m=terminalAtlasMaterial(scene,original.name,texture,layouts[index]);materials.set(original,m);return m;
   };
-  const models=new Map<string,{source:Mesh;mat:ShaderMaterial|null;matrices:number[]}>(),kept:Mesh[]=[],staticGroups=new Map<string,Mesh[]>();let instances=0,triangles=0,instanceGroups=0;
-  const staticNode=(source:Mesh,matrix:Matrix,mat:ShaderMaterial|null)=>{
-    const node=new Mesh('terminalStatic',scene);source.geometry?.applyToMesh(node);node.makeGeometryUnique();node.bakeTransformIntoVertices(matrix);node.material=mat;node.computeWorldMatrix(true);
-    const c=node.getBoundingInfo().boundingBox.centerWorld,k=`${mat?.uniqueId}:${Math.floor(c.x/64)}:${Math.floor(c.z/64)}`,list=staticGroups.get(k);if(list)list.push(node);else staticGroups.set(k,[node]);
-  };
-  // Gather transforms before disposing any imported hierarchy/source geometry.
+  // Offline batches avoid per-prop cloning/merging. Canonical world-space
+  // meshes keep the same winding and instance matrices as the proven renderer.
+  const kept:Mesh[]=[];let triangles=0,instanceGroups=0,instances=0;
   for(const imported of result.meshes){
     if(!imported.getTotalVertices())continue;
-    const source=imported instanceof InstancedMesh?imported.sourceMesh:imported;if(!(source instanceof Mesh))continue;
-    imported.computeWorldMatrix(true);const matrix=imported.getWorldMatrix().clone(),mat=imported.material?material(imported.material):null;
-    triangles+=source.getTotalIndices()/3;
-    if(imported.name.startsWith('terminalZone/')){
-      staticNode(source,matrix,mat);
+    if(!(imported instanceof Mesh))throw new Error('Terminal: geometria non preelaborata');
+    imported.computeWorldMatrix(true);const world=imported.getWorldMatrix().clone();
+    const mesh=new Mesh(imported.name,scene);imported.geometry!.applyToMesh(mesh);
+    mesh.material=imported.material?material(imported.material):null;
+    mesh.isPickable=false;mesh.checkCollisions=false;
+    const count=imported.thinInstanceCount;triangles+=imported.getTotalIndices()/3*Math.max(1,count);
+    if(count){
+      instanceGroups++;instances+=count;
+      const ext=imported.geometry!.extend,size=ext.maximum.subtract(ext.minimum).length();
+      const matrices=imported.thinInstanceGetWorldMatrices().flatMap(m=>Array.from(m.multiply(world).asArray()));
+      mesh.thinInstanceSetBuffer('matrix',new Float32Array(matrices),16,true);mesh.thinInstanceRefreshBoundingInfo(true);
+      mesh.addLODLevel(size<.7?24:size<2?38:size<4?58:size<10?95:190,null);
     }else{
-      const center=imported.getBoundingInfo().boundingBox.centerWorld;
-      const k=`${source.geometry?.uniqueId}:${mat?.uniqueId}:${Math.floor(center.x/32)}:${Math.floor(center.z/32)}`;
-      let group=models.get(k);if(!group){group={source,mat,matrices:[]};models.set(k,group);}group.matrices.push(...matrix.asArray());instances++;
+      mesh.makeGeometryUnique();mesh.bakeTransformIntoVertices(world);
     }
+    mesh.freezeWorldMatrix();mesh.doNotSyncBoundingInfo=true;kept.push(mesh);
   }
-  for(const [key,g]of models){
-    // Rare props join the nearby static atlas batch; repeated furniture stays
-    // instanced. This avoids a draw call per tiny one-off decoration.
-    if(g.matrices.length/16<4){for(let i=0;i<g.matrices.length;i+=16)staticNode(g.source,Matrix.FromArray(g.matrices,i),g.mat);continue;}
-    instanceGroups++;
-    const mesh=new Mesh('terminalInstances:'+key,scene);g.source.geometry?.applyToMesh(mesh);mesh.material=g.mat;mesh.isPickable=false;mesh.checkCollisions=false;
-    mesh.thinInstanceSetBuffer('matrix',new Float32Array(g.matrices),16,true);mesh.thinInstanceRefreshBoundingInfo(true);mesh.freezeWorldMatrix();
-    const size=g.source.getBoundingInfo().boundingBox.extendSize.length()*2;
-    // Cull small repeated props by the size of ONE prop, not the whole cell.
-    // Large structural models (including the aircraft) keep their full range.
-    mesh.addLODLevel(size<.7?24:size<2?38:size<4?58:size<10?95:190,null);
-    mesh.doNotSyncBoundingInfo=true;kept.push(mesh);
-  }
-  for(const [key,list]of staticGroups){const mesh=list.length>1?Mesh.MergeMeshes(list,true,true,undefined,false,false):list[0];if(!mesh)continue;mesh.name='terminalBatch:'+key;mesh.isPickable=false;mesh.checkCollisions=false;mesh.freezeWorldMatrix();mesh.doNotSyncBoundingInfo=true;kept.push(mesh);}
   coordinates.dispose();for(const node of result.transformNodes)if(!node.isDisposed())node.dispose();
   for(const original of materials.keys())original.dispose(false,false);for(const m of materials.values())m.freeze();
   // These visible treads use exactly the boxes exported into arena.json.
@@ -84,5 +73,5 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
   // must leave the dynamic octree when removed, before visible instances load.
   scene.onMeshRemovedObservable.add(m=>{const i=octree.dynamicContent.indexOf(m);if(i>=0)octree.dynamicContent.splice(i,1);});
 
-  scene.metadata={...scene.metadata,terminal:{partial:true,spatialBatches:kept.length-instanceGroups,instanceGroups,modelPrimitives:instances,triangles,materials:materials.size,loadMs:performance.now()-started,source:'terminal-play.glb',staticBatchMeters:64,stableAtlasGradients:(scene.getEngine() as Engine).webGLVersion>=2,shadows:'existing character blobs; no dynamic map shadow pass'}};
+  scene.metadata={...scene.metadata,terminal:{partial:true,spatialBatches:kept.length-instanceGroups,instanceGroups,modelPrimitives:instances,triangles,materials:materials.size,loadMs:performance.now()-started,source:'terminal-fast.glb',staticBatchMeters:64,stableAtlasGradients:(scene.getEngine() as Engine).webGLVersion>=2,shadows:'existing character blobs; no dynamic map shadow pass'}};
 }

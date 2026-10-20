@@ -215,6 +215,7 @@ interface HudEntry {
   vignette: Rectangle;
   vignetteTimer: number;
   centerText: TextBlock;
+  protectionText:TextBlock;
   /** colpo che uccide: hitmarker rosso piu' grande e piu' lungo */
   hitKill: boolean;
   /** frecce "da dove arriva il colpo" (pool di 3, ruotano attorno al centro) */
@@ -633,13 +634,15 @@ export class BabylonFpsGame {
 
     const centerText = new TextBlock(`fpsCenter_${index}`, '');
     centerText.fontFamily = FONT_DISPLAY;
-    centerText.fontSize = 36;
+    centerText.fontSize = total>=4?24:30;
+    centerText.height='64px';centerText.width='90%';centerText.isHitTestVisible=false;
     centerText.color = '#f87171';
     centerText.outlineColor = '#000000';
     centerText.outlineWidth = 6;
     centerText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
     centerText.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
     adt.addControl(centerText);
+    const protectionText=new TextBlock('fpsProtection_'+index,'PROTETTO');protectionText.fontFamily=FONT_DISPLAY;protectionText.fontSize=total>=4?14:16;protectionText.color='#7dd3fc';protectionText.outlineColor='#07121c';protectionText.outlineWidth=3;protectionText.height='24px';protectionText.width='65%';protectionText.verticalAlignment=Control.VERTICAL_ALIGNMENT_TOP;protectionText.top='50px';protectionText.isVisible=false;protectionText.isHitTestVisible=false;adt.addControl(protectionText);
 
     // indicatori di direzione del danno: una freccia rossa sul bordo di un cerchio invisibile, ruotato verso l'attaccante
     const dmgInds: { box: Rectangle; t: number }[] = [];
@@ -654,7 +657,7 @@ export class BabylonFpsGame {
       arrow.color = '#ef4444';
       arrow.outlineColor = '#000000';
       arrow.outlineWidth = 3;
-      arrow.fontSize = 36;
+      arrow.fontSize = total>=4?24:28;
       arrow.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
       box.addControl(arrow);
       adt.addControl(box);
@@ -724,17 +727,18 @@ export class BabylonFpsGame {
     // NO, ASPETTA! subito: "BLOCCATO" (forma + testo, non solo colore)
     const lockText = new TextBlock(`fpsLock_${index}`, '');
     lockText.fontFamily = FONT_DISPLAY;
-    lockText.fontSize = 30;
+    lockText.fontSize = total>=4?18:22;
+    lockText.height='36px';lockText.width='85%';
     lockText.color = '#fbbf24';
     lockText.outlineColor = '#000000';
     lockText.outlineWidth = 6;
     lockText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
     lockText.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
-    lockText.top = '-70px';
+    lockText.top = '-54px';
     lockText.isVisible = false;
     adt.addControl(lockText);
 
-    return { scope,scopeSize:"",deathShade,crossBars, crossDot, adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText, hitKill: false, dmgInds, dmgIdx: 0, abilityText, reloadBar, reloadFill, guardFrame, lockText };
+    return { scope,scopeSize:"",deathShade,crossBars, crossDot, adt, hpFill, hpText, ammoText, killText, hitmarker, hitmarkerTimer: 0, vignette, vignetteTimer: 0, centerText, protectionText, hitKill: false, dmgInds, dmgIdx: 0, abilityText, reloadBar, reloadFill, guardFrame, lockText };
   }
 
   /** Pool di effetti condivisi (visibili a tutte le finestre): traccianti, proiettili, esplosioni, detriti. Nessuna allocazione per colpo. */
@@ -1213,8 +1217,7 @@ export class BabylonFpsGame {
       const lockOn = !!snap.locked && snap.alive;
       h.lockText.isVisible = lockOn;
       if (lockOn) h.lockText.text = '✋ BLOCCATO!';
-      if(protectedSpawn&&(!h.centerText.text||h.centerText.text.startsWith('PROTETTO')))h.centerText.text='PROTETTO';
-      if(!protectedSpawn&&h.centerText.text.startsWith('PROTETTO'))h.centerText.text='';
+      h.protectionText.isVisible=protectedSpawn;
       h.centerText.isVisible = !snap.alive || h.centerText.text.length > 0;
       if (!snap.alive && h.centerText.text.length === 0) h.centerText.text = 'RIENTRO TRA POCO';
       if (snap.alive && h.centerText.text === 'RIENTRO TRA POCO') h.centerText.text = '';

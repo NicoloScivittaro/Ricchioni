@@ -7,7 +7,7 @@ from collections import defaultdict
 import numpy as np,json,copy,io,math
 from PIL import Image
 from prepare_arena import ROOT,read,access,world,Packed
-OUT=ROOT/'docs/agent-work/terminal-2-2';OUT.mkdir(exist_ok=True)
+OUT=ROOT/'docs/agent-work/terminal-2-3';OUT.mkdir(exist_ok=True)
 
 def run():
  d,b=read();out=Packed(d);out.d['materials']=[];out.d['images']=[];out.d['textures']=[];out.d['extensionsUsed']=[]
@@ -18,7 +18,9 @@ def run():
   name=m['name'];alternate=None;tint=[1,1,1,1]
   # Some descriptors exist but their colour IWI is absent. These targeted
   # mechanical/plastic surfaces need a real recovered texture too.
-  repairs={'ch_trim_stainlessteel_1':('metal_aluminum01',[.67,.7,.73,1]),
+  repairs={'ship_ceiling01':('mtl_airplane_window_clean',[.64,.68,.7,1]),
+   'com_plastic_wall':('mtl_airplane_window_clean',[.68,.72,.75,1]),
+   'ch_trim_stainlessteel_1':('metal_aluminum01',[.67,.7,.73,1]),
    'me_trim_metalplate_1':('metal_aluminum01',[.48,.52,.56,1]),
    'me_metal_grey_01':('metal_aluminum01',[.55,.58,.61,1]),
    'ch_countertop_sidetrim':('metal_aluminum01',[.62,.65,.68,1]),
@@ -54,31 +56,36 @@ def run():
   p=m.get('pbrMetallicRoughness',{});tex=p.get('baseColorTexture',{}).get('index');imageindex=d['textures'][tex]['source']if tex is not None else None
   mode=m.get('alphaMode','OPAQUE');role='MULTIPLY'if'multiply'in m.get('extras',{}).get('sourceTechset','')else mode if mode=='BLEND'else'MASK'if mode=='MASK'else'OPAQUE'
   name=m['name'];hero=any(s in name for s in ['727','cockpit','airplane','aluminum01','sign','bookstore','aircraft','ap_door','ap_windows'])
-  size=1024 if hero else 512;key=(imageindex,size,role)
+  limit=1024 if hero else 512;carpet=name in ('ap_interior_carpet','me_office_carpet01');key=('cabin-textile'if carpet else imageindex,limit,role)
   if key not in images:
-   if imageindex is None:im=Image.new('RGBA',(8,8),(255,255,255,255))
+   if carpet:
+    yy,xx=np.indices((128,128));weave=((xx%4==0)*3+(yy%4==0)*2).astype(np.uint8);rgb=np.array([74,86,98],dtype=np.uint8)[None,None,:]+weave[:,:,None];im=Image.fromarray(np.concatenate([rgb,np.full((128,128,1),255,dtype=np.uint8)],axis=2))
+   elif imageindex is None:im=Image.new('RGBA',(8,8),(255,255,255,255))
    else:
     v=d['bufferViews'][d['images'][imageindex]['bufferView']];im=Image.open(io.BytesIO(b[v.get('byteOffset',0):v.get('byteOffset',0)+v['byteLength']])).convert('RGBA')
-   images[key]=im;pools[(size,role)].append(key)
+   # Keep source aspect and texels; never upscale tiny trims to a 512-square tile.
+   im.thumbnail((limit,limit),Image.Resampling.LANCZOS);images[key]=im;pools[role].append(key)
   records[i]={'key':key,'color':p.get('baseColorFactor',[1,1,1,1]),'repairDisplayUV':name in ('sign_russian_airport_01','sign_russian_airport_02','airport_departure_sign'),'flag':(2 if'KHR_materials_unlit'in m.get('extensions',{})else 0)+(.5 if mode=='MASK'else 0)}
  atlas={};layouts=[];pad=8
- for (size,mode),keys in pools.items():
-  capacity=4 if size==1024 else 8;stride=size+pad*2
-  for start in range(0,len(keys),capacity*capacity):
-   subset=keys[start:start+capacity*capacity]
-   # A mostly empty last atlas wastes VRAM and cache bandwidth in all five views.
-   grid=min(capacity,2**math.ceil(math.log2(max(1,math.ceil(math.sqrt(len(subset)))))))
-   canvas=Image.new('RGBA',(grid*stride,grid*stride),(255,255,255,0 if mode!='OPAQUE'else 255));atlasid=len(layouts)
-   for tile,key in enumerate(subset):
-    im=images[key].resize((size,size),Image.Resampling.LANCZOS);x=(tile%grid)*stride;y=(tile//grid)*stride
-    # Repeat gutters on all sides, keeping distant mip samples within the tile.
-    arr=np.array(im);arr=np.pad(arr,((pad,pad),(pad,pad),(0,0)),mode='wrap');canvas.paste(Image.fromarray(arr),(x,y));atlas[key]=(atlasid,tile)
-   blob=io.BytesIO()
-   if mode=='OPAQUE':canvas.convert('RGB').save(blob,format='JPEG',quality=91);mime='image/jpeg'
-   else:canvas.save(blob,format='PNG',compress_level=5);mime='image/png'
-   vi=out.view(blob.getvalue());out.d['images'].append({'bufferView':vi,'mimeType':mime,'name':f'terminal-atlas-{atlasid}'});out.d['textures'].append({'source':atlasid,'sampler':0})
-   layout={'grid':grid,'size':size,'padding':pad,'mode':mode,'tiles':len(subset)};layouts.append(layout)
-   out.d['materials'].append({'name':f'terminal-atlas-{atlasid}','doubleSided':True,'alphaMode':'BLEND'if mode=='MULTIPLY'else mode,'pbrMetallicRoughness':{'baseColorTexture':{'index':atlasid},'metallicFactor':0,'roughnessFactor':.9},'extras':{'terminalAtlas':layout}})
+ def emit(mode,items,width,height):
+  width=2**math.ceil(math.log2(width));height=2**math.ceil(math.log2(height));canvas=Image.new('RGBA',(width,height),(255,255,255,0 if mode!='OPAQUE'else 255));atlasid=len(layouts);rects=[]
+  for tile,(key,x,y)in enumerate(items):
+   im=images[key];w,h=im.size;arr=np.pad(np.array(im),((pad,pad),(pad,pad),(0,0)),mode='wrap');canvas.paste(Image.fromarray(arr),(x,y));atlas[key]=(atlasid,tile);rects.append([(x+pad)/width,(y+pad)/height,w/width,h/height])
+  blob=io.BytesIO()
+  if mode=='OPAQUE':canvas.convert('RGB').save(blob,format='JPEG',quality=91);mime='image/jpeg'
+  else:canvas.save(blob,format='PNG',compress_level=5);mime='image/png'
+  vi=out.view(blob.getvalue());out.d['images'].append({'bufferView':vi,'mimeType':mime,'name':f'terminal-atlas-{atlasid}'});out.d['textures'].append({'source':atlasid,'sampler':0})
+  layout={'width':width,'height':height,'padding':pad,'mode':mode,'tiles':len(items),'rects':rects};layouts.append(layout)
+  out.d['materials'].append({'name':f'terminal-atlas-{atlasid}','doubleSided':True,'alphaMode':'BLEND'if mode=='MULTIPLY'else mode,'pbrMetallicRoughness':{'baseColorTexture':{'index':atlasid},'metallicFactor':0,'roughnessFactor':.9},'extras':{'terminalAtlas':layout}})
+ for mode,keys in pools.items():
+  items=[];x=y=row=width=0
+  for key in sorted(keys,key=lambda k:(images[k].height,images[k].width),reverse=True):
+   w,h=images[key].size;w+=2*pad;h+=2*pad
+   if x+w>4096:x=0;y+=row;row=0
+   if y+h>4096 or len(items)==64:
+    emit(mode,items,width,y+row);items=[];x=y=row=width=0
+   items.append((key,x,y));x+=w;width=max(width,x);row=max(row,h)
+  if items:emit(mode,items,width,y+row)
  def attrs(pr,positions=None,verts=None):
   data={k:access(d,b,a)for k,a in pr['attributes'].items()};count=len(data['POSITION']);rec=records[pr['material']];ai,tile=atlas[rec['key']]
   colors=data.get('COLOR_0',np.ones((count,4))).copy()*rec['color'];colors[:,3]=rec['color'][3]

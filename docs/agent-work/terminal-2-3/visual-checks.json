@@ -1,0 +1,158 @@
+{
+  "ads": {
+    "checks": [
+      {
+        "id": "mitraglia",
+        "models": true,
+        "enabled": true,
+        "scope": true
+      },
+      {
+        "id": "laser",
+        "models": true,
+        "enabled": false,
+        "scope": true
+      },
+      {
+        "id": "raffica",
+        "models": true,
+        "enabled": true,
+        "scope": true
+      },
+      {
+        "id": "bombarda",
+        "models": true,
+        "enabled": true,
+        "scope": true
+      },
+      {
+        "id": "sparapiselli",
+        "models": true,
+        "enabled": true,
+        "scope": true
+      },
+      {
+        "id": "pistola",
+        "models": true,
+        "enabled": true,
+        "scope": true
+      }
+    ],
+    "zoom": 4,
+    "transitionHidden": true,
+    "holeAlpha": 0
+  },
+  "lifecycle": {
+    "protectedHud": true,
+    "expired": true,
+    "before": 2.7199999999999998,
+    "dead": {
+      "y": 2.7199999999999998,
+      "shade": 1
+    },
+    "respawn": {
+      "y": 6.38,
+      "expected": 6.38,
+      "shade": 0
+    },
+    "floors": [
+      {
+        "hit": true,
+        "delta": 0.0007999849319457741
+      },
+      {
+        "hit": true,
+        "delta": 0.0031999397277830965
+      },
+      {
+        "hit": true,
+        "delta": 0.00399996757507326
+      },
+      {
+        "hit": true,
+        "delta": 0.0031999397277830965
+      },
+      {
+        "hit": true,
+        "delta": 0.0031999397277830965
+      },
+      {
+        "hit": true,
+        "delta": 0.00399996757507326
+      },
+      {
+        "hit": true,
+        "delta": 0.0031999397277830965
+      },
+      {
+        "hit": true,
+        "delta": 0.002200222015380504
+      },
+      {
+        "hit": true,
+        "delta": 0.0031999397277830965
+      },
+      {
+        "hit": true,
+        "delta": 0.00399996757507326
+      },
+      {
+        "hit": true,
+        "delta": 0.0031999397277830965
+      },
+      {
+        "hit": true,
+        "delta": 0.00399996757507326
+      },
+      {
+        "hit": true,
+        "delta": 0.0007999849319457741
+      },
+      {
+        "hit": true,
+        "delta": 0.0007999849319457741
+      },
+      {
+        "hit": true,
+        "delta": 0.0031999397277830965
+      },
+      {
+        "hit": true,
+        "delta": 0.0031999397277830965
+      },
+      {
+        "hit": true,
+        "delta": 0.0031999397277830965
+      },
+      {
+        "hit": true,
+        "delta": 0.0031999397277830965
+      },
+      {
+        "hit": true,
+        "delta": 0.00399996757507326
+      }
+    ],
+    "world": {
+      "partial": true,
+      "spatialBatches": 86,
+      "instanceGroups": 172,
+      "modelPrimitives": 1998,
+      "triangles": 1704739,
+      "materials": 7,
+      "loadMs": 1537.7999999970198,
+      "source": "terminal-fast.glb",
+      "staticBatchMeters": 64,
+      "stableAtlasGradients": true,
+      "shadows": "existing character blobs; no dynamic map shadow pass"
+    }
+  },
+  "weapon": {
+    "coveredBeforeReady": true,
+    "loaded": true,
+    "fill": 1.2,
+    "ready": true,
+    "geometry": 1704739
+  },
+  "errors": []
+}

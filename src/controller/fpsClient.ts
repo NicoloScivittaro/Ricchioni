@@ -210,6 +210,7 @@ export class FpsClient {
   private reloadFillEl!: HTMLElement;
   private abilityEl!: HTMLElement;
   private guardEl!: HTMLElement;
+  private protectionEl!:HTMLElement;
   private lockEl!: HTMLElement;
   private selfWall = false;
   private abilityName = '';
@@ -356,8 +357,9 @@ export class FpsClient {
 
     // ABILITA': riga di stato sotto l'arma (nome + PRONTA / ATTIVA 3,2 s / RICARICA), cornice del giubbotto e avviso BLOCCATO
     this.abilityEl = mk(`position:absolute;left:14px;top:calc(112px + var(--fps-hud-inset, 0px));z-index:30;font:900 13px "Arial Black",Arial;letter-spacing:.03em;color:#e5e7eb;max-width:46vw;${text}`);
+    this.protectionEl=mk('position:absolute;right:14px;top:calc(48px + var(--fps-hud-inset, 0px));z-index:30;font:800 12px Arial;color:#7dd3fc;background:#07121caa;padding:5px 8px;border-radius:6px;pointer-events:none;display:none;', 'PROTETTO');
     this.guardEl = mk('position:absolute;inset:0;z-index:23;pointer-events:none;opacity:0;border:8px solid #38bdf8;box-sizing:border-box;transition:opacity 120ms;');
-    this.lockEl = mk(`position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);z-index:34;pointer-events:none;opacity:0;color:#fbbf24;font:900 26px "Arial Black",Arial;white-space:nowrap;${text}`, '✋ BLOCCATO!');
+    this.lockEl = mk(`position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);z-index:34;pointer-events:none;opacity:0;color:#fbbf24;font:900 20px "Arial Black",Arial;white-space:nowrap;${text}`, '✋ BLOCCATO!');
     this.timerEl = mk(`position:absolute;right:12px;top:calc(10px + var(--fps-hud-inset, 0px));color:#fbbf24;font:800 16px Arial;z-index:30;${text}`);
     this.timerEl.className='fps-score';
     this.feedEl = mk(`position:absolute;right:12px;top:calc(38px + var(--fps-hud-inset, 0px));color:#fff;font:700 13px Arial;z-index:30;text-align:right;${text}`);
@@ -872,7 +874,7 @@ export class FpsClient {
         }
         const spawn=(this.mapId==='nuketown'||this.mapId==='terminal')&&(ps.spawnProtection??0)>0&&ps.alive;
         this.guardEl.style.opacity = (ps.guard||spawn) && ps.alive ? '0.6' : '0';
-        if(spawn)this.abilityEl.textContent='PROTETTO · SPARA PER COMBATTERE';
+        this.protectionEl.style.display=spawn?'block':'none';
         this.lockEl.style.opacity = ps.locked && ps.alive ? '1' : '0';
         for (const re of this.remotes.values()) re.ghost.isVisible = this.selfWall && re.alive;
         this.presentWhenReady();
