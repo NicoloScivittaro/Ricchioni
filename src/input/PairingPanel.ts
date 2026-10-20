@@ -56,6 +56,7 @@ let testView = false;
 /** impostazioni per giocatore (vibrazione, mira FPS, Y invertita): nascoste finche' non servono */
 let showOpts = false;
 let started = false;
+export function showPairingPanel():void {open=true;dismissed=false;render();}
 
 const css = `
 #pad-root{position:fixed;inset:0;z-index:90000;display:none;align-items:center;justify-content:center;background:rgba(5,6,14,.92);font-family:var(--ui-body);color:var(--ui-text)}
@@ -180,7 +181,7 @@ function renderPairing(): string {
   const note = `<p class="note">Tutti i giochi si giocano col controller${phoneGames.length ? ` · solo ${esc(phoneGames.join(', '))} usa il telefono` : ''}. Il controller resta di quella persona per tutta la serata.</p>`;
   const noExp = pads.detected < slots.length && pads.detected > 0 && !free.length ? `<p class="note warn">Il browser vede ${pads.detected} controller su ${slots.length} giocatori: gli altri giocano col telefono.</p>` : '';
   return `<div class="box"><div class="head"><h2>🎮 COLLEGA I CONTROLLER</h2><div class="ready">${esc(readySummary())}</div></div><p class="hint">${esc(hint)}</p>${rows || '<p>Nessun giocatore nella stanza.</p>'}${note}${noExp}
-  <div class="foot"><button data-act="close" class="main">PRONTI (G)</button><button data-act="opts">⚙ IMPOSTAZIONI</button><button data-act="test" class="dbg">🧪 test controller</button></div></div>`;
+  <div class="foot"><button data-act="close" class="main">PRONTI · G / B / ◯</button><button data-act="opts">⚙ IMPOSTAZIONI</button><button data-act="test" class="dbg">🧪 test controller</button></div></div>`;
 }
 
 function renderTest(): string {
@@ -277,6 +278,7 @@ export function initPairingPanel(): void {
     if (lost) focusBar.textContent = '⚠️ CLICCA SULLA FINESTRA DEL GIOCO — senza focus il browser può ignorare i controller';
   }, 500);
   pads.events.on('change', render);
+  pads.events.on('menuDismissPairing',()=>{open=false;dismissed=true;render();});
   // suoni d'interfaccia: un controller in piu' associato = "pair"; avvisi di disconnessione / riconnessione
   let pairedBefore = pads.pairedCount();
   pads.events.on('change', () => {

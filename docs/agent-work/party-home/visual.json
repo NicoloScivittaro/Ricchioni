@@ -1,0 +1,41 @@
+{
+  "errors": [],
+  "layout": {
+    "lobby-720": {
+      "height": 720,
+      "scroll": 720,
+      "page": 720,
+      "rootCount": 1
+    },
+    "room-720": {
+      "height": 720,
+      "scroll": 720,
+      "page": 720,
+      "rootCount": 1
+    },
+    "roulette-720": {
+      "height": 720,
+      "scroll": 720,
+      "page": 720,
+      "rootCount": 1
+    },
+    "lobby-1080": {
+      "height": 1080,
+      "scroll": 1080,
+      "page": 1080,
+      "rootCount": 1
+    },
+    "room-1080": {
+      "height": 1080,
+      "scroll": 1080,
+      "page": 1080,
+      "rootCount": 1
+    },
+    "roulette-1080": {
+      "height": 1080,
+      "scroll": 1080,
+      "page": 1080,
+      "rootCount": 1
+    }
+  }
+}

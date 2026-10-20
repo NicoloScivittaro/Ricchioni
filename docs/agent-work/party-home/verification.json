@@ -1,0 +1,95 @@
+{
+  "status": "passed",
+  "scope": [
+    "LobbyScene, RoomScene and RouletteScene presentation",
+    "GamepadManager scene-owned menu capture; pairing-dialog dismissal",
+    "No minigame/server selection/scoring/rules changes in this task; earlier Backrooms work preserved"
+  ],
+  "browser": {
+    "errors": [],
+    "checks": [
+      "Xbox: player count, duration, create; held A does not open the next menu",
+      "Phone join/ready, actual pad pairing and B closes pairing without leaving the room",
+      "Xbox: browse illustrated games, open grid catalog, confirm actual server selection",
+      "Existing map-vote confirmation and gameplay interaction keep their production routes",
+      "DualSense: replacement pairing, cross opens catalog and circle returns",
+      "Mouse selection and actual server state agree",
+      "Pad starts session, roulette lands on server-selected game, cross continues and menu cleans up"
+    ],
+    "reel": {
+      "result": "reaction",
+      "current": "reaction",
+      "menus": 1
+    }
+  },
+  "navigation": {
+    "checks": [
+      "Custom points work with pad shoulders and keyboard",
+      "Volume overlay blocks underlying pad menu actions",
+      "Catalog traps Tab and Enter chooses the focused card"
+    ],
+    "errors": []
+  },
+  "visual": {
+    "errors": [],
+    "layout": {
+      "lobby-720": {
+        "height": 720,
+        "scroll": 720,
+        "page": 720,
+        "rootCount": 1
+      },
+      "room-720": {
+        "height": 720,
+        "scroll": 720,
+        "page": 720,
+        "rootCount": 1
+      },
+      "roulette-720": {
+        "height": 720,
+        "scroll": 720,
+        "page": 720,
+        "rootCount": 1
+      },
+      "lobby-1080": {
+        "height": 1080,
+        "scroll": 1080,
+        "page": 1080,
+        "rootCount": 1
+      },
+      "room-1080": {
+        "height": 1080,
+        "scroll": 1080,
+        "page": 1080,
+        "rootCount": 1
+      },
+      "roulette-1080": {
+        "height": 1080,
+        "scroll": 1080,
+        "page": 1080,
+        "rootCount": 1
+      }
+    }
+  },
+  "padPureChecks": "passed; see pad-rules.log",
+  "typecheck": "passed; final npm run build also includes tsc --noEmit",
+  "hardwareLimit": "Xbox and DualSense simulated through navigator.getGamepads; no physical-controller test claimed",
+  "git": "No commit, push or deploy",
+  "dialogAndHeldDirection": {
+    "checks": [
+      "Held direction is suppressed across scenes until neutral, then navigation resumes",
+      "B closes pairing outside menu capture without leaving room; offline status explicit"
+    ],
+    "errors": []
+  },
+  "build": "passed: tsc --noEmit && vite build",
+  "production": {
+    "errors": [],
+    "checks": [
+      "compiled home and actual Xbox menu route",
+      "compiled room: real QR, ready gate, catalog selection and back cleanup",
+      "local gallery and all representative images HTTP200"
+    ]
+  },
+  "routingTestScope": "Map-vote/gameplay checks exercised the existing manager routes in controlled contexts, not a full additional multiplayer match."
+}

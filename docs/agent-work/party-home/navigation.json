@@ -1,0 +1,8 @@
+{
+  "checks": [
+    "Custom points work with pad shoulders and keyboard",
+    "Volume overlay blocks underlying pad menu actions",
+    "Catalog traps Tab and Enter chooses the focused card"
+  ],
+  "errors": []
+}

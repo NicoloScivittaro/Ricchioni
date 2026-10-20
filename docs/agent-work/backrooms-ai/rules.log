@@ -1,0 +1,8 @@
+PASS Observed movement gives a short interception; wall-blocked prediction falls back to the actual sighting
+PASS Search checks nearby branches in the last observed direction, ignores hidden movement, then forgets
+PASS A search sweep can reacquire a genuinely visible player initially outside the field of view
+PASS Hearing prioritizes an audible strong cue over a newer quiet footstep without granting visual knowledge
+PASS Smiler patrol favors nearby darkness and avoids another creature destination
+PASS Partygoer reaches a party room before setting its early lure
+PASS Smiler physically retreats on valid floor, keeps a bounded recoil and cannot be permanently stunned
+PASS A blocked corner never permits a capture through walls or an invalid monster position

@@ -1,0 +1,7 @@
+{
+  "checks": [
+    "Held direction is suppressed across scenes until neutral, then navigation resumes",
+    "B closes pairing outside menu capture without leaving room; offline status explicit"
+  ],
+  "errors": []
+}

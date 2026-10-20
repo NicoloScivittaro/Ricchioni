@@ -1,0 +1,13 @@
+{
+  "errors": [],
+  "compiledChunk": "BabylonBackroomsGame-YXar2W3j.js",
+  "productionCanvas": true,
+  "liveRenderer": {
+    "views": 2,
+    "state": "search",
+    "moved": 2.7683333333329614,
+    "validFloor": true,
+    "visualPositionMatches": true,
+    "remainingSearchCells": 8
+  }
+}

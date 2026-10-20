@@ -1,0 +1,7 @@
+# Backrooms smarter AI complete
+
+Direct implementation; no Flash, commit, push or deploy. Prior work preserved. Source changes: backroomsRules.ts and BabylonBackroomsGame.ts animation idle flags; old selftest fixture updated and new AI-specific tests added. Baseline in baseline/.
+Features: branch search from last visual snapshot and observed motion, bounded memory, sweep reacquisition, safe short interception, perceived-noise priority + batch consumption, patrol recent history/destination spacing, Smiler dark preference and collision-safe physical torch retreat, Partygoer room lure and longer travel budget, blocked-corner recenter recovery.
+PASS eight AI-specific checks, essential prior Backrooms regression + full synthetic round, native1280x720 RTX3050 five independent views60.275fps/p95 16.8ms over180frames, final tsc+Vite build3m44s. Final compiled AI chunk verified, production canvas boot PASS, actual 3D two-view search moved2.768m on valid floor and visual/simulation positions matched. No page errors. No physical phone/pad tests repeated; systems unchanged.
+All previous28 galleries +Backrooms2 restored, new http://localhost:3012/backrooms-ai/ available. verification.json contains all final evidence. Existing backend3012PID4800 and Vite5186PID28708 left running.
+User trailing “e” remains optional clarification; AI request completed. No additional work required unless user supplies another request.

@@ -1,0 +1,142 @@
+{
+  "status": "passed",
+  "scope": "Only Backrooms creature AI and idle animation state; no Flash, commit, push or deploy",
+  "rules": {
+    "checks": [
+      "Observed movement gives a short interception; wall-blocked prediction falls back to the actual sighting",
+      "Search checks nearby branches in the last observed direction, ignores hidden movement, then forgets",
+      "A search sweep can reacquire a genuinely visible player initially outside the field of view",
+      "Hearing prioritizes an audible strong cue over a newer quiet footstep without granting visual knowledge",
+      "Smiler patrol favors nearby darkness and avoids another creature destination",
+      "Partygoer reaches a party room before setting its early lure",
+      "Smiler physically retreats on valid floor, keeps a bounded recoil and cannot be permanently stunned",
+      "A blocked corner never permits a capture through walls or an invalid monster position"
+    ]
+  },
+  "backroomsRegression": {
+    "seeds": [
+      {
+        "n": 2,
+        "seed": 7,
+        "cells": 165,
+        "rooms": 6
+      },
+      {
+        "n": 2,
+        "seed": 42,
+        "cells": 164,
+        "rooms": 6
+      },
+      {
+        "n": 2,
+        "seed": 777,
+        "cells": 160,
+        "rooms": 6
+      },
+      {
+        "n": 5,
+        "seed": 7,
+        "cells": 256,
+        "rooms": 8
+      },
+      {
+        "n": 5,
+        "seed": 42,
+        "cells": 244,
+        "rooms": 8
+      },
+      {
+        "n": 5,
+        "seed": 777,
+        "cells": 247,
+        "rooms": 8
+      }
+    ],
+    "checks": [
+      "three species: FOV/LOS, last sight snapshot, bounded target memory",
+      "noise investigates a region without granting a player target",
+      "Partygoer readable lure, reaction delay, short rush and exhaustion",
+      "Smiler focused LOS light recoil and resistance prevent permanent stun",
+      "first capture: 7s recovery + safe protected respawn; second eliminates",
+      "key objective, shared notice/progress and escape immunity",
+      "puzzle objective, shared notice/progress and escape immunity"
+    ],
+    "synthetic": {
+      "seconds": 52.53333333333163,
+      "players": [
+        {
+          "state": "escaped",
+          "lives": 2
+        },
+        {
+          "state": "escaped",
+          "lives": 2
+        }
+      ],
+      "results": [
+        {
+          "playerId": "b",
+          "placement": 1,
+          "score": 9949,
+          "stats": [
+            "Fuga 51.5s"
+          ]
+        },
+        {
+          "playerId": "a",
+          "placement": 2,
+          "score": 9948,
+          "stats": [
+            "Fuga 52.5s"
+          ]
+        }
+      ]
+    }
+  },
+  "fiveViewPerformance": {
+    "stats": {
+      "fps": 60.27525700699112,
+      "seconds": 2.986300000000372,
+      "p95ms": 16.799999999999272,
+      "views": 5,
+      "render": [
+        1280,
+        720
+      ],
+      "scale": 1,
+      "lights": 4,
+      "renderer": {
+        "vendor": "Google Inc. (NVIDIA)",
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+      },
+      "seed": 7,
+      "monsters": [
+        "partygoer",
+        "runner",
+        "bacteria"
+      ]
+    },
+    "errors": []
+  },
+  "limits": [
+    "Short 180-frame GPU sample, not a guarantee on every device/encounter",
+    "No physical phone/gamepad tests repeated; inputs and audio unchanged"
+  ],
+  "pendingClarification": "User message ends with e; optional completion requested asynchronously",
+  "typecheck": "passed (tsc --noEmit)",
+  "build": "passed (vite build)",
+  "production": {
+    "errors": [],
+    "compiledChunk": "BabylonBackroomsGame-YXar2W3j.js",
+    "productionCanvas": true,
+    "liveRenderer": {
+      "views": 2,
+      "state": "search",
+      "moved": 2.7683333333329614,
+      "validFloor": true,
+      "visualPositionMatches": true,
+      "remainingSearchCells": 8
+    }
+  }
+}

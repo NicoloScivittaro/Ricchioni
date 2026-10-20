@@ -47,7 +47,7 @@
     "puzzle objective, shared notice/progress and escape immunity"
   ],
   "synthetic": {
-    "seconds": 68.48333333333073,
+    "seconds": 52.53333333333163,
     "players": [
       {
         "state": "escaped",
@@ -55,24 +55,24 @@
       },
       {
         "state": "escaped",
-        "lives": 1
+        "lives": 2
       }
     ],
     "results": [
       {
-        "playerId": "a",
+        "playerId": "b",
         "placement": 1,
-        "score": 9950,
+        "score": 9949,
         "stats": [
-          "Fuga 50.9s"
+          "Fuga 51.5s"
         ]
       },
       {
-        "playerId": "b",
+        "playerId": "a",
         "placement": 2,
-        "score": 9932,
+        "score": 9948,
         "stats": [
-          "Fuga 68.5s"
+          "Fuga 52.5s"
         ]
       }
     ]

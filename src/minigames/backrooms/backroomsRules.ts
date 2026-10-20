@@ -1,6 +1,6 @@
 import { Rng } from '../../../shared/rng';
 import type { PlayerResult } from '../../../shared/types';
-import { CELL, generateMaze, center, cellAt, neighbors, route, distances, move, lineOfSight } from './maze';
+import { CELL, generateMaze, center, cellAt, neighbors, route, distances, move, lineOfSight, canStand } from './maze';
 import type { Maze, Point } from './maze';
 import { LEVELS } from './levels';
 import type { BackLevel, LevelId } from './levels';
@@ -20,6 +20,8 @@ export interface Creature extends Point {
   target: string | null; memory: Point | null; memoryTime: number; destination: number;
   noiseArea: (Point & { radius: number }) | null; noiseTime: number; witness: string | null; reason: string;
   path: number[]; timer: number; repath: number; foot: number; seen: boolean; revealed: boolean;
+  observedMotion: Point; searchCells: number[]; searched: number[]; searchPause: number;
+  patrolHistory: number[]; stuckTime: number; repelFrom: Point | null;
 }
 export interface BackEvent { type: 'capture' | 'escape' | 'step' | 'monsterStep' | 'door' | 'task' | 'key' | 'reveal' | 'generator' | 'howl' | 'lure' | 'repel' | 'torch' | 'respawn' | 'alert'; player?: string; point: Point; kind?: CreatureKind; power?: number }
 export interface BackConfig { level?: LevelId; duration?: number; mode?: EscapeMode; puzzle?: 'switches' | 'generators'; weights?: [number, number, number]; imitator?: boolean; monsters?: CreatureKind[]; senses?: Partial<Record<CreatureKind, Partial<Senses>>> }
@@ -89,7 +91,8 @@ export class BackroomsMatch {
     this.monsters = types.map((kind, i) => ({ ...center(this.maze, this.maze.monsterSpawns[i % this.maze.monsterSpawns.length]), kind,
       activeAt:!config.monsters&&i>=2?75:0,repelUntil:0,lightResistUntil:0,cueAt:0,yaw: this.rng.next() * Math.PI * 2, state: 'patrol', target: null, memory: null, memoryTime: 0,
       noiseArea: null, noiseTime: -Infinity, witness: null, reason: 'spawn',
-      destination: this.maze.monsterSpawns[i % this.maze.monsterSpawns.length], path: [], timer: 0, repath: 0, foot: 0, seen: false, revealed: kind !== 'imitator' }));
+      destination: this.maze.monsterSpawns[i % this.maze.monsterSpawns.length], path: [], timer: 0, repath: 0, foot: 0, seen: false, revealed: kind !== 'imitator',
+      observedMotion:{x:0,z:0},searchCells:[],searched:[],searchPause:0,patrolHistory:[],stuckTime:0,repelFrom:null }));
   }
   get remaining(): number { return Math.max(0, this.duration - this.time); }
   command(id: string, cmd: Command): void {
@@ -212,27 +215,58 @@ export class BackroomsMatch {
     if (m.state === state) return;
     if(state==='chase')this.events.push({type:'alert',point:{x:m.x,z:m.z},kind:m.kind});
     m.state = state; m.reason = reason; m.timer = 0; m.path = []; m.repath = 0;
+    m.stuckTime=0;
+    if(state==='search')this.planSearch(m);
   }
-  private forget(m: Creature): void { m.target = null; m.memory = null; m.seen = false; m.witness = null; }
+  private forget(m: Creature): void {
+    m.target = null; m.memory = null; m.seen = false; m.witness = null;
+    m.observedMotion={x:0,z:0};m.searchCells=[];m.searched=[];m.searchPause=0;
+  }
+  private planSearch(m:Creature):void {
+    m.searched=[];m.searchPause=0;m.searchCells=[];
+    if(!m.memory)return;
+    const anchor=cellAt(this.maze,m.memory),local=distances(this.maze,anchor);
+    const speed=Math.hypot(m.observedMotion.x,m.observedMotion.z);
+    // This direction was observed before LOS was lost. Hidden player positions are never consulted.
+    const score=(c:number)=>{const p=center(this.maze,c),d=Math.hypot(p.x-m.memory!.x,p.z-m.memory!.z);
+      const ahead=speed>.1?(m.observedMotion.x*(p.x-m.memory!.x)+m.observedMotion.z*(p.z-m.memory!.z))/Math.max(.1,speed*d):0;
+      return ahead*2-(local.get(c)??99)*.35;};
+    m.searchCells=[anchor,...[...local].filter(([c,d])=>c!==anchor&&d<=3).map(([c])=>c).sort((a,b)=>score(b)-score(a)).slice(0,7)];
+  }
+  private pursuitPoint(m:Creature,p:BackPlayer):Point {
+    const lead=m.kind==='runner'?.5:m.kind==='bacteria'?.4:.22;
+    const speed=Math.hypot(m.observedMotion.x,m.observedMotion.z),factor=lead*Math.min(1,5.8/Math.max(.01,speed));
+    const point={x:p.x+m.observedMotion.x*factor,z:p.z+m.observedMotion.z*factor};
+    return canStand(this.maze,point)&&lineOfSight(this.maze,p,point)&&lineOfSight(this.maze,m,point)?point:{x:p.x,z:p.z};
+  }
   private patrolCell(monster: Creature): number {
     const occupied = new Set([this.maze.exit, this.maze.key, ...this.tasks, ...this.safeCells]);
-    const all=this.maze.cells.filter(c=>!occupied.has(c)&&c!==cellAt(this.maze,monster)),rooms=(this.maze.rooms??[]).filter(r=>r.kind==='party');
+    const current=cellAt(this.maze,monster),near=distances(this.maze,current);
+    monster.patrolHistory.push(current);monster.patrolHistory=monster.patrolHistory.slice(-5);
+    const all=this.maze.cells.filter(c=>!occupied.has(c)&&c!==current),rooms=(this.maze.rooms??[]).filter(r=>r.kind==='party');
     const preferred=monster.kind==='partygoer'?all.filter(c=>rooms.some(r=>c%this.maze.size>=r.x&&c%this.maze.size<r.x+r.w&&Math.floor(c/this.maze.size)>=r.z&&Math.floor(c/this.maze.size)<r.z+r.h)):[];
-    const choices=preferred.length?preferred:all;
-    return this.rng.pick(choices);
+    const choices=preferred.length?preferred:all,others=new Set(this.monsters.filter(m=>m!==monster&&this.time>=m.activeAt).map(m=>m.destination));
+    const scored=choices.map(c=>({c,score:this.rng.next()*2-Math.abs((near.get(c)??99)-6)*.25-(monster.patrolHistory.includes(c)?5:0)-(others.has(c)?4:0)+(monster.kind==='smiler'&&this.maze.dark.has(c)?3:0)}));
+    scored.sort((a,b)=>b.score-a.score);return scored[0]?.c??current;
   }
   private updateMonster(m: Creature, dt: number): void {
     if(this.time<m.activeAt)return;
     m.timer += dt; m.repath -= dt; m.foot += dt;
     const senses = this.senses[m.kind];
     if(m.kind==='smiler'){
-     if(this.time<m.repelUntil){m.state='recoil';return;}
+     if(this.time<m.repelUntil){
+      m.state='recoil';
+      if(m.repelFrom){const dx=m.x-m.repelFrom.x,dz=m.z-m.repelFrom.z,d=Math.hypot(dx,dz);
+       if(d>.05){move(this.maze,m,dx/d*1.3*dt,dz/d*1.3*dt);m.yaw=Math.atan2(-dx,-dz);}}
+      return;
+     }
      if(m.state==='recoil')this.transition(m,'search','light recoil ended');
      const lamp=this.players.find(p=>p.state==='exploring'&&p.flashlight&&!p.hiding&&this.beamHits(p,m));
-     if(lamp&&this.time>=m.lightResistUntil){m.repelUntil=this.time+1.35;m.lightResistUntil=this.time+10;this.transition(m,'recoil','focused flashlight');this.events.push({type:'repel',player:lamp.id,point:{x:m.x,z:m.z},kind:m.kind});return;}
+     if(lamp&&this.time>=m.lightResistUntil){m.repelFrom={x:lamp.x,z:lamp.z};m.repelUntil=this.time+1.35;m.lightResistUntil=this.time+10;this.transition(m,'recoil','focused flashlight');this.events.push({type:'repel',player:lamp.id,point:{x:m.x,z:m.z},kind:m.kind});return;}
     }
     if(m.kind==='partygoer'){
-     if(m.state==='patrol'&&m.timer>3)this.transition(m,'lure','waiting by the balloon');
+     const cell=cellAt(this.maze,m),partyRoom=(this.maze.rooms??[]).some(r=>r.kind==='party'&&cell%this.maze.size>=r.x&&cell%this.maze.size<r.x+r.w&&Math.floor(cell/this.maze.size)>=r.z&&Math.floor(cell/this.maze.size)<r.z+r.h);
+     if(m.state==='patrol'&&((partyRoom&&m.timer>1.5)||(m.timer>9&&neighbors(this.maze,cell).length>=3)))this.transition(m,'lure','waiting by the balloon');
      if(m.state==='lure'){if(this.time>=m.cueAt){m.cueAt=this.time+7;this.events.push({type:'lure',point:{x:m.x,z:m.z},kind:m.kind});}if(m.timer>11)this.transition(m,'patrol','move to another room');}
      if(m.state==='chase'&&m.timer>1.8){this.forget(m);this.transition(m,'rest','burst exhausted');return;}
     }
@@ -242,6 +276,7 @@ export class BackroomsMatch {
     const visible = seen.find(p => p.id === m.target) ?? seen.sort((a, b) => dist(a, m) - dist(b, m))[0];
     if (visible) {
       m.target = visible.id; m.memory = { x: visible.x, z: visible.z }; m.memoryTime = this.time; m.seen = true; m.witness = null;
+      m.observedMotion={x:visible.dx,z:visible.dz};m.searchCells=[];m.searched=[];m.searchPause=0;
       if (m.kind === 'imitator' && !m.revealed && dist(m, visible) < 4) { m.revealed = true; this.events.push({ type: 'reveal', point: { x: m.x, z: m.z }, kind: m.kind }); }
       if (m.state !== 'chase' && m.state !== 'watch') this.transition(m, 'watch', 'visual acquisition');
       if (m.state === 'watch' && m.timer >= senses.reaction) {
@@ -255,12 +290,17 @@ export class BackroomsMatch {
       if (m.state === 'chase' || m.state === 'watch') this.transition(m, 'search', 'visual contact lost');
       if (m.state === 'search' && this.time - m.memoryTime > senses.search) { this.forget(m); this.transition(m, 'return', 'visual search expired'); }
       // Hearing is independent from last sight: never gives a player target or overwrites a visual snapshot.
-      const sound = this.noise.filter(n => (this.players.find(p => p.id === n.id)?.immunity ?? 0) <= 0 &&
-        n.time > m.noiseTime && dist(m, n.point) < n.loud * senses.hearing * (lineOfSight(this.maze, m, n.point) ? 1 : .55)).sort((a, b) => b.time - a.time)[0];
+      const sounds=this.noise.filter(n=>(this.players.find(p=>p.id===n.id)?.immunity??0)<=0&&n.time>m.noiseTime)
+        .map(n=>({n,strength:n.loud*senses.hearing*(lineOfSight(this.maze,m,n.point)?1:.55)/Math.max(1,dist(m,n.point))}));
+      const sound=sounds.filter(o=>o.strength>1).sort((a,b)=>b.strength-a.strength||b.n.time-a.n.time)[0]?.n;
       if (sound) {
-        m.noiseTime = sound.time;
+        // Consume the whole audible batch, so its weaker newer cue cannot win on the next frame.
+        m.noiseTime = Math.max(sound.time,...sounds.map(o=>o.n.time));
         const cell = cellAt(this.maze, sound.point), region = this.rng.pick([cell, ...neighbors(this.maze, cell)]);
         m.noiseArea = { ...center(this.maze, region), radius: CELL };
+        if(m.state==='search'&&!m.searched.includes(region)){
+          m.searchCells=[region,...m.searchCells.filter(c=>c!==region)];m.path=[];m.repath=0;m.searchPause=0;
+        }
         if (m.state !== 'search' && m.state !== 'investigate' && m.state !== 'suspicious') {
           this.forget(m); this.transition(m, 'suspicious', 'heard approximate noise area');
         }
@@ -277,8 +317,18 @@ export class BackroomsMatch {
     if (m.state === 'investigate' && (!m.noiseArea || dist(m, m.noiseArea) < .4 || m.timer > 6)) { this.transition(m, 'return', 'noise investigation complete'); return; }
     if (m.state === 'lure')return;
     if (m.state === 'watch') { if (m.memory) m.yaw = Math.atan2(m.memory.x - m.x, m.memory.z - m.z); return; }
-    if (m.state === 'patrol' && (dist(m, center(this.maze, m.destination)) < .5 || m.timer > 8)) { m.destination = this.patrolCell(m); m.timer = 0; m.path = []; }
-    const destination = m.state === 'investigate' ? m.noiseArea : m.memory;
+    if(m.state==='search'){
+      const cell=m.searchCells[0];
+      if(cell===undefined){this.forget(m);this.transition(m,'return','nearby branches checked');return;}
+      if(dist(m,center(this.maze,cell))<.45){
+        m.searchPause+=dt;m.yaw+=dt*2.8;
+        if(m.searchPause<.65)return;
+        m.searched.push(cell);m.searchCells.shift();m.searchPause=0;m.path=[];m.repath=0;
+        return;
+      }
+    }
+    if (m.state === 'patrol' && (dist(m, center(this.maze, m.destination)) < .5 || m.timer > (m.kind==='partygoer'?18:8))) { m.destination = this.patrolCell(m); m.timer = 0; m.path = []; }
+    const destination = m.state === 'investigate' ? m.noiseArea : m.state==='search'?center(this.maze,m.searchCells[0]):visible&&m.state==='chase'?this.pursuitPoint(m,visible):m.memory;
     const goal = destination ? cellAt(this.maze, destination) : m.destination;
     if (m.repath <= 0) {
       const current = cellAt(this.maze, m), waypoint = m.path[0];
@@ -299,10 +349,15 @@ export class BackroomsMatch {
         const last=this.players.filter(p=>p.state==='exploring').length<=1;const dark=m.kind==='smiler'&&this.maze.dark.has(cellAt(this.maze,m));
         const speed=(m.state==='chase'?senses.chase:senses.walk)*(last?.9:1)*(dark?1.08:1);
         const next = { x: m.x, z: m.z }; move(this.maze, next, (aim.x - m.x) / d * Math.min(d, speed * dt), (aim.z - m.z) / d * Math.min(d, speed * dt));
+        const traveled=dist(m,next);
         const protectedEntry = this.time < 8 && this.safeCells.has(cellAt(this.maze, next)) && !this.safeCells.has(cellAt(this.maze, m));
         // No initial incursion. Later paths can traverse spawn; individual respawn immunity prevents cheap captures.
         if (!protectedEntry) { m.x = next.x; m.z = next.z; }
         else { this.forget(m); this.transition(m, 'rest', 'initial spawn grace'); }
+        if(!protectedEntry&&speed>0&&d>.2){
+          m.stuckTime=traveled<speed*dt*.1?m.stuckTime+dt:0;
+          if(m.stuckTime>.8){const current=cellAt(this.maze,m);m.path=[current,...route(this.maze,current,goal).slice(1)];m.repath=.45;m.stuckTime=0;}
+        }
         if (m.foot > (m.kind === 'runner' || m.kind === 'hound' ? .3 : m.kind === 'watcher' ? .8 : .65)) { m.foot = 0; this.events.push({ type: 'monsterStep', point: { x: m.x, z: m.z }, kind: m.kind }); }
       }
     }

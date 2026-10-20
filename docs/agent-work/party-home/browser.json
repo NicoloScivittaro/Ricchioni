@@ -1,0 +1,17 @@
+{
+  "errors": [],
+  "checks": [
+    "Xbox: player count, duration, create; held A does not open the next menu",
+    "Phone join/ready, actual pad pairing and B closes pairing without leaving the room",
+    "Xbox: browse illustrated games, open grid catalog, confirm actual server selection",
+    "Existing map-vote confirmation and gameplay interaction keep their production routes",
+    "DualSense: replacement pairing, cross opens catalog and circle returns",
+    "Mouse selection and actual server state agree",
+    "Pad starts session, roulette lands on server-selected game, cross continues and menu cleans up"
+  ],
+  "reel": {
+    "result": "reaction",
+    "current": "reaction",
+    "menus": 1
+  }
+}

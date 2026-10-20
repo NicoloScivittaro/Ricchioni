@@ -54,6 +54,7 @@ interface RawPad {
   /** Ultima volta visto (performance.now). */
   seen: number;
 }
+export type MenuAction='up'|'down'|'left'|'right'|'confirm'|'back'|'start'|'previous'|'next';
 
 export type SlotState = 'none' | 'paired' | 'awaiting';
 
@@ -88,6 +89,7 @@ export class GamepadManager {
   private target: string | null = null;
   /** Modo rapido: cursore (playerId) di ogni controller libero che sta scegliendo il proprio personaggio. */
   private cursors = new Map<number, string>();
+  private menu: {handle:(action:MenuAction)=>void;direction:string;repeatAt:number;neutral:Set<number>} | null=null;
   private settings = new Map<string, PadSettings>();
   private lastSent = '';
   private lastSentAt = 0;
@@ -463,7 +465,42 @@ export class GamepadManager {
 
   // ------------------------------------------------------------------ instradamento verso il gioco
 
+  /** Scene-owned menu input. Pairing and gameplay keep their original routes. */
+  bindMenu(handle:(action:MenuAction)=>void):()=>void {
+    const menu={handle,direction:'',repeatAt:0,neutral:new Set([...this.pads.keys()])};this.menu=menu;
+    for(const p of this.pads.values())for(const key of PAD_CONTROLS)if(p.raw[key])p.blocked.add(key);
+    return()=>{if(this.menu===menu)this.menu=null;};
+  }
+
+  private routeMenu():boolean {
+    const menu=this.menu;
+    if(!menu||this.controlsActive||!['LOBBY','ROULETTE'].includes(this.context))return false;
+    if(document.getElementById('audio-settings'))return true;
+    const pairing=document.getElementById('pad-root');
+    if(pairing?.classList.contains('open')){
+      return false;
+    }
+    const now=performance.now();
+    for(const p of [...this.pads.values()].sort((a,b)=>a.index-b.index)){
+      if(menu.neutral.has(p.index)){
+        if(Object.values(p.nav).some(Boolean))continue;
+        menu.neutral.delete(p.index);
+      }
+      const action:MenuAction|null=p.edges.START.pressed?'start':p.edges.SECONDARY.pressed?'back':p.edges.PRIMARY.pressed?'confirm':p.edges.LB.pressed?'previous':p.edges.RB.pressed?'next':null;
+      if(action){menu.handle(action);return true;}
+      const dir=(['up','down','left','right'] as const).find(d=>p.nav[d]);
+      if(dir){const key=`${p.index}:${dir}`;
+        if(key!==menu.direction||now>=menu.repeatAt){menu.repeatAt=now+(key===menu.direction?145:360);menu.direction=key;menu.handle(dir);}return true;
+      }
+    }
+    menu.direction='';return true;
+  }
+
   private route(): void {
+    if(document.getElementById('pad-root')?.classList.contains('open')&&[...this.pads.values()].some(p=>p.edges.SECONDARY.pressed)){
+      this.events.emit('menuDismissPairing');return;
+    }
+    if(this.routeMenu())return;
     for (const p of this.pads.values()) {
       const sl = this.padSlot(p.index);
       if (!sl) {
