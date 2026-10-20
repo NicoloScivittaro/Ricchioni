@@ -1,3 +1,4 @@
+import imported from './minigolfImported.json';
 import {GOLF_MAPS} from '../../../shared/minigameMaps';
 import type {Course,Floor,Point,Wall} from './minigolfTypes';
 import {GOLF_TOURNAMENT} from '../../../shared/minigolfTournament';
@@ -112,6 +113,18 @@ export const COURSES: readonly Course[] = [
  chain('inferno',GOLF_MAPS.find(m=>m.id==='inferno')!.name,'hard','#9981c5','Rotonda, discesa e serpentina sul mare. Ogni errore costa caro.',['rotonda','discesa','serpentina']),
  chain('odissea',GOLF_MAPS.find(m=>m.id==='odissea')!.name,'hard','#b299ce','Flipper, ultima buca e una discesa finale. Il mare è sempre lì.',['flipper','ultima','discesa']),
  chain('disperati',GOLF_MAPS.find(m=>m.id==='disperati')!.name,'hard','#52bfa3','Ponte, cancelli e serpentina: niente parapetti, tanti rimpianti.',['ponte','cancelli','serpentina'])
+ ,...(['dune','palme'] as const).map(id=>{
+  const data=imported[id],meta=GOLF_MAPS.find(m=>m.id===id)!;
+  const raisedRails=id==='palme'?[wall(-.6,10,2.55,8),wall(-2.55,-3,.6,-5),wall(-.6,-13,2.55,-12)].map(w=>{
+   const levels=[0,.25,.5,.75,1].map(t=>{const p={x:w.a.x+(w.b.x-w.a.x)*t,z:w.a.z+(w.b.z-w.a.z)*t};
+    return Math.max(...data.floors.filter(f=>insideTriangle(p,f.triangle)).map(f=>heightAt(f,p)));});
+   const y=Math.min(...levels);return {...w,y,height:Math.max(...levels)-y+.7};
+  }):[];
+  return {id,name:meta.name,difficulty:id==='dune'?'medium' as const:'easy' as const,color:'#438d55',
+   par:5,maxStrokes:GOLF_TOURNAMENT.maxStrokes,tip:id==='dune'?'Due ondulazioni reali: dosa il tiro sulle rampe e prepara il putt sul green.':'Tre sponde oblique: alterna i lati della corsia e sfrutta i rimbalzi prima del green circolare.',
+   imported:id,floors:data.floors,walls:[...data.walls,...raisedRails],bumpers:[],spawn:{x:0,z:22},hole:{x:0,z:-20.6},holeY:0,
+   waypoints:id==='palme'?[{x:-1.7,z:12},{x:-1.7,z:7},{x:1.7,z:0},{x:1.7,z:-7},{x:-1.7,z:-10},{x:-1.7,z:-15},{x:0,z:-20.6}]:[{x:0,z:15},{x:0,z:8},{x:-2.1,z:3.5},{x:-2.1,z:-1.6},{x:0,z:-7},{x:0,z:-15},{x:0,z:-20.6}]};
+ })
 ];
 let previousTriple='';
 /** Session guard compares sets, so even reordering the last triple is avoided. */
@@ -133,8 +146,8 @@ export function floorAt(f:Floor,time:number):Floor {
 export function heightAt(f:Floor,p:Point):number {return f.y+(f.slopeX??0)*(p.x-f.x)+(f.slopeZ??0)*(p.z-f.z);}
 export function supportAt(course:Course,p:Point,time:number,maxY=Infinity):Floor|null {
  let best:Floor|null=null,bestY=-Infinity;
- for(const base of course.floors){const f=floorAt(base,time),h=heightAt(f,p);
-  if(Math.abs(p.x-f.x)<=f.w/2&&Math.abs(p.z-f.z)<=f.d/2&&h<=maxY+.15&&h>bestY){best=f;bestY=h;}}
+ for(const base of (course.imported?importedGrid(course).floors.get(cell(p.x,p.z))??[]:course.floors)){const f=floorAt(base,time),h=heightAt(f,p);
+  if(Math.abs(p.x-f.x)<=f.w/2+.0001&&Math.abs(p.z-f.z)<=f.d/2+.0001&&(!f.triangle||insideTriangle(p,f.triangle))&&h<=maxY+.15&&h>bestY){best=f;bestY=h;}}
  return best;
 }
 export function wallAt(w:Wall,time:number):Wall {
@@ -143,3 +156,27 @@ export function wallAt(w:Wall,time:number):Wall {
  const rotate=(p:Point)=>({x:r.center.x+(p.x-r.center.x)*c-(p.z-r.center.z)*s,z:r.center.z+(p.x-r.center.x)*s+(p.z-r.center.z)*c});
  return {...w,a:rotate(w.a),b:rotate(w.b)};
 }
+
+function insideTriangle(p:Point,t:Point[]):boolean {
+ const cross=(a:Point,b:Point)=>(b.x-a.x)*(p.z-a.z)-(b.z-a.z)*(p.x-a.x);
+ const a=cross(t[0],t[1]),b=cross(t[1],t[2]),c=cross(t[2],t[0]);
+ return !(Math.min(a,b,c)<-.0001&&Math.max(a,b,c)>.0001);
+}
+
+// The imported CAD lanes have many short curved rail segments. A static grid bounds
+// collision work to local geometry without changing the original curves or slopes.
+const gridCache=new WeakMap<Course,{floors:Map<string,Floor[]>;walls:Map<string,[number,Wall][]>}>();
+const cell=(x:number,z:number)=>`${Math.floor(x/3)},${Math.floor(z/3)}`;
+function importedGrid(c:Course){
+ let grid=gridCache.get(c);if(grid)return grid;
+ grid={floors:new Map(),walls:new Map()};
+ function insert<T>(map:Map<string,T[]>,value:T,x0:number,x1:number,z0:number,z1:number){
+  for(let x=Math.floor(x0/3);x<=Math.floor(x1/3);x++)for(let z=Math.floor(z0/3);z<=Math.floor(z1/3);z++){
+   const key=`${x},${z}`,items=map.get(key)??[];items.push(value);map.set(key,items);
+  }
+ }
+ for(const f of c.floors)insert(grid.floors,f,f.x-f.w/2-.001,f.x+f.w/2+.001,f.z-f.d/2-.001,f.z+f.d/2+.001);
+ c.walls.forEach((w,i)=>{const r=w.radius+.3;insert(grid!.walls,[i,w],Math.min(w.a.x,w.b.x)-r,Math.max(w.a.x,w.b.x)+r,Math.min(w.a.z,w.b.z)-r,Math.max(w.a.z,w.b.z)+r);});
+ gridCache.set(c,grid);return grid;
+}
+export function nearbyImportedWalls(c:Course,p:Point):[number,Wall][]{return importedGrid(c).walls.get(cell(p.x,p.z))??[];}

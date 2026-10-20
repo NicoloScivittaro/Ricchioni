@@ -1,10 +1,10 @@
 import {GOLF} from './minigolfTypes';
 import type {GolfBall,Course,GolfEvent,Bumper,Point} from './minigolfTypes';
-import {supportAt,heightAt,wallAt,floorAt} from './minigolfCourses';
+import {supportAt,heightAt,wallAt,floorAt,nearbyImportedWalls} from './minigolfCourses';
 export const speed=(b:GolfBall):number=>Math.hypot(b.vx,b.vz);
 export function createBall(id:string,p:Point,y=0):GolfBall {
- return {id,...p,y:y+GOLF.radius,vx:0,vy:0,vz:0,grounded:true,done:false,safe:{...p},safeY:y,tee:{...p},teeY:y,readyFor:1,stuckFor:0,
-  bounceBoost:1,bounceCount:0,lastContact:null,contacts:new Set(),lastMotion:{...p},travel:0};
+ return {id,x:p.x,z:p.z,y:y+GOLF.radius,vx:0,vy:0,vz:0,grounded:true,done:false,safe:{x:p.x,z:p.z},safeY:y,tee:{x:p.x,z:p.z},teeY:y,readyFor:1,stuckFor:0,
+  bounceBoost:1,bounceCount:0,lastContact:null,contacts:new Set(),lastMotion:{x:p.x,z:p.z},travel:0};
 }
 export function restoreBall(b:GolfBall):void {
  Object.assign(b,{...b.safe,y:b.safeY+GOLF.radius,vx:0,vy:0,vz:0,grounded:true,readyFor:0,stuckFor:0,bounceBoost:1});
@@ -17,8 +17,13 @@ export function resetBallToTee(b:GolfBall):void {
 /** supportAt has a general-purpose .15m allowance; ball physics uses an explicit ceiling. */
 function below(course:Course,p:Point,time:number,ceiling:number){return supportAt(course,p,time,ceiling-.15);}
 export function impulse(b:GolfBall,aim:Point,power:number,mult=1):void {
- const len=Math.hypot(aim.x,aim.z)||1,v=(GOLF.minSpeed+(GOLF.maxSpeed-GOLF.minSpeed)*Math.max(0,Math.min(1,power)))*mult;
- b.vx=aim.x/len*v;b.vz=aim.z/len*v;b.readyFor=0;b.bounceCount=0;b.contacts.clear();b.travel=0;
+ const charge=Math.max(0,Math.min(1,power)),len=Math.hypot(aim.x,aim.z)||1,v=(GOLF.minSpeed+(GOLF.maxSpeed-GOLF.minSpeed)*Math.max(0,Math.min(1,power)))*mult;
+ // A shallow, progressive hop only above 82% charge; boost cannot turn a putter into a launcher.
+ const hop=b.grounded?GOLF.maxHopVelocity*Math.pow(Math.max(0,(charge-GOLF.hopThreshold)/(1-GOLF.hopThreshold)),1.5):0;
+ const horizontal=Math.sqrt(Math.max(0,v*v-hop*hop));
+ b.vx=aim.x/len*horizontal;b.vz=aim.z/len*horizontal;
+ if(hop>0){b.vy=hop;b.grounded=false;}
+ b.readyFor=0;b.bounceCount=0;b.contacts.clear();b.travel=0;
 }
 function cap(b:GolfBall):void {const v=speed(b);if(v>GOLF.maxVelocity){b.vx*=GOLF.maxVelocity/v;b.vz*=GOLF.maxVelocity/v;}}
 function nearest(p:Point,a:Point,b:Point):Point {const dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.z-a.z)*dz)/(dx*dx+dz*dz||1)));return{x:a.x+dx*t,z:a.z+dz*t};}
@@ -27,7 +32,7 @@ export function physicsStep(balls:GolfBall[],course:Course,time:number,dt:number
  const events:GolfEvent[]=[],active=balls.filter(b=>!b.done);
  const n=Math.max(1,Math.ceil(dt*(GOLF.maxVelocity+12)/(GOLF.radius/3))),h=dt/n;
  for(let k=0;k<n;k++){
-  const t=time+k*h,walls=course.walls.map(w=>wallAt(w,t)),bumpers=[...course.bumpers,...extras.filter(b=>!b.expires||b.expires>t)];
+  const t=time+k*h,walls=course.imported?course.walls:course.walls.map(w=>wallAt(w,t)),bumpers=[...course.bumpers,...extras.filter(b=>!b.expires||b.expires>t)];
   for(const b of active){
    if(b.done)continue;
    const current=below(course,b,t,b.y-GOLF.radius+GOLF.surfaceSnap);
@@ -52,9 +57,9 @@ export function physicsStep(balls:GolfBall[],course:Course,time:number,dt:number
     }else b.grounded=false;
    }else b.grounded=false;
    const contacts=new Set<string>();
-   for(const [i,w] of walls.entries()){
+   for(const [i,w] of (course.imported?nearbyImportedWalls(course,b):walls.entries())){
     const q=nearest(b,w.a,w.b),dx=b.x-q.x,dz=b.z-q.z,d=Math.hypot(dx,dz),radius=GOLF.radius+w.radius;
-    if(d>=radius||b.y<w.y-.2||b.y>w.y+1.2)continue;
+    if(d>=radius||b.y+GOLF.radius<w.y||b.y-GOLF.radius>w.y+(w.height??(w.rotation?.45:.7)))continue;
     const key=`w${i}`;contacts.add(key);const nx=d>1e-8?dx/d:-(w.b.z-w.a.z)/(Math.hypot(w.b.x-w.a.x,w.b.z-w.a.z)||1),nz=d>1e-8?dz/d:(w.b.x-w.a.x)/(Math.hypot(w.b.x-w.a.x,w.b.z-w.a.z)||1);
     b.x+=nx*(radius-d+.0001);b.z+=nz*(radius-d+.0001);
     const wx=w.rotation?-w.rotation.speed*(q.z-w.rotation.center.z):0,wz=w.rotation?w.rotation.speed*(q.x-w.rotation.center.x):0;
@@ -76,7 +81,7 @@ export function physicsStep(balls:GolfBall[],course:Course,time:number,dt:number
    const dx=course.hole.x-b.x,dz=course.hole.z-b.z,dist=Math.hypot(dx,dz);
    if(b.grounded&&Math.abs(b.y-GOLF.radius-course.holeY)<.08&&speed(b)<=GOLF.captureSpeed){
     if(dist<GOLF.cupRadius&&dist>1e-8){
-     b.vx+=dx/dist*5.5*h;b.vz+=dz/dist*5.5*h;
+     b.vx+=dx/dist*GOLF.cupLipAccel*h;b.vz+=dz/dist*GOLF.cupLipAccel*h;
      const v=speed(b);if(v>GOLF.captureSpeed){b.vx*=GOLF.captureSpeed/v;b.vz*=GOLF.captureSpeed/v;}
     }
     const q=nearest(course.hole,{x:ox,z:oz},b),opening=GOLF.cupRadius-GOLF.radius;
@@ -99,7 +104,8 @@ export function physicsStep(balls:GolfBall[],course:Course,time:number,dt:number
   }
  }
  for(const b of active){if(b.done)continue;
-  const restingFloor=supportAt(course,b,time+dt),slopeForce=GOLF.gravity*Math.hypot(restingFloor?.slopeX??0,restingFloor?.slopeZ??0);
+  const restingFloor=supportAt(course,b,time+dt),onLip=Math.abs(b.y-GOLF.radius-course.holeY)<.08&&Math.hypot(b.x-course.hole.x,b.z-course.hole.z)<GOLF.cupRadius;
+  const slopeForce=GOLF.gravity*Math.hypot(restingFloor?.slopeX??0,restingFloor?.slopeZ??0)+(onLip?GOLF.cupLipAccel:0);
   const friction=GOLF.drag*(restingFloor?.surface==='sand'?2.5:restingFloor?.surface==='ice'?.38:1);
   if(b.grounded&&speed(b)<GOLF.readySpeed&&slopeForce<=friction){b.readyFor+=dt;if(b.readyFor>.18){b.vx=b.vz=0;const f=restingFloor;
    if(f&&!f.motion&&!f.slopeX&&!f.slopeZ&&Math.abs(b.x-f.x)<f.w/2-.5&&Math.abs(b.z-f.z)<f.d/2-.5){b.safe={x:b.x,z:b.z};b.safeY=heightAt(f,b);}}}
@@ -111,10 +117,10 @@ export function physicsStep(balls:GolfBall[],course:Course,time:number,dt:number
  return events;
 }
 /** Uses the same static collision solver, deliberately excludes other balls and mobile obstacles. */
-export function predict(ball:GolfBall,course:Course,aim:Point,power:number,seconds:number):Point[] {
+export function predict(ball:GolfBall,course:Course,aim:Point,power:number,seconds:number):(Point&{y:number})[] {
  const b=createBall('preview',ball,ball.y-GOLF.radius);impulse(b,aim,power);
  const c={...course,walls:course.walls.filter(w=>!w.rotation),floors:course.floors.filter(f=>!f.motion)};
- const points:Point[]=[{x:b.x,z:b.z}];
- for(let i=0;i<seconds*60&&!b.done;i++){physicsStep([b],c,0,1/60);if(i%4===0)points.push({x:b.x,z:b.z});if(speed(b)<GOLF.readySpeed||b.y< -1)break;}
+ const points:(Point&{y:number})[]=[{x:b.x,y:b.y,z:b.z}];
+ for(let i=0;i<seconds*60&&!b.done;i++){physicsStep([b],c,0,1/60);if(i%4===0)points.push({x:b.x,y:b.y,z:b.z});if(speed(b)<GOLF.readySpeed||b.y< -1)break;}
  return points;
 }

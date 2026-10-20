@@ -1,0 +1,80 @@
+{
+  "seeds": [
+    {
+      "n": 2,
+      "seed": 7,
+      "cells": 165,
+      "rooms": 6
+    },
+    {
+      "n": 2,
+      "seed": 42,
+      "cells": 164,
+      "rooms": 6
+    },
+    {
+      "n": 2,
+      "seed": 777,
+      "cells": 160,
+      "rooms": 6
+    },
+    {
+      "n": 5,
+      "seed": 7,
+      "cells": 256,
+      "rooms": 8
+    },
+    {
+      "n": 5,
+      "seed": 42,
+      "cells": 244,
+      "rooms": 8
+    },
+    {
+      "n": 5,
+      "seed": 777,
+      "cells": 247,
+      "rooms": 8
+    }
+  ],
+  "checks": [
+    "three species: FOV/LOS, last sight snapshot, bounded target memory",
+    "noise investigates a region without granting a player target",
+    "Partygoer readable lure, reaction delay, short rush and exhaustion",
+    "Smiler focused LOS light recoil and resistance prevent permanent stun",
+    "first capture: 7s recovery + safe protected respawn; second eliminates",
+    "key objective, shared notice/progress and escape immunity",
+    "puzzle objective, shared notice/progress and escape immunity"
+  ],
+  "synthetic": {
+    "seconds": 68.48333333333073,
+    "players": [
+      {
+        "state": "escaped",
+        "lives": 2
+      },
+      {
+        "state": "escaped",
+        "lives": 1
+      }
+    ],
+    "results": [
+      {
+        "playerId": "a",
+        "placement": 1,
+        "score": 9950,
+        "stats": [
+          "Fuga 50.9s"
+        ]
+      },
+      {
+        "playerId": "b",
+        "placement": 2,
+        "score": 9932,
+        "stats": [
+          "Fuga 68.5s"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "errors": [],
+  "state": {
+    "models": [
+      "bacteria",
+      "partygoer",
+      "smiler",
+      "original",
+      "hazmat",
+      "environment"
+    ],
+    "actors": 2,
+    "meshes": 389,
+    "joints": [
+      66,
+      66
+    ]
+  }
+}

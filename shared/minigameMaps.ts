@@ -6,6 +6,8 @@ export const BACKROOM_MAPS:readonly MapOption[]=[
   {id:'tunnels',name:'LIVELLO 2 · LE CALDAIE',description:'Tubi roventi. Resta nella luce.',color:'#e69b64',icon:'◈'}
 ];
 export const GOLF_MAPS:readonly MapOption[]=[
+  {id:'dune',name:'LE DUNE DEL CLUB',description:'Media · pista 3D con rampe ondulate e green circolare',color:'#539b66',icon:'⌁'},
+  {id:'palme',name:'IL GREEN DELLE PALME',description:'Facile · pista 3D, tre sponde oblique e green circolare',color:'#65ab7a',icon:'⚑'},
   {id:'lungomare',name:'IL LUNGOMARE INFINITO',description:'Facile · prato e corridoio',color:'#74b848',icon:'➜'},
   {id:'scampagnata',name:'LA SCAMPAGNATA',description:'Facile · prato e salite',color:'#8bbf55',icon:'⌁'},
   {id:'giostra',name:'LA GIOSTRA DEI DANNATI',description:'Media · bracci e cancelli',color:'#35b9ad',icon:'✦'},

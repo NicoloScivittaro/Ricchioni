@@ -1,0 +1,618 @@
+{
+  "status": "passed",
+  "assets": [
+    {
+      "file": "backroomsish_style_environment.glb",
+      "originalBytes": 36168936,
+      "runtimeBytes": 5070924,
+      "textures": [
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        }
+      ]
+    },
+    {
+      "file": "bacteria_-_kane_pixels_backrooms.glb",
+      "originalBytes": 563952,
+      "runtimeBytes": 563964,
+      "textures": []
+    },
+    {
+      "file": "escape_the_backrooms_hazmat.glb",
+      "originalBytes": 9377944,
+      "runtimeBytes": 3946780,
+      "textures": [
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        }
+      ]
+    },
+    {
+      "file": "original_backrooms.glb",
+      "originalBytes": 4763684,
+      "runtimeBytes": 1307348,
+      "textures": [
+        {
+          "original": [
+            1024,
+            1024
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            1024,
+            1024
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            1024,
+            1024
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        }
+      ]
+    },
+    {
+      "file": "partygoer_from_backrooms_updated.glb",
+      "originalBytes": 10724484,
+      "runtimeBytes": 1145632,
+      "textures": [
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            2048,
+            2048
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            512,
+            512
+          ],
+          "runtime": [
+            512,
+            512
+          ]
+        },
+        {
+          "original": [
+            512,
+            512
+          ],
+          "runtime": [
+            512,
+            512
+          ]
+        },
+        {
+          "original": [
+            512,
+            512
+          ],
+          "runtime": [
+            512,
+            512
+          ]
+        }
+      ]
+    },
+    {
+      "file": "smiler_entity3_backrooms.glb",
+      "originalBytes": 2104032,
+      "runtimeBytes": 1805164,
+      "textures": [
+        {
+          "original": [
+            1024,
+            1024
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        },
+        {
+          "original": [
+            512,
+            512
+          ],
+          "runtime": [
+            512,
+            512
+          ]
+        },
+        {
+          "original": [
+            1024,
+            1024
+          ],
+          "runtime": [
+            1024,
+            1024
+          ]
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "seeds": [
+      {
+        "n": 2,
+        "seed": 7,
+        "cells": 165,
+        "rooms": 6
+      },
+      {
+        "n": 2,
+        "seed": 42,
+        "cells": 164,
+        "rooms": 6
+      },
+      {
+        "n": 2,
+        "seed": 777,
+        "cells": 160,
+        "rooms": 6
+      },
+      {
+        "n": 5,
+        "seed": 7,
+        "cells": 256,
+        "rooms": 8
+      },
+      {
+        "n": 5,
+        "seed": 42,
+        "cells": 244,
+        "rooms": 8
+      },
+      {
+        "n": 5,
+        "seed": 777,
+        "cells": 247,
+        "rooms": 8
+      }
+    ],
+    "checks": [
+      "three species: FOV/LOS, last sight snapshot, bounded target memory",
+      "noise investigates a region without granting a player target",
+      "Partygoer readable lure, reaction delay, short rush and exhaustion",
+      "Smiler focused LOS light recoil and resistance prevent permanent stun",
+      "first capture: 7s recovery + safe protected respawn; second eliminates",
+      "key objective, shared notice/progress and escape immunity",
+      "puzzle objective, shared notice/progress and escape immunity"
+    ],
+    "synthetic": {
+      "seconds": 68.48333333333073,
+      "players": [
+        {
+          "state": "escaped",
+          "lives": 2
+        },
+        {
+          "state": "escaped",
+          "lives": 1
+        }
+      ],
+      "results": [
+        {
+          "playerId": "a",
+          "placement": 1,
+          "score": 9950,
+          "stats": [
+            "Fuga 50.9s"
+          ]
+        },
+        {
+          "playerId": "b",
+          "placement": 2,
+          "score": 9932,
+          "stats": [
+            "Fuga 68.5s"
+          ]
+        }
+      ]
+    }
+  },
+  "browser": {
+    "errors": [],
+    "checks": [
+      "Xbox and DualSense mappings simulated: A/cross interaction and Y/triangle torch, production input path",
+      "actual phone page pointer events through Socket.IO: interaction and torch",
+      "phone activates actual puzzle switch",
+      "rendered first capture, 7s simulated recovery, protected respawn and elimination on second capture",
+      "score delivery for five players and cleanup"
+    ],
+    "game": {
+      "players": 5,
+      "cameras": 5,
+      "size": 21,
+      "models": [
+        "bacteria",
+        "original",
+        "smiler",
+        "partygoer",
+        "hazmat",
+        "environment"
+      ],
+      "mode": "puzzle",
+      "meshCount": 579
+    },
+    "performance": {
+      "fps": 14.53605749818431,
+      "seconds": 12.38299999999888,
+      "p95ms": 83.5,
+      "viewport": [
+        1280,
+        720
+      ],
+      "type": "five independent views, real five-phone roster, GPU D3D11, normal play at seed 7"
+    },
+    "results": {
+      "count": 5,
+      "deltas": 5
+    }
+  },
+  "audio": {
+    "errors": [],
+    "samples": {
+      "fluorescent ambience": {
+        "state": "running",
+        "peak": 0.08916798233985901,
+        "rms": 0.04264512807987067
+      },
+      "lure": {
+        "state": "running",
+        "peak": 0.03934500366449356,
+        "rms": 0.005640904668845321
+      },
+      "repel": {
+        "state": "running",
+        "peak": 0.029238414019346237,
+        "rms": 0.0022722279765735615
+      },
+      "torch": {
+        "state": "running",
+        "peak": 0.010112026706337929,
+        "rms": 0.00019949298869455153
+      },
+      "alert": {
+        "state": "running",
+        "peak": 0.08203649520874023,
+        "rms": 0.026088929030736594
+      },
+      "capture": {
+        "state": "running",
+        "peak": 0.3287842869758606,
+        "rms": 0.05676248101140788
+      }
+    },
+    "before": {
+      "state": "suspended",
+      "peak": 0,
+      "button": true
+    },
+    "checks": [
+      "restricted autoplay: zero output before genuine browser click; running afterward",
+      "post-limiter PCM: ambience, lure, torch, repel, alert and capture"
+    ]
+  },
+  "performance": {
+    "before": {
+      "fps": 14.689081116369719,
+      "seconds": 12.25400000000037,
+      "p95ms": 83.5,
+      "views": 5,
+      "render": [
+        1280,
+        720
+      ],
+      "scale": 1,
+      "lights": 7,
+      "renderer": {
+        "vendor": "Google Inc. (NVIDIA)",
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+      },
+      "seed": 7,
+      "monsters": [
+        "partygoer",
+        "runner",
+        "bacteria"
+      ]
+    },
+    "after": {
+      "fps": 59.48446794448117,
+      "seconds": 3.026,
+      "p95ms": 16.80000000000109,
+      "views": 5,
+      "render": [
+        1280,
+        720
+      ],
+      "scale": 1,
+      "lights": 4,
+      "renderer": {
+        "vendor": "Google Inc. (NVIDIA)",
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+      },
+      "seed": 7,
+      "monsters": [
+        "partygoer",
+        "runner",
+        "bacteria"
+      ]
+    },
+    "conditions": "same seed 7, Lobby, five independent views, 1280x720 native fixed scale 1, RTX 3050 D3D11, quality high, 180 frames per sample",
+    "limitation": "short headless GPU sample, not a guarantee for every encounter/device"
+  },
+  "limits": [
+    "procedural animation; no supplied clips",
+    "Xbox/DualSense mappings simulated; no physical phone or pad hardware test",
+    "full synthetic rules round; browser score result fixture validates network delivery, not a natural five-player match"
+  ],
+  "scope": "Backrooms only; prior Minigolf work preserved; no Flash, commit, push or deploy",
+  "typecheck": "passed, npm run build starts with tsc --noEmit",
+  "build": "passed, see build.log",
+  "production": {
+    "errors": [],
+    "http": [
+      {
+        "path": "/",
+        "status": 200
+      },
+      {
+        "path": "/controller.html",
+        "status": 200
+      },
+      {
+        "path": "/backrooms-2/",
+        "status": 200
+      },
+      {
+        "path": "/backrooms-2/verification.json",
+        "status": 200
+      },
+      {
+        "path": "/assets/backrooms/CREDITS.md",
+        "status": 200
+      },
+      {
+        "path": "/assets/backrooms/original-wall-tile.jpg",
+        "status": 200
+      },
+      {
+        "path": "/assets/backrooms/original-carpet-tile.jpg",
+        "status": 200
+      },
+      {
+        "path": "/assets/backrooms/backroomsish_style_environment.glb",
+        "status": 200
+      },
+      {
+        "path": "/assets/backrooms/bacteria_-_kane_pixels_backrooms.glb",
+        "status": 200
+      },
+      {
+        "path": "/assets/backrooms/escape_the_backrooms_hazmat.glb",
+        "status": 200
+      },
+      {
+        "path": "/assets/backrooms/original_backrooms.glb",
+        "status": 200
+      },
+      {
+        "path": "/assets/backrooms/partygoer_from_backrooms_updated.glb",
+        "status": 200
+      },
+      {
+        "path": "/assets/backrooms/smiler_entity3_backrooms.glb",
+        "status": 200
+      }
+    ],
+    "backroomsChunks": [
+      "BabylonBackroomsGame-ChuiyqSn.js"
+    ],
+    "productionCanvas": true
+  }
+}

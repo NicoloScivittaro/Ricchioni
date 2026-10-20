@@ -10,7 +10,7 @@ function clearRoute(c:Course,a:{x:number;z:number},b:{x:number;z:number}):boolea
   const y=heightAt(f,q);if(y-previous>.16)return false;previous=y;
   if(c.bumpers.some(p=>Math.hypot(q.x-p.x,q.z-p.z)<p.radius+GOLF.radius+.12))return false;
   for(const w of c.walls.filter(w=>!w.rotation)){const dx=w.b.x-w.a.x,dz=w.b.z-w.a.z,t=Math.max(0,Math.min(1,((q.x-w.a.x)*dx+(q.z-w.a.z)*dz)/(dx*dx+dz*dz||1)));
-   if(Math.abs(y-w.y)<.7&&Math.hypot(q.x-w.a.x-dx*t,q.z-w.a.z-dz*t)<GOLF.radius+w.radius+.12)return false;}
+   if(y+GOLF.radius*2>=w.y&&y<=w.y+(w.height??.7)&&Math.hypot(q.x-w.a.x-dx*t,q.z-w.a.z-dz*t)<GOLF.radius+w.radius+.12)return false;}
  }return true;
 }
 /** Waypoints + imperfect distance estimate, no access to future balls/mobile obstacles. */
@@ -34,7 +34,14 @@ export class MinigolfBot {
   if(p.charging){cmd.held=p.charge<s.power;cmd.released=!cmd.held;return cmd;}
   s.wait-=dt;if(s.wait>0)return cmd;
   s.wait=.5+this.next()*.5;s.error=(this.next()-.5)*.055;
-  const required=Math.sqrt(2*GOLF.drag*Math.max(.5,distance));
+  let energy=2*GOLF.drag*Math.max(.5,distance);
+  if(c.imported){
+   // A ramp needs gravitational potential as well as rolling distance. Sample only
+   // the chosen visible line, without revealing future opponent/moving-obstacle states.
+   for(let i=1;i<=32;i++){const t=i/32,q={x:b.x+dx*t,z:b.z+dz*t},f=supportAt(c,q,0);
+    if(f)energy=Math.max(energy,2*GOLF.drag*distance*t+2*GOLF.gravity*(heightAt(f,q)-(b.y-GOLF.radius)));}
+  }
+  const required=Math.sqrt(energy);
   s.power=Math.max(.025,Math.min(.9,(required-GOLF.minSpeed)/(GOLF.maxSpeed-GOLF.minSpeed)+(this.next()-.5)*.035));
   cmd.pressed=true;cmd.held=true;
   if(!p.used&&this.next()<.35&&p.characterId!=='judoka')cmd.ability=true;

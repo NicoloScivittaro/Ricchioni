@@ -3,7 +3,7 @@ import { lineOfSight, cellAt } from './maze';
 import { splitScreenLayout } from '../kart-race/cameraHud';
 import type { BackroomsMatch, BackEvent, CreatureKind } from './backroomsRules';
 
-const STEP_HZ: Record<CreatureKind, number> = { stalker: 105, runner: 145, imitator: 230, hound: 170, watcher: 70, smiler: 200, howler: 120 };
+const STEP_HZ: Record<CreatureKind, number> = { bacteria:73,partygoer:310,stalker: 105, runner: 145, imitator: 230, hound: 170, watcher: 70, smiler: 200, howler: 120 };
 
 /** One TV mix through the existing global buses; two sustained fluorescent voices. */
 export class BackroomsAudio {
@@ -63,7 +63,12 @@ export class BackroomsAudio {
     const rect = splitScreenLayout(match.players.length)[i];
     const viewportPan = (rect.x + rect.w / 2 - .5) * .8, pan = viewportPan + Math.sin(bearing) * .45;
     const attenuation = Math.max(0, 1 - distance / 22) * (lineOfSight(match.maze, listener, event.point) ? 1 : .3);
-    if (event.type === 'capture') { this.voice(180, .6, .22, viewportPan, false, 45, true); this.voice(2300, .45, .2, viewportPan, true, undefined, true); this.voice(620, .4, .12, viewportPan, false, 90, true); }
+    if(event.type==='lure'){this.voice(523,.24,.035*attenuation,pan,false,659);this.voice(784,.32,.025*attenuation,pan);}
+    else if(event.type==='alert'){this.voice(event.kind==='bacteria'?78:event.kind==='partygoer'?410:160,.65,.1*attenuation,pan,false,event.kind==='partygoer'?170:42);this.voice(event.kind==='bacteria'?830:1800,.4,.075*attenuation,pan,true);}
+    else if(event.type==='repel')this.voice(1800,.25,.06*attenuation,pan,true);
+    else if(event.type==='torch')this.voice(2200,.035,.035,viewportPan,true);
+    else if(event.type==='respawn')this.voice(180,.25,.05,viewportPan,false,360);
+    else if (event.type === 'capture') { this.voice(180, .6, .22, viewportPan, false, 45, true); this.voice(2300, .45, .2, viewportPan, true, undefined, true); this.voice(620, .4, .12, viewportPan, false, 90, true); }
     else if (event.type === 'escape') { this.voice(220, .8, .05, viewportPan, false, 880, true); this.voice(1800, .35, .025, viewportPan, true, undefined, true); }
     else if (event.type === 'monsterStep') { this.voice(STEP_HZ[event.kind ?? 'stalker'], .2, .11 * attenuation, pan, false, 65); this.voice(1100, .12, .09 * attenuation, pan, true); }
     else if (event.type === 'howl') { this.voice(260, 1.4, .2 * Math.max(.5, attenuation), pan, false, 520, true); this.voice(140, 1.6, .14 * Math.max(.5, attenuation), pan, false, 60, true); }

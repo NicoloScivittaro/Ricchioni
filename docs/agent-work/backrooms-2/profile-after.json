@@ -1,0 +1,113 @@
+{
+  "stats": {
+    "fps": 59.28853754940729,
+    "render": [
+      1280,
+      720
+    ],
+    "scale": 1,
+    "lights": 4,
+    "meshes": 579,
+    "active": 167,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "types": [
+      "partygoer",
+      "runner",
+      "bacteria"
+    ]
+  },
+  "top": [
+    [
+      "(idle)",
+      401
+    ],
+    [
+      "_evaluateActiveMeshes",
+      154
+    ],
+    [
+      "canStand",
+      95
+    ],
+    [
+      "_bindLight",
+      71
+    ],
+    [
+      "render",
+      65
+    ],
+    [
+      "bindForSubMesh",
+      52
+    ],
+    [
+      "isInFrustum",
+      48
+    ],
+    [
+      "(program)",
+      47
+    ],
+    [
+      "computeWorldMatrix",
+      39
+    ],
+    [
+      "isReadyForSubMesh",
+      39
+    ],
+    [
+      "bindVertexArray",
+      37
+    ],
+    [
+      "uniformMatrix4fv",
+      34
+    ],
+    [
+      "isReady",
+      33
+    ],
+    [
+      "drawElements",
+      24
+    ],
+    [
+      "_afterBind",
+      23
+    ],
+    [
+      "getLOD",
+      22
+    ],
+    [
+      "updateUniform",
+      22
+    ],
+    [
+      "_processRendering",
+      17
+    ],
+    [
+      "_prepareDefines",
+      16
+    ],
+    [
+      "MultiplyMatricesToArray",
+      15
+    ],
+    [
+      "BindLights",
+      15
+    ],
+    [
+      "get _drawWrapper",
+      14
+    ]
+  ]
+}

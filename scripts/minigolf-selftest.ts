@@ -1,3 +1,4 @@
+import {GOLF_MAPS} from '../shared/minigameMaps';
 import assert from 'node:assert/strict';
 import {COURSES,SECTIONS,selectCourses,supportAt,heightAt} from '../src/minigames/minigolf/minigolfCourses';
 import {GOLF} from '../src/minigames/minigolf/minigolfTypes';
@@ -33,7 +34,7 @@ const fast=createBall('fast',{x:0,z:-11});fast.vz=-8;physicsStep([fast],SECTIONS
 const corrupt=createBall('bad',{x:0,z:11});corrupt.vx=NaN;assert.ok(physicsStep([corrupt],SECTIONS[0],0,GOLF.step).some(e=>e.type==='stuck'));assert.ok(Number.isFinite(corrupt.x));
 for(const course of COURSES){assert.ok(supportAt(course,course.spawn,0));assert.ok(supportAt(course,course.hole,0));assert.ok(course.par<=course.maxStrokes);assert.equal(course.maxStrokes,GOLF.maxStrokes);}
 for(let seed=0;seed<60;seed++){const cs=selectCourses(()=>seed/60);assert.equal(cs.length,3);assert.equal(new Set(cs.map(c=>c.id)).size,3);assert.ok(COURSES.includes(cs[0]));}
-assert.equal(new Set(Array.from({length:60},(_,i)=>selectCourses(()=>(i+.5)/60)).flat().map(c=>c.id)).size,10);
+assert.equal(new Set(Array.from({length:60},(_,i)=>selectCourses(()=>(i+.5)/60)).flat().map(c=>c.id)).size,GOLF_MAPS.length);
 
 // Check complete corridor clearance, rather than only isolated waypoints.
 for(const course of COURSES){
@@ -43,7 +44,7 @@ for(const course of COURSES){
   assert.ok(f,`${course.id}: continuous supported route ${i}/${k}`);
   for(const w of course.walls.filter(w=>!w.rotation)){
    const dx=w.b.x-w.a.x,dz=w.b.z-w.a.z,t=Math.max(0,Math.min(1,((q.x-w.a.x)*dx+(q.z-w.a.z)*dz)/(dx*dx+dz*dz||1)));
-   if(Math.abs(heightAt(f!,q)-w.y)<.7)assert.ok(Math.hypot(q.x-w.a.x-dx*t,q.z-w.a.z-dz*t)>GOLF.radius+w.radius,`${course.id}: route crosses wall`);
+   if(heightAt(f!,q)+GOLF.radius*2>=w.y&&heightAt(f!,q)<=w.y+(w.height??.7))assert.ok(Math.hypot(q.x-w.a.x-dx*t,q.z-w.a.z-dz*t)>GOLF.radius+w.radius,`${course.id}: route crosses wall`);
   }
  }
 }
@@ -109,4 +110,4 @@ for(const n of [2,3,4,5])for(const course of COURSES){
  outcomes.push({n,course:course.id,seconds:+match.time.toFixed(1),completed:match.players.reduce((a,p)=>a+p.completed,0)});
 }
 const deadline=fresh(2);deadline.time=GOLF.holeSeconds-.1;shoot(deadline,deadline.active,.5);deadline.advance(.3);assert.equal(deadline.phase,'playing','deadline does not interrupt shot in flight');deadline.advance(GOLF.rollSeconds+80);assert.equal(deadline.phase,'ended');assert.ok(deadline.players.every(p=>p.records.length===1));
-console.log('PASS minigolf physics 30/60/120, ten courses, turns/timeout/fair order, persistent ball collisions and opponent hole, cancellation, all abilities, active-time ranking, deadline grace, 40 natural bot rounds.');console.log(JSON.stringify(outcomes));
+console.log('PASS minigolf physics 30/60/120, all catalog courses, turns/timeout/fair order, persistent ball collisions and opponent hole, cancellation, all abilities, active-time ranking, deadline grace, 48 natural bot rounds.');console.log(JSON.stringify(outcomes));

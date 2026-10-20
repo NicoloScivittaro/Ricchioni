@@ -17,11 +17,11 @@ const chars=['goblin','buttafuori','dottore','judoka','ciro'];
 const roster=(n:number):PlayerSnapshot[]=>chars.slice(0,n).map((characterId,i)=>({id:String(i),characterId,name:`P${i}`,displayName:`P${i}`,color:'#fff',bot:true,score:0,avatar:'',roleTitle:'',quote:''}));
 const idle:GolfCommand={aim:{x:0,z:-1},pressed:false,held:false,released:false,cancel:false,ability:false,version:0};
 const key=(cs:readonly {id:string}[])=>cs.map(c=>c.id).sort().join('|');
-test('10 physical layouts;3 unique selections;progression;no immediately repeated triple;all maps selected',()=>{
+test('All physical layouts;3 unique selections;progression;no immediately repeated triple;all maps selected',()=>{
  const ids=new Set<string>();let previous='';const rng=new Rng(28);
  for(let i=0;i<3000;i++){const cs=selectCourses(()=>rng.next(),previous);assert.equal(cs.length,3);assert.equal(new Set(cs.map(c=>c.id)).size,3);assert.notEqual(key(cs),previous);previous=key(cs);
   assert.notEqual(cs[0].difficulty,'hard');assert.equal(cs[1].difficulty,'medium');assert.notEqual(cs[2].difficulty,'easy');cs.forEach(c=>ids.add(c.id));}
- assert.equal(ids.size,10);assert.equal(new Set(COURSES.map(c=>JSON.stringify([c.floors,c.walls,c.bumpers,c.hole]))).size,10);
+ assert.equal(ids.size,COURSES.length);assert.equal(new Set(COURSES.map(c=>JSON.stringify([c.floors,c.walls,c.bumpers,c.hole]))).size,COURSES.length);
  for(const r of [0,.99]){const a=selectCourses(()=>r,''),b=selectCourses(()=>r,key(a));assert.notEqual(key(a),key(b));}
 });
 test('default hole budget and 60s turn;bounded configurable timer;metadata/watchdog cover the longest option',()=>{
@@ -31,7 +31,7 @@ test('default hole budget and 60s turn;bounded configurable timer;metadata/watch
  const d=MINIGAME_DEFINITIONS.find(d=>d.id==='minigolf')!;assert.equal(d.durationSec,GOLF_TOURNAMENT.holes*GOLF_TOURNAMENT.holeSeconds);
  assert.ok(safetyCapSec(d)>=(GOLF_TOURNAMENT.holes*GOLF_TOURNAMENT.maxHoleSeconds+325)*1.25);
 });
-test('2–5 tees supported, no overlaps, identical distance to first target on all10 courses',()=>{
+test('2–5 tees supported, no overlaps, identical distance to first target on all courses',()=>{
  for(const c of COURSES)for(let n=2;n<=5;n++){const m=new MinigolfMatch(roster(n),()=>.5,[c]),target=c.waypoints[0];
   const distances=m.players.map(p=>Math.hypot(p.ball.x-target.x,p.ball.z-target.z));assert.ok(Math.max(...distances)-Math.min(...distances)<1e-8);
   for(const p of m.players){const f=supportAt(c,p.ball,0);assert.ok(f);assert.ok(Math.abs(p.ball.y-GOLF.radius-heightAt(f!,p.ball))<1e-8);}

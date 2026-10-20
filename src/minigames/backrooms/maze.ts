@@ -6,6 +6,7 @@ export interface MazeDoor { cell: number; horizontal: boolean; open: boolean }
 export interface Maze {
   seed: number; size: number; floor: Uint8Array; cells: number[];
   spawn: number; exit: number; key: number; tasks: number[]; refuges: number[];
+  rooms?: {x:number;z:number;w:number;h:number;kind:'office'|'party'|'dark'}[];
   doors: MazeDoor[]; dark: Set<number>; monsterSpawns: number[];
 }
 /** Exact topology, not a hash of props/seed: changing decoration cannot pass this guard. */
@@ -48,7 +49,7 @@ export function route(m: Maze, start: number, end: number): number[] {
 }
 export function generateMaze(seed: number, players = 5): Maze {
   const rng = new Rng(seed), size = players >= 4 ? 21 : 17, floor = new Uint8Array(size * size);
-  const spawn = size + 1, m: Maze = { seed, size, floor, cells: [], spawn, exit: 0, key: 0, tasks: [], refuges: [], doors: [], dark: new Set(), monsterSpawns: [] };
+  const spawn = size + 1, m: Maze = { seed, size, floor, cells: [], spawn, exit: 0, key: 0, tasks: [], refuges: [], doors: [], dark: new Set(), monsterSpawns: [], rooms: [] };
   const stack = [spawn]; floor[spawn] = 1;
   while (stack.length) {
     const c = stack[stack.length - 1], x = c % size, z = Math.floor(c / size);
@@ -60,7 +61,8 @@ export function generateMaze(seed: number, players = 5): Maze {
   // Rooms join the maze instead of floating disconnected from it. Repeated sizes retain disorientation.
   for (let i = 0; i < (players >= 4 ? 8 : 6); i++) {
     const x = rng.int(1, (size - 4) / 2) * 2 - 1, z = rng.int(1, (size - 4) / 2) * 2 - 1;
-    const w = rng.pick([2, 3, 4]), h = rng.pick([2, 3]);
+    const w = rng.pick([3,4,5]), h = rng.pick([2,3,4]);
+    m.rooms!.push({x,z,w:Math.min(w,size-1-x),h:Math.min(h,size-1-z),kind:i%3===0?'dark':i%3===1?'party':'office'});
     for (let b = z; b < Math.min(size - 1, z + h); b++) for (let a = x; a < Math.min(size - 1, x + w); a++) floor[b * size + a] = 1;
   }
   for (let z = 1; z <= 3; z++) for (let x = 1; x <= 3; x++) floor[z * size + x] = 1;
@@ -68,6 +70,9 @@ export function generateMaze(seed: number, players = 5): Maze {
     const c = z * size + x;
     if (!floor[c] && rng.chance(.13) && ((floor[c - 1] && floor[c + 1]) || (floor[c - size] && floor[c + size]))) floor[c] = 1;
   }
+  // Straight service halls complement the DFS turns; all start in an existing odd cell.
+  for(let i=0;i<2;i++){const x=rng.int(1,(size-3)/2)*2-1,z=rng.int(1,(size-3)/2)*2-1;
+   for(let k=0;k<rng.int(5,9);k++){const a=Math.min(size-2,x+(i?0:k)),b=Math.min(size-2,z+(i?k:0));floor[b*size+a]=1;}}
   m.cells = Array.from(floor.keys()).filter(c => floor[c]);
   const d = distances(m, spawn), ordered = [...m.cells].sort((a, b) => d.get(b)! - d.get(a)!);
   m.exit = rng.pick(ordered.slice(0, Math.max(4, Math.floor(ordered.length * .12))));
@@ -83,6 +88,8 @@ export function generateMaze(seed: number, players = 5): Maze {
       if ((horizontal || vertical) && rng.chance(.07) && m.doors.every(v => Math.abs(v.cell - c) > 2)) m.doors.push({ cell: c, horizontal, open: false });
     }
   }
+  for(const r of m.rooms??[])if(r.kind==='dark')for(let z=r.z;z<r.z+r.h;z++)for(let x=r.x;x<r.x+r.w;x++)if(d.get(z*size+x)!>5)m.dark.add(z*size+x);
+  if ([m.exit,m.key,...m.tasks,...m.monsterSpawns].some(c=>!d.has(c)))throw new Error('Backrooms: objective disconnected');
   if (d.size !== m.cells.length || !m.monsterSpawns.length) throw new Error(`Backrooms: seed ${seed} non valido`);
   return m;
 }

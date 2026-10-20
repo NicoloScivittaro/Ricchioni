@@ -1,0 +1,8299 @@
+[
+  {
+    "file": "mini_golf_field.glb",
+    "asset": {
+      "extras": {
+        "author": "Max Funkner (https://sketchfab.com/MaxFunkner)",
+        "license": "CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)",
+        "source": "https://sketchfab.com/3d-models/mini-golf-field-c5ff5e42a87b4607a733515299d29857",
+        "title": "Mini Golf Field"
+      },
+      "generator": "Sketchfab-12.68.0",
+      "version": "2.0"
+    },
+    "nodes": [
+      {
+        "children": [
+          1
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.220446049250313e-16,
+          -1.0,
+          0.0,
+          0.0,
+          1.0,
+          2.220446049250313e-16,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "name": "Sketchfab_model"
+      },
+      {
+        "children": [
+          2
+        ],
+        "name": "root"
+      },
+      {
+        "children": [
+          3
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.220446049250313e-16,
+          1.0,
+          0.0,
+          0.0,
+          -1.0,
+          2.220446049250313e-16,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "name": "GLTF_SceneRootNode"
+      },
+      {
+        "children": [
+          4
+        ],
+        "name": "_0"
+      },
+      {
+        "mesh": 0,
+        "name": "Object_4"
+      }
+    ],
+    "materials": [
+      {
+        "extensions": {
+          "KHR_materials_unlit": {}
+        },
+        "name": "material_0",
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 0
+          },
+          "metallicFactor": 0.0
+        }
+      }
+    ],
+    "meshBounds": [
+      {
+        "name": "Object_0",
+        "primitives": [
+          {
+            "material": 0,
+            "bounds": {
+              "min": [
+                -2.8651533126831055,
+                -0.2596028447151184,
+                -1.8102644681930542
+              ],
+              "max": [
+                3.679476022720337,
+                0.3068101406097412,
+                2.2968640327453613
+              ],
+              "count": 46242
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "mini_golf_models1-9.glb",
+    "asset": {
+      "extras": {
+        "author": "serg.ckds (https://sketchfab.com/serg.cadman)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/mini-golf-models1-9-dfdb08ea1caa4a528b85b9fde28ef38d",
+        "title": "Mini Golf Models1-9"
+      },
+      "generator": "Sketchfab-16.74.0",
+      "version": "2.0"
+    },
+    "nodes": [
+      {
+        "children": [
+          1
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.220446049250313e-16,
+          -1.0,
+          0.0,
+          0.0,
+          1.0,
+          2.220446049250313e-16,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "name": "Sketchfab_model"
+      },
+      {
+        "children": [
+          2
+        ],
+        "matrix": [
+          0.009999999776482582,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.009999999776482582,
+          0.0,
+          0.0,
+          -0.009999999776482582,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "name": "683caa609d294ff19d6006685a195948.fbx"
+      },
+      {
+        "children": [
+          3,
+          41,
+          89,
+          128,
+          159,
+          214,
+          242,
+          292,
+          363
+        ],
+        "name": "RootNode"
+      },
+      {
+        "children": [
+          4,
+          6,
+          8,
+          11,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28,
+          30,
+          32,
+          35,
+          37,
+          39
+        ],
+        "name": "Model_v1"
+      },
+      {
+        "children": [
+          5
+        ],
+        "name": "MiniGolf_V1"
+      },
+      {
+        "mesh": 0,
+        "name": "MiniGolf_V1_Kling RAL 3012 OXIDE RED_0"
+      },
+      {
+        "children": [
+          7
+        ],
+        "name": "MiniGolf_V1_2"
+      },
+      {
+        "mesh": 1,
+        "name": "MiniGolf_V1_2_Kling RAL 4010 SIGNAL VIOLET_0"
+      },
+      {
+        "children": [
+          9,
+          10
+        ],
+        "name": "MiniGolf_V1_3"
+      },
+      {
+        "mesh": 2,
+        "name": "MiniGolf_V1_3_Paint - Pale Jade_0"
+      },
+      {
+        "mesh": 3,
+        "name": "MiniGolf_V1_3_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          12,
+          13
+        ],
+        "name": "MiniGolf_V1_4"
+      },
+      {
+        "mesh": 4,
+        "name": "MiniGolf_V1_4_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "mesh": 5,
+        "name": "MiniGolf_V1_4_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          15
+        ],
+        "name": "MiniGolf_V1_5"
+      },
+      {
+        "mesh": 6,
+        "name": "MiniGolf_V1_5_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          17
+        ],
+        "name": "MiniGolf_V1_6"
+      },
+      {
+        "mesh": 7,
+        "name": "MiniGolf_V1_6_Kling RAL 4010 SIGNAL VIOLET_0"
+      },
+      {
+        "children": [
+          19
+        ],
+        "name": "MiniGolf_V1_7"
+      },
+      {
+        "mesh": 8,
+        "name": "MiniGolf_V1_7_Kling RAL 3012 OXIDE RED_0"
+      },
+      {
+        "children": [
+          21
+        ],
+        "name": "MiniGolf_V1_8"
+      },
+      {
+        "mesh": 9,
+        "name": "MiniGolf_V1_8_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          23
+        ],
+        "name": "MiniGolf_V1_9"
+      },
+      {
+        "mesh": 10,
+        "name": "MiniGolf_V1_9_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          25
+        ],
+        "name": "MiniGolf_V1_10"
+      },
+      {
+        "mesh": 11,
+        "name": "MiniGolf_V1_10_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          27
+        ],
+        "name": "MiniGolf_V1_11"
+      },
+      {
+        "mesh": 12,
+        "name": "MiniGolf_V1_11_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          29
+        ],
+        "name": "MiniGolf_V1_12"
+      },
+      {
+        "mesh": 13,
+        "name": "MiniGolf_V1_12_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          31
+        ],
+        "name": "MiniGolf_V1_13"
+      },
+      {
+        "mesh": 14,
+        "name": "MiniGolf_V1_13_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          33,
+          34
+        ],
+        "name": "MiniGolf_V1_14"
+      },
+      {
+        "mesh": 15,
+        "name": "MiniGolf_V1_14_Paint - Sienna Sand_0"
+      },
+      {
+        "mesh": 16,
+        "name": "MiniGolf_V1_14_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          36
+        ],
+        "name": "MiniGolf_V1_15"
+      },
+      {
+        "mesh": 17,
+        "name": "MiniGolf_V1_15_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          38
+        ],
+        "name": "MiniGolf_V1_16"
+      },
+      {
+        "mesh": 18,
+        "name": "MiniGolf_V1_16_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          40
+        ],
+        "name": "MiniGolf_V1_17"
+      },
+      {
+        "mesh": 19,
+        "name": "MiniGolf_V1_17_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          42,
+          44,
+          46,
+          48,
+          50,
+          52,
+          55,
+          58,
+          61,
+          63,
+          65,
+          67,
+          69,
+          71,
+          73,
+          75,
+          77,
+          79,
+          81,
+          83,
+          85,
+          87
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -300.0,
+          1.0
+        ],
+        "name": "Model_v2"
+      },
+      {
+        "children": [
+          43
+        ],
+        "name": "SW___006"
+      },
+      {
+        "mesh": 20,
+        "name": "SW___006_Concrete - 04_0"
+      },
+      {
+        "children": [
+          45
+        ],
+        "name": "SW___003"
+      },
+      {
+        "mesh": 21,
+        "name": "SW___003_Kling RAL 1033 BROOM YELLOW_0"
+      },
+      {
+        "children": [
+          47
+        ],
+        "name": "SW___005"
+      },
+      {
+        "mesh": 22,
+        "name": "SW___005_Kling RAL 1033 BROOM YELLOW_0"
+      },
+      {
+        "children": [
+          49
+        ],
+        "name": "SW___002"
+      },
+      {
+        "mesh": 23,
+        "name": "SW___002_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "children": [
+          51
+        ],
+        "name": "SW___004"
+      },
+      {
+        "mesh": 24,
+        "name": "SW___004_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "children": [
+          53,
+          54
+        ],
+        "name": "TR___002"
+      },
+      {
+        "mesh": 25,
+        "name": "TR___002_Paint - Golden Beige_0"
+      },
+      {
+        "mesh": 26,
+        "name": "TR___002_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "children": [
+          56,
+          57
+        ],
+        "name": "TR___001"
+      },
+      {
+        "mesh": 27,
+        "name": "TR___001_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "mesh": 28,
+        "name": "TR___001_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          59,
+          60
+        ],
+        "name": "TR___002_2"
+      },
+      {
+        "mesh": 29,
+        "name": "TR___002_2_Paint - Pale Jade_0"
+      },
+      {
+        "mesh": 30,
+        "name": "TR___002_2_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          62
+        ],
+        "name": "MiniGolf_V3"
+      },
+      {
+        "mesh": 31,
+        "name": "MiniGolf_V3_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          64
+        ],
+        "name": "MiniGolf_V4"
+      },
+      {
+        "mesh": 32,
+        "name": "MiniGolf_V4_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          66
+        ],
+        "name": "MiniGolf_V5"
+      },
+      {
+        "mesh": 33,
+        "name": "MiniGolf_V5_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          68
+        ],
+        "name": "MiniGolf_V9"
+      },
+      {
+        "mesh": 34,
+        "name": "MiniGolf_V9_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          70
+        ],
+        "name": "MiniGolf_V0"
+      },
+      {
+        "mesh": 35,
+        "name": "MiniGolf_V0_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          72
+        ],
+        "name": "MiniGolf_V1_18"
+      },
+      {
+        "mesh": 36,
+        "name": "MiniGolf_V1_18_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          74
+        ],
+        "name": "MiniGolf_V1_19"
+      },
+      {
+        "mesh": 37,
+        "name": "MiniGolf_V1_19_Paint - Sienna Sand_0"
+      },
+      {
+        "children": [
+          76
+        ],
+        "name": "MiniGolf_V2"
+      },
+      {
+        "mesh": 38,
+        "name": "MiniGolf_V2_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          78
+        ],
+        "name": "MiniGolf_V6"
+      },
+      {
+        "mesh": 39,
+        "name": "MiniGolf_V6_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          80
+        ],
+        "name": "MiniGolf_V7"
+      },
+      {
+        "mesh": 40,
+        "name": "MiniGolf_V7_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          82
+        ],
+        "name": "MiniGolf_V8"
+      },
+      {
+        "mesh": 41,
+        "name": "MiniGolf_V8_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          84
+        ],
+        "name": "MiniGolf_V2_2"
+      },
+      {
+        "mesh": 42,
+        "name": "MiniGolf_V2_2_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          86
+        ],
+        "name": "MiniGolf_V2_3"
+      },
+      {
+        "mesh": 43,
+        "name": "MiniGolf_V2_3_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          88
+        ],
+        "name": "MiniGolf_V0_2"
+      },
+      {
+        "mesh": 44,
+        "name": "MiniGolf_V0_2_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          90,
+          92,
+          94,
+          96,
+          99,
+          102,
+          104,
+          106,
+          108,
+          110,
+          112,
+          114,
+          116,
+          118,
+          120,
+          122,
+          124,
+          126
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -600.0,
+          1.0
+        ],
+        "name": "Model__v3"
+      },
+      {
+        "children": [
+          91
+        ],
+        "name": "SW___007"
+      },
+      {
+        "mesh": 45,
+        "name": "SW___007_Kling RAL 5014 LIGHT BLUE_0"
+      },
+      {
+        "children": [
+          93
+        ],
+        "name": "SW___007_2"
+      },
+      {
+        "mesh": 46,
+        "name": "SW___007_2_Kling RAL 5015 COBALT BLUE_0"
+      },
+      {
+        "children": [
+          95
+        ],
+        "name": "SW___007_3"
+      },
+      {
+        "mesh": 47,
+        "name": "SW___007_3_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "children": [
+          97,
+          98
+        ],
+        "name": "TR___001_2"
+      },
+      {
+        "mesh": 48,
+        "name": "TR___001_2_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "mesh": 49,
+        "name": "TR___001_2_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          100,
+          101
+        ],
+        "name": "TR___002_3"
+      },
+      {
+        "mesh": 50,
+        "name": "TR___002_3_Paint - Pale Jade_0"
+      },
+      {
+        "mesh": 51,
+        "name": "TR___002_3_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          103
+        ],
+        "name": "MiniGolf_V9_2"
+      },
+      {
+        "mesh": 52,
+        "name": "MiniGolf_V9_2_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          105
+        ],
+        "name": "MiniGolf_V0_3"
+      },
+      {
+        "mesh": 53,
+        "name": "MiniGolf_V0_3_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          107
+        ],
+        "name": "MiniGolf_V1_20"
+      },
+      {
+        "mesh": 54,
+        "name": "MiniGolf_V1_20_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          109
+        ],
+        "name": "MiniGolf_V9_3"
+      },
+      {
+        "mesh": 55,
+        "name": "MiniGolf_V9_3_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          111
+        ],
+        "name": "MiniGolf_V0_4"
+      },
+      {
+        "mesh": 56,
+        "name": "MiniGolf_V0_4_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          113
+        ],
+        "name": "MiniGolf_V1_21"
+      },
+      {
+        "mesh": 57,
+        "name": "MiniGolf_V1_21_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          115
+        ],
+        "name": "MiniGolf_V8_2"
+      },
+      {
+        "mesh": 58,
+        "name": "MiniGolf_V8_2_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          117
+        ],
+        "name": "MiniGolf_V2_4"
+      },
+      {
+        "mesh": 59,
+        "name": "MiniGolf_V2_4_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          119
+        ],
+        "name": "MiniGolf_V8_3"
+      },
+      {
+        "mesh": 60,
+        "name": "MiniGolf_V8_3_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          121
+        ],
+        "name": "MiniGolf_V2_5"
+      },
+      {
+        "mesh": 61,
+        "name": "MiniGolf_V2_5_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          123
+        ],
+        "name": "MiniGolf_V2_6"
+      },
+      {
+        "mesh": 62,
+        "name": "MiniGolf_V2_6_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          125
+        ],
+        "name": "MiniGolf_V0_5"
+      },
+      {
+        "mesh": 63,
+        "name": "MiniGolf_V0_5_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          127
+        ],
+        "name": "MiniGolf_V8_4"
+      },
+      {
+        "mesh": 64,
+        "name": "MiniGolf_V8_4_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          129,
+          132,
+          135,
+          138,
+          141,
+          143,
+          145,
+          147,
+          149,
+          151,
+          153,
+          155,
+          157
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -900.0,
+          1.0
+        ],
+        "name": "Model__v4"
+      },
+      {
+        "children": [
+          130,
+          131
+        ],
+        "name": "MiniGolf_V4_2"
+      },
+      {
+        "mesh": 65,
+        "name": "MiniGolf_V4_2_Paint - Golden Beige_0"
+      },
+      {
+        "mesh": 66,
+        "name": "MiniGolf_V4_2_Kling RAL 5014 LIGHT BLUE_0"
+      },
+      {
+        "children": [
+          133,
+          134
+        ],
+        "name": "MiniGolf_V4_3"
+      },
+      {
+        "mesh": 67,
+        "name": "MiniGolf_V4_3_Kling RAL 5014 LIGHT BLUE_0"
+      },
+      {
+        "mesh": 68,
+        "name": "MiniGolf_V4_3_Concrete - 04_0"
+      },
+      {
+        "children": [
+          136,
+          137
+        ],
+        "name": "MiniGolf_V4_4"
+      },
+      {
+        "mesh": 69,
+        "name": "MiniGolf_V4_4_Paint - Golden Beige_0"
+      },
+      {
+        "mesh": 70,
+        "name": "MiniGolf_V4_4_Kling RAL 5014 LIGHT BLUE_0"
+      },
+      {
+        "children": [
+          139,
+          140
+        ],
+        "name": "MiniGolf_V4_5"
+      },
+      {
+        "mesh": 71,
+        "name": "MiniGolf_V4_5_Paint - Pale Jade_0"
+      },
+      {
+        "mesh": 72,
+        "name": "MiniGolf_V4_5_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          142
+        ],
+        "name": "MiniGolf_V4_6"
+      },
+      {
+        "mesh": 73,
+        "name": "MiniGolf_V4_6_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          144
+        ],
+        "name": "MiniGolf_V4_7"
+      },
+      {
+        "mesh": 74,
+        "name": "MiniGolf_V4_7_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          146
+        ],
+        "name": "MiniGolf_V4_8"
+      },
+      {
+        "mesh": 75,
+        "name": "MiniGolf_V4_8_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          148
+        ],
+        "name": "MiniGolf_V4_9"
+      },
+      {
+        "mesh": 76,
+        "name": "MiniGolf_V4_9_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          150
+        ],
+        "name": "MiniGolf_V4_10"
+      },
+      {
+        "mesh": 77,
+        "name": "MiniGolf_V4_10_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          152
+        ],
+        "name": "MiniGolf_V4_11"
+      },
+      {
+        "mesh": 78,
+        "name": "MiniGolf_V4_11_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          154
+        ],
+        "name": "MiniGolf_V4_12"
+      },
+      {
+        "mesh": 79,
+        "name": "MiniGolf_V4_12_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          156
+        ],
+        "name": "MiniGolf_V4_13"
+      },
+      {
+        "mesh": 80,
+        "name": "MiniGolf_V4_13_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          158
+        ],
+        "name": "MiniGolf_V4_14"
+      },
+      {
+        "mesh": 81,
+        "name": "MiniGolf_V4_14_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          160,
+          163,
+          165,
+          167,
+          169,
+          171,
+          173,
+          175,
+          177,
+          179,
+          181,
+          183,
+          186,
+          189,
+          192,
+          195,
+          198,
+          201,
+          204,
+          206,
+          208,
+          210,
+          212
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -1200.0,
+          1.0
+        ],
+        "name": "Model__v5"
+      },
+      {
+        "children": [
+          161,
+          162
+        ],
+        "name": "MiniGolf_V5_2"
+      },
+      {
+        "mesh": 82,
+        "name": "MiniGolf_V5_2_Paint - Pale Jade_0"
+      },
+      {
+        "mesh": 83,
+        "name": "MiniGolf_V5_2_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          164
+        ],
+        "name": "MiniGolf_V5_3"
+      },
+      {
+        "mesh": 84,
+        "name": "MiniGolf_V5_3_Kling RAL 2009 PURE ORANGE_0"
+      },
+      {
+        "children": [
+          166
+        ],
+        "name": "MiniGolf_V5_4"
+      },
+      {
+        "mesh": 85,
+        "name": "MiniGolf_V5_4_Kling RAL 2009 PURE ORANGE_0"
+      },
+      {
+        "children": [
+          168
+        ],
+        "name": "MiniGolf_V5_5"
+      },
+      {
+        "mesh": 86,
+        "name": "MiniGolf_V5_5_Kling RAL 2009 PURE ORANGE_0"
+      },
+      {
+        "children": [
+          170
+        ],
+        "name": "MiniGolf_V5_6"
+      },
+      {
+        "mesh": 87,
+        "name": "MiniGolf_V5_6_Kling RAL 2009 PURE ORANGE_0"
+      },
+      {
+        "children": [
+          172
+        ],
+        "name": "MiniGolf_V5_7"
+      },
+      {
+        "mesh": 88,
+        "name": "MiniGolf_V5_7_Kling RAL 2009 PURE ORANGE_0"
+      },
+      {
+        "children": [
+          174
+        ],
+        "name": "MiniGolf_V5_8"
+      },
+      {
+        "mesh": 89,
+        "name": "MiniGolf_V5_8_Kling RAL 2009 PURE ORANGE_0"
+      },
+      {
+        "children": [
+          176
+        ],
+        "name": "MiniGolf_V5_9"
+      },
+      {
+        "mesh": 90,
+        "name": "MiniGolf_V5_9_RAL 5012_0"
+      },
+      {
+        "children": [
+          178
+        ],
+        "name": "MiniGolf_V5_10"
+      },
+      {
+        "mesh": 91,
+        "name": "MiniGolf_V5_10_Kling RAL 4010 SIGNAL VIOLET_0"
+      },
+      {
+        "children": [
+          180
+        ],
+        "name": "MiniGolf_V5_11"
+      },
+      {
+        "mesh": 92,
+        "name": "MiniGolf_V5_11_Kling RAL 4010 SIGNAL VIOLET_0"
+      },
+      {
+        "children": [
+          182
+        ],
+        "name": "MiniGolf_V5_12"
+      },
+      {
+        "mesh": 93,
+        "name": "MiniGolf_V5_12_Kling RAL 4010 SIGNAL VIOLET_0"
+      },
+      {
+        "children": [
+          184,
+          185
+        ],
+        "name": "MiniGolf_V5_13"
+      },
+      {
+        "mesh": 94,
+        "name": "MiniGolf_V5_13_Paint - Golden Beige_0"
+      },
+      {
+        "mesh": 95,
+        "name": "MiniGolf_V5_13_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "children": [
+          187,
+          188
+        ],
+        "name": "MiniGolf_V5_14"
+      },
+      {
+        "mesh": 96,
+        "name": "MiniGolf_V5_14_Paint - Golden Beige_0"
+      },
+      {
+        "mesh": 97,
+        "name": "MiniGolf_V5_14_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "children": [
+          190,
+          191
+        ],
+        "name": "MiniGolf_V5_15"
+      },
+      {
+        "mesh": 98,
+        "name": "MiniGolf_V5_15_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "mesh": 99,
+        "name": "MiniGolf_V5_15_RAL 5012_0"
+      },
+      {
+        "children": [
+          193,
+          194
+        ],
+        "name": "MiniGolf_V5_16"
+      },
+      {
+        "mesh": 100,
+        "name": "MiniGolf_V5_16_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "mesh": 101,
+        "name": "MiniGolf_V5_16_RAL 5012_0"
+      },
+      {
+        "children": [
+          196,
+          197
+        ],
+        "name": "MiniGolf_V5_17"
+      },
+      {
+        "mesh": 102,
+        "name": "MiniGolf_V5_17_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "mesh": 103,
+        "name": "MiniGolf_V5_17_RAL 5012_0"
+      },
+      {
+        "children": [
+          199,
+          200
+        ],
+        "name": "MiniGolf_V5_18"
+      },
+      {
+        "mesh": 104,
+        "name": "MiniGolf_V5_18_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "mesh": 105,
+        "name": "MiniGolf_V5_18_RAL 5012_0"
+      },
+      {
+        "children": [
+          202,
+          203
+        ],
+        "name": "MiniGolf_V5_19"
+      },
+      {
+        "mesh": 106,
+        "name": "MiniGolf_V5_19_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "mesh": 107,
+        "name": "MiniGolf_V5_19_RAL 5012_0"
+      },
+      {
+        "children": [
+          205
+        ],
+        "name": "MiniGolf_V5_20"
+      },
+      {
+        "mesh": 108,
+        "name": "MiniGolf_V5_20_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          207
+        ],
+        "name": "MiniGolf_V5_21"
+      },
+      {
+        "mesh": 109,
+        "name": "MiniGolf_V5_21_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          209
+        ],
+        "name": "MiniGolf_V5_22"
+      },
+      {
+        "mesh": 110,
+        "name": "MiniGolf_V5_22_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          211
+        ],
+        "name": "MiniGolf_V5_23"
+      },
+      {
+        "mesh": 111,
+        "name": "MiniGolf_V5_23_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          213
+        ],
+        "name": "MiniGolf_V5_24"
+      },
+      {
+        "mesh": 112,
+        "name": "MiniGolf_V5_24_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          215,
+          218,
+          221,
+          223,
+          225,
+          228,
+          230,
+          232,
+          234,
+          236,
+          238,
+          240
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -1500.0,
+          1.0
+        ],
+        "name": "Model__v6"
+      },
+      {
+        "children": [
+          216,
+          217
+        ],
+        "name": "MiniGolf_V6_2"
+      },
+      {
+        "mesh": 113,
+        "name": "MiniGolf_V6_2_Paint - Golden Beige_0"
+      },
+      {
+        "mesh": 114,
+        "name": "MiniGolf_V6_2_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "children": [
+          219,
+          220
+        ],
+        "name": "MiniGolf_V6_3"
+      },
+      {
+        "mesh": 115,
+        "name": "MiniGolf_V6_3_Paint - Pale Jade_0"
+      },
+      {
+        "mesh": 116,
+        "name": "MiniGolf_V6_3_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          222
+        ],
+        "name": "MiniGolf_V6_4"
+      },
+      {
+        "mesh": 117,
+        "name": "MiniGolf_V6_4_Kling RAL 4006 CLARET VIOLET_0"
+      },
+      {
+        "children": [
+          224
+        ],
+        "name": "MiniGolf_V6_5"
+      },
+      {
+        "mesh": 118,
+        "name": "MiniGolf_V6_5_Kling RAL 3016 ANTIQUE RED_0"
+      },
+      {
+        "children": [
+          226,
+          227
+        ],
+        "name": "MiniGolf_V6_6"
+      },
+      {
+        "mesh": 119,
+        "name": "MiniGolf_V6_6_Paint - Golden Beige_0"
+      },
+      {
+        "mesh": 120,
+        "name": "MiniGolf_V6_6_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "children": [
+          229
+        ],
+        "name": "MiniGolf_V6_7"
+      },
+      {
+        "mesh": 121,
+        "name": "MiniGolf_V6_7_RAL 1026_0"
+      },
+      {
+        "children": [
+          231
+        ],
+        "name": "MiniGolf_V6_8"
+      },
+      {
+        "mesh": 122,
+        "name": "MiniGolf_V6_8_RAL 1026_0"
+      },
+      {
+        "children": [
+          233
+        ],
+        "name": "MiniGolf_V6_9"
+      },
+      {
+        "mesh": 123,
+        "name": "MiniGolf_V6_9_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          235
+        ],
+        "name": "MiniGolf_V6_10"
+      },
+      {
+        "mesh": 124,
+        "name": "MiniGolf_V6_10_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          237
+        ],
+        "name": "MiniGolf_V6_11"
+      },
+      {
+        "mesh": 125,
+        "name": "MiniGolf_V6_11_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          239
+        ],
+        "name": "MiniGolf_V6_12"
+      },
+      {
+        "mesh": 126,
+        "name": "MiniGolf_V6_12_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          241
+        ],
+        "name": "MiniGolf_V6_13"
+      },
+      {
+        "mesh": 127,
+        "name": "MiniGolf_V6_13_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          243,
+          245,
+          247,
+          249,
+          251,
+          253,
+          255,
+          257,
+          259,
+          261,
+          263,
+          265,
+          267,
+          270,
+          272,
+          274,
+          276,
+          278,
+          280,
+          282,
+          284,
+          286,
+          288,
+          290
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -2100.0,
+          1.0
+        ],
+        "name": "Model__v7"
+      },
+      {
+        "children": [
+          244
+        ],
+        "name": "MiniGolf_V7_2"
+      },
+      {
+        "mesh": 128,
+        "name": "MiniGolf_V7_2_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          246
+        ],
+        "name": "MiniGolf_V7_3"
+      },
+      {
+        "mesh": 129,
+        "name": "MiniGolf_V7_3_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          248
+        ],
+        "name": "MiniGolf_V7_4"
+      },
+      {
+        "mesh": 130,
+        "name": "MiniGolf_V7_4_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          250
+        ],
+        "name": "MiniGolf_V7_5"
+      },
+      {
+        "mesh": 131,
+        "name": "MiniGolf_V7_5_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          252
+        ],
+        "name": "MiniGolf_V7_6"
+      },
+      {
+        "mesh": 132,
+        "name": "MiniGolf_V7_6_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          254
+        ],
+        "name": "MiniGolf_V7_7"
+      },
+      {
+        "mesh": 133,
+        "name": "MiniGolf_V7_7_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          256
+        ],
+        "name": "MiniGolf_V7_8"
+      },
+      {
+        "mesh": 134,
+        "name": "MiniGolf_V7_8_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          258
+        ],
+        "name": "MiniGolf_V7_9"
+      },
+      {
+        "mesh": 135,
+        "name": "MiniGolf_V7_9_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          260
+        ],
+        "name": "MiniGolf_V7_10"
+      },
+      {
+        "mesh": 136,
+        "name": "MiniGolf_V7_10_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          262
+        ],
+        "name": "MiniGolf_V7_11"
+      },
+      {
+        "mesh": 137,
+        "name": "MiniGolf_V7_11_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          264
+        ],
+        "name": "MiniGolf_V7_12"
+      },
+      {
+        "mesh": 138,
+        "name": "MiniGolf_V7_12_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          266
+        ],
+        "name": "MiniGolf_V7_13"
+      },
+      {
+        "mesh": 139,
+        "name": "MiniGolf_V7_13_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          268,
+          269
+        ],
+        "name": "MiniGolf_V7_14"
+      },
+      {
+        "mesh": 140,
+        "name": "MiniGolf_V7_14_Paint - Pale Jade_0"
+      },
+      {
+        "mesh": 141,
+        "name": "MiniGolf_V7_14_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          271
+        ],
+        "name": "MiniGolf_V7_15"
+      },
+      {
+        "mesh": 142,
+        "name": "MiniGolf_V7_15_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          273
+        ],
+        "name": "MiniGolf_V7_16"
+      },
+      {
+        "mesh": 143,
+        "name": "MiniGolf_V7_16_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          275
+        ],
+        "name": "MiniGolf_V7_17"
+      },
+      {
+        "mesh": 144,
+        "name": "MiniGolf_V7_17_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          277
+        ],
+        "name": "MiniGolf_V7_18"
+      },
+      {
+        "mesh": 145,
+        "name": "MiniGolf_V7_18_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          279
+        ],
+        "name": "MiniGolf_V7_19"
+      },
+      {
+        "mesh": 146,
+        "name": "MiniGolf_V7_19_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          281
+        ],
+        "name": "MiniGolf_V7_20"
+      },
+      {
+        "mesh": 147,
+        "name": "MiniGolf_V7_20_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          283
+        ],
+        "name": "MiniGolf_V7_21"
+      },
+      {
+        "mesh": 148,
+        "name": "MiniGolf_V7_21_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          285
+        ],
+        "name": "MiniGolf_V7_22"
+      },
+      {
+        "mesh": 149,
+        "name": "MiniGolf_V7_22_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          287
+        ],
+        "name": "MiniGolf_V7_23"
+      },
+      {
+        "mesh": 150,
+        "name": "MiniGolf_V7_23_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          289
+        ],
+        "name": "MiniGolf_V7_24"
+      },
+      {
+        "mesh": 151,
+        "name": "MiniGolf_V7_24_Kling RAL 1016 LIGHT IVORY_0"
+      },
+      {
+        "children": [
+          291
+        ],
+        "name": "MiniGolf_V7_25"
+      },
+      {
+        "mesh": 152,
+        "name": "MiniGolf_V7_25_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "children": [
+          293,
+          295,
+          297,
+          300,
+          303,
+          305,
+          307,
+          309,
+          311,
+          313,
+          315,
+          317,
+          319,
+          321,
+          323,
+          325,
+          327,
+          329,
+          331,
+          333,
+          335,
+          337,
+          339,
+          341,
+          343,
+          345,
+          347,
+          349,
+          351,
+          353,
+          355,
+          357,
+          359,
+          361
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -2400.0,
+          1.0
+        ],
+        "name": "Model__v8"
+      },
+      {
+        "children": [
+          294
+        ],
+        "name": "MiniGolf_V8_5"
+      },
+      {
+        "mesh": 153,
+        "name": "MiniGolf_V8_5_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          296
+        ],
+        "name": "MiniGolf_V8_6"
+      },
+      {
+        "mesh": 154,
+        "name": "MiniGolf_V8_6_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          298,
+          299
+        ],
+        "name": "MiniGolf_V8_7"
+      },
+      {
+        "mesh": 155,
+        "name": "MiniGolf_V8_7_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "mesh": 156,
+        "name": "MiniGolf_V8_7_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          301,
+          302
+        ],
+        "name": "MiniGolf_V8_8"
+      },
+      {
+        "mesh": 157,
+        "name": "MiniGolf_V8_8_Paint - Pale Jade_0"
+      },
+      {
+        "mesh": 158,
+        "name": "MiniGolf_V8_8_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          304
+        ],
+        "name": "MiniGolf_V8_9"
+      },
+      {
+        "mesh": 159,
+        "name": "MiniGolf_V8_9_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          306
+        ],
+        "name": "MiniGolf_V8_10"
+      },
+      {
+        "mesh": 160,
+        "name": "MiniGolf_V8_10_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          308
+        ],
+        "name": "MiniGolf_V8_11"
+      },
+      {
+        "mesh": 161,
+        "name": "MiniGolf_V8_11_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          310
+        ],
+        "name": "MiniGolf_V8_12"
+      },
+      {
+        "mesh": 162,
+        "name": "MiniGolf_V8_12_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          312
+        ],
+        "name": "MiniGolf_V8_13"
+      },
+      {
+        "mesh": 163,
+        "name": "MiniGolf_V8_13_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          314
+        ],
+        "name": "MiniGolf_V8_14"
+      },
+      {
+        "mesh": 164,
+        "name": "MiniGolf_V8_14_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          316
+        ],
+        "name": "MiniGolf_V8_15"
+      },
+      {
+        "mesh": 165,
+        "name": "MiniGolf_V8_15_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          318
+        ],
+        "name": "MiniGolf_V8_16"
+      },
+      {
+        "mesh": 166,
+        "name": "MiniGolf_V8_16_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          320
+        ],
+        "name": "MiniGolf_V8_17"
+      },
+      {
+        "mesh": 167,
+        "name": "MiniGolf_V8_17_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          322
+        ],
+        "name": "MiniGolf_V8_18"
+      },
+      {
+        "mesh": 168,
+        "name": "MiniGolf_V8_18_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          324
+        ],
+        "name": "MiniGolf_V8_19"
+      },
+      {
+        "mesh": 169,
+        "name": "MiniGolf_V8_19_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          326
+        ],
+        "name": "MiniGolf_V8_20"
+      },
+      {
+        "mesh": 170,
+        "name": "MiniGolf_V8_20_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          328
+        ],
+        "name": "MiniGolf_V8_21"
+      },
+      {
+        "mesh": 171,
+        "name": "MiniGolf_V8_21_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          330
+        ],
+        "name": "MiniGolf_V8_22"
+      },
+      {
+        "mesh": 172,
+        "name": "MiniGolf_V8_22_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          332
+        ],
+        "name": "MiniGolf_V8_23"
+      },
+      {
+        "mesh": 173,
+        "name": "MiniGolf_V8_23_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          334
+        ],
+        "name": "MiniGolf_V8_24"
+      },
+      {
+        "mesh": 174,
+        "name": "MiniGolf_V8_24_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          336
+        ],
+        "name": "MiniGolf_V8_25"
+      },
+      {
+        "mesh": 175,
+        "name": "MiniGolf_V8_25_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          338
+        ],
+        "name": "MiniGolf_V8_26"
+      },
+      {
+        "mesh": 176,
+        "name": "MiniGolf_V8_26_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          340
+        ],
+        "name": "MiniGolf_V8_27"
+      },
+      {
+        "mesh": 177,
+        "name": "MiniGolf_V8_27_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          342
+        ],
+        "name": "MiniGolf_V8_28"
+      },
+      {
+        "mesh": 178,
+        "name": "MiniGolf_V8_28_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          344
+        ],
+        "name": "MiniGolf_V8_29"
+      },
+      {
+        "mesh": 179,
+        "name": "MiniGolf_V8_29_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          346
+        ],
+        "name": "MiniGolf_V8_30"
+      },
+      {
+        "mesh": 180,
+        "name": "MiniGolf_V8_30_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          348
+        ],
+        "name": "MiniGolf_V8_31"
+      },
+      {
+        "mesh": 181,
+        "name": "MiniGolf_V8_31_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          350
+        ],
+        "name": "MiniGolf_V8_32"
+      },
+      {
+        "mesh": 182,
+        "name": "MiniGolf_V8_32_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          352
+        ],
+        "name": "MiniGolf_V8_33"
+      },
+      {
+        "mesh": 183,
+        "name": "MiniGolf_V8_33_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          354
+        ],
+        "name": "MiniGolf_V8_34"
+      },
+      {
+        "mesh": 184,
+        "name": "MiniGolf_V8_34_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          356
+        ],
+        "name": "MiniGolf_V8_35"
+      },
+      {
+        "mesh": 185,
+        "name": "MiniGolf_V8_35_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "children": [
+          358
+        ],
+        "name": "MiniGolf_V8_36"
+      },
+      {
+        "mesh": 186,
+        "name": "MiniGolf_V8_36_Kling RAL 5001 TELEMAGENTA_0"
+      },
+      {
+        "children": [
+          360
+        ],
+        "name": "MiniGolf_V8_37"
+      },
+      {
+        "mesh": 187,
+        "name": "MiniGolf_V8_37_Kling RAL 5001 TELEMAGENTA_0"
+      },
+      {
+        "children": [
+          362
+        ],
+        "name": "MiniGolf_V8_38"
+      },
+      {
+        "mesh": 188,
+        "name": "MiniGolf_V8_38_Kling RAL 3016 ANTIQUE RED_0"
+      },
+      {
+        "children": [
+          364,
+          366,
+          368,
+          371,
+          374,
+          376,
+          378,
+          380,
+          382,
+          384,
+          386,
+          388,
+          390,
+          392,
+          394,
+          396,
+          398,
+          400,
+          402,
+          404,
+          406,
+          408,
+          410,
+          412,
+          414,
+          416,
+          418,
+          420,
+          422,
+          424,
+          426,
+          428,
+          430,
+          432,
+          435
+        ],
+        "matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          -2700.0,
+          1.0
+        ],
+        "name": "Model__v9"
+      },
+      {
+        "children": [
+          365
+        ],
+        "name": "MiniGolf_V9_4"
+      },
+      {
+        "mesh": 189,
+        "name": "MiniGolf_V9_4_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          367
+        ],
+        "name": "MiniGolf_V9_5"
+      },
+      {
+        "mesh": 190,
+        "name": "MiniGolf_V9_5_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          369,
+          370
+        ],
+        "name": "MiniGolf_V9_6"
+      },
+      {
+        "mesh": 191,
+        "name": "MiniGolf_V9_6_Kling RAL 6010 BROWN GREEN_0"
+      },
+      {
+        "mesh": 192,
+        "name": "MiniGolf_V9_6_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          372,
+          373
+        ],
+        "name": "MiniGolf_V9_7"
+      },
+      {
+        "mesh": 193,
+        "name": "MiniGolf_V9_7_Paint - Pale Jade_0"
+      },
+      {
+        "mesh": 194,
+        "name": "MiniGolf_V9_7_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          375
+        ],
+        "name": "MiniGolf_V9_8"
+      },
+      {
+        "mesh": 195,
+        "name": "MiniGolf_V9_8_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          377
+        ],
+        "name": "MiniGolf_V9_9"
+      },
+      {
+        "mesh": 196,
+        "name": "MiniGolf_V9_9_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          379
+        ],
+        "name": "MiniGolf_V9_10"
+      },
+      {
+        "mesh": 197,
+        "name": "MiniGolf_V9_10_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          381
+        ],
+        "name": "MiniGolf_V9_11"
+      },
+      {
+        "mesh": 198,
+        "name": "MiniGolf_V9_11_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          383
+        ],
+        "name": "MiniGolf_V9_12"
+      },
+      {
+        "mesh": 199,
+        "name": "MiniGolf_V9_12_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          385
+        ],
+        "name": "MiniGolf_V9_13"
+      },
+      {
+        "mesh": 200,
+        "name": "MiniGolf_V9_13_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          387
+        ],
+        "name": "MiniGolf_V9_14"
+      },
+      {
+        "mesh": 201,
+        "name": "MiniGolf_V9_14_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          389
+        ],
+        "name": "MiniGolf_V9_15"
+      },
+      {
+        "mesh": 202,
+        "name": "MiniGolf_V9_15_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          391
+        ],
+        "name": "MiniGolf_V9_16"
+      },
+      {
+        "mesh": 203,
+        "name": "MiniGolf_V9_16_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          393
+        ],
+        "name": "MiniGolf_V9_17"
+      },
+      {
+        "mesh": 204,
+        "name": "MiniGolf_V9_17_Kling RAL 3016 ANTIQUE RED_0"
+      },
+      {
+        "children": [
+          395
+        ],
+        "name": "MiniGolf_V9_18"
+      },
+      {
+        "mesh": 205,
+        "name": "MiniGolf_V9_18_Kling RAL 3016 ANTIQUE RED_0"
+      },
+      {
+        "children": [
+          397
+        ],
+        "name": "MiniGolf_V9_19"
+      },
+      {
+        "mesh": 206,
+        "name": "MiniGolf_V9_19_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          399
+        ],
+        "name": "MiniGolf_V9_20"
+      },
+      {
+        "mesh": 207,
+        "name": "MiniGolf_V9_20_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          401
+        ],
+        "name": "MiniGolf_V9_21"
+      },
+      {
+        "mesh": 208,
+        "name": "MiniGolf_V9_21_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          403
+        ],
+        "name": "MiniGolf_V9_22"
+      },
+      {
+        "mesh": 209,
+        "name": "MiniGolf_V9_22_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          405
+        ],
+        "name": "MiniGolf_V9_23"
+      },
+      {
+        "mesh": 210,
+        "name": "MiniGolf_V9_23_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          407
+        ],
+        "name": "MiniGolf_V9_24"
+      },
+      {
+        "mesh": 211,
+        "name": "MiniGolf_V9_24_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          409
+        ],
+        "name": "MiniGolf_V9_25"
+      },
+      {
+        "mesh": 212,
+        "name": "MiniGolf_V9_25_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          411
+        ],
+        "name": "MiniGolf_V9_26"
+      },
+      {
+        "mesh": 213,
+        "name": "MiniGolf_V9_26_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          413
+        ],
+        "name": "MiniGolf_V9_27"
+      },
+      {
+        "mesh": 214,
+        "name": "MiniGolf_V9_27_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          415
+        ],
+        "name": "MiniGolf_V9_28"
+      },
+      {
+        "mesh": 215,
+        "name": "MiniGolf_V9_28_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          417
+        ],
+        "name": "MiniGolf_V9_29"
+      },
+      {
+        "mesh": 216,
+        "name": "MiniGolf_V9_29_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          419
+        ],
+        "name": "MiniGolf_V9_30"
+      },
+      {
+        "mesh": 217,
+        "name": "MiniGolf_V9_30_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          421
+        ],
+        "name": "MiniGolf_V9_31"
+      },
+      {
+        "mesh": 218,
+        "name": "MiniGolf_V9_31_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          423
+        ],
+        "name": "MiniGolf_V9_32"
+      },
+      {
+        "mesh": 219,
+        "name": "MiniGolf_V9_32_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          425
+        ],
+        "name": "MiniGolf_V9_33"
+      },
+      {
+        "mesh": 220,
+        "name": "MiniGolf_V9_33_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          427
+        ],
+        "name": "MiniGolf_V9_34"
+      },
+      {
+        "mesh": 221,
+        "name": "MiniGolf_V9_34_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          429
+        ],
+        "name": "MiniGolf_V9_35"
+      },
+      {
+        "mesh": 222,
+        "name": "MiniGolf_V9_35_Paint - Light Gray_0"
+      },
+      {
+        "children": [
+          431
+        ],
+        "name": "MiniGolf_V9_36"
+      },
+      {
+        "mesh": 223,
+        "name": "MiniGolf_V9_36_RAL 5012_0"
+      },
+      {
+        "children": [
+          433,
+          434
+        ],
+        "name": "MiniGolf_V9_37"
+      },
+      {
+        "mesh": 224,
+        "name": "MiniGolf_V9_37_Paint - Alizarin Carmine_0"
+      },
+      {
+        "mesh": 225,
+        "name": "MiniGolf_V9_37_Paint - Golden Beige_0"
+      },
+      {
+        "children": [
+          436,
+          437
+        ],
+        "name": "MiniGolf_V9_38"
+      },
+      {
+        "mesh": 226,
+        "name": "MiniGolf_V9_38_Paint - Forest Green_0"
+      },
+      {
+        "mesh": 227,
+        "name": "MiniGolf_V9_38_Paint - Golden Beige_0"
+      }
+    ],
+    "materials": [
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_3012_OXIDE_RED",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.780392,
+            0.541176,
+            0.466667,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_4010_SIGNAL_VIOLET",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.752941,
+            0.247059,
+            0.490196,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Paint_-_Pale_Jade",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.494118,
+            0.705882,
+            0.647059,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Paint_-_Golden_Beige",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.733333,
+            0.607843,
+            0.443137,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_6010_BROWN_GREEN",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.337255,
+            0.45098,
+            0.266667,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_1016_LIGHT_IVORY",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.960784,
+            0.882353,
+            0.254902,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "extensions": {
+          "KHR_materials_specular": {
+            "specularColorFactor": [
+              1.0,
+              1.0,
+              1.0
+            ],
+            "specularFactor": 0.10209554924357864
+          }
+        },
+        "name": "Paint_-_Light_Gray",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.6286721915930785,
+            0.6286721915930785,
+            0.6286721915930785,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "metallicRoughnessTexture": {
+            "index": 0
+          },
+          "roughnessFactor": 0.6628591629993539
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Paint_-_Sienna_Sand",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.733333,
+            0.580392,
+            0.443137,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Concrete_-_04",
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 1
+          },
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_1033_BROOM_YELLOW",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.952941,
+            0.615686,
+            0.211765,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_5014_LIGHT_BLUE",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.427451,
+            0.509804,
+            0.603922,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_5015_COBALT_BLUE",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.0784314,
+            0.501961,
+            0.709804,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Concrete_-_04_0",
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 1
+          },
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_2009_PURE_ORANGE",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.854902,
+            0.345098,
+            0.219608,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "RAL_5012",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.0,
+            0.537255,
+            0.713725,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_4006_CLARET_VIOLET",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.588235,
+            0.25098,
+            0.627451,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_3016_ANTIQUE_RED",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.613275,
+            0.0468757,
+            0.0,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "RAL_1026",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            0.0,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_5001_TELEMAGENTA",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.211765,
+            0.345098,
+            0.435294,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Paint_-_Light_Gray_0",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.658824,
+            0.658824,
+            0.658824,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Kling_RAL_6010_BROWN_GREEN_0",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.337255,
+            0.45098,
+            0.266667,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Paint_-_Alizarin_Carmine",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.823529,
+            0.0705882,
+            0.258824,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Paint_-_Forest_Green",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.129412,
+            0.584314,
+            0.117647,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      }
+    ],
+    "meshBounds": [
+      {
+        "name": "MiniGolf_V1_Kling RAL 3012 OXIDE RED_0",
+        "primitives": [
+          {
+            "material": 0,
+            "bounds": {
+              "min": [
+                504.35076904296875,
+                10.0,
+                -320.97882080078125
+              ],
+              "max": [
+                534.3507690429688,
+                30.0,
+                -300.97882080078125
+              ],
+              "count": 64
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_2_Kling RAL 4010 SIGNAL VIOLET_0",
+        "primitives": [
+          {
+            "material": 1,
+            "bounds": {
+              "min": [
+                504.35076904296875,
+                10.0,
+                -295.97882080078125
+              ],
+              "max": [
+                534.3507690429688,
+                30.0,
+                -275.97882080078125
+              ],
+              "count": 64
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_3_Paint - Pale Jade_0",
+        "primitives": [
+          {
+            "material": 2,
+            "bounds": {
+              "min": [
+                -70.0,
+                18.82466697692871,
+                -59.96220779418945
+              ],
+              "max": [
+                70.0,
+                18.82466697692871,
+                6.703793556649693e-15
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_3_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -70.0,
+                -1.1753332614898682,
+                -59.96220779418945
+              ],
+              "max": [
+                70.0,
+                18.82466697692871,
+                6.703793556649693e-15
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_4_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                -225.0937042236328,
+                15.0,
+                -375.729248046875
+              ],
+              "max": [
+                895.0,
+                17.0,
+                5.0
+              ],
+              "count": 209
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_4_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -225.0937042236328,
+                -5.0,
+                -375.729248046875
+              ],
+              "max": [
+                895.0,
+                15.0,
+                5.0
+              ],
+              "count": 150
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_5_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                -80.0,
+                1.7709830929762797e-14,
+                -370.64300537109375
+              ],
+              "max": [
+                -70.0,
+                25.0,
+                -289.2234802246094
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_6_Kling RAL 4010 SIGNAL VIOLET_0",
+        "primitives": [
+          {
+            "material": 1,
+            "bounds": {
+              "min": [
+                15.32625675201416,
+                1.5275890226157038e-14,
+                -314.1175842285156
+              ],
+              "max": [
+                79.96961212158203,
+                25.0,
+                -249.47422790527344
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_7_Kling RAL 3012 OXIDE RED_0",
+        "primitives": [
+          {
+            "material": 0,
+            "bounds": {
+              "min": [
+                161.6116485595703,
+                1.759455482783917e-14,
+                -351.9842529296875
+              ],
+              "max": [
+                226.2550048828125,
+                25.0,
+                -287.34088134765625
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_8_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                246.29991149902344,
+                1.47711737860743e-14,
+                -305.87493896484375
+              ],
+              "max": [
+                310.9432678222656,
+                25.0,
+                -241.23158264160156
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_9_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -230.09681701660156,
+                -14.0,
+                -380.729248046875
+              ],
+              "max": [
+                -69.93109893798828,
+                26.0,
+                -70.8801498413086
+              ],
+              "count": 336
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_10_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -80.0,
+                -14.0,
+                -80.81546783447266
+              ],
+              "max": [
+                -70.0,
+                26.0,
+                10.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_11_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -80.0,
+                -14.0,
+                6.612375577641494e-14
+              ],
+              "max": [
+                80.0,
+                26.0,
+                10.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_12_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                70.0,
+                -14.0,
+                -77.02603149414062
+              ],
+              "max": [
+                80.0,
+                26.0,
+                10.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_13_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -11.359288215637207,
+                -14.0,
+                -220.72923278808594
+              ],
+              "max": [
+                80.0,
+                26.0,
+                -74.43244934082031
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_14_Paint - Sienna Sand_0",
+        "primitives": [
+          {
+            "material": 7,
+            "bounds": {
+              "min": [
+                -89.83824920654297,
+                1.3515767620223863e-14,
+                -230.72923278808594
+              ],
+              "max": [
+                -11.359288215637207,
+                25.0,
+                -220.72923278808594
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_14_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -16.9205379486084,
+                1.3515767620223863e-14,
+                -230.72923278808594
+              ],
+              "max": [
+                -11.359288215637207,
+                25.0,
+                -220.72923278808594
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_15_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                890.0,
+                -14.0,
+                -380.729248046875
+              ],
+              "max": [
+                900.0,
+                26.0,
+                -220.72923278808594
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_16_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -75.0,
+                -14.0,
+                -380.729248046875
+              ],
+              "max": [
+                900.0,
+                26.0,
+                -370.729248046875
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_17_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -16.9205379486084,
+                -14.0,
+                -230.72923278808594
+              ],
+              "max": [
+                900.0,
+                26.0,
+                -220.72923278808594
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "SW___006_Concrete - 04_0",
+        "primitives": [
+          {
+            "material": 8,
+            "bounds": {
+              "min": [
+                228.1488800048828,
+                -15.336795806884766,
+                -75.0
+              ],
+              "max": [
+                243.1488800048828,
+                0.911653459072113,
+                75.0
+              ],
+              "count": 32
+            }
+          }
+        ]
+      },
+      {
+        "name": "SW___003_Kling RAL 1033 BROOM YELLOW_0",
+        "primitives": [
+          {
+            "material": 9,
+            "bounds": {
+              "min": [
+                550.789794921875,
+                -18.979469299316406,
+                -75.0
+              ],
+              "max": [
+                813.1488647460938,
+                35.995079040527344,
+                75.0
+              ],
+              "count": 156
+            }
+          }
+        ]
+      },
+      {
+        "name": "SW___005_Kling RAL 1033 BROOM YELLOW_0",
+        "primitives": [
+          {
+            "material": 9,
+            "bounds": {
+              "min": [
+                228.1488800048828,
+                -18.89558219909668,
+                -75.0
+              ],
+              "max": [
+                505.431396484375,
+                35.995079040527344,
+                75.0
+              ],
+              "count": 160
+            }
+          }
+        ]
+      },
+      {
+        "name": "SW___002_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                813.1488647460938,
+                -15.336795806884766,
+                -75.0
+              ],
+              "max": [
+                828.1488647460938,
+                16.851064682006836,
+                75.0
+              ],
+              "count": 28
+            }
+          }
+        ]
+      },
+      {
+        "name": "SW___004_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                478.14886474609375,
+                -19.0,
+                -75.0
+              ],
+              "max": [
+                578.1488647460938,
+                11.0,
+                75.0
+              ],
+              "count": 36
+            }
+          }
+        ]
+      },
+      {
+        "name": "TR___002_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                828.1488647460938,
+                -9.0,
+                -122.91512298583984
+              ],
+              "max": [
+                1157.819580078125,
+                11.0,
+                122.83739471435547
+              ],
+              "count": 195
+            }
+          }
+        ]
+      },
+      {
+        "name": "TR___002_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                828.1488647460938,
+                11.0,
+                -122.91512298583984
+              ],
+              "max": [
+                1157.819580078125,
+                11.0,
+                122.83739471435547
+              ],
+              "count": 61
+            }
+          }
+        ]
+      },
+      {
+        "name": "TR___001_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                -60.0,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                228.1488800048828,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "TR___001_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -60.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                228.1488800048828,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "TR___002_2_Paint - Pale Jade_0",
+        "primitives": [
+          {
+            "material": 2,
+            "bounds": {
+              "min": [
+                -60.0,
+                13.0,
+                -70.0
+              ],
+              "max": [
+                0.0,
+                13.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "TR___002_2_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -60.0,
+                -7.0,
+                -70.0
+              ],
+              "max": [
+                0.0,
+                13.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V3_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                578.1488647460938,
+                -14.07894229888916,
+                -80.0
+              ],
+              "max": [
+                828.1488647460938,
+                51.07394027709961,
+                -70.0
+              ],
+              "count": 160
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                470.136962890625,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                586.1571655273438,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                228.1488800048828,
+                -14.080771446228027,
+                -80.0
+              ],
+              "max": [
+                478.14886474609375,
+                51.08653259277344,
+                -70.0
+              ],
+              "count": 160
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                228.1488800048828,
+                -14.076358795166016,
+                70.0
+              ],
+              "max": [
+                478.14886474609375,
+                51.05661392211914,
+                80.0
+              ],
+              "count": 160
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V0_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                470.1455993652344,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                586.151123046875,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_18_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                578.1488647460938,
+                -14.075827598571777,
+                70.0
+              ],
+              "max": [
+                828.1488647460938,
+                51.05311584472656,
+                80.0
+              ],
+              "count": 160
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_19_Paint - Sienna Sand_0",
+        "primitives": [
+          {
+            "material": 7,
+            "bounds": {
+              "min": [
+                488.55908203125,
+                -9.0,
+                -38.261070251464844
+              ],
+              "max": [
+                565.1787109375,
+                16.0,
+                18.818788528442383
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V2_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                820.140625,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                940.2294921875,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                236.16079711914062,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                -60.0,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                236.1521453857422,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V2_2_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                820.1466064453125,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                940.2294921875,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V2_3_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                935.3253173828125,
+                -14.0,
+                -127.91901397705078
+              ],
+              "max": [
+                1162.819580078125,
+                26.0,
+                2.902500288726184e-13
+              ],
+              "count": 256
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V0_2_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                935.2994995117188,
+                -14.0,
+                2.989029650960623e-13
+              ],
+              "max": [
+                1162.819580078125,
+                26.0,
+                127.83811950683594
+              ],
+              "count": 248
+            }
+          }
+        ]
+      },
+      {
+        "name": "SW___007_Kling RAL 5014 LIGHT BLUE_0",
+        "primitives": [
+          {
+            "material": 10,
+            "bounds": {
+              "min": [
+                75.0,
+                -9.341026487464515e-14,
+                -75.0
+              ],
+              "max": [
+                839.126708984375,
+                78.39273834228516,
+                75.0
+              ],
+              "count": 96
+            }
+          }
+        ]
+      },
+      {
+        "name": "SW___007_2_Kling RAL 5015 COBALT BLUE_0",
+        "primitives": [
+          {
+            "material": 11,
+            "bounds": {
+              "min": [
+                75.0,
+                0.20000000298023224,
+                -5.0
+              ],
+              "max": [
+                839.126708984375,
+                78.59274291992188,
+                5.0
+              ],
+              "count": 96
+            }
+          }
+        ]
+      },
+      {
+        "name": "SW___007_3_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                839.126708984375,
+                -7.208647639586358e-15,
+                -117.72615051269531
+              ],
+              "max": [
+                1054.20703125,
+                15.0,
+                117.72615051269531
+              ],
+              "count": 134
+            }
+          }
+        ]
+      },
+      {
+        "name": "TR___001_2_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                -60.0,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                75.0,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "TR___001_2_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -60.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                75.0,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "TR___002_3_Paint - Pale Jade_0",
+        "primitives": [
+          {
+            "material": 2,
+            "bounds": {
+              "min": [
+                -60.0,
+                13.0,
+                -70.0
+              ],
+              "max": [
+                -1.1102230246251565e-14,
+                13.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "TR___002_3_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -60.0,
+                -7.0,
+                -70.0
+              ],
+              "max": [
+                -1.1102230246251565e-14,
+                13.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_2_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                325.0,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                465.5628967285156,
+                91.5455551147461,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V0_3_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                383.7117919921875,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                559.81396484375,
+                26.0,
+                80.0
+              ],
+              "count": 30
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_20_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                550.9461669921875,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                691.1219482421875,
+                91.36504364013672,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_3_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                325.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                465.5628967285156,
+                91.5455551147461,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V0_4_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                383.7117919921875,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                559.81396484375,
+                26.0,
+                -70.0
+              ],
+              "count": 30
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V1_21_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                550.9461669921875,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                691.1219482421875,
+                91.36504364013672,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_2_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -65.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                -55.0,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V2_4_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                671.892333984375,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                841.616943359375,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_3_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -65.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                333.8677978515625,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V2_5_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                671.892333984375,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                841.616943359375,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V2_6_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                836.7127075195312,
+                -14.0,
+                -127.91901397705078
+              ],
+              "max": [
+                1064.20703125,
+                26.0,
+                -2.061241971649131e-14
+              ],
+              "count": 256
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V0_5_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                836.6868896484375,
+                -14.0,
+                -2.3061713739299e-14
+              ],
+              "max": [
+                1064.20703125,
+                26.0,
+                127.83811950683594
+              ],
+              "count": 248
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_4_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -65.0,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                333.8677978515625,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_2_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                787.7393188476562,
+                -9.0,
+                -122.91512298583984
+              ],
+              "max": [
+                1157.819580078125,
+                11.0,
+                122.83739471435547
+              ],
+              "count": 195
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_2_Kling RAL 5014 LIGHT BLUE_0",
+        "primitives": [
+          {
+            "material": 10,
+            "bounds": {
+              "min": [
+                787.7393188476562,
+                11.0,
+                -122.91512298583984
+              ],
+              "max": [
+                1157.819580078125,
+                11.0,
+                122.83739471435547
+              ],
+              "count": 61
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_3_Kling RAL 5014 LIGHT BLUE_0",
+        "primitives": [
+          {
+            "material": 10,
+            "bounds": {
+              "min": [
+                85.0,
+                11.0,
+                -75.0
+              ],
+              "max": [
+                787.7393188476562,
+                89.16374969482422,
+                75.0
+              ],
+              "count": 54
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_3_Concrete - 04_0",
+        "primitives": [
+          {
+            "material": 12,
+            "bounds": {
+              "min": [
+                85.0,
+                -2.5895848274230957,
+                -75.0
+              ],
+              "max": [
+                787.7393188476562,
+                89.16374969482422,
+                75.0
+              ],
+              "count": 170
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_4_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -60.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                85.0,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_4_Kling RAL 5014 LIGHT BLUE_0",
+        "primitives": [
+          {
+            "material": 10,
+            "bounds": {
+              "min": [
+                -60.0,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                85.0,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_5_Paint - Pale Jade_0",
+        "primitives": [
+          {
+            "material": 2,
+            "bounds": {
+              "min": [
+                -60.0,
+                13.0,
+                -70.0
+              ],
+              "max": [
+                0.0,
+                13.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_5_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -60.0,
+                -7.0,
+                -70.0
+              ],
+              "max": [
+                0.0,
+                13.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_6_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                85.0,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                787.7393188476562,
+                104.16386413574219,
+                80.0
+              ],
+              "count": 240
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_7_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                85.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                787.7393188476562,
+                104.16386413574219,
+                -70.0
+              ],
+              "count": 240
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_8_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                93.88444519042969,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_9_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                -60.0,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_10_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                93.88444519042969,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_11_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                935.3253173828125,
+                -14.0,
+                -127.91901397705078
+              ],
+              "max": [
+                1162.819580078125,
+                26.0,
+                1.4592103567134806e-13
+              ],
+              "count": 256
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_12_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                935.2994995117188,
+                -14.0,
+                3.4331188608106855e-13
+              ],
+              "max": [
+                1162.819580078125,
+                26.0,
+                127.83811950683594
+              ],
+              "count": 248
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_13_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                778.8548583984375,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                940.2294921875,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V4_14_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                778.8548583984375,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                940.2294921875,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_2_Paint - Pale Jade_0",
+        "primitives": [
+          {
+            "material": 2,
+            "bounds": {
+              "min": [
+                -60.0,
+                13.0,
+                -70.0
+              ],
+              "max": [
+                -2.3314683517128287e-13,
+                13.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_2_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -60.0,
+                -7.0,
+                -70.0
+              ],
+              "max": [
+                -2.3314683517128287e-13,
+                13.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_3_Kling RAL 2009 PURE ORANGE_0",
+        "primitives": [
+          {
+            "material": 13,
+            "bounds": {
+              "min": [
+                85.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                145.0,
+                11.0,
+                70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_4_Kling RAL 2009 PURE ORANGE_0",
+        "primitives": [
+          {
+            "material": 13,
+            "bounds": {
+              "min": [
+                205.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                265.0,
+                11.0,
+                70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_5_Kling RAL 2009 PURE ORANGE_0",
+        "primitives": [
+          {
+            "material": 13,
+            "bounds": {
+              "min": [
+                325.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                385.0,
+                11.0,
+                70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_6_Kling RAL 2009 PURE ORANGE_0",
+        "primitives": [
+          {
+            "material": 13,
+            "bounds": {
+              "min": [
+                445.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                505.0,
+                11.0,
+                70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_7_Kling RAL 2009 PURE ORANGE_0",
+        "primitives": [
+          {
+            "material": 13,
+            "bounds": {
+              "min": [
+                565.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                625.0,
+                11.0,
+                70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_8_Kling RAL 2009 PURE ORANGE_0",
+        "primitives": [
+          {
+            "material": 13,
+            "bounds": {
+              "min": [
+                685.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                745.0,
+                11.0,
+                70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_9_RAL 5012_0",
+        "primitives": [
+          {
+            "material": 14,
+            "bounds": {
+              "min": [
+                745.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                805.0,
+                11.0,
+                70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_10_Kling RAL 4010 SIGNAL VIOLET_0",
+        "primitives": [
+          {
+            "material": 1,
+            "bounds": {
+              "min": [
+                212.84605407714844,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                257.27020263671875,
+                33.212074279785156,
+                70.0
+              ],
+              "count": 42
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_11_Kling RAL 4010 SIGNAL VIOLET_0",
+        "primitives": [
+          {
+            "material": 1,
+            "bounds": {
+              "min": [
+                391.7190856933594,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                436.14324951171875,
+                33.212074279785156,
+                70.0
+              ],
+              "count": 42
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_12_Kling RAL 4010 SIGNAL VIOLET_0",
+        "primitives": [
+          {
+            "material": 1,
+            "bounds": {
+              "min": [
+                573.0277099609375,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                617.451904296875,
+                33.212074279785156,
+                70.0
+              ],
+              "count": 42
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_13_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                805.0,
+                -9.0,
+                -122.91512298583984
+              ],
+              "max": [
+                1157.819580078125,
+                11.0,
+                122.83739471435547
+              ],
+              "count": 195
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_13_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                805.0,
+                11.0,
+                -122.91512298583984
+              ],
+              "max": [
+                1157.819580078125,
+                11.0,
+                122.83739471435547
+              ],
+              "count": 61
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_14_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -60.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                85.0,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_14_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                -60.0,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                85.0,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_15_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                145.0,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                205.0,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_15_RAL 5012_0",
+        "primitives": [
+          {
+            "material": 14,
+            "bounds": {
+              "min": [
+                145.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                205.0,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_16_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                265.0,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                325.0,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_16_RAL 5012_0",
+        "primitives": [
+          {
+            "material": 14,
+            "bounds": {
+              "min": [
+                265.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                325.0,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_17_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                385.0,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                445.0,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_17_RAL 5012_0",
+        "primitives": [
+          {
+            "material": 14,
+            "bounds": {
+              "min": [
+                385.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                445.0,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_18_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                505.0,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                565.0,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_18_RAL 5012_0",
+        "primitives": [
+          {
+            "material": 14,
+            "bounds": {
+              "min": [
+                505.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                565.0,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_19_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                625.0,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                685.0,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_19_RAL 5012_0",
+        "primitives": [
+          {
+            "material": 14,
+            "bounds": {
+              "min": [
+                625.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                685.0,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_20_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                935.3253173828125,
+                -14.0,
+                -127.91901397705078
+              ],
+              "max": [
+                1162.819580078125,
+                26.0,
+                4.6000963455083976e-14
+              ],
+              "count": 256
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_21_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                935.2994995117188,
+                -14.0,
+                3.7661857681982325e-13
+              ],
+              "max": [
+                1162.819580078125,
+                26.0,
+                127.83811950683594
+              ],
+              "count": 248
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_22_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                -60.0,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_23_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                940.2294921875,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V5_24_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                940.2294921875,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_2_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -60.0,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                85.0,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_2_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                -60.0,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                85.0,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_3_Paint - Pale Jade_0",
+        "primitives": [
+          {
+            "material": 2,
+            "bounds": {
+              "min": [
+                -60.0,
+                13.0,
+                -70.0
+              ],
+              "max": [
+                -2.3314683517128287e-13,
+                13.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_3_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -60.0,
+                -7.0,
+                -70.0
+              ],
+              "max": [
+                -2.3314683517128287e-13,
+                13.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_4_Kling RAL 4006 CLARET VIOLET_0",
+        "primitives": [
+          {
+            "material": 15,
+            "bounds": {
+              "min": [
+                909.4784545898438,
+                12.181077003479004,
+                -20.0
+              ],
+              "max": [
+                930.3925170898438,
+                17.0163516998291,
+                20.0
+              ],
+              "count": 18
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_5_Kling RAL 3016 ANTIQUE RED_0",
+        "primitives": [
+          {
+            "material": 16,
+            "bounds": {
+              "min": [
+                918.9779052734375,
+                11.0,
+                -20.0
+              ],
+              "max": [
+                1042.4703369140625,
+                76.0,
+                20.0
+              ],
+              "count": 18
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_6_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                85.0,
+                -9.0,
+                -122.91512298583984
+              ],
+              "max": [
+                1157.819580078125,
+                11.0,
+                122.83739471435547
+              ],
+              "count": 195
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_6_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                85.0,
+                11.0,
+                -122.91512298583984
+              ],
+              "max": [
+                1157.819580078125,
+                11.0,
+                122.83739471435547
+              ],
+              "count": 61
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_7_RAL 1026_0",
+        "primitives": [
+          {
+            "material": 17,
+            "bounds": {
+              "min": [
+                909.4784545898438,
+                6.005291938781738,
+                -9.776132404689178e-15
+              ],
+              "max": [
+                1122.4703369140625,
+                81.00005340576172,
+                80.0
+              ],
+              "count": 325
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_8_RAL 1026_0",
+        "primitives": [
+          {
+            "material": 17,
+            "bounds": {
+              "min": [
+                909.4784545898438,
+                6.005291938781738,
+                -80.0
+              ],
+              "max": [
+                1122.4703369140625,
+                81.00005340576172,
+                6.741680810984786e-16
+              ],
+              "count": 325
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_9_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                -60.0,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_10_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                935.3253173828125,
+                -14.0,
+                -127.91901397705078
+              ],
+              "max": [
+                1162.819580078125,
+                26.0,
+                4.6000963455083976e-14
+              ],
+              "count": 256
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_11_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                935.2994995117188,
+                -14.0,
+                3.7661857681982325e-13
+              ],
+              "max": [
+                1162.819580078125,
+                26.0,
+                127.83811950683594
+              ],
+              "count": 248
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_12_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                940.2294921875,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V6_13_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                940.2294921875,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_2_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                -60.0,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_3_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                450.685791015625,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                754.8279418945312,
+                26.0,
+                210.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_4_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                392.6958923339844,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_5_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -70.0,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                754.8279418945312,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_6_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                88.55374908447266,
+                -14.0,
+                350.0
+              ],
+              "max": [
+                940.2294921875,
+                26.0,
+                360.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_7_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                411.67132568359375,
+                11.0,
+                11.690689086914062
+              ],
+              "max": [
+                461.67132568359375,
+                16.0,
+                15.690689086914062
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_8_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                411.67132568359375,
+                11.0,
+                -15.309310913085938
+              ],
+              "max": [
+                461.67132568359375,
+                16.0,
+                -11.309310913085938
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_9_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                456.7215881347656,
+                11.0,
+                62.09627914428711
+              ],
+              "max": [
+                494.90533447265625,
+                16.0,
+                100.28004455566406
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_10_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                320.0060119628906,
+                11.0,
+                198.8118438720703
+              ],
+              "max": [
+                358.1897888183594,
+                16.0,
+                236.99560546875
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_11_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                334.1481628417969,
+                11.0,
+                264.309326171875
+              ],
+              "max": [
+                384.1481628417969,
+                16.0,
+                268.309326171875
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_12_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                300.91412353515625,
+                11.0,
+                179.71995544433594
+              ],
+              "max": [
+                339.097900390625,
+                16.0,
+                217.90371704101562
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_13_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                334.1481628417969,
+                11.0,
+                291.309326171875
+              ],
+              "max": [
+                384.1481628417969,
+                16.0,
+                295.309326171875
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_14_Paint - Pale Jade_0",
+        "primitives": [
+          {
+            "material": 2,
+            "bounds": {
+              "min": [
+                -60.0,
+                13.0,
+                -70.0
+              ],
+              "max": [
+                -2.3314683517128287e-13,
+                13.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_14_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -60.0,
+                -7.0,
+                -70.0
+              ],
+              "max": [
+                -2.3314683517128287e-13,
+                13.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_15_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                437.62969970703125,
+                11.0,
+                43.004398345947266
+              ],
+              "max": [
+                475.8134765625,
+                16.0,
+                81.18816375732422
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_16_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                935.3253173828125,
+                -14.0,
+                152.08099365234375
+              ],
+              "max": [
+                1162.819580078125,
+                26.0,
+                280.0
+              ],
+              "count": 256
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_17_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                935.2994995117188,
+                -14.0,
+                280.0
+              ],
+              "max": [
+                1162.819580078125,
+                26.0,
+                407.838134765625
+              ],
+              "count": 248
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_18_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                450.685791015625,
+                -14.0,
+                200.0
+              ],
+              "max": [
+                940.2294921875,
+                26.0,
+                210.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_19_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                88.55374908447266,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                392.6958923339844,
+                26.0,
+                360.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_20_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                839.4703979492188,
+                11.0,
+                215.0
+              ],
+              "max": [
+                859.4703979492188,
+                67.13835144042969,
+                345.0
+              ],
+              "count": 424
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_21_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                461.67132568359375,
+                11.0,
+                11.690689086914062
+              ],
+              "max": [
+                481.7477111816406,
+                16.0,
+                45.83282470703125
+              ],
+              "count": 128
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_22_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                461.67132568359375,
+                11.0,
+                -15.40814208984375
+              ],
+              "max": [
+                508.7701416015625,
+                16.0,
+                64.9247055053711
+              ],
+              "count": 152
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_23_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                314.0717468261719,
+                11.0,
+                234.16717529296875
+              ],
+              "max": [
+                334.1481628417969,
+                16.0,
+                268.309326171875
+              ],
+              "count": 128
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_24_Kling RAL 1016 LIGHT IVORY_0",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                287.04931640625,
+                11.0,
+                215.07528686523438
+              ],
+              "max": [
+                334.1481628417969,
+                16.0,
+                295.40814208984375
+              ],
+              "count": 152
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V7_25_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                -2.220446049250313e-13,
+                -14.0,
+                -70.0
+              ],
+              "max": [
+                1152.819580078125,
+                11.0,
+                397.72613525390625
+              ],
+              "count": 158
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_5_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -41.38742446899414,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                -31.387426376342773,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_6_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -41.38742446899414,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                975.5782470703125,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_7_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                -36.38742446899414,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                98.6125717163086,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_7_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -36.38742446899414,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                98.6125717163086,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_8_Paint - Pale Jade_0",
+        "primitives": [
+          {
+            "material": 2,
+            "bounds": {
+              "min": [
+                -36.38742446899414,
+                13.0,
+                -70.0
+              ],
+              "max": [
+                23.612573623657227,
+                13.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_8_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -36.38742446899414,
+                -7.0,
+                -70.0
+              ],
+              "max": [
+                23.612573623657227,
+                13.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_9_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1160.2469482421875,
+                -14.0,
+                -63.36006164550781
+              ],
+              "max": [
+                1179.1943359375,
+                26.0,
+                -38.20704650878906
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_10_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1022.0018310546875,
+                -14.0,
+                -121.47870635986328
+              ],
+              "max": [
+                1046.8441162109375,
+                26.0,
+                -106.12736511230469
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_11_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                980.9380493164062,
+                -14.0,
+                -105.24301147460938
+              ],
+              "max": [
+                1005.4352416992188,
+                26.0,
+                -83.42769622802734
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_12_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                971.1338500976562,
+                -14.0,
+                -90.85986328125
+              ],
+              "max": [
+                987.70068359375,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_13_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1169.739990234375,
+                -14.0,
+                16.893747329711914
+              ],
+              "max": [
+                1185.1229248046875,
+                26.0,
+                41.61072540283203
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_14_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1045.3502197265625,
+                -14.0,
+                111.54198455810547
+              ],
+              "max": [
+                1069.4005126953125,
+                26.0,
+                122.70732879638672
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_15_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1022.0018310546875,
+                -14.0,
+                106.12736511230469
+              ],
+              "max": [
+                1046.8441162109375,
+                26.0,
+                121.47870635986328
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_16_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                971.1338500976562,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                987.70068359375,
+                26.0,
+                90.85986328125
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_17_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                -41.38742446899414,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                975.5782470703125,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_18_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1175.1229248046875,
+                -14.0,
+                -18.137048721313477
+              ],
+              "max": [
+                1185.1229248046875,
+                26.0,
+                18.137048721313477
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_19_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1169.739990234375,
+                -14.0,
+                -41.61072540283203
+              ],
+              "max": [
+                1185.1229248046875,
+                26.0,
+                -16.893747329711914
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_20_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1147.040283203125,
+                -14.0,
+                -82.67450714111328
+              ],
+              "max": [
+                1168.8555908203125,
+                26.0,
+                -58.177330017089844
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_21_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1130.6275634765625,
+                -14.0,
+                -98.81182098388672
+              ],
+              "max": [
+                1154.472412109375,
+                26.0,
+                -75.9118881225586
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_22_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1111.6395263671875,
+                -14.0,
+                -111.15184783935547
+              ],
+              "max": [
+                1136.5975341796875,
+                26.0,
+                -90.72920227050781
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_23_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1090.8057861328125,
+                -14.0,
+                -119.22037506103516
+              ],
+              "max": [
+                1115.91796875,
+                26.0,
+                -102.0598373413086
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_24_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1068.927001953125,
+                -14.0,
+                -122.70732879638672
+              ],
+              "max": [
+                1093.228271484375,
+                26.0,
+                -109.46837615966797
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_25_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1045.3502197265625,
+                -14.0,
+                -122.70732879638672
+              ],
+              "max": [
+                1069.4005126953125,
+                26.0,
+                -111.54198455810547
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_26_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1000.2525024414062,
+                -14.0,
+                -115.58173370361328
+              ],
+              "max": [
+                1025.405517578125,
+                26.0,
+                -96.63433074951172
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_27_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1160.2469482421875,
+                -14.0,
+                38.20704650878906
+              ],
+              "max": [
+                1179.1943359375,
+                26.0,
+                63.36006164550781
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_28_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1147.040283203125,
+                -14.0,
+                58.177330017089844
+              ],
+              "max": [
+                1168.8555908203125,
+                26.0,
+                82.67450714111328
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_29_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1130.6275634765625,
+                -14.0,
+                75.9118881225586
+              ],
+              "max": [
+                1154.472412109375,
+                26.0,
+                98.81182098388672
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_30_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1111.6395263671875,
+                -14.0,
+                90.72920227050781
+              ],
+              "max": [
+                1136.5975341796875,
+                26.0,
+                111.15184783935547
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_31_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1090.8057861328125,
+                -14.0,
+                102.0598373413086
+              ],
+              "max": [
+                1115.91796875,
+                26.0,
+                119.22037506103516
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_32_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1068.927001953125,
+                -14.0,
+                109.46837615966797
+              ],
+              "max": [
+                1093.228271484375,
+                26.0,
+                122.70732879638672
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_33_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                1000.2525024414062,
+                -14.0,
+                96.63433074951172
+              ],
+              "max": [
+                1025.405517578125,
+                26.0,
+                115.58173370361328
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_34_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                980.9380493164062,
+                -14.0,
+                83.42769622802734
+              ],
+              "max": [
+                1005.4352416992188,
+                26.0,
+                105.24301147460938
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_35_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                98.6125717163086,
+                -9.0,
+                -112.67010498046875
+              ],
+              "max": [
+                1175.1229248046875,
+                11.0,
+                112.67010498046875
+              ],
+              "count": 168
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_36_Kling RAL 5001 TELEMAGENTA_0",
+        "primitives": [
+          {
+            "material": 18,
+            "bounds": {
+              "min": [
+                580.248291015625,
+                11.0,
+                40.0
+              ],
+              "max": [
+                1010.248291015625,
+                66.41943359375,
+                70.0
+              ],
+              "count": 44
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_37_Kling RAL 5001 TELEMAGENTA_0",
+        "primitives": [
+          {
+            "material": 18,
+            "bounds": {
+              "min": [
+                580.248291015625,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                1010.248291015625,
+                66.3895034790039,
+                -45.92203140258789
+              ],
+              "count": 44
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V8_38_Kling RAL 3016 ANTIQUE RED_0",
+        "primitives": [
+          {
+            "material": 16,
+            "bounds": {
+              "min": [
+                569.5260009765625,
+                11.0,
+                -45.92203140258789
+              ],
+              "max": [
+                1019.5260009765625,
+                71.0,
+                54.07796859741211
+              ],
+              "count": 1082
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_4_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                -41.38742446899414,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                -31.387426376342773,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_5_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                -41.38742446899414,
+                -14.0,
+                -80.0
+              ],
+              "max": [
+                975.5782470703125,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_6_Kling RAL 6010 BROWN GREEN_0",
+        "primitives": [
+          {
+            "material": 20,
+            "bounds": {
+              "min": [
+                -36.38742446899414,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                98.6125717163086,
+                11.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_6_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -36.38742446899414,
+                -9.0,
+                -70.0
+              ],
+              "max": [
+                98.6125717163086,
+                11.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_7_Paint - Pale Jade_0",
+        "primitives": [
+          {
+            "material": 2,
+            "bounds": {
+              "min": [
+                -36.38742446899414,
+                13.0,
+                -70.0
+              ],
+              "max": [
+                23.612573623657227,
+                13.0,
+                70.0
+              ],
+              "count": 4
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_7_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                -36.38742446899414,
+                -7.0,
+                -70.0
+              ],
+              "max": [
+                23.612573623657227,
+                13.0,
+                70.0
+              ],
+              "count": 20
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_8_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1160.2469482421875,
+                -14.0,
+                -63.36006164550781
+              ],
+              "max": [
+                1179.1943359375,
+                26.0,
+                -38.20704650878906
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_9_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1022.0018310546875,
+                -14.0,
+                -121.47870635986328
+              ],
+              "max": [
+                1046.8441162109375,
+                26.0,
+                -106.12736511230469
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_10_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                980.9380493164062,
+                -14.0,
+                -105.24301147460938
+              ],
+              "max": [
+                1005.4352416992188,
+                26.0,
+                -83.42769622802734
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_11_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                971.1338500976562,
+                -14.0,
+                -90.85986328125
+              ],
+              "max": [
+                987.70068359375,
+                26.0,
+                -70.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_12_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1169.739990234375,
+                -14.0,
+                16.893747329711914
+              ],
+              "max": [
+                1185.1229248046875,
+                26.0,
+                41.61072540283203
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_13_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1045.3502197265625,
+                -14.0,
+                111.54198455810547
+              ],
+              "max": [
+                1069.4005126953125,
+                26.0,
+                122.70732879638672
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_14_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1022.0018310546875,
+                -14.0,
+                106.12736511230469
+              ],
+              "max": [
+                1046.8441162109375,
+                26.0,
+                121.47870635986328
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_15_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                971.1338500976562,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                987.70068359375,
+                26.0,
+                90.85986328125
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_16_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                -41.38742446899414,
+                -14.0,
+                70.0
+              ],
+              "max": [
+                975.5782470703125,
+                26.0,
+                80.0
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_17_Kling RAL 3016 ANTIQUE RED_0",
+        "primitives": [
+          {
+            "material": 16,
+            "bounds": {
+              "min": [
+                296.88787841796875,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                301.88787841796875,
+                26.0,
+                70.0
+              ],
+              "count": 90
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_18_Kling RAL 3016 ANTIQUE RED_0",
+        "primitives": [
+          {
+            "material": 16,
+            "bounds": {
+              "min": [
+                904.3465576171875,
+                11.0,
+                -70.0
+              ],
+              "max": [
+                909.3465576171875,
+                26.0,
+                70.0
+              ],
+              "count": 90
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_19_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1175.1229248046875,
+                -14.0,
+                -18.137048721313477
+              ],
+              "max": [
+                1185.1229248046875,
+                26.0,
+                18.137048721313477
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_20_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1169.739990234375,
+                -14.0,
+                -41.61072540283203
+              ],
+              "max": [
+                1185.1229248046875,
+                26.0,
+                -16.893747329711914
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_21_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1147.040283203125,
+                -14.0,
+                -82.67450714111328
+              ],
+              "max": [
+                1168.8555908203125,
+                26.0,
+                -58.177330017089844
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_22_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1130.6275634765625,
+                -14.0,
+                -98.81182098388672
+              ],
+              "max": [
+                1154.472412109375,
+                26.0,
+                -75.9118881225586
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_23_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1111.6395263671875,
+                -14.0,
+                -111.15184783935547
+              ],
+              "max": [
+                1136.5975341796875,
+                26.0,
+                -90.72920227050781
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_24_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1090.8057861328125,
+                -14.0,
+                -119.22037506103516
+              ],
+              "max": [
+                1115.91796875,
+                26.0,
+                -102.0598373413086
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_25_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1068.927001953125,
+                -14.0,
+                -122.70732879638672
+              ],
+              "max": [
+                1093.228271484375,
+                26.0,
+                -109.46837615966797
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_26_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1045.3502197265625,
+                -14.0,
+                -122.70732879638672
+              ],
+              "max": [
+                1069.4005126953125,
+                26.0,
+                -111.54198455810547
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_27_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1000.2525024414062,
+                -14.0,
+                -115.58173370361328
+              ],
+              "max": [
+                1025.405517578125,
+                26.0,
+                -96.63433074951172
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_28_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1160.2469482421875,
+                -14.0,
+                38.20704650878906
+              ],
+              "max": [
+                1179.1943359375,
+                26.0,
+                63.36006164550781
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_29_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1147.040283203125,
+                -14.0,
+                58.177330017089844
+              ],
+              "max": [
+                1168.8555908203125,
+                26.0,
+                82.67450714111328
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_30_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1130.6275634765625,
+                -14.0,
+                75.9118881225586
+              ],
+              "max": [
+                1154.472412109375,
+                26.0,
+                98.81182098388672
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_31_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1111.6395263671875,
+                -14.0,
+                90.72920227050781
+              ],
+              "max": [
+                1136.5975341796875,
+                26.0,
+                111.15184783935547
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_32_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1090.8057861328125,
+                -14.0,
+                102.0598373413086
+              ],
+              "max": [
+                1115.91796875,
+                26.0,
+                119.22037506103516
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_33_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1068.927001953125,
+                -14.0,
+                109.46837615966797
+              ],
+              "max": [
+                1093.228271484375,
+                26.0,
+                122.70732879638672
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_34_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                1000.2525024414062,
+                -14.0,
+                96.63433074951172
+              ],
+              "max": [
+                1025.405517578125,
+                26.0,
+                115.58173370361328
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_35_Paint - Light Gray_0",
+        "primitives": [
+          {
+            "material": 19,
+            "bounds": {
+              "min": [
+                980.9380493164062,
+                -14.0,
+                83.42769622802734
+              ],
+              "max": [
+                1005.4352416992188,
+                26.0,
+                105.24301147460938
+              ],
+              "count": 24
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_36_RAL 5012_0",
+        "primitives": [
+          {
+            "material": 14,
+            "bounds": {
+              "min": [
+                98.6125717163086,
+                -9.0,
+                -112.67010498046875
+              ],
+              "max": [
+                1175.1229248046875,
+                11.0,
+                112.67010498046875
+              ],
+              "count": 168
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_37_Paint - Alizarin Carmine_0",
+        "primitives": [
+          {
+            "material": 21,
+            "bounds": {
+              "min": [
+                638.1414794921875,
+                11.0,
+                5.0043416023254395
+              ],
+              "max": [
+                678.1414794921875,
+                15.0,
+                45.00434112548828
+              ],
+              "count": 204
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_37_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                638.1414794921875,
+                9.0,
+                5.0043416023254395
+              ],
+              "max": [
+                678.1414794921875,
+                11.0,
+                45.00434112548828
+              ],
+              "count": 60
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_38_Paint - Forest Green_0",
+        "primitives": [
+          {
+            "material": 22,
+            "bounds": {
+              "min": [
+                454.8294372558594,
+                11.0,
+                -44.11397171020508
+              ],
+              "max": [
+                494.8294372558594,
+                15.0,
+                -4.113973140716553
+              ],
+              "count": 204
+            }
+          }
+        ]
+      },
+      {
+        "name": "MiniGolf_V9_38_Paint - Golden Beige_0",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                454.8294372558594,
+                9.0,
+                -44.11397171020508
+              ],
+              "max": [
+                494.8294372558594,
+                11.0,
+                -4.113973140716553
+              ],
+              "count": 60
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "mini_golf_windmill.glb",
+    "asset": {
+      "extras": {
+        "author": "Designed By Jonathan (https://sketchfab.com/designedbyjonathan)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/mini-golf-windmill-dbe271058d01476ca7efabaf65bc39c0",
+        "title": "Mini Golf Windmill"
+      },
+      "generator": "Sketchfab-12.65.0",
+      "version": "2.0"
+    },
+    "nodes": [
+      {
+        "children": [
+          1
+        ],
+        "matrix": [
+          -2.220446049250313e-16,
+          -6.123234262925839e-17,
+          1.0,
+          0.0,
+          1.0,
+          -1.6081226229577296e-16,
+          2.2204460492503128e-16,
+          0.0,
+          1.6081226229577292e-16,
+          1.0,
+          6.123234262925839e-17,
+          0.0,
+          126.0179443359375,
+          3.809208807756259e-14,
+          -235.551513671875,
+          1.0
+        ],
+        "name": "Sketchfab_model"
+      },
+      {
+        "children": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "name": "Collada visual scene group"
+      },
+      {
+        "mesh": 0,
+        "name": "Material2"
+      },
+      {
+        "mesh": 1,
+        "name": "Material3"
+      },
+      {
+        "mesh": 2,
+        "name": "Material2"
+      },
+      {
+        "mesh": 3,
+        "name": "Material3"
+      },
+      {
+        "mesh": 4,
+        "name": "Material2"
+      },
+      {
+        "mesh": 5,
+        "name": "Material2"
+      },
+      {
+        "mesh": 6,
+        "name": "Material3"
+      },
+      {
+        "mesh": 7,
+        "name": "Material3"
+      },
+      {
+        "mesh": 8,
+        "name": "Material3"
+      },
+      {
+        "mesh": 9,
+        "name": "Material2"
+      },
+      {
+        "children": [
+          13
+        ],
+        "name": "SketchUp"
+      },
+      {
+        "children": [
+          14
+        ],
+        "matrix": [
+          0.7722951,
+          -0.6352639,
+          0.0,
+          0.0,
+          0.1487652,
+          0.180855,
+          0.9721936,
+          0.0,
+          -0.6175995,
+          -0.7508203,
+          0.2341786,
+          0.0,
+          -353.6391907,
+          -843.3883057,
+          326.8869019,
+          1.0
+        ],
+        "name": "skp_camera_Last_Saved_SketchUp_View"
+      },
+      {
+        "name": "ID1"
+      }
+    ],
+    "materials": [
+      {
+        "name": "Material3",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.0588235,
+            0.498039,
+            0.996078,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "name": "Material6",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.9700679790705267,
+            0.10876679327807658,
+            0.10532060715671158,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "name": "Material4",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            1.0,
+            0.9801624581076352,
+            0.21815952230455524,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "name": "Material7",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.6429212312351363,
+            0.17790678954877337,
+            0.9117889721365602,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "name": "Material5",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.4,
+            0.4,
+            0.996078,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "name": "material",
+        "pbrMetallicRoughness": {
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "name": "Material1",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.0627451,
+            0.498039,
+            0.25098,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "name": "Material2",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.0941176,
+            0.0941176,
+            0.0941176,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "name": "Material",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.9700679790705267,
+            0.11632698319949535,
+            0.1340213716474805,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "name": "Material8",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            0.984314,
+            0.0039216,
+            0.0235294,
+            1.0
+          ],
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      }
+    ],
+    "meshBounds": [
+      {
+        "name": "Material2",
+        "primitives": [
+          {
+            "material": 0,
+            "bounds": {
+              "min": [
+                310.44482421875,
+                434.5937805175781,
+                7.6875
+              ],
+              "max": [
+                317.6577453613281,
+                441.8066711425781,
+                89.6875
+              ],
+              "count": 28
+            }
+          }
+        ]
+      },
+      {
+        "name": "Material3",
+        "primitives": [
+          {
+            "material": 1,
+            "bounds": {
+              "min": [
+                192.37533569335938,
+                -27.23809242248535,
+                89.0
+              ],
+              "max": [
+                320.9774475097656,
+                444.6277770996094,
+                176.91708374023438
+              ],
+              "count": 949
+            }
+          }
+        ]
+      },
+      {
+        "name": "Material2",
+        "primitives": [
+          {
+            "material": 2,
+            "bounds": {
+              "min": [
+                148.7122344970703,
+                -27.23809242248535,
+                4.463627338409424
+              ],
+              "max": [
+                329.58917236328125,
+                434.5937805175781,
+                187.78915405273438
+              ],
+              "count": 1206
+            }
+          }
+        ]
+      },
+      {
+        "name": "Material3",
+        "primitives": [
+          {
+            "material": 3,
+            "bounds": {
+              "min": [
+                211.00868225097656,
+                -2.5887162685394287,
+                0.0
+              ],
+              "max": [
+                266.9461669921875,
+                55.15839767456055,
+                194.72958374023438
+              ],
+              "count": 168
+            }
+          }
+        ]
+      },
+      {
+        "name": "Material2",
+        "primitives": [
+          {
+            "material": 4,
+            "bounds": {
+              "min": [
+                159.9036865234375,
+                -20.671916961669922,
+                0.0
+              ],
+              "max": [
+                318.1920166015625,
+                72.92910766601562,
+                194.72958374023438
+              ],
+              "count": 894
+            }
+          }
+        ]
+      },
+      {
+        "name": "Material2",
+        "primitives": [
+          {
+            "material": 5,
+            "bounds": {
+              "min": [
+                31.981937408447266,
+                -335.0937194824219,
+                -10.0
+              ],
+              "max": [
+                318.1920166015625,
+                441.8066711425781,
+                78.01128387451172
+              ],
+              "count": 436
+            }
+          }
+        ]
+      },
+      {
+        "name": "Material3",
+        "primitives": [
+          {
+            "material": 6,
+            "bounds": {
+              "min": [
+                39.19483947753906,
+                -335.0937194824219,
+                -10.0
+              ],
+              "max": [
+                310.44482421875,
+                434.5937805175781,
+                0.0
+              ],
+              "count": 74
+            }
+          }
+        ]
+      },
+      {
+        "name": "Material3",
+        "primitives": [
+          {
+            "material": 7,
+            "bounds": {
+              "min": [
+                176.6637420654297,
+                346.3888854980469,
+                -8.5625
+              ],
+              "max": [
+                193.13150024414062,
+                362.8566589355469,
+                0.0
+              ],
+              "count": 48
+            }
+          }
+        ]
+      },
+      {
+        "name": "Material3",
+        "primitives": [
+          {
+            "material": 8,
+            "bounds": {
+              "min": [
+                31.981937408447266,
+                -335.0937194824219,
+                -10.0
+              ],
+              "max": [
+                318.1920166015625,
+                441.8066711425781,
+                7.6875
+              ],
+              "count": 103
+            }
+          }
+        ]
+      },
+      {
+        "name": "Material2",
+        "primitives": [
+          {
+            "material": 9,
+            "bounds": {
+              "min": [
+                309.4952697753906,
+                431.693359375,
+                58.37811279296875
+              ],
+              "max": [
+                318.87078857421875,
+                432.2187805175781,
+                73.16405487060547
+              ],
+              "count": 472
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

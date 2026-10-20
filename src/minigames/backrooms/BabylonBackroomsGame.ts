@@ -1,4 +1,7 @@
-import { Engine, Scene, Color3, Color4, UniversalCamera, Viewport, Vector3, DynamicTexture } from '@babylonjs/core';
+import {BackroomsAssets,BackActor} from './backroomsAssets';
+import type {CreatureVisual} from './backroomsWorld';
+import type {CreatureKind} from './backroomsRules';
+import { Engine, Scene, Color3, Color4, UniversalCamera, Viewport, Vector3, DynamicTexture, SpotLight, TransformNode, Mesh, StandardMaterial } from '@babylonjs/core';
 import type { MinigameContext } from '../types';
 import { ArenaEntity } from '../arena/arenaEntity';
 import { splitScreenLayout } from '../kart-race/cameraHud';
@@ -7,7 +10,7 @@ import { guardLoop } from '../../core/loopGuard';
 import { runSteps } from '../../core/frameClock';
 import { BackroomsMatch, BackroomsBots } from './backroomsRules';
 import { buildBackWorld, createCreature } from './backroomsWorld';
-import { freshMazeSeed, topologySignature } from './maze';
+import { freshMazeSeed, topologySignature,lineOfSight } from './maze';
 import { LEVEL_IDS } from './levels';
 import type { LevelId } from './levels';
 import { BackroomsInteractionInput } from './backroomsInput';
@@ -19,9 +22,9 @@ import type { BackPhoneStatus } from '../../controller/backroomsController';
 /** One authoritative match and one Babylon scene, with a viewport for every player/device. */
 export class BabylonBackroomsGame {
   readonly engine: Engine; readonly scene: Scene; readonly match: BackroomsMatch; readonly ready: Promise<void>;
-  readonly cameras: UniversalCamera[] = []; readonly entities = new Map<string, ArenaEntity>();
-  private bots = new BackroomsBots(); private sound = new BackroomsAudio(); private world: ReturnType<typeof buildBackWorld>;
-  private creatures: ReturnType<typeof createCreature>[] = []; private imitations = new Map<number, ArenaEntity>();
+  readonly cameras: UniversalCamera[] = []; readonly entities = new Map<string, BackActor>();
+  private bots = new BackroomsBots(); private sound = new BackroomsAudio(); private world!: ReturnType<typeof buildBackWorld>;private assets:BackroomsAssets|null=null;private torches:SpotLight[]=[];private lampSerial=new Map<string,{serial:number;cancel:number;input:ReturnType<MinigameContext['input']['get']>}>();
+  private creatures: ReturnType<typeof createCreature>[] = []; private imitations = new Map<number, BackActor>();
   private scares: ReturnType<typeof createCreature>[] = []; private captureKinds = new Map<string, string>();
   private hud: HTMLDivElement; private panels: HTMLElement[] = []; private spectators = new Map<string, number>();
   private panelNodes: {clock:HTMLElement;life:HTMLElement;stamina:HTMLElement;center:HTMLElement;prompt:HTMLElement;scare:HTMLElement;white:HTMLElement}[]=[];
@@ -58,7 +61,7 @@ export class BabylonBackroomsGame {
     const theme = this.match.level.theme;
     this.scene.clearColor = new Color4(...theme.fog, 1); this.scene.fogMode = Scene.FOGMODE_LINEAR;
     this.scene.fogColor = new Color3(...theme.fog); this.scene.fogStart = 9; this.scene.fogEnd = 27;
-    this.world = buildBackWorld(this.scene, this.match.maze, this.match.tasks, this.match.puzzle, ctx.players.length <= 3 && getQualityLevel() !== 'low', theme);
+
     const dot = new DynamicTexture('backDot', 16, this.scene, false); dot.getContext().fillStyle = 'white'; dot.getContext().fillRect(0, 0, 16, 16); dot.update();
     const layout = splitScreenLayout(ctx.players.length);
     this.hud = document.createElement('div'); this.hud.id = 'backrooms-hud';
@@ -71,40 +74,57 @@ export class BabylonBackroomsGame {
       const rect = layout[i], camera = new UniversalCamera(`backCamera:${p.id}`, new Vector3(0, 1.65, 0), this.scene);
       camera.inputs.clear(); camera.viewport = new Viewport(rect.x, rect.y, rect.w, rect.h); camera.minZ = .06; camera.maxZ = 30; camera.fov = 1.04;
       camera.layerMask = 0x0fffffff & ~(1 << (10 + i)); this.cameras.push(camera);
-      const e = new ArenaEntity(this.scene, dot, p.color, p.characterId, p.avatar, p.displayName, null, { context: 'arena', nameplate: false }); e.setSizeMul(.84); this.entities.set(p.id, e);
-      // Character identity/skin stays intact; no arena hand props in this non-combat horror context.
-      e.root.getChildTransformNodes(false).filter(node => node.name === 'prop').forEach(node => node.setEnabled(false));
+      if(i<2){const lamp=new SpotLight(`backTorch:${i}`,Vector3.Zero(),new Vector3(0,0,1),.7,9,this.scene);lamp.intensity=0;lamp.range=10;lamp.diffuse=new Color3(1,.94,.77);this.torches.push(lamp);}
       const panel = document.createElement('div'); panel.className = 'back-view'; panel.style.cssText = `left:${rect.x * 100}%;top:${(1 - rect.y - rect.h) * 100}%;width:${rect.w * 100}%;height:${rect.h * 100}%;--player:${p.color}`;
       panel.innerHTML = '<div class="back-name"><span></span><b class="back-clock"></b></div><div class="back-reticle"></div><div class="back-center"></div><div class="back-prompt"></div><div class="back-bottom"><div class="back-life"></div><div class="back-stamina"><i></i></div></div><div class="back-scare"><div class="back-face"></div></div><div class="back-white"></div>';
       panel.querySelector('.back-name span')!.textContent = `${p.displayName}${p.bot && !p.displayName.startsWith('BOT ') ? ' · BOT' : ''}`;
       const node=(selector:string)=>panel.querySelector<HTMLElement>(selector)!;
       node('.back-prompt').style.whiteSpace='pre-line';node('.back-face').style.display='none';
       this.panelNodes.push({clock:node('.back-clock'),life:node('.back-life'),stamina:node('.back-stamina i'),center:node('.back-center'),prompt:node('.back-prompt'),scare:node('.back-scare'),white:node('.back-white')});
-      const scare = createCreature(this.scene, this.match.monsters[0]?.kind ?? 'stalker'); scare.root.getChildMeshes().forEach(mesh => mesh.layerMask = 1 << (20 + i)); scare.root.setEnabled(false); this.scares.push(scare);
       this.hud.appendChild(panel); this.panels.push(panel);
     });
     const seedLabel = document.createElement('div'); seedLabel.className = 'back-seed'; seedLabel.textContent = `${this.match.level.name} · SEED ${seed}`; this.hud.appendChild(seedLabel); document.body.appendChild(this.hud);
-    this.match.monsters.forEach((m, i) => { const c = createCreature(this.scene, m.kind); this.creatures.push(c);
-      if (m.kind === 'imitator') { const snap = ctx.players[ctx.rng.int(0, ctx.players.length - 1)], entity = new ArenaEntity(this.scene, dot, snap.color, snap.characterId, snap.avatar, snap.displayName, null, { context: 'arena', nameplate: false }); entity.setSizeMul(.84); entity.root.getChildTransformNodes(false).filter(node => node.name === 'prop').forEach(node => node.setEnabled(false)); this.imitations.set(i, entity); }
+    this.scene.onBeforeCameraRenderObservable.add(camera=>{
+     const own=this.cameras.indexOf(camera as UniversalCamera),subject=this.match.players[own];if(!subject)return;
+     this.match.players.forEach(p=>this.entities.get(p.id)?.showLabel(Math.hypot(p.x-camera.position.x,p.z-camera.position.z)<10&&lineOfSight(this.match.maze,camera.position,p)));
+     const close=this.match.players.map((p,i)=>({p,i,d:Math.hypot(p.x-camera.position.x,p.z-camera.position.z)})).filter(o=>o.p.flashlight&&o.p.state==='exploring'&&!o.p.hiding).sort((a,b)=>(a.i===own?-1:b.i===own?1:a.d-b.d)).slice(0,2);
+     // Keep the light count fixed across viewports: toggling lights invalidates every material.
+     this.torches.forEach((lamp,i)=>{const p=close[i]?.p;lamp.intensity=p?1.8:0;if(!p)return;
+      lamp.position.set(p.x,1.58,p.z);lamp.direction.set(Math.sin(p.yaw)*Math.cos(p.pitch),-Math.sin(p.pitch),Math.cos(p.yaw)*Math.cos(p.pitch));});
     });
-    this.world.shadows?.getShadowMap()?.renderList?.push(...this.creatures.flatMap(c => c.root.getChildMeshes()));
     this.scene.activeCameras = this.cameras; applyQuality(this.engine, this.scene); window.addEventListener('resize', this.onResize);
     this.ready = this.initialize();
     this.engine.runRenderLoop(guardLoop(() => { if (this.disposed || this.paused) return; runSteps(this.engine.getDeltaTime(), dt => this.step(dt)); this.ctx.input.update(); this.scene.render(); }));
   }
   private async initialize(): Promise<void> {
+    this.assets=await BackroomsAssets.load(this.scene);if(this.disposed){this.assets.dispose();return;}
+    this.world=buildBackWorld(this.scene,this.match.maze,this.match.tasks,this.match.puzzle,this.ctx.players.length<=3&&getQualityLevel()!=='low',this.match.level.theme,this.assets);
+    for(const snap of this.ctx.players){const actor=this.assets.actor('hazmat',snap.id,snap.color,snap.displayName);this.entities.set(snap.id,actor);}
+    this.match.monsters.forEach((m,i)=>{this.creatures.push(this.creature(m.kind));if(m.kind==='imitator'){const snap=this.ctx.players[i%this.ctx.players.length];this.imitations.set(i,this.assets!.actor('hazmat',`imitation:${i}`,snap.color,'...'));}});
+    this.ctx.players.forEach((p,i)=>{const scare=this.creature(this.match.monsters[0]?.kind??'stalker');scare.root.getChildMeshes().forEach(mesh=>mesh.layerMask=1<<(20+i));scare.root.setEnabled(false);this.scares.push(scare);});
+    if(this.world.shadows){for(const actor of this.entities.values())for(const mesh of actor.meshes)this.world.shadows.addShadowCaster(mesh);for(const c of this.creatures)for(const mesh of c.root.getChildMeshes())this.world.shadows.addShadowCaster(mesh);}
+    this.layersDirty=true;
     await (this.ctx.showControls?.() ?? Promise.resolve()); if (this.disposed) return;
     this.ctx.input.reset(); this.match.cancel(); this.controlsReady = true; this.sound.start();
   }
+  private readLamp(id:string,input:ReturnType<MinigameContext['input']['get']>):number{
+    const serial=input.pressCount('flashlight'),old=this.lampSerial.get(id),base=!old||old.input!==input||old.cancel!==input.cancellationVersion?input.pressCountAtCancellation('flashlight'):old.serial;
+    this.lampSerial.set(id,{serial,cancel:input.cancellationVersion,input});return Math.max(0,serial-base);
+  }
+  private creature(kind:CreatureKind):CreatureVisual{
+    if(!['bacteria','partygoer','smiler'].includes(kind))return createCreature(this.scene,kind);
+    const actor=this.assets!.actor(kind as 'bacteria'|'partygoer'|'smiler',`monster:${kind}:${this.scene.meshes.length}`),head=new TransformNode('importedScarePivot',this.scene),jaw=new Mesh('importedScareJaw',this.scene);head.parent=jaw.parent=actor.root;let previous=0;
+    return {root:actor.root,joints:[],head,jaw,update:(time,chase,watch)=>{const dt=Math.min(.05,Math.max(0,time-previous));previous=time;actor.update(actor.root.position.x,actor.root.position.z,actor.root.rotation.y,watch?0:chase?5:1.5,chase,time,dt,watch);}};
+  }
   setPaused(on: boolean): void { this.paused = on; this.match.cancel(); this.match.players.forEach(p => this.interactions.sync(p.id, this.ctx.input.get(p.id))); this.sound.setPaused(on); this.match.players.forEach(p => this.ctx.input.cancelPlayer(p.id)); }
   step(dt: number): void {
-    if (this.disposed || this.paused) return;
+    if (this.disposed || this.paused||!this.world) return;
     if (this.controlsReady && !this.match.ended) {
       for (const p of this.match.players) {
         const input = this.ctx.input.get(p.id), move = input.axis('move'), look = input.axis('lookStick');
-        const presses = this.interactions.read(p.id, input), held = input.pressed('interact');
+        const presses = this.interactions.read(p.id, input),lampPresses=this.readLamp(p.id,input), held = input.pressed('interact');
         if (['eliminated', 'escaped'].includes(p.state) && presses) this.spectators.set(p.id, (this.spectators.get(p.id) ?? 0) + presses);
-        this.match.command(p.id, p.bot ? this.bots.command(p, this.match) : { x: move.x, z: -move.y, lookX: look.x, lookY: look.y, sprint: input.pressed('sprint'), interact: presses > 0, presses: this.match.intro > 0 ? 0 : presses, held });
+        this.match.command(p.id, p.bot ? this.bots.command(p, this.match) : { x: move.x, z: -move.y, lookX: look.x, lookY: look.y, sprint: input.pressed('sprint'), interact: presses > 0, presses: this.match.intro > 0 ? 0 : presses, held,flashlightPresses:this.match.intro>0?0:lampPresses });
       }
       this.match.advance(dt); this.sound.update(this.match);
     }
@@ -113,8 +133,8 @@ export class BabylonBackroomsGame {
     this.panelElapsed+=dt;const refreshPanels=this.panelElapsed>=.05;if(refreshPanels)this.panelElapsed=0;
     const alive = this.match.players.filter(p => p.state === 'exploring');
     this.match.players.forEach((p, i) => {
-      const entity = this.entities.get(p.id)!; entity.root.setEnabled(p.state === 'exploring' && !p.hiding);
-      if(entity.root.isEnabled())entity.updateVisual({ x: p.x, y: 0, z: p.z, vx: p.dx, vz: p.dz, facing: p.yaw, alive: p.state === 'exploring', falling: false, spin: 0, dashing: false, stunTime: 0, hitFlash: 0 }, dt, this.match.time * 1000);
+      const entity = this.entities.get(p.id)!; entity.root.setEnabled((p.state === 'exploring' && !p.hiding)||(p.state==='captured'&&p.stateTime<.32));
+      if(entity.root.isEnabled())entity.update(p.x,p.z,p.yaw,Math.hypot(p.dx,p.dz),p.running,this.match.time,dt,this.ctx.input.get(p.id).pressed('interact'),p.immunity>0||p.state==='captured');
       let subject = p;
       if (p.state === 'eliminated' || (p.state === 'escaped' && p.stateTime > 2)) subject = alive[(this.spectators.get(p.id) ?? 0) % Math.max(1, alive.length)] ?? p;
       const camera = this.cameras[i], own = this.match.players.indexOf(subject); camera.layerMask = (0x0fffffff & ~(1 << (10 + own)) & ~(0x1f << 20)) | (1 << (20 + i));
@@ -125,7 +145,7 @@ export class BabylonBackroomsGame {
       if (captured) {
         camera.rotation.x = -.04;
         const phase = this.captureKinds.get(p.id) === 'runner' ? -1 : 1;
-        scare.root.position.set(camera.position.x + Math.sin(p.yaw) * .55, camera.position.y - 2.36, camera.position.z + Math.cos(p.yaw) * .55);
+        scare.root.position.set(camera.position.x + Math.sin(p.yaw) * .55, camera.position.y - (this.captureKinds.get(p.id)==='smiler'?1.35:this.captureKinds.get(p.id)==='partygoer'?1.9:this.captureKinds.get(p.id)==='bacteria'?2.1:2.36), camera.position.z + Math.cos(p.yaw) * .55);
         scare.root.rotation.y = p.yaw + Math.PI; scare.head.rotation.z = phase * (.18 + Math.sin(p.stateTime * 41) * .06); scare.jaw.position.y = -.31;
       }
       if(refreshPanels)this.updatePanel(p, subject, i);
@@ -133,11 +153,12 @@ export class BabylonBackroomsGame {
     this.world.doors.forEach((root, i) => { const door = this.match.maze.doors[i], base = door.horizontal ? 0 : Math.PI / 2; root.rotation.y += (base + (door.open ? Math.PI / 2 : 0) - root.rotation.y) * Math.min(1, dt * 9); });
     const key = this.match.key; this.world.key.setEnabled(!!key); if (key) { this.world.key.position.set(key.x, .65 + Math.sin(this.match.time * 2) * .035, key.z); this.world.key.rotation.y = this.match.time * .3; }
     this.world.tasks.forEach((task, i) => { const on = this.match.taskProgress[i] === 1; task.light.emissiveColor.set(on ? .03 : .35, on ? .55 : .02, 0); });
+    const exitMat=this.world.exit.getChildMeshes()[0]?.material as StandardMaterial|undefined;if(exitMat){exitMat.diffuseColor.set(this.match.unlocked?.16:.2,this.match.unlocked?.46:.25,.18);exitMat.emissiveColor.set(0,this.match.unlocked?.12:0,0);}
     this.world.flicker.emissiveColor.setAll(this.match.time % 17 > 16.6 && Math.sin(this.match.time * 57) > .3 ? .08 : .48);
-    this.match.monsters.forEach((m, i) => { const c = this.creatures[i]; c.root.setEnabled(m.revealed); c.root.position.set(m.x, 0, m.z); c.root.rotation.y = m.yaw; c.update(this.match.time, m.state === 'chase', m.state === 'watch' || m.state === 'rest');
-      const imitation = this.imitations.get(i); if (imitation) { imitation.root.setEnabled(!m.revealed); imitation.updateVisual({ x: m.x, y: 0, z: m.z, vx: Math.sin(m.yaw) * 2, vz: Math.cos(m.yaw) * 2, facing: m.yaw, alive: true, falling: false, spin: 0, dashing: false, stunTime: 0, hitFlash: 0 }, dt, this.match.time * 1000); }
+    this.match.monsters.forEach((m, i) => { const c = this.creatures[i]; c.root.setEnabled(m.revealed&&this.match.time>=m.activeAt); c.root.position.set(m.x, 0, m.z); c.root.rotation.y = m.yaw; c.update(this.match.time, m.state === 'chase', m.state === 'watch' || m.state === 'rest');
+      const imitation = this.imitations.get(i); if (imitation) { imitation.root.setEnabled(!m.revealed); imitation.update(m.x,m.z,m.yaw,2,false,this.match.time,dt); }
     });
-    for (const event of this.match.events) { this.sound.event(event, this.match); if (event.type === 'capture' && event.player) { this.captureKinds.set(event.player, event.kind ?? 'stalker'); this.ctx.vibrate(event.player, 160); } }
+    for (const event of this.match.events) { this.sound.event(event, this.match); if (event.type === 'capture' && event.player) {const i=this.match.players.findIndex(p=>p.id===event.player);if(i>=0&&this.captureKinds.get(event.player)!==event.kind){this.scares[i].root.dispose();const scare=this.creature(event.kind??'stalker');scare.root.getChildMeshes().forEach(m=>m.layerMask=1<<(20+i));this.scares[i]=scare;} this.captureKinds.set(event.player, event.kind ?? 'stalker'); this.ctx.vibrate(event.player, 160); } }
     this.match.events = [];
     this.signalTime -= dt; if (this.signalTime <= 0) { this.signalTime = .15; this.match.players.forEach(p => this.sendStatus(p)); }
     if (this.match.ended && !this.submitted && this.controlsReady) { this.endTime -= dt; if (this.endTime <= 0) { this.submitted = true; this.ctx.finish({ results: this.match.results() }); } }
@@ -146,23 +167,23 @@ export class BabylonBackroomsGame {
     const nodes=this.panelNodes[i],m=this.match,prompt=m.prompt(p),spectator=p!==subject;
     const text=(node:HTMLElement,value:string)=>{if(node.textContent!==value)node.textContent=value;};
     text(nodes.clock,`${Math.floor(m.remaining / 60)}:${String(Math.floor(m.remaining % 60)).padStart(2, '0')}`);
-    text(nodes.life,p.state === 'eliminated' ? 'ELIMINATO · SPETTATORE' : p.state === 'escaped' ? `FUGGITO · ${p.escapedAt.toFixed(1)}s` : `${p.lives === 2 ? '● ● · DUE POSSIBILITÀ' : '● ○ · ULTIMA POSSIBILITÀ'}${p.hiding ? ' · NASCOSTO' : p.immunity > 0 ? ' · PROTETTO' : ''}${m.keyHolder === p.id ? ' · CHIAVE' : ''}`);
+    text(nodes.life,p.state === 'eliminated' ? 'ELIMINATO · SPETTATORE' : p.state === 'escaped' ? `FUGGITO · ${p.escapedAt.toFixed(1)}s` : `${p.flashlight?'☼ TORCIA ON':'○ TORCIA OFF'} · ${p.lives === 2 ? '● ● · DUE POSSIBILITÀ' : '● ○ · ULTIMA POSSIBILITÀ'}${p.hiding ? ' · NASCOSTO' : p.immunity > 0 ? ' · PROTETTO' : ''}${m.keyHolder === p.id ? ' · CHIAVE' : ''}`);
     nodes.stamina.style.width=`${p.stamina*100}%`;
-    text(nodes.center,!this.controlsReady ? 'PREPARATEVI' : m.intro > 0 ? `${m.level.name}\n${Math.ceil(m.intro)} · ${m.level.tagline}` : m.ended ? 'IL LABIRINTO HA SCELTO\nFUGGITI → SUPERSTITI → ELIMINATI\nSUPERSTITI: VITE, POI ZONE\nELIMINATI: TEMPO DI SOPRAVVIVENZA' : spectator ? `OSSERVI ${subject.name}\nA/✕ · CAMBIA GIOCATORE` : p.state === 'escaped' ? 'SEI FUORI. RESPIRA.' : p.state === 'eliminated' ? 'NON È RIMASTO NESSUNO' : p.hiding ? 'RESTA IN SILENZIO' : '');
+    text(nodes.center,!this.controlsReady ? 'PREPARATEVI' : m.intro > 0 ? `${m.level.name}\n${Math.ceil(m.intro)} · ${m.level.tagline}` : m.ended ? 'IL LABIRINTO HA SCELTO\nFUGGITI → SUPERSTITI → ELIMINATI\nSUPERSTITI: VITE, POI ZONE\nELIMINATI: TEMPO DI SOPRAVVIVENZA' : spectator ? `OSSERVI ${subject.name}\nA/✕ · CAMBIA GIOCATORE` : p.state === 'escaped' ? 'SEI FUORI. RESPIRA.' : p.state === 'eliminated' ? 'NON È RIMASTO NESSUNO' : p.hiding ? 'RESTA IN SILENZIO' : p.state==='captured'?`RIPRENDI FIATO · ${Math.ceil(Math.max(0,7-p.stateTime))}s`:'');
     const action = prompt ? `A/✕ · ${prompt.text}` : '';
     const message = p.noticeTime > 0 ? p.notice : '';
-    text(nodes.prompt,m.intro > 0 ? 'LS MUOVI · RS GUARDA · LB CORRI · A INTERAGISCI' : [message, action].filter(Boolean).join('\n'));
+    text(nodes.prompt,m.intro > 0 ? 'LS MUOVI · RS GUARDA · LB CORRI · A/✕ INTERAGISCI · Y/△ TORCIA' : [message, action].filter(Boolean).join('\n'));
     const captured = p.state === 'captured' || (p.state === 'eliminated' && p.stateTime < 1.6);
     nodes.scare.style.display = captured && p.stateTime >= .32 ? 'block' : 'none';
     nodes.white.style.opacity = p.state === 'escaped' && p.stateTime < 2 ? String(Math.max(0, .95 - p.stateTime / 2)) : '0';
   }
   private sendStatus(p: BackPlayer): void {
     const status: BackPhoneStatus = { type: 'backroomsStatus', state: p.state, lives: p.lives, available: this.controlsReady && this.match.intro <= 0 && !this.match.ended && p.state === 'exploring', stamina: Math.round(p.stamina * 20) / 20,
-      prompt: this.match.prompt(p)?.text ?? '', notice: p.noticeTime > 0 ? p.notice : '', seconds: Math.ceil(this.match.remaining), key: this.match.keyHolder === p.id };
+      flashlight:p.flashlight,respawnIn:p.state==='captured'?Math.ceil(Math.max(0,7-p.stateTime)):0,prompt: this.match.prompt(p)?.text ?? '', notice: p.noticeTime > 0 ? p.notice : '', seconds: Math.ceil(this.match.remaining), key: this.match.keyHolder === p.id };
     const text = JSON.stringify(status); if (this.signals.get(p.id) !== text) { this.signals.set(p.id, text); this.ctx.signal(p.id, status as unknown as Record<string, unknown>); }
   }
   dispose(): void {
     if (this.disposed) return; this.disposed = true; this.engine.stopRenderLoop(); window.removeEventListener('resize', this.onResize);
-    this.perceptionDebug?.dispose(); this.sound.dispose(); this.entities.forEach(e => e.dispose()); this.imitations.forEach(e => e.dispose()); this.hud.remove(); this.scene.dispose(); this.engine.dispose();
+    this.perceptionDebug?.dispose(); this.sound.dispose(); this.entities.forEach(e => e.dispose()); this.imitations.forEach(e => e.dispose()); this.hud.remove(); this.assets?.dispose();this.scene.dispose(); this.engine.dispose();
   }
 }

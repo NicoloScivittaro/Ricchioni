@@ -1,0 +1,61 @@
+{
+  "errors": [],
+  "http": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/controller.html",
+      "status": 200
+    },
+    {
+      "path": "/backrooms-2/",
+      "status": 200
+    },
+    {
+      "path": "/backrooms-2/verification.json",
+      "status": 200
+    },
+    {
+      "path": "/assets/backrooms/CREDITS.md",
+      "status": 200
+    },
+    {
+      "path": "/assets/backrooms/original-wall-tile.jpg",
+      "status": 200
+    },
+    {
+      "path": "/assets/backrooms/original-carpet-tile.jpg",
+      "status": 200
+    },
+    {
+      "path": "/assets/backrooms/backroomsish_style_environment.glb",
+      "status": 200
+    },
+    {
+      "path": "/assets/backrooms/bacteria_-_kane_pixels_backrooms.glb",
+      "status": 200
+    },
+    {
+      "path": "/assets/backrooms/escape_the_backrooms_hazmat.glb",
+      "status": 200
+    },
+    {
+      "path": "/assets/backrooms/original_backrooms.glb",
+      "status": 200
+    },
+    {
+      "path": "/assets/backrooms/partygoer_from_backrooms_updated.glb",
+      "status": 200
+    },
+    {
+      "path": "/assets/backrooms/smiler_entity3_backrooms.glb",
+      "status": 200
+    }
+  ],
+  "backroomsChunks": [
+    "BabylonBackroomsGame-ChuiyqSn.js"
+  ],
+  "productionCanvas": true
+}

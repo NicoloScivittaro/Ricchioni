@@ -1,0 +1,333 @@
+[
+  {
+    "file": "backroomsish_style_environment.glb",
+    "originalBytes": 36168936,
+    "runtimeBytes": 5070924,
+    "textures": [
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      }
+    ]
+  },
+  {
+    "file": "bacteria_-_kane_pixels_backrooms.glb",
+    "originalBytes": 563952,
+    "runtimeBytes": 563964,
+    "textures": []
+  },
+  {
+    "file": "escape_the_backrooms_hazmat.glb",
+    "originalBytes": 9377944,
+    "runtimeBytes": 3946780,
+    "textures": [
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      }
+    ]
+  },
+  {
+    "file": "original_backrooms.glb",
+    "originalBytes": 4763684,
+    "runtimeBytes": 1307348,
+    "textures": [
+      {
+        "original": [
+          1024,
+          1024
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          1024,
+          1024
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          1024,
+          1024
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      }
+    ]
+  },
+  {
+    "file": "partygoer_from_backrooms_updated.glb",
+    "originalBytes": 10724484,
+    "runtimeBytes": 1145632,
+    "textures": [
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          2048,
+          2048
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          512,
+          512
+        ],
+        "runtime": [
+          512,
+          512
+        ]
+      },
+      {
+        "original": [
+          512,
+          512
+        ],
+        "runtime": [
+          512,
+          512
+        ]
+      },
+      {
+        "original": [
+          512,
+          512
+        ],
+        "runtime": [
+          512,
+          512
+        ]
+      }
+    ]
+  },
+  {
+    "file": "smiler_entity3_backrooms.glb",
+    "originalBytes": 2104032,
+    "runtimeBytes": 1805164,
+    "textures": [
+      {
+        "original": [
+          1024,
+          1024
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      },
+      {
+        "original": [
+          512,
+          512
+        ],
+        "runtime": [
+          512,
+          512
+        ]
+      },
+      {
+        "original": [
+          1024,
+          1024
+        ],
+        "runtime": [
+          1024,
+          1024
+        ]
+      }
+    ]
+  }
+]

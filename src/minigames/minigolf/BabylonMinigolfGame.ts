@@ -1,3 +1,4 @@
+import {buildGolfClub} from './minigolfArt';
 import {selectCourses} from './minigolfCourses';
 import {Engine,Scene,FreeCamera,HemisphericLight,DirectionalLight,ShadowGenerator,Vector3,Color4,Color3,MeshBuilder,StandardMaterial,DynamicTexture,TransformNode} from '@babylonjs/core';
 import {MinigolfCamera} from './minigolfCamera';
@@ -30,11 +31,11 @@ export class BabylonMinigolfGame {
  constructor(canvas:HTMLCanvasElement,private ctx:MinigameContext){
   const opts=engineOptions();this.engine=new Engine(canvas,opts.antialias,opts);this.scene=new Scene(this.engine);
   this.scene.skipPointerMovePicking=true; // Le mosse arrivano da InputManager, non dal picking delle mesh.
-  this.scene.clearColor=new Color4(.56,.78,.89,1);this.scene.ambientColor=new Color3(.12,.12,.12);
+  this.scene.clearColor=new Color4(.73,.84,.88,1);this.scene.ambientColor=new Color3(.035,.045,.045);
   this.cameraRig=new MinigolfCamera(this.scene);this.camera=this.cameraRig.camera;
-  new HemisphericLight('golfSky',new Vector3(0,1,0),this.scene).intensity=.75;
-  const sun=new DirectionalLight('golfSun',new Vector3(-.4,-1,.4),this.scene);sun.position.set(8,25,-12);sun.intensity=.85;
-  const shadows=new ShadowGenerator(1024,sun);shadows.useBlurExponentialShadowMap=true;shadows.blurKernel=8;
+  const sky=new HemisphericLight('golfSky',new Vector3(0,1,0),this.scene);sky.intensity=.68;sky.groundColor=new Color3(.24,.28,.23);sky.diffuse=new Color3(.88,.95,1);
+  const sun=new DirectionalLight('golfSun',new Vector3(-.4,-1,.4),this.scene);sun.position.set(8,25,-12);sun.intensity=1.05;sun.diffuse=new Color3(1,.94,.81);sun.shadowMinZ=1;sun.shadowMaxZ=110;sun.autoCalcShadowZBounds=true;
+  const shadows=new ShadowGenerator(1024,sun);shadows.usePercentageCloserFiltering=true;shadows.filteringQuality=ShadowGenerator.QUALITY_MEDIUM;shadows.bias=.0008;shadows.normalBias=.025;shadows.setDarkness(.2);
   const dot=new DynamicTexture('golfDot',16,this.scene,false),d=dot.getContext();d.fillStyle='#ffffff';d.fillRect(0,0,16,16);dot.update();
   this.match=new MinigolfMatch(ctx.players,()=>ctx.rng.next(),ctx.mapId?selectCourses(()=>ctx.rng.next(),undefined,ctx.mapId):undefined);this.bots=new MinigolfBot(()=>ctx.rng.next());
   this.hud=new MinigolfHud(this.scene,this.match);this.visuals=new MinigolfVisuals(this.scene,this.match.players,shadows);
@@ -46,16 +47,7 @@ export class BabylonMinigolfGame {
    const grip=new TransformNode(`golfClub:${p.id}`,this.scene),shaft=MeshBuilder.CreateCylinder('clubShaft',{height:1.05,diameter:.04},this.scene);shaft.parent=grip;shaft.position.y=-.525;shaft.material=metal;
    const head=MeshBuilder.CreateBox('putterHead',{width:.38,height:.14,depth:.17},this.scene);head.parent=grip;head.position.set(.11,-1.03,0);head.material=metal;this.clubs.set(p.id,grip);
   }
-  const sea=MeshBuilder.CreateGround('sea',{width:140,height:200},this.scene),seaMat=new StandardMaterial('golfSea',this.scene);sea.position.y=-2.8;seaMat.diffuseColor=Color3.FromHexString('#207e9b').toLinearSpace();seaMat.specularColor=Color3.FromHexString('#5fabc3').toLinearSpace();sea.material=seaMat;
-  // Original seaside scenery stays outside the playable geometry.
-  const decor=new StandardMaterial('golfDecor',this.scene);decor.diffuseColor=Color3.FromHexString('#edbe78');
-  for(const x of [-15,15])for(const z of [-36,-24,-12,0,12,24,36]){const pole=MeshBuilder.CreateCylinder('golfLamp',{height:3,diameter:.1},this.scene);pole.position.set(x,-.3,z);pole.material=metal;const top=MeshBuilder.CreateSphere('golfLampGlow',{diameter:.5,segments:8},this.scene);top.position.set(x,1.3,z);top.material=decor;}
-  const leaf=new StandardMaterial('golfPalmLeaf',this.scene);leaf.diffuseColor=Color3.FromHexString('#238c67');
-  for(const x of [-19,19])for(const z of [-32,-10,9,31]){
-   const island=MeshBuilder.CreateCylinder('golfBeach',{diameter:9,height:.4,tessellation:20},this.scene);island.position.set(x,-1.1,z);island.material=decor;
-   const trunk=MeshBuilder.CreateCylinder('golfPalm',{height:5,diameterTop:.18,diameterBottom:.35,tessellation:7},this.scene);trunk.position.set(x,1.5,z);trunk.material=decor;trunk.rotation.z=x>0?.12:-.12;
-   for(let i=0;i<5;i++){const frond=MeshBuilder.CreateSphere('golfFrond',{diameter:1,segments:6},this.scene);frond.scaling.set(2.7,.16,.65);frond.position.set(x,4,z);frond.rotation.y=i*Math.PI/2.5;frond.material=leaf;}
-  }
+  buildGolfClub(this.scene);
   this.syncCourse();applyQuality(this.engine,this.scene);
   this.engine.runRenderLoop(guardLoop(()=>{if(this.disposed||this.paused)return;runSteps(this.engine.getDeltaTime(),dt=>this.step(dt));this.scene.render();}));
   window.addEventListener('resize',this.onResize);

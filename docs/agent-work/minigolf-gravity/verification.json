@@ -1,0 +1,13 @@
+{
+  "typecheck": true,
+  "build": true,
+  "physicsRegression": "passed;40botRounds",
+  "finalGravityAndCupProbes": "core-checks.json",
+  "rendererAndScoring": "browser-checks.json",
+  "screenshots": [
+    "fall.png",
+    "cup.png"
+  ],
+  "compiledChangesPresent": true,
+  "commitPushDeploy": false
+}

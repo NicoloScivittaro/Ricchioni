@@ -1,0 +1,2 @@
+import {launch} from './lib.mjs';const b=await launch();try{const p=await b.newPage();await p.goto('http://localhost:5186/docs/agent-work/minigolf-3/inspect.html');await p.waitForFunction('window.load');for(const k of [3,4,5]){await p.evaluate(k=>window.load('mini_golf_models1-9.glb','Model__v'+k),k);await new Promise(r=>setTimeout(r,500));await p.screenshot({path:'docs/agent-work/minigolf-3/model'+k+'.png'});}}finally{await b.close();}
+

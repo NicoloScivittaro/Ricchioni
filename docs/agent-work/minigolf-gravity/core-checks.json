@@ -1,0 +1,25 @@
+{
+  "gravity": true,
+  "dropBetweenLevels": true,
+  "dissipatedBounce": true,
+  "fallRestartsAtOriginalTee": true,
+  "noCheckpointRestoreAfterFall": true,
+  "oneHoleEvent": true,
+  "noFastCapture": true,
+  "noOutsideAttraction": true,
+  "noCaptureFromAbove": true,
+  "cups": [
+    "lungomare",
+    "scampagnata",
+    "giostra",
+    "flipperone",
+    "traversata",
+    "altalena",
+    "maratona",
+    "inferno",
+    "odissea",
+    "disperati",
+    "dune",
+    "palme"
+  ]
+}

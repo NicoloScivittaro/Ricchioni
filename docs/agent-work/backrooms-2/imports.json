@@ -1,0 +1,2242 @@
+{
+  "escape_the_backrooms_hazmat": {
+    "min": [
+      -1.011899709701538,
+      0.01951885223388672,
+      -0.14501546323299408
+    ],
+    "max": [
+      1.0103024244308472,
+      1.8089208602905273,
+      0.2331543117761612
+    ],
+    "meshes": [
+      {
+        "name": "Object_7",
+        "verts": 38678,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -1.011899709701538,
+            0.01951885223388672,
+            -0.14501546323299408
+          ],
+          [
+            1.0103024244308472,
+            1.8089208602905273,
+            0.2331543117761612
+          ]
+        ]
+      }
+    ],
+    "bones": [
+      [
+        {
+          "name": "GLTF_created_0_rootJoint",
+          "node": "GLTF_created_0_rootJoint"
+        },
+        {
+          "name": "Hips_64",
+          "node": "Hips_64"
+        },
+        {
+          "name": "Spine_53",
+          "node": "Spine_53"
+        },
+        {
+          "name": "Spine1_52",
+          "node": "Spine1_52"
+        },
+        {
+          "name": "Spine2_51",
+          "node": "Spine2_51"
+        },
+        {
+          "name": "Neck_2",
+          "node": "Neck_2"
+        },
+        {
+          "name": "Head_1",
+          "node": "Head_1"
+        },
+        {
+          "name": "HeadTop_End_0",
+          "node": "HeadTop_End_0"
+        },
+        {
+          "name": "LeftShoulder_26",
+          "node": "LeftShoulder_26"
+        },
+        {
+          "name": "LeftArm_25",
+          "node": "LeftArm_25"
+        },
+        {
+          "name": "LeftForeArm_24",
+          "node": "LeftForeArm_24"
+        },
+        {
+          "name": "LeftHand_23",
+          "node": "LeftHand_23"
+        },
+        {
+          "name": "LeftHandThumb1_6",
+          "node": "LeftHandThumb1_6"
+        },
+        {
+          "name": "LeftHandThumb2_5",
+          "node": "LeftHandThumb2_5"
+        },
+        {
+          "name": "LeftHandThumb3_4",
+          "node": "LeftHandThumb3_4"
+        },
+        {
+          "name": "LeftHandThumb4_3",
+          "node": "LeftHandThumb4_3"
+        },
+        {
+          "name": "LeftHandIndex1_10",
+          "node": "LeftHandIndex1_10"
+        },
+        {
+          "name": "LeftHandIndex2_9",
+          "node": "LeftHandIndex2_9"
+        },
+        {
+          "name": "LeftHandIndex3_8",
+          "node": "LeftHandIndex3_8"
+        },
+        {
+          "name": "LeftHandIndex4_7",
+          "node": "LeftHandIndex4_7"
+        },
+        {
+          "name": "LeftHandMiddle1_14",
+          "node": "LeftHandMiddle1_14"
+        },
+        {
+          "name": "LeftHandMiddle2_13",
+          "node": "LeftHandMiddle2_13"
+        },
+        {
+          "name": "LeftHandMiddle3_12",
+          "node": "LeftHandMiddle3_12"
+        },
+        {
+          "name": "LeftHandMiddle4_11",
+          "node": "LeftHandMiddle4_11"
+        },
+        {
+          "name": "LeftHandRing1_18",
+          "node": "LeftHandRing1_18"
+        },
+        {
+          "name": "LeftHandRing2_17",
+          "node": "LeftHandRing2_17"
+        },
+        {
+          "name": "LeftHandRing3_16",
+          "node": "LeftHandRing3_16"
+        },
+        {
+          "name": "LeftHandRing4_15",
+          "node": "LeftHandRing4_15"
+        },
+        {
+          "name": "LeftHandPinky1_22",
+          "node": "LeftHandPinky1_22"
+        },
+        {
+          "name": "LeftHandPinky2_21",
+          "node": "LeftHandPinky2_21"
+        },
+        {
+          "name": "LeftHandPinky3_20",
+          "node": "LeftHandPinky3_20"
+        },
+        {
+          "name": "LeftHandPinky4_19",
+          "node": "LeftHandPinky4_19"
+        },
+        {
+          "name": "RightShoulder_50",
+          "node": "RightShoulder_50"
+        },
+        {
+          "name": "RightArm_49",
+          "node": "RightArm_49"
+        },
+        {
+          "name": "RightForeArm_48",
+          "node": "RightForeArm_48"
+        },
+        {
+          "name": "RightHand_47",
+          "node": "RightHand_47"
+        },
+        {
+          "name": "RightHandThumb1_30",
+          "node": "RightHandThumb1_30"
+        },
+        {
+          "name": "RightHandThumb2_29",
+          "node": "RightHandThumb2_29"
+        },
+        {
+          "name": "RightHandThumb3_28",
+          "node": "RightHandThumb3_28"
+        },
+        {
+          "name": "RightHandThumb4_27",
+          "node": "RightHandThumb4_27"
+        },
+        {
+          "name": "RightHandIndex1_34",
+          "node": "RightHandIndex1_34"
+        },
+        {
+          "name": "RightHandIndex2_33",
+          "node": "RightHandIndex2_33"
+        },
+        {
+          "name": "RightHandIndex3_32",
+          "node": "RightHandIndex3_32"
+        },
+        {
+          "name": "RightHandIndex4_31",
+          "node": "RightHandIndex4_31"
+        },
+        {
+          "name": "RightHandMiddle1_38",
+          "node": "RightHandMiddle1_38"
+        },
+        {
+          "name": "RightHandMiddle2_37",
+          "node": "RightHandMiddle2_37"
+        },
+        {
+          "name": "RightHandMiddle3_36",
+          "node": "RightHandMiddle3_36"
+        },
+        {
+          "name": "RightHandMiddle4_35",
+          "node": "RightHandMiddle4_35"
+        },
+        {
+          "name": "RightHandRing1_42",
+          "node": "RightHandRing1_42"
+        },
+        {
+          "name": "RightHandRing2_41",
+          "node": "RightHandRing2_41"
+        },
+        {
+          "name": "RightHandRing3_40",
+          "node": "RightHandRing3_40"
+        },
+        {
+          "name": "RightHandRing4_39",
+          "node": "RightHandRing4_39"
+        },
+        {
+          "name": "RightHandPinky1_46",
+          "node": "RightHandPinky1_46"
+        },
+        {
+          "name": "RightHandPinky2_45",
+          "node": "RightHandPinky2_45"
+        },
+        {
+          "name": "RightHandPinky3_44",
+          "node": "RightHandPinky3_44"
+        },
+        {
+          "name": "RightHandPinky4_43",
+          "node": "RightHandPinky4_43"
+        },
+        {
+          "name": "LeftUpLeg_58",
+          "node": "LeftUpLeg_58"
+        },
+        {
+          "name": "LeftLeg_57",
+          "node": "LeftLeg_57"
+        },
+        {
+          "name": "LeftFoot_56",
+          "node": "LeftFoot_56"
+        },
+        {
+          "name": "LeftToeBase_55",
+          "node": "LeftToeBase_55"
+        },
+        {
+          "name": "LeftToe_End_54",
+          "node": "LeftToe_End_54"
+        },
+        {
+          "name": "RightUpLeg_63",
+          "node": "RightUpLeg_63"
+        },
+        {
+          "name": "RightLeg_62",
+          "node": "RightLeg_62"
+        },
+        {
+          "name": "RightFoot_61",
+          "node": "RightFoot_61"
+        },
+        {
+          "name": "RightToeBase_60",
+          "node": "RightToeBase_60"
+        },
+        {
+          "name": "RightToe_End_59",
+          "node": "RightToe_End_59"
+        }
+      ]
+    ]
+  },
+  "bacteria_-_kane_pixels_backrooms": {
+    "min": [
+      -2.1406892025772257,
+      -0.1801633525587811,
+      -0.9094795212158817
+    ],
+    "max": [
+      2.2668922403744,
+      5.937723646667462,
+      1.2015210204155435
+    ],
+    "meshes": [
+      {
+        "name": "Head_Head_0",
+        "verts": 2472,
+        "mat": "Head",
+        "bounds": [
+          [
+            -0.4414039623341779,
+            5.033257266384872,
+            -0.47080594414600113
+          ],
+          [
+            0.49925951518667944,
+            5.937723646667462,
+            0.43230418163507167
+          ]
+        ]
+      },
+      {
+        "name": "Neck_Neck_0",
+        "verts": 1308,
+        "mat": "Neck",
+        "bounds": [
+          [
+            -0.14682329119847637,
+            4.9456531543927955,
+            -0.15130246481845916
+          ],
+          [
+            0.14634803457460244,
+            5.554850833302429,
+            0.17783301552710234
+          ]
+        ]
+      },
+      {
+        "name": "CableHead_CableHead_0",
+        "verts": 1230,
+        "mat": "CableHead",
+        "bounds": [
+          [
+            -0.9357089588698635,
+            4.874394636975338,
+            -0.9094795212158817
+          ],
+          [
+            0.9738793406414175,
+            5.660361970404979,
+            0.28695305401514126
+          ]
+        ]
+      },
+      {
+        "name": "Neck2_Neck2_0",
+        "verts": 1538,
+        "mat": "Neck2",
+        "bounds": [
+          [
+            -0.8035359687720529,
+            4.699192660151811,
+            -0.12504584656493328
+          ],
+          [
+            0.5340561692712527,
+            5.034458878037533,
+            0.15948018073237993
+          ]
+        ]
+      },
+      {
+        "name": "LeftArm_LeftArm_0",
+        "verts": 1842,
+        "mat": "LeftArm",
+        "bounds": [
+          [
+            0.4193548560142517,
+            0.7155941172453293,
+            -0.0707152142256442
+          ],
+          [
+            1.7010602951049805,
+            5.004942492995949,
+            0.6424078524569208
+          ]
+        ]
+      },
+      {
+        "name": "Legs_Legs_0",
+        "verts": 2626,
+        "mat": "Legs",
+        "bounds": [
+          [
+            -0.47727408429930307,
+            -0.024066504996169247,
+            -0.07415318921044979
+          ],
+          [
+            0.9697100419073301,
+            2.6036515595415906,
+            0.22066867262221684
+          ]
+        ]
+      },
+      {
+        "name": "RightArm_RightArm_0",
+        "verts": 1840,
+        "mat": "RightArm",
+        "bounds": [
+          [
+            -1.5934050353471865,
+            0.7125821732213264,
+            -0.23754722700991127
+          ],
+          [
+            -0.6706424417111143,
+            5.013303305947497,
+            0.2752350770482268
+          ]
+        ]
+      },
+      {
+        "name": "CableTorso1_CableTorso1_0",
+        "verts": 154,
+        "mat": "CableTorso1",
+        "bounds": [
+          [
+            -1.2750607476096398,
+            2.552417968081741,
+            -0.06149360871351761
+          ],
+          [
+            0.14719485174050376,
+            5.043587799236564,
+            0.33018412129239294
+          ]
+        ]
+      },
+      {
+        "name": "CableTorso2_CableTorso2_0",
+        "verts": 228,
+        "mat": "CableTorso2",
+        "bounds": [
+          [
+            -0.2053186284640298,
+            2.8234093506032494,
+            -0.32457870889685764
+          ],
+          [
+            0.40409407393313324,
+            4.907132669555233,
+            0.434799918013812
+          ]
+        ]
+      },
+      {
+        "name": "CableLeftLeg_CableLeftLeg_0",
+        "verts": 158,
+        "mat": "CableLeftLeg",
+        "bounds": [
+          [
+            0.4124795896261094,
+            0.3483699037127116,
+            -0.18266110885006343
+          ],
+          [
+            1.0088459036571937,
+            2.0506344738704287,
+            0.26267389681147346
+          ]
+        ]
+      },
+      {
+        "name": "CableShoulder_CablesShoulder_0",
+        "verts": 92,
+        "mat": "CablesShoulder",
+        "bounds": [
+          [
+            0.03458107743243122,
+            4.514675931346968,
+            -0.10518435402782406
+          ],
+          [
+            0.7993035590738145,
+            4.8676136739482825,
+            0.07617703472676718
+          ]
+        ]
+      },
+      {
+        "name": "LeftFinger1_LeftFinger1_0",
+        "verts": 270,
+        "mat": "LeftFinger1",
+        "bounds": [
+          [
+            1.655487451101,
+            -0.0904127451475305,
+            0.4929710648629421
+          ],
+          [
+            2.2668922403744,
+            0.7940274008722028,
+            0.8434102478143247
+          ]
+        ]
+      },
+      {
+        "name": "LeftFinger3_LeftFinger3_0",
+        "verts": 270,
+        "mat": "LeftFinger3",
+        "bounds": [
+          [
+            1.550363645039945,
+            -0.18016333160944276,
+            0.6045439622033566
+          ],
+          [
+            1.7280614000428804,
+            0.8416001079286168,
+            1.2015210204155435
+          ]
+        ]
+      },
+      {
+        "name": "CableRightLeg1_CableRightLeg1_0",
+        "verts": 286,
+        "mat": "CableRightLeg1",
+        "bounds": [
+          [
+            -0.6559491097437088,
+            -0.0015798971115277283,
+            -0.3908515371753615
+          ],
+          [
+            -0.11095735656808392,
+            1.493465241978785,
+            0.437744398211078
+          ]
+        ]
+      },
+      {
+        "name": "CableRightLeg2_CableRightLeg2_0",
+        "verts": 160,
+        "mat": "CableRightLeg2",
+        "bounds": [
+          [
+            -0.7546429415151038,
+            1.0265560983022524,
+            -0.32953081068734924
+          ],
+          [
+            -0.3140170985176399,
+            2.1890142642677586,
+            0.35151063856460874
+          ]
+        ]
+      },
+      {
+        "name": "LeftFinger2_LeftFinger2_0",
+        "verts": 270,
+        "mat": "LeftFinger2",
+        "bounds": [
+          [
+            1.6564048008193912,
+            -0.18016329655403587,
+            0.6138422324085139
+          ],
+          [
+            2.068275203272651,
+            0.8416000150577574,
+            1.0762150573011577
+          ]
+        ]
+      },
+      {
+        "name": "RightFinger1_RightFinger1_0",
+        "verts": 270,
+        "mat": "RightFinger1",
+        "bounds": [
+          [
+            -1.7723841467092392,
+            -0.09041273072530792,
+            0.2080666989842881
+          ],
+          [
+            -1.2902108348541739,
+            0.7940274001116283,
+            0.8209449537964861
+          ]
+        ]
+      },
+      {
+        "name": "RightFinger3_RightFinger3_0",
+        "verts": 270,
+        "mat": "RightFinger3",
+        "bounds": [
+          [
+            -2.1406892025772257,
+            -0.1801633525587811,
+            0.15615041517164574
+          ],
+          [
+            -1.5568110610369887,
+            0.8416001048187383,
+            0.39101475565350835
+          ]
+        ]
+      },
+      {
+        "name": "RightFinger2_RightFinger2_0",
+        "verts": 270,
+        "mat": "RightFinger2",
+        "bounds": [
+          [
+            -1.9017808079741334,
+            -0.1801632966007415,
+            0.2110076912619216
+          ],
+          [
+            -1.5563808475552143,
+            0.8416000169813742,
+            0.7302623566750612
+          ]
+        ]
+      },
+      {
+        "name": "CableLeftHand_CableLeftHand_0",
+        "verts": 94,
+        "mat": "CableLeftHand",
+        "bounds": [
+          [
+            1.3455937432265497,
+            1.4802342575316836,
+            0.30183109382763185
+          ],
+          [
+            1.5261195174896525,
+            1.9004901098432734,
+            0.5208491443047791
+          ]
+        ]
+      }
+    ],
+    "bones": []
+  },
+  "partygoer_from_backrooms_updated": {
+    "min": [
+      -0.7898037469211948,
+      -7.928822842459824e-7,
+      -0.24224213071366907
+    ],
+    "max": [
+      0.617058969056778,
+      2.2102231552492366,
+      0.19227740811693844
+    ],
+    "meshes": [
+      {
+        "name": "Object_75",
+        "verts": 4244,
+        "mat": "Partygoer_LP.003",
+        "bounds": [
+          [
+            -0.6170588164688908,
+            -7.928822842459824e-7,
+            -0.24224213071366907
+          ],
+          [
+            0.617058969056778,
+            2.1666128369023077,
+            0.19227740811693844
+          ]
+        ]
+      },
+      {
+        "name": "Baloon red_Baloon red_0",
+        "verts": 367,
+        "mat": "Baloon_red",
+        "bounds": [
+          [
+            -0.7898037469211948,
+            1.1210289746643556,
+            -0.11929878138212785
+          ],
+          [
+            -0.48779594831765627,
+            2.2102231552492366,
+            0.16139415823970557
+          ]
+        ]
+      }
+    ],
+    "bones": [
+      [
+        {
+          "name": "_rootJoint",
+          "node": "_rootJoint"
+        },
+        {
+          "name": "RL_BoneRoot_01",
+          "node": "RL_BoneRoot_01"
+        },
+        {
+          "name": "CC_Base_Hip_02",
+          "node": "CC_Base_Hip_02"
+        },
+        {
+          "name": "CC_Base_Pelvis_03",
+          "node": "CC_Base_Pelvis_03"
+        },
+        {
+          "name": "CC_Base_L_Thigh_04",
+          "node": "CC_Base_L_Thigh_04"
+        },
+        {
+          "name": "CC_Base_L_Calf_05",
+          "node": "CC_Base_L_Calf_05"
+        },
+        {
+          "name": "CC_Base_L_Foot_06",
+          "node": "CC_Base_L_Foot_06"
+        },
+        {
+          "name": "CC_Base_L_ToeBase_07",
+          "node": "CC_Base_L_ToeBase_07"
+        },
+        {
+          "name": "CC_Base_L_ToeBase_end_050",
+          "node": "CC_Base_L_ToeBase_end_050"
+        },
+        {
+          "name": "CC_Base_L_CalfTwist01_08",
+          "node": "CC_Base_L_CalfTwist01_08"
+        },
+        {
+          "name": "CC_Base_L_CalfTwist02_09",
+          "node": "CC_Base_L_CalfTwist02_09"
+        },
+        {
+          "name": "CC_Base_L_CalfTwist02_end_051",
+          "node": "CC_Base_L_CalfTwist02_end_051"
+        },
+        {
+          "name": "CC_Base_L_KneeShareBone_010",
+          "node": "CC_Base_L_KneeShareBone_010"
+        },
+        {
+          "name": "CC_Base_L_KneeShareBone_end_052",
+          "node": "CC_Base_L_KneeShareBone_end_052"
+        },
+        {
+          "name": "CC_Base_L_ThighTwist01_011",
+          "node": "CC_Base_L_ThighTwist01_011"
+        },
+        {
+          "name": "CC_Base_L_ThighTwist02_012",
+          "node": "CC_Base_L_ThighTwist02_012"
+        },
+        {
+          "name": "CC_Base_L_ThighTwist02_end_053",
+          "node": "CC_Base_L_ThighTwist02_end_053"
+        },
+        {
+          "name": "CC_Base_R_Thigh_013",
+          "node": "CC_Base_R_Thigh_013"
+        },
+        {
+          "name": "CC_Base_R_ThighTwist01_014",
+          "node": "CC_Base_R_ThighTwist01_014"
+        },
+        {
+          "name": "CC_Base_R_ThighTwist02_015",
+          "node": "CC_Base_R_ThighTwist02_015"
+        },
+        {
+          "name": "CC_Base_R_ThighTwist02_end_054",
+          "node": "CC_Base_R_ThighTwist02_end_054"
+        },
+        {
+          "name": "CC_Base_R_Calf_016",
+          "node": "CC_Base_R_Calf_016"
+        },
+        {
+          "name": "CC_Base_R_Foot_017",
+          "node": "CC_Base_R_Foot_017"
+        },
+        {
+          "name": "CC_Base_R_ToeBase_018",
+          "node": "CC_Base_R_ToeBase_018"
+        },
+        {
+          "name": "CC_Base_R_ToeBase_end_00",
+          "node": "CC_Base_R_ToeBase_end_00"
+        },
+        {
+          "name": "CC_Base_R_KneeShareBone_019",
+          "node": "CC_Base_R_KneeShareBone_019"
+        },
+        {
+          "name": "CC_Base_R_KneeShareBone_end_055",
+          "node": "CC_Base_R_KneeShareBone_end_055"
+        },
+        {
+          "name": "CC_Base_R_CalfTwist01_020",
+          "node": "CC_Base_R_CalfTwist01_020"
+        },
+        {
+          "name": "CC_Base_R_CalfTwist02_021",
+          "node": "CC_Base_R_CalfTwist02_021"
+        },
+        {
+          "name": "CC_Base_R_CalfTwist02_end_056",
+          "node": "CC_Base_R_CalfTwist02_end_056"
+        },
+        {
+          "name": "CC_Base_Waist_022",
+          "node": "CC_Base_Waist_022"
+        },
+        {
+          "name": "CC_Base_Spine01_023",
+          "node": "CC_Base_Spine01_023"
+        },
+        {
+          "name": "CC_Base_Spine02_024",
+          "node": "CC_Base_Spine02_024"
+        },
+        {
+          "name": "CC_Base_NeckTwist01_025",
+          "node": "CC_Base_NeckTwist01_025"
+        },
+        {
+          "name": "CC_Base_NeckTwist02_026",
+          "node": "CC_Base_NeckTwist02_026"
+        },
+        {
+          "name": "CC_Base_Head_027",
+          "node": "CC_Base_Head_027"
+        },
+        {
+          "name": "CC_Base_Head_end_057",
+          "node": "CC_Base_Head_end_057"
+        },
+        {
+          "name": "CC_Base_L_Clavicle_028",
+          "node": "CC_Base_L_Clavicle_028"
+        },
+        {
+          "name": "CC_Base_L_Upperarm_029",
+          "node": "CC_Base_L_Upperarm_029"
+        },
+        {
+          "name": "CC_Base_L_Forearm_030",
+          "node": "CC_Base_L_Forearm_030"
+        },
+        {
+          "name": "CC_Base_L_ForearmTwist01_031",
+          "node": "CC_Base_L_ForearmTwist01_031"
+        },
+        {
+          "name": "CC_Base_L_ForearmTwist02_032",
+          "node": "CC_Base_L_ForearmTwist02_032"
+        },
+        {
+          "name": "CC_Base_L_ForearmTwist02_end_058",
+          "node": "CC_Base_L_ForearmTwist02_end_058"
+        },
+        {
+          "name": "CC_Base_L_ElbowShareBone_033",
+          "node": "CC_Base_L_ElbowShareBone_033"
+        },
+        {
+          "name": "CC_Base_L_ElbowShareBone_end_059",
+          "node": "CC_Base_L_ElbowShareBone_end_059"
+        },
+        {
+          "name": "CC_Base_L_Hand_034",
+          "node": "CC_Base_L_Hand_034"
+        },
+        {
+          "name": "CC_Base_L_Hand_end_060",
+          "node": "CC_Base_L_Hand_end_060"
+        },
+        {
+          "name": "CC_Base_L_UpperarmTwist01_035",
+          "node": "CC_Base_L_UpperarmTwist01_035"
+        },
+        {
+          "name": "CC_Base_L_UpperarmTwist02_036",
+          "node": "CC_Base_L_UpperarmTwist02_036"
+        },
+        {
+          "name": "CC_Base_L_UpperarmTwist02_end_061",
+          "node": "CC_Base_L_UpperarmTwist02_end_061"
+        },
+        {
+          "name": "CC_Base_R_Clavicle_037",
+          "node": "CC_Base_R_Clavicle_037"
+        },
+        {
+          "name": "CC_Base_R_Upperarm_038",
+          "node": "CC_Base_R_Upperarm_038"
+        },
+        {
+          "name": "CC_Base_R_UpperarmTwist01_039",
+          "node": "CC_Base_R_UpperarmTwist01_039"
+        },
+        {
+          "name": "CC_Base_R_UpperarmTwist02_040",
+          "node": "CC_Base_R_UpperarmTwist02_040"
+        },
+        {
+          "name": "CC_Base_R_UpperarmTwist02_end_062",
+          "node": "CC_Base_R_UpperarmTwist02_end_062"
+        },
+        {
+          "name": "CC_Base_R_Forearm_041",
+          "node": "CC_Base_R_Forearm_041"
+        },
+        {
+          "name": "CC_Base_R_ForearmTwist01_042",
+          "node": "CC_Base_R_ForearmTwist01_042"
+        },
+        {
+          "name": "CC_Base_R_ForearmTwist02_043",
+          "node": "CC_Base_R_ForearmTwist02_043"
+        },
+        {
+          "name": "CC_Base_R_ForearmTwist02_end_063",
+          "node": "CC_Base_R_ForearmTwist02_end_063"
+        },
+        {
+          "name": "CC_Base_R_ElbowShareBone_044",
+          "node": "CC_Base_R_ElbowShareBone_044"
+        },
+        {
+          "name": "CC_Base_R_ElbowShareBone_end_064",
+          "node": "CC_Base_R_ElbowShareBone_end_064"
+        },
+        {
+          "name": "CC_Base_R_Hand_045",
+          "node": "CC_Base_R_Hand_045"
+        },
+        {
+          "name": "CC_Base_R_Hand_end_065",
+          "node": "CC_Base_R_Hand_end_065"
+        },
+        {
+          "name": "CC_Base_R_RibsTwist_046",
+          "node": "CC_Base_R_RibsTwist_046"
+        },
+        {
+          "name": "CC_Base_R_Breast_047",
+          "node": "CC_Base_R_Breast_047"
+        },
+        {
+          "name": "CC_Base_R_Breast_end_066",
+          "node": "CC_Base_R_Breast_end_066"
+        },
+        {
+          "name": "CC_Base_L_RibsTwist_048",
+          "node": "CC_Base_L_RibsTwist_048"
+        },
+        {
+          "name": "CC_Base_L_Breast_049",
+          "node": "CC_Base_L_Breast_049"
+        },
+        {
+          "name": "CC_Base_L_Breast_end_067",
+          "node": "CC_Base_L_Breast_end_067"
+        }
+      ]
+    ]
+  },
+  "smiler_entity3_backrooms": {
+    "min": [
+      -1.0821270984705933,
+      0.4369862636338375,
+      -1.3500011129366474
+    ],
+    "max": [
+      0.33158521595691326,
+      2.0200425336203978,
+      0.08720559287296936
+    ],
+    "meshes": [
+      {
+        "name": "Object_7",
+        "verts": 798,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -0.5638859131282992,
+            1.1891553255483132,
+            -0.6497569150798754
+          ],
+          [
+            -0.0905728926400684,
+            1.8850510999825332,
+            0.0556860329014377
+          ]
+        ]
+      },
+      {
+        "name": "Object_9",
+        "verts": 682,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -0.5805187404765277,
+            1.5410456266473744,
+            -0.5290284109416517
+          ],
+          [
+            -0.19364708535231756,
+            2.0200425336203978,
+            -0.06735322251613773
+          ]
+        ]
+      },
+      {
+        "name": "Object_11",
+        "verts": 7695,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -0.6422170255199156,
+            0.7459307999794449,
+            -1.2884380845385435
+          ],
+          [
+            -0.08212792773509392,
+            1.897612116342195,
+            -0.10545682287741798
+          ]
+        ]
+      },
+      {
+        "name": "Object_13",
+        "verts": 407,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -1.0230608078759929,
+            1.0245618956595965,
+            -0.6563876645457967
+          ],
+          [
+            -0.5674458047234054,
+            1.3644546636042882,
+            -0.2654088471913063
+          ]
+        ]
+      },
+      {
+        "name": "Object_15",
+        "verts": 150,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -0.6266055641155077,
+            1.1490451852350976,
+            -0.7420258113038294
+          ],
+          [
+            -0.20773903556665196,
+            1.5953244459216336,
+            -0.24077873469830635
+          ]
+        ]
+      },
+      {
+        "name": "Object_17",
+        "verts": 422,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -1.0168232419098544,
+            0.43784949128031414,
+            -0.8434614398322875
+          ],
+          [
+            -0.840429104416458,
+            1.400314467053839,
+            0.06161084812094941
+          ]
+        ]
+      },
+      {
+        "name": "Object_19",
+        "verts": 407,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -1.0821270984705933,
+            1.0466835371441956,
+            -0.7839236493931363
+          ],
+          [
+            -0.5795938169539561,
+            1.3341399059352277,
+            -0.5029563014801042
+          ]
+        ]
+      },
+      {
+        "name": "Object_21",
+        "verts": 3059,
+        "mat": "Material.002",
+        "bounds": [
+          [
+            -0.32506207405258003,
+            1.4322233785224583,
+            -0.23916086837932937
+          ],
+          [
+            -0.08334738763535299,
+            1.710488884954664,
+            0.04109929057039707
+          ]
+        ]
+      },
+      {
+        "name": "Object_23",
+        "verts": 422,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -1.0701537708180453,
+            0.4369862636338375,
+            -1.109029841910914
+          ],
+          [
+            -0.894903023289757,
+            1.3970428907094714,
+            -0.2004523118994399
+          ]
+        ]
+      },
+      {
+        "name": "Object_25",
+        "verts": 407,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -0.9864317105575182,
+            0.9776866933739944,
+            -1.015570597783236
+          ],
+          [
+            -0.5330018568894879,
+            1.3890551249109393,
+            -0.6305607280457828
+          ]
+        ]
+      },
+      {
+        "name": "Object_27",
+        "verts": 422,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -0.9735517861840748,
+            0.43811066097755,
+            -1.3500011129366474
+          ],
+          [
+            -0.7987835671049837,
+            1.4010962846986121,
+            -0.4343466717111255
+          ]
+        ]
+      },
+      {
+        "name": "Object_29",
+        "verts": 407,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -0.18309611996933484,
+            1.0245619654772646,
+            -0.6307930197104881
+          ],
+          [
+            0.2725187988251321,
+            1.3644546607053982,
+            -0.23981433491289295
+          ]
+        ]
+      },
+      {
+        "name": "Object_31",
+        "verts": 422,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            0.08988726408183823,
+            0.43784953827554673,
+            -0.8178668612111935
+          ],
+          [
+            0.26628144375429486,
+            1.4003147291402733,
+            0.08720559287296936
+          ]
+        ]
+      },
+      {
+        "name": "Object_33",
+        "verts": 407,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -0.17094806555972397,
+            1.0466834548979378,
+            -0.7583289307789567
+          ],
+          [
+            0.33158521595691326,
+            1.334139670562731,
+            -0.4773617523122553
+          ]
+        ]
+      },
+      {
+        "name": "Object_35",
+        "verts": 422,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            0.14436168910386016,
+            0.4369863601205024,
+            -1.0834352384069916
+          ],
+          [
+            0.31961252099026893,
+            1.3970427835161523,
+            -0.17485787127527175
+          ]
+        ]
+      },
+      {
+        "name": "Object_37",
+        "verts": 407,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            -0.21753994126607168,
+            0.9776868808066932,
+            -0.9899758890837713
+          ],
+          [
+            0.23588970150665745,
+            1.3890553478869627,
+            -0.6049660310632596
+          ]
+        ]
+      },
+      {
+        "name": "Object_39",
+        "verts": 422,
+        "mat": "Material.001",
+        "bounds": [
+          [
+            0.04824155805412289,
+            0.43811054927804705,
+            -1.3244061246296144
+          ],
+          [
+            0.22300969277509353,
+            1.4010962034825507,
+            -0.40875173588111835
+          ]
+        ]
+      },
+      {
+        "name": "Object_41",
+        "verts": 1654,
+        "mat": "Material.008",
+        "bounds": [
+          [
+            -0.33288241452677614,
+            1.5166183533675692,
+            -0.2599167605656447
+          ],
+          [
+            -0.1119721646912275,
+            1.7661467380421882,
+            -0.0025493896475587974
+          ]
+        ]
+      }
+    ],
+    "bones": [
+      [
+        {
+          "name": "GLTF_created_0_rootJoint",
+          "node": "GLTF_created_0_rootJoint"
+        },
+        {
+          "name": "Bone_4",
+          "node": "Bone_4"
+        },
+        {
+          "name": "Bone.001_3",
+          "node": "Bone.001_3"
+        },
+        {
+          "name": "Bone.002_2",
+          "node": "Bone.002_2"
+        },
+        {
+          "name": "Bone.003_7",
+          "node": "Bone.003_7"
+        },
+        {
+          "name": "Bone.004_6",
+          "node": "Bone.004_6"
+        },
+        {
+          "name": "Bone.005_5",
+          "node": "Bone.005_5"
+        },
+        {
+          "name": "Bone.006_10",
+          "node": "Bone.006_10"
+        },
+        {
+          "name": "Bone.007_9",
+          "node": "Bone.007_9"
+        },
+        {
+          "name": "Bone.008_8",
+          "node": "Bone.008_8"
+        },
+        {
+          "name": "Bone.009_13",
+          "node": "Bone.009_13"
+        },
+        {
+          "name": "Bone.010_12",
+          "node": "Bone.010_12"
+        },
+        {
+          "name": "Bone.011_11",
+          "node": "Bone.011_11"
+        },
+        {
+          "name": "Bone.012_16",
+          "node": "Bone.012_16"
+        },
+        {
+          "name": "Bone.013_15",
+          "node": "Bone.013_15"
+        },
+        {
+          "name": "Bone.014_14",
+          "node": "Bone.014_14"
+        },
+        {
+          "name": "Bone.015_19",
+          "node": "Bone.015_19"
+        },
+        {
+          "name": "Bone.016_18",
+          "node": "Bone.016_18"
+        },
+        {
+          "name": "Bone.017_17",
+          "node": "Bone.017_17"
+        },
+        {
+          "name": "Bone.018_22",
+          "node": "Bone.018_22"
+        },
+        {
+          "name": "Bone.019_21",
+          "node": "Bone.019_21"
+        },
+        {
+          "name": "Bone.020_20",
+          "node": "Bone.020_20"
+        }
+      ]
+    ]
+  },
+  "original_backrooms": {
+    "min": [
+      -14.002989292144775,
+      -0.015339970588684082,
+      -13.63227105140686
+    ],
+    "max": [
+      13.353656768798828,
+      2.858652651309967,
+      14.992223227684546
+    ],
+    "meshes": [
+      {
+        "name": "Object_4",
+        "verts": 754,
+        "mat": "Vent",
+        "bounds": [
+          [
+            -11.709542274475098,
+            2.6718765441328287,
+            -9.051749467849731
+          ],
+          [
+            11.04624629020691,
+            2.7214485723525286,
+            4.583621859550476
+          ]
+        ]
+      },
+      {
+        "name": "Object_6",
+        "verts": 1634,
+        "mat": "Piece1",
+        "bounds": [
+          [
+            1.817801261125167,
+            -0.015339970588684082,
+            4.841908991729467
+          ],
+          [
+            7.036566819580627,
+            2.8399360477924347,
+            14.992223227684546
+          ]
+        ]
+      },
+      {
+        "name": "Object_8",
+        "verts": 64,
+        "mat": "PlugSocket",
+        "bounds": [
+          [
+            8.958995475820336,
+            0.3161153495311737,
+            1.818669516303359
+          ],
+          [
+            8.966142092665818,
+            0.4291406571865082,
+            1.897508581755008
+          ]
+        ]
+      },
+      {
+        "name": "Object_9",
+        "verts": 4048,
+        "mat": "GreenSkirting",
+        "bounds": [
+          [
+            -12.748527436511113,
+            0.2332783043384552,
+            -12.494380112782911
+          ],
+          [
+            12.55963734746583,
+            2.858652651309967,
+            12.759793009470613
+          ]
+        ]
+      },
+      {
+        "name": "Object_10",
+        "verts": 398,
+        "mat": "BR_2",
+        "bounds": [
+          [
+            -12.75995127927096,
+            -0.003336489200592041,
+            -12.559795000749386
+          ],
+          [
+            12.490112039521208,
+            2.8399360477924347,
+            12.49843379757677
+          ]
+        ]
+      },
+      {
+        "name": "Object_11",
+        "verts": 68,
+        "mat": "StripeWallpaper",
+        "bounds": [
+          [
+            -12.736132051447857,
+            -0.003336489200592041,
+            -12.48197994399694
+          ],
+          [
+            12.486532184555998,
+            2.7423504292964935,
+            12.49843379155334
+          ]
+        ]
+      },
+      {
+        "name": "Object_12",
+        "verts": 44,
+        "mat": "Dot_Wallpaper",
+        "bounds": [
+          [
+            8.851027663718781,
+            -0.003336489200592041,
+            -9.80255178504935
+          ],
+          [
+            8.955910981148488,
+            2.712650775909424,
+            -0.3576539876452878
+          ]
+        ]
+      },
+      {
+        "name": "Object_14",
+        "verts": 4,
+        "mat": "NewCarpet",
+        "bounds": [
+          [
+            -12.809061147272587,
+            0.008085817098617554,
+            -13.478139996528625
+          ],
+          [
+            12.87498440593481,
+            0.008085817098617554,
+            13.4535231590271
+          ]
+        ]
+      },
+      {
+        "name": "Object_16",
+        "verts": 17208,
+        "mat": "Ceiling_Grid",
+        "bounds": [
+          [
+            -14.002989292144775,
+            2.6978602805174887,
+            -13.63227105140686
+          ],
+          [
+            13.353656768798828,
+            2.7165587744675577,
+            13.724375009536743
+          ]
+        ]
+      },
+      {
+        "name": "Object_17",
+        "verts": 100,
+        "mat": "Ceiling_Lights",
+        "bounds": [
+          [
+            -9.443548679351807,
+            2.707209527492523,
+            -6.793108940124512
+          ],
+          [
+            12.213796615600586,
+            2.707209527492523,
+            9.164934396743774
+          ]
+        ]
+      },
+      {
+        "name": "Object_19",
+        "verts": 676,
+        "mat": "CeilingTile",
+        "bounds": [
+          [
+            -14.002989292144775,
+            2.707209527492523,
+            -13.63227105140686
+          ],
+          [
+            13.353656768798828,
+            2.707209527492523,
+            13.724375009536743
+          ]
+        ]
+      }
+    ],
+    "bones": []
+  },
+  "backroomsish_style_environment": {
+    "min": [
+      -12.439673938612714,
+      -0.008820442179185761,
+      -12.52765634666207
+    ],
+    "max": [
+      12.777998552976442,
+      2.6853660331831373,
+      12.509283902874532
+    ],
+    "meshes": [
+      {
+        "name": "Object_4",
+        "verts": 5928,
+        "mat": "CeilingBars",
+        "bounds": [
+          [
+            -12.239311877275043,
+            2.623869608302094,
+            -12.239311877275043
+          ],
+          [
+            12.239311877275043,
+            2.647636224370025,
+            12.239311877275043
+          ]
+        ]
+      },
+      {
+        "name": "Object_6",
+        "verts": 120,
+        "mat": "Light",
+        "bounds": [
+          [
+            -10.432330097996669,
+            2.6041750318474572,
+            -10.315765508441928
+          ],
+          [
+            10.432330097996669,
+            2.6041750318474572,
+            8.569484187209753
+          ]
+        ]
+      },
+      {
+        "name": "Object_7",
+        "verts": 840,
+        "mat": "LightRim",
+        "bounds": [
+          [
+            -10.505869393040996,
+            2.6041750318474572,
+            -10.389304803486255
+          ],
+          [
+            10.505869393040996,
+            2.6853660331831373,
+            8.64302348225408
+          ]
+        ]
+      },
+      {
+        "name": "Object_9",
+        "verts": 24,
+        "mat": "Wall",
+        "bounds": [
+          [
+            12.239290849538524,
+            -3.274946891451691e-8,
+            -12.116152170622456
+          ],
+          [
+            12.493697508005422,
+            2.637325081196124,
+            12.355757716620076
+          ]
+        ]
+      },
+      {
+        "name": "Object_11",
+        "verts": 66,
+        "mat": "Wall",
+        "bounds": [
+          [
+            5.947910342252072,
+            -3.274946891451691e-8,
+            -12.11161331164044
+          ],
+          [
+            10.380182415584514,
+            2.637325081196124,
+            -4.210276206993399
+          ]
+        ]
+      },
+      {
+        "name": "Object_13",
+        "verts": 24,
+        "mat": "Wall",
+        "bounds": [
+          [
+            -12.10541527303468,
+            -3.274946891451691e-8,
+            12.228554384084418
+          ],
+          [
+            12.366494614207852,
+            2.637325081196124,
+            12.482961042551324
+          ]
+        ]
+      },
+      {
+        "name": "Object_15",
+        "verts": 24,
+        "mat": "Wall",
+        "bounds": [
+          [
+            -12.232620753103522,
+            8.645982063626434e-8,
+            -12.116152212070565
+          ],
+          [
+            -11.978206120675775,
+            2.6373252004054137,
+            12.355757758068185
+          ]
+        ]
+      },
+      {
+        "name": "Object_17",
+        "verts": 24,
+        "mat": "Wall",
+        "bounds": [
+          [
+            -12.105416797683088,
+            8.645982063626434e-8,
+            -12.243368003127086
+          ],
+          [
+            12.366493218228666,
+            2.6373252004054137,
+            -11.988948967698109
+          ]
+        ]
+      },
+      {
+        "name": "Object_19",
+        "verts": 24,
+        "mat": "Wall",
+        "bounds": [
+          [
+            2.328741208883006,
+            -3.274946891451691e-8,
+            -10.47151563884995
+          ],
+          [
+            2.583147867349904,
+            2.637325081196124,
+            -0.02806276374258232
+          ]
+        ]
+      },
+      {
+        "name": "Object_21",
+        "verts": 24,
+        "mat": "Wall",
+        "bounds": [
+          [
+            2.328741208883006,
+            -3.274946891451691e-8,
+            2.0188170921084065
+          ],
+          [
+            2.583147867349904,
+            2.637325081196124,
+            10.50890431292089
+          ]
+        ]
+      },
+      {
+        "name": "Object_23",
+        "verts": 44,
+        "mat": "Wall",
+        "bounds": [
+          [
+            -7.443781064824474,
+            -3.274946891451691e-8,
+            -10.462821190832813
+          ],
+          [
+            -5.6135831384417685,
+            2.637325081196124,
+            -0.7194677964753993
+          ]
+        ]
+      },
+      {
+        "name": "Object_25",
+        "verts": 24,
+        "mat": "Wall",
+        "bounds": [
+          [
+            -7.443781240610402,
+            -3.274946891451691e-8,
+            2.0706248837090584
+          ],
+          [
+            -7.189374582143504,
+            2.637325081196124,
+            12.28780311769475
+          ]
+        ]
+      },
+      {
+        "name": "Object_27",
+        "verts": 24,
+        "mat": "Wall",
+        "bounds": [
+          [
+            2.4460293468505085,
+            -3.274946891451691e-8,
+            5.905844754915543
+          ],
+          [
+            9.098414370519151,
+            2.637325081196124,
+            6.160251550931625
+          ]
+        ]
+      },
+      {
+        "name": "Object_29",
+        "verts": 24,
+        "mat": "Wall",
+        "bounds": [
+          [
+            2.4460293468505085,
+            -3.274946891451691e-8,
+            -1.0983436634728239
+          ],
+          [
+            9.098414370519151,
+            2.637325081196124,
+            -0.8439368674567415
+          ]
+        ]
+      },
+      {
+        "name": "Object_31",
+        "verts": 24,
+        "mat": "Wall",
+        "bounds": [
+          [
+            -4.193807874924147,
+            -3.274946891451691e-8,
+            5.905844709065815
+          ],
+          [
+            0.6991892206730483,
+            2.637325081196124,
+            6.160251596781353
+          ]
+        ]
+      },
+      {
+        "name": "Object_33",
+        "verts": 24,
+        "mat": "Wall",
+        "bounds": [
+          [
+            -2.2166751462500507,
+            -3.274946891451691e-8,
+            -7.753743526091398
+          ],
+          [
+            -1.9622684877831524,
+            2.637325081196124,
+            9.321067687620939
+          ]
+        ]
+      },
+      {
+        "name": "Object_35",
+        "verts": 80,
+        "mat": "Wall",
+        "bounds": [
+          [
+            -12.175739261038444,
+            3.580737484298879e-8,
+            9.320548543581166
+          ],
+          [
+            -7.408482475717662,
+            2.637325149752968,
+            9.57495553445859
+          ]
+        ]
+      },
+      {
+        "name": "Object_37",
+        "verts": 46656,
+        "mat": "Floor",
+        "bounds": [
+          [
+            -12.439673938612714,
+            0,
+            -12.459531118125483
+          ],
+          [
+            12.46053842774279,
+            0,
+            12.440681248230021
+          ]
+        ]
+      },
+      {
+        "name": "Object_39",
+        "verts": 11664,
+        "mat": "Ceiling",
+        "bounds": [
+          [
+            -12.105415940388639,
+            2.637328385399092,
+            -12.52765634666207
+          ],
+          [
+            12.777998552976442,
+            2.637336493445167,
+            12.355759613894293
+          ]
+        ]
+      },
+      {
+        "name": "Object_41",
+        "verts": 16,
+        "mat": "concrete",
+        "bounds": [
+          [
+            -0.18990790059658202,
+            0.18342859342578066,
+            -4.5901114936718574
+          ],
+          [
+            0.2790151905068985,
+            2.5243514494338655,
+            -4.121188402568377
+          ]
+        ]
+      },
+      {
+        "name": "Object_42",
+        "verts": 152,
+        "mat": "ConcreteDark",
+        "bounds": [
+          [
+            -0.21245670491613033,
+            -0.00882041466935135,
+            -4.612660297991406
+          ],
+          [
+            0.3015639948264468,
+            2.650205100236832,
+            -4.098639598248829
+          ]
+        ]
+      },
+      {
+        "name": "Object_44",
+        "verts": 16,
+        "mat": "concrete",
+        "bounds": [
+          [
+            -0.18990790059658202,
+            0.18342859342578066,
+            2.47666955033449
+          ],
+          [
+            0.2790151905068985,
+            2.5243514494338655,
+            2.9455926414379707
+          ]
+        ]
+      },
+      {
+        "name": "Object_45",
+        "verts": 152,
+        "mat": "ConcreteDark",
+        "bounds": [
+          [
+            -0.21245670491613033,
+            -0.00882041466935135,
+            2.454120746014942
+          ],
+          [
+            0.3015639948264468,
+            2.650205100236832,
+            2.968141445757519
+          ]
+        ]
+      },
+      {
+        "name": "Object_47",
+        "verts": 16,
+        "mat": "concrete",
+        "bounds": [
+          [
+            -10.033541440571272,
+            0.18342856591594625,
+            -4.5901114936718574
+          ],
+          [
+            -9.564618349467791,
+            2.524351421924031,
+            -4.121188402568377
+          ]
+        ]
+      },
+      {
+        "name": "Object_48",
+        "verts": 152,
+        "mat": "ConcreteDark",
+        "bounds": [
+          [
+            -10.05609024489082,
+            -0.008820442179185761,
+            -4.612660297991406
+          ],
+          [
+            -9.542069545148243,
+            2.6502049810275423,
+            -4.098639598248829
+          ]
+        ]
+      },
+      {
+        "name": "Object_50",
+        "verts": 16,
+        "mat": "concrete",
+        "bounds": [
+          [
+            -10.033541440571272,
+            0.18342856591594625,
+            2.47666955033449
+          ],
+          [
+            -9.564618349467791,
+            2.524351421924031,
+            2.9455926414379707
+          ]
+        ]
+      },
+      {
+        "name": "Object_51",
+        "verts": 152,
+        "mat": "ConcreteDark",
+        "bounds": [
+          [
+            -10.05609024489082,
+            -0.008820442179185761,
+            2.454120746014942
+          ],
+          [
+            -9.542069545148243,
+            2.6502049810275423,
+            2.968141445757519
+          ]
+        ]
+      },
+      {
+        "name": "Object_53",
+        "verts": 16,
+        "mat": "concrete",
+        "bounds": [
+          [
+            4.5746996406665215,
+            0.18342859342578066,
+            -4.5901114936718574
+          ],
+          [
+            5.043622731770002,
+            2.5243514494338655,
+            -4.121188402568377
+          ]
+        ]
+      },
+      {
+        "name": "Object_54",
+        "verts": 152,
+        "mat": "ConcreteDark",
+        "bounds": [
+          [
+            4.552150836346973,
+            -0.00882041466935135,
+            -4.612660297991406
+          ],
+          [
+            5.06617153608955,
+            2.650205100236832,
+            -4.098639598248829
+          ]
+        ]
+      },
+      {
+        "name": "Object_56",
+        "verts": 16,
+        "mat": "concrete",
+        "bounds": [
+          [
+            4.5746996406665215,
+            0.18342859342578066,
+            2.47666955033449
+          ],
+          [
+            5.043622731770002,
+            2.5243514494338655,
+            2.9455926414379707
+          ]
+        ]
+      },
+      {
+        "name": "Object_57",
+        "verts": 152,
+        "mat": "ConcreteDark",
+        "bounds": [
+          [
+            4.552150836346973,
+            -0.00882041466935135,
+            2.454120746014942
+          ],
+          [
+            5.06617153608955,
+            2.650205100236832,
+            2.968141445757519
+          ]
+        ]
+      },
+      {
+        "name": "Object_59",
+        "verts": 16,
+        "mat": "concrete",
+        "bounds": [
+          [
+            -0.18990790432187232,
+            0.18342856591594625,
+            9.29230618516115
+          ],
+          [
+            0.2790151867816082,
+            2.524351421924031,
+            9.76122927626463
+          ]
+        ]
+      },
+      {
+        "name": "Object_60",
+        "verts": 152,
+        "mat": "ConcreteDark",
+        "bounds": [
+          [
+            -0.21245670864142063,
+            -0.008820442179185761,
+            9.269757380841602
+          ],
+          [
+            0.3015639911011565,
+            2.6502049810275423,
+            9.78377808058418
+          ]
+        ]
+      },
+      {
+        "name": "Object_62",
+        "verts": 16,
+        "mat": "concrete",
+        "bounds": [
+          [
+            4.5746996406665215,
+            0.18342859342578066,
+            9.29230618516115
+          ],
+          [
+            5.043622731770002,
+            2.5243514494338655,
+            9.76122927626463
+          ]
+        ]
+      },
+      {
+        "name": "Object_63",
+        "verts": 152,
+        "mat": "ConcreteDark",
+        "bounds": [
+          [
+            4.552150836346973,
+            -0.00882041466935135,
+            9.269757380841602
+          ],
+          [
+            5.06617153608955,
+            2.650205100236832,
+            9.78377808058418
+          ]
+        ]
+      },
+      {
+        "name": "Object_65",
+        "verts": 530,
+        "mat": "Skirting",
+        "bounds": [
+          [
+            -12.2718433536175,
+            5.16778952963648e-10,
+            -12.271598385261429
+          ],
+          [
+            12.514032996899576,
+            0.03835311423030541,
+            12.509283646130886
+          ]
+        ]
+      },
+      {
+        "name": "Object_67",
+        "verts": 532,
+        "mat": "CeilingBars",
+        "bounds": [
+          [
+            -12.2718433536175,
+            2.6111122896474668,
+            -12.271598128517782
+          ],
+          [
+            12.514032996899576,
+            2.6494654033609932,
+            12.509283902874532
+          ]
+        ]
+      }
+    ],
+    "bones": []
+  }
+}

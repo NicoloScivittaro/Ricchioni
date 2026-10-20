@@ -1,0 +1,3 @@
+import {launch} from './lib.mjs';
+const browser=await launch();try{const p=await browser.newPage();p.on('pageerror',e=>console.log(e.message));await p.goto('http://localhost:5186/docs/agent-work/minigolf-3/inspect.html');await p.waitForFunction('window.load');for(const [file,group,name] of [['mini_golf_models1-9.glb','Model_v1','model1'],['mini_golf_models1-9.glb','Model_v2','model2'],['mini_golf_field.glb',null,'field'],['mini_golf_windmill.glb',null,'windmill']]){console.log(name,await p.evaluate((f,g)=>window.load(f,g),file,group));await new Promise(r=>setTimeout(r,1200));await p.screenshot({path:'docs/agent-work/minigolf-3/'+name+'.png'});}}finally{await browser.close();}
+

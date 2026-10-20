@@ -1,0 +1,477 @@
+{
+  "hopMaxMeasuredMetres": 0.15531250000000024,
+  "chargeThreshold": 0.82,
+  "mapCount": 12,
+  "nativeAssets": {
+    "dune": {
+      "source": "Model_v2",
+      "meshes": 25,
+      "floorTriangles": 146,
+      "wallSegments": 426
+    },
+    "palme": {
+      "source": "Model__v4",
+      "meshes": 17,
+      "floorTriangles": 114,
+      "wallSegments": 373
+    }
+  },
+  "broadRegressionRounds": 48,
+  "phoneRun": {
+    "voted": true,
+    "game": {
+      "map": "dune",
+      "players": 5,
+      "bots": 0,
+      "meshes": 497
+    },
+    "phoneControls": true,
+    "hop": {
+      "id": "65982679-7868-488a-b78f-15a463f902e8",
+      "peak": 0.15531250000000024,
+      "start": 0.28,
+      "air": true
+    },
+    "performance": {
+      "seconds": 3.9991000000001877,
+      "fps": 60.01350303818077,
+      "p95ms": 16.80000000000291,
+      "sample": "5-player roster, one shared Minigolf camera; Chrome GPU D3D11, 1280x720"
+    },
+    "cleanup": true,
+    "errors": [],
+    "fixtureNote": "Map/roster/phones and shot use production code. Two additional scene rebuilds prepared directly for visual QA; no test teleports claimed as completed play."
+  },
+  "calibration": {
+    "hops": [
+      {
+        "power": 0,
+        "hz": 30,
+        "peak": 0,
+        "air": 0
+      },
+      {
+        "power": 0,
+        "hz": 60,
+        "peak": 0,
+        "air": 0
+      },
+      {
+        "power": 0,
+        "hz": 120,
+        "peak": 0,
+        "air": 0
+      },
+      {
+        "power": 0.5,
+        "hz": 30,
+        "peak": 0,
+        "air": 0
+      },
+      {
+        "power": 0.5,
+        "hz": 60,
+        "peak": 0,
+        "air": 0
+      },
+      {
+        "power": 0.5,
+        "hz": 120,
+        "peak": 0,
+        "air": 0
+      },
+      {
+        "power": 0.82,
+        "hz": 30,
+        "peak": 0,
+        "air": 0
+      },
+      {
+        "power": 0.82,
+        "hz": 60,
+        "peak": 0,
+        "air": 0
+      },
+      {
+        "power": 0.82,
+        "hz": 120,
+        "peak": 0,
+        "air": 0
+      },
+      {
+        "power": 0.9,
+        "hz": 30,
+        "peak": 0.012444444444444425,
+        "air": 0.06666666666666667
+      },
+      {
+        "power": 0.9,
+        "hz": 60,
+        "peak": 0.012881944444444349,
+        "air": 0.06666666666666667
+      },
+      {
+        "power": 0.9,
+        "hz": 120,
+        "peak": 0.01316550925925919,
+        "air": 0.075
+      },
+      {
+        "power": 1,
+        "hz": 30,
+        "peak": 0.1534814814814816,
+        "air": 0.26666666666666666
+      },
+      {
+        "power": 1,
+        "hz": 60,
+        "peak": 0.15531250000000024,
+        "air": 0.2833333333333333
+      },
+      {
+        "power": 1,
+        "hz": 120,
+        "peak": 0.15531250000000024,
+        "air": 0.29166666666666674
+      }
+    ],
+    "boostLiftBound": true,
+    "railCannotBeSkipped": true,
+    "predictionHeight": true,
+    "spawns": [
+      {
+        "id": "lungomare",
+        "count": 2
+      },
+      {
+        "id": "lungomare",
+        "count": 3
+      },
+      {
+        "id": "lungomare",
+        "count": 4
+      },
+      {
+        "id": "lungomare",
+        "count": 5
+      },
+      {
+        "id": "scampagnata",
+        "count": 2
+      },
+      {
+        "id": "scampagnata",
+        "count": 3
+      },
+      {
+        "id": "scampagnata",
+        "count": 4
+      },
+      {
+        "id": "scampagnata",
+        "count": 5
+      },
+      {
+        "id": "giostra",
+        "count": 2
+      },
+      {
+        "id": "giostra",
+        "count": 3
+      },
+      {
+        "id": "giostra",
+        "count": 4
+      },
+      {
+        "id": "giostra",
+        "count": 5
+      },
+      {
+        "id": "flipperone",
+        "count": 2
+      },
+      {
+        "id": "flipperone",
+        "count": 3
+      },
+      {
+        "id": "flipperone",
+        "count": 4
+      },
+      {
+        "id": "flipperone",
+        "count": 5
+      },
+      {
+        "id": "traversata",
+        "count": 2
+      },
+      {
+        "id": "traversata",
+        "count": 3
+      },
+      {
+        "id": "traversata",
+        "count": 4
+      },
+      {
+        "id": "traversata",
+        "count": 5
+      },
+      {
+        "id": "altalena",
+        "count": 2
+      },
+      {
+        "id": "altalena",
+        "count": 3
+      },
+      {
+        "id": "altalena",
+        "count": 4
+      },
+      {
+        "id": "altalena",
+        "count": 5
+      },
+      {
+        "id": "maratona",
+        "count": 2
+      },
+      {
+        "id": "maratona",
+        "count": 3
+      },
+      {
+        "id": "maratona",
+        "count": 4
+      },
+      {
+        "id": "maratona",
+        "count": 5
+      },
+      {
+        "id": "inferno",
+        "count": 2
+      },
+      {
+        "id": "inferno",
+        "count": 3
+      },
+      {
+        "id": "inferno",
+        "count": 4
+      },
+      {
+        "id": "inferno",
+        "count": 5
+      },
+      {
+        "id": "odissea",
+        "count": 2
+      },
+      {
+        "id": "odissea",
+        "count": 3
+      },
+      {
+        "id": "odissea",
+        "count": 4
+      },
+      {
+        "id": "odissea",
+        "count": 5
+      },
+      {
+        "id": "disperati",
+        "count": 2
+      },
+      {
+        "id": "disperati",
+        "count": 3
+      },
+      {
+        "id": "disperati",
+        "count": 4
+      },
+      {
+        "id": "disperati",
+        "count": 5
+      },
+      {
+        "id": "dune",
+        "count": 2
+      },
+      {
+        "id": "dune",
+        "count": 3
+      },
+      {
+        "id": "dune",
+        "count": 4
+      },
+      {
+        "id": "dune",
+        "count": 5
+      },
+      {
+        "id": "palme",
+        "count": 2
+      },
+      {
+        "id": "palme",
+        "count": 3
+      },
+      {
+        "id": "palme",
+        "count": 4
+      },
+      {
+        "id": "palme",
+        "count": 5
+      }
+    ],
+    "bots": [
+      {
+        "id": "dune",
+        "completed": 1,
+        "strokes": 2,
+        "falls": 0,
+        "records": [
+          {
+            "course": "dune",
+            "strokes": 2,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 13.274999999999887
+          }
+        ]
+      },
+      {
+        "id": "palme",
+        "completed": 1,
+        "strokes": 4,
+        "falls": 0,
+        "records": [
+          {
+            "course": "palme",
+            "strokes": 4,
+            "penalties": 0,
+            "completed": true,
+            "seconds": 19.524999999999533
+          }
+        ]
+      }
+    ]
+  },
+  "build": {
+    "status": "passed",
+    "duration": "4m 58s"
+  },
+  "cameraAcceptance": {
+    "allMaps": 896,
+    "afterRaisedRailCorrection": 56
+  },
+  "completedNewCourses": [
+    {
+      "id": "dune",
+      "completed": true,
+      "shots": [
+        {
+          "power": 0.575,
+          "aim": {
+            "x": -0.11278917717774381,
+            "z": -0.993618941803933
+          },
+          "x": -0.7888151280294063,
+          "z": -20.186167664597757,
+          "time": 8.116666666666847,
+          "fall": false,
+          "cost": 0.8907785965280733
+        },
+        {
+          "power": 0.65,
+          "aim": {
+            "x": 0.05971465688195455,
+            "z": 0.998215487634544
+          },
+          "x": -0.014839103075910662,
+          "z": -20.381114621118115,
+          "time": 15.191666666666444,
+          "fall": false,
+          "cost": -1000
+        }
+      ],
+      "records": [
+        {
+          "course": "dune",
+          "strokes": 2,
+          "penalties": 0,
+          "completed": true,
+          "seconds": 14.97499999999979
+        }
+      ]
+    },
+    {
+      "id": "palme",
+      "completed": true,
+      "shots": [
+        {
+          "power": 0.625,
+          "aim": {
+            "x": -0.09823148763123236,
+            "z": -0.9951635919976951
+          },
+          "x": -1.3858830786409033,
+          "z": -12.020703564686206,
+          "time": 10.98333333333335,
+          "fall": false,
+          "cost": 8.690512023618124
+        },
+        {
+          "power": 0.2,
+          "aim": {
+            "x": 0.15947082000168714,
+            "z": -0.9872026426058581
+          },
+          "x": -0.034718486521943606,
+          "z": -20.385075528918815,
+          "time": 14.024999999999844,
+          "fall": false,
+          "cost": -1000
+        }
+      ],
+      "records": [
+        {
+          "course": "palme",
+          "strokes": 2,
+          "penalties": 0,
+          "completed": true,
+          "seconds": 13.80833333333319
+        }
+      ]
+    }
+  ],
+  "runtimeGeometryBytes": 571640,
+  "runtimeGeometryGzipBytes": 75996,
+  "typecheck": "passed",
+  "productionHttp": {
+    "/": 200,
+    "/minigolf-3/": 200,
+    "/minigolf-3/near.png": 200,
+    "/minigolf-3/palme.png": 200,
+    "/minigolf-3/classic.png": 200,
+    "/assets/minigolf/CREDITS.md": 200,
+    "/trentuno-italiano/": 200,
+    "/cornicione-2/": 200,
+    "/minigolf-gravity/": 200
+  },
+  "newGraphicsBundled": true,
+  "bundle": "BabylonMinigolfGame-DzGmAjUV.js",
+  "productionBoot": {
+    "canvas": true,
+    "errors": []
+  },
+  "acceptance": "passed"
+}

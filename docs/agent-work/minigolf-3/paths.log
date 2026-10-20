@@ -1,0 +1,5 @@
+dune 1 -0.79 -20.19  0.89
+dune 2 -0.01 -20.38 DONE -1000
+palme 1 -1.39 -12.02  8.69
+palme 2 -0.03 -20.39 DONE -1000
+PASS two imported courses holed from tee through production commands/solver; no teleports or physics overrides

@@ -1,0 +1,9 @@
+<!doctype html><html><body style="margin:0"><canvas id="c" style="width:100vw;height:100vh;display:block"></canvas><script type="module">
+import {Engine,Scene,ArcRotateCamera,HemisphericLight,Vector3,LoadAssetContainerAsync,Color4} from '@babylonjs/core';
+import '@babylonjs/loaders/glTF';
+const e=new Engine(document.getElementById('c'),true),s=new Scene(e);s.clearColor=new Color4(.12,.17,.21,1);const camera=new ArcRotateCamera('cam',-.9,0.6,35,Vector3.Zero(),s);camera.attachControl();new HemisphericLight('l',new Vector3(.2,1,.3),s).intensity=1.3;
+window.load=async(file,group)=>{for(const n of [...s.rootNodes])if(n.name!=='cam'&&n.name!=='l')n.dispose();const a=await LoadAssetContainerAsync('/assets/minigolf/'+file,s);a.addAllToScene();if(group){const keep=a.transformNodes.find(n=>n.name===group);for(const n of a.transformNodes.filter(n=>/^Model_+v\d+$/.test(n.name)))if(n!==keep)n.setEnabled(false);}
+const meshes=a.meshes.filter(m=>m.isEnabled()&&m.getTotalVertices());meshes.forEach(m=>m.computeWorldMatrix(true));let min=new Vector3(Infinity,Infinity,Infinity),max=min.negate();for(const m of meshes){const b=m.getBoundingInfo().boundingBox;min=Vector3.Minimize(min,b.minimumWorld);max=Vector3.Maximize(max,b.maximumWorld);}camera.target=min.add(max).scale(.5);camera.radius=Vector3.Distance(min,max)*.9;camera.minZ=.01;camera.maxZ=1000;window.ready=true;return {min:min.asArray(),max:max.asArray(),meshes:meshes.length};};
+e.runRenderLoop(()=>s.render());window.ready=false;
+</script></body></html>
+

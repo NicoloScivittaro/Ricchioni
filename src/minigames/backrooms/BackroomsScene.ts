@@ -28,7 +28,7 @@ export class BackroomsScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#0b0b14');
     audio.unlock();
 
-    this.hideLoading = showLoading(this, '🚪', 'BACKROOMS — L’ULTIMA PORTA');
+    this.hideLoading = showLoading(this, '🚪', 'BACKROOMS 2.0 · NIGHTMARE');
 
     this.pauseMenu = new BackroomsPauseMenu(
       this,

@@ -1,0 +1,25 @@
+{
+  "voted": true,
+  "game": {
+    "map": "dune",
+    "players": 5,
+    "bots": 0,
+    "meshes": 497
+  },
+  "phoneControls": true,
+  "hop": {
+    "id": "65982679-7868-488a-b78f-15a463f902e8",
+    "peak": 0.15531250000000024,
+    "start": 0.28,
+    "air": true
+  },
+  "performance": {
+    "seconds": 3.9991000000001877,
+    "fps": 60.01350303818077,
+    "p95ms": 16.80000000000291,
+    "sample": "5-player roster, one shared Minigolf camera; Chrome GPU D3D11, 1280x720"
+  },
+  "cleanup": true,
+  "errors": [],
+  "fixtureNote": "Map/roster/phones and shot use production code. Two additional scene rebuilds prepared directly for visual QA; no test teleports claimed as completed play."
+}

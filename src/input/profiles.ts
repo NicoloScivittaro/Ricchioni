@@ -67,7 +67,8 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     {action:'MOVE',binding:'LEFT_STICK',control:'move',label:'MUOVITI · CAMMINARE FA MENO RUMORE'},
     {action:'LOOK',binding:'RIGHT_STICK',control:'lookStick',label:'GUARDA'},
     {action:'SPRINT',binding:'LB',control:'sprint',label:'CORRI (TIENI) · CONSUMA FIATO'},
-    {action:'INTERACT',binding:'PRIMARY',control:'interact',label:'INTERAGISCI · GENERATORI: TIENI · SPETTATORE: CAMBIA'}
+    {action:'INTERACT',binding:'PRIMARY',control:'interact',label:'INTERAGISCI · GENERATORI: TIENI · SPETTATORE: CAMBIA'},
+    {action:'FLASHLIGHT',binding:'TOP',control:'flashlight',label:'ACCENDI / SPEGNI LA TORCIA'}
   ]),
   geofall:defineProfile('geofall',[
     {action:'MOVE',binding:'LEFT_STICK',control:'move',label:'CORRI SULLA RISPOSTA'},

@@ -1,0 +1,44 @@
+{
+  "errors": [],
+  "samples": {
+    "fluorescent ambience": {
+      "state": "running",
+      "peak": 0.08916798233985901,
+      "rms": 0.04264512807987067
+    },
+    "lure": {
+      "state": "running",
+      "peak": 0.03934500366449356,
+      "rms": 0.005640904668845321
+    },
+    "repel": {
+      "state": "running",
+      "peak": 0.029238414019346237,
+      "rms": 0.0022722279765735615
+    },
+    "torch": {
+      "state": "running",
+      "peak": 0.010112026706337929,
+      "rms": 0.00019949298869455153
+    },
+    "alert": {
+      "state": "running",
+      "peak": 0.08203649520874023,
+      "rms": 0.026088929030736594
+    },
+    "capture": {
+      "state": "running",
+      "peak": 0.3287842869758606,
+      "rms": 0.05676248101140788
+    }
+  },
+  "before": {
+    "state": "suspended",
+    "peak": 0,
+    "button": true
+  },
+  "checks": [
+    "restricted autoplay: zero output before genuine browser click; running afterward",
+    "post-limiter PCM: ambience, lure, torch, repel, alert and capture"
+  ]
+}

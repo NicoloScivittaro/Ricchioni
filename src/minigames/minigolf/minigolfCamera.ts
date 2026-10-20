@@ -6,7 +6,7 @@ export interface CameraPoint {x:number;y:number;z:number}
 /** Swept camera radius against the same course geometry as the balls. */
 export function cameraObstructed(p:CameraPoint,c:Course,time:number,extras:Bumper[]):boolean {
  const f=supportAt(c,p,time);if(f&&p.y<heightAt(f,p)+.14)return true;
- for(const base of c.walls){const w=wallAt(base,time);if(p.y<w.y-.14||p.y>w.y+(w.rotation?.45:.7)+.14)continue;
+ for(const base of c.walls){const w=wallAt(base,time);if(p.y<w.y-.14||p.y>w.y+(w.height??(w.rotation?.45:.7))+.14)continue;
   const dx=w.b.x-w.a.x,dz=w.b.z-w.a.z,t=Math.max(0,Math.min(1,((p.x-w.a.x)*dx+(p.z-w.a.z)*dz)/(dx*dx+dz*dz||1)));
   if(Math.hypot(p.x-w.a.x-dx*t,p.z-w.a.z-dz*t)<w.radius+.23)return true;
  }
@@ -47,7 +47,10 @@ export class MinigolfCamera {
    const origin=ball.add(new Vector3(0,.2,0));
    eye=this.focus.subtract(forward.scale(distance));eye.y=this.focus.y+.65+distance*this.pitch;
    const clipped=clipCamera(origin,eye,c,time,extras);eye.set(clipped.x,clipped.y,clipped.z);
-   target=this.focus.add(forward.scale(1.3));target.y=this.focus.y+.48;
+   // A clipped boom needs less look-ahead, otherwise the ball drops below the
+   // screen beside a curved rail. Keep the normal unobstructed framing intact.
+   const room=Math.min(1,Vector3.Distance(eye,ball)/3);
+   target=this.focus.add(forward.scale(1.3*room*room));target.y=this.focus.y+.48*room;
    // At a back wall the boom cannot compress into the ball. Lift locally instead.
    if(Vector3.Distance(eye,ball)<1.1){eye=ball.subtract(forward.scale(.03));eye.y=ball.y+3.4;target=ball.add(forward.scale(.6));target.y=ball.y+.2;}
   }

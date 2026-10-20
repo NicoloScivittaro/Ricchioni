@@ -1,0 +1,1 @@
+Completato: gravità/contatto terreno, caduta al tee originale e animazione imbucata. Revisione su baseline, regressione fisica, prove mirate e browser superati. Typecheck e build finale superati. Galleria locale minigolf-gravity aggiornata su localhost3012; server3012 e Vite5186 attivi. Nessun commit/push/deploy; altri giochi preservati.

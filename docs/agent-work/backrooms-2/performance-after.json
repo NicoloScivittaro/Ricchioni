@@ -1,0 +1,26 @@
+{
+  "stats": {
+    "fps": 59.48446794448117,
+    "seconds": 3.026,
+    "p95ms": 16.80000000000109,
+    "views": 5,
+    "render": [
+      1280,
+      720
+    ],
+    "scale": 1,
+    "lights": 4,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "seed": 7,
+    "monsters": [
+      "partygoer",
+      "runner",
+      "bacteria"
+    ]
+  },
+  "errors": []
+}

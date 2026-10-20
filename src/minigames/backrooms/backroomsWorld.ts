@@ -1,3 +1,4 @@
+import type {BackroomsAssets} from './backroomsAssets';
 import { Scene, Mesh, MeshBuilder, StandardMaterial, Color3, DynamicTexture, Vector3, TransformNode, HemisphericLight, DirectionalLight, ShadowGenerator } from '@babylonjs/core';
 import { Rng } from '../../../shared/rng';
 import { CELL, center, neighbors } from './maze';
@@ -65,7 +66,7 @@ export function inscription(scene: Scene, name: string, text: string, width: num
   const mesh = MeshBuilder.CreatePlane(name, { width, height, sideOrientation: Mesh.DOUBLESIDE }, scene); mesh.material = mat; return mesh;
 }
 export interface BackWorld { doors: TransformNode[]; exit: TransformNode; key: TransformNode; tasks: { root: TransformNode; light: StandardMaterial }[]; flicker: StandardMaterial; shadows: ShadowGenerator | null }
-export function buildBackWorld(scene: Scene, maze: Maze, tasks: number[], puzzle: string, shadowBudget = false, theme: LevelTheme = LEVELS.lobby.theme): BackWorld {
+export function buildBackWorld(scene: Scene, maze: Maze, tasks: number[], puzzle: string, shadowBudget = false, theme: LevelTheme = LEVELS.lobby.theme,assets?:BackroomsAssets): BackWorld {
   const wall = surface(scene, 'agedWallpaper', 'wall', theme), floor = surface(scene, 'wornCarpet', 'carpet', theme), ceiling = surface(scene, 'acousticCeiling', 'ceiling', theme);
   const trim = material(scene, 'skirting', '#393b28'), metal = material(scene, 'oldMetal', '#555849'), wood = material(scene, 'doorLaminate', '#53543c');
   const lit = material(scene, 'fluorescent', theme.light); lit.emissiveColor = new Color3(...theme.glow);
@@ -76,10 +77,13 @@ export function buildBackWorld(scene: Scene, maze: Maze, tasks: number[], puzzle
   const shadows = shadowBudget ? new ShadowGenerator(1024, sun) : null;
   if (shadows) { shadows.usePercentageCloserFiltering = true; shadows.bias = .003; shadows.darkness = .55; }
   // Spatial chunks reduce draw calls while retaining frustum and max-distance culling for each camera.
-  const groups = new Map<string, Mesh[]>();
+  const groups = new Map<string, Mesh[]>(),shaded=new Map<string,typeof wall>();
   function box(name: string, x: number, y: number, z: number, w: number, h: number, d: number, mat: StandardMaterial, cell: number) {
-    const b = MeshBuilder.CreateBox(name, { width: w, height: h, depth: d }, scene); b.position.set(x, y, z); b.material = mat;
-    const key = `${Math.floor((cell % maze.size) / 3)}:${Math.floor(Math.floor(cell / maze.size) / 3)}:${mat.name}`;
+    const special=maze.rooms?.some(r=>(cell%maze.size)>=r.x&&(cell%maze.size)<r.x+r.w&&Math.floor(cell/maze.size)>=r.z&&Math.floor(cell/maze.size)<r.z+r.h&&r.kind==='office');
+    const b=assets&&name==='wallPanel'?assets.module(special||theme.pattern!=='wallpaper'?'wall':'wallpaper',name,x,y,z,dxLong(w,d),h,Math.min(w,d)):assets&&name==='carpetModule'?assets.module(theme.pattern==='wallpaper'?'floor':'industrialFloor',name,x,y+h/2,z,w,h,d):MeshBuilder.CreateBox(name,{width:w,height:h,depth:d},scene);
+    if(assets&&name==='wallPanel'&&d>w)b.rotation.y=Math.PI/2; b.position.set(x, assets&&name==='carpetModule'?y+h/2:y, z); if(!assets||!['wallPanel','carpetModule'].includes(name))b.material=mat;
+    if(assets&&maze.dark.has(cell)&&['wallPanel','carpetModule'].includes(name)){const original=b.material!,key=original.name+':dark';let shade=shaded.get(key);if(!shade){shade=original.clone(key) as typeof wall;const colored=shade as unknown as {albedoColor?:Color3;diffuseColor?:Color3};colored.albedoColor?.scaleInPlace(.5);colored.diffuseColor?.scaleInPlace(.5);shaded.set(key,shade);}b.material=shade;}
+    const actual=b.material??mat;const key = `${Math.floor((cell % maze.size) / 3)}:${Math.floor(Math.floor(cell / maze.size) / 3)}:${actual.name}`;
     const group = groups.get(key) ?? []; group.push(b); groups.set(key, group); return b;
   }
   const rng = new Rng(maze.seed);
@@ -134,7 +138,7 @@ export function buildBackWorld(scene: Scene, maze: Maze, tasks: number[], puzzle
     const p = center(maze, cell), cabinet = MeshBuilder.CreateBox('hidingLocker', { width: .95, height: 2.15, depth: .8 }, scene); cabinet.position.set(p.x + .9, 1.075, p.z + .8); cabinet.material = wood;
     const vent = inscription(scene, 'lockerVent', '||||||||\n||||||||', .6, .25); vent.position.set(p.x + .9, 1.68, p.z + .38);
   }
-  const start = center(maze, maze.spawn), poster = inscription(scene, 'spawnInstructions', 'DO NOT RUN\nLISTEN. HIDE.\nFIND THE LAST DOOR', 1.35, .75); poster.position.set(start.x, 1.7, start.z - 1.47);
+  const start = center(maze, maze.spawn), poster = inscription(scene, 'spawnInstructions', 'DO NOT RUN\nLISTEN. HIDE.\nFIND THE LAST DOOR', 1.35, .75); poster.position.set(start.x, 1.7, start.z - 1.47);poster.rotation.y=Math.PI;
   // Cartelli, arredi e strutture sono immobili; porte e chiave restano animabili.
   const moving=new Set([...doors.flatMap(root=>root.getChildMeshes()),...key.getChildMeshes()]);
   for(const mesh of scene.meshes)if(!moving.has(mesh))mesh.freezeWorldMatrix();
@@ -144,6 +148,8 @@ export function buildBackWorld(scene: Scene, maze: Maze, tasks: number[], puzzle
 export interface CreatureVisual { root: TransformNode; joints: TransformNode[]; head: TransformNode; jaw: Mesh; update(time: number, chasing: boolean, watch: boolean): void }
 /** Per-kind silhouette and colouring on the shared articulated anatomy. */
 const CREATURE_LOOK: Record<CreatureKind, { skin: string; bone: string; eye: [number, number, number]; scale: [number, number, number]; glow?: boolean }> = {
+  bacteria:{skin:'#252822',bone:'#4a4d41',eye:[.2,.2,.15],scale:[1,1,1]},
+  partygoer:{skin:'#a88e43',bone:'#b3a363',eye:[.2,.15,.05],scale:[1,1,1]},
   stalker: { skin: '#41463c', bone: '#a29c80', eye: [.24, .28, .19], scale: [1, 1, 1] },
   runner: { skin: '#56574f', bone: '#a29c80', eye: [.24, .28, .19], scale: [.9, .86, .95] },
   imitator: { skin: '#41463c', bone: '#a29c80', eye: [.24, .28, .19], scale: [1, 1, 1] },
@@ -203,3 +209,5 @@ export function createCreature(scene: Scene, kind: CreatureKind): CreatureVisual
     cavity.scaling.y = chasing ? .2 : .12;
   } };
 }
+
+function dxLong(w:number,d:number):number{return Math.max(w,d);}

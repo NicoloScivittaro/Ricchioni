@@ -1,0 +1,23 @@
+{
+  "airborne": {
+    "y": -0.2860763888888889,
+    "vy": -3.9666666666666712,
+    "grounded": false
+  },
+  "teeReturn": {
+    "x": -0.3976145496237822,
+    "z": 24.956581290287584,
+    "penalties": 1,
+    "strokes": 2
+  },
+  "holeEntry": {
+    "finished": true,
+    "visible": true,
+    "y": 0.2787072493827016,
+    "activeDrop": true
+  },
+  "animationCompleted": true,
+  "cleanup": true,
+  "errors": [],
+  "fixtureNote": "Ball poses and shot state prepared for isolated gravity/tee/cup probes; production renderer, solver, scoring and phones used."
+}
