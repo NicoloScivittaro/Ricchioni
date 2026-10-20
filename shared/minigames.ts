@@ -255,16 +255,15 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id: 'cornicione',
     icon: '🧱',
-    description: 'Picchia, schiva e rientra: più danno hai, più voli lontano. Fuori dal tetto = una vita in meno.',
+    description: 'Picchia, schiva e rientra: più danno hai, più voli lontano. Tre arene, tre vite: vince l’ultimo rimasto, senza limite di tempo.',
     name: 'BOTTE SUL CORNICIONE',
     category: 'SKILL',
     rarity: 'uncommon',
     minPlayers: 2,
     maxPlayers: 5,
-    // Platform fighter 2.5D a vite (3) e percentuale di danno: 150 s di limite + eventuale spareggio rapido (20 s).
-    durationSec: 150,
-    // Rete di sicurezza server (countdown + 150 s + spareggio 20 s + festeggiamenti). Larga: su un PC lento il tempo di gioco scorre piu' piano dell'orologio.
-    hardCapSec: 420,
+    // Tre vite, vittoria per eliminazione: nessuna scadenza di gioco o watchdog.
+    durationSec: 0,
+    hardCapSec: 0,
     compatibleModifiers: ['punti_doppi'],
     sceneKey: 'cornicione',
 
@@ -284,39 +283,6 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
         { id: 'kick', label: 'CALCIO', kind: 'button', icon: '🦶' },
         { id: 'throw', label: 'LANCIO (TIENI)', kind: 'hold', icon: '🎯' },
         { id: 'parry', label: 'PARATA', kind: 'button', icon: '🛡️' },
-        { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
-      ]
-    }
-  },
-  {
-    id: 'casacarbo',
-    icon: '🌧️',
-    description: "Salvate casa dal temporale e sfidatevi: primo a 4 litri allo scarico segnalato vince +6! Asciugate almeno il 75%.",
-    name: 'CASA CARBO',
-    category: 'SKILL',
-    rarity: 'uncommon',
-    minPlayers: 2,
-    maxPlayers: 5,
-    // 120 s di temporale + scena finale col vicino (~6,5 s).
-    durationSec: 120,
-    // Rete di sicurezza server (countdown + 120 s + finale + margine per un PC host lento).
-    hardCapSec: 300,
-    compatibleModifiers: ['punti_doppi'],
-    sceneKey: 'casacarbo',
-
-    inputMode: 'GAMEPAD',
-    // Chi NON ha il controller usa croce + tasti sul telefono (layout generico); col controller il telefono mostra la Companion Card.
-    controllerLayout: {
-      type: 'dpad',
-      controls: [
-        { id: 'up', label: '▲', kind: 'hold' },
-        { id: 'down', label: '▼', kind: 'hold' },
-        { id: 'left', label: '◀', kind: 'hold' },
-        { id: 'right', label: '▶', kind: 'hold' },
-        { id: 'squeegee', label: 'TIRACQUA', kind: 'hold', icon: '🧹' },
-        { id: 'bucket', label: 'SECCHIO', kind: 'hold', icon: '🪣' },
-        { id: 'dash', label: 'SCATTO', kind: 'button', icon: '💨' },
-        { id: 'interact', label: 'INTERAGISCI', kind: 'hold', icon: '✋' },
         { id: 'ability', label: 'ABILITÀ', kind: 'button', icon: '⭐' }
       ]
     }
@@ -358,7 +324,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id:'trentuno',icon:'👑',name:'31 DEGLI INFAMI',
     description:'Tre mani, quaranta carte e cinque infamie. Pesca, scarta e bussa: vince il miglior seme, non la faccia tosta.',
-    category:'CULTURA',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:330,hardCapSec:600,
+    category:'CULTURA',rarity:'uncommon',minPlayers:2,maxPlayers:5,durationSec:0,hardCapSec:0,
     compatibleModifiers:['punti_doppi'],sceneKey:'trentuno',inputMode:'PHONE_TEXT',
     controllerLayout:{type:'custom',id:'trentuno'}
   }

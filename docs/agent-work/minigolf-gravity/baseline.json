@@ -1,0 +1,10 @@
+{
+  "head": "04652b4ddead8ca8a824b10a9d29816b8b5650f0",
+  "files": [
+    "src/minigames/minigolf/minigolfPhysics.ts",
+    "src/minigames/minigolf/minigolfTypes.ts",
+    "src/minigames/minigolf/minigolfVisuals.ts",
+    "src/minigames/minigolf/BabylonMinigolfGame.ts",
+    "src/minigames/minigolf/minigolfBot.ts"
+  ]
+}

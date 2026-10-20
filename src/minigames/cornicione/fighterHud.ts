@@ -36,6 +36,7 @@ interface Card {
   object: TextBlock;
   tier: 0 | 1 | 2 | 3;
   out: boolean;
+  lastPercent:number;damageT:number;baseColor:string;
 }
 
 interface Indicator {
@@ -48,6 +49,7 @@ export class FighterHud extends GameHud {
   private cards = new Map<string, Card>();
   private indicators = new Map<string, Indicator>();
   private comboText: TextBlock;
+  private arenaText: TextBlock;
   private comboTimer = 0;
   private pulse = 0;
   private scene: Scene;
@@ -55,6 +57,9 @@ export class FighterHud extends GameHud {
   constructor(scene: Scene, title = '🧱 BOTTE SUL CORNICIONE') {
     super(scene, 'cornicioneHud', title);
     this.scene = scene;
+    this.arenaText=hudText('arenaName','',UI.size.S,'#e0d0ac',false);
+    this.arenaText.horizontalAlignment=Control.HORIZONTAL_ALIGNMENT_LEFT;this.arenaText.verticalAlignment=Control.VERTICAL_ALIGNMENT_TOP;this.arenaText.textHorizontalAlignment=Control.HORIZONTAL_ALIGNMENT_LEFT;
+    this.arenaText.left=`${UI.safe.x+4}px`;this.arenaText.top=`${UI.safe.y+46}px`;this.arenaText.width='720px';this.arenaText.height='28px';this.adt.addControl(this.arenaText);
     this.feed.top = '178px'; // sotto gli annunci
     this.comboText = hudText('combo', '', UI.size.L, UI.color.accent);
     this.comboText.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
@@ -70,7 +75,7 @@ export class FighterHud extends GameHud {
       }
       // sopra il 150% il numero pulsa
       const k = 1 + Math.sin(this.pulse * 0.012) * 0.08;
-      for (const c of this.cards.values()) if (c.tier === 3 && !c.out) c.pct.scaleX = c.pct.scaleY = k;
+      for(const c of this.cards.values()){c.damageT=Math.max(0,c.damageT-dt);const hit=c.damageT/180;c.pct.scaleX=c.pct.scaleY=(c.tier===3&&!c.out?k:1)*(1+hit*.15);c.box.color=hit>0?'#ffe0a0':c.baseColor;}
     });
   }
 
@@ -80,7 +85,10 @@ export class FighterHud extends GameHud {
     this.bannerBox.height = '170px';
   }
 
-  setTimer(sec: number): void {
+  setArena(name:string):void {this.arenaText.text=name+' · ULTIMO RIMASTO VINCE';}
+
+  setTimer(sec: number, survivors?:number): void {
+    if(!Number.isFinite(sec)){const label=this.adt.getControlByName('rightStat') as TextBlock;label.fontSize=UI.size.S;label.width='400px';this.setRight(`SENZA LIMITE · ${survivors===undefined?'3 VITE':survivors+' VIVI'}`,UI.color.accent);return;}
     const s = Math.max(0, Math.ceil(sec));
     this.setRight(`⏱ ${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`, s <= 15 ? UI.color.danger : UI.color.accent);
   }
@@ -136,7 +144,7 @@ export class FighterHud extends GameHud {
       object.textHorizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
       box.addControl(object);
       row.addControl(box);
-      this.cards.set(p.id, { box, hearts, pct, status, object, tier: 0, out: false });
+      this.cards.set(p.id, { box, hearts, pct, status, object, tier: 0, out: false,lastPercent:0,damageT:0,baseColor:p.color });
     }
     this.adt.addControl(row);
 
@@ -189,6 +197,8 @@ export class FighterHud extends GameHud {
     const n = Math.max(0, lives);
     c.hearts.text = n > 0 ? '♥'.repeat(n) : '✕ FUORI';
     c.hearts.color = n > 0 ? '#ff6b81' : UI.color.danger;
+    if(percent>c.lastPercent)c.damageT=180;
+    c.lastPercent=percent;
     const p = Math.round(percent);
     const tier = percentTier(p);
     c.pct.text = `${tier === 3 ? '⚠ ' : ''}${p}%`;

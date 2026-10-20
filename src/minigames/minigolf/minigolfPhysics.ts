@@ -3,13 +3,19 @@ import type {GolfBall,Course,GolfEvent,Bumper,Point} from './minigolfTypes';
 import {supportAt,heightAt,wallAt,floorAt} from './minigolfCourses';
 export const speed=(b:GolfBall):number=>Math.hypot(b.vx,b.vz);
 export function createBall(id:string,p:Point,y=0):GolfBall {
- return {id,...p,y:y+GOLF.radius,vx:0,vy:0,vz:0,grounded:true,done:false,safe:{...p},safeY:y,readyFor:1,stuckFor:0,
+ return {id,...p,y:y+GOLF.radius,vx:0,vy:0,vz:0,grounded:true,done:false,safe:{...p},safeY:y,tee:{...p},teeY:y,readyFor:1,stuckFor:0,
   bounceBoost:1,bounceCount:0,lastContact:null,contacts:new Set(),lastMotion:{...p},travel:0};
 }
 export function restoreBall(b:GolfBall):void {
  Object.assign(b,{...b.safe,y:b.safeY+GOLF.radius,vx:0,vy:0,vz:0,grounded:true,readyFor:0,stuckFor:0,bounceBoost:1});
  b.contacts.clear();b.lastMotion={x:b.x,z:b.z};
 }
+/** Falls restart this hole at the original personal tee; technical unsticks still use safe. */
+export function resetBallToTee(b:GolfBall):void {
+ b.safe={...b.tee};b.safeY=b.teeY;restoreBall(b);b.travel=0;b.bounceCount=0;b.lastContact=null;
+}
+/** supportAt has a general-purpose .15m allowance; ball physics uses an explicit ceiling. */
+function below(course:Course,p:Point,time:number,ceiling:number){return supportAt(course,p,time,ceiling-.15);}
 export function impulse(b:GolfBall,aim:Point,power:number,mult=1):void {
  const len=Math.hypot(aim.x,aim.z)||1,v=(GOLF.minSpeed+(GOLF.maxSpeed-GOLF.minSpeed)*Math.max(0,Math.min(1,power)))*mult;
  b.vx=aim.x/len*v;b.vz=aim.z/len*v;b.readyFor=0;b.bounceCount=0;b.contacts.clear();b.travel=0;
@@ -24,8 +30,8 @@ export function physicsStep(balls:GolfBall[],course:Course,time:number,dt:number
   const t=time+k*h,walls=course.walls.map(w=>wallAt(w,t)),bumpers=[...course.bumpers,...extras.filter(b=>!b.expires||b.expires>t)];
   for(const b of active){
    if(b.done)continue;
-   const current=supportAt(course,b,t,b.y-GOLF.radius+.3);
-   if(b.grounded&&current){
+   const current=below(course,b,t,b.y-GOLF.radius+GOLF.surfaceSnap);
+   if(b.grounded&&current&&Math.abs(b.y-GOLF.radius-heightAt(current,b))<=GOLF.surfaceSnap){
     b.y=heightAt(current,b)+GOLF.radius;
     const sx=current.slopeX??0,sz=current.slopeZ??0;
     b.vx-=GOLF.gravity*sx*h;b.vz-=GOLF.gravity*sz*h;
@@ -35,11 +41,16 @@ export function physicsStep(balls:GolfBall[],course:Course,time:number,dt:number
     if(current.motion){const base=course.floors.find(f=>f.motion===current.motion)!;
      const next=floorAt(base,t+h);b.x+=next.x-current.x;b.z+=next.z-current.z;}
    }else {b.grounded=false;b.vy-=GOLF.gravity*h;}
-   const ox=b.x,oz=b.z;b.x+=b.vx*h;b.z+=b.vz*h;b.y+=b.vy*h;b.travel+=Math.hypot(b.x-ox,b.z-oz);
-   const landing=supportAt(course,b,t+h,b.y-GOLF.radius+.15);
+   const ox=b.x,oz=b.z,oldBottom=b.y-GOLF.radius;b.x+=b.vx*h;b.z+=b.vz*h;b.y+=b.vy*h;b.travel+=Math.hypot(b.x-ox,b.z-oz);
+   const landing=below(course,b,t+h,Math.max(oldBottom,b.y-GOLF.radius)+GOLF.surfaceSnap);
    if(landing){const y=heightAt(landing,b)+GOLF.radius;
-    if(b.y<=y+.12&&(b.grounded||b.vy<=0)){b.y=y;b.grounded=true;b.vy=0;}}
-   else b.grounded=false;
+    const follows=b.grounded&&Math.abs(b.y-y)<=GOLF.surfaceSnap;
+    const crosses=b.vy<=0&&oldBottom>=y-GOLF.radius-.006&&b.y<=y+.006;
+    if(follows||crosses){b.y=y;
+     if(!b.grounded&&b.vy< -3){b.vy=-b.vy*GOLF.verticalRestitution;b.grounded=false;}
+     else{b.grounded=true;b.vy=0;}
+    }else b.grounded=false;
+   }else b.grounded=false;
    const contacts=new Set<string>();
    for(const [i,w] of walls.entries()){
     const q=nearest(b,w.a,w.b),dx=b.x-q.x,dz=b.z-q.z,d=Math.hypot(dx,dz),radius=GOLF.radius+w.radius;
@@ -61,9 +72,20 @@ export function physicsStep(balls:GolfBall[],course:Course,time:number,dt:number
      if(!b.contacts.has(key))events.push({type:'bumper',id:b.id,x:b.x,z:b.z,value:j});}
    }
    b.contacts=contacts;cap(b);
-   if(b.grounded&&Math.abs(b.y-GOLF.radius-course.holeY)<.2&&Math.hypot(b.x-course.hole.x,b.z-course.hole.z)<.5&&speed(b)<=GOLF.captureSpeed){
-    b.done=true;b.vx=b.vz=b.vy=0;events.push({type:'hole',id:b.id,x:b.x,z:b.z});continue;}
-   if(b.y< -4||Math.abs(b.x)>32||Math.abs(b.z)>48){events.push({type:'fall',id:b.id,x:b.x,z:b.z});restoreBall(b);}
+   // A shallow lip acts only INSIDE the visible cup, at its own elevation and at putting speed.
+   const dx=course.hole.x-b.x,dz=course.hole.z-b.z,dist=Math.hypot(dx,dz);
+   if(b.grounded&&Math.abs(b.y-GOLF.radius-course.holeY)<.08&&speed(b)<=GOLF.captureSpeed){
+    if(dist<GOLF.cupRadius&&dist>1e-8){
+     b.vx+=dx/dist*5.5*h;b.vz+=dz/dist*5.5*h;
+     const v=speed(b);if(v>GOLF.captureSpeed){b.vx*=GOLF.captureSpeed/v;b.vz*=GOLF.captureSpeed/v;}
+    }
+    const q=nearest(course.hole,{x:ox,z:oz},b),opening=GOLF.cupRadius-GOLF.radius;
+    if(Math.hypot(q.x-course.hole.x,q.z-course.hole.z)<=opening){
+     b.done=true;b.vx=b.vz=b.vy=0;events.push({type:'hole',id:b.id,x:b.x,z:b.z});continue;
+    }
+   }
+   if(b.y< -4||Math.abs(b.x)>32||Math.abs(b.z)>48){events.push({type:'fall',id:b.id,x:b.x,z:b.z});resetBallToTee(b);}
+
   }
   for(let i=0;i<active.length;i++)for(let j=i+1;j<active.length;j++){
    const a=active[i],b=active[j];if(a.done||b.done||Math.abs(a.y-b.y)>GOLF.radius*1.6)continue;

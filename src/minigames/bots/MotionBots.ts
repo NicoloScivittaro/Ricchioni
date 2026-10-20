@@ -6,6 +6,7 @@ import type { SoccerBall, SoccerPlayer } from '../soccer/soccerTypes';
 import type { VolleyballBall, VolleyballPlayer } from '../volleyball/volleyballTypes';
 import type { KartState } from '../kart-race/raceTypes';
 import type { TrackSpline } from '../kart-race/track';
+import {getWeapon} from '../../../shared/fpsWeapons';
 import { FPS_MAP, rayVsAabb } from '../../../shared/fpsMap';
 
 const clamp = (v: number, a: number, b: number): number => Math.max(a, Math.min(b, v));
@@ -17,6 +18,8 @@ const nearest = <T extends Position>(p: Position, choices: T[]): T | undefined =
 
 /** Per-game tactics produce normal commands, never positions, damage or results. */
 export class MotionBots extends BotInputs {
+  private fpsMemory=new Map<string,{enemy:FpsActor;at:number}>();
+  private fpsPatrol=new Map<string,Position>();
   private volleyReads = new Map<string, { touch: string; miss: boolean }>();
   private waypoints = new Map<string, { x: number; z: number }>();
   private targets = new Map<string, { id: string; since: number }>();
@@ -143,8 +146,11 @@ export class MotionBots extends BotInputs {
     for (const p of players) if (this.ids.has(p.id)) {
       if (!p.alive) { this.ctx.input.cancelPlayer(p.id); this.targets.delete(p.id); this.waypoints.delete(p.id); continue; }
       const enemies = players.filter((q) => q.id !== p.id && q.alive);
-      const visible = enemies.filter((q) => clearShot(p, q));
-      const e = nearest(p, visible) ?? nearest(p, enemies);
+      const visible=enemies.filter(q=>Math.abs(angle(Math.atan2(q.x-p.x,q.z-p.z)-p.yaw))<1.7&&clearShot(p,q));
+      const seen=nearest(p,visible);let memory=this.fpsMemory.get(p.id);
+      if(seen){memory={enemy:{...seen},at:this.time};this.fpsMemory.set(p.id,memory);}else if(memory&&this.time-memory.at>2){this.fpsMemory.delete(p.id);memory=undefined;}
+      let patrol=this.fpsPatrol.get(p.id);if(!patrol||Math.hypot(patrol.x-p.x,patrol.z-p.z)<2){const q=FPS_MAP.spawns[Math.floor(this.rng.next()*FPS_MAP.spawns.length)];patrol={...q,id:'patrol'};this.fpsPatrol.set(p.id,patrol);}
+      const e=seen??memory?.enemy??{...p,...patrol,spawnProtection:1};
       if (!e) { this.ctx.input.cancelPlayer(p.id); continue; }
       let target = this.targets.get(p.id);
       if (target?.id !== e.id) { target = { id: e.id, since: this.time }; this.targets.set(p.id, target); }
@@ -152,7 +158,7 @@ export class MotionBots extends BotInputs {
       const aim = Math.atan2(dx, dz) + Math.sin(this.time * 2.7 + p.id.length) * 0.045;
       const yaw = p.yaw + clamp(angle(aim - p.yaw), -dt * 2.5, dt * 2.5);
       this.ctx.input.get(p.id).setAxis('look', yaw, 0);
-      const canSee = clearShot(p, e);
+      const canSee = visible.some(q=>q.id===e.id);
       let dest: { x: number; z: number } = e;
       if (canSee) this.waypoints.delete(p.id);
       else {
@@ -162,13 +168,15 @@ export class MotionBots extends BotInputs {
       }
       let wx = dest.x - p.x, wz = dest.z - p.z;
       const n = Math.max(1, Math.hypot(wx, wz)); wx /= n; wz /= n;
-      if (canSee && dist < 9) { wx = Math.cos(yaw) * Math.sin(this.time); wz = -Math.sin(yaw) * Math.sin(this.time); }
+      const weapon=getWeapon(p.weaponId),preferred=weapon.scopeZoom?22:p.weaponId==='pistola'?9:14;
+      if(canSee&&dist<preferred*.65){wx=(p.x-e.x)/Math.max(1,dist);wz=(p.z-e.z)/Math.max(1,dist);}
+      else if (canSee && dist < preferred) { wx = Math.cos(yaw) * Math.sin(this.time); wz = -Math.sin(yaw) * Math.sin(this.time); }
       // Local forward/strafe input, as produced by the phone joystick.
       this.ctx.input.get(p.id).setAxis('move', wx * Math.cos(p.yaw) - wz * Math.sin(p.yaw), -(wx * Math.sin(p.yaw) + wz * Math.cos(p.yaw)));
       const firing = canSee && e.spawnProtection <= 0 && this.time - target!.since > 0.45 && Math.abs(angle(aim - yaw)) < 0.12 && this.time % 2.2 < 1.6;
       this.hold(p.id, 'aim', canSee && dist > 10 && Math.abs(angle(aim - yaw)) < 0.18);
       this.fireWeapon(p.id,firing,p.weaponId);
-      if (p.magazine === 0 && this.every(p.id, 'reload', 0.4, 0.7)) this.tap(p.id, 'reload');
+      if ((p.magazine === 0||!canSee&&p.magazine<weapon.magazine*.4) && this.every(p.id, 'reload', 0.4, 0.7)) this.tap(p.id, 'reload');
       if (firing) this.ability(p.id);
     }
   }

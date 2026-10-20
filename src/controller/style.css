@@ -1922,3 +1922,18 @@ body:has(#pad-fallback-badge) .dpad-screen:has(#geo-phone-status){padding-top:62
 
 body:has(#pad-fallback-badge) .fps-shell{--fps-hud-inset:36px}
 @media(orientation:portrait){body:has(#pad-fallback-badge) .fps-shell{--fps-hud-inset:58px}}
+
+/* 31 v2: a quiet private hand, premium vector artwork, no gameplay countdown. */
+.t31-phone{background:radial-gradient(ellipse at 50% 0,#204c4b,#0b252b 75%);padding:20px 14px 32px}
+.t31-phone header{border-color:#a58f61}.t31-phone h1{letter-spacing:.025em}.t31-unlimited{font-size:9px;letter-spacing:.12em;border:1px solid #85958a;border-radius:30px;padding:8px;white-space:nowrap;color:#c6d6c9}
+.t31-status{border-color:#8f845d;background:#102f32;box-shadow:0 7px 20px #04161844}.t31-status>b{font-size:16px;letter-spacing:.03em}
+.t31-hand{gap:10px;padding:12px 0 5px}.t31-hand button{background:transparent;border:2px solid transparent;border-radius:14px;padding:2px;transition:transform 140ms ease,border-color 140ms ease;box-shadow:none;overflow:visible}
+.t31-hand img{border-radius:12px;box-shadow:0 7px 11px #0005}.t31-hand button.selected{transform:translateY(-9px);border:2px solid #f0d392;padding:2px;box-shadow:0 0 0 3px #e2c47728;animation:none}
+.t31-hand button:focus-visible{outline:3px solid #fff1cb;outline-offset:3px}.t31-hand span{font-size:11px;padding-top:9px}.t31-hand.four{grid-template-columns:repeat(2,minmax(0,1fr));max-width:440px;margin:auto;gap:10px}
+.t31-hand.four span{font-size:10px}.t31-turn-actions{background:#102f32eF;backdrop-filter:blur(6px);border-radius:12px;padding:9px;box-shadow:0 5px 14px #04161844}
+.t31-actions button{min-width:78px}.t31-arrive{animation:t31-arrive 230ms cubic-bezier(.2,.7,.3,1) both;animation-delay:var(--deal-delay,0ms)}
+@keyframes t31-arrive{from{opacity:0;transform:translateY(-24px) rotateY(65deg) scale(.95)}to{opacity:1;transform:translateY(0) rotateY(0) scale(1)}}
+@media(max-width:350px){.t31-phone{padding:14px 8px}.t31-hand.four{gap:2px}.t31-hand.four button{padding:0}.t31-hand.four span{font-size:9px}.t31-unlimited{font-size:8px;padding:6px}}
+@media(prefers-reduced-motion:reduce){.t31-arrive{animation:none}.t31-hand button{transition:none}}
+
+@media(min-width:600px){.t31-hand.four{grid-template-columns:repeat(4,minmax(0,1fr));max-width:none}}

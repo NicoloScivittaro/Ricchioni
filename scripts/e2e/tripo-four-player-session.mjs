@@ -44,14 +44,14 @@ try {
    assert.ok(labels.some(s=>s.includes('BOSCHI')));assert.ok(labels.some(s=>s.includes('Carbo')));
   }
   await page.screenshot({path:`${out}/room-four-players.png`});
-  const seq=(process.env.SEQ??'arena,cornicione,dodgeball,soccer,volleyball,kart3d,fps,casacarbo,quiz,memory,cultura,reaction').split(',');
+  const seq=(process.env.SEQ??'arena,cornicione,dodgeball,soccer,volleyball,kart3d,fps,quiz,memory,cultura,reaction').split(',');
   await hostEval(page,(gm,id)=>gm.selectMinigame(id),seq[0]);await sleep(150);await page.keyboard.press('Enter');
   let reconnected=false;
   for(let i=0;i<seq.length;i++){
    const id=seq[i];
    await until(async()=>(await hostSnapshot(page)).phase==='MINIGAME_PLAYING',`playing ${id}`);
    await until(()=>hostEval(page,(gm,id)=>{const s=gm.game.scene.getScene(id);return s?.sys.isActive()&&(!('game3d' in s)||!!s.game3d);},id),`ready ${id}`);
-   if(['arena','cornicione','dodgeball','soccer','volleyball','kart3d','casacarbo'].includes(id)){
+   if(['arena','cornicione','dodgeball','soccer','volleyball','kart3d'].includes(id)){
     await until(()=>hostEval(page,(gm,id)=>{const g=gm.game.scene.getScene(id).game3d;return g&&[...(g.entities??g.avatars).values()].every(e=>(e.goblinDebug?.()??e.goblin?.debug?.())?.state==='ready');},id),`four imported rigs ${id}`);
     const samples=await hostEval(page,(gm,id)=>[...(gm.game.scene.getScene(id).game3d.entities??gm.game.scene.getScene(id).game3d.avatars).values()].map(e=>e.goblinDebug?.()??e.goblin?.debug?.()),id);
     assert.deepEqual(samples.map(s=>s.character).sort(),['buttafuori','ciro','goblin','judoka']);

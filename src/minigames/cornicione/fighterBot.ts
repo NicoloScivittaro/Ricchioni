@@ -1,4 +1,3 @@
-import { STAGE } from './fighterData';
 import { FighterWorld } from './fighterCore';
 import { NO_INPUT } from './fighterTypes';
 import type { Fighter, FighterInput } from './fighterTypes';
@@ -14,6 +13,7 @@ export class FighterBot {
   private abilityTry = 0;
   private lastAttackerPhase = false;
   private throwCharge = .5;
+  private climbVia:number|null=null;
 
   constructor(
     readonly id: string,
@@ -73,18 +73,30 @@ export class FighterBot {
       if (this.rnd() < 0.25) out.abilityPressed = true;
     }
 
+    // Approach an intermediate ledge when the target is beyond a grounded double jump.
+    // Same jumps and acceleration as players; no teleporting or extra recovery charges.
+    if(f.grounded&&f.support===this.climbVia)this.climbVia=null;
+    let route=w.stage.platforms.find(p=>p.id===this.climbVia);
+    if(route&&e.y<route.y+.5){route=undefined;this.climbVia=null;}
+    if(!route&&f.grounded&&dy>6.8){
+      route=w.stage.platforms.filter(p=>p.y>f.y+.5&&p.y<f.y+5.5&&p.y<e.y-.5)
+        .sort((a,b)=>Math.abs((a.x0+a.x1)/2-f.x)-Math.abs((b.x0+b.x1)/2-f.x))[0];
+      this.climbVia=route?.id??null;
+    }
+    const moveX=route?(route.x0+route.x1)/2:e.x;
+    const moveDx=moveX-f.x;
     // movimento verso il bersaglio
     if (f.grounded) {
-      if (dist > 1.7) out.mx = Math.sign(dx);
+      if (Math.abs(moveDx) > (route ? 0.8 : 1.7)) out.mx = Math.sign(moveDx);
       else if (dist < 0.9) out.mx = -Math.sign(dx) * 0.5;
       // sali verso chi e' piu' in alto
-      if (dy > 2.8 && this.hold.jump <= 0 && this.rnd() < 0.05) {
+      if (dy > 1.8 && this.hold.jump <= 0 && this.rnd() < 0.05) {
         out.jumpPressed = true;
         this.hold.jump = 0.4;
       }
-      if (dy < -2.8 && f.support > 0) out.my = -1; // scendi dalla piattaforma
+      if (dy < -1.8 && f.support > 0) out.my = -1; // scendi dalla piattaforma
     } else {
-      out.mx = Math.sign(dx) * Math.min(1, dist / 3);
+      out.mx = Math.sign(moveDx) * Math.min(1, Math.abs(moveDx) / 3);
       if (dy > 2 && f.jumps > 0 && f.vy < 2 && this.rnd() < 0.08) out.jumpPressed = true;
       if (dy < -1.5 && !f.attack) out.my = -0.8;
     }
@@ -132,7 +144,7 @@ export class FighterBot {
         out.my = 0.6;
       }
       if (f.vy < 0 && f.jumps > 0 && low && this.rnd() < 0.5 * (0.5 + this.skill)) out.jumpPressed = true;
-      if (f.vy < -3 && f.jumps === 0 && !f.recoveryUsed && f.y < 0.5 && Math.abs(f.x) < STAGE.mainX + 6 && this.rnd() < 0.7) {
+      if (f.vy < -3 && f.jumps === 0 && !f.recoveryUsed && f.y < 0.5 && Math.abs(f.x) < w.stage.mainX + 6 && this.rnd() < 0.7) {
         out.heavyPressed = true;
         out.my = 1;
         out.mx = towards * 0.6;
@@ -148,7 +160,7 @@ export class FighterBot {
     // edge guard: se un avversario e' fuori e basso, vai al bordo
     const target = w.fighters.find((e) => e !== f && e.inGame && !e.dead && w.offstage(e) && e.y > -10 && Math.abs(e.x) < 24);
     if (target && f.grounded && !this.passive) {
-      const edge = Math.sign(target.x) * (STAGE.mainX - 1.2);
+      const edge = Math.sign(target.x) * (w.stage.mainX - 1.2);
       if (Math.abs(f.x - edge) > 0.8 && f.support === 0) out.mx = Math.sign(edge - f.x);
       else if (this.cd <= 0 && Math.abs(target.x - f.x) < 4) {
         out.kickPressed = true;

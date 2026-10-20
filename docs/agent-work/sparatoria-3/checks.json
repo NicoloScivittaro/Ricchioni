@@ -1,0 +1,178 @@
+{
+  "weapons": [
+    {
+      "id": "mitraglia",
+      "model": true,
+      "recoil": 0.01495693425911544,
+      "reload": 0.05670265375173881,
+      "casing": true,
+      "noEarlyAmmo": true,
+      "completed": true
+    },
+    {
+      "id": "laser",
+      "model": true,
+      "recoil": 0.03905002320121575,
+      "reload": 0.06876533615783195,
+      "casing": true,
+      "noEarlyAmmo": true,
+      "completed": true
+    },
+    {
+      "id": "raffica",
+      "model": true,
+      "recoil": 0.006917040002526561,
+      "reload": 0.055330274852516716,
+      "casing": true,
+      "noEarlyAmmo": true,
+      "completed": true
+    },
+    {
+      "id": "bombarda",
+      "model": true,
+      "recoil": 0.02248926754004882,
+      "reload": 0.05939939830871185,
+      "casing": false,
+      "noEarlyAmmo": true,
+      "completed": true
+    },
+    {
+      "id": "sparapiselli",
+      "model": true,
+      "recoil": 0.003604716861469601,
+      "reload": 0.06506134193893179,
+      "casing": true,
+      "noEarlyAmmo": true,
+      "completed": true
+    },
+    {
+      "id": "pistola",
+      "model": true,
+      "recoil": 0.005282117004112422,
+      "reload": 0.04520586929863731,
+      "casing": true,
+      "noEarlyAmmo": true,
+      "completed": true
+    }
+  ],
+  "ads": {
+    "zoom": 4,
+    "hidden": true,
+    "scope": "1",
+    "directionChange": 0
+  },
+  "logic": {
+    "damage": 30,
+    "spent": 11,
+    "protectedNoHit": true,
+    "killed": true,
+    "wall": {
+      "hp": 100,
+      "impact": {
+        "id": null,
+        "type": "surfaceImpact",
+        "x": 0,
+        "y": 1.5,
+        "z": -6,
+        "nx": 0,
+        "ny": 0,
+        "nz": -1,
+        "surface": "metal"
+      }
+    },
+    "first": "",
+    "revenge": "VENDETTA",
+    "double": "DOPPIA ELIMINAZIONE"
+  },
+  "maps": [
+    {
+      "map": "cantiere",
+      "valid": true,
+      "boundsFinite": true,
+      "active": 42,
+      "shots": 21,
+      "damage": 244,
+      "kills": 1,
+      "geometry": null,
+      "impactPool": 48
+    },
+    {
+      "map": "nuketown",
+      "valid": true,
+      "boundsFinite": true,
+      "active": 57,
+      "shots": 13,
+      "damage": 172,
+      "kills": 1,
+      "geometry": null,
+      "impactPool": 48
+    },
+    {
+      "map": "terminal",
+      "valid": true,
+      "boundsFinite": true,
+      "active": 134,
+      "shots": 31,
+      "damage": 364,
+      "kills": 3,
+      "geometry": {
+        "partial": true,
+        "spatialBatches": 86,
+        "instanceGroups": 172,
+        "modelPrimitives": 1998,
+        "triangles": 1704739,
+        "materials": 7,
+        "loadMs": 1764.5,
+        "source": "terminal-fast.glb",
+        "staticBatchMeters": 64,
+        "stableAtlasGradients": true,
+        "shadows": "existing character blobs; no dynamic map shadow pass"
+      },
+      "impactPool": 48
+    }
+  ],
+  "performance": {
+    "meanSimulationMs": 1.6049429660967547,
+    "meanRenderUpdateMs": 0.32699619732202234,
+    "fps": 33.50341181533166,
+    "p95": 50,
+    "views": 5,
+    "scale": 1,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "drawCalls": 479,
+    "actualBotShots": 59,
+    "resolution": [
+      1280,
+      720
+    ]
+  },
+  "errors": [],
+  "controlledPerformance": {
+    "fps": 58.402237727845566,
+    "p95": 16.80000000000109,
+    "views": 5,
+    "resolution": [
+      1280,
+      720
+    ],
+    "scale": 1,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "drawCalls": 564,
+    "shots": 190,
+    "meanSimulationMs": 0.24655963313005386,
+    "condition": "Same Terminal 2.4 benchmark poses and M4; added real automatic firing/reloading, fixed poses, no AI movement"
+  },
+  "invariants": {
+    "terminalCollisionUnchanged": true,
+    "weaponConfigUnchangedSince2_4": true,
+    "sixActiveWeapons": true
+  }
+}

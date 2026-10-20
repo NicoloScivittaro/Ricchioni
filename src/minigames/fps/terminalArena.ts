@@ -1,3 +1,5 @@
+import {FPS_SURFACES} from '../../../shared/fpsCombat';
+import type {FpsSurface} from '../../../shared/fpsCombat';
 import type {Aabb} from '../../../shared/fpsMap';
 import {rayVsAabb} from '../../../shared/fpsMap';
 import type {FpsArenaPoint as ArenaPoint} from './importedFpsArena';
@@ -8,9 +10,10 @@ const SIZE=4;
 export class TerminalArena {
   readonly name='TERMINAL';readonly halfSize=78;readonly obstacles:Aabb[];
   readonly spawns:ArenaPoint[];readonly nav:ArenaPoint[];
+  raySurface:FpsSurface='unknown';private surfaceKinds=new Uint8Array();
   private support=new Map<number,boolean>();
   private cells=new Map<string,number[]>();private walk=new Map<string,number[]>();private fields=new Map<number,Int32Array>();
-  static async load():Promise<TerminalArena>{const r=await fetch('/assets/fps/terminal/arena.json');if(!r.ok)throw new Error('Terminal collision HTTP '+r.status);return new TerminalArena(await r.json());}
+  static async load():Promise<TerminalArena>{const r=await fetch('/assets/fps/terminal/arena.json');if(!r.ok)throw new Error('Terminal collision HTTP '+r.status);const arena=new TerminalArena(await r.json());try{const s=await fetch('/assets/fps/terminal/surfaces.bin');if(s.ok){const kinds=new Uint8Array(await s.arrayBuffer());if(kinds.length===arena.data.triangles.length)arena.surfaceKinds=kinds;}}catch{/* Cosmetic metadata must not prevent play. */}return arena;}
   constructor(private data:TerminalData){
     this.obstacles=data.barriers;this.nav=data.nodes.map(([x,y,z])=>({x,y,z}));this.spawns=data.spawns.map(i=>this.nav[i]);
     if(this.spawns.length<5||!this.nav.length)throw new Error('Terminal: arena incompleta');
@@ -86,14 +89,14 @@ export class TerminalArena {
     let here=this.closest(p),dest=this.nav[here];for(let i=0;i<7;i++){const next=this.data.edges[here].filter(n=>f![n]>=0&&f![n]<f![here]).sort((a,b)=>f![a]-f![b])[0];if(next===undefined)break;const candidate=this.nav[next];if(!this.canTraverse(p,candidate))break;dest=candidate;here=next;}return dest;
   }
   ray(ox:number,oy:number,oz:number,dx:number,dy:number,dz:number,max:number):number{
-    let best=max;for(const b of this.obstacles){const t=rayVsAabb(ox,oy,oz,dx,dy,dz,b);if(t!==null)best=Math.min(best,t);}
+    this.raySurface='unknown';let best=max;for(const b of this.obstacles){const t=rayVsAabb(ox,oy,oz,dx,dy,dz,b);if(t!==null)best=Math.min(best,t);}
     const tested=new Set<number>();
     const test=(cx:number,cz:number)=>{for(const i of this.cells.get(cx+':'+cz)??[]){if(tested.has(i))continue;tested.add(i);const t=this.data.triangles[i];
       const ax=t[3]-t[0],ay=t[4]-t[1],az=t[5]-t[2],bx=t[6]-t[0],by=t[7]-t[1],bz=t[8]-t[2];
       const px=dy*bz-dz*by,py=dz*bx-dx*bz,pz=dx*by-dy*bx,det=ax*px+ay*py+az*pz;if(Math.abs(det)<1e-9)continue;
       const inv=1/det,tx=ox-t[0],ty=oy-t[1],tz=oz-t[2],u=(tx*px+ty*py+tz*pz)*inv;if(u<-.00001||u>1.00001)continue;
       const qx=ty*az-tz*ay,qy=tz*ax-tx*az,qz=tx*ay-ty*ax,v=(dx*qx+dy*qy+dz*qz)*inv;if(v<-.00001||u+v>1.00001)continue;
-      const distance=(bx*qx+by*qy+bz*qz)*inv;if(distance>=.00001&&distance<best)best=distance;
+      const distance=(bx*qx+by*qy+bz*qz)*inv;if(distance>=.00001&&distance<best){best=distance;this.raySurface=FPS_SURFACES[this.surfaceKinds[i]??0]??'unknown';}
     }};
     let cx=Math.floor(ox/SIZE),cz=Math.floor(oz/SIZE),travel=0;const sx=Math.sign(dx),sz=Math.sign(dz),strideX=dx?SIZE/Math.abs(dx):Infinity,strideZ=dz?SIZE/Math.abs(dz):Infinity;
     let nextX=dx?((cx+(dx>0?1:0))*SIZE-ox)/dx:Infinity,nextZ=dz?((cz+(dz>0?1:0))*SIZE-oz)/dz:Infinity;

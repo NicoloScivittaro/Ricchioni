@@ -5,7 +5,7 @@ import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { launch, addPhone, hostEval, hostSnapshot, sleep, installTrace, readTrace, HOST_URL } from './lib.mjs';
 const stage = process.env.STAGE ?? 'before', players = Number(process.env.PLAYERS ?? 2);
 const quality = process.env.QUALITY ?? 'medium', repeats = Number(process.env.REPEATS ?? 2);
-const games = (process.env.GAMES ?? 'quiz,reaction,memory,arena,dodgeball,soccer,volleyball,kart3d,cultura,fps,cornicione,casacarbo,minigolf,geofall,backrooms').split(',');
+const games = (process.env.GAMES ?? 'quiz,reaction,memory,arena,dodgeball,soccer,volleyball,kart3d,cultura,fps,cornicione,minigolf,geofall,backrooms').split(',');
 const out = `docs/agent-work/graphics-performance/${stage}-${players}-${quality}${process.env.SUFFIX ?? ''}`;
 mkdirSync(out, { recursive: true });
 const report = { stage, players, quality, viewport: process.env.VIEWPORT ?? '1280x720', games: [], errors: [] };
@@ -102,7 +102,7 @@ try {
       }, id));
     }
     assert.ok(row.samples.every(s => s.frames > 30 && s.activeScene && s.phase === 'MINIGAME_PLAYING'), `${id}: stable render samples`);
-    if (stage === 'after' && ['kart3d','casacarbo'].includes(id)) {
+    if (stage === 'after' && ['kart3d'].includes(id)) {
       row.hudFit = await hostEval(page, (gm,id) => {
         const hud = gm.game.scene.getScene(id).game3d.hud;
         const labels = id === 'kart3d' ? [...hud.entries.values()].map(e=>e.abilityLabel) : [...hud.rows.values()].map(e=>e.status);

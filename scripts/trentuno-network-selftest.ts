@@ -43,5 +43,5 @@ try{
   const room=(manager as any).rooms.get(roomAck.roomCode);
   room.finishMinigame([{playerId:identityA.playerId,placement:1,score:5},{playerId:identityB.playerId,placement:1,score:5}],pub().roundId);
   assert.equal(roomState().lastResults.results[0].placement,1);assert.equal(roomState().lastResults.results[1].placement,1);assert.equal(roomState().players[0].score,roomState().players[1].score);checks++;
-  writeFileSync('docs/agent-work/trentuno/network-tests.json',JSON.stringify({checks,privacy:true,authority:true,reconnection:true,oldSocketDenied:true,restartIdentity:true},null,2));console.log(`${checks} controlli del trasporto superati.`);
+  writeFileSync('docs/agent-work/trentuno-2/network-checks.json',JSON.stringify({checks,privacy:true,authority:true,reconnection:true,oldSocketDenied:true,restartIdentity:true},null,2));console.log(`${checks} controlli del trasporto superati.`);
 }finally{host.emit(EVT.hostRestartMatch);}

@@ -1,0 +1,12 @@
+{
+  "terminal-fast.glb": true,
+  "terminal-play.glb": true,
+  "atlas.json": true,
+  "arena.json": true,
+  "render-config.json": true,
+  "http://localhost:3012/": 200,
+  "http://localhost:3012/terminal-2-4/": 200,
+  "http://localhost:3012/terminal-2-4/cabin-minigun.png": 200,
+  "http://localhost:3012/terminal-2-4/glass.png": 200,
+  "http://localhost:3012/terminal-2-4/exterior.png": 200
+}

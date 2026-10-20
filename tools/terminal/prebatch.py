@@ -89,6 +89,6 @@ def run():
     collision=json.loads((ROOT/'public/assets/fps/terminal/arena.json').read_text(encoding='utf8'))
     (ROOT/'public/assets/fps/terminal/render-config.json').write_text(json.dumps({k:collision[k]for k in ('barriers','accessSteps')},separators=(',',':')),encoding='utf8')
     report={**out.d['nodes'][0]['extras'],'bytes':total_bytes,'maxTransformError':max_error,'collisionDataChanged':False}
-    (ROOT/'docs/agent-work/terminal-2-3/prebatch.json').write_text(json.dumps(report,indent=2),encoding='utf8');print(json.dumps(report))
+    (ROOT/'docs/agent-work/terminal-2-4/prebatch.json').write_text(json.dumps(report,indent=2),encoding='utf8');print(json.dumps(report))
 
 if __name__=='__main__':run()

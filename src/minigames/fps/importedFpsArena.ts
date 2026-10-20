@@ -2,6 +2,7 @@ import type {Aabb} from '../../../shared/fpsMap';
 export interface FpsArenaPoint {x:number;z:number;y?:number;eyeHeight?:number;crouching?:boolean}
 /** Structural contract shared by imported FPS arenas; rendering stays separate. */
 export interface ImportedFpsArena {
+ raySurface?:import('../../../shared/fpsCombat').FpsSurface;
  name:string;halfSize:number;obstacles:Aabb[];spawns:FpsArenaPoint[];nav:FpsArenaPoint[];
  floorAt(x:number,z:number,y?:number):number|null;
  isClear(x:number,z:number,r?:number,y?:number):boolean;

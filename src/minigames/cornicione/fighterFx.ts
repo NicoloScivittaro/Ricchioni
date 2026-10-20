@@ -6,7 +6,7 @@ import { Color3, DynamicTexture, Engine, Mesh, MeshBuilder, Scene, StandardMater
  * Non toccano il gameplay: il gioco chiama spark/ring/slash/marker dopo aver gia' deciso cosa e' successo.
  */
 
-type Kind = 'spark' | 'ring' | 'slash';
+type Kind = 'spark' | 'ring' | 'slash' | 'dust';
 interface Item {
   mesh: Mesh;
   mat: StandardMaterial;
@@ -129,7 +129,7 @@ export class FighterFx {
     it.size = size;
     it.rot = rot;
     it.stretch = stretch;
-    const t = kind === 'spark' ? this.tSpark : kind === 'ring' ? this.tRing : this.tSlash;
+    const t = kind === 'spark' ? this.tSpark : (kind === 'ring'||kind === 'dust') ? this.tRing : this.tSlash;
     it.mat.emissiveTexture = t;
     it.mat.opacityTexture = t;
     const c = Color3.FromHexString(color);
@@ -149,6 +149,11 @@ export class FighterFx {
   /** Anello che si allarga (atterraggio, respawn, abilita'). */
   ring(x: number, y: number, color: string, size = 2): void {
     this.start('ring', x, y, color, size, 0.38);
+  }
+
+  /** Low, short landing puff: does not cover the fighter or allocate a new mesh. */
+  dust(x:number,y:number,color='#e7dbc5',size=1.7):void {
+    this.start('dust',x,y+.08,color,size,.24,0,.2);
   }
 
   /** Scia direzionale (lancio, KO): da (x,y) verso la direzione `angle` (rad), lunga `len`. */
@@ -188,9 +193,9 @@ export class FighterFx {
       if (it.kind === 'spark') {
         const s = it.size * (0.5 + k * 0.7);
         it.mesh.scaling.set(s, s, 1);
-      } else if (it.kind === 'ring') {
+      } else if (it.kind === 'ring'||it.kind === 'dust') {
         const s = it.size * (0.35 + k * 1.1);
-        it.mesh.scaling.set(s, s, 1);
+        it.mesh.scaling.set(s, it.kind==='dust'?s*.22:s, 1);
       } else {
         it.mesh.scaling.set(it.size * (0.6 + 0.4 * k), it.stretch * (1 - k * 0.6), 1);
       }

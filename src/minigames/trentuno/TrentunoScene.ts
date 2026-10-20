@@ -11,9 +11,9 @@ import { audio } from '../../core/AudioManager';
 import { presentationOf } from '../../../shared/characterPresentation';
 export class TrentunoScene extends Phaser.Scene {
   private ctx!:MinigameContext;private menu!:PauseMenu;private state:PublicState|null=null;private view:Phaser.GameObjects.GameObject[]=[];
-  private stop:(()=>void)|null=null;private seen=new Set<number>();private positions=new Map<string,{x:number;y:number}>();private received=0;private generation=0;
+  private stop:(()=>void)|null=null;private seen=new Set<number>();private positions=new Map<string,{x:number;y:number}>();private generation=0;
   constructor(){super('trentuno');}
-  preload():void {for(const c of DECK)this.load.svg(`t31-${c.id}`,cardAsset(c.id),{width:220,height:340});this.load.svg('t31-back',BACK_ASSET,{width:220,height:340});}
+  preload():void {for(const c of DECK)this.load.svg(`t31-${c.id}`,cardAsset(c.id),{width:240,height:336});this.load.svg('t31-back',BACK_ASSET,{width:240,height:336});}
   create(data:{ctx:MinigameContext}):void{
     this.ctx=data.ctx;this.state=null;this.view=[];this.seen=new Set();this.generation++;const stamp=this.generation;
     this.menu=new PauseMenu(this,'31 DEGLI INFAMI',this.ctx.input,()=>{gm.startTrentuno(true);this.scene.restart({ctx:this.ctx});});abilityHub.begin('trentuno',this.ctx);
@@ -25,18 +25,18 @@ export class TrentunoScene extends Phaser.Scene {
   }
   private keep<T extends Phaser.GameObjects.GameObject>(o:T):T{this.view.push(o);return o;}
   private text(x:number,y:number,label:string,size=20,color='#f4ead0',width=1100):Phaser.GameObjects.Text{return this.keep(this.add.text(x,y,label,{fontFamily:FONT_BODY,fontSize:`${size}px`,color,align:'center',wordWrap:{width}}).setOrigin(.5));}
-  private card(id:string,x:number,y:number,height=160):Phaser.GameObjects.Image{return this.keep(this.add.image(x,y,`t31-${id||'back'}`).setDisplaySize(height*220/340,height));}
-  private clear():void{for(const o of this.view)o.destroy();this.view=[];}
+  private card(id:string,x:number,y:number,height=160):Phaser.GameObjects.Image{return this.keep(this.add.image(x,y,`t31-${id||'back'}`).setDisplaySize(height*240/336,height));}
+  private clear():void{for(const o of this.view){this.tweens.killTweensOf(o);o.destroy();}this.view=[];}
   private render(s:PublicState):void{
-    if(s.roundId!==this.ctx.roundId)return;this.received=performance.now();const previous=this.state;this.state=s;
+    if(s.roundId!==this.ctx.roundId)return;const previous=this.state;this.state=s;
     if(previous?.matchId===s.matchId&&previous.version===s.version&&previous.paused===s.paused)return;
     if(previous?.matchId!==s.matchId)this.seen.clear();this.clear();this.keep(this.add.rectangle(640,360,1280,720,0x092a23));
     const g=this.keep(this.add.graphics());g.fillStyle(0x493324);g.fillEllipse(640,359,1170,522,128);g.lineStyle(4,0xcfa653);g.strokeEllipse(640,359,1150,507,128);g.fillStyle(0x0e4435);g.fillEllipse(640,359,1128,480,128);g.lineStyle(1,0x77934e,.4);g.strokeEllipse(640,359,1095,450,128);
     g.lineStyle(1,0xb19a62,.22);for(let i=0;i<4;i++)g.strokeEllipse(640,359,1140+i*6,488+i*6,128);
     // Trama statica, nessuno shader/texture ad alta risoluzione o motore 3D aggiuntivo.
     g.lineStyle(1,0xb0b376,.025);for(let y=151;y<570;y+=10){const w=Math.sqrt(Math.max(0,1-((y-359)/227)**2))*546;g.lineBetween(640-w,y,640+w,y);}
-    this.text(640,37,'31 DEGLI INFAMI',34,'#edcf8c').setFontFamily(FONT_DISPLAY);this.text(640,74,`MANO ${s.handNumber}/3 · ${s.phase==='finished'?'TORNEO CONCLUSO':s.phase==='handResult'?'CARTE SUL TAVOLO':s.paused?'PAUSA':s.phase==='knockWindow'?'FINESTRA: NO, ASPETTA!':`TURNO DI ${s.players.find(p=>p.id===s.turn)!.name}`}`,16,'#aebfa5');
-    this.text(1150,40,`${Math.ceil(s.remaining)}s`,28,'#f2cc6c').setName('t31-timer');this.text(1160,73,`Mano ${Math.ceil(s.handRemaining)}s`,13,'#bfc4a4');
+    this.text(640,37,'31 DEGLI INFAMI',34,'#edcf8c').setFontFamily(FONT_DISPLAY);this.text(640,74,`MANO ${s.handNumber}/3 · ${s.phase==='finished'?'TORNEO CONCLUSO':s.phase==='handResult'?'CARTE SUL TAVOLO':s.paused?'PAUSA':`TURNO DI ${s.players.find(p=>p.id===s.turn)!.name}`}`,16,'#aebfa5');
+    this.text(1148,40,'SENZA FRETTA',13,'#d5c395',200);
     this.positions.clear();s.players.forEach((p,i)=>{
       const angle=s.players.length===2?Math.PI+i*Math.PI:-Math.PI/2+i*2*Math.PI/s.players.length;
       const x=640+Math.cos(angle)*442,y=350+Math.sin(angle)*191;this.positions.set(p.id,{x,y});
@@ -51,21 +51,22 @@ export class TrentunoScene extends Phaser.Scene {
     if(s.knocker)this.text(640,238,`HA BUSSATO ${s.players.find(p=>p.id===s.knocker)!.name} · ${s.finalTurns} TURNI FINALI`,15,'#eed7a3',750);
     this.text(640,641,s.log.at(-1)?.text??'',22,'#f4d486',1170);this.text(640,677,'Asso 11 · figure 10 · conta un solo seme · abilità una volta nelle tre mani',14,'#adbca1');
     if(s.phase==='handResult'||s.phase==='finished')this.reveal(s);
+    if(previous?.handNumber!==s.handNumber&&s.phase!=='handResult'&&s.phase!=='finished'){let i=0;for(const seat of s.players){const dest=this.positions.get(seat.id)!;for(let k=0;k<seat.count;k++){const card=this.add.image(544,352,'t31-back').setDisplaySize(30,42).setDepth(40);this.tweens.add({targets:card,x:dest.x-34+k*18,y:dest.y+32,angle:(k-1)*6,duration:220,delay:i++*35,onComplete:()=>card.destroy()});}}}
     for(const e of s.log)if(!this.seen.has(e.id)){this.seen.add(e.id);if(previous)this.animate(e,s);}if(this.seen.size>400)this.seen=new Set(s.log.map(e=>e.id));
   }
   private reveal(s:PublicState):void{
     const h=s.history.at(-1)!;this.keep(this.add.rectangle(640,355,940,508,0x08271f,.98).setStrokeStyle(3,0xcfa653));
     this.text(640,126,s.phase==='finished'?'TRE MANI · ECCO GLI INFAMI':h.reason==='31'?'TRENTUNO!':'MANO '+h.number+' · '+h.reason.toUpperCase(),27,'#efd188');
     const rows=s.phase==='finished'?s.results!.map(result=>h.rows.find(r=>r.playerId===result.playerId)!):h.rows;
-    rows.forEach((r,i)=>{const y=196+i*77;this.text(332,y,s.players.find(p=>p.id===r.playerId)!.name,18,'#f2e5be',205);r.cards.forEach((c,k)=>this.card(c,538+k*56,y,70));this.text(811,y,`${r.score} PUNTI`,21,'#e7c264');this.text(972,y,s.phase==='finished'?`${s.results!.find(q=>q.playerId===r.playerId)!.placement}° · ${s.players.find(p=>p.id===r.playerId)!.points} PT`:`${r.placement}° · +${r.points}`,16);});
+    rows.forEach((r,i)=>{const y=196+i*77;this.text(332,y,s.players.find(p=>p.id===r.playerId)!.name,18,'#f2e5be',205);r.cards.forEach((c,k)=>{const card=this.card('',538+k*58,y,70),sx=card.scaleX;this.tweens.add({targets:card,scaleX:0,duration:85,delay:i*40+k*50,onComplete:()=>{if(!card.scene)return;card.setTexture(`t31-${c}`);this.tweens.add({targets:card,scaleX:sx,duration:110});}});});this.text(811,y,`${r.score} PUNTI`,21,'#e7c264');this.text(972,y,s.phase==='finished'?`${s.results!.find(q=>q.playerId===r.playerId)!.placement}° · ${s.players.find(p=>p.id===r.playerId)!.points} PT`:`${r.placement}° · +${r.points}`,16);});
     this.text(640,588,s.phase==='finished'?'Pari risolti per somma carte; parità effettive condivise.':'Nuova distribuzione tra pochi secondi…',14,'#b8c8a6');
   }
   private animate(e:PublicState['log'][number],s:PublicState):void{
     const p=e.playerId?this.positions.get(e.playerId):null;
-    if((e.kind==='draw'||e.kind==='take'||e.kind==='discard')&&p){const from=e.kind==='discard'?p:{x:e.kind==='draw'?544:736,y:352},to=e.kind==='discard'?{x:736,y:352}:p;const image=this.add.image(from.x,from.y,`t31-${e.cardId??'back'}`).setDisplaySize(43,66).setDepth(40);this.tweens.add({targets:image,x:to.x,y:to.y,angle:e.kind==='discard'?185:15,duration:350,onComplete:()=>image.destroy()});}
+    if((e.kind==='draw'||e.kind==='take'||e.kind==='discard')&&p){const from=e.kind==='discard'?p:{x:e.kind==='draw'?544:736,y:352},to=e.kind==='discard'?{x:736,y:352}:p;const image=this.add.image(from.x,from.y,`t31-${e.cardId??'back'}`).setDisplaySize(43,66).setDepth(40);this.tweens.add({targets:image,x:to.x,y:to.y,angle:e.kind==='discard'?185:15,duration:240,onComplete:()=>image.destroy()});}
     if(e.kind==='knock'){for(let i=0;i<3;i++)this.time.delayedCall(i*170,()=>{this.cameras.main.shake(90,.002);audio.ui('confirm');});}
     if(e.kind==='ability'){const label=this.add.text(640,210,e.text,{fontFamily:FONT_BODY,fontSize:'25px',color:'#f7d985',backgroundColor:'#133e2d'}).setOrigin(.5).setPadding(14).setDepth(44);this.tweens.add({targets:label,y:180,alpha:0,delay:700,duration:600,onComplete:()=>label.destroy()});}
     if(e.kind==='31'){this.cameras.main.flash(250,139,117,28);this.cameras.main.zoomTo(1.035,180);this.time.delayedCall(800,()=>this.cameras.main.zoomTo(1,180));const winner=s.history.at(-1)!.rows.find(r=>r.score===31)!;const portrait=addPortrait(this,1040,172,s.players.find(p=>p.id===winner.playerId)!.characterId,70).setDepth(48);this.tweens.add({targets:portrait,scaleX:'+=0.05',scaleY:'+=0.05',duration:180,yoyo:true,repeat:4,onComplete:()=>portrait.destroy()});audio.ui('confirm');}
   }
-  update():void{if(this.menu.update())return;if(this.state){const clock=this.children.getByName('t31-timer') as Phaser.GameObjects.Text|null;clock?.setText(`${Math.max(0,Math.ceil(this.state.remaining-(this.state.paused?0:(performance.now()-this.received)/1000)))}s`);}}
+  update():void{this.menu.update();}
 }

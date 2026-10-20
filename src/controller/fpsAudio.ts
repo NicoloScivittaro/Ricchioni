@@ -1,3 +1,4 @@
+import type {FpsSurface} from '../../shared/fpsCombat';
 import { audio } from '../core/AudioManager';
 
 /**
@@ -6,23 +7,23 @@ import { audio } from '../core/AudioManager';
  * `opt.gain`/`opt.pan` servono per i colpi dei nemici (attenuati in base alla distanza e spostati a destra/sinistra).
  */
 export interface SfxOpt {
-  gain?: number;
+  gain?: number;source?:string;
   pan?: number; // -1 sinistra … +1 destra
 }
 
 interface Bus {
   ctx: AudioContext;
-  dst: AudioNode;
+  dst: AudioNode;critical:boolean;
 }
 
 let noiseBuf: AudioBuffer | null = null;
 
-function bus(): Bus | null {
+function bus(critical=false): Bus | null {
   const ctx = audio.getContext();
   const dst = audio.getOutput('sfx');
   if (!ctx || !dst || ctx.state === 'closed') return null;
   if (ctx.state === 'suspended') void ctx.resume();
-  return { ctx, dst };
+  return { ctx, dst,critical };
 }
 
 function noise(ctx: AudioContext): AudioBuffer {
@@ -35,20 +36,21 @@ function noise(ctx: AudioContext): AudioBuffer {
   return buf;
 }
 
-function chain(b: Bus, g: GainNode, opt?: SfxOpt): void {
+function chain(b: Bus, g: GainNode, opt?: SfxOpt): AudioNode|null {
   if (opt?.pan !== undefined && typeof b.ctx.createStereoPanner === 'function') {
     const p = b.ctx.createStereoPanner();
     p.pan.value = Math.max(-1, Math.min(1, opt.pan));
     g.connect(p);
-    p.connect(b.dst);
+    p.connect(b.dst);return p;
   } else {
-    g.connect(b.dst);
+    g.connect(b.dst);return null;
   }
 }
 
 /** Oscillatore con glissando f0 → f1 e inviluppo veloce. */
 function tone(b: Bus, type: OscillatorType, f0: number, f1: number, dur: number, gain: number, delay = 0, opt?: SfxOpt): void {
   try {
+    if(!audio.reserveVoice('sfx',dur+Math.max(0,delay)+.02,b.critical))return;
     const t = b.ctx.currentTime + delay;
     const o = b.ctx.createOscillator();
     const g = b.ctx.createGain();
@@ -60,9 +62,9 @@ function tone(b: Bus, type: OscillatorType, f0: number, f1: number, dur: number,
     g.gain.linearRampToValueAtTime(peak, t + Math.min(0.006, dur * 0.2));
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     o.connect(g);
-    chain(b, g, opt);
+    const panner=chain(b,g,opt);
     o.start(t);
-    o.stop(t + dur + 0.02);
+    o.stop(t + dur + 0.02);o.onended=()=>{o.disconnect();g.disconnect();panner?.disconnect();};
   } catch {
     /* ignora errori audio */
   }
@@ -71,6 +73,7 @@ function tone(b: Bus, type: OscillatorType, f0: number, f1: number, dur: number,
 /** Rumore filtrato (soffio, schiocco, fruscio). */
 function hiss(b: Bus, kind: BiquadFilterType, f0: number, f1: number, dur: number, gain: number, delay = 0, q = 0.8, opt?: SfxOpt): void {
   try {
+    if(!audio.reserveVoice('sfx',dur+Math.max(0,delay)+.02,b.critical))return;
     const t = b.ctx.currentTime + delay;
     const s = b.ctx.createBufferSource();
     s.buffer = noise(b.ctx);
@@ -86,9 +89,9 @@ function hiss(b: Bus, kind: BiquadFilterType, f0: number, f1: number, dur: numbe
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     s.connect(f);
     f.connect(g);
-    chain(b, g, opt);
+    const panner=chain(b,g,opt);
     s.start(t, Math.random() * 0.4);
-    s.stop(t + dur + 0.02);
+    s.stop(t + dur + 0.02);s.onended=()=>{s.disconnect();f.disconnect();g.disconnect();panner?.disconnect();};
   } catch {
     /* ignora errori audio */
   }
@@ -128,11 +131,12 @@ export function shot(weaponId: string, opt?: SfxOpt): void {
       break;
     case 'sparapiselli':
       hiss(b,'bandpass',2400,850,.04,.16,0,1,opt);
-      tone(b,'triangle',180*j,70,.045,.12,0,opt);
+      tone(b,'triangle',180*j,70,.045,.12,0,opt);motor(b,opt);
       break;
     default: // mitraglia: tatatata
       hiss(b, 'bandpass', 1900, 900, 0.05, 0.2, 0, 0.9, opt);
-      tone(b, 'square', 230 * j, 105, 0.055, 0.1, 0, opt);
+      tone(b, 'triangle', 170 * j, 60, .13, .2, 0, opt);
+      hiss(b,'lowpass',1000,320,.11,.12,0,.9,opt);
   }
 }
 
@@ -182,7 +186,7 @@ export function empty(): void {
 
 /** Colpo a segno confermato dall'host: un "tic" brillante (piu' grave e pesante se il danno e' grosso). */
 export function hitTick(dmg: number): void {
-  const b = bus();
+  const b = bus(true);
   if (!b) return;
   const heavy = dmg >= 40;
   tone(b, 'sine', heavy ? 900 : 1500, heavy ? 600 : 1100, 0.07, 0.16);
@@ -192,7 +196,7 @@ export function hitTick(dmg: number): void {
 
 /** Kill: doppio "ding" ascendente + botto. */
 export function kill(): void {
-  const b = bus();
+  const b = bus(true);
   if (!b) return;
   tone(b, 'triangle', 880, 880, 0.14, 0.16);
   tone(b, 'triangle', 1318, 1318, 0.22, 0.16, 0.09);
@@ -258,4 +262,27 @@ export function energyImpact(opt?:SfxOpt):void {
   const b=bus();if(!b)return;
   hiss(b,'bandpass',3200,450,.2,.2,0,1,opt);
   tone(b,'sine',700,80,.22,.2,0,opt);
+}
+
+/** Single reusable motor per real shooter, never per viewport. Envelope extends
+ * only after an actual shot, coasts down automatically and stops on disposal. */
+const motors=new Map<string,{o:OscillatorNode;g:GainNode;p:StereoPannerNode|null;until:number;ctx:AudioContext}>();
+function motor(b:Bus,opt?:SfxOpt):void{
+ const key=opt?.source??'local',t=b.ctx.currentTime;let m=motors.get(key);
+ if(!m||m.ctx!==b.ctx||m.until<=t){
+  if(motors.size>=6)return;if(!audio.reserveVoice('sfx',.6))return;
+  const o=b.ctx.createOscillator(),g=b.ctx.createGain(),p=b.ctx.createStereoPanner();o.type='triangle';o.frequency.value=65;g.gain.value=.0001;o.connect(g);g.connect(p);p.connect(b.dst);m={o,g,p,until:0,ctx:b.ctx};motors.set(key,m);o.onended=()=>{o.disconnect();g.disconnect();p.disconnect();if(motors.get(key)?.o===o)motors.delete(key);};o.start();
+ }
+ m.until=t+.55;m.p!.pan.value=Math.max(-.9,Math.min(.9,opt?.pan??0));m.o.frequency.cancelScheduledValues(t);m.o.frequency.setTargetAtTime(140,t,.075);m.o.frequency.setTargetAtTime(45,t+.13,.15);
+ m.g.gain.cancelScheduledValues(t);m.g.gain.setTargetAtTime(.025*(opt?.gain??1),t,.02);m.g.gain.setTargetAtTime(.0001,t+.13,.10);m.o.stop(m.until);
+}
+export function stopCombatAudio():void{for(const m of motors.values()){try{m.o.stop();}catch{/* already released */}}motors.clear();}
+/** Surface names come from actual source materials where available; unknown
+ * geometry gets a neutral dry tick, never guessed glass shattering. */
+export function impact(surface:FpsSurface,opt?:SfxOpt):void{
+ const b=bus();if(!b||opt?.gain===0)return;
+ if(surface==='metal'){tone(b,'triangle',2450,700,.09,.12,0,opt);hiss(b,'highpass',4400,2200,.035,.09,0,.8,opt);}
+ else if(surface==='glass'){tone(b,'sine',4100,2300,.09,.09,0,opt);hiss(b,'highpass',6500,3200,.06,.08,0,1,opt);}
+ else if(surface==='wood'){hiss(b,'lowpass',1300,380,.07,.13,0,.8,opt);tone(b,'triangle',220,100,.055,.08,0,opt);}
+ else hiss(b,'bandpass',1000,450,.07,.12,0,.7,opt);
 }

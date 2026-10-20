@@ -1,5 +1,5 @@
 /**
- * CATALOGO DELLE ABILITA' — UNA SOLA FONTE per 5 personaggi x 16 minigiochi (80 combinazioni).
+ * CATALOGO DELLE ABILITA' — UNA SOLA FONTE per 5 personaggi x 15 minigiochi (75 combinazioni).
  *
  * Da qui nascono TUTTE le cose che parlano di un'abilita': nome, descrizione breve e completa, limiti (usi / ricarica), tipo e
  * impatto, e i NUMERI della meccanica (`p`). I giochi importano i numeri da qui (nessuna costante duplicata nel codice del gioco),
@@ -10,7 +10,7 @@
  * qui: lo decide ogni gioco (unica autorita') e lo pubblica con AbilityStatus (src/core/abilityHub.ts) — il catalogo e' solo statico.
  */
 
-export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione' | 'casacarbo' | 'minigolf' | 'geofall' | 'goblinTime' | 'trentuno';
+export type AbilityGameId = 'arena' | 'dodgeball' | 'soccer' | 'volleyball' | 'kart3d' | 'fps' | 'memory' | 'reaction' | 'quiz' | 'cultura' | 'cornicione' | 'minigolf' | 'geofall' | 'goblinTime' | 'trentuno';
 export type AbilityCharacterId = 'goblin' | 'buttafuori' | 'judoka' | 'dottore' | 'ciro';
 
 /** I 6 tipi di abilita' del progetto: ogni voce ne ha UNO principale. */
@@ -1004,91 +1004,6 @@ CO.dottore.full = `Premi: per ${sec(CO.dottore.p.duration)} sei più leggero: co
 CO.ciro.full = `Quando stai per finire fuori si apre per ${sec(CO.ciro.p.window)} la finestra "BONIFICO?": premi per rinviare il KO e avere ${sec(CO.ciro.p.pending)} per rientrare. Se rientri paghi +${CO.ciro.p.debt}% di danno; se no, sei fuori. Se non premi, il KO è normale e l'abilità resta.`;
 
 // ============================================================================================================================
-// CASA CARBO — si allaga casa di Carbo: tiracqua, secchi, tre scarichi, la pioggia entra SOLO dalle due porte dei giardini.
-// Si gareggia sul contributo (acqua tolta davvero dalla casa), con un obiettivo comune (75% di casa asciutta). Abilita' a PARTITA.
-// ============================================================================================================================
-const CC = {
-  goblin: add(
-    def({
-      game: 'casacarbo',
-      character: 'goblin',
-      name: "N'CULO, MO ASCIUGO IO!",
-      kind: 'RISK_REWARD',
-      impact: 'HIGH',
-      charges: 2,
-      cooldown: 9,
-      p: { windup: 0.5, length: 5, width: 2.6, push: 5 },
-      short: "Spazzata caricata: un'onda d'acqua davanti a te.",
-      full: ''
-    })
-  ),
-  buttafuori: add(
-    def({
-      game: 'casacarbo',
-      character: 'buttafuori',
-      name: 'TU QUA NON ENTRI!',
-      kind: 'LIMITED_RESOURCE',
-      impact: 'HIGH',
-      charges: 1,
-      cooldown: 0,
-      limit: '1 uso a partita',
-      p: { duration: 6, block: 0.9, range: 1.8, backlog: 0.5, release: 2 },
-      short: 'Davanti a una porta: blocchi quasi tutta la pioggia.',
-      full: ''
-    })
-  ),
-  dottore: add(
-    def({
-      game: 'casacarbo',
-      character: 'dottore',
-      name: "M'HO SVEJATO",
-      kind: 'INFORMATION',
-      impact: 'MEDIUM',
-      charges: 2,
-      cooldown: 0,
-      limit: '2 usi a partita',
-      p: { window: 25 },
-      short: 'Sai in anticipo quale porta prendera\' la prossima raffica.',
-      full: ''
-    })
-  ),
-  judoka: add(
-    def({
-      game: 'casacarbo',
-      character: 'judoka',
-      name: 'NO, ASPETTA!',
-      kind: 'RISK_REWARD',
-      impact: 'MEDIUM',
-      charges: 2,
-      cooldown: 0,
-      limit: '2 usi a partita',
-      p: { duration: 15, length: 3, distance: 1.4, capacity: 9 },
-      short: "Diga improvvisata: devia l'acqua, ma puo' cedere.",
-      full: ''
-    })
-  ),
-  ciro: add(
-    def({
-      game: 'casacarbo',
-      character: 'ciro',
-      name: 'PAGO DOMANI',
-      kind: 'RISK_REWARD',
-      impact: 'MEDIUM',
-      charges: 2,
-      cooldown: 0,
-      limit: '2 usi a partita',
-      p: { mult: 2, deadline: 6, loss: 0.5 },
-      short: 'Il prossimo secchio porta il doppio, ma hai poco tempo.',
-      full: ''
-    })
-  )
-};
-CC.goblin.full = `Premi guardando dove vuoi spingere: dopo ${sec(CC.goblin.p.windup)} di carica parte un'onda che sposta tutta l'acqua davanti a te per ${CC.goblin.p.length} m (e spinge chi c'e' in mezzo). Se mirata male rimanda l'acqua in una stanza pulita. Due usi, ricarica ${sec(CC.goblin.cooldown)}.`;
-CC.buttafuori.full = `Premi davanti a una delle due porte: per ${sec(CC.buttafuori.p.duration)} entra solo un decimo della pioggia. Intanto non puoi muoverti ne' pulire, e quando molli meta' dell'acqua trattenuta fuori entra tutta insieme. Una volta a partita.`;
-CC.dottore.full = `Premi: se nei prossimi ${sec(CC.dottore.p.window)} arriva una raffica, sul tuo telefono vedi quale porta e quando, prima degli altri. Se non arriva niente l'uso e' sprecato. Due usi a partita.`;
-CC.judoka.full = `Premi: piazzi davanti a te una diga lunga ${CC.judoka.p.length} m che ferma l'acqua (ma non le persone) per ${sec(CC.judoka.p.duration)}. Se dietro si accumula troppa acqua cede e la libera tutta insieme. Due usi a partita.`;
-CC.ciro.full = `Premi: il prossimo secchio contiene il doppio. Appena supera la capienza normale hai ${sec(CC.ciro.p.deadline)} per svuotarlo in uno scarico, se no ne rovesci meta' per terra. Due usi a partita.`;
-
 // MINIGOLF: risorse ripristinate a ogni buca, statistiche di base uguali.
 const MG = {
   goblin: add(def({game:'minigolf',character:'goblin',name:"N'CULO, DE SPONDA!",kind:'RISK_REWARD',impact:'MEDIUM',
@@ -1140,7 +1055,7 @@ const T31 = {
   goblin:add(def({game:'trentuno',character:'goblin',name:"N'CULO, CI RIPROVO!",kind:'RISK_REWARD',impact:'MEDIUM',charges:1,cooldown:0,p:{replace:1},short:'Rifiuti la pescata coperta e accetti la successiva.',full:'Dopo una tua pesca coperta, prima dello scarto: metti la carta pescata in fondo al mazzo e la sostituisci con 1 nuova carta obbligatoria. Poi scarti normalmente. Un uso nelle tre mani.'})),
   buttafuori:add(def({game:'trentuno',character:'buttafuori',name:'TU QUA NON ENTRI!',kind:'RULE_BEND',impact:'MEDIUM',charges:1,cooldown:0,p:{turns:1},short:'Il prossimo giocatore non può prendere dagli scarti.',full:'Prima della tua pesca: blocchi gli scarti per 1 turno valido del prossimo giocatore, che può pescare coperto oppure bussare. Il blocco termina alla fine di quel turno. Un uso nelle tre mani.'})),
   dottore:add(def({game:'trentuno',character:'dottore',name:"M'HO SVEJATO!",kind:'INFORMATION',impact:'MEDIUM',charges:1,cooldown:0,p:{peek:2},short:'Guardi due carte coperte e decidi il loro ordine.',full:'Prima della tua pesca: guardi in privato le prime 2 carte del mazzo. Mantieni o inverti il loro ordine, poi scegli da dove pescare. Nessuna carta aggiunta alla mano. Un uso nelle tre mani.'})),
-  judoka:add(def({game:'trentuno',character:'judoka',name:'NO, ASPETTA!',kind:'REACTIVE',impact:'MEDIUM',charges:1,cooldown:0,p:{window:3,extra:1},short:'Dopo una bussata avversaria aggiungi un giro completo.',full:'Entro 3 s da una bussata avversaria aggiungi 1 giro completo dopo gli ultimi turni standard, incluso il bussante. Non funziona dopo un 31 confermato. Un uso nelle tre mani.'})),
+  judoka:add(def({game:'trentuno',character:'judoka',name:'NO, ASPETTA!',kind:'REACTIVE',impact:'MEDIUM',charges:1,cooldown:0,p:{extra:1},short:'Dopo una bussata avversaria aggiungi un giro completo.',full:'Dopo una bussata avversaria, prima della pesca successiva, aggiungi 1 giro completo dopo gli ultimi turni standard, incluso il bussante. Non funziona dopo un 31 confermato. Un uso nelle tre mani.'})),
   ciro:add(def({game:'trentuno',character:'ciro',name:'PAGO DOMANI!',kind:'RISK_REWARD',impact:'MEDIUM',charges:1,cooldown:0,p:{swap:1},short:'Dai una tua carta e ricevi una carta casuale avversaria.',full:'Prima della tua pesca: scegli avversario e 1 carta da consegnare. Il server ti dà una carta casuale della sua mano; entrambi restate a tre carte. Un eventuale 31 di uno o entrambi chiude subito la mano. Un uso nelle tre mani.'}))
 };
 
@@ -1169,7 +1084,7 @@ export function abilityParam(game: AbilityGameId, character: AbilityCharacterId,
 export const CHARACTER_ORDER_ABILITY: AbilityCharacterId[] = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'];
 
 /** Accesso tipizzato ai numeri: `AB.arena.goblin.p.window`. Letto dai giochi. */
-export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO, casacarbo: CC, minigolf: MG, geofall: GF, goblinTime:GTC, trentuno:T31 } as const;
+export const AB = { arena: A, dodgeball: D, soccer: S, volleyball: V, kart3d: K, fps: F, memory: M, reaction: T, quiz: Q, cultura: C, cornicione: CO, minigolf: MG, geofall: GF, goblinTime:GTC, trentuno:T31 } as const;
 
 /**
  * Tabella {personaggio: {name, desc}} di un gioco, nella forma che i vecchi file shared/<gioco>Abilities.ts esportavano. Quei file ora

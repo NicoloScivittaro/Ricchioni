@@ -975,22 +975,6 @@
     "voice": "Kokoro im_nicola · radio originale",
     "sampleRate": 24000
   },
-  "game-casacarbo-1": {
-    "asset": "/audio/narrator/game-casacarbo-1.ogg",
-    "duration": 3.146,
-    "bytes": 24351,
-    "signature": "1836ac4bad10071e9d92aebf92a97ce7580db6dbf1526db37da3e5b8c589a2c7",
-    "voice": "Kokoro im_nicola · radio originale",
-    "sampleRate": 24000
-  },
-  "game-casacarbo-2": {
-    "asset": "/audio/narrator/game-casacarbo-2.ogg",
-    "duration": 2.966,
-    "bytes": 23596,
-    "signature": "09cf0d976648e2023859dff2763f431d3c149f7eb818d5f20dc6899a1057e6d3",
-    "voice": "Kokoro im_nicola · radio originale",
-    "sampleRate": 24000
-  },
   "game-minigolf-1": {
     "asset": "/audio/narrator/game-minigolf-1.ogg",
     "duration": 2.978,

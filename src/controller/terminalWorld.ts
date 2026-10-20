@@ -1,5 +1,5 @@
 import type {Engine} from '@babylonjs/core';
-import {Color3,Color4,DirectionalLight,HemisphericLight,ImageProcessingConfiguration,Mesh,MeshBuilder,PBRMaterial,Scene,SceneLoader,ShaderMaterial,StandardMaterial,TransformNode,Texture} from '@babylonjs/core';
+import {Color3,Color4,DirectionalLight,DynamicTexture,HemisphericLight,Layer,ImageProcessingConfiguration,Mesh,MeshBuilder,PBRMaterial,Scene,SceneLoader,ShaderMaterial,StandardMaterial,TransformNode,Texture} from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
 import {terminalAtlasMaterial} from './terminalAtlasMaterial';
 import type {TerminalAtlas} from './terminalAtlasMaterial';
@@ -7,7 +7,14 @@ import type {Aabb} from '../../shared/fpsMap';
 /** Shared TV/phone scene. Static geometry and source GPU instance transforms
  * are prepared offline; gameplay collision data is loaded separately. */
 export async function buildTerminalWorld(scene:Scene):Promise<void>{
-  const started=performance.now();scene.clearColor=new Color4(.57,.7,.78,1);scene.ambientColor=new Color3(.23,.24,.26);
+  const started=performance.now();scene.clearColor=new Color4(.69,.73,.76,1);scene.metadata={...scene.metadata,terminalWeaponLighting:true};
+  // A shared background gradient replaces the flat cyan void, with no sky
+  // geometry, extra depth pass or collision surface. Each viewport uses it.
+  const skyTexture=new DynamicTexture('terminalSkyGradient',{width:8,height:256},scene,false);
+  const ctx=skyTexture.getContext(),gradient=ctx.createLinearGradient(0,0,0,256);
+  gradient.addColorStop(0,'#8295a5');gradient.addColorStop(.6,'#bdc9d1');gradient.addColorStop(1,'#e0e2df');
+  ctx.fillStyle=gradient;ctx.fillRect(0,0,8,256);skyTexture.update(false);
+  const sky=new Layer('terminalSky',null,scene,true);sky.texture=skyTexture;scene.ambientColor=new Color3(.23,.24,.26);
   // Only Terminal needs extra fill for the recovered, unbaked source textures.
   for(const light of scene.lights){if(light instanceof HemisphericLight)light.intensity=1.2;if(light instanceof DirectionalLight)light.intensity=1.5;}
   scene.imageProcessingConfiguration.toneMappingEnabled=true;scene.imageProcessingConfiguration.toneMappingType=ImageProcessingConfiguration.TONEMAPPING_ACES;scene.imageProcessingConfiguration.exposure=1.05;
@@ -53,12 +60,12 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
   stepMaterial.diffuseTexture=new Texture('/assets/fps/terminal/boarding-metal.jpg',scene);stepMaterial.diffuseColor=new Color3(.65,.69,.73);stepMaterial.specularColor.setAll(.12);
   const steps=(collision.accessSteps??[]).map((s,i)=>{const m=MeshBuilder.CreateBox('terminal:rear-step:'+i,{width:s.w,depth:s.d,height:s.h},scene);m.position.set(s.x,(s.base??0)+s.h/2,s.z);m.material=stepMaterial;return m;});
   if(steps.length){const mesh=Mesh.MergeMeshes(steps,true,true);if(mesh){mesh.name='terminal:rear-boarding-stairs';mesh.isPickable=false;mesh.freezeWorldMatrix();kept.push(mesh);}}
-  // Original-design, visibly marked safety fence; its exact volumes are shared
+  // Neutral service perimeter, retaining every existing collision volume; its exact volumes are shared
   // with authoritative movement/shot data. These are not recovered CoD assets.
-  const yellow=new StandardMaterial('terminalArenaBoundary',scene);yellow.diffuseColor=new Color3(.77,.57,.17);yellow.specularColor.setAll(.01);
+  const fence=new StandardMaterial('terminalArenaBoundary',scene);fence.diffuseTexture=stepMaterial.diffuseTexture;fence.diffuseColor=new Color3(.46,.5,.53);fence.specularColor.setAll(.04);
   const dark=new StandardMaterial('terminalArenaBoundaryStripe',scene);dark.diffuseColor=new Color3(.11,.14,.17);
   for(const b of collision.barriers){
-    const m=MeshBuilder.CreateBox('terminal:limite-visibile',{width:b.w,depth:b.d,height:b.h},scene);m.position.set(b.x,(b.base??0)+b.h/2,b.z);m.material=yellow;m.freezeWorldMatrix();m.isPickable=false;
+    const m=MeshBuilder.CreateBox('terminal:limite-visibile',{width:b.w,depth:b.d,height:b.h},scene);m.position.set(b.x,(b.base??0)+b.h/2,b.z);m.material=fence;m.freezeWorldMatrix();m.isPickable=false;
     for(const y of [.45,1.3]){const band=MeshBuilder.CreateBox('terminal:limite-striscia',{width:b.w+.01,depth:b.d+.01,height:.16},scene);band.position.set(b.x,(b.base??0)+y,b.z);band.material=dark;band.freezeWorldMatrix();band.isPickable=false;}
   }
   // No additional shadow pass multiplied by 2–5 cameras. Source details and

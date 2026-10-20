@@ -7,7 +7,7 @@ const until=async(fn,label,ms=90000)=>{const t=Date.now();while(Date.now()-t<ms)
 async function capture(page){const c=await page.createCDPSession();await c.send('Network.enable');const data={room:null,status:null,minEnergy:100,maxDiveCooldown:0,points:0};c.on('Network.webSocketFrameReceived',({response})=>{if(!response.payloadData.startsWith('42'))return;try{const [e,p]=JSON.parse(response.payloadData.slice(2));if(e==='room:state')data.room=p;if(e==='controller:signal'){if(['defense','carboRace'].includes(p.type))data.status=p;if(p.type==='defense'){data.minEnergy=Math.min(data.minEnergy,p.value);data.maxDiveCooldown=Math.max(data.maxDiveCooldown,p.cooldown);}if(p.type==='point')data.points++;}}catch{}});page.on('pageerror',e=>errors.push(e.message));return data;}
 const touch=async(page,selector,ms=80)=>{const c=await page.createCDPSession(),point=await page.$eval(selector,e=>{const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2};});await c.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{...point,id:1}]});await sleep(ms);await c.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await c.detach();};
 try{
- for(const [id,arrows] of [['volleyball',7],['casacarbo',12]]){
+ for(const [id,arrows] of [['volleyball',7]]){
   const host=await browser.newPage(),wire=await capture(host);host.on('dialog',d=>d.accept());
   await host.goto(base+'/',{waitUntil:'load'});await host.waitForSelector('canvas');await sleep(1200);
   for(let i=0;i<3;i++){await host.keyboard.press('ArrowRight');await sleep(150);}await host.keyboard.press('Enter');await until(()=>wire.room?.roomCode,'room');

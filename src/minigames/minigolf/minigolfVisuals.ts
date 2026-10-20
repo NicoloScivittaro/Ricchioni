@@ -12,6 +12,7 @@ export class MinigolfVisuals {
  readonly balls=new Map<string,Mesh>();readonly rings=new Map<string,Mesh>();
  private arrows=new Map<string,Mesh>();private preview=new Map<string,Mesh[]>();private trails=new Map<string,Mesh[]>();
  private bumpers=new Map<string,Mesh>();private sparks:{mesh:Mesh;life:number;velocity:Vector3}[]=[];
+ private sinking=new Map<string,{x:number;y:number;z:number;elapsed:number}>();
  private materials=new Map<string,StandardMaterial>();private previewAt=0;private holePulse=0;
  constructor(private scene:Scene,players:GolfPlayer[],private shadows:ShadowGenerator){
   for(const p of players){
@@ -30,6 +31,7 @@ export class MinigolfVisuals {
  build(c:Course):void {
   if(this.root)for(const mesh of this.root.getChildMeshes())this.shadows.removeShadowCaster(mesh);
   this.root?.dispose();this.bumpers.clear();this.root=new TransformNode('golfCourseRoot',this.scene);this.floorMeshes=[];this.walls=[];
+  this.sinking.clear();for(const mesh of this.balls.values())mesh.scaling.setAll(1);
   this.holePulse=0;this.previewAt=0;this.sparks.forEach(s=>{s.life=0;s.mesh.isVisible=false;});for(const dots of this.preview.values())dots.forEach(m=>m.isVisible=false);
   const floorMat=this.material(`turf:${c.id}`,c.color);
   if(!floorMat.diffuseTexture){const tex=new DynamicTexture(`golfTurf:${c.id}`,128,this.scene,false),ctx=tex.getContext() as CanvasRenderingContext2D;
@@ -47,8 +49,8 @@ export class MinigolfVisuals {
   }
   for(const w of c.walls){const m=MeshBuilder.CreateBox('golfWall',{width:Math.hypot(w.b.x-w.a.x,w.b.z-w.a.z)+w.radius*2,height:w.rotation?.45:.7,depth:w.radius*2},this.scene);m.parent=this.root;m.material=this.material(w.rotation?'movingArm':'wall',w.rotation?'#fb923c':'#f4e8c8');const q=wallAt(w,0);m.position.set((q.a.x+q.b.x)/2,q.y+.35,(q.a.z+q.b.z)/2);m.rotation.y=-Math.atan2(q.b.z-q.a.z,q.b.x-q.a.x);this.shadows.addShadowCaster(m);this.walls.push(m);}
   for(const [i,b] of c.bumpers.entries())this.makeBumper(`static${i}`,b.x,b.y,b.z,b.radius);
-  this.hole=MeshBuilder.CreateDisc('golfCup',{radius:.5,tessellation:32},this.scene);this.hole.rotation.x=Math.PI/2;this.hole.position.set(c.hole.x,c.holeY+.025,c.hole.z);this.hole.material=this.material('cup','#09141c');this.hole.parent=this.root;
-  const lip=MeshBuilder.CreateTorus('cupRim',{diameter:1.05,thickness:.045,tessellation:32},this.scene);lip.parent=this.root;lip.position.set(c.hole.x,c.holeY+.035,c.hole.z);lip.material=this.material('cupGold','#ffe082',.25);
+  this.hole=MeshBuilder.CreateDisc('golfCup',{radius:GOLF.cupRadius,tessellation:32},this.scene);this.hole.rotation.x=Math.PI/2;this.hole.position.set(c.hole.x,c.holeY+.025,c.hole.z);this.hole.material=this.material('cup','#09141c');this.hole.parent=this.root;
+  const lip=MeshBuilder.CreateTorus('cupRim',{diameter:GOLF.cupRadius*2+.05,thickness:.035,tessellation:32},this.scene);lip.parent=this.root;lip.position.set(c.hole.x,c.holeY+.035,c.hole.z);lip.material=this.material('cupGold','#ffe082',.25);
   this.flag=new TransformNode('golfFlag',this.scene);this.flag.parent=this.root;this.flag.position.set(c.hole.x,c.holeY,c.hole.z);
   const pole=MeshBuilder.CreateCylinder('flagPole',{height:2.5,diameter:.055},this.scene);pole.parent=this.flag;pole.position.y=1.25;pole.material=this.material('chrome','#dce6f0');
   const flag=MeshBuilder.CreateBox('flag',{width:1,height:.6,depth:.025},this.scene);flag.parent=this.flag;flag.position.set(.5,2.2,0);flag.material=this.material('flag','#ffdb57');
@@ -60,7 +62,7 @@ export class MinigolfVisuals {
   const m=MeshBuilder.CreateCylinder(`golfBumper:${key}`,{height:.6,diameter:r*2,tessellation:24},this.scene);m.parent=this.root;m.position.set(x,y+.3,z);m.material=this.material('bumper','#f472b6',.2);this.shadows.addShadowCaster(m);this.bumpers.set(key,m);return m;
  }
  event(e:GolfEvent,players:GolfPlayer[]):void {
-  const p=players.find(p=>p.id===e.id);if(e.type==='hole')this.holePulse=1;
+  const p=players.find(p=>p.id===e.id);if(e.type==='hole'){this.holePulse=1;if(p)this.sinking.set(p.id,{x:p.ball.x,y:p.ball.y,z:p.ball.z,elapsed:0});}
   if(!p||!['wall','bumper','ball','hole','shot'].includes(e.type))return;
   for(const s of this.sparks.filter(s=>s.life<=0).slice(0,6)){s.life=.35;s.mesh.isVisible=true;s.mesh.position.set(e.x,p.ball.y,e.z);const i=this.sparks.indexOf(s);s.velocity.set(Math.cos(i)*1.4,1.2,Math.sin(i)*1.4);}
  }
@@ -72,6 +74,11 @@ export class MinigolfVisuals {
   this.previewAt-=dt;const refresh=this.previewAt<=0;if(refresh)this.previewAt=.12;
   for(const p of players){const b=p.ball,mesh=this.balls.get(p.id)!,ring=this.rings.get(p.id)!,arrow=this.arrows.get(p.id)!;
    mesh.position.set(b.x,b.y,b.z);mesh.isVisible=ring.isVisible=!p.finished&&!b.done;mesh.rotation.x+=b.vz*dt/GOLF.radius;mesh.rotation.z-=b.vx*dt/GOLF.radius;
+   const drop=this.sinking.get(p.id);mesh.scaling.setAll(1);
+   if(drop){drop.elapsed+=dt;const t=Math.min(1,drop.elapsed/GOLF.cupDropTime),ease=1-(1-t)*(1-t);
+    mesh.isVisible=t<1;mesh.position.set(drop.x+(c.hole.x-drop.x)*ease,drop.y-.95*t*t,drop.z+(c.hole.z-drop.z)*ease);mesh.scaling.setAll(1-.15*t);
+    if(t>=1)this.sinking.delete(p.id);
+   }
    ring.position.set(b.x,b.y-GOLF.radius+.05,b.z);ring.scaling.setAll(p.armed?1.2:1);
    arrow.isVisible=(!activeId||p.id===activeId)&&aiming&&!p.finished&&b.grounded&&speed(b)<GOLF.readySpeed;
    arrow.position.set(b.x+p.aim.x*(1.3+p.charge*1.2),b.y-.12,b.z+p.aim.z*(1.3+p.charge*1.2));arrow.rotation.y=Math.atan2(p.aim.x,p.aim.z);arrow.scaling.y=.8+p.charge*.6;
@@ -83,5 +90,5 @@ export class MinigolfVisuals {
   for(const s of this.sparks){s.life-=dt;s.mesh.isVisible=s.life>0;if(s.life>0){s.mesh.position.addInPlace(s.velocity.scale(dt));s.velocity.y-=4*dt;}}
   this.holePulse=Math.max(0,this.holePulse-dt*1.6);this.flag?.scaling.setAll(1+this.holePulse*.12);
  }
- dispose():void {this.root?.dispose();for(const map of [this.balls,this.rings,this.arrows])for(const m of map.values())m.dispose();for(const map of [this.preview,this.trails])for(const list of map.values())list.forEach(m=>m.dispose());this.sparks.forEach(s=>s.mesh.dispose());for(const m of this.materials.values())m.dispose();}
+ dispose():void {this.sinking.clear();this.root?.dispose();for(const map of [this.balls,this.rings,this.arrows])for(const m of map.values())m.dispose();for(const map of [this.preview,this.trails])for(const list of map.values())list.forEach(m=>m.dispose());this.sparks.forEach(s=>s.mesh.dispose());for(const m of this.materials.values())m.dispose();}
 }

@@ -32,7 +32,6 @@ const GAMES: { id: AbilityGameId; title: string }[] = [
   { id: 'quiz', title: 'CHI CAZZO LO SA?' },
   { id: 'cultura', title: 'CULTURA O CAZZATA?' },
   { id: 'cornicione', title: 'BOTTE SUL CORNICIONE' },
-  { id: 'casacarbo', title: 'CASA CARBO' }
 ];
 const CHARS = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'] as const;
 const CHAR_LABEL: Record<(typeof CHARS)[number], string> = { goblin: 'GOBLIN', buttafuori: 'BUTTAFUORI', judoka: 'JUDOKA', dottore: 'DOTTORE', ciro: 'CIRO' };
@@ -102,7 +101,6 @@ const BEFORE: Record<AbilityGameId, Record<(typeof CHARS)[number], Before>> = {
   },
   cultura: { goblin: CULT, buttafuori: CULT, judoka: CULT, dottore: CULT, ciro: CULT },
   cornicione: { goblin: NEWGAME, buttafuori: NEWGAME, judoka: NEWGAME, dottore: NEWGAME, ciro: NEWGAME },
-  casacarbo: { goblin: NEWGAME, buttafuori: NEWGAME, judoka: NEWGAME, dottore: NEWGAME, ciro: NEWGAME }
 };
 
 /** DOPO: voti di progetto (da confermare col playtest). Chiave `${gioco}/${personaggio}`; default sotto. */
@@ -137,11 +135,6 @@ const AFTER_SCORE: Record<string, Score> = {
   'cornicione/judoka': [5, 5, 4, 4],
   'cornicione/dottore': [4, 4, 4, 4],
   'cornicione/ciro': [5, 3, 5, 4],
-  'casacarbo/goblin': [4, 4, 3, 4],
-  'casacarbo/buttafuori': [4, 3, 3, 4],
-  'casacarbo/judoka': [4, 4, 3, 4],
-  'casacarbo/dottore': [3, 3, 2, 4],
-  'casacarbo/ciro': [4, 4, 3, 4]
 };
 const AFTER_DEFAULT: Score = [4, 3, 3, 4];
 

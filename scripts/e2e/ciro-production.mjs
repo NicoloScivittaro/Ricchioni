@@ -36,7 +36,7 @@ try {
   for(const p of [ciro,carbo])p.page.on('pageerror',e=>errors.push(String(e)));
   await until(()=>state.players.length===2&&state.players.every(p=>p.ready),'two ready phones');
   await host.keyboard.press('ArrowLeft');await sleep(180);await host.keyboard.press('Enter');
-  await until(()=>state.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='casacarbo','normal Casa Carbo');
+  await until(()=>state.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='normal Casa Carbo');
   await until(()=>downloads.some(r=>r.status===200),'new Ciro default model');
   await ciro.page.waitForFunction(()=>document.querySelector('h1')?.textContent.includes('CASA CARBO'));
   await sleep(5000);

@@ -78,10 +78,10 @@ for(const c of chars) {
  const three=new FighterWorld({ids:['a','b','c'],characters:chars.slice(0,3),rng:()=>.5});three.fighters.forEach((f,i)=>{f.x=i===0?-10:i===1?0:1;f.y=0;});projectile(three,-1,1);three.step(.2,{});assert.equal(three.fighters[1].percent,4);assert.equal(three.fighters[2].percent,0);
  const end=mk();projectile(end,-10,1);end.knockOut(end.fighters[1],'side');end.fighters[1].inGame=false;end.step(.01,{});assert.equal(end.phase,'over');assert.equal(end.projectiles.length,0);
 }
-// The bot uses the same charge/release controls, with a real finite match.
+// The bot uses the same charge/release controls, with a natural elimination finish.
 {
  const w=mk();const rng=new Rng(32);const bots=w.fighters.map(f=>new FighterBot(f.id,()=>rng.next()));let thrown=0,kicks=0;
- for(let n=0;n<160*60&&w.phase!=='over';n++) {w.step(1/60,Object.fromEntries(bots.map(b=>[b.id,b.input(w,1/60)])));for(const e of w.drainEvents()){if(e.t==='objectThrow')thrown++;if(e.t==='attack'&&e.move.kind==='kick')kicks++;}}
- assert.equal(w.phase,'over');assert.ok(thrown>0);assert.ok(kicks>0);assert.ok(w.fighters.every(f=>[f.x,f.y,f.vx,f.vy,f.percent].every(Number.isFinite)));console.log({botThrows:thrown,botKicks:kicks,matchSeconds:w.time});
+ for(let n=0;n<600*60&&w.phase!=='over';n++) {w.step(1/60,Object.fromEntries(bots.map(b=>[b.id,b.input(w,1/60)])));for(const e of w.drainEvents()){if(e.t==='objectThrow')thrown++;if(e.t==='attack'&&e.move.kind==='kick')kicks++;}}
+ assert.equal(w.phase,'over');assert.equal(w.endReason,'lastStanding');assert.ok(thrown>0);assert.ok(kicks>0);assert.ok(w.fighters.every(f=>[f.x,f.y,f.vx,f.vy,f.percent].every(Number.isFinite)));console.log({botThrows:thrown,botKicks:kicks,matchSeconds:w.time});
 }
-console.log('PASS: equal five skins; tap/charge/aim/air/cooldown; cancellation; swept first hit/parry/dodge/invulnerability/roof/expiry/KO/end; bots and finite match.');
+console.log('PASS: equal five skins; tap/charge/aim/air/cooldown; cancellation; swept first hit/parry/dodge/invulnerability/roof/expiry/KO/end; bots and natural elimination.');

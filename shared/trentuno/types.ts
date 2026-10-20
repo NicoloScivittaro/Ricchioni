@@ -1,10 +1,10 @@
 import type { PlayerResult } from '../types';
 export interface Seat { id:string; name:string; characterId:string; bot?:boolean }
 export type Phase='draw'|'discard'|'peek'|'knockWindow'|'handResult'|'finished';
-export interface HandResult { number:number; reason:'31'|'bussata'|'tempo mano'|'limite totale'; rows:{playerId:string;cards:string[];score:number;placement:number;points:number}[] }
+export interface HandResult { number:number; reason:'31'|'bussata'; rows:{playerId:string;cards:string[];score:number;placement:number;points:number}[] }
 export interface PublicState {
   type:'trentunoPublic';roundId:number;matchId:string;version:number;phase:Phase;handNumber:number;turn:string;turnNumber:number;
-  remaining:number;handRemaining:number;matchRemaining:number;paused:boolean;deckCount:number;discardTop:string;
+  remaining:null;handRemaining:null;matchRemaining:null;paused:boolean;deckCount:number;discardTop:string;
   knocker:string|null;finalTurns:number|null;blockedFor:string|null;
   players:(Seat&{count:number;abilityUsed:boolean;points:number})[];
   history:HandResult[];results:PlayerResult[]|null;

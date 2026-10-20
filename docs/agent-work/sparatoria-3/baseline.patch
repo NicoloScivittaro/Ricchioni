@@ -1,0 +1,78 @@
+diff --git a/shared/fpsWeapons.ts b/shared/fpsWeapons.ts
+index 3b9356b..3a177ed 100644
+--- a/shared/fpsWeapons.ts
++++ b/shared/fpsWeapons.ts
+@@ -36,7 +36,7 @@ export const WEAPONS:WeaponConfig[]=[
+   {id:'laser',name:'CECCHINO · OTTICA 4×',icon:'🎯',damage:125,fireRate:.85,range:110,spread:.0005,hipSpread:.055,magazine:5,reload:2.4,projectileSpeed:0,splashRadius:0,movementModifier:.9,difficulty:'ALTA',fireMode:'semi',scopeZoom:4},
+   {id:'raffica',name:'M4A1 · RAFFICA 3X',icon:'💨',damage:23,fireRate:6,range:50,spread:.014,burst:3,burstGap:.075,magazine:30,reload:1.8,projectileSpeed:0,splashRadius:0,movementModifier:.98,difficulty:'MEDIA',fireMode:'burst'},
+   {id:'bombarda',name:'RAY GUN',icon:'☢️',damage:80,fireRate:2.8,range:60,spread:.008,magazine:20,reload:2.5,projectileSpeed:55,splashRadius:1.8,splashDamage:45,projectileKind:'energy',movementModifier:.96,difficulty:'MEDIA',fireMode:'semi'},
+-  {id:'sparapiselli',name:'MINIGUN',icon:'🔥',damage:9,fireRate:17,range:35,spread:.045,magazine:100,reload:3.2,projectileSpeed:0,splashRadius:0,movementModifier:.83,difficulty:'FACILE',fireMode:'auto'},
++  {id:'sparapiselli',name:'MINIGUN',icon:'🔥',damage:12,fireRate:17,range:42,spread:.032,magazine:100,reload:2.9,projectileSpeed:0,splashRadius:0,movementModifier:.83,difficulty:'FACILE',fireMode:'auto'},
+   {id:'pistola',name:'USP45 · SEMIAUTOMATICA',icon:'🔫',damage:30,fireRate:7,range:35,spread:.012,magazine:12,reload:1.1,projectileSpeed:0,splashRadius:0,movementModifier:1.08,difficulty:'FACILE',fireMode:'semi'}
+ ];
+ export function getWeapon(id:string):WeaponConfig {
+diff --git a/src/controller/fpsWeaponModels.ts b/src/controller/fpsWeaponModels.ts
+index 348196c..d2850c3 100644
+--- a/src/controller/fpsWeaponModels.ts
++++ b/src/controller/fpsWeaponModels.ts
+@@ -7,7 +7,7 @@ export const FPS_WEAPON_MODELS:Record<string,{file:string;length:number}>={
+ };
+ const fills=new WeakMap<Scene,HemisphericLight>();
+ function fill(scene:Scene):HemisphericLight{
+- let light=fills.get(scene);if(!light){light=new HemisphericLight('weaponSoftFill',new Vector3(0,1,-.4),scene);light.intensity=1.2;light.renderPriority=100;light.groundColor=new Color3(.6,.63,.67);light.diffuse=new Color3(.93,.96,1);light.specular=new Color3(.1,.1,.1);light.includedOnlyMeshes=[];fills.set(scene,light);scene.onDisposeObservable.addOnce(()=>fills.delete(scene));scene.onMeshRemovedObservable.add(mesh=>{const list=light!.includedOnlyMeshes,i=list.indexOf(mesh);if(i>=0)list.splice(i,1);});}return light;
++ let light=fills.get(scene);if(!light){light=new HemisphericLight('weaponSoftFill',new Vector3(0,1,-.4),scene);light.intensity=1.2;light.renderPriority=100;light.groundColor=scene.metadata?.terminalWeaponLighting?new Color3(.72,.75,.78):new Color3(.6,.63,.67);light.diffuse=new Color3(.93,.96,1);light.specular=new Color3(.1,.1,.1);light.includedOnlyMeshes=[];fills.set(scene,light);scene.onDisposeObservable.addOnce(()=>fills.delete(scene));scene.onMeshRemovedObservable.add(mesh=>{const list=light!.includedOnlyMeshes,i=list.indexOf(mesh);if(i>=0)list.splice(i,1);});}return light;
+ }
+ // Terminal applies ACES to its scene; these already textured weapon assets
+ // need a neutral shared exposure instead of having their dark tones crushed.
+@@ -19,7 +19,7 @@ const cache=new WeakMap<Scene,Map<string,Promise<AssetContainer>>>();
+ function source(scene:Scene,file:string):Promise<AssetContainer>{
+  let models=cache.get(scene);if(!models){models=new Map();cache.set(scene,models);scene.onDisposeObservable.addOnce(()=>{cache.delete(scene);for(const pending of models!.values())void pending.then(c=>c.dispose()).catch(()=>{});});}
+  let pending=models.get(file);if(!pending){pending=SceneLoader.LoadAssetContainerAsync('/assets/fps/weapons/',file+'.glb',scene).then(c=>{if(scene.isDisposed){c.dispose();throw new Error('Weapon scene disposed');}const converted=new Map<PBRMaterial,StandardMaterial>();
+-      for(const mesh of c.meshes){if(!(mesh.material instanceof PBRMaterial))continue;const p=mesh.material;let m=converted.get(p);if(!m){m=new StandardMaterial('weapon:'+p.name,scene);m.imageProcessingConfiguration=colorProfile(scene);m.diffuseColor=(p.albedoColor??Color3.White()).toGammaSpace();m.diffuseTexture=p.albedoTexture;m.bumpTexture=p.bumpTexture;m.invertNormalMapX=p.invertNormalMapX;m.invertNormalMapY=p.invertNormalMapY;m.emissiveColor=p.emissiveColor.clone();m.emissiveTexture=p.emissiveTexture;m.emissiveColor.addInPlace(new Color3(.018,.022,.025));if(file!=='raygun'&&file!=='raygun-v1'&&!p.emissiveTexture&&p.emissiveColor.equals(Color3.Black())&&m.diffuseTexture){m.emissiveTexture=m.diffuseTexture;m.emissiveColor=new Color3(.10,.11,.12);}m.specularColor.setAll(.23);m.specularPower=48;m.backFaceCulling=false;m.twoSidedLighting=true;m.alpha=p.alpha;m.transparencyMode=p.transparencyMode;m.alphaCutOff=p.alphaCutOff;m.useAlphaFromDiffuseTexture=p.useAlphaFromAlbedoTexture;m.disableLighting=p.unlit;if(p.unlit){m.emissiveTexture=p.albedoTexture;m.emissiveColor=(p.albedoColor??Color3.White()).toGammaSpace();m.diffuseColor=Color3.Black();}m.ambientColor=new Color3(.35,.38,.42);m.maxSimultaneousLights=3;m.freeze();converted.set(p,m);}mesh.material=m;fill(scene).includedOnlyMeshes.push(mesh);}
++      for(const mesh of c.meshes){if(!(mesh.material instanceof PBRMaterial))continue;const p=mesh.material;let m=converted.get(p);if(!m){m=new StandardMaterial('weapon:'+p.name,scene);m.imageProcessingConfiguration=colorProfile(scene);m.diffuseColor=(p.albedoColor??Color3.White()).toGammaSpace();m.diffuseTexture=p.albedoTexture;m.bumpTexture=p.bumpTexture;m.invertNormalMapX=p.invertNormalMapX;m.invertNormalMapY=p.invertNormalMapY;m.emissiveColor=p.emissiveColor.clone();m.emissiveTexture=p.emissiveTexture;m.emissiveColor.addInPlace(new Color3(.018,.022,.025));if(file!=='raygun'&&file!=='raygun-v1'&&!p.emissiveTexture&&p.emissiveColor.equals(Color3.Black())&&m.diffuseTexture){m.emissiveTexture=m.diffuseTexture;m.emissiveColor=new Color3(.10,.11,.12);if(scene.metadata?.terminalWeaponLighting&&['ak47','m4a1','sniper','minigun'].includes(file)){/* Add a restrained texture fill after diffuse shading: multiplying the texture twice crushes dark metal. The clone shares GPU pixels. */const fillTexture=m.diffuseTexture.clone();if(fillTexture){fillTexture.level=.36;m.emissiveTexture=fillTexture;m.emissiveColor=new Color3(.015,.018,.02);m.useEmissiveAsIllumination=true;}}}m.specularColor.setAll(.23);m.specularPower=48;m.backFaceCulling=false;m.twoSidedLighting=true;m.alpha=p.alpha;m.transparencyMode=p.transparencyMode;m.alphaCutOff=p.alphaCutOff;m.useAlphaFromDiffuseTexture=p.useAlphaFromAlbedoTexture;m.disableLighting=p.unlit;if(p.unlit){m.emissiveTexture=p.albedoTexture;m.emissiveColor=(p.albedoColor??Color3.White()).toGammaSpace();m.diffuseColor=Color3.Black();}m.ambientColor=new Color3(.35,.38,.42);m.maxSimultaneousLights=3;m.freeze();converted.set(p,m);}mesh.material=m;fill(scene).includedOnlyMeshes.push(mesh);}
+       for(const p of converted.keys())p.dispose(false,false);c.materials=[...converted.values()];return c;});models.set(file,pending);void pending.catch(()=>{if(models!.get(file)===pending)models!.delete(file);});}return pending;
+ }
+ export interface WeaponMeshHandle {root:TransformNode;meshes:AbstractMesh[];sightY:number}
+diff --git a/src/controller/terminalWorld.ts b/src/controller/terminalWorld.ts
+index 11c1979..e978852 100644
+--- a/src/controller/terminalWorld.ts
++++ b/src/controller/terminalWorld.ts
+@@ -1,5 +1,5 @@
+ import type {Engine} from '@babylonjs/core';
+-import {Color3,Color4,DirectionalLight,HemisphericLight,ImageProcessingConfiguration,Mesh,MeshBuilder,PBRMaterial,Scene,SceneLoader,ShaderMaterial,StandardMaterial,TransformNode,Texture} from '@babylonjs/core';
++import {Color3,Color4,DirectionalLight,DynamicTexture,HemisphericLight,Layer,ImageProcessingConfiguration,Mesh,MeshBuilder,PBRMaterial,Scene,SceneLoader,ShaderMaterial,StandardMaterial,TransformNode,Texture} from '@babylonjs/core';
+ import '@babylonjs/loaders/glTF';
+ import {terminalAtlasMaterial} from './terminalAtlasMaterial';
+ import type {TerminalAtlas} from './terminalAtlasMaterial';
+@@ -7,7 +7,14 @@ import type {Aabb} from '../../shared/fpsMap';
+ /** Shared TV/phone scene. Static geometry and source GPU instance transforms
+  * are prepared offline; gameplay collision data is loaded separately. */
+ export async function buildTerminalWorld(scene:Scene):Promise<void>{
+-  const started=performance.now();scene.clearColor=new Color4(.57,.7,.78,1);scene.ambientColor=new Color3(.23,.24,.26);
++  const started=performance.now();scene.clearColor=new Color4(.69,.73,.76,1);scene.metadata={...scene.metadata,terminalWeaponLighting:true};
++  // A shared background gradient replaces the flat cyan void, with no sky
++  // geometry, extra depth pass or collision surface. Each viewport uses it.
++  const skyTexture=new DynamicTexture('terminalSkyGradient',{width:8,height:256},scene,false);
++  const ctx=skyTexture.getContext(),gradient=ctx.createLinearGradient(0,0,0,256);
++  gradient.addColorStop(0,'#8295a5');gradient.addColorStop(.6,'#bdc9d1');gradient.addColorStop(1,'#e0e2df');
++  ctx.fillStyle=gradient;ctx.fillRect(0,0,8,256);skyTexture.update(false);
++  const sky=new Layer('terminalSky',null,scene,true);sky.texture=skyTexture;scene.ambientColor=new Color3(.23,.24,.26);
+   // Only Terminal needs extra fill for the recovered, unbaked source textures.
+   for(const light of scene.lights){if(light instanceof HemisphericLight)light.intensity=1.2;if(light instanceof DirectionalLight)light.intensity=1.5;}
+   scene.imageProcessingConfiguration.toneMappingEnabled=true;scene.imageProcessingConfiguration.toneMappingType=ImageProcessingConfiguration.TONEMAPPING_ACES;scene.imageProcessingConfiguration.exposure=1.05;
+@@ -53,12 +60,12 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
+   stepMaterial.diffuseTexture=new Texture('/assets/fps/terminal/boarding-metal.jpg',scene);stepMaterial.diffuseColor=new Color3(.65,.69,.73);stepMaterial.specularColor.setAll(.12);
+   const steps=(collision.accessSteps??[]).map((s,i)=>{const m=MeshBuilder.CreateBox('terminal:rear-step:'+i,{width:s.w,depth:s.d,height:s.h},scene);m.position.set(s.x,(s.base??0)+s.h/2,s.z);m.material=stepMaterial;return m;});
+   if(steps.length){const mesh=Mesh.MergeMeshes(steps,true,true);if(mesh){mesh.name='terminal:rear-boarding-stairs';mesh.isPickable=false;mesh.freezeWorldMatrix();kept.push(mesh);}}
+-  // Original-design, visibly marked safety fence; its exact volumes are shared
++  // Neutral service perimeter, retaining every existing collision volume; its exact volumes are shared
+   // with authoritative movement/shot data. These are not recovered CoD assets.
+-  const yellow=new StandardMaterial('terminalArenaBoundary',scene);yellow.diffuseColor=new Color3(.77,.57,.17);yellow.specularColor.setAll(.01);
++  const fence=new StandardMaterial('terminalArenaBoundary',scene);fence.diffuseTexture=stepMaterial.diffuseTexture;fence.diffuseColor=new Color3(.46,.5,.53);fence.specularColor.setAll(.04);
+   const dark=new StandardMaterial('terminalArenaBoundaryStripe',scene);dark.diffuseColor=new Color3(.11,.14,.17);
+   for(const b of collision.barriers){
+-    const m=MeshBuilder.CreateBox('terminal:limite-visibile',{width:b.w,depth:b.d,height:b.h},scene);m.position.set(b.x,(b.base??0)+b.h/2,b.z);m.material=yellow;m.freezeWorldMatrix();m.isPickable=false;
++    const m=MeshBuilder.CreateBox('terminal:limite-visibile',{width:b.w,depth:b.d,height:b.h},scene);m.position.set(b.x,(b.base??0)+b.h/2,b.z);m.material=fence;m.freezeWorldMatrix();m.isPickable=false;
+     for(const y of [.45,1.3]){const band=MeshBuilder.CreateBox('terminal:limite-striscia',{width:b.w+.01,depth:b.d+.01,height:.16},scene);band.position.set(b.x,(b.base??0)+y,b.z);band.material=dark;band.freezeWorldMatrix();band.isPickable=false;}
+   }
+   // No additional shadow pass multiplied by 2–5 cameras. Source details and

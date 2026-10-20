@@ -1,0 +1,35 @@
+{
+  "catalog": {
+    "total": 16,
+    "available": [
+      "quiz",
+      "reaction",
+      "memory",
+      "arena",
+      "dodgeball",
+      "soccer",
+      "volleyball",
+      "kart3d",
+      "cultura",
+      "fps",
+      "cornicione",
+      "minigolf",
+      "geofall",
+      "backrooms",
+      "trentuno"
+    ]
+  },
+  "privacy": true,
+  "pastOldLimit": true,
+  "reconnect": true,
+  "draw": true,
+  "discardAndSync": true,
+  "smallPhone": true,
+  "svg": {
+    "count": 7,
+    "loaded": true
+  },
+  "errors": [],
+  "drawWaitSeconds": 13.5,
+  "screenshotsRecapturedAfterDiscard": true
+}

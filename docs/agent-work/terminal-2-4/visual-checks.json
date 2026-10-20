@@ -1,0 +1,96 @@
+{
+  "checks": {
+    "weapons": [
+      {
+        "id": "mitraglia",
+        "loaded": true,
+        "visible": true
+      },
+      {
+        "id": "laser",
+        "loaded": true,
+        "visible": true,
+        "zoom": 4,
+        "scope": "1"
+      },
+      {
+        "id": "raffica",
+        "loaded": true,
+        "visible": true
+      },
+      {
+        "id": "bombarda",
+        "loaded": true,
+        "visible": true
+      },
+      {
+        "id": "sparapiselli",
+        "loaded": true,
+        "visible": true
+      },
+      {
+        "id": "pistola",
+        "loaded": true,
+        "visible": true
+      }
+    ],
+    "ready": true,
+    "world": {
+      "partial": true,
+      "spatialBatches": 86,
+      "instanceGroups": 172,
+      "modelPrimitives": 1998,
+      "triangles": 1704739,
+      "materials": 7,
+      "loadMs": 2220.8999999910593,
+      "source": "terminal-fast.glb",
+      "staticBatchMeters": 64,
+      "stableAtlasGradients": true,
+      "shadows": "existing character blobs; no dynamic map shadow pass"
+    },
+    "fence": {
+      "color": [
+        0.46,
+        0.5,
+        0.53
+      ],
+      "textured": true
+    },
+    "sky": true,
+    "fill": [
+      0.72,
+      0.75,
+      0.78
+    ],
+    "minigun": {
+      "id": "sparapiselli",
+      "name": "MINIGUN",
+      "icon": "🔥",
+      "damage": 12,
+      "fireRate": 17,
+      "range": 42,
+      "spread": 0.032,
+      "magazine": 100,
+      "reload": 2.9,
+      "projectileSpeed": 0,
+      "splashRadius": 0,
+      "movementModifier": 0.83,
+      "difficulty": "FACILE",
+      "fireMode": "auto"
+    }
+  },
+  "otherWeaponStatsUnchanged": true,
+  "arenaHash": "a71cd9af611680830054e2db13d33532cb3ad078207c6dca008eca9110bfbf51",
+  "collisionUnchanged": true,
+  "minigunIdeal100hp": {
+    "before": {
+      "hits": 12,
+      "ttk": 0.6470588235294118
+    },
+    "after": {
+      "hits": 9,
+      "ttk": 0.47058823529411764
+    }
+  },
+  "errors": []
+}

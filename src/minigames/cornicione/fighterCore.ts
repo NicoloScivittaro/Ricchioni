@@ -1,5 +1,5 @@
 import { PHYS, DODGE, WALL, RECOVERY, DMG, KO, MATCH, STAGE, STICK, spawnPoints, pickMove, pickKick, STRATEGY, OBJECT_THROW, OBJECT_MOVE } from './fighterData';
-import type { MoveDef, MoveDir } from './fighterData';
+import type { MoveDef, MoveDir, FighterStage } from './fighterData';
 import { NO_INPUT, freshAbilityState } from './fighterTypes';
 import type { Fighter, FighterEvent, FighterInput, FighterStats, FighterProjectile, MatchPhase } from './fighterTypes';
 import { FighterAbilities } from './fighterAbilities';
@@ -19,6 +19,7 @@ export interface WorldOptions {
   /** false = le abilita' non fanno nulla (simulazioni ON/OFF) */
   abilities?: boolean;
   timeLimit?: number;
+  stage?: FighterStage;
 }
 
 type PreviousFighter = { x:number;y:number;attack:Fighter['attack'];t:number;invuln:number;intang:number;discontinuous:boolean };
@@ -48,6 +49,7 @@ export class FighterWorld {
   time = 0;
   phase: MatchPhase = 'fight';
   readonly timeLimit: number;
+  readonly stage: FighterStage;
   suddenT = 0;
   endReason: 'lastStanding' | 'timeout' | 'suddenDeath' | null = null;
   /** ordine di eliminazione (primo = primo eliminato) */
@@ -58,10 +60,11 @@ export class FighterWorld {
 
   constructor(opts: WorldOptions) {
     this.rng = opts.rng;
+    this.stage = opts.stage ?? STAGE;
     this.timeLimit = opts.timeLimit ?? MATCH.timeLimit;
     this.abil = new FighterAbilities(this, opts.abilities !== false);
     const n = opts.ids.length;
-    const spawn = spawnPoints(n);
+    const spawn = spawnPoints(n,this.stage);
     opts.ids.forEach((id, i) => {
       const f: Fighter = {
         id,
@@ -79,7 +82,7 @@ export class FighterWorld {
         respawnT: 0,
         eliminatedAt: -1,
         grounded: true,
-        support: spawn[i].y > 0 ? (spawn[i].y > 5 ? 3 : spawn[i].x < 0 ? 1 : 2) : 0,
+        support: this.spawnSupport(spawn[i]),
         coyote: 0,
         jumps: PHYS.jumps,
         jumpRising: false,
@@ -127,6 +130,8 @@ export class FighterWorld {
     });
   }
 
+  private spawnSupport(p:{x:number;y:number}):number {return p.y===0?0:this.stage.platforms.find(q=>Math.abs(q.y-p.y)<.001&&p.x>=q.x0&&p.x<=q.x1)?.id??-1;}
+
   // ------------------------------------------------------------------ utilita'
 
   emit(e: FighterEvent): void {
@@ -141,7 +146,7 @@ export class FighterWorld {
 
   /** Fuori dal palco: in aria e oltre il bordo della palazzina o sotto il piano. */
   offstage(f: Fighter): boolean {
-    return !f.grounded && (Math.abs(f.x) > STAGE.mainX + 0.2 || f.y < -0.3);
+    return !f.grounded && (Math.abs(f.x) > this.stage.mainX + 0.2 || f.y < -0.3);
   }
 
   livingCount(): number {
@@ -355,7 +360,7 @@ export class FighterWorld {
       const nx = p.x + p.dx * p.speed * travel, ny = p.y + p.dy * p.speed * travel;
       const r = OBJECT_THROW.radius;
       let victim: Fighter | null = null;
-      let first = segmentBox(p.x, p.y, nx, ny, -STAGE.mainX-r, STAGE.mainX+r, -1e6, r);
+      let first = segmentBox(p.x, p.y, nx, ny, -this.stage.mainX-r, this.stage.mainX+r, -1e6, r);
       let reason: 'hit' | 'parry' | 'wall' | 'expired' = 'wall';
       for (const v of this.fighters) {
         if (v === owner || !this.hittable(v)) continue;
@@ -634,7 +639,7 @@ export class FighterWorld {
 
   private collide(f: Fighter, prevX: number, prevY: number, sx: number): void {
     const hw = PHYS.halfW;
-    const X = STAGE.mainX;
+    const X = this.stage.mainX;
     const wasGrounded = f.grounded;
 
     if (f.grounded) {
@@ -642,7 +647,7 @@ export class FighterWorld {
       if (f.support === 0) {
         if (Math.abs(f.x) > X + 0.35) this.leaveGround(f);
       } else {
-        const p = STAGE.platforms.find((q) => q.id === f.support);
+        const p = this.stage.platforms.find((q) => q.id === f.support);
         if (!p || f.x + hw * 0.6 <= p.x0 || f.x - hw * 0.6 >= p.x1) this.leaveGround(f);
       }
       if (f.grounded && f.hitstun > 0 && f.vy > 0) this.leaveGround(f, false);
@@ -656,7 +661,7 @@ export class FighterWorld {
           landed = this.touchDown(f, 0, 0, impactVy);
         }
         if (!landed && f.dropT <= 0) {
-          for (const p of STAGE.platforms) {
+          for (const p of this.stage.platforms) {
             if (prevY >= p.y - 0.02 && f.y <= p.y && f.x + hw * 0.6 > p.x0 && f.x - hw * 0.6 < p.x1) {
               landed = this.touchDown(f, p.y, p.id, impactVy);
               break;
@@ -980,7 +985,7 @@ export class FighterWorld {
       this.projectiles = [];
       this.cancelObjectThrows();
       this.suddenT = 0;
-      const sp = spawnPoints(group.length);
+      const sp = spawnPoints(group.length,this.stage);
       for (const f of alive) {
         if (!this.suddenGroup.includes(f.id)) {
           f.dead = true;
@@ -996,7 +1001,7 @@ export class FighterWorld {
         f.vx = 0;
         f.vy = 0;
         f.grounded = sp[i].y >= 0;
-        f.support = sp[i].y > 5 ? 3 : 0;
+        f.support = this.spawnSupport(sp[i]);
         f.jumps = PHYS.jumps;
         f.invuln = 1.2;
         this.interrupt(f);

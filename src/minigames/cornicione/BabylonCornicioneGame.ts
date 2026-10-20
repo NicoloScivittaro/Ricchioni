@@ -22,10 +22,11 @@ import { registerEnvScene } from '../env/envDebug';
 import { FighterWorld } from './fighterCore';
 import { FighterBot } from './fighterBot';
 import { IMPACT_KEYS } from './fighterAbilities';
-import { KO, PHYS, STAGE, OBJECT_THROW } from './fighterData';
+import { KO, PHYS, OBJECT_THROW } from './fighterData';
 import type { MoveDef } from './fighterData';
 import type { Fighter, FighterEvent, FighterInput } from './fighterTypes';
 import { buildCornicioneEnvironment } from './cornicioneEnvironment';
+import { cornicioneStage } from './fighterStages';
 import { FighterCamera } from './fighterCamera';
 import { FighterHud } from './fighterHud';
 import { FighterFx } from './fighterFx';
@@ -99,16 +100,18 @@ export class BabylonCornicioneGame {
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0.45, 0.2, 0.35, 1);
     const n = ctx.players.length;
+    const stage = cornicioneStage(ctx.mapId);
     this.order = [...ctx.playerIds];
     this.world = new FighterWorld({
       ids: ctx.players.map((p) => p.id),
       characters: ctx.players.map((p) => p.characterId ?? 'goblin'),
-      rng: () => ctx.rng.next()
+      rng: () => ctx.rng.next(),
+      stage
     });
     for (const p of ctx.players) if (p.bot) this.setBot(p.id, true);
-    this.env = buildCornicioneEnvironment(this.scene, 0);
+    this.env = buildCornicioneEnvironment(this.scene, 0, stage);
     registerEnvScene(this.scene);
-    this.camera = new FighterCamera(this.scene, canvas);
+    this.camera = new FighterCamera(this.scene, canvas,stage.mainX);
     this.hud = new FighterHud(this.scene);
     this.fx = new FighterFx(this.scene);
     this.objects = new FighterObjects(this.scene, this.world.fighters);
@@ -131,6 +134,7 @@ export class BabylonCornicioneGame {
       this.lastAbilitySnap.set(snap.id, { ok: 0, fail: 0, impact: {} });
     });
     this.hud.buildCards(ctx.players.map((s) => ({ id: s.id, label: SHORT[s.characterId ?? ''] ?? s.displayName.toUpperCase(), characterId: s.characterId, color: s.color })));
+    this.hud.setArena(stage.name);
     this.hud.setTimer(this.world.timeLimit);
     this.hud.setCountdown('3');
     void n;
@@ -347,8 +351,8 @@ export class BabylonCornicioneGame {
       }
       case 'land': {
         const f = this.fighter(e.id);
+        if(f)this.fx.dust(f.x,f.y,this.colorOf(e.id),e.hard?2.2:1.3);
         if (f && e.hard) {
-          this.fx.ring(f.x, f.y + 0.1, '#ffffff', 1.8);
           audio.thump(0.4, this.pan(f.x));
         }
         break;
@@ -424,7 +428,7 @@ export class BabylonCornicioneGame {
     if (!v) return;
     const spec = IMPACT[e.impact];
     const strength = Math.min(1.4, e.speed / 32);
-    this.fx.spark(e.x, e.y, HIT_RGB, 1.1 + strength * 1.4);
+    this.fx.spark(e.x, e.y, HIT_RGB, 0.9 + strength * 1.1);
     if (e.impact !== 'LIGHT') this.fx.slash(e.x, e.y, Math.atan2(e.dy, e.dx), 2 + strength * 3, this.colorOf(e.victim));
     // peso del colpo: hitstop breve (mai lungo), scossa MOLTO contenuta (camera condivisa fra 5 persone), suono per categoria
     this.hitStop = Math.max(this.hitStop, e.impact === 'HEAVY' ? spec.hitstop : spec.hitstop * 0.8);
@@ -618,7 +622,7 @@ export class BabylonCornicioneGame {
   // ------------------------------------------------------------------ disegno
 
   private cameraSubjects(): { x: number; y: number; active: boolean }[] {
-    return this.world.fighters.map((f) => ({ x: f.x, y: f.y, active: f.inGame && !f.dead && f.ab.vanishT <= 0 }));
+    return this.world.fighters.map((f) => ({ x: f.x, y: f.y+PHYS.height*.5, active: f.inGame && !f.dead && f.ab.vanishT <= 0 }));
   }
 
   private laneZ(f: Fighter): number {
@@ -710,7 +714,7 @@ export class BabylonCornicioneGame {
       }
       this.hud.setIndicator(f.id, show, nx, ny, ang, f.percent);
     }
-    this.hud.setTimer(this.world.phase === 'sudden' ? 0 : this.world.timeLeft);
+    this.hud.setTimer(this.world.phase === 'sudden' ? 0 : this.world.timeLeft,this.world.livingCount());
     if (this.world.phase === 'sudden') this.hud.setRight('⚡ SPAREGGIO', '#f87171');
     void view;
   }
@@ -826,12 +830,12 @@ export class BabylonCornicioneGame {
     for(let i=0;i<24;i++){this.projectileBoxes.push(this.wire('objectCollider',OBJECT_THROW.radius*2,OBJECT_THROW.radius*2,'#f87171'));this.contactMarks.push(this.wire('actualContact',.15,.15,'#fbbf24'));}
     this.koBox = this.wire('koBounds', KO.maxX - KO.minX, KO.maxY - KO.minY, '#fbbf24');
     this.koBox.position.set((KO.maxX + KO.minX) / 2, (KO.maxY + KO.minY) / 2, -0.5);
-    for (const p of STAGE.platforms) {
+    for (const p of this.world.stage.platforms) {
       const b = this.wire('platformBox', p.x1 - p.x0, 0.2, '#60a5fa');
       b.position.set((p.x0 + p.x1) / 2, p.y - 0.1, -0.5);
       this.boxes.push(b);
     }
-    const main = this.wire('mainBox', STAGE.mainX * 2, 40, '#60a5fa');
+    const main = this.wire('mainBox', this.world.stage.mainX * 2, 40, '#60a5fa');
     main.position.set(0, -20, -0.5);
     this.boxes.push(main);
   }

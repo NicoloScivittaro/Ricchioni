@@ -90,14 +90,14 @@ console.log('\n[TETTO SERVER] copre la durata REALE massima di ogni gioco (con �
     kart3d: 185, // countdown + gara (cap durationSec) + arrivo
     cultura: 430, // 8 round × ~51s (bluff 20 + voto 12 + reveal ~9 + spiegazione 5.5) + 3 classifiche; con fine anticipata ~5 min
     fps: 900, // corsa a 10 uccisioni: margine per una partita lunga, cap tecnico 1200s
-    cornicione: 185, // countdown + 150s + spareggio 20s + festeggiamenti + risultati
+
     minigolf: 1225, // configura fino a 300s/buca: tre buche + tolleranza tiro + intro/classifiche + spareggio + controlli/risultati
     trentuno: 370, // cap330 + controlli, risultati e margine
     goblinTime: 700, // limite360s + conclusione ordinata di finestre/decisioni complesse + scelta mazzo e risultati
-    casacarbo: 140 // CONTROLLI 5s + countdown + 120s di temporale + finale col vicino 6,5s + risultati
   };
   for (const def of MINIGAME_DEFINITIONS) {
     // Lo spareggio Geofall si ripete finché resta uno: non esiste durata massima nelle regole.
+    if(def.id==='cornicione'||def.id==='trentuno'){ok(def.durationSec===0&&def.hardCapSec===0,def.id+': partita senza limite');continue;}
     if(def.id==='backrooms'){ok(def.durationSec===420&&safetyCapSec(def)===900,'Backrooms: 7 minuti, watchdog con margine');continue;}
     if(def.id==='geofall'){ok(safetyCapSec(def)===3600,'Geofall: watchdog esterno1h, nessun limite artificiale allo spareggio');continue;}
     const worst = WORST_CASE_SEC[def.id];

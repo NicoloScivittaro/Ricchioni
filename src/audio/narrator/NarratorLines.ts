@@ -66,7 +66,6 @@ const games:Record<string,string[]>={
  cultura:["CULTURA O CAZZATA? Finalmente er vostro campo!","CULTURA O CAZZATA? Stavolta mentire è previsto!"],
  fps:["SPARATORIA DEI DISAGIATI! Mira da talpa, vedemo!","SPARATORIA DEI DISAGIATI! Sparate agli altri, fenomeni!"],
  cornicione:["BOTTE SUL CORNICIONE! Menateve, senza l'avvocato!","BOTTE SUL CORNICIONE! Occhio ar bordo, campioni!"],
- casacarbo:["CASA CARBO! Piove dentro. E voi siete pure peggio!","CASA CARBO! Asciugate casa, non le vostre scuse!"],
  minigolf:["MINIGOLF DEI DISAGIATI! La pallina va nel buco!","MINIGOLF DEI DISAGIATI! Piano, non è un rigore!"],
  geofall:["GEOFALL! Er mondo crolla. Voi intanto pensate!","GEOFALL! Trovate la casella. Prima che sparisca!"],
  backrooms:["BACKROOMS! Una porta giusta. Tante idee sbagliate!","BACKROOMS! Fate piano. Pure le scuse fanno rumore!"],

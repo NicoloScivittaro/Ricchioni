@@ -1,7 +1,7 @@
 import {spawn} from 'node:child_process';
 import {writeFileSync} from 'node:fs';
 const dir='docs/agent-work/physics-update',results=[];
-const games='quiz,reaction,memory,arena,dodgeball,soccer,volleyball,kart3d,cultura,fps,cornicione,casacarbo,minigolf';
+const games='quiz,reaction,memory,arena,dodgeball,soccer,volleyball,kart3d,cultura,fps,cornicione,minigolf';
 const tasks=[
  ['volley-pad','gamepad-volleyball.mjs',{}],['volley-five','volleyball-direction.mjs',{}],
  ['fps-five','fps-ads.mjs',{}],['arena-five','arena-combat.mjs',{}],

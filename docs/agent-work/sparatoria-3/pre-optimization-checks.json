@@ -1,0 +1,152 @@
+{
+  "weapons": [
+    {
+      "id": "mitraglia",
+      "model": true,
+      "recoil": 0.014984295583682633,
+      "reload": 0.1506196259706715,
+      "casing": true,
+      "noEarlyAmmo": true,
+      "completed": true
+    },
+    {
+      "id": "laser",
+      "model": true,
+      "recoil": 0.039049084557902944,
+      "reload": 0.15557188872994707,
+      "casing": true,
+      "noEarlyAmmo": true,
+      "completed": true
+    },
+    {
+      "id": "raffica",
+      "model": true,
+      "recoil": 0.0069136000157916525,
+      "reload": 0.15011795124690114,
+      "casing": true,
+      "noEarlyAmmo": true,
+      "completed": true
+    },
+    {
+      "id": "bombarda",
+      "model": true,
+      "recoil": 0.02249040478463809,
+      "reload": 0.15166220221647456,
+      "casing": false,
+      "noEarlyAmmo": true,
+      "completed": true
+    },
+    {
+      "id": "sparapiselli",
+      "model": true,
+      "recoil": 0.003616039326228364,
+      "reload": 0.19001615373398034,
+      "casing": true,
+      "noEarlyAmmo": true,
+      "completed": true
+    },
+    {
+      "id": "pistola",
+      "model": true,
+      "recoil": 0.005281202608060543,
+      "reload": 0.11008155659653962,
+      "casing": true,
+      "noEarlyAmmo": true,
+      "completed": true
+    }
+  ],
+  "ads": {
+    "zoom": 4,
+    "hidden": true,
+    "scope": "1",
+    "directionChange": 0
+  },
+  "logic": {
+    "damage": 30,
+    "spent": 11,
+    "protectedNoHit": true,
+    "killed": true,
+    "wall": {
+      "hp": 100,
+      "impact": {
+        "id": null,
+        "type": "surfaceImpact",
+        "x": 0,
+        "y": 1.5,
+        "z": -6,
+        "nx": 0,
+        "ny": 0,
+        "nz": -1,
+        "surface": "metal"
+      }
+    },
+    "first": "",
+    "revenge": "VENDETTA",
+    "double": "DOPPIA ELIMINAZIONE"
+  },
+  "maps": [
+    {
+      "map": "cantiere",
+      "valid": true,
+      "boundsFinite": true,
+      "active": 45,
+      "shots": 21,
+      "damage": 244,
+      "kills": 1,
+      "geometry": null,
+      "impactPool": 48
+    },
+    {
+      "map": "nuketown",
+      "valid": true,
+      "boundsFinite": true,
+      "active": 68,
+      "shots": 25,
+      "damage": 260,
+      "kills": 2,
+      "geometry": null,
+      "impactPool": 48
+    },
+    {
+      "map": "terminal",
+      "valid": true,
+      "boundsFinite": true,
+      "active": 123,
+      "shots": 27,
+      "damage": 403,
+      "kills": 3,
+      "geometry": {
+        "partial": true,
+        "spatialBatches": 86,
+        "instanceGroups": 172,
+        "modelPrimitives": 1998,
+        "triangles": 1704739,
+        "materials": 7,
+        "loadMs": 1620,
+        "source": "terminal-fast.glb",
+        "staticBatchMeters": 64,
+        "stableAtlasGradients": true,
+        "shadows": "existing character blobs; no dynamic map shadow pass"
+      },
+      "impactPool": 48
+    }
+  ],
+  "performance": {
+    "fps": 45.49226938800601,
+    "p95": 33.400000000001455,
+    "views": 5,
+    "scale": 1,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    },
+    "drawCalls": 576,
+    "actualBotShots": 42,
+    "resolution": [
+      1280,
+      720
+    ]
+  },
+  "errors": []
+}

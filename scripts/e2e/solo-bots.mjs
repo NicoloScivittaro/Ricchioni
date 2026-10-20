@@ -22,7 +22,7 @@ try {
   PlayerInput.prototype.setDown=function(control){if(this.owner?.startsWith('bot:')&&!this.pressed(control))window.__botActions[`hold:${control}`]=(window.__botActions[`hold:${control}`]??0)+1;return down.call(this,control);};
  });
  console.log('Solo lobby ready');
- const seq=(process.env.SEQ??'arena,cornicione,dodgeball,soccer,volleyball,kart3d,fps,casacarbo,quiz,memory,cultura,reaction').split(',');
+ const seq=(process.env.SEQ??'arena,cornicione,dodgeball,soccer,volleyball,kart3d,fps,quiz,memory,cultura,reaction').split(',');
  for(const id of seq){
   console.log(`Testing ${id}`);
   if(id==='fps')await phone.page.evaluate(async()=>{
@@ -52,7 +52,7 @@ try {
    };
    window.__soloTimer=setInterval(window.__soloCapture,100);window.__soloCapture();
   },id);
-  if(['arena','cornicione','dodgeball','soccer','volleyball','kart3d','casacarbo'].includes(id)){
+  if(['arena','cornicione','dodgeball','soccer','volleyball','kart3d'].includes(id)){
    await until(()=>hostEval(page,(gm,id)=>[...(gm.game.scene.getScene(id).game3d.entities??gm.game.scene.getScene(id).game3d.avatars).values()].every(e=>e.goblinDebug?.()?.state==='ready'),id),`${id} Tripo`);
    assert.equal((await visualCounters(page)).liveInstances,4);
   }
@@ -96,7 +96,7 @@ try {
   assert.notEqual((await hostSnapshot(page)).phase,'MINIGAME_PLAYING',`${id} naturally completes within 500 simulated seconds: ${JSON.stringify(last)}`);
   const results=await hostEval(page,gm=>gm.state.lastResults);assert.equal(results.results.length,4);assert.equal(new Set(results.results.map(p=>p.playerId)).size,4);
   report.games.push({id,before,last,results,simulated,counters:await visualCounters(page)});
-  if(!['cornicione','casacarbo','cultura'].includes(id))assert.ok(Object.keys(last.actions).length>0,`${id} bots issued commands`);
+  if(!['cornicione','cultura'].includes(id))assert.ok(Object.keys(last.actions).length>0,`${id} bots issued commands`);
   if(id==='fps')assert.ok(last.players.filter(p=>p.id.startsWith('bot:')).some(p=>p.shots>0&&p.kills>0),'FPS real shots and kills');
   if(id==='soccer')assert.ok(last.players.filter(p=>p.id.startsWith('bot:')).some(p=>p.goals>0),'soccer bot scored a real goal');
   writeFileSync(`${out}/browser-${process.env.SESSION??'all'}.json`,JSON.stringify(report,null,2));console.log(`${id}: SOLO, Tripo, pause, real bot commands, natural results PASS`);

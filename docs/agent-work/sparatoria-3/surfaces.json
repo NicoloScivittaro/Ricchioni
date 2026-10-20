@@ -1,0 +1,19 @@
+{
+  "collisionSHA256": "a71cd9af611680830054e2db13d33532cb3ad078207c6dca008eca9110bfbf51",
+  "triangleCount": 86516,
+  "palette": [
+    "unknown",
+    "concrete",
+    "metal",
+    "glass",
+    "wood"
+  ],
+  "counts": {
+    "0": 43911,
+    "4": 2818,
+    "2": 23713,
+    "3": 2552,
+    "1": 13522
+  },
+  "bytes": 86516
+}

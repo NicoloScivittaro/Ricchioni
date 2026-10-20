@@ -1,6 +1,6 @@
 import { AB } from '../../../shared/abilityCatalog';
 import type { AbilityStatus } from '../../../shared/abilityCatalog';
-import { KO, PHYS, STAGE, WALL, followMove } from './fighterData';
+import { KO, PHYS, WALL, followMove } from './fighterData';
 import type { MoveDef } from './fighterData';
 import { freshAbilityState } from './fighterTypes';
 import type { AbilityResult, Fighter } from './fighterTypes';
@@ -183,9 +183,9 @@ export class FighterAbilities {
     let tx = clamp(f.x + dx * B.dist, KO.minX + 3, KO.maxX - 3);
     let ty = clamp(f.y + dy * B.dist, KO.minY + 3, KO.maxY - 3);
     // mai dentro la palazzina
-    if (ty < 0 && Math.abs(tx) < STAGE.mainX + PHYS.halfW + 0.05) {
-      if (Math.abs(tx) <= STAGE.mainX + 0.35 && f.y >= -0.05) ty = 0;
-      else tx = (tx >= 0 ? 1 : -1) * (STAGE.mainX + PHYS.halfW + 0.1);
+    if (ty < 0 && Math.abs(tx) < this.w.stage.mainX + PHYS.halfW + 0.05) {
+      if (Math.abs(tx) <= this.w.stage.mainX + 0.35 && f.y >= -0.05) ty = 0;
+      else tx = (tx >= 0 ? 1 : -1) * (this.w.stage.mainX + PHYS.halfW + 0.1);
     }
     a.targetX = tx;
     a.targetY = ty;
@@ -276,7 +276,7 @@ export class FighterAbilities {
         a.pendingT = 0;
         f.stats.abilityFail++;
         this.w.emit({ t: 'ability', id: f.id, a: 'bonifico_fail' });
-        this.w.knockOut(f, f.y > 0 ? 'top' : Math.abs(f.x) > STAGE.mainX ? 'side' : 'bottom');
+        this.w.knockOut(f, f.y > 0 ? 'top' : Math.abs(f.x) > this.w.stage.mainX ? 'side' : 'bottom');
       }
     }
   }
@@ -291,9 +291,9 @@ export class FighterAbilities {
     const len = Math.hypot(s.x, s.y);
     let tx = clamp(ox + (s.x / len) * B.dist, KO.minX + 3, KO.maxX - 3);
     let ty = clamp(oy + (s.y / len) * B.dist, KO.minY + 3, KO.maxY - 3);
-    if (ty < 0 && Math.abs(tx) < STAGE.mainX + PHYS.halfW + 0.05) {
-      if (Math.abs(tx) <= STAGE.mainX + 0.35 && oy >= -0.05) ty = 0;
-      else tx = (tx >= 0 ? 1 : -1) * (STAGE.mainX + PHYS.halfW + 0.1);
+    if (ty < 0 && Math.abs(tx) < this.w.stage.mainX + PHYS.halfW + 0.05) {
+      if (Math.abs(tx) <= this.w.stage.mainX + 0.35 && oy >= -0.05) ty = 0;
+      else tx = (tx >= 0 ? 1 : -1) * (this.w.stage.mainX + PHYS.halfW + 0.1);
     }
     f.ab.targetX = tx;
     f.ab.targetY = ty;

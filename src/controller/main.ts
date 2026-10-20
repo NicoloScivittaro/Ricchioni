@@ -1418,9 +1418,9 @@ function handleFpsSignal(s: SignalPayload): void {
       break;
     }
     case 'killed': {
-      const d = s as unknown as { name?: string };
+      const d = s as unknown as { name?: string;badge?:string };
       vibrate([60, 30, 80]);
-      fpsClient?.killConfirm(d.name ?? '');
+      fpsClient?.killConfirm(d.name ?? '',d.badge??'');
       break;
     }
     case 'eliminated': {
@@ -1445,6 +1445,11 @@ function handleFpsSignal(s: SignalPayload): void {
       break;
     case 'weaponShot':
       fpsClient?.remoteShot(String(s.owner),String(s.weaponId));break;
+    case 'shotTrace':{
+      const d=s as unknown as {owner:string;weaponId:string;segs:import('../../shared/fpsCombat').ShotSegment[]};
+      fpsClient?.confirmedTrace(d.owner,d.weaponId,d.segs);break;}
+    case 'surfaceImpact':
+      fpsClient?.surfaceImpact(s as unknown as import('../../shared/fpsCombat').SurfaceImpact);break;
     case 'energyBolt':
       fpsClient?.energyBolt(s as unknown as import('./fpsEnergyFx').EnergyLaunch);break;
     case 'energyImpact':
@@ -1645,12 +1650,6 @@ socket.on(EVT.controllerSignal, (data) => {
     app.querySelectorAll<HTMLButtonElement>('#ctl button').forEach(b=>{b.disabled=!status.available||(b.classList.contains('ctl-push')&&!status.pushReady)||(b.classList.contains('ctl-ability')&&status.ability.state!=='READY');});
     const ab=app.querySelector<HTMLButtonElement>('.ctl-ability');if(ab)ab.textContent=`${status.abilityName} · ${stateLabel(status.ability)}`;
     if(status.confusionWarning||status.confusion)line.textContent+=status.confusionWarning?' · ⚠ COMANDI INVERTITI TRA POCO':' · ↔ COMANDI INVERTITI';
-    return;
-  }
-  if(s.type==='carboRace' && state?.phase==='MINIGAME_PLAYING' && state.currentMinigame?.minigameId==='casacarbo'){
-    let line=document.getElementById('carbo-race');
-    if(!line){line=document.createElement('p');line.id='carbo-race';line.className='sub';app.querySelector('.screen')?.appendChild(line);}
-    line.textContent=s.name?`🏆 GARA +6 · ${s.name} · ${s.cooldown}s · TU ${(s.value??0).toFixed(1)}/4 L${s.available?'':' · INTASATO: INTERAGISCI'}`:'RACCOGLI → SCARICA · LA PROSSIMA GARA ARRIVA TRA POCO';
     return;
   }
   if(s.type==='minigolfStatus'){if(activeController==='minigolf')minigolfPhone?.update(data as GolfPhoneStatus);else updateGolfCompanion(data as GolfPhoneStatus);return;}

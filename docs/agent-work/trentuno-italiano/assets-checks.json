@@ -1,0 +1,32 @@
+{
+  "distinctFronts": 40,
+  "cardsPerSuit": 10,
+  "ranks": [
+    "A",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "F",
+    "C",
+    "R"
+  ],
+  "suits": [
+    "DENARI",
+    "COPPE",
+    "SPADE",
+    "BASTONI"
+  ],
+  "figures": [
+    "Fante",
+    "Cavallo",
+    "Re"
+  ],
+  "frenchReferences": false,
+  "totalSvgBytes": 218050,
+  "originalVectors": true,
+  "backUnchanged": true,
+  "valuesUnchanged": true
+}

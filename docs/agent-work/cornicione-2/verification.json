@@ -1,0 +1,19 @@
+{
+  "coreRegression": {
+    "passed": 165,
+    "total": 165
+  },
+  "abilityRegression": {
+    "passed": 82,
+    "total": 82
+  },
+  "strategyRegression": "passed",
+  "projectileRegression": "passed after expected timer assertion update; natural finish at 237.13s",
+  "stageAndUntimed": "core-checks.json",
+  "browser": "browser-checks.json",
+  "finalVisuals": "visual-final.json",
+  "fpsBenchmark": false,
+  "typecheck": true,
+  "build": true,
+  "review": "accepted against task baseline"
+}

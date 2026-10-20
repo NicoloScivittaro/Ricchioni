@@ -22,6 +22,11 @@ export const FPS_MAPS:readonly MapOption[]=[
   {id:'nuketown',name:'NUKETOWN',description:'2–5 giocatori · case, cortili e veicoli.',color:'#65b4dd',icon:'⌂'},
   {id:'terminal',name:'TERMINAL',description:'2–5 giocatori · aeroporto, corridoi e aereo.',color:'#c9b784',icon:'✈'}
 ];
+export const CORNICIONE_MAPS:readonly MapOption[]=[
+  {id:'tetto',name:'TETTO DEL DISAGIO',description:'Tramonto in città · tre ponteggi e recuperi sul muro.',color:'#efb582',icon:'⌂'},
+  {id:'darsena',name:'DARSENA DEGLI SCHIAFFI',description:'Mare, moli e passerelle larghe · combattimento ravvicinato.',color:'#7cc6cf',icon:'⚓'},
+  {id:'cantiere',name:'CANTIERE IN QUOTA',description:'Travi, gru e piattaforme alte · duelli verticali.',color:'#e7b85e',icon:'▤'}
+];
 const KART_MAPS:readonly MapOption[]=[
   {id:'litorale',name:'CIRCUITO DEL LITORALE',description:'Curve, rampe e derapate sul mare.',color:'#ffbf69',icon:'⌁'},
   {id:'arcobaleno',name:'STRADA ARCOBALENO',description:'Pista sospesa e passaggi in planata.',color:'#74e7e0',icon:'✦'},
@@ -29,7 +34,7 @@ const KART_MAPS:readonly MapOption[]=[
   {id:'primo',name:'PRIMO KARTING',description:'Tornanti, staccate e derapate tra le barriere.',color:'#ffcc55',icon:'⚑'}
 ];
 export const mapsFor=(minigameId:string):readonly MapOption[]=>
-  minigameId==='fps'?FPS_MAPS:minigameId==='kart3d'?KART_MAPS:minigameId==='backrooms'?BACKROOM_MAPS:minigameId==='minigolf'?GOLF_MAPS:[];
+  minigameId==='cornicione'?CORNICIONE_MAPS:minigameId==='fps'?FPS_MAPS:minigameId==='kart3d'?KART_MAPS:minigameId==='backrooms'?BACKROOM_MAPS:minigameId==='minigolf'?GOLF_MAPS:[];
 export const mapById=(game:string,id:unknown):MapOption|undefined=>mapsFor(game).find(m=>m.id===id);
 export interface MapVoteState {
   roundId:number;

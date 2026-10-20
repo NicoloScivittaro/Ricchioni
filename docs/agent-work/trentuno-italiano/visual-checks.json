@@ -1,0 +1,17 @@
+{
+  "fullDeck": {
+    "cards": 40,
+    "loaded": true,
+    "italianLabels": true
+  },
+  "tv": {
+    "all40TexturesLoaded": true,
+    "italianLabels": true
+  },
+  "phone": {
+    "italianLabels": true,
+    "assetsLoaded": true,
+    "noHorizontalOverflow": true
+  },
+  "errors": []
+}

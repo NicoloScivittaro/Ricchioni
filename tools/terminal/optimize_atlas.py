@@ -7,7 +7,7 @@ from collections import defaultdict
 import numpy as np,json,copy,io,math
 from PIL import Image
 from prepare_arena import ROOT,read,access,world,Packed
-OUT=ROOT/'docs/agent-work/terminal-2-3';OUT.mkdir(exist_ok=True)
+OUT=ROOT/'docs/agent-work/terminal-2-4';OUT.mkdir(exist_ok=True)
 
 def run():
  d,b=read();out=Packed(d);out.d['materials']=[];out.d['images']=[];out.d['textures']=[];out.d['extensionsUsed']=[]
@@ -16,6 +16,13 @@ def run():
  mats=copy.deepcopy(d['materials']);byname={m['name']:m for m in d['materials']};substitutions={}
  for m in mats:
   name=m['name'];alternate=None;tint=[1,1,1,1]
+  # Authored glass has a constant dark-green/blue texture with 67–73% alpha.
+  # Retint only these original BLEND panes; opaque/frosted cover stays intact.
+  if name in ('glass_green','glass_blue') and m.get('alphaMode')=='BLEND':
+   m['pbrMetallicRoughness'].pop('baseColorTexture',None)
+   m['pbrMetallicRoughness']['baseColorFactor']=[.66,.75,.79,.20]
+   substitutions[name]='neutral cool authored glass, 20% alpha'
+   continue
   # Some descriptors exist but their colour IWI is absent. These targeted
   # mechanical/plastic surfaces need a real recovered texture too.
   repairs={'ship_ceiling01':('mtl_airplane_window_clean',[.64,.68,.7,1]),
@@ -29,7 +36,11 @@ def run():
    'ap_interior_plastic_trim':('mtl_airplane_window_clean',[.8,.82,.83,1]),
    'ap_interior_plastic_tile':('mtl_airplane_window_clean',[.7,.73,.75,1]),
    'icbm_missilebody':('metal_aluminum01',[.54,.58,.62,1]),
-   'icbm_braidedhose':('metal_aluminum01',[.26,.28,.3,1])}
+   'icbm_braidedhose':('metal_aluminum01',[.26,.28,.3,1]),
+   'mtl_bunker_wires':('metal_aluminum01',[.22,.24,.26,1]),
+   'me_cube_base':('concrete_grey02',[.76,.77,.76,1]),
+   'ap_interior_standard_door':('mtl_airplane_window_clean',[.68,.71,.73,1]),
+   'me_particleboard':('ap_wood_tile_big',[.64,.59,.52,1])}
   if name in repairs and 'baseColorTexture'not in m['pbrMetallicRoughness']:
    alternate,tint=repairs[name]
    m['pbrMetallicRoughness']=copy.deepcopy(byname[alternate]['pbrMetallicRoughness']);m['pbrMetallicRoughness']['baseColorFactor']=tint;substitutions[name]=alternate

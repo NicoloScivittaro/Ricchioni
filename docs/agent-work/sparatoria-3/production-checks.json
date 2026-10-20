@@ -1,0 +1,16 @@
+{
+  "gallery": true,
+  "compiledTrace": {
+    "error": 1.4039809679324155e-9,
+    "pool": 4
+  },
+  "preview": {
+    "shots": 27,
+    "valid": true,
+    "muted": true,
+    "restored": true,
+    "voices": 17,
+    "views": 5
+  },
+  "errors": []
+}

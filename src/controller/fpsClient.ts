@@ -1,3 +1,5 @@
+import {FpsImpactFx} from './fpsImpactFx';
+import type {ShotSegment,SurfaceImpact} from '../../shared/fpsCombat';
 import {fpsLoading} from './fpsLoading';
 import {FpsEnergyFx} from './fpsEnergyFx';
 import type {EnergyLaunch,EnergyImpact} from './fpsEnergyFx';
@@ -60,7 +62,7 @@ export interface FpsPlayerState {
   firing: boolean;
   ads?: number; recoilPitch?: number; recoilYaw?: number; heat?: number; moving?: number;
   magazine?: number;
-  reloading?: boolean;
+  reloading?: boolean;reloadFrac?:number;
   dashing?: boolean;
   crouching?:boolean;grounded?:boolean;eyeHeight?:number;
   /** ABILITA' (stato pubblicato dall'host: il telefono disegna soltanto) */
@@ -199,7 +201,7 @@ export class FpsClient {
   private scopeEl!:HTMLImageElement;
   private scopeSize="";
   private fireBuffer=0;
-  private energyFx:FpsEnergyFx;
+  private energyFx:FpsEnergyFx;private impactFx:FpsImpactFx;private lastImpactSound=0;
   private crossBars: HTMLElement[] = [];
   private hitEl!: HTMLElement;
   private hpNumEl!: HTMLElement;
@@ -245,7 +247,7 @@ export class FpsClient {
     // Telefoni: qualita' automatica (i dispositivi deboli renderizzano a risoluzione ridotta, con risoluzione dinamica)
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
-    this.energyFx=new FpsEnergyFx(this.scene);
+    this.energyFx=new FpsEnergyFx(this.scene);this.impactFx=new FpsImpactFx(this.scene);
 
     buildFpsLights(this.scene); // luci uniformi della Sparatoria (stesse su TV e telefono: fpsWorld)
 
@@ -371,7 +373,7 @@ export class FpsClient {
     this.reloadFillEl = mk('height:100%;width:0%;background:linear-gradient(90deg,#22d3ee,#4ade80);', '', rb);
 
     this.bannerEl = mk(`position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);z-index:33;pointer-events:none;opacity:0;text-align:center;color:#fbbf24;${text}`);
-    this.killEl = mk(`position:absolute;left:50%;top:32%;transform:translate(-50%,-50%);color:#fbbf24;font:900 28px "Arial Black",Arial;z-index:32;pointer-events:none;opacity:0;white-space:nowrap;${text}`);
+    this.killEl = mk(`position:absolute;left:50%;top:32%;transform:translate(-50%,-50%);color:#fbbf24;font:900 clamp(13px,2.6vmin,22px) "Arial Black",Arial;max-width:85%;overflow:hidden;text-overflow:ellipsis;z-index:32;pointer-events:none;opacity:0;white-space:nowrap;${text}`);
 
     this.vignetteEl = mk('position:absolute;inset:0;z-index:25;pointer-events:none;opacity:0;background:radial-gradient(ellipse at center, transparent 50%, rgba(230,30,30,0.6) 100%);');
     this.lowHpEl = mk('position:absolute;inset:0;z-index:24;pointer-events:none;opacity:0;transition:opacity 400ms;background:radial-gradient(ellipse at center, transparent 62%, rgba(200,20,20,0.3) 100%);');
@@ -405,8 +407,9 @@ export class FpsClient {
     e.flashT=.06;e.flash.isVisible=true;
     const c=recoilOf(weaponId).color;(e.flash.material as StandardMaterial).emissiveColor.set(...c);
     const dx=e.x-this.selfX,dz=e.z-this.selfZ,dist=Math.hypot(dx,dz);
-    if(dist<38)sfx.shot(weaponId,{gain:Math.pow(1-dist/38,1.6)*.85,pan:Math.sin(Math.atan2(dx,dz)-this.yaw)*.9});
+    if(dist<38)sfx.shot(weaponId,{source:owner,gain:Math.pow(1-dist/38,1.6)*.85,pan:Math.sin(Math.atan2(dx,dz)-this.yaw)*.9});
   }
+  surfaceImpact(p:SurfaceImpact):void{const d=Math.hypot(p.x-this.selfX,p.y-this.selfY,p.z-this.selfZ);if(d>32)return;this.impactFx.emit(p);if(performance.now()-this.lastImpactSound>75){this.lastImpactSound=performance.now();sfx.impact(p.surface,{gain:.28*Math.max(0,1-d/32),pan:Math.sin(Math.atan2(p.x-this.selfX,p.z-this.selfZ)-this.yaw)*.7});}}
   energyBolt(p:EnergyLaunch):void {this.energyFx.launch(p);}
   energyImpact(p:EnergyImpact):void {this.energyFx.impact(p);if(p.r>0)sfx.energyImpact({gain:.35});}
 
@@ -477,7 +480,7 @@ export class FpsClient {
       this.reloadT += dt;
       reloadP = Math.min(1, this.reloadT / this.reloadDur);
       this.reloadFillEl.style.width = `${(reloadP * 100).toFixed(0)}%`;
-      if (this.reloadT >= this.reloadDur) this.finishReload();
+      this.reloadT=Math.min(this.reloadT,this.reloadDur*.999); // wait for authoritative completion, never invent ammunition
     }
 
     this.vm.visible=this.alive;
@@ -509,33 +512,19 @@ export class FpsClient {
     this.mag = Math.max(0, this.mag - 1);
     this.vm.fire();
     this.bloom = Math.min(1, this.bloom + (w.burst ? 0.5 : 0.35));
-    sfx.shot(w.id);
+    sfx.shot(w.id,{source:this.selfId});
     if (p.buzz > 0) buzz(p.buzz);
-    if (w.splashRadius === 0) this.spawnTracer(p.tracer);
+    // Traces use confirmed host endpoints; local sound/recoil remain immediate.
   }
 
-  private spawnTracer(style: { color: [number, number, number]; thick: number; life: number }): void {
-    const t = this.tracers[this.tracerIdx % this.tracers.length];
-    this.tracerIdx++;
-    const cp = Math.cos(this.pitch);
-    const dx = Math.sin(this.yaw) * cp;
-    const dy = Math.sin(this.pitch);
-    const dz = Math.cos(this.yaw) * cp;
-    const rx = Math.cos(this.yaw);
-    const rz = -Math.sin(this.yaw);
-    // dal vivo di volata, verso il punto mirato
-    this.tmpStart.set(this.selfX + dx * 0.95 + rx * 0.2, this.eyeHeight+this.selfY - 0.13 + dy * 0.95, this.selfZ + dz * 0.95 + rz * 0.2);
-    const len = style.thick > 0.06 ? 16 : 2.6;
-    t.m.position.copyFrom(this.tmpStart);
-    t.m.scaling.set(style.thick, style.thick, len);
-    this.tmpTarget.set(this.tmpStart.x + dx * 10, this.tmpStart.y + dy * 10, this.tmpStart.z + dz * 10);
-    t.m.lookAt(this.tmpTarget);
-    t.m.position.x += dx * len * 0.5;
-    t.m.position.y += dy * len * 0.5;
-    t.m.position.z += dz * len * 0.5;
-    (t.m.material as StandardMaterial).emissiveColor.set(style.color[0], style.color[1], style.color[2]);
-    t.m.isVisible = true;
-    t.life = style.life;
+  confirmedTrace(owner:string,weaponId:string,segs:ShotSegment[]):void{
+    const style=recoilOf(weaponId).tracer;if(style.thick<=0)return;
+    for(const sg of segs.slice(0,3)){
+      if(Math.hypot(sg.ox-this.selfX,sg.oz-this.selfZ)>45)continue;
+      const t=this.tracers[this.tracerIdx++%this.tracers.length],dx=sg.ex-sg.ox,dy=sg.ey-sg.oy,dz=sg.ez-sg.oz,len=Math.hypot(dx,dy,dz);if(len<.01)continue;
+      const start=Math.min(1.1,len*.4),sx=sg.ox+dx/len*start,sy=sg.oy+dy/len*start-.06,sz=sg.oz+dz/len*start,L=Math.hypot(sg.ex-sx,sg.ey-sy,sg.ez-sz);
+      t.m.position.set((sx+sg.ex)/2,(sy+sg.ey)/2,(sz+sg.ez)/2);t.m.scaling.set(style.thick*.65,style.thick*.65,L);this.tmpTarget.set(sg.ex,sg.ey,sg.ez);t.m.lookAt(this.tmpTarget);(t.m.material as StandardMaterial).emissiveColor.set(...style.color);t.m.isVisible=true;t.life=style.life;
+    }
   }
 
   private updateCamera(dt: number): void {
@@ -552,7 +541,7 @@ export class FpsClient {
     this.eyeHeight+=(this.eyeTarget-this.eyeHeight)*(1-Math.exp(-20*dt));
     this.camera.position.set(this.selfX + (Math.random() - 0.5) * sh, this.eyeHeight+this.selfY + (Math.random() - 0.5) * sh, this.selfZ + (Math.random() - 0.5) * sh);
     this.tmpTarget.set(this.camera.position.x + Math.sin(yaw) * cp, this.camera.position.y + Math.sin(pitch), this.camera.position.z + Math.cos(yaw) * cp);
-    this.camera.upVector.set(Math.sin(this.dmgKickR*cosmetic), Math.cos(this.dmgKickR*cosmetic), 0);
+    const roll=(this.dmgKickR+this.vm.cameraKickRoll)*cosmetic;this.camera.upVector.set(Math.sin(roll),Math.cos(roll),0);
     this.camera.setTarget(this.tmpTarget);
     this.camera.fov = aimFov(BASE_FOV, this.ads,getWeapon(this.weaponId).scopeZoom) + 0.17 * this.vm.fovKick;
   }
@@ -576,7 +565,7 @@ export class FpsClient {
       e.head.rotation.y = e.yaw;
       // Flinch
       if (e.flinch > 0) {
-        e.flinch -= 0.06;
+        e.flinch = Math.max(0,e.flinch-dt*3.5);
         e.body.rotation.x = Math.sin(e.flinch * 40) * 0.12;
         e.head.rotation.x = Math.sin(e.flinch * 40) * 0.12;
       } else {
@@ -585,9 +574,9 @@ export class FpsClient {
       }
       // Morte: caduta stilizzata (ruota e scende)
       if (!e.alive) {
-        e.body.rotation.x = Math.min(1.4, e.body.rotation.x + 0.08);
-        e.body.position.y = Math.max(0.3, e.body.position.y - 0.05);
-        e.head.position.y = Math.max(0.3, e.head.position.y - 0.05);
+        e.body.rotation.x = Math.min(1.4, e.body.rotation.x + dt*4.8);
+        e.body.position.y = Math.max((e.y??0)+0.3, e.body.position.y - dt*3);
+        e.head.position.y = Math.max((e.y??0)+0.3, e.head.position.y - dt*3);
       }
       if (e.tripo && e.tripoRoot) {
         e.tripoRoot.position.set(e.body.position.x, e.y??0, e.body.position.z);
@@ -607,7 +596,7 @@ export class FpsClient {
   }
 
   private updateEffects(dt: number): void {
-    this.energyFx.update(dt);
+    this.energyFx.update(dt);this.impactFx.update(dt);
     for (const t of this.tracers) {
       if (t.life <= 0) continue;
       t.life -= dt;
@@ -667,7 +656,6 @@ export class FpsClient {
   private finishReload(): void {
     if (!this.reloading) return;
     this.reloading = false;
-    this.mag = getWeapon(this.weaponId).magazine;
     this.reloadWrapEl.style.opacity = '0';
   }
 
@@ -729,8 +717,8 @@ export class FpsClient {
   }
 
   /** Kill confermata: feedback piu' forte e diverso dal semplice hit. */
-  killConfirm(name: string): void {
-    this.killEl.textContent = `ELIMINATO ${name}`;
+  killConfirm(name: string,badge=''): void {
+    this.killEl.textContent = `ELIMINATO ${name.slice(0,18)}${badge?` · ${badge}`:''}`;
     this.pulse(this.killEl, [{ opacity: 0, transform: 'translate(-50%,-50%) scale(1.7)' }, { opacity: 1, transform: 'translate(-50%,-50%) scale(1)', offset: 0.2 }, { opacity: 1, offset: 0.75 }, { opacity: 0 }], 1200);
     this.hitMarker(100, true);
     sfx.kill();
@@ -860,7 +848,8 @@ export class FpsClient {
         if (this.weaponEl.textContent === '') this.weaponEl.textContent = `${getWeapon(this.weaponId).icon} ${getWeapon(this.weaponId).name}`;
         // sincronizza la ricarica con l'host (utile dopo un calo di rete o un riavvio della vista)
         if (ps.reloading && !this.reloading && ps.alive) this.startReloadUi(getWeapon(this.weaponId).reload, this.weaponId);
-        else if (ps.reloading === false && this.reloading && this.reloadT > 0.25) this.finishReload();
+        else if (ps.reloading === false && this.reloading){this.finishReload();if(ps.magazine!==undefined)this.mag=ps.magazine;}
+        if(this.reloading&&ps.reloadFrac!==undefined)this.reloadT=Math.min(.999,Math.max(0,ps.reloadFrac))*this.reloadDur;
         this.setHp(ps.hp);
         // ABILITA': stato, giubbotto, blocco, raggi X (tutto deciso dall'host)
         this.selfWall = !!ps.wall && ps.alive;
@@ -1045,7 +1034,7 @@ export class FpsClient {
     for (const e of this.remotes.values()) { e.tripo?.dispose(); e.tripoRoot?.dispose(); }
     this.remotes.clear();
     const t1 = performance.now();
-    this.vm.dispose();
+    this.vm.dispose();sfx.stopCombatAudio();
     const t2 = performance.now();
     this.scene.dispose();
     const t3 = performance.now();

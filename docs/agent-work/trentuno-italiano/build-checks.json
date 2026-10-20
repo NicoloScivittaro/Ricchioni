@@ -1,0 +1,6 @@
+{
+  "typecheck": true,
+  "build": true,
+  "distCardAssetsMatch": true,
+  "backUnchanged": true
+}

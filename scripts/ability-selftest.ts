@@ -35,7 +35,7 @@ const ok = (c: boolean, m: string): void => {
 };
 const section = (t: string): void => console.log(`\n=== ${t} ===`);
 
-const GAMES: AbilityGameId[] = ['arena', 'dodgeball', 'soccer', 'volleyball', 'kart3d', 'fps', 'memory', 'reaction', 'quiz', 'cultura', 'cornicione', 'casacarbo', 'minigolf','geofall','goblinTime','trentuno'];
+const GAMES: AbilityGameId[] = ['arena', 'dodgeball', 'soccer', 'volleyball', 'kart3d', 'fps', 'memory', 'reaction', 'quiz', 'cultura', 'cornicione',  'minigolf','geofall','goblinTime','trentuno'];
 const CHARS = ['goblin', 'buttafuori', 'judoka', 'dottore', 'ciro'] as const;
 
 // ----------------------------------------------------------------------------------------------------------- 1. catalogo
@@ -85,7 +85,7 @@ ok(fpsAb?.binding === 'RB', 'FPS: ABILITY su RB (prima riservato e senza effetto
 // regola dell'utente: RB / R1 dove possibile, la mappatura gia' provata resta dove il gioco usa un altro tasto
 // (il Quiz si gioca solo dal telefono dal commit 61a8e1c: niente profilo controller, quindi niente RB da controllare)
 const padGame = (id: string): boolean => MINIGAME_DEFINITIONS.some((m) => m.id === id && m.inputMode === 'GAMEPAD');
-for (const id of ['memory', 'reaction', 'quiz', 'fps', 'casacarbo'].filter(padGame)) ok(PAD_PROFILES[id]?.controls.find((c) => c.action === 'ABILITY')?.binding === 'RB', `${id}: ABILITA' su RB / R1`);
+for (const id of ['memory', 'reaction', 'quiz', 'fps'].filter(padGame)) ok(PAD_PROFILES[id]?.controls.find((c) => c.action === 'ABILITY')?.binding === 'RB', `${id}: ABILITA' su RB / R1`);
 
 // ----------------------------------------------------------------------------------------------------------- 3. budget
 section('3. BUDGET — niente spam: l\'impatto ALTO ha un limite');

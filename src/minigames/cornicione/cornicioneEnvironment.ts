@@ -2,6 +2,9 @@ import { Color3, Mesh, MeshBuilder, Scene } from '@babylonjs/core';
 import type { DynamicTexture } from '@babylonjs/core';
 import { EnvKit, PAL, SIGN_FONT, mixHex, seeded } from '../env/envKit';
 import { STAGE } from './fighterData';
+import { cornicioneStage } from './fighterStages';
+import type { CornicioneStage } from './fighterStages';
+import { buildCornicioneArena } from './cornicioneArenas';
 import { paintSurfaceDetail, paintRecess } from '../env/surfaceDetail';
 
 /**
@@ -124,7 +127,8 @@ function sunTexture(kit: EnvKit): DynamicTexture {
   }, { alpha: true });
 }
 
-export function buildCornicioneEnvironment(scene: Scene, playZ: number): CornicioneEnvironment {
+export function buildCornicioneEnvironment(scene: Scene, playZ: number, stage:CornicioneStage=cornicioneStage()): CornicioneEnvironment {
+  if(stage.id!=='tetto')return buildCornicioneArena(scene,playZ,stage);
   const kit = new EnvKit(scene);
   scene.fogMode = Scene.FOGMODE_LINEAR;
   scene.fogColor = Color3.FromHexString('#c97a82');
@@ -141,7 +145,7 @@ export function buildCornicioneEnvironment(scene: Scene, playZ: number): Cornici
   sun.rotation.y = Math.PI; // la faccia guarda verso -z (camera)
   kit.excludeFromGlow(sun);
   kit.freeze(sun);
-  kit.clouds({ count: 10, radius: 360, yMin: 40, yMax: 110, tint: '#ffb4b8', size: 70, seed: 21, arc: [Math.PI / 2 - 1.1, Math.PI / 2 + 1.1] });
+  kit.clouds({ count: 7, radius: 360, yMin: 65, yMax: 125, tint: '#ffb4b8', size: 48, seed: 21, arc: [Math.PI / 2 - 1.1, Math.PI / 2 + 1.1] });
   kit.skyline({ radius: 330, height: 46, y: -10, color: '#6a3f6e', kind: 'industrial', seed: 9, arc: [Math.PI * 0.06, Math.PI * 0.94] });
   kit.skyline({ radius: 240, height: 40, y: -12, color: '#4a2f5c', kind: 'city', seed: 31, arc: [Math.PI * 0.08, Math.PI * 0.92] });
 
@@ -154,7 +158,7 @@ export function buildCornicioneEnvironment(scene: Scene, playZ: number): Cornici
     fillI: 0.66,
     rim: { dir: [-0.3, -0.3, -1], color: '#ff9a7a', i: 0.35 }
   });
-  kit.glow(0.45);
+  kit.glow(0.3);
 
   // ---- LA PALAZZINA (palco principale): corpo, piano del tetto, facciata che scende nella foschia
   const bodyMat = kit.mat(mixHex(PAL.concreteDark, '#6a4a5a', 0.4), { emissive: 0.25 });
@@ -198,7 +202,7 @@ export function buildCornicioneEnvironment(scene: Scene, playZ: number): Cornici
   const planks: Mesh[] = [];
   const frames: Mesh[] = [];
   const stripes: Mesh[] = [];
-  for (const p of STAGE.platforms) {
+  for (const p of stage.platforms) {
     const w = p.x1 - p.x0;
     const cx = (p.x0 + p.x1) / 2;
     planks.push(kit.box('plank', w, 0.22, 2.6, { x: cx, y: p.y - 0.11, z: 0 }, plankMat));
@@ -268,6 +272,13 @@ export function buildCornicioneEnvironment(scene: Scene, playZ: number): Cornici
   kit.sign('VIETATO CADERE', { style: 'hazard', w: 3.6, h: 0.9, x: -9.6, y: 1.3, z: DEPTH / 2 - 0.55, twoSided: false });
   kit.sign('PIZZERIA ANGORA', { style: 'neon', color: PAL.neonPink, w: 8, h: 1.6, x: -34, y: 34, z: 21.8, ry: Math.PI });
   kit.sign('20 KG*', { style: 'poster', color: '#7a2f3a', w: 3.2, h: 1.0, x: 36, y: 41, z: 16.4, ry: Math.PI });
+
+  // Light, continuous ledge lip: a readable landing edge without extra collision.
+  const edgeMat=kit.mat('#e5c48a',{emissive:.35});
+  const edgeParts:Mesh[]=[kit.box('frontLedge',W,.12,.12,{x:0,y:-.04,z:-3.08},edgeMat)];
+  for(const side of [-1,1])for(const y of [-2,-5,-8])edgeParts.push(kit.box('recoveryGuide',.14,.25,5.8,{x:side*stage.mainX,y,z:0},edgeMat));
+  kit.merge('roofLedgeGuides',edgeParts,edgeMat);
+  for(const name of ['roofBody','cornice','parapet']){const mesh=scene.getMeshByName(name);if(mesh)kit.freeze(mesh);}
 
   // ---- luce rossa che lampeggia (unico elemento animato oltre alle nuvole)
   kit.onFrame((t) => {

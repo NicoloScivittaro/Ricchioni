@@ -38,7 +38,7 @@ try {
     const coreUrl=performance.getEntriesByType('resource').map(e=>e.name).find(n=>/\/@babylonjs_core\.js\?/.test(n));
     const {Engine,Scene,DynamicTexture}=await import(coreUrl);
     const engine=new Engine(document.createElement('canvas')),scene=new Scene(engine),dot=new DynamicTexture('dot',16,scene);
-    const entities=['goblin','buttafuori','judoka','ciro'].map(ns=>new ArenaEntity(scene,dot,'#ef4444',ns,'🥊','PROBE',null,{context:'casacarbo'}));
+    const entities=['goblin','buttafuori','judoka','ciro'].map(ns=>new ArenaEntity(scene,dot,'#ef4444',ns,'🥊','PROBE',null,{context:'gallery'}));
     window.__fallback={entities,engine};
   });
   await page.waitForFunction(()=>window.__fallback.entities.every(e=>e.goblinDebug()?.state==='error'),{timeout:30000});

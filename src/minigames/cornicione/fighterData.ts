@@ -101,7 +101,7 @@ export const KO = {
 
 // ------------------------------------------------------------------ partita
 export const MATCH = {
-  timeLimit: 150,
+  timeLimit: Number.POSITIVE_INFINITY,
   suddenDeathMax: 20,
   suddenDeathPercent: 150
 } as const;
@@ -113,6 +113,7 @@ export interface OneWay {
   x1: number;
   y: number;
 }
+export interface FighterStage { readonly mainX:number; readonly platforms:readonly OneWay[] }
 export const STAGE = {
   /** blocco principale: la palazzina. Piano a y=0, pareti verticali infinite verso il basso (recovery sulla parete) */
   mainX: 13,
@@ -125,18 +126,18 @@ export const STAGE = {
 } as const;
 
 /** Punti di partenza (x, y) per 2..5 giocatori: simmetrici, nessuno vicino al bordo. */
-export function spawnPoints(n: number): { x: number; y: number }[] {
+export function spawnPoints(n: number, stage: FighterStage = STAGE): { x: number; y: number }[] {
   switch (n) {
     case 1:
       return [{ x: 0, y: 0 }];
     case 2:
       return [{ x: -7, y: 0 }, { x: 7, y: 0 }];
     case 3:
-      return [{ x: -8, y: 0 }, { x: 8, y: 0 }, { x: 0, y: 7.2 }];
+      return [{ x: -8, y: 0 }, { x: 8, y: 0 }, { x: 0, y: stage.platforms.find(p=>p.id===3)?.y ?? 0 }];
     case 4:
       return [{ x: -10, y: 0 }, { x: -3.5, y: 0 }, { x: 3.5, y: 0 }, { x: 10, y: 0 }];
     default:
-      return [{ x: -10, y: 0 }, { x: 10, y: 0 }, { x: -4, y: 0 }, { x: 4, y: 0 }, { x: 0, y: 7.2 }];
+      return [{ x: -10, y: 0 }, { x: 10, y: 0 }, { x: -4, y: 0 }, { x: 4, y: 0 }, { x: 0, y: stage.platforms.find(p=>p.id===3)?.y ?? 0 }];
   }
 }
 

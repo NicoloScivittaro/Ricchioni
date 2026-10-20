@@ -37,7 +37,6 @@ export const GAME_TINT: Record<string, number> = {
   quiz: 0x5a3ab8,
   cultura: 0xa8683a,
   cornicione: 0xc4527a,
-  casacarbo: 0x3a5a7a,
   minigolf: 0x36a888,
   geofall: 0x3d89bf,
   backrooms: 0x8e9160

@@ -45,7 +45,7 @@ export interface VisualSubject {
 }
 
 export interface EntityOptions {
-  context?: 'arena'|'cornicione'|'dodgeball'|'soccer'|'volley'|'gallery'|'casacarbo';
+  context?: 'arena'|'cornicione'|'dodgeball'|'soccer'|'volley'|'gallery';
   goblinMode?: 'old'|'new';
   judokaMode?: 'old'|'new';
   buttafuoriMode?: 'old'|'new';

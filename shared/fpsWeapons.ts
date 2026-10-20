@@ -36,7 +36,7 @@ export const WEAPONS:WeaponConfig[]=[
   {id:'laser',name:'CECCHINO · OTTICA 4×',icon:'🎯',damage:125,fireRate:.85,range:110,spread:.0005,hipSpread:.055,magazine:5,reload:2.4,projectileSpeed:0,splashRadius:0,movementModifier:.9,difficulty:'ALTA',fireMode:'semi',scopeZoom:4},
   {id:'raffica',name:'M4A1 · RAFFICA 3X',icon:'💨',damage:23,fireRate:6,range:50,spread:.014,burst:3,burstGap:.075,magazine:30,reload:1.8,projectileSpeed:0,splashRadius:0,movementModifier:.98,difficulty:'MEDIA',fireMode:'burst'},
   {id:'bombarda',name:'RAY GUN',icon:'☢️',damage:80,fireRate:2.8,range:60,spread:.008,magazine:20,reload:2.5,projectileSpeed:55,splashRadius:1.8,splashDamage:45,projectileKind:'energy',movementModifier:.96,difficulty:'MEDIA',fireMode:'semi'},
-  {id:'sparapiselli',name:'MINIGUN',icon:'🔥',damage:9,fireRate:17,range:35,spread:.045,magazine:100,reload:3.2,projectileSpeed:0,splashRadius:0,movementModifier:.83,difficulty:'FACILE',fireMode:'auto'},
+  {id:'sparapiselli',name:'MINIGUN',icon:'🔥',damage:12,fireRate:17,range:42,spread:.032,magazine:100,reload:2.9,projectileSpeed:0,splashRadius:0,movementModifier:.83,difficulty:'FACILE',fireMode:'auto'},
   {id:'pistola',name:'USP45 · SEMIAUTOMATICA',icon:'🔫',damage:30,fireRate:7,range:35,spread:.012,magazine:12,reload:1.1,projectileSpeed:0,splashRadius:0,movementModifier:1.08,difficulty:'FACILE',fireMode:'semi'}
 ];
 export function getWeapon(id:string):WeaponConfig {

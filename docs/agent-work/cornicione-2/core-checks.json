@@ -1,0 +1,49 @@
+{
+  "stages": [
+    {
+      "map": "tetto",
+      "spawns2to5": true,
+      "allPlatformsLandable": true
+    },
+    {
+      "map": "darsena",
+      "spawns2to5": true,
+      "allPlatformsLandable": true
+    },
+    {
+      "map": "cantiere",
+      "spawns2to5": true,
+      "allPlatformsLandable": true
+    }
+  ],
+  "untimed": true,
+  "bots": [
+    {
+      "map": "tetto",
+      "players": 5,
+      "seconds": 221,
+      "reason": "lastStanding",
+      "kos": 14
+    },
+    {
+      "map": "darsena",
+      "players": 5,
+      "seconds": 222,
+      "reason": "lastStanding",
+      "kos": 14
+    },
+    {
+      "map": "cantiere",
+      "players": 5,
+      "seconds": 182,
+      "reason": "lastStanding",
+      "kos": 14
+    }
+  ],
+  "server": {
+    "mapVote": true,
+    "selectedMap": "darsena",
+    "noPlayingDeadline": true,
+    "rearmHasNoDeadline": true
+  }
+}

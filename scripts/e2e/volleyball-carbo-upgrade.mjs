@@ -60,33 +60,5 @@ try {
  check(JSON.stringify(frozen)===JSON.stringify(await G(page,'volleyball',g=>g.players.map(p=>[p.x,p.z,p.sprintEnergy,p.diveCooldown]))),'volley pause freezes movement and cooldowns');
  await page.keyboard.press('Escape');await until(()=>hostEval(page,gm=>!gm.state.paused),5000,'resume');
  await page.screenshot({path:`${out}/volleyball-tv.png`});await cleanup(page,phones);
- const room=await createRoomOnHost(browser,{targetKeyPresses:3});const cc=room.page;cc.on('pageerror',e=>errors.push(e.message));
- const cp=[];for(let i=0;i<5;i++)cp.push(await addPhone(browser,room.code,'CARBO '+i,i));for(const p of cp)p.page.on('pageerror',e=>errors.push(e.message));
- const cid=await hostEval(cc,gm=>gm.state.players[0].id);
- await hostEval(cc,gm=>{gm.selectMinigame('casacarbo');gm.startGame();});await until(()=>G(cc,'casacarbo',g=>g.phase==='playing'),90000,'carbo playing');
- await until(()=>G(cc,'casacarbo',g=>!!g.world.drainRace),15000,'race starts naturally');
- check(await cp[0].page.evaluate(()=>/GARA/.test(document.getElementById('carbo-race')?.textContent??'')),'race target on phone');
- await cc.screenshot({path:`${out}/carbo-race-tv.png`});
- await G(cc,'casacarbo',async(g,id)=>{
-  const {DRAINS}=await import('/src/minigames/casacarbo/mapData.ts');const w=g.world,r=w.drainRace,d=DRAINS.find(d=>d.id===r.drain),p=w.byId.get(id);
-  p.x=d.cx;p.y=d.cy-25;p.vx=p.vy=0;p.bucket=4;w.inflowTotal+=4;
- },cid);
- await pointer(cp[0].page,'.ctl-bucket','pointerdown');await sleep(100);await pointer(cp[0].page,'.ctl-bucket','pointerup');
- await until(()=>G(cc,'casacarbo',(g,id)=>g.world.byId.get(id).stats.raceBonus===6,cid),5000,'real phone delivery race');
- check(await G(cc,'casacarbo',(g,id)=>g.world.byId.get(id).stats.drainedBucket>=4&&g.world.byId.get(id).bucket===0,cid),'race counts actual delivered liters');
- check(await G(cc,'casacarbo',g=>g.world.drainRace===null),'race ends after single winner');
- await until(()=>G(cc,'casacarbo',g=>!!g.world.drainRace&&g.world.drainRace.drain!=='tombino'),6000,'next target rotates');
- await cc.keyboard.press('Escape');await until(()=>hostEval(cc,gm=>gm.state.paused),5000,'carbo pause');
- const time=await G(cc,'casacarbo',g=>g.world.time);await sleep(700);check(await G(cc,'casacarbo',g=>g.world.time)===time,'pause freezes race timer');
- await cc.keyboard.press('Escape');await until(()=>hostEval(cc,gm=>!gm.state.paused),5000,'carbo resume');
- // Natural simulator play, unchanged graphics; sample five original character rigs.
- await G(cc,'casacarbo',g=>g.world.players.forEach(p=>g.setBot(p.id,true)));
- if(!process.env.SKIP_PERF){
- const perf=await G(cc,'casacarbo',async g=>{
-  const ticks=[],orig=g.world.step.bind(g.world);g.world.step=(...a)=>{const t=performance.now();const r=orig(...a);ticks.push(performance.now()-t);return r;};
-  const frames=[],start=performance.now();await new Promise(resolve=>{const f=t=>{frames.push(t);if(t-start<6000)requestAnimationFrame(f);else resolve();};requestAnimationFrame(f);});
-  g.world.step=orig;return{fps:(frames.length-1)*1000/(frames.at(-1)-frames[0]),simMeanMs:ticks.reduce((a,v)=>a+v,0)/ticks.length,meshes:g.scene.meshes.length,scale:g.engine.getHardwareScalingLevel(),players:g.world.players.length};
- });console.log('PERF '+JSON.stringify(perf));writeFileSync(`${out}/browser-performance.json`,JSON.stringify(perf,null,2));
- }
- await cleanup(cc,cp);check(errors.length===0,'no page errors');
+ check(errors.length===0,'no page errors');
 }finally{writeFileSync(`${out}/browser-checks.json`,JSON.stringify({checks,errors},null,2));await browser.close();}

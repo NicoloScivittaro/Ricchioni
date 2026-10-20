@@ -2,7 +2,7 @@ import {BotInputs} from '../bots/BotInputs';
 import {getWeapon} from '../../../shared/fpsWeapons';
 import type {FpsArenaPoint as ArenaPoint,ImportedFpsArena} from './importedFpsArena';
 
-interface Actor extends ArenaPoint{id:string;alive:boolean;yaw:number;pitch:number;magazine:number;spawnProtection:number;weaponId:string;crouching?:boolean;eyeHeight?:number}
+interface Actor extends ArenaPoint{id:string;alive:boolean;yaw:number;pitch:number;magazine:number;spawnProtection:number;weaponId:string;hp?:number;reloading?:boolean;crouching?:boolean;eyeHeight?:number}
 interface Memory {id:string;point:ArenaPoint;seen:number;acquired:number}
 const angle=(v:number)=>Math.atan2(Math.sin(v),Math.cos(v));
 const clamp=(v:number,a:number,b:number)=>Math.max(a,Math.min(b,v));
@@ -10,19 +10,23 @@ const clamp=(v:number,a:number,b:number)=>Math.max(a,Math.min(b,v));
 /** Uses the normal bot input channel. Hidden players' live coordinates are never
  * used as destinations: only a two-second last-seen point, then ground patrol. */
 export class TerminalBots extends BotInputs{
+  private tactics=new Map<string,{hp:number;dangerUntil:number;dest?:ArenaPoint;until:number}>();
+  private perception=new Map<string,{at:number;visible:Actor[]}>();
   private memory=new Map<string,Memory>();
   private patrol=new Map<string,ArenaPoint>();
   private routes=new Map<string,{at:number;point:ArenaPoint}>();
   step(dt:number,players:Actor[],arena:ImportedFpsArena):void{
     this.tick(dt);
     for(const p of players)if(this.ids.has(p.id)){
-      if(!p.alive){this.ctx.input.cancelPlayer(p.id);this.memory.delete(p.id);this.patrol.delete(p.id);continue;}
+      if(!p.alive){this.ctx.input.cancelPlayer(p.id);this.memory.delete(p.id);this.patrol.delete(p.id);this.routes.delete(p.id);this.tactics.delete(p.id);this.perception.delete(p.id);continue;}
       const input=this.ctx.input.get(p.id),weapon=getWeapon(p.weaponId);
-      const visible=players.filter(q=>q.id!==p.id&&q.alive&&Math.hypot(q.x-p.x,q.z-p.z)<48&&Math.abs(angle(Math.atan2(q.x-p.x,q.z-p.z)-p.yaw))<1.65&&arena.visible(p,q));
+      let reading=this.perception.get(p.id);
+      if(!reading||this.time-reading.at>=.12){const visible=players.filter(q=>q.id!==p.id&&q.alive&&Math.hypot(q.x-p.x,q.z-p.z)<48&&Math.abs(angle(Math.atan2(q.x-p.x,q.z-p.z)-p.yaw))<1.65&&arena.visible(p,q)).map(q=>({...q}));reading={at:this.time,visible};this.perception.set(p.id,reading);}
+      const visible=reading.visible;
       const enemy=visible.sort((a,b)=>Math.hypot(a.x-p.x,a.z-p.z)-Math.hypot(b.x-p.x,b.z-p.z))[0];
       let memory=this.memory.get(p.id);
       if(enemy){
-        memory={id:enemy.id,point:{x:enemy.x,y:enemy.y,z:enemy.z},seen:this.time,acquired:memory?.id===enemy.id?memory.acquired:this.time};this.memory.set(p.id,memory);
+        memory={id:enemy.id,point:{x:enemy.x,y:enemy.y,z:enemy.z},seen:this.time,acquired:memory?.id===enemy.id&&this.time-memory.seen<.35?memory.acquired:this.time};this.memory.set(p.id,memory);
       }else if(memory&&this.time-memory.seen>2){this.memory.delete(p.id);memory=undefined;}
       let goal=memory?.point;
       if(!goal){
@@ -35,7 +39,7 @@ export class TerminalBots extends BotInputs{
         goal=patrol;
       }
       let route=this.routes.get(p.id);
-      if(!route||this.time-route.at>.4||Math.hypot(route.point.x-p.x,route.point.z-p.z)<.3){
+      if(!route||this.time-route.at>.65||Math.hypot(route.point.x-p.x,route.point.z-p.z)<.3){
         route={at:this.time,point:arena.nextWaypoint(p,goal)};this.routes.set(p.id,route);
       }
       let dest=route.point;
@@ -44,17 +48,33 @@ export class TerminalBots extends BotInputs{
         const side=Math.sin(this.time*.9+p.id.length),dx=Math.cos(p.yaw)*side*2,dz=-Math.sin(p.yaw)*side*2;
         const strafe={x:p.x+dx,y:p.y,z:p.z+dz};if(arena.canTraverse(p,strafe))dest=strafe;
       }
+      let tactic=this.tactics.get(p.id);if(!tactic){tactic={hp:p.hp??100,dangerUntil:0,until:0};this.tactics.set(p.id,tactic);}
+      if((p.hp??100)<tactic.hp)tactic.dangerUntil=this.time+1.2;tactic.hp=p.hp??100;
+      const personality=[...p.id].reduce((n,c)=>n+c.charCodeAt(0),0)%3;
+      const preferred=weapon.scopeZoom?27:p.weaponId==='pistola'?10:p.weaponId==='sparapiselli'?14:19;
+      const retreat=!!enemy&&(p.reloading||distance<preferred*.65||tactic.dangerUntil>this.time);
+      if(enemy&&this.time>=tactic.until){
+        tactic.until=this.time+.65;tactic.dest=undefined;
+        if(retreat){
+          const dx=(p.x-enemy.x)/Math.max(1,distance),dz=(p.z-enemy.z)/Math.max(1,distance);
+          const options=[{x:p.x+dx*2.4,y:p.y,z:p.z+dz*2.4},{x:p.x+dz*2.4,y:p.y,z:p.z-dx*2.4},{x:p.x-dz*2.4,y:p.y,z:p.z+dx*2.4}].filter(q=>arena.canTraverse(p,q));
+          // Prefer an actual occluded neighbour, not an invented cover waypoint.
+          tactic.dest=options.find(q=>!arena.visible(q,enemy))??options[personality%Math.max(1,options.length)];
+        }
+      }
+      if(retreat&&tactic.dest)dest=tactic.dest;
+      if(enemy&&distance>preferred*.85&&distance<preferred*1.15&&!retreat){const side=personality===2?-1:1;const q={x:p.x+Math.cos(p.yaw)*side*1.5,y:p.y,z:p.z-Math.sin(p.yaw)*side*1.5};if(arena.canTraverse(p,q))dest=q;}
       const aim=enemy?Math.atan2(enemy.x-p.x,enemy.z-p.z)+Math.sin(this.time*2.7+p.id.length)*.035:Math.atan2(dest.x-p.x,dest.z-p.z);
       const error=angle(aim-p.yaw),turn=clamp(error,-dt*2.5,dt*2.5),yaw=p.yaw+turn;
       const pitch=enemy?Math.atan2((enemy.y??0)+(enemy.crouching?.7:1.2)-(p.y??0)-(p.eyeHeight??1.5),Math.max(.1,distance)):0;
       input.setAxis('look',yaw,pitch);input.setAxis('lookStick',turn/Math.max(dt,1e-5)/2.6,-clamp(pitch-p.pitch,-dt*2,dt*2)/Math.max(dt,1e-5)/2);
       let wx=dest.x-p.x,wz=dest.z-p.z;const n=Math.max(1,Math.hypot(wx,wz));wx/=n;wz/=n;
       input.setAxis('move',wx*Math.cos(p.yaw)-wz*Math.sin(p.yaw),-(wx*Math.sin(p.yaw)+wz*Math.cos(p.yaw)));
-      const firing=!!enemy&&enemy.spawnProtection<=0&&this.time-(memory?.acquired??this.time)>.42&&Math.abs(error)<.12&&distance<weapon.range*.95&&this.time%2.2<1.65;
+      const firing=!!enemy&&enemy.spawnProtection<=0&&this.time-(memory?.acquired??this.time)>(.35+personality*.1)&&!p.reloading&&arena.visible(p,enemy)&&Math.abs(error)<.12&&distance<weapon.range*.95&&this.time%2.2<1.65;
       this.hold(p.id,'crouch',(arena.headroomAt?.(p.x,p.z,p.y??0)??12)<1.8||(arena.headroomAt?.(dest.x,dest.z,dest.y??0)??12)<1.8);
       this.hold(p.id,'aim',!!enemy&&distance>10&&Math.abs(error)<.2);
       this.fireWeapon(p.id,firing,p.weaponId);
-      if((p.magazine===0||!enemy&&p.magazine<weapon.magazine*.3)&&this.every(p.id,'reload',.4,.8))this.tap(p.id,'reload');
+      if(!p.reloading&&(p.magazine===0||!enemy&&p.magazine<weapon.magazine*.5||retreat&&p.magazine<weapon.magazine*.22)&&this.every(p.id,'reload',.4,.8))this.tap(p.id,'reload');
       if(firing)this.ability(p.id);
     }
   }

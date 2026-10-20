@@ -1,3 +1,5 @@
+import {FpsKillHistory} from '../../../shared/fpsCombat';
+import type {FpsSurface} from '../../../shared/fpsCombat';
 import {FPS_BODY,FPS_KILL_TARGET,stepFpsVertical} from '../../../shared/fpsRules';
 import {blastVisible} from '../../../shared/fpsCover';
 import { FPS_ADS, aimBlend, aimMovement, aimSensitivity, aimSpread, aimKick } from '../../../shared/fpsAim';
@@ -169,6 +171,7 @@ export class FpsScene extends Phaser.Scene {
   private matchTime = 0;
   private finished = false;
   private winnerId:PlayerId|null=null;
+  private killHistory=new FpsKillHistory();
   private broadcastAcc = 0;
   private pauseMenu!: PauseMenu;
   private graphics!: Phaser.GameObjects.Graphics;
@@ -215,7 +218,7 @@ export class FpsScene extends Phaser.Scene {
     for(const p of this.ctx.players)this.ctx.input.get(p.id).clearText('fpsWorldReady');
     this.soloBots = new MotionBots(this.ctx);
     this.players = [];
-    this.finished = false;this.winnerId=null;
+    this.finished = false;this.winnerId=null;this.killHistory=new FpsKillHistory();
     this.broadcastAcc = 0;
     this.clock=0;this.blasts=[];this.energyBolts=[];this.nextBoltId=0;
     this.rankTexts = [];
@@ -720,11 +723,12 @@ export class FpsScene extends Phaser.Scene {
       // Raggio contro ostacoli + altri giocatori
       let bestT = weapon.range;
       if(dy<0&&!this.nuketown)bestT=Math.min(bestT,Math.max(0,(.2-oy)/dy));
+      let surface:FpsSurface='unknown';
       let hitPlayer: FpsPlayer | null = null;
-      if(this.nuketown)bestT=this.nuketown.ray(ox,oy,oz,dx,dy,dz,bestT);
+      if(this.nuketown){bestT=this.nuketown.ray(ox,oy,oz,dx,dy,dz,bestT);surface=this.nuketown.raySurface??'unknown';}
       else for (const b of FPS_MAP.obstacles) {
         const t = rayVsAabb(ox, oy, oz, dx, dy, dz, b);
-        if (t !== null && t < bestT) bestT = t;
+        if (t !== null && t < bestT){bestT = t;surface=b.h>=4||b.h===2.5?'concrete':b.x>6&&b.z<-6?'wood':b.x>6&&b.z>6?'concrete':'metal';}
       }
       for (const other of this.players) {
         if (other.id === p.id || !other.alive) continue;
@@ -741,10 +745,12 @@ export class FpsScene extends Phaser.Scene {
       } else if (hitPlayer) {
         damageBy.set(hitPlayer, (damageBy.get(hitPlayer) ?? 0) + weapon.damage * dmgMult);
       }
+      if(!hitPlayer&&bestT<weapon.range-.001)this.ctx.signal(null,{type:'surfaceImpact',x:ox+dx*bestT,y:oy+dy*bestT,z:oz+dz*bestT,nx:-dx,ny:-dy,nz:-dz,surface});
       segs.push({ ox, oy, oz, ex: ox + dx * bestT, ey: oy + dy * bestT, ez: oz + dz * bestT });
     }
     // solo grafica/suono, nello stesso istante del colpo: rinculo, lampo e traccianti fino al punto colpito VERO
     this.splitScreen?.notifyShot(p.id, weapon.id, segs);
+    if(!weapon.projectileKind)this.ctx.signal(null,{type:'shotTrace',owner:p.id,weaponId:weapon.id,segs});
 
     let connected = false;
     for (const [victim, dmg] of damageBy) if (this.applyDamage(victim, Math.round(dmg), p)) connected = true;
@@ -847,6 +853,8 @@ export class FpsScene extends Phaser.Scene {
     this.resetAim(target); this.ctx.input.get(target.id).setUp('aim'); this.ctx.input.get(target.id).setUp('fire'); target.firing = false; target.burstLeft = 0;
     target.respawnTimer = RESPAWN_TIME;
     target.deaths++;
+    const wasLeader=target.kills>0&&target.kills===Math.max(...this.players.map(q=>q.kills));
+    const badge=this.killHistory.record(killer.id,target.id,this.clock,wasLeader);
     killer.kills++;
     if(killer.kills>=FPS_KILL_TARGET&&!this.winnerId)this.winnerId=killer.id;
     this.fpsAb.onKill(killer, (f) => this.onAbilityFeedback(killer, f), (hp) => (killer.hp = Math.min(MAX_HP, killer.hp + hp)));
@@ -855,7 +863,7 @@ export class FpsScene extends Phaser.Scene {
     this.ctx.vibrate(target.id, HAPTIC.HEAVY);
     this.ctx.vibrate(killer.id, HAPTIC.SUCCESS);
     this.ctx.signal(target.id, { type: 'eliminated', by: killer.id });
-    this.ctx.signal(killer.id, { type: 'killed', name: target.name });
+    this.ctx.signal(killer.id, { type: 'killed', name: target.name, badge });
   }
 
   /** Esiti delle abilita' (i numeri e il perche' sono in fpsAbilities.ts): qui feedback, statistiche e consegna ai telefoni. */
@@ -969,7 +977,7 @@ export class FpsScene extends Phaser.Scene {
         weaponId: p.weaponId,
         firing: p.firing,
         magazine: p.magazine,
-        reloading: p.reloading,
+        reloading: p.reloading, reloadFrac:p.reloading?Math.max(0,Math.min(1,1-p.reloadTimer/getWeapon(p.weaponId).reload)):0,
         ads: p.ads, recoilPitch: p.recoilPitch, recoilYaw: p.recoilYaw, heat: p.heat, moving: p.moving,
         dashing: p.dashTime > 0,
         ability: this.fpsAb.status(p, getWeapon(p.weaponId)),

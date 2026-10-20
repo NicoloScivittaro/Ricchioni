@@ -44,6 +44,7 @@ export function openFighterLab(): void {
   let count = 3;
   let first = 'goblin';
   let target = 0;
+  let arenaId = new URLSearchParams(location.search).get('arena') ?? 'tetto';
   let boxes = false;
   let bots = false;
   const keys = new Set<string>();
@@ -68,8 +69,9 @@ export function openFighterLab(): void {
 
   const sim = (): NonNullable<BabylonCornicioneGame['sim']> => game!.sim;
 
-  async function restart(n = count, chars = first): Promise<void> {
+  async function restart(n = count, chars = first, mapId = arenaId): Promise<void> {
     count = n;
+    arenaId = mapId;
     first = chars;
     game?.dispose();
     canvas?.remove();
@@ -82,7 +84,8 @@ export function openFighterLab(): void {
       players,
       playerIds: players.map((p) => p.id),
       rng: new Rng(12345),
-      durationSec: 150,
+      durationSec: 0,
+      mapId: arenaId,
       modifier: null,
       modifiers: new Map(),
       input,
@@ -172,6 +175,8 @@ export function openFighterLab(): void {
   };
   (window as unknown as Record<string, unknown>).__fighterLab = api;
 
+  sep('Arena');
+  for(const [id,label] of [['tetto','TETTO'],['darsena','DARSENA'],['cantiere','CANTIERE']])btn(label,()=>void restart(count,first,id));
   sep('Giocatori');
   for (const n of [2, 3, 4, 5]) btn(String(n), () => void restart(n));
   sep('P1');

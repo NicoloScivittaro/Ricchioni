@@ -133,7 +133,7 @@ export class BabylonMinigolfGame {
   if(this.clock-this.lastFeed<1.2&&ev.type!=='hole')return;
   const name=p?.name??'';let text='';
   if(ev.type==='hole')text=p!.holeShots===1&&p!.penalties===0?`${name}: MA CHE CULO! · HOLE IN ONE`:`${name}: IMBUCATA · ${p!.strokes} COLPI`;
-  if(ev.type==='fall')text=ev.value?`${name}: AO', MA DOVE L'HAI MANNATA?! · +1`:`${name}: BOCCIATA FUORI · RIENTRO GRATIS`;
+  if(ev.type==='fall')text=ev.value?`${name}: FUORI PISTA · TORNA ALLA PARTENZA · +1`:`${name}: BOCCIATA FUORI · PARTENZA, SENZA PENALITÀ`;
   if(ev.type==='ball')text="N'CULO, TE L'HO LEVATA!";
   if(ev.type==='wall'&&p!.ball.bounceCount===3)text='MA CHE È, UN FLIPPER?!';
   if(ev.type==='limit')text=`${name}: CAMBIA SPORT, VA'! · ${p!.strokes} COLPI`;

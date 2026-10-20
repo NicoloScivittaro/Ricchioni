@@ -28,7 +28,7 @@ try {
   }
   await until(()=>state.players.length===4&&state.players.every(p=>p.ready),'four ready phones');
   await page.keyboard.press('ArrowLeft');await sleep(180);await page.keyboard.press('Enter');
-  await until(()=>state.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='casacarbo','normal Casa Carbo');
+  await until(()=>state.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='normal Casa Carbo');
   await until(()=>paths.every(p=>downloads.some(r=>r.url.endsWith(p)&&r.status===200)),'four current assets HTTP 200');
   for(const ph of phones)await ph.page.waitForFunction(()=>document.querySelector('h1')?.textContent.includes('CASA CARBO'));
   await sleep(5000);

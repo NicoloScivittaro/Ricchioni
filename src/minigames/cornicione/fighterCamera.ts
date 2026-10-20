@@ -42,7 +42,7 @@ export class FighterCamera {
   private cy = 5;
   private scene: Scene;
 
-  constructor(scene: Scene, canvas: HTMLCanvasElement) {
+  constructor(scene: Scene, canvas: HTMLCanvasElement, private mainHalfW=13) {
     this.scene = scene;
     this.camera = new ArcRotateCamera('fighterCam', -Math.PI / 2, Math.PI / 2 - CAM.tilt, 24, new Vector3(0, 5, 0), scene);
     this.camera.fov = CAM.fov;
@@ -100,14 +100,14 @@ export class FighterCamera {
       }
       const tx = Math.max(-CAM.maxCenterX, Math.min(CAM.maxCenterX, (minX + maxX) / 2));
       const ty = Math.max(CAM.minCenterY, Math.min(CAM.maxCenterY, (minY + maxY) / 2 + 1.5));
-      const tw = Math.max(CAM.minHalfW, Math.min(CAM.maxHalfW, (maxX - minX) / 2 + 6.5));
-      const th = Math.max(CAM.minHalfH, Math.min(CAM.maxHalfH, (maxY - minY) / 2 + 4.5));
-      const kp = Math.min(1, dt * 3.2);
+      const tw = Math.max(CAM.minHalfW, Math.min(CAM.maxHalfW, Math.max((maxX - minX) / 2 + 5.5,this.mainHalfW+Math.abs(tx)+1.2)));
+      const th = Math.max(CAM.minHalfH, Math.min(CAM.maxHalfH, Math.max((maxY - minY) / 2 + 4.5,ty+3.5)));
+      const kp = 1-Math.exp(-dt*3.2);
       this.cx += (tx - this.cx) * kp;
       this.cy += (ty - this.cy) * kp;
       // allarga in fretta (nessuno deve uscire dal quadro), stringe piano
-      this.hw += (tw - this.hw) * Math.min(1, dt * (tw > this.hw ? 5 : 1.8));
-      this.hh += (th - this.hh) * Math.min(1, dt * (th > this.hh ? 5 : 1.8));
+      this.hw += (tw - this.hw) * (1-Math.exp(-dt*(tw>this.hw?5:1.8)));
+      this.hh += (th - this.hh) * (1-Math.exp(-dt*(th>this.hh?5:1.8)));
     }
     let ox = 0;
     let oy = 0;

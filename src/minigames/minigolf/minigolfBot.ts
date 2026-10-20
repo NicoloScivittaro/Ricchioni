@@ -24,7 +24,7 @@ export class MinigolfBot {
   if(Math.hypot(b.x-target.x,b.z-target.z)<2&&s.waypoint<c.waypoints.length-1)target=c.waypoints[++s.waypoint];
   // Skip redundant stops along a clear supported route; never predict moving arms or opponent balls.
   if(b.grounded&&speed(b)<GOLF.readySpeed&&supportAt(c,b,0))for(let i=c.waypoints.length-1;i>s.waypoint;i--){if(clearRoute(c,b,c.waypoints[i])){s.waypoint=i;target=c.waypoints[i];break;}}
-  // A fall can return to a checkpoint behind us: choose the nearest earlier waypoint when clearly displaced.
+  // A fall returns to the tee behind us: choose the nearest earlier waypoint when clearly displaced.
   if(Math.hypot(b.x-target.x,b.z-target.z)>12&&s.waypoint>0&&!clearRoute(c,b,target)){s.waypoint=0;target=c.waypoints[0];}
   const dx=target.x-b.x,dz=target.z-b.z,distance=Math.hypot(dx,dz),angle=Math.atan2(dx,dz)+s.error;
   const cmd:GolfCommand={aim:{x:Math.sin(angle),z:Math.cos(angle)},pressed:false,released:false,held:false,cancel:false,ability:false,version:0};
