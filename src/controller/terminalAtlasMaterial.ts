@@ -18,7 +18,8 @@ void main(){
  vec2 cell=vec2(mod(tile,grid),floor(tile/grid));
  vec2 tileUV=(cell+atlasInfo.y+fract(vUV)*atlasInfo.z)/grid;
  vec4 tex=texture2D(atlas,tileUV);
- float mode=mod(vTile.y,2.0);if(mode>0.1&&tex.a<mode)discard;
+ // Quantize interpolated flags: 1.999999 must not wrap to an alpha cutoff > 1.
+ float mode=mod(floor(vTile.y*2.0+0.5),4.0)*0.5;if(mode>0.1&&tex.a<mode)discard;
  vec3 n=normalize(vNormal);if(!gl_FrontFacing)n=-n;
  float light=vTile.y>1.5?1.0:0.64+0.25*max(0.0,dot(n,sunDirection))+0.07*max(n.y,0.0);
  gl_FragColor=vec4(tex.rgb*vColor.rgb*light,atlasInfo.w>0.5?tex.a*vColor.a:1.0);

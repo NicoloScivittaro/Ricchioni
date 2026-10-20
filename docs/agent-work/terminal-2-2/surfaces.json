@@ -1,0 +1,1654 @@
+[
+ {
+  "node": "model/sign_airport_security",
+  "mat": "sign_russian_airport_01",
+  "min": [
+   -35.24,
+   8.31,
+   42.5
+  ],
+  "max": [
+   -32.09,
+   8.8,
+   42.5
+  ],
+  "uvRange": [
+   0.8999999761581421,
+   0.12999999523162842
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "model/sign_airport_security",
+  "mat": "sign_russian_airport_01",
+  "min": [
+   -35.24,
+   8.31,
+   41.62
+  ],
+  "max": [
+   -32.09,
+   8.8,
+   41.62
+  ],
+  "uvRange": [
+   0.8999999761581421,
+   0.12999999523162842
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "model/sign_airport_security",
+  "mat": "sign_russian_airport_01",
+  "min": [
+   -23.86,
+   8.31,
+   41.62
+  ],
+  "max": [
+   -20.71,
+   8.8,
+   41.62
+  ],
+  "uvRange": [
+   0.8999999761581421,
+   0.12999999523162842
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "model/sign_airport_security",
+  "mat": "sign_russian_airport_01",
+  "min": [
+   -23.86,
+   8.31,
+   42.5
+  ],
+  "max": [
+   -20.71,
+   8.8,
+   42.5
+  ],
+  "uvRange": [
+   0.8999999761581421,
+   0.12999999523162842
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "model/com_posterframe_internationalsamurai",
+  "mat": "mtl_poster_internationalsamurai",
+  "min": [
+   -44.54,
+   6.19,
+   -25.32
+  ],
+  "max": [
+   -44.54,
+   7.23,
+   -24.59
+  ],
+  "uvRange": [
+   1.0,
+   1.0
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_r0c0n0s0"
+  }
+ },
+ {
+  "node": "model/com_posterframe_players",
+  "mat": "mtl_poster_players",
+  "min": [
+   -44.54,
+   6.19,
+   -23.7
+  ],
+  "max": [
+   -44.54,
+   7.23,
+   -22.96
+  ],
+  "uvRange": [
+   1.0,
+   1.0
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_r0c0n0s0"
+  }
+ },
+ {
+  "node": "model/com_posterframe_vengeance",
+  "mat": "mtl_poster_vengeance",
+  "min": [
+   -44.54,
+   6.19,
+   -22.07
+  ],
+  "max": [
+   -44.54,
+   7.23,
+   -21.33
+  ],
+  "uvRange": [
+   1.0,
+   1.0
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_r0c0n0s0"
+  }
+ },
+ {
+  "node": "model/machinery_turbine_engine_front",
+  "mat": "mtl_machinery_turbine_engine_exposed",
+  "min": [
+   -27.93,
+   1.38,
+   -51.02
+  ],
+  "max": [
+   -26.21,
+   3.1,
+   -50.74
+  ],
+  "uvRange": [
+   0.2199999988079071,
+   0.3700000047683716
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_t0c0n0s0"
+  }
+ },
+ {
+  "node": "model/machinery_turbine_engine_front",
+  "mat": "mtl_machinery_turbine_engine_exposed",
+  "min": [
+   -52.72,
+   1.38,
+   -51.02
+  ],
+  "max": [
+   -51.0,
+   3.1,
+   -50.74
+  ],
+  "uvRange": [
+   0.2199999988079071,
+   0.3700000047683716
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_t0c0n0s0"
+  }
+ },
+ {
+  "node": "model/machinery_turbine_engine_front",
+  "mat": "mtl_machinery_turbine_engine_exposed",
+  "min": [
+   -37.12,
+   5.8,
+   -60.64
+  ],
+  "max": [
+   -35.26,
+   7.67,
+   -60.35
+  ],
+  "uvRange": [
+   0.2199999988079071,
+   0.3700000047683716
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_t0c0n0s0"
+  }
+ },
+ {
+  "node": "model/machinery_turbine_engine_front",
+  "mat": "mtl_machinery_turbine_engine_exposed",
+  "min": [
+   -40.19,
+   8.87,
+   -61.08
+  ],
+  "max": [
+   -38.7,
+   10.36,
+   -60.84
+  ],
+  "uvRange": [
+   0.2199999988079071,
+   0.3700000047683716
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_t0c0n0s0"
+  }
+ },
+ {
+  "node": "model/machinery_turbine_engine_front",
+  "mat": "mtl_machinery_turbine_engine_exposed",
+  "min": [
+   -43.75,
+   5.75,
+   -60.64
+  ],
+  "max": [
+   -41.89,
+   7.62,
+   -60.35
+  ],
+  "uvRange": [
+   0.2199999988079071,
+   0.3700000047683716
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_t0c0n0s0"
+  }
+ },
+ {
+  "node": "model/machinery_turbine_engine_exposed",
+  "mat": "mtl_machinery_turbine_engine_exposed",
+  "min": [
+   -37.32,
+   5.93,
+   -66.89
+  ],
+  "max": [
+   -35.34,
+   7.64,
+   -63.15
+  ],
+  "uvRange": [
+   0.9900000095367432,
+   0.9900000095367432
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_t0c0n0s0"
+  }
+ },
+ {
+  "node": "model/machinery_turbine_engine_exposed",
+  "mat": "mtl_machinery_turbine_engine_exposed",
+  "min": [
+   -43.63,
+   5.93,
+   -66.89
+  ],
+  "max": [
+   -41.66,
+   7.63,
+   -63.15
+  ],
+  "uvRange": [
+   0.9900000095367432,
+   0.9900000095367432
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_t0c0n0s0"
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_01/0/3",
+  "mat": "sign_russian_airport_01",
+  "min": [
+   -51.92,
+   7.11,
+   23.57
+  ],
+  "max": [
+   -13.19,
+   12.47,
+   72.75
+  ],
+  "uvRange": [
+   8.640000343322754,
+   3.319999933242798
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "map/me_office_ceiling_tiles_black/0/2",
+  "mat": "me_office_ceiling_tiles_black",
+  "min": [
+   -56.22,
+   1.32,
+   -32.77
+  ],
+  "max": [
+   -1.35,
+   4.88,
+   24.18
+  ],
+  "uvRange": [
+   75.94000244140625,
+   95.87999725341797
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_office_ceiling_tiles_black"
+  }
+ },
+ {
+  "node": "map/office_tanwall_01/0/2",
+  "mat": "office_tanwall_01",
+  "min": [
+   -68.41,
+   1.73,
+   -44.5
+  ],
+  "max": [
+   -2.57,
+   17.88,
+   26.62
+  ],
+  "uvRange": [
+   51.880001068115234,
+   47.75
+  ],
+  "missing": {
+   "missingSourceMaterial": "office_tanwall_01"
+  }
+ },
+ {
+  "node": "map/me_office_ceiling_tiles/-1/2",
+  "mat": "me_office_ceiling_tiles",
+  "min": [
+   -86.7,
+   8.74,
+   -27.43
+  ],
+  "max": [
+   -52.35,
+   17.88,
+   28.24
+  ],
+  "uvRange": [
+   21.3799991607666,
+   34.0
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_office_ceiling_tiles"
+  }
+ },
+ {
+  "node": "map/ch_concrete_strips01/0/2",
+  "mat": "ch_concrete_strips01",
+  "min": [
+   -66.38,
+   1.12,
+   -31.8
+  ],
+  "max": [
+   -7.85,
+   9.35,
+   -10.36
+  ],
+  "uvRange": [
+   75.12000274658203,
+   73.83999633789062
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_concrete_strips01"
+  }
+ },
+ {
+  "node": "map/me_office_ceiling_tiles_black/-1/2",
+  "mat": "me_office_ceiling_tiles_black",
+  "min": [
+   -85.07,
+   1.17,
+   -25.81
+  ],
+  "max": [
+   -54.59,
+   9.55,
+   28.24
+  ],
+  "uvRange": [
+   18.780000686645508,
+   100.29000091552734
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_office_ceiling_tiles_black"
+  }
+ },
+ {
+  "node": "map/ch_countertop_sidetrim/0/2",
+  "mat": "ch_countertop_sidetrim",
+  "min": [
+   -49.71,
+   0.91,
+   -31.8
+  ],
+  "max": [
+   -7.24,
+   13.82,
+   22.96
+  ],
+  "uvRange": [
+   46.189998626708984,
+   947.5599975585938
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_countertop_sidetrim"
+  }
+ },
+ {
+  "node": "map/airport_departure_sign/-1/2",
+  "mat": "airport_departure_sign",
+  "min": [
+   -68.22,
+   10.16,
+   10.36
+  ],
+  "max": [
+   -68.22,
+   13.41,
+   13.61
+  ],
+  "uvRange": [
+   1.0,
+   1.0
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_r0c0",
+   "untranslatedSourceChannels": [
+    {
+     "kind": "normalMap",
+     "flags": 1281,
+     "name": "$identitynormalmap"
+    }
+   ]
+  }
+ },
+ {
+  "node": "map/ch_countertop_sidetrim/0/1",
+  "mat": "ch_countertop_sidetrim",
+  "min": [
+   -41.75,
+   1.02,
+   -63.25
+  ],
+  "max": [
+   0.17,
+   13.82,
+   -23.67
+  ],
+  "uvRange": [
+   33.65999984741211,
+   801.6199951171875
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_countertop_sidetrim"
+  }
+ },
+ {
+  "node": "map/airport_departure_sign/0/3",
+  "mat": "airport_departure_sign",
+  "min": [
+   -52.96,
+   10.16,
+   28.05
+  ],
+  "max": [
+   -44.84,
+   13.41,
+   28.05
+  ],
+  "uvRange": [
+   3.0,
+   1.0
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_r0c0",
+   "untranslatedSourceChannels": [
+    {
+     "kind": "normalMap",
+     "flags": 1281,
+     "name": "$identitynormalmap"
+    }
+   ]
+  }
+ },
+ {
+  "node": "map/icbm_conc_stripedwall/0/2",
+  "mat": "icbm_conc_stripedwall",
+  "min": [
+   -52.56,
+   1.02,
+   -33.12
+  ],
+  "max": [
+   -12.32,
+   4.32,
+   -10.36
+  ],
+  "uvRange": [
+   36.939998626708984,
+   34.25
+  ],
+  "missing": {
+   "missingSourceMaterial": "icbm_conc_stripedwall"
+  }
+ },
+ {
+  "node": "map/me_office_ceiling_light_2_effect/-1/2",
+  "mat": "me_office_ceiling_light_2_effect",
+  "min": [
+   -82.56,
+   3.42,
+   -26.62
+  ],
+  "max": [
+   -57.84,
+   17.88,
+   23.39
+  ],
+  "uvRange": [
+   26.989999771118164,
+   145.0
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_office_ceiling_light_2_effect"
+  }
+ },
+ {
+  "node": "map/me_office_ceiling_light_2_off/-1/2",
+  "mat": "me_office_ceiling_light_2_off",
+  "min": [
+   -88.32,
+   3.86,
+   -28.24
+  ],
+  "max": [
+   -57.84,
+   17.88,
+   14.43
+  ],
+  "uvRange": [
+   140.92999267578125,
+   140.0
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_office_ceiling_light_2_off"
+  }
+ },
+ {
+  "node": "map/office_graywall_01/0/2",
+  "mat": "office_graywall_01",
+  "min": [
+   -53.37,
+   2.24,
+   -31.8
+  ],
+  "max": [
+   -19.23,
+   9.35,
+   11.28
+  ],
+  "uvRange": [
+   88.80999755859375,
+   46.84000015258789
+  ],
+  "missing": {
+   "missingSourceMaterial": "office_graywall_01"
+  }
+ },
+ {
+  "node": "map/ch_wallpaintchipped_2/0/2",
+  "mat": "ch_wallpaintchipped_2",
+  "min": [
+   -66.38,
+   1.02,
+   -32.21
+  ],
+  "max": [
+   -4.6,
+   9.35,
+   -7.92
+  ],
+  "uvRange": [
+   74.75,
+   35.029998779296875
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_wallpaintchipped_2"
+  }
+ },
+ {
+  "node": "map/ship_rubbermat01/0/2",
+  "mat": "ship_rubbermat01",
+  "min": [
+   -50.88,
+   1.02,
+   -29.53
+  ],
+  "max": [
+   -33.46,
+   5.14,
+   -7.92
+  ],
+  "uvRange": [
+   186.1199951171875,
+   357.69000244140625
+  ],
+  "missing": {
+   "missingSourceMaterial": "ship_rubbermat01"
+  }
+ },
+ {
+  "node": "map/office_graywall_01/-1/2",
+  "mat": "office_graywall_01",
+  "min": [
+   -88.63,
+   1.93,
+   -28.96
+  ],
+  "max": [
+   -58.25,
+   19.71,
+   -7.92
+  ],
+  "uvRange": [
+   48.84000015258789,
+   36.779998779296875
+  ],
+  "missing": {
+   "missingSourceMaterial": "office_graywall_01"
+  }
+ },
+ {
+  "node": "map/ch_wallpaintchipped_2/-1/2",
+  "mat": "ch_wallpaintchipped_2",
+  "min": [
+   -107.17,
+   1.02,
+   -29.16
+  ],
+  "max": [
+   -58.25,
+   18.49,
+   -7.92
+  ],
+  "uvRange": [
+   74.75,
+   37.59000015258789
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_wallpaintchipped_2"
+  }
+ },
+ {
+  "node": "map/ch_concrete_strips01/-1/2",
+  "mat": "ch_concrete_strips01",
+  "min": [
+   -134.65,
+   0.99,
+   -29.16
+  ],
+  "max": [
+   -50.53,
+   9.96,
+   -11.18
+  ],
+  "uvRange": [
+   74.75,
+   74.83999633789062
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_concrete_strips01"
+  }
+ },
+ {
+  "node": "map/airport_departure_sign/0/2",
+  "mat": "airport_departure_sign",
+  "min": [
+   -6.75,
+   4.11,
+   -29.46
+  ],
+  "max": [
+   -6.75,
+   7.37,
+   -26.21
+  ],
+  "uvRange": [
+   1.0,
+   1.0
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_r0c0",
+   "untranslatedSourceChannels": [
+    {
+     "kind": "normalMap",
+     "flags": 1281,
+     "name": "$identitynormalmap"
+    }
+   ]
+  }
+ },
+ {
+  "node": "map/me_metal_rust_02/0/2",
+  "mat": "me_metal_rust_02",
+  "min": [
+   -53.78,
+   4.06,
+   -28.75
+  ],
+  "max": [
+   -5.19,
+   17.83,
+   22.02
+  ],
+  "uvRange": [
+   40.650001525878906,
+   182.22999572753906
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_metal_rust_02"
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_01/0/2",
+  "mat": "sign_russian_airport_01",
+  "min": [
+   -44.99,
+   7.52,
+   -0.46
+  ],
+  "max": [
+   -42.5,
+   10.66,
+   16.7
+  ],
+  "uvRange": [
+   4.03000020980835,
+   1.1699999570846558
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "map/ship_rubbermat01/-1/2",
+  "mat": "ship_rubbermat01",
+  "min": [
+   -106.28,
+   1.02,
+   -29.43
+  ],
+  "max": [
+   -66.27,
+   5.13,
+   -11.48
+  ],
+  "uvRange": [
+   46.09000015258789,
+   147.0
+  ],
+  "missing": {
+   "missingSourceMaterial": "ship_rubbermat01"
+  }
+ },
+ {
+  "node": "map/ch_ceilingtiles_1/-1/2",
+  "mat": "ch_ceilingtiles_1",
+  "min": [
+   -88.52,
+   3.86,
+   -28.45
+  ],
+  "max": [
+   -66.99,
+   5.28,
+   -12.19
+  ],
+  "uvRange": [
+   63.619998931884766,
+   93.94000244140625
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_ceilingtiles_1"
+  }
+ },
+ {
+  "node": "map/ch_concrete_strips01/-1/1",
+  "mat": "ch_concrete_strips01",
+  "min": [
+   -86.8,
+   1.02,
+   -29.16
+  ],
+  "max": [
+   -68.71,
+   1.78,
+   -29.16
+  ],
+  "uvRange": [
+   5.559999942779541,
+   1.2300000190734863
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_concrete_strips01"
+  }
+ },
+ {
+  "node": "map/ch_wallpaintchipped_2/-1/1",
+  "mat": "ch_wallpaintchipped_2",
+  "min": [
+   -86.8,
+   1.78,
+   -29.16
+  ],
+  "max": [
+   -68.71,
+   1.93,
+   -29.16
+  ],
+  "uvRange": [
+   5.559999942779541,
+   0.05000000074505806
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_wallpaintchipped_2"
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_01/1/2",
+  "mat": "sign_russian_airport_01",
+  "min": [
+   1.7,
+   8.23,
+   -4.8
+  ],
+  "max": [
+   11.86,
+   8.86,
+   -4.57
+  ],
+  "uvRange": [
+   8.640000343322754,
+   0.9100000262260437
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_01/1/1",
+  "mat": "sign_russian_airport_01",
+  "min": [
+   16.12,
+   3.81,
+   -45.08
+  ],
+  "max": [
+   19.2,
+   4.11,
+   -43.71
+  ],
+  "uvRange": [
+   1.5399999618530273,
+   1.7300000190734863
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_02/1/2",
+  "mat": "sign_russian_airport_02",
+  "min": [
+   5.41,
+   7.56,
+   -12.55
+  ],
+  "max": [
+   8.15,
+   10.52,
+   11.35
+  ],
+  "uvRange": [
+   0.44999998807907104,
+   0.75
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_02/0/3",
+  "mat": "sign_russian_airport_02",
+  "min": [
+   -33.29,
+   5.74,
+   30.94
+  ],
+  "max": [
+   -18.02,
+   10.58,
+   46.01
+  ],
+  "uvRange": [
+   2.1500000953674316,
+   0.9700000286102295
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_02/-1/3",
+  "mat": "sign_russian_airport_02",
+  "min": [
+   -62.07,
+   8.76,
+   22.44
+  ],
+  "max": [
+   -60.43,
+   11.72,
+   24.08
+  ],
+  "uvRange": [
+   0.44999998807907104,
+   0.75
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_02/-1/2",
+  "mat": "sign_russian_airport_02",
+  "min": [
+   -64.35,
+   8.76,
+   20.16
+  ],
+  "max": [
+   -61.58,
+   11.72,
+   22.93
+  ],
+  "uvRange": [
+   0.44999998807907104,
+   0.75
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_02/0/2",
+  "mat": "sign_russian_airport_02",
+  "min": [
+   -55.28,
+   7.56,
+   -2.87
+  ],
+  "max": [
+   -10.41,
+   10.6,
+   21.08
+  ],
+  "uvRange": [
+   0.44999998807907104,
+   0.75
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_02/1/1",
+  "mat": "sign_russian_airport_02",
+  "min": [
+   2.16,
+   4.72,
+   -35.71
+  ],
+  "max": [
+   11.4,
+   7.68,
+   -32.97
+  ],
+  "uvRange": [
+   0.44999998807907104,
+   0.75
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "map/icbm_wirescreen/0/1",
+  "mat": "icbm_wirescreen",
+  "min": [
+   -55.44,
+   2.1,
+   -71.76
+  ],
+  "max": [
+   -2.21,
+   3.06,
+   -46.46
+  ],
+  "uvRange": [
+   1.9299999475479126,
+   2.5199999809265137
+  ],
+  "missing": {
+   "missingSourceMaterial": "icbm_wirescreen"
+  }
+ },
+ {
+  "node": "map/icbm_wirescreen/-1/1",
+  "mat": "icbm_wirescreen",
+  "min": [
+   -89.5,
+   2.1,
+   -64.44
+  ],
+  "max": [
+   -55.41,
+   3.06,
+   -28.99
+  ],
+  "uvRange": [
+   1.9299999475479126,
+   2.5199999809265137
+  ],
+  "missing": {
+   "missingSourceMaterial": "icbm_wirescreen"
+  }
+ },
+ {
+  "node": "map/icbm_wirescreen/-1/2",
+  "mat": "icbm_wirescreen",
+  "min": [
+   -59.38,
+   2.1,
+   -28.99
+  ],
+  "max": [
+   -55.12,
+   6.27,
+   6.96
+  ],
+  "uvRange": [
+   3.369999885559082,
+   2.5199999809265137
+  ],
+  "missing": {
+   "missingSourceMaterial": "icbm_wirescreen"
+  }
+ },
+ {
+  "node": "map/icbm_wirescreen/0/2",
+  "mat": "icbm_wirescreen",
+  "min": [
+   -55.31,
+   2.1,
+   -26.5
+  ],
+  "max": [
+   -52.86,
+   3.06,
+   -10.62
+  ],
+  "uvRange": [
+   1.9299999475479126,
+   2.5199999809265137
+  ],
+  "missing": {
+   "missingSourceMaterial": "icbm_wirescreen"
+  }
+ },
+ {
+  "node": "map/com_glass_clear/0/2",
+  "mat": "com_glass_clear",
+  "min": [
+   -41.1,
+   5.13,
+   -26.4
+  ],
+  "max": [
+   -19.13,
+   7.06,
+   -22.61
+  ],
+  "uvRange": [
+   228.6199951171875,
+   66.72000122070312
+  ],
+  "missing": {
+   "missingSourceMaterial": "com_glass_clear"
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_dutyfree_ads01/-1/2",
+  "mat": "sign_russian_airport_dutyfree_ads01",
+  "min": [
+   -64.14,
+   5.49,
+   -11.18
+  ],
+  "max": [
+   -55.83,
+   7.49,
+   -2.77
+  ],
+  "uvRange": [
+   3.4800000190734863,
+   1.6200000047683716
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_r0c0",
+   "untranslatedSourceChannels": [
+    {
+     "kind": "normalMap",
+     "flags": 1281,
+     "name": "$identitynormalmap"
+    }
+   ]
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_dutyfree_ads01/0/2",
+  "mat": "sign_russian_airport_dutyfree_ads01",
+  "min": [
+   -54.52,
+   5.49,
+   -5.92
+  ],
+  "max": [
+   -53.96,
+   5.99,
+   -4.78
+  ],
+  "uvRange": [
+   0.6600000262260437,
+   0.3199999928474426
+  ],
+  "missing": {
+   "sourceTechset": "l_sm_r0c0",
+   "untranslatedSourceChannels": [
+    {
+     "kind": "normalMap",
+     "flags": 1281,
+     "name": "$identitynormalmap"
+    }
+   ]
+  }
+ },
+ {
+  "node": "map/sign_russian_airport_dutyfree_ads01_unlit/-1/2",
+  "mat": "sign_russian_airport_dutyfree_ads01_unlit",
+  "min": [
+   -64.13,
+   6.38,
+   -10.6
+  ],
+  "max": [
+   -63.89,
+   7.7,
+   -5.87
+  ],
+  "uvRange": [
+   1.9900000095367432,
+   1.2100000381469727
+  ],
+  "missing": {
+   "sourceTechset": "effect"
+  }
+ },
+ {
+  "node": "map/ch_metal_diamondplating/0/2",
+  "mat": "ch_metal_diamondplating",
+  "min": [
+   -49.18,
+   1.12,
+   -29.93
+  ],
+  "max": [
+   -44.71,
+   7.47,
+   -17.98
+  ],
+  "uvRange": [
+   70.80999755859375,
+   70.80999755859375
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_metal_diamondplating"
+  }
+ },
+ {
+  "node": "map/me_wire_black/0/2",
+  "mat": "me_wire_black",
+  "min": [
+   -47.73,
+   3.05,
+   -26.26
+  ],
+  "max": [
+   -44.18,
+   4.42,
+   -26.16
+  ],
+  "uvRange": [
+   65.77999877929688,
+   526.25
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_wire_black"
+  }
+ },
+ {
+  "node": "map/me_cargocontainerwhite_ext_wall/0/2",
+  "mat": "me_cargocontainerwhite_ext_wall",
+  "min": [
+   -47.58,
+   4.72,
+   -27.19
+  ],
+  "max": [
+   -43.08,
+   7.77,
+   -15.24
+  ],
+  "uvRange": [
+   33.130001068115234,
+   0.9900000095367432
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_cargocontainerwhite_ext_wall"
+  }
+ },
+ {
+  "node": "map/me_cargocontainerwhite_ext_wall/0/1",
+  "mat": "me_cargocontainerwhite_ext_wall",
+  "min": [
+   -44.71,
+   5.13,
+   -29.93
+  ],
+  "max": [
+   -43.08,
+   7.47,
+   -29.93
+  ],
+  "uvRange": [
+   0.5,
+   0.7200000286102295
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_cargocontainerwhite_ext_wall"
+  }
+ },
+ {
+  "node": "map/me_cargocontainer_exttrimwide/0/2",
+  "mat": "me_cargocontainer_exttrimwide",
+  "min": [
+   -46.11,
+   1.41,
+   -27.19
+  ],
+  "max": [
+   -42.98,
+   7.47,
+   -26.06
+  ],
+  "uvRange": [
+   35.220001220703125,
+   263.3800048828125
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_cargocontainer_exttrimwide"
+  }
+ },
+ {
+  "node": "map/office_carpet_01_red/0/2",
+  "mat": "office_carpet_01_red",
+  "min": [
+   -47.27,
+   4.83,
+   -26.99
+  ],
+  "max": [
+   -44.63,
+   5.03,
+   -15.49
+  ],
+  "uvRange": [
+   0.8100000023841858,
+   3.5399999618530273
+  ],
+  "missing": {
+   "missingSourceMaterial": "office_carpet_01_red"
+  }
+ },
+ {
+  "node": "map/me_cargocontainer_exttrimwide/0/1",
+  "mat": "me_cargocontainer_exttrimwide",
+  "min": [
+   -43.08,
+   5.03,
+   -29.93
+  ],
+  "max": [
+   -42.98,
+   7.47,
+   -29.93
+  ],
+  "uvRange": [
+   0.75,
+   0.25
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_cargocontainer_exttrimwide"
+  }
+ },
+ {
+  "node": "map/window_stain/0/1",
+  "mat": "window_stain",
+  "min": [
+   -52.37,
+   1.71,
+   -55.05
+  ],
+  "max": [
+   -26.53,
+   2.77,
+   -54.53
+  ],
+  "uvRange": [
+   1.2899999618530273,
+   1.0299999713897705
+  ],
+  "missing": {
+   "missingSourceMaterial": "window_stain"
+  }
+ },
+ {
+  "node": "map/ch_dec_darkstain_01/0/1",
+  "mat": "ch_dec_darkstain_01",
+  "min": [
+   -52.76,
+   1.33,
+   -52.26
+  ],
+  "max": [
+   -26.15,
+   4.45,
+   -29.97
+  ],
+  "uvRange": [
+   5.110000133514404,
+   31.719999313354492
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_dec_darkstain_01"
+  }
+ },
+ {
+  "node": "map/me_decal_darkstain_01/0/1",
+  "mat": "me_decal_darkstain_01",
+  "min": [
+   -42.72,
+   1.89,
+   -49.97
+  ],
+  "max": [
+   -36.19,
+   4.45,
+   -29.95
+  ],
+  "uvRange": [
+   31.719999313354492,
+   4.920000076293945
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_decal_darkstain_01"
+  }
+ },
+ {
+  "node": "map/com_plastic_wall/0/1",
+  "mat": "com_plastic_wall",
+  "min": [
+   -41.83,
+   2.91,
+   -63.27
+  ],
+  "max": [
+   -37.07,
+   5.12,
+   -33.43
+  ],
+  "uvRange": [
+   13.300000190734863,
+   14.880000114440918
+  ],
+  "missing": {
+   "missingSourceMaterial": "com_plastic_wall"
+  }
+ },
+ {
+  "node": "map/me_office_carpet01/0/1",
+  "mat": "me_office_carpet01",
+  "min": [
+   -41.75,
+   5.14,
+   -56.65
+  ],
+  "max": [
+   -37.11,
+   5.14,
+   -30.18
+  ],
+  "uvRange": [
+   2.8499999046325684,
+   16.290000915527344
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_office_carpet01"
+  }
+ },
+ {
+  "node": "map/ship_rubbermat01/0/1",
+  "mat": "ship_rubbermat01",
+  "min": [
+   -41.74,
+   5.14,
+   -55.78
+  ],
+  "max": [
+   -37.17,
+   5.14,
+   -29.06
+  ],
+  "uvRange": [
+   5.619999885559082,
+   32.90999984741211
+  ],
+  "missing": {
+   "missingSourceMaterial": "ship_rubbermat01"
+  }
+ },
+ {
+  "node": "map/ap_interior_carpet/0/1",
+  "mat": "ap_interior_carpet",
+  "min": [
+   -41.75,
+   5.14,
+   -55.78
+  ],
+  "max": [
+   -37.17,
+   5.14,
+   -30.18
+  ],
+  "uvRange": [
+   1.409999966621399,
+   7.880000114440918
+  ],
+  "missing": {
+   "missingSourceMaterial": "ap_interior_carpet"
+  }
+ },
+ {
+  "node": "map/ship_ceiling01/0/1",
+  "mat": "ship_ceiling01",
+  "min": [
+   -41.79,
+   5.14,
+   -63.3
+  ],
+  "max": [
+   -37.06,
+   7.4,
+   -56.9
+  ],
+  "uvRange": [
+   93.75,
+   46.880001068115234
+  ],
+  "missing": {
+   "missingSourceMaterial": "ship_ceiling01"
+  }
+ },
+ {
+  "node": "map/ship_boxes01/0/1",
+  "mat": "ship_boxes01",
+  "min": [
+   -41.64,
+   3.1,
+   -54.56
+  ],
+  "max": [
+   -37.29,
+   4.47,
+   -37.21
+  ],
+  "uvRange": [
+   624.030029296875,
+   414.5199890136719
+  ],
+  "missing": {
+   "missingSourceMaterial": "ship_boxes01"
+  }
+ },
+ {
+  "node": "map/me_particleboard/0/1",
+  "mat": "me_particleboard",
+  "min": [
+   -41.1,
+   3.56,
+   -53.34
+  ],
+  "max": [
+   -41.08,
+   5.03,
+   -37.92
+  ],
+  "uvRange": [
+   50.0,
+   56.36000061035156
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_particleboard"
+  }
+ },
+ {
+  "node": "map/me_floor_metalgratingparallel/0/1",
+  "mat": "me_floor_metalgratingparallel",
+  "min": [
+   -41.03,
+   3.1,
+   -51.31
+  ],
+  "max": [
+   -38.61,
+   3.51,
+   -48.87
+  ],
+  "uvRange": [
+   21.610000610351562,
+   24.950000762939453
+  ],
+  "missing": {
+   "missingSourceMaterial": "me_floor_metalgratingparallel"
+  }
+ },
+ {
+  "node": "map/ch_dec_plaster02/0/1",
+  "mat": "ch_dec_plaster02",
+  "min": [
+   -39.35,
+   7.48,
+   -73.97
+  ],
+  "max": [
+   -39.05,
+   14.03,
+   -65.53
+  ],
+  "uvRange": [
+   1.0399999618530273,
+   0.5699999928474426
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_dec_plaster02"
+  }
+ },
+ {
+  "node": "map/ch_dec_darkstain_03/0/1",
+  "mat": "ch_dec_darkstain_03",
+  "min": [
+   -30.59,
+   1.02,
+   -65.89
+  ],
+  "max": [
+   -21.21,
+   1.02,
+   -31.24
+  ],
+  "uvRange": [
+   1.0,
+   1.0
+  ],
+  "missing": {
+   "missingSourceMaterial": "ch_dec_darkstain_03"
+  }
+ },
+ {
+  "node": "map/mil_decal_number7/-1/2",
+  "mat": "mil_decal_number7",
+  "min": [
+   -61.17,
+   1.02,
+   -25.6
+  ],
+  "max": [
+   -60.28,
+   1.02,
+   -18.52
+  ],
+  "uvRange": [
+   1.0,
+   1.0
+  ],
+  "missing": {
+   "missingSourceMaterial": "mil_decal_number7"
+  }
+ }
+]

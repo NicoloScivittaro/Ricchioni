@@ -51,6 +51,8 @@ def gameplay(d,b):
    lo=ts.min(1);hi=ts.max(1)
    keep=(area>.018)&(hi[:,0]>=X0-3)&(lo[:,0]<=X1+3)&(hi[:,2]>=Z0-3)&(lo[:,2]<=Z1+3)&(hi[:,1]>=-.3)&(lo[:,1]<=11)
    selected.extend(ts[keep]);counts['architecture'if is_map else'cover']+=int(keep.sum())
+ from aircraft_access import rear_steps,step_triangles
+ access_steps=rear_steps();selected.extend(step_triangles(access_steps))
  ts=np.array(selected);# weld duplicate triangles regardless of original winding
  _,unique=np.unique(np.round(ts,4).reshape(len(ts),9),axis=0,return_index=True);ts=ts[np.sort(unique)]
  n=np.cross(ts[:,1]-ts[:,0],ts[:,2]-ts[:,0]);ny=abs(n[:,1])/np.maximum(np.linalg.norm(n,axis=1),1e-10)
@@ -138,7 +140,7 @@ def gameplay(d,b):
   if ok and all(np.linalg.norm(points[i]-points[j])>3 for j in spawns):spawns.append(i)
  # Visible original-design perimeter fence coincides with the chosen bounds.
  barriers=[{'x':X0,'z':(Z0+Z1)/2,'w':.25,'d':Z1-Z0,'h':8,'base':-.2},{'x':X1,'z':(Z0+Z1)/2,'w':.25,'d':Z1-Z0,'h':8,'base':-.2},{'x':(X0+X1)/2,'z':Z0,'w':X1-X0,'d':.25,'h':8,'base':-.2},{'x':(X0+X1)/2,'z':Z1,'w':X1-X0,'d':.25,'h':8,'base':-.2}]
- data={'cell':CELL,'radius':R,'bounds':list(BOUNDS),'triangles':np.round(ts,4).reshape(-1,9).tolist(),'nodes':points.tolist(),'edges':edges,'headroom':np.round(headroom[keep],3).tolist(),'spawns':spawns,'barriers':barriers}
+ data={'cell':CELL,'radius':R,'bounds':list(BOUNDS),'triangles':np.round(ts,4).reshape(-1,9).tolist(),'nodes':points.tolist(),'edges':edges,'headroom':np.round(headroom[keep],3).tolist(),'spawns':spawns,'barriers':barriers,'accessSteps':access_steps}
  (ROOT/'public/assets/fps/terminal/arena.json').write_text(json.dumps(data,separators=(',',':')),encoding='utf8')
  dump('spawn-validation.json',checks);dump('geometry.json',{'selectedSourceTriangles':len(ts),'selectedByKind':dict(counts),'walkCandidates':len(pts),'clearCandidates':int(good.sum()),'components':[len(c)for c in components[:20]],'connectedNodes':len(keep),'spawns':len(spawns),'bounds':BOUNDS,'cell':CELL,'radius':R,'heightRange':points[:,1].min().item().__str__()+'..'+str(points[:,1].max())})
  print('arena',len(keep),'nodes',len(spawns),'spawns', 'components',[len(c)for c in components[:8]],flush=True)

@@ -66,7 +66,13 @@ export class TerminalArena {
   move(from:ArenaPoint,to:ArenaPoint,height=1.8):ArenaPoint{
     let p={...from};const distance=Math.hypot(to.x-from.x,to.z-from.z),steps=Math.max(1,Math.ceil(distance/.12));const dx=(to.x-from.x)/steps,dz=(to.z-from.z)/steps;
     const attempt=(x:number,z:number):boolean=>{
-      const a=this.at(p.x,p.z,p.y),b=this.at(x,z,p.y,height);if(a<0||b<0||Math.abs((this.nav[b].y??0)-(p.y??0))>.53)return false;
+      const a=this.at(p.x,p.z,p.y);let b=this.at(x,z,p.y);
+      // Enter low doorways at crouched clearance; the shared simulation updates
+      // posture from destination headroom in this same tick.
+      // Select the nearest physical layer before checking clearance, otherwise
+      // a low cabin door wrongly selects the apron several metres below.
+      if(b>=0&&(this.data.headroom?.[b]??12)<Math.min(height,1.05))b=-1;
+      if(a<0||b<0||Math.abs((this.nav[b].y??0)-(p.y??0))>.53)return false;
       if(a!==b&&!this.data.edges[a].includes(b))return false;
       p={x,z,y:this.nav[b].y};return true;
     };

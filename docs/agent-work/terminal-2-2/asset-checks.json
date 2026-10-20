@@ -1,0 +1,14 @@
+{
+  "baseColorAtlasMiBWithMipsBefore": 984.6041666666666,
+  "baseColorAtlasMiBWithMipsAfter": 761.1940104166666,
+  "sameTileResolutions": true,
+  "sourceGeometryPreserved": 1704739,
+  "visibleRearSteps": 22,
+  "boardingTriangles": 264,
+  "maps": [
+    "cantiere",
+    "nuketown",
+    "terminal"
+  ],
+  "activeWeapons": 6
+}

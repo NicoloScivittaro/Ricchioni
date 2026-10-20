@@ -1,5 +1,5 @@
 import type {Engine} from '@babylonjs/core';
-import {Color3,Color4,DirectionalLight,HemisphericLight,ImageProcessingConfiguration,InstancedMesh,Mesh,MeshBuilder,PBRMaterial,Matrix,Scene,SceneLoader,ShaderMaterial,StandardMaterial,TransformNode} from '@babylonjs/core';
+import {Color3,Color4,DirectionalLight,HemisphericLight,ImageProcessingConfiguration,InstancedMesh,Mesh,MeshBuilder,PBRMaterial,Matrix,Scene,SceneLoader,ShaderMaterial,StandardMaterial,TransformNode,Texture} from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
 import {terminalAtlasMaterial} from './terminalAtlasMaterial';
 import type {TerminalAtlas} from './terminalAtlasMaterial';
@@ -11,7 +11,7 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
   // Only Terminal needs extra fill for the recovered, unbaked source textures.
   for(const light of scene.lights){if(light instanceof HemisphericLight)light.intensity=1.2;if(light instanceof DirectionalLight)light.intensity=1.5;}
   scene.imageProcessingConfiguration.toneMappingEnabled=true;scene.imageProcessingConfiguration.toneMappingType=ImageProcessingConfiguration.TONEMAPPING_ACES;scene.imageProcessingConfiguration.exposure=1.05;
-  const [result,collision,layouts]=await Promise.all([SceneLoader.ImportMeshAsync('','/assets/fps/terminal/','terminal-play.glb',scene),fetch('/assets/fps/terminal/arena.json').then(r=>{if(!r.ok)throw new Error('Terminal boundary HTTP '+r.status);return r.json() as Promise<{barriers:Aabb[]}>;}),fetch('/assets/fps/terminal/atlas.json').then(r=>{if(!r.ok)throw new Error('Terminal atlas HTTP '+r.status);return r.json() as Promise<TerminalAtlas[]>;})]);
+  const [result,collision,layouts]=await Promise.all([SceneLoader.ImportMeshAsync('','/assets/fps/terminal/','terminal-play.glb',scene),fetch('/assets/fps/terminal/arena.json').then(r=>{if(!r.ok)throw new Error('Terminal boundary HTTP '+r.status);return r.json() as Promise<{barriers:Aabb[];accessSteps?:Aabb[]}>;}),fetch('/assets/fps/terminal/atlas.json').then(r=>{if(!r.ok)throw new Error('Terminal atlas HTTP '+r.status);return r.json() as Promise<TerminalAtlas[]>;})]);
   if(scene.isDisposed){for(const m of result.meshes)m.dispose();return;}
   // Babylon AUTO imports glTF into LH by mirroring X. The arena conversion
   // uses the equivalent Z mirror, so rotate the entire imported hierarchy once.
@@ -59,6 +59,11 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
   for(const [key,list]of staticGroups){const mesh=list.length>1?Mesh.MergeMeshes(list,true,true,undefined,false,false):list[0];if(!mesh)continue;mesh.name='terminalBatch:'+key;mesh.isPickable=false;mesh.checkCollisions=false;mesh.freezeWorldMatrix();mesh.doNotSyncBoundingInfo=true;kept.push(mesh);}
   coordinates.dispose();for(const node of result.transformNodes)if(!node.isDisposed())node.dispose();
   for(const original of materials.keys())original.dispose(false,false);for(const m of materials.values())m.freeze();
+  // These visible treads use exactly the boxes exported into arena.json.
+  const stepMaterial=new StandardMaterial('terminalRearBoardingSteps',scene);
+  stepMaterial.diffuseTexture=new Texture('/assets/fps/terminal/boarding-metal.jpg',scene);stepMaterial.diffuseColor=new Color3(.65,.69,.73);stepMaterial.specularColor.setAll(.12);
+  const steps=(collision.accessSteps??[]).map((s,i)=>{const m=MeshBuilder.CreateBox('terminal:rear-step:'+i,{width:s.w,depth:s.d,height:s.h},scene);m.position.set(s.x,(s.base??0)+s.h/2,s.z);m.material=stepMaterial;return m;});
+  if(steps.length){const mesh=Mesh.MergeMeshes(steps,true,true);if(mesh){mesh.name='terminal:rear-boarding-stairs';mesh.isPickable=false;mesh.freezeWorldMatrix();kept.push(mesh);}}
   // Original-design, visibly marked safety fence; its exact volumes are shared
   // with authoritative movement/shot data. These are not recovered CoD assets.
   const yellow=new StandardMaterial('terminalArenaBoundary',scene);yellow.diffuseColor=new Color3(.77,.57,.17);yellow.specularColor.setAll(.01);

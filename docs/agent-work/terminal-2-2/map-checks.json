@@ -1,0 +1,12 @@
+{
+  "maps": [
+    "cantiere",
+    "nuketown",
+    "terminal"
+  ],
+  "buttons": [
+    "cantiere",
+    "nuketown",
+    "terminal"
+  ]
+}

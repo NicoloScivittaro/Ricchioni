@@ -7,7 +7,7 @@ export const FPS_WEAPON_MODELS:Record<string,{file:string;length:number}>={
 };
 const fills=new WeakMap<Scene,HemisphericLight>();
 function fill(scene:Scene):HemisphericLight{
- let light=fills.get(scene);if(!light){light=new HemisphericLight('weaponSoftFill',new Vector3(0,1,-.4),scene);light.intensity=1;light.renderPriority=100;light.groundColor=new Color3(.45,.48,.52);light.diffuse=new Color3(.93,.96,1);light.specular=new Color3(.1,.1,.1);light.includedOnlyMeshes=[];fills.set(scene,light);scene.onDisposeObservable.addOnce(()=>fills.delete(scene));scene.onMeshRemovedObservable.add(mesh=>{const list=light!.includedOnlyMeshes,i=list.indexOf(mesh);if(i>=0)list.splice(i,1);});}return light;
+ let light=fills.get(scene);if(!light){light=new HemisphericLight('weaponSoftFill',new Vector3(0,1,-.4),scene);light.intensity=1.2;light.renderPriority=100;light.groundColor=new Color3(.6,.63,.67);light.diffuse=new Color3(.93,.96,1);light.specular=new Color3(.1,.1,.1);light.includedOnlyMeshes=[];fills.set(scene,light);scene.onDisposeObservable.addOnce(()=>fills.delete(scene));scene.onMeshRemovedObservable.add(mesh=>{const list=light!.includedOnlyMeshes,i=list.indexOf(mesh);if(i>=0)list.splice(i,1);});}return light;
 }
 // Terminal applies ACES to its scene; these already textured weapon assets
 // need a neutral shared exposure instead of having their dark tones crushed.

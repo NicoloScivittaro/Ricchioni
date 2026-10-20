@@ -1,0 +1,27 @@
+{
+  "fps": 36.88562382811299,
+  "p95": 33.5,
+  "scale": 1,
+  "views": 5,
+  "drawCalls": 518,
+  "active": 754,
+  "renderer": {
+    "vendor": "Google Inc. (NVIDIA)",
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+  },
+  "world": {
+    "partial": true,
+    "spatialBatches": 88,
+    "instanceGroups": 167,
+    "modelPrimitives": 2500,
+    "triangles": 1704739,
+    "materials": 11,
+    "loadMs": 4801.4000000059605,
+    "source": "terminal-play.glb",
+    "staticBatchMeters": 64,
+    "stableAtlasGradients": true,
+    "shadows": "existing character blobs; no dynamic map shadow pass"
+  },
+  "errors": []
+}
