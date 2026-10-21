@@ -1,0 +1,155 @@
+{
+  "status": "passed",
+  "models": [
+    {
+      "kind": "warrok",
+      "clips": 13,
+      "names": [
+        "WALK",
+        "ATTACK",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "JUMP",
+        "ROAR",
+        "DEATH",
+        "TURN_LEFT",
+        "TURN_RIGHT",
+        "TAUNT",
+        "SWIPE",
+        "JUMP_ATTACK"
+      ],
+      "bones": 81,
+      "triangles": 12626,
+      "bytes": 6047144
+    },
+    {
+      "kind": "zombiegirl",
+      "clips": 10,
+      "names": [
+        "WALK",
+        "SWIPE",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "TURN_LEFT",
+        "TURN_RIGHT",
+        "TAUNT",
+        "DEATH",
+        "JUMP"
+      ],
+      "bones": 63,
+      "triangles": 7448,
+      "bytes": 6843164
+    },
+    {
+      "kind": "yaku",
+      "clips": 11,
+      "names": [
+        "WALK",
+        "SWIPE",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "TURN_LEFT",
+        "TURN_RIGHT",
+        "TAUNT",
+        "DEATH",
+        "JUMP",
+        "JUMP_ATTACK"
+      ],
+      "bones": 65,
+      "triangles": 8144,
+      "bytes": 7351324
+    },
+    {
+      "kind": "pumpkinhulk",
+      "clips": 10,
+      "names": [
+        "WALK",
+        "SWIPE",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "TURN_LEFT",
+        "TURN_RIGHT",
+        "TAUNT",
+        "DEATH",
+        "JUMP"
+      ],
+      "bones": 66,
+      "triangles": 9620,
+      "bytes": 5105688
+    }
+  ],
+  "warrok": "Single logical/model definition, visual normalization +20.75% (2.65 → 3.2); local collision radius .82, height 3.2, base HP 900 and base damage 40; old geometry/materials/eight clips preserved exactly.",
+  "roles": {
+    "warrok": "Heavy assault miniboss, max two living, wave 6+; punch, heavy swipe, roar and short clear-route Jump Attack.",
+    "zombiegirl": "Fast flanker, wave 3+, max five living; own Swipe/Run/Death.",
+    "yaku": "Lateral hunter, wave 8+, max three living; brief visible-target sprint, warned bounded Jump Attack with recovery.",
+    "pumpkinhulk": "One boss on waves 10,20,…; heavy frontal Swipe, taunt, faster attack/movement below 40% HP. Macellaio retained at intervening boss waves."
+  },
+  "attacks": "Per-creature rates/ranges/damage/cooldowns, source clip impact markers; visible preparation, front cone/height/LOS/live target, one hit per action, full animation recovery; swept clear-route leap and grounded landing, no homing through cover; death cancels offense immediately.",
+  "backrooms": "Runner now uses Zombiegirl; Stalker uses Yaku, loaded only if these roles are selected. Existing creatures: +5% patrol speed, +7% chase capped at 6.8, +12% hearing, +2s search, reaction time ×0.88. Partygoer burst 2.3s and rest 4.3s. Original LOS/noise-memory, spawn grace, immunity, hiding, two lives, puzzles, captures and escape remain. Warrok and Pumpkinhulk are Orda-only because of door/corridor clearance.",
+  "performance": {
+    "fps": 48.6,
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "seconds": 6,
+    "views": 5,
+    "window": [
+      1920,
+      1080
+    ],
+    "internal": [
+      1669,
+      939
+    ],
+    "scale": 1.15,
+    "livingEnemies": [
+      20,
+      22
+    ],
+    "harness": "Actual wave-10 scheduler/AI/rendering, two human identities + three bots; replenished HP to 1000 solely to keep five cameras alive. Single development sample before the capture-turn priority fix; no repeated benchmark. Not a controlled comparison to earlier lower-population samples."
+  },
+  "optimisation": "Offline FBX→GLB; 1024px embedded textures; one geometry/skin per creature with named unique clips; immutable geometry/material/texture/Animation data shared between clones; independent skeleton/clocks; unused replaced clip buffers pruned; existing bounded actor pool, conservative culling and 30Hz/20Hz visual update budgets; active enemy cap remains 22.",
+  "tests": {
+    "assets": "passed",
+    "logic": [
+      "Four roles, larger Warrok and stronger existing enemies; global weapon registry preserved",
+      "Four attacks: telegraph, source-timed single impact, full recovery, death priority and visible corpse",
+      "Swipe and punch miss behind, out of range, airborne and through solid cover",
+      "Yaku Jump Attack: valid bounded route, flight, source landing impact, recovery; no wall/dock shortcut",
+      "Mixed wave scheduler and one advanced boss, bounded heavy population and active cap",
+      "All six weapons retain their ballistic damage path against each new hitbox; permanent survivor result",
+      "Backrooms stronger perception/pressure preserves wall occlusion, grace, hiding, two lives and escape rules"
+    ],
+    "development": [
+      "Four actual GLBs; Idle/Walk/Run/Swipe/Death poses change at three phases with finite bone transforms",
+      "Real mixed wave and Pumpkinhulk boss; actual five-view renderer with four imported model caches",
+      "Jump Attack: actual airborne position, landing, one impact, recovery and interrupting death",
+      "Backrooms runner Zombiegirl and stalker Yaku, stronger senses, original two lives and capture with Swipe; no HP or shooter mechanics"
+    ],
+    "production": [
+      "Real mixed wave and Pumpkinhulk boss; actual five-view renderer with four imported model caches",
+      "Jump Attack: actual airborne position, landing, one impact, recovery and interrupting death",
+      "Backrooms runner Zombiegirl and stalker Yaku, stronger senses, original two lives and capture with Swipe; no HP or shooter mechanics"
+    ],
+    "javascriptErrors": [],
+    "typecheck": "passed, also included in final build",
+    "build": "passed"
+  },
+  "limits": [
+    "Original author/license grants were not provided with the four archives or standalone FBX; provenance/hashes retained, verify rights before publication.",
+    "No long endurance/balance session or physical controller session; targeted checks only.",
+    "An end-of-match scene transition can truncate remaining corpse animation.",
+    "No new Backrooms combat HP or arbitrary long-range captures were added."
+  ],
+  "screenshots": [
+    "01-trial.png",
+    "02-mixed-wave.png",
+    "03-jump-attack.png",
+    "04-backrooms.png"
+  ],
+  "git": "No staging, commit, push or deploy.",
+  "execution": "Direct Sol; no delegated inference/provider call."
+}

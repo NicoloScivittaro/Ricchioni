@@ -1,0 +1,3 @@
+import {launch,sleep} from './lib.mjs';import {writeFileSync}from'node:fs';
+process.env.GOBLIN_GPU='1';process.env.VIEWPORT='1920x1080';const b=await launch();let p;
+try{p=await b.newPage();p.on('pageerror',e=>console.error(e.message));await p.goto('http://localhost:5191/tools/monsters/preview.html?trial');await p.waitForFunction(()=>window.monsters?.actors.length===6,{timeout:90000,polling:100});await sleep(1500);await p.screenshot({path:'docs/agent-work/monster-system/trial.png'});writeFileSync('docs/agent-work/monster-system/trial.json',JSON.stringify(await p.evaluate(()=>window.monsters.stats()),null,2));console.log('TRIAL loaded six independent actors, WALK/ATTACK.');}finally{await b.close();}

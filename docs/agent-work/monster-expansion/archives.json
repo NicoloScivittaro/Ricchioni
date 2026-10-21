@@ -1,0 +1,290 @@
+[
+  {
+    "id": "warrok",
+    "archive": "Creature NPC Pack.zip",
+    "sha256": "df5045682e314ed167c56b9e6699ed451cc4ccd21fac32bd987fba9f1c3272a1",
+    "files": [
+      {
+        "name": "left turn 45.fbx",
+        "bytes": 452801,
+        "sha256": "95e2b913491422a1c677ca57b3185199aaa6f1a98769626819d813ae14a61aba"
+      },
+      {
+        "name": "mutant breathing idle.fbx",
+        "bytes": 634929,
+        "sha256": "7a1e68c5d22e13c373e446a069afb60f746161707de131c94ee5644d5bc7ef77"
+      },
+      {
+        "name": "mutant dying.fbx",
+        "bytes": 701553,
+        "sha256": "2e144f4dc2fa2036d9ca294ca2ead12a492c3b1c794ab7b91f8e01449fd50ef7"
+      },
+      {
+        "name": "mutant flexing muscles.fbx",
+        "bytes": 706945,
+        "sha256": "f9524d4567c3a8172e264fe96e2db5a058c0c04f4c0b25ddfad62a9d2b73a3b7"
+      },
+      {
+        "name": "mutant idle.fbx",
+        "bytes": 664833,
+        "sha256": "e9ffb6b92c2bb328b7b6bd1c0e507211372c28dea59c1d03440b9b3342c150d1"
+      },
+      {
+        "name": "mutant jumping.fbx",
+        "bytes": 652561,
+        "sha256": "7b6f3c20b8c20c9541e73920cf9c5033b168a0da66ffeb6b886ee93584db76f9"
+      },
+      {
+        "name": "mutant left turn 45.fbx",
+        "bytes": 450897,
+        "sha256": "302cc2d21a29e9505a09f6e56eda1b03db92b028dafd435f2704859581e8b0f6"
+      },
+      {
+        "name": "mutant right turn 45 (2).fbx",
+        "bytes": 448993,
+        "sha256": "0b4d12666fdc15a92d4d098bcf80172a68602f80b38824fa18cd8d4797b80105"
+      },
+      {
+        "name": "mutant right turn 45.fbx",
+        "bytes": 515521,
+        "sha256": "080ec3200163f3214fab5105bde569502f2690c90f3b225015a891b05cb826e7"
+      },
+      {
+        "name": "mutant run.fbx",
+        "bytes": 407185,
+        "sha256": "2382c4382aa1a5d5e7075baff8697d26339d12c142d572b1ffde0aa2981c8fc5"
+      },
+      {
+        "name": "mutant swiping.fbx",
+        "bytes": 576385,
+        "sha256": "28549a12bea57ac4a8165466baa4097bfcbbce1743d4abd2d22c41c6219a000d"
+      },
+      {
+        "name": "mutant walking.fbx",
+        "bytes": 466129,
+        "sha256": "ea52d28fef9b7a21ed9f0c86646b90de36f9719987380f8f360eb45edb405587"
+      },
+      {
+        "name": "Warrok W Kurniawan.fbx",
+        "bytes": 12072961,
+        "sha256": "94b7f1fa798a50e98e1bcaabec59d3d8e43fb581ffee7c80d3869e2d0b376b09"
+      }
+    ]
+  },
+  {
+    "id": "zombiegirl",
+    "archive": "Creature NPC Pack (1).zip",
+    "sha256": "ae4146d13c301f879a8a132885078a61f69f76201b8829288151f72a6bf1132f",
+    "files": [
+      {
+        "name": "left turn 45.fbx",
+        "bytes": 371633,
+        "sha256": "e4ba543fe66a07dfeb5095ecfdad4e50cf479af050518a18be0056386c0dca3d"
+      },
+      {
+        "name": "mutant breathing idle.fbx",
+        "bytes": 521921,
+        "sha256": "51688747ce31ee2d37e139350cee25ae13d9846b63a8b07b7777f5298867eea9"
+      },
+      {
+        "name": "mutant dying.fbx",
+        "bytes": 581217,
+        "sha256": "54cb5c001ee7adf386bfc305ab9a0cebbd1e02399edebdac9a17dbbada4946b8"
+      },
+      {
+        "name": "mutant flexing muscles.fbx",
+        "bytes": 587601,
+        "sha256": "92dc4cec5ff00cef637a02f1cc24b4bc9b15566e001db45c804a45228e13bc5f"
+      },
+      {
+        "name": "mutant idle.fbx",
+        "bytes": 545281,
+        "sha256": "e0682d15cc63705a3860a5d0b85083227581eb3fa411c5c9da8617c4b58fcc56"
+      },
+      {
+        "name": "mutant jumping.fbx",
+        "bytes": 539489,
+        "sha256": "0b8572e1dd18240323159f55a29cc8bedb2931962b03c1b06da1c4e2919a823c"
+      },
+      {
+        "name": "mutant left turn 45.fbx",
+        "bytes": 369825,
+        "sha256": "69cd51fbe3cff8e1f819e97b887408b0c2f6257dafdf7d601a38b34c322ad221"
+      },
+      {
+        "name": "mutant right turn 45 (2).fbx",
+        "bytes": 368033,
+        "sha256": "5e3d2f94b0b95e292ab2166c576c3e501e96daa7472922501433c8c43f3130c6"
+      },
+      {
+        "name": "mutant right turn 45.fbx",
+        "bytes": 419537,
+        "sha256": "552fb92cd206f1d0e7e1d28ba25b5c395b32278e2afc1e08451e311eccb898b2"
+      },
+      {
+        "name": "mutant run.fbx",
+        "bytes": 334833,
+        "sha256": "1ec0c8c815169c5563af300f98250220f07986eb0ac34ec93df1711cef83671f"
+      },
+      {
+        "name": "mutant swiping.fbx",
+        "bytes": 473329,
+        "sha256": "bcb9de3ef0aa14e917a4f947c16ec2b89e3960a7f80afefd2e51f83d383cc694"
+      },
+      {
+        "name": "mutant walking.fbx",
+        "bytes": 383905,
+        "sha256": "7a5a2b5642a22236fac34fd8af7ec062232fd8c66a72e3dfa5624b091fb8c161"
+      },
+      {
+        "name": "Zombiegirl W Kurniawan.fbx",
+        "bytes": 15897249,
+        "sha256": "19d2fbe7ee4dca927834374105e6f787bf39127d36a208e58da8f029e7a920ea"
+      }
+    ]
+  },
+  {
+    "id": "yaku",
+    "archive": "Creature NPC Pack (2).zip",
+    "sha256": "23e3b33a1f5a1526d93eab1c336161a8a38a763b4737f1303b9bd69c5ed3b795",
+    "files": [
+      {
+        "name": "left turn 45.fbx",
+        "bytes": 385537,
+        "sha256": "5809b6447fbd3668918f636b946582d2a035ff40f83a9695fcd6f615e53b3051"
+      },
+      {
+        "name": "mutant breathing idle.fbx",
+        "bytes": 547153,
+        "sha256": "33b3a7ab74e7dd9b2faee20d1f38b209b5bfe5499a79fcd1daa936fb59fcb48e"
+      },
+      {
+        "name": "mutant dying.fbx",
+        "bytes": 611665,
+        "sha256": "28072fb85e3cfe63488aeb1d2afb57ea887106b9cb3d6425fac39c725a1c2c02"
+      },
+      {
+        "name": "mutant flexing muscles.fbx",
+        "bytes": 618449,
+        "sha256": "41ff99d8319ee41fd2f1c47e71ef53a584b89df281cbe949ca52d3a061cb1600"
+      },
+      {
+        "name": "mutant idle.fbx",
+        "bytes": 575265,
+        "sha256": "d50c5a16eca2532735e36badec8bacb479a51461a5ca482e4abf3613ac1cb1df"
+      },
+      {
+        "name": "mutant jumping.fbx",
+        "bytes": 567697,
+        "sha256": "d2df963bc85c5959102b67d0edd5049feb3b09caf44c00e9b72c2cccb021ce45"
+      },
+      {
+        "name": "mutant left turn 45.fbx",
+        "bytes": 383633,
+        "sha256": "550d69eb37f6186785ebbb8237cada69c8a9972d83a11b22b92fa4d0896af741"
+      },
+      {
+        "name": "mutant right turn 45 (2).fbx",
+        "bytes": 385537,
+        "sha256": "3ea7a313ca059701f89cec8db49823f70849c50f69e96a62c26cc4c5fac158a3"
+      },
+      {
+        "name": "mutant right turn 45.fbx",
+        "bytes": 440193,
+        "sha256": "315a6b72bb4542de9ba8c764e7e69eaa4ed018c2f43b45a9a20314521c001896"
+      },
+      {
+        "name": "mutant run.fbx",
+        "bytes": 350193,
+        "sha256": "475c8ad9ec95512e8559513157d7dc2f94fa29c97fdbe32480b0e06636e6361a"
+      },
+      {
+        "name": "mutant swiping.fbx",
+        "bytes": 499153,
+        "sha256": "74a6101b7264de2c182e26222b04892afd471258da24bc70ef50135a7bdf5a94"
+      },
+      {
+        "name": "mutant walking.fbx",
+        "bytes": 400593,
+        "sha256": "9c16edac1e134919bc50e7f08a13769c2c772710e4f3a8a0c6c15b3e0d9cc59f"
+      },
+      {
+        "name": "Yaku J Ignite.fbx",
+        "bytes": 20107745,
+        "sha256": "7cede9f0c852df5a80746719f12c764023226487cbd5a1d2458bae0004b90f77"
+      }
+    ]
+  },
+  {
+    "id": "pumpkinhulk",
+    "archive": "Creature NPC Pack (3).zip",
+    "sha256": "08d7c6105a7bb99a668fe1e536a838428d44af55404d1ea5fb66a436dc04498d",
+    "files": [
+      {
+        "name": "left turn 45.fbx",
+        "bytes": 390769,
+        "sha256": "f1195c5dbe519f3286fd80a7f755db214f4697754eedd2f9a2c321ea2d53d235"
+      },
+      {
+        "name": "mutant breathing idle.fbx",
+        "bytes": 550465,
+        "sha256": "c31da8201bda71aaebacdf9c80f9a43528016c72908942a466c6ef94fbaf4c56"
+      },
+      {
+        "name": "mutant dying.fbx",
+        "bytes": 614993,
+        "sha256": "00430c69685128c0fe5422c21112b886c9eaa450610bbe26eb965a24e220492b"
+      },
+      {
+        "name": "mutant flexing muscles.fbx",
+        "bytes": 621777,
+        "sha256": "55009aa39a076e540aa5cf0d28df2905cc0e31d0cfedf5352ec89689bbb3e6cd"
+      },
+      {
+        "name": "mutant idle.fbx",
+        "bytes": 578577,
+        "sha256": "7fa286c08d0c86a80d192b230605d0de6f7f30736cf7924e2dab0d7285b8f8d5"
+      },
+      {
+        "name": "mutant jumping.fbx",
+        "bytes": 571025,
+        "sha256": "b796f360b8d2532b5dfd8d8cce3f528aa330d35d9ad6baf5c5ef4626a05c72f6"
+      },
+      {
+        "name": "mutant left turn 45.fbx",
+        "bytes": 388865,
+        "sha256": "d5f2ec2b067584a2eeb1c2766f174cb23f5a9e3bbe600f29bd5d368de06c0979"
+      },
+      {
+        "name": "mutant right turn 45 (2).fbx",
+        "bytes": 388865,
+        "sha256": "455c029b42d786e864024ae40ef9059cc87e227e33806faed5e69ff542db9747"
+      },
+      {
+        "name": "mutant right turn 45.fbx",
+        "bytes": 445425,
+        "sha256": "730bcdcb649bcafdd1f0eb7a2f0ae455c3e2586904e03349952959a60ef2908a"
+      },
+      {
+        "name": "mutant run.fbx",
+        "bytes": 353505,
+        "sha256": "33090d05129435480c732bf4abd826891b102f69198d074303629e816cd09082"
+      },
+      {
+        "name": "mutant swiping.fbx",
+        "bytes": 502481,
+        "sha256": "cddaa7f45dbcd401ce262426e766b6c52178560c907d142b3898ea28a1252304"
+      },
+      {
+        "name": "mutant walking.fbx",
+        "bytes": 403905,
+        "sha256": "1c8eae7dec91fbf7ce5b996c4b960845ce64c195d11759c83cdbf40ca92680d0"
+      },
+      {
+        "name": "Pumpkinhulk L Shaw.fbx",
+        "bytes": 13419073,
+        "sha256": "f4939755240b3bc2f8a4f0d995c29c47795b47d8e0343ceb25c2e56f6ebe3ca9"
+      }
+    ]
+  }
+]

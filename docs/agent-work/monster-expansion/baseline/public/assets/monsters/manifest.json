@@ -1,0 +1,202 @@
+{
+  "clips": {
+    "WALK": {
+      "seconds": 1.4333332777023315,
+      "contacts": [
+        0.2558,
+        0.7209
+      ]
+    },
+    "ATTACK": {
+      "seconds": 1.100000023841858,
+      "contacts": [],
+      "peakReachSeconds": 0.3
+    },
+    "IDLE": {
+      "seconds": 5.300000190734863,
+      "contacts": []
+    },
+    "BREATHING_IDLE": {
+      "seconds": 4.0333333015441895,
+      "contacts": []
+    },
+    "RUN": {
+      "seconds": 0.8666666746139526,
+      "contacts": [
+        0.2692,
+        0.7692
+      ]
+    },
+    "JUMP": {
+      "seconds": 0.6000000238418579,
+      "contacts": []
+    },
+    "ROAR": {
+      "seconds": 5.400000095367432,
+      "contacts": []
+    },
+    "DEATH": {
+      "seconds": 4.599999904632568,
+      "contacts": []
+    }
+  },
+  "profiles": {
+    "hazmat": {
+      "mappedBones": 65,
+      "map": {
+        "LeftToe_End": 67,
+        "LeftToeBase": 66,
+        "LeftFoot": 65,
+        "LeftLeg": 64,
+        "LeftUpLeg": 63,
+        "RightToe_End": 72,
+        "RightToeBase": 71,
+        "RightFoot": 70,
+        "RightLeg": 69,
+        "RightUpLeg": 68,
+        "LeftHandIndex4": 26,
+        "LeftHandIndex3": 25,
+        "LeftHandIndex2": 24,
+        "LeftHandIndex1": 23,
+        "LeftHandMiddle4": 30,
+        "LeftHandMiddle3": 29,
+        "LeftHandMiddle2": 28,
+        "LeftHandMiddle1": 27,
+        "LeftHandPinky4": 38,
+        "LeftHandPinky3": 37,
+        "LeftHandPinky2": 36,
+        "LeftHandPinky1": 35,
+        "LeftHandRing4": 34,
+        "LeftHandRing3": 33,
+        "LeftHandRing2": 32,
+        "LeftHandRing1": 31,
+        "LeftHandThumb4": 22,
+        "LeftHandThumb3": 21,
+        "LeftHandThumb2": 20,
+        "LeftHandThumb1": 19,
+        "LeftHand": 18,
+        "LeftForeArm": 17,
+        "LeftArm": 16,
+        "LeftShoulder": 15,
+        "HeadTop_End": 14,
+        "Head": 13,
+        "Neck": 12,
+        "RightHandIndex4": 50,
+        "RightHandIndex3": 49,
+        "RightHandIndex2": 48,
+        "RightHandIndex1": 47,
+        "RightHandMiddle4": 54,
+        "RightHandMiddle3": 53,
+        "RightHandMiddle2": 52,
+        "RightHandMiddle1": 51,
+        "RightHandPinky4": 62,
+        "RightHandPinky3": 61,
+        "RightHandPinky2": 60,
+        "RightHandPinky1": 59,
+        "RightHandRing4": 58,
+        "RightHandRing3": 57,
+        "RightHandRing2": 56,
+        "RightHandRing1": 55,
+        "RightHandThumb4": 46,
+        "RightHandThumb3": 45,
+        "RightHandThumb2": 44,
+        "RightHandThumb1": 43,
+        "RightHand": 42,
+        "RightForeArm": 41,
+        "RightArm": 40,
+        "RightShoulder": 39,
+        "Spine2": 11,
+        "Spine1": 10,
+        "Spine": 9,
+        "Hips": 8
+      },
+      "scaleRatio": 0.6201395912226548,
+      "alignment": [
+        [
+          0.9999999976535848,
+          1.927975885000059e-05,
+          -6.573523666584253e-05
+        ],
+        [
+          6.442246149988065e-07,
+          0.9568900137914645,
+          0.2904505147279924
+        ],
+        [
+          6.850120740157751e-05,
+          -0.29045051408882316,
+          0.9568900115337828
+        ]
+      ],
+      "clips": [
+        "WALK",
+        "ATTACK",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "JUMP",
+        "ROAR",
+        "DEATH"
+      ]
+    },
+    "partygoer": {
+      "mappedBones": 22,
+      "map": {
+        "Hips": 7,
+        "Spine": 35,
+        "Spine1": 36,
+        "Spine2": 37,
+        "Neck": 38,
+        "Head": 40,
+        "LeftUpLeg": 9,
+        "LeftLeg": 10,
+        "LeftFoot": 11,
+        "LeftToeBase": 12,
+        "LeftShoulder": 42,
+        "LeftArm": 43,
+        "LeftForeArm": 44,
+        "LeftHand": 50,
+        "RightUpLeg": 22,
+        "RightLeg": 26,
+        "RightFoot": 27,
+        "RightToeBase": 28,
+        "RightShoulder": 55,
+        "RightArm": 56,
+        "RightForeArm": 60,
+        "RightHand": 66
+      },
+      "scaleRatio": 0.679300942017391,
+      "alignment": [
+        [
+          0.9999999999999917,
+          1.7132022173799866e-08,
+          -1.2754649583117008e-07
+        ],
+        [
+          1.034339104243391e-08,
+          0.977193349461855,
+          0.21235149579770035
+        ],
+        [
+          1.282755980080294e-07,
+          -0.2123514957976999,
+          0.9771933494618469
+        ]
+      ],
+      "clips": [
+        "WALK",
+        "ATTACK",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "JUMP",
+        "ROAR",
+        "DEATH"
+      ]
+    },
+    "warrok": {
+      "compatibility": "exact-rest-hierarchy",
+      "bones": 81
+    }
+  }
+}

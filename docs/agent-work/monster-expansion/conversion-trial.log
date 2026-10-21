@@ -1,0 +1,59 @@
+FBX version: 7700
+FBX version: 7700
+BAKED warrok SWIPE {'source': 'C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Swiping.fbx', 'frames': [1, 81], 'seconds': 2.6666666666666665, 'mappedBones': 81, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0}
+FBX version: 7700
+BAKED warrok JUMP_ATTACK {'source': 'C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Jump Attack.fbx', 'frames': [1, 112], 'seconds': 3.7, 'mappedBones': 81, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0}
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+13:36:21 | INFO: Starting glTF 2.0 export
+13:36:21 | INFO: Extracting primitive: Warrok
+13:36:21 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:36:21 | INFO: Primitives created: 1
+13:36:23 | INFO: Finished glTF 2.0 export in 2.071397542953491 s
+
+FBX version: 7700
+FBX version: 7700
+BAKED zombiegirl WALK {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant walking.fbx', 'frames': [1, 44], 'seconds': 1.4333333333333333, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+FBX version: 7700
+BAKED zombiegirl SWIPE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant swiping.fbx', 'frames': [1, 73], 'seconds': 2.4, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+13:36:27 | INFO: Starting glTF 2.0 export
+13:36:27 | INFO: Extracting primitive: ZombieGirl_Body
+13:36:27 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:36:27 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+13:36:27 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+13:36:27 | INFO: Primitives created: 3
+13:36:27 | INFO: Extracting primitive: ZombieGirl_Pants
+13:36:27 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:36:27 | INFO: Primitives created: 2
+13:36:27 | INFO: Extracting primitive: ZombieGirl_Top
+13:36:27 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:36:27 | INFO: Primitives created: 2
+13:36:28 | INFO: Finished glTF 2.0 export in 1.3682401180267334 s
+
+FBX version: 7700
+FBX version: 7700
+BAKED yaku WALK {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant walking.fbx', 'frames': [1, 44], 'seconds': 1.4333333333333333, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku SWIPE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant swiping.fbx', 'frames': [1, 73], 'seconds': 2.4, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku JUMP_ATTACK {'source': 'C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Jump Attack.fbx', 'frames': [1, 112], 'seconds': 3.7, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.7500698502460831}
+13:36:33 | INFO: Starting glTF 2.0 export
+13:36:33 | INFO: Extracting primitive: Yaku_zombie
+13:36:33 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+13:36:33 | INFO: Primitives created: 2
+13:36:35 | INFO: Finished glTF 2.0 export in 2.1429481506347656 s
+
+FBX version: 7700
+FBX version: 7700
+BAKED pumpkinhulk WALK {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant walking.fbx', 'frames': [1, 44], 'seconds': 1.4333333333333333, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+FBX version: 7700
+BAKED pumpkinhulk SWIPE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant swiping.fbx', 'frames': [1, 74], 'seconds': 2.433333333333333, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+13:36:37 | INFO: Starting glTF 2.0 export
+13:36:37 | INFO: Extracting primitive: PumpkinHulk
+13:36:37 | INFO: Primitives created: 1
+13:36:38 | INFO: Finished glTF 2.0 export in 1.241713285446167 s
+
+EXPANSION CONVERSION COMPLETE
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

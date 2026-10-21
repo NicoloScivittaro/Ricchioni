@@ -1,0 +1,113 @@
+FBX version: 7700
+FBX version: 7700
+BAKED warrok TURN_LEFT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\warrok\\mutant left turn 45.fbx', 'frames': [1, 41], 'seconds': 1.3333333333333333, 'mappedBones': 81, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000013241926191}
+FBX version: 7700
+BAKED warrok TURN_RIGHT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\warrok\\mutant right turn 45 (2).fbx', 'frames': [1, 39], 'seconds': 1.2666666666666666, 'mappedBones': 81, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000013241926191}
+FBX version: 7700
+BAKED warrok TAUNT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\warrok\\mutant flexing muscles.fbx', 'frames': [1, 133], 'seconds': 4.4, 'mappedBones': 81, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000013241926191}
+FBX version: 7700
+BAKED warrok SWIPE {'source': 'C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Swiping.fbx', 'frames': [1, 81], 'seconds': 2.6666666666666665, 'mappedBones': 81, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0}
+FBX version: 7700
+BAKED warrok JUMP_ATTACK {'source': 'C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Jump Attack.fbx', 'frames': [1, 112], 'seconds': 3.7, 'mappedBones': 81, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0}
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+13:38:57 | INFO: Starting glTF 2.0 export
+13:38:57 | INFO: Extracting primitive: Warrok
+13:38:57 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:38:57 | INFO: Primitives created: 1
+13:39:01 | INFO: Finished glTF 2.0 export in 4.088486194610596 s
+
+FBX version: 7700
+FBX version: 7700
+BAKED zombiegirl WALK {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant walking.fbx', 'frames': [1, 44], 'seconds': 1.4333333333333333, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+FBX version: 7700
+BAKED zombiegirl SWIPE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant swiping.fbx', 'frames': [1, 73], 'seconds': 2.4, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+FBX version: 7700
+BAKED zombiegirl IDLE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant idle.fbx', 'frames': [1, 158], 'seconds': 5.233333333333333, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+FBX version: 7700
+BAKED zombiegirl BREATHING_IDLE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant breathing idle.fbx', 'frames': [1, 122], 'seconds': 4.033333333333333, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+FBX version: 7700
+BAKED zombiegirl RUN {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant run.fbx', 'frames': [1, 26], 'seconds': 0.8333333333333334, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+FBX version: 7700
+BAKED zombiegirl JUMP {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant jumping.fbx', 'frames': [1, 87], 'seconds': 2.8666666666666667, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+FBX version: 7700
+BAKED zombiegirl TURN_LEFT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant left turn 45.fbx', 'frames': [1, 41], 'seconds': 1.3333333333333333, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+FBX version: 7700
+BAKED zombiegirl TURN_RIGHT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant right turn 45 (2).fbx', 'frames': [1, 40], 'seconds': 1.3, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+FBX version: 7700
+BAKED zombiegirl TAUNT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant flexing muscles.fbx', 'frames': [1, 136], 'seconds': 4.5, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+FBX version: 7700
+BAKED zombiegirl DEATH {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant dying.fbx', 'frames': [1, 105], 'seconds': 3.466666666666667, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+13:39:11 | INFO: Starting glTF 2.0 export
+13:39:11 | INFO: Extracting primitive: ZombieGirl_Body
+13:39:11 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:39:11 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+13:39:11 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+13:39:11 | INFO: Primitives created: 3
+13:39:11 | INFO: Extracting primitive: ZombieGirl_Pants
+13:39:11 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:39:11 | INFO: Primitives created: 2
+13:39:11 | INFO: Extracting primitive: ZombieGirl_Top
+13:39:11 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:39:11 | INFO: Primitives created: 2
+13:39:18 | INFO: Finished glTF 2.0 export in 6.515874624252319 s
+
+FBX version: 7700
+FBX version: 7700
+BAKED yaku WALK {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant walking.fbx', 'frames': [1, 44], 'seconds': 1.4333333333333333, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku SWIPE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant swiping.fbx', 'frames': [1, 73], 'seconds': 2.4, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku IDLE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant idle.fbx', 'frames': [1, 155], 'seconds': 5.133333333333334, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku BREATHING_IDLE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant breathing idle.fbx', 'frames': [1, 122], 'seconds': 4.033333333333333, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku RUN {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant run.fbx', 'frames': [1, 27], 'seconds': 0.8666666666666667, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku JUMP {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant jumping.fbx', 'frames': [1, 87], 'seconds': 2.8666666666666667, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku TURN_LEFT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant left turn 45.fbx', 'frames': [1, 41], 'seconds': 1.3333333333333333, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku TURN_RIGHT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant right turn 45 (2).fbx', 'frames': [1, 40], 'seconds': 1.3, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku TAUNT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant flexing muscles.fbx', 'frames': [1, 133], 'seconds': 4.4, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku DEATH {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant dying.fbx', 'frames': [1, 105], 'seconds': 3.466666666666667, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku JUMP_ATTACK {'source': 'C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Jump Attack.fbx', 'frames': [1, 112], 'seconds': 3.7, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.7500698502460831}
+13:39:29 | INFO: Starting glTF 2.0 export
+13:39:29 | INFO: Extracting primitive: Yaku_zombie
+13:39:29 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+13:39:29 | INFO: Primitives created: 2
+13:39:36 | INFO: Finished glTF 2.0 export in 7.6176629066467285 s
+
+FBX version: 7700
+FBX version: 7700
+BAKED pumpkinhulk WALK {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant walking.fbx', 'frames': [1, 44], 'seconds': 1.4333333333333333, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+FBX version: 7700
+BAKED pumpkinhulk SWIPE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant swiping.fbx', 'frames': [1, 74], 'seconds': 2.433333333333333, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+FBX version: 7700
+BAKED pumpkinhulk IDLE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant idle.fbx', 'frames': [1, 154], 'seconds': 5.1, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+FBX version: 7700
+BAKED pumpkinhulk BREATHING_IDLE {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant breathing idle.fbx', 'frames': [1, 122], 'seconds': 4.033333333333333, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+FBX version: 7700
+BAKED pumpkinhulk RUN {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant run.fbx', 'frames': [1, 27], 'seconds': 0.8666666666666667, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+FBX version: 7700
+BAKED pumpkinhulk JUMP {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant jumping.fbx', 'frames': [1, 87], 'seconds': 2.8666666666666667, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+FBX version: 7700
+BAKED pumpkinhulk TURN_LEFT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant left turn 45.fbx', 'frames': [1, 41], 'seconds': 1.3333333333333333, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+FBX version: 7700
+BAKED pumpkinhulk TURN_RIGHT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant right turn 45 (2).fbx', 'frames': [1, 40], 'seconds': 1.3, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+FBX version: 7700
+BAKED pumpkinhulk TAUNT {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant flexing muscles.fbx', 'frames': [1, 133], 'seconds': 4.4, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+FBX version: 7700
+BAKED pumpkinhulk DEATH {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant dying.fbx', 'frames': [1, 105], 'seconds': 3.466666666666667, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+13:39:45 | INFO: Starting glTF 2.0 export
+13:39:45 | INFO: Extracting primitive: PumpkinHulk
+13:39:45 | INFO: Primitives created: 1
+13:39:52 | INFO: Finished glTF 2.0 export in 6.5055341720581055 s
+
+EXPANSION CONVERSION COMPLETE
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

@@ -18,6 +18,7 @@ import { BackroomsPerceptionDebug } from './backroomsDebug';
 import { BackroomsAudio } from './backroomsAudio';
 import type { BackPlayer } from './backroomsRules';
 import type { BackPhoneStatus } from '../../controller/backroomsController';
+import {monsterSfx} from '../../monsters/monsterAudio';
 
 /** One authoritative match and one Babylon scene, with a viewport for every player/device. */
 export class BabylonBackroomsGame {
@@ -25,6 +26,7 @@ export class BabylonBackroomsGame {
   readonly cameras: UniversalCamera[] = []; readonly entities = new Map<string, BackActor>();
   private bots = new BackroomsBots(); private sound = new BackroomsAudio(); private world!: ReturnType<typeof buildBackWorld>;private assets:BackroomsAssets|null=null;private torches:SpotLight[]=[];private lampSerial=new Map<string,{serial:number;cancel:number;input:ReturnType<MinigameContext['input']['get']>}>();
   private creatures: ReturnType<typeof createCreature>[] = []; private imitations = new Map<number, BackActor>();
+  private monsterActors=new Map<TransformNode,BackActor>();
   private scares: ReturnType<typeof createCreature>[] = []; private captureKinds = new Map<string, string>();
   private hud: HTMLDivElement; private panels: HTMLElement[] = []; private spectators = new Map<string, number>();
   private panelNodes: {clock:HTMLElement;life:HTMLElement;stamina:HTMLElement;center:HTMLElement;prompt:HTMLElement;scare:HTMLElement;white:HTMLElement}[]=[];
@@ -97,10 +99,11 @@ export class BabylonBackroomsGame {
     this.engine.runRenderLoop(guardLoop(() => { if (this.disposed || this.paused) return; runSteps(this.engine.getDeltaTime(), dt => this.step(dt)); this.ctx.input.update(); this.scene.render(); }));
   }
   private async initialize(): Promise<void> {
-    this.assets=await BackroomsAssets.load(this.scene);if(this.disposed){this.assets.dispose();return;}
+    const extras:('zombiegirl'|'yaku')[]=[];if(this.match.monsters.some(m=>m.kind==='runner'))extras.push('zombiegirl');if(this.match.monsters.some(m=>m.kind==='stalker'))extras.push('yaku');
+    this.assets=await BackroomsAssets.load(this.scene,extras);if(this.disposed){this.assets.dispose();return;}
     this.world=buildBackWorld(this.scene,this.match.maze,this.match.tasks,this.match.puzzle,this.ctx.players.length<=3&&getQualityLevel()!=='low',this.match.level.theme,this.assets);
     for(const snap of this.ctx.players){const actor=this.assets.actor('hazmat',snap.id,snap.color,snap.displayName);this.entities.set(snap.id,actor);}
-    this.match.monsters.forEach((m,i)=>{this.creatures.push(this.creature(m.kind));if(m.kind==='imitator'){const snap=this.ctx.players[i%this.ctx.players.length];this.imitations.set(i,this.assets!.actor('hazmat',`imitation:${i}`,snap.color,'...'));}});
+    this.match.monsters.forEach((m,i)=>{this.creatures.push(this.creature(m.kind));if(m.kind==='imitator'){const snap=this.ctx.players[i%this.ctx.players.length],actor=this.assets!.actor('hazmat',`imitation:${i}`,snap.color,'...');this.monsterAudio(actor);this.imitations.set(i,actor);}});
     this.ctx.players.forEach((p,i)=>{const scare=this.creature(this.match.monsters[0]?.kind??'stalker');scare.root.getChildMeshes().forEach(mesh=>mesh.layerMask=1<<(20+i));scare.root.setEnabled(false);this.scares.push(scare);});
     if(this.world.shadows){for(const actor of this.entities.values())for(const mesh of actor.meshes)this.world.shadows.addShadowCaster(mesh);for(const c of this.creatures)for(const mesh of c.root.getChildMeshes())this.world.shadows.addShadowCaster(mesh);}
     this.layersDirty=true;
@@ -112,10 +115,16 @@ export class BabylonBackroomsGame {
     this.lampSerial.set(id,{serial,cancel:input.cancellationVersion,input});return Math.max(0,serial-base);
   }
   private creature(kind:CreatureKind):CreatureVisual{
-    if(!['bacteria','partygoer','smiler'].includes(kind))return createCreature(this.scene,kind);
-    const actor=this.assets!.actor(kind as 'bacteria'|'partygoer'|'smiler',`monster:${kind}:${this.scene.meshes.length}`),head=new TransformNode('importedScarePivot',this.scene),jaw=new Mesh('importedScareJaw',this.scene);head.parent=jaw.parent=actor.root;let previous=0;
-    return {root:actor.root,joints:[],head,jaw,update:(time,chase,watch)=>{const dt=Math.min(.05,Math.max(0,time-previous));previous=time;actor.update(actor.root.position.x,actor.root.position.z,actor.root.rotation.y,watch?0:chase?5:1.5,chase,time,dt,watch);}};
+    if(!['bacteria','partygoer','smiler','runner','stalker'].includes(kind))return createCreature(this.scene,kind);
+    const model=kind==='runner'?'zombiegirl':kind==='stalker'?'yaku':kind as 'bacteria'|'partygoer'|'smiler';
+    const actor=this.assets!.actor(model,`monster:${kind}:${this.scene.meshes.length}`),head=new TransformNode('importedScarePivot',this.scene),jaw=new Mesh('importedScareJaw',this.scene);head.parent=jaw.parent=actor.root;let previous=0,lastX=0,lastZ=0,lastYaw=0,turnAt=-10,turn:'TURN_LEFT'|'TURN_RIGHT'='TURN_LEFT';
+    this.monsterAudio(actor);this.monsterActors.set(actor.root,actor);
+    return {root:actor.root,joints:[],head,jaw,update:(time,chase,watch)=>{const dt=Math.min(.1,Math.max(0,time-previous)),x=actor.root.position.x,z=actor.root.position.z,speed=previous>0&&dt>0?Math.min(7,Math.hypot(x-lastX,z-lastZ)/dt):0,yaw=actor.root.rotation.y,change=Math.atan2(Math.sin(yaw-lastYaw),Math.cos(yaw-lastYaw));
+     if(actor.animator&&speed<.2&&Math.abs(change)>.25&&time-turnAt>1.5){turnAt=time;turn=change>0?'TURN_RIGHT':'TURN_LEFT';}
+     const clip=actor.animator?.clips.get(turn);if(clip&&time-turnAt<clip.duration&&speed<.2)actor.setAnimation(turn,time-turnAt);
+     previous=time;lastX=x;lastZ=z;lastYaw=yaw;actor.update(x,z,yaw,watch?0:speed,chase,time,dt,false);}};
   }
+  private monsterAudio(actor:BackActor):void{if(actor.animator)actor.animator.onCue=cue=>{if(this.paused||!actor.root.isEnabled())return;const d=Math.min(...this.match.players.filter(p=>p.state==='exploring').map(p=>Math.hypot(p.x-actor.root.position.x,p.z-actor.root.position.z)));monsterSfx(cue,d);};}
   setPaused(on: boolean): void { this.paused = on; this.match.cancel(); this.match.players.forEach(p => this.interactions.sync(p.id, this.ctx.input.get(p.id))); this.sound.setPaused(on); this.match.players.forEach(p => this.ctx.input.cancelPlayer(p.id)); }
   step(dt: number): void {
     if (this.disposed || this.paused||!this.world) return;
@@ -143,9 +152,10 @@ export class BabylonBackroomsGame {
       const captured = (p.state === 'captured' || p.state === 'eliminated') && p.stateTime < .32;
       const scare = this.scares[i]; scare.root.setEnabled(captured);
       if (captured) {
+        const actor=this.monsterActors.get(scare.root);if(actor?.animator){actor.setAnimation('ATTACK',actor.animator.profile.events.captureStartSeconds+p.stateTime);actor.update(0,0,p.yaw+Math.PI,0,false,this.match.time,dt);}
         camera.rotation.x = -.04;
         const phase = this.captureKinds.get(p.id) === 'runner' ? -1 : 1;
-        scare.root.position.set(camera.position.x + Math.sin(p.yaw) * .55, camera.position.y - (this.captureKinds.get(p.id)==='smiler'?1.35:this.captureKinds.get(p.id)==='partygoer'?1.9:this.captureKinds.get(p.id)==='bacteria'?2.1:2.36), camera.position.z + Math.cos(p.yaw) * .55);
+        scare.root.position.set(camera.position.x + Math.sin(p.yaw) * .55, camera.position.y - (this.captureKinds.get(p.id)==='smiler'?1.35:this.captureKinds.get(p.id)==='partygoer'?1.9:this.captureKinds.get(p.id)==='bacteria'?2.1:this.captureKinds.get(p.id)==='runner'?1.55:this.captureKinds.get(p.id)==='stalker'?1.95:2.36), camera.position.z + Math.cos(p.yaw) * .55);
         scare.root.rotation.y = p.yaw + Math.PI; scare.head.rotation.z = phase * (.18 + Math.sin(p.stateTime * 41) * .06); scare.jaw.position.y = -.31;
       }
       if(refreshPanels)this.updatePanel(p, subject, i);
@@ -156,9 +166,9 @@ export class BabylonBackroomsGame {
     const exitMat=this.world.exit.getChildMeshes()[0]?.material as StandardMaterial|undefined;if(exitMat){exitMat.diffuseColor.set(this.match.unlocked?.16:.2,this.match.unlocked?.46:.25,.18);exitMat.emissiveColor.set(0,this.match.unlocked?.12:0,0);}
     this.world.flicker.emissiveColor.setAll(this.match.time % 17 > 16.6 && Math.sin(this.match.time * 57) > .3 ? .08 : .48);
     this.match.monsters.forEach((m, i) => { const c = this.creatures[i]; c.root.setEnabled(m.revealed&&this.match.time>=m.activeAt); c.root.position.set(m.x, 0, m.z); c.root.rotation.y = m.yaw; c.update(this.match.time, m.state === 'chase', m.state === 'watch' || m.state === 'rest' || m.state === 'lure' || m.state === 'recoil');
-      const imitation = this.imitations.get(i); if (imitation) { imitation.root.setEnabled(!m.revealed); imitation.update(m.x,m.z,m.yaw,2,false,this.match.time,dt); }
+      const imitation = this.imitations.get(i); if (imitation) { imitation.root.setEnabled(!m.revealed);const speed=Math.min(5,Math.hypot(m.x-imitation.root.position.x,m.z-imitation.root.position.z)/Math.max(.001,dt));imitation.update(m.x,m.z,m.yaw,speed,false,this.match.time,dt); }
     });
-    for (const event of this.match.events) { this.sound.event(event, this.match); if (event.type === 'capture' && event.player) {const i=this.match.players.findIndex(p=>p.id===event.player);if(i>=0&&this.captureKinds.get(event.player)!==event.kind){this.scares[i].root.dispose();const scare=this.creature(event.kind??'stalker');scare.root.getChildMeshes().forEach(m=>m.layerMask=1<<(20+i));this.scares[i]=scare;} this.captureKinds.set(event.player, event.kind ?? 'stalker'); this.ctx.vibrate(event.player, 160); } }
+    for (const event of this.match.events) { this.sound.event(event, this.match); if (event.type === 'capture' && event.player) {const source=this.match.monsters.findIndex(m=>m.kind===event.kind);if(source>=0)this.monsterActors.get(this.creatures[source].root)?.triggerAnimation('ATTACK');const i=this.match.players.findIndex(p=>p.id===event.player);if(i>=0&&this.captureKinds.get(event.player)!==event.kind){const old=this.scares[i];this.monsterActors.get(old.root)?.dispose();this.monsterActors.delete(old.root);old.root.dispose();const scare=this.creature(event.kind??'stalker');scare.root.getChildMeshes().forEach(m=>m.layerMask=1<<(20+i));this.scares[i]=scare;} this.captureKinds.set(event.player, event.kind ?? 'stalker'); this.ctx.vibrate(event.player, 160); } }
     this.match.events = [];
     this.signalTime -= dt; if (this.signalTime <= 0) { this.signalTime = .15; this.match.players.forEach(p => this.sendStatus(p)); }
     if (this.match.ended && !this.submitted && this.controlsReady) { this.endTime -= dt; if (this.endTime <= 0) { this.submitted = true; this.ctx.finish({ results: this.match.results() }); } }
@@ -184,6 +194,6 @@ export class BabylonBackroomsGame {
   }
   dispose(): void {
     if (this.disposed) return; this.disposed = true; this.engine.stopRenderLoop(); window.removeEventListener('resize', this.onResize);
-    this.perceptionDebug?.dispose(); this.sound.dispose(); this.entities.forEach(e => e.dispose()); this.imitations.forEach(e => e.dispose()); this.hud.remove(); this.assets?.dispose();this.scene.dispose(); this.engine.dispose();
+    this.perceptionDebug?.dispose(); this.sound.dispose(); this.entities.forEach(e => e.dispose()); this.imitations.forEach(e => e.dispose());this.monsterActors.forEach(a=>a.dispose());this.monsterActors.clear(); this.hud.remove(); this.assets?.dispose();this.scene.dispose(); this.engine.dispose();
   }
 }

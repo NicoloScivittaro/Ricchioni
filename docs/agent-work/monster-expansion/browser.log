@@ -1,0 +1,14 @@
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'TURN_RIGHT'
+- 'SWIPE'
+
+    at file:///C:/Users/niluf.PC-NIKO/Desktop/Ricchioni/scripts/e2e/monster-expansion.mjs:33:516 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'TURN_RIGHT',
+  expected: 'SWIPE',
+  operator: 'strictEqual',
+  diff: 'simple'
+}

@@ -1,0 +1,138 @@
+[
+  {
+    "kind": "warrok",
+    "clips": {
+      "SWIPE": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Swiping.fbx",
+        "frames": [
+          1,
+          81
+        ],
+        "seconds": 2.6666666666666665,
+        "mappedBones": 81,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 1.0
+      },
+      "JUMP_ATTACK": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Jump Attack.fbx",
+        "frames": [
+          1,
+          112
+        ],
+        "seconds": 3.7,
+        "mappedBones": 81,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 1.0
+      }
+    },
+    "output": "C:\\Users\\niluf.PC-NIKO\\Desktop\\Ricchioni\\docs\\agent-work\\monster-expansion\\warrok-trial.glb",
+    "bytes": 4732008
+  },
+  {
+    "kind": "zombiegirl",
+    "clips": {
+      "WALK": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant walking.fbx",
+        "frames": [
+          1,
+          44
+        ],
+        "seconds": 1.4333333333333333,
+        "mappedBones": 63,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 0.9999999099998768
+      },
+      "SWIPE": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant swiping.fbx",
+        "frames": [
+          1,
+          73
+        ],
+        "seconds": 2.4,
+        "mappedBones": 63,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 0.9999999099998768
+      }
+    },
+    "output": "C:\\Users\\niluf.PC-NIKO\\Desktop\\Ricchioni\\docs\\agent-work\\monster-expansion\\zombiegirl-trial.glb",
+    "bytes": 5994524
+  },
+  {
+    "kind": "yaku",
+    "clips": {
+      "WALK": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant walking.fbx",
+        "frames": [
+          1,
+          44
+        ],
+        "seconds": 1.4333333333333333,
+        "mappedBones": 65,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 1.0000004307601726
+      },
+      "SWIPE": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant swiping.fbx",
+        "frames": [
+          1,
+          73
+        ],
+        "seconds": 2.4,
+        "mappedBones": 65,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 1.0000004307601726
+      },
+      "JUMP_ATTACK": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Jump Attack.fbx",
+        "frames": [
+          1,
+          112
+        ],
+        "seconds": 3.7,
+        "mappedBones": 65,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 0.7500698502460831
+      }
+    },
+    "output": "C:\\Users\\niluf.PC-NIKO\\Desktop\\Ricchioni\\docs\\agent-work\\monster-expansion\\yaku-trial.glb",
+    "bytes": 6463464
+  },
+  {
+    "kind": "pumpkinhulk",
+    "clips": {
+      "WALK": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant walking.fbx",
+        "frames": [
+          1,
+          44
+        ],
+        "seconds": 1.4333333333333333,
+        "mappedBones": 66,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 1.0000001884365934
+      },
+      "SWIPE": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant swiping.fbx",
+        "frames": [
+          1,
+          74
+        ],
+        "seconds": 2.433333333333333,
+        "mappedBones": 66,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 1.0000001884365934
+      }
+    },
+    "output": "C:\\Users\\niluf.PC-NIKO\\Desktop\\Ricchioni\\docs\\agent-work\\monster-expansion\\pumpkinhulk-trial.glb",
+    "bytes": 4214308
+  }
+]

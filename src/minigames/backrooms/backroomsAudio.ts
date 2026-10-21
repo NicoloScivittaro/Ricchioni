@@ -70,7 +70,7 @@ export class BackroomsAudio {
     else if(event.type==='respawn')this.voice(180,.25,.05,viewportPan,false,360);
     else if (event.type === 'capture') { this.voice(180, .6, .22, viewportPan, false, 45, true); this.voice(2300, .45, .2, viewportPan, true, undefined, true); this.voice(620, .4, .12, viewportPan, false, 90, true); }
     else if (event.type === 'escape') { this.voice(220, .8, .05, viewportPan, false, 880, true); this.voice(1800, .35, .025, viewportPan, true, undefined, true); }
-    else if (event.type === 'monsterStep') { this.voice(STEP_HZ[event.kind ?? 'stalker'], .2, .11 * attenuation, pan, false, 65); this.voice(1100, .12, .09 * attenuation, pan, true); }
+    else if (event.type === 'monsterStep') { if(event.kind==='partygoer'||event.kind==='runner'||event.kind==='stalker')return;this.voice(STEP_HZ[event.kind ?? 'stalker'], .2, .11 * attenuation, pan, false, 65); this.voice(1100, .12, .09 * attenuation, pan, true); }
     else if (event.type === 'howl') { this.voice(260, 1.4, .2 * Math.max(.5, attenuation), pan, false, 520, true); this.voice(140, 1.6, .14 * Math.max(.5, attenuation), pan, false, 60, true); }
     else if (event.type === 'step') { this.voice(1050, .11, .16 * attenuation * (event.power ?? 1), pan, true); this.voice(175, .1, .045 * attenuation, pan, false, 95); }
     else if (event.type === 'door') this.voice(330, .45, .12 * attenuation, pan, false, 100);

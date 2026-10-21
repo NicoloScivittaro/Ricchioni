@@ -1,0 +1,90 @@
+[
+  {
+    "kind": "warrok",
+    "clips": {
+      "JUMP_ATTACK": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Jump Attack.fbx",
+        "frames": [
+          1,
+          112
+        ],
+        "seconds": 3.7,
+        "mappedBones": 81,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 1.0
+      }
+    },
+    "output": "C:\\Users\\niluf.PC-NIKO\\Desktop\\Ricchioni\\docs\\agent-work\\monster-expansion\\warrok-jump-fix.glb",
+    "bytes": 4628780
+  },
+  {
+    "kind": "zombiegirl",
+    "clips": {
+      "JUMP": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant jumping.fbx",
+        "frames": [
+          1,
+          87
+        ],
+        "seconds": 2.8666666666666667,
+        "mappedBones": 63,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 0.9999999099998768
+      }
+    },
+    "output": "C:\\Users\\niluf.PC-NIKO\\Desktop\\Ricchioni\\docs\\agent-work\\monster-expansion\\zombiegirl-jump-fix.glb",
+    "bytes": 5947020
+  },
+  {
+    "kind": "yaku",
+    "clips": {
+      "JUMP": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant jumping.fbx",
+        "frames": [
+          1,
+          87
+        ],
+        "seconds": 2.8666666666666667,
+        "mappedBones": 65,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 1.0000004307601726
+      },
+      "JUMP_ATTACK": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Jump Attack.fbx",
+        "frames": [
+          1,
+          112
+        ],
+        "seconds": 3.7,
+        "mappedBones": 65,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 0.7500698502460831
+      }
+    },
+    "output": "C:\\Users\\niluf.PC-NIKO\\Desktop\\Ricchioni\\docs\\agent-work\\monster-expansion\\yaku-jump-fix.glb",
+    "bytes": 6416772
+  },
+  {
+    "kind": "pumpkinhulk",
+    "clips": {
+      "JUMP": {
+        "source": "C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant jumping.fbx",
+        "frames": [
+          1,
+          87
+        ],
+        "seconds": 2.8666666666666667,
+        "mappedBones": 66,
+        "hierarchy": true,
+        "restSpaceRetarget": true,
+        "proportionRatio": 1.0000001884365934
+      }
+    },
+    "output": "C:\\Users\\niluf.PC-NIKO\\Desktop\\Ricchioni\\docs\\agent-work\\monster-expansion\\pumpkinhulk-jump-fix.glb",
+    "bytes": 4164072
+  }
+]

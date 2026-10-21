@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "warrok": "Integrated in Orda from wave 6, at most two living Warroks; search/run/roar/clear-route hop/punch/hit feedback/death",
+  "clips": [
+    "IDLE",
+    "BREATHING_IDLE",
+    "WALK",
+    "RUN",
+    "JUMP",
+    "ROAR",
+    "ATTACK",
+    "DEATH"
+  ],
+  "runtime": "Cached GLBs, shared geometry/materials/textures/Animation objects, independent skeletons and clocks, blended manual sampling, pooled actors, 30Hz host/20Hz phone animation budget, conservative animation bounds",
+  "retarget": {
+    "hazmat": "66 joints; 65 mapped; Infetto/Colosso and masked Backrooms Imitator",
+    "partygoer": "69 joints; 22 main humanoid joints mapped; original twist branches and bone lengths retained; Orda Corridore and Backrooms Partygoer"
+  },
+  "specificAnimation": "Bacteria has no skeleton; Smiler has a non-humanoid 22-joint rig. Stalker, Backrooms Runner, revealed Imitator, Hound, Watcher and Howler are procedural meshes, not compatible skinned humanoid rigs. Their existing specific animations remain.",
+  "attack": "Warrok source fist trace peaks at 0.30s; authoritative damage only at 0.27–0.37s, front cone/distance/height/LOS/living target/single-hit checks; full 1.1s clip then 0.7s cooldown. Existing humanoid attack preparation stretched visually to their original damage timing.",
+  "death": "Once, offensive AI disabled immediately, corpse retained for 4.6s clip plus 0.2s; dead actors do not block next wave. Match-end scene transition can end a corpse visual earlier.",
+  "performance": {
+    "fps": 59.3,
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "durationSeconds": 6,
+    "viewport": [
+      1920,
+      1080
+    ],
+    "internal": [
+      1669,
+      939
+    ],
+    "views": 5,
+    "scale": 1.15,
+    "harness": "advanced wave; restores survivor HP solely to retain five cameras; real AI/rendering/attacks",
+    "livingRange": [
+      6,
+      13
+    ],
+    "notes": "Development sample before the final cue, cadence and conservative culling-bound adjustments. No second benchmark, as requested. Not a controlled before/after comparison.",
+    "warroks": 2
+  },
+  "tests": {
+    "assetChecks": "passed",
+    "logic": [
+      "Punch: preparation, single impact and recovery; animation timeline authoritative",
+      "Punch evaded behind, airborne, out of reach or behind cover",
+      "All six weapons can damage Warrok; lethal hit counted once and corpse retained",
+      "Existing six ballistic paths hit the actual Warrok hitbox",
+      "Advanced waves only, maximum two living Warroks; corpse does not block wave",
+      "Jump cannot cross cover; death stops AI and offense immediately"
+    ],
+    "renderer": "Eight clips on three rigs, ten independent Warrok skeletons, one shared geometry; compiled two-Warrok scene confirms shared Animation references; actual punch preparation/damage, advancing death pose; existing humanoid attack sync; compiled Partygoer capture and scare clip",
+    "backrooms": "First capture/recovery/second elimination checked; no HP introduced. Partygoer tested in actual lobby and compiled garage; Imitator hook implemented but not exercised in a natural reveal sequence.",
+    "typecheck": "passed, including final npm run build",
+    "build": "passed",
+    "javascriptErrors": []
+  },
+  "limits": [
+    "Unknown source licenses: confirm model, animations and textures before publication. User-provided source FBX unchanged.",
+    "No long natural-wave or physical-controller endurance run; only requested short checks.",
+    "Brief FPS development sample, 6–13 living enemies including two Warroks; not a guarantee at the 22-enemy cap. Final audio/cadence/culling tweaks were not re-benchmarked, as requested."
+  ],
+  "screenshots": [
+    "trial.png",
+    "orda-five.png",
+    "backrooms.png"
+  ],
+  "git": "No staging, commit, push or deployment.",
+  "execution": "Direct Sol; no routed inference or worker provider used."
+}

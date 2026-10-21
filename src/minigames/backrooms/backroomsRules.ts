@@ -4,6 +4,7 @@ import { CELL, generateMaze, center, cellAt, neighbors, route, distances, move, 
 import type { Maze, Point } from './maze';
 import { LEVELS } from './levels';
 import type { BackLevel, LevelId } from './levels';
+import {MONSTER_PRESSURE as PRESSURE} from './monsterPressure';
 
 export type EscapeMode = 'free' | 'key' | 'puzzle';
 export type CreatureKind = 'bacteria' | 'partygoer' | 'stalker' | 'runner' | 'imitator' | 'hound' | 'watcher' | 'smiler' | 'howler';
@@ -57,7 +58,7 @@ export class BackroomsMatch {
   private promptTargets:(Omit<Prompt,'text'>&{y:number})[]=[];
   private promptDoorMazes:Maze[]=[];
   constructor(roster: { id: string; name: string; bot?: boolean }[], seed: number, config: BackConfig = {}) {
-    this.senses = Object.fromEntries(Object.entries(CREATURE_SENSES).map(([k, v]) => [k, { ...v, ...config.senses?.[k as CreatureKind] }])) as Record<CreatureKind, Senses>;
+    this.senses = Object.fromEntries(Object.entries(CREATURE_SENSES).map(([k, v]) => [k, { ...v,walk:v.walk*PRESSURE.walk,chase:Math.min(PRESSURE.maxChase,v.chase*PRESSURE.chase),reaction:Math.max(.08,v.reaction*PRESSURE.reactionScale),hearing:v.hearing*PRESSURE.hearing,search:v.search+PRESSURE.searchSeconds, ...config.senses?.[k as CreatureKind] }])) as Record<CreatureKind, Senses>;
     this.rng = new Rng(seed ^ 0x218843); this.maze = generateMaze(seed, roster.length); this.level = LEVELS[config.level ?? 'lobby'];
     // Darker levels add shadow on a separate stream, so the lobby keeps the exact same seed behaviour.
     if (this.level.extraDark > 0) {
@@ -268,9 +269,9 @@ export class BackroomsMatch {
      const cell=cellAt(this.maze,m),partyRoom=(this.maze.rooms??[]).some(r=>r.kind==='party'&&cell%this.maze.size>=r.x&&cell%this.maze.size<r.x+r.w&&Math.floor(cell/this.maze.size)>=r.z&&Math.floor(cell/this.maze.size)<r.z+r.h);
      if(m.state==='patrol'&&((partyRoom&&m.timer>1.5)||(m.timer>9&&neighbors(this.maze,cell).length>=3)))this.transition(m,'lure','waiting by the balloon');
      if(m.state==='lure'){if(this.time>=m.cueAt){m.cueAt=this.time+7;this.events.push({type:'lure',point:{x:m.x,z:m.z},kind:m.kind});}if(m.timer>11)this.transition(m,'patrol','move to another room');}
-     if(m.state==='chase'&&m.timer>1.8){this.forget(m);this.transition(m,'rest','burst exhausted');return;}
+     if(m.state==='chase'&&m.timer>PRESSURE.partyBurst){this.forget(m);this.transition(m,'rest','burst exhausted');return;}
     }
-    if (m.state === 'rest') { if (m.timer > 5) this.transition(m, 'return', 'rest complete'); else return; }
+    if (m.state === 'rest') { if (m.timer > PRESSURE.rest) this.transition(m, 'return', 'rest complete'); else return; }
     const seen = this.players.filter(p => this.canSee(m, p));
     // Keep a still-visible target: a closer bystander cannot steal a pursuit every frame.
     const visible = seen.find(p => p.id === m.target) ?? seen.sort((a, b) => dist(a, m) - dist(b, m))[0];

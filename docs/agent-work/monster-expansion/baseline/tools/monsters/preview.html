@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Monster System · conversion check</title><style>html,body{margin:0;background:#151b22;color:#eadcc4;font:14px Arial}canvas{width:100vw;height:100vh;display:block}#labels{position:fixed;inset:0;pointer-events:none}.label{position:absolute;text-align:center;font-weight:bold;text-shadow:0 2px 3px #000}#status{position:fixed;top:12px;left:16px}</style></head><body><canvas id="view"></canvas><div id="labels"></div><div id="status">Caricamento rig e clip…</div><script type="module">
+import {Engine,Scene,ArcRotateCamera,Vector3,HemisphericLight,DirectionalLight,LoadAssetContainerAsync,MeshBuilder,StandardMaterial,Color3} from '@babylonjs/core';
+import '@babylonjs/loaders/glTF';
+import {BackActor} from '/src/minigames/backrooms/backroomsAssets.ts';
+import {loadMonsterManifest,MONSTER_PROFILES} from '/src/monsters/MonsterAnimator.ts';
+const engine=new Engine(document.querySelector('canvas'),true,{preserveDrawingBuffer:true}),scene=new Scene(engine);scene.clearColor.set(.07,.09,.12,1);
+const clips=new URLSearchParams(location.search).has('trial')?['WALK','ATTACK']:['IDLE','BREATHING_IDLE','WALK','RUN','JUMP','ROAR','ATTACK','DEATH'];
+const cam=new ArcRotateCamera('inspection',-Math.PI/2,1.47,30,new Vector3(0,1.1,0),scene);cam.mode=1;const half=Math.max(10,clips.length*1.65);cam.orthoLeft=-half;cam.orthoRight=half;cam.orthoTop=half/(1920/1080);cam.orthoBottom=-half/(1920/1080);
+new HemisphericLight('fill',new Vector3(0,1,.4),scene).intensity=1.05;new DirectionalLight('key',new Vector3(-.3,-1,-.8),scene).intensity=1.2;
+const floor=MeshBuilder.CreateGround('ground',{width:40,height:22},scene),mat=new StandardMaterial('floor',scene);mat.diffuseColor=new Color3(.12,.16,.19);floor.material=mat;floor.position.y=-3.6;
+await loadMonsterManifest();const assets={scene,containers:new Map()},actors=[];
+for(const kind of ['warrok','hazmat','partygoer'])assets.containers.set(kind,await LoadAssetContainerAsync(MONSTER_PROFILES[kind].model,scene));
+for(const[row,kind]of ['warrok','hazmat','partygoer'].entries())for(const[col,state]of clips.entries()){
+ const actor=new BackActor(assets,kind,kind+':'+state,undefined,undefined,true);const x=(col-(clips.length-1)/2)*3.3,y=(1-row)*3.6,z=0;
+ actors.push({actor,state,x,y,z});const label=document.createElement('div');label.className='label';label.textContent=kind.toUpperCase()+' · '+state;label.style.cssText=`left:${col/clips.length*100}%;width:${100/clips.length}%;top:${[17,44,70][row]}%`;document.querySelector('#labels').append(label);
+}
+window.monsters={engine,scene,actors,assets,freeze:false,age:0,stats:()=>actors.map(({actor,state})=>({kind:actor.kind,state,clips:[...actor.animator.clips.keys()],clock:actor.animator.clock,skeletons:actor.meshes.filter(m=>m.skeleton).map(m=>m.skeleton.uniqueId)}))};document.querySelector('#status').textContent='Rig indipendenti · geometrie condivise · '+clips.length+' clip per modello';
+engine.runRenderLoop(()=>{const dt=Math.min(.05,engine.getDeltaTime()/1000);if(!window.monsters.freeze)window.monsters.age+=dt;for(const a of actors){const clip=a.actor.animator.clips.get(a.state);const age=window.monsters.phase!==undefined?window.monsters.phase*(clip?.duration??1):window.monsters.age%Math.max(.01,clip?.duration??1);a.actor.setAnimation(a.state,age);a.actor.update(a.x,a.z,Math.PI,.9,a.state==='RUN',window.monsters.age,dt);a.actor.root.position.y=a.y;}scene.render();});
+</script></body></html>

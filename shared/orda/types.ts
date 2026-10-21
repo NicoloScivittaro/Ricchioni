@@ -1,5 +1,5 @@
 import type {Point} from './arena';
-export type EnemyKind='infetto'|'corridore'|'colosso'|'assalitore'|'cacciatore'|'macellaio';
+export type EnemyKind='infetto'|'corridore'|'colosso'|'assalitore'|'cacciatore'|'macellaio'|'warrok'|'zombiegirl'|'yaku'|'pumpkinhulk';
 export interface OrdaParticipant{id:string;name:string;color:string;bot?:boolean}
 export interface OrdaInput{mx:number;my:number;lx:number;ly:number;look?:{yaw:number;pitch:number};fire:boolean;press:number;aim:boolean;reload:number;jump:number;crouch:boolean;dash:number;sensitivity?:number}
 export const EMPTY_INPUT:OrdaInput={mx:0,my:0,lx:0,ly:0,fire:false,press:0,aim:false,reload:0,jump:0,crouch:false,dash:0};
@@ -10,7 +10,9 @@ export interface Survivor extends OrdaParticipant,Point{
 }
 export interface Enemy extends Point{
  id:number;kind:EnemyKind;y:number;yaw:number;hp:number;maxHp:number;speed:number;damage:number;radius:number;height:number;
- target:string|null;memory:Point|null;remember:number;path:Point[];think:number;nav:number;attack:number;windup:number;action:'walk'|'melee'|'spit'|'charge'|'slam';aim:Point;stuck:number;last:Point;rage:boolean;
+ target:string|null;memory:Point|null;remember:number;path:Point[];think:number;nav:number;attack:number;windup:number;action:'walk'|'melee'|'spit'|'charge'|'slam'|'roar'|'jump'|'punch'|'dead'|'swipe'|'heavy'|'jumpAttack'|'taunt';aim:Point;stuck:number;last:Point;rage:boolean;
+ actionAt?:number;impacted?:boolean;roared?:boolean;jumpReady?:number;deathAt?:number;hitAt?:number;
+ actionRate?:number;actionOrigin?:Point;attackCount?:number;sprintUntil?:number;sprintReady?:number;
 }
 export interface Bolt extends Point{id:number;owner:string;hostile:boolean;y:number;dx:number;dy:number;dz:number;life:number;speed:number;damage:number;radius:number}
 export interface Supply extends Point{id:number;kind:'ammo'|'health'|'crate';cooldown:number}

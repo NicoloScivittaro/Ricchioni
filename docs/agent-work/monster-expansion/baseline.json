@@ -1,0 +1,116 @@
+{
+  "head": "40a2376f6387be825990fd9e43bdb3602a949054",
+  "files": {
+    "src\\monsters\\MonsterAnimator.ts": {
+      "sha256": "ad7a7bb07091e7261ef6163d15b442caa34d8866d1a59995b1168241f65d9fd1"
+    },
+    "src\\monsters\\monsterAudio.ts": {
+      "sha256": "48fe09f537a26f18eb319eae1f2a19dc7c015a5e5d827d6d1e68f0f0026fb5ef"
+    },
+    "src\\minigames\\orda\\depotWorld.ts": {
+      "sha256": "6a68a6c788eedec24f49d3a016d3509b69b1904c690c87b174f96f64d9507fd9"
+    },
+    "src\\minigames\\orda\\index.ts": {
+      "sha256": "d85ab8694e72c4947177e3288dd14586bc4c8f112c663ee19f01e7a4cd8a6afa"
+    },
+    "src\\minigames\\orda\\ordaAssets.ts": {
+      "sha256": "d598d80b93fedb00a97cb688679904c156e17e1e1f2d6fd1c23beb66a3d34c49"
+    },
+    "src\\minigames\\orda\\OrdaAudio.ts": {
+      "sha256": "24e4ac343e9ea6b4cd1662bffb18bf69ca85932ea8ad3812421e9c97065440e5"
+    },
+    "src\\minigames\\orda\\OrdaRenderer.ts": {
+      "sha256": "dc439c30961027ed1b83e43e10e5557d65de431d81d0172014f019218c64752d"
+    },
+    "src\\minigames\\orda\\OrdaScene.ts": {
+      "sha256": "69b32d2b0d6219527453396d8c94624284dd8ad7e25aac388c50753f3a289e17"
+    },
+    "shared\\orda\\arena.ts": {
+      "sha256": "b76ac6a81b1e1956a9245d12fe3d4ef362994f0c9ec3e5d0a39ebd256aefff2d"
+    },
+    "shared\\orda\\match.ts": {
+      "sha256": "4feefb75e7efe123397939c2cd270846b01880181d1a761c534cbbb09f9feb3b"
+    },
+    "shared\\orda\\types.ts": {
+      "sha256": "dbbffeb27eb64731f7fd284c859b7f193e38b42d32e82862f696f66259bf08c4"
+    },
+    "shared\\orda\\warrok.ts": {
+      "sha256": "49916a1065ea2dde290b1807632e1737af31145d340fdfd4595977e1d9ed3d0f"
+    },
+    "src\\minigames\\backrooms\\BabylonBackroomsGame.ts": {
+      "sha256": "a009fd6bd1976e7df4e0117d875f47fe0aaf86594a458cc63f7fd36cad80b3d3"
+    },
+    "src\\minigames\\backrooms\\backroomsAssets.ts": {
+      "sha256": "23ad2d5bf6634a549875f327beacdd52a6afafa005583dbcede76a40a87a2267"
+    },
+    "src\\minigames\\backrooms\\backroomsAudio.ts": {
+      "sha256": "0e32876fed1f183856a9459999c2fc24097cfd515901f223ddcee273ec727cae"
+    },
+    "src\\minigames\\backrooms\\backroomsDebug.ts": {
+      "sha256": "1dd02cae4346a263c6338987ed33c1103a44b6daff162b9e680cc955dcc391b3"
+    },
+    "src\\minigames\\backrooms\\backroomsInput.ts": {
+      "sha256": "cd4952f5e0fcbb7001ba2f70ded38ca15975db8e220d4af72c7b67ca71f7f3fb"
+    },
+    "src\\minigames\\backrooms\\backroomsRules.ts": {
+      "sha256": "66a891ac707818527baeea3d05b8a84790b1c91fa5357f57ecbdd86343b6970b"
+    },
+    "src\\minigames\\backrooms\\BackroomsScene.ts": {
+      "sha256": "0e9832c9901e1ad1106136c280777af4719df0b7490124477eedc925c034d692"
+    },
+    "src\\minigames\\backrooms\\backroomsWorld.ts": {
+      "sha256": "84a1769d850525652609192099492c34689b50a90cdb72b32177fe7df602911d"
+    },
+    "src\\minigames\\backrooms\\index.ts": {
+      "sha256": "d7e0c34fc0fddbf7de0634552ba0a0d1598ccd887c8feb8d26f07b580cfed8cd"
+    },
+    "src\\minigames\\backrooms\\levels.ts": {
+      "sha256": "71e1413f0f6d99627267006b040f1f3d84388fecf679c09f7514a7ad48d8705a"
+    },
+    "src\\minigames\\backrooms\\maze.ts": {
+      "sha256": "191223028960bd817f70a942b2eb1c47ad1181e6175f10013f3797bf58a70a79"
+    },
+    "tools\\monsters\\.gitignore": {
+      "sha256": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b"
+    },
+    "tools\\monsters\\audit.py": {
+      "sha256": "27e9614db929fba31135c4518c028f30c22b5a37ba876c48c73b18855dbf1b76"
+    },
+    "tools\\monsters\\convert.py": {
+      "sha256": "5f1c3986dffd2f54c7c5eee902cfe5b40366ce6a1a573ccc9a22c4fe36a40d5f"
+    },
+    "tools\\monsters\\expansion-audit.py": {
+      "sha256": "61f4022b10ded32c3313df678080585523f00ecc26d22825e17f1e4cdf5baa79"
+    },
+    "tools\\monsters\\expansion-extract.py": {
+      "sha256": "89f5c083828c943e4ab1365e6b5bdafe22e65684f43e0fbe9f65934fb9862786"
+    },
+    "tools\\monsters\\gltf.py": {
+      "sha256": "41d7de6f5b8f0f139ec306d5a2752ec2de5dd1c3dd26b027d4efd52c793510f4"
+    },
+    "tools\\monsters\\preview.html": {
+      "sha256": "336ffa5a685fe7417d40f057501a80cb86f28a5c3ec48f0b85d426eaec2c7ae6"
+    },
+    "tools\\monsters\\retarget.py": {
+      "sha256": "9ccad1eb39f3eef01a0bbee9543fe0346dc2ff226882c611ba3e564a93f6a77f"
+    },
+    "tools\\monsters\\verify.py": {
+      "sha256": "eec12f80c19e6b4f204a4232ad614a24d292ac0840ab2568267c9b49622f0f30"
+    },
+    "public\\assets\\monsters\\CREDITS.md": {
+      "sha256": "d3debf8728ad066ab5d80947f8fdbb4a58dc5ff0358e5b8dc2ff861d17991ba2"
+    },
+    "public\\assets\\monsters\\hazmat-animated.glb": {
+      "sha256": "304169f93b7de8cb47338eebd2bfb5f16b523576d1d47684450147f946a08855"
+    },
+    "public\\assets\\monsters\\manifest.json": {
+      "sha256": "08c3ad74b7be9c1b8b4e4ac08af0ebddc5fec65a32c61e0521686d5813f837f5"
+    },
+    "public\\assets\\monsters\\partygoer-animated.glb": {
+      "sha256": "82752145b2c03151ef1475e2c6b39eebc6e03c99797e0d161a608391f764003e"
+    },
+    "public\\assets\\monsters\\warrok.glb": {
+      "sha256": "0411454a14182d1564f442749bfd372bbcf6b2c5b15701bb91109ce4ba785586"
+    }
+  }
+}

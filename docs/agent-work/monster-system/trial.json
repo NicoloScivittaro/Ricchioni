@@ -1,0 +1,86 @@
+[
+  {
+    "kind": "warrok",
+    "state": "WALK",
+    "clips": [
+      "WALK",
+      "ATTACK",
+      "IDLE",
+      "BREATHING_IDLE",
+      "RUN",
+      "JUMP",
+      "ROAR",
+      "DEATH"
+    ],
+    "clock": 0.15236672229878678,
+    "skeletons": [
+      2713
+    ]
+  },
+  {
+    "kind": "warrok",
+    "state": "ATTACK",
+    "clips": [
+      "WALK",
+      "ATTACK",
+      "IDLE",
+      "BREATHING_IDLE",
+      "RUN",
+      "JUMP",
+      "ROAR",
+      "DEATH"
+    ],
+    "clock": 0.4856999761592604,
+    "skeletons": [
+      4835
+    ]
+  },
+  {
+    "kind": "hazmat",
+    "state": "WALK",
+    "clips": [
+      "WALK",
+      "ATTACK"
+    ],
+    "clock": 0.15236672229878678,
+    "skeletons": [
+      6947
+    ]
+  },
+  {
+    "kind": "hazmat",
+    "state": "ATTACK",
+    "clips": [
+      "WALK",
+      "ATTACK"
+    ],
+    "clock": 0.4856999761592604,
+    "skeletons": [
+      7226
+    ]
+  },
+  {
+    "kind": "partygoer",
+    "state": "WALK",
+    "clips": [
+      "WALK",
+      "ATTACK"
+    ],
+    "clock": 0.15236672229878678,
+    "skeletons": [
+      7510
+    ]
+  },
+  {
+    "kind": "partygoer",
+    "state": "ATTACK",
+    "clips": [
+      "WALK",
+      "ATTACK"
+    ],
+    "clock": 0.4856999761592604,
+    "skeletons": [
+      7711
+    ]
+  }
+]

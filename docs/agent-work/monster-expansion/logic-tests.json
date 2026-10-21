@@ -1,0 +1,45 @@
+{
+  "checks": [
+    "Four roles, larger Warrok and stronger existing enemies; global weapon registry preserved",
+    "Four attacks: telegraph, source-timed single impact, full recovery, death priority and visible corpse",
+    "Swipe and punch miss behind, out of range, airborne and through solid cover",
+    "Yaku Jump Attack: valid bounded route, flight, source landing impact, recovery; no wall/dock shortcut",
+    "Mixed wave scheduler and one advanced boss, bounded heavy population and active cap",
+    "All six weapons retain their ballistic damage path against each new hitbox; permanent survivor result",
+    "Backrooms stronger perception/pressure preserves wall occlusion, grace, hiding, two lives and escape rules"
+  ],
+  "waveKinds": [
+    "pumpkinhulk",
+    "warrok",
+    "corridore",
+    "yaku",
+    "zombiegirl",
+    "cacciatore",
+    "assalitore",
+    "infetto",
+    "colosso"
+  ],
+  "backrooms": {
+    "runner": {
+      "fov": 105,
+      "range": 18,
+      "darkRange": 9,
+      "reaction": 0.08,
+      "search": 10,
+      "hearing": 1.5120000000000002,
+      "walk": 3.1500000000000004,
+      "chase": 6.527
+    },
+    "stalker": {
+      "fov": 105,
+      "range": 18,
+      "darkRange": 9,
+      "reaction": 0.616,
+      "search": 11,
+      "hearing": 1.064,
+      "walk": 2.1,
+      "chase": 4.922
+    }
+  },
+  "status": "passed"
+}

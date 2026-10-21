@@ -1,27 +1,27 @@
 import {AssetContainer,LoadAssetContainerAsync,PBRMaterial,Scene,Color3,Mesh} from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
 import {BackActor} from '../backrooms/backroomsAssets';
-import type {BackAsset} from '../backrooms/backroomsAssets';
 import type {EnemyKind} from '../../../shared/orda/types';
-const FILES={hazmat:'escape_the_backrooms_hazmat',partygoer:'partygoer_from_backrooms_updated',bacteria:'bacteria_-_kane_pixels_backrooms',smiler:'smiler_entity3_backrooms'} as const;
+import {MONSTER_PROFILES,loadMonsterManifest} from '../../monsters/MonsterAnimator';
+const FILES={hazmat:'escape_the_backrooms_hazmat',partygoer:'partygoer_from_backrooms_updated',bacteria:'bacteria_-_kane_pixels_backrooms',smiler:'smiler_entity3_backrooms',warrok:'warrok',zombiegirl:'zombiegirl',yaku:'yaku',pumpkinhulk:'pumpkinhulk'} as const;
 export const ENEMY_ART:Record<EnemyKind,{model:keyof typeof FILES;scale:number;color:string}>={
  infetto:{model:'hazmat',scale:1,color:'#8f9774'},corridore:{model:'partygoer',scale:1,color:'#e7ad62'},
  colosso:{model:'hazmat',scale:1.47,color:'#c78362'},assalitore:{model:'smiler',scale:1,color:'#96ddd1'},
- cacciatore:{model:'bacteria',scale:1,color:'#a3b798'},macellaio:{model:'bacteria',scale:1.19,color:'#ff775d'}
+ cacciatore:{model:'bacteria',scale:1,color:'#a3b798'},macellaio:{model:'bacteria',scale:1.19,color:'#ff775d'},warrok:{model:'warrok',scale:1,color:'#c49b79'},zombiegirl:{model:'zombiegirl',scale:1,color:'#baa68a'},yaku:{model:'yaku',scale:1,color:'#a7b49a'},pumpkinhulk:{model:'pumpkinhulk',scale:1,color:'#dc9157'}
 };
 /** Actor-only loader. No Backrooms maze, wall templates, game logic or original environment assets. */
 export class OrdaAssets{
- readonly containers=new Map<BackAsset,AssetContainer>();
+ readonly containers=new Map<string,AssetContainer>();
  private variants=new Map<string,PBRMaterial>();
  constructor(readonly scene:Scene){}
  async load():Promise<void>{
-  await Promise.all(Object.entries(FILES).map(async([id,file])=>{const c=await LoadAssetContainerAsync(`/assets/backrooms/${file}.glb`,this.scene);if(this.scene.isDisposed){c.dispose();return;}this.containers.set(id as BackAsset,c);
+  await loadMonsterManifest();await Promise.all(Object.entries(FILES).map(async([id,file])=>{const c=await LoadAssetContainerAsync(MONSTER_PROFILES[id]?.model??`/assets/backrooms/${file}.glb`,this.scene);if(this.scene.isDisposed){c.dispose();return;}this.containers.set(id,c);
    for(const m of c.materials)if(m instanceof PBRMaterial){m.maxSimultaneousLights=2;m.environmentIntensity=.4;m.roughness=Math.max(.6,m.roughness??1);if(id==='bacteria'){m.albedoColor.set(.07,.075,.06);m.emissiveColor.set(.008,.009,.006);m.roughness=.9;}for(const t of m.getActiveTextures())t.anisotropicFilteringLevel=2;}
   }));
  }
  actor(kind:EnemyKind|'player',name:string,color?:string,label?:string):BackActor{
   const a=kind==='player'?{model:'hazmat' as const,scale:1,color:color??'#75b5b6'}:ENEMY_ART[kind];
-  const actor=new BackActor(this,a.model,name,a.color,label);actor.root.scaling.setAll(a.scale);if(kind!=='player')actor.showLabel(false);
+  const actor=new BackActor(this,a.model,name,a.color,label,kind!=='player');actor.root.scaling.setAll(a.scale);if(kind!=='player')actor.showLabel(false);
   if(a.model==='bacteria'){
    // These source parts have no skin. Batch the rigid trunk/legs while keeping the authored
    // head/arm pivot subtrees intact, so the existing procedural animations still work.

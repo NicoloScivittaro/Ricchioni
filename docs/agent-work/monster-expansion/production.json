@@ -1,0 +1,281 @@
+{
+  "errors": [],
+  "screenshots": [],
+  "checks": [
+    "Real mixed wave and Pumpkinhulk boss; actual five-view renderer with four imported model caches",
+    "Jump Attack: actual airborne position, landing, one impact, recovery and interrupting death",
+    "Backrooms runner Zombiegirl and stalker Yaku, stronger senses, original two lives and capture with Swipe; no HP or shooter mechanics"
+  ],
+  "fixture": {
+    "kinds": [
+      "pumpkinhulk",
+      "colosso",
+      "cacciatore",
+      "yaku",
+      "zombiegirl",
+      "corridore",
+      "warrok",
+      "assalitore",
+      "infetto"
+    ],
+    "enemies": 17,
+    "setup": "Wave 10, scheduler spawned 17; replenished survivor HP only in harness to keep five cameras alive."
+  },
+  "orda": {
+    "stats": {
+      "fps": 11.235113474649228,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 20,
+      "idleActors": 1,
+      "meshes": 591
+    },
+    "actors": [
+      {
+        "kind": "pumpkinhulk",
+        "state": "TAUNT",
+        "clips": 10
+      },
+      {
+        "kind": "colosso",
+        "state": "BREATHING_IDLE",
+        "clips": 8
+      },
+      {
+        "kind": "cacciatore"
+      },
+      {
+        "kind": "yaku",
+        "state": "SWIPE",
+        "clips": 11
+      },
+      {
+        "kind": "zombiegirl",
+        "state": "RUN",
+        "clips": 10
+      },
+      {
+        "kind": "corridore",
+        "state": "RUN",
+        "clips": 8
+      },
+      {
+        "kind": "warrok",
+        "state": "ROAR",
+        "clips": 13
+      },
+      {
+        "kind": "warrok",
+        "state": "WALK",
+        "clips": 13
+      },
+      {
+        "kind": "corridore",
+        "state": "RUN",
+        "clips": 8
+      },
+      {
+        "kind": "assalitore"
+      },
+      {
+        "kind": "cacciatore"
+      },
+      {
+        "kind": "corridore",
+        "state": "RUN",
+        "clips": 8
+      },
+      {
+        "kind": "zombiegirl",
+        "state": "RUN",
+        "clips": 10
+      },
+      {
+        "kind": "infetto",
+        "state": "WALK",
+        "clips": 8
+      },
+      {
+        "kind": "cacciatore"
+      },
+      {
+        "kind": "corridore",
+        "state": "RUN",
+        "clips": 8
+      },
+      {
+        "kind": "corridore",
+        "state": "RUN",
+        "clips": 8
+      },
+      {
+        "kind": "corridore",
+        "state": "RUN",
+        "clips": 8
+      },
+      {
+        "kind": "cacciatore"
+      },
+      {
+        "kind": "cacciatore"
+      }
+    ],
+    "boss": [
+      {
+        "hp": 9286.666666666668,
+        "height": 3.5
+      }
+    ]
+  },
+  "jumpStart": {
+    "id": 4,
+    "x": -6,
+    "z": -8.5
+  },
+  "jumpAir": {
+    "action": "jumpAttack",
+    "y": 1.071643633593166,
+    "z": -9.569090909090901,
+    "clip": "JUMP_ATTACK",
+    "clock": 0.9199999999999967
+  },
+  "jumpLand": {
+    "action": "jumpAttack",
+    "y": 0,
+    "impacted": true,
+    "clock": 2.3999999999999915
+  },
+  "death": {
+    "state": "DEATH",
+    "clock": 0.1999999999999993,
+    "hp": 0
+  },
+  "backSeed": 6,
+  "backrooms": {
+    "models": [
+      "bacteria",
+      "original",
+      "partygoer",
+      "smiler",
+      "environment",
+      "hazmat",
+      "zombiegirl",
+      "yaku"
+    ],
+    "creatures": [
+      "partygoer",
+      "runner",
+      "stalker"
+    ],
+    "runnerClips": 10,
+    "stalkerClips": 11,
+    "lives": [
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "hasHp": false,
+    "senses": {
+      "bacteria": {
+        "fov": 100,
+        "range": 18,
+        "darkRange": 9,
+        "reaction": 0.308,
+        "search": 12,
+        "hearing": 1.7920000000000003,
+        "walk": 1.9949999999999999,
+        "chase": 5.564000000000001
+      },
+      "partygoer": {
+        "fov": 95,
+        "range": 6,
+        "darkRange": 5,
+        "reaction": 0.748,
+        "search": 6,
+        "hearing": 0.784,
+        "walk": 1.1550000000000002,
+        "chase": 6.8
+      },
+      "stalker": {
+        "fov": 105,
+        "range": 18,
+        "darkRange": 9,
+        "reaction": 0.616,
+        "search": 11,
+        "hearing": 1.064,
+        "walk": 2.1,
+        "chase": 4.922
+      },
+      "runner": {
+        "fov": 105,
+        "range": 18,
+        "darkRange": 9,
+        "reaction": 0.08,
+        "search": 10,
+        "hearing": 1.5120000000000002,
+        "walk": 3.1500000000000004,
+        "chase": 6.527
+      },
+      "imitator": {
+        "fov": 105,
+        "range": 16,
+        "darkRange": 8,
+        "reaction": 0.17600000000000002,
+        "search": 10,
+        "hearing": 1.1760000000000002,
+        "walk": 2.94,
+        "chase": 5.671
+      },
+      "hound": {
+        "fov": 70,
+        "range": 9,
+        "darkRange": 9,
+        "reaction": 0.08800000000000001,
+        "search": 12,
+        "hearing": 2.3520000000000003,
+        "walk": 2.8350000000000004,
+        "chase": 6.8
+      },
+      "watcher": {
+        "fov": 150,
+        "range": 26,
+        "darkRange": 14,
+        "reaction": 0.792,
+        "search": 14,
+        "hearing": 0.56,
+        "walk": 1.785,
+        "chase": 5.029000000000001
+      },
+      "smiler": {
+        "fov": 105,
+        "range": 8,
+        "darkRange": 22,
+        "reaction": 0.22,
+        "search": 10,
+        "hearing": 0.8960000000000001,
+        "walk": 2.52,
+        "chase": 6.099
+      },
+      "howler": {
+        "fov": 115,
+        "range": 15,
+        "darkRange": 8,
+        "reaction": 0.396,
+        "search": 11,
+        "hearing": 1.7920000000000003,
+        "walk": 2.625,
+        "chase": 5.564000000000001
+      }
+    }
+  },
+  "capture": {
+    "state": "captured",
+    "lives": 1,
+    "clip": "SWIPE"
+  },
+  "status": "passed"
+}

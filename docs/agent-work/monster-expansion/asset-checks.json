@@ -1,0 +1,101 @@
+{
+  "status": "passed",
+  "archivesUnchanged": true,
+  "warrokExistingGeometrySkinMaterialsAndEightClips": "preserved exactly",
+  "duplicateLogicalWarroks": false,
+  "assets": [
+    {
+      "kind": "warrok",
+      "clips": [
+        "WALK",
+        "ATTACK",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "JUMP",
+        "ROAR",
+        "DEATH",
+        "TURN_LEFT",
+        "TURN_RIGHT",
+        "TAUNT",
+        "SWIPE",
+        "JUMP_ATTACK"
+      ],
+      "meshes": 1,
+      "bones": 81,
+      "triangles": 12626,
+      "bytes": 6047144,
+      "sha256": "b58f40b963d14611c6449a23973028bdd3e549ae8c6391794256935d9ce29ccd",
+      "skinWeights": "normalised",
+      "keyframes": "finite"
+    },
+    {
+      "kind": "zombiegirl",
+      "clips": [
+        "WALK",
+        "SWIPE",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "TURN_LEFT",
+        "TURN_RIGHT",
+        "TAUNT",
+        "DEATH",
+        "JUMP"
+      ],
+      "meshes": 3,
+      "bones": 63,
+      "triangles": 7448,
+      "bytes": 6843164,
+      "sha256": "612bbfe6e55656647457234058f9e4c04b4ac37fba7a28b5c0e15e5c64ec3580",
+      "skinWeights": "normalised",
+      "keyframes": "finite"
+    },
+    {
+      "kind": "yaku",
+      "clips": [
+        "WALK",
+        "SWIPE",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "TURN_LEFT",
+        "TURN_RIGHT",
+        "TAUNT",
+        "DEATH",
+        "JUMP",
+        "JUMP_ATTACK"
+      ],
+      "meshes": 1,
+      "bones": 65,
+      "triangles": 8144,
+      "bytes": 7351324,
+      "sha256": "8272b79741a83cd7dbdd8a6c35acbf3b3f959689effd0af2aa8c731b25e79100",
+      "skinWeights": "normalised",
+      "keyframes": "finite"
+    },
+    {
+      "kind": "pumpkinhulk",
+      "clips": [
+        "WALK",
+        "SWIPE",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "TURN_LEFT",
+        "TURN_RIGHT",
+        "TAUNT",
+        "DEATH",
+        "JUMP"
+      ],
+      "meshes": 1,
+      "bones": 66,
+      "triangles": 9620,
+      "bytes": 5105688,
+      "sha256": "fcce1e6adfa1c88952af476af6ef0936ebc5efa3040c3662ac6108523552d2de",
+      "skinWeights": "normalised",
+      "keyframes": "finite"
+    }
+  ],
+  "retargeting": "Source audit found different rest matrices in package clips; baked per target rig, using world rotation deltas and preserving target bone lengths; Yaku Jump Attack mapped from supplied Warrok clip."
+}

@@ -9,15 +9,19 @@ import {weaponOf} from '../../../shared/orda/match';
 import {OrdaAssets} from './ordaAssets';
 import {buildDepot,WORLD_LAYER} from './depotWorld';
 import {OrdaAudio} from './OrdaAudio';
+import {monsterSfx} from '../../monsters/monsterAudio';
+import type {MonsterState} from '../../monsters/MonsterAnimator';
+import {attackTiming,isSpecial} from '../../../shared/orda/monsterCombat';
 
 interface Rig{id:string;cam:UniversalCamera;vm:FpsViewmodel;panel:HTMLDivElement;identity:HTMLElement;stats:HTMLElement;ammo:HTMLElement;bar:HTMLElement;boss:HTMLElement;bossFill:HTMLElement;center:HTMLElement;scope:HTMLImageElement;flash:HTMLElement;hit:HTMLElement;weapon:string;hurt:number;hitTime:number;message:string;messageTime:number}
-interface Visual{kind:EnemyKind;actor:BackActor;lastX:number;lastZ:number;lastAt:number}
+interface Visual{kind:EnemyKind;actor:BackActor;lastX:number;lastZ:number;lastAt:number;speed?:number}
 /** One shared scene and actual viewport cameras. Dead viewports become cheap opaque cards. */
 export class OrdaRenderer{
  readonly engine:Engine;readonly scene:Scene;readonly ready:Promise<void>;
  private assets:OrdaAssets;private rigs:Rig[]=[];private actors=new Map<number,Visual>();private free:Visual[]=[];
  private playerActors=new Map<string,BackActor>();private root:HTMLDivElement;private sound=new OrdaAudio();private ids:Set<string>;
  private deathAges=new Map<string,number>();private deadPhone=false;
+ private audience:OrdaState|null=null;
  private disposed=false;private hudAt=0;private animateAt=0;private fixture:StandardMaterial[]=[];private paused=false;
  private bolts:Mesh[]=[];private tells:Mesh[]=[];private fx:{mesh:Mesh;life:number;max:number;kind:'trace'|'blast'}[]=[];
  private mat=new Map<string,StandardMaterial>();private resizeFn=()=>this.resize();
@@ -67,7 +71,7 @@ export class OrdaRenderer{
   await this.assets.load();if(this.disposed)return;
   participants.forEach((p,i)=>{const actor=this.assets.actor('player','survivor:'+p.id,p.color,p.name);actor.showLabel(true);for(const m of actor.root.getChildMeshes())m.layerMask=1<<(5+i);this.playerActors.set(p.id,actor);});
   // Warm every archetype before countdown; pools retain at most six idle actors.
-  for(const kind of ['infetto','corridore','colosso','assalitore','cacciatore','macellaio'] as EnemyKind[]){const actor=this.assets.actor(kind,'warm:'+kind);for(const m of actor.root.getChildMeshes())m.layerMask=WORLD_LAYER;actor.root.setEnabled(false);this.free.push({kind,actor,lastX:0,lastZ:0,lastAt:0});}
+  for(const kind of ['infetto','corridore','colosso','assalitore','cacciatore','macellaio','warrok','zombiegirl','yaku','pumpkinhulk'] as EnemyKind[]){const actor=this.assets.actor(kind,'warm:'+kind);for(const m of actor.root.getChildMeshes())m.layerMask=WORLD_LAYER;actor.root.setEnabled(false);this.free.push({kind,actor,lastX:0,lastZ:0,lastAt:0});}
   for(let i=0;i<44;i++){const m=MeshBuilder.CreateSphere('orda-pooled-projectile',{diameter:.26,segments:5},this.scene);m.material=this.material(i%2?'enemyBolt':'rayBolt',i%2?'#ffad69':'#71ff58');m.layerMask=WORLD_LAYER;m.setEnabled(false);this.bolts.push(m);}
   for(let i=0;i<22;i++){const m=MeshBuilder.CreateTorus('enemy-warning',{diameter:1,thickness:.045,tessellation:20},this.scene);m.material=this.material('warning','#ff8b5f');m.layerMask=WORLD_LAYER;m.setEnabled(false);this.tells.push(m);}
   for(let i=0;i<24;i++){const m=MeshBuilder.CreateBox('shot-trace',{width:.018,height:.018,depth:1},this.scene);m.material=this.material('trace','#efdc9c');m.layerMask=WORLD_LAYER;m.setEnabled(false);this.fx.push({mesh:m,life:0,max:0,kind:'trace'});}
@@ -85,17 +89,28 @@ export class OrdaRenderer{
  show(value:boolean):void{this.root.style.display=value?'':'none';}
  update(s:OrdaState,dt:number,events:OrdaEvent[]=[]):void{
   if(this.disposed)return;
+  this.audience=s;
   if(this.phone&&!s.players.some(p=>this.ids.has(p.id)&&p.alive)){
    if(!this.deadPhone){for(const e of events)if(e.type==='death'||e.type==='win')this.sound.event(e,this.ids);this.sound.paused(true);this.deadPhone=true;}
    this.scene.activeCameras=[];this.hud(s);return;
   }
   for(const e of events)this.event(e);
-  const now=performance.now()/1000,animate=now-this.animateAt>(this.phone?1/20:1/30);if(animate)this.animateAt=now;
+  const now=performance.now()/1000,elapsed=Math.min(.15,now-this.animateAt),animate=elapsed>(this.phone?1/20:1/30);if(animate)this.animateAt=now;
   const liveIds=new Set(s.enemies.map(e=>e.id));for(const[id,v]of this.actors)if(!liveIds.has(id)){v.actor.root.setEnabled(false);this.actors.delete(id);if(this.free.length<6)this.free.push(v);else v.actor.dispose();}
   let tell=0;
-  for(const e of s.enemies){let v=this.actors.get(e.id);if(!v){const idx=this.free.findIndex(v=>v.kind===e.kind);v=idx>=0?this.free.splice(idx,1)[0]:{kind:e.kind,actor:this.assets.actor(e.kind,'enemy:'+e.id),lastX:e.x,lastZ:e.z,lastAt:s.time};for(const m of v.actor.root.getChildMeshes())m.layerMask=WORLD_LAYER;v.actor.root.setEnabled(true);this.actors.set(e.id,v);}
-   if(animate){const speed=Math.hypot(e.x-v.lastX,e.z-v.lastZ)/Math.max(.001,s.time-v.lastAt);v.actor.update(e.x,e.z,e.yaw,Math.min(7,speed),e.kind==='corridore'||e.action==='charge',s.time,1/30,e.windup>0);v.actor.root.position.y=e.y;v.lastX=e.x;v.lastZ=e.z;v.lastAt=s.time;}
-   if(e.windup>0&&tell<this.tells.length){const m=this.tells[tell++];m.setEnabled(true);m.position.set(e.x,e.y+.08,e.z);const radius=e.action==='slam'?5:e.action==='charge'?2:1.15;m.scaling.set(radius*2,1,radius*2);m.rotation.y=0;
+  for(const e of s.enemies){let v=this.actors.get(e.id);if(!v){const idx=this.free.findIndex(v=>v.kind===e.kind);v=idx>=0?this.free.splice(idx,1)[0]:{kind:e.kind,actor:this.assets.actor(e.kind,'enemy:'+e.id),lastX:e.x,lastZ:e.z,lastAt:s.time};v.actor.resetAnimation(e.id);v.lastX=e.x;v.lastZ=e.z;v.lastAt=s.time;v.speed=0;for(const m of v.actor.root.getChildMeshes())m.layerMask=WORLD_LAYER;v.actor.root.setEnabled(true);const actor=v.actor;if(actor.animator)actor.animator.onCue=cue=>{if(!this.paused){const d=Math.min(...(this.audience?.players??[]).filter(p=>this.ids.has(p.id)&&p.alive).map(p=>Math.hypot(p.x-actor.root.position.x,p.z-actor.root.position.z)));monsterSfx(cue,d,actor.animator?.profile.audio==='heavy');}};this.actors.set(e.id,v);}
+   if(animate){if(s.time>v.lastAt)v.speed=Math.min(7,Math.hypot(e.x-v.lastX,e.z-v.lastZ)/Math.max(.001,s.time-v.lastAt));const speed=v.speed??0,running=e.kind==='corridore'||e.action==='charge'||isSpecial(e.kind)&&!!e.target&&e.kind!=='pumpkinhulk';
+    let state:MonsterState=e.hp<=0?'DEATH':e.action==='roar'?'ROAR':e.action==='jump'?'JUMP':e.action==='punch'||e.windup>0?'ATTACK':speed>.12?(running?'RUN':'WALK'):'BREATHING_IDLE';
+    let age=e.hp<=0?s.time-(e.deathAt??s.time):['roar','jump','punch'].includes(e.action)?s.time-(e.actionAt??s.time):e.windup>0?s.time-(e.actionAt??s.time):undefined;
+    if(e.hp>0&&isSpecial(e.kind)&&['punch','swipe','heavy','jumpAttack','roar','taunt'].includes(e.action)){const t=attackTiming(e);state=t.clip;age=(s.time-(e.actionAt??s.time))*t.rate;}
+    // Existing humanoids keep their original damage/cooldown timing; stretch only the visual preparation.
+    if(e.hp>0&&e.kind!=='warrok'&&e.action==='melee'&&e.windup>0&&v.actor.animator){const impact=v.actor.animator.profile.events.impactSeconds;age=Math.min(impact,(s.time-(e.actionAt??s.time))*impact/(e.kind==='colosso'?.85:.45));}
+    v.actor.setAnimation(state,age);v.actor.update(e.x,e.z,e.yaw,speed,running,s.time,elapsed,e.windup>0);v.actor.root.position.y=e.y;
+    if(!v.actor.animator&&e.hp<=0)v.actor.body.rotation.z=Math.min(1,(s.time-(e.deathAt??s.time))/.5)*1.4;
+    if(e.hp>0&&e.hitAt!==undefined){const hit=Math.max(0,1-(s.time-e.hitAt)/.18);v.actor.body.rotation.x-=hit*.08;}
+    v.lastX=e.x;v.lastZ=e.z;v.lastAt=s.time;}
+   if(e.windup>0&&tell<this.tells.length){const m=this.tells[tell++];m.setEnabled(true);m.position.set(e.x,e.y+.08,e.z);const radius=e.action==='slam'?5:e.action==='charge'?2:isSpecial(e.kind)?attackTiming(e).reach:1.15;m.scaling.set(radius*2,1,radius*2);m.rotation.y=0;
+    if(e.action==='jumpAttack'){m.position.set(e.aim.x,0.08,e.aim.z);}
     if(e.action==='charge'){m.position.x=(e.x+e.aim.x)/2;m.position.z=(e.z+e.aim.z)/2;m.rotation.y=Math.atan2(e.aim.x-e.x,e.aim.z-e.z);m.scaling.set(1.8,1,Math.hypot(e.aim.x-e.x,e.aim.z-e.z));}
    }
   }
@@ -117,11 +132,11 @@ export class OrdaRenderer{
   if(!this.paused)this.sound.update(s);
  }
  private hud(s:OrdaState):void{
-  const survivors=s.players.filter(p=>p.alive).length,boss=s.enemies.find(e=>e.kind==='macellaio');
+  const survivors=s.players.filter(p=>p.alive).length,boss=s.enemies.find(e=>(e.kind==='macellaio'||e.kind==='pumpkinhulk')&&e.hp>0);
   for(const r of this.rigs){const p=s.players.find(p=>p.id===r.id);if(!p)continue;r.panel.classList.toggle('dead',!p.alive);
    r.identity.textContent=`${p.name}${p.bot?' · BOT':''} · ${Math.ceil(p.hp)} PV`;
-   r.bar.style.width=`${p.hp}%`;r.stats.textContent=`ONDATA ${s.wave||1} · ${s.enemies.length+s.pending} MOSTRI · ${survivors} VIVI · ${p.kills} UCC.${boss?` · BOSS ${Math.ceil(boss.hp)}/${Math.ceil(boss.maxHp)}`:''}`;
-   r.boss.style.display=boss?'block':'none';if(boss)r.bossFill.style.width=`${Math.max(0,boss.hp/boss.maxHp*100)}%`;
+   r.bar.style.width=`${p.hp}%`;r.stats.textContent=`ONDATA ${s.wave||1} · ${s.enemies.filter(e=>e.hp>0).length+s.pending} MOSTRI · ${survivors} VIVI · ${p.kills} UCC.${boss?` · BOSS ${Math.ceil(boss.hp)}/${Math.ceil(boss.maxHp)}`:''}`;
+   r.boss.style.display=boss?'block':'none';if(boss){r.boss.childNodes[0].textContent=boss.kind==='pumpkinhulk'?'PUMPKINHULK · IL COLOSSO':'IL MACELLAIO';r.bossFill.style.width=`${Math.max(0,boss.hp/boss.maxHp*100)}%`;}
    const buff=p.damageBoost>0?'DANNI ×1.5':p.speedBoost>0?'VELOCITÀ +':p.shield>0?'PROTEZIONE 40%':'';
    r.ammo.textContent=`${weaponOf(p.weapon).name}\n${p.ammo} / ${p.reserve}${p.reload>0?' · RICARICA':p.ammo===0?' · RICARICA!':''}${buff?'\n'+buff:''}`;
    if(s.phase==='finished')r.center.textContent=s.winner===p.id?'ULTIMO VIVO\nHAI VINTO':`${s.players.find(p=>p.id===s.winner)?.name} VINCE\n${p.kills} mostri eliminati`;
@@ -134,6 +149,7 @@ export class OrdaRenderer{
  }
  private event(e:OrdaEvent):void{
   if(this.paused)return;this.sound.event(e,this.ids);const r=this.rigs.find(r=>r.id===e.player);
+  if(e.text==='punch-impact'||e.text==='monster-impact')monsterSfx('impact',0,true);
   if(e.type==='shot'){r?.vm.fire();if(e.weapon!=='bombarda'){const f=this.fx.find(f=>f.kind==='trace'&&f.life<=0);if(f&&e.x!==undefined&&e.tx!==undefined){const from=new Vector3(e.x,e.y!,e.z!),to=new Vector3(e.tx,e.ty!,e.tz!);f.mesh.position.copyFrom(Vector3.Center(from,to));f.mesh.lookAt(to);f.mesh.scaling.z=Vector3.Distance(from,to);f.life=f.max=.055;f.mesh.setEnabled(true);}}}
   if(e.type==='hit'&&r){r.hitTime=.12;if(e.text){r.message='MOSTRO ELIMINATO';r.messageTime=.6;}}
   if(e.type==='hurt'&&r)r.hurt=.75;

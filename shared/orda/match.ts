@@ -4,18 +4,24 @@ import {rayVsAabb} from '../fpsMap';
 import {DepotNavigation,STARTS,GATES,SUPPLIES,floorAt,move,visible,wallDistance} from './arena';
 import type {Point} from './arena';
 import {EMPTY_INPUT} from './types';
+import {WARROK} from './warrok';
+import {isSpecial,updateMonsterCombat,specialDeath} from './monsterCombat';
 import type {EnemyKind,Enemy,OrdaEvent,OrdaInput,OrdaParticipant,OrdaState,Survivor,Bolt} from './types';
 
 export const MAX_ACTIVE=22;
 export const ORDA_WEAPONS:readonly WeaponConfig[]=WEAPONS.map(w=>({...w,damage:w.damage*(w.id==='sparapiselli'?1.45:w.id==='pistola'?1.15:1.12),splashDamage:w.splashDamage?65:undefined}));
 export const weaponOf=(id:string)=>ORDA_WEAPONS.find(w=>w.id===id)??ORDA_WEAPONS.find(w=>w.id==='pistola')!;
 export const ARCHETYPES:Record<EnemyKind,{hp:number;speed:number;damage:number;radius:number;height:number}>={
- infetto:{hp:78,speed:1.8,damage:13,radius:.43,height:1.8},
- corridore:{hp:64,speed:3.8,damage:10,radius:.4,height:2.15},
- colosso:{hp:410,speed:1.35,damage:32,radius:.62,height:2.65},
- assalitore:{hp:120,speed:1.9,damage:18,radius:.44,height:1.75},
- cacciatore:{hp:175,speed:2.8,damage:19,radius:.45,height:2.52},
- macellaio:{hp:2400,speed:1.7,damage:36,radius:.68,height:3.0}
+ infetto:{hp:94,speed:2.05,damage:16,radius:.43,height:1.8},
+ corridore:{hp:78,speed:4,damage:13,radius:.4,height:2.15},
+ colosso:{hp:470,speed:1.5,damage:37,radius:.62,height:2.65},
+ assalitore:{hp:140,speed:2.05,damage:21,radius:.44,height:1.75},
+ cacciatore:{hp:205,speed:3.05,damage:23,radius:.45,height:2.52},
+ macellaio:{hp:2700,speed:1.85,damage:42,radius:.68,height:3.0},
+ warrok:{hp:900,speed:2.65,damage:40,radius:.82,height:3.2},
+ zombiegirl:{hp:110,speed:4.2,damage:18,radius:.36,height:1.85},
+ yaku:{hp:290,speed:3.25,damage:27,radius:.46,height:2.25},
+ pumpkinhulk:{hp:2800,speed:1.6,damage:45,radius:.9,height:3.5}
 };
 const clamp=(v:number,a:number,b:number)=>Math.max(a,Math.min(b,v));
 const distance=(a:Point,b:Point)=>Math.hypot(a.x-b.x,a.z-b.z);
@@ -46,19 +52,19 @@ export class OrdaMatch{
   for(const p of s.players)if(p.alive){this.player(p,p.bot?this.botInput(p,dt):input(p),dt);}
   if(s.phase==='fighting'){
    this.spawnClock-=dt;
-   if(s.pending>0&&s.enemies.length<MAX_ACTIVE&&this.spawnClock<=0){this.spawn();this.spawnClock=Math.max(.35,1.15-s.wave*.035);}
+   if(s.pending>0&&s.enemies.filter(e=>e.hp>0).length<MAX_ACTIVE&&this.spawnClock<=0){this.spawn();this.spawnClock=Math.max(.35,1.07-s.wave*.035);}
    for(const e of s.enemies)if(e.hp>0)this.enemy(e,dt);
    this.projectiles(dt);
-   s.enemies=s.enemies.filter(e=>e.hp>0);
-   if(s.enemies.length===0&&s.pending===0){s.phase='intermission';s.countdown=5;s.notice='RESPIRO · RIFORNISCITI';}
+   if(!s.enemies.some(e=>e.hp>0)&&s.pending===0){s.phase='intermission';s.countdown=5;s.notice='RESPIRO · RIFORNISCITI';}
   }else if(s.phase==='intermission'){s.countdown-=dt;if(s.countdown<=0)this.startWave();}
+  s.enemies=s.enemies.filter(e=>e.hp>0||s.time-(e.deathAt??s.time)<(isSpecial(e.kind)?specialDeath(e.kind)+.2:e.kind==='infetto'||e.kind==='corridore'||e.kind==='colosso'?4.8:.65));
   for(const q of s.supplies)q.cooldown=Math.max(0,q.cooldown-dt);
   this.resolveDeaths();
  }
  startWave():void{
   const s=this.state;s.wave++;s.phase='fighting';s.pending=Math.ceil((3+s.wave*1.65)*this.initialCount*.7);this.bossDue=s.wave%5===0;if(this.bossDue)s.pending++;
-  this.spawnClock=.2;s.notice=this.bossDue?'IL MACELLAIO · ATTENTO AI SEGNALI ROSSI':`ONDATA ${s.wave}`;
-  this.emit({type:this.bossDue?'boss':'wave',value:s.wave});
+  this.spawnClock=.2;s.notice=this.bossDue?(s.wave%10===0?'PUMPKINHULK · IL COLOSSO':'IL MACELLAIO · ATTENTO AI SEGNALI ROSSI'):`ONDATA ${s.wave}`;
+  this.emit({type:this.bossDue?'boss':'wave',value:s.wave,text:this.bossDue?s.notice:undefined});
  }
  private spawn():void{
   const s=this.state;
@@ -68,8 +74,10 @@ export class OrdaMatch{
   const unseen=gates.filter(g=>!s.players.some(p=>p.alive&&distance(g,p)<28&&Math.abs(angle(Math.atan2(g.x-p.x,g.z-p.z),p.yaw))<.65&&visible(p,g,p.y+1.5,floorAt(g.x,g.z)+1)));
   const choices=unseen.length?unseen:gates;
   const g=choices[Math.floor(this.random()*choices.length)];let kind:EnemyKind='infetto';
-  if(this.bossDue){kind='macellaio';this.bossDue=false;}else{const r=this.random();if(s.wave>=4&&r<.28)kind='corridore';if(s.wave>=7&&r>=.28&&r<.43)kind='colosso';if(s.wave>=7&&r>=.43&&r<.61)kind='assalitore';if(s.wave>=10&&r>=.61&&r<.79)kind='cacciatore';}
-  const a=ARCHETYPES[kind],hp=a.hp*(1+Math.min(2.5,(s.wave-1)*.11))*(kind==='macellaio'?this.initialCount/3:1);
+  if(this.bossDue){kind=s.wave>=10&&s.wave%10===0?'pumpkinhulk':'macellaio';this.bossDue=false;}else{const r=this.random();if(s.wave>=4&&r<.28)kind='corridore';if(s.wave>=7&&r>=.28&&r<.43)kind='colosso';if(s.wave>=7&&r>=.43&&r<.61)kind='assalitore';if(s.wave>=10&&r>=.61&&r<.79)kind='cacciatore';}
+  if(kind!=='macellaio'&&kind!=='pumpkinhulk'&&s.wave>=WARROK.firstWave&&s.enemies.filter(e=>e.kind==='warrok'&&e.hp>0).length<WARROK.maxLiving&&(s.pending%7===0||this.random()<.1))kind='warrok';
+  if(kind==='infetto'||kind==='corridore'){const r=this.random();if(s.wave>=3&&r<.3&&s.enemies.filter(e=>e.kind==='zombiegirl'&&e.hp>0).length<5)kind='zombiegirl';else if(s.wave>=8&&r<.5&&s.enemies.filter(e=>e.kind==='yaku'&&e.hp>0).length<3)kind='yaku';}
+  const a=ARCHETYPES[kind],hp=a.hp*(1+Math.min(2.5,(s.wave-1)*.11))*(kind==='macellaio'||kind==='pumpkinhulk'?this.initialCount/3:1);
   const id=this.nextId++;
   s.enemies.push({id,kind,...g,y:floorAt(g.x,g.z),yaw:0,hp,maxHp:hp,speed:a.speed*(1+Math.min(.35,(s.wave-1)*.025)),damage:a.damage*(1+Math.min(.65,s.wave*.035)),radius:a.radius,height:a.height,target:null,memory:null,remember:0,path:[],think:(id%7)*.05,nav:0,attack:.5,windup:0,action:'walk',aim:{...g},stuck:0,last:{...g},rage:false});s.pending--;
  }
@@ -114,7 +122,8 @@ export class OrdaMatch{
  }
  private hurtEnemy(e:Enemy,dmg:number,p:Survivor):void{
   if(e.hp<=0||!p.alive)return;const actual=Math.min(e.hp,dmg);e.hp-=dmg;p.damage+=actual;e.target=p.id;e.memory={x:p.x,z:p.z};e.remember=4;
-  if(e.hp<=0)p.kills++;this.emit({type:'hit',player:p.id,enemy:e.id,value:actual,text:e.hp<=0?'ELIMINATO':''});
+  e.hitAt=this.state.time;
+  if(e.hp<=0){p.kills++;e.hp=0;e.y=floorAt(e.x,e.z);e.deathAt=this.state.time;e.action='dead';e.actionAt=this.state.time;e.windup=0;e.path=[];e.target=null;}this.emit({type:'hit',player:p.id,enemy:e.id,value:actual,text:e.hp<=0?'ELIMINATO':''});
  }
  /** No friendly fire: this is the only player-damage path, owned by monsters/projectiles. */
  damagePlayer(p:Survivor,damage:number,at=this.state.time):void{
@@ -136,7 +145,7 @@ export class OrdaMatch{
   const s=this.state,old=s.players.find(p=>p.id===e.target&&p.alive);
   const candidates=s.players.filter(p=>p.alive&&(distance(e,p)<22&&visible(e,p,e.y+e.height*.75,p.y+1.1)||p.noise>0&&distance(e,p)<(p.moving>0&&p.noise<.5?7:17)));
   if(candidates.length){
-   const score=(p:Survivor)=>{const assigned=s.enemies.filter(n=>n!==e&&n.target===p.id).length;const isolated=Math.min(12,...s.players.filter(q=>q.alive&&q!==p).map(q=>distance(q,p)));return distance(e,p)+assigned*2.4-(p===old?2:0)-(e.kind==='corridore'||e.kind==='cacciatore'?isolated*.4:0);};
+   const score=(p:Survivor)=>{const assigned=s.enemies.filter(n=>n!==e&&n.hp>0&&n.target===p.id).length;const isolated=Math.min(12,...s.players.filter(q=>q.alive&&q!==p).map(q=>distance(q,p)));return distance(e,p)+assigned*2.4-(p===old?2:0)-(e.kind==='corridore'||e.kind==='cacciatore'?isolated*.4:0);};
    candidates.sort((a,b)=>score(a)-score(b));const p=candidates[0];e.target=p.id;e.memory={x:p.x,z:p.z};e.remember=4.5;
   }else if(!old||e.remember<=0){e.target=null;e.memory=null;}
  }
@@ -144,14 +153,15 @@ export class OrdaMatch{
   const s=this.state;e.attack-=dt;e.think-=dt;e.nav-=dt;e.remember-=dt;
   if(e.think<=0){this.perceive(e);e.think=.22+(e.id%4)*.035;}
   const target=s.players.find(p=>p.id===e.target&&p.alive);
-  if(e.kind==='macellaio')e.rage=e.hp<e.maxHp*.4;
+  if(e.kind==='macellaio'||e.kind==='pumpkinhulk')e.rage=e.hp<e.maxHp*.4;
+  if(isSpecial(e.kind)&&updateMonsterCombat({state:s,damage:(p,value)=>this.damagePlayer(p,value),emit:event=>this.emit(event)},e,target,dt))return;
   if(e.windup>0){e.windup-=dt;if(e.windup<=0)this.attack(e);return;}
   if(e.action==='charge'){
    const dx=e.aim.x-e.x,dz=e.aim.z-e.z,d=Math.hypot(dx,dz),q=move(e.x,e.z,dx/Math.max(.01,d)*12*dt,dz/Math.max(.01,d)*12*dt,e.radius,e.y),travel=distance(e,q);e.x=q.x;e.z=q.z;e.y=floorAt(e.x,e.z);
    let impacted=false;for(const p of s.players)if(p.alive&&distance(e,p)<1.25&&Math.abs(p.y-e.y)<2){this.damagePlayer(p,e.damage,s.time-dt+dt*.7);impacted=true;}
    if(impacted||d<.5||travel<.03){e.action='walk';e.attack=2.8;}return;
   }
-  if(target&&e.attack<=0&&visible(e,target,e.y+1.4,target.y+1.1)){
+  if(!isSpecial(e.kind)&&target&&e.attack<=0&&visible(e,target,e.y+1.4,target.y+1.1)){
    const d=distance(e,target),height=Math.abs(target.y-e.y);
    if(e.kind==='assalitore'&&d>3&&d<18){this.wind(e,'spit',.85,target);return;}
    if(e.kind==='macellaio'&&d<6){this.wind(e,'slam',1.15,target);return;}
@@ -161,8 +171,8 @@ export class OrdaMatch{
   let goal=e.memory;
   if(!goal){goal=GATES[(Math.floor(s.time/7)+e.id)%GATES.length];}
   // Flank only the last perceived position, not a wall-hidden live coordinate.
-  if((e.kind==='cacciatore'||e.kind==='corridore')&&e.memory&&distance(e,goal)>6){const side=e.id%2?1:-1,g={x:goal.x+side*3.2,z:goal.z+Math.sin(e.id)*2};if(this.nav.nodes.has(this.nav.nearest(g)))goal=this.nav.nodes.get(this.nav.nearest(g))!;}
-  if(e.kind==='cacciatore'&&e.memory&&distance(e,e.memory)>7&&visible(e,e.memory)){
+  if((e.kind==='cacciatore'||e.kind==='corridore'||e.kind==='zombiegirl'||e.kind==='yaku')&&e.memory&&distance(e,goal)>6){const side=e.id%2?1:-1,g={x:goal.x+side*3.2,z:goal.z+Math.sin(e.id)*2};if(this.nav.nodes.has(this.nav.nearest(g)))goal=this.nav.nodes.get(this.nav.nearest(g))!;}
+  if((e.kind==='cacciatore'||e.kind==='yaku')&&e.memory&&distance(e,e.memory)>7&&visible(e,e.memory)){
    const memory=e.memory,flanks=[{x:-14,z:-5},{x:-8,z:0},{x:8,z:0},{x:14,z:5}].filter(q=>distance(e,q)>2&&!visible(q,memory)&&distance(e,q)+distance(q,memory)<distance(e,memory)*1.7);
    flanks.sort((a,b)=>distance(e,a)-distance(e,b));if(flanks.length)goal=flanks[0];
   }
@@ -170,12 +180,12 @@ export class OrdaMatch{
   while(e.path.length&&distance(e,e.path[0])<.42)e.path.shift();const next=e.path[0];
   if(next){let dx=next.x-e.x,dz=next.z-e.z;
    for(const other of s.enemies)if(other!==e&&other.hp>0){const d=distance(e,other),min=e.radius+other.radius+.15;if(d<min&&d>.01){dx+=(e.x-other.x)/d*(min-d)*2.4;dz+=(e.z-other.z)/d*(min-d)*2.4;}}
-   const d=Math.hypot(dx,dz),speed=e.speed*(e.rage?1.22:1),q=move(e.x,e.z,dx/Math.max(.01,d)*speed*dt,dz/Math.max(.01,d)*speed*dt,e.radius,e.y);
+   const d=Math.hypot(dx,dz),speed=(e.kind==='warrok'&&!target?WARROK.walk:e.speed)*(e.rage?1.15:1)*(e.kind==='yaku'&&s.time<(e.sprintUntil??0)?1.35:1),q=move(e.x,e.z,dx/Math.max(.01,d)*speed*dt,dz/Math.max(.01,d)*speed*dt,e.radius,e.y);
    e.yaw+=clamp(angle(Math.atan2(dx,dz),e.yaw),-dt*5,dt*5);e.stuck=distance(e,q)<.005?e.stuck+dt:0;e.x=q.x;e.z=q.z;e.y=floorAt(e.x,e.z);
    if(e.stuck>1.4){e.nav=0;e.path=[];e.stuck=0;const neighbors=this.nav.links.get(this.nav.nearest(e))??[];if(neighbors.length){const p=this.nav.nodes.get(neighbors[e.id%neighbors.length])!;e.path=[p];e.nav=.5;}}
   }
  }
- private wind(e:Enemy,action:Enemy['action'],duration:number,target:Survivor):void{e.action=action;e.windup=duration;e.aim={x:target.x,z:target.z};this.emit({type:'windup',enemy:e.id,x:e.x,y:e.y,z:e.z,text:action,value:duration,tx:target.x,ty:target.y+1,tz:target.z});}
+ private wind(e:Enemy,action:Enemy['action'],duration:number,target:Survivor):void{e.action=action;e.actionAt=this.state.time;e.windup=duration;e.aim={x:target.x,z:target.z};this.emit({type:'windup',enemy:e.id,x:e.x,y:e.y,z:e.z,text:action,value:duration,tx:target.x,ty:target.y+1,tz:target.z});}
  private attack(e:Enemy):void{
   const s=this.state;
   if(e.action==='spit'){const oy=e.y+1.25,tx=e.aim.x,tz=e.aim.z,ty=floorAt(tx,tz)+1,d=Math.hypot(tx-e.x,ty-oy,tz-e.z);s.bolts.push({id:this.nextId++,owner:String(e.id),hostile:true,x:e.x,y:oy,z:e.z,dx:(tx-e.x)/d,dy:(ty-oy)/d,dz:(tz-e.z)/d,speed:9,damage:e.damage,radius:.22,life:3});e.attack=2.4;e.action='walk';return;}

@@ -1,0 +1,35 @@
+FBX version: 7700
+FBX version: 7700
+CLIP WALK {"frames": [1, 44], "seconds": 1.4333333333333333, "rootTravelBlender": [6.238884088816121e-05, -1.8941302299499512, 3.9205602661240846e-05]}
+FBX version: 7700
+CLIP ATTACK {"frames": [1, 34], "seconds": 1.1, "rootTravelBlender": [-3.6502995499176905e-05, 6.707193097099662e-05, 0.00013877863239031285]}
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+12:40:17 | INFO: Starting glTF 2.0 export
+12:40:17 | INFO: Extracting primitive: Warrok
+12:40:18 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+12:40:18 | INFO: Primitives created: 1
+12:40:23 | INFO: Finished glTF 2.0 export in 6.011201858520508 s
+
+FBX version: 7700
+CLIP IDLE {"frames": [1, 160], "seconds": 5.3, "rootTravelBlender": [-4.67896406064483e-08, 1.9073491230869877e-08, -7.822343846882601e-14]}
+FBX version: 7700
+CLIP BREATHING_IDLE {"frames": [1, 122], "seconds": 4.033333333333333, "rootTravelBlender": [-2.9802313950000325e-09, 4.7683719195390495e-09, -5.250665336954631e-15]}
+FBX version: 7700
+CLIP RUN {"frames": [1, 27], "seconds": 0.8666666666666667, "rootTravelBlender": [-2.3899105144664645e-05, -2.081418752670288, 0.00010750268120318651]}
+FBX version: 7700
+CLIP JUMP {"frames": [1, 19], "seconds": 0.6, "rootTravelBlender": [-0.008287401869893074, 3.208303314750083e-05, 0.08041191101074219]}
+FBX version: 7700
+CLIP ROAR {"frames": [1, 163], "seconds": 5.4, "rootTravelBlender": [-1.0412961728434311e-06, 1.120567503676284e-06, 1.9836406863760203e-06]}
+FBX version: 7700
+CLIP DEATH {"frames": [1, 139], "seconds": 4.6, "rootTravelBlender": [-0.04740017652511597, 0.8941186666488647, -0.5539181232452393]}
+12:40:48 | INFO: Starting glTF 2.0 export
+12:40:48 | INFO: Extracting primitive: Warrok
+12:40:48 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+12:40:48 | INFO: Primitives created: 1
+12:41:00 | INFO: Finished glTF 2.0 export in 11.983746528625488 s
+
+CONVERSION COMPLETE
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

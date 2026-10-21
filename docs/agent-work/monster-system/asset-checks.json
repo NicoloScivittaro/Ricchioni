@@ -1,0 +1,111 @@
+{
+  "status": "passed",
+  "rigCompatibility": "81 imported bones; exact hierarchy, rest matrices, armature transforms in all eleven FBX",
+  "originalsUnchanged": true,
+  "retargetPreservesOriginalGeometryBindMaterials": true,
+  "rootMotionRangeXYZ": {
+    "WALK": [
+      9.53674295089968e-09,
+      0.19493204392849806,
+      2.08746199853449e-07
+    ],
+    "ATTACK": [
+      4.76837147544984e-09,
+      0.22211210831318895,
+      4.891621334379703e-08
+    ],
+    "IDLE": [
+      3.2782553893717647e-09,
+      0.03974533526230595,
+      1.0108509189421522e-08
+    ],
+    "BREATHING_IDLE": [
+      5.9604643443123e-10,
+      0.01473983929745093,
+      1.980427689896036e-09
+    ],
+    "RUN": [
+      7.74860364760599e-09,
+      0.22839502985433602,
+      1.811215635146024e-07
+    ],
+    "JUMP": [
+      2.98023217215615e-10,
+      0.0,
+      0.0
+    ],
+    "ROAR": [
+      2.4139880594464813e-08,
+      0.17254831339401688,
+      7.212980112497602e-08
+    ],
+    "DEATH": [
+      1.1026859036977754e-08,
+      0.5598039109686003,
+      1.7535041766519877e-07
+    ]
+  },
+  "assets": [
+    {
+      "asset": "warrok.glb",
+      "bytes": 5435416,
+      "sha256": "0411454a14182d1564f442749bfd372bbcf6b2c5b15701bb91109ce4ba785586",
+      "meshes": 1,
+      "rigs": 1,
+      "bones": 81,
+      "clips": [
+        "WALK",
+        "ATTACK",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "JUMP",
+        "ROAR",
+        "DEATH"
+      ],
+      "triangles": 12626,
+      "embeddedImages": 3
+    },
+    {
+      "asset": "hazmat-animated.glb",
+      "bytes": 4813328,
+      "sha256": "304169f93b7de8cb47338eebd2bfb5f16b523576d1d47684450147f946a08855",
+      "meshes": 1,
+      "rigs": 1,
+      "bones": 66,
+      "clips": [
+        "WALK",
+        "ATTACK",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "JUMP",
+        "ROAR",
+        "DEATH"
+      ],
+      "triangles": 72068,
+      "embeddedImages": 3
+    },
+    {
+      "asset": "partygoer-animated.glb",
+      "bytes": 1448484,
+      "sha256": "82752145b2c03151ef1475e2c6b39eebc6e03c99797e0d161a608391f764003e",
+      "meshes": 2,
+      "rigs": 1,
+      "bones": 69,
+      "clips": [
+        "WALK",
+        "ATTACK",
+        "IDLE",
+        "BREATHING_IDLE",
+        "RUN",
+        "JUMP",
+        "ROAR",
+        "DEATH"
+      ],
+      "triangles": 7320,
+      "embeddedImages": 6
+    }
+  ],
+  "extraAnimations": "Jump Attack and Swiping inspected, not included in the requested eight-clip set"
+}

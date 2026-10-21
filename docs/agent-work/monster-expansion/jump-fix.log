@@ -1,0 +1,51 @@
+FBX version: 7700
+FBX version: 7700
+BAKED warrok JUMP_ATTACK {'source': 'C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Jump Attack.fbx', 'frames': [1, 112], 'seconds': 3.7, 'mappedBones': 81, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0}
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+13:42:58 | INFO: Starting glTF 2.0 export
+13:42:58 | INFO: Extracting primitive: Warrok
+13:42:58 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:42:58 | INFO: Primitives created: 1
+13:42:59 | INFO: Finished glTF 2.0 export in 1.2196683883666992 s
+
+FBX version: 7700
+FBX version: 7700
+BAKED zombiegirl JUMP {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\zombiegirl\\mutant jumping.fbx', 'frames': [1, 87], 'seconds': 2.8666666666666667, 'mappedBones': 63, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.9999999099998768}
+13:43:02 | INFO: Starting glTF 2.0 export
+13:43:02 | INFO: Extracting primitive: ZombieGirl_Body
+13:43:02 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:43:03 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+13:43:03 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+13:43:03 | INFO: Primitives created: 3
+13:43:03 | INFO: Extracting primitive: ZombieGirl_Pants
+13:43:03 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:43:03 | INFO: Primitives created: 2
+13:43:03 | INFO: Extracting primitive: ZombieGirl_Top
+13:43:03 | WARNING: The active Vertex Color will not be exported, as it is not used in the node tree of the material
+13:43:03 | INFO: Primitives created: 2
+13:43:03 | INFO: Finished glTF 2.0 export in 1.2584197521209717 s
+
+FBX version: 7700
+FBX version: 7700
+BAKED yaku JUMP {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\yaku\\mutant jumping.fbx', 'frames': [1, 87], 'seconds': 2.8666666666666667, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000004307601726}
+FBX version: 7700
+BAKED yaku JUMP_ATTACK {'source': 'C:\\Users\\niluf.PC-NIKO\\Downloads\\Mutant Jump Attack.fbx', 'frames': [1, 112], 'seconds': 3.7, 'mappedBones': 65, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 0.7500698502460831}
+13:43:08 | INFO: Starting glTF 2.0 export
+13:43:08 | INFO: Extracting primitive: Yaku_zombie
+13:43:08 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+13:43:08 | INFO: Primitives created: 2
+13:43:10 | INFO: Finished glTF 2.0 export in 1.902538537979126 s
+
+FBX version: 7700
+FBX version: 7700
+BAKED pumpkinhulk JUMP {'source': 'C:\\Users\\niluf.PC-NIKO\\.cache\\party-monsters\\expansion-1.2\\pumpkinhulk\\mutant jumping.fbx', 'frames': [1, 87], 'seconds': 2.8666666666666667, 'mappedBones': 66, 'hierarchy': True, 'restSpaceRetarget': True, 'proportionRatio': 1.0000001884365934}
+13:43:11 | INFO: Starting glTF 2.0 export
+13:43:11 | INFO: Extracting primitive: PumpkinHulk
+13:43:11 | INFO: Primitives created: 1
+13:43:12 | INFO: Finished glTF 2.0 export in 0.8158862590789795 s
+
+EXPANSION CONVERSION COMPLETE
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

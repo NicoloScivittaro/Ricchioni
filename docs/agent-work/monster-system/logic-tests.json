@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "checks": [
+    "Punch: preparation, single impact and recovery; animation timeline authoritative",
+    "Punch evaded behind, airborne, out of reach or behind cover",
+    "All six weapons can damage Warrok; lethal hit counted once and corpse retained",
+    "Existing six ballistic paths hit the actual Warrok hitbox",
+    "Advanced waves only, maximum two living Warroks; corpse does not block wave",
+    "Jump cannot cross cover; death stops AI and offense immediately"
+  ]
+}

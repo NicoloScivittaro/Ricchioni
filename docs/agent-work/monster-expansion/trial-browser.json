@@ -1,0 +1,80 @@
+{
+  "errors": [],
+  "actors": [
+    {
+      "kind": "warrok",
+      "state": "SWIPE",
+      "clips": [
+        "SWIPE",
+        "JUMP_ATTACK"
+      ]
+    },
+    {
+      "kind": "warrok",
+      "state": "JUMP_ATTACK",
+      "clips": [
+        "SWIPE",
+        "JUMP_ATTACK"
+      ]
+    },
+    {
+      "kind": "zombiegirl",
+      "state": "WALK",
+      "clips": [
+        "WALK",
+        "SWIPE"
+      ]
+    },
+    {
+      "kind": "zombiegirl",
+      "state": "SWIPE",
+      "clips": [
+        "WALK",
+        "SWIPE"
+      ]
+    },
+    {
+      "kind": "yaku",
+      "state": "WALK",
+      "clips": [
+        "WALK",
+        "SWIPE",
+        "JUMP_ATTACK"
+      ]
+    },
+    {
+      "kind": "yaku",
+      "state": "SWIPE",
+      "clips": [
+        "WALK",
+        "SWIPE",
+        "JUMP_ATTACK"
+      ]
+    },
+    {
+      "kind": "yaku",
+      "state": "JUMP_ATTACK",
+      "clips": [
+        "WALK",
+        "SWIPE",
+        "JUMP_ATTACK"
+      ]
+    },
+    {
+      "kind": "pumpkinhulk",
+      "state": "WALK",
+      "clips": [
+        "WALK",
+        "SWIPE"
+      ]
+    },
+    {
+      "kind": "pumpkinhulk",
+      "state": "SWIPE",
+      "clips": [
+        "WALK",
+        "SWIPE"
+      ]
+    }
+  ]
+}
