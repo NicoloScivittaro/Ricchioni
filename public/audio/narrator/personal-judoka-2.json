@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/personal-judoka-2.ogg",
-  "duration": 3.5,
-  "bytes": 26873,
-  "signature": "24c90222ad97c534d39ddb63620c007da1eb383538270cf7612c6616de377c20",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.552,
+  "bytes": 31092,
+  "signature": "270fa6b800662c16d0ffd7ae6cde3aa8939957e0db4481e2d464c361b7b24118",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.01
 }

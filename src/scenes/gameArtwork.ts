@@ -7,6 +7,8 @@ export function gameAccent(def?: MinigameDefinition): string {
         return '#e2cf78';
     if (def.id === 'fps')
         return '#ff997b';
+    if (def.id === 'orda')
+        return '#c7b577';
     return ({ SPORT: '#86e3bd', GUIDA: '#8cbfff', ARENA: '#ff997b', CULTURA: '#c3a6ff', MEMORIA: '#f0a7d3', RIFLESSI: '#f8db81', FORTUNA: '#f1c48b', SKILL: '#88d4e9', PUZZLE: '#a8c8ff' } as Record<string, string>)[def.category] ?? '#a7cfdb';
 }
 export function gameArtwork(def?: MinigameDefinition): string {
@@ -14,6 +16,8 @@ export function gameArtwork(def?: MinigameDefinition): string {
     let art = '';
     if (!def)
         art = `<g transform="translate(320 175) rotate(-18)"><circle r="119" fill="#151c35" stroke="${color}" stroke-width="3"/><circle r="92" fill="none" stroke="${color}" stroke-width="38" stroke-dasharray="39 9" opacity=".65"/><circle r="48" fill="#202845" stroke="${color}" stroke-width="2"/><path d="m-14-26 42 26-42 26z" fill="${color}"/><path d="m0-148-13-25h26z" fill="#ffdc96"/></g><circle cx="125" cy="96" r="8" fill="#f9d98b"/><path d="m488 248 10-19 10 19-10-6z" fill="#91e8cd"/>`;
+    else if (id === 'orda')
+        art = `<g stroke="${color}" stroke-width="3" fill="#243733"><path d="M130 270V120l190-80 190 80v150z"/><path d="M180 270V150h280v120"/><path d="M200 180h65v90h-65m175-90h65v90h-65"/></g><g fill="${color}"><circle cx="315" cy="149" r="20"/><path d="m291 175 45-3 12 78h-68z"/><path d="m293 183-35 36 13 13 39-28m21-18 34 24-5 14-36-19"/></g><g fill="#fa9974"><ellipse cx="234" cy="173" rx="6" ry="4"/><ellipse cx="249" cy="173" rx="6" ry="4"/><ellipse cx="393" cy="165" rx="6" ry="4"/><ellipse cx="408" cy="165" rx="6" ry="4"/></g><path d="M320 105v-25m0 171v35M252 193h-30m145 0h30" stroke="#f2d6a4" stroke-width="3"/>`;
     else if (id === 'backrooms')
         art = `<g fill="#2a2a23" stroke="${color}" stroke-width="3"><path d="M130 255V75h140v66h-64v114z"/><path d="M307 255V75h166v180h-66V141h-34v114z"/></g><g fill="${color}" opacity=".4"><path d="M155 88h90v9h-90zM323 88h132v9H323z"/></g><ellipse cx="294" cy="205" rx="8" ry="5" fill="#fff0b7"/><ellipse cx="319" cy="205" rx="8" ry="5" fill="#fff0b7"/><path d="M292 223q16 15 30 0" fill="none" stroke="#fff0b7" stroke-width="3"/>`;
     else if (cat === 'GUIDA')

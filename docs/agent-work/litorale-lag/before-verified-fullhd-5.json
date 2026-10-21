@@ -1,0 +1,146 @@
+{
+  "stage": "before-verified-fullhd",
+  "views": 5,
+  "errors": [],
+  "drivers": [
+    {
+      "imported": true,
+      "ready": false,
+      "failed": false
+    },
+    {
+      "imported": true,
+      "ready": false,
+      "failed": false
+    },
+    {
+      "imported": false
+    },
+    {
+      "imported": true,
+      "ready": false,
+      "failed": false
+    },
+    {
+      "imported": true,
+      "ready": false,
+      "failed": false
+    }
+  ],
+  "metrics": {
+    "fps": 44.15377464976857,
+    "frame": {
+      "mean": 22.648120300746278,
+      "p95": 32.80000000074506
+    },
+    "render": {
+      "mean": 20.806390977401595,
+      "p95": 29.400000002235174
+    },
+    "step": {
+      "mean": 1.3823970039043756,
+      "p95": 2.5
+    },
+    "draws": {
+      "mean": 424.093984962406,
+      "p95": 490
+    },
+    "meshes": 287,
+    "vertices": 301690,
+    "top": [
+      {
+        "name": "coastalDetailBatch",
+        "vertices": 60418,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "tripo_node_9724ae93-c510-4a38-8cf5-0152240ba84c~g1",
+        "vertices": 33613,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g4",
+        "vertices": 29981,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "tripo_node_15d71480-45c9-4b21-9e34-83df28c07d0d~g2",
+        "vertices": 28141,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "tripo_node_251cf5c8-cf0f-4a4c-a2bc-69279b21f4d4~g3",
+        "vertices": 24403,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "coastalCloudVolumes",
+        "vertices": 13860,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8274,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8111,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8107,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8079,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8055,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "road",
+        "vertices": 5226,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "viaductDeck",
+        "vertices": 3488,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartPaintedChassis",
+        "vertices": 1952,
+        "submeshes": 1,
+        "thin": 0
+      }
+    ],
+    "scale": 1,
+    "width": 1920,
+    "height": 1080,
+    "cameras": 5,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    }
+  }
+}

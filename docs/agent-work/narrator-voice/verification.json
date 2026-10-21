@@ -1,0 +1,63 @@
+{
+  "status": "passed",
+  "clips": 132,
+  "bytes": 3732240,
+  "peakDb": -1.2,
+  "durationChecks": {
+    "clips": 132,
+    "eventMaxSeconds": {
+      "roller": 3.573,
+      "game": 3.8,
+      "result": 4.0
+    },
+    "allFitExistingWindows": true,
+    "allProfileV2": true
+  },
+  "browser": {
+    "errors": [],
+    "playback": [
+      {
+        "id": "roller-5",
+        "subtitle": "La ruota gira. Il cervello vostro, un po' meno.",
+        "playedToEnd": true
+      },
+      {
+        "id": "result-6",
+        "subtitle": "Ultimo. Non è sfortuna: è proprio il livello.",
+        "playedToEnd": true
+      },
+      {
+        "id": "personal-buttafuori-5",
+        "subtitle": "Boschi ultimo. Fai più paura al portone che agli avversari.",
+        "playedToEnd": true
+      },
+      {
+        "id": "game-fps-1",
+        "subtitle": "SPARATORIA DEI DISAGIATI! Mira da talpa, vedemo!",
+        "playedToEnd": true
+      }
+    ],
+    "status": "passed"
+  },
+  "production": {
+    "errors": [],
+    "subtitle": "🎙️ IL NARRATORE BASTARDOPronti? Fate schifo con una sicurezza commovente.",
+    "audio": {
+      "sources": [
+        {
+          "duration": 3.328,
+          "ended": true
+        }
+      ],
+      "assets": [
+        "http://localhost:3012/audio/narrator/roller-4.ogg"
+      ]
+    },
+    "status": "passed"
+  },
+  "typecheck": "passed",
+  "build": "passed",
+  "synthesis": "Offline Kokoro im_nicola, natural-sarcasm-v2; no pitch transposition or time stretch on encoded speech",
+  "limits": "Synthetic Italian voice; automatic transcription and technical playback checks do not certify human acting or listener preference.",
+  "commitPushDeploy": "none"
+}

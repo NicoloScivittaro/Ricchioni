@@ -1,0 +1,10 @@
+{
+  "clips": 132,
+  "eventMaxSeconds": {
+    "roller": 3.573,
+    "game": 3.8,
+    "result": 4.0
+  },
+  "allFitExistingWindows": true,
+  "allProfileV2": true
+}

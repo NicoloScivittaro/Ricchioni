@@ -97,6 +97,10 @@ export class BabylonKartGame {
   private trackAngleAt = (d: number): number => this.spline.tangentAngleAt(d);
   /** false finche' la schermata CONTROLLI e' visibile: countdown/gara restano fermi (vedi step()). */
   private controlsDone = false;
+  private preparingCoast = false;
+  private loadingFrameAt = 0;
+  private hudElapsed = 0;
+  private hudBudget = 1 / 30;
   /** Metriche solo-debug per il SESSION REPORT (F4): nessun effetto sul gameplay. Aggregate su tutti i giocatori. */
   private stats = { steerFrames: 0, steerSat: 0, throttleFrames: 0, brakeFrames: 0, totalFrames: 0, driftAttempts: 0, miniTurbos: 0, wallHits: 0 };
 
@@ -110,6 +114,7 @@ export class BabylonKartGame {
     this.rainbow=ctx.kartTrackId==='arcobaleno'?new RainbowTrack():null;
     this.sydney=ctx.kartTrackId==='sydney'?new SydneyTrack():null;
     this.primo=ctx.kartTrackId==='primo'?new PrimoTrack():null;
+    this.preparingCoast = !this.rainbow && !this.sydney && !this.primo;
     this.flightTrack=this.rainbow??this.sydney;
     this.spline = this.primo??this.flightTrack??buildTrack();
     // Mondo intorno alla pista (cielo, luce, mare, i 4 settori coi landmark): kartEnvironment.ts. Bagliore solo su neon e luci.
@@ -170,7 +175,7 @@ export class BabylonKartGame {
       state.absHeading = this.trackAngleAt(state.distance);
       this.karts.set(p.id, state);
 
-      const entity = new KartEntity(this.scene, p.color, p.characterId);
+      const entity = new KartEntity(this.scene, p.color, p.characterId, this.preparingCoast);
       entity.updateVisual(state, this.spline);
       this.entities.set(p.id, entity);
       if(this.flightTrack)this.wings.set(p.id,new GlideWings(this.scene,entity.root,p.color));
@@ -190,16 +195,35 @@ export class BabylonKartGame {
     this.hud.setCountdown('3');
 
     // Schermata CONTROLLI: finche' e' su, il countdown/la gara restano fermi (vedi step()); alla fine gli input sono azzerati.
-    this.ready=(this.primo?importPrimo(this.scene):this.sydney?importSydney(this.scene,this.sydney):this.rainbow?importRainbow(this.scene,this.rainbow):Promise.resolve()).then(()=>{
+    this.ready=(this.primo?importPrimo(this.scene):this.sydney?importSydney(this.scene,this.sydney):this.rainbow?importRainbow(this.scene,this.rainbow):Promise.resolve()).then(async()=>{
       if(this.disposed)return;
+      if(this.preparingCoast){
+        // This procedural map loads instantly, but its drivers do not. Finish
+        // uploads and shader preparation behind the existing loading screen.
+        await Promise.all([...this.entities.values()].map(entity=>entity.ready));
+        if(this.disposed)return;
+        await this.scene.whenReadyAsync();
+        if(this.disposed)return;
+        this.scene.render();
+        this.preparingCoast=false;
+        applyQuality(this.engine,this.scene);
+      }
       if(ctx.showControls)void ctx.showControls().then(()=>{if(!this.disposed)this.controlsDone=true;});
       else this.controlsDone=true;
     });
 
-    applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
+    // Loading renders are intentionally sparse and must not drive auto-quality.
+    if(!this.preparingCoast)applyQuality(this.engine, this.scene);
     this.engine.runRenderLoop(guardLoop(() => {
       if (this.disposed) return;
       if (this.paused) return; // menu ESC del telefono/host: nessun input processato, gara ferma
+      if(this.preparingCoast){
+        // Keep shader preparation progressing without competing with four GLB
+        // decoders and texture uploads at full split-screen frame rate.
+        const now=performance.now();
+        if(now-this.loadingFrameAt>=100){this.loadingFrameAt=now;this.scene.render();}
+        return;
+      }
       // Sotto-passi in tempo reale: timer/countdown/durata non dipendono dagli FPS (vedi core/frameClock).
       runSteps(this.engine.getDeltaTime(), (dt) => this.step(dt));
       this.world.update(performance.now());
@@ -354,6 +378,13 @@ export class BabylonKartGame {
 
   private present(dt:number):void {
     const kartsList=[...this.karts.values()];
+    // Five independent canvas HUDs otherwise upload between every viewport's
+    // draw calls. Refresh coastal text/minimaps at 30 Hz; motion stays full rate.
+    this.hudElapsed+=dt;
+    this.hudBudget+=dt;
+    const refreshHud=!!(this.flightTrack||this.primo)||this.hudBudget>=1/30;
+    const hudDt=this.hudElapsed;
+    if(refreshHud){this.hudElapsed=0;this.hudBudget%=1/30;}
     for (const [pid, state] of this.karts) {
       abilityHub.setStatus(pid, this.abilities.status(state)); // HUD + Companion Card (solo presentazione)
       const watch = this.rankWatch.get(pid);
@@ -367,17 +398,18 @@ export class BabylonKartGame {
       if(this.flightTrack)this.landingGuides.get(pid)?.update(state,this.flightTrack);
       this.trackFeedback(pid, state);
       this.cameraManager.update(dt, pid, state, this.spline);
-      const slot=pads.slotOf(pid),binding=profileFor('kart3d')?.controls.find(c=>c.action==='ABILITY')?.binding;
-      this.hud.setAbilityButton(pid,slot?.state==='paired'&&binding?bindingLabel(binding,padFamily(slot.padId)):'📱 ⚡');
-      this.hud.update(pid, state, this.karts.size, LAPS, DRIFT_THRESHOLDS, dt);
+      if(refreshHud){
+        const slot=pads.slotOf(pid),binding=profileFor('kart3d')?.controls.find(c=>c.action==='ABILITY')?.binding;
+        this.hud.setAbilityButton(pid,slot?.state==='paired'&&binding?bindingLabel(binding,padFamily(slot.padId)):'📱 ⚡');
+        this.hud.update(pid, state, this.karts.size, LAPS, DRIFT_THRESHOLDS, hudDt);
+      }
     }
-    this.hud.updateMinimap([...this.karts.values()], this.spline);
-    this.hud.layout(this.order);
+    if(refreshHud){this.hud.updateMinimap(kartsList, this.spline);this.hud.layout(this.order);}
 
     this.windClock-=dt;
     if(this.flightTrack&&this.windClock<=0&&this.order.some(id=>this.karts.get(id)?.flight==='GLIDE')){audio.kartGlide('wind');this.windClock=.4;}
     this.setPieces.update(this.race.raceTime);
-    for(const [id,state] of this.karts)this.hud.setSector(id,this.primo?this.primo.sector(state.distance):this.sydney?this.sydney.sector(state.distance):this.rainbow?(state.flight==='GLIDE'?'':state.flight==='FALL'?'RECUPERO':'ARCOBALENO'):trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
+    if(refreshHud)for(const [id,state] of this.karts)this.hud.setSector(id,this.primo?this.primo.sector(state.distance):this.sydney?this.sydney.sector(state.distance):this.rainbow?(state.flight==='GLIDE'?'':state.flight==='FALL'?'RECUPERO':'ARCOBALENO'):trackSection(state.distance,this.spline.totalLength),this.race.raceTime);
   }
 
   /**

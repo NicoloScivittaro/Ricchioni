@@ -1,0 +1,8 @@
+{
+  "checks": [
+    "Final compiled UI + refreshed backend: three humans, bot toggle both directions reflected on phones, one Ribaltati card selects the shared game.",
+    "New and previous galleries preserved; compiled room exit cleans up."
+  ],
+  "errors": [],
+  "status": "passed"
+}

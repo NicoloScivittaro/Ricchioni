@@ -1,0 +1,25 @@
+{
+  "errors": [],
+  "checks": [
+    "Delayed real drivers finish before controls/countdown; one-view race starts; HUD capped near 30 Hz with elapsed-time preservation and full-rate camera.",
+    "Native HIGH resolution is preserved at readiness after deliberately slow hidden loading.",
+    "A failed driver asset keeps its existing procedural fallback and does not block starting.",
+    "Disposal during loading settles readiness without starting controls or keeping a live scene."
+  ],
+  "hud": {
+    "calls": 55,
+    "cameras": 110,
+    "frames": 110,
+    "hudTime": 1.8234000000022357,
+    "elapsed": 1.8145
+  },
+  "fallback": {
+    "failed": 1,
+    "controls": [
+      {
+        "pending": 0
+      }
+    ]
+  },
+  "status": "passed"
+}

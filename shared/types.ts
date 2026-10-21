@@ -127,7 +127,7 @@ export interface PlayerState {
 
 /** Vista pubblica di un giocatore inviata a host e telefoni. */
 export interface PlayerPublic {
-  /** Server-created solo opponent; never owns a socket/controller. */
+  /** Server-created opponent; never owns a socket/controller. */
   bot?: boolean;
   id: PlayerId;
   displayName: string;
@@ -268,6 +268,8 @@ export interface RoomState {
   round: number;
   targetScore: number;
   playerCount: number;
+  /** Fill the chosen seats with bots at start. Optional for older UI fixtures. */
+  fillWithBots?: boolean;
   players: PlayerPublic[];
   charactersLocked: CharacterId[];
   currentMinigame: CurrentMinigame | null;

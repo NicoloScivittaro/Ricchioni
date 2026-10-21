@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-reaction-2.ogg",
-  "duration": 2.934,
-  "bytes": 22125,
-  "signature": "b6374c4184999eb9ffe1aec22c5ddd48d83c24dd22e552ba87fa618842513ff1",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.1,
+  "bytes": 27133,
+  "signature": "44dc9616a847478c20513c56c1529661a1809ea42c38813443b5e205d9489361",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

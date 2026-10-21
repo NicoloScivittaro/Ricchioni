@@ -32,4 +32,4 @@ const out=(placements=[1,2,3],deltas=[10,6,3]):RoundResults=>({results:players.m
  ok(new NarratorHistory().select('roller',null,null,players,.1,duration)===null,'non accoda clip che non entra nella finestra');
  const memory=new Map<string,string>(),storage={getItem:(key:string)=>memory.get(key)??null,setItem:(key:string,val:string)=>{memory.set(key,val);}};const first=new NarratorHistory(storage);first.claim('reconnect-event');ok(!new NarratorHistory(storage).claim('reconnect-event'),'reload non rilegge evento già visto');
 }
-writeFileSync('docs/agent-work/narrator/logic-tests.json',JSON.stringify({checks,lines:NARRATOR_LINES.length,games:MINIGAME_DEFINITIONS.length,allAssets:true},null,2));console.log(`NARRATORE: ${checks} controlli logica/134 clip superati.`);
+writeFileSync('docs/agent-work/narrator/logic-tests.json',JSON.stringify({checks,lines:NARRATOR_LINES.length,games:MINIGAME_DEFINITIONS.length,allAssets:true},null,2));console.log(`NARRATORE: ${checks} controlli logica/${NARRATOR_LINES.length} clip superati.`);

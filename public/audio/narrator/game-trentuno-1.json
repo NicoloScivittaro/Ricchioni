@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-trentuno-1.ogg",
-  "duration": 3.541,
-  "bytes": 27270,
-  "signature": "7278aa31c33233c97bbb16ddfb3317d93fb81a208f61b2b86c75f0f378fcb67f",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.8,
+  "bytes": 32366,
+  "signature": "b45f02e816d52c16983ae175611212ad938388d65b0c28e4506f55da5cb705fe",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

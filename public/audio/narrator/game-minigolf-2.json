@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-minigolf-2.ogg",
-  "duration": 2.889,
-  "bytes": 22282,
-  "signature": "28d74b4cc8481eb1ff912fea33acf0d27188924042bdb6478379f7f90dc6417d",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.019,
+  "bytes": 26419,
+  "signature": "8f5e4c31b31167bf88abb4b5b7432b19cabc9567d4c7c390c43d9e648366f6c2",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

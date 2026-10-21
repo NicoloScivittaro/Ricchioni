@@ -21,6 +21,9 @@ export function golfSurface(scene:Scene,name:string,kind:'turf'|'stone'|'wood'|'
  t.wrapU=t.wrapV=Texture.WRAP_ADDRESSMODE;t.update();t.anisotropicFilteringLevel=4;m.diffuseTexture=t;m.specularColor=new Color3(.035,.035,.035);return m;
 }
 export function importedMesh(scene:Scene,parent:TransformNode,data:{positions:number[];indices:number[]},name:string,material:StandardMaterial):Mesh {
+ // CAD lanes and retaining panels include single faces. Their visibility must
+ // not depend on camera side or on a previous course mutating a shared material.
+ material.backFaceCulling=false;material.twoSidedLighting=true;
  const mesh=new Mesh(name,scene),v=new VertexData(),normals:number[]=[];v.positions=data.positions;v.indices=data.indices;VertexData.ComputeNormals(data.positions,data.indices,normals);v.normals=normals;
  // World-space metre tiling stays continuous across the original CAD submeshes.
  v.uvs=data.positions.flatMap((_,i)=>i%3===0?[data.positions[i]/4,data.positions[i+2]/4]:[]);v.applyToMesh(mesh);mesh.material=material;mesh.parent=parent;mesh.receiveShadows=true;mesh.isPickable=false;return mesh;

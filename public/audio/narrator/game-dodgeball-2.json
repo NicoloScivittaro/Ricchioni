@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-dodgeball-2.ogg",
-  "duration": 2.503,
-  "bytes": 20314,
-  "signature": "cc6e43efdeb2f70d25bf47d79825f696e0cfd6f3d3f54cfba795925cff0320ac",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 2.752,
+  "bytes": 24352,
+  "signature": "5c4a98be6482ab035d48b7c5d20480227435a68361dcf86cdb224fc498168904",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

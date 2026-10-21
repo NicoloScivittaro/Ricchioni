@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-quiz-2.ogg",
-  "duration": 3.468,
-  "bytes": 26571,
-  "signature": "fba9d404d6f6b77e4f65d14a05f0d2d21d9cd3beb83226a017b6da282b38f421",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.616,
+  "bytes": 31186,
+  "signature": "05199881146ba196a3bc1aeacd82c5d352b9f6423fec8db381335fc0c8e1874a",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

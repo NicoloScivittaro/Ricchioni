@@ -45,7 +45,7 @@ export function detailCoachwork(scene:Scene,parent:TransformNode,w:number,d:numb
 }
 
 /** Profiled tyre plus contrasting five-spoke hub, one merged multi-material mesh per wheel. */
-export function detailedWheel(scene:Scene,diameter:number,rubber:StandardMaterial,metal:StandardMaterial,paint:StandardMaterial):Mesh {
+export function detailedWheel(scene:Scene,diameter:number,rubber:StandardMaterial,metal:StandardMaterial,paint:StandardMaterial,singlePass=false):Mesh {
  const r=diameter/2;
  const tyre=MeshBuilder.CreateLathe('tyre',{shape:[new Vector3(r*.72,-.19,0),new Vector3(r*.94,-.16,0),new Vector3(r,-.11,0),new Vector3(r,.11,0),new Vector3(r*.94,.16,0),new Vector3(r*.72,.19,0)],tessellation:20,closed:false,cap:Mesh.CAP_ALL},scene);tyre.material=rubber;
  const parts=[tyre];
@@ -58,7 +58,9 @@ export function detailedWheel(scene:Scene,diameter:number,rubber:StandardMateria
  }
  // Fine transverse tread strips are geometry, requiring no texture or extra draw calls.
  for(let i=0;i<16;i++){const a=i*Math.PI/8;const tread=MeshBuilder.CreateBox('tyreTread',{width:.025,height:.24,depth:.012},scene);tread.position.set(Math.sin(a)*(r+.002),0,Math.cos(a)*(r+.002));tread.rotation.y=a;tread.material=rubber;parts.push(tread);}
- const result=Mesh.MergeMeshes(parts,true,true,undefined,false,true)!;result.name='kartWheel';result.rotation.z=Math.PI/2;result.bakeCurrentTransformIntoVertices();return result;
+ // The coastal split-screen path keeps every spoke/tread vertex, but carries
+ // rubber/metal response in vertex attributes instead of separate submissions.
+ const result=singlePass?paintedChassis(scene,parts):Mesh.MergeMeshes(parts,true,true,undefined,false,true)!;result.name='kartWheel';result.rotation.z=Math.PI/2;result.bakeCurrentTransformIntoVertices();return result;
 }
 
 /** Same chassis/wheel geometry in a single depth-only submission; colour materials are irrelevant to shadows. */

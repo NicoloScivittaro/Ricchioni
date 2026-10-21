@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-cultura-1.ogg",
-  "duration": 3.025,
-  "bytes": 23661,
-  "signature": "05e5ea2d35507b6e3b0c6dcbc11c328f0ad81ea8c11ec94882030c3b55153db3",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.2,
+  "bytes": 27829,
+  "signature": "a3191380e7deac1cfa1a57477756948276cdf628f61efa23e1d11f98a4e4f07a",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

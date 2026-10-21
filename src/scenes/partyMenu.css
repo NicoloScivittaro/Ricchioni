@@ -1141,3 +1141,9 @@
 
 #party-menu .pm-offline { color: #ffac9e; }
 #party-menu .pm-waiting { color: #ffda99; }
+
+#party-menu .pm-bot-setting { margin: 8px 0; }
+#party-menu .pm-bot-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 9px 12px; border: 1px solid #657488; border-radius: 10px; color: #e9eff6; background: #192337; font: inherit; cursor: pointer; }
+#party-menu .pm-bot-toggle[aria-pressed="true"] { border-color: #8de5cc; }
+#party-menu .pm-bot-toggle[aria-pressed="true"] b { color: #8de5cc; }
+#party-menu .pm-bot-setting small { display: block; margin-top: 4px; color: var(--pm-muted); font-size: 11px; }

@@ -36,6 +36,7 @@ try {
  assert.deepEqual(selected.players.map((p:any)=>p.id),ids);assert.equal(selected.minigameId,'reaction');
  host.emit(EVT.hostRestartMatch);await until(()=>state?.phase==='LOBBY','restart');assert.equal(state!.players.length,1);assert.deepEqual(state!.charactersLocked,['goblin']);
  const friend=await connect();const added=await ack(friend,EVT.playerJoin,{roomCode:created.roomCode,displayName:'Friend'});assert.equal(added.ok,true);
+ assert.equal((await ack(host,EVT.hostSetBots,{enabled:false})).ok,true);
  friend.emit(EVT.playerSelectCharacter,{characterId:'buttafuori'});friend.emit(EVT.playerReady,{ready:true});human.emit(EVT.playerReady,{ready:true});
  await until(()=>state!.players.length===2&&state!.players.every(p=>p.ready),'two real players');host.emit(EVT.hostStart);
  await until(()=>state!.phase!=='LOBBY','multiplayer');assert.equal(state!.players.length,2);assert.ok(state!.players.every(p=>!p.bot));

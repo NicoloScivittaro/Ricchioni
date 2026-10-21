@@ -1,0 +1,925 @@
+# PARTY GAME — NUOVO MINIGIOCO: ORDA FINALE
+## L'ULTIMO VIVO — HORDE SURVIVAL MULTIPLAYER 3D
+
+Claude, voglio aggiungere un NUOVO minigioco al Party Game chiamato:
+
+**ORDA FINALE — L'ULTIMO VIVO**
+
+È uno sparatutto survival horror arcade da 2 a 5 giocatori.
+
+## CONCEPT
+
+Cinque amici entrano in un'arena infestata da mostri.
+
+All'inizio arrivano poche creature relativamente deboli.
+
+A ogni ondata i mostri diventano:
+- Più numerosi.
+- Più resistenti.
+- Più veloci, entro limiti leggibili.
+- Più aggressivi.
+- Più vari.
+- Più difficili da affrontare.
+
+I giocatori utilizzano armi da fuoco, si muovono, raccolgono munizioni e cercano disperatamente di sopravvivere.
+
+**CHI MUORE VIENE ELIMINATO DEFINITIVAMENTE.**
+
+**L'ULTIMO GIOCATORE RIMASTO VIVO VINCE.**
+
+Non c'è un'ondata finale prestabilita: la difficoltà aumenta finché resta un solo sopravvissuto.
+
+Voglio una modalità estremamente divertente, caotica, con rimonte, panico e situazioni assurde.
+
+---
+
+# 1. RIUTILIZZARE I SISTEMI GIÀ ESISTENTI
+
+Il Party Game possiede già due minigiochi da cui possiamo recuperare importanti funzionalità.
+
+## SPARATORIA
+
+Riutilizza dove possibile:
+- Motore FPS Babylon.js.
+- Sistema di armi.
+- Modelli 3D delle armi.
+- Sparo.
+- ADS.
+- Rinculo.
+- Ricarica.
+- Hitmarker.
+- Danni.
+- Munizioni.
+- Audio.
+- Movimento.
+- Telecamera.
+- Split-screen.
+- Controlli telefono e gamepad.
+
+Le armi esistenti comprendono modelli come:
+- USP45.
+- AK-47.
+- M4A1.
+- Sniper.
+- Minigun.
+- Ray Gun.
+
+Verifica il registro delle armi attualmente attive e riutilizza quello, senza ripristinare accidentalmente armi rimosse.
+
+## BACKROOMS
+
+Riutilizza dove appropriato:
+- Modelli dei mostri.
+- Animazioni.
+- IA di inseguimento.
+- Pathfinding.
+- Audio horror.
+- Percezione del giocatore.
+- Sistema di attacco delle creature.
+- Modelli Hazmat dei partecipanti.
+
+Tra i mostri disponibili nel progetto potrebbero esserci Bacteria, Partygoer, Smiler e altre creature.
+
+Verifica quali asset sono effettivamente integrati e utilizzabili.
+
+Non importare tutto il labirinto di Backrooms.
+
+Non copiare indiscriminatamente sistemi che sono progettati per un gameplay diverso.
+
+## IMPORTANTE
+
+ORDA FINALE deve essere un minigioco completamente indipendente.
+
+Non alterare il funzionamento originale di Sparatoria o Backrooms.
+
+Riutilizza i componenti condivisibili senza creare regressioni.
+
+---
+
+# 2. REGOLE FONDAMENTALI
+
+## INIZIO PARTITA
+
+Da 2 a 5 giocatori compaiono contemporaneamente nell'arena.
+
+Ogni giocatore inizia con:
+- 100 punti vita, salvo diverso bilanciamento motivato.
+- Un'arma iniziale affidabile.
+- Munizioni sufficienti.
+- Nessun vantaggio casuale iniziale.
+- Posizione di spawn sicura.
+
+Dopo un breve countdown parte la prima ondata.
+
+## ELIMINAZIONE
+
+Quando la vita raggiunge zero:
+- Il giocatore muore.
+- Parte una breve animazione.
+- Il suo stato diventa ELIMINATO.
+- Non può più sparare.
+- Non può più raccogliere oggetti.
+- Non può ritornare in vita.
+
+Non introdurre respawn.
+
+Non introdurre rianimazioni che annullano l'eliminazione definitiva.
+
+## VINCITORE
+
+Quando rimane un solo giocatore vivo:
+- La partita termina.
+- I mostri cessano di attaccare.
+- Il sopravvissuto viene dichiarato vincitore.
+- Parte una breve celebrazione.
+- Viene mostrata la classifica.
+
+Non obbligare l'ultimo giocatore a completare anche l'ondata corrente.
+
+## ELIMINAZIONI SIMULTANEE
+
+Se due o più ultimi giocatori muoiono nello stesso istante logico:
+1. Usa l'ordine reale degli eventi, se determinabile.
+2. In caso di parità effettiva, usa eliminazioni dei mostri.
+3. Successivamente danni inflitti.
+4. Se necessario, applica un criterio deterministico documentato.
+
+Non inventare un vincitore casuale.
+
+---
+
+# 3. SISTEMA DI ONDATE INFINITE
+
+Questa è la meccanica centrale.
+
+Le ondate devono essere sempre più difficili.
+
+## ONDATE 1–3
+
+Inizio relativamente semplice.
+
+- Pochi mostri.
+- Creature lente o normali.
+- Danni moderati.
+- Tempo per imparare movimento e armi.
+
+I giocatori devono prendere confidenza.
+
+## ONDATE 4–6
+
+La pressione aumenta.
+
+- Più mostri.
+- Prime creature veloci.
+- Nemici più resistenti.
+- Attacchi da direzioni differenti.
+
+I giocatori iniziano a rischiare.
+
+## ONDATE 7–10
+
+Combattimento intenso.
+
+- Orde più grandi.
+- Nemici speciali.
+- Maggiore difficoltà a mantenere le distanze.
+- Maggior bisogno di munizioni e cure.
+
+## ONDATA 10+
+
+Le ondate continuano a diventare sempre più pericolose.
+
+Non aumentare tutti i parametri senza limite.
+
+Utilizza curve progressive con limiti ragionevoli per velocità, salute e danno.
+
+Continua ad aumentare la pressione attraverso composizione dell'orda, varietà, frequenza e nemici speciali.
+
+## FUNZIONAMENTO
+
+- Mostra il numero dell'ondata.
+- Genera mostri progressivamente.
+- Non generare tutti i nemici nello stesso frame.
+- L'ondata termina quando tutti i mostri previsti sono stati eliminati.
+- Breve intervallo, indicativamente 5 secondi.
+- Parte l'ondata successiva.
+
+L'intervallo non deve essere troppo lungo.
+
+## SPAWN DEI MOSTRI
+
+Non far apparire mostri davanti alla telecamera o immediatamente addosso ai giocatori.
+
+Preferisci:
+- Porte.
+- Corridoi.
+- Ingressi.
+- Zone buie.
+- Aperture ai lati dell'arena.
+
+Aggiungi un piccolo segnale di ingresso per le orde pericolose.
+
+I mostri devono utilizzare percorsi realmente raggiungibili.
+
+---
+
+# 4. TIPI DI MOSTRI
+
+Voglio una varietà reale.
+
+Non creare soltanto dieci mostri identici con più salute.
+
+## MOSTRO 1 — INFETTO
+
+Creatura base.
+
+- Velocità normale.
+- Salute bassa.
+- Attacco ravvicinato.
+- Compare fin dalle prime ondate.
+
+Deve essere semplice da uccidere, ma pericolosa in gruppo.
+
+## MOSTRO 2 — CORRIDORE
+
+Mostro veloce.
+
+- Salute inferiore alla media.
+- Elevata mobilità.
+- Può aggirare gli ostacoli.
+- Cerca di raggiungere i giocatori isolati quando può individuarli.
+
+Deve creare panico.
+
+Non deve cambiare direzione istantaneamente o attraversare muri.
+
+## MOSTRO 3 — COLOSSO
+
+Mostro pesante.
+
+- Molta salute.
+- Movimento lento.
+- Attacchi potenti ma annunciati.
+- Grande modello 3D.
+- Possibilità di schivare.
+
+Deve costringere i giocatori a cambiare posizione.
+
+## MOSTRO 4 — ASSALITORE
+
+Creatura capace di attaccare a media distanza.
+
+- Salute moderata.
+- Attacco con proiettile o effetto fisico visibile.
+- Possibilità di evitare il colpo.
+- Tempi di attacco leggibili.
+
+Non creare proiettili istantanei inevitabili.
+
+## MOSTRO 5 — CACCIATORE
+
+Nemico speciale.
+
+- Si muove usando le coperture.
+- Cambia percorso.
+- Può sorprendere i giocatori distratti.
+- Cerca bersagli attraverso una percezione reale.
+
+Non deve conoscere sempre la posizione di tutti.
+
+## MODELLI 3D
+
+Riutilizza i modelli di Backrooms quando risultano adeguati.
+
+Se servono nuovi tipi:
+- Valuta variazioni ragionevoli dei modelli disponibili.
+- Usa materiali e proporzioni distinti.
+- Non ricorrere a capsule colorate come rappresentazione finale.
+- Non deformare arbitrariamente modelli complessi.
+
+Ogni nemico deve essere riconoscibile dalla silhouette e dal comportamento.
+
+---
+
+# 5. BOSS OGNI CINQUE ONDATE
+
+Voglio veri momenti memorabili.
+
+Indicativamente alle ondate:
+- 5
+- 10
+- 15
+- 20
+- E così via.
+
+Compare un boss con caratteristiche proprie.
+
+## CARATTERISTICHE
+
+- Grande modello 3D.
+- Barra della vita dedicata.
+- Animazioni riconoscibili.
+- Più tipi di attacco.
+- Punti vulnerabili, se tecnicamente praticabili.
+- Attacchi annunciati.
+- Cambiamento di comportamento quando perde vita.
+
+## ESEMPI
+
+### IL MACELLAIO
+
+Boss pesante che:
+- Carica frontalmente.
+- Colpisce il terreno.
+- Può provocare un'onda d'urto.
+- Lascia tempo per schivare.
+
+### L'ABOMINIO
+
+Boss più aggressivo che:
+- Esegue brevi scatti.
+- Chiama creature minori.
+- Cambia bersaglio.
+- Diventa più pericoloso con poca salute.
+
+Non è necessario realizzare immediatamente molti modelli completamente nuovi.
+
+Preferisco uno o due boss davvero divertenti piuttosto che cinque boss incompleti.
+
+## REGOLA FONDAMENTALE
+
+I boss non devono uccidere inevitabilmente un giocatore.
+
+Ogni attacco potente deve essere riconoscibile e avere una risposta possibile.
+
+---
+
+# 6. ARENA 3D DEDICATA
+
+Voglio una mappa progettata appositamente per questo minigioco.
+
+Nome proposto:
+
+**IL DEPOSITO INFETTO**
+
+## AMBIENTAZIONE
+
+Un grande complesso industriale abbandonato.
+
+Elementi:
+- Magazzini.
+- Corridoi.
+- Container.
+- Recinzioni.
+- Porte metalliche.
+- Luci intermittenti.
+- Zone sopraelevate accessibili.
+- Coperture.
+- Area centrale aperta.
+- Passaggi laterali.
+
+Deve essere un'arena horror d'azione.
+
+Non un labirinto come Backrooms.
+
+## STRUTTURA
+
+Voglio:
+- Spazio per muoversi.
+- Più percorsi.
+- Opportunità di fuga.
+- Zone dove prendere fiato temporaneamente.
+- Nessuna posizione completamente sicura.
+- Punti di ingresso dei mostri distribuiti.
+
+Evita:
+- Angoli da cui i mostri non possono raggiungere i giocatori.
+- Zone dove ci si può bloccare.
+- Collider invisibili.
+- Pavimenti mancanti.
+- Passaggi impossibili.
+- Mostri che attraversano le pareti.
+
+Puoi riutilizzare asset ambientali già disponibili quando appropriati.
+
+Non spendere molte ore a produrre decorazioni.
+
+La giocabilità è più importante.
+
+---
+
+# 7. ARMI E SISTEMA DI PROGRESSIONE
+
+Riutilizza il sistema armi già funzionante in Sparatoria.
+
+Ma crea un bilanciamento specifico per ORDA FINALE.
+
+Non modificare i danni globali della modalità Sparatoria.
+
+## ARMI INIZIALI
+
+Ogni giocatore parte con un'arma base.
+
+## ARMI MIGLIORI
+
+Durante la partita si possono trovare o ottenere:
+- Fucili d'assalto.
+- Armi pesanti.
+- Sniper.
+- Ray Gun.
+- Altre armi già disponibili nel registro.
+
+Le armi migliori devono essere più rare o richiedere un rischio per essere ottenute.
+
+## RIFORNIMENTI
+
+Prevedi punti o casse per:
+- Munizioni.
+- Cure.
+- Armi.
+
+Non voglio che un giocatore perda automaticamente perché tutte le munizioni sono finite e non esiste più alcun modo per recuperarle.
+
+Mantieni comunque la gestione delle risorse importante.
+
+## LUCKY CRATE
+
+Aggiungi una cassa speciale che occasionalmente offre un vantaggio casuale:
+- Arma potente.
+- Munizioni.
+- Cura.
+- Breve potenziamento.
+- Accelerazione temporanea.
+- Protezione limitata.
+
+Deve essere una scelta interessante e non una vittoria automatica.
+
+Evita potenziamenti permanenti eccessivi.
+
+---
+
+# 8. COOPERAZIONE TEMPORANEA E COMPETIZIONE
+
+La caratteristica più divertente deve essere questa:
+
+**I GIOCATORI COLLABORANO CONTRO I MOSTRI, MA SONO RIVALI PER LA VITTORIA.**
+
+Durante la partita:
+- Possono aiutarsi eliminando gli stessi mostri.
+- Possono coprirsi reciprocamente.
+- Possono correre insieme.
+- Possono separarsi.
+- Possono contendersi le risorse.
+
+Ma soltanto uno sopravvive fino alla fine.
+
+## FUOCO AMICO
+
+Disattiva il danno diretto fra giocatori nella modalità standard.
+
+Non voglio trasformarla in un Deathmatch.
+
+Il nemico principale è l'orda.
+
+I giocatori competono attraverso:
+- Sopravvivenza.
+- Posizionamento.
+- Gestione delle munizioni.
+- Uso delle armi.
+- Decisioni rischiose.
+- Capacità di evitare i mostri.
+
+Non introdurre sabotaggi diretti nella prima versione.
+
+## FINALE
+
+Quando rimangono soltanto due giocatori, voglio che la tensione sia altissima.
+
+La pressione deve continuare a crescere normalmente.
+
+Non favorire artificialmente uno dei due.
+
+Se uno viene eliminato, l'altro vince immediatamente.
+
+---
+
+# 9. IA DEI MOSTRI
+
+Questa è una priorità tecnica.
+
+I mostri devono:
+- Individuare i giocatori.
+- Cercare percorsi liberi.
+- Superare ostacoli quando previsto.
+- Aggirare le coperture.
+- Cambiare obiettivo quando necessario.
+- Attaccare a distanza valida.
+- Evitare di bloccarsi uno dentro l'altro.
+- Distribuirsi nell'arena.
+- Reagire ai colpi.
+
+Non voglio che tutti i mostri corrano in una fila perfetta verso lo stesso giocatore.
+
+## SELEZIONE DEI BERSAGLI
+
+Valuta:
+- Distanza.
+- Linea di vista.
+- Rumore prodotto.
+- Attacchi ricevuti.
+- Tipo di mostro.
+- Opportunità di raggiungere il bersaglio.
+
+Non assegnare ogni nemico al giocatore che sta vincendo.
+
+Non generare nemici appositamente alle spalle di chi è primo in classifica.
+
+Non permettere ai mostri di vedere attraverso i muri.
+
+## ANTI-CAMPING
+
+Se un giocatore resta fermo in una posizione vantaggiosa:
+- I mostri devono tentare percorsi alternativi.
+- Alcune creature possono attaccare a distanza.
+- I nemici speciali possono costringerlo a spostarsi.
+
+Non usare danni invisibili automatici per punire chi resta fermo.
+
+La pressione deve derivare da nemici reali.
+
+---
+
+# 10. LA MORTE DEVE ESSERE SPETTACOLARE
+
+Quando un mostro raggiunge e uccide un giocatore:
+- Breve reazione del personaggio.
+- Suono coerente.
+- Camera controllata.
+- Eliminazione definitiva.
+- Notifica agli altri giocatori.
+
+Esempio:
+
+**CIRO È STATO DIVORATO!**
+
+Oppure:
+
+**CARBO NON CE L'HA FATTA!**
+
+Utilizza i nomi reali dei partecipanti.
+
+Le notifiche devono essere divertenti, ma non rompere l'atmosfera.
+
+Evita sequenze troppo lunghe.
+
+## GIOCATORI ELIMINATI
+
+Chi viene eliminato:
+- Vede chiaramente di aver perso.
+- Può osservare la partita attraverso una modalità spettatore, se compatibile con l'architettura.
+- Non può influire sul combattimento.
+- Non può tornare in vita.
+
+Evita che una visuale eliminata continui a renderizzare inutilmente tutta l'arena.
+
+---
+
+# 11. HUD
+
+Voglio un HUD chiaro.
+
+Mostra:
+- Vita.
+- Arma.
+- Munizioni.
+- Numero ondata.
+- Mostri rimasti nell'ondata.
+- Giocatori ancora vivi.
+- Eliminazioni dei mostri.
+- Eventuale stato del boss.
+
+## SPLIT-SCREEN
+
+Con cinque visuali:
+- Testi compatti.
+- Numeri leggibili.
+- Nessuna notifica enorme al centro.
+- Barre vita chiare.
+- Nessun elemento importante tagliato.
+
+## ANNUNCIO ONDATA
+
+All'inizio:
+
+**ONDATA 1**
+
+Poi:
+
+**ONDATA 5 — ARRIVA IL BOSS**
+
+Con un breve effetto sonoro.
+
+## ULTIMI DUE GIOCATORI
+
+Quando rimangono due sopravvissuti:
+
+**ULTIMI DUE!**
+
+Quando ne rimane uno:
+
+**ULTIMO SOPRAVVISSUTO: [NOME]**
+
+Mostra la vittoria in modo spettacolare.
+
+---
+
+# 12. AUDIO ED EFFETTI
+
+Voglio sentire l'aumento del caos.
+
+## AMBIENTE
+
+- Rumori industriali.
+- Luci.
+- Porte.
+- Vento.
+- Atmosfera cupa.
+
+## MOSTRI
+
+- Passi.
+- Versi.
+- Attacchi.
+- Reazioni ai danni.
+- Morte.
+- Rumori caratteristici dei boss.
+
+## COMBATTIMENTO
+
+Riutilizza gli effetti delle armi di Sparatoria:
+- Spari.
+- Rinculi.
+- Ricariche.
+- Impatti.
+- Hitmarker.
+- Eliminazioni.
+
+## TENSIONE
+
+Le prime ondate devono essere relativamente tranquille.
+
+Le ondate avanzate devono diventare molto più intense.
+
+Quando arriva un boss:
+- Annuncio sonoro.
+- Rumore caratteristico.
+- Musica o tensione sonora dedicata, se compatibile con il mixer.
+
+Non creare un mix troppo rumoroso per cinque giocatori.
+
+Non utilizzare audio protetto senza autorizzazione.
+
+---
+
+# 13. BILANCIAMENTO DELLA DIFFICOLTÀ
+
+Il gioco deve diventare progressivamente più difficile, ma non arbitrario.
+
+## EVITA
+
+- Mostri troppo forti fin dalla prima ondata.
+- Aumenti improvvisi impossibili.
+- Boss invincibili.
+- Proiettili inevitabili.
+- Munizioni completamente esaurite senza alternative.
+- Mostri che appaiono sopra i giocatori.
+- Attacchi durante il countdown iniziale.
+- Nemici che attraversano collider.
+- Ondate che non finiscono perché un mostro è bloccato fuori dalla mappa.
+
+## DESIDERO
+
+- Prime ondate accessibili.
+- Difficoltà che aumenta in modo evidente.
+- Nuovi tipi di nemici progressivamente introdotti.
+- Nemici che puniscono gli errori.
+- Possibilità di sopravvivere grazie all'abilità.
+- Nessuna strategia invincibile.
+
+Il numero dei mostri deve aumentare anche in base al numero iniziale dei giocatori.
+
+Quando un giocatore viene eliminato, non cancellare automaticamente i mostri presenti.
+
+Mantieni la progressione coerente senza creare aumenti sproporzionati a causa del numero di superstiti.
+
+---
+
+# 14. PRESTAZIONI CON CINQUE GIOCATORI
+
+IMPORTANTISSIMO.
+
+Le ondate possono diventare numerose.
+
+Non voglio 100 mostri complessi contemporaneamente che fanno crollare gli FPS.
+
+Utilizza:
+- Pooling.
+- Instancing quando appropriato.
+- Materiali condivisi.
+- Animazioni efficienti.
+- Pathfinding a frequenza limitata.
+- Culling.
+- Collider semplificati.
+- Limite ragionevole di nemici simultaneamente attivi.
+- Generazione in piccoli gruppi.
+- Riutilizzo degli asset.
+
+## DIFFICOLTÀ SENZA DISTRUGGERE LE PRESTAZIONI
+
+Se aumenta il numero totale dei mostri, distribuiscili in più gruppi.
+
+Aumenta la pressione mantenendo un numero massimo gestibile di creature contemporaneamente attive.
+
+Non rendere il gioco troppo facile solo per migliorare gli FPS.
+
+Non ridurre arbitrariamente la precisione del combattimento.
+
+La logica di ondate, danni e vittoria deve essere indipendente dal frame rate.
+
+---
+
+# 15. INTEGRAZIONE NEL PARTY GAME
+
+Aggiungi ORDA FINALE:
+- Al catalogo dei minigiochi.
+- Al rullo.
+- Alla selezione.
+- Al sistema multiplayer.
+- Al sistema dei bot, se disponibile e appropriato.
+- Al ScoreManager.
+- Alla classifica finale.
+
+Il gioco deve supportare 2–5 giocatori.
+
+Le partite devono poter essere avviate normalmente dalla lobby esistente.
+
+Il nome deve essere visibile:
+
+**ORDA FINALE**
+
+Sottotitolo:
+
+**L'ULTIMO VIVO VINCE**
+
+Se esiste un narratore del rullo, aggiungi una frase breve e aggressiva:
+
+"ARRIVANO SEMPRE PIÙ MOSTRI... E SOLTANTO UNO NE USCIRÀ VIVO!"
+
+Non modificare inutilmente l'architettura del rullo.
+
+---
+
+# 16. BOT GIOCATORI
+
+Se il Party Game utilizza già bot per riempire i posti mancanti, valuta di supportarli anche qui riutilizzando l'IA di Sparatoria.
+
+I bot alleati/rivali devono:
+- Sparare ai mostri.
+- Gestire le munizioni.
+- Spostarsi.
+- Evitare attacchi.
+- Cercare rifornimenti.
+- Tentare di sopravvivere.
+
+Non dare loro salute o danni superiori ai giocatori umani.
+
+Non renderli infallibili.
+
+Se l'integrazione dei bot richiede una grande riscrittura, privilegia inizialmente una versione umana corretta da 2–5 giocatori e segnala il limite.
+
+---
+
+# 17. SVILUPPO RAPIDO — POCHI TEST
+
+Voglio che questo nuovo minigioco venga realizzato velocemente.
+
+Non perdere ore su benchmark ripetuti o centinaia di simulazioni.
+
+## ORDINE DI LAVORO
+
+1. Analizza i sistemi FPS e i modelli dei mostri disponibili.
+2. Crea il nuovo minigioco.
+3. Realizza un'arena dedicata con geometria e collisioni affidabili.
+4. Integra armi e movimento.
+5. Implementa ondate progressive.
+6. Introduci i cinque archetipi di mostro, usando asset disponibili o varianti coerenti.
+7. Aggiungi un boss funzionante e lascia il secondo come eventuale estensione solo se sostenibile.
+8. Implementa risorse, eliminazione definitiva e vittoria.
+9. Aggiungi HUD, audio e feedback.
+10. Integra il gioco nel rullo e nella classifica.
+11. Ottimizza le orde.
+12. Esegui i test essenziali.
+
+## TEST MINIMI
+
+Esegui:
+- Typecheck.
+- Build finale.
+- Caricamento arena.
+- Spari e danni ai mostri.
+- Progressione di alcune ondate.
+- Spawn dei nemici e navigazione.
+- Eliminazione definitiva.
+- Vittoria dell'ultimo sopravvissuto.
+- Caso di morte simultanea.
+- Controllo rapido di munizioni e cure.
+- Una simulazione breve con più giocatori.
+- Un campione prestazionale a cinque visuali.
+- Verifica che Sparatoria e Backrooms originali restino disponibili.
+
+Non eseguire migliaia di partite.
+
+Non produrre video lunghi.
+
+Non generare decine di screenshot.
+
+Se qualcosa fallisce, correggi e ripeti soltanto il test pertinente.
+
+Non dichiarare effettuati test con controller fisici se non sono stati eseguiti.
+
+---
+
+# 18. REPORT FINALE BREVE
+
+Alla fine dimmi:
+
+1. Se ORDA FINALE è giocabile.
+2. Quale arena hai realizzato.
+3. Quanti tipi di mostro sono presenti.
+4. Come funzionano le ondate.
+5. Quali boss sono implementati.
+6. Quali armi e potenziamenti sono disponibili.
+7. Come funziona l'eliminazione.
+8. Come viene determinato il vincitore.
+9. FPS misurati con cinque visuali.
+10. Test realmente eseguiti e limiti residui.
+
+Produci al massimo quattro screenshot:
+- Arena.
+- Prima ondata.
+- Orda avanzata.
+- Boss o vittoria finale.
+
+---
+
+# VINCOLI
+
+- Non modificare inutilmente Sparatoria.
+- Non modificare inutilmente Backrooms.
+- Non aggiungere nuove dipendenze pesanti.
+- Non introdurre Flash.
+- Non fare commit.
+- Non fare push.
+- Non fare deploy.
+- Non usare asset protetti senza rispettare i relativi diritti e licenze.
+- Non dichiarare completato il minigioco se la vittoria dell'ultimo sopravvissuto non funziona.
+
+## RISULTATO FINALE
+
+Voglio che ORDA FINALE diventi uno dei minigiochi più divertenti del Party Game.
+
+Immagina cinque amici armati dentro un magazzino abbandonato.
+
+Prima ondata: pochi mostri.
+
+Quinta ondata: arriva un boss.
+
+Ottava ondata: uno dei giocatori finisce le munizioni e deve correre verso una cassa.
+
+Decima ondata: un altro viene eliminato.
+
+Dodicesima ondata: rimangono in tre.
+
+Quindicesima ondata: un'enorme orda travolge uno dei superstiti.
+
+Rimangono soltanto due amici.
+
+Uno ha pochissima vita.
+
+L'altro possiede una minigun, ma sta finendo le munizioni.
+
+Arriva un nuovo mostro speciale.
+
+Uno dei due sbaglia la traiettoria e resta intrappolato.
+
+Viene ucciso.
+
+Il gioco si ferma.
+
+**ULTIMO SOPRAVVISSUTO: GOBLIN!**
+
+Voglio momenti così.
+
+**ORDE SEMPRE PIÙ GRANDI. MOSTRI SEMPRE PIÙ PERICOLOSI. ARMI POTENTI. SOPRAVVIVENZA. UN SOLO VINCITORE.**
+
+Procedi direttamente all'implementazione, riutilizza i sistemi già funzionanti e fai soltanto i test indispensabili.

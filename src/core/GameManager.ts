@@ -94,7 +94,7 @@ export class GameManager {
     s.on(EVT.textRelay, (payload) => this.onTextRelay(payload as TextRelayEvent));
     s.on(EVT.playerDisconnected, (payload) => {
       const id=(payload as PlayerDisconnectedEvent).playerId;
-      if(['cornicione', 'fps', 'arena', 'minigolf', 'geofall', 'backrooms'].includes(this.state?.currentMinigame?.minigameId ?? ''))this.input.cancelPlayer(id);
+      if(['cornicione', 'fps', 'orda', 'arena', 'minigolf', 'geofall', 'backrooms'].includes(this.state?.currentMinigame?.minigameId ?? ''))this.input.cancelPlayer(id);
       else this.input.releasePlayer(id);
     });
 
@@ -133,6 +133,10 @@ export class GameManager {
   /** L'host sceglie manualmente il minigioco (null = rullo). */
   selectMinigame(minigameId: string | null, kartTrackId?: KartTrackId): void {
     this.socket?.emit(EVT.hostSelectMinigame, { minigameId, kartTrackId });
+  }
+
+  setBots(enabled: boolean): void {
+    this.socket?.emit(EVT.hostSetBots, {enabled});
   }
 
   voteMapForPad(playerId:string,mapId:string):void {

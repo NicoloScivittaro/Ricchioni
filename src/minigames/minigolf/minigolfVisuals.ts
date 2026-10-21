@@ -50,7 +50,8 @@ export class MinigolfVisuals {
    const mesh=new Mesh(`golfFloor:${i}`,this.scene),pts=[[-f.w/2,-f.d/2],[f.w/2,-f.d/2],[f.w/2,f.d/2],[-f.w/2,f.d/2]];
    const positions=pts.flatMap(([x,z])=>[x,(f.slopeX??0)*x+(f.slopeZ??0)*z,z]),indices=[0,1,2,0,2,3],normals:number[]=[];
    VertexData.ComputeNormals(positions,indices,normals);const data=new VertexData();data.positions=positions;data.indices=indices;data.normals=normals;data.uvs=[0,0,f.w/4,0,f.w/4,f.d/4,0,f.d/4];data.applyToMesh(mesh);
-   mesh.material=f.surface==='sand'?sand:f.surface==='ice'?this.material('ice','#aecfd4',.025):floorMat;mesh.material.backFaceCulling=false;mesh.parent=this.root;mesh.position.set(f.x,f.y,f.z);mesh.receiveShadows=true;this.floorMeshes.push({base:f,mesh});
+   const floorMaterial=f.surface==='sand'?sand:f.surface==='ice'?this.material('ice','#aecfd4',.025):floorMat;
+   floorMaterial.backFaceCulling=false;floorMaterial.twoSidedLighting=true;mesh.material=floorMaterial;mesh.parent=this.root;mesh.position.set(f.x,f.y,f.z);mesh.receiveShadows=true;this.floorMeshes.push({base:f,mesh});
    // Lightweight solid skirt makes floating islands and slopes readable.
    for(let edge=0;edge<4;edge++){
     const a=pts[edge],b=pts[(edge+1)%4],top=([x,z]:number[])=>new Vector3(x,(f.slopeX??0)*x+(f.slopeZ??0)*z-.015,z);

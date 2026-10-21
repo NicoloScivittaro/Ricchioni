@@ -37,7 +37,7 @@ export class BackActor {
  readonly root:TransformNode;readonly body:TransformNode;readonly kind:string;readonly meshes:Mesh[]=[];
  private poses=new Map<TransformNode,Quaternion>();private joints=new Map<string,TransformNode>();private phase=0;private baseY=0;private skinEntries:ReturnType<AssetContainer['instantiateModelsToScene']>;
  private identity:Mesh|null=null;
- constructor(assets:BackroomsAssets,kind:'hazmat'|'bacteria'|'partygoer'|'smiler',name:string,color?:string,label?:string){
+ constructor(assets:Pick<BackroomsAssets,'scene'|'containers'>,kind:'hazmat'|'bacteria'|'partygoer'|'smiler',name:string,color?:string,label?:string){
   this.kind=kind;const scene=assets.scene;this.root=new TransformNode('backActor:'+name,scene);this.body=new TransformNode('backBody:'+name,scene);this.body.parent=this.root;
   const c=assets.containers.get(kind)!;this.skinEntries=c.instantiateModelsToScene(n=>name+':'+n,false,{doNotInstantiate:true});for(const n of this.skinEntries.rootNodes)n.parent=this.body;
   for(const m of this.body.getChildMeshes()){m.setEnabled(true);m.isVisible=true;m.isPickable=false;if(m instanceof Mesh)this.meshes.push(m);}

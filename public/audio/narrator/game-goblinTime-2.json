@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-goblinTime-2.ogg",
-  "duration": 2.954,
-  "bytes": 22447,
-  "signature": "04f96fd697a0f673e274725db63f08d4ffa5293c752f8243b09df419c9720537",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.1,
+  "bytes": 26516,
+  "signature": "1f9c035ee2fd0afd2b21e9e6b65a65d54c9c8bd345f1711e5a9c4d2bd9358950",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

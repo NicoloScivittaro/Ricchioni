@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-arena-1.ogg",
-  "duration": 3.427,
-  "bytes": 25933,
-  "signature": "542214030d26544d9231aacfc0f04b44269bfa58addb03abc24b0ba64c8c7cdb",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.616,
+  "bytes": 31271,
+  "signature": "f53462a3eb632bb51568972b54460516ed2eb38a3664562fe957d0b9e8098589",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

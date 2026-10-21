@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "server": "28 combinations of seats/humans/bot settings; readiness, character uniqueness, payload, duplicate start, restart cleanup",
+  "network": "Real Socket.IO connections: three humans plus two bots, bots off, host authority/reconnect, phase lock, four kart maps, human-only votes",
+  "ui": "Mouse, keyboard and simulated Xbox; three real controller sockets; 720p layout; single Ribaltati entry; real map vote",
+  "typecheck": "passed: tsc --noEmit",
+  "build": "passed: npm run build (Vite 5m39s)",
+  "production": "passed against refreshed local server on port 3012",
+  "commitPushDeploy": "none"
+}

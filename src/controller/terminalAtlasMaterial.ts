@@ -1,6 +1,10 @@
 import type {Engine} from '@babylonjs/core';
 import {Effect,Constants,Scene,ShaderMaterial,BaseTexture,Texture,Vector3,Vector4} from '@babylonjs/core';
 export interface TerminalAtlas {grid?:number;size?:number;width?:number;height?:number;rects?:number[][];padding:number;mode:string}
+// Effects can be shared by multiple atlas materials. Keep the last uploaded
+// layout per GPU program, rather than resending all 64 rectangles per mesh.
+// A restored/recompiled context gets a new pipeline and uploads again.
+const boundRects=new WeakMap<object,number[]>();
 const vertex=`precision highp float;
 attribute vec3 position;attribute vec3 normal;attribute vec2 uv;attribute vec2 uv2;attribute vec4 color;
 uniform mat4 viewProjection;uniform vec4 tileRects[64];
@@ -39,6 +43,10 @@ export function terminalAtlasMaterial(scene:Scene,name:string,texture:BaseTextur
  const grid=layout.grid??1,size=layout.size??1,stride=size+layout.padding*2;
  const width=layout.width??grid*stride,height=layout.height??grid*stride;
  const rects=layout.rects??Array.from({length:64},(_,i)=>[(i%grid+layout.padding/stride)/grid,(Math.floor(i/grid)+layout.padding/stride)/grid,size/stride/grid,size/stride/grid]);
- m.setArray4('tileRects',Array.from({length:64},(_,i)=>rects[i]??[0,0,0,0]).flat());
+ const tileRects=Array.from({length:64},(_,i)=>rects[i]??[0,0,0,0]).flat();
+ m.onBindObservable.add(()=>{
+  const effect=m.getEffect(),pipeline=effect?.getPipelineContext();
+  if(pipeline&&boundRects.get(pipeline)!==tileRects){effect.setArray4('tileRects',tileRects);boundRects.set(pipeline,tileRects);}
+ });
  m.setFloat('maxGradient',4/Math.max(width,height));m.setTexture('atlas',texture);m.setVector4('atlasInfo',new Vector4(0,0,0,layout.mode==='BLEND'||layout.mode==='MULTIPLY'?1:0));m.setVector3('sunDirection',new Vector3(.35,.9,-.25).normalize());m.backFaceCulling=false;m.disableDepthWrite=layout.mode==='BLEND'||layout.mode==='MULTIPLY';if(layout.mode==='MULTIPLY')m.alphaMode=Constants.ALPHA_MULTIPLY;if(layout.mode!=='OPAQUE'){m.zOffset=-.35;m.zOffsetUnits=-1;}return m;
 }

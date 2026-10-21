@@ -1,0 +1,36 @@
+{
+  "checks": [
+    "Three real controller sockets; pad up/A disables bots, right enables bots; roster and 3 people + 2 bot summary update.",
+    "Focused bot toggle works with Enter, Space and mouse without starting the game.",
+    "Single Ribaltati card in catalog and carousel; pad Start launches 3 humans + 2 bots and real map vote retains all four tracks."
+  ],
+  "errors": [],
+  "layout": {
+    "width": 1280,
+    "height": 720,
+    "controls": [
+      {
+        "sel": "#pm-bots",
+        "top": 292.890625,
+        "bottom": 336.078125
+      },
+      {
+        "sel": "#pm-start",
+        "top": 636.9375,
+        "bottom": 685.234375
+      },
+      {
+        "sel": "#pm-pair",
+        "top": 636.84375,
+        "bottom": 668.234375
+      }
+    ]
+  },
+  "maps": [
+    "litorale",
+    "arcobaleno",
+    "sydney",
+    "primo"
+  ],
+  "status": "passed"
+}

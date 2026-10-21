@@ -14,6 +14,12 @@ import {GOLF_TOURNAMENT} from './minigolfTournament';
 // Quiz e Cultura si giocano sul telefono; gli altri giochi GAMEPAD hanno il profilo in src/input/profiles.ts (lo verifica pad-selftest).
 export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
+    id:'orda',name:'ORDA FINALE',icon:'☣️',category:'SOPRAVVIVENZA',rarity:'rare',
+    description:'L’ULTIMO VIVO VINCE. Il Deposito Infetto: ondate infinite, sei armi e nessuna seconda vita.',
+    minPlayers:2,maxPlayers:5,durationSec:0,compatibleModifiers:[],sceneKey:'orda',inputMode:'GAMEPAD',
+    controllerLayout:{type:'custom',id:'orda-tv'}
+  },
+  {
     id: 'quiz',
     icon: '🧠',
     description: 'Rispondi prima e meglio degli altri. Cultura generale, zero pietà.',
@@ -181,7 +187,7 @@ export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
     id: 'kart3d',
     icon: '🏎️',
     description: 'Tre giri fra lungomare, viadotti, salti e porto: scegli la corsia turbo e conquista il Litorale.',
-    name: 'RIBALTATI — CIRCUITO DEL LITORALE',
+    name: 'RIBALTATI',
     category: 'GUIDA',
     rarity: 'rare',
     minPlayers: 1,

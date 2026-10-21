@@ -1,0 +1,63 @@
+import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+import {io} from 'socket.io-client';
+import {launch, hostEval, sleep} from './lib.mjs';
+import {installMock, add, tap, until, XBOX} from './padmock.mjs';
+process.env.GOBLIN_GPU='1';
+const url=process.env.BOTS_HOST_URL || 'http://localhost:5190/';
+const server=process.env.BOTS_SERVER_URL || 'http://localhost:3034';
+const browser=await launch(), phones=[], report={checks:[],errors:[]};
+let p;
+const ack=(s,e,v)=>new Promise((resolve,reject)=>s.timeout(4000).emit(e,v,(err,a)=>err?reject(err):resolve(a)));
+try {
+  p=await browser.newPage(); p.on('pageerror',e=>report.errors.push(e.message));
+  await p.goto(url); await p.waitForSelector('#pm-create');
+  await p.click('[data-count="5"]'); await p.click('#pm-create'); await p.waitForSelector('#pm-bots');
+  const code=await hostEval(p,g=>g.roomCode);
+  for(let i=0;i<3;i++) {
+    const s=io(server,{transports:['websocket'],reconnection:false}); phones.push(s);
+    await new Promise((resolve,reject)=>{s.once('connect',resolve);s.once('connect_error',reject);});
+    assert.equal((await ack(s,'player:join',{roomCode:code,displayName:['Niko','Ciro','Vale'][i]})).ok,true);
+    s.emit('player:selectCharacter',{characterId:['goblin','buttafuori','judoka'][i]});
+    s.emit('player:ready',{ready:true});
+  }
+  await p.waitForFunction(()=>document.querySelector('#pm-start-help')?.textContent.includes('3 persone + 2 bot'));
+  assert.equal(await p.$$eval('.pm-empty',els=>els.length),2);
+  await installMock(p,1); await add(p,0,XBOX); await sleep(500);
+  if(await p.$('#pad-root.open')) await tap(p,0,'B',200);
+  await p.$eval('#pm-feature',e=>e.focus());
+  await tap(p,0,'UP',200); assert.equal(await p.evaluate(()=>document.activeElement.id),'pm-bots');
+  await tap(p,0,'A',200); await until(()=>hostEval(p,g=>g.state.fillWithBots===false),4000,'bots off');
+  await p.waitForFunction(()=>document.querySelector('#pm-start-help')?.textContent==='3 persone. Tutto pronto per partire.');
+  assert.equal(await p.$$eval('.pm-empty b',els=>els.every(e=>e.textContent.includes('libero'))),true);
+  await tap(p,0,'RIGHT',200); await until(()=>hostEval(p,g=>g.state.fillWithBots===true),4000,'bots on');
+  report.checks.push('Three real controller sockets; pad up/A disables bots, right enables bots; roster and 3 people + 2 bot summary update.');
+  await p.keyboard.press('Enter'); await until(()=>hostEval(p,g=>g.state.fillWithBots===false),4000,'keyboard off');
+  assert.equal(await hostEval(p,g=>g.state.phase),'LOBBY');
+  await p.keyboard.press('Space'); await until(()=>hostEval(p,g=>g.state.fillWithBots===true),4000,'keyboard on');
+  await p.click('#pm-bots'); await until(()=>hostEval(p,g=>g.state.fillWithBots===false),4000,'mouse off');
+  await p.click('#pm-bots'); await until(()=>hostEval(p,g=>g.state.fillWithBots===true),4000,'mouse on');
+  report.checks.push('Focused bot toggle works with Enter, Space and mouse without starting the game.');
+  report.layout=await p.evaluate(()=>({width:innerWidth,height:innerHeight,controls:['#pm-bots','#pm-start','#pm-pair'].map(sel=>{const r=document.querySelector(sel).getBoundingClientRect();return {sel,top:r.top,bottom:r.bottom};})}));
+  assert.ok(report.layout.controls.every(r=>r.top>=0 && r.bottom<=report.layout.height),'all controls fit at 720p');
+  await p.screenshot({path:'docs/agent-work/bots-ribaltati/room.png'});
+  await p.click('#pm-catalog-open');
+  const kart=await p.$$eval('[data-catalog]',els=>els.filter(e=>e.querySelector('strong')?.textContent==='RIBALTATI').map(e=>e.dataset.catalog));
+  assert.equal(kart.length,1);
+  assert.equal(await p.$$eval('[data-catalog]',els=>els.filter(e=>/SYDNEY SPRINT|PRIMO KARTING|STRADA ARCOBALENO|CIRCUITO DEL LITORALE/.test(e.querySelector('strong')?.textContent||'')).length),0);
+  await p.click(`[data-catalog="${kart[0]}"]`);
+  await until(()=>hostEval(p,g=>g.state.selectedMinigameId==='kart3d'),4000,'kart choice');
+  assert.match(await p.$eval('#pm-feature',e=>e.textContent),/Quattro circuiti/);
+  await p.screenshot({path:'docs/agent-work/bots-ribaltati/ribaltati.png'});
+  await tap(p,0,'START',200); await until(()=>hostEval(p,g=>g.state.phase==='MINIGAME_ROULETTE'),6000,'start');
+  assert.equal(await hostEval(p,g=>g.state.players.filter(x=>x.bot).length),2);
+  await hostEval(p,g=>g.skip()); await until(()=>hostEval(p,g=>g.state.phase==='MINIGAME_MAP_VOTE'),6000,'map vote');
+  report.maps=await hostEval(p,g=>g.state.mapVote.options.map(o=>o.id));
+  assert.deepEqual(report.maps,['litorale','arcobaleno','sydney','primo']);
+  report.checks.push('Single Ribaltati card in catalog and carousel; pad Start launches 3 humans + 2 bots and real map vote retains all four tracks.');
+  assert.deepEqual(report.errors,[]); report.status='passed'; console.log(JSON.stringify(report));
+} finally {
+  if(p) await hostEval(p,g=>g.restartMatch()).catch(()=>{});
+  await sleep(100); phones.forEach(s=>s.disconnect());
+  writeFileSync('docs/agent-work/bots-ribaltati/browser.json',JSON.stringify(report,null,2)); await browser.close();
+}

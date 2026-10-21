@@ -39,6 +39,7 @@ for (let seats = 2; seats <= 5; seats++) {
 }
 {
   const s = new GameSession('MULTI', 5, 60, 'host'); s.addPlayer(human()); s.addPlayer(human('friend', 'ciro'));
+  s.setBots(false);
   s.players[1].detach(); assert.equal(s.allReady(), false); s.startGame(); assert.equal(s.players.length, 2);
   s.players[1].attach('friend:socket'); s.startGame(); assert.equal(s.players.length, 2); assert.ok(s.players.every((p) => !p.bot)); s.resetToLobby();
 }

@@ -1,5 +1,7 @@
 # Il Narratore Bastardo — consegna
 
+Aggiornamento del 21 ottobre 2026: il profilo vocale e il catalogo attivo sono stati rinnovati. Vedere [voce naturale e sarcastica v2](../narrator-voice/README.md). Il report seguente documenta l'integrazione originale.
+
 Il narratore è integrato nell'host di PARTY GAME con audio parlato preregistrato, sottotitoli e comandi nel pannello **V**. I telefoni non riproducono la telecronaca. Le frasi seguono il rullo reale, il gioco estratto e i piazzamenti ricevuti dal server.
 
 ## Catalogo e voce

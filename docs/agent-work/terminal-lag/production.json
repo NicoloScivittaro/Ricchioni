@@ -1,0 +1,23 @@
+{
+  "errors": [],
+  "render": {
+    "views": 5,
+    "map": "terminal",
+    "width": 1920,
+    "height": 1080,
+    "scale": 1
+  },
+  "input": {
+    "moved": true,
+    "shots": 1
+  },
+  "fps": {
+    "fps": 39.96921625582516,
+    "scale": 1.25,
+    "width": 1536,
+    "height": 864,
+    "sampleSeconds": 4
+  },
+  "cleanup": "passed",
+  "status": "passed"
+}

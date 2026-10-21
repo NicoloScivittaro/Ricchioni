@@ -31,7 +31,7 @@ export function mountMenu(scene: Phaser.Scene, html: string, handle: (action: Me
             return;
         }
         const target = e.target as HTMLElement;
-        if ((e.key === ' ' || (e.key === 'Enter' && target instanceof HTMLElement && target.matches('[data-game],[data-catalog],[data-delta],#pm-back,#pm-pair,#pm-catalog-open,#pm-catalog-close,#pm-feature'))) && target.tagName === 'BUTTON' && root.contains(target)) {
+        if ((e.key === ' ' || (e.key === 'Enter' && target instanceof HTMLElement && target.matches('[data-game],[data-catalog],[data-delta],#pm-back,#pm-pair,#pm-bots,#pm-catalog-open,#pm-catalog-close,#pm-feature'))) && target.tagName === 'BUTTON' && root.contains(target)) {
             e.preventDefault();
             if (!e.repeat)
                 target.click();

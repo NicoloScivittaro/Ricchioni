@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-kart3d-1.ogg",
-  "duration": 2.838,
-  "bytes": 22284,
-  "signature": "98a5c51879713bb90da4a79601c603cb2d876575cb6ae2237f2f72f553082cbb",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.04,
+  "bytes": 27874,
+  "signature": "ae20e8e8d3b88576d07c5a9909bc6ac90cfef31d7043951694247b2a3703f6db",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/roller-12.ogg",
-  "duration": 2.562,
-  "bytes": 20668,
-  "signature": "a46055f9056acd46f6e69e22e5948ba36c1232882399553020010dd146537609",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 2.965,
+  "bytes": 26822,
+  "signature": "9be2edd461d4b3f33d8eb4a23dbea67bac1490fc9043c82df78dfd3fefa265e7",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.03
 }

@@ -1,0 +1,69 @@
+{
+  "errors": [],
+  "paired": {
+    "samples": [
+      {
+        "optimized": false,
+        "fps": 7.218813338147368,
+        "renderMs": 123.33076922982357,
+        "draws": 630.4230769230769,
+        "uniform4UploadsPerFrame": 197,
+        "candidatesPerFrame": 3433
+      },
+      {
+        "optimized": true,
+        "fps": 11.14920422553914,
+        "renderMs": 84.08749999990687,
+        "draws": 630.225,
+        "uniform4UploadsPerFrame": 55,
+        "candidatesPerFrame": 2366
+      },
+      {
+        "optimized": false,
+        "fps": 9.214016473544604,
+        "renderMs": 102.75454545438741,
+        "draws": 630.030303030303,
+        "uniform4UploadsPerFrame": 197,
+        "candidatesPerFrame": 3433
+      },
+      {
+        "optimized": true,
+        "fps": 12.799821915518523,
+        "renderMs": 74.52391304351066,
+        "draws": 630.304347826087,
+        "uniform4UploadsPerFrame": 55,
+        "candidatesPerFrame": 2366
+      }
+    ],
+    "width": 1920,
+    "height": 1080,
+    "scale": 1,
+    "views": 5,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    }
+  },
+  "visibility": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "feedback": {
+    "mitraglia": true,
+    "pistola": true,
+    "sparapiselli": true,
+    "raffica": true,
+    "laser": true,
+    "bombarda": true,
+    "scope": true,
+    "reload": true,
+    "hit": true,
+    "damage": true,
+    "death": true,
+    "respawn": true
+  },
+  "status": "passed"
+}

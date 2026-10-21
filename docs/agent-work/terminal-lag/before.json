@@ -1,0 +1,188 @@
+{
+  "fps": 48.81193589981971,
+  "render": {
+    "mean": 19.414150943511032,
+    "p95": 28.199999999254942
+  },
+  "update": {
+    "mean": 0.6959119494770121,
+    "p95": 1
+  },
+  "frame": {
+    "mean": 20.48679245282082,
+    "p95": 29.5
+  },
+  "draws": {
+    "mean": 582.2955974842768,
+    "p95": 583
+  },
+  "width": 1536,
+  "height": 864,
+  "scale": 1.25,
+  "views": 5,
+  "renderer": {
+    "vendor": "Google Inc. (NVIDIA)",
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+  },
+  "meshes": 662,
+  "vertices": 1406340,
+  "characters": [
+    {
+      "imported": true,
+      "ready": true,
+      "failed": false
+    },
+    {
+      "imported": true,
+      "ready": true,
+      "failed": false
+    },
+    {
+      "imported": true,
+      "ready": true,
+      "failed": false
+    },
+    {
+      "imported": true,
+      "ready": true,
+      "failed": false
+    },
+    {
+      "imported": false
+    }
+  ],
+  "cpu": [
+    {
+      "fn": "_evaluateActiveMeshes",
+      "url": "chunk-A7EPIJP6.js?v=144593a1",
+      "hits": 620
+    },
+    {
+      "fn": "uniform4fv",
+      "url": "",
+      "hits": 484
+    },
+    {
+      "fn": "render",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 152
+    },
+    {
+      "fn": "getLOD",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 146
+    },
+    {
+      "fn": "select",
+      "url": "@babylonjs_core.js?v=144593a1",
+      "hits": 133
+    },
+    {
+      "fn": "uniform4fv",
+      "url": "",
+      "hits": 107
+    },
+    {
+      "fn": "select",
+      "url": "@babylonjs_core.js?v=144593a1",
+      "hits": 89
+    },
+    {
+      "fn": "(program)",
+      "url": "",
+      "hits": 79
+    },
+    {
+      "fn": "isInFrustum",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 76
+    },
+    {
+      "fn": "computeWorldMatrix",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 74
+    },
+    {
+      "fn": "_isSynchronized",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 74
+    },
+    {
+      "fn": "concatWithNoDuplicate",
+      "url": "chunk-VKGH6HX6.js?v=144593a1",
+      "hits": 66
+    },
+    {
+      "fn": "setArray4",
+      "url": "chunk-TZLY63G6.js?v=144593a1",
+      "hits": 64
+    },
+    {
+      "fn": "_preActivate",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 63
+    },
+    {
+      "fn": "evaluate",
+      "url": "goblinRigAnimator.ts",
+      "hits": 63
+    },
+    {
+      "fn": "_getInstancesRenderList",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 62
+    },
+    {
+      "fn": "bindVertexArray",
+      "url": "",
+      "hits": 55
+    },
+    {
+      "fn": "get hasAZeroComponent",
+      "url": "chunk-H3KB243A.js?v=144593a1",
+      "hits": 54
+    },
+    {
+      "fn": "uniform4fv",
+      "url": "",
+      "hits": 52
+    },
+    {
+      "fn": "bindForSubMesh",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 51
+    },
+    {
+      "fn": "getTotalVertices",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 50
+    },
+    {
+      "fn": "isReady",
+      "url": "chunk-MFRYFYC3.js?v=144593a1",
+      "hits": 47
+    },
+    {
+      "fn": "_renderForCamera",
+      "url": "chunk-A7EPIJP6.js?v=144593a1",
+      "hits": 44
+    },
+    {
+      "fn": "MultiplyMatricesToArray",
+      "url": "chunk-H3KB243A.js?v=144593a1",
+      "hits": 44
+    },
+    {
+      "fn": "texImage2D",
+      "url": "",
+      "hits": 39
+    }
+  ],
+  "errors": [],
+  "diagnostics": {
+    "base": 54.008936023980084,
+    "withoutUpdate": 56.04444225943488,
+    "withoutGuiRedraw": 52.572102392748405
+  }
+}

@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/personal-goblin-6.ogg",
-  "duration": 3.154,
-  "bytes": 23923,
-  "signature": "ef50a3739cc6db4a7da46e8053035894658e0db18b926bc98dee97f02b9b0e79",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.424,
+  "bytes": 31779,
+  "signature": "56535f2c98a42ec8757f0f37d798c33e4cb5d3e8232ae0f6c20f88b6d0186ac7",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 0.99
 }

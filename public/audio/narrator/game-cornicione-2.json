@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-cornicione-2.ogg",
-  "duration": 2.804,
-  "bytes": 22168,
-  "signature": "04b5de87ea782de5ca99a3d66bab2d02a5f60856f20fd92116e57340dc15d566",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 2.965,
+  "bytes": 25659,
+  "signature": "8be54fc4badf742a50ef65a5abe3392ff726b89bcd3e7ecd5d115b17bf69c8c2",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

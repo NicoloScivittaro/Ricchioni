@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-geofall-2.ogg",
-  "duration": 2.932,
-  "bytes": 23215,
-  "signature": "bb145b3532710f0dcb7585c2cd807447bc527eae0d7f8567d034db4ca24ac982",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.232,
+  "bytes": 28736,
+  "signature": "f4210a7f5cf4d2b02c85b3c256798ab1f3edd73fa020a4dda31a8f3235a3e794",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

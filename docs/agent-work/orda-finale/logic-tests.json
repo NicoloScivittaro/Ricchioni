@@ -1,0 +1,82 @@
+{
+  "checks": [
+    "Six existing weapons only; global damage unchanged",
+    "Identical safe starts and a real countdown",
+    "Connected arena, supplies and both dock ramps",
+    "Permanent death and immediate last-survivor victory freeze combat",
+    "Simultaneous deaths: kills, actual damage, stable ID; never random",
+    "Distinct lethal event times take precedence over kills",
+    "Finite ammo, reload consumes reserves, renewable ammo remains reachable",
+    "All waves use initial player count and gradual bounded spawn queue",
+    "Boss at wave five, ranged attacks are finite-speed, caps at late waves",
+    "Fixed-step simulation identical at 30 and 120 render FPS",
+    "Advanced archetypes include dodgeable ranged projectiles and real flanking navigation"
+  ],
+  "status": "passed",
+  "boss": {
+    "hp": 5760,
+    "windup": 1.15
+  },
+  "advancedTypes": [
+    "macellaio",
+    "colosso",
+    "corridore",
+    "assalitore",
+    "infetto",
+    "cacciatore"
+  ],
+  "simulation": {
+    "seconds": 225.23333333332312,
+    "wave": 5,
+    "phase": "finished",
+    "maxActive": 22,
+    "kinds": [
+      "infetto",
+      "corridore",
+      "macellaio"
+    ],
+    "players": [
+      {
+        "id": "p0",
+        "alive": false,
+        "hp": 0,
+        "kills": 15,
+        "ammo": 15,
+        "reserve": 12
+      },
+      {
+        "id": "p1",
+        "alive": false,
+        "hp": 0,
+        "kills": 24,
+        "ammo": 4,
+        "reserve": 0
+      },
+      {
+        "id": "p2",
+        "alive": true,
+        "hp": 15.854999999999983,
+        "kills": 29,
+        "ammo": 15,
+        "reserve": 12
+      },
+      {
+        "id": "p3",
+        "alive": false,
+        "hp": 0,
+        "kills": 26,
+        "ammo": 12,
+        "reserve": 93
+      },
+      {
+        "id": "p4",
+        "alive": false,
+        "hp": 0,
+        "kills": 27,
+        "ammo": 12,
+        "reserve": 42
+      }
+    ],
+    "winner": "p2"
+  }
+}

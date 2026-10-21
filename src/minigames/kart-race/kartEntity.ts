@@ -89,6 +89,10 @@ function shapeFor(characterId: string | null): Shape {
 }
 
 export class KartEntity {
+  private driverReady: Promise<void> = Promise.resolve();
+  private finishDriverLoad: () => void = () => {};
+  /** Settles on imported driver success/fallback, or disposal before attachment. */
+  get ready(): Promise<void> { return this.driverReady; }
   readonly root: TransformNode;
   readonly body: Mesh;
   readonly shadowMeshes: Mesh[];
@@ -131,7 +135,7 @@ export class KartEntity {
   private haloMat: StandardMaterial;
 
 
-  constructor(scene: Scene, colorHex: string, private readonly characterId: string | null = null) {
+  constructor(scene: Scene, colorHex: string, private readonly characterId: string | null = null, private readonly singlePassWheels = false) {
     this.root = new TransformNode('kartRoot', scene);
     this.root.rotationQuaternion = Quaternion.Identity();
     this.bobSeed = Math.random() * 1000;
@@ -201,7 +205,7 @@ export class KartEntity {
     ];
 
     const makeWheelMesh = (): Mesh => {
-      const w = detailedWheel(scene,shape.wheelD,wheelMat,rimMat,rimMat);
+      const w = detailedWheel(scene,shape.wheelD,wheelMat,rimMat,rimMat,this.singlePassWheels);
       return w;
     };
 
@@ -343,6 +347,7 @@ export class KartEntity {
     // Four original Tripo skins use a seated rig. The complete procedural driver remains as load fallback.
     const profile=importedCharacterProfile(characterId);
     if (profile && importedCharacterEnabled(characterId)) {
+      this.driverReady = new Promise(resolve => { this.finishDriverLoad = resolve; });
       const tuning = characterId==='goblin'?goblinTuning():{yawDeg:0,scaleMul:1};
       const seat = new TransformNode('goblinDriverSeat', scene);
       seat.parent = this.root;
@@ -355,6 +360,7 @@ export class KartEntity {
         scaleMul: tuning.scaleMul,
         seated: true,
         onReady: (ok) => {
+          this.finishDriverLoad();
           if (!ok) return;
           this.driverTorso?.setEnabled(false);
           this.driverHead?.setEnabled(false);
@@ -617,6 +623,7 @@ export class KartEntity {
   }
 
   dispose(): void {
+    this.finishDriverLoad();
     this.sparkL.dispose();
     this.sparkR.dispose();
     this.driftSmoke.dispose();

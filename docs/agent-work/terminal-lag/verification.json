@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "scope": "Terminal renderer only; simulation and other arenas unchanged",
+  "conditions": {
+    "width": 1920,
+    "height": 1080,
+    "scale": 1,
+    "views": 5,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    }
+  },
+  "before": {
+    "fps": 8.216414905845985,
+    "renderMs": 113.04265734210549,
+    "candidatesPerFrame": 3433.0,
+    "uniform4UploadsPerFrame": 197.0
+  },
+  "after": {
+    "fps": 11.974513070528833,
+    "renderMs": 79.30570652170877,
+    "candidatesPerFrame": 2366.0,
+    "uniform4UploadsPerFrame": 55.0
+  },
+  "visibility": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "feedback": {
+    "mitraglia": true,
+    "pistola": true,
+    "sparapiselli": true,
+    "raffica": true,
+    "laser": true,
+    "bombarda": true,
+    "scope": true,
+    "reload": true,
+    "hit": true,
+    "damage": true,
+    "death": true,
+    "respawn": true
+  },
+  "typecheck": "passed",
+  "build": "passed",
+  "limitations": "Short headless samples varied widely between runs. Native five-view FPS remain low; no stable 60 FPS claim.",
+  "commitPushDeploy": "none",
+  "production": {
+    "errors": [],
+    "render": {
+      "views": 5,
+      "map": "terminal",
+      "width": 1920,
+      "height": 1080,
+      "scale": 1
+    },
+    "input": {
+      "moved": true,
+      "shots": 1
+    },
+    "fps": {
+      "fps": 39.96921625582516,
+      "scale": 1.25,
+      "width": 1536,
+      "height": 864,
+      "sampleSeconds": 4
+    },
+    "cleanup": "passed",
+    "status": "passed"
+  }
+}

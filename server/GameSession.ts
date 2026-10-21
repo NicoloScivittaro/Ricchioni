@@ -42,6 +42,7 @@ export class GameSession {
   readonly roomCode: RoomCode;
   readonly targetScore: number;
   readonly playerCount: number;
+  fillWithBots = true;
   hostToken: string;
   hostConnectionId: string | null = null;
 
@@ -131,7 +132,7 @@ export class GameSession {
     return this.players.length >= this.playerCount;
   }
 
-  /** Basta un giocatore reale pronto: i posti restanti sono bot solo in solitaria. */
+  /** Basta un giocatore reale pronto; i bot sono una scelta dell'host. */
   static readonly MIN_TO_START = 1;
 
   allReady(): boolean {
@@ -164,6 +165,7 @@ export class GameSession {
       round: this.round,
       targetScore: this.targetScore,
       playerCount: this.playerCount,
+      fillWithBots: this.fillWithBots,
       players: this.playersPublic(),
       charactersLocked: [...this.charactersLocked],
       currentMinigame: this.currentMinigame,
@@ -181,14 +183,20 @@ export class GameSession {
 
   // ---- Controllo partita ----
 
+  setBots(enabled: unknown): boolean {
+    if (this.phase !== 'LOBBY' || typeof enabled !== 'boolean') return false;
+    this.fillWithBots = enabled;
+    return true;
+  }
+
   startGame(): void {
     // Guard anti doppio START (tasto tenuto premuto / doppio click): solo dalla LOBBY.
     if (this.phase !== 'LOBBY' || !this.allReady()) return;
-    // Fill only an actual solo lobby. Disconnected friends are not replaced.
-    if (this.players.length === 1 && !this.players[0].bot) {
+    // Fill vacant seats only; disconnected/unready humans still prevent start.
+    if (this.fillWithBots) {
       const available = ['goblin', 'buttafuori', 'judoka', 'ciro', 'dottore']
         .filter((id) => !this.charactersLocked.includes(id));
-      for (const characterId of available.slice(0, this.playerCount - 1)) {
+      for (const characterId of available.slice(0, Math.max(0, this.playerCount - this.players.length))) {
         const bot = new PlayerSession(`bot:${randomUUID()}`, `BOT ${CHARACTERS[characterId].name}`, '');
         bot.bot = true;
         bot.characterId = characterId;
@@ -557,7 +565,7 @@ export class GameSession {
     // durationSec è la durata di GIOCO di alcuni minigiochi (arena, fps, kart…), non la loro durata
     // reale massima: la rete di sicurezza usa hardCapSec, così non tronca partite ancora valide.
     const def = this.currentMinigame ? getMinigame(this.currentMinigame.minigameId) : undefined;
-    if(def?.id==='trentuno'||def?.id==='cornicione')return; // untimed matches, also after resume/reconnect
+    if(def?.id==='trentuno'||def?.id==='cornicione'||def?.id==='orda')return; // untimed matches, also after resume/reconnect
     const base = this.currentMinigame?.durationSec ?? 30;
     const capSec = def ? safetyCapSec(def, base) : base + 20;
     this.timer = setTimeout(() => this.fallbackFinish(), capSec * 1000);

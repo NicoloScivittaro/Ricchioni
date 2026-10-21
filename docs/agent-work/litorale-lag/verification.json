@@ -1,0 +1,71 @@
+{
+  "status": "passed",
+  "scope": [
+    "Litorale loading readiness",
+    "single-pass wheels",
+    "coastal HUD at 30 Hz",
+    "auto-quality starts after hidden loading"
+  ],
+  "testConditions": {
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "resolution": [
+      1920,
+      1080
+    ],
+    "quality": "high",
+    "scale": 1,
+    "views": 5,
+    "sampleSeconds": 6
+  },
+  "before": {
+    "fps": 44.15377464976857,
+    "render": {
+      "mean": 20.806390977401595,
+      "p95": 29.400000002235174
+    },
+    "frame": {
+      "mean": 22.648120300746278,
+      "p95": 32.80000000074506
+    },
+    "draws": {
+      "mean": 424.093984962406,
+      "p95": 490
+    },
+    "vertices": 301690
+  },
+  "after": {
+    "fps": 57.670893649532324,
+    "render": {
+      "mean": 13.821325648447193,
+      "p95": 23.400000002235174
+    },
+    "frame": {
+      "mean": 17.33976945245601,
+      "p95": 27.699999999254942
+    },
+    "draws": {
+      "mean": 394.21325648414984,
+      "p95": 457
+    },
+    "vertices": 301690
+  },
+  "geometry": "passed: original wheel positions/normals/UVs/triangles and rubber/metal distinction retained; submissions 2 to 1",
+  "loading": [
+    "Delayed real drivers finish before controls/countdown; one-view race starts; HUD capped near 30 Hz with elapsed-time preservation and full-rate camera.",
+    "Native HIGH resolution is preserved at readiness after deliberately slow hidden loading.",
+    "A failed driver asset keeps its existing procedural fallback and does not block starting.",
+    "Disposal during loading settles readiness without starting controls or keeping a live scene."
+  ],
+  "hudTiming": {
+    "calls": 55,
+    "cameras": 110,
+    "frames": 110,
+    "hudTime": 1.8234000000022357,
+    "elapsed": 1.8145
+  },
+  "typecheck": "passed: tsc --noEmit",
+  "build": "3m 34s",
+  "production": "passed",
+  "routing": "Direct Sol implementation; no child inference requests",
+  "commitPushDeploy": "none"
+}

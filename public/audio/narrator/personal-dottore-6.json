@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/personal-dottore-6.ogg",
-  "duration": 3.2,
-  "bytes": 24098,
-  "signature": "db5621115c5bd68ac5d0120fdc4cc31d2e712976515e97f2ee47460cedc23a07",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.317,
+  "bytes": 28736,
+  "signature": "a157c9fe0d70bbad9a5daacb9197ce2c07ac8a5c9c4c1a745715bf1899f3e983",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 0.99
 }

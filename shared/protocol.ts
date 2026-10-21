@@ -36,6 +36,7 @@ export const EVT = {
   mapVote: 'map:vote',
   hostMapVote: 'host:mapVote',
   hostStart: 'host:start',
+  hostSetBots: 'host:setBots',
   hostMinigameFinished: 'host:minigameFinished',
   hostSkip: 'host:skip',
   /** Emergenza: salta il minigioco in corso SENZA punti e torna al rullo. */

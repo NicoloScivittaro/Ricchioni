@@ -169,6 +169,16 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
   // telefono (touch-drag, posizione assoluta): i due controlId restano distinti apposta, non si tocca il telefono.
   // A = salto, B = accovacciato tenuto, LB = dash.
   // X = ricarica. LT/L2 = ADS tenuto. RB = ABILITA' del personaggio (ABILITY OVERHAUL: prima era riservato e non faceva nulla).
+  orda: defineProfile('orda', [
+    {action:'MOVE',binding:'LEFT_STICK',control:'move',label:'MUOVITI'},
+    {action:'LOOK',binding:'RIGHT_STICK',control:'lookStick',label:'MIRA / GUARDA'},
+    {action:'FIRE',binding:'RT',control:'fire',label:'SPARA'},
+    {action:'AIM',binding:'LT',control:'aim',label:'MIRA · TIENI'},
+    {action:'DASH',binding:'LB',control:'dash',label:'SCATTO'},
+    {action:'JUMP',binding:'PRIMARY',control:'jump',label:'SALTA'},
+    {action:'CROUCH',binding:'SECONDARY',control:'crouch',label:'ACCOVACCIATI · TIENI'},
+    {action:'RELOAD',binding:'LEFT',control:'reload',label:'RICARICA'}
+  ]),
   fps: defineProfile('fps', [
     { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI' },
     { action: 'LOOK', binding: 'RIGHT_STICK', control: 'lookStick', label: 'MIRA / GUARDA' },

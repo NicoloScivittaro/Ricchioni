@@ -5,7 +5,6 @@ import { audio } from '../core/AudioManager';
 import { CHARACTER_ORDER, getCharacter } from '../../shared/characters';
 import { MINIGAME_DEFINITIONS, getMinigame } from '../../shared/minigames';
 import { estimateGameMinutes } from '../../shared/types';
-import { kartTrackName } from '../../shared/kartTracks';
 import { controllerUrlForRoom } from '../../shared/controllerUrl';
 import { pads, type MenuAction } from '../input/GamepadManager';
 import { showPairingPanel } from '../input/PairingPanel';
@@ -14,6 +13,7 @@ import { gameAccent, gameArtwork } from './gameArtwork';
 export class RoomScene extends Phaser.Scene {
     private root!: HTMLDivElement;
     private lastKey = '';
+    private lastOptions = '';
     private selected: string | null = null;
     private focusRow = 0;
     private catalog = false;
@@ -22,12 +22,13 @@ export class RoomScene extends Phaser.Scene {
     constructor() { super('RoomScene'); }
     create(): void {
         this.lastKey = '';
+        this.lastOptions = '';
         this.focusRow = 0;
         this.catalog = false;
         this.pendingSelection = false;
         this.selected = this.current();
         this.cameras.main.setBackgroundColor('#0d1222');
-        this.root = mountMenu(this, `<main class="pm-page"><header class="pm-header">${brand}<div class="pm-top-note"><span id="pm-target"></span><button id="pm-back" class="pm-plain">← Nuova serata</button></div></header><div class="pm-room"><section class="pm-room-main"><div class="pm-room-heading"><div><div class="pm-eyebrow">Scegliete la prossima sfida</div><h1>Che si gioca?</h1><p>Lascia decidere al rullo, oppure scegli il tuo preferito.</p></div><span id="pm-library-count" class="pm-muted"></span></div><button class="pm-feature" id="pm-feature" aria-label="Apri il catalogo dei minigiochi"></button><div class="pm-library-title"><b>La vostra sala giochi</b><button class="pm-plain" id="pm-catalog-open">Vedi tutti ↗</button></div><div class="pm-card-strip" id="pm-games" aria-label="Scegli un minigioco"></div><div class="pm-room-start"><span class="pm-start-copy" id="pm-start-help"></span><button class="pm-primary" id="pm-start"><span>Inizia la serata</span><span>▶</span></button></div></section><aside class="pm-room-side"><div class="pm-room-code"><div><small>LA VOSTRA STANZA</small><b>${esc(gm.roomCode || '?????')}</b></div><i class="pm-dot"></i></div><div class="pm-qr-area"><img id="pm-qr" alt="QR per entrare nella stanza"><p>Inquadra il QR.<br>Scegli chi essere.<br>Preparati a perdere.</p></div><div class="pm-room-url" id="pm-room-url"></div><div class="pm-roster-title"><b>LA COMPAGNIA</b><span id="pm-player-count"></span></div><div id="pm-roster" class="pm-roster"></div><button id="pm-pair" class="pm-plain">🎮 Collega i controller</button></aside></div><footer class="pm-footer"><span>${padHints('scorri / naviga')}</span><span id="pm-device-count"></span></footer></main><section class="pm-catalog" id="pm-catalog" hidden role="dialog" aria-modal="true" aria-labelledby="pm-catalog-title"><div class="pm-catalog-box"><header class="pm-catalog-header"><div><div class="pm-eyebrow">Tutti i giochi della serata</div><h2 id="pm-catalog-title">Scegli la tua sfida.</h2></div><button class="pm-plain" id="pm-catalog-close" aria-label="Chiudi catalogo">✕</button></header><div class="pm-catalog-grid" id="pm-catalog-grid"></div><p class="pm-catalog-help">Stick / croce direzionale per navigare · A / ✕ oppure Invio per scegliere · B / ◯ per tornare</p></div></section>`, (a, s) => this.action(a, s));
+        this.root = mountMenu(this, `<main class="pm-page"><header class="pm-header">${brand}<div class="pm-top-note"><span id="pm-target"></span><button id="pm-back" class="pm-plain">← Nuova serata</button></div></header><div class="pm-room"><section class="pm-room-main"><div class="pm-room-heading"><div><div class="pm-eyebrow">Scegliete la prossima sfida</div><h1>Che si gioca?</h1><p>Lascia decidere al rullo, oppure scegli il tuo preferito.</p></div><span id="pm-library-count" class="pm-muted"></span></div><button class="pm-feature" id="pm-feature" aria-label="Apri il catalogo dei minigiochi"></button><div class="pm-library-title"><b>La vostra sala giochi</b><button class="pm-plain" id="pm-catalog-open">Vedi tutti ↗</button></div><div class="pm-card-strip" id="pm-games" aria-label="Scegli un minigioco"></div><div class="pm-room-start"><span class="pm-start-copy" id="pm-start-help"></span><button class="pm-primary" id="pm-start"><span>Inizia la serata</span><span>▶</span></button></div></section><aside class="pm-room-side"><div class="pm-room-code"><div><small>LA VOSTRA STANZA</small><b>${esc(gm.roomCode || '?????')}</b></div><i class="pm-dot"></i></div><div class="pm-qr-area"><img id="pm-qr" alt="QR per entrare nella stanza"><p>Inquadra il QR.<br>Scegli chi essere.<br>Preparati a perdere.</p></div><div class="pm-room-url" id="pm-room-url"></div><div class="pm-bot-setting"><button id="pm-bots" class="pm-bot-toggle" aria-pressed="true"><span>Completa con bot</span><b id="pm-bot-value">SÌ</b></button><small id="pm-bot-help"></small></div><div class="pm-roster-title"><b>LA COMPAGNIA</b><span id="pm-player-count"></span></div><div id="pm-roster" class="pm-roster"></div><button id="pm-pair" class="pm-plain">🎮 Collega i controller</button></aside></div><footer class="pm-footer"><span>${padHints('scorri / naviga')}</span><span id="pm-device-count"></span></footer></main><section class="pm-catalog" id="pm-catalog" hidden role="dialog" aria-modal="true" aria-labelledby="pm-catalog-title"><div class="pm-catalog-box"><header class="pm-catalog-header"><div><div class="pm-eyebrow">Tutti i giochi della serata</div><h2 id="pm-catalog-title">Scegli la tua sfida.</h2></div><button class="pm-plain" id="pm-catalog-close" aria-label="Chiudi catalogo">✕</button></header><div class="pm-catalog-grid" id="pm-catalog-grid"></div><p class="pm-catalog-help">Stick / croce direzionale per navigare · A / ✕ oppure Invio per scegliere · B / ◯ per tornare</p></div></section>`, (a, s) => this.action(a, s));
         const click = (id: string, fn: () => void) => this.root.querySelector<HTMLButtonElement>(id)!.onclick = fn;
         click('#pm-back', () => this.abandon());
         click('#pm-feature', () => this.openCatalog());
@@ -35,12 +36,15 @@ export class RoomScene extends Phaser.Scene {
         click('#pm-catalog-close', () => this.closeCatalog());
         click('#pm-start', () => this.tryStart());
         click('#pm-pair', () => showPairingPanel());
+        click('#pm-bots', () => this.toggleBots());
         this.root.querySelector('#pm-catalog')!.addEventListener('click', e => { if (e.target === e.currentTarget)
             this.closeCatalog(); });
         this.root.addEventListener('focusin', e => { const el = e.target as HTMLElement; if (el.dataset.catalog)
             this.catalogIndex = Number(el.dataset.catalog);
         else if (el.id === 'pm-start')
             this.focusRow = 2;
+        else if (el.id === 'pm-bots')
+            this.focusRow = 3;
         else if (el.id === 'pm-catalog-open')
             this.focusRow = 1;
         else if (el.id === 'pm-feature' || el.dataset.game)
@@ -49,15 +53,25 @@ export class RoomScene extends Phaser.Scene {
         this.drawCards();
         this.update();
     }
-    private options(): (string | null)[] { const st = gm.state; if (!st)
-        return [null]; const games = MINIGAME_DEFINITIONS.filter(d => d.enabled !== false && st.playerCount >= d.minPlayers && st.playerCount <= d.maxPlayers).map(d => d.id); return [null, ...games, ...(games.includes('kart3d') ? ['kart3d:arcobaleno', 'kart3d:sydney', 'kart3d:primo'] : [])]; }
-    private current(): string | null { const st = gm.state; return st?.selectedMinigameId === 'kart3d' && st.selectedKartTrackId && st.selectedKartTrackId !== 'litorale' ? `kart3d:${st.selectedKartTrackId}` : st?.selectedMinigameId ?? null; }
-    private definition(id: string | null) { return id ? getMinigame(id.startsWith('kart3d:') ? 'kart3d' : id) : undefined; }
-    private name(id: string | null): string { return id?.startsWith('kart3d:') ? kartTrackName(id.slice(7) as 'arcobaleno' | 'sydney' | 'primo') : this.definition(id)?.name ?? 'Il rullo decide'; }
+    private options(): (string | null)[] {
+        const st = gm.state;
+        if (!st) return [null];
+        const count = st.fillWithBots !== false ? st.playerCount : Math.max(1, st.players.length);
+        return [null, ...MINIGAME_DEFINITIONS.filter(d => d.enabled !== false && count >= d.minPlayers && count <= d.maxPlayers).map(d => d.id)];
+    }
+    private current(): string | null { return gm.state?.selectedMinigameId ?? null; }
+    private definition(id: string | null) { return id ? getMinigame(id) : undefined; }
+    private name(id: string | null): string { return id === 'kart3d' ? 'RIBALTATI' : this.definition(id)?.name ?? 'Il rullo decide'; }
+    private toggleBots(): void {
+        if (!gm.state) return;
+        audio.ui('move');
+        gm.setBots(gm.state.fillWithBots === false);
+    }
     private category(id: string | null): string { return this.definition(id)?.category ?? 'TUTTA LA SERATA'; }
     private card(id: string | null, i: number, catalog = false): string { const def = this.definition(id); return `<button class="pm-mini-card" style="--game-accent:${gameAccent(def)}" ${catalog ? 'data-catalog' : 'data-game'}="${i}" aria-pressed="${id === this.selected}"><div class="pm-art">${gameArtwork(def)}</div><strong>${esc(this.name(id))}</strong><small>${esc(this.category(id))}</small></button>`; }
     private drawCards(): void {
         const opts = this.options();
+        this.lastOptions = JSON.stringify(opts);
         this.root.querySelector('#pm-games')!.innerHTML = opts.map((id, i) => this.card(id, i)).join('');
         this.root.querySelectorAll<HTMLButtonElement>('[data-game]').forEach(b => b.onclick = () => { this.focusRow = 0; this.choose(opts[Number(b.dataset.game)]); });
         this.root.querySelector('#pm-catalog-grid')!.innerHTML = opts.map((id, i) => this.card(id, i, true)).join('');
@@ -71,13 +85,13 @@ export class RoomScene extends Phaser.Scene {
         this.selected = id;
         this.pendingSelection = true;
         audio.ui('move');
-        gm.selectMinigame(id?.startsWith('kart3d:') ? 'kart3d' : id, id === 'kart3d:primo' ? 'primo' : id === 'kart3d:sydney' ? 'sydney' : id === 'kart3d:arcobaleno' ? 'arcobaleno' : 'litorale');
+        gm.selectMinigame(id);
         this.renderSelection(true);
     }
     private renderSelection(scroll: boolean): void {
         const id = this.selected, def = this.definition(id), feature = this.root.querySelector<HTMLElement>('#pm-feature')!;
         feature.style.setProperty('--game-accent', gameAccent(def));
-        feature.innerHTML = `<div class="pm-feature-copy"><span class="pm-tag">${esc(this.category(id))}</span><h2>${esc(this.name(id))}</h2><p>${esc(def?.description ?? 'Un gioco diverso a ogni giro. Sfide, sorprese e nessun alibi: fatevi trovare pronti.')}</p><div class="pm-feature-meta"><span>${def?.inputMode === 'PHONE_TEXT' ? '📱 Telefono' : '🎮 Pad o telefono'}</span><span>${id ? 'Scelta libera' : 'Senza ripetizioni nel giro'}</span></div></div><div class="pm-art">${gameArtwork(def)}</div>`;
+        feature.innerHTML = `<div class="pm-feature-copy"><span class="pm-tag">${esc(this.category(id))}</span><h2>${esc(this.name(id))}</h2><p>${esc(id === 'kart3d' ? 'Quattro circuiti, una sola sfida. Votate la pista prima della partenza.' : def?.description ?? 'Un gioco diverso a ogni giro. Sfide, sorprese e nessun alibi: fatevi trovare pronti.')}</p><div class="pm-feature-meta"><span>${def?.inputMode === 'PHONE_TEXT' ? '📱 Telefono' : '🎮 Pad o telefono'}</span><span>${id ? 'Scelta libera' : 'Senza ripetizioni nel giro'}</span></div></div><div class="pm-art">${gameArtwork(def)}</div>`;
         const opts = this.options(), index = Math.max(0, opts.indexOf(id));
         this.root.querySelectorAll<HTMLElement>('[data-game],[data-catalog]').forEach(el => el.setAttribute('aria-pressed', String(Number(el.dataset.game ?? el.dataset.catalog) === index)));
         if (scroll)
@@ -86,7 +100,7 @@ export class RoomScene extends Phaser.Scene {
     private openCatalog(): void { this.catalog = true; this.root.querySelector<HTMLElement>('.pm-page')!.inert = true; this.catalogIndex = Math.max(0, this.options().indexOf(this.selected)); this.root.querySelector<HTMLElement>('#pm-catalog')!.hidden = false; this.catalogFocus(); }
     private closeCatalog(): void { this.catalog = false; this.root.querySelector<HTMLElement>('.pm-page')!.inert = false; this.root.querySelector<HTMLElement>('#pm-catalog')!.hidden = true; this.focus(); }
     private catalogFocus(): void { menuFocus(this.root, `[data-catalog="${this.catalogIndex}"]`); this.root.querySelector<HTMLElement>(`[data-catalog="${this.catalogIndex}"]`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }
-    private focus(): void { menuFocus(this.root, this.focusRow === 0 ? '#pm-feature' : this.focusRow === 1 ? '#pm-catalog-open' : '#pm-start'); }
+    private focus(): void { menuFocus(this.root, this.focusRow === 0 ? '#pm-feature' : this.focusRow === 1 ? '#pm-catalog-open' : this.focusRow === 2 ? '#pm-start' : '#pm-bots'); }
     private action(a: MenuAction, source: 'pad' | 'keyboard'): void {
         if (this.catalog) {
             const opts = this.options();
@@ -115,17 +129,23 @@ export class RoomScene extends Phaser.Scene {
             return;
         }
         if (a === 'up' || a === 'down') {
-            this.focusRow = (this.focusRow + (a === 'up' ? 2 : 1)) % 3;
+            this.focusRow = (this.focusRow + (a === 'up' ? 3 : 1)) % 4;
             this.focus();
             return;
         }
         if (a === 'left' || a === 'right' || a === 'previous' || a === 'next') {
+            if (this.focusRow === 3) {
+                gm.setBots(a === 'right' || a === 'next');
+                return;
+            }
             const opts = this.options(), i = Math.max(0, opts.indexOf(this.selected)), d = a === 'left' || a === 'previous' ? -1 : 1;
             this.choose(opts[(i + d + opts.length) % opts.length]);
             return;
         }
         if (a === 'confirm') {
-            if (this.focusRow === 2)
+            if (this.focusRow === 3)
+                this.toggleBots();
+            else if (this.focusRow === 2)
                 this.tryStart();
             else
                 this.openCatalog();
@@ -172,10 +192,20 @@ export class RoomScene extends Phaser.Scene {
         const st = gm.state;
         if (!st || !this.root)
             return;
-        const key = JSON.stringify([st.playerCount, st.selectedMinigameId, st.selectedKartTrackId, st.targetScore, st.players.map(p => [p.id, p.characterId, p.ready, p.connected, p.displayName, pads.slotOf(p.id)?.state])]);
+        const key = JSON.stringify([st.playerCount, st.fillWithBots, st.selectedMinigameId, st.selectedKartTrackId, st.targetScore, st.players.map(p => [p.id, p.characterId, p.ready, p.connected, p.displayName, pads.slotOf(p.id)?.state])]);
         if (key === this.lastKey)
             return;
         this.lastKey = key;
+        if (JSON.stringify(this.options()) !== this.lastOptions) {
+            if (!this.options().includes(this.selected)) {
+                this.selected = null;
+                this.pendingSelection = true;
+                gm.selectMinigame(null);
+            }
+            this.drawCards();
+            this.catalogIndex = Math.min(this.catalogIndex, this.options().length - 1);
+            if (this.catalog) this.catalogFocus();
+        }
         const actual = this.current();
         if (actual === this.selected)
             this.pendingSelection = false;
@@ -185,18 +215,23 @@ export class RoomScene extends Phaser.Scene {
         }
         this.root.querySelector('#pm-target')!.textContent = `${st.targetScore} punti · circa ${estimateGameMinutes(st.targetScore)} min`;
         this.root.querySelector('#pm-player-count')!.textContent = `${st.players.length} / ${st.playerCount}`;
+        const bots = st.fillWithBots !== false;
+        const vacant = Math.max(0, st.playerCount - st.players.length);
+        this.root.querySelector('#pm-bots')!.setAttribute('aria-pressed', String(bots));
+        this.root.querySelector('#pm-bot-value')!.textContent = bots ? 'SÌ' : 'NO';
+        this.root.querySelector('#pm-bot-help')!.textContent = bots ? (vacant ? `${vacant} bot al via · fino a ${st.playerCount} giocatori` : 'Stanza piena: nessun bot aggiunto') : 'Giocano soltanto le persone presenti';
         const withPad = st.players.filter(p => pads.slotOf(p.id)?.state === 'paired').length;
         this.root.querySelector('#pm-device-count')!.textContent = withPad ? `${withPad} pad · ${st.players.length - withPad} telefoni` : 'Gioca con pad o telefono';
         const rows = Array.from({ length: st.playerCount }, (_, i) => {
             const p = st.players[i];
             if (!p)
-                return `<div class="pm-player pm-empty">${menuPortrait(CHARACTER_ORDER[i % CHARACTER_ORDER.length], 30)}<div><b>Posto ${i + 1}</b><small>Un amico… o un bot al via</small></div></div>`;
+                return `<div class="pm-player pm-empty">${menuPortrait(CHARACTER_ORDER[i % CHARACTER_ORDER.length], 30)}<div><b>${bots ? "BOT al via" : `Posto ${i + 1} libero`}</b><small>${bots ? "Un amico può ancora entrare" : "In attesa di un amico"}</small></div></div>`;
             const c = p.characterId ? getCharacter(p.characterId) : null;
             return `<div class="pm-player">${menuPortrait(p.characterId ?? CHARACTER_ORDER[i % CHARACTER_ORDER.length], 30)}<div><b>${esc(p.displayName)}</b><small>${esc(c?.roleTitle ?? 'Sceglie il personaggio')}${pads.slotOf(p.id)?.state === 'paired' ? ' · Pad' : ''}</small></div><span class="pm-ready${!p.connected?' pm-offline':!p.ready?' pm-waiting':''}">${!p.connected ? 'Offline' : p.ready ? 'Pronto' : 'Attendi'}</span></div>`;
         });
         this.root.querySelector('#pm-roster')!.innerHTML = rows.join('');
         const can = st.players.length >= 1 && st.players.every(p => p.connected && p.ready && p.characterId);
         this.root.querySelector<HTMLButtonElement>('#pm-start')!.disabled = !can;
-        this.root.querySelector('#pm-start-help')!.textContent = can ? (st.players.length === 1 ? `Si parte con ${st.playerCount - 1} bot. Gli amici possono ancora entrare.` : 'La compagnia è pronta. Si parte?') : 'Inquadra il QR e scegli il personaggio sul telefono.';
+        this.root.querySelector('#pm-start-help')!.textContent = can ? `${st.players.length} ${st.players.length === 1 ? 'persona' : 'persone'}${bots && vacant ? ` + ${vacant} bot` : ''}. Tutto pronto per partire.` : 'Inquadra il QR e scegli il personaggio sul telefono.';
     }
 }

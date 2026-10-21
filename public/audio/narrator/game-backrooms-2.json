@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-backrooms-2.ogg",
-  "duration": 2.952,
-  "bytes": 22827,
-  "signature": "77f687c05f1bab790de27de2176152409e34e471acb9424e3a3a20479ccb6c63",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.1,
+  "bytes": 27068,
+  "signature": "102c2d64749b7272f6b2a315cb3e46e37c8bdcbf9be6d61e88cb289fdd00aba2",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

@@ -153,6 +153,12 @@ export class RoomManager {
       cb?.({ok,error:ok?undefined:'Votazione non valida o controller non associato'});
     });
     socket.on(EVT.hostStart, () => this.onHostStart(socket));
+    socket.on(EVT.hostSetBots, (p: {enabled?: unknown}, cb?: (r: AckResponse) => void) => {
+      const room = this.roomOfHost(socket);
+      const ok = !!room && room.setBots(p?.enabled);
+      cb?.({ok, error: ok ? undefined : 'Impostazione disponibile solo per l’host nella stanza'});
+      if (ok) this.broadcast(room!.roomCode);
+    });
     socket.on(EVT.hostMinigameFinished, (p: MinigameFinishedPayload) =>
       this.onMinigameFinished(socket, p)
     );

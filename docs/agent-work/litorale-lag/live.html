@@ -1,0 +1,19 @@
+<!doctype html><html><meta charset="utf-8"><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#152333}canvas{display:block;width:100%;height:100%}</style><canvas id="game"></canvas><script type="module">
+import {BabylonKartGame} from '/src/minigames/kart-race/BabylonKartGame.ts';
+import {InputManager} from '/src/network/InputManager.ts';
+import {Rng} from '/shared/rng.ts';
+import {CHARACTERS,CHARACTER_ORDER} from '/shared/characters.ts';
+const views=Number(new URLSearchParams(location.search).get('views')||5);
+const players=CHARACTER_ORDER.map((id,i)=>({...CHARACTERS[id],id:'p'+i,characterId:id,bot:i>=views,displayName:CHARACTERS[id].name,score:0}));
+const ctx={players,playerIds:players.map(p=>p.id),rng:new Rng(4242),durationSec:600,modifier:null,modifiers:new Map(),input:new InputManager(),kartTrackId:'litorale',consume:()=>false,vibrate:()=>{},signal:()=>{},sendPrivate:()=>{},finish:()=>{}};
+window.controls=[];ctx.showControls=async()=>{window.controls.push({pending:[...g.entities.values()].filter(e=>e.goblinDriver&&!e.goblinDriver.ready&&!e.goblinDriver.failed).length});};
+window.g=new BabylonKartGame(document.querySelector('canvas'),ctx);
+window.createdAt=performance.now();
+await g.ready;
+window.loadMs=performance.now()-window.createdAt;
+window.loadScale=g.engine.getHardwareScalingLevel();
+g.soloBots.ids=new Set(ctx.playerIds);
+g.engine.setHardwareScalingLevel(1);g.engine.setHardwareScalingLevel=()=>{};
+window.resetPose=()=>{[...g.karts.values()].forEach((k,i)=>{k.distance=g.spline.totalLength*(.035+i*.19);k.lateral=0;k.speed=35;k.absHeading=g.spline.tangentAngleAt(k.distance);k.heading=0;k.jumpHeight=0;});};
+window.ready=true;
+</script></html>

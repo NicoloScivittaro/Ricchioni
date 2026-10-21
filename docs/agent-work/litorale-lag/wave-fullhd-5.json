@@ -1,0 +1,280 @@
+{
+  "stage": "wave-fullhd",
+  "views": 5,
+  "errors": [],
+  "metrics": {
+    "fps": 5.652089658288768,
+    "frame": {
+      "mean": 176.92571428577816,
+      "p95": 716.3000000007451
+    },
+    "render": {
+      "mean": 92.10000000053219,
+      "p95": 587.8999999985099
+    },
+    "step": {
+      "mean": 5.646341463460065,
+      "p95": 20.399999998509884
+    },
+    "draws": {
+      "mean": 500.6,
+      "p95": 547
+    },
+    "meshes": 277,
+    "vertices": 243274,
+    "top": [
+      {
+        "name": "coastalDetailBatch",
+        "vertices": 60418,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "tripo_node_9724ae93-c510-4a38-8cf5-0152240ba84c~g1",
+        "vertices": 33613,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "tripo_node_251cf5c8-cf0f-4a4c-a2bc-69279b21f4d4~g3",
+        "vertices": 24403,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "coastalCloudVolumes",
+        "vertices": 13860,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8274,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8111,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8107,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8079,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8055,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "road",
+        "vertices": 5226,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "viaductDeck",
+        "vertices": 3488,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartPaintedChassis",
+        "vertices": 1952,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartPaintedChassis",
+        "vertices": 1789,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartPaintedChassis",
+        "vertices": 1785,
+        "submeshes": 1,
+        "thin": 0
+      }
+    ],
+    "scale": 1,
+    "width": 1920,
+    "height": 1080,
+    "cameras": 5,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    }
+  },
+  "cpu": [
+    {
+      "fn": "texImage2D",
+      "url": "",
+      "hits": 1397,
+      "share": 0.403757225433526
+    },
+    {
+      "fn": "(garbage collector)",
+      "url": "",
+      "hits": 264,
+      "share": 0.07630057803468208
+    },
+    {
+      "fn": "texImage2D",
+      "url": "",
+      "hits": 133,
+      "share": 0.038439306358381505
+    },
+    {
+      "fn": "_evaluateActiveMeshes",
+      "url": "chunk-A7EPIJP6.js?v=144593a1",
+      "hits": 62,
+      "share": 0.017919075144508672
+    },
+    {
+      "fn": "(program)",
+      "url": "",
+      "hits": 60,
+      "share": 0.017341040462427744
+    },
+    {
+      "fn": "createObjectURL",
+      "url": "",
+      "hits": 54,
+      "share": 0.01560693641618497
+    },
+    {
+      "fn": "render",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 41,
+      "share": 0.011849710982658959
+    },
+    {
+      "fn": "bindForSubMesh",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 19,
+      "share": 0.005491329479768786
+    },
+    {
+      "fn": "substep",
+      "url": "BabylonKartGame.ts?t=1792531520978",
+      "hits": 18,
+      "share": 0.005202312138728324
+    },
+    {
+      "fn": "texImage2D",
+      "url": "",
+      "hits": 18,
+      "share": 0.005202312138728324
+    },
+    {
+      "fn": "uniformMatrix4fv",
+      "url": "",
+      "hits": 17,
+      "share": 0.004913294797687861
+    },
+    {
+      "fn": "_applyExtensions",
+      "url": "@babylonjs_loaders_glTF.js?v=144593a1",
+      "hits": 16,
+      "share": 0.004624277456647399
+    },
+    {
+      "fn": "_renderForCamera",
+      "url": "chunk-A7EPIJP6.js?v=144593a1",
+      "hits": 15,
+      "share": 0.004335260115606936
+    },
+    {
+      "fn": "Blob",
+      "url": "",
+      "hits": 13,
+      "share": 0.0037572254335260114
+    },
+    {
+      "fn": "update",
+      "url": "items.ts",
+      "hits": 12,
+      "share": 0.003468208092485549
+    },
+    {
+      "fn": "present",
+      "url": "BabylonKartGame.ts?t=1792531520978",
+      "hits": 12,
+      "share": 0.003468208092485549
+    },
+    {
+      "fn": "setMatrices",
+      "url": "chunk-TZLY63G6.js?v=144593a1",
+      "hits": 12,
+      "share": 0.003468208092485549
+    },
+    {
+      "fn": "updateVisual",
+      "url": "kartEntity.ts",
+      "hits": 11,
+      "share": 0.003179190751445087
+    },
+    {
+      "fn": "isReadyForSubMesh",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 11,
+      "share": 0.003179190751445087
+    },
+    {
+      "fn": "drawElements",
+      "url": "",
+      "hits": 11,
+      "share": 0.003179190751445087
+    },
+    {
+      "fn": "measureText",
+      "url": "",
+      "hits": 10,
+      "share": 0.002890173410404624
+    },
+    {
+      "fn": "computeWorldMatrix",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 10,
+      "share": 0.002890173410404624
+    },
+    {
+      "fn": "render",
+      "url": "chunk-YPA36E2Q.js?v=144593a1",
+      "hits": 10,
+      "share": 0.002890173410404624
+    },
+    {
+      "fn": "fillText",
+      "url": "",
+      "hits": 9,
+      "share": 0.002601156069364162
+    },
+    {
+      "fn": "useProgram",
+      "url": "",
+      "hits": 9,
+      "share": 0.002601156069364162
+    }
+  ],
+  "diagnostics": {
+    "base": 6.103286384976526,
+    "withoutCoastalDetails": 10.594289173649427,
+    "withoutSea": 10.707096663675513,
+    "withoutShadows": 13.125656282826977,
+    "withoutHud": 12.109356806847353
+  }
+}

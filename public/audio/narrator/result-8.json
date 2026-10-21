@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/result-8.ogg",
-  "duration": 3.218,
-  "bytes": 23956,
-  "signature": "dc3647bac3dea77dcc2cef8b953aebff7d0388064c9ead864bef3d78a97a9d7e",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.339,
+  "bytes": 29516,
+  "signature": "527570c52f78e9ba2541658738d14d4b5da68b0b8241cbc577ce81edc05e25ab",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 0.99
 }

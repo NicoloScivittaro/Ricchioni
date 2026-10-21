@@ -1,4 +1,6 @@
 import {mountMapVote} from './mapVoteController';
+import {mountOrda} from './ordaController';
+import type {OrdaPacket} from '../../shared/orda/types';
 import {stateLabel} from '../../shared/abilityCatalog';
 import type {AbilityStatus} from '../../shared/abilityCatalog';
 import {mountBackrooms,backStatusText} from './backroomsController';
@@ -47,6 +49,9 @@ let state: RoomState | null = null;
 let lastMinigameId: string | null = null;
 /** Controller attivo (per instradare i segnali): 'memory' | 'quiz' | null. */
 let activeController: string | null = null;
+let ordaPhone:ReturnType<typeof mountOrda>|null=null;
+let ordaPending:OrdaPacket|null=null;
+const destroyOrdaPhone=()=>{ordaPhone?.destroy();ordaPhone=null;ordaPending=null;};
 let mapVotePhone:ReturnType<typeof mountMapVote>|null=null;
 let mapVoteRound:number|null=null;
 const destroyMapVote=()=>{mapVotePhone?.destroy();mapVotePhone=null;mapVoteRound=null;};
@@ -209,6 +214,7 @@ function syncPauseOverlay(s: RoomState | null): void {
   const want = !!s && s.phase === 'MINIGAME_PLAYING' && s.paused === true;
   let el = document.getElementById('pause-overlay');
   fpsClient?.setPaused(want);
+  ordaPhone?.setPaused(want);
   if (want && !el) {
     releaseControllerInput();
     el = document.createElement('div');
@@ -1636,6 +1642,13 @@ function renderFpsController(): void {
 
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
+  if(s.type==='ordaState'){
+    const packet=data as unknown as OrdaPacket;
+    if(state?.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='orda'&&packet.roundId===state.roundId){
+      if(ordaPhone)ordaPhone.update(packet);else ordaPending=packet;
+    }
+    return;
+  }
   if(s.type==='backroomsStatus'&&state?.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='backrooms'){
     const status=data as BackPhoneStatus;
     if(backroomsPhone)backroomsPhone.update(status);
@@ -1951,6 +1964,7 @@ function render(): void {
   if(state?.phase!=='MINIGAME_MAP_VOTE')destroyMapVote();
   syncPauseOverlay(state);
   if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='backrooms')destroyBackroomsPhone();
+  if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='orda')destroyOrdaPhone();
   if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='minigolf')destroyMinigolfPhone();
   if (!state || state.phase !== 'MINIGAME_PLAYING') disposeFps();
   const me: PlayerPublic | undefined =
@@ -2194,6 +2208,7 @@ function keepAwake(on: boolean): void {
 }
 
 function renderPadScreen(mg: NonNullable<RoomState['currentMinigame']>, me: PlayerPublic): void {
+  destroyOrdaPhone();
   destroyBackroomsPhone();
   destroyMinigolfPhone();
   activeController = null; // i segnali di gioco non hanno piu' una UI da aggiornare qui
@@ -2239,6 +2254,7 @@ function renderPlaying(state: RoomState, me: PlayerPublic): void {
 }
 
 function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
+  if(mg.minigameId!=='orda')destroyOrdaPhone();
   if(mg.minigameId==='trentuno'){disposeFps();destroyBackroomsPhone();destroyMinigolfPhone();destroyGoblin();destroyTrentuno();activeController='trentuno';trentunoPhone=mountTrentuno(app,(cmd,cb)=>socket.emit(EVT.trentunoCommand,cmd,cb));socket.emit(EVT.trentunoSync);return;}
   if(mg.minigameId==='goblinTime') {disposeFps();destroyBackroomsPhone();destroyMinigolfPhone();destroyGoblin();activeController='goblinTime';goblinPhone=mountGoblin(app,(cmd,cb)=>socket.emit(EVT.goblinCommand,cmd,cb));socket.emit(EVT.goblinSync);return;}
   destroyGoblin();
@@ -2246,6 +2262,11 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   if(mg.controllerLayout.type==='custom'&&mg.controllerLayout.id==='backrooms-tv'){disposeFps();destroyMinigolfPhone();activeController='backrooms';backroomsPhone=mountBackrooms(app,sendInput);return;}
   destroyMinigolfPhone();
   const layout = mg.controllerLayout;
+  if(layout.type==='custom'&&layout.id==='orda-tv'){
+    disposeFps();activeController='orda';ordaPhone=mountOrda(app,playerId!,sendInput);
+    if(ordaPending){ordaPhone.update(ordaPending);ordaPending=null;}
+    return;
+  }
   if(layout.type==='custom'&&layout.id==='minigolf-tv'){
     activeController='minigolf';
     const golfer=state?.players.find(p=>p.id===playerId);
@@ -2589,6 +2610,7 @@ function syncQuizPadPrivateInfo(data: QuizStatePayload): void {
 
 /** Losing a touch stream must release both network state and the local pointer ownership. */
 function releaseControllerInput(): void {
+  ordaPhone?.cancel();
   cancelVolleySprint?.();
   backroomsPhone?.cancel();
   minigolfPhone?.cancel();

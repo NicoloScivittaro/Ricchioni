@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-memory-2.ogg",
-  "duration": 3.051,
-  "bytes": 23222,
-  "signature": "752034646c1defe2ab33066a8e40e1e30c926f4cc53aa87c3bddf3605fbd2d48",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.168,
+  "bytes": 27878,
+  "signature": "da17d7a056f432070d86cca5485dce6cf0459523c30fc51c93b79023d4451018",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

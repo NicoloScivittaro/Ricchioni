@@ -1,26 +1,32 @@
 {
   "demo-sarcasm": {
     "asset": "/audio/narrator/demo-sarcasm.ogg",
-    "duration": 3.821,
-    "bytes": 28937,
-    "signature": "c50903a0e6352abd93b8b25722bda8aca75b493372ec12abc6d6c464c1afc6f4",
-    "voice": "Kokoro im_nicola · radio originale",
-    "sampleRate": 24000
+    "duration": 3.765,
+    "bytes": 31538,
+    "signature": "8e5b8c3f38b85665fd0abc7811b459cd7a788c1e8a4a415ccbed1175cb293798",
+    "voice": "Kokoro im_nicola · naturale sarcastico v2",
+    "sampleRate": 24000,
+    "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+    "synthesisSpeed": 0.99
   },
   "demo-roller": {
     "asset": "/audio/narrator/demo-roller.ogg",
-    "duration": 3.073,
-    "bytes": 23129,
-    "signature": "4bd76581d92aed5a4adf7936418c9815f46fcd40d090da08f781f16394d53e13",
-    "voice": "Kokoro im_nicola · radio originale",
-    "sampleRate": 24000
+    "duration": 3.339,
+    "bytes": 28702,
+    "signature": "97c97ef1ecbc051681d34a17708ccb9788fd99474054d2386961573a4d2e31a2",
+    "voice": "Kokoro im_nicola · naturale sarcastico v2",
+    "sampleRate": 24000,
+    "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+    "synthesisSpeed": 1.03
   },
   "demo-victory": {
     "asset": "/audio/narrator/demo-victory.ogg",
-    "duration": 3.23,
-    "bytes": 24694,
-    "signature": "5554fe8752f3a2976d06c3a86e7a68c3f0d069764bf5c9acc70a738199d3a571",
-    "voice": "Kokoro im_nicola · radio originale",
-    "sampleRate": 24000
+    "duration": 3.381,
+    "bytes": 30111,
+    "signature": "0feeaf8b69ac4e17c1618aa70d4c21c9e4aeaccba0b43553b18f689f2a328d13",
+    "voice": "Kokoro im_nicola · naturale sarcastico v2",
+    "sampleRate": 24000,
+    "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+    "synthesisSpeed": 1.01
   }
 }

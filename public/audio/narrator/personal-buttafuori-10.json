@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/personal-buttafuori-10.ogg",
-  "duration": 3.329,
-  "bytes": 25439,
-  "signature": "fa3cbb533d9c349fda796adf1a4cbbbdb39c88ecb4fd93f6d70c78ec4e0cc610",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.445,
+  "bytes": 29814,
+  "signature": "a6e260474a38da14df49ff287d4609cc52c93e590c136bb981d172162d672477",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 0.99
 }

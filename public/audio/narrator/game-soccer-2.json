@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-soccer-2.ogg",
-  "duration": 3.242,
-  "bytes": 24604,
-  "signature": "b4ac18513d38abdb0d6e537997682b27b21364d9a14181307adcb90137289c20",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.36,
+  "bytes": 30175,
+  "signature": "a536f5d4837374eb0b0eb2e4e11b2abf84be82d21590736b408e956ee831ceb3",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

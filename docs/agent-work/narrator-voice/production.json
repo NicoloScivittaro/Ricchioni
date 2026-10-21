@@ -1,0 +1,16 @@
+{
+  "errors": [],
+  "subtitle": "🎙️ IL NARRATORE BASTARDOPronti? Fate schifo con una sicurezza commovente.",
+  "audio": {
+    "sources": [
+      {
+        "duration": 3.328,
+        "ended": true
+      }
+    ],
+    "assets": [
+      "http://localhost:3012/audio/narrator/roller-4.ogg"
+    ]
+  },
+  "status": "passed"
+}

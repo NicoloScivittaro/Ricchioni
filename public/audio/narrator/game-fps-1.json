@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-fps-1.ogg",
-  "duration": 2.954,
-  "bytes": 23274,
-  "signature": "a4d9d7360e4c1d83a73970b95e8a95c609f74ca4929151d06840d38575727cb7",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.147,
+  "bytes": 28593,
+  "signature": "918ea85de463bad71f492951da0c26b4f2f3e57c2f2307c2c608d4bb90ae6ec6",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

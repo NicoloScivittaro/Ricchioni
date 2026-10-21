@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/game-volleyball-1.ogg",
-  "duration": 3.327,
-  "bytes": 25516,
-  "signature": "1fbfeb306b4dec86b8e88e7128346cf1d7d1c219fca766a9242f539dfbb46284",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.531,
+  "bytes": 31397,
+  "signature": "4fd2d0ac6862960a08efd0f7aefacffd7b0a4637094e5ebf560f7759e7151291",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
 }

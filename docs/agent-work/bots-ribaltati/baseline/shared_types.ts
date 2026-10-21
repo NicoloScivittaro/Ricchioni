@@ -1,0 +1,295 @@
+import type {MapVoteState} from './minigameMaps';
+import type {KartTrackId} from './kartTracks';
+// ============================================================================
+// Tipi condivisi tra server, host (Phaser) e controller (smartphone).
+// Nessuna dipendenza da Phaser, DOM o Node: pura definizione di dati.
+// ============================================================================
+
+export type PlayerId = string;
+export type CharacterId = string;
+export type RoomCode = string;
+
+export type Category =
+  | 'CULTURA'
+  | 'SKILL'
+  | 'GUIDA'
+  | 'MEMORIA'
+  | 'FORTUNA'
+  | 'ARENA'
+  | 'RIFLESSI'
+  | 'SOCIALE'
+  | 'PUZZLE'
+  | 'SPORT'
+  | 'SOPRAVVIVENZA';
+
+export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'special';
+
+export const RARITY_WEIGHT: Record<Rarity, number> = {
+  common: 100,
+  uncommon: 50,
+  rare: 20,
+  epic: 5,
+  special: 0
+};
+
+export type HookId = string;
+
+export type GamePhase =
+  | 'LOBBY'
+  | 'MINIGAME_ROULETTE'
+  | 'MINIGAME_MAP_VOTE'
+  | 'MINIGAME_INTRO'
+  | 'MINIGAME_PLAYING'
+  | 'MINIGAME_FINISHED'
+  | 'ROUND_RESULTS'
+  | 'GLOBAL_LEADERBOARD'
+  | 'CHECK_WINNER'
+  | 'NEXT_ROUND'
+  | 'GAME_FINISHED';
+
+/** Durate configurabili del flusso (condivise tra server e host per restare in sync). */
+export const FLOW_TIMING = {
+  revealStepMs: 900,
+  revealWinnerDelayMs: 1300,
+  revealFinalHoldMs: 2000,
+  rouletteMs: 7000,
+  mapVoteMs: 15000,
+  introMs: 2600,
+  finishedMs: 1000,
+  leaderboardMs: 3800,
+  nextRoundMs: 1600
+} as const;
+
+// ---- Configurazione partita ----
+
+export interface ScorePreset {
+  id: string;
+  label: string;
+  points: number;
+}
+
+export const SCORE_PRESETS: ScorePreset[] = [
+  { id: 'rapida', label: 'RAPIDA', points: 30 },
+  { id: 'breve', label: 'BREVE', points: 40 },
+  { id: 'normale', label: 'NORMALE', points: 60 },
+  { id: 'lunga', label: 'LUNGA', points: 80 },
+  { id: 'serata', label: 'SERATA', points: 120 }
+];
+
+/**
+ * Durata stimata (minuti) di una partita al punteggio obiettivo dato: ~0.39 min per punto, da
+ * `npx tsx scripts/game-length.ts` (simulazione con lo ScoreManager reale, minigiochi ~2.7 min + ~22s di flusso).
+ */
+export function estimateGameMinutes(targetScore: number): number {
+  return Math.max(5, Math.round(targetScore * 0.39));
+}
+
+export const TARGET_SCORE_MIN = 10;
+export const TARGET_SCORE_MAX = 200;
+export const MIN_PLAYERS = 2;
+export const MAX_PLAYERS = 5;
+
+// ---- Personaggio ----
+
+export interface CharacterDefinition {
+  id: CharacterId;
+  name: string;
+  roleTitle: string;
+  subtitle: string;
+  avatar: string;
+  image: string;
+  color: string;
+  quote: string;
+  resourceName: string;
+  resourceMax: number;
+  initialResource: number;
+  passive: { name: string; description: string };
+  weakness: { name: string; description: string };
+  abilityName: string;
+  abilityDescription: string;
+  hooks: Partial<Record<Category, HookId[]>>;
+  defaultHooks: HookId[];
+}
+
+// ---- Giocatore (stato lato server) ----
+
+export interface PlayerState {
+  /** id stabile, indipendente dal socket (per la riconnessione). */
+  id: PlayerId;
+  connectionId: string | null;
+  reconnectToken: string;
+  displayName: string;
+  characterId: CharacterId | null;
+  ready: boolean;
+  connected: boolean;
+  score: number;
+}
+
+/** Vista pubblica di un giocatore inviata a host e telefoni. */
+export interface PlayerPublic {
+  /** Server-created solo opponent; never owns a socket/controller. */
+  bot?: boolean;
+  id: PlayerId;
+  displayName: string;
+  characterId: CharacterId | null;
+  ready: boolean;
+  connected: boolean;
+  score: number;
+  /** Nome breve del controller fisico collegato a questo giocatore ("Xbox"); assente = nessun controller (o scollegato). */
+  pad?: string;
+}
+
+/** Snapshot arricchito (con dati del personaggio) usato dai minigiochi sull'host. */
+export interface PlayerSnapshot {
+  bot?: boolean;
+  id: PlayerId;
+  displayName: string;
+  characterId: CharacterId | null;
+  name: string;
+  roleTitle: string;
+  avatar: string;
+  color: string;
+  quote: string;
+  score: number;
+}
+
+// ---- Minigioco ----
+
+/** Risultato di un singolo giocatore in un minigioco. */
+export interface PlayerResult {
+  playerId: PlayerId;
+  /** Posizione: 1 = primo. */
+  placement: number;
+  /** Punteggio interno del minigioco (es. risposte corrette). NON i punti partita. */
+  score: number;
+  /** Fino a 3 statistiche BREVI e pertinenti mostrate nei risultati (es. "7/10 corrette", "tempo 1:12.3"). */
+  stats?: string[];
+}
+
+/** Risultato standardizzato che ogni minigioco restituisce al sistema centrale. */
+export interface MinigameResult {
+  /** Ordinati dal 1° all'ultimo. */
+  results: PlayerResult[];
+}
+
+export type ControlKind = 'button' | 'hold' | 'axis';
+
+export interface ControlDef {
+  id: string;
+  label: string;
+  kind: ControlKind;
+  icon?: string;
+  color?: string;
+}
+
+export type ControllerLayout =
+  | { type: 'buttons'; grid: number; controls: ControlDef[] }
+  | { type: 'dpad'; controls: ControlDef[] }
+  | { type: 'joystick'; controls: ControlDef[] }
+  /** Layout da guida: accelera (barra grande in basso), freno/sterzo, azioni extra in alto. */
+  | { type: 'racing'; controls: ControlDef[] }
+  | { type: 'custom'; id: string };
+
+export interface MinigameDefinition {
+  id: string;
+  name: string;
+  category: Category;
+  rarity: Rarity;
+  minPlayers: number;
+  maxPlayers: number;
+  durationSec: number;
+  /**
+   * Rete di sicurezza SERVER: se il minigioco non consegna il risultato entro questo tempo (host
+   * bloccato, gioco incastrato) si torna al rullo senza punti. Deve coprire la durata REALE massima
+   * del gioco con margine; NON è la durata di gioco (quella è durationSec). Default: durationSec + 20s.
+   */
+  hardCapSec?: number;
+  compatibleModifiers: string[];
+  sceneKey: string;
+  controllerLayout: ControllerLayout;
+  /** false = mai estratto dal rullo (gioco rotto/disattivato temporaneamente). Default: attivo. */
+  enabled?: boolean;
+  /** Una riga mostrata dal rullo dopo l'estrazione. */
+  description?: string;
+  /** Emoji mostrata sulla card del rullo. */
+  icon?: string;
+  /**
+   * Da dove si gioca: GAMEPAD = controller fisico (il telefono resta sul tavolo, se il giocatore ha un controller collegato);
+   * PHONE_TEXT = serve il telefono (testo, bluff, informazioni private); GAMEPAD_OR_PHONE = entrambi (oggi: controller non ancora
+   * supportato da questo gioco, il telefono funziona come sempre). Mancante = GAMEPAD_OR_PHONE.
+   */
+  inputMode?: MinigameInputMode;
+}
+
+export type MinigameInputMode = 'GAMEPAD' | 'PHONE_TEXT' | 'GAMEPAD_OR_PHONE';
+
+export interface ModifierDefinition {
+  id: string;
+  name: string;
+  description: string;
+  weight: number;
+}
+
+export interface ActiveModifier {
+  source: PlayerId;
+  hook: HookId;
+  label: string;
+  uses: number;
+  payload?: unknown;
+}
+
+// ---- Stato stanza (broadcast a tutti) ----
+
+export interface CurrentMinigame {
+  mapId?: string;
+  mapName?: string;
+  minigameId: string;
+  name: string;
+  category: Category;
+  modifierId: string | null;
+  durationSec: number;
+  controllerLayout: ControllerLayout;
+}
+
+export interface RoundResults {
+  /** Risultati del round (placement + punteggio interno). */
+  results: PlayerResult[];
+  /** Id dei giocatori ordinati dal 1° all'ultimo. */
+  ranking: PlayerId[];
+  /** Punti partita assegnati a ciascun giocatore. */
+  deltas: Record<PlayerId, number>;
+  double: boolean;
+}
+
+export interface RoomState {
+  roomCode: RoomCode;
+  phase: GamePhase;
+  mapVote?: MapVoteState | null;
+  round: number;
+  targetScore: number;
+  playerCount: number;
+  players: PlayerPublic[];
+  charactersLocked: CharacterId[];
+  currentMinigame: CurrentMinigame | null;
+  lastResults: RoundResults | null;
+  winner: PlayerId | null;
+  suddenDeath: boolean;
+  /** null = rullo (casuale); altrimenti il minigioco scelto manualmente dall'host. */
+  selectedMinigameId: string | null;
+  selectedKartTrackId?: KartTrackId;
+  /** true = host in pausa (ESC) durante MINIGAME_PLAYING: i telefoni mostrano PAUSA. */
+  paused?: boolean;
+  /** Id incrementale del minigioco in corso: scarta eventi tardivi di round vecchi. */
+  roundId?: number;
+  /** Ultimo minigioco concluso (o saltato) prima di quello corrente: lo mostra il rullo. */
+  lastPlayedMinigameId?: string | null;
+  /** Riepilogo dell'ultimo minigioco CON risultati (resta valido durante il rullo successivo). */
+  lastRound?: { minigameId: string; winnerId: string | null; deltas: Record<PlayerId, number> } | null;
+}
+
+/** Evento di input (telefono → server → host). */
+export type InputEvent =
+  | { kind: 'down'; controlId: string }
+  | { kind: 'up'; controlId: string }
+  | { kind: 'action'; controlId: string }
+  | { kind: 'axis'; controlId: string; x: number; y: number };

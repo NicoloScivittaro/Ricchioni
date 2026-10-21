@@ -1,0 +1,21 @@
+{
+  "errors": [],
+  "checks": [
+    "Final compiled game: five controller sockets, one Ribaltati card, real Litorale map vote, loader completion, visible five-player race and throttle inputs.",
+    "Pause/return cleans up the 3D canvas and returns to the shared room; no load recovery or page errors."
+  ],
+  "console": [],
+  "failedRequests": [],
+  "native": {
+    "scale": 1,
+    "views": 5,
+    "preparing": false,
+    "drivers": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "status": "passed"
+}

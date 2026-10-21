@@ -1,0 +1,280 @@
+{
+  "stage": "before-fullhd",
+  "views": 5,
+  "errors": [],
+  "metrics": {
+    "fps": 19.44082903603382,
+    "frame": {
+      "mean": 51.43813559321403,
+      "p95": 138.59999999776483
+    },
+    "render": {
+      "mean": 45.781355932039226,
+      "p95": 87.5
+    },
+    "step": {
+      "mean": 3.2884146342417453,
+      "p95": 5.5
+    },
+    "draws": {
+      "mean": 426.49152542372883,
+      "p95": 497
+    },
+    "meshes": 284,
+    "vertices": 301543,
+    "top": [
+      {
+        "name": "coastalDetailBatch",
+        "vertices": 60418,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "tripo_node_9724ae93-c510-4a38-8cf5-0152240ba84c~g1",
+        "vertices": 33613,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "tripo_node_09bb2c76-6185-4383-9cb2-8dd7f459a4ce~g4",
+        "vertices": 29981,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "tripo_node_15d71480-45c9-4b21-9e34-83df28c07d0d~g2",
+        "vertices": 28141,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "tripo_node_251cf5c8-cf0f-4a4c-a2bc-69279b21f4d4~g3",
+        "vertices": 24403,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "coastalCloudVolumes",
+        "vertices": 13860,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8274,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8111,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8107,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8079,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartDepthCaster",
+        "vertices": 8055,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "road",
+        "vertices": 5226,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "viaductDeck",
+        "vertices": 3488,
+        "submeshes": 1,
+        "thin": 0
+      },
+      {
+        "name": "kartPaintedChassis",
+        "vertices": 1952,
+        "submeshes": 1,
+        "thin": 0
+      }
+    ],
+    "scale": 1,
+    "width": 1920,
+    "height": 1080,
+    "cameras": 5,
+    "renderer": {
+      "vendor": "Google Inc. (NVIDIA)",
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+    }
+  },
+  "cpu": [
+    {
+      "fn": "texImage2D",
+      "url": "",
+      "hits": 427,
+      "share": 0.14673539518900344
+    },
+    {
+      "fn": "_evaluateActiveMeshes",
+      "url": "chunk-A7EPIJP6.js?v=144593a1",
+      "hits": 107,
+      "share": 0.03676975945017182
+    },
+    {
+      "fn": "updateFunction",
+      "url": "@babylonjs_core.js?v=144593a1",
+      "hits": 75,
+      "share": 0.02577319587628866
+    },
+    {
+      "fn": "render",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 63,
+      "share": 0.021649484536082474
+    },
+    {
+      "fn": "(idle)",
+      "url": "",
+      "hits": 43,
+      "share": 0.014776632302405498
+    },
+    {
+      "fn": "bindForSubMesh",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 38,
+      "share": 0.013058419243986255
+    },
+    {
+      "fn": "(program)",
+      "url": "",
+      "hits": 34,
+      "share": 0.01168384879725086
+    },
+    {
+      "fn": "_renderForCamera",
+      "url": "chunk-A7EPIJP6.js?v=144593a1",
+      "hits": 32,
+      "share": 0.010996563573883162
+    },
+    {
+      "fn": "computeWorldMatrix",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 25,
+      "share": 0.00859106529209622
+    },
+    {
+      "fn": "_getInstancesRenderList",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 21,
+      "share": 0.007216494845360825
+    },
+    {
+      "fn": "getLOD",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 20,
+      "share": 0.006872852233676976
+    },
+    {
+      "fn": "measureText",
+      "url": "",
+      "hits": 19,
+      "share": 0.006529209621993127
+    },
+    {
+      "fn": "uniformMatrix4fv",
+      "url": "",
+      "hits": 18,
+      "share": 0.006185567010309278
+    },
+    {
+      "fn": "isReadyForSubMesh",
+      "url": "chunk-D4SR2TPS.js?v=144593a1",
+      "hits": 18,
+      "share": 0.006185567010309278
+    },
+    {
+      "fn": "present",
+      "url": "BabylonKartGame.ts",
+      "hits": 17,
+      "share": 0.00584192439862543
+    },
+    {
+      "fn": "_applyStates",
+      "url": "@babylonjs_gui.js?v=144593a1",
+      "hits": 17,
+      "share": 0.00584192439862543
+    },
+    {
+      "fn": "measureText",
+      "url": "",
+      "hits": 17,
+      "share": 0.00584192439862543
+    },
+    {
+      "fn": "substep",
+      "url": "BabylonKartGame.ts",
+      "hits": 15,
+      "share": 0.005154639175257732
+    },
+    {
+      "fn": "bindUniformBuffer",
+      "url": "chunk-IDA2FK4H.js?v=144593a1",
+      "hits": 15,
+      "share": 0.005154639175257732
+    },
+    {
+      "fn": "bindVertexArray",
+      "url": "",
+      "hits": 15,
+      "share": 0.005154639175257732
+    },
+    {
+      "fn": "fillText",
+      "url": "",
+      "hits": 15,
+      "share": 0.005154639175257732
+    },
+    {
+      "fn": "_render",
+      "url": "@babylonjs_gui.js?v=144593a1",
+      "hits": 14,
+      "share": 0.004810996563573883
+    },
+    {
+      "fn": "drawImage",
+      "url": "",
+      "hits": 14,
+      "share": 0.004810996563573883
+    },
+    {
+      "fn": "update",
+      "url": "items.ts",
+      "hits": 13,
+      "share": 0.004467353951890034
+    },
+    {
+      "fn": "update",
+      "url": "cameraHud.ts",
+      "hits": 13,
+      "share": 0.004467353951890034
+    }
+  ],
+  "diagnostics": {
+    "base": 12.294722051470238,
+    "withoutCoastalDetails": 16.31853785898799,
+    "withoutSea": 53.01415532603132,
+    "withoutShadows": 35.49695740366331,
+    "withoutHud": 14.187271990287652
+  }
+}

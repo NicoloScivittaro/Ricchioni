@@ -1,0 +1,108 @@
+{
+  "errors": [],
+  "order": [
+    {
+      "id": "dune",
+      "vertices": 2052,
+      "surfaces": 25,
+      "culled": 25,
+      "translucent": 0,
+      "litBothSides": false
+    },
+    {
+      "id": "palme",
+      "vertices": 1632,
+      "surfaces": 17,
+      "culled": 17,
+      "translucent": 0,
+      "litBothSides": false
+    },
+    {
+      "id": "lungomare",
+      "vertices": 16,
+      "surfaces": 4,
+      "culled": 0,
+      "translucent": 0,
+      "litBothSides": false
+    },
+    {
+      "id": "dune",
+      "vertices": 2052,
+      "surfaces": 25,
+      "culled": 18,
+      "translucent": 0,
+      "litBothSides": false
+    },
+    {
+      "id": "palme",
+      "vertices": 1632,
+      "surfaces": 17,
+      "culled": 13,
+      "translucent": 0,
+      "litBothSides": false
+    }
+  ],
+  "orbit": [
+    {
+      "alpha": 0,
+      "beta": 0.5,
+      "meshes": 27
+    },
+    {
+      "alpha": 1.5707963267948966,
+      "beta": 0.5,
+      "meshes": 28
+    },
+    {
+      "alpha": 3.141592653589793,
+      "beta": 0.5,
+      "meshes": 30
+    },
+    {
+      "alpha": 4.71238898038469,
+      "beta": 0.5,
+      "meshes": 21
+    },
+    {
+      "alpha": 0,
+      "beta": 1.25,
+      "meshes": 30
+    },
+    {
+      "alpha": 1.5707963267948966,
+      "beta": 1.25,
+      "meshes": 33
+    },
+    {
+      "alpha": 3.141592653589793,
+      "beta": 1.25,
+      "meshes": 32
+    },
+    {
+      "alpha": 4.71238898038469,
+      "beta": 1.25,
+      "meshes": 38
+    },
+    {
+      "alpha": 0,
+      "beta": 1.85,
+      "meshes": 30
+    },
+    {
+      "alpha": 1.5707963267948966,
+      "beta": 1.85,
+      "meshes": 33
+    },
+    {
+      "alpha": 3.141592653589793,
+      "beta": 1.85,
+      "meshes": 32
+    },
+    {
+      "alpha": 4.71238898038469,
+      "beta": 1.85,
+      "meshes": 38
+    }
+  ],
+  "status": "passed"
+}

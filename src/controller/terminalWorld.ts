@@ -80,5 +80,22 @@ export async function buildTerminalWorld(scene:Scene):Promise<void>{
   // must leave the dynamic octree when removed, before visible instances load.
   scene.onMeshRemovedObservable.add(m=>{const i=octree.dynamicContent.indexOf(m);if(i>=0)octree.dynamicContent.splice(i,1);});
 
+  // Five views otherwise evaluate every other player's detailed viewmodel
+  // before Babylon reaches its layer-mask check. Filter only camera layers
+  // here; normal frustum/LOD selection and the octree's live dynamic list stay
+  // authoritative, including late weapon imports and temporary effects.
+  const selectCandidates=scene.getActiveMeshCandidates.bind(scene);
+  const candidates:{data:typeof scene.meshes;length:number}={data:[],length:0};
+  scene.getActiveMeshCandidates=()=>{
+    const selected=selectCandidates(),mask=scene.activeCamera?.layerMask??0x0fffffff;
+    let count=0;
+    for(let i=0;i<selected.length;i++){
+      const mesh=selected.data[i];
+      if((mesh.layerMask&mask)!==0)candidates.data[count++]=mesh;
+    }
+    candidates.data.length=count;candidates.length=count;
+    return candidates;
+  };
+
   scene.metadata={...scene.metadata,terminal:{partial:true,spatialBatches:kept.length-instanceGroups,instanceGroups,modelPrimitives:instances,triangles,materials:materials.size,loadMs:performance.now()-started,source:'terminal-fast.glb',staticBatchMeters:64,stableAtlasGradients:(scene.getEngine() as Engine).webGLVersion>=2,shadows:'existing character blobs; no dynamic map shadow pass'}};
 }

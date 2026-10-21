@@ -1,0 +1,14 @@
+<!doctype html><html><head><link rel="icon" href="data:,"><style>html,body{margin:0;overflow:hidden}canvas{width:100%;height:100%;position:fixed}</style></head><body><canvas></canvas><script type="module">
+import {BabylonFpsGame} from '/src/minigames/fps/BabylonFpsGame.ts';
+const ids=['goblin','judoka','buttafuori','ciro','dottore'];
+const positions=await(await fetch('/docs/agent-work/terminal-fixes/benchmark-positions.json')).json();
+const weapons=['mitraglia','pistola','sparapiselli','raffica','laser'];
+const locals=ids.map((characterId,i)=>({id:'p'+i,name:characterId.toUpperCase(),color:'#67d5e6',characterId}));
+window.g=new BabylonFpsGame(document.querySelector('canvas'),locals,'terminal');await g.ready;
+window.snaps=positions.map(([x,y,z],i)=>({...locals[i],x,y,z,yaw:Math.atan2(-x,-z),pitch:0,hp:100,maxHp:100,alive:true,kills:0,weaponId:weapons[i],magazine:24,reloading:false,ads:0,recoilPitch:0,recoilYaw:0,heat:0,moving:0,grounded:true}));
+g.update(0,snaps);await Promise.all(g.cams.map(c=>c.vm.whenReady()));
+while([...g.avatars.values()].some(a=>a.goblin&&!a.goblin.ready&&!a.goblin.failed))await new Promise(r=>setTimeout(r,100));
+await g.scene.whenReadyAsync();g.engine.setHardwareScalingLevel(1);g.engine.setHardwareScalingLevel=()=>{};
+let last=performance.now();function tick(t){g.update(Math.min(.05,(t-last)/1000),snaps);last=t;requestAnimationFrame(tick);}requestAnimationFrame(tick);window.ready=true;
+</script></body></html>
+

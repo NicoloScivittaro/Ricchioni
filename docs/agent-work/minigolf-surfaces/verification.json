@@ -1,0 +1,124 @@
+{
+  "status": "passed",
+  "cause": "Single-sided CAD surfaces plus shared material state changed by earlier courses",
+  "fix": "Two-sided rendering and lighting for imported surfaces and procedural playing floors",
+  "geometryAndCollisionChanges": false,
+  "freshCourses": [
+    {
+      "id": "lungomare",
+      "surfaces": 4,
+      "ok": true
+    },
+    {
+      "id": "scampagnata",
+      "surfaces": 8,
+      "ok": true
+    },
+    {
+      "id": "giostra",
+      "surfaces": 2,
+      "ok": true
+    },
+    {
+      "id": "flipperone",
+      "surfaces": 8,
+      "ok": true
+    },
+    {
+      "id": "traversata",
+      "surfaces": 6,
+      "ok": true
+    },
+    {
+      "id": "altalena",
+      "surfaces": 6,
+      "ok": true
+    },
+    {
+      "id": "maratona",
+      "surfaces": 7,
+      "ok": true
+    },
+    {
+      "id": "inferno",
+      "surfaces": 11,
+      "ok": true
+    },
+    {
+      "id": "odissea",
+      "surfaces": 12,
+      "ok": true
+    },
+    {
+      "id": "disperati",
+      "surfaces": 11,
+      "ok": true
+    },
+    {
+      "id": "dune",
+      "surfaces": 25,
+      "ok": true
+    },
+    {
+      "id": "palme",
+      "surfaces": 17,
+      "ok": true
+    }
+  ],
+  "courseSwitches": [
+    {
+      "id": "dune",
+      "vertices": 2052,
+      "surfaces": 25,
+      "culled": 0,
+      "translucent": 0,
+      "litBothSides": true
+    },
+    {
+      "id": "palme",
+      "vertices": 1632,
+      "surfaces": 17,
+      "culled": 0,
+      "translucent": 0,
+      "litBothSides": true
+    },
+    {
+      "id": "lungomare",
+      "vertices": 16,
+      "surfaces": 4,
+      "culled": 0,
+      "translucent": 0,
+      "litBothSides": true
+    },
+    {
+      "id": "dune",
+      "vertices": 2052,
+      "surfaces": 25,
+      "culled": 0,
+      "translucent": 0,
+      "litBothSides": true
+    },
+    {
+      "id": "palme",
+      "vertices": 1632,
+      "surfaces": 17,
+      "culled": 0,
+      "translucent": 0,
+      "litBothSides": true
+    }
+  ],
+  "cameraAngles": 12,
+  "production": {
+    "errors": [],
+    "materials": {
+      "course": "dune",
+      "count": 25,
+      "opaque": true,
+      "bothSides": true
+    },
+    "status": "passed"
+  },
+  "typecheck": "passed",
+  "build": "passed",
+  "commitPushDeploy": "none"
+}

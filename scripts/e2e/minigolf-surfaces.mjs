@@ -1,0 +1,15 @@
+import {launch,sleep} from './lib.mjs';import {mkdirSync,writeFileSync} from 'node:fs';import assert from 'node:assert/strict';
+process.env.GOBLIN_GPU='1';const stage=process.env.STAGE||'before',out='docs/agent-work/minigolf-surfaces';mkdirSync(out,{recursive:true});const b=await launch(),report={errors:[]};
+try{const p=await b.newPage();p.on('pageerror',e=>report.errors.push(e.message));await p.goto('http://localhost:5191/docs/agent-work/minigolf-3/preview.html');await p.waitForFunction(()=>window.ready===true,{timeout:60000});await sleep(500);
+report.order=await p.evaluate(async()=>{const {COURSES}=await import('/src/minigames/minigolf/minigolfCourses.ts'),v=probe.visual;const results=[];for(const id of ['dune','palme','lungomare','dune','palme']){v.build(COURSES.find(c=>c.id===id));probe.scene.render();const surfaces=probe.scene.meshes.filter(m=>m.name.startsWith('importedCourse:')||m.name.startsWith('golfFloor:'));results.push({id,vertices:surfaces.reduce((n,m)=>n+m.getTotalVertices(),0),surfaces:surfaces.length,culled:surfaces.filter(m=>m.material.backFaceCulling).length,translucent:surfaces.filter(m=>m.material.alpha!==1||m.material.needAlphaBlendingForMesh(m)).length,litBothSides:surfaces.every(m=>m.material.twoSidedLighting)});}return results;});
+await p.select('#map','dune');await p.click('#near');await sleep(250);await p.screenshot({path:`${out}/${stage}-dune.png`});
+await p.select('#map','palme');await p.click('#near');await sleep(250);await p.screenshot({path:`${out}/${stage}-palme.png`});
+// Compare opaque coverage around the authored course, from both sides.
+report.orbit=await p.evaluate(async()=>{const Vector3=probe.cam.position.constructor,r=[];probe.scene.getEngine().stopRenderLoop();for(const beta of [.5,1.25,1.85])for(const alpha of [0,Math.PI/2,Math.PI,Math.PI*1.5]){probe.cam.target=new Vector3(0,0,0);probe.cam.radius=22;probe.cam.alpha=alpha;probe.cam.beta=beta;probe.scene.render();r.push({alpha,beta,meshes:probe.scene.getActiveMeshes().length});}return r;});
+if(stage!=='before'){
+ assert.ok(report.order.every(c=>c.culled===0&&c.translucent===0&&c.litBothSides));for(const id of ['dune','palme']){const rows=report.order.filter(c=>c.id===id);assert.equal(rows[0].vertices,rows[1].vertices);assert.equal(rows[0].surfaces,rows[1].surfaces);}
+ report.fresh=await p.evaluate(async()=>{const {COURSES}=await import('/src/minigames/minigolf/minigolfCourses.ts'),Visuals=probe.visual.constructor,shadows=probe.visual.shadows;probe.visual.dispose();return COURSES.map(c=>{const v=new Visuals(probe.scene,[],shadows);v.build(c);probe.scene.render();const surfaces=probe.scene.meshes.filter(m=>m.name.startsWith('importedCourse:')||m.name.startsWith('golfFloor:')),ok=surfaces.length>0&&surfaces.every(m=>!m.material.backFaceCulling&&m.material.twoSidedLighting&&m.material.alpha===1&&!m.material.needAlphaBlendingForMesh(m));v.dispose();return{id:c.id,surfaces:surfaces.length,ok};});});assert.ok(report.fresh.every(c=>c.ok));
+}
+assert.deepEqual(report.errors,[]);report.status='passed';console.log(JSON.stringify(report));
+}finally{writeFileSync(`${out}/${stage}.json`,JSON.stringify(report,null,2));await b.close();}
+

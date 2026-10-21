@@ -1,0 +1,170 @@
+{
+  "errors": [],
+  "order": [
+    {
+      "id": "dune",
+      "vertices": 2052,
+      "surfaces": 25,
+      "culled": 0,
+      "translucent": 0,
+      "litBothSides": true
+    },
+    {
+      "id": "palme",
+      "vertices": 1632,
+      "surfaces": 17,
+      "culled": 0,
+      "translucent": 0,
+      "litBothSides": true
+    },
+    {
+      "id": "lungomare",
+      "vertices": 16,
+      "surfaces": 4,
+      "culled": 0,
+      "translucent": 0,
+      "litBothSides": true
+    },
+    {
+      "id": "dune",
+      "vertices": 2052,
+      "surfaces": 25,
+      "culled": 0,
+      "translucent": 0,
+      "litBothSides": true
+    },
+    {
+      "id": "palme",
+      "vertices": 1632,
+      "surfaces": 17,
+      "culled": 0,
+      "translucent": 0,
+      "litBothSides": true
+    }
+  ],
+  "orbit": [
+    {
+      "alpha": 0,
+      "beta": 0.5,
+      "meshes": 27
+    },
+    {
+      "alpha": 1.5707963267948966,
+      "beta": 0.5,
+      "meshes": 28
+    },
+    {
+      "alpha": 3.141592653589793,
+      "beta": 0.5,
+      "meshes": 30
+    },
+    {
+      "alpha": 4.71238898038469,
+      "beta": 0.5,
+      "meshes": 21
+    },
+    {
+      "alpha": 0,
+      "beta": 1.25,
+      "meshes": 30
+    },
+    {
+      "alpha": 1.5707963267948966,
+      "beta": 1.25,
+      "meshes": 33
+    },
+    {
+      "alpha": 3.141592653589793,
+      "beta": 1.25,
+      "meshes": 32
+    },
+    {
+      "alpha": 4.71238898038469,
+      "beta": 1.25,
+      "meshes": 38
+    },
+    {
+      "alpha": 0,
+      "beta": 1.85,
+      "meshes": 30
+    },
+    {
+      "alpha": 1.5707963267948966,
+      "beta": 1.85,
+      "meshes": 33
+    },
+    {
+      "alpha": 3.141592653589793,
+      "beta": 1.85,
+      "meshes": 32
+    },
+    {
+      "alpha": 4.71238898038469,
+      "beta": 1.85,
+      "meshes": 38
+    }
+  ],
+  "fresh": [
+    {
+      "id": "lungomare",
+      "surfaces": 4,
+      "ok": true
+    },
+    {
+      "id": "scampagnata",
+      "surfaces": 8,
+      "ok": true
+    },
+    {
+      "id": "giostra",
+      "surfaces": 2,
+      "ok": true
+    },
+    {
+      "id": "flipperone",
+      "surfaces": 8,
+      "ok": true
+    },
+    {
+      "id": "traversata",
+      "surfaces": 6,
+      "ok": true
+    },
+    {
+      "id": "altalena",
+      "surfaces": 6,
+      "ok": true
+    },
+    {
+      "id": "maratona",
+      "surfaces": 7,
+      "ok": true
+    },
+    {
+      "id": "inferno",
+      "surfaces": 11,
+      "ok": true
+    },
+    {
+      "id": "odissea",
+      "surfaces": 12,
+      "ok": true
+    },
+    {
+      "id": "disperati",
+      "surfaces": 11,
+      "ok": true
+    },
+    {
+      "id": "dune",
+      "surfaces": 25,
+      "ok": true
+    },
+    {
+      "id": "palme",
+      "surfaces": 17,
+      "ok": true
+    }
+  ],
+  "status": "passed"
+}

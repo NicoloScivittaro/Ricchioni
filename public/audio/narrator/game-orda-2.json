@@ -1,0 +1,10 @@
+{
+  "asset": "/audio/narrator/game-orda-2.ogg",
+  "duration": 3.5,
+  "bytes": 29989,
+  "signature": "0aab60b17ad31156e638c62d81145419f062889d48651cbf0499d0a4bf9b63d6",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 1.04
+}

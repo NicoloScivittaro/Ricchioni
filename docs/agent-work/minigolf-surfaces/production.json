@@ -1,0 +1,10 @@
+{
+  "errors": [],
+  "materials": {
+    "course": "dune",
+    "count": 25,
+    "opaque": true,
+    "bothSides": true
+  },
+  "status": "passed"
+}

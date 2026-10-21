@@ -1,8 +1,10 @@
 {
   "asset": "/audio/narrator/personal-ciro-10.ogg",
-  "duration": 3.264,
-  "bytes": 23939,
-  "signature": "470702dff84a6a54e099c620b755a1f8bcabbe5618d63add83496ee1aec8e81e",
-  "voice": "Kokoro im_nicola · radio originale",
-  "sampleRate": 24000
+  "duration": 3.4,
+  "bytes": 30011,
+  "signature": "af52ab5b976b93db82f577aa2d393352680c886bb0d386253f9612c69c1c9764",
+  "voice": "Kokoro im_nicola · naturale sarcastico v2",
+  "sampleRate": 24000,
+  "profile": "kokoro-im_nicola-natural-sarcasm-v2",
+  "synthesisSpeed": 0.99
 }

@@ -1,0 +1,26 @@
+{
+  "errors": [],
+  "playback": [
+    {
+      "id": "roller-5",
+      "subtitle": "La ruota gira. Il cervello vostro, un po' meno.",
+      "playedToEnd": true
+    },
+    {
+      "id": "result-6",
+      "subtitle": "Ultimo. Non è sfortuna: è proprio il livello.",
+      "playedToEnd": true
+    },
+    {
+      "id": "personal-buttafuori-5",
+      "subtitle": "Boschi ultimo. Fai più paura al portone che agli avversari.",
+      "playedToEnd": true
+    },
+    {
+      "id": "game-fps-1",
+      "subtitle": "SPARATORIA DEI DISAGIATI! Mira da talpa, vedemo!",
+      "playedToEnd": true
+    }
+  ],
+  "status": "passed"
+}
