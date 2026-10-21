@@ -1,0 +1,10 @@
+import Phaser from 'phaser';
+import {MinigolfScene} from '../../src/minigames/minigolf/MinigolfScene';
+import {Rng} from '../../shared/rng';
+import {InputManager} from '../../src/network/InputManager';
+import type {MinigameContext} from '../../src/minigames/types';
+const input=new InputManager(),players=['goblin','ciro'].map((id,i)=>({id:'load'+i,name:id,displayName:id,bot:!!i,color:i?'#86d4d2':'#e7bc77',characterId:id,roleTitle:'',avatar:'',quote:'',score:0}));
+let controls=0;
+const ctx:MinigameContext={players,playerIds:players.map(p=>p.id),rng:new Rng(38),input,durationSec:180,modifier:null,modifiers:new Map(),consume:()=>false,sendPrivate:()=>{},vibrate:()=>{},signal:()=>{},finish:()=>{},showControls:async()=>{controls++;}};
+const app=new Phaser.Game({type:Phaser.CANVAS,width:1280,height:720,audio:{noAudio:true},scene:{key:'fixture',create(){this.scene.add('minigolf',MinigolfScene,false);this.scene.start('minigolf',{ctx});}}});
+(window as any).fixture={app,ctx,get controls(){return controls;},get game(){return(app.scene.getScene('minigolf')as any)?.game3d;},dispose(){app.destroy(true);}};

@@ -1,0 +1,37 @@
+CONSOLE Failed to load resource: the server responded with a status of 404 (Not Found)
+{
+  stats: {
+    fps: 9.943323058536707,
+    views: 1,
+    width: 1280,
+    height: 720,
+    meshes: 309,
+    actors: 5,
+    arrows: 0
+  },
+  actors: [
+    [ 5.600000000000001, 0.27, 10.400000000000006 ],
+    [ 12, 0.1, -2.3999999999999986 ],
+    [ 1.6000000000000014, 0.08, -12 ],
+    [ -11.2, 0.36, -4.799999999999997 ],
+    [ -6.399999999999999, 1.06, 8.800000000000004 ]
+  ],
+  models: [
+    { name: 'ferro2-source:dagger', enabled: false },
+    { name: 'ferro2-source:warhammer', enabled: false },
+    { name: 'ferro2-source:arrow', enabled: false },
+    { name: 'ferro2-source:arrow', enabled: false },
+    { name: 'ferro2-source:scutum', enabled: false },
+    { name: 'ferro2-source:steampunk', enabled: false },
+    { name: 'ferro2-source:medieval', enabled: false },
+    { name: 'ferro2-source:crystal', enabled: false },
+    { name: 'ferro2-source:crystal', enabled: false },
+    { name: 'ferro2-source:victory', enabled: false },
+    { name: 'ferro2-source:autumn', enabled: false },
+    { name: 'ferro2-source:bow', enabled: false },
+    { name: 'ferro2-source:bow', enabled: false },
+    { name: 'ferro2-source:hell', enabled: true },
+    { name: 'ferro2-source:hell', enabled: true },
+    { name: 'ferro2-source:longinus', enabled: false }
+  ]
+}

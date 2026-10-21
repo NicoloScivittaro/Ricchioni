@@ -1,0 +1,55 @@
+ M dist/index.html
+ M server/GameSession.ts
+ M shared/minigames.ts
+ M src/audio/narrator/NarratorLines.ts
+ M src/controller/fpsAuthored.ts
+ M src/controller/fpsClient.ts
+ M src/controller/fpsLoading.ts
+ M src/controller/fpsViewmodel.ts
+ M src/controller/fpsWeaponModels.ts
+ M src/controller/main.ts
+ M src/core/theme.ts
+ M src/input/ControlsHelp.ts
+ M src/input/profiles.ts
+ M src/minigames/arena/ArenaScene.ts
+ M src/minigames/arena/BabylonArenaGame.ts
+ M src/minigames/arena/arenaEntity.ts
+ M src/minigames/backrooms/BabylonBackroomsGame.ts
+ M src/minigames/backrooms/BackroomsScene.ts
+ M src/minigames/backrooms/backroomsRules.ts
+ M src/minigames/characters/goblinVisual.ts
+ M src/minigames/cornicione/BabylonCornicioneGame.ts
+ M src/minigames/cornicione/CornicioneScene.ts
+ M src/minigames/dodgeball/BabylonDodgeballGame.ts
+ M src/minigames/dodgeball/DodgeballScene.ts
+ M src/minigames/fps/BabylonFpsGame.ts
+ M src/minigames/fps/FpsScene.ts
+ M src/minigames/geofall/BabylonGeofallGame.ts
+ M src/minigames/geofall/GeofallScene.ts
+ M src/minigames/kart-race/BabylonKartGame.ts
+ M src/minigames/kart-race/KartRaceScene.ts
+ M src/minigames/minigolf/BabylonMinigolfGame.ts
+ M src/minigames/minigolf/MinigolfScene.ts
+ M src/minigames/orda/OrdaRenderer.ts
+ M src/minigames/preload.ts
+ M src/minigames/soccer/BabylonSoccerGame.ts
+ M src/minigames/soccer/SoccerScene.ts
+ M src/minigames/volleyball/BabylonVolleyballGame.ts
+ M src/minigames/volleyball/VolleyballScene.ts
+ M src/scenes/gameArtwork.ts
+?? .cache/
+?? docs/agent-work/ferro-2/
+?? docs/agent-work/ferro-furia/
+?? scripts/backrooms-stamina-check.ts
+?? scripts/e2e/asset-loading.mjs
+?? scripts/e2e/ferro-integration.mjs
+?? scripts/e2e/ferro-visual.mjs
+?? scripts/ferro-finalize.py
+?? scripts/ferro-selftest.ts
+?? shared/ferro/
+?? src/controller/ferroController.css
+?? src/controller/ferroController.ts
+?? src/core/loadingScreen.ts
+?? src/core/visualAssets.ts
+?? src/minigames/ferro/
+?? tools/ferro/

@@ -1,0 +1,147 @@
+{
+  "assets": [
+    {
+      "output": "crystal.glb",
+      "source": "shattered_crystal_sword.glb",
+      "sha256": "d53019ac3daa849a6c63a26bd7a5dcd33cb806c1a32bca028b1979bc88e2ffe0"
+    },
+    {
+      "output": "steampunk.glb",
+      "source": "free__steampunk_da_vincis_sword_game-ready.glb",
+      "sha256": "897dd29bffb84262c2c434a3a48ac9587e4c519f9cf5b63bb02c5aa8a2d909f0"
+    },
+    {
+      "output": "autumn.glb",
+      "source": "autumn_sword.glb",
+      "sha256": "b8464fb2a3c6e970c3fb2fc0fc81e0d8e4c5e4c159369d1a9f94d9e180441a4e"
+    },
+    {
+      "output": "victory.glb",
+      "source": "the_sword_of_victory.glb",
+      "sha256": "efd3b21a33e8f5643d5b96603bcd0748b92270b8cd5f9e0e8dcdf01d50990b41"
+    },
+    {
+      "output": "hell.glb",
+      "source": "hell_arena.glb",
+      "sha256": "b5c965a8df806f8dcb845b7f54505f5f72958e16b3adca128488c9b33debad63"
+    },
+    {
+      "output": "geonosis.glb",
+      "source": "geonosis_arena.glb",
+      "sha256": "d6885005bdb0df4f6ee4bd7a470501cac1e0f513787199a5b15e2b72bf378418"
+    },
+    {
+      "output": "scutum.glb",
+      "source": "scutum.glb",
+      "sha256": "4f9697fef18122ea311b6d7cc54b0854449e2fa1acdd9d65d1ab0a21a251270c"
+    },
+    {
+      "output": "medieval.glb",
+      "source": "medieval_shield.glb",
+      "sha256": "e7b1c4841ebf77cb7eb4767c5c0527f225c14afddd144225953f961443f92329"
+    },
+    {
+      "output": "bow.glb",
+      "source": "bow_and_arrow.glb",
+      "sha256": "5780fdd90de8ef1338b9e5623036ac8c5ad87615b5a8d1cb1e1993ec9db1e7f2"
+    },
+    {
+      "output": "arrow.glb",
+      "source": "bow_and_arrow.glb",
+      "sha256": "5780fdd90de8ef1338b9e5623036ac8c5ad87615b5a8d1cb1e1993ec9db1e7f2"
+    },
+    {
+      "output": "longinus.glb",
+      "source": "lance_of_longinus.glb",
+      "sha256": "d9a39d493b2e14f9a4a50bf8f0ab31554f9a27cc3d494cfe9d0507e077c5e811"
+    },
+    {
+      "output": "dagger.glb",
+      "source": "Human Melee Animations FREE.zip",
+      "sha256": "bcd47d323e40419d4dda188d51bd5d91021e6ca42d8dc0c30f1e5053401244f5"
+    },
+    {
+      "output": "warhammer.glb",
+      "source": "Human Melee Animations FREE.zip",
+      "sha256": "bcd47d323e40419d4dda188d51bd5d91021e6ca42d8dc0c30f1e5053401244f5"
+    }
+  ],
+  "clips": {
+    "idle": {
+      "source": "melee\\Animations\\Male\\Combat\\1H\\HumanM@CombatIdle1H01.fbx",
+      "duration": 1.3333333333333333,
+      "frames": 41
+    },
+    "attackL": {
+      "source": "melee\\Animations\\Male\\Combat\\1H\\HumanM@Attack1H01_L.fbx",
+      "duration": 1.1,
+      "frames": 34
+    },
+    "attackR": {
+      "source": "melee\\Animations\\Male\\Combat\\1H\\HumanM@Attack1H01_R.fbx",
+      "duration": 1.1,
+      "frames": 34
+    },
+    "attack2H": {
+      "source": "melee\\Animations\\Male\\Combat\\2H\\HumanM@Attack2H01.fbx",
+      "duration": 1.6,
+      "frames": 49
+    },
+    "polearm": {
+      "source": "melee\\Animations\\Male\\Combat\\Polearm\\HumanM@AttackPolearm01.fbx",
+      "duration": 1.3666666666666667,
+      "frames": 42
+    },
+    "shield": {
+      "source": "melee\\Animations\\Male\\Combat\\Shield\\HumanM@AttackShield01.fbx",
+      "duration": 0.9,
+      "frames": 28
+    },
+    "hurt": {
+      "source": "melee\\Animations\\Male\\Combat\\HumanM@CombatDamage01.fbx",
+      "duration": 1.0,
+      "frames": 31
+    },
+    "death": {
+      "source": "melee\\Animations\\Male\\Combat\\HumanM@Death01.fbx",
+      "duration": 0.7333333333333333,
+      "frames": 23
+    },
+    "run": {
+      "source": "melee\\Animations\\Male\\Movement\\Run\\HumanM@Run01_Forward.fbx",
+      "duration": 0.6,
+      "frames": 19
+    },
+    "strafeL": {
+      "source": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_Left.fbx",
+      "duration": 0.6,
+      "frames": 19
+    },
+    "strafeR": {
+      "source": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_Right.fbx",
+      "duration": 0.6,
+      "frames": 19
+    },
+    "bowIdle": {
+      "source": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowIdle01.fbx",
+      "duration": 1.3333332824707032,
+      "frames": 41
+    },
+    "bowLoad": {
+      "source": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowShot01 - Load.fbx",
+      "duration": 0.8333333587646484,
+      "frames": 27
+    },
+    "bowHold": {
+      "source": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowShot01 - Hold.fbx",
+      "duration": 1.3333332824707032,
+      "frames": 41
+    },
+    "bowRelease": {
+      "source": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowShot01 - Release.fbx",
+      "duration": 0.8,
+      "frames": 25
+    }
+  },
+  "fbxFilesInventoried": 244
+}

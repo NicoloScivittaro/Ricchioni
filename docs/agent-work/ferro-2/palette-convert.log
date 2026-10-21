@@ -1,0 +1,28 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+00:09:40 | INFO: Data are loaded, start creating Blender stuff
+00:09:40 | INFO: Blender create Mesh node Human_Dagger
+00:09:40 | INFO: glTF import finished in 0.01s
+C:\Users\niluf.PC-NIKO\Desktop\Ricchioni\.cache\ferro-2\palettefix.py:25: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  material=bpy.data.materials.new('KevinIglesias_Original_ColorPalette');material.use_nodes=True;nodes=material.node_tree.nodes;tex=nodes.new('ShaderNodeTexImage');tex.image=image;material.node_tree.links.new(tex.outputs['Color'],nodes.get('Principled BSDF').inputs['Base Color']);nodes.get('Principled BSDF').inputs['Roughness'].default_value=.55
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+00:09:40 | INFO: Starting glTF 2.0 export
+00:09:40 | INFO: Extracting primitive: Human_Dagger
+00:09:40 | INFO: Primitives created: 1
+00:09:40 | INFO: Finished glTF 2.0 export in 0.08611822128295898 s
+
+00:09:40 | INFO: Data are loaded, start creating Blender stuff
+00:09:40 | INFO: Blender create Mesh node Human_Warhammer
+00:09:40 | INFO: glTF import finished in 0.01s
+00:09:40 | INFO: Starting glTF 2.0 export
+00:09:40 | INFO: Extracting primitive: Human_Warhammer
+00:09:40 | INFO: Primitives created: 1
+00:09:40 | INFO: Finished glTF 2.0 export in 0.012561321258544922 s
+
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

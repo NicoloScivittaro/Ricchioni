@@ -1,3 +1,4 @@
+import {prepareVisuals} from '../../core/visualAssets';
 import {buildGolfClub} from './minigolfArt';
 import {selectCourses} from './minigolfCourses';
 import {Engine,Scene,FreeCamera,HemisphericLight,DirectionalLight,ShadowGenerator,Vector3,Color4,Color3,MeshBuilder,StandardMaterial,DynamicTexture,TransformNode} from '@babylonjs/core';
@@ -19,6 +20,8 @@ import {runSteps} from '../../core/frameClock';
 import {setGameIntensity} from '../../core/musicDirector';
 import {ArenaEntity} from '../arena/arenaEntity';
 export class BabylonMinigolfGame {
+  readonly ready:Promise<void>;private visualsReady=false;
+
  readonly engine:Engine;readonly scene:Scene;readonly match:MinigolfMatch;
  readonly hud:MinigolfHud;readonly visuals:MinigolfVisuals;
  readonly entities=new Map<string,ArenaEntity>();
@@ -49,7 +52,8 @@ export class BabylonMinigolfGame {
   }
   buildGolfClub(this.scene);
   this.syncCourse();applyQuality(this.engine,this.scene);
-  this.engine.runRenderLoop(guardLoop(()=>{if(this.disposed||this.paused)return;runSteps(this.engine.getDeltaTime(),dt=>this.step(dt));this.scene.render();}));
+  this.ready=prepareVisuals(this.scene).then(()=>{if(!this.disposed)this.visualsReady=true;});
+    this.engine.runRenderLoop(guardLoop(()=>{if(this.disposed||this.paused||!this.visualsReady)return;runSteps(this.engine.getDeltaTime(),dt=>this.step(dt));this.scene.render();}));
   window.addEventListener('resize',this.onResize);
   void (ctx.showControls?.()??Promise.resolve()).then(()=>{if(this.disposed)return;this.controlsReady=true;ctx.input.reset();this.match.cancelAll();});
  }

@@ -1,0 +1,131 @@
+ Human  Melee  Animations  2.0  FREE   Total  animation  files:  94  1.  Human@HandsClosed01  2.  Human@ObjectGripHands01  3.  HumanF@Attack1H01_L  4.  HumanF@Attack1H01_R  5.  HumanF@Attack2H01  6.  HumanF@AttackPolearm01  7.  HumanF@AttackShield01  8.  HumanF@CombatDamage01  9.  HumanF@CombatIdle01  10.  HumanF@CombatIdle1H01  11.  HumanF@CombatIdle2H01  12.  HumanF@CombatIdlePolearm01  13.  HumanF@Death01  14.  HumanF@Idle01  15.  HumanF@ObjectGripShoulder01_L  16.  HumanF@ObjectGripShoulder01_R  17.  HumanF@ObjectGripShoulder02_L  18.  HumanF@ObjectGripShoulder02_R  19.  HumanF@Run01_Backward  20.  HumanF@Run01_Backward  [RM]  21.  HumanF@Run01_BackwardLeft  22.  HumanF@Run01_BackwardLeft  [RM]  23.  HumanF@Run01_BackwardRight  24.  HumanF@Run01_BackwardRight  [RM]  25.  HumanF@Run01_Forward  26.  HumanF@Run01_Forward  [RM]  27.  HumanF@Run01_ForwardLeft  
+
+28.  HumanF@Run01_ForwardLeft  [RM]  29.  HumanF@Run01_ForwardRight  30.  HumanF@Run01_ForwardRight  [RM]  31.  HumanF@Run01_Left  32.  HumanF@Run01_Left  [RM]  33.  HumanF@Run01_Right  34.  HumanF@Run01_Right  [RM]  35.  HumanF@StrafeRun01_BackwardLeft  36.  HumanF@StrafeRun01_BackwardLeft  [RM]  37.  HumanF@StrafeRun01_BackwardRight  38.  HumanF@StrafeRun01_BackwardRight  [RM]  39.  HumanF@StrafeRun01_ForwardLeft  40.  HumanF@StrafeRun01_ForwardLeft  [RM]  41.  HumanF@StrafeRun01_ForwardRight  42.  HumanF@StrafeRun01_ForwardRight  [RM]  43.  HumanF@StrafeRun01_Left  44.  HumanF@StrafeRun01_Left  [RM]  45.  HumanF@StrafeRun01_Right  46.  HumanF@StrafeRun01_Right  [RM]  47.  HumanF@WeaponHold2H01  48.  HumanF@WeaponHoldPolearm01  49.  HumanM@Attack1H01_L  50.  HumanM@Attack1H01_R  51.  HumanM@Attack2H01  52.  HumanM@AttackPolearm01  53.  HumanM@AttackShield01  54.  HumanM@CombatDamage01  55.  HumanM@CombatIdle01  56.  HumanM@CombatIdle1H01  57.  HumanM@CombatIdle2H01  58.  HumanM@CombatIdlePolearm01  59.  HumanM@Death01  60.  HumanM@Idle01  61.  HumanM@ObjectGripShoulder01_L  62.  HumanM@ObjectGripShoulder01_R  
+63.  HumanM@ObjectGripShoulder02_L  64.  HumanM@ObjectGripShoulder02_R  65.  HumanM@Run01_Backward  66.  HumanM@Run01_Backward  [RM]  67.  HumanM@Run01_BackwardLeft  68.  HumanM@Run01_BackwardLeft  [RM]  69.  HumanM@Run01_BackwardRight  70.  HumanM@Run01_BackwardRight  [RM]  71.  HumanM@Run01_Forward  72.  HumanM@Run01_Forward  [RM]  73.  HumanM@Run01_ForwardLeft  74.  HumanM@Run01_ForwardLeft  [RM]  75.  HumanM@Run01_ForwardRight  76.  HumanM@Run01_ForwardRight  [RM]  77.  HumanM@Run01_Left  78.  HumanM@Run01_Left  [RM]  79.  HumanM@Run01_Right  80.  HumanM@Run01_Right  [RM]  81.  HumanM@StrafeRun01_BackwardLeft  82.  HumanM@StrafeRun01_BackwardLeft  [RM]  83.  HumanM@StrafeRun01_BackwardRight  84.  HumanM@StrafeRun01_BackwardRight  [RM]  85.  HumanM@StrafeRun01_ForwardLeft  86.  HumanM@StrafeRun01_ForwardLeft  [RM]  87.  HumanM@StrafeRun01_ForwardRight  88.  HumanM@StrafeRun01_ForwardRight  [RM]  89.  HumanM@StrafeRun01_Left  90.  HumanM@StrafeRun01_Left  [RM]  91.  HumanM@StrafeRun01_Right  92.  HumanM@StrafeRun01_Right  [RM]  93.  HumanM@WeaponHold2H01  94.  HumanM@WeaponHoldPolearm01     
+ Animation  files  start  with  the  prefix  HumanF  or  HumanM ,  depending  on  whether  
+they
+ 
+are
+ 
+for
+ 
+the
+ 
+feminine
+ 
+or
+ 
+masculine
+ 
+rig.
+ 
+Some
+ 
+of
+ 
+them
+ 
+may
+ 
+be
+ 
+shared
+ 
+with
+ 
+other
+ 
+animation
+ 
+packs.
+  1H  Animations  (1  Handed)  Examples:  -  HumanF@Attack 1H 01_R  -  HumanF@CombatIdle 1H  Animations  using  one  hand  weapon.  For  dual  wield,  one  handed  only  or  one  handed  
+with
+ 
+shield.
+  2H  Animations  (2  Handed)  Examples:  -  HumanF@Attack 2H 01  -  HumanM@CombatEnter 2H 01  Animations  using  two-handed  weapons  like  greatswords,  big  axes  or  big  hammers  or  
+clubs.
+ 
+Some
+ 
+of
+ 
+them
+ 
+can
+ 
+be
+ 
+combined
+ 
+with
+ 
+Masked
+ 
+Poses
+ 
+to
+ 
+make
+ 
+the
+ 
+character
+ 
+hold
+ 
+the
+ 
+weapon
+ 
+on
+ 
+shoulder
+ 
+for
+ 
+example.
+  Polearm  Animations  Examples:  -  HumanF@Attack Polearm 01  -  HumanM@Parry Polearm 01  -  Loop  Animations  using  long  two-handed  weapons  like  polearms,  spears  or  staves.  Some  
+of
+ 
+them
+ 
+can
+ 
+be
+ 
+combined
+ 
+with
+ 
+Masked
+ 
+Poses
+ 
+to
+ 
+make
+ 
+the
+ 
+character
+ 
+hold
+ 
+the
+ 
+weapon
+ 
+on
+ 
+shoulder
+ 
+for
+ 
+example.
+         
+License:   Standard  Asset  Store  EULA 
+●  Royalty-free  and  allowed  for  commercial  use.  ●  Resale  not  allowed.  ●  Attribution  not  required.  
+More  license  details:   https://www.keviniglesias.com/#license 
+Thank  you  for  downloading  and  using  my  assets!   Upgrade:   
+Need  more  animations?  Consider  upgrading  to  the  full  version.  Your  purchase  helps  me  a  lot  with  the  creation  of  more  free  assets  like  this  one.   Thank  you  for  downloading  and  using  my  assets!   📧  Support  &  Feedback:  support@keviniglesias.com 
+ www.keviniglesias.com 

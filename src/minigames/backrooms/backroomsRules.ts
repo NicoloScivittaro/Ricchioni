@@ -11,7 +11,7 @@ export type CreatureKind = 'bacteria' | 'partygoer' | 'stalker' | 'runner' | 'im
 export type PlayerState = 'exploring' | 'captured' | 'eliminated' | 'escaped';
 export interface BackPlayer extends Point {
   id: string; name: string; bot?: boolean; yaw: number; pitch: number; lives: number;
-  state: PlayerState; stateTime: number; immunity: number; stamina: number; hiding: boolean;
+  state: PlayerState; stateTime: number; immunity: number; stamina: number; exhausted?:boolean; hiding: boolean;
   visited: Set<number>; escapedAt: number; eliminatedAt: number; dx: number; dz: number;
   flashlight:boolean; lampPresses:number; running: boolean; lastFoot: number; notice: string; noticeTime: number;
 }
@@ -133,7 +133,7 @@ export class BackroomsMatch {
       if (p.state === 'captured' && p.stateTime >= 7) {
         const original=this.spawnPoints.get(p.id)!,candidates=[original,...[...this.safeCells].map(c=>center(this.maze,c))];
         const pos=candidates.find(v=>this.monsters.every(m=>dist(v,m)>CELL*2))??original; p.x = pos.x; p.z = pos.z; p.yaw = .7; p.pitch = 0;
-        p.state = 'exploring'; p.stateTime = 0; p.immunity = 7; p.stamina = 1; p.hiding = false;
+        p.state = 'exploring'; p.stateTime = 0; p.immunity = 7; p.stamina = 1; p.exhausted=false; p.hiding = false;
         this.commands.delete(p.id); this.notify(p, 'ULTIMA POSSIBILITÀ · SEI PROTETTO PER 7s');this.events.push({type:'respawn',player:p.id,point:{x:p.x,z:p.z}});
       }
       if (p.state !== 'exploring') { p.dx = p.dz = 0; continue; }
@@ -143,7 +143,8 @@ export class BackroomsMatch {
         p.yaw += clamp(c.lookX, -1, 1) * dt * 2.25; p.pitch = clamp(p.pitch + clamp(c.lookY, -1, 1) * dt * 1.6, -.95, .95);
         if (!p.hiding) {
           const len = Math.max(1, Math.hypot(c.x, c.z)), moving = Math.hypot(c.x, c.z) > .12;
-          p.running = c.sprint && moving && p.stamina > .02;
+          if(p.exhausted&&p.stamina>=.3)p.exhausted=false;
+          p.running = c.sprint && moving && !p.exhausted && p.stamina > .02;
           const speed = p.running ? 5.8 : 3.25, old = { x: p.x, z: p.z };
           move(this.maze, p, (Math.cos(p.yaw) * c.x + Math.sin(p.yaw) * c.z) / len * speed * dt, (-Math.sin(p.yaw) * c.x + Math.cos(p.yaw) * c.z) / len * speed * dt);
           p.dx = (p.x - old.x) / dt; p.dz = (p.z - old.z) / dt;
@@ -158,7 +159,8 @@ export class BackroomsMatch {
         if (c.interact && !prompt) this.notify(p, 'AVVICINATI E GUARDA L’OGGETTO');
         c.presses = Math.max(0, (c.presses ?? 0) - 1); c.interact = false;
       }
-      p.stamina = clamp(p.stamina + (p.running ? -dt / 7 : dt / 5), 0, 1);
+      p.stamina = clamp(p.stamina + (p.running ? -dt / 4 : dt / 5), 0, 1);
+      if(p.running&&p.stamina<=.02)p.exhausted=true;
       p.visited.add(cellAt(this.maze, p));
     }
     for (const monster of this.monsters) this.updateMonster(monster, dt);

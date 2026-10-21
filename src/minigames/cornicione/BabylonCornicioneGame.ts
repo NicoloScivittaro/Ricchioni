@@ -1,3 +1,4 @@
+import {prepareVisuals} from '../../core/visualAssets';
 import { Rng } from '../../../shared/rng';
 import { Engine, Scene, Color4, DynamicTexture, MeshBuilder, StandardMaterial, Color3 } from '@babylonjs/core';
 import type { Mesh } from '@babylonjs/core';
@@ -45,6 +46,8 @@ let debugRegistered = false;
 
 /** Orchestratore del minigioco 3D BOTTE SUL CORNICIONE: legge il simulatore (fighterCore) e disegna, suona, vibra, riferisce i risultati. */
 export class BabylonCornicioneGame {
+  readonly ready:Promise<void>;private visualsReady=false;
+
   private engine: Engine;
   private scene: Scene;
   private world: FighterWorld;
@@ -143,9 +146,10 @@ export class BabylonCornicioneGame {
     else this.controlsDone = true;
 
     applyQuality(this.engine, this.scene);
+    this.ready=prepareVisuals(this.scene).then(()=>{if(!this.disposed)this.visualsReady=true;});
     this.engine.runRenderLoop(
       guardLoop(() => {
-        if (this.disposed) return;
+        if (this.disposed || !this.visualsReady) return;
         if (this.paused) return;
         runSteps(this.engine.getDeltaTime(), (dt) => this.step(dt));
         this.scene.render();

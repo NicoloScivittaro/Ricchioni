@@ -1,0 +1,263 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+FBX version: 7700
+FBX Models/HumanM_Model.fbx []
+FBX version: 7700
+FBX Animations/Male/Combat/1H/HumanM@Attack1H01_L.fbx [('Armature|HumanM@Attack1H01_L|Base Layer', [1.0, 34.0])]
+FBX version: 7300
+FBX Animations/Male/Combat/Bow/HumanM@BowShot01 - Release.fbx [('Rig|HumanM@BowShot01 - Release|Base Layer', [1.0, 21.0])]
+22:44:59 | INFO: Data are loaded, start creating Blender stuff
+22:44:59 | INFO: Blender create Mesh node Object_0
+22:44:59 | INFO: Blender create Mesh node Object_1
+22:44:59 | INFO: Blender create Mesh node Object_2
+22:44:59 | INFO: Blender create Mesh node Object_3
+22:44:59 | INFO: Blender create Mesh node Object_4
+22:44:59 | INFO: Blender create Mesh node Object_5
+22:44:59 | INFO: Blender create Mesh node Object_6
+22:44:59 | INFO: glTF import finished in 0.40s
+GLB hell_arena.glb bounds [-4.343595027923584, -4.078360557556152, -2.4978342056274414] [4.054163932800293, 4.0008158683776855, 2.5271129608154297] objects 7
+22:45:00 | INFO: Data are loaded, start creating Blender stuff
+22:45:00 | INFO: Blender create Mesh node WallsArena.0088_Material.247_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.0089_Material.248_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.004_Material.015_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.490_Material.054_0
+22:45:00 | INFO: Blender create Mesh node FrontEntrance_Material.012_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.0655_Material.253_0
+22:45:00 | INFO: Blender create Mesh node Floor_Material.077_0
+22:45:00 | INFO: Blender create Mesh node Floor.001_Material.204_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.018_Material.079_0
+22:45:00 | INFO: Blender create Mesh node TunnelSide1.001_Material.068_0
+22:45:00 | INFO: Blender create Mesh node RockSidingP3_Material.030_0
+22:45:00 | INFO: Blender create Mesh node RockSidingP2_Material.071_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.029_Material.013_0
+22:45:00 | INFO: Blender create Mesh node Stairs.006_Material.003_0
+22:45:00 | INFO: Blender create Mesh node Stairs.099_Material.255_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.033_Material.010_0
+22:45:00 | INFO: Blender create Mesh node RockPillar_Material.016_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.036_Material.004_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.037_Material.011_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.439_Material.257_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.041_Material.006_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.042_Material.005_0
+22:45:00 | INFO: Blender create Mesh node Stairs.001_Material.050_0
+22:45:00 | INFO: Blender create Mesh node Floor.002_Material.002_0
+22:45:00 | INFO: Blender create Mesh node FrontEntrance.001_Material_0
+22:45:00 | INFO: Blender create Mesh node FrontEntrance.002_Material.045_0
+22:45:00 | INFO: Blender create Mesh node Stairs.159_Material.206_0
+22:45:00 | INFO: Blender create Mesh node FrontEntrance.003_Material.018_0
+22:45:00 | INFO: Blender create Mesh node FrontEntrance.79_Material.020_0
+22:45:00 | INFO: Blender create Mesh node FrontEntrance.004_Material.022_0
+22:45:00 | INFO: Blender create Mesh node FrontEntrance.066_Material.063_0
+22:45:00 | INFO: Blender create Mesh node Stairs.002_Material.064_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.069_Material.044_0
+22:45:00 | INFO: Blender create Mesh node Stairs.0074_Material.166_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.077_Material.081_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.078_Material.069_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.079_Material.009_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.080_Material.046_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.081_Material.007_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.082_Material.008_0
+22:45:00 | INFO: Blender create Mesh node Stairs.003_Material.047_0
+22:45:00 | INFO: Blender create Mesh node Stairs.004_Material.029_0
+22:45:00 | INFO: Blender create Mesh node RockSidingP2.002_Material.202_0
+22:45:00 | INFO: Blender create Mesh node RockSidingP2.003_Material.040_0
+22:45:00 | INFO: Blender create Mesh node RockSidingP2.004_Material.038_0
+22:45:00 | INFO: Blender create Mesh node RockSidingP2.005_Material.036_0
+22:45:00 | INFO: Blender create Mesh node RockSidingP2.006_Material.043_0
+22:45:00 | INFO: Blender create Mesh node RockSidingP2.007_Material.041_0
+22:45:00 | INFO: Blender create Mesh node Stairs.005_Material.055_0
+22:45:00 | INFO: Blender create Mesh node Stairs.007_Material.061_0
+22:45:00 | INFO: Blender create Mesh node Stairs.008_Material.031_0
+22:45:00 | INFO: Blender create Mesh node Stairs.009_Material.032_0
+22:45:00 | INFO: Blender create Mesh node PropStick1.112_setka.png.16104_0
+22:45:00 | INFO: Blender create Mesh node RockSidingP2.008_Material.026_0
+22:45:00 | INFO: Blender create Mesh node RockSidingP2.009_Material.075_0
+22:45:00 | INFO: Blender create Mesh node RockSidingP2.115_Material.076_0
+22:45:00 | INFO: Blender create Mesh node Arena.125__0
+22:45:00 | INFO: Blender create Mesh node Arena.128_setka.png.16167_0
+22:45:00 | INFO: Blender create Mesh node Arena.129_setka.png.16168_0
+22:45:00 | INFO: Blender create Mesh node Arena.130_Material.260_0
+22:45:00 | INFO: Blender create Mesh node Arena.131_Material.174_0
+22:45:00 | INFO: Blender create Mesh node Arena.132_Material.173_0
+22:45:00 | INFO: Blender create Mesh node Floor.139_Material.240_0
+22:45:00 | INFO: Blender create Mesh node Arena.140_setka.png.16188_0
+22:45:00 | INFO: Blender create Mesh node Floor0_Material.241_0
+22:45:00 | INFO: Blender create Mesh node Arena.143_Material.070_0
+22:45:00 | INFO: Blender create Mesh node RockPillar.001_Material.016_0
+22:45:00 | INFO: Blender create Mesh node FrontEntrance.005_Material.019_0
+22:45:00 | INFO: Blender create Mesh node geo_chariot_mesh_geo_chariot_mat_0
+22:45:00 | INFO: Blender create Mesh node deadjedi_fem01_mesh_prop_deadjedi_fem01_mat_0
+22:45:00 | INFO: Blender create Mesh node TunnelSide3.001_Material.033_0
+22:45:00 | INFO: Blender create Mesh node WallsArena.002_Material.169_0
+22:45:00 | INFO: Blender create Mesh node TunnelSide3.002_Material.250_0
+22:45:00 | INFO: Blender create Mesh node deser_Tarp_WorldGridMaterial.003_0
+22:45:00 | INFO: Blender create Mesh node deser_Tarp.001_lambert1_0
+22:45:00 | INFO: Blender create Mesh node deser_Tarp.002_Material.058_0
+22:45:00 | INFO: Blender create Mesh node deser_Tarp.003_lambert1_0
+22:45:00 | INFO: Blender create Mesh node ArenaTowerChained_Material.021_0
+22:45:00 | INFO: Blender create Mesh node ArenaTowerChained.001_Material.001_0
+22:45:00 | INFO: Blender create Mesh node ArenaTowerChained.002_Material.021_0
+22:45:01 | INFO: Blender create Mesh node ArenaTowerChained.003_Material.001_0
+22:45:01 | INFO: Blender create Mesh node ArenaTowerChained.004_Material.021_0
+22:45:01 | INFO: Blender create Mesh node ArenaTowerChained.005_Material.001_0
+22:45:01 | INFO: Blender create Mesh node ArenaTowerChained.006_Material.021_0
+22:45:01 | INFO: Blender create Mesh node ArenaTowerChained.007_Material.001_0
+22:45:01 | INFO: Blender create Mesh node FrontEntrance.60_Material.023_0
+22:45:01 | INFO: Blender create Mesh node WallsArena.458_Material.009_0
+22:45:01 | INFO: Blender create Mesh node WallsArena.086_Material.014_0
+22:45:01 | INFO: Blender create Mesh node TunnelSide2_Material.073_0
+22:45:01 | INFO: Blender create Mesh node Jango_Fett_Helmet_Piece_Helmet.001_0
+22:45:01 | INFO: Blender create Mesh node Jango_Fett_Visor_Visor_0
+22:45:01 | INFO: Blender create Mesh node RockSidingP2.010_Material.035_0
+22:45:01 | INFO: Blender create Mesh node RockSidingP2.011_Material.037_0
+22:45:01 | INFO: Blender create Mesh node RockSidingP2.012_Material.039_0
+22:45:01 | INFO: Blender create Mesh node Stairs.763_Material.049_0
+22:45:01 | INFO: Blender create Mesh node Stairs.010_Material.051_0
+22:45:01 | INFO: Blender create Mesh node Stairs.011_Material.052_0
+22:45:01 | INFO: Blender create Mesh node ArenaTower.005_Material.053_0
+22:45:01 | INFO: Blender create Mesh node ArenaTower.004_Material.053_0
+22:45:01 | INFO: Blender create Mesh node TarpTent2_Material.024_0
+22:45:01 | INFO: Blender create Mesh node TarpTent2.001_Material.042_0
+22:45:01 | INFO: Blender create Mesh node TarpTent2.002_Material.024_0
+22:45:01 | INFO: Blender create Mesh node TarpTent2.003_Material.042_0
+22:45:01 | INFO: Blender create Mesh node deser_Tarp.006_Material.058_0
+22:45:01 | INFO: Blender create Mesh node ArenaTower.002_Material.053_0
+22:45:01 | INFO: Blender create Mesh node ArenaTower.003_Material.053_0
+22:45:01 | INFO: Blender create Mesh node ArenaTower.006_Material.053_0
+22:45:01 | INFO: Blender create Mesh node ArenaTower.007_Material.053_0
+22:45:01 | INFO: Blender create Mesh node ArenaTower.008_Material.053_0
+22:45:01 | INFO: Blender create Mesh node ArenaTower.009_Material.053_0
+22:45:01 | INFO: Blender create Mesh node ArenaTower.010_Material.053_0
+22:45:01 | INFO: Blender create Mesh node FrontEntrance.006_Material.022_0
+22:45:01 | INFO: Blender create Mesh node FrontEntrance.59_Material.023_0
+22:45:01 | INFO: Blender create Mesh node Arena.151_Material.080_0
+22:45:01 | INFO: Blender create Mesh node Stairs.111_Material.057_0
+22:45:01 | INFO: Blender create Mesh node Arena.164_Material.059_0
+22:45:01 | INFO: Blender create Mesh node Stairs165_Material.060_0
+22:45:01 | INFO: Blender create Mesh node FrontEntrance.80_Material.062_0
+22:45:01 | INFO: Blender create Mesh node Pal_Drum_Meathookout_Pal_Drum_Meathook-PAL_Drum_MEAT_0
+22:45:01 | INFO: Blender create Mesh node Pal_Drum_Meathookout.001_Pal_Drum_Meathook-PAL_Drum_Floor_Bottom_Grating_0
+22:45:01 | INFO: Blender create Mesh node WallsArena.167_Material.015_0
+22:45:01 | INFO: Blender create Mesh node Stairs.0168_Material.066_0
+22:45:01 | INFO: Blender create Mesh node Stairs.012_Material.165_0
+22:45:01 | INFO: Blender create Mesh node RockSidingP3.001_Material.078_0
+22:45:01 | INFO: Blender create Mesh node TunnelSide2.001_Material.073_0
+22:45:01 | INFO: Blender create Mesh node TunnelSide3_Material.074_0
+22:45:01 | INFO: Blender create Mesh node Pal_Drum_Meathookout.002_Pal_Drum_Meathook-PAL_Drum_MEAT_0
+22:45:01 | INFO: Blender create Mesh node Pal_Drum_Meathookout.003_Pal_Drum_Meathook-PAL_Drum_Floor_Bottom_Grating_0
+22:45:01 | INFO: Blender create Mesh node Stairs.013_Material.168_0
+22:45:01 | INFO: Blender create Mesh node TunnelSide3.003_Material.171_0
+22:45:01 | INFO: Blender create Mesh node TunnelSide1_Material.073_0
+22:45:01 | INFO: Blender create Mesh node RockSidingP1_Material.027_0
+22:45:01 | INFO: Blender create Mesh node RockSidingP2.013_Material.202_0
+22:45:01 | INFO: Blender create Mesh node RockSidingP2.014_Material.203_0
+22:45:01 | INFO: Blender create Mesh node RockSidingP1.001_Material.071_0
+22:45:01 | INFO: Blender create Mesh node Stairs_Material.056_0
+22:45:01 | INFO: Blender create Mesh node Floor.003_Material.240_0
+22:45:01 | INFO: Blender create Mesh node Floor.004_Material.240_0
+22:45:01 | INFO: Blender create Mesh node Floor.005_Material.240_0
+22:45:01 | INFO: Blender create Mesh node TunnelSide3.004_Material.249_0
+22:45:01 | INFO: Blender create Mesh node WallsArena.005_Material.074_0
+22:45:01 | INFO: glTF import finished in 1.60s
+GLB geonosis_arena.glb bounds [-72744.9921875, -42071.02734375, -1477.12646484375] [46620.49609375, 50923.34765625, 59639.20703125] objects 141
+22:45:02 | INFO: Data are loaded, start creating Blender stuff
+22:45:02 | INFO: Blender create Mesh node pCube1_lambert2_0
+22:45:02 | INFO: Blender create Mesh node pCube3_lambert2_0
+22:45:02 | INFO: Blender create Mesh node pCube7_lambert2_0
+22:45:02 | INFO: Blender create Mesh node pCube8_lambert2_0
+22:45:02 | INFO: Blender create Mesh node pCube9_lambert2_0
+22:45:02 | INFO: Blender create Mesh node pCube10_lambert2_0
+22:45:02 | INFO: Blender create Mesh node pCube11_lambert2_0
+22:45:02 | INFO: Blender create Mesh node pCube12_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pCube13_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pCube14_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface9_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface10_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface14_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface15_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface16_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface17_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface19_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface20_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface21_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface22_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface23_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface8_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface4_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface2_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface5_lambert2_0
+22:45:03 | INFO: Blender create Mesh node polySurface6_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pPlane1_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pPlane2_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pPlane3_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pPlane4_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pCylinder1_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pSphere2_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pCube17_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pCube19_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pCube20_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pCube21_lambert2_0
+22:45:03 | INFO: Blender create Mesh node pPlane8_Special_effects_0
+22:45:03 | INFO: Blender create Mesh node pPlane9_Special_effects_0
+22:45:03 | INFO: Blender create Mesh node pPlane10_Special_effects_0
+22:45:03 | INFO: Blender create Mesh node pPlane11_Special_effects_0
+22:45:03 | INFO: Blender create Mesh node pPlane12_Special_effects_0
+22:45:03 | INFO: Blender create Mesh node pPlane13_Special_effects_0
+22:45:03 | INFO: Blender create Mesh node pPlane21_Special_effects_0
+22:45:03 | INFO: glTF import finished in 0.08s
+GLB shattered_crystal_sword.glb bounds [-0.24313713610172272, -0.7662186026573181, -0.7811733484268188] [0.26340940594673157, 0.6484799385070801, 3.1003403663635254] objects 43
+22:45:03 | INFO: Data are loaded, start creating Blender stuff
+22:45:03 | INFO: Blender create Mesh node SteampunkSword_Material.001_0
+22:45:03 | INFO: glTF import finished in 0.21s
+GLB free__steampunk_da_vincis_sword_game-ready.glb bounds [-5.282071113586426, -6.316111087799072, -4.816592216491699] [6.392746925354004, -0.12911343574523926, 1.4013549089431763] objects 1
+22:45:03 | INFO: Data are loaded, start creating Blender stuff
+22:45:03 | INFO: Blender create Mesh node Object_0
+22:45:03 | INFO: Blender create Mesh node Object_1
+22:45:03 | INFO: glTF import finished in 0.08s
+GLB autumn_sword.glb bounds [-1.6001720428466797, -8.21420955657959, -0.4410494267940521] [1.6001720428466797, 3.1283645629882812, 0.44162970781326294] objects 2
+22:45:03 | INFO: Data are loaded, start creating Blender stuff
+22:45:03 | INFO: Blender create Mesh node Object_0
+22:45:04 | INFO: Blender create Mesh node Object_1
+22:45:04 | INFO: Blender create Mesh node Object_2
+22:45:04 | INFO: Blender create Mesh node Object_3
+22:45:04 | INFO: Blender create Mesh node Object_4
+22:45:04 | INFO: Blender create Mesh node Object_5
+22:45:04 | INFO: glTF import finished in 1.06s
+GLB the_sword_of_victory.glb bounds [-17.85140037536621, -2.4263923168182373, -57.02200698852539] [20.73649787902832, 1.5736080408096313, 59.76951217651367] objects 6
+22:45:05 | INFO: Data are loaded, start creating Blender stuff
+22:45:05 | INFO: Blender create Mesh node polySurface155_Scutum_0
+22:45:05 | INFO: glTF import finished in 0.08s
+GLB scutum.glb bounds [-54.40220642089844, -20.655147552490234, 1.7746877670288086] [54.40220642089844, 14.535475730895996, 207.19851684570312] objects 1
+22:45:05 | INFO: Data are loaded, start creating Blender stuff
+22:45:05 | INFO: Blender create Mesh node SM_Medieval_Shield_M_Medieval_Shield_0
+22:45:05 | INFO: glTF import finished in 0.03s
+GLB medieval_shield.glb bounds [-0.5085310935974121, -1.1556141376495361, -4.002789497375488] [0.506057858467102, -0.6466037034988403, -3.0910427570343018] objects 1
+22:45:05 | INFO: Data are loaded, start creating Blender stuff
+22:45:05 | INFO: Blender create Mesh node arrow_arrow_mt_0
+22:45:05 | INFO: Blender create Mesh node arrow_wing_mt_0
+22:45:05 | INFO: Blender create Mesh node quiver_quiver_mt_0
+22:45:05 | INFO: Blender create Mesh node bow_bow_wood_mt_0
+22:45:06 | INFO: Blender create Mesh node bow_bow_metal_mt_0
+22:45:06 | INFO: Blender create Mesh node arrow.001_arrow_mt_0
+22:45:06 | INFO: Blender create Mesh node arrow.001_wing_mt_0
+22:45:06 | INFO: Blender create Mesh node arrow.002_arrow_mt_0
+22:45:06 | INFO: Blender create Mesh node arrow.002_wing_mt_0
+22:45:06 | INFO: Blender create Mesh node arrow.003_arrow_mt_0
+22:45:06 | INFO: Blender create Mesh node arrow.003_wing_mt_0
+22:45:06 | INFO: Blender create Mesh node arrow.004_arrow_mt_0
+22:45:06 | INFO: Blender create Mesh node arrow.004_wing_mt_0
+22:45:06 | INFO: Blender create Mesh node arrow.005_arrow_mt_0
+22:45:06 | INFO: Blender create Mesh node arrow.005_wing_mt_0
+22:45:06 | INFO: glTF import finished in 0.13s
+GLB bow_and_arrow.glb bounds [-0.2760905623435974, -0.043722543865442276, 0.007742476649582386] [0.2671506404876709, 0.043722447007894516, 1.195414662361145] objects 15
+22:45:06 | INFO: Data are loaded, start creating Blender stuff
+22:45:06 | INFO: Blender create Mesh node DefaultCube.011_Material_0
+22:45:06 | INFO: glTF import finished in 0.20s
+GLB lance_of_longinus.glb bounds [-146.6439666748047, -280.66845703125, -147.5696563720703] [114.0910415649414, 389.6515808105469, 206.0105743408203] objects 1
+AUDIT COMPLETE
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

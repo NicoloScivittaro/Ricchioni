@@ -17,6 +17,7 @@
  * Selezione, caricamento e istanze sono separati apposta: i test possono guidare i tre pezzi senza browser
  * (parsing di URL/sessione) e nel browser (istanze, scheletri, animazioni, disposal).
  */
+import {trackVisualAsset} from '../../core/visualAssets';
 import { Matrix, Quaternion, TransformNode, Vector3 } from '@babylonjs/core';
 import type { AbstractMesh, AnimationGroup, AssetContainer, Bone, InstantiatedEntries, Scene, Skeleton, TargetedAnimation } from '@babylonjs/core';
 import { goblinNewEnabled, goblinVisualMode } from './goblinVisualMode';
@@ -377,7 +378,7 @@ export class GoblinVisualInstance {
   constructor(scene: Scene, root: TransformNode, opts: GoblinVisualOptions = {}) {
     this.scene = scene;
     this.root = root;
-    this.opts = opts;
+    this.opts = {...opts};
     this.profile=opts.profile??{namespace:'goblin',url:goblinAssetUrl(),clips:GOBLIN_CLIPS};
     this.url = this.profile.url;
     this.id = ++instanceSeq;
@@ -404,6 +405,12 @@ export class GoblinVisualInstance {
         this.asset = null;
       }
     });
+    const attached=new Promise<void>((resolve,reject)=>{
+      const onReady=this.opts.onReady;
+      this.opts.onReady=ok=>{try{onReady?.(ok);}finally{if(ok)resolve();else reject(new Error(`Modello non disponibile: ${this.profile.namespace}`));}};
+      scene.onDisposeObservable.addOnce(()=>resolve());
+    });
+    trackVisualAsset(scene,attached);
     void this.attach();
   }
 

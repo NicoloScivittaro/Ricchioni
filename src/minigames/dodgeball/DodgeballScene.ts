@@ -68,9 +68,6 @@ export class DodgeballScene extends Phaser.Scene {
     const { BabylonDodgeballGame } = await import('./BabylonDodgeballGame');
     if (this.cancelled) return;
 
-    this.hideLoading?.();
-    this.hideLoading = null;
-
     const canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
     canvas.style.inset = '0';
@@ -82,7 +79,13 @@ export class DodgeballScene extends Phaser.Scene {
     document.body.appendChild(canvas);
     this.overlayCanvas = canvas;
 
-    this.game3d = new BabylonDodgeballGame(canvas, ctx);
+    let assetsReady:Promise<void>;
+    const reveal=()=>{if(this.cancelled||this.overlayCanvas!==canvas)return;canvas.style.visibility='visible';this.hideLoading?.();this.hideLoading=null;};
+    const gameCtx={...ctx,showControls:async()=>{await Promise.resolve();try{await assetsReady;}catch{return;}if(this.cancelled||this.overlayCanvas!==canvas)return;reveal();await ctx.showControls?.();}};
+    canvas.style.visibility='hidden';
+    this.game3d = new BabylonDodgeballGame(canvas, gameCtx);
+    assetsReady=this.game3d.ready;
+    await assetsReady;if(this.cancelled)return;reveal();
   }
 
   private cleanup(): void {

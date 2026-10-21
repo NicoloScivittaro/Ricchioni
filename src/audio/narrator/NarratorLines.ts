@@ -56,6 +56,7 @@ const personal:Record<string,string[]>={
 };for(const [character,texts]of Object.entries(personal))texts.forEach((text,i)=>add(`personal-${character}-${i+1}`,text,'result',{character,condition:i<4?'winner':i<8?'loser':i===8?'winningStreak':'losingStreak',priority:i>=8?4:2}));
 
 const games:Record<string,string[]>={
+ ferro:["SETTE ARMI, CINQUE GUERRIERI... MA SOLTANTO UNO RESTERÀ IN PIEDI!"],
  orda:["ORDA FINALE! Soltanto uno ne uscirà vivo!","ORDA FINALE! I mostri arrivano. Le scuse non sparano!"],
  quiz:["CHI CAZZO LO SA? Vediamo chi copia da chi!","CHI CAZZO LO SA? Le risposte a caso almeno fattele bene!"],
  reaction:["BOTTA AL VOLO! Er dito svejo, er cervello se po' riposà!","BOTTA AL VOLO! Prima er segnale, poi la figuraccia!"],

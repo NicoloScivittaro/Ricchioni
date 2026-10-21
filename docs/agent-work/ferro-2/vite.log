@@ -1,0 +1,51 @@
+
+  VITE v6.4.3  ready in 2608 ms
+
+  ➜  Local:   http://127.0.0.1:5191/
+23:14:07 [vite] (client) page reload src/minigames/ferro/FerroAssets.ts
+23:14:10 [vite] (client) page reload src/minigames/ferro/FerroRenderer.ts
+23:14:26 [vite] (client) page reload src/minigames/ferro/FerroAssets.ts
+23:18:39 [vite] (client) page reload src/minigames/ferro/FerroAssets.ts
+23:18:39 [vite] (client) page reload src/minigames/ferro/FerroRenderer.ts
+23:21:06 [vite] (client) page reload shared/minigames.ts
+23:21:06 [vite] (client) page reload src/minigames/ferro/FerroScene.ts
+23:21:06 [vite] (client) page reload src/controller/ferroController.ts
+23:21:06 [vite] (client) page reload shared/ferro/match.ts
+23:21:06 [vite] (client) page reload shared/ferro/match.ts
+23:21:06 [vite] (client) page reload src/minigames/ferro/FerroAssets.ts
+23:21:06 [vite] (client) page reload src/minigames/ferro/FerroAssets.ts
+23:22:43 [vite] (client) page reload shared/ferro/types.ts
+23:22:43 [vite] (client) page reload shared/ferro/match.ts
+23:22:43 [vite] (client) page reload src/minigames/ferro/FerroActor.ts
+23:22:43 [vite] (client) page reload shared/ferro/pose.ts
+23:23:59 [vite] (client) page reload src/minigames/ferro/FerroAssets.ts
+23:25:08 [vite] (client) page reload shared/ferro/pose.ts
+23:25:08 [vite] (client) page reload shared/ferro/pose.ts
+23:31:20 [vite] (client) page reload src/minigames/ferro/FerroWorld.ts
+23:32:12 [vite] (client) page reload shared/ferro/pose.ts
+23:32:12 [vite] (client) page reload src/minigames/ferro/FerroWeapons.ts
+23:32:12 [vite] (client) page reload src/minigames/ferro/FerroActor.ts
+23:41:18 [vite] (client) page reload src/minigames/ferro/FerroRenderer.ts
+23:41:18 [vite] (client) page reload src/minigames/ferro/FerroScene.ts
+23:41:23 [vite] (client) page reload tools/ferro/preview.ts
+23:43:59 [vite] (client) page reload src/minigames/ferro/FerroAssets.ts
+23:43:59 [vite] (client) page reload src/minigames/ferro/FerroRenderer.ts
+23:48:44 [vite] (client) page reload shared/ferro/map-hell.json
+23:48:44 [vite] (client) page reload shared/ferro/map-geonosis.json
+23:48:44 [vite] (client) page reload shared/ferro/terrain.ts
+23:48:44 [vite] (client) page reload shared/ferro/match.ts
+23:50:02 [vite] (client) page reload shared/ferro/match.ts
+00:11:39 [vite] (client) page reload docs/agent-work/ferro-2/index.html
+00:11:39 [vite] (client) page reload docs/agent-work/ferro-furia/index.html
+00:11:39 [vite] (client) page reload docs/agent-work/shared-weapons/index.html
+00:11:39 [vite] (client) page reload docs/agent-work/human-views/index.html
+00:11:40 [vite] (client) page reload docs/agent-work/orda-graphics/index.html
+00:11:41 [vite] (client) page reload docs/agent-work/orda-perks/index.html
+00:11:41 [vite] (client) page reload docs/agent-work/orda-box-polish/index.html
+00:11:43 [vite] (client) page reload docs/agent-work/fps-weapon-pack/index.html
+00:11:44 [vite] (client) page reload docs/agent-work/monster-expansion/index.html
+00:11:44 [vite] (client) page reload docs/agent-work/monster-system/index.html
+00:11:44 [vite] (client) page reload docs/agent-work/orda-finale/index.html
+00:11:45 [vite] (client) page reload docs/agent-work/narrator-voice/index.html
+00:11:45 [vite] (client) page reload docs/agent-work/minigolf-surfaces/index.html
+00:11:45 [vite] (client) page reload docs/agent-work/terminal-lag/index.html

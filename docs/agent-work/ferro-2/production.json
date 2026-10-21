@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "gallery": 200,
+  "compiledHome": true,
+  "assets": [
+    {
+      "name": "dagger",
+      "status": 200,
+      "bytes": 14292
+    },
+    {
+      "name": "warhammer",
+      "status": 200,
+      "bytes": 18256
+    },
+    {
+      "name": "geonosis",
+      "status": 200,
+      "bytes": 21638096
+    }
+  ],
+  "errors": []
+}

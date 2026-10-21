@@ -1,0 +1,759 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+22:55:22 | INFO: Data are loaded, start creating Blender stuff
+22:55:22 | INFO: Blender create Mesh node pCube1_lambert2_0
+22:55:22 | INFO: Blender create Mesh node pCube3_lambert2_0
+22:55:22 | INFO: Blender create Mesh node pCube7_lambert2_0
+22:55:22 | INFO: Blender create Mesh node pCube8_lambert2_0
+22:55:22 | INFO: Blender create Mesh node pCube9_lambert2_0
+22:55:22 | INFO: Blender create Mesh node pCube10_lambert2_0
+22:55:22 | INFO: Blender create Mesh node pCube11_lambert2_0
+22:55:22 | INFO: Blender create Mesh node pCube12_lambert2_0
+22:55:22 | INFO: Blender create Mesh node pCube13_lambert2_0
+22:55:22 | INFO: Blender create Mesh node pCube14_lambert2_0
+22:55:22 | INFO: Blender create Mesh node polySurface9_lambert2_0
+22:55:22 | INFO: Blender create Mesh node polySurface10_lambert2_0
+22:55:22 | INFO: Blender create Mesh node polySurface14_lambert2_0
+22:55:22 | INFO: Blender create Mesh node polySurface15_lambert2_0
+22:55:22 | INFO: Blender create Mesh node polySurface16_lambert2_0
+22:55:22 | INFO: Blender create Mesh node polySurface17_lambert2_0
+22:55:22 | INFO: Blender create Mesh node polySurface19_lambert2_0
+22:55:23 | INFO: Blender create Mesh node polySurface20_lambert2_0
+22:55:23 | INFO: Blender create Mesh node polySurface21_lambert2_0
+22:55:23 | INFO: Blender create Mesh node polySurface22_lambert2_0
+22:55:23 | INFO: Blender create Mesh node polySurface23_lambert2_0
+22:55:23 | INFO: Blender create Mesh node polySurface8_lambert2_0
+22:55:23 | INFO: Blender create Mesh node polySurface4_lambert2_0
+22:55:23 | INFO: Blender create Mesh node polySurface2_lambert2_0
+22:55:23 | INFO: Blender create Mesh node polySurface5_lambert2_0
+22:55:23 | INFO: Blender create Mesh node polySurface6_lambert2_0
+22:55:23 | INFO: Blender create Mesh node pPlane1_lambert2_0
+22:55:23 | INFO: Blender create Mesh node pPlane2_lambert2_0
+22:55:23 | INFO: Blender create Mesh node pPlane3_lambert2_0
+22:55:23 | INFO: Blender create Mesh node pPlane4_lambert2_0
+22:55:23 | INFO: Blender create Mesh node pCylinder1_lambert2_0
+22:55:23 | INFO: Blender create Mesh node pSphere2_lambert2_0
+22:55:23 | INFO: Blender create Mesh node pCube17_lambert2_0
+22:55:23 | INFO: Blender create Mesh node pCube19_lambert2_0
+22:55:23 | INFO: Blender create Mesh node pCube20_lambert2_0
+22:55:23 | INFO: Blender create Mesh node pCube21_lambert2_0
+22:55:23 | INFO: Blender create Mesh node pPlane8_Special_effects_0
+22:55:23 | INFO: Blender create Mesh node pPlane9_Special_effects_0
+22:55:23 | INFO: Blender create Mesh node pPlane10_Special_effects_0
+22:55:23 | INFO: Blender create Mesh node pPlane11_Special_effects_0
+22:55:23 | INFO: Blender create Mesh node pPlane12_Special_effects_0
+22:55:23 | INFO: Blender create Mesh node pPlane13_Special_effects_0
+22:55:23 | INFO: Blender create Mesh node pPlane21_Special_effects_0
+22:55:23 | INFO: glTF import finished in 0.09s
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+22:55:24 | INFO: Starting glTF 2.0 export
+22:55:24 | INFO: Extracting primitive: pCube1_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube3_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube7_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube8_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube9_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube10_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube11_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube12_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube13_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube14_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube17_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube19_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube20_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCube21_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pCylinder1_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface2_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface4_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface5_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface6_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface8_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface9_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface10_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface14_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface15_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface16_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface17_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface19_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface20_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface21_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface22_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: polySurface23_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pPlane1_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pPlane2_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pPlane3_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pPlane4_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pPlane8_Special_effects_0
+22:55:24 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pPlane9_Special_effects_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pPlane10_Special_effects_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pPlane11_Special_effects_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pPlane12_Special_effects_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pPlane13_Special_effects_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pPlane21_Special_effects_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Extracting primitive: pSphere2_lambert2_0
+22:55:24 | INFO: Primitives created: 1
+22:55:24 | INFO: Finished glTF 2.0 export in 0.4123392105102539 s
+
+22:55:24 | INFO: Data are loaded, start creating Blender stuff
+22:55:24 | INFO: Blender create Mesh node SteampunkSword_Material.001_0
+22:55:25 | INFO: glTF import finished in 0.21s
+22:55:25 | INFO: Starting glTF 2.0 export
+22:55:25 | INFO: Extracting primitive: SteampunkSword_Material.001_0
+22:55:25 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:25 | INFO: Primitives created: 1
+22:55:25 | INFO: Finished glTF 2.0 export in 0.2309715747833252 s
+
+22:55:26 | INFO: Data are loaded, start creating Blender stuff
+22:55:26 | INFO: Blender create Mesh node Object_0
+22:55:26 | INFO: Blender create Mesh node Object_1
+22:55:26 | INFO: glTF import finished in 0.07s
+22:55:26 | INFO: Starting glTF 2.0 export
+22:55:26 | INFO: Extracting primitive: Object_0
+22:55:26 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:26 | INFO: Primitives created: 1
+22:55:26 | INFO: Extracting primitive: Object_1
+22:55:26 | INFO: Primitives created: 1
+22:55:26 | INFO: Finished glTF 2.0 export in 0.12710785865783691 s
+
+22:55:26 | INFO: Data are loaded, start creating Blender stuff
+22:55:26 | INFO: Blender create Mesh node Object_0
+22:55:26 | INFO: Blender create Mesh node Object_1
+22:55:26 | INFO: Blender create Mesh node Object_2
+22:55:27 | INFO: Blender create Mesh node Object_3
+22:55:27 | INFO: Blender create Mesh node Object_4
+22:55:27 | INFO: Blender create Mesh node Object_5
+22:55:27 | INFO: glTF import finished in 0.86s
+22:55:28 | INFO: Starting glTF 2.0 export
+22:55:28 | INFO: Extracting primitive: Object_0
+22:55:28 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:28 | INFO: Primitives created: 1
+22:55:28 | INFO: Extracting primitive: Object_1
+22:55:28 | INFO: Primitives created: 1
+22:55:28 | INFO: Finished glTF 2.0 export in 0.28821873664855957 s
+
+22:55:28 | INFO: Data are loaded, start creating Blender stuff
+22:55:28 | INFO: Blender create Mesh node DefaultCube.011_Material_0
+22:55:28 | INFO: glTF import finished in 0.18s
+22:55:29 | INFO: Starting glTF 2.0 export
+22:55:29 | INFO: Extracting primitive: DefaultCube.011_Material_0
+22:55:29 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:29 | INFO: Primitives created: 1
+22:55:29 | INFO: Finished glTF 2.0 export in 0.38507795333862305 s
+
+22:55:30 | INFO: Data are loaded, start creating Blender stuff
+22:55:30 | INFO: Blender create Mesh node polySurface155_Scutum_0
+22:55:30 | INFO: glTF import finished in 0.07s
+22:55:30 | INFO: Starting glTF 2.0 export
+22:55:30 | INFO: Extracting primitive: polySurface155_Scutum_0
+22:55:30 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:30 | INFO: Primitives created: 1
+22:55:30 | INFO: Finished glTF 2.0 export in 0.1503007411956787 s
+
+22:55:30 | INFO: Data are loaded, start creating Blender stuff
+22:55:30 | INFO: Blender create Mesh node SM_Medieval_Shield_M_Medieval_Shield_0
+22:55:30 | INFO: glTF import finished in 0.03s
+22:55:30 | INFO: Starting glTF 2.0 export
+22:55:30 | INFO: Extracting primitive: SM_Medieval_Shield_M_Medieval_Shield_0
+22:55:31 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:31 | INFO: Primitives created: 1
+22:55:31 | INFO: Finished glTF 2.0 export in 0.12413740158081055 s
+
+22:55:31 | INFO: Data are loaded, start creating Blender stuff
+22:55:31 | INFO: Blender create Mesh node arrow_arrow_mt_0
+22:55:31 | INFO: Blender create Mesh node arrow_wing_mt_0
+22:55:31 | INFO: Blender create Mesh node quiver_quiver_mt_0
+22:55:31 | INFO: Blender create Mesh node bow_bow_wood_mt_0
+22:55:31 | INFO: Blender create Mesh node bow_bow_metal_mt_0
+22:55:31 | INFO: Blender create Mesh node arrow.001_arrow_mt_0
+22:55:31 | INFO: Blender create Mesh node arrow.001_wing_mt_0
+22:55:31 | INFO: Blender create Mesh node arrow.002_arrow_mt_0
+22:55:31 | INFO: Blender create Mesh node arrow.002_wing_mt_0
+22:55:31 | INFO: Blender create Mesh node arrow.003_arrow_mt_0
+22:55:31 | INFO: Blender create Mesh node arrow.003_wing_mt_0
+22:55:31 | INFO: Blender create Mesh node arrow.004_arrow_mt_0
+22:55:31 | INFO: Blender create Mesh node arrow.004_wing_mt_0
+22:55:31 | INFO: Blender create Mesh node arrow.005_arrow_mt_0
+22:55:31 | INFO: Blender create Mesh node arrow.005_wing_mt_0
+22:55:31 | INFO: glTF import finished in 0.17s
+22:55:31 | INFO: Starting glTF 2.0 export
+22:55:31 | INFO: Extracting primitive: bow_bow_metal_mt_0
+22:55:31 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:31 | INFO: Primitives created: 1
+22:55:31 | INFO: Extracting primitive: bow_bow_wood_mt_0
+22:55:31 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:31 | INFO: Primitives created: 1
+22:55:31 | INFO: Finished glTF 2.0 export in 0.20136642456054688 s
+
+22:55:32 | INFO: Data are loaded, start creating Blender stuff
+22:55:32 | INFO: Blender create Mesh node arrow_arrow_mt_0
+22:55:32 | INFO: Blender create Mesh node arrow_wing_mt_0
+22:55:32 | INFO: Blender create Mesh node quiver_quiver_mt_0
+22:55:32 | INFO: Blender create Mesh node bow_bow_wood_mt_0
+22:55:32 | INFO: Blender create Mesh node bow_bow_metal_mt_0
+22:55:32 | INFO: Blender create Mesh node arrow.001_arrow_mt_0
+22:55:32 | INFO: Blender create Mesh node arrow.001_wing_mt_0
+22:55:32 | INFO: Blender create Mesh node arrow.002_arrow_mt_0
+22:55:32 | INFO: Blender create Mesh node arrow.002_wing_mt_0
+22:55:32 | INFO: Blender create Mesh node arrow.003_arrow_mt_0
+22:55:32 | INFO: Blender create Mesh node arrow.003_wing_mt_0
+22:55:32 | INFO: Blender create Mesh node arrow.004_arrow_mt_0
+22:55:32 | INFO: Blender create Mesh node arrow.004_wing_mt_0
+22:55:32 | INFO: Blender create Mesh node arrow.005_arrow_mt_0
+22:55:32 | INFO: Blender create Mesh node arrow.005_wing_mt_0
+22:55:32 | INFO: glTF import finished in 0.20s
+22:55:32 | INFO: Starting glTF 2.0 export
+22:55:32 | INFO: Extracting primitive: arrow_arrow_mt_0
+22:55:32 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:32 | INFO: Primitives created: 1
+22:55:32 | INFO: Extracting primitive: arrow_wing_mt_0
+22:55:32 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:32 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+22:55:32 | INFO: Primitives created: 1
+22:55:32 | INFO: Finished glTF 2.0 export in 0.13113141059875488 s
+
+FBX version: 7700
+22:55:32 | INFO: Starting glTF 2.0 export
+22:55:32 | INFO: Extracting primitive: Human_Dagger
+22:55:32 | INFO: Primitives created: 1
+22:55:32 | INFO: Finished glTF 2.0 export in 0.0037584304809570312 s
+
+FBX version: 7700
+22:55:32 | INFO: Starting glTF 2.0 export
+22:55:32 | INFO: Extracting primitive: Human_Warhammer
+22:55:32 | INFO: Primitives created: 1
+22:55:32 | INFO: Finished glTF 2.0 export in 0.004298686981201172 s
+
+22:55:33 | INFO: Data are loaded, start creating Blender stuff
+22:55:33 | INFO: Blender create Mesh node Object_0
+22:55:33 | INFO: Blender create Mesh node Object_1
+22:55:33 | INFO: Blender create Mesh node Object_2
+22:55:33 | INFO: Blender create Mesh node Object_3
+22:55:33 | INFO: Blender create Mesh node Object_4
+22:55:33 | INFO: Blender create Mesh node Object_5
+22:55:33 | INFO: Blender create Mesh node Object_6
+22:55:33 | INFO: glTF import finished in 0.31s
+22:55:35 | INFO: Starting glTF 2.0 export
+22:55:35 | INFO: Extracting primitive: Object_1
+22:55:35 | INFO: Primitives created: 1
+22:55:35 | INFO: Extracting primitive: Object_2
+22:55:35 | INFO: Primitives created: 1
+22:55:35 | INFO: Extracting primitive: Object_3
+22:55:35 | INFO: Primitives created: 1
+22:55:35 | INFO: Extracting primitive: Object_4
+22:55:35 | INFO: Primitives created: 1
+22:55:35 | INFO: Extracting primitive: Object_5
+22:55:35 | INFO: Primitives created: 1
+22:55:35 | INFO: Extracting primitive: Object_6
+22:55:35 | INFO: Primitives created: 1
+22:55:36 | INFO: Finished glTF 2.0 export in 0.2987649440765381 s
+
+MAP hell 90403 7126
+22:55:36 | INFO: Data are loaded, start creating Blender stuff
+22:55:36 | INFO: Blender create Mesh node WallsArena.0088_Material.247_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.0089_Material.248_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.004_Material.015_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.490_Material.054_0
+22:55:36 | INFO: Blender create Mesh node FrontEntrance_Material.012_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.0655_Material.253_0
+22:55:36 | INFO: Blender create Mesh node Floor_Material.077_0
+22:55:36 | INFO: Blender create Mesh node Floor.001_Material.204_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.018_Material.079_0
+22:55:36 | INFO: Blender create Mesh node TunnelSide1.001_Material.068_0
+22:55:36 | INFO: Blender create Mesh node RockSidingP3_Material.030_0
+22:55:36 | INFO: Blender create Mesh node RockSidingP2_Material.071_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.029_Material.013_0
+22:55:36 | INFO: Blender create Mesh node Stairs.006_Material.003_0
+22:55:36 | INFO: Blender create Mesh node Stairs.099_Material.255_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.033_Material.010_0
+22:55:36 | INFO: Blender create Mesh node RockPillar_Material.016_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.036_Material.004_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.037_Material.011_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.439_Material.257_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.041_Material.006_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.042_Material.005_0
+22:55:36 | INFO: Blender create Mesh node Stairs.001_Material.050_0
+22:55:36 | INFO: Blender create Mesh node Floor.002_Material.002_0
+22:55:36 | INFO: Blender create Mesh node FrontEntrance.001_Material_0
+22:55:36 | INFO: Blender create Mesh node FrontEntrance.002_Material.045_0
+22:55:36 | INFO: Blender create Mesh node Stairs.159_Material.206_0
+22:55:36 | INFO: Blender create Mesh node FrontEntrance.003_Material.018_0
+22:55:36 | INFO: Blender create Mesh node FrontEntrance.79_Material.020_0
+22:55:36 | INFO: Blender create Mesh node FrontEntrance.004_Material.022_0
+22:55:36 | INFO: Blender create Mesh node FrontEntrance.066_Material.063_0
+22:55:36 | INFO: Blender create Mesh node Stairs.002_Material.064_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.069_Material.044_0
+22:55:36 | INFO: Blender create Mesh node Stairs.0074_Material.166_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.077_Material.081_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.078_Material.069_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.079_Material.009_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.080_Material.046_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.081_Material.007_0
+22:55:36 | INFO: Blender create Mesh node WallsArena.082_Material.008_0
+22:55:36 | INFO: Blender create Mesh node Stairs.003_Material.047_0
+22:55:36 | INFO: Blender create Mesh node Stairs.004_Material.029_0
+22:55:36 | INFO: Blender create Mesh node RockSidingP2.002_Material.202_0
+22:55:36 | INFO: Blender create Mesh node RockSidingP2.003_Material.040_0
+22:55:36 | INFO: Blender create Mesh node RockSidingP2.004_Material.038_0
+22:55:36 | INFO: Blender create Mesh node RockSidingP2.005_Material.036_0
+22:55:36 | INFO: Blender create Mesh node RockSidingP2.006_Material.043_0
+22:55:36 | INFO: Blender create Mesh node RockSidingP2.007_Material.041_0
+22:55:36 | INFO: Blender create Mesh node Stairs.005_Material.055_0
+22:55:36 | INFO: Blender create Mesh node Stairs.007_Material.061_0
+22:55:36 | INFO: Blender create Mesh node Stairs.008_Material.031_0
+22:55:37 | INFO: Blender create Mesh node Stairs.009_Material.032_0
+22:55:37 | INFO: Blender create Mesh node PropStick1.112_setka.png.16104_0
+22:55:37 | INFO: Blender create Mesh node RockSidingP2.008_Material.026_0
+22:55:37 | INFO: Blender create Mesh node RockSidingP2.009_Material.075_0
+22:55:37 | INFO: Blender create Mesh node RockSidingP2.115_Material.076_0
+22:55:37 | INFO: Blender create Mesh node Arena.125__0
+22:55:37 | INFO: Blender create Mesh node Arena.128_setka.png.16167_0
+22:55:37 | INFO: Blender create Mesh node Arena.129_setka.png.16168_0
+22:55:37 | INFO: Blender create Mesh node Arena.130_Material.260_0
+22:55:37 | INFO: Blender create Mesh node Arena.131_Material.174_0
+22:55:37 | INFO: Blender create Mesh node Arena.132_Material.173_0
+22:55:37 | INFO: Blender create Mesh node Floor.139_Material.240_0
+22:55:37 | INFO: Blender create Mesh node Arena.140_setka.png.16188_0
+22:55:37 | INFO: Blender create Mesh node Floor0_Material.241_0
+22:55:37 | INFO: Blender create Mesh node Arena.143_Material.070_0
+22:55:37 | INFO: Blender create Mesh node RockPillar.001_Material.016_0
+22:55:37 | INFO: Blender create Mesh node FrontEntrance.005_Material.019_0
+22:55:37 | INFO: Blender create Mesh node geo_chariot_mesh_geo_chariot_mat_0
+22:55:37 | INFO: Blender create Mesh node deadjedi_fem01_mesh_prop_deadjedi_fem01_mat_0
+22:55:37 | INFO: Blender create Mesh node TunnelSide3.001_Material.033_0
+22:55:37 | INFO: Blender create Mesh node WallsArena.002_Material.169_0
+22:55:37 | INFO: Blender create Mesh node TunnelSide3.002_Material.250_0
+22:55:37 | INFO: Blender create Mesh node deser_Tarp_WorldGridMaterial.003_0
+22:55:37 | INFO: Blender create Mesh node deser_Tarp.001_lambert1_0
+22:55:37 | INFO: Blender create Mesh node deser_Tarp.002_Material.058_0
+22:55:37 | INFO: Blender create Mesh node deser_Tarp.003_lambert1_0
+22:55:37 | INFO: Blender create Mesh node ArenaTowerChained_Material.021_0
+22:55:37 | INFO: Blender create Mesh node ArenaTowerChained.001_Material.001_0
+22:55:37 | INFO: Blender create Mesh node ArenaTowerChained.002_Material.021_0
+22:55:37 | INFO: Blender create Mesh node ArenaTowerChained.003_Material.001_0
+22:55:37 | INFO: Blender create Mesh node ArenaTowerChained.004_Material.021_0
+22:55:37 | INFO: Blender create Mesh node ArenaTowerChained.005_Material.001_0
+22:55:37 | INFO: Blender create Mesh node ArenaTowerChained.006_Material.021_0
+22:55:37 | INFO: Blender create Mesh node ArenaTowerChained.007_Material.001_0
+22:55:37 | INFO: Blender create Mesh node FrontEntrance.60_Material.023_0
+22:55:37 | INFO: Blender create Mesh node WallsArena.458_Material.009_0
+22:55:37 | INFO: Blender create Mesh node WallsArena.086_Material.014_0
+22:55:37 | INFO: Blender create Mesh node TunnelSide2_Material.073_0
+22:55:37 | INFO: Blender create Mesh node Jango_Fett_Helmet_Piece_Helmet.001_0
+22:55:37 | INFO: Blender create Mesh node Jango_Fett_Visor_Visor_0
+22:55:37 | INFO: Blender create Mesh node RockSidingP2.010_Material.035_0
+22:55:37 | INFO: Blender create Mesh node RockSidingP2.011_Material.037_0
+22:55:37 | INFO: Blender create Mesh node RockSidingP2.012_Material.039_0
+22:55:37 | INFO: Blender create Mesh node Stairs.763_Material.049_0
+22:55:37 | INFO: Blender create Mesh node Stairs.010_Material.051_0
+22:55:37 | INFO: Blender create Mesh node Stairs.011_Material.052_0
+22:55:37 | INFO: Blender create Mesh node ArenaTower.005_Material.053_0
+22:55:37 | INFO: Blender create Mesh node ArenaTower.004_Material.053_0
+22:55:37 | INFO: Blender create Mesh node TarpTent2_Material.024_0
+22:55:37 | INFO: Blender create Mesh node TarpTent2.001_Material.042_0
+22:55:37 | INFO: Blender create Mesh node TarpTent2.002_Material.024_0
+22:55:37 | INFO: Blender create Mesh node TarpTent2.003_Material.042_0
+22:55:37 | INFO: Blender create Mesh node deser_Tarp.006_Material.058_0
+22:55:37 | INFO: Blender create Mesh node ArenaTower.002_Material.053_0
+22:55:37 | INFO: Blender create Mesh node ArenaTower.003_Material.053_0
+22:55:37 | INFO: Blender create Mesh node ArenaTower.006_Material.053_0
+22:55:37 | INFO: Blender create Mesh node ArenaTower.007_Material.053_0
+22:55:37 | INFO: Blender create Mesh node ArenaTower.008_Material.053_0
+22:55:37 | INFO: Blender create Mesh node ArenaTower.009_Material.053_0
+22:55:37 | INFO: Blender create Mesh node ArenaTower.010_Material.053_0
+22:55:37 | INFO: Blender create Mesh node FrontEntrance.006_Material.022_0
+22:55:37 | INFO: Blender create Mesh node FrontEntrance.59_Material.023_0
+22:55:37 | INFO: Blender create Mesh node Arena.151_Material.080_0
+22:55:37 | INFO: Blender create Mesh node Stairs.111_Material.057_0
+22:55:37 | INFO: Blender create Mesh node Arena.164_Material.059_0
+22:55:37 | INFO: Blender create Mesh node Stairs165_Material.060_0
+22:55:37 | INFO: Blender create Mesh node FrontEntrance.80_Material.062_0
+22:55:37 | INFO: Blender create Mesh node Pal_Drum_Meathookout_Pal_Drum_Meathook-PAL_Drum_MEAT_0
+22:55:37 | INFO: Blender create Mesh node Pal_Drum_Meathookout.001_Pal_Drum_Meathook-PAL_Drum_Floor_Bottom_Grating_0
+22:55:37 | INFO: Blender create Mesh node WallsArena.167_Material.015_0
+22:55:37 | INFO: Blender create Mesh node Stairs.0168_Material.066_0
+22:55:37 | INFO: Blender create Mesh node Stairs.012_Material.165_0
+22:55:37 | INFO: Blender create Mesh node RockSidingP3.001_Material.078_0
+22:55:37 | INFO: Blender create Mesh node TunnelSide2.001_Material.073_0
+22:55:37 | INFO: Blender create Mesh node TunnelSide3_Material.074_0
+22:55:37 | INFO: Blender create Mesh node Pal_Drum_Meathookout.002_Pal_Drum_Meathook-PAL_Drum_MEAT_0
+22:55:37 | INFO: Blender create Mesh node Pal_Drum_Meathookout.003_Pal_Drum_Meathook-PAL_Drum_Floor_Bottom_Grating_0
+22:55:37 | INFO: Blender create Mesh node Stairs.013_Material.168_0
+22:55:37 | INFO: Blender create Mesh node TunnelSide3.003_Material.171_0
+22:55:37 | INFO: Blender create Mesh node TunnelSide1_Material.073_0
+22:55:37 | INFO: Blender create Mesh node RockSidingP1_Material.027_0
+22:55:37 | INFO: Blender create Mesh node RockSidingP2.013_Material.202_0
+22:55:37 | INFO: Blender create Mesh node RockSidingP2.014_Material.203_0
+22:55:37 | INFO: Blender create Mesh node RockSidingP1.001_Material.071_0
+22:55:37 | INFO: Blender create Mesh node Stairs_Material.056_0
+22:55:37 | INFO: Blender create Mesh node Floor.003_Material.240_0
+22:55:37 | INFO: Blender create Mesh node Floor.004_Material.240_0
+22:55:37 | INFO: Blender create Mesh node Floor.005_Material.240_0
+22:55:37 | INFO: Blender create Mesh node TunnelSide3.004_Material.249_0
+22:55:37 | INFO: Blender create Mesh node WallsArena.005_Material.074_0
+22:55:37 | INFO: glTF import finished in 1.62s
+22:55:42 | INFO: Starting glTF 2.0 export
+22:55:42 | INFO: Extracting primitive: Arena.125__0
+22:55:42 | INFO: Primitives created: 1
+22:55:42 | INFO: Extracting primitive: Arena.128_setka.png.16167_0
+22:55:42 | INFO: Primitives created: 1
+22:55:42 | INFO: Extracting primitive: Arena.129_setka.png.16168_0
+22:55:42 | INFO: Primitives created: 1
+22:55:42 | INFO: Extracting primitive: Arena.130_Material.260_0
+22:55:42 | INFO: Primitives created: 1
+22:55:42 | INFO: Extracting primitive: Arena.131_Material.174_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Arena.132_Material.173_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Arena.140_setka.png.16188_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Arena.143_Material.070_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Arena.151_Material.080_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Arena.164_Material.059_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTower.002_Material.053_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTower.003_Material.053_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTower.004_Material.053_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTower.005_Material.053_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTower.006_Material.053_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTower.007_Material.053_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTower.008_Material.053_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTower.009_Material.053_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTower.010_Material.053_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTowerChained.001_Material.001_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTowerChained.002_Material.021_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTowerChained.003_Material.001_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTowerChained.004_Material.021_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTowerChained.005_Material.001_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTowerChained.006_Material.021_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTowerChained.007_Material.001_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: ArenaTowerChained_Material.021_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: deadjedi_fem01_mesh_prop_deadjedi_fem01_mat_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: deser_Tarp.001_lambert1_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: deser_Tarp.002_Material.058_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: deser_Tarp.003_lambert1_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: deser_Tarp.006_Material.058_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: deser_Tarp_WorldGridMaterial.003_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Floor0_Material.241_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Floor.001_Material.204_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Floor.002_Material.002_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Floor.003_Material.240_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Floor.004_Material.240_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Floor.005_Material.240_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Floor.139_Material.240_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Floor_Material.077_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance.001_Material_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance.002_Material.045_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance.003_Material.018_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance.004_Material.022_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance.005_Material.019_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance.006_Material.022_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance.59_Material.023_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance.60_Material.023_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance.066_Material.063_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance.79_Material.020_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance.80_Material.062_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: FrontEntrance_Material.012_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: geo_chariot_mesh_geo_chariot_mat_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Jango_Fett_Helmet_Piece_Helmet.001_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Jango_Fett_Visor_Visor_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Pal_Drum_Meathookout.001_Pal_Drum_Meathook-PAL_Drum_Floor_Bottom_Grating_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Pal_Drum_Meathookout.002_Pal_Drum_Meathook-PAL_Drum_MEAT_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Pal_Drum_Meathookout.003_Pal_Drum_Meathook-PAL_Drum_Floor_Bottom_Grating_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Pal_Drum_Meathookout_Pal_Drum_Meathook-PAL_Drum_MEAT_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: PropStick1.112_setka.png.16104_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockPillar.001_Material.016_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockPillar_Material.016_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP1.001_Material.071_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP1_Material.027_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.002_Material.202_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.003_Material.040_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.004_Material.038_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.005_Material.036_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.006_Material.043_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.007_Material.041_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.008_Material.026_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.009_Material.075_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.010_Material.035_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.011_Material.037_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.012_Material.039_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.013_Material.202_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.014_Material.203_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2.115_Material.076_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP2_Material.071_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP3.001_Material.078_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: RockSidingP3_Material.030_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs165_Material.060_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.001_Material.050_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.002_Material.064_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.003_Material.047_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.004_Material.029_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.005_Material.055_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.006_Material.003_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.007_Material.061_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.008_Material.031_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.009_Material.032_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.010_Material.051_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.011_Material.052_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.012_Material.165_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.013_Material.168_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.0074_Material.166_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.099_Material.255_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.111_Material.057_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.159_Material.206_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.0168_Material.066_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs.763_Material.049_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: Stairs_Material.056_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TarpTent2.001_Material.042_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TarpTent2.002_Material.024_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TarpTent2.003_Material.042_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TarpTent2_Material.024_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TunnelSide1.001_Material.068_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TunnelSide1_Material.073_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TunnelSide2.001_Material.073_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TunnelSide2_Material.073_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TunnelSide3.001_Material.033_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TunnelSide3.002_Material.250_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TunnelSide3.003_Material.171_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TunnelSide3.004_Material.249_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: TunnelSide3_Material.074_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: WallsArena.002_Material.169_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: WallsArena.004_Material.015_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: WallsArena.005_Material.074_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: WallsArena.018_Material.079_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: WallsArena.029_Material.013_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: WallsArena.033_Material.010_0
+22:55:43 | INFO: Primitives created: 1
+22:55:43 | INFO: Extracting primitive: WallsArena.036_Material.004_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.037_Material.011_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.041_Material.006_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.042_Material.005_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.069_Material.044_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.077_Material.081_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.078_Material.069_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.079_Material.009_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.080_Material.046_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.081_Material.007_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.082_Material.008_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.086_Material.014_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.0088_Material.247_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.0089_Material.248_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.167_Material.015_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.439_Material.257_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.458_Material.009_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.490_Material.054_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Extracting primitive: WallsArena.0655_Material.253_0
+22:55:44 | INFO: Primitives created: 1
+22:55:44 | INFO: Finished glTF 2.0 export in 1.4763410091400146 s
+
+MAP geonosis 201223 9641
+FBX version: 7700
+CLIP idle 1.3333333333333333
+FBX version: 7700
+CLIP attackL 1.1
+FBX version: 7700
+CLIP attackR 1.1
+FBX version: 7700
+CLIP attack2H 1.6
+FBX version: 7700
+CLIP polearm 1.3666666666666667
+FBX version: 7700
+CLIP shield 0.9
+FBX version: 7700
+CLIP hurt 1.0
+FBX version: 7700
+CLIP death 0.7333333333333333
+FBX version: 7700
+CLIP run 0.6
+FBX version: 7700
+CLIP strafeL 0.6
+FBX version: 7700
+CLIP strafeR 0.6
+FBX version: 7300
+CLIP bowIdle 1.3333332824707032
+FBX version: 7300
+CLIP bowLoad 0.8333333587646484
+FBX version: 7300
+CLIP bowHold 1.3333332824707032
+FBX version: 7300
+CLIP bowRelease 0.8
+CONVERSION COMPLETE
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

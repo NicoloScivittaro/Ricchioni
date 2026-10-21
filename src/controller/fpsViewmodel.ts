@@ -1,3 +1,4 @@
+import {trackVisualAsset} from '../core/visualAssets';
 import {getWeapon} from '../../shared/fpsWeapons';
 import {
   Color3,
@@ -401,12 +402,15 @@ export class FpsViewmodel {
       m = this.build(weaponId);
       this.models.set(weaponId, m);
       const model=m,fallback=m.root.getChildMeshes();
+      // Never display the temporary block weapon while its final asset attaches.
+      for(const mesh of fallback)mesh.setEnabled(false);
       m.ready=(AUTHORED_WEAPONS[weaponId]?attachAuthored(this.scene,weaponId,m.root,this.layerMask).then(v=>{model.animator=v.animator;model.root.scaling.setAll(1);return{...v,sightY:0};}):attachWeaponModel(this.scene,weaponId,m.root,this.layerMask)).then(v=>{
         if(this.disposed||model.root.isDisposed()){v.root.dispose();return false;}
         model.imported=v.root;model.sightY=v.sightY;for(const mesh of fallback)mesh.setEnabled(false);if(model.animator&&this.current===model){this.authoredClock=0;model.animator.play('Draw',true);}
         const pose=AUTHORED_WEAPONS[weaponId];if(pose)model.muzzle.position.set(...pose.muzzle);else model.muzzle.position.set(0,.17,FPS_WEAPON_MODELS[weaponId].length*.75);return true;
       }).catch(e=>{if(!this.disposed&&!this.scene.isDisposed)console.warn('Weapon model unavailable',weaponId,e);return false;});
     }
+    if(m.ready)trackVisualAsset(this.scene,m.ready.then(ok=>{if(!ok&&!this.disposed)throw new Error("Arma non disponibile: "+weaponId);}));
     if (this.current) this.current.root.setEnabled(false);
     this.current = m;
     m.root.setEnabled(true);

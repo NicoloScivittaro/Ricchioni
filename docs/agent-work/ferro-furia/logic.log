@@ -1,0 +1,11 @@
+Seven unique weapon configurations, distinct timings/styles, six melee light attacks hit only once per swing and no normal one-shots
+Heavy windup is harmless before active window; twin heavy has exactly two defined impact windows
+Held frontal guard reduces damage without repeated automatic parries; fresh130ms parry interrupts and opens riposte; back attacks bypass guard
+Directional dodge avoids timed swing and consumes stamina/cooldown rather than allowing permanent invulnerability
+Bow charge/release creates a moving gravity projectile, one ammo; pillars stop it and retain a brief stuck arrow; cancellation never fires
+Six melee specials functional, sword riposte gated; spear charge cannot teleport or damage through pillar
+Axe spin can hit front and back opponents once each, rather than damage every rotation frame
+Simultaneous final deaths restart a real duel; equal top scores enter contender tiebreak; survivor winner is explicit; survival gap exceeds all possible kill bonuses
+Sudden-death circle advances progressively; fixed-step clock/movement invariant at60vs20 render updates; visible solid geometry blocks movement/LOS and has navigable routes
+Piercing bow special damages at most three consecutive targets, consumes preparation, and stops before the fourth
+Three complete round transitions reset combat state, reopen selection, aggregate scores and finish with the actual top scorer

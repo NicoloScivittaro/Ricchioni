@@ -1,3 +1,4 @@
+import {loadingScreen} from './loadingScreen';
 import Phaser from 'phaser';
 import { FONT_BODY, FONT_DISPLAY, UI } from './uiTokens';
 import { MINIGAME_DEFINITIONS } from '../../shared/minigames';
@@ -97,29 +98,7 @@ export function sceneIn(scene: Phaser.Scene): void {
  * indeterminata (nessuna percentuale inventata) e UNA riga utile (cosa si fa nel gioco).
  */
 export function showLoading(scene: Phaser.Scene, icon: string, name: string): () => void {
-  const objs: Phaser.GameObjects.GameObject[] = [];
-  const def = MINIGAME_DEFINITIONS.find((d) => d.name.toUpperCase().startsWith(name.toUpperCase()));
-  objs.push(titleText(scene, 640, 236, `${icon}`, 96, THEME.text));
-  objs.push(titleText(scene, 640, 342, name, UI.size.XL - 8, THEME.gold).setStroke(UI.outline.color, UI.outline.thick));
-  const dots = bodyText(scene, 640, 410, 'CARICAMENTO', UI.size.S, THEME.muted);
-  objs.push(dots);
-  const barBg = scene.add.rectangle(640, 450, 360, 10, THEME.line).setOrigin(0.5);
-  const bar = scene.add.rectangle(460, 450, 90, 10, THEME.goldInt).setOrigin(0, 0.5);
-  objs.push(barBg, bar);
-  if (def?.description) objs.push(bodyText(scene, 640, 520, `💡 ${def.description}`, UI.size.S, THEME.textDim).setWordWrapWidth(1000));
-  let n = 0;
-  const ev = scene.time.addEvent({
-    delay: 320,
-    loop: true,
-    callback: () => {
-      n = (n + 1) % 4;
-      dots.setText(`CARICAMENTO${'.'.repeat(n)}`);
-    }
-  });
-  const tw = scene.tweens.add({ targets: bar, x: 460 + 270, duration: 900, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
-  return () => {
-    ev.remove();
-    tw.stop();
-    for (const o of objs) o.destroy();
-  };
+  const el=loadingScreen(document.body,name,icon);
+  const hide=()=>el.remove();scene.events.once(Phaser.Scenes.Events.SHUTDOWN,hide);
+  return hide;
 }

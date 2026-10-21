@@ -90,7 +90,7 @@ const FIRST_TIME_TIPS: Record<string, string[]> = {
   cornicione: ['PIÙ % HAI, PIÙ LONTANO VOLI.', 'CADI FUORI = PERDI UNA VITA.', 'SALTI + SCHIVATA + RECOVERY TI FANNO TORNARE.']
 };
 /** Giochi con 6 comandi + 5 abilita' + consigli: la scheda diventa compatta (3 colonne) per stare in 1280x720. */
-const DENSE_GAMES = new Set(['cornicione', 'fps']);
+const DENSE_GAMES = new Set(['cornicione', 'fps', 'ferro']);
 function takeFirstTimeTips(minigameId: string, consume: boolean): string {
   const tips = FIRST_TIME_TIPS[minigameId];
   if (!tips) return '';
@@ -109,13 +109,13 @@ function takeFirstTimeTips(minigameId: string, consume: boolean): string {
 function build(minigameId: string, mode: 'pad' | 'phone', consumeTips = true): string {
   const bar = `<div class="ui-bar"><i style="animation-duration:${helpMs}ms"></i></div>`;
   if (mode === 'phone') {
-    const instruction = minigameId === 'quiz' ? 'LEGGETE LA DOMANDA E TOCCATE LA RISPOSTA' : 'SERVONO PER SCRIVERE E VOTARE';
+    const instruction = minigameId === 'ferro' ? 'SCEGLI L’ARMA · USA I COMANDI DI COMBATTIMENTO SUL TELEFONO' : minigameId === 'quiz' ? 'LEGGETE LA DOMANDA E TOCCATE LA RISPOSTA' : 'SERVONO PER SCRIVERE E VOTARE';
     return `<div class="ui-card">${header(minigameId)}<div class="ui-big">📱 PRENDETE I TELEFONI</div><div class="ui-sub">${instruction}</div>${abilityBlock(minigameId, '⚡ SUL TELEFONO')}${bar}</div>`;
   }
   const profile = profileFor(minigameId)!;
   const fams = families();
   // l'ABILITA' e' il comando speciale: sempre presente (anche se i comandi fossero piu' di 6) e disegnata in evidenza
-  const ordered = [...profile.controls.filter((c) => c.action !== 'ABILITY').slice(0, minigameId === 'cornicione' ? 8 : minigameId === 'fps' ? 8 : 5), ...profile.controls.filter((c) => c.action === 'ABILITY')];
+  const ordered = [...profile.controls.filter((c) => c.action !== 'ABILITY').slice(0, minigameId === 'ferro' ? 11 : minigameId === 'cornicione' ? 8 : minigameId === 'fps' ? 8 : 5), ...profile.controls.filter((c) => c.action === 'ABILITY')];
   const labelsOf = (c: (typeof ordered)[number]): string => [...new Set(fams.map((f) => bindingLabel(c.binding, f)))].join(' / ');
   const rows = ordered
     .map((c) => {

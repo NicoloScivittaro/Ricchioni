@@ -1,4 +1,6 @@
 import {mountMapVote} from './mapVoteController';
+import{mountFerro}from'./ferroController';
+import type{FerroPacket}from'../../shared/ferro/types';
 import {mountOrda} from './ordaController';
 import type {OrdaPacket} from '../../shared/orda/types';
 import {stateLabel} from '../../shared/abilityCatalog';
@@ -49,6 +51,9 @@ let state: RoomState | null = null;
 let lastMinigameId: string | null = null;
 /** Controller attivo (per instradare i segnali): 'memory' | 'quiz' | null. */
 let activeController: string | null = null;
+let ferroPhone:ReturnType<typeof mountFerro>|null=null;
+let ferroPending:FerroPacket|null=null;
+const destroyFerroPhone=()=>{ferroPhone?.destroy();ferroPhone=null;ferroPending=null;};
 let ordaPhone:ReturnType<typeof mountOrda>|null=null;
 let ordaPending:OrdaPacket|null=null;
 const destroyOrdaPhone=()=>{ordaPhone?.destroy();ordaPhone=null;ordaPending=null;};
@@ -214,6 +219,7 @@ function syncPauseOverlay(s: RoomState | null): void {
   const want = !!s && s.phase === 'MINIGAME_PLAYING' && s.paused === true;
   let el = document.getElementById('pause-overlay');
   fpsClient?.setPaused(want);
+  ferroPhone?.setPaused(want);
   ordaPhone?.setPaused(want);
   if (want && !el) {
     releaseControllerInput();
@@ -1642,6 +1648,11 @@ function renderFpsController(): void {
 
 socket.on(EVT.controllerSignal, (data) => {
   const s = data as SignalPayload;
+  if(s.type==='ferroState'){
+    const packet=data as unknown as FerroPacket;
+    if(state?.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='ferro'&&packet.roundId===state.roundId){if(ferroPhone)ferroPhone.update(packet);else ferroPending=packet;}
+    return;
+  }
   if(s.type==='ordaState'){
     const packet=data as unknown as OrdaPacket;
     if(state?.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='orda'&&packet.roundId===state.roundId){
@@ -1961,6 +1972,7 @@ function renderInfoLine(): void {
 // ---- rendering ----
 
 function render(): void {
+  if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='ferro')destroyFerroPhone();
   if(state?.phase!=='MINIGAME_MAP_VOTE')destroyMapVote();
   syncPauseOverlay(state);
   if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='backrooms')destroyBackroomsPhone();
@@ -2208,6 +2220,7 @@ function keepAwake(on: boolean): void {
 }
 
 function renderPadScreen(mg: NonNullable<RoomState['currentMinigame']>, me: PlayerPublic): void {
+  destroyFerroPhone();
   destroyOrdaPhone();
   destroyBackroomsPhone();
   destroyMinigolfPhone();
@@ -2254,6 +2267,7 @@ function renderPlaying(state: RoomState, me: PlayerPublic): void {
 }
 
 function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
+  if(mg.minigameId!=='ferro')destroyFerroPhone();
   if(mg.minigameId!=='orda')destroyOrdaPhone();
   if(mg.minigameId==='trentuno'){disposeFps();destroyBackroomsPhone();destroyMinigolfPhone();destroyGoblin();destroyTrentuno();activeController='trentuno';trentunoPhone=mountTrentuno(app,(cmd,cb)=>socket.emit(EVT.trentunoCommand,cmd,cb));socket.emit(EVT.trentunoSync);return;}
   if(mg.minigameId==='goblinTime') {disposeFps();destroyBackroomsPhone();destroyMinigolfPhone();destroyGoblin();activeController='goblinTime';goblinPhone=mountGoblin(app,(cmd,cb)=>socket.emit(EVT.goblinCommand,cmd,cb));socket.emit(EVT.goblinSync);return;}
@@ -2262,6 +2276,9 @@ function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
   if(mg.controllerLayout.type==='custom'&&mg.controllerLayout.id==='backrooms-tv'){disposeFps();destroyMinigolfPhone();activeController='backrooms';backroomsPhone=mountBackrooms(app,sendInput);return;}
   destroyMinigolfPhone();
   const layout = mg.controllerLayout;
+  if(layout.type==='custom'&&layout.id==='ferro-tv'){
+    disposeFps();activeController='ferro';ferroPhone=mountFerro(app,playerId!,sendInput);if(ferroPending){ferroPhone.update(ferroPending);ferroPending=null;}return;
+  }
   if(layout.type==='custom'&&layout.id==='orda-tv'){
     disposeFps();activeController='orda';ordaPhone=mountOrda(app,playerId!,sendInput);
     if(ordaPending){ordaPhone.update(ordaPending);ordaPending=null;}
@@ -2610,6 +2627,7 @@ function syncQuizPadPrivateInfo(data: QuizStatePayload): void {
 
 /** Losing a touch stream must release both network state and the local pointer ownership. */
 function releaseControllerInput(): void {
+  ferroPhone?.cancel();
   ordaPhone?.cancel();
   cancelVolleySprint?.();
   backroomsPhone?.cancel();

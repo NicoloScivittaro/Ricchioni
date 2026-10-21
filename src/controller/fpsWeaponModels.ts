@@ -1,3 +1,4 @@
+import {trackVisualAsset} from '../core/visualAssets';
 import{AUTHORED_WEAPONS}from './fpsAuthored';
 import {Color3,ImageProcessingConfiguration,HemisphericLight,Vector3,PBRMaterial,SceneLoader,StandardMaterial,TransformNode} from '@babylonjs/core';
 import type {AbstractMesh,AssetContainer,Scene} from '@babylonjs/core';
@@ -6,6 +7,7 @@ export const FPS_WEAPON_MODELS:Record<string,{file:string;length:number}>={
  wunderwaffe:{file:'wunderwaffe',length:.92},mitraglia:{file:'ak47',length:.65},raffica:{file:'m4a1',length:.65},laser:{file:'sniper',length:.85},
  spaccatutto:{file:'raygun',length:.5},bombarda:{file:'raygun',length:.5},sparapiselli:{file:'minigun',length:.65},pistola:{file:'usp45',length:.4},shotgun:{file:'pack-shotgun',length:.7}
 };
+export async function preloadWeaponModels(scene:Scene):Promise<void>{await Promise.all([...new Set(Object.values(FPS_WEAPON_MODELS).map(v=>v.file))].map(file=>source(scene,file)));}
 const fills=new WeakMap<Scene,HemisphericLight>();
 function fill(scene:Scene):HemisphericLight{
  let light=fills.get(scene);if(!light){light=new HemisphericLight('weaponSoftFill',new Vector3(0,1,-.4),scene);light.intensity=1.2;light.renderPriority=100;light.groundColor=scene.metadata?.terminalWeaponLighting?new Color3(.72,.75,.78):new Color3(.6,.63,.67);light.diffuse=new Color3(.93,.96,1);light.specular=new Color3(.1,.1,.1);light.includedOnlyMeshes=[];fills.set(scene,light);scene.onDisposeObservable.addOnce(()=>fills.delete(scene));scene.onMeshRemovedObservable.add(mesh=>{const list=light!.includedOnlyMeshes,i=list.indexOf(mesh);if(i>=0)list.splice(i,1);});}return light;
@@ -39,7 +41,7 @@ export async function attachWeaponModel(scene:Scene,id:string,parent:TransformNo
 export class RemoteWeaponModel{
  readonly root:TransformNode;readonly muzzle:TransformNode;private id='';private version=0;private visual:TransformNode|null=null;
  constructor(private scene:Scene,parent:TransformNode,private layerMask?:number,private fallback?:AbstractMesh){this.root=new TransformNode('remoteWeapon',scene);this.root.parent=parent;this.root.position.set(.24,.4,.35);this.root.scaling.setAll(1.3);this.muzzle=new TransformNode('remoteWeaponMuzzle',scene);this.muzzle.parent=this.root;}
- equip(id:string):void{if(id===this.id)return;this.id=id;this.muzzle.position.set(0,.17,(FPS_WEAPON_MODELS[id]?.length??.65)*.75);const version=++this.version;this.visual?.dispose();this.visual=null;if(this.fallback)this.fallback.isVisible=true;void attachWeaponModel(this.scene,id,this.root,this.layerMask).then(v=>{if(version!==this.version||this.root.isDisposed()){v.root.dispose();return;}this.visual=v.root;if(this.fallback)this.fallback.isVisible=false;}).catch(e=>{if(!this.scene.isDisposed&&!this.root.isDisposed())console.warn('Remote weapon unavailable',id,e);});}
+ equip(id:string):void{if(id===this.id)return;this.id=id;this.muzzle.position.set(0,.17,(FPS_WEAPON_MODELS[id]?.length??.65)*.75);const version=++this.version;this.visual?.dispose();this.visual=null;if(this.fallback)this.fallback.isVisible=false;const attached=attachWeaponModel(this.scene,id,this.root,this.layerMask).then(v=>{if(version!==this.version||this.root.isDisposed()){v.root.dispose();return;}this.visual=v.root;if(this.fallback)this.fallback.isVisible=false;}).catch(e=>{if(!this.scene.isDisposed&&!this.root.isDisposed())console.warn('Remote weapon unavailable',id,e);throw e;});trackVisualAsset(this.scene,attached);}
  setEnabled(enabled:boolean):void{if(!this.root.isDisposed())this.root.setEnabled(enabled);}
  dispose():void{this.version++;this.root.dispose();}
 }

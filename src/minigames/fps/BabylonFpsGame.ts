@@ -1,3 +1,6 @@
+import {preloadWeaponModels} from '../../controller/fpsWeaponModels';
+import {preloadAuthoredWeapons} from '../../controller/fpsAuthored';
+import {prepareVisuals} from '../../core/visualAssets';
 import type{WeaponReload}from '../../../shared/fpsReload';
 import {FpsImpactFx} from '../../controller/fpsImpactFx';
 import type {SurfaceImpact} from '../../../shared/fpsCombat';
@@ -276,7 +279,7 @@ export class BabylonFpsGame {
     private mapId='cantiere'
   ) {
     locals=humanViewPlayers(locals);
-    this.loadingEl=fpsLoading(document.body,mapId);this.loadingEl.style.position='fixed';this.loadingEl.style.zIndex='10001';
+    this.loadingEl=fpsLoading(document.body,mapId);this.loadingEl.style.position='fixed';this.loadingEl.style.zIndex='15000';
     this.localPlayerIds = locals.map((l) => l.id);
     for (const l of locals) this.abilityName.set(l.id, abilityFor('fps', l.characterId ?? null)?.name ?? '');
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
@@ -288,7 +291,7 @@ export class BabylonFpsGame {
     // personaggi erano neri (bug di M6: lo split-screen non aveva luci, il telefono si').
     buildFpsLights(this.scene); // luci uniformi della Sparatoria (stesse su TV e telefono: fpsWorld)
     this.ready=mapId==='terminal'?import('../../controller/terminalWorld').then(m=>m.buildTerminalWorld(this.scene)):mapId==='nuketown'?import('../../controller/nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)):Promise.resolve(buildFpsWorld(this.scene));
-    this.ready=this.ready.then(()=>this.scene.whenReadyAsync()).then(()=>{this.loaded=true;});
+    this.ready=Promise.all([this.ready,preloadWeaponModels(this.scene),preloadAuthoredWeapons(this.scene)]).then(()=>prepareVisuals(this.scene)).then(()=>{if(!this.disposed)this.loaded=true;});
 
     const rects = splitScreenLayout(locals.length);
     this.fxLow = getQualityLevel() === 'low' || locals.length >= 4;

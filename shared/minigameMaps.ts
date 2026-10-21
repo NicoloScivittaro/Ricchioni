@@ -29,6 +29,11 @@ export const CORNICIONE_MAPS:readonly MapOption[]=[
   {id:'darsena',name:'DARSENA DEGLI SCHIAFFI',description:'Mare, moli e passerelle larghe · combattimento ravvicinato.',color:'#7cc6cf',icon:'⚓'},
   {id:'cantiere',name:'CANTIERE IN QUOTA',description:'Travi, gru e piattaforme alte · duelli verticali.',color:'#e7b85e',icon:'▤'}
 ];
+export const FERRO_MAPS:readonly MapOption[]=[
+ {id:'colosseum',name:'COLOSSEO DEL FERRO',description:'Arena originale · colonne e getti annunciati.',color:'#c7af78',icon:'⚔'},
+ {id:'hell',name:'HELL ARENA',description:'Roccia e cortile infernale · arena 3D originale.',color:'#e48666',icon:'♨'},
+ {id:'geonosis',name:'GEONOSIS ARENA',description:'Arena monumentale · spazio aperto e pilastri.',color:'#d9ab77',icon:'◉'}
+];
 const KART_MAPS:readonly MapOption[]=[
   {id:'litorale',name:'CIRCUITO DEL LITORALE',description:'Curve, rampe e derapate sul mare.',color:'#ffbf69',icon:'⌁'},
   {id:'arcobaleno',name:'STRADA ARCOBALENO',description:'Pista sospesa e passaggi in planata.',color:'#74e7e0',icon:'✦'},
@@ -36,7 +41,7 @@ const KART_MAPS:readonly MapOption[]=[
   {id:'primo',name:'PRIMO KARTING',description:'Tornanti, staccate e derapate tra le barriere.',color:'#ffcc55',icon:'⚑'}
 ];
 export const mapsFor=(minigameId:string):readonly MapOption[]=>
-  minigameId==='cornicione'?CORNICIONE_MAPS:minigameId==='fps'?FPS_MAPS:minigameId==='kart3d'?KART_MAPS:minigameId==='backrooms'?BACKROOM_MAPS:minigameId==='minigolf'?GOLF_MAPS:[];
+  minigameId==='ferro'?FERRO_MAPS:minigameId==='cornicione'?CORNICIONE_MAPS:minigameId==='fps'?FPS_MAPS:minigameId==='kart3d'?KART_MAPS:minigameId==='backrooms'?BACKROOM_MAPS:minigameId==='minigolf'?GOLF_MAPS:[];
 export const mapById=(game:string,id:unknown):MapOption|undefined=>mapsFor(game).find(m=>m.id===id);
 export interface MapVoteState {
   roundId:number;

@@ -1,3 +1,4 @@
+import {prepareVisuals} from '../../core/visualAssets';
 import {sweptContact} from '../../../shared/arenaCombat';
 import { MotionBots } from '../bots/MotionBots';
 import {
@@ -86,6 +87,8 @@ type Phase = 'countdown' | 'playing' | 'celebrating';
 
 /** Orchestratore del minigioco 3D DODGEBALL DEI COGLIONI (Babylon.js). */
 export class BabylonDodgeballGame {
+  readonly ready:Promise<void>;private visualsReady=false;
+
   private soloBots: MotionBots;
   private engine: Engine;
   private scene: Scene;
@@ -239,8 +242,9 @@ export class BabylonDodgeballGame {
     else this.controlsDone = true;
 
     applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
+    this.ready=prepareVisuals(this.scene).then(()=>{if(!this.disposed)this.visualsReady=true;});
     this.engine.runRenderLoop(guardLoop(() => {
-      if (this.disposed) return;
+      if (this.disposed || !this.visualsReady) return;
       if (this.paused) return;
       // Sotto-passi in tempo reale: timer/countdown/durata non dipendono dagli FPS (vedi core/frameClock).
       runSteps(this.engine.getDeltaTime(), (dt) => this.step(dt));

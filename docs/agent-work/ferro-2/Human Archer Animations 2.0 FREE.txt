@@ -1,0 +1,47 @@
+ Human  Archer  Animations  2.0  FREE   Total  animation  files:  136  1.  Human@HandsClosed01  2.  Human@ObjectGripHands01  3.  HumanF@BowIdle01  4.  HumanF@BowIdle02  5.  HumanF@BowShot01  -  Hold  6.  HumanF@BowShot01  -  Load  7.  HumanF@BowShot01  -  Release  8.  HumanF@Idle01  9.  HumanF@Idle01-Idle02  10.  HumanF@Idle01-Idle03  11.  HumanF@Idle01-Idle04  12.  HumanF@Idle02  13.  HumanF@Idle02-Idle01  14.  HumanF@Idle03  15.  HumanF@Idle03-Idle01  16.  HumanF@Idle04  17.  HumanF@Idle04-Idle01  18.  HumanF@Run01_Backward  19.  HumanF@Run01_Backward  [RM]  20.  HumanF@Run01_BackwardLeft  21.  HumanF@Run01_BackwardLeft  [RM]  22.  HumanF@Run01_BackwardRight  23.  HumanF@Run01_BackwardRight  [RM]  24.  HumanF@Run01_Forward  25.  HumanF@Run01_Forward  [RM]  26.  HumanF@Run01_ForwardLeft  27.  HumanF@Run01_ForwardLeft  [RM]  
+
+28.  HumanF@Run01_ForwardRight  29.  HumanF@Run01_ForwardRight  [RM]  30.  HumanF@Run01_Left  31.  HumanF@Run01_Left  [RM]  32.  HumanF@Run01_Right  33.  HumanF@Run01_Right  [RM]  34.  HumanF@SheatheBack01_L  35.  HumanF@SheatheBack01_R  36.  HumanF@SheatheBack02_L  37.  HumanF@SheatheBack02_R  38.  HumanF@StrafeRun01_BackwardLeft  39.  HumanF@StrafeRun01_BackwardLeft  [RM]  40.  HumanF@StrafeRun01_BackwardRight  41.  HumanF@StrafeRun01_BackwardRight  [RM]  42.  HumanF@StrafeRun01_ForwardLeft  43.  HumanF@StrafeRun01_ForwardLeft  [RM]  44.  HumanF@StrafeRun01_ForwardRight  45.  HumanF@StrafeRun01_ForwardRight  [RM]  46.  HumanF@StrafeRun01_Left  47.  HumanF@StrafeRun01_Left  [RM]  48.  HumanF@StrafeRun01_Right  49.  HumanF@StrafeRun01_Right  [RM]  50.  HumanF@UnsheatheBack01_L  51.  HumanF@UnsheatheBack01_R  52.  HumanF@UnsheatheBack02_L  53.  HumanF@UnsheatheBack02_R  54.  HumanF@Walk01_Backward  55.  HumanF@Walk01_Backward  [RM]  56.  HumanF@Walk01_BackwardLeft  57.  HumanF@Walk01_BackwardLeft  [RM]  58.  HumanF@Walk01_BackwardRight  59.  HumanF@Walk01_BackwardRight  [RM]  60.  HumanF@Walk01_Forward  61.  HumanF@Walk01_Forward  [RM]  62.  HumanF@Walk01_ForwardLeft  
+63.  HumanF@Walk01_ForwardLeft  [RM]  64.  HumanF@Walk01_ForwardRight  65.  HumanF@Walk01_ForwardRight  [RM]  66.  HumanF@Walk01_Left  67.  HumanF@Walk01_Left  [RM]  68.  HumanF@Walk01_Right  69.  HumanF@Walk01_Right  [RM]  70.  HumanM@BowIdle01  71.  HumanM@BowIdle02  72.  HumanM@BowShot01  -  Hold  73.  HumanM@BowShot01  -  Load  74.  HumanM@BowShot01  -  Release  75.  HumanM@Idle01  76.  HumanM@Idle01-Idle02  77.  HumanM@Idle01-Idle03  78.  HumanM@Idle01-Idle04  79.  HumanM@Idle02  80.  HumanM@Idle02-Idle01  81.  HumanM@Idle03  82.  HumanM@Idle03-Idle01  83.  HumanM@Idle04  84.  HumanM@Idle04-Idle01  85.  HumanM@Run01_Backward  86.  HumanM@Run01_Backward  [RM]  87.  HumanM@Run01_BackwardLeft  88.  HumanM@Run01_BackwardLeft  [RM]  89.  HumanM@Run01_BackwardRight  90.  HumanM@Run01_BackwardRight  [RM]  91.  HumanM@Run01_Forward  92.  HumanM@Run01_Forward  [RM]  93.  HumanM@Run01_ForwardLeft  94.  HumanM@Run01_ForwardLeft  [RM]  95.  HumanM@Run01_ForwardRight  96.  HumanM@Run01_ForwardRight  [RM]  97.  HumanM@Run01_Left  
+98.  HumanM@Run01_Left  [RM]  99.  HumanM@Run01_Right  100.  HumanM@Run01_Right  [RM]  101.  HumanM@SheatheBack01_L  102.  HumanM@SheatheBack01_R  103.  HumanM@SheatheBack02_L  104.  HumanM@SheatheBack02_R  105.  HumanM@StrafeRun01_BackwardLeft  106.  HumanM@StrafeRun01_BackwardLeft  [RM]  107.  HumanM@StrafeRun01_BackwardRight  108.  HumanM@StrafeRun01_BackwardRight  [RM]  109.  HumanM@StrafeRun01_ForwardLeft  110.  HumanM@StrafeRun01_ForwardLeft  [RM]  111.  HumanM@StrafeRun01_ForwardRight  112.  HumanM@StrafeRun01_ForwardRight  [RM]  113.  HumanM@StrafeRun01_Left  114.  HumanM@StrafeRun01_Left  [RM]  115.  HumanM@StrafeRun01_Right  116.  HumanM@StrafeRun01_Right  [RM]  117.  HumanM@UnsheatheBack01_L  118.  HumanM@UnsheatheBack01_R  119.  HumanM@UnsheatheBack02_L  120.  HumanM@UnsheatheBack02_R  121.  HumanM@Walk01_Backward  122.  HumanM@Walk01_Backward  [RM]  123.  HumanM@Walk01_BackwardLeft  124.  HumanM@Walk01_BackwardLeft  [RM]  125.  HumanM@Walk01_BackwardRight  126.  HumanM@Walk01_BackwardRight  [RM]  127.  HumanM@Walk01_Forward  128.  HumanM@Walk01_Forward  [RM]  129.  HumanM@Walk01_ForwardLeft  130.  HumanM@Walk01_ForwardLeft  [RM]  131.  HumanM@Walk01_ForwardRight  132.  HumanM@Walk01_ForwardRight  [RM]  
+133.  HumanM@Walk01_Left  134.  HumanM@Walk01_Left  [RM]  135.  HumanM@Walk01_Right  136.  HumanM@Walk01_Right  [RM]   Animation  files  start  with  the  prefix  HumanF  or  HumanM ,  depending  on  whether  
+they
+ 
+are
+ 
+for
+ 
+the
+ 
+feminine
+ 
+or
+ 
+masculine
+ 
+rig.
+ 
+Some
+ 
+of
+ 
+them
+ 
+may
+ 
+be
+ 
+shared
+ 
+with
+ 
+other
+ 
+animation
+ 
+packs.
+  License:   Standard  Asset  Store  EULA 
+●  Royalty-free  and  allowed  for  commercial  use.  ●  Resale  not  allowed.  ●  Attribution  not  required.  
+More  license  details:   https://www.keviniglesias.com/#license 
+Thank  you  for  downloading  and  using  my  assets!   Upgrade:   
+Need  more  animations?  Consider  upgrading  to  the  full  version.  Your  purchase  helps  me  a  lot  with  the  creation  of  more  free  assets  like  this  one.   Thank  you  for  downloading  and  using  my  assets!   📧  Support  &  Feedback:  support@keviniglesias.com 
+ www.keviniglesias.com 

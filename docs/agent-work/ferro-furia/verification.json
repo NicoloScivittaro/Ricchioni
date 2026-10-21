@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "feature": "FERRO E FURIA — L’ULTIMO GUERRIERO",
+  "mode": "2–5 participants, three rounds, seven selectable weapons, survival-first scoring, actual tiebreak duels",
+  "controls": "TV mouse, per-player gamepad profile, phone weapon selection and touch combat",
+  "animation": "Original procedural registered-character rigs with articulated two-link arms; shared grip/blade pose sampler, no authored medieval clips",
+  "assets": "Original procedural Colosseum, weapons, previews, textures, pooled FX and synthesized Web Audio. Existing registered character identities.",
+  "tests": [
+    "Deterministic physical melee/parry/guard/dodge/bow/specials/walls/three-round and tiebreak checks",
+    "Actual two-human Socket.IO session, one simulated Xbox pad and one controller.html client",
+    "Phone independent selection, charge/release hit, blur cancellation without shooting, scene and phone cleanup",
+    "Five-camera renderer, all seven weapon models, six-second RTX3050 sample",
+    "Delayed GLB downloads keep minigolf covered, controls gated and match time zero; reveal only after final actors and shaders are ready",
+    "Sparatoria final weapon asset loading and scene readiness",
+    "Backrooms shorter sprint, exhaustion latch and recovery",
+    "Typecheck and final Vite build"
+  ],
+  "benchmark": {
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "views": 5,
+    "width": 1920,
+    "height": 1080,
+    "seconds": 6.02469999999553,
+    "fps": 59.256062542577205,
+    "renderMs": 10.451820728324709,
+    "scope": "Local renderer + real combat simulation fixture. All five participants retained at fixture-only 1000HP. One six-second measurement; not a network or physical-pad benchmark."
+  },
+  "loading": "Shared opaque progress screen, instance-attachment promises, texture/shader preparation and covered warm render; gameplay gated. Weapon source caches warmed before combat and temporary block guns never displayed. No fixed fake five-second delay.",
+  "backrooms": {
+    "previousSprintSeconds": 7,
+    "sprintSeconds": 4,
+    "fullRecoverySeconds": 5,
+    "restartThreshold": 0.3
+  },
+  "limits": [
+    "No physical gamepad test; pad mapping verified through navigator.getGamepads simulation.",
+    "Combat animation is procedural, not motion capture.",
+    "Loading verified on representative real minigolf and Sparatoria scenes; all other games were not individually replayed.",
+    "FPS depend on hardware and gameplay; no new general FPS improvement claim."
+  ],
+  "git": "No commit, push or deploy",
+  "images": [
+    "selection.png",
+    "arena.png",
+    "sword-spear.png",
+    "bow.png"
+  ]
+}

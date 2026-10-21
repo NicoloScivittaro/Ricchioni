@@ -1,0 +1,10 @@
+Six melee categories: physical contact only, one hit per active window
+All three defender-space directions and face-to-face left/right mirror block correctly
+Wrong guard takes full damage; fresh timed130ms parry interrupts and opens riposte
+Lock acquires visible live target, cycles deterministically, releases on death and LT-up
+Heavy feint costs stamina, blends out without damage, forbidden after active start
+Close guard-break has counter window and brief stagger; neither directly damages
+Bow load/hold/release/recovery, projectile at0.10s release event, cancellation never shoots
+Tenacity needs distinct recent attackers; no solo/passive charge, automatic damage or invulnerability
+Three map-vote entries; five grounded legal spawns on each authored terrain; original column still blocks LOS
+Preserved survivor scoring and real final/simultaneous-death tiebreaks

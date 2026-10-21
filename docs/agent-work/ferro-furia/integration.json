@@ -1,0 +1,43 @@
+{
+  "errors": [],
+  "start": {
+    "phase": "selection",
+    "views": 2,
+    "players": 2,
+    "loading": false
+  },
+  "pad": [
+    "spear",
+    "spear"
+  ],
+  "phone": [
+    {
+      "weapon": "spear",
+      "ready": false
+    },
+    {
+      "weapon": "bow",
+      "ready": false
+    }
+  ],
+  "draw": {
+    "charge": 0.45000000000000057,
+    "arrows": 0,
+    "ammo": 10
+  },
+  "cancel": {
+    "charge": 0,
+    "ammo": 10
+  },
+  "shot": {
+    "ammo": 9,
+    "hp": 65.875,
+    "damage": 34.125
+  },
+  "cleanup": {
+    "canvases": 0,
+    "hud": 0,
+    "loading": 0
+  },
+  "status": "passed"
+}

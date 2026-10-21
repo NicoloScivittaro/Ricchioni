@@ -1,3 +1,4 @@
+import {prepareVisuals} from '../../core/visualAssets';
 import {humanViewPlayers} from '../../core/playerViews';
 import {PrimoTrack,guidePrimoBots} from './primoTrack';
 import {buildImportedTrackGuides,showImportedTrackDebug} from './importedTrackGuides';
@@ -199,6 +200,7 @@ export class BabylonKartGame {
     // Schermata CONTROLLI: finche' e' su, il countdown/la gara restano fermi (vedi step()); alla fine gli input sono azzerati.
     this.ready=(this.primo?importPrimo(this.scene):this.sydney?importSydney(this.scene,this.sydney):this.rainbow?importRainbow(this.scene,this.rainbow):Promise.resolve()).then(async()=>{
       if(this.disposed)return;
+      await prepareVisuals(this.scene);if(this.disposed)return;
       if(this.preparingCoast){
         // This procedural map loads instantly, but its drivers do not. Finish
         // uploads and shader preparation behind the existing loading screen.

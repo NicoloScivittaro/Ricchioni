@@ -14,6 +14,12 @@ import {GOLF_TOURNAMENT} from './minigolfTournament';
 // Quiz e Cultura si giocano sul telefono; gli altri giochi GAMEPAD hanno il profilo in src/input/profiles.ts (lo verifica pad-selftest).
 export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
+    id:'ferro',name:'FERRO E FURIA',icon:'⚔️',category:'ARENA',rarity:'rare',
+    description:'HONOR & STEEL. Sette armi, tre arene e tre round: aggancia, scegli la guardia e resta vivo.',
+    minPlayers:2,maxPlayers:5,durationSec:90,compatibleModifiers:[],sceneKey:'ferro',inputMode:'GAMEPAD',
+    controllerLayout:{type:'custom',id:'ferro-tv'}
+  },
+  {
     id:'orda',name:'ORDA FINALE',icon:'☣️',category:'SOPRAVVIVENZA',rarity:'rare',
     description:'L’ULTIMO VIVO VINCE. Il Deposito Infetto: ondate infinite, 50 punti a uccisione, Mystery Box a 950 e tre colpi per morire.',
     minPlayers:2,maxPlayers:5,durationSec:0,compatibleModifiers:[],sceneKey:'orda',inputMode:'GAMEPAD',

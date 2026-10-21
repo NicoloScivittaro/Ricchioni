@@ -1,0 +1,1466 @@
+[
+  {
+    "file": "archer\\Models\\HumanF_Model.fbx",
+    "bytes": 974176,
+    "version": 7700,
+    "sha256": "02bf584f6db43e8429571bb5009baec9f77272f7eb0c069c594e58dd7baea717"
+  },
+  {
+    "file": "archer\\Models\\HumanM_Model.fbx",
+    "bytes": 935856,
+    "version": 7700,
+    "sha256": "23c21d030341aa335b4dfbcab1fac9a81ac5f21a513bfb2b49ab97084c4be4b5"
+  },
+  {
+    "file": "archer\\Animations\\Masked Poses\\Human@HandsClosed01.fbx",
+    "bytes": 394752,
+    "version": 7300,
+    "sha256": "92b21f165537c89805d205b9d75349893b7d800f274bf4fb1dc6a04c3189b7a0"
+  },
+  {
+    "file": "archer\\Animations\\Masked Poses\\Human@ObjectGripHands01.fbx",
+    "bytes": 394768,
+    "version": 7300,
+    "sha256": "12b84c8be8b90b5b897ec2e4d4ad424e6b16cb366fd6fd35bf2333b5e11bd85e"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Idles\\HumanF@Idle01-Idle02.fbx",
+    "bytes": 456448,
+    "version": 7300,
+    "sha256": "186de2b9588fa2ca90420e86681f0f677baf92ed963e1902d35f781f7452fe41"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Idles\\HumanF@Idle01-Idle03.fbx",
+    "bytes": 518000,
+    "version": 7300,
+    "sha256": "1806fc662560f816927b75f2b78247f7e24862ca09e09b1b09c3e1efa9bf5631"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Idles\\HumanF@Idle01-Idle04.fbx",
+    "bytes": 493248,
+    "version": 7300,
+    "sha256": "21239ad24f00986a8a7903f00c9c76ae29aa9c54dd1398125abcdeba9d5ee5de"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Idles\\HumanF@Idle01.fbx",
+    "bytes": 831920,
+    "version": 7300,
+    "sha256": "a3f07db338d37004c4b90946abe640ac2a099d689be7f71f591f8888920162d3"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Idles\\HumanF@Idle02-Idle01.fbx",
+    "bytes": 474912,
+    "version": 7300,
+    "sha256": "28e1a80324f14a3506676cca1586b6831953ad39ba588e0a77289bc4376a3cc6"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Idles\\HumanF@Idle02.fbx",
+    "bytes": 831920,
+    "version": 7300,
+    "sha256": "b03239ccf5729bf1e889a092869b276079a9a602ffa7de70c6ed766ec21a4434"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Idles\\HumanF@Idle03-Idle01.fbx",
+    "bytes": 518000,
+    "version": 7300,
+    "sha256": "ec045cc12bd3ef280d527ea5632d8acf62cdb7f9699dfbd70244cb9249b0d8ef"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Idles\\HumanF@Idle03.fbx",
+    "bytes": 825776,
+    "version": 7300,
+    "sha256": "0f0f9c72bb0e05f68de89813a0dee0e6ae6f9c9fec12f3d550d5f333df4fb470"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Idles\\HumanF@Idle04-Idle01.fbx",
+    "bytes": 493248,
+    "version": 7300,
+    "sha256": "4f4add13aec61aa1426b80277aa46039d4798db7a99b3ec042a1805694e154ff"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Idles\\HumanF@Idle04.fbx",
+    "bytes": 948768,
+    "version": 7300,
+    "sha256": "2c38ea13a497cbc196f3cfa343838cfd20a7b0ffba8b9c210343cbcaf5247c0c"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Combat\\Bow\\HumanF@BowIdle01.fbx",
+    "bytes": 579424,
+    "version": 7300,
+    "sha256": "c6dcbf611f80f21995b6ac44f523e7f69d3ff11bb57999df10d627a5a5700b30"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Combat\\Bow\\HumanF@BowIdle02.fbx",
+    "bytes": 758240,
+    "version": 7300,
+    "sha256": "bd7a80db491fd14482abc4f0598a6ee16514d317b2618f91db03bddbcbd7fc38"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Combat\\Bow\\HumanF@BowShot01 - Hold.fbx",
+    "bytes": 579456,
+    "version": 7300,
+    "sha256": "2ab2eba61c902d28e791471b2ab111b2919f7808e6a81e58692b66010db65933"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Combat\\Bow\\HumanF@BowShot01 - Load.fbx",
+    "bytes": 487120,
+    "version": 7300,
+    "sha256": "93f94e060813e5ca24645c121a4cd919bd4a0b453728d0f577dd2e48ccfda16c"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Combat\\Bow\\HumanF@BowShot01 - Release.fbx",
+    "bytes": 480976,
+    "version": 7300,
+    "sha256": "bdf098547842f8b6f2d7e0f181b19facd83a38d474c036c7179fc923bee5c349"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Misc\\Unsheathe\\HumanF@SheatheBack01_L.fbx",
+    "bytes": 470416,
+    "version": 7300,
+    "sha256": "705480997a7bd14e918a49dae5b08c6d004f913e92e4d374df9c7b667d8881ab"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Misc\\Unsheathe\\HumanF@SheatheBack01_R.fbx",
+    "bytes": 470416,
+    "version": 7300,
+    "sha256": "2af5686a2b421c7c805dbe48caa911e878d22374e0934621bd6bc12a73921d56"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Misc\\Unsheathe\\HumanF@SheatheBack02_L.fbx",
+    "bytes": 536352,
+    "version": 7300,
+    "sha256": "8022984c145a54682c53b2f1eab372c521cf32b09432885d6ff71cfbc43e04ce"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Misc\\Unsheathe\\HumanF@SheatheBack02_R.fbx",
+    "bytes": 536352,
+    "version": 7300,
+    "sha256": "e0ee502190df177047029fbe116f09e11fab899bd768bddff5dca475f29e08c8"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Misc\\Unsheathe\\HumanF@UnsheatheBack01_L.fbx",
+    "bytes": 470416,
+    "version": 7300,
+    "sha256": "e63b43793d971f9f450f17bd8dc8d1c7f9c41cca7459bd7ebde538bfe9a3dd6b"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Misc\\Unsheathe\\HumanF@UnsheatheBack01_R.fbx",
+    "bytes": 470416,
+    "version": 7300,
+    "sha256": "65316345ff32418c932560d286d04c8493e2d87782214c799286f60ff09f9e49"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Misc\\Unsheathe\\HumanF@UnsheatheBack02_L.fbx",
+    "bytes": 450176,
+    "version": 7300,
+    "sha256": "0398c4bb8ecc4d36277de5bac2d4b5cb895d4ec0cadcae58b2fcf15ef0c805da"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Misc\\Unsheathe\\HumanF@UnsheatheBack02_R.fbx",
+    "bytes": 450176,
+    "version": 7300,
+    "sha256": "8f499f091b724666fa5f1d7285d472ac42888fe738ecc1fd51bfeec8b2cb2f61"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\HumanF@Run01_Backward.fbx",
+    "bytes": 444144,
+    "version": 7300,
+    "sha256": "523c958d704661e0a4a1b855c10d24e7f35f8a494d89c191f3809e5f0778987b"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\HumanF@Run01_BackwardLeft.fbx",
+    "bytes": 444160,
+    "version": 7300,
+    "sha256": "5ee3334ea6a4101001853b205c96da5ef213a6d8c37f83eb806941ac0edef41d"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\HumanF@Run01_BackwardRight.fbx",
+    "bytes": 444160,
+    "version": 7300,
+    "sha256": "d54faee9898dd618c0029f1c923a25e839f4148201281cd9c9239733f4541520"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\HumanF@Run01_Forward.fbx",
+    "bytes": 444128,
+    "version": 7300,
+    "sha256": "e402224b9d9d35138eaa3f1da750f20f60d9ff8f2d71c92393fa476c0335833c"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\HumanF@Run01_ForwardLeft.fbx",
+    "bytes": 444160,
+    "version": 7300,
+    "sha256": "e75c673f800582b5e13090900ef04afb8862a4fafc9f792410bb2315077add1e"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\HumanF@Run01_ForwardRight.fbx",
+    "bytes": 444160,
+    "version": 7300,
+    "sha256": "ad01e450af06b0a4e9ea1a8a49d174493f23a46b980f1732b664c0a8f123d68b"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\HumanF@Run01_Left.fbx",
+    "bytes": 444112,
+    "version": 7300,
+    "sha256": "e5d8f764a723f3d7c70ccd6441ac7cd3de30637e5b955c30619150ce5d4469a9"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\HumanF@Run01_Right.fbx",
+    "bytes": 444128,
+    "version": 7300,
+    "sha256": "82435983841658ce6a837c229524103e273d7447adf9c7c5298614dbfb305f99"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\HumanF@Walk01_Backward.fbx",
+    "bytes": 481072,
+    "version": 7300,
+    "sha256": "8f68c891b5a5bb74d54fb18ced41b594d6d2579fa512518fdc015302f30b8ba3"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\HumanF@Walk01_BackwardLeft.fbx",
+    "bytes": 481104,
+    "version": 7300,
+    "sha256": "544c0df08782e594e360255903ea2b18bb0d82862f284ab576624e3c3abdd66c"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\HumanF@Walk01_BackwardRight.fbx",
+    "bytes": 481104,
+    "version": 7300,
+    "sha256": "ca15134e93d28bb70ee40c3e1c358aed2c422983a20856e0b07d4fd7c0d01f10"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\HumanF@Walk01_Forward.fbx",
+    "bytes": 481072,
+    "version": 7300,
+    "sha256": "d989a33fcac0d2b3bc77612fcb70339a0e20f7cdd046efbdb46d03bc34b92246"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\HumanF@Walk01_ForwardLeft.fbx",
+    "bytes": 481088,
+    "version": 7300,
+    "sha256": "0cb21c8f0af7b0ed3872879ec98a046015c4b0b11452eb46a2849c584c1491a4"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\HumanF@Walk01_ForwardRight.fbx",
+    "bytes": 481104,
+    "version": 7300,
+    "sha256": "0ae68c4db5fdad7798955781483b6fac5ca2331af09748b3422b80154bea88f6"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\HumanF@Walk01_Left.fbx",
+    "bytes": 481056,
+    "version": 7300,
+    "sha256": "cfabf14bc7fe31ffd15e35e27c759c69f5a6cecf6bb855bd6d9ff0c4fa61f902"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\HumanF@Walk01_Right.fbx",
+    "bytes": 481072,
+    "version": 7300,
+    "sha256": "c53253b6cbf76a0b59483b9c8dfb5bead7f8e7bd813b4b64f18a9d7d35d9e9f6"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_Backward [RM].fbx",
+    "bytes": 444160,
+    "version": 7300,
+    "sha256": "965c955e422ca6b5a738925de45e9bf0ce85a1061c70150936c6f13e693cc03e"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_BackwardLeft [RM].fbx",
+    "bytes": 444176,
+    "version": 7300,
+    "sha256": "5fa96fb7cc442a1f59268572d5f7e1b099625e9c631e5a21f76bc12b80da632e"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_BackwardRight [RM].fbx",
+    "bytes": 444192,
+    "version": 7300,
+    "sha256": "9622eb91c8d946a4b64e287af1a1b44c06092021236b3df2a0aebbb5a83d4562"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_Forward [RM].fbx",
+    "bytes": 444160,
+    "version": 7300,
+    "sha256": "2e0faf9cc83d9f5035c213c0087d4826996110c7bab1f9254474ec3cc586d9f4"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_ForwardLeft [RM].fbx",
+    "bytes": 444176,
+    "version": 7300,
+    "sha256": "bb9e41e54357989b4c7880e31e599f67e500fb1534ca4ba5dc614a0fc61b8953"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_ForwardRight [RM].fbx",
+    "bytes": 444176,
+    "version": 7300,
+    "sha256": "55470bcc1fda40329b26f12ed37b4975b93374960797df42e21c9f33082f4548"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_Left [RM].fbx",
+    "bytes": 444144,
+    "version": 7300,
+    "sha256": "b8a50d65f3fe30695fa9ccffc79ede0490fc4fba6c3b30d3bf9b1f2df6084ade"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_Right [RM].fbx",
+    "bytes": 444144,
+    "version": 7300,
+    "sha256": "8aa29200f7918a644ef1e6d5635932df0f472851ada8facdf02063949d26d77f"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_BackwardLeft.fbx",
+    "bytes": 444192,
+    "version": 7300,
+    "sha256": "ceb5456918d70e097cadbcbe4efda7531230a15e531641129594296dcd1d3046"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_BackwardRight.fbx",
+    "bytes": 444192,
+    "version": 7300,
+    "sha256": "10be87e551d1fa0081b11f18224081284603beea627901fa73b33e1414d00ded"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_ForwardLeft.fbx",
+    "bytes": 444176,
+    "version": 7300,
+    "sha256": "0fb30adc88ec8839782194743873eaad4df509038adc40baa594ab0ba4df9c06"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_ForwardRight.fbx",
+    "bytes": 444192,
+    "version": 7300,
+    "sha256": "26e73789e463adafc529aeee596239cfc62e6403298cab7272d95fcdec9a2bd1"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_Left.fbx",
+    "bytes": 444144,
+    "version": 7300,
+    "sha256": "c01b7362ccbccbfbdae088fdca9912e53187039e5c35e19e4e507c2a33ce96ef"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_Right.fbx",
+    "bytes": 444160,
+    "version": 7300,
+    "sha256": "fa469c298475b4d092d436719cafc57eb32ab0043755422e809d734cc85dec20"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_BackwardLeft [RM].fbx",
+    "bytes": 444208,
+    "version": 7300,
+    "sha256": "80053d37ab34e342996422ab342a502bf7a228eefa1fcd7d0c59fdab45c5740d"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_BackwardRight [RM].fbx",
+    "bytes": 444224,
+    "version": 7300,
+    "sha256": "2fc2acb19fcf644a024a4c80820f4fbcf35035553fa1d504e6eb9b89e4f4b5c0"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_ForwardLeft [RM].fbx",
+    "bytes": 444208,
+    "version": 7300,
+    "sha256": "a8cc10919f8fc1d800f2c560822ac6d89b9b32324bf6a6903cee9f55323238e4"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_ForwardRight [RM].fbx",
+    "bytes": 444208,
+    "version": 7300,
+    "sha256": "6b6bda505f4c7e1aaaa7d83ca7f6add11bc52dd278cd2f564626d0b6584877a7"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_Left [RM].fbx",
+    "bytes": 444176,
+    "version": 7300,
+    "sha256": "f18d7e35318fffd38677514b44a3c36fac0de3e511d087a19984e4b369f03735"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_Right [RM].fbx",
+    "bytes": 444176,
+    "version": 7300,
+    "sha256": "1e3f1005c6a7f98e05100f385c4499d7be8b65ae95f2099f9c98558fbfd59344"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\RootMotion\\HumanF@Walk01_Backward [RM].fbx",
+    "bytes": 481104,
+    "version": 7300,
+    "sha256": "255cfe4fc2d6c93a0a77690ce6e29ab1ccf5a8faf9e121b5d145edebc3945e74"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\RootMotion\\HumanF@Walk01_BackwardLeft [RM].fbx",
+    "bytes": 481120,
+    "version": 7300,
+    "sha256": "70ede4611a0ed685de2dd9dc1c14d1e25c8056bc4df1f9fcc5dbc5be4db1b899"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\RootMotion\\HumanF@Walk01_BackwardRight [RM].fbx",
+    "bytes": 481136,
+    "version": 7300,
+    "sha256": "227964a50e78563f2e099de19a416cbc5ba2973a996f5f1278d5bf70b434294c"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\RootMotion\\HumanF@Walk01_Forward [RM].fbx",
+    "bytes": 481104,
+    "version": 7300,
+    "sha256": "b075c6ed288a640048fb4a079e82ed2e64009b9cb059ca6d25717f99748f59be"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\RootMotion\\HumanF@Walk01_ForwardLeft [RM].fbx",
+    "bytes": 481120,
+    "version": 7300,
+    "sha256": "17fe08e317ee8b5da10d74cb8259929e2017bc6fd9b4ec000afb1817b1bb2900"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\RootMotion\\HumanF@Walk01_ForwardRight [RM].fbx",
+    "bytes": 481120,
+    "version": 7300,
+    "sha256": "30c645abaedbd946b15f5a401111a350e1d78f6ebcf9de20d775f48bbd9d1afc"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\RootMotion\\HumanF@Walk01_Left [RM].fbx",
+    "bytes": 481088,
+    "version": 7300,
+    "sha256": "28a73404c5c88c8443dceb042c4944d5aa8bcf6f952f76ca7e2343e6b97d3799"
+  },
+  {
+    "file": "archer\\Animations\\Female\\Movement\\Walk\\RootMotion\\HumanF@Walk01_Right [RM].fbx",
+    "bytes": 481088,
+    "version": 7300,
+    "sha256": "0d5482b192cfa3569dbdfff0b02e7d059eb65942eb7eb0ab0c266b8edd30d913"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Idles\\HumanM@Idle01-Idle02.fbx",
+    "bytes": 456320,
+    "version": 7300,
+    "sha256": "1101a6ee52382f1e247a78795daa9e18f124f3ef24f85a2234da4e8992663081"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Idles\\HumanM@Idle01-Idle03.fbx",
+    "bytes": 517872,
+    "version": 7300,
+    "sha256": "538a6fed1e4c7f9f94bb94d9d0d3b65d68016c74fe3dbcb1200fddb23dd8f025"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Idles\\HumanM@Idle01-Idle04.fbx",
+    "bytes": 493248,
+    "version": 7300,
+    "sha256": "210d41af2b0096c777175ef94dca91ed15242490f84a228ba7c69473baf2c769"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Idles\\HumanM@Idle01.fbx",
+    "bytes": 831792,
+    "version": 7300,
+    "sha256": "028548346482d96d79edadc895b1385a355494b99b273bd012868eaf78890bce"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Idles\\HumanM@Idle02-Idle01.fbx",
+    "bytes": 474784,
+    "version": 7300,
+    "sha256": "8e2d0bfac758a2a9897512eadc8a623827f818823c390d236c7afb5814b68c13"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Idles\\HumanM@Idle02.fbx",
+    "bytes": 831792,
+    "version": 7300,
+    "sha256": "7ed696109e9fbefce00dcb91ddc973d219b2f6ba7e20dbc2083aa393bc964b98"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Idles\\HumanM@Idle03-Idle01.fbx",
+    "bytes": 517872,
+    "version": 7300,
+    "sha256": "dbc50858d394174efafc6ebab9b02186e50e156583615a1500e4c545eaffe615"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Idles\\HumanM@Idle03.fbx",
+    "bytes": 825648,
+    "version": 7300,
+    "sha256": "e33d7a6a48276544d5e260360b49e095156a43cb80b45d8dc94dd5c5f9d58050"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Idles\\HumanM@Idle04-Idle01.fbx",
+    "bytes": 493248,
+    "version": 7300,
+    "sha256": "8a40141938c44a6bc64f64a805e603b984a2ae0d7b99b9da76141614594035a0"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Idles\\HumanM@Idle04.fbx",
+    "bytes": 948768,
+    "version": 7300,
+    "sha256": "bc3f9a1a7c959fd76448830cbbc368813993c89187850bbb805fca9f7b22a80a"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowIdle01.fbx",
+    "bytes": 579424,
+    "version": 7300,
+    "sha256": "49628ff4be58d7c624fec3ceab2cad305ae53d69bf0d54dd4d4c149feae65664"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowIdle02.fbx",
+    "bytes": 579424,
+    "version": 7300,
+    "sha256": "14493784388324b1d4cd945ecd829520e792e1dd2891334113466d3aad332e1c"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowShot01 - Hold.fbx",
+    "bytes": 579456,
+    "version": 7300,
+    "sha256": "3b28447e5d5f65da36cf220dfbc5db64479db48628924c2aed4dbe3f6b624f3d"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowShot01 - Load.fbx",
+    "bytes": 487120,
+    "version": 7300,
+    "sha256": "9eba3a89e87918459d3e6c4c51916ef4de66dce0d203cf5c34f42e02de746c97"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowShot01 - Release.fbx",
+    "bytes": 480976,
+    "version": 7300,
+    "sha256": "e068198e7adfabfb58f958e82f52a51d482405ab3e35725de8c642227ae61d14"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Misc\\Unsheathe\\HumanM@SheatheBack01_L.fbx",
+    "bytes": 468640,
+    "version": 7300,
+    "sha256": "08dd437c91ee85cd086d35ec417f21e883129b2333c596821df65a4d5d29b4e9"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Misc\\Unsheathe\\HumanM@SheatheBack01_R.fbx",
+    "bytes": 468640,
+    "version": 7300,
+    "sha256": "a6d080040327065c638846870db1868dc31830f7a51d56df2f035a051820395f"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Misc\\Unsheathe\\HumanM@SheatheBack02_L.fbx",
+    "bytes": 536352,
+    "version": 7300,
+    "sha256": "5990fc70eefc6fdea2ea2d52d9358299e845e7b59aa6620e9913c14cab4cbb5d"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Misc\\Unsheathe\\HumanM@SheatheBack02_R.fbx",
+    "bytes": 536352,
+    "version": 7300,
+    "sha256": "f924de919456f165303a6ab48bc4e1c6c0d95ad98812a52871eaac8f9d3ecbc8"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Misc\\Unsheathe\\HumanM@UnsheatheBack01_L.fbx",
+    "bytes": 468656,
+    "version": 7300,
+    "sha256": "f0986f29e50e4b904eac4d22467c3e022d561f2a37376ab9248de1dbc9924182"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Misc\\Unsheathe\\HumanM@UnsheatheBack01_R.fbx",
+    "bytes": 468656,
+    "version": 7300,
+    "sha256": "c5063b052f4be9f60cf499c8bafb8b873da2f00156413fef4cd5af37962386e9"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Misc\\Unsheathe\\HumanM@UnsheatheBack02_L.fbx",
+    "bytes": 450176,
+    "version": 7300,
+    "sha256": "be0cf2ed119311f9cf54a5f2a51aa27869a9b0d3ea09f5733356820b472d88dd"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Misc\\Unsheathe\\HumanM@UnsheatheBack02_R.fbx",
+    "bytes": 450176,
+    "version": 7300,
+    "sha256": "2a83e5c8cd3132f966c38f22d4712b27b4a305a7689447698affcba812e75261"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\HumanM@Run01_Backward.fbx",
+    "bytes": 444016,
+    "version": 7300,
+    "sha256": "f089c067fa6aa10e1ebfb20da9c2aa1ffc0b54cf7e5b5c8e0fefa38bc9e05494"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\HumanM@Run01_BackwardLeft.fbx",
+    "bytes": 444032,
+    "version": 7300,
+    "sha256": "5bf9b178f1a087cc5d232463cec000865b4609e74755fe740b477de6cf1a49c6"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\HumanM@Run01_BackwardRight.fbx",
+    "bytes": 444032,
+    "version": 7300,
+    "sha256": "c0f50206ee3cc81e5121e08dfb5c00bc3b15f6fc8121fbad5524c8208cb583c6"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\HumanM@Run01_Forward.fbx",
+    "bytes": 444000,
+    "version": 7300,
+    "sha256": "4751840d90d806d442685ecd22a4178e8bfe473b1e24312e0b1b31e7b6d568b0"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\HumanM@Run01_ForwardLeft.fbx",
+    "bytes": 444032,
+    "version": 7300,
+    "sha256": "879d4e96391a9b8cd0524b77454b0e4f095072ac5b210af0a2526626d545e3fe"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\HumanM@Run01_ForwardRight.fbx",
+    "bytes": 444032,
+    "version": 7300,
+    "sha256": "6c180cd71b8af29eec9cfe9bba6248315b7aa1b9c87339f5caf61737271e8a91"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\HumanM@Run01_Left.fbx",
+    "bytes": 443984,
+    "version": 7300,
+    "sha256": "de672e674e6b73186171c973b3f376d770c5111ced33a2e86464c6f958705482"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\HumanM@Run01_Right.fbx",
+    "bytes": 444000,
+    "version": 7300,
+    "sha256": "c5d3c0ea606ded4b9139688a45bca3be8e6ea14c5215f8f403a35b61553e31e2"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\HumanM@Walk01_Backward.fbx",
+    "bytes": 480944,
+    "version": 7300,
+    "sha256": "baca415fde9bb90136af8fcad9d7d39a9d16fd678d963570b9d5c298f2f9d5d3"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\HumanM@Walk01_BackwardLeft.fbx",
+    "bytes": 480976,
+    "version": 7300,
+    "sha256": "791a7cb41fdcbc3bb2eaef2ca8a4b7c31cf5e44f85cc18676666c9271328055b"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\HumanM@Walk01_BackwardRight.fbx",
+    "bytes": 480976,
+    "version": 7300,
+    "sha256": "6d2ac1c43b6ae74ba8b2818a32ab370b241cb8300dcb113221eaa413d55cd216"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\HumanM@Walk01_Forward.fbx",
+    "bytes": 480944,
+    "version": 7300,
+    "sha256": "e72bce8ba4f12efcc12ba877e33f86aa3626e9a0ba2a183c2368b37e6573bf27"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\HumanM@Walk01_ForwardLeft.fbx",
+    "bytes": 480960,
+    "version": 7300,
+    "sha256": "55ba5b6fa558362268626de4d52f03ae8b4b9c6e247bcb6916157d28812f65c2"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\HumanM@Walk01_ForwardRight.fbx",
+    "bytes": 480976,
+    "version": 7300,
+    "sha256": "19a8cb15abec83b6005a08276efd0026292640312b64827b3fa06848658ddbb3"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\HumanM@Walk01_Left.fbx",
+    "bytes": 480928,
+    "version": 7300,
+    "sha256": "8bfdbe3d98f856091964549fe80b068ef877ab446a8c226e4162f207600de7a7"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\HumanM@Walk01_Right.fbx",
+    "bytes": 480944,
+    "version": 7300,
+    "sha256": "e997cb08bae9484eaa1d86469bd0e1eeb3f1c3a3791297cb6226847737213656"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_Backward [RM].fbx",
+    "bytes": 444032,
+    "version": 7300,
+    "sha256": "f315fecb1597bf2873e63058e42b1b2abcca54870d5d447d7fdebc916d21fa9b"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_BackwardLeft [RM].fbx",
+    "bytes": 444048,
+    "version": 7300,
+    "sha256": "46117de9567429eede6220786458b35d607546a3074aaba888c71d433b261af2"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_BackwardRight [RM].fbx",
+    "bytes": 444064,
+    "version": 7300,
+    "sha256": "3af6c89fd8100dbd2b7687d6fb92c4106978dab9f976f8b1d982f87da293c02e"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_Forward [RM].fbx",
+    "bytes": 444032,
+    "version": 7300,
+    "sha256": "c9ebcd4af91d83c24ad31ad324b61ec3fbe7716b5798a04f0b3f27339afb9b1c"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_ForwardLeft [RM].fbx",
+    "bytes": 444048,
+    "version": 7300,
+    "sha256": "21c8af55f5c38c1b71a2c5f34c323167f4801aaeb674411b4b4848dff3ee07ce"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_ForwardRight [RM].fbx",
+    "bytes": 444048,
+    "version": 7300,
+    "sha256": "bed1cc4450fe6122973bdc60b99d94226ff7e72695f70c31a5c97f2dc651f7ef"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_Left [RM].fbx",
+    "bytes": 444016,
+    "version": 7300,
+    "sha256": "f97d7480e979cbd0f8c537ad1145ccdf95f4bb0e126781ff70fe77e842337263"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_Right [RM].fbx",
+    "bytes": 444016,
+    "version": 7300,
+    "sha256": "e792b1867b365765310f78a0a1b84ec3a04bd4c5de23ca04fc2220c5e012dad3"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_BackwardLeft.fbx",
+    "bytes": 444064,
+    "version": 7300,
+    "sha256": "2f7df7251bf38dbf09c9cee0ba769f242a4997b68d4c41e661b3acf50310d01c"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_BackwardRight.fbx",
+    "bytes": 444064,
+    "version": 7300,
+    "sha256": "1b5a564fb9be0e5ecfa3787d7d75fda81716d1a9e6937276421b8e6bb9544b8a"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_ForwardLeft.fbx",
+    "bytes": 444048,
+    "version": 7300,
+    "sha256": "1093ce92c55069cdac414b4f8455d806c3ca32d87f91a064de568cc67e942bae"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_ForwardRight.fbx",
+    "bytes": 444064,
+    "version": 7300,
+    "sha256": "7dd7674c30654b39030f56835b1c0d454b11c501a0bfec11d180fb393c0ba570"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_Left.fbx",
+    "bytes": 444016,
+    "version": 7300,
+    "sha256": "f4f64e8b876e0ceddc9554435ed8d21146557b708c7105cb34c981412a1241c7"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_Right.fbx",
+    "bytes": 444032,
+    "version": 7300,
+    "sha256": "f88f8fc09dc54a0b695cf895e521eba62c49b01d5f53bf3e0261fdbcdc8fed1c"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_BackwardLeft [RM].fbx",
+    "bytes": 444080,
+    "version": 7300,
+    "sha256": "121cfe0c078f301ce6059d9c48d897ec58fb482ead67c4ffe99664608fe0e6bf"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_BackwardRight [RM].fbx",
+    "bytes": 444096,
+    "version": 7300,
+    "sha256": "ea1f3e90b9541a60e51f97dfdb9c3ba188593e3ac8841c07f25753de9c2cff8a"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_ForwardLeft [RM].fbx",
+    "bytes": 444080,
+    "version": 7300,
+    "sha256": "8aead6273fa386f99c00326784485ad964456624dfed4434fe450bbb907d4d2d"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_ForwardRight [RM].fbx",
+    "bytes": 444080,
+    "version": 7300,
+    "sha256": "61568fae72fbe42b6d2251d37961ec19434b2e244f4ea6c6e8756ed216c248ce"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_Left [RM].fbx",
+    "bytes": 444048,
+    "version": 7300,
+    "sha256": "0da5febfa001dbcbc37acf9c9aa5d131106e1837d431ec4b4364b91cac4bd8d6"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_Right [RM].fbx",
+    "bytes": 444048,
+    "version": 7300,
+    "sha256": "96ff3c3682364613ed781730df78585350b05b4c61681906068c841f8cd92a6a"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\RootMotion\\HumanM@Walk01_Backward [RM].fbx",
+    "bytes": 480976,
+    "version": 7300,
+    "sha256": "d65d763923b206bf1470a9d55e66139aa2edfd833608a11823fd77e06445a782"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\RootMotion\\HumanM@Walk01_BackwardLeft [RM].fbx",
+    "bytes": 480992,
+    "version": 7300,
+    "sha256": "66a564dcce6460f4ef3487e3c5a69cee4b64f64a5de70d2c40be244d9ebaadf2"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\RootMotion\\HumanM@Walk01_BackwardRight [RM].fbx",
+    "bytes": 481008,
+    "version": 7300,
+    "sha256": "a90ce5c4678ac4a238023e9d70617e2b08a25940e2da7d9170e8bbe11996706b"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\RootMotion\\HumanM@Walk01_Forward [RM].fbx",
+    "bytes": 480976,
+    "version": 7300,
+    "sha256": "ea12eca9db529beed2080d93da6ad8e634c1f71e711fa906943c1277684776bb"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\RootMotion\\HumanM@Walk01_ForwardLeft [RM].fbx",
+    "bytes": 480992,
+    "version": 7300,
+    "sha256": "255295ecd70b2aa282fe4afd55874a08feff03e004cdc9a626f62cbe4714d030"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\RootMotion\\HumanM@Walk01_ForwardRight [RM].fbx",
+    "bytes": 480992,
+    "version": 7300,
+    "sha256": "abd63557e59261ba41db33f591be9715b731bd320962fd81fe10ad33ed8850d3"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\RootMotion\\HumanM@Walk01_Left [RM].fbx",
+    "bytes": 480960,
+    "version": 7300,
+    "sha256": "6ca74aec789287fffa18c36dfbd2df96295d747fcdfc9e78609dc89cd9946cb5"
+  },
+  {
+    "file": "archer\\Animations\\Male\\Movement\\Walk\\RootMotion\\HumanM@Walk01_Right [RM].fbx",
+    "bytes": 480960,
+    "version": 7300,
+    "sha256": "944a566512f979751506e2576d40c457d70734646bdd6eb461c340eac970a46e"
+  },
+  {
+    "file": "archer\\Models\\Props\\HumanArcher_Arrow.fbx",
+    "bytes": 32160,
+    "version": 7700,
+    "sha256": "a104d7745ad3e1cdd9e6b574a69516585550d053e9f9157bdd4c6494ab60e9fc"
+  },
+  {
+    "file": "archer\\Models\\Props\\HumanArcher_Bow.fbx",
+    "bytes": 52608,
+    "version": 7700,
+    "sha256": "30b25344ace54d7314c96704bbf1c85665bfd5f288890e55edf64bcd22e3af0a"
+  },
+  {
+    "file": "archer\\Models\\Props\\HumanArcher_BycocketHat.fbx",
+    "bytes": 56880,
+    "version": 7700,
+    "sha256": "da661044a32551751f70f827fd2254a6948aba26da474dd0bab22e8c312082b5"
+  },
+  {
+    "file": "archer\\Models\\Props\\HumanArcher_Quiver.fbx",
+    "bytes": 28064,
+    "version": 7700,
+    "sha256": "7a612521cb5656ab230a53e1d2cbf20778889771e023d983de195ae8b3739ef7"
+  },
+  {
+    "file": "melee\\Models\\HumanF_Model.fbx",
+    "bytes": 1670592,
+    "version": 7700,
+    "sha256": "5bfea6dcbd4806f190029482307932c194d7f5dedd470d51232dd67b10ea29cb"
+  },
+  {
+    "file": "melee\\Models\\HumanM_Model.fbx",
+    "bytes": 1031168,
+    "version": 7700,
+    "sha256": "88fd0684f0b3331cc4056b2ddafebf506d52c21c32e18884fd28214c0a8d75cb"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\Human@HandsClosed01.fbx",
+    "bytes": 611344,
+    "version": 7700,
+    "sha256": "9609cb63cb71331110bc71144af7e16311d8fabe6921b4b603ad13aff2986a8d"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\Human@ObjectGripHands01.fbx",
+    "bytes": 611360,
+    "version": 7700,
+    "sha256": "7d1d82330d0654fe88e00e81cabbe17f6a7395c7a236829c9204828d307abc0d"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanF@ObjectGripShoulder01_L.fbx",
+    "bytes": 611392,
+    "version": 7700,
+    "sha256": "12a39d2176e3ad1c646196d11f236fc37fdfff9de1f28fe005c346c326241636"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanF@ObjectGripShoulder01_R.fbx",
+    "bytes": 611392,
+    "version": 7700,
+    "sha256": "50c3dcae53743766905b4779d8576f6c70ea8f01130d0fb3bbd14311c0fd69f7"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanF@ObjectGripShoulder02_L.fbx",
+    "bytes": 611392,
+    "version": 7700,
+    "sha256": "50352d9b0f1ab225fcbe19078e58deb6d74b707569944196d92d3cc45dd19107"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanF@ObjectGripShoulder02_R.fbx",
+    "bytes": 611392,
+    "version": 7700,
+    "sha256": "b26aadca03ffab33b6aa6b62b7bcaece6840e45e9b776dd94f73bbb4e05079f9"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanF@WeaponHold2H01.fbx",
+    "bytes": 611344,
+    "version": 7700,
+    "sha256": "e9703279b5dfafa1481773d7cb1489f4224740b6d8e6fa7553d4b1d003be5f26"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanF@WeaponHoldPolearm01.fbx",
+    "bytes": 611376,
+    "version": 7700,
+    "sha256": "3dfc706120131b87ad5921ab87e50e4a49b55e4c2837c244fc7d43c6efdb0d9e"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanM@ObjectGripShoulder01_L.fbx",
+    "bytes": 611392,
+    "version": 7700,
+    "sha256": "3e070868246fabe124e013830eb266d3a0725f9db4f294bc6000bfdb10e21671"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanM@ObjectGripShoulder01_R.fbx",
+    "bytes": 611392,
+    "version": 7700,
+    "sha256": "5a749269a68ba81df21ff9a3b4e19bfc86cf7a81f67772e71ecf946252acc76a"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanM@ObjectGripShoulder02_L.fbx",
+    "bytes": 611392,
+    "version": 7700,
+    "sha256": "852b0e6989d2b3f60d57c81a034bd5339c5a1b0b5a6ef3f62d57171c0ce9821e"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanM@ObjectGripShoulder02_R.fbx",
+    "bytes": 611392,
+    "version": 7700,
+    "sha256": "40203e85864a8680c409ce6a775412eed49ad4b037ee05cba14594e15bb3eaff"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanM@WeaponHold2H01.fbx",
+    "bytes": 611344,
+    "version": 7700,
+    "sha256": "1b4dec024ed4009d403e35ef241792c64facb76a53c635da3a8f0920fc6ce4fd"
+  },
+  {
+    "file": "melee\\Animations\\Masked Poses\\HumanM@WeaponHoldPolearm01.fbx",
+    "bytes": 611376,
+    "version": 7700,
+    "sha256": "1a0a18af0e7c3365c94d462a3f729c647df9c4bedb81b52017ee4758bfb75bb2"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Combat\\HumanF@CombatDamage01.fbx",
+    "bytes": 792784,
+    "version": 7700,
+    "sha256": "8968fe4b9c15690f3d4c11b5e4f35a12b0cc532b7743cc5d7a5a1c2ac8cdcd1c"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Combat\\HumanF@CombatIdle01.fbx",
+    "bytes": 853264,
+    "version": 7700,
+    "sha256": "5b3b42a62538aa05baee4790be43492d2707f59708772f0547c0ac10049f9d25"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Combat\\HumanF@Death01.fbx",
+    "bytes": 744368,
+    "version": 7700,
+    "sha256": "d333f3b49a61ec47934db21c3273d1114cb35ca9fda6d4196cf427759725d0ce"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Idles\\HumanF@Idle01.fbx",
+    "bytes": 1101200,
+    "version": 7700,
+    "sha256": "6fa8c39d4283f0b3ae43f4cfed4758e709ce597a28faf8733d74a5fb2fb27f51"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Combat\\1H\\HumanF@Attack1H01_L.fbx",
+    "bytes": 810928,
+    "version": 7700,
+    "sha256": "b2f7d6fd22e72f75c3927e112d6904aba753bc9a78a7a3720ae74307e14d7e78"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Combat\\1H\\HumanF@Attack1H01_R.fbx",
+    "bytes": 810928,
+    "version": 7700,
+    "sha256": "52409fbb2ba2b547bfb72d3c554340cf4d9de51e6204e56f49227bd82db2a30a"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Combat\\1H\\HumanF@CombatIdle1H01.fbx",
+    "bytes": 853264,
+    "version": 7700,
+    "sha256": "ff7842c9d5d943f4c9932bc38f95c8f1463c1bb9805476aa945261d7e7170db2"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Combat\\2H\\HumanF@Attack2H01.fbx",
+    "bytes": 901632,
+    "version": 7700,
+    "sha256": "0b3047b4a3baa0d680ed5f56c6404e7fa2fff66c2af9615f94a1a807d38cd0c9"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Combat\\2H\\HumanF@CombatIdle2H01.fbx",
+    "bytes": 853264,
+    "version": 7700,
+    "sha256": "3e4ab8d256da1abc01cbfea717da3a5ec75f87a5f9bc705025ac5fd66ec614ea"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Combat\\Polearm\\HumanF@AttackPolearm01.fbx",
+    "bytes": 859328,
+    "version": 7700,
+    "sha256": "d75807d0ce129eaaa1617189454ebd29c4b05ebbf819f885e4b383308b825ee5"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Combat\\Polearm\\HumanF@CombatIdlePolearm01.fbx",
+    "bytes": 853296,
+    "version": 7700,
+    "sha256": "8c984e141135544e1cb65a67d9f668486af3ba4b0d48fcf374f5c3e09657ff6b"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Combat\\Shield\\HumanF@AttackShield01.fbx",
+    "bytes": 774640,
+    "version": 7700,
+    "sha256": "9810e02f884cf58790329258bb376d1cd66e59b5d72aceec4142c6079c7f18b4"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\HumanF@Run01_Backward.fbx",
+    "bytes": 720208,
+    "version": 7700,
+    "sha256": "aef8278084385787ad79aa13295665b716e40e6bc9246827243fbaf9598a6b4b"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\HumanF@Run01_BackwardLeft.fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "494734be205573932e4adf1b9167e68712b67e46646aae6b39ada1326f7f223e"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\HumanF@Run01_BackwardRight.fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "c5c077023302fa04503013806363994d81c05b0026f3f6622f405fc96cfb4c2e"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\HumanF@Run01_Forward.fbx",
+    "bytes": 720208,
+    "version": 7700,
+    "sha256": "96d04dc40d5a982c2b3792a3bda17c52b332f269660e6c5d6512f89647cf5fb0"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\HumanF@Run01_ForwardLeft.fbx",
+    "bytes": 720224,
+    "version": 7700,
+    "sha256": "5f9fe79468f2af1bd7e6097331d2dd7e439f96a9acc9bed281db2b53939b6a5a"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\HumanF@Run01_ForwardRight.fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "4dfc2fd71f5ff78771c830b89dc25bee84d79bd8a6949cd11b895c62122d4681"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\HumanF@Run01_Left.fbx",
+    "bytes": 720192,
+    "version": 7700,
+    "sha256": "97921db3cba82a938d1602a9af68981a4a66a88da21bd8c3e483dc931fc47e4d"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\HumanF@Run01_Right.fbx",
+    "bytes": 720192,
+    "version": 7700,
+    "sha256": "06f3bd300babbcd55e45d7f90e0a864d1e10baba43952f70aca1efb7db576d81"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_Backward [RM].fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "c49d9f12a4f17227a03aafdd27888df081dea32546f83ab2f3ffc3818d5897ba"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_BackwardLeft [RM].fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "882c6e5a15d8764953f7fb86536b6f3d1e46bbf0a0e3b52350c507d2dc9f0a99"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_BackwardRight [RM].fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "c9818c74350922395e61a8a8b7541547025c1932cf9be16d16e71d6990f488d8"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_Forward [RM].fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "6feefb880b57ed7bd1d0f124d1f77beda6c9f638a8503a13250e68e6bb60c057"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_ForwardLeft [RM].fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "7a3ad224a22d536bdf44621433b6a31b24d643b552d522d6c6f5545d2925438a"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_ForwardRight [RM].fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "e1fa7ef72d239dc62dd392e0b6f26467be40ae3727da0d173d1558e527765db2"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_Left [RM].fbx",
+    "bytes": 720224,
+    "version": 7700,
+    "sha256": "2a745855ba68b7e28754afb35040b2fb13a5ef8e2bb89bed39dafd42d1aa91a9"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Run\\RootMotion\\HumanF@Run01_Right [RM].fbx",
+    "bytes": 720224,
+    "version": 7700,
+    "sha256": "10935355f54ebbc2fff2086ea7c213ea0c7939409ff1327a732e2ba091fa574d"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_BackwardLeft.fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "7829f59fce039245d7f25926e7d73cdcf00d1d271346a2baa87f57d265feb1a3"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_BackwardRight.fbx",
+    "bytes": 720272,
+    "version": 7700,
+    "sha256": "37ec65b301ddcfa7b83e10893663fd8c6a86adaaf92461c830cfd1632b8d0811"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_ForwardLeft.fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "c2aa76cb2bb0d193ba0a4e798cd34f1ba97ae18e10ea531b181476b0f82c0cb1"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_ForwardRight.fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "e9b33dc5698a2aca0c4af0aa207dcc5c00e9bd27ab936708f634b4f925746078"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_Left.fbx",
+    "bytes": 720224,
+    "version": 7700,
+    "sha256": "51fd6860e251a561f50f4f0a3367322bd186698cefcf75ccf3c0076629b34e34"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\HumanF@StrafeRun01_Right.fbx",
+    "bytes": 720224,
+    "version": 7700,
+    "sha256": "0c5d61110dfe28e1a10e69da09e96265fc5e7942bfaa02fd90696df37115f45a"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_BackwardLeft [RM].fbx",
+    "bytes": 720288,
+    "version": 7700,
+    "sha256": "85075e39c7075a973c5a6d5efec844a0edd01c7ddb34a3d14831335d1c8a6b91"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_BackwardRight [RM].fbx",
+    "bytes": 720288,
+    "version": 7700,
+    "sha256": "95d22b6e7948ef5fb6f5adb2e1bf61a1cb067a74bfffc0167cf2ee0bf8cf1a92"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_ForwardLeft [RM].fbx",
+    "bytes": 720288,
+    "version": 7700,
+    "sha256": "f78840f96e10d328726139fff72327f2623cd3b568ca5513105c0759a44e090c"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_ForwardRight [RM].fbx",
+    "bytes": 720288,
+    "version": 7700,
+    "sha256": "006feb12b224a3f42c2894fb62407841dc5ce7e5af32cc4a0e5581a04ca6a025"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_Left [RM].fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "1a1665501a336e48852dd580703d45bbb59744e27cc9ce9e25d70e6c3137a69c"
+  },
+  {
+    "file": "melee\\Animations\\Female\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanF@StrafeRun01_Right [RM].fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "d42cca4d441c6e9328bd66c5b715f56c964b2b49e70deb3cc320dd2d5d6a0001"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Combat\\HumanM@CombatDamage01.fbx",
+    "bytes": 792784,
+    "version": 7700,
+    "sha256": "833398063d4814a271b394c9a97e3a18e3db39fb9d1296924e7cb66b0e1d15c2"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Combat\\HumanM@CombatIdle01.fbx",
+    "bytes": 853264,
+    "version": 7700,
+    "sha256": "28e874b15bb470533a3a7b120b2ec89752599825833fa01932ce16645f01b827"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Combat\\HumanM@Death01.fbx",
+    "bytes": 744368,
+    "version": 7700,
+    "sha256": "cd8f2df4ea2caf43f09e8f68ed716ce302bd91e4c62102be0980d1721f8170a0"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Idles\\HumanM@Idle01.fbx",
+    "bytes": 1101200,
+    "version": 7700,
+    "sha256": "40f55edb1d3813b3d13c6627921e30cedfc4c3664d5b858ff0f5fa7c6df3bc5c"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Combat\\1H\\HumanM@Attack1H01_L.fbx",
+    "bytes": 810928,
+    "version": 7700,
+    "sha256": "db57ee9b649dc1c7194b87946c2ffacbd7fc2b13b9cd9d6840abdd68f319aa36"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Combat\\1H\\HumanM@Attack1H01_R.fbx",
+    "bytes": 810928,
+    "version": 7700,
+    "sha256": "8a18fb95f842bbda45f55346f4d04d6718db7dfd0a5ab12438169712a3fbb89a"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Combat\\1H\\HumanM@CombatIdle1H01.fbx",
+    "bytes": 853264,
+    "version": 7700,
+    "sha256": "ae68cd21d054aabd779a2559e41aa7a7db5ec488a52ccdaf7c29c73d60e7a1cf"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Combat\\2H\\HumanM@Attack2H01.fbx",
+    "bytes": 901632,
+    "version": 7700,
+    "sha256": "d9214c38a8de94ba7199832ca024e5adda5bcb7ff5ec6a19ab4e4ff9c9712c19"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Combat\\2H\\HumanM@CombatIdle2H01.fbx",
+    "bytes": 853264,
+    "version": 7700,
+    "sha256": "b02e1510b1b1cb1a675e9e282473e28bb981f926c58ffdad0d66a44e17598e6c"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Combat\\Polearm\\HumanM@AttackPolearm01.fbx",
+    "bytes": 859328,
+    "version": 7700,
+    "sha256": "edd1c35f9bc54c66e28c7b29b5cf338ff1b87d2754595b17a5c78f73dcbe2130"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Combat\\Polearm\\HumanM@CombatIdlePolearm01.fbx",
+    "bytes": 853296,
+    "version": 7700,
+    "sha256": "30420b8cae4cbe679f64807a538d45bc18c76201df73114bc3a5cca0674d2840"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Combat\\Shield\\HumanM@AttackShield01.fbx",
+    "bytes": 774640,
+    "version": 7700,
+    "sha256": "c21e3236ba547534923f33fa08cb44d8a75a9ff0e92dff8ef3ef306441e4887e"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\HumanM@Run01_Backward.fbx",
+    "bytes": 720208,
+    "version": 7700,
+    "sha256": "ac0734ba15852acef0c9365d8bae2df663925ed93abc0ef19c82064d67387739"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\HumanM@Run01_BackwardLeft.fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "9f68aa4421c3d07b6e66813a4a36b94ca3c5ecb7ccae0b5572d2a8cb0dfbaef3"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\HumanM@Run01_BackwardRight.fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "746dd56e9bf2cf86e20b903ca03ef824173f2ef423340cf24d12bb708063443e"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\HumanM@Run01_Forward.fbx",
+    "bytes": 720208,
+    "version": 7700,
+    "sha256": "76196177df14e905ba70b5f6aac62f3910186af71574dd851e343284c11cb1c0"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\HumanM@Run01_ForwardLeft.fbx",
+    "bytes": 720224,
+    "version": 7700,
+    "sha256": "36c7555e6c28a87b1a1839feb5f66eb173377fb2e59745d84d142b6942c20d55"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\HumanM@Run01_ForwardRight.fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "5947d10afe371d57f6ef7ef27eeb0dfaa40aebe000d73ccd01dfb7092ee994e1"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\HumanM@Run01_Left.fbx",
+    "bytes": 720192,
+    "version": 7700,
+    "sha256": "12f42887f35041232a7f50578589be5eff6c9e427d2c0fe69b386947a3071352"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\HumanM@Run01_Right.fbx",
+    "bytes": 720192,
+    "version": 7700,
+    "sha256": "969c4ebf6444e1943a7c7e1691eda8ebb085f9ecb2982f8fbce8aa6bd07ec6b6"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_Backward [RM].fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "10da7c9aa959e8b5ee231f97c9e385a1b9d79d425d9977a721c7f3ce530db115"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_BackwardLeft [RM].fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "7fe28296501188596b69c0dff7b5bc906558e2241987cc6b5570b8dfdb2a45f6"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_BackwardRight [RM].fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "53951a950938db9c4218452c3738041202923901aa59ba6fa5749ea512fe90e2"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_Forward [RM].fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "ad6eb1967d9795e0e33f9c25e4ff0c18c99da6378d2684bf5ac4587eec9c815d"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_ForwardLeft [RM].fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "be588a4ee8d05ed16a2765e28a5ec55ab5e6d7152e860493bfc0ea12f9e31730"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_ForwardRight [RM].fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "6b74f71e9dfd8c2f68d661902f827bdacd3ae660b086b09364e62b78320aacd7"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_Left [RM].fbx",
+    "bytes": 720224,
+    "version": 7700,
+    "sha256": "097f3335c0cd082b421bbbc712bb5aaaf0e82a162541e0542a47f4a978ce1333"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Run\\RootMotion\\HumanM@Run01_Right [RM].fbx",
+    "bytes": 720224,
+    "version": 7700,
+    "sha256": "5b74b66caf3ae55fee89c915e5bdb2dc306b6b8753a722fcad4905d64b7f4219"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_BackwardLeft.fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "aa3c5eb18800499a23845737cb520fd61b11cbb0af1ee66feda208337292b106"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_BackwardRight.fbx",
+    "bytes": 720272,
+    "version": 7700,
+    "sha256": "ce83c65b1beff283cd34d7811af5aedf8639d8395991d5594569b1559ed5c6c1"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_ForwardLeft.fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "4dbc90a957be344d559aedba666dc82d4759edda737bbfe8fb19b7853a928007"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_ForwardRight.fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "9115989e5a98b9afd5654786c70a69a9bbf9c843e16c97a2b5641d4e2faf63b9"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_Left.fbx",
+    "bytes": 720224,
+    "version": 7700,
+    "sha256": "83baa350561c471f569a129432bd11d72506ae07c46061eb8da2b4defa88fe79"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_Right.fbx",
+    "bytes": 720224,
+    "version": 7700,
+    "sha256": "97da809fb1f3c88a43235d6a67299b412a8434e59f44a106f59fdf1585737ec3"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_BackwardLeft [RM].fbx",
+    "bytes": 720288,
+    "version": 7700,
+    "sha256": "9a487ad4786615f703dc173a4df2e8dddd0a29943a2f9d417efce2c645a50bd7"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_BackwardRight [RM].fbx",
+    "bytes": 720288,
+    "version": 7700,
+    "sha256": "43eab5f5ad80c0183601089f5c950f091d0645eac823f4690a67f4da5ac563fc"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_ForwardLeft [RM].fbx",
+    "bytes": 720288,
+    "version": 7700,
+    "sha256": "0d51dfa12eaf062657b79683ca1e098d5c41a20b9b8d0f4ee7213a48c27bee92"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_ForwardRight [RM].fbx",
+    "bytes": 720288,
+    "version": 7700,
+    "sha256": "f4a0889d467967f7a3eb07b45241c8b331c8f8fb2e8b56be76c8f8305db4f3cb"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_Left [RM].fbx",
+    "bytes": 720240,
+    "version": 7700,
+    "sha256": "b0f976ce0c9ea93daa96d681e2c7ae0da9925693ed1dfbb2900af57238d9ab43"
+  },
+  {
+    "file": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\RootMotion\\HumanM@StrafeRun01_Right [RM].fbx",
+    "bytes": 720256,
+    "version": 7700,
+    "sha256": "6b919af684c75e8a369031f26e654c17eb1b032e40d6e0229f0fca6291700b0f"
+  },
+  {
+    "file": "melee\\Models\\Weapons\\Human_Dagger.fbx",
+    "bytes": 33168,
+    "version": 7700,
+    "sha256": "98b8d6370312b95c6d63a64e926013de5320793d7358fed2fcaccd2f0c201d1c"
+  },
+  {
+    "file": "melee\\Models\\Weapons\\Human_Greatsword.fbx",
+    "bytes": 45968,
+    "version": 7700,
+    "sha256": "9dc0df4ede2c0a21aebc2beb57ff84a922a2370eb8f51a889f86b15dd4f692c8"
+  },
+  {
+    "file": "melee\\Models\\Weapons\\Human_Polearm.fbx",
+    "bytes": 35488,
+    "version": 7700,
+    "sha256": "5c682ec431e700869372636e65ebf4aca0cc4751360fa1862af95801103d6172"
+  },
+  {
+    "file": "melee\\Models\\Weapons\\Human_Shield.fbx",
+    "bytes": 45984,
+    "version": 7700,
+    "sha256": "6a8e39912855f844f714a9aa48f76425014ad18093bd8e218ae701d96d008750"
+  },
+  {
+    "file": "melee\\Models\\Weapons\\Human_Sword.fbx",
+    "bytes": 45616,
+    "version": 7700,
+    "sha256": "906bd34dc2bac9d4c3a680e7db6b42413a97fa6dc1914160d4dc65c5131d96a4"
+  },
+  {
+    "file": "melee\\Models\\Weapons\\Human_Warhammer.fbx",
+    "bytes": 39984,
+    "version": 7700,
+    "sha256": "5ab8a2934cda0e0824de9fd6082faee0c4c76252f7cf600a407cadd2c509c559"
+  }
+]

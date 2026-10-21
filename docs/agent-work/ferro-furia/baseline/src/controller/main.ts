@@ -1,0 +1,2754 @@
+import {mountMapVote} from './mapVoteController';
+import {mountOrda} from './ordaController';
+import type {OrdaPacket} from '../../shared/orda/types';
+import {stateLabel} from '../../shared/abilityCatalog';
+import type {AbilityStatus} from '../../shared/abilityCatalog';
+import {mountBackrooms,backStatusText} from './backroomsController';
+import type {BackPhoneStatus} from './backroomsController';
+import {mountMinigolf,updateGolfCompanion} from './minigolfController';
+import type {GolfPhoneStatus} from './minigolfController';
+import { io, Socket } from 'socket.io-client';
+import { EVT } from '../../shared/protocol';
+import type { AckResponse, JoinAck, JoinPayload } from '../../shared/protocol';
+import type { InputEvent, PlayerPublic, RoomState } from '../../shared/types';
+import { CHARACTERS, CHARACTER_ORDER } from '../../shared/characters';
+import { portraitCss, presentationOf } from '../../shared/characterPresentation';
+import { CHAR_ICONS, iconSvg } from '../../shared/charIcons';
+import { renderController } from './ControllerRenderer';
+import { MEMORY_TILES } from '../../shared/memoryTiles';
+import { MEMORY_ABILITIES } from '../../shared/memoryAbilities';
+import { instabilityStage } from '../../shared/arenaCombat';
+import { ARENA_ABILITIES } from '../../shared/arenaAbilities';
+import { DODGEBALL_ABILITIES } from '../../shared/dodgeballAbilities';
+import { SOCCER_ABILITIES } from '../../shared/soccerAbilities';
+import { VOLLEYBALL_ABILITIES } from '../../shared/volleyballAbilities';
+import { getMinigame } from '../../shared/minigames';
+import { createVirtualJoystick } from './joystick';
+import type { FpsClient, FpsStatePayload } from './fpsClient';
+import type { VirtualJoystick } from './joystick';
+import { audio } from '../core/AudioManager';
+import { initMobileDebug } from './mobileDebug';
+import { companionHtml, failAbility, flashAbility, isAbilityFailMsg, isAbilityMsg, isAbilityUsedMsg, onAbilityMessage, resetAbilityLive } from './abilityCard';
+import './style.css';
+import { mountTrentuno } from './trentunoController';
+import type { PrivateState as TrentunoPrivate } from '../../shared/trentuno/types';
+import { mountGoblin } from './goblinTimeController';
+import type { PrivateState as GoblinPrivate } from '../../shared/goblinTime/types';
+
+const serverUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.trim();
+const socket: Socket = serverUrl
+  ? io(serverUrl)
+  : import.meta.env.DEV
+    ? io(`http://${location.hostname}:3001`)
+    : io();
+const app = document.getElementById('app')!;
+
+let playerId: string | null = null;
+let reconnectToken: string | null = null;
+let state: RoomState | null = null;
+let lastMinigameId: string | null = null;
+/** Controller attivo (per instradare i segnali): 'memory' | 'quiz' | null. */
+let activeController: string | null = null;
+let ordaPhone:ReturnType<typeof mountOrda>|null=null;
+let ordaPending:OrdaPacket|null=null;
+const destroyOrdaPhone=()=>{ordaPhone?.destroy();ordaPhone=null;ordaPending=null;};
+let mapVotePhone:ReturnType<typeof mountMapVote>|null=null;
+let mapVoteRound:number|null=null;
+const destroyMapVote=()=>{mapVotePhone?.destroy();mapVotePhone=null;mapVoteRound=null;};
+let trentunoPhone:ReturnType<typeof mountTrentuno>|null=null;
+const destroyTrentuno=()=>{trentunoPhone?.destroy();trentunoPhone=null;};
+let goblinPhone:ReturnType<typeof mountGoblin>|null=null;
+const destroyGoblin=()=>{goblinPhone?.destroy();goblinPhone=null;};
+let backroomsPhone: ReturnType<typeof mountBackrooms>|null=null;
+const destroyBackroomsPhone=()=>{backroomsPhone?.destroy();backroomsPhone=null;};
+let minigolfPhone: ReturnType<typeof mountMinigolf>|null=null;
+const destroyMinigolfPhone=()=>{minigolfPhone?.destroy();minigolfPhone=null;};
+const heldControls = new Set<string>();
+const activeAxes = new Set<string>();
+
+const LS = { pid: 'ricchioni.pid', tok: 'ricchioni.tok' };
+
+/**
+ * AUDIO SUL TELEFONO: il PRIMO tap valido sblocca l'AudioContext (i browser mobili lo sospendono finche' non c'e' un gesto dell'utente;
+ * su iOS conta solo un gesto vero, e a volte serve piu' di un tentativo). Ascolta i gesti finche' il contesto non e' 'running', poi
+ * si stacca da solo. Cosi' i suoni (Sparatoria) funzionano fin dal primo colpo, anche se il primo suono nasce fuori da un gesto.
+ */
+(function armAudioUnlock(): void {
+  const events = ['pointerdown', 'pointerup', 'touchstart', 'touchend', 'click', 'keydown'];
+  const handler = (): void => {
+    audio.unlock();
+    window.setTimeout(() => {
+      if (audio.getState() === 'running') for (const e of events) window.removeEventListener(e, handler, true);
+    }, 250);
+  };
+  for (const e of events) window.addEventListener(e, handler, { capture: true, passive: true });
+})();
+
+function loadIdentity(): { playerId: string | null; reconnectToken: string | null } {
+  try {
+    return {
+      playerId: localStorage.getItem(LS.pid),
+      reconnectToken: localStorage.getItem(LS.tok)
+    };
+  } catch {
+    return { playerId: null, reconnectToken: null };
+  }
+}
+
+function saveIdentity(pid: string, tok: string): void {
+  try {
+    localStorage.setItem(LS.pid, pid);
+    localStorage.setItem(LS.tok, tok);
+  } catch {
+    /* ignore */
+  }
+}
+
+function clearIdentity(): void {
+  try {
+    localStorage.removeItem(LS.pid);
+    localStorage.removeItem(LS.tok);
+  } catch {
+    /* ignore */
+  }
+}
+
+const saved = loadIdentity();
+playerId = saved.playerId;
+reconnectToken = saved.reconnectToken;
+
+// ---- eventi server ----
+
+/**
+ * TEMPI DEL CAMBIO VISTA (solo con ?debug=1): per ogni roomState ricevuto registra l'istante di arrivo (Date.now, confrontabile con
+ * l'host sulla stessa macchina), quanto e' durato render() (= vista nuova montata) e, per lo smontaggio della sparatoria, le durate
+ * di stop del loop / vm / scene / engine. window.__phaseTiming e window.__longTasks (task >50 ms del thread principale).
+ */
+const PHASE_DBG = (() => {
+  try {
+    return new URLSearchParams(location.search).get('debug') === '1';
+  } catch {
+    return false;
+  }
+})();
+const phaseTiming: Record<string, unknown>[] = [];
+if (PHASE_DBG) {
+  (window as unknown as Record<string, unknown>).__phaseTiming = phaseTiming;
+  const longTasks: { at: number; dur: number }[] = [];
+  (window as unknown as Record<string, unknown>).__longTasks = longTasks;
+  try {
+    new PerformanceObserver((list) => {
+      for (const e of list.getEntries()) longTasks.push({ at: Math.round(performance.timeOrigin + e.startTime), dur: Math.round(e.duration) });
+    }).observe({ type: 'longtask', buffered: true });
+  } catch {
+    /* longtask non supportato */
+  }
+}
+
+socket.on(EVT.roomState, (payload) => {
+  const recvAt = Date.now();
+  const t0 = performance.now();
+  state = payload as RoomState;
+  if(state.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='goblinTime')destroyGoblin();
+  if(state.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='trentuno')destroyTrentuno();
+  render();
+  if (activeController === 'quiz') updateQuizUI();
+  if (PHASE_DBG) phaseTiming.push({ kind: 'roomState', phase: state.phase, recvAt, renderMs: +(performance.now() - t0).toFixed(1) });
+});
+
+/**
+ * Ad OGNI (ri)connessione Socket.IO il socket ha un id NUOVO e il server non ci riconosce
+ * più: va rifatto il join col token, non solo al caricamento della pagina.
+ */
+function rejoinWithToken(): void {
+  if (!reconnectToken) return;
+  const payload: JoinPayload = { roomCode: '', displayName: '', reconnectToken };
+  socket.emit(EVT.playerJoin, payload, (ack: JoinAck & AckResponse) => {
+    if (ack && ack.ok && ack.playerId) {
+      playerId = ack.playerId;
+      reconnectToken = ack.reconnectToken;
+      saveIdentity(playerId, reconnectToken);
+    } else {
+      // Stanza sparita (server riavviato) o token scaduto: si riparte dal join.
+      clearIdentity();
+      playerId = null;
+      reconnectToken = null;
+      state = null;
+      lastMinigameId = null;
+      renderJoin();
+    }
+  });
+}
+
+function setOfflineBanner(offline: boolean): void {
+  let el = document.getElementById('offline-banner');
+  if (offline && !el) {
+    el = document.createElement('div');
+    el.id = 'offline-banner';
+    el.textContent = '📡 Connessione persa… riprovo';
+    el.style.cssText =
+      'position:fixed;top:0;left:0;right:0;z-index:10000;padding:calc(6px + env(safe-area-inset-top,0px)) 10px 6px;text-align:center;' +
+      'background:#b91c1c;color:#fff;font:700 13px Arial,sans-serif;pointer-events:none;';
+    document.body.appendChild(el);
+  } else if (!offline && el) {
+    el.remove();
+  }
+}
+
+socket.on('connect', () => {
+  setOfflineBanner(false);
+  rejoinWithToken();
+});
+socket.on('disconnect', () => { setOfflineBanner(true); releaseControllerInput(); });
+// Telefono tornato in primo piano (schermo riacceso / cambio app): il join col token è idempotente e
+// fa ripartire uno snapshot completo dal server, così la UI si riallinea senza refresh.
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && socket.connected) rejoinWithToken();
+  else if (document.visibilityState === 'hidden') releaseControllerInput();
+});
+window.addEventListener('blur', releaseControllerInput);
+window.addEventListener('pagehide', releaseControllerInput);
+
+/** Overlay PAUSA (ESC sull'host): sta sopra al controller senza toccarne il DOM. */
+function syncPauseOverlay(s: RoomState | null): void {
+  const want = !!s && s.phase === 'MINIGAME_PLAYING' && s.paused === true;
+  let el = document.getElementById('pause-overlay');
+  fpsClient?.setPaused(want);
+  ordaPhone?.setPaused(want);
+  if (want && !el) {
+    releaseControllerInput();
+    el = document.createElement('div');
+    el.id = 'pause-overlay';
+    el.style.cssText =
+      'position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;' +
+      'justify-content:center;gap:10px;background:rgba(0,0,0,.85);color:#fff;touch-action:none;' +
+      'font-family:Arial,sans-serif;';
+    el.innerHTML =
+      '<div style="font:900 44px Arial,sans-serif;color:#fbbf24">⏸ PAUSA</div>' +
+      '<div style="font-size:16px;opacity:.75">Guarda lo schermo principale</div>';
+    document.body.appendChild(el);
+  } else if (!want && el) {
+    el.remove();
+  }
+}
+
+/** Chi gioca col controller tiene il telefono sul tavolo: le vibrazioni (anche quelle di inizio/fine gioco mandate dal server) vanno al controller. */
+/**
+ * Telefono "sul tavolo": il giocatore ha un controller E il gioco in corso non e' da telefono. Durante un gioco PHONE_TEXT
+ * (Quiz, Cultura o Cazzata) il telefono e' in mano anche a chi ha un controller: lì la vibrazione deve arrivare al telefono — prima
+ * veniva soppressa e, non avendo quel gioco un profilo controller, il giocatore non riceveva nessun feedback aptico.
+ */
+function phoneIsOnTable(): boolean {
+  if (!state || !playerId || !state.players.find((p) => p.id === playerId)?.pad) return false;
+  const mg = state.currentMinigame;
+  const phoneGame = state.phase === 'MINIGAME_PLAYING' && !!mg && getMinigame(mg.minigameId)?.inputMode === 'PHONE_TEXT';
+  return !phoneGame;
+}
+
+socket.on(EVT.vibrate, (ms?: number) => {
+  if (phoneIsOnTable()) return;
+  try {
+    navigator.vibrate?.(typeof ms === 'number' && ms > 0 ? ms : 120);
+  } catch {
+    /* ignore */
+  }
+});
+
+interface SignalPayload {
+  owner?:string;weaponId?:string;
+  instability?: number;
+  recovering?: boolean;
+  alive?: boolean;
+  type: string;
+  ms?: number;
+  name?: string;
+  seq?: number[];
+  tile?: number;
+  seqLen?: number;
+  at?: number;
+  value?: number;
+  cooldownMs?: number;
+  cooldown?: number;
+  charge?: number | null;
+  objectName?: string;
+  available?: boolean;
+  permanent?: boolean;
+  why?: string;
+  by?: string | null;
+  how?: string;
+  team?: string;
+  winner?: string;
+}
+
+function vibrate(pattern: number | number[]): void {
+  if (phoneIsOnTable()) return;
+  try {
+    navigator.vibrate?.(pattern);
+  } catch {
+    /* ignore */
+  }
+}
+
+const JOYSTICK_DEADZONE = 0.12;
+/** Attiva l'overlay di debug del joystick con `?joyDebug=1` nell'URL. */
+const JOYSTICK_DEBUG = new URLSearchParams(location.search).has('joyDebug');
+
+/**
+ * Joystick virtuale condiviso da arena/dodgeball/calcio. La logica vive in
+ * `joystick.ts` (createVirtualJoystick): qui si passa solo configurazione e
+ * callback. Garanzie:
+ * - aggancio a UN SOLO dito (pointerId + setPointerCapture), gli altri touch
+ *   vengono ignorati finché non si rilascia;
+ * - centro/raggio da getBoundingClientRect() a ogni move (mai hardcodati);
+ * - vettore = delta dal centro, clampato a (raggio base - raggio thumb), poi
+ *   normalizzato in [-1,1] (sinistra=-x, destra=+x, su=-y, giù=+y);
+ * - deadzone configurabile (sotto soglia l'OUTPUT è 0, il thumb segue il dito);
+ * - reset a (0,0) su pointerup/pointercancel/touchend/touchcancel;
+ * - debug opzionale via ?joyDebug=1.
+ */
+function mountJoystick(
+  baseEl: HTMLElement,
+  thumbEl: HTMLElement,
+  isLocked: () => boolean,
+  onAxis: (x: number, y: number) => void
+): VirtualJoystick {
+  return createVirtualJoystick(baseEl, thumbEl, {
+    deadzone: JOYSTICK_DEADZONE,
+    enabled: () => !isLocked(),
+    onAxis,
+    onActiveChange: (active) => baseEl.classList.toggle('arena-joy-active', active),
+    debug: JOYSTICK_DEBUG
+  });
+}
+
+/** Toast temporaneo sovrapposto ai controlli (abilità, avvisi). */
+let toastTimer: number | null = null;
+function showToast(text: string, ms = 1200): void {
+  let el = app.querySelector<HTMLDivElement>('#ctl-toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'ctl-toast';
+    el.className = 'ctl-toast';
+    app.appendChild(el);
+  }
+  el.textContent = text;
+  el.classList.add('show');
+  if (toastTimer) window.clearTimeout(toastTimer);
+  toastTimer = window.setTimeout(() => {
+    el.classList.remove('show');
+    toastTimer = null;
+  }, ms);
+}
+
+// ---- MEMORIA DA UBRIACO (controller dedicato) ----
+
+let memoryTileEls: HTMLButtonElement[] = [];
+let memoryAbilityBtn: HTMLButtonElement | null = null;
+let memoryStatusEl: HTMLElement | null = null;
+let memoryPauseTimer: number | null = null;
+
+function setMemLocked(locked: boolean, statusText: string): void {
+  memoryTileEls.forEach((b) => {
+    b.disabled = locked;
+    b.classList.toggle('mem-locked', locked);
+  });
+  if (memoryStatusEl) memoryStatusEl.textContent = statusText;
+}
+
+function highlightMemTile(index: number, ms: number): void {
+  const btn = memoryTileEls[index];
+  if (!btn) return;
+  btn.classList.add('mem-flash');
+  window.setTimeout(() => btn.classList.remove('mem-flash'), ms);
+}
+
+function playReplay(seq: number[]): void {
+  setMemLocked(true, '🍺 REPLAY...');
+  seq.forEach((tile, i) => {
+    window.setTimeout(() => highlightMemTile(tile, 380), 300 + i * 420);
+  });
+  const total = 300 + seq.length * 420 + 500;
+  window.setTimeout(() => setMemLocked(false, '👆 TOCCA!'), total);
+}
+
+function handleMemorySignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'observe':
+      if (memoryPauseTimer) window.clearTimeout(memoryPauseTimer);
+      memoryPauseTimer = null;
+      setMemLocked(true, '👀 OSSERVA...');
+      break;
+    case 'repeat':
+      setMemLocked(false, '👆 TOCCA!');
+      break;
+    case 'completed':
+      setMemLocked(true, `✅ ${s.ms ?? '—'} ms`);
+      vibrate(80);
+      break;
+    case 'eliminated':
+      setMemLocked(true, `💀 ELIMINATO (mossa ${s.at ?? '?'})`);
+      vibrate([100, 60, 100]);
+      break;
+    case 'secondChance':
+      setMemLocked(false, '🥊 RIPROVA!');
+      vibrate([80, 40, 80]);
+      showToast('🥊 MO HO CAPITO — seconda chance');
+      break;
+    case 'abilityUsed':
+      if (memoryAbilityBtn) {
+        memoryAbilityBtn.disabled = true;
+        memoryAbilityBtn.classList.add('mem-ability-used');
+      }
+      break;
+    case 'replay':
+      playReplay(s.seq ?? []);
+      break;
+    case 'hint':
+      // sbirciata privata e breve: la casella lampeggia solo qui
+      highlightMemTile(s.tile ?? 0, s.ms ?? 1200);
+      showToast("🤦‍♂️ M'HO SVEJATO — sbirci! (+0,8 s)");
+      break;
+    case 'pause': {
+      // tempo fermo: tasti bloccati per la durata della pausa, poi si riprende subito (nessun replay)
+      const ms = s.ms ?? 2000;
+      setMemLocked(true, '🥋 NO, ASPETTA! — tempo fermo...');
+      if (memoryPauseTimer) window.clearTimeout(memoryPauseTimer);
+      memoryPauseTimer = window.setTimeout(() => {
+        memoryPauseTimer = null;
+        setMemLocked(false, '👆 TOCCA!');
+        vibrate(40);
+      }, ms);
+      vibrate(40);
+      break;
+    }
+    case 'rate':
+      showToast('💸 A RATE — metà fatta, respira!');
+      break;
+    case 'rateArmed':
+      showToast('💸 A RATE attivata');
+      break;
+  }
+}
+
+// ---- ARENA DEL DISAGIO (controller dedicato: joystick + dash + abilità) ----
+
+let arenaJoystickEl: HTMLElement | null = null;
+let arenaThumbEl: HTMLElement | null = null;
+let arenaDashBtn: HTMLButtonElement | null = null;
+let arenaAbilityBtn: HTMLButtonElement | null = null;
+let arenaAttackBtn: HTMLButtonElement | null = null;
+let arenaMeterEl: HTMLElement | null = null;
+let arenaChargeEl: HTMLElement | null = null;
+let arenaAttackPointer: number | null = null;
+let arenaStatusEl: HTMLElement | null = null;
+let arenaOverlayEl: HTMLElement | null = null;
+let arenaLocked = false;
+let arenaDashCooldownTimer: number | null = null;
+let arenaJoy: VirtualJoystick | null = null;
+
+function lockArenaControls(locked: boolean): void {
+  arenaLocked = locked;
+  if (arenaJoystickEl) arenaJoystickEl.classList.toggle('arena-locked', locked);
+  if (arenaAttackBtn) arenaAttackBtn.disabled = locked;
+  if (locked) cancelArenaAttack();
+  if (arenaDashBtn) arenaDashBtn.disabled = locked;
+  if (arenaAbilityBtn) arenaAbilityBtn.disabled = locked;
+  if (locked) arenaJoy?.reset();
+}
+
+function cancelArenaAttack(): void {
+  if (arenaAttackPointer===null) return;
+  const pointer=arenaAttackPointer; arenaAttackPointer=null;
+  sendInput({kind:'action',controlId:'attackCancel'});
+  sendInput({kind:'up',controlId:'attack'});
+  if (arenaAttackBtn?.hasPointerCapture(pointer)) arenaAttackBtn.releasePointerCapture(pointer);
+}
+
+/** Schermata piena e drammatica per i momenti chiave (eliminato/vincitore). */
+function showArenaOverlay(icon: string, text: string, color: string, sub?: string): void {
+  if (!arenaOverlayEl) return;
+  arenaOverlayEl.innerHTML = `<span class="arena-overlay-icon">${icon}</span><span class="arena-overlay-text" style="color:${color}">${text}</span>`;
+  if (sub) {
+    // il nome di chi ti ha spinto e' testo libero del giocatore: mai dentro innerHTML
+    const line = document.createElement('span');
+    line.className = 'arena-overlay-sub';
+    line.textContent = sub;
+    arenaOverlayEl.appendChild(line);
+  }
+  arenaOverlayEl.classList.add('show');
+}
+
+function handleArenaSignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'arenaCombat': {
+      const value=Number(s.instability??0), charge=Number(s.charge??0), cooldown=Number(s.cooldown??0);
+      if (arenaMeterEl) {
+        arenaMeterEl.textContent=`INSTABILITÀ · ${Math.round(value)}% · ${instabilityStage(value)}`;
+        arenaMeterEl.style.setProperty('--instability',`${value}%`);
+        arenaMeterEl.dataset.stage=instabilityStage(value);
+      }
+      if (arenaChargeEl) arenaChargeEl.textContent=charge>0?`CARICA ${Math.round(charge*100)}%`:s.recovering?'RECUPERO':cooldown>0?`RICARICA ${cooldown.toFixed(1)}s`:'TOCCA O TIENI E RILASCIA';
+      if (arenaAttackBtn) arenaAttackBtn.disabled=arenaLocked || !s.alive || (cooldown>0 && !charge);
+      break;
+    }
+    case 'countdown':
+      if (s.value === 0) {
+        if (arenaStatusEl) arenaStatusEl.textContent = '⚡ VIA!';
+        vibrate(110);
+      } else if (s.value && s.value > 0) {
+        if (arenaStatusEl) arenaStatusEl.textContent = `⏱ ${s.value}`;
+        vibrate(35);
+      }
+      break;
+    case 'eliminated': {
+      lockArenaControls(true);
+      // CHI / COME / PERCHE': spinto da un giocatore, inghiottito dal bordo che si stringe, oppure caduto
+      const why = s.by ? `${s.by} ti ha buttato fuori!` : s.how === 'edge' ? 'Il bordo si stringe: stai piu\' al centro!' : 'Sei caduto nel vuoto!';
+      showArenaOverlay('💀', 'SEI FUORI!', '#f87171', why);
+      vibrate([100, 60, 100]);
+      break;
+    }
+    case 'kill':
+      showToast(`🥊 Hai buttato fuori ${s.name ?? 'qualcuno'}!`);
+      vibrate([40, 30, 80]);
+      break;
+    case 'edge':
+      if (arenaStatusEl) arenaStatusEl.textContent = '⚠️ BORDO VICINO!';
+      vibrate(28);
+      break;
+    case 'shrink':
+      if (arenaStatusEl) arenaStatusEl.textContent = '⭕ IL BORDO SI STRINGE';
+      vibrate([40, 30, 40]);
+      break;
+    case 'won':
+      lockArenaControls(true);
+      showArenaOverlay('🏆', 'HAI VINTO!', '#fbbf24');
+      vibrate([80, 40, 80, 40, 120]);
+      break;
+    case 'dash_used': {
+      if (arenaDashCooldownTimer) window.clearTimeout(arenaDashCooldownTimer);
+      if (arenaDashBtn) {
+        arenaDashBtn.disabled = true;
+        arenaDashBtn.classList.add('arena-dash-cooldown');
+      }
+      const ms = s.cooldownMs ?? 1150;
+      arenaDashCooldownTimer = window.setTimeout(() => {
+        arenaDashCooldownTimer = null;
+        if (!arenaDashBtn || arenaLocked) return;
+        arenaDashBtn.disabled = false;
+        arenaDashBtn.classList.remove('arena-dash-cooldown');
+        arenaDashBtn.classList.add('arena-dash-ready');
+        window.setTimeout(() => arenaDashBtn?.classList.remove('arena-dash-ready'), 260);
+      }, ms);
+      break;
+    }
+    case 'ability':
+      if (arenaAbilityBtn) {
+        arenaAbilityBtn.disabled = true;
+        arenaAbilityBtn.classList.add('arena-ability-used');
+      }
+      showToast(`⭐ ${s.name ?? 'ABILITÀ'}`);
+      vibrate(70);
+      break;
+    case 'ciro_due':
+      showToast('💸 DEBITO RISCOSSO!');
+      vibrate(90);
+      break;
+  }
+}
+
+/** Controller dedicato a ARENA DEL DISAGIO (layout custom: arena-tv). */
+function renderArenaController(): void {
+  cancelArenaAttack();
+  arenaAttackBtn=null; arenaMeterEl=null; arenaChargeEl=null;
+  arenaJoystickEl = null;
+  arenaThumbEl = null;
+  arenaDashBtn = null;
+  arenaAbilityBtn = null;
+  arenaStatusEl = null;
+  arenaOverlayEl = null;
+  arenaLocked = false;
+  arenaJoy = null;
+  if (arenaDashCooldownTimer) {
+    window.clearTimeout(arenaDashCooldownTimer);
+    arenaDashCooldownTimer = null;
+  }
+
+  const me: PlayerPublic | undefined =
+    playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  const cid = me?.characterId ?? '';
+  const ab = ARENA_ABILITIES[cid];
+
+  app.innerHTML = `
+    <div class="arena-shell">
+      <div class="arena-topbar">
+        <div class="arena-brand">🤼 ARENA DEL DISAGIO</div>
+        <div id="arena-status" class="arena-status">PRONTO</div>
+      </div>
+      <div id="arena-instability" class="arena-instability">INSTABILITÀ · 0% · STABILE</div>
+      <div class="arena-body">
+        <div id="arena-joy" class="arena-joy">
+          <div id="arena-joy-base" class="arena-joy-base">
+            <div id="arena-joy-thumb" class="arena-joy-thumb"></div>
+          </div>
+        </div>
+        <div class="arena-actions">
+          <button id="arena-attack" class="arena-attack">🥊<span>SPINTA / SPALLATA</span></button>
+          <div id="arena-charge" class="arena-charge">TOCCA O TIENI E RILASCIA</div>
+          <button id="arena-dash" class="arena-dash">💨<span>DASH</span></button>
+          <button id="arena-ability" class="arena-ability">⭐<span>${ab?.name ?? 'ABILITÀ'}</span></button>
+          <p id="arena-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
+        </div>
+      </div>
+      <div id="arena-overlay" class="arena-overlay"></div>
+    </div>`;
+
+  arenaAttackBtn=app.querySelector<HTMLButtonElement>('#arena-attack')!;
+  arenaMeterEl=app.querySelector<HTMLElement>('#arena-instability')!;
+  arenaChargeEl=app.querySelector<HTMLElement>('#arena-charge')!;
+  arenaAttackBtn.addEventListener('pointerdown',e=>{
+    e.preventDefault(); if (arenaLocked || arenaAttackBtn!.disabled || arenaAttackPointer!==null) return;
+    arenaAttackPointer=e.pointerId; arenaAttackBtn!.setPointerCapture(e.pointerId);
+    sendInput({kind:'down',controlId:'attack'});
+  });
+  arenaAttackBtn.addEventListener('pointerup',e=>{
+    if (e.pointerId!==arenaAttackPointer) return;
+    arenaAttackPointer=null; sendInput({kind:'up',controlId:'attack'});
+    if (arenaAttackBtn!.hasPointerCapture(e.pointerId)) arenaAttackBtn!.releasePointerCapture(e.pointerId);
+  });
+  for (const event of ['pointercancel','lostpointercapture']) arenaAttackBtn.addEventListener(event,e=>{
+    if ((e as PointerEvent).pointerId===arenaAttackPointer) cancelArenaAttack();
+  });
+  arenaStatusEl = app.querySelector<HTMLElement>('#arena-status')!;
+  arenaOverlayEl = app.querySelector<HTMLElement>('#arena-overlay')!;
+  arenaDashBtn = app.querySelector<HTMLButtonElement>('#arena-dash')!;
+  arenaAbilityBtn = app.querySelector<HTMLButtonElement>('#arena-ability')!;
+  arenaJoystickEl = app.querySelector<HTMLElement>('#arena-joy')!;
+  arenaThumbEl = app.querySelector<HTMLElement>('#arena-joy-thumb')!;
+  const baseEl = app.querySelector<HTMLElement>('#arena-joy-base')!;
+
+  arenaDashBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (arenaDashBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'dash' });
+  });
+  arenaAbilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (arenaAbilityBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  arenaJoy = mountJoystick(baseEl, arenaThumbEl, () => arenaLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
+}
+
+// ---- DODGEBALL DEI COGLIONI (controller dedicato: joystick + lancia + schiva) ----
+
+let dbJoystickEl: HTMLElement | null = null;
+let dbThumbEl: HTMLElement | null = null;
+let dbThrowBtn: HTMLButtonElement | null = null;
+let dbDodgeBtn: HTMLButtonElement | null = null;
+let dbAbilityBtn: HTMLButtonElement | null = null;
+let dbStatusEl: HTMLElement | null = null;
+let dbLocked = false;
+let dbJoy: VirtualJoystick | null = null;
+let dbDodgeCooldownTimer: number | null = null;
+
+function lockDbControls(locked: boolean, statusText?: string): void {
+  dbLocked = locked;
+  if (dbJoystickEl) dbJoystickEl.classList.toggle('arena-locked', locked);
+  if (dbThrowBtn) dbThrowBtn.disabled = locked;
+  if (dbDodgeBtn) dbDodgeBtn.disabled = locked;
+  if (dbAbilityBtn) dbAbilityBtn.disabled = locked;
+  if (statusText && dbStatusEl) dbStatusEl.textContent = statusText;
+  if (locked) dbJoy?.reset();
+}
+
+/** Spegne un pulsante azione per il cooldown REALE deciso dall'host e lo "fa scattare" quando e' di nuovo pronto. */
+function cooldownButton(btn: HTMLButtonElement | null, ms: number, locked: () => boolean): number | null {
+  if (!btn) return null;
+  btn.classList.remove('db-danger');
+  btn.disabled = true;
+  btn.classList.add('arena-dash-cooldown');
+  return window.setTimeout(() => {
+    if (locked()) return;
+    btn.disabled = false;
+    btn.classList.remove('arena-dash-cooldown');
+    btn.classList.add('arena-dash-ready');
+    window.setTimeout(() => btn.classList.remove('arena-dash-ready'), 260);
+  }, ms);
+}
+
+function handleDodgeballSignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'countdown':
+      if (s.value === 0) {
+        if (dbStatusEl) dbStatusEl.textContent = '⚡ VIA!';
+        vibrate(110);
+      } else if (s.value && s.value > 0) {
+        if (dbStatusEl) dbStatusEl.textContent = `⏱ ${s.value}`;
+        vibrate(35);
+      }
+      break;
+    case 'eliminated':
+      lockDbControls(true, '💀 SEI FUORI!');
+      vibrate([100, 60, 100]);
+      showToast(s.by ? `💀 ${s.by} ti ha colpito!` : '💀 Sei fuori!');
+      break;
+    case 'danger':
+      // una palla ti sta per prendere: pulsante SCHIVA rosso lampeggiante + vibrazione secca
+      if (dbDodgeBtn && !dbDodgeBtn.disabled) {
+        dbDodgeBtn.classList.remove('db-danger');
+        void dbDodgeBtn.offsetWidth; // riavvia l'animazione
+        dbDodgeBtn.classList.add('db-danger');
+        window.setTimeout(() => dbDodgeBtn?.classList.remove('db-danger'), 600);
+      }
+      vibrate(30);
+      break;
+    case 'dodged':
+      // schivata accettata dall'host: il pulsante si spegne per il cooldown reale
+      if (dbDodgeCooldownTimer) window.clearTimeout(dbDodgeCooldownTimer);
+      dbDodgeCooldownTimer = cooldownButton(dbDodgeBtn, s.cooldownMs ?? 1000, () => dbLocked);
+      break;
+    case 'won':
+      lockDbControls(true, '🏆 HAI VINTO!');
+      vibrate([80, 40, 80, 40, 120]);
+      showToast('🏆 HAI VINTO!');
+      break;
+    case 'ability':
+      if (dbAbilityBtn) {
+        dbAbilityBtn.disabled = true;
+        dbAbilityBtn.classList.add('arena-ability-used');
+      }
+      showToast(`⭐ ${s.name ?? 'ABILITÀ'}`);
+      vibrate(70);
+      break;
+    case 'parry_ok':
+      showToast("↩️ RIPIGLIATELA! Rimandata al mittente!");
+      vibrate(110);
+      break;
+    case 'parry_miss':
+      showToast('😵 Parata a vuoto...');
+      break;
+    case 'charged':
+      showToast('💥 Tiro potenziato!');
+      vibrate(60);
+      break;
+    case 'era_solo':
+      showToast('🤦 ERA SOLO UN PERIODO.');
+      vibrate(90);
+      break;
+    case 'truck_go':
+      if (dbStatusEl) dbStatusEl.textContent = '🚚 BIP BIP BIP!';
+      vibrate([60, 40, 60]);
+      break;
+    case 'scarica':
+      if (dbStatusEl) dbStatusEl.textContent = '🔫 SCARICA! Spara i palloni!';
+      vibrate(90);
+      showToast('🔫 SCARICA!');
+      break;
+    case 'truck_fail':
+      if (dbStatusEl) dbStatusEl.textContent = '💀 CONSEGNA FALLITA';
+      vibrate([100, 60, 100]);
+      showToast('💀 CONSEGNA FALLITA');
+      break;
+    case 'debt':
+      if (dbStatusEl) dbStatusEl.textContent = '💸 DEBITO! Colpisci qualcuno!';
+      vibrate([80, 40, 80]);
+      showToast('💸 DEBITO! Colpisci qualcuno!');
+      break;
+    case 'debt_ok':
+      if (dbStatusEl) dbStatusEl.textContent = '✅ DEBITO SALDATO!';
+      showToast('✅ DEBITO SALDATO!');
+      vibrate(60);
+      break;
+    case 'debt_due':
+      if (dbStatusEl) dbStatusEl.textContent = '💀 ESATTORE!';
+      vibrate([100, 60, 100]);
+      showToast('💀 ESATTORE!');
+      break;
+    case 'gotBall':
+      if (dbStatusEl) dbStatusEl.textContent = '🏐 HAI LA PALLA!';
+      vibrate(35);
+      break;
+    case 'threwBall':
+      if (dbStatusEl) dbStatusEl.textContent = 'cerca la palla...';
+      break;
+  }
+}
+
+/** Controller dedicato a DODGEBALL DEI COGLIONI (layout custom: dodgeball-tv). */
+function renderDodgeballController(): void {
+  dbJoystickEl = null;
+  dbThumbEl = null;
+  dbThrowBtn = null;
+  dbDodgeBtn = null;
+  dbAbilityBtn = null;
+  dbStatusEl = null;
+  dbLocked = false;
+  dbJoy = null;
+  if (dbDodgeCooldownTimer) {
+    window.clearTimeout(dbDodgeCooldownTimer);
+    dbDodgeCooldownTimer = null;
+  }
+
+  const me: PlayerPublic | undefined =
+    playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  const cid = me?.characterId ?? '';
+  const ab = DODGEBALL_ABILITIES[cid];
+
+  app.innerHTML = `
+    <div class="arena-shell">
+      <div class="arena-topbar">
+        <div class="arena-brand">🎯 DODGEBALL DEI COGLIONI</div>
+        <div id="db-status" class="arena-status">PRONTO</div>
+      </div>
+      <div class="arena-body">
+        <div class="arena-joy">
+          <div class="arena-joy-base">
+            <div class="arena-joy-thumb"></div>
+          </div>
+        </div>
+        <div class="arena-actions">
+          <button id="db-throw" class="arena-dash db-throw">🏐<span>LANCIA</span></button>
+          <button id="db-dodge" class="db-dodge">💨<span>SCHIVA</span></button>
+          <button id="db-ability" class="arena-ability">⭐<span>${ab?.name ?? 'ABILITÀ'}</span></button>
+          <p id="db-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
+        </div>
+      </div>
+    </div>`;
+
+  dbStatusEl = app.querySelector<HTMLElement>('#db-status')!;
+  dbThrowBtn = app.querySelector<HTMLButtonElement>('#db-throw')!;
+  dbDodgeBtn = app.querySelector<HTMLButtonElement>('#db-dodge')!;
+  dbAbilityBtn = app.querySelector<HTMLButtonElement>('#db-ability')!;
+  dbJoystickEl = app.querySelector<HTMLElement>('.arena-joy')!;
+  dbThumbEl = app.querySelector<HTMLElement>('.arena-joy-thumb')!;
+  const baseEl = app.querySelector<HTMLElement>('.arena-joy-base')!;
+
+  dbThrowBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (dbThrowBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'throw' });
+  });
+  dbDodgeBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (dbDodgeBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'dodge' });
+  });
+  dbAbilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (dbAbilityBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  dbJoy = mountJoystick(baseEl, dbThumbEl, () => dbLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
+}
+
+// ---- CALCIO DEI DISAGIATI (controller dedicato: joystick + tiro hold + tackle) ----
+
+let soccerJoystickEl: HTMLElement | null = null;
+let soccerThumbEl: HTMLElement | null = null;
+let soccerShootBtn: HTMLButtonElement | null = null;
+let soccerTackleBtn: HTMLButtonElement | null = null;
+let soccerAbilityBtn: HTMLButtonElement | null = null;
+let soccerStatusEl: HTMLElement | null = null;
+let soccerTeam: string | null = null;
+let soccerLocked = false;
+let soccerJoy: VirtualJoystick | null = null;
+let soccerHasBall = false;
+let soccerChargeTimer: number | null = null;
+let soccerDodgeTimer: number | null = null;
+
+/** Fine della carica del tiro: spegne il feedback sul pulsante. */
+function endSoccerCharge(): void {
+  if (soccerChargeTimer) window.clearTimeout(soccerChargeTimer);
+  soccerChargeTimer = null;
+  soccerShootBtn?.classList.remove('soccer-charging', 'soccer-full');
+}
+
+function lockSoccerControls(locked: boolean, statusText?: string): void {
+  soccerLocked = locked;
+  if (soccerJoystickEl) soccerJoystickEl.classList.toggle('arena-locked', locked);
+  if (soccerShootBtn) soccerShootBtn.disabled = locked;
+  if (soccerTackleBtn) soccerTackleBtn.disabled = locked;
+  if (soccerAbilityBtn) soccerAbilityBtn.disabled = locked;
+  if (statusText && soccerStatusEl) soccerStatusEl.textContent = statusText;
+  if (locked) soccerJoy?.reset();
+}
+
+function handleSoccerSignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'countdown':
+      if (s.value === 0) {
+        if (soccerStatusEl) soccerStatusEl.textContent = '⚡ VIA!';
+        vibrate(110);
+      } else if (s.value && s.value > 0) {
+        if (soccerStatusEl) soccerStatusEl.textContent = `⏱ ${s.value}`;
+        vibrate(35);
+      }
+      break;
+    case 'team':
+      soccerTeam = s.team ?? null;
+      if (soccerStatusEl) {
+        soccerStatusEl.textContent = s.team === 'red' ? '🔴 SEI ROSSO' : '🔵 SEI BLU';
+      }
+      break;
+    case 'gotBall':
+      soccerHasBall = true;
+      if (soccerStatusEl) soccerStatusEl.textContent = '⚽ HAI LA PALLA!';
+      vibrate(30);
+      break;
+    case 'threwBall':
+      soccerHasBall = false;
+      endSoccerCharge();
+      if (soccerStatusEl) soccerStatusEl.textContent = '⚽ TIRATA!';
+      vibrate(40);
+      break;
+    case 'lostBall':
+      soccerHasBall = false;
+      endSoccerCharge();
+      if (soccerStatusEl) soccerStatusEl.textContent = '😵 palla persa!';
+      vibrate(60);
+      break;
+    case 'dodged':
+      if (soccerDodgeTimer) window.clearTimeout(soccerDodgeTimer);
+      soccerDodgeTimer = cooldownButton(soccerTackleBtn, s.cooldownMs ?? 1000, () => soccerLocked);
+      break;
+    case 'goal':
+      showToast(`⚽ GOOOL ${s.team === 'red' ? 'ROSSI' : 'BLU'}!`);
+      vibrate([80, 40, 120]);
+      break;
+    case 'won':
+      lockSoccerControls(true, '🏆 HAI VINTO!');
+      vibrate([80, 40, 80, 40, 120]);
+      showToast('🏆 HAI VINTO!');
+      break;
+    case 'matchEnd':
+      if (s.winner && s.winner !== soccerTeam) {
+        lockSoccerControls(true, '😞 hai perso...');
+        showToast('😞 hai perso...');
+      }
+      break;
+    case 'ability':
+      if (soccerAbilityBtn) {
+        soccerAbilityBtn.disabled = true;
+        soccerAbilityBtn.classList.add('arena-ability-used');
+      }
+      showToast(`⭐ ${s.name ?? 'ABILITÀ'}`);
+      vibrate(70);
+      break;
+    case 'charged':
+      showToast('💥 Tiro potenziato!');
+      vibrate(60);
+      break;
+    case 'heldBall':
+      showToast('💸 PAGO DOMANI — palla trattenuta!');
+      vibrate(80);
+      break;
+  }
+}
+
+/** Controller dedicato a CALCIO DEI DISAGIATI (layout custom: soccer-tv). */
+function renderSoccerController(): void {
+  soccerJoystickEl = null;
+  soccerThumbEl = null;
+  soccerShootBtn = null;
+  soccerTackleBtn = null;
+  soccerAbilityBtn = null;
+  soccerStatusEl = null;
+  soccerTeam = null;
+  soccerLocked = false;
+  soccerJoy = null;
+  soccerHasBall = false;
+  if (soccerChargeTimer) window.clearTimeout(soccerChargeTimer);
+  soccerChargeTimer = null;
+  if (soccerDodgeTimer) window.clearTimeout(soccerDodgeTimer);
+  soccerDodgeTimer = null;
+
+  const me: PlayerPublic | undefined =
+    playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  const cid = me?.characterId ?? '';
+  const ab = SOCCER_ABILITIES[cid];
+
+  app.innerHTML = `
+    <div class="arena-shell">
+      <div class="arena-topbar">
+        <div class="arena-brand">⚽ CALCIO DEI DISAGIATI</div>
+        <div id="soccer-status" class="arena-status">PRONTO</div>
+      </div>
+      <div class="arena-body">
+        <div class="arena-joy">
+          <div class="arena-joy-base">
+            <div class="arena-joy-thumb"></div>
+          </div>
+        </div>
+        <div class="arena-actions">
+          <button id="soccer-shoot" class="arena-dash db-throw">⚽<span>TIRO/PASSA</span></button>
+          <button id="soccer-tackle" class="db-dodge">💨<span>TACKLE</span></button>
+          <button id="soccer-ability" class="arena-ability">⭐<span>${ab?.name ?? 'ABILITÀ'}</span></button>
+          <p id="soccer-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
+        </div>
+      </div>
+    </div>`;
+
+  soccerStatusEl = app.querySelector<HTMLElement>('#soccer-status')!;
+  soccerShootBtn = app.querySelector<HTMLButtonElement>('#soccer-shoot')!;
+  soccerTackleBtn = app.querySelector<HTMLButtonElement>('#soccer-tackle')!;
+  soccerAbilityBtn = app.querySelector<HTMLButtonElement>('#soccer-ability')!;
+  soccerJoystickEl = app.querySelector<HTMLElement>('.arena-joy')!;
+  soccerThumbEl = app.querySelector<HTMLElement>('.arena-joy-thumb')!;
+  const baseEl = app.querySelector<HTMLElement>('.arena-joy-base')!;
+
+  // TIRO/PASSA è "hold" (carica): down = inizia carica, up = tira.
+  const shootDown = (e: PointerEvent): void => {
+    e.preventDefault();
+    if (soccerShootBtn!.disabled) return;
+    sendInput({ kind: 'down', controlId: 'shoot' });
+    // feedback locale della carica (0.8 s = CHARGE_TIME dell'host): il pulsante si riempie, a carica massima pulsa e vibra
+    if (soccerHasBall && !soccerChargeTimer) {
+      soccerShootBtn!.classList.add('soccer-charging');
+      soccerChargeTimer = window.setTimeout(() => {
+        soccerShootBtn?.classList.remove('soccer-charging');
+        soccerShootBtn?.classList.add('soccer-full');
+        vibrate(25);
+      }, 800);
+    }
+  };
+  const shootUp = (e: PointerEvent): void => {
+    e.preventDefault();
+    endSoccerCharge();
+    sendInput({ kind: 'up', controlId: 'shoot' });
+  };
+  soccerShootBtn.addEventListener('pointerdown', shootDown);
+  soccerShootBtn.addEventListener('pointerup', shootUp);
+  soccerShootBtn.addEventListener('pointerleave', shootUp);
+  soccerShootBtn.addEventListener('pointercancel', shootUp);
+
+  soccerTackleBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (soccerTackleBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'dash' });
+  });
+  soccerAbilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (soccerAbilityBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  soccerJoy = mountJoystick(baseEl, soccerThumbEl, () => soccerLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
+}
+
+// ---- PALLAVOLO DEI DISAGIATI (controller dedicato: joystick + salta + colpisci) ----
+
+let volleyJoystickEl: HTMLElement | null = null;
+let volleyThumbEl: HTMLElement | null = null;
+let volleyHitBtn: HTMLButtonElement | null = null;
+let volleyJumpBtn: HTMLButtonElement | null = null;
+let volleyDiveBtn: HTMLButtonElement | null = null;
+let volleySprintBtn: HTMLButtonElement | null = null;
+let cancelVolleySprint: (() => void) | null = null;
+let volleyAbilityBtn: HTMLButtonElement | null = null;
+let volleyStatusEl: HTMLElement | null = null;
+let volleyTeam: string | null = null;
+let volleyLocked = false;
+let volleyJoy: VirtualJoystick | null = null;
+
+function lockVolleyControls(locked: boolean, statusText?: string): void {
+  volleyLocked = locked;
+  if (volleyJoystickEl) volleyJoystickEl.classList.toggle('arena-locked', locked);
+  if (volleyHitBtn) volleyHitBtn.disabled = locked;
+  if (volleyJumpBtn) volleyJumpBtn.disabled = locked;
+  if (volleyDiveBtn) volleyDiveBtn.disabled = locked;
+  if (volleySprintBtn) volleySprintBtn.disabled = locked;
+  if (locked) cancelVolleySprint?.();
+  if (volleyAbilityBtn) volleyAbilityBtn.disabled = locked;
+  if (statusText && volleyStatusEl) volleyStatusEl.textContent = statusText;
+  if (locked) volleyJoy?.reset();
+}
+
+function handleVolleyballSignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'defense': {
+      const info=app.querySelector<HTMLElement>('#volley-defense');
+      if(info) info.textContent=`FIATO ${s.value ?? 100}% · TUFFO ${s.cooldown ? `${s.cooldown.toFixed(1)}s` : 'PRONTO'}`;
+      break;
+    }
+    case 'countdown':
+      if (s.value === 0) {
+        if (volleyStatusEl) volleyStatusEl.textContent = '⚡ VIA!';
+        vibrate(110);
+      } else if (s.value && s.value > 0) {
+        if (volleyStatusEl) volleyStatusEl.textContent = `⏱ ${s.value}`;
+        vibrate(35);
+      }
+      break;
+    case 'team':
+      volleyTeam = s.team ?? null;
+      if (volleyStatusEl) volleyStatusEl.textContent = s.team === 'red' ? '🔴 SEI ROSSO' : '🔵 SEI BLU';
+      break;
+    case 'served':
+      if (volleyStatusEl) volleyStatusEl.textContent = '🏐 HAI SERVITO!';
+      vibrate(40);
+      break;
+    case 'receive':
+      if (volleyStatusEl) volleyStatusEl.textContent = '🙌 ricezione!';
+      vibrate(30);
+      break;
+    case 'smash':
+      if (volleyStatusEl) volleyStatusEl.textContent = '💥 SMASH!';
+      vibrate(80);
+      showToast('💥 SMASH!');
+      break;
+    case 'point':
+      showToast(`💥 PUNTO ${s.team === 'red' ? 'ROSSI' : 'BLU'}!`);
+      vibrate([80, 40, 120]);
+      break;
+    case 'won':
+      lockVolleyControls(true, '🏆 HAI VINTO!');
+      vibrate([80, 40, 80, 40, 120]);
+      showToast('🏆 HAI VINTO!');
+      break;
+    case 'matchEnd':
+      if (s.winner && s.winner !== volleyTeam) {
+        lockVolleyControls(true, '😞 hai perso...');
+        showToast('😞 hai perso...');
+      }
+      break;
+    case 'ability':
+      if (volleyAbilityBtn) {
+        volleyAbilityBtn.disabled = true;
+        volleyAbilityBtn.classList.add('arena-ability-used');
+      }
+      showToast(`⭐ ${s.name ?? 'ABILITÀ'}`);
+      vibrate(70);
+      break;
+    case 'jager_boom':
+      showToast('💥 JÄGER BOMB!');
+      vibrate(100);
+      break;
+    case 'jager_wasted':
+      showToast('😵 JÄGER BOMB sprecata...');
+      break;
+    case 'stable':
+      showToast('🧱 MURO DEL POLIGONO stabile!');
+      break;
+    case 'scarica':
+      showToast('💥 SCARICA!');
+      vibrate(70);
+      break;
+    case 'frozen':
+      if (volleyStatusEl) volleyStatusEl.textContent = '⏳ PAGO DOMANI — salva!';
+      vibrate([80, 40, 80]);
+      showToast('⏳ PAGO DOMANI — salva!');
+      break;
+    case 'debt_ok':
+      showToast('✅ DEBITO SALDATO!');
+      vibrate(60);
+      break;
+    case 'debt_fail':
+      showToast('💀 debito non saldato');
+      break;
+  }
+}
+
+function destroyVolleyballController(): void {
+  cancelVolleySprint?.(); cancelVolleySprint=null;
+  volleyJoy?.destroy(); volleyJoy=null;
+  volleyDiveBtn=volleySprintBtn=volleyJumpBtn=volleyHitBtn=volleyAbilityBtn=null;
+  volleyJoystickEl=volleyThumbEl=volleyStatusEl=null;
+}
+
+/** Controller dedicato a PALLAVOLO DEI DISAGIATI (layout custom: volleyball-tv). */
+function renderVolleyballController(): void {
+  destroyVolleyballController();
+  volleyJoystickEl = null;
+  volleyThumbEl = null;
+  volleyHitBtn = null;
+  volleyJumpBtn = null;
+  volleyAbilityBtn = null;
+  volleyStatusEl = null;
+  volleyTeam = null;
+  volleyLocked = false;
+  volleyJoy = null;
+
+  const me: PlayerPublic | undefined =
+    playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  const cid = me?.characterId ?? '';
+  const ab = VOLLEYBALL_ABILITIES[cid];
+
+  app.innerHTML = `
+    <div class="arena-shell volley-shell">
+      <div class="arena-topbar">
+        <div class="arena-brand">🏐 PALLAVOLO DEI DISAGIATI</div>
+        <div id="volley-status" class="arena-status">PRONTO</div>
+      </div>
+      <div class="arena-body">
+        <div class="arena-joy">
+          <div class="arena-joy-base">
+            <div class="arena-joy-thumb"></div>
+          </div>
+        </div>
+        <div class="arena-actions">
+          <button id="volley-hit" class="arena-dash">👊<span>COLPISCI</span></button>
+          <button id="volley-jump" class="db-dodge">🦘<span>SALTA</span></button>
+          <button id="volley-dive" class="db-dodge">🙌<span>TUFFO</span></button>
+          <button id="volley-sprint" class="db-dodge" aria-pressed="false">💨<span>SPRINT · TIENI</span></button>
+          <p id="volley-defense" class="arena-ability-desc">FIATO 100% · TUFFO PRONTO</p>
+          <button id="volley-ability" class="arena-ability">⭐<span>${ab?.name ?? 'ABILITÀ'}</span></button>
+          <p id="volley-ability-desc" class="arena-ability-desc">${ab?.desc ?? ''}</p>
+          <p class="arena-ability-desc">Al colpo: ↔ scegli il lato · ↑ teso · ↓ pallonetto · neutro standard. Salta vicino alla rete per schiacciare. Tuffo: ricezione automatica delle palle basse. Sprint: rilascia per riprendere fiato.</p>
+        </div>
+      </div>
+    </div>`;
+
+  volleyStatusEl = app.querySelector<HTMLElement>('#volley-status')!;
+  volleyHitBtn = app.querySelector<HTMLButtonElement>('#volley-hit')!;
+  volleyJumpBtn = app.querySelector<HTMLButtonElement>('#volley-jump')!;
+  volleyAbilityBtn = app.querySelector<HTMLButtonElement>('#volley-ability')!;
+  volleyDiveBtn = app.querySelector<HTMLButtonElement>('#volley-dive')!;
+  volleySprintBtn = app.querySelector<HTMLButtonElement>('#volley-sprint')!;
+  volleyJoystickEl = app.querySelector<HTMLElement>('.arena-joy')!;
+  volleyThumbEl = app.querySelector<HTMLElement>('.arena-joy-thumb')!;
+  const baseEl = app.querySelector<HTMLElement>('.arena-joy-base')!;
+
+  volleyHitBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (volleyHitBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'hit' });
+  });
+  volleyJumpBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (volleyJumpBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'jump' });
+  });
+  volleyAbilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (volleyAbilityBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  volleyDiveBtn.addEventListener('pointerdown', e=>{
+    e.preventDefault(); if(!volleyLocked && !state?.paused) sendInput({kind:'action',controlId:'dive'});
+  });
+  const sprint=volleySprintBtn;
+  let sprintPointer: number | null=null;
+  cancelVolleySprint=()=>{
+    const pointer=sprintPointer; sprintPointer=null;
+    sprint.classList.remove('held'); sprint.setAttribute('aria-pressed','false');
+    sendInput({kind:'up',controlId:'sprint'});
+    if(pointer!==null && sprint.hasPointerCapture(pointer)) sprint.releasePointerCapture(pointer);
+  };
+  sprint.addEventListener('pointerdown',e=>{
+    e.preventDefault(); if(sprintPointer!==null || volleyLocked || state?.paused || sprint.disabled)return;
+    sprintPointer=e.pointerId;
+    try{sprint.setPointerCapture(e.pointerId);}catch{ /* emulated pointer */ }
+    sprint.classList.add('held');sprint.setAttribute('aria-pressed','true');
+    sendInput({kind:'down',controlId:'sprint'});
+  });
+  for(const ev of ['pointerup','pointercancel','lostpointercapture']) sprint.addEventListener(ev,e=>{
+    if((e as PointerEvent).pointerId===sprintPointer)cancelVolleySprint?.();
+  });
+  volleyJoy = mountJoystick(baseEl, volleyThumbEl, () => volleyLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
+}
+
+// ---- CULTURA O CAZZATA? (controller dedicato: scrivi bluff / vota) ----
+
+function sendText(controlId: string, text: string): void {
+  socket.emit(EVT.inputText, { controlId, text });
+}
+
+/** Controller dedicato a CULTURA O CAZZATA? (layout custom: cultura-tv). */
+function renderCulturaController(): void {
+  app.innerHTML = `<div class="cultura-shell" id="cultura-shell"></div>`;
+}
+
+/** Opzione scelta da QUESTO telefono (solo grafica: il voto vero lo conta l'host; si puo' cambiare finche' il tempo non scade). */
+let culturaPicked: number | null = null;
+
+function updateCulturaUI(s: CulturaState): void {
+  const root = app.querySelector<HTMLElement>('#cultura-shell') ?? app;
+  const letters = 'ABCDE';
+  if (s.phase === 'intro' || s.phase === 'bluff') culturaPicked = null; // nuovo round: nessun voto precedente
+
+  if (s.phase === 'intro' || s.phase === 'bluff') {
+    root.innerHTML = `
+      <div class="cultura-top">ROUND ${s.round}/${s.totalRounds} · ${s.category.toUpperCase()}</div>
+      <div class="cultura-q">"${s.question}"</div>
+      ${s.myBluff
+        ? `<div class="cultura-done">✍️ RISPOSTA INVIATA ✅<br><span>${s.myBluff}</span></div>`
+        : `<input id="cultura-bluff" class="cultura-input" placeholder="Scrivi una risposta falsa credibile..." maxlength="40" autocomplete="off" autocapitalize="sentences" enterkeyhint="send" />
+           <button id="cultura-confirm" class="cultura-btn">CONFERMA</button>`}
+      <p class="cultura-hint">Scrivi una risposta falsa che possa sembrare vera.</p>`;
+    const inp = root.querySelector<HTMLInputElement>('#cultura-bluff');
+    const btn = root.querySelector<HTMLButtonElement>('#cultura-confirm');
+    if (inp && btn) {
+      const submit = (): void => {
+        const t = inp.value.trim();
+        if (!t) return;
+        sendText('bluff', t);
+        inp.disabled = true;
+        btn.disabled = true;
+      };
+      btn.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        submit();
+      });
+      inp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') submit();
+      });
+      // la tastiera del telefono non deve coprire CONFERMA: quando compare, il pulsante viene portato in vista
+      inp.addEventListener('focus', () => window.setTimeout(() => btn.scrollIntoView({ block: 'end', behavior: 'smooth' }), 320));
+    }
+    return;
+  }
+
+  if (s.phase === 'options' || s.phase === 'vote') {
+    const counts = s.voteCounts ?? null;
+    const picked = s.myVote ?? culturaPicked;
+    const opts = s.options
+      .map((o, i) => {
+        const locked = o.disabled || s.myVote !== null;
+        const tag = o.thrownOut ? ' <em>(BUTTATA FUORI)</em>' : o.disabled ? ' <em>(LA TUA CAZZATA)</em>' : counts ? ` <em>(${counts[i] ?? 0} ${(counts[i] ?? 0) === 1 ? 'voto' : 'voti'})</em>` : '';
+        return `<button class="cultura-opt ${o.disabled ? 'mine' : ''} ${o.thrownOut ? 'out' : ''} ${picked === i ? 'picked' : ''}" data-i="${i}" ${locked ? 'disabled' : ''}>
+          <span class="cultura-opt-letter">${letters[i]}</span>
+          <span class="cultura-opt-text">${o.text}${tag}</span>
+        </button>`;
+      })
+      .join('');
+    // ABILITA' DI PERSONAGGIO: pronta = bottone con cosa fa; attiva/usata = riga di stato (l'effetto e' privato)
+    const ab = s.ability;
+    const abilityHtml = !ab
+      ? ''
+      : ab.state === 'READY'
+        ? `<button id="cultura-abtn" class="cultura-abtn"><b>⚡ ${ab.name}</b><small>${ab.short}</small></button>`
+        : ab.state === 'ACTIVE'
+          ? `<div class="cultura-ab-on">⚡ ${ab.name}${ab.note ? ` · ${ab.note}` : ''}</div>`
+          : `<div class="cultura-ab-off">⚡ ${ab.name} · usata</div>`;
+    root.innerHTML = `
+      <div class="cultura-top">🔥 SCEGLI LA RISPOSTA VERA</div>
+      <div class="cultura-q">"${s.question}"</div>
+      <div class="cultura-opts">${opts}</div>
+      ${s.myVote !== null ? '<div class="cultura-done">🔒 RISPOSTA BLOCCATA</div>' : picked !== null ? '<div class="cultura-sent">✅ VOTO INVIATO · puoi ancora cambiarlo</div>' : ''}
+      ${s.hint ? `<div class="cultura-secret">💡 ${s.hint}</div>` : ''}
+      ${s.wager ? '<div class="cultura-secret">🎲 ALL-IN: se scegli la vera vinci di più, se ti fai fregare perdi punti</div>' : ''}
+      ${abilityHtml}
+      ${s.isSecchione ? `<div class="cultura-secret">🤓 SEI IL SECCHIONE INFAME.<br>RISPOSTA VERA: ${s.correctAnswer ?? ''}</div>` : ''}
+      ${s.isAdvocate && s.defendText ? `<div class="cultura-advocate">🎤 DIFENDI QUESTA RISPOSTA: ${s.defendText}</div>` : ''}
+      ${s.teConoscoReveal ? `<div class="cultura-secret">👁️ ${s.teConoscoReveal}</div>` : ''}
+      ${s.canTeConosco ? `<button id="cultura-teconosco" class="cultura-tebtn">👁️ TE CONOSCO</button>` : ''}`;
+
+    root.querySelectorAll<HTMLButtonElement>('.cultura-opt').forEach((b) => {
+      b.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        if (b.disabled || s.myVote !== null) return;
+        culturaPicked = Number(b.dataset.i ?? '0');
+        sendText('vote', b.dataset.i ?? '0');
+        // conferma immediata sul telefono (prima non cambiava niente: nessun segno che il voto fosse partito)
+        root.querySelectorAll<HTMLButtonElement>('.cultura-opt').forEach((o) => o.classList.toggle('picked', o === b));
+        if (!root.querySelector('.cultura-sent') && !root.querySelector('.cultura-done')) b.closest('.cultura-opts')?.insertAdjacentHTML('afterend', '<div class="cultura-sent">✅ VOTO INVIATO · puoi ancora cambiarlo</div>');
+      });
+    });
+    root.querySelector<HTMLButtonElement>('#cultura-abtn')?.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      sendText('ability', 'use'); // l'host decide se parte (e dice il motivo se non puo')
+    });
+    const te = root.querySelector<HTMLButtonElement>('#cultura-teconosco');
+    if (te) {
+      te.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        // Scegli un avversario
+        root.innerHTML = `
+          <div class="cultura-top">👁️ TE CONOSCO, COGLIONE</div>
+          <div class="cultura-opts">${s.teConoscoTargets.map((t) => `<button class="cultura-opt" data-t="${t.id}">${t.name}</button>`).join('')}</div>`;
+        root.querySelectorAll<HTMLButtonElement>('.cultura-opt').forEach((tb) => {
+          tb.addEventListener('pointerdown', (e2) => {
+            e2.preventDefault();
+            sendText('teConosco', tb.dataset.t ?? '');
+            tb.disabled = true;
+          });
+        });
+      });
+    }
+    return;
+  }
+
+  if (s.phase === 'reveal' || s.phase === 'explanation') {
+    const r = s.reveal;
+    root.innerHTML = `
+      <div class="cultura-top">📺 RISULTATO</div>
+      ${r
+        ? `<div class="cultura-result">Hai scelto: <b>${r.text}</b><br>${r.correct ? '✅ LA SAPEVI DAVVERO' : '❌ CI SEI CASCATO 💀'}</div>`
+        : '<div class="cultura-result">Guarda lo schermo principale</div>'}
+      <div class="cultura-score">Punteggio: ${s.myScore}</div>`;
+    return;
+  }
+
+  // ranking / results
+  root.innerHTML = `
+    <div class="cultura-top">📊 CLASSIFICA</div>
+    <div class="cultura-rank">${s.ranking.map((r2, i) => `${i + 1}. ${r2.avatar} ${r2.name} — ${r2.score}`).join('<br>')}</div>
+    <div class="cultura-score">Il tuo punteggio: ${s.myScore}</div>`;
+}
+
+// ---- SPARATORIA DEI DISAGIATI (controller FPS completo su telefono) ----
+
+let fpsClient: FpsClient | null = null;
+let fpsJoy: VirtualJoystick | null = null;
+// Modalita' test sul telefono (solo con ?debug=1): FPS, ping, qualita', latenza del tocco, vibrazione, audio
+initMobileDebug(socket, () => fpsClient?.getDebugStats() ?? null);
+let fpsPendingState: FpsStatePayload | null = null;
+let fpsLookEl: HTMLElement | null = null;
+let fpsFireBtn: HTMLButtonElement | null = null;
+let fpsDashBtn: HTMLButtonElement | null = null;
+let fpsReloadBtn: HTMLButtonElement | null = null;
+let fpsLocked = false;
+
+function handleFpsSignal(s: SignalPayload): void {
+  switch (s.type) {
+    case 'fpsState':
+      if (fpsClient) fpsClient.updateState(s as unknown as FpsStatePayload);
+      else fpsPendingState = s as unknown as FpsStatePayload;
+      break;
+    case 'hit': {
+      // conferma dell'host: il danno e' stato davvero inflitto (dmg e kill vengono dall'host)
+      const d = s as unknown as { dmg?: number; kill?: boolean };
+      if (!d.kill) vibrate(d.dmg && d.dmg >= 40 ? 35 : 18); // la kill ha la sua vibrazione
+      fpsClient?.hitMarker(d.dmg ?? 10, Boolean(d.kill));
+      break;
+    }
+    case 'damaged': {
+      const d = s as unknown as { from?: string; amount?: number; direction?: number };
+      const amount = d.amount ?? 10;
+      vibrate(amount >= 30 ? 80 : 40);
+      fpsClient?.damageTaken(d.from ?? '', amount, d.direction);
+      break;
+    }
+    case 'killed': {
+      const d = s as unknown as { name?: string;badge?:string };
+      vibrate([60, 30, 80]);
+      fpsClient?.killConfirm(d.name ?? '',d.badge??'');
+      break;
+    }
+    case 'eliminated': {
+      const by = (s as unknown as { by?: string }).by;
+      if (fpsClient) fpsClient.showDeath(`💀 ELIMINATO${by ? ` — ${by}` : ''}`);
+      vibrate([100, 60, 100]);
+      break;
+    }
+    case 'respawn':
+      if (fpsClient) fpsClient.hideDeath();
+      break;
+    case 'reload': {
+      const d = s as unknown as { duration?: number; weaponId?: string };
+      fpsClient?.reloadStart(d.duration ?? 1.5, d.weaponId);
+      break;
+    }
+    case 'equip':
+      fpsClient?.equipped((s as unknown as { weaponId?: string }).weaponId ?? 'mitraglia');
+      break;
+    case 'dash':
+      fpsClient?.dashed();
+      break;
+    case 'weaponShot':
+      fpsClient?.remoteShot(String(s.owner),String(s.weaponId));break;
+    case 'shotTrace':{
+      const d=s as unknown as {owner:string;weaponId:string;segs:import('../../shared/fpsCombat').ShotSegment[]};
+      fpsClient?.confirmedTrace(d.owner,d.weaponId,d.segs);break;}
+    case 'surfaceImpact':
+      fpsClient?.surfaceImpact(s as unknown as import('../../shared/fpsCombat').SurfaceImpact);break;
+    case 'energyBolt':
+      fpsClient?.energyBolt(s as unknown as import('./fpsEnergyFx').EnergyLaunch);break;
+    case 'energyImpact':
+      fpsClient?.energyImpact(s as unknown as import('./fpsEnergyFx').EnergyImpact);break;
+    case 'proj':
+      fpsClient?.projectile(s as unknown as { ox: number; oy: number; oz: number; tx: number; ty: number; tz: number; dur: number });
+      break;
+    case 'boom':
+      fpsClient?.boom(s as unknown as { x: number; y: number; z: number; r: number });
+      break;
+    case 'fpsEnd':
+      if (fpsClient) fpsClient.showDeath('🏆 TRAGUARDO: 10 UCCISIONI');
+      break;
+  }
+}
+
+/** Libera il motore Babylon del telefono (senza, ogni round FPS lascia un engine vivo in background). */
+function disposeFps(): void {
+  fpsJoy?.destroy();
+  fpsJoy = null;
+  const c = fpsClient;
+  fpsClient = null;
+  fpsPendingState = null;
+  if (!c) return;
+  // 1) Il ciclo di rendering si ferma SUBITO (costa ~0.1 ms): misurato, prima ogni frame WebGL ancora in coda dopo il cambio vista
+  //    bloccava il thread 500-700 ms (headless) proprio mentre la nuova schermata doveva reagire ai tocchi.
+  try {
+    c.stop();
+  } catch {
+    /* ignora */
+  }
+  // 2) Lo smontaggio vero dell'engine WebGL (15-30 ms) si fa DOPO che la nuova schermata è stata mostrata,
+  //    così il telefono cambia vista subito invece di restare congelato sul vecchio controller.
+  window.setTimeout(() => {
+    try {
+      const t = performance.now();
+      c.dispose();
+      if (PHASE_DBG) phaseTiming.push({ kind: 'fpsDispose', at: Date.now(), totalMs: +(performance.now() - t).toFixed(1), parts: (c.constructor as unknown as { lastDispose?: unknown }).lastDispose });
+    } catch {
+      /* ignora */
+    }
+  }, 150);
+}
+
+/** Controller dedicato a SPARATORIA DEI DISAGIATI (layout custom: fps-tv). */
+function renderFpsController(): void {
+  disposeFps();
+  fpsLookEl = null;
+  fpsFireBtn = null;
+  fpsDashBtn = null;
+  fpsReloadBtn = null;
+  fpsLocked = false;
+
+  app.innerHTML = `
+    <div class="fps-shell">
+      <div id="fps-canvas"></div>
+      <div class="fps-look" id="fps-look"></div>
+      <div class="fps-joy">
+        <div class="arena-joy-base">
+          <div class="arena-joy-thumb"></div>
+        </div>
+      </div>
+      <div class="fps-btns">
+        <button id="fps-aim" class="fps-aim" aria-label="Mira: tieni premuto" aria-pressed="false">◎<span>MIRA · TIENI</span></button>
+        <button id="fps-fire" class="fps-fire">🔫<span>SPARA</span></button>
+        <button id="fps-ability" class="fps-ability">⚡<span>ABILITÀ</span></button>
+        <button id="fps-jump" class="fps-move-action">↑<span>SALTA</span></button>
+        <button id="fps-crouch" class="fps-move-action" aria-label="Accovacciati: tieni premuto" aria-pressed="false">↓<span>ACCOVACCIATI</span></button>
+        <button id="fps-dash" class="fps-dash">💨<span>DASH</span></button>
+        <button id="fps-reload" class="arena-ability fps-reload">🔄<span>RICARICA</span></button>
+      </div>
+    </div>`;
+
+  const canvasHost = app.querySelector<HTMLElement>('#fps-canvas')!;
+  fpsLookEl = app.querySelector<HTMLElement>('#fps-look')!;
+  fpsFireBtn = app.querySelector<HTMLButtonElement>('#fps-fire')!;
+  fpsDashBtn = app.querySelector<HTMLButtonElement>('#fps-dash')!;
+  fpsReloadBtn = app.querySelector<HTMLButtonElement>('#fps-reload')!;
+  const baseEl = app.querySelector<HTMLElement>('.arena-joy-base')!;
+  const thumbEl = app.querySelector<HTMLElement>('.arena-joy-thumb')!;
+
+  // Joystick movimento
+  fpsJoy = mountJoystick(baseEl, thumbEl, () => fpsLocked, (x, y) => sendInput({ kind: 'axis', controlId: 'move', x, y }));
+
+  // Look touch (trascina per guardare)
+  let lastX = -1;
+  let lastY = -1;
+  let activeLookPointer: number | null = null;
+  fpsLookEl.addEventListener('pointerdown', (e) => {
+    if (fpsLocked || state?.paused || activeLookPointer !== null) return;
+    activeLookPointer = e.pointerId;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    try {
+      fpsLookEl!.setPointerCapture(e.pointerId);
+    } catch {
+      /* ignore */
+    }
+  });
+  fpsLookEl.addEventListener('pointermove', (e) => {
+    if (e.pointerId !== activeLookPointer || lastX < 0) return;
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    fpsClient?.look(dx, dy);
+  });
+  const lookEnd = (e: PointerEvent): void => {
+    if (e.pointerId !== activeLookPointer) return;
+    activeLookPointer = null;
+    lastX = -1;
+    lastY = -1;
+  };
+  fpsLookEl.addEventListener('pointerup', lookEnd);
+  fpsLookEl.addEventListener('pointercancel', lookEnd);
+  fpsLookEl.addEventListener('lostpointercapture', lookEnd);
+  fpsLookEl.addEventListener('fps-cancel', () => { activeLookPointer = null; lastX = lastY = -1; });
+
+  // SPARA and MIRA have separate pointer ownership; aim + fire + look can coexist.
+  const bindHold = (button: HTMLButtonElement, control: 'aim' | 'fire' | 'crouch'): void => {
+    let owner: number | null = null;
+    const release = (): void => {
+      const pointer = owner; owner = null;
+      button.classList.remove('held'); button.setAttribute('aria-pressed', 'false');
+      if (control === 'fire') fpsClient?.setFirePressed(false);
+      sendInput({ kind: 'up', controlId: control });
+      if (pointer !== null && button.hasPointerCapture(pointer)) button.releasePointerCapture(pointer);
+    };
+    button.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      if (owner !== null || button.disabled || state?.paused || fpsLocked) return;
+      owner = e.pointerId;
+      try { button.setPointerCapture(owner); } catch { /* synthetic test pointer */ }
+      button.classList.add('held'); button.setAttribute('aria-pressed', 'true');
+      if (control === 'fire') fpsClient?.setFirePressed(true);
+      sendInput({ kind: 'down', controlId: control });
+    });
+    for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+      button.addEventListener(event, (e) => { if ((e as PointerEvent).pointerId === owner) release(); });
+    }
+    button.addEventListener('fps-cancel', release);
+  };
+  bindHold(app.querySelector<HTMLButtonElement>('#fps-crouch')!, 'crouch');
+  app.querySelector<HTMLButtonElement>('#fps-jump')!.addEventListener('pointerdown',e=>{e.preventDefault();if(!state?.paused&&!fpsLocked)sendInput({kind:'action',controlId:'jump'});});
+  bindHold(fpsFireBtn, 'fire');
+  bindHold(app.querySelector<HTMLButtonElement>('#fps-aim')!, 'aim');
+
+  fpsDashBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (fpsDashBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'dash' });
+  });
+  fpsReloadBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (fpsReloadBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'reload' });
+  });
+  // ABILITA' del personaggio (Sparatoria): prima non c'era; il valore e lo stato li decide l'host
+  app.querySelector<HTMLButtonElement>('#fps-ability')?.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  // Client FPS (Babylon, caricato lazy)
+  void (async () => {
+    const { FpsClient } = await import('./fpsClient');
+    if (!canvasHost.isConnected) return; // il controller è già cambiato mentre caricava
+    fpsClient = new FpsClient(
+      canvasHost,
+      playerId ?? '',
+      (yaw, pitch) => sendInput({ kind: 'axis', controlId: 'look', x: yaw, y: pitch }),
+      (id) => state?.players.find((p) => p.id === id)?.characterId ?? null,
+      state?.currentMinigame?.mapId??'cantiere'
+    );
+    const client=fpsClient,round=state?.roundId;
+    void client.ready.then(()=>{if(fpsClient===client&&state?.roundId===round)sendText('fpsWorldReady',String(round??0));});
+    if (fpsPendingState) {
+      fpsClient.setPaused(!!state?.paused);
+      fpsClient.updateState(fpsPendingState);
+      fpsPendingState = null;
+    }
+  })();
+}
+
+socket.on(EVT.controllerSignal, (data) => {
+  const s = data as SignalPayload;
+  if(s.type==='ordaState'){
+    const packet=data as unknown as OrdaPacket;
+    if(state?.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='orda'&&packet.roundId===state.roundId){
+      if(ordaPhone)ordaPhone.update(packet);else ordaPending=packet;
+    }
+    return;
+  }
+  if(s.type==='backroomsStatus'&&state?.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='backrooms'){
+    const status=data as BackPhoneStatus;
+    if(backroomsPhone)backroomsPhone.update(status);
+    else {let line=document.getElementById('back-companion-status');if(!line){line=document.createElement('p');line.id='back-companion-status';app.querySelector('.screen')?.appendChild(line);}line.textContent=backStatusText(status);}
+    return;
+  }
+  if(s.type==='geofallStatus'&&state?.phase==='MINIGAME_PLAYING'&&state.currentMinigame?.minigameId==='geofall'){
+    const status=data as {lives:number;round:number;available:boolean;pushReady:boolean;phase:string;seconds:number;tie:boolean;ability:AbilityStatus;abilityName:string;confusion:boolean;confusionWarning:boolean};
+    let line=document.getElementById('geo-phone-status');
+    if(!line){line=document.createElement('p');line.id='geo-phone-status';line.className='sub';app.querySelector('.screen')?.appendChild(line);}
+    line.textContent=`${'♥'.repeat(Math.max(0,Math.min(3,status.lives)))} · ROUND ${status.round}${status.tie?' · SPAREGGIO':''} · ${status.lives<=0?'SPETTATORE':status.available?`${status.seconds}s · ${status.pushReady?'SPINTA PRONTA':'SPINTA USATA'}`:'ATTENDI IL VIA / GUARDA LA TV'}`;
+    app.querySelectorAll<HTMLButtonElement>('#ctl button').forEach(b=>{b.disabled=!status.available||(b.classList.contains('ctl-push')&&!status.pushReady)||(b.classList.contains('ctl-ability')&&status.ability.state!=='READY');});
+    const ab=app.querySelector<HTMLButtonElement>('.ctl-ability');if(ab)ab.textContent=`${status.abilityName} · ${stateLabel(status.ability)}`;
+    if(status.confusionWarning||status.confusion)line.textContent+=status.confusionWarning?' · ⚠ COMANDI INVERTITI TRA POCO':' · ↔ COMANDI INVERTITI';
+    return;
+  }
+  if(s.type==='minigolfStatus'){if(activeController==='minigolf')minigolfPhone?.update(data as GolfPhoneStatus);else updateGolfCompanion(data as GolfPhoneStatus);return;}
+  if (s.type === 'objectThrowStatus' && state?.phase === 'MINIGAME_PLAYING' && state.currentMinigame?.minigameId === 'cornicione') {
+    let label=document.getElementById('corn-throw-status');
+    if (!label) {
+      label=document.createElement('p');label.id='corn-throw-status';label.className='corn-throw-status';
+      (document.querySelector('.cc-controls')??document.querySelector('.dpad-screen')??app).appendChild(label);
+    }
+    const cooldown=Math.max(0,s.cooldown??0), charging=s.charge!==null&&s.charge!==undefined;
+    const text=!s.available?'ATTENDI':charging?`CARICA ${Math.round((s.charge??0)*100)}% · RILASCIA PER LANCIARE`:cooldown>0?`RICARICA ${Math.ceil(cooldown)}s`:'PRONTO · TIENI PER CARICARE';
+    label.textContent=`🎯 ${s.objectName??'OGGETTO'} · ${text}`;
+    const button=app.querySelector<HTMLButtonElement>('.ctl-throw');
+    if(button){button.dataset.cooldown=cooldown>0?'true':'false';button.textContent=charging?`🎯 CARICA ${Math.round((s.charge??0)*100)}%`:cooldown>0?`🎯 LANCIO ${Math.ceil(cooldown)}s`:'🎯 LANCIO (TIENI)';}
+    return;
+  }
+  if (activeController === 'memory') {
+    handleMemorySignal(s);
+    return;
+  }
+  if (activeController === 'arena') {
+    handleArenaSignal(s);
+    return;
+  }
+  if (activeController === 'dodgeball') {
+    handleDodgeballSignal(s);
+    return;
+  }
+  if (activeController === 'soccer') {
+    handleSoccerSignal(s);
+    return;
+  }
+  if (activeController === 'volleyball') {
+    handleVolleyballSignal(s);
+    return;
+  }
+  if (activeController === 'fps') {
+    handleFpsSignal(s);
+    return;
+  }
+  const actionBtn =
+    app.querySelector<HTMLButtonElement>('.ctl-action') ??
+    app.querySelector<HTMLButtonElement>('.ctl-btn');
+  const abilityBtn = app.querySelector<HTMLButtonElement>('.ctl-ability');
+
+  switch (s.type) {
+    case 'wait': {
+      if (actionBtn) {
+        actionBtn.textContent = 'ASPETTA...';
+        actionBtn.disabled = false;
+        actionBtn.classList.remove('go', 'ctl-drunk');
+      }
+      if (abilityBtn && abilityBtn.dataset.locked !== '1') abilityBtn.disabled = false; // Dottore/Ciro: una volta a partita
+      break;
+    }
+    case 'via': {
+      if (actionBtn) {
+        actionBtn.textContent = '⚡ PREMI!';
+        actionBtn.classList.add('go');
+        actionBtn.disabled = false;
+      }
+      vibrate(60);
+      break;
+    }
+    case 'pressed': {
+      if (actionBtn) {
+        actionBtn.textContent = `${s.ms ?? '—'} ms`;
+        actionBtn.disabled = true;
+        actionBtn.classList.remove('go');
+      }
+      break;
+    }
+    case 'falseStart': {
+      if (actionBtn) {
+        actionBtn.textContent = '❌ FALSA PARTENZA';
+        actionBtn.disabled = true;
+        actionBtn.classList.remove('go');
+      }
+      vibrate([100, 60, 100]);
+      break;
+    }
+    case 'secondChance': {
+      if (actionBtn) {
+        actionBtn.textContent = '🎯 SECONDA CHANCE (+120 ms)';
+        actionBtn.disabled = false;
+        actionBtn.classList.remove('go');
+      }
+      vibrate([80, 40, 80]);
+      showToast('🎯 MO HO CAPITO — seconda chance');
+      break;
+    }
+    case 'ability': {
+      showToast(`⭐ ${s.name ?? 'ABILITÀ'}`);
+      break;
+    }
+    case 'abilityUsed': {
+      if (abilityBtn) {
+        abilityBtn.disabled = true;
+        abilityBtn.classList.add('ctl-ability-used');
+        if (s.permanent) abilityBtn.dataset.locked = '1';
+      }
+      break;
+    }
+    case 'drunk': {
+      if (actionBtn) {
+        actionBtn.classList.add('ctl-drunk');
+        window.setTimeout(() => actionBtn.classList.remove('ctl-drunk'), 1500);
+      }
+      vibrate([60, 80, 60, 80]);
+      showToast('🍻 NCULO! — troppo presto, effetto ubriaco');
+      break;
+    }
+    case 'focus': {
+      // finestra FOCUS di 2 s: il pulsante pulsa finche' dura
+      if (actionBtn) {
+        actionBtn.classList.add('ctl-drunk');
+        window.setTimeout(() => actionBtn.classList.remove('ctl-drunk'), s.ms ?? 2000);
+      }
+      showToast("💡 M'HO SVEJATO — FOCUS! (2 s)", 1400);
+      vibrate(30);
+      break;
+    }
+    case 'focusHit': {
+      vibrate([40, 40, 160]);
+      showToast('💡 DIAGNOSI ESATTA — il VIA era nel FOCUS!');
+      break;
+    }
+    case 'focusMiss': {
+      showToast("💡 FOCUS sprecato: il VIA non c'era", 1200);
+      break;
+    }
+    case 'armed': {
+      showToast('🛑 ULTIMO SECONDO — in guardia', 1200);
+      vibrate(30);
+      break;
+    }
+    case 'calm': {
+      // falso allarme o falsa partenza altrui: NON premere, non e' ancora finita
+      vibrate([50, 50, 50]);
+      showToast(s.why === 'fake' ? '🛑 FALSO ALLARME — NON È ANCORA FINITA!' : '🛑 QUALCUNO HA SBAGLIATO — NON È ANCORA FINITA!', 1400);
+      break;
+    }
+    case 'reset': {
+      showToast('🔄 ASPETTA UN ATTIMO!', 800);
+      vibrate(40);
+      break;
+    }
+  }
+});
+
+interface InfoLineData {
+  type: 'info';
+  item?: string | null;
+  ability?: string | null;
+}
+
+function isInfoLine(data: unknown): data is InfoLineData {
+  return typeof data === 'object' && data !== null && (data as { type?: unknown }).type === 'info';
+}
+
+interface QuizStatePayload {
+  type: 'quizState';
+  roundId: number;
+  questionKey: string;
+  answerRevision: number;
+  canAnswer: boolean;
+  answerTimeRemaining: number;
+  answerStatus: 'open' | 'confirmed' | 'waiting' | 'grace' | 'retry';
+  phase: string;
+  questionNumber: number;
+  totalQuestions: number;
+  points: number;
+  category: string;
+  question: string;
+  answers: [string, string, string, string];
+  myAnswerIndex: number | null;
+  correctIndex: number | null;
+  timeRemaining: number;
+  totalTime: number;
+  playerName: string;
+  avatar: string;
+  myScore: number;
+  abilityName: string;
+  abilityDescription: string;
+  abilityUsed: boolean;
+  hintText: string | null;
+  ciroBreakdown: [number, number, number, number] | null;
+}
+
+function isQuizState(data: unknown): data is QuizStatePayload {
+  return typeof data === 'object' && data !== null && (data as { type?: unknown }).type === 'quizState';
+}
+
+let lastInfo: InfoLineData | null = null;
+let lastQuizState: QuizStatePayload | null = null;
+let quizSelectedLocal: number | null = null;
+let quizPending = false;
+
+interface CulturaState {
+  type: 'cultura';
+  phase: string;
+  round: number;
+  totalRounds: number;
+  question: string;
+  category: string;
+  myScore: number;
+  ranking: { name: string; avatar: string; score: number }[];
+  myBluff?: string;
+  options: { text: string; isMine: boolean; disabled: boolean; thrownOut?: boolean }[];
+  myVote: number | null;
+  /** ABILITA' DI PERSONAGGIO (una volta a partita, si usa quando si vota): stato e testi dal catalogo, effetti privati */
+  ability?: { name: string; short: string; full: string; state: string; note: string } | null;
+  hint?: string | null;
+  voteCounts?: number[] | null;
+  wager?: boolean;
+  canTeConosco: boolean;
+  teConoscoTargets: { id: string; name: string }[];
+  teConoscoReveal: string | null;
+  isSecchione: boolean;
+  correctAnswer?: string;
+  isAdvocate: boolean;
+  defendText?: string;
+  reveal: { text: string; correct: boolean } | null;
+}
+
+function isCulturaState(data: unknown): data is CulturaState {
+  return typeof data === 'object' && data !== null && (data as { type?: unknown }).type === 'cultura';
+}
+
+socket.on(EVT.privateData, (data) => {
+  if(data?.type==='trentunoPrivate'){
+    const s=data as TrentunoPrivate;
+    if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='trentuno'||s.roundId!==state.roundId||s.playerId!==playerId)return;
+    if(!trentunoPhone)trentunoPhone=mountTrentuno(app,(cmd,cb)=>socket.emit(EVT.trentunoCommand,cmd,cb));
+    trentunoPhone.update(s);return;
+  }
+  if(data?.type==='goblinPrivate') {
+    const s=data as GoblinPrivate;
+    if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='goblinTime'||s.roundId!==state.roundId||s.playerId!==playerId)return;
+    if(!goblinPhone)goblinPhone=mountGoblin(app,(cmd,cb)=>socket.emit(EVT.goblinCommand,cmd,cb));
+    goblinPhone.update(s);return;
+  }
+  // ABILITA': stato live per la Companion Card, lampo di attivazione, avviso "non ora" — solo presentazione, mai gameplay
+  if (isAbilityMsg(data)) {
+    onAbilityMessage(data);
+    return;
+  }
+  if (isAbilityUsedMsg(data)) {
+    const meNow = state?.players.find((p) => p.id === playerId);
+    // chi gioca col telefono ha gia' il suo feedback nel controller del gioco: il lampo e' per chi usa il controller fisico
+    if (meNow && state && padModeFor(state, meNow) === 'pad') flashAbility(data, meNow.characterId ?? null, vibrate);
+    return;
+  }
+  if (isAbilityFailMsg(data)) {
+    failAbility(data, vibrate);
+    return;
+  }
+  if (isInfoLine(data)) {
+    lastInfo = data;
+    renderInfoLine();
+    return;
+  }
+  if (isQuizState(data)) {
+    if (state?.currentMinigame?.minigameId !== 'quiz' || data.roundId !== state.roundId) return;
+    const changed = !lastQuizState || data.roundId !== lastQuizState.roundId || data.questionKey !== lastQuizState.questionKey || data.answerRevision !== lastQuizState.answerRevision;
+    if (changed) { quizSelectedLocal = null; quizPending = false; }
+    if (!data.canAnswer || data.myAnswerIndex === quizSelectedLocal) quizPending = false;
+    lastQuizState = data;
+    updateQuizUI();
+    syncQuizPadPrivateInfo(data);
+    return;
+  }
+  if (isCulturaState(data)) {
+    updateCulturaUI(data);
+    return;
+  }
+  // Dati privati (es. carta segreta, ruolo). Mostrati come schermata temporanea.
+  app.innerHTML = `
+    <div class="screen">
+      <h1>🔒 Segreto</h1>
+      <p class="big-num">${String(data)}</p>
+      <p class="sub">Guarda lo schermo principale</p>
+    </div>`;
+});
+
+/** Aggiorna la riga "cosa fa" (item tenuto + abilità del personaggio) senza toccare i pulsanti. */
+function renderInfoLine(): void {
+  const el = app.querySelector<HTMLDivElement>('#info-line');
+  if (!el || !lastInfo) return;
+  const parts: string[] = [];
+  if (lastInfo.item) parts.push(`🎁 ${lastInfo.item}`);
+  if (lastInfo.ability) parts.push(`⭐ ${lastInfo.ability}`);
+  el.textContent = parts.join(' · ');
+}
+
+// ---- rendering ----
+
+function render(): void {
+  if(state?.phase!=='MINIGAME_MAP_VOTE')destroyMapVote();
+  syncPauseOverlay(state);
+  if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='backrooms')destroyBackroomsPhone();
+  if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='orda')destroyOrdaPhone();
+  if(state?.phase!=='MINIGAME_PLAYING'||state.currentMinigame?.minigameId!=='minigolf')destroyMinigolfPhone();
+  if (!state || state.phase !== 'MINIGAME_PLAYING') disposeFps();
+  const me: PlayerPublic | undefined =
+    playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  if(state?.phase!=='MINIGAME_PLAYING' || state.currentMinigame?.minigameId!=='volleyball' || me?.pad) destroyVolleyballController();
+
+  if (!state || !playerId || !me) {
+    if (reconnectToken && !state) renderReconnecting();
+    else renderJoin();
+    return;
+  }
+
+  syncPadBadge(state, me);
+  if (state.phase !== 'MINIGAME_PLAYING') resetAbilityLive(); // la card non porta stato da un round all'altro
+  keepAwake(!!me.pad); // controller collegato = telefono sul tavolo: lo schermo non deve spegnersi
+  switch (state.phase) {
+    case 'LOBBY':
+      lastMinigameId = null;
+      renderCharacterSelect(state, me);
+      break;
+    case 'MINIGAME_PLAYING':
+      renderPlaying(state, me);
+      break;
+    case 'MINIGAME_MAP_VOTE': {
+      releaseControllerInput();lastMinigameId=null;
+      if(!state.mapVote){renderWait(state);break;}
+      if(!mapVotePhone||mapVoteRound!==state.mapVote.roundId){
+        destroyMapVote();mapVoteRound=state.mapVote.roundId;
+        const roundId=mapVoteRound;
+        mapVotePhone=mountMapVote(app,state.mapVote,playerId,state.currentMinigame?.minigameId??'',(mapId,done)=>{
+          if(!socket.connected){done(false);return;}
+          socket.timeout(3500).emit(EVT.mapVote,{roundId,mapId},(err:Error|null,ack:AckResponse)=>done(!err&&!!ack?.ok));
+        });
+      }else mapVotePhone.update(state.mapVote);
+      break;
+    }
+    case 'MINIGAME_ROULETTE':
+    case 'MINIGAME_INTRO':
+      lastMinigameId = null;
+      renderPreGame(state);
+      break;
+    case 'MINIGAME_FINISHED':
+    case 'ROUND_RESULTS':
+    case 'GLOBAL_LEADERBOARD':
+    case 'CHECK_WINNER':
+      lastMinigameId = null;
+      renderRoundEnded();
+      break;
+    case 'NEXT_ROUND':
+      lastMinigameId = null;
+      renderNextRound();
+      break;
+    case 'GAME_FINISHED':
+      lastMinigameId = null;
+      renderGameOver(state);
+      break;
+    default:
+      renderWait(state);
+  }
+}
+
+function renderJoin(): void {
+  app.innerHTML = `
+    <div class="screen">
+      <h1>🎲 PARTY GAME</h1>
+      <p class="sub">Controller di gioco</p>
+      <input id="code" placeholder="CODICE STANZA" maxlength="5" autocomplete="off" />
+      <input id="name" placeholder="IL TUO NOME" maxlength="20" autocomplete="off" />
+      <button id="go" class="big">ENTRA</button>
+      <p id="err" class="err"></p>
+    </div>`;
+
+  const code = app.querySelector<HTMLInputElement>('#code')!;
+  const name = app.querySelector<HTMLInputElement>('#name')!;
+  const go = app.querySelector<HTMLButtonElement>('#go')!;
+  const err = app.querySelector<HTMLParagraphElement>('#err')!;
+
+  const roomParam = new URLSearchParams(location.search).get('room');
+  if (roomParam) code.value = roomParam.toUpperCase();
+
+  const doJoin = (): void => {
+    const c = code.value.toUpperCase().trim();
+    const n = name.value.trim() || 'Giocatore';
+    if (!c) {
+      err.textContent = 'Inserisci il codice stanza';
+      return;
+    }
+    go.disabled = true;
+    err.textContent = 'Connessione...';
+    const payload: JoinPayload = { roomCode: c, displayName: n };
+    socket.emit(EVT.playerJoin, payload, (ack: JoinAck & AckResponse) => {
+      if (ack.ok && ack.playerId) {
+        playerId = ack.playerId;
+        reconnectToken = ack.reconnectToken;
+        saveIdentity(playerId, reconnectToken);
+      } else {
+        go.disabled = false;
+        err.textContent = ack.error ?? 'Errore';
+      }
+    });
+  };
+
+  go.addEventListener('click', doJoin);
+  [code, name].forEach((el) => el.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') doJoin();
+  }));
+}
+
+function renderReconnecting(): void {
+  app.innerHTML = `<div class="screen"><h1>Riconnessione...</h1><p class="sub">Riprendo la partita</p></div>`;
+}
+
+function renderCharacterSelect(state: RoomState, me: PlayerPublic): void {
+  const myChar = me.characterId;
+  app.innerHTML = `
+    <div class="screen">
+      <h1>Scegli il personaggio</h1>
+      <div id="chars" class="char-grid"></div>
+      ${(() => {
+        // personalita' del personaggio scelto: una riga sola, rara (solo qui), col suo colore
+        const pr = presentationOf(myChar);
+        return pr ? `<p class="char-tag" style="border-color:${pr.accent}"><b style="color:${pr.accent}">${iconSvg(CHAR_ICONS[pr.id], 20)} ${pr.displayName}</b><br><i>“${pr.tagline}”</i></p>` : '';
+      })()}
+      <p class="ability-discovery">⚡ Le abilità cambiano in ogni minigioco.</p>
+      <button id="ready" class="big ${me.ready ? 'ready' : ''}">${me.ready ? 'PRONTO ✅' : 'PRONTO'}</button>
+      <p class="sub">${state.players.length}/${state.playerCount} giocatori</p>
+    </div>`;
+
+  const grid = app.querySelector<HTMLDivElement>('#chars')!;
+  for (const cid of CHARACTER_ORDER) {
+    const c = CHARACTERS[cid];
+    const locked = state.charactersLocked.includes(cid) && myChar !== cid;
+    const mine = myChar === cid;
+    const b = document.createElement('button');
+    b.className = 'char' + (mine ? ' mine' : '') + (locked ? ' locked' : '');
+    b.disabled = locked;
+
+    // ritratto = la TESTA (stesso ritaglio della TV): l'illustrazione intera del Dottore ha ancora camice e provette,
+    // che non sono piu' la sua direzione
+    const img = document.createElement('div');
+    img.className = 'char-img char-face';
+    img.setAttribute('role', 'img');
+    img.setAttribute('aria-label', c.name);
+    img.style.cssText = portraitCss(cid, 92);
+
+    const label = document.createElement('span');
+    label.className = 'char-label';
+    label.innerHTML = `${iconSvg(CHAR_ICONS[cid], 18)} ${c.name.replace(/[&<>]/g, '')}`;
+
+    b.append(img, label);
+    b.addEventListener('click', () => socket.emit(EVT.playerSelectCharacter, { characterId: cid }));
+    grid.appendChild(b);
+  }
+
+  const ready = app.querySelector<HTMLButtonElement>('#ready')!;
+  ready.disabled = !myChar;
+  ready.addEventListener('click', () => socket.emit(EVT.playerReady, { ready: !me.ready }));
+}
+
+// ---- CONTROLLER FISICO: il telefono resta collegato alla stanza ma, se il giocatore ha un controller, non e' piu' il controller di gioco ----
+
+type PadMode = 'pad' | 'fallback' | 'phone';
+
+/**
+ * pad      = il gioco si gioca col controller e questo giocatore ne ha uno collegato: schermata "USA IL CONTROLLER", niente joystick;
+ * fallback = il gioco vuole il controller ma questo giocatore non ne ha uno (mentre altri si): controlli del telefono + badge FALLBACK;
+ * phone    = tutto come sempre (gioco da telefono, o nessun controller collegato in tutta la stanza).
+ */
+function padModeFor(state: RoomState, me: PlayerPublic): PadMode {
+  const mg = state.currentMinigame;
+  const def = mg ? getMinigame(mg.minigameId) : undefined;
+  if (def?.inputMode !== 'GAMEPAD') return 'phone';
+  if (me.pad) return 'pad';
+  return state.players.some((p) => p.pad) ? 'fallback' : 'phone';
+}
+
+function padSessionActive(state: RoomState): boolean {
+  return state.players.some((p) => !!p.pad);
+}
+
+/** true dopo che il controller di QUESTO giocatore e' caduto (aveva un controller, ora no): serve a distinguere "perso" da "mai avuto". */
+let padLost = false;
+let lastPad: string | null = null;
+
+/** Messaggio breve sul telefono (es. controller riconnesso): non blocca nulla, sparisce da solo. */
+function phoneToast(text: string, ms = 2500): void {
+  document.getElementById('pad-phone-toast')?.remove();
+  const el = document.createElement('div');
+  el.id = 'pad-phone-toast';
+  el.textContent = text;
+  document.body.appendChild(el);
+  window.setTimeout(() => el.remove(), ms);
+}
+
+/**
+ * Badge sopra ai controlli del telefono quando il gioco vuole il controller ma questo giocatore non ce l'ha. Se il controller
+ * c'era ed e' caduto il messaggio lo dice ("CONTROLLER PERSO"), diverso da chi non l'ha mai avuto; al ritorno, un avviso breve.
+ */
+function syncPadBadge(state: RoomState, me: PlayerPublic): void {
+  const pad = me.pad ?? null;
+  if (lastPad && !pad) padLost = true;
+  else if (!lastPad && pad && padLost) {
+    padLost = false;
+    phoneToast('🎮 CONTROLLER RICONNESSO');
+  }
+  lastPad = pad;
+
+  const want = state.phase === 'MINIGAME_PLAYING' && padModeFor(state, me) === 'fallback';
+  const text = padLost ? '📱 CONTROLLER PERSO — USA TEMPORANEAMENTE IL TELEFONO' : '📱 MODALITÀ FALLBACK — controller non collegato';
+  let el = document.getElementById('pad-fallback-badge');
+  fpsClient?.setPaused(want);
+  if (want && !el) {
+    releaseControllerInput();
+    el = document.createElement('div');
+    el.id = 'pad-fallback-badge';
+    document.body.appendChild(el);
+  } else if (!want && el) {
+    el.remove();
+    el = null;
+  }
+  if (el && el.textContent !== text) el.textContent = text;
+}
+
+/** Tiene lo schermo acceso mentre il telefono sta sul tavolo (uno schermo spento puo' far cadere la connessione). */
+let padWakeLock: { release: () => Promise<void> } | null = null;
+function keepAwake(on: boolean): void {
+  try {
+    const wl = (navigator as unknown as { wakeLock?: { request: (t: string) => Promise<{ release: () => Promise<void> }> } }).wakeLock;
+    if (on && !padWakeLock && wl) {
+      void wl
+        .request('screen')
+        .then((l) => (padWakeLock = l))
+        .catch(() => undefined);
+    } else if (!on && padWakeLock) {
+      void padWakeLock.release().catch(() => undefined);
+      padWakeLock = null;
+    }
+  } catch {
+    /* wake lock non supportato */
+  }
+}
+
+function renderPadScreen(mg: NonNullable<RoomState['currentMinigame']>, me: PlayerPublic): void {
+  destroyOrdaPhone();
+  destroyBackroomsPhone();
+  destroyMinigolfPhone();
+  activeController = null; // i segnali di gioco non hanno piu' una UI da aggiornare qui
+  disposeFps();
+  quizPadPrivateShown = false; // torniamo alla schermata normale: nessuna informazione privata restante a schermo
+  const def = getMinigame(mg.minigameId);
+  // COMPANION CARD: ritratto + abilita' (cosa fa, tasto, stato live) + comandi. Se il catalogo non ha l'abilita' resta la schermata semplice.
+  const card = companionHtml(mg.minigameId, me, mg.name);
+  if (card) {
+    app.innerHTML = card;
+    return;
+  }
+  app.innerHTML = `
+    <div class="screen pad-screen">
+      <div class="pad-icon">🎮</div>
+      <h1>USA IL CONTROLLER</h1>
+      <p class="pad-game">${def?.icon ?? ''} ${mg.name}</p>
+      <p class="pad-look">${mg.minigameId === 'fps' ? 'GUARDA LA TUA FINESTRA SULLA TV' : 'GUARDA LA TV'}</p>
+      <p class="pad-ok">✅ CONTROLLER CONNESSO${me.pad ? ` · ${me.pad}` : ''}</p>
+    </div>`;
+}
+
+function renderPlaying(state: RoomState, me: PlayerPublic): void {
+  const mg = state.currentMinigame;
+  if (!mg) return;
+  const mode = padModeFor(state, me);
+  if (mode === 'pad') {
+    // chiave = round + gioco + modalita': se il controller cade a meta' round la schermata si ricostruisce con i controlli del telefono
+    const padKey = `${state.roundId ?? 0}:${mg.minigameId}:pad`;
+    if (lastMinigameId === padKey) return;
+    lastMinigameId = padKey;
+    renderPadScreen(mg, me);
+    return;
+  }
+  // Chiave = roundId + gioco: uno snapshot di un round NUOVO ricostruisce sempre il controller
+  // (anche se il gioco è lo stesso o il telefono ha perso le fasi intermedie), mentre gli snapshot
+  // dello stesso round durante la partita non lo rifanno.
+  const roundKey = `${state.roundId ?? 0}:${mg.minigameId}${mode === 'fallback' ? ':fb' : ''}`;
+  if (lastMinigameId === roundKey) return;
+  lastMinigameId = roundKey;
+  vibrate(45);
+  showControls(mg);
+}
+
+function showControls(mg: NonNullable<RoomState['currentMinigame']>): void {
+  if(mg.minigameId!=='orda')destroyOrdaPhone();
+  if(mg.minigameId==='trentuno'){disposeFps();destroyBackroomsPhone();destroyMinigolfPhone();destroyGoblin();destroyTrentuno();activeController='trentuno';trentunoPhone=mountTrentuno(app,(cmd,cb)=>socket.emit(EVT.trentunoCommand,cmd,cb));socket.emit(EVT.trentunoSync);return;}
+  if(mg.minigameId==='goblinTime') {disposeFps();destroyBackroomsPhone();destroyMinigolfPhone();destroyGoblin();activeController='goblinTime';goblinPhone=mountGoblin(app,(cmd,cb)=>socket.emit(EVT.goblinCommand,cmd,cb));socket.emit(EVT.goblinSync);return;}
+  destroyGoblin();
+  destroyBackroomsPhone();
+  if(mg.controllerLayout.type==='custom'&&mg.controllerLayout.id==='backrooms-tv'){disposeFps();destroyMinigolfPhone();activeController='backrooms';backroomsPhone=mountBackrooms(app,sendInput);return;}
+  destroyMinigolfPhone();
+  const layout = mg.controllerLayout;
+  if(layout.type==='custom'&&layout.id==='orda-tv'){
+    disposeFps();activeController='orda';ordaPhone=mountOrda(app,playerId!,sendInput);
+    if(ordaPending){ordaPhone.update(ordaPending);ordaPending=null;}
+    return;
+  }
+  if(layout.type==='custom'&&layout.id==='minigolf-tv'){
+    activeController='minigolf';
+    const golfer=state?.players.find(p=>p.id===playerId);
+    minigolfPhone=mountMinigolf(app,sendInput,golfer?.characterId??null,golfer);
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'quiz-tv') {
+    activeController = 'quiz';
+    renderQuizController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'memory-tv') {
+    activeController = 'memory';
+    renderMemoryController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'arena-tv') {
+    activeController = 'arena';
+    renderArenaController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'dodgeball-tv') {
+    activeController = 'dodgeball';
+    renderDodgeballController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'soccer-tv') {
+    activeController = 'soccer';
+    renderSoccerController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'volleyball-tv') {
+    activeController = 'volleyball';
+    renderVolleyballController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'fps-tv') {
+    activeController = 'fps';
+    renderFpsController();
+    return;
+  }
+  if (layout.type === 'custom' && layout.id === 'cultura-tv') {
+    activeController = 'cultura';
+    renderCulturaController();
+    return;
+  }
+  activeController = null;
+  app.innerHTML = `
+    <div class="screen${layout.type === 'dpad' ? ' dpad-screen' : ''}">
+      <h1>${mg.name}</h1>
+      <p id="info-line" class="sub info-line"></p>
+      <div id="ctl"></div>
+    </div>`;
+  renderController(app.querySelector<HTMLDivElement>('#ctl')!, mg.controllerLayout, sendInput);
+  if(mg.minigameId==='geofall')app.querySelectorAll<HTMLButtonElement>('#ctl button').forEach(b=>b.disabled=true);
+  renderInfoLine();
+}
+
+/** Controller dedicato a MEMORIA DA UBRIACO (layout custom: memory-tv). */
+function renderMemoryController(): void {
+  memoryTileEls = [];
+  memoryAbilityBtn = null;
+  memoryStatusEl = null;
+
+  const me: PlayerPublic | undefined =
+    playerId && state ? state.players.find((p) => p.id === playerId) : undefined;
+  const cid = me?.characterId ?? '';
+  const ab = MEMORY_ABILITIES[cid];
+
+  app.innerHTML = `
+    <div class="mem-shell">
+      <div class="mem-topbar">
+        <div class="mem-brand">🧠 MEMORIA DA UBRIACO</div>
+        <div id="mem-status" class="mem-status">👀 OSSERVA...</div>
+      </div>
+      <div id="mem-grid" class="mem-grid"></div>
+      <button id="mem-ability" class="mem-ability">
+        <span class="mem-ability-icon">⭐</span>
+        <span id="mem-ability-name">${ab?.name ?? 'ABILITÀ'}</span>
+      </button>
+      <p id="mem-ability-desc" class="mem-ability-desc">${ab?.desc ?? ''}</p>
+    </div>`;
+
+  memoryStatusEl = app.querySelector<HTMLElement>('#mem-status')!;
+
+  const grid = app.querySelector<HTMLDivElement>('#mem-grid')!;
+  for (const t of MEMORY_TILES) {
+    const btn = document.createElement('button');
+    btn.className = 'mem-tile';
+    btn.dataset.index = String(t.index);
+    btn.style.background = t.color;
+    btn.innerHTML = `<span class="mem-tile-icon">${t.icon}</span><span class="mem-tile-label">${t.label}</span>`;
+    btn.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      if (btn.disabled) return;
+      vibrate(15); // vibrazione generica, uguale per ogni tessera
+      highlightMemTile(t.index, 160); // riscontro VISIVO solo su questo telefono (la TV non mostra piu' la tessera premuta)
+      sendInput({ kind: 'action', controlId: `c${t.index}` });
+    });
+    grid.appendChild(btn);
+    memoryTileEls.push(btn);
+  }
+
+  memoryAbilityBtn = app.querySelector<HTMLButtonElement>('#mem-ability')!;
+  // Buttafuori: abilità passiva → pulsante non premibile (scatta da sola sull'errore).
+  if (ab?.phase === 'passive') {
+    memoryAbilityBtn.disabled = true;
+    memoryAbilityBtn.classList.add('mem-ability-passive');
+  }
+  memoryAbilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (memoryAbilityBtn!.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+
+  // Blocca le tile finché non arriva il segnale "repeat".
+  setMemLocked(true, '👀 OSSERVA...');
+}
+
+const QUIZ_LETTERS = ['A', 'B', 'C', 'D'] as const;
+let quizAnswerEls: { root: HTMLButtonElement; letter: HTMLSpanElement; text: HTMLSpanElement }[] = [];
+
+/** Controller "TV quiz show" dedicato a CHI CAZZO LO SA? (layout custom: quiz-tv). */
+function renderQuizController(): void {
+
+  app.innerHTML = `
+    <div class="quiz-shell">
+      <div class="quiz-topbar">
+        <div class="quiz-brand">📚 CHI CAZZO LO SA?</div>
+        <div id="quiz-timer" class="quiz-timer" style="display:none">
+          <span id="quiz-timer-num">--</span>
+        </div>
+      </div>
+      <div class="quiz-card">
+        <div class="quiz-card-top">
+          <div>
+            <div id="quiz-qnum" class="quiz-qnum">Domanda -/10</div>
+            <div id="quiz-dots" class="quiz-dots"></div>
+          </div>
+          <div id="quiz-points" class="quiz-points">👑 --</div>
+        </div>
+        <div id="quiz-category" class="quiz-category">—</div>
+        <div id="quiz-question" class="quiz-question">In attesa della domanda...</div>
+        <p id="quiz-hint" class="quiz-hint"></p>
+      </div>
+      <div id="quiz-answers" class="quiz-answers"></div>
+      <button id="quiz-confirm" class="quiz-confirm" disabled>CONFERMA RISPOSTA</button>
+      <p id="quiz-status" class="quiz-status" role="status" aria-live="polite">In attesa della domanda…</p>
+      <div id="quiz-breakdown" class="quiz-breakdown"></div>
+      <div class="quiz-footer">
+        <div class="quiz-player">
+          <div id="quiz-avatar" class="quiz-avatar">🎮</div>
+          <div class="quiz-player-info">
+            <div id="quiz-name" class="quiz-name">—</div>
+            <div id="quiz-score" class="quiz-score">0 punti</div>
+          </div>
+        </div>
+        <button id="quiz-ability-btn" class="quiz-ability-btn">
+          <span id="quiz-ability-icon">⭐</span>
+          <span id="quiz-ability-name">ABILITÀ</span>
+        </button>
+      </div>
+      <p id="quiz-ability-desc" class="quiz-ability-desc"></p>
+    </div>`;
+
+  const answersRoot = app.querySelector<HTMLDivElement>('#quiz-answers')!;
+  quizAnswerEls = [];
+  QUIZ_LETTERS.forEach((letter, i) => {
+    const btn = document.createElement('button');
+    btn.className = `quiz-answer quiz-ans-${letter.toLowerCase()}`;
+    btn.disabled = true; // attendi una domanda attiva prima di accettare risposte
+    const badge = document.createElement('span');
+    badge.className = 'quiz-answer-letter';
+    badge.textContent = letter;
+    const text = document.createElement('span');
+    text.className = 'quiz-answer-text';
+    btn.append(badge, text);
+    btn.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      if (btn.disabled) return;
+      quizSelectedLocal = i;
+      updateQuizUI();
+    });
+    answersRoot.appendChild(btn);
+    quizAnswerEls.push({ root: btn, letter: badge, text });
+  });
+
+  app.querySelector<HTMLButtonElement>('#quiz-confirm')!.addEventListener('click', () => {
+    const s = lastQuizState;
+    if (!socket.connected || state?.paused || !s?.canAnswer || quizSelectedLocal === null || quizPending) return;
+    quizPending = true;
+    socket.emit(EVT.inputText, { controlId: 'quizAnswer', text: JSON.stringify([s.roundId, s.questionKey, s.answerRevision, quizSelectedLocal]) });
+    updateQuizUI();
+  });
+  const abilityBtn = app.querySelector<HTMLButtonElement>('#quiz-ability-btn')!;
+  abilityBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (abilityBtn.disabled) return;
+    sendInput({ kind: 'action', controlId: 'ability' });
+  });
+  updateQuizUI(); // Non perdere lo stato arrivato prima del montaggio della vista.
+}
+
+function updateQuizUI(): void {
+  const s = lastQuizState;
+  const root = app.querySelector('.quiz-shell');
+  if (!s || !root || s.roundId !== state?.roundId) return;
+
+  root.querySelector('#quiz-qnum')!.textContent = `Domanda ${s.questionNumber}/${s.totalQuestions}`;
+
+  const dotsEl = root.querySelector('#quiz-dots')!;
+  dotsEl.innerHTML = '';
+  for (let i = 1; i <= s.totalQuestions; i++) {
+    const dot = document.createElement('span');
+    dot.className = 'quiz-dot' + (i <= s.questionNumber ? ' filled' : '');
+    dotsEl.appendChild(dot);
+  }
+
+  root.querySelector('#quiz-points')!.textContent = `👑 vale ${s.points} punt${s.points === 1 ? 'o' : 'i'}`;
+  root.querySelector('#quiz-category')!.textContent = s.category.toUpperCase();
+  root.querySelector('#quiz-question')!.textContent = s.question;
+
+  const hintEl = root.querySelector<HTMLElement>('#quiz-hint')!;
+  hintEl.textContent = s.hintText ? `💡 ${s.hintText}` : '';
+  hintEl.style.display = s.hintText ? '' : 'none';
+
+  const locked = s.phase !== 'question';
+  const canPick = s.canAnswer && !quizPending && !state?.paused && socket.connected;
+  quizAnswerEls.forEach((el, i) => {
+    el.text.textContent = s.answers[i] ?? '';
+    el.letter.textContent = QUIZ_LETTERS[i];
+    el.root.classList.remove('selected', 'correct', 'wrong');
+    el.root.disabled = !canPick;
+
+    if (locked && s.correctIndex !== null) {
+      if (i === s.correctIndex) el.root.classList.add('correct');
+      else if (i === s.myAnswerIndex) el.root.classList.add('wrong');
+    } else if ((s.myAnswerIndex ?? quizSelectedLocal) === i) {
+      el.root.classList.add('selected');
+    }
+  });
+
+  const confirm = root.querySelector<HTMLButtonElement>('#quiz-confirm')!;
+  confirm.disabled = !canPick || quizSelectedLocal === null;
+  confirm.textContent = quizSelectedLocal === null ? 'CONFERMA RISPOSTA' : `CONFERMA ${QUIZ_LETTERS[quizSelectedLocal]}`;
+  root.querySelector('#quiz-status')!.textContent = quizPending ? 'Invio della risposta…' :
+    s.answerStatus === 'confirmed' ? 'Risposta confermata · aspetta gli altri' :
+    s.answerStatus === 'grace' ? 'Puoi usare MO HO CAPITO per riprovare' :
+    s.answerStatus === 'waiting' && !s.canAnswer ? 'Aspetta la fine del tempo per il riepilogo privato' :
+    s.phase === 'intro' ? 'Leggi la domanda · tra poco puoi rispondere' :
+    s.phase !== 'question' ? 'Risposte chiuse · guarda il risultato' :
+    !s.canAnswer ? 'Tempo scaduto · attendi il risultato' :
+    quizSelectedLocal === null ? 'Scegli una risposta e poi conferma' : `Hai selezionato ${QUIZ_LETTERS[quizSelectedLocal]} · premi CONFERMA`;
+
+  const breakdownEl = root.querySelector<HTMLElement>('#quiz-breakdown')!;
+  if (s.ciroBreakdown) {
+    breakdownEl.style.display = 'flex';
+    breakdownEl.innerHTML = QUIZ_LETTERS.map(
+      (letter, i) => `<div class="quiz-breakdown-row"><span>${letter}</span><span>${s.ciroBreakdown![i]}</span></div>`
+    ).join('');
+  } else {
+    breakdownEl.style.display = 'none';
+    breakdownEl.innerHTML = '';
+  }
+
+  const timerEl = root.querySelector<HTMLElement>('#quiz-timer')!;
+  const timerNum = root.querySelector('#quiz-timer-num')!;
+  if (s.phase === 'question' && s.totalTime > 0) {
+    timerEl.style.display = '';
+    timerNum.textContent = Math.max(0, Math.ceil(s.timeRemaining || s.answerTimeRemaining)).toString();
+    const frac = Math.max(0, Math.min(1, s.timeRemaining / s.totalTime));
+    timerEl.style.setProperty('--pct', `${frac * 360}deg`);
+    timerEl.classList.toggle('urgent', s.timeRemaining <= 3);
+  } else {
+    timerEl.style.display = 'none';
+  }
+
+  root.querySelector('#quiz-name')!.textContent = s.playerName;
+  root.querySelector('#quiz-avatar')!.textContent = s.avatar;
+  root.querySelector('#quiz-score')!.textContent = `${s.myScore} punti`;
+
+  const abilityBtn = root.querySelector<HTMLButtonElement>('#quiz-ability-btn')!;
+  root.querySelector('#quiz-ability-name')!.textContent = s.abilityUsed ? `${s.abilityName} · USATA` : s.abilityName;
+  root.querySelector('#quiz-ability-desc')!.textContent = s.abilityDescription;
+  abilityBtn.classList.toggle('used', s.abilityUsed);
+  abilityBtn.disabled = s.abilityUsed;
+}
+
+// ---- QUIZ col controller: "private info companion" — il telefono resta su USA IL CONTROLLER, ma quando arriva
+// un'informazione che TV/controller non possono mostrare in privato (indizio del Dottore, riepilogo di Ciro) il
+// telefono la mostra qui SENZA nessun bottone di gioco (nessun tocco tocca il gameplay), poi torna da solo a
+// USA IL CONTROLLER appena l'informazione sparisce (nuova domanda, o Ciro ha risposto) — nessun refresh manuale.
+let quizPadPrivateShown = false;
+
+function renderQuizPadPrivateInfo(data: QuizStatePayload, mg: NonNullable<RoomState['currentMinigame']>): void {
+  activeController = null;
+  disposeFps();
+  const def = getMinigame(mg.minigameId);
+  const hint = data.hintText ? `<p class="pad-look" style="margin-top:14px">💡 ${data.hintText}</p>` : '';
+  const breakdown = data.ciroBreakdown
+    ? `<div class="quiz-breakdown" style="display:flex;margin-top:14px">${QUIZ_LETTERS.map(
+        (letter, i) => `<div class="quiz-breakdown-row"><span>${letter}</span><span>${data.ciroBreakdown![i]}</span></div>`
+      ).join('')}</div>`
+    : '';
+  if (!quizPadPrivateShown) vibrate([60, 40, 60]);
+  const html = `
+    <div class="screen pad-screen pad-private">
+      <div class="pad-icon">📱</div>
+      <h1>INFO PRIVATA</h1>
+      <p class="pad-look">🔒 SOLO PER TE · NON FARLA VEDERE</p>
+      <p class="pad-game">${def?.icon ?? ''} ${mg.name}</p>
+      ${hint}
+      ${breakdown}
+      <p class="pad-look" style="margin-top:16px">RIGUARDA LA TV · USA IL CONTROLLER</p>
+    </div>`;
+  // stesso contenuto = niente ridisegno (l'animazione d'ingresso parte una volta sola, non a ogni aggiornamento del quiz)
+  if (html === lastPrivateHtml && app.querySelector('.pad-private')) return;
+  lastPrivateHtml = html;
+  app.innerHTML = html;
+}
+let lastPrivateHtml = '';
+
+/** Chiamata ad ogni quizState: decide se mostrare/nascondere la schermata privata per chi gioca col controller. */
+function syncQuizPadPrivateInfo(data: QuizStatePayload): void {
+  if (!state || !playerId) return;
+  const me = state.players.find((p) => p.id === playerId);
+  const mg = state.currentMinigame;
+  if (!me || !mg || padModeFor(state, me) !== 'pad') {
+    quizPadPrivateShown = false;
+    return;
+  }
+  const hasPrivateInfo = !!data.hintText || !!data.ciroBreakdown;
+  if (hasPrivateInfo) {
+    renderQuizPadPrivateInfo(data, mg);
+    quizPadPrivateShown = true;
+  } else if (quizPadPrivateShown) {
+    quizPadPrivateShown = false;
+    renderPadScreen(mg, me);
+  }
+}
+
+/** Losing a touch stream must release both network state and the local pointer ownership. */
+function releaseControllerInput(): void {
+  ordaPhone?.cancel();
+  cancelVolleySprint?.();
+  backroomsPhone?.cancel();
+  minigolfPhone?.cancel();
+  cancelArenaAttack();
+  arenaJoy?.reset(); dbJoy?.reset(); soccerJoy?.reset(); volleyJoy?.reset(); fpsJoy?.reset();
+  fpsClient?.setFirePressed(false);
+  for (const id of ['fps-aim', 'fps-fire', 'fps-crouch', 'fps-look']) app.querySelector(`#${id}`)?.dispatchEvent(new Event('fps-cancel'));
+  endSoccerCharge();
+  if (!phoneIsOnTable() && state?.currentMinigame?.minigameId==='cornicione') {
+    sendInput({kind:'action',controlId:'throwCancel'});
+    app.querySelector('.ctl-throw')?.dispatchEvent(new Event('corn-cancel'));
+  }
+  for (const controlId of [...heldControls]) sendInput({ kind: 'up', controlId });
+  for (const controlId of [...activeAxes]) {
+    if (controlId === 'look' && state?.currentMinigame?.minigameId === 'fps') continue;
+    sendInput({ kind: 'axis', controlId, x: 0, y: 0 });
+  }
+  heldControls.clear(); activeAxes.clear();
+}
+
+function sendInput(ev: InputEvent): void {
+  // Socket.IO buffers while offline. Stale gestures must never replay on rejoining a live round.
+  if (!socket.connected) return;
+  switch (ev.kind) {
+    case 'down':
+      heldControls.add(ev.controlId);
+      socket.emit(EVT.inputDown, { controlId: ev.controlId });
+      break;
+    case 'up':
+      heldControls.delete(ev.controlId);
+      socket.emit(EVT.inputUp, { controlId: ev.controlId });
+      break;
+    case 'action':
+      socket.emit(EVT.inputAction, { controlId: ev.controlId });
+      break;
+    case 'axis':
+      if (ev.x || ev.y) activeAxes.add(ev.controlId); else activeAxes.delete(ev.controlId);
+      socket.emit(EVT.inputAxis, { controlId: ev.controlId, x: ev.x, y: ev.y });
+      break;
+  }
+}
+
+let lastIntroKey = '';
+
+function renderPreGame(state: RoomState): void {
+  const mg = state.currentMinigame;
+  // Durante il rullo il nome NON va rivelato (spoilera l'animazione sulla TV): solo dall'intro.
+  const reveal = state.phase === 'MINIGAME_INTRO' && !!mg;
+  const def = reveal ? getMinigame(mg!.minigameId) : undefined;
+  const meNow = state.players.find((p) => p.id === playerId);
+  // sessione con controller: il telefono dice cosa fare (mettilo giu' / riprendilo) senza spoilerare il rullo
+  if (meNow && padSessionActive(state)) {
+    if (!reveal) {
+      app.innerHTML = `<div class="screen pad-screen"><div class="pad-icon">🎰</div><h1>RULLO IN CORSO</h1><p class="pad-look">GUARDA LA TV</p></div>`;
+      return;
+    }
+    if (def?.inputMode === 'PHONE_TEXT') {
+      const instruction = mg!.minigameId === 'quiz' ? 'LEGGI LA DOMANDA E TOCCA LA RISPOSTA' : 'SERVE PER SCRIVERE E VOTARE';
+      app.innerHTML = `<div class="screen pad-screen"><div class="pad-icon">📱</div><h1>PRENDI IL TELEFONO</h1><p class="pad-game">${def.icon ?? ''} ${mg!.name}</p><p class="pad-look">${instruction}</p></div>`;
+      return;
+    }
+    if (def?.inputMode === 'GAMEPAD' && meNow.pad) {
+      app.innerHTML = `<div class="screen pad-screen"><div class="pad-icon">🎮</div><h1>METTI GIÙ IL TELEFONO</h1><p class="pad-game">${def.icon ?? ''} ${mg!.name}</p><p class="pad-look">USA IL CONTROLLER · GUARDA LA TV</p></div>`;
+      return;
+    }
+    // Gioco NON ancora migrato al controller (o giocatore senza controller): la UI non deve far credere che il gamepad sia supportato.
+    if (def) {
+      const why = def.inputMode === 'GAMEPAD' ? 'MODALITÀ FALLBACK · controller non collegato' : 'IN QUESTO GIOCO IL CONTROLLER NON È ANCORA SUPPORTATO';
+      app.innerHTML = `<div class="screen pad-screen"><div class="pad-icon">📱</div><h1>USA IL TELEFONO</h1><p class="pad-game">${def.icon ?? ''} ${mg!.name}</p><p class="pad-look">${why}</p></div>`;
+      return;
+    }
+  }
+  app.innerHTML = `
+    <div class="screen">
+      ${def?.icon ? `<div class="pre-icon">${def.icon}</div>` : ''}
+      <h1>${reveal ? mg!.name : 'PROSSIMO GIOCO...'}</h1>
+      <p class="sub">${reveal ? (def?.description ?? 'Preparati! Tieni il telefono pronto') : 'Guarda lo schermo principale'}</p>
+      ${reveal ? '<p class="pre-ready">📱 PREPARATI!</p>' : ''}
+    </div>`;
+  // un solo "toc" di vibrazione quando parte l'intro di un round nuovo
+  if (reveal) {
+    const key = `${state.roundId ?? 0}:${mg!.minigameId}`;
+    if (key !== lastIntroKey) {
+      lastIntroKey = key;
+      vibrate(60);
+    }
+  }
+}
+
+function renderRoundEnded(): void {
+  app.innerHTML = `
+    <div class="screen">
+      <h1>ROUND TERMINATO</h1>
+      <p class="pad-look">📺 RISULTATI SULLA TV</p>
+    </div>`;
+}
+
+function renderNextRound(): void {
+  app.innerHTML = `
+    <div class="screen">
+      <h1>PROSSIMO MINIGIOCO...</h1>
+      <p class="sub">Guarda lo schermo principale</p>
+    </div>`;
+}
+
+function renderGameOver(state: RoomState): void {
+  const winner = state.players.find((p) => p.id === state.winner);
+  app.innerHTML = `
+    <div class="screen">
+      <h1>🏆</h1>
+      <p class="big-num">${winner?.displayName ?? '?'} ha vinto!</p>
+    </div>`;
+}
+
+function renderWait(state: RoomState): void {
+  void state;
+  app.innerHTML = `<div class="screen"><h1>Attendi...</h1></div>`;
+}
+
+// ---- avvio ----
+
+/** SOLO sviluppo / ?debug=1: anteprima di una schermata del telefono con dati finti (galleria UI della TV, ?ui=1). */
+function renderPreview(kind: string): void {
+  const mg = (id: string, name: string): NonNullable<RoomState['currentMinigame']> => ({ minigameId: id, name } as NonNullable<RoomState['currentMinigame']>);
+  if (kind === 'passive') renderPadScreen(mg('arena', 'ARENA DEL DISAGIO'), { pad: 'Xbox' } as PlayerPublic);
+  else if (kind === 'private') renderQuizPadPrivateInfo({ hintText: 'La risposta giusta NON è la B', ciroBreakdown: null } as unknown as QuizStatePayload, mg('quiz', 'CHI CAZZO LO SA?'));
+  else if (kind === 'cultura') {
+    renderCulturaController();
+    updateCulturaUI({ phase: 'bluff', round: 2, totalRounds: 8, category: 'Biologia', question: 'Quale animale possiede tre cuori?', myBluff: null, options: [], myVote: null, isSecchione: false, isAdvocate: false } as unknown as CulturaState);
+  } else renderJoin();
+}
+const previewKind = import.meta.env.DEV || new URLSearchParams(location.search).get('debug') === '1' ? new URLSearchParams(location.search).get('preview') : null;
+
+if (previewKind) {
+  renderPreview(previewKind);
+} else if (reconnectToken) {
+  renderReconnecting();
+  if (socket.connected) rejoinWithToken(); // altrimenti ci pensa l'handler 'connect'
+} else {
+  renderJoin();
+}

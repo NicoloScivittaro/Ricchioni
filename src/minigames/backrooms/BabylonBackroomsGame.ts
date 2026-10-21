@@ -1,3 +1,4 @@
+import {prepareVisuals} from '../../core/visualAssets';
 import {BackroomsAssets,BackActor} from './backroomsAssets';
 import type {CreatureVisual} from './backroomsWorld';
 import type {CreatureKind} from './backroomsRules';
@@ -99,6 +100,7 @@ export class BabylonBackroomsGame {
     });
     this.scene.activeCameras = this.cameras; applyQuality(this.engine, this.scene); window.addEventListener('resize', this.onResize);
     this.ready = this.initialize();
+    void this.ready.then(async()=>{if(this.disposed)return;await(this.ctx.showControls?.()??Promise.resolve());if(this.disposed)return;this.ctx.input.reset();this.match.cancel();this.controlsReady=true;this.sound.start();}).catch(()=>{});
     this.engine.runRenderLoop(guardLoop(() => { if (this.disposed || this.paused) return; runSteps(this.engine.getDeltaTime(), dt => this.step(dt)); this.ctx.input.update(); this.scene.render(); }));
   }
   private async initialize(): Promise<void> {
@@ -110,8 +112,7 @@ export class BabylonBackroomsGame {
     this.viewPlayers.forEach((p,i)=>{const scare=this.creature(this.match.monsters[0]?.kind??'stalker');scare.root.getChildMeshes().forEach(mesh=>mesh.layerMask=1<<(20+i));scare.root.setEnabled(false);this.scares.push(scare);});
     if(this.world.shadows){for(const actor of this.entities.values())for(const mesh of actor.meshes)this.world.shadows.addShadowCaster(mesh);for(const c of this.creatures)for(const mesh of c.root.getChildMeshes())this.world.shadows.addShadowCaster(mesh);}
     this.layersDirty=true;
-    await (this.ctx.showControls?.() ?? Promise.resolve()); if (this.disposed) return;
-    this.ctx.input.reset(); this.match.cancel(); this.controlsReady = true; this.sound.start();
+    await prepareVisuals(this.scene);
   }
   private readLamp(id:string,input:ReturnType<MinigameContext['input']['get']>):number{
     const serial=input.pressCount('flashlight'),old=this.lampSerial.get(id),base=!old||old.input!==input||old.cancel!==input.cancellationVersion?input.pressCountAtCancellation('flashlight'):old.serial;

@@ -5,6 +5,7 @@
  * cache, quindi il `import()` del wrapper dopo l'intro è istantaneo.
  */
 const LOADERS: Record<string, () => Promise<unknown>> = {
+  ferro:()=>import('./ferro/FerroRenderer'),
   orda:()=>import('./orda/OrdaRenderer'),
   goblinTime:()=>import('./goblinTime/avatars'),
   backrooms: () => import('./backrooms/BabylonBackroomsGame'),

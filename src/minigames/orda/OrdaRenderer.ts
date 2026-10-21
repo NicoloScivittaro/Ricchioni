@@ -1,3 +1,6 @@
+import {preloadWeaponModels} from '../../controller/fpsWeaponModels';
+import {preloadAuthoredWeapons} from '../../controller/fpsAuthored';
+import {prepareVisuals} from '../../core/visualAssets';
 import {Engine,Scene,UniversalCamera,Vector3,Viewport,Color3,Color4,HemisphericLight,DirectionalLight,Mesh,MeshBuilder,StandardMaterial} from '@babylonjs/core';
 import {FpsViewmodel} from '../../controller/fpsViewmodel';
 import {scopeSvg,scopeAlpha} from '../../controller/fpsScope';
@@ -79,7 +82,7 @@ export class OrdaRenderer{
   `;document.head.appendChild(s);
  }
  private async boot(participants:OrdaParticipant[]):Promise<void>{
-  await Promise.all([this.assets.load(),this.box.ready,this.perks.ready]);if(this.disposed)return;
+  await Promise.all([this.assets.load(),this.box.ready,this.perks.ready,preloadWeaponModels(this.scene),preloadAuthoredWeapons(this.scene)]);if(this.disposed)return;
   participants.forEach((p,i)=>{if(this.rigs.length===1&&this.rigs[0].id===p.id)return;const actor=this.assets.actor('player','survivor:'+p.id,p.color,p.name);actor.showLabel(true);for(const m of actor.root.getChildMeshes())m.layerMask=1<<(5+i);this.playerActors.set(p.id,actor);});
   // Warm every archetype before countdown; pools retain at most six idle actors.
   for(const kind of ['infetto','corridore','colosso','assalitore','cacciatore','macellaio','warrok','zombiegirl','yaku','pumpkinhulk'] as EnemyKind[]){const actor=this.assets.actor(kind,'warm:'+kind);for(const m of actor.root.getChildMeshes())m.layerMask=WORLD_LAYER;actor.root.setEnabled(false);this.free.push({kind,actor,lastX:0,lastZ:0,lastAt:0});}

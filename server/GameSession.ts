@@ -565,7 +565,7 @@ export class GameSession {
     // durationSec è la durata di GIOCO di alcuni minigiochi (arena, fps, kart…), non la loro durata
     // reale massima: la rete di sicurezza usa hardCapSec, così non tronca partite ancora valide.
     const def = this.currentMinigame ? getMinigame(this.currentMinigame.minigameId) : undefined;
-    if(def?.id==='trentuno'||def?.id==='cornicione'||def?.id==='orda')return; // untimed matches, also after resume/reconnect
+    if(def?.id==='ferro'||def?.id==='trentuno'||def?.id==='cornicione'||def?.id==='orda')return; // explicit victories, including fair tiebreaks, also after resume/reconnect
     const base = this.currentMinigame?.durationSec ?? 30;
     const capSec = def ? safetyCapSec(def, base) : base + 20;
     this.timer = setTimeout(() => this.fallbackFinish(), capSec * 1000);

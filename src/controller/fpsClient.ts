@@ -1,3 +1,6 @@
+import {preloadWeaponModels} from './fpsWeaponModels';
+import {preloadAuthoredWeapons} from './fpsAuthored';
+import {prepareVisuals} from '../core/visualAssets';
 import type{WeaponReload}from '../../shared/fpsReload';
 import {FpsImpactFx} from './fpsImpactFx';
 import type {ShotSegment,SurfaceImpact} from '../../shared/fpsCombat';
@@ -134,7 +137,7 @@ export class FpsClient {
   private finishReady!:()=>void;
   private worldLoaded=false;
   private poseReceived=false;
-  private presented=false;
+  private presented=false;private presenting=false;
   private loadingEl:HTMLDivElement;
   private engine: Engine;
   private scene: Scene;
@@ -260,7 +263,7 @@ export class FpsClient {
     this.scene.activeCamera = this.camera;
 
     const world=mapId==='terminal'?import('./terminalWorld').then(m=>m.buildTerminalWorld(this.scene)):mapId==='nuketown'?import('./nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)):Promise.resolve(buildFpsWorld(this.scene));
-    void world.then(()=>this.scene.whenReadyAsync()).then(()=>{if(this.scene.isDisposed)return;this.worldLoaded=true;this.presentWhenReady();}).catch(e=>{if(this.scene.isDisposed)return;console.error('FPS world loading failed',e);this.loadingEl.textContent='CARICAMENTO FALLITO · RICARICA IL TELEFONO';});
+    void Promise.all([world,preloadWeaponModels(this.scene),preloadAuthoredWeapons(this.scene)]).then(()=>prepareVisuals(this.scene)).then(()=>{if(this.scene.isDisposed)return;this.worldLoaded=true;this.presentWhenReady();}).catch(e=>{if(this.scene.isDisposed)return;console.error('FPS world loading failed',e);this.loadingEl.textContent='CARICAMENTO FALLITO · RICARICA IL TELEFONO';});
     this.vm = new FpsViewmodel(this.scene, this.camera, getQualityLevel() === 'high');
     this.vm.equip(this.weaponId);
 
@@ -393,9 +396,12 @@ export class FpsClient {
   }
 
   private presentWhenReady():void {
-    if(this.presented||!this.worldLoaded||!this.poseReceived||this.scene.isDisposed)return;
-    this.eyeHeight=this.eyeTarget;this.updateCamera(0);this.scene.render();
-    this.presented=true;this.loadingEl.remove();this.finishReady();
+    if(this.presented||this.presenting||!this.worldLoaded||!this.poseReceived||this.scene.isDisposed)return;
+    this.presenting=true;
+    void prepareVisuals(this.scene).then(()=>{
+      if(this.scene.isDisposed)return;this.eyeHeight=this.eyeTarget;this.updateCamera(0);this.scene.render();
+      this.presented=true;this.loadingEl.remove();this.finishReady();
+    }).catch(e=>{if(!this.scene.isDisposed){console.warn('FPS visual preparation failed',e);this.loadingEl.textContent='CARICAMENTO FALLITO · RICARICA IL TELEFONO';}});
   }
 
   private updateScope():void {

@@ -1,3 +1,4 @@
+import {game as gm} from '../../core/GameManager';
 import {humanViewPlayers} from '../../core/playerViews';
 import {beginWeaponReload,advanceWeaponReload} from '../../../shared/fpsReload';
 import type{WeaponReload}from '../../../shared/fpsReload';
@@ -338,7 +339,7 @@ export class FpsScene extends Phaser.Scene {
 
   private async bootSplitScreen(locals: FpsLocalPlayer[]): Promise<void> {
     const version=this.bootVersion;
-    this.worldReady=!this.nuketown;
+    this.worldReady=false;
     const { BabylonFpsGame } = await import('./BabylonFpsGame');
     if (this.splitScreenCancelled||version!==this.bootVersion) return;
 
@@ -353,9 +354,10 @@ export class FpsScene extends Phaser.Scene {
     document.body.appendChild(canvas);
     this.splitScreenCanvas = canvas;
     this.splitScreen = new BabylonFpsGame(canvas, locals,this.ctx.mapId==='terminal'?'terminal':this.nuketown?'nuketown':'cantiere');
-    this.worldReady=!this.nuketown;
+    this.worldReady=false;
+    this.splitScreen.update(0,this.players.map(p=>this.toRenderSnapshot(p)));
     try{await this.splitScreen.ready;if(!this.splitScreenCancelled&&version===this.bootVersion){this.splitScreen.update(0,this.players.map(p=>this.toRenderSnapshot(p)));this.worldReady=true;}}
-    catch(e){console.error('Nuketown rendering failed',e);this.splitScreen?.setRoundEndMessage('ERRORE CARICAMENTO MAPPA');}
+    catch(e){if(!this.splitScreenCancelled&&version===this.bootVersion)gm.reportMinigameError(e);}
   }
 
   private disposeSplitScreen(): void {

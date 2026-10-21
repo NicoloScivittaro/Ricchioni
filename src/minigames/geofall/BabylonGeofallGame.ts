@@ -1,3 +1,4 @@
+import {prepareVisuals} from '../../core/visualAssets';
 import {Engine,Scene,ArcRotateCamera,HemisphericLight,DirectionalLight,Vector3,Color3,Color4,MeshBuilder,StandardMaterial,DynamicTexture,Mesh} from '@babylonjs/core';
 import {GEO_QUESTIONS,CATEGORY_NAMES} from '../../../shared/geofallQuestions';
 import type {GeoAnswer} from '../../../shared/geofallQuestions';
@@ -51,12 +52,13 @@ export class BabylonGeofallGame {
   const bottom=this.hud.querySelector('.geo-bottom')!;for(const p of this.match.players){const card=document.createElement('div');card.className='geo-card';card.style.setProperty('--player',p.color);card.innerHTML='<div class="geo-name"></div><div class="geo-hearts"></div><div class="geo-push"></div><div class="geo-ability" style="font-size:11px;color:#d9c7ff;line-height:1.3;margin-top:3px"></div>';card.querySelector('.geo-name')!.textContent=p.name;bottom.appendChild(card);this.cards.push(card);}
   this.cardsObserver=new ResizeObserver(entries=>{this.hint.style.bottom=`${Math.max(102,entries[0].contentRect.height+24)}px`;});this.cardsObserver.observe(bottom);
   applyQuality(this.engine,this.scene);this.fitCamera();window.addEventListener('resize',this.onResize);this.ready=this.initialize();
+    void this.ready.then(async()=>{if(this.disposed)return;await(this.ctx.showControls?.()??Promise.resolve());if(this.disposed)return;this.ctx.input.reset();this.match.cancel();this.controlsReady=true;}).catch(()=>{});
   this.engine.runRenderLoop(guardLoop(()=>{if(this.disposed||this.paused)return;runSteps(this.engine.getDeltaTime(),dt=>this.step(dt));this.ctx.input.update();this.scene.render();}));
  }
  private async initialize():Promise<void>{
   const urls=[...new Set(GEO_QUESTIONS.flatMap(q=>[q.correct,...q.wrong].map(a=>a.image).filter((v):v is string=>!!v)))];
   await Promise.all(urls.map(async url=>{const image=new Image();image.src=url;await image.decode();if(this.disposed)return;this.images.set(url,image);}));
-  if(this.disposed)return;this.paintAnswers();await(this.ctx.showControls?.()??Promise.resolve());if(this.disposed)return;this.ctx.input.reset();this.match.cancel();this.controlsReady=true;
+  if(this.disposed)return;this.paintAnswers();await prepareVisuals(this.scene);
  }
  private fitCamera():void{const aspect=this.engine.getAspectRatio(this.camera);this.camera.radius=Math.max(27,26/aspect);}
  setPaused(on:boolean):void{this.paused=on;this.match.cancel();for(const p of this.match.players)this.ctx.input.cancelPlayer(p.id);}

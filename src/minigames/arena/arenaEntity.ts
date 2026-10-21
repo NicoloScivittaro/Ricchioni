@@ -223,6 +223,7 @@ export class ArenaEntity {
     // Popup (nome abilita' / battuta) e simbolo dell'abilita': create una volta, riusate (niente allocazioni durante il gioco)
     this.popupTex = new DynamicTexture('charPopup', { width: 512, height: 128 }, scene, false);
     this.popupTex.hasAlpha = true;
+    this.popupTex.getContext().clearRect(0,0,512,128);this.popupTex.update();
     const pm = new StandardMaterial('charPopupMat', scene);
     pm.diffuseTexture = this.popupTex;
     pm.emissiveColor = new Color3(1, 1, 1);

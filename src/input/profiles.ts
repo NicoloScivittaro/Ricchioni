@@ -63,6 +63,23 @@ export function defineProfile(minigameId: string, controls: PadBindingDef[]): Pa
 }
 
 export const PAD_PROFILES: Record<string, PadProfile> = {
+  ferro:defineProfile('ferro',[
+    {action:'MOVE',binding:'LEFT_STICK',control:'move',label:'MUOVITI · SCELTA ARMA: SINISTRA / DESTRA'},
+    {action:'LOOK',binding:'RIGHT_STICK',control:'lookStick',label:'CAMERA · AGGANCIATO: GUARDIA ALTO/SINISTRA/DESTRA'},
+    {action:'LIGHT',binding:'RB',control:'light',label:'LEGGERO · ARCO: COLPO RAVVICINATO'},
+    {action:'HEAVY',binding:'RT',control:'heavy',label:'PESANTE · ARCO: TIENI E RILASCIA'},
+    {action:'GUARD',binding:'LT',control:'guard',label:'AGGANCIA / MIRA · TAP A TEMPO: PARRY'},
+    {action:'SPECIAL',binding:'LB',control:'special',label:'SPECIAL DELL’ARMA'},
+    {action:'DODGE',binding:'PRIMARY',control:'dodge',label:'SCHIVA · SCELTA ARMA: CONFERMA'},
+    {action:'FEINT',binding:'SECONDARY',control:'feint',label:'FINTA · SOLO PREPARAZIONE PESANTE'},
+    {action:'BREAK',binding:'LEFT',control:'guardBreak',label:'PRESA / CONTRASTA PRESA'},
+    {action:'TARGET',binding:'R3',control:'target',label:'CAMBIA BERSAGLIO'},
+    {action:'SKIN',binding:'TOP',control:'cosmetic',label:'SCELTA ARMA: CAMBIA MODELLO'},
+    {action:'JUMP',binding:'DPAD_UP',control:'jump',label:'SALTO BREVE'},
+    {action:'SPRINT',binding:'L3',control:'sprint',label:'CORRI · TIENI'},
+    {action:'PREV',binding:'DPAD_LEFT',control:'selectPrev',label:'ARMA PRECEDENTE'},
+    {action:'NEXT',binding:'DPAD_RIGHT',control:'selectNext',label:'ARMA SUCCESSIVA'}
+  ]),
   backrooms: defineProfile('backrooms', [
     {action:'MOVE',binding:'LEFT_STICK',control:'move',label:'MUOVITI · CAMMINARE FA MENO RUMORE'},
     {action:'LOOK',binding:'RIGHT_STICK',control:'lookStick',label:'GUARDA'},

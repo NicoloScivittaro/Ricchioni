@@ -1,0 +1,14 @@
+{
+  "errors": [],
+  "fps": {
+    "worldReady": true,
+    "loading": false,
+    "views": 1,
+    "models": true,
+    "fallbackMeshes": [
+      "muzzleFlash"
+    ],
+    "ready": true
+  },
+  "status": "passed"
+}

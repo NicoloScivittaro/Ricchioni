@@ -1,0 +1,66 @@
+{
+  "errors": [],
+  "mapOptions": [
+    "colosseum",
+    "hell",
+    "geonosis"
+  ],
+  "mapPadVote": {
+    "7211ab40-900f-456c-ad63-ec0c48df7e1d": "colosseum"
+  },
+  "start": {
+    "phase": "selection",
+    "views": 2,
+    "players": 2,
+    "loading": false
+  },
+  "pad": [
+    "spear",
+    "spear"
+  ],
+  "phone": [
+    {
+      "weapon": "spear",
+      "ready": false
+    },
+    {
+      "weapon": "sword",
+      "ready": false
+    }
+  ],
+  "phoneGuards": [
+    "top",
+    "left",
+    "right"
+  ],
+  "padGuard": {
+    "target": "70e4dfc3-d129-482b-abb0-b14187f38309",
+    "direction": "left"
+  },
+  "padHeavy": {
+    "damage": 36,
+    "heavy": 1
+  },
+  "feint": true,
+  "draw": {
+    "charge": 0.45000000000000057,
+    "arrows": 0,
+    "ammo": 10
+  },
+  "cancel": {
+    "charge": 0,
+    "ammo": 10
+  },
+  "shot": {
+    "ammo": 9,
+    "minAmmo": 9,
+    "hp": 63.250000000000014,
+    "damage": 36.749999999999986
+  },
+  "cleanup": {
+    "canvases": 0,
+    "hud": 0,
+    "loading": 0
+  },
+  "status": "passed"
+}

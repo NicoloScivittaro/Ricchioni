@@ -1,0 +1,97 @@
+{
+  "errors": [],
+  "maps": [
+    {
+      "map": "hell",
+      "sampledFps": 59.15783176571763,
+      "seconds": 6.0178000000044705,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fps": 59.952038369483134,
+      "views": 5,
+      "width": 1920,
+      "height": 1080,
+      "meshes": 314,
+      "actors": 5,
+      "arrows": 1,
+      "simulationMs": 0.48174157284535046,
+      "presentationMs": 0.9235955057770349,
+      "renderMs": 7.541292134902618,
+      "alive": 5
+    },
+    {
+      "map": "geonosis",
+      "sampledFps": 60.05356578446908,
+      "seconds": 6.01129999999702,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fps": 59.94005994005986,
+      "views": 5,
+      "width": 1600,
+      "height": 900,
+      "meshes": 361,
+      "actors": 5,
+      "arrows": 1,
+      "simulationMs": 0.5011080331543146,
+      "presentationMs": 0.8495844875428815,
+      "renderMs": 7.280332410063109,
+      "alive": 5
+    }
+  ],
+  "models": [
+    {
+      "weapon": "sword",
+      "variant": 0,
+      "meshes": 2
+    },
+    {
+      "weapon": "sword",
+      "variant": 1,
+      "meshes": 1
+    },
+    {
+      "weapon": "sword",
+      "variant": 2,
+      "meshes": 1
+    },
+    {
+      "weapon": "sword",
+      "variant": 3,
+      "meshes": 1
+    },
+    {
+      "weapon": "shield",
+      "variant": 0,
+      "meshes": 3
+    },
+    {
+      "weapon": "shield",
+      "variant": 1,
+      "meshes": 2
+    },
+    {
+      "weapon": "spear",
+      "variant": 0,
+      "meshes": 1
+    },
+    {
+      "weapon": "bow",
+      "variant": 0,
+      "meshes": 6
+    },
+    {
+      "weapon": "blades",
+      "variant": 0,
+      "meshes": 2
+    },
+    {
+      "weapon": "hammer",
+      "variant": 0,
+      "meshes": 1
+    },
+    {
+      "weapon": "axe",
+      "variant": 0,
+      "meshes": 5
+    }
+  ],
+  "status": "passed"
+}

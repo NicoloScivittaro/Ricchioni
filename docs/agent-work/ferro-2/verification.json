@@ -1,0 +1,183 @@
+{
+  "status": "passed",
+  "feature": "FERRO E FURIA 2.0 — HONOR & STEEL",
+  "assets": "All ten supplied GLBs converted; two local animation packs inventoried (244 FBX files). Four sword cosmetics, two shields, bow plus separated arrow, Longinus; Melee pack dagger/hammer. Original axe retained because no new axe was supplied.",
+  "maps": "Colosseum retained; Hell and Geonosis added to the existing server-authorized vote registry. Original geometry/UVs retained. Hell enclosing12-triangle background box excluded; collision, floor and navigation derived from original geometry on0.4m proxies.",
+  "lock": "Held LT; visible live targets within14m, smooth facing and strafe, R3 cycle, release/transfer on death and LOS loss. Free camera otherwise; bow uses LT aim.",
+  "guards": "Top/left/right via locked right stick or phone buttons; immutable attack direction, exact defender-space mirror helper shared with incoming HUD cues. Blade poses and authoritative active-window sweeps use the same sampler.",
+  "defence": "130ms fresh-input parry, directional block and stamina costs; heavy-windup-only feint with blend; close guard-break and270ms counter; physical dodge, stamina recovery delay, delayed fair bot reactions.",
+  "animationClips": {
+    "idle": {
+      "source": "melee\\Animations\\Male\\Combat\\1H\\HumanM@CombatIdle1H01.fbx",
+      "duration": 1.3333333333333333,
+      "frames": 41
+    },
+    "attackL": {
+      "source": "melee\\Animations\\Male\\Combat\\1H\\HumanM@Attack1H01_L.fbx",
+      "duration": 1.1,
+      "frames": 34
+    },
+    "attackR": {
+      "source": "melee\\Animations\\Male\\Combat\\1H\\HumanM@Attack1H01_R.fbx",
+      "duration": 1.1,
+      "frames": 34
+    },
+    "attack2H": {
+      "source": "melee\\Animations\\Male\\Combat\\2H\\HumanM@Attack2H01.fbx",
+      "duration": 1.6,
+      "frames": 49
+    },
+    "polearm": {
+      "source": "melee\\Animations\\Male\\Combat\\Polearm\\HumanM@AttackPolearm01.fbx",
+      "duration": 1.3666666666666667,
+      "frames": 42
+    },
+    "shield": {
+      "source": "melee\\Animations\\Male\\Combat\\Shield\\HumanM@AttackShield01.fbx",
+      "duration": 0.9,
+      "frames": 28
+    },
+    "hurt": {
+      "source": "melee\\Animations\\Male\\Combat\\HumanM@CombatDamage01.fbx",
+      "duration": 1.0,
+      "frames": 31
+    },
+    "death": {
+      "source": "melee\\Animations\\Male\\Combat\\HumanM@Death01.fbx",
+      "duration": 0.7333333333333333,
+      "frames": 23
+    },
+    "run": {
+      "source": "melee\\Animations\\Male\\Movement\\Run\\HumanM@Run01_Forward.fbx",
+      "duration": 0.6,
+      "frames": 19
+    },
+    "strafeL": {
+      "source": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_Left.fbx",
+      "duration": 0.6,
+      "frames": 19
+    },
+    "strafeR": {
+      "source": "melee\\Animations\\Male\\Movement\\Strafe\\StrafeRun\\HumanM@StrafeRun01_Right.fbx",
+      "duration": 0.6,
+      "frames": 19
+    },
+    "bowIdle": {
+      "source": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowIdle01.fbx",
+      "duration": 1.3333332824707032,
+      "frames": 41
+    },
+    "bowLoad": {
+      "source": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowShot01 - Load.fbx",
+      "duration": 0.8333333587646484,
+      "frames": 27
+    },
+    "bowHold": {
+      "source": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowShot01 - Hold.fbx",
+      "duration": 1.3333332824707032,
+      "frames": 41
+    },
+    "bowRelease": {
+      "source": "archer\\Animations\\Male\\Combat\\Bow\\HumanM@BowShot01 - Release.fbx",
+      "duration": 0.8,
+      "frames": 25
+    }
+  },
+  "adaptation": "Actual authored FBX hand/body motion sampled and retargeted to registered cartoon rigs. Additive directional strikes/guards, two-link hand IK, feint blend, parry deflection, break/counter push and dodge layers are original; no dedicated pack clips falsely claimed.",
+  "bow": "Load/hold/release/recovery source clips; projectile at0.10s of release, synchronized ammo/charge/stamina; held arrow and bow follow aim pitch. Cancel/blur never releases a shot.",
+  "fivePlayers": "Five characters remain active; only human participants receive viewports. Tenacity charges only from distinct recent attackers and briefly reduces stagger, with no automatic damage or invulnerability.",
+  "optimization": "Shared geometry/materials, exact equivalent-material merging, removal of unused imported texture channels, pooled effects/projectiles and covered GPU warm draw. Geonosis uses1600x900 internal rendering with3–5 views on a1920x1080 canvas; HUD remains native resolution.",
+  "benchmark": [
+    {
+      "map": "hell",
+      "sampledFps": 59.15783176571763,
+      "seconds": 6.0178000000044705,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fps": 59.952038369483134,
+      "views": 5,
+      "width": 1920,
+      "height": 1080,
+      "meshes": 314,
+      "actors": 5,
+      "arrows": 1,
+      "simulationMs": 0.48174157284535046,
+      "presentationMs": 0.9235955057770349,
+      "renderMs": 7.541292134902618,
+      "alive": 5
+    },
+    {
+      "map": "geonosis",
+      "sampledFps": 60.05356578446908,
+      "seconds": 6.01129999999702,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "fps": 59.94005994005986,
+      "views": 5,
+      "width": 1600,
+      "height": 900,
+      "meshes": 361,
+      "actors": 5,
+      "arrows": 1,
+      "simulationMs": 0.5011080331543146,
+      "presentationMs": 0.8495844875428815,
+      "renderMs": 7.280332410063109,
+      "alive": 5
+    }
+  ],
+  "benchmarkConditions": "Local Chrome ANGLE/D3D11 RTX3050, five active viewports, fixture HP1000 only to keep all actors alive.90 rendered warmup frames, one final6s sample per new map. sampledFps is measured frames/elapsed wall time; engine FPS is diagnostic only. Not a network or physical-pad benchmark; earlier startup-affected samples are not treated as comparable before/after proof.",
+  "checks": [
+    "Six melee categories: physical contact only, one hit per active window",
+    "All three defender-space directions and face-to-face left/right mirror block correctly",
+    "Wrong guard takes full damage; fresh timed130ms parry interrupts and opens riposte",
+    "Lock acquires visible live target, cycles deterministically, releases on death and LT-up",
+    "Heavy feint costs stamina, blends out without damage, forbidden after active start",
+    "Close guard-break has counter window and brief stagger; neither directly damages",
+    "Bow load/hold/release/recovery, projectile at0.10s release event, cancellation never shoots",
+    "Tenacity needs distinct recent attackers; no solo/passive charge, automatic damage or invulnerability",
+    "Three map-vote entries; five grounded legal spawns on each authored terrain; original column still blocks LOS",
+    "Preserved survivor scoring and real final/simultaneous-death tiebreaks"
+  ],
+  "integration": "Real Socket.IO session, two human identities, actual controller.html, simulated Xbox profile: map vote, weapon selection, three phone guards, held LT/right-stick, RT damage, B feint, bow charge/cancel/release hit and cleanup passed.",
+  "validation": [
+    "TypeScript typecheck passed",
+    "Final Vite production build passed",
+    "Targeted current and legacy Ferro rules passed",
+    "Visual asset/model/camera verification",
+    "Two-human phone/pad integration",
+    "Brief5-view combat fixture and final6s samples"
+  ],
+  "limits": [
+    "No physical controller connected/tested.",
+    "Geometric0.4m collision proxy is not pixel-perfect for every decorative edge or stacked surface.",
+    "Bow is declared CC BY-NC-SA4.0; Scutum Standard entitlement and underlying franchise IP clearance remain unverified. Sources/licenses/modifications are preserved in each GLB and CREDITS.json. No publication clearance asserted.",
+    "Performance is measured locally and is not guaranteed on other devices."
+  ],
+  "production": {
+    "status": "passed",
+    "gallery": 200,
+    "compiledHome": true,
+    "assets": [
+      {
+        "name": "dagger",
+        "status": 200,
+        "bytes": 14292
+      },
+      {
+        "name": "warhammer",
+        "status": 200,
+        "bytes": 18256
+      },
+      {
+        "name": "geonosis",
+        "status": 200,
+        "bytes": 21638096
+      }
+    ],
+    "errors": []
+  },
+  "git": "No commit, push or deploy",
+  "screenshots": [
+    "guard-duel.png",
+    "hell-arena.png",
+    "geonosis-five.png"
+  ]
+}

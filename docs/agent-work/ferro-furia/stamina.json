@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "sprintSeconds": 4,
+  "previousSeconds": 7,
+  "recoverySeconds": 5,
+  "restartThreshold": 0.3,
+  "exhaustionLatch": true
+}

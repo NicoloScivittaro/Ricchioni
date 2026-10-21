@@ -1,0 +1,13 @@
+# Ferro e Furia 2.0 implementation contract
+
+Reuse existing shared120Hz match, rounds/scoring/ties, seven weapons, human-only views and loading lifecycle. Direct single-agent execution: request explicitly prohibits Flash. No commit/push/deploy; preserve all pre-existing dirty files from Ferro1/loading scope. Do not change FPS/Orda/Backrooms.
+
+A: audit10GLBs and244FBXs; preserve source metadata/hashes/licensing. Normalize geometry and grips; source native Blender animations present in supplied archives can be sampled faithfully. Derive map ground/collision/navigation proxies from actual geometry offline, keep original arenas and Colosseum, add both to existing vote registry. Shared immutable motion curves + attack/contact windows drive visual hand/blade poses and authoritative sweeps.
+
+B: extend current warrior/action/command state, not a new game. Independent held lock-on, bounded visible targets and deterministic switch; defender-space directions top/left/right with explicit mirror transform, matching guard only; configurable130ms timed parry, heavy windup feint, close guard-break with timed counter, stamina recovery delay, brief anti-stun resistance charged only by distinct attackers. Preserve old specials, physical arrows/walls, three rounds/real tiebreaks. Bow is aim/charge/release, never three guards.
+
+C: actual pack motion samples retargeted onto existing character articulation, directions and weapon-specific adaptations; source clips and custom/additive guard/parry/feint/dodge/break explicitly distinguished. Imported models cached per scene and shared across cameras. Separate cosmetic variant from WeaponId/stats, four swords and two shields. Complete dagger/hammer from pack, retain original axe where no new supplied axe exists. No anonymous replacement characters.
+
+D: shared pad profile: LT lock/aim, right stick guard while melee-locked and camera otherwise, R3 cycle, RB light/RT heavy except bow RT charge, B feint, X break/counter, A dodge, LB special, L3 sprint. Phone dedicated three-way controls and lock target, readable HUD/threat cues/shoulder camera; existing map-vote phone/pad reused.
+
+Acceptance: minimal deterministic rules checks for each mechanism, arrows, walls and round; two-player real controller.html+simulated pad session; phone three guards; actual GLB/grip/map visuals; one short five-view sample per new map; typecheck/final build after visual corrections. No physical-pad claim, no mass simulations. Local asset use only; CC-BY-NC-SA bow and unverified Standard Scutum retain notices and commercial/publication restrictions; no publication occurs.

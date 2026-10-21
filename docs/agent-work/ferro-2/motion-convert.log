@@ -1,0 +1,39 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+FBX version: 7700
+CLIP idle 1.3333333333333333
+FBX version: 7700
+CLIP attackL 1.1
+FBX version: 7700
+CLIP attackR 1.1
+FBX version: 7700
+CLIP attack2H 1.6
+FBX version: 7700
+CLIP polearm 1.3666666666666667
+FBX version: 7700
+CLIP shield 0.9
+FBX version: 7700
+CLIP hurt 1.0
+FBX version: 7700
+CLIP death 0.7333333333333333
+FBX version: 7700
+CLIP run 0.6
+FBX version: 7700
+CLIP strafeL 0.6
+FBX version: 7700
+CLIP strafeR 0.6
+FBX version: 7300
+CLIP bowIdle 1.3333332824707032
+FBX version: 7300
+CLIP bowLoad 0.8333333587646484
+FBX version: 7300
+CLIP bowHold 1.3333332824707032
+FBX version: 7300
+CLIP bowRelease 0.8
+CONVERSION COMPLETE
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

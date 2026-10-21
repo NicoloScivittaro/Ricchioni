@@ -7,3 +7,6 @@ npm-debug.log*
 # Runtime server logs (kept locally)
 docs/agent-work/nuketown/server.log
 docs/agent-work/terminal-2/server.log
+
+# Local supplied animation sources
+/.cache/ferro-2/

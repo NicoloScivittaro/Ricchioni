@@ -1,3 +1,4 @@
+import {prepareVisuals} from '../../core/visualAssets';
 import { MotionBots } from '../bots/MotionBots';
 import {
   Engine,
@@ -74,6 +75,8 @@ const POINT_PAUSE_SECONDS = 2.0;
 type Phase = 'intro' | 'countdown' | 'playing' | 'pointPause' | 'ended';
 
 export class BabylonVolleyballGame {
+  readonly ready:Promise<void>;private visualsReady=false;
+
   private soloBots: MotionBots;
   private engine: Engine;
   private scene: Scene;
@@ -223,8 +226,9 @@ export class BabylonVolleyballGame {
     this.showTeamIntro();
 
     applyQuality(this.engine, this.scene); // preset LOW/MEDIUM/HIGH + risoluzione dinamica (core/quality)
+    this.ready=prepareVisuals(this.scene).then(()=>{if(!this.disposed)this.visualsReady=true;});
     this.engine.runRenderLoop(guardLoop(() => {
-      if (this.disposed) return;
+      if (this.disposed || !this.visualsReady) return;
       if (this.paused) return;
       // Sotto-passi in tempo reale: timer/countdown/durata non dipendono dagli FPS (vedi core/frameClock).
       runSteps(this.engine.getDeltaTime(), (dt) => this.step(dt));

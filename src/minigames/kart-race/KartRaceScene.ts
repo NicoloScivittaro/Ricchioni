@@ -93,8 +93,13 @@ export class KartRaceScene extends Phaser.Scene {
     document.body.appendChild(canvas);
     this.overlayCanvas = canvas;
 
-    this.game3d = new BabylonKartGame(canvas, ctx);
-    await this.game3d.ready;
+    let assetsReady:Promise<void>;
+    const reveal=()=>{if(this.cancelled||this.overlayCanvas!==canvas)return;canvas.style.visibility='visible';this.hideLoading?.();this.hideLoading=null;};
+    const gameCtx={...ctx,showControls:async()=>{await Promise.resolve();try{await assetsReady;}catch{return;}if(this.cancelled||this.overlayCanvas!==canvas)return;reveal();await ctx.showControls?.();}};
+    canvas.style.visibility='hidden';
+    this.game3d = new BabylonKartGame(canvas, gameCtx);
+    assetsReady=this.game3d.ready;
+    await assetsReady;if(this.cancelled)return;reveal();
     if(this.cancelled)return;
     canvas.style.visibility='visible';
     this.hideLoading?.();this.hideLoading=null;
