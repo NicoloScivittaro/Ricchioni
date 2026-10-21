@@ -4,7 +4,7 @@ import type {CreatureKind} from './backroomsRules';
 import { Engine, Scene, Color3, Color4, UniversalCamera, Viewport, Vector3, DynamicTexture, SpotLight, TransformNode, Mesh, StandardMaterial } from '@babylonjs/core';
 import type { MinigameContext } from '../types';
 import { ArenaEntity } from '../arena/arenaEntity';
-import { splitScreenLayout } from '../kart-race/cameraHud';
+import { humanViewPlayers, splitScreenLayout } from '../../core/playerViews';
 import { engineOptions, applyQuality, getQualityLevel } from '../../core/quality';
 import { guardLoop } from '../../core/loopGuard';
 import { runSteps } from '../../core/frameClock';
@@ -20,10 +20,11 @@ import type { BackPlayer } from './backroomsRules';
 import type { BackPhoneStatus } from '../../controller/backroomsController';
 import {monsterSfx} from '../../monsters/monsterAudio';
 
-/** One authoritative match and one Babylon scene, with a viewport for every player/device. */
+/** One authoritative match; only human participants own a TV viewport. */
 export class BabylonBackroomsGame {
   readonly engine: Engine; readonly scene: Scene; readonly match: BackroomsMatch; readonly ready: Promise<void>;
   readonly cameras: UniversalCamera[] = []; readonly entities = new Map<string, BackActor>();
+  private viewPlayers: MinigameContext['players'];
   private bots = new BackroomsBots(); private sound = new BackroomsAudio(); private world!: ReturnType<typeof buildBackWorld>;private assets:BackroomsAssets|null=null;private torches:SpotLight[]=[];private lampSerial=new Map<string,{serial:number;cancel:number;input:ReturnType<MinigameContext['input']['get']>}>();
   private creatures: ReturnType<typeof createCreature>[] = []; private imitations = new Map<number, BackActor>();
   private monsterActors=new Map<TransformNode,BackActor>();
@@ -38,8 +39,10 @@ export class BabylonBackroomsGame {
   private paused = false; private disposed = false; private controlsReady = false;
   private onResize = () => this.engine.resize();
   constructor(canvas: HTMLCanvasElement, private ctx: MinigameContext) {
+    this.viewPlayers=humanViewPlayers(ctx.players);
     const options = engineOptions(); this.engine = new Engine(canvas, options.antialias, options); this.scene = new Scene(this.engine);
     this.scene.skipPointerMovePicking=true;
+    this.scene.skipPointerDownPicking=true;this.scene.skipPointerUpPicking=true;
     this.scene.onNewMeshAddedObservable.add(()=>{this.layersDirty=true;});
     let seed = ctx.rng.int(1, 0x7fffffff);
     const debugSeed = import.meta.env.DEV ? new URLSearchParams(location.search).get('backroomsSeed') : null;
@@ -65,17 +68,17 @@ export class BabylonBackroomsGame {
     this.scene.fogColor = new Color3(...theme.fog); this.scene.fogStart = 9; this.scene.fogEnd = 27;
 
     const dot = new DynamicTexture('backDot', 16, this.scene, false); dot.getContext().fillStyle = 'white'; dot.getContext().fillRect(0, 0, 16, 16); dot.update();
-    const layout = splitScreenLayout(ctx.players.length);
+    const layout = splitScreenLayout(this.viewPlayers.length);
     this.hud = document.createElement('div'); this.hud.id = 'backrooms-hud';
     this.hud.innerHTML = `<style>
     #backrooms-hud{position:fixed;inset:0;z-index:10001;pointer-events:none;font-family:monospace;color:#dddcc2}#backrooms-hud .back-view{position:absolute;box-sizing:border-box;border:2px solid #080b08;overflow:hidden;background:radial-gradient(ellipse,transparent 40%,#0008 100%);text-shadow:0 1px 3px #000}#backrooms-hud .back-name{position:absolute;left:12px;top:10px;right:12px;font:bold clamp(10px,1vw,15px) monospace;letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:2px solid var(--player);padding-left:7px}#backrooms-hud .back-clock{float:right;font-size:11px;color:#adb091}#backrooms-hud .back-bottom{position:absolute;bottom:12px;left:12px;right:12px;font-size:clamp(10px,.85vw,13px)}#backrooms-hud .back-life{color:#ddd9ad}#backrooms-hud .back-stamina{height:3px;width:85px;background:#333a27;margin-top:6px}#backrooms-hud .back-stamina i{display:block;height:100%;background:#b1bf85}#backrooms-hud .back-center{position:absolute;left:7%;right:7%;top:42%;text-align:center;line-height:1.55;font-size:clamp(11px,1.1vw,17px)}#backrooms-hud .back-prompt{position:absolute;left:6%;right:6%;bottom:19%;text-align:center;font-size:clamp(10px,.9vw,14px);color:#e6e7ba}#backrooms-hud .back-reticle{position:absolute;left:50%;top:50%;width:3px;height:3px;background:#dfe0b79f;border-radius:50%}#backrooms-hud .back-scare{position:absolute;inset:0;display:none;background:#000}#backrooms-hud .back-face{width:100%;height:100%;filter:contrast(1.6);transform:scale(1.25)}#backrooms-hud .back-white{position:absolute;inset:0;opacity:0;background:#ecebd1}#backrooms-hud .back-seed{position:absolute;right:10px;bottom:3px;font:9px monospace;color:#89907160}
     @media(max-height:600px){#backrooms-hud .back-name{top:5px;left:6px}#backrooms-hud .back-bottom{bottom:7px;left:7px}#backrooms-hud .back-prompt{bottom:18%}}
     body:has(#backrooms-hud) #pad-alert{top:45%;font:12px Arial;max-width:220px}body:has(#backrooms-hud) #pad-toasts{top:45%}body:has(#backrooms-hud) #pad-toasts>div{font:700 12px/1.3 Arial!important;padding:7px!important;max-width:240px!important}
     </style>`;
-    ctx.players.forEach((p, i) => {
+    this.viewPlayers.forEach((p, i) => {
       const rect = layout[i], camera = new UniversalCamera(`backCamera:${p.id}`, new Vector3(0, 1.65, 0), this.scene);
       camera.inputs.clear(); camera.viewport = new Viewport(rect.x, rect.y, rect.w, rect.h); camera.minZ = .06; camera.maxZ = 30; camera.fov = 1.04;
-      camera.layerMask = 0x0fffffff & ~(1 << (10 + i)); this.cameras.push(camera);
+      camera.layerMask = 0x0fffffff & ~(1 << (10 + ctx.players.indexOf(p))); this.cameras.push(camera);
       if(i<2){const lamp=new SpotLight(`backTorch:${i}`,Vector3.Zero(),new Vector3(0,0,1),.7,9,this.scene);lamp.intensity=0;lamp.range=10;lamp.diffuse=new Color3(1,.94,.77);this.torches.push(lamp);}
       const panel = document.createElement('div'); panel.className = 'back-view'; panel.style.cssText = `left:${rect.x * 100}%;top:${(1 - rect.y - rect.h) * 100}%;width:${rect.w * 100}%;height:${rect.h * 100}%;--player:${p.color}`;
       panel.innerHTML = '<div class="back-name"><span></span><b class="back-clock"></b></div><div class="back-reticle"></div><div class="back-center"></div><div class="back-prompt"></div><div class="back-bottom"><div class="back-life"></div><div class="back-stamina"><i></i></div></div><div class="back-scare"><div class="back-face"></div></div><div class="back-white"></div>';
@@ -87,7 +90,7 @@ export class BabylonBackroomsGame {
     });
     const seedLabel = document.createElement('div'); seedLabel.className = 'back-seed'; seedLabel.textContent = `${this.match.level.name} · SEED ${seed}`; this.hud.appendChild(seedLabel); document.body.appendChild(this.hud);
     this.scene.onBeforeCameraRenderObservable.add(camera=>{
-     const own=this.cameras.indexOf(camera as UniversalCamera),subject=this.match.players[own];if(!subject)return;
+     const view=this.cameras.indexOf(camera as UniversalCamera),id=this.viewPlayers[view]?.id,own=this.match.players.findIndex(p=>p.id===id);if(own<0)return;
      this.match.players.forEach(p=>this.entities.get(p.id)?.showLabel(Math.hypot(p.x-camera.position.x,p.z-camera.position.z)<10&&lineOfSight(this.match.maze,camera.position,p)));
      const close=this.match.players.map((p,i)=>({p,i,d:Math.hypot(p.x-camera.position.x,p.z-camera.position.z)})).filter(o=>o.p.flashlight&&o.p.state==='exploring'&&!o.p.hiding).sort((a,b)=>(a.i===own?-1:b.i===own?1:a.d-b.d)).slice(0,2);
      // Keep the light count fixed across viewports: toggling lights invalidates every material.
@@ -104,7 +107,7 @@ export class BabylonBackroomsGame {
     this.world=buildBackWorld(this.scene,this.match.maze,this.match.tasks,this.match.puzzle,this.ctx.players.length<=3&&getQualityLevel()!=='low',this.match.level.theme,this.assets);
     for(const snap of this.ctx.players){const actor=this.assets.actor('hazmat',snap.id,snap.color,snap.displayName);this.entities.set(snap.id,actor);}
     this.match.monsters.forEach((m,i)=>{this.creatures.push(this.creature(m.kind));if(m.kind==='imitator'){const snap=this.ctx.players[i%this.ctx.players.length],actor=this.assets!.actor('hazmat',`imitation:${i}`,snap.color,'...');this.monsterAudio(actor);this.imitations.set(i,actor);}});
-    this.ctx.players.forEach((p,i)=>{const scare=this.creature(this.match.monsters[0]?.kind??'stalker');scare.root.getChildMeshes().forEach(mesh=>mesh.layerMask=1<<(20+i));scare.root.setEnabled(false);this.scares.push(scare);});
+    this.viewPlayers.forEach((p,i)=>{const scare=this.creature(this.match.monsters[0]?.kind??'stalker');scare.root.getChildMeshes().forEach(mesh=>mesh.layerMask=1<<(20+i));scare.root.setEnabled(false);this.scares.push(scare);});
     if(this.world.shadows){for(const actor of this.entities.values())for(const mesh of actor.meshes)this.world.shadows.addShadowCaster(mesh);for(const c of this.creatures)for(const mesh of c.root.getChildMeshes())this.world.shadows.addShadowCaster(mesh);}
     this.layersDirty=true;
     await (this.ctx.showControls?.() ?? Promise.resolve()); if (this.disposed) return;
@@ -140,10 +143,13 @@ export class BabylonBackroomsGame {
     this.perceptionDebug?.update();
     if(this.layersDirty){this.layersDirty=false;this.match.players.forEach((p,i)=>this.entities.get(p.id)!.root.getChildMeshes().forEach(mesh=>{mesh.layerMask=1<<(10+i);}));}
     this.panelElapsed+=dt;const refreshPanels=this.panelElapsed>=.05;if(refreshPanels)this.panelElapsed=0;
-    const alive = this.match.players.filter(p => p.state === 'exploring');
-    this.match.players.forEach((p, i) => {
+    const alive = humanViewPlayers(this.match.players).filter(p => p.state === 'exploring');
+    this.match.players.forEach(p => {
       const entity = this.entities.get(p.id)!; entity.root.setEnabled((p.state === 'exploring' && !p.hiding)||(p.state==='captured'&&p.stateTime<.32));
       if(entity.root.isEnabled())entity.update(p.x,p.z,p.yaw,Math.hypot(p.dx,p.dz),p.running,this.match.time,dt,this.ctx.input.get(p.id).pressed('interact'),p.immunity>0||p.state==='captured');
+    });
+    this.viewPlayers.forEach((view, i) => {
+      const p=this.match.players.find(p=>p.id===view.id)!;
       let subject = p;
       if (p.state === 'eliminated' || (p.state === 'escaped' && p.stateTime > 2)) subject = alive[(this.spectators.get(p.id) ?? 0) % Math.max(1, alive.length)] ?? p;
       const camera = this.cameras[i], own = this.match.players.indexOf(subject); camera.layerMask = (0x0fffffff & ~(1 << (10 + own)) & ~(0x1f << 20)) | (1 << (20 + i));
@@ -168,7 +174,7 @@ export class BabylonBackroomsGame {
     this.match.monsters.forEach((m, i) => { const c = this.creatures[i]; c.root.setEnabled(m.revealed&&this.match.time>=m.activeAt); c.root.position.set(m.x, 0, m.z); c.root.rotation.y = m.yaw; c.update(this.match.time, m.state === 'chase', m.state === 'watch' || m.state === 'rest' || m.state === 'lure' || m.state === 'recoil');
       const imitation = this.imitations.get(i); if (imitation) { imitation.root.setEnabled(!m.revealed);const speed=Math.min(5,Math.hypot(m.x-imitation.root.position.x,m.z-imitation.root.position.z)/Math.max(.001,dt));imitation.update(m.x,m.z,m.yaw,speed,false,this.match.time,dt); }
     });
-    for (const event of this.match.events) { this.sound.event(event, this.match); if (event.type === 'capture' && event.player) {const source=this.match.monsters.findIndex(m=>m.kind===event.kind);if(source>=0)this.monsterActors.get(this.creatures[source].root)?.triggerAnimation('ATTACK');const i=this.match.players.findIndex(p=>p.id===event.player);if(i>=0&&this.captureKinds.get(event.player)!==event.kind){const old=this.scares[i];this.monsterActors.get(old.root)?.dispose();this.monsterActors.delete(old.root);old.root.dispose();const scare=this.creature(event.kind??'stalker');scare.root.getChildMeshes().forEach(m=>m.layerMask=1<<(20+i));this.scares[i]=scare;} this.captureKinds.set(event.player, event.kind ?? 'stalker'); this.ctx.vibrate(event.player, 160); } }
+    for (const event of this.match.events) { this.sound.event(event, this.match); if (event.type === 'capture' && event.player) {const source=this.match.monsters.findIndex(m=>m.kind===event.kind);if(source>=0)this.monsterActors.get(this.creatures[source].root)?.triggerAnimation('ATTACK');const i=this.viewPlayers.findIndex(p=>p.id===event.player);if(i>=0&&this.captureKinds.get(event.player)!==event.kind){const old=this.scares[i];this.monsterActors.get(old.root)?.dispose();this.monsterActors.delete(old.root);old.root.dispose();const scare=this.creature(event.kind??'stalker');scare.root.getChildMeshes().forEach(m=>m.layerMask=1<<(20+i));this.scares[i]=scare;} this.captureKinds.set(event.player, event.kind ?? 'stalker'); this.ctx.vibrate(event.player, 160); } }
     this.match.events = [];
     this.signalTime -= dt; if (this.signalTime <= 0) { this.signalTime = .15; this.match.players.forEach(p => this.sendStatus(p)); }
     if (this.match.ended && !this.submitted && this.controlsReady) { this.endTime -= dt; if (this.endTime <= 0) { this.submitted = true; this.ctx.finish({ results: this.match.results() }); } }

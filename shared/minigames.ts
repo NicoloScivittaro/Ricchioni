@@ -15,7 +15,7 @@ import {GOLF_TOURNAMENT} from './minigolfTournament';
 export const MINIGAME_DEFINITIONS: MinigameDefinition[] = [
   {
     id:'orda',name:'ORDA FINALE',icon:'☣️',category:'SOPRAVVIVENZA',rarity:'rare',
-    description:'L’ULTIMO VIVO VINCE. Il Deposito Infetto: ondate infinite, sei armi e nessuna seconda vita.',
+    description:'L’ULTIMO VIVO VINCE. Il Deposito Infetto: ondate infinite, 50 punti a uccisione, Mystery Box a 950 e tre colpi per morire.',
     minPlayers:2,maxPlayers:5,durationSec:0,compatibleModifiers:[],sceneKey:'orda',inputMode:'GAMEPAD',
     controllerLayout:{type:'custom',id:'orda-tv'}
   },

@@ -1,0 +1,122 @@
+{
+  "acr": {
+    "Arms_FPS_Anim_Draw": {
+      "from": 0.0,
+      "seconds": 0.5672333836555481
+    },
+    "Arms_FPS_Anim_OneShot": {
+      "from": 0.0,
+      "seconds": 0.23356667160987854
+    },
+    "Arms_FPS_Anim_Walk": {
+      "from": 0.0,
+      "seconds": 0.8174833655357361
+    },
+    "Arms_FPS_Anim_Run": {
+      "from": 0.0,
+      "seconds": 0.6506500244140625
+    },
+    "Arms_FPS_Anim_Reload_Fast": {
+      "from": 0.0,
+      "seconds": 1.651650071144104
+    },
+    "Arms_FPS_Anim_rifle_inspect": {
+      "from": 0.0,
+      "seconds": 2.6526501178741455
+    },
+    "Arms_FPS_Anim_Shoot": {
+      "from": 0.0,
+      "seconds": 0.15015000104904175
+    },
+    "Arms_FPS_Anim_Idle": {
+      "from": 0.0,
+      "seconds": 1.3179833889007568
+    }
+  },
+  "glock": {
+    "Reload": {
+      "from": 0.03333333507180214,
+      "seconds": 2.7999999187886715
+    },
+    "Fire": {
+      "from": 2.866666555404663,
+      "seconds": 0.6666667461395264
+    },
+    "ReloadEmpty": {
+      "from": 3.566666603088379,
+      "seconds": 3.0333333015441895
+    },
+    "Holster": {
+      "from": 6.599999904632568,
+      "seconds": 0.46666669845581055
+    },
+    "Draw": {
+      "from": 7.066666603088379,
+      "seconds": 1.1000003814697266
+    },
+    "Idle": {
+      "from": 2.8333332538604736,
+      "seconds": 0.0
+    }
+  },
+  "shotgun": {
+    "Take": {
+      "from": 0.0,
+      "seconds": 0.625
+    },
+    "Watch": {
+      "from": 0.0,
+      "seconds": 2.5
+    },
+    "Shoot": {
+      "from": 0.0,
+      "seconds": 1.0416666269302368
+    },
+    "ReloadStart": {
+      "from": 0.0,
+      "seconds": 0.625
+    },
+    "Reload": {
+      "from": 0.0,
+      "seconds": 0.7083333134651184
+    },
+    "ReloadEnd": {
+      "from": 0.0,
+      "seconds": 0.7083333134651184
+    },
+    "Hide": {
+      "from": 0.0,
+      "seconds": 0.625
+    }
+  },
+  "ak74u": {
+    "DRAW": {
+      "from": 0.0,
+      "seconds": 0.800000011920929
+    },
+    "IDLE": {
+      "from": 0.0,
+      "seconds": 16.5
+    },
+    "INSPEC": {
+      "from": 0.0,
+      "seconds": 4.633333206176758
+    },
+    "SHOOT": {
+      "from": 0.0,
+      "seconds": 0.46666666865348816
+    },
+    "RELOAD1": {
+      "from": 0.0,
+      "seconds": 2.2333333492279053
+    },
+    "RELOAD2": {
+      "from": 0.0,
+      "seconds": 3.4666666984558105
+    },
+    "OLSER": {
+      "from": 0.0,
+      "seconds": 0.46666666865348816
+    }
+  }
+}

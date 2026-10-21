@@ -1,0 +1,230 @@
+{
+  "clips": [
+    {
+      "id": "acr",
+      "name": "Arms_FPS_Anim_Draw",
+      "seconds": 0.5672333836555481,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "acr",
+      "name": "Arms_FPS_Anim_OneShot",
+      "seconds": 0.23356667160987854,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "acr",
+      "name": "Arms_FPS_Anim_Walk",
+      "seconds": 0.8174833655357361,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "acr",
+      "name": "Arms_FPS_Anim_Run",
+      "seconds": 0.6506500244140625,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "acr",
+      "name": "Arms_FPS_Anim_Reload_Fast",
+      "seconds": 1.651650071144104,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "acr",
+      "name": "Arms_FPS_Anim_rifle_inspect",
+      "seconds": 2.6526501178741455,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "acr",
+      "name": "Arms_FPS_Anim_Shoot",
+      "seconds": 0.15015000104904175,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "acr",
+      "name": "Arms_FPS_Anim_Idle",
+      "seconds": 1.3179833889007568,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "glock",
+      "name": "Reload",
+      "seconds": 2.7999999187886715,
+      "from": 2.0000001043081284,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "glock",
+      "name": "Fire",
+      "seconds": 0.6666667461395264,
+      "from": 171.99999332427979,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "glock",
+      "name": "ReloadEmpty",
+      "seconds": 3.0333333015441895,
+      "from": 213.99999618530273,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "glock",
+      "name": "Holster",
+      "seconds": 0.46666669845581055,
+      "from": 395.9999942779541,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "glock",
+      "name": "Draw",
+      "seconds": 1.1000003814697266,
+      "from": 423.99999618530273,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "glock",
+      "name": "Idle",
+      "seconds": 0,
+      "from": 169.99999523162842,
+      "finite": true,
+      "moving": false
+    },
+    {
+      "id": "shotgun",
+      "name": "Take",
+      "seconds": 0.625,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "shotgun",
+      "name": "Watch",
+      "seconds": 2.5,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "shotgun",
+      "name": "Shoot",
+      "seconds": 1.0416666269302368,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "shotgun",
+      "name": "ReloadStart",
+      "seconds": 0.625,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "shotgun",
+      "name": "Reload",
+      "seconds": 0.7083333134651184,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "shotgun",
+      "name": "ReloadEnd",
+      "seconds": 0.7083333134651184,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "shotgun",
+      "name": "Hide",
+      "seconds": 0.625,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "ak74u",
+      "name": "DRAW",
+      "seconds": 0.800000011920929,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "ak74u",
+      "name": "IDLE",
+      "seconds": 16.5,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "ak74u",
+      "name": "INSPEC",
+      "seconds": 4.633333206176758,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "ak74u",
+      "name": "SHOOT",
+      "seconds": 0.46666666865348816,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "ak74u",
+      "name": "RELOAD1",
+      "seconds": 2.2333333492279053,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "ak74u",
+      "name": "RELOAD2",
+      "seconds": 3.4666666984558105,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "id": "ak74u",
+      "name": "OLSER",
+      "seconds": 0.46666666865348816,
+      "from": 0,
+      "finite": true,
+      "moving": true
+    }
+  ],
+  "errors": [],
+  "status": "passed"
+}

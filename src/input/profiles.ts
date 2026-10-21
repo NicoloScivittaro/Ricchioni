@@ -177,7 +177,7 @@ export const PAD_PROFILES: Record<string, PadProfile> = {
     {action:'DASH',binding:'LB',control:'dash',label:'SCATTO'},
     {action:'JUMP',binding:'PRIMARY',control:'jump',label:'SALTA'},
     {action:'CROUCH',binding:'SECONDARY',control:'crouch',label:'ACCOVACCIATI · TIENI'},
-    {action:'RELOAD',binding:'LEFT',control:'reload',label:'RICARICA'}
+    {action:'RELOAD',binding:'LEFT',control:'reload',label:'USA / RICARICA · CASSA, BEVANDE, PACK-A-PUNCH'}
   ]),
   fps: defineProfile('fps', [
     { action: 'MOVE', binding: 'LEFT_STICK', control: 'move', label: 'MUOVITI' },

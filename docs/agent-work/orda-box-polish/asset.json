@@ -1,0 +1,20 @@
+{
+  "sourceSha256": "a2b3f54f2c00900ee3230c0b9b1d7469af0ef8a4c6582b01b9dccd801fca99cf",
+  "width": 2.2,
+  "removed": [
+    {
+      "material": "blinn12SG",
+      "vertices": 24
+    }
+  ],
+  "hinge": [
+    0.0,
+    0.4363681586118628,
+    -0.16790993211641533
+  ],
+  "openAngle": -1.8325957145940461,
+  "bytes": 8060316,
+  "meshes": 8,
+  "textures": 25,
+  "sha256": "5a2149ccb7701ef74c233afd27c7e50d349e38a07633918702b8a337cefc48e2"
+}

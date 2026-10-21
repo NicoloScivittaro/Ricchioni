@@ -1,3 +1,4 @@
+import type{WeaponReload}from '../../../shared/fpsReload';
 import {FpsImpactFx} from '../../controller/fpsImpactFx';
 import type {SurfaceImpact} from '../../../shared/fpsCombat';
 import {fpsLoading} from '../../controller/fpsLoading';
@@ -11,7 +12,7 @@ import { AdvancedDynamicTexture, TextBlock, Rectangle, Control } from '@babylonj
 import type { PlayerId } from '../../../shared/types';
 import { buildFpsWorld, buildFpsLights } from '../../controller/fpsWorld';
 import { registerEnvScene } from '../env/envDebug';
-import { splitScreenLayout } from '../kart-race/cameraHud';
+import { humanViewPlayers, splitScreenLayout } from '../../core/playerViews';
 import { aimFov, aimSpread, aimGap } from '../../../shared/fpsAim';
 import { getWeapon } from '../../../shared/fpsWeapons';
 import { guardLoop, safely } from '../../core/loopGuard';
@@ -38,6 +39,7 @@ import type { AbilityStatus } from '../../../shared/abilityCatalog';
 
 /** Chi ha una finestra nello split-screen: identita' visiva = nome + colore del giocatore, mai l'indice del controller. */
 export interface FpsLocalPlayer {
+  bot?: boolean;
   id: PlayerId;
   name: string;
   color: string;
@@ -61,8 +63,8 @@ const GOBLIN_FPS_WALK_SPEED = 9;
  * Questo livello NON simula nulla (niente fisica/danno/respawn: quello resta in FpsScene.ts, unica autorità, già
  * testato). Ogni frame legge uno snapshot di sola lettura di FpsScene e disegna: livello statico (buildFpsWorld,
  * riusata identica dal client telefono), una capsula per giocatore, una camera in prima persona per ogni giocatore
- * col controller CHE HA ALL'AVVIO del round (i giocatori senza controller continuano a giocare dal telefono come
- * sempre: questo layer è additivo, non li sostituisce).
+ * umano presente all'avvio del round, con pad o telefono. I bot rimangono nel mondo senza una propria camera.
+ * La visuale del telefono continua a funzionare in parallelo.
  */
 
 export interface FpsRenderSnapshot {
@@ -96,7 +98,7 @@ export interface FpsRenderSnapshot {
   /** NO, ASPETTA! subito: non puo' sparare ne' ricaricare */
   locked?: boolean;
   /** avanzamento della ricarica 0..1 e inizio della zona verde del Goblin (null = nessuna barra) */
-  reloadFrac?: number;
+  reloadFrac?: number;weaponReload?:WeaponReload;
   sweetFrom?: number | null;
 }
 
@@ -270,14 +272,16 @@ export class BabylonFpsGame {
 
   constructor(
     private canvas: HTMLCanvasElement,
-    locals: FpsLocalPlayer[], // ordine stabile: chi ha il controller ALL'AVVIO del round, nell'ordine dei giocatori
+    locals: FpsLocalPlayer[], // humans in stable roster order, independent of pad/phone
     private mapId='cantiere'
   ) {
+    locals=humanViewPlayers(locals);
     this.loadingEl=fpsLoading(document.body,mapId);this.loadingEl.style.position='fixed';this.loadingEl.style.zIndex='10001';
     this.localPlayerIds = locals.map((l) => l.id);
     for (const l of locals) this.abilityName.set(l.id, abilityFor('fps', l.characterId ?? null)?.name ?? '');
     this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
     this.scene = new Scene(this.engine);
+    this.scene.skipPointerMovePicking=true;this.scene.skipPointerDownPicking=true;this.scene.skipPointerUpPicking=true;
     this.energyFx=new FpsEnergyFx(this.scene);this.impactFx=new FpsImpactFx(this.scene);
     this.scene.clearColor = new Color4(0.07, 0.08, 0.12, 1);
     // LUCI: le stesse del client telefono (fpsClient). buildFpsWorld non ne crea: senza queste, sulla TV mondo e
@@ -400,9 +404,7 @@ export class BabylonFpsGame {
     gun.parent = body;
     gun.position.set(0.25, 0, 0.55);
     // Solo chi ha una CAMERA propria qui (split-screen) porta il bit "identita'": la sua camera lo esclude dalla
-    // propria maschera (vedi sopra), le altre lo mantengono. Chi non ha camera qui (gioca dal telefono) resta con
-    // la maschera di default: e' comunque visibile a tutte le camere split-screen, non ha una "propria" vista da
-    // escludere in questo renderer.
+    // propria maschera (vedi sopra), le altre lo mantengono. I bot non hanno camera e restano visibili a tutti.
     const parts: Mesh[] = [body, gun];
     // mesh del modello procedurale da sostituire col Goblin importato (pilota, solo DEV): la capsula e i tratti
     // del viso spariscono, mentre arma/targhetta/lampo restano (sono informazione di gioco).
@@ -1043,6 +1045,7 @@ export class BabylonFpsGame {
       hud.crossDot.isVisible = snap.alive&&a<.95;
       hud.crossBars.forEach((b, k) => { b.alpha = snap.alive ? 1 - snap.ads : 0; b.left = k >= 2 ? `${(k === 2 ? -1 : 1) * (gap + 4)}px` : '0px'; b.top = k < 2 ? `${(k === 0 ? -1 : 1) * (gap + 4)}px` : '0px'; });
     }
+    cam.vm.reloadInfo=snap.weaponReload;
     cam.vm.update(dt, speedFrac, lookDx, lookDy, reloadP, cam.dashT > 0);
 
     cam.kickP *= Math.max(0, 1 - dt * 9);
@@ -1177,7 +1180,7 @@ export class BabylonFpsGame {
       h.hpFill.background = frac > 0.4 ? '#4ade80' : '#f87171';
       h.hpText.text = `${Math.max(0, Math.round(snap.hp))}`;
       const w = getWeapon(snap.weaponId);
-      h.ammoText.text = snap.reloading ? `${w.icon} RICARICO…` : `${w.icon} ${snap.magazine}/${w.magazine}`;
+      h.ammoText.text = snap.reloading&&!w.shellReload ? `${w.icon} RICARICO…` : `${w.icon} ${snap.magazine}/${w.magazine}${snap.reloading?' · RICARICA':''}`;
       h.killText.text = `${snap.kills}/${FPS_KILL_TARGET} kill`;
       h.killNoticeT=Math.max(0,h.killNoticeT-dt);h.killNotice.alpha=Math.min(1,h.killNoticeT*4);
 

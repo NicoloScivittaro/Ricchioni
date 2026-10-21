@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "hardware": {
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "width": 1669,
+    "height": 939,
+    "scale": 1.15,
+    "views": 5,
+    "enemies": 22
+  },
+  "before": {
+    "fps": 18.785531844772184,
+    "seconds": 6.0685,
+    "medianFrameMs": 50.099999999998545,
+    "p95FrameMs": 66.79999999999927,
+    "updateMs": 3.0526315790780805,
+    "renderCpuMs": 48.71491228057104,
+    "drawCalls": 952.0438596491229,
+    "activeIndices": 12451104.578947369,
+    "meshes": 674,
+    "materials": 163
+  },
+  "after": {
+    "fps": 39.199470724445916,
+    "seconds": 6.046,
+    "medianFrameMs": 33.29999999999927,
+    "p95FrameMs": 33.5,
+    "updateMs": 1.4801687763587332,
+    "renderCpuMs": 23.25316455699346,
+    "drawCalls": 651.8481012658228,
+    "activeIndices": 12457593.493670886,
+    "meshes": 615,
+    "materials": 169
+  },
+  "fpsGainPercent": 108.7,
+  "conditions": "Two six-second samples after warmup. Same real Orda renderer, 22 animated enemies, five cameras, five different viewmodels, same camera sweep, same framebuffer1669x939 at1920x1080 window. Fixed presentation fixture; no AI/network/full combat simulation.",
+  "graphics": [
+    "Sharper concrete seams, grain and wear; cooler ambient fill with warmer directional light.",
+    "Shared baked-style contact shading under cover, soft instanced contact shadows for27 actors, warm floor light pools, cyan/amber wall guides. No extra dynamic lights or shadow maps.",
+    "Smaller premium station plates and compact translucent HUD; bounded boss bar.",
+    "Bacteria body uses one wet organic material instead of many near-black materials. Every original vertex and all three head/arm pivots retained; four meshes per actor. Other monster shapes and skins retained."
+  ],
+  "optimizations": [
+    "Batched rigid Bacteria parts by material/layout:952 to652 average draws per frame.",
+    "Static monster and station materials frozen; unused pointer picking disabled; no preserved framebuffer copy.",
+    "Actor contact shadows use one instanced draw per camera rather than one draw per creature."
+  ],
+  "tests": {
+    "renderer": "passed",
+    "visual": "Five-view scene and close-up inspected",
+    "verticesAndPivots": "15648 source vertices retained per Bacteria actor; Head/LeftArm/RightArm preserved",
+    "viewmodelLayers": "Five separate masks preserved",
+    "ramps": "Original double-sided ramp material retained",
+    "typecheck": "passed",
+    "build": "passed"
+  },
+  "limits": [
+    "One short before/after renderer comparison on RTX3050; not a long-session or full multiplayer FPS guarantee.",
+    "Final actor shadows consume about one draw per camera; final result39.2FPS supersedes an intermediate41.8FPS sample.",
+    "Scope is Orda; other minigames, shared gameplay rules and original Downloads assets were not changed."
+  ],
+  "screenshots": [
+    "before.png",
+    "after.png",
+    "detail.png"
+  ]
+}

@@ -1,3 +1,4 @@
+import type{WeaponReload}from '../../../shared/fpsReload';
 import { AB } from '../../../shared/abilityCatalog';
 import type { AbilityStatus } from '../../../shared/abilityCatalog';
 import type { WeaponConfig } from '../../../shared/fpsWeapons';
@@ -33,6 +34,7 @@ export interface AbPlayer {
   spawnProtection: number;
   reloading: boolean;
   reloadTimer: number;
+  weaponReload?:WeaponReload;
   magazine: number;
   burstLeft: number;
   abCharges: number;
@@ -78,7 +80,7 @@ export class FpsAbilities {
       case 'goblin': {
         if (p.buffShots > 0) return { state: 'ACTIVE', note: `+${Math.round((G.p.buff - 1) * 100)}% · ${p.buffShots} COLPI` };
         if (p.abCd > 0) return { state: 'COOLDOWN', remaining: p.abCd };
-        if (p.reloading && weapon && 1 - p.reloadTimer / weapon.reload >= G.p.from) return { state: 'READY', note: 'ZONA VERDE: PREMI!' };
+        if (p.reloading && weapon && 1 - p.reloadTimer / (p.weaponReload?.duration??weapon.reload) >= G.p.from) return { state: 'READY', note: 'ZONA VERDE: PREMI!' };
         return { state: 'READY', note: 'PRONTA · DURANTE LA RICARICA' };
       }
       case 'buttafuori':
@@ -107,10 +109,10 @@ export class FpsAbilities {
         if (!p.reloading) return 'notreloading';
         fb({ type: 'activated' });
         p.abCd = G.cooldown;
-        if (1 - p.reloadTimer / weapon.reload >= G.p.from) {
+        if (1 - p.reloadTimer / (p.weaponReload?.duration??weapon.reload) >= G.p.from) {
           // RICARICA PERFETTA: finisce subito e i prossimi colpi fanno piu' danno
           p.reloading = false;
-          p.reloadTimer = 0;
+          p.reloadTimer = 0;p.weaponReload=undefined;
           p.magazine = weapon.magazine;
           p.buffShots = G.p.buffShots;
           fb({ type: 'perfect_reload' });
@@ -150,7 +152,7 @@ export class FpsAbilities {
         for (const h of hits) {
           h.t.lockTime = Math.max(h.t.lockTime, J.p.lock);
           h.t.reloading = false; // interrotto: la ricarica a meta' va persa
-          h.t.reloadTimer = 0;
+          h.t.reloadTimer = 0;h.t.weaponReload=undefined;
           h.t.burstLeft = 0;
           const k = J.p.push * (1 - 0.5 * (h.d / J.p.range));
           if(world){const moved=world.move(h.t,{x:h.t.x+h.dx*k,z:h.t.z+h.dz*k});Object.assign(h.t,moved);}

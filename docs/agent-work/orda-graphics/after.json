@@ -1,0 +1,90 @@
+{
+  "errors": [],
+  "label": "after",
+  "hardware": {
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "width": 1669,
+    "height": 939,
+    "scale": 1.15,
+    "views": 5,
+    "enemies": 22
+  },
+  "sample": {
+    "fps": 39.199470724445916,
+    "seconds": 6.046,
+    "medianFrameMs": 33.29999999999927,
+    "p95FrameMs": 33.5,
+    "updateMs": 1.4801687763587332,
+    "renderCpuMs": 23.25316455699346,
+    "drawCalls": 651.8481012658228,
+    "activeIndices": 12457593.493670886,
+    "meshes": 615,
+    "materials": 169
+  },
+  "status": "passed",
+  "integrity": {
+    "bacteria": [
+      {
+        "meshes": 4,
+        "pivots": [
+          "Head",
+          "LeftArm",
+          "RightArm"
+        ],
+        "vertices": 15648
+      },
+      {
+        "meshes": 4,
+        "pivots": [
+          "Head",
+          "LeftArm",
+          "RightArm"
+        ],
+        "vertices": 15648
+      },
+      {
+        "meshes": 4,
+        "pivots": [
+          "Head",
+          "LeftArm",
+          "RightArm"
+        ],
+        "vertices": 15648
+      },
+      {
+        "meshes": 4,
+        "pivots": [
+          "Head",
+          "LeftArm",
+          "RightArm"
+        ],
+        "vertices": 15648
+      }
+    ],
+    "ramps": false,
+    "contacts": 27,
+    "privateLayers": [
+      {
+        "camera": 33729,
+        "vm": 32768
+      },
+      {
+        "camera": 66465,
+        "vm": 65536
+      },
+      {
+        "camera": 131937,
+        "vm": 131072
+      },
+      {
+        "camera": 262881,
+        "vm": 262144
+      },
+      {
+        "camera": 524769,
+        "vm": 524288
+      }
+    ],
+    "materials": 4
+  }
+}

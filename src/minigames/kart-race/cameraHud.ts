@@ -15,39 +15,9 @@ import {abilityFor} from '../../../shared/abilityCatalog';
 import { stateLabel } from '../../../shared/abilityCatalog';
 import type { AbilityStatus } from '../../../shared/abilityCatalog';
 
-export interface ViewportRect {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-}
-
-/** Layout split-screen normalizzati (origine in basso a sinistra, convenzione Babylon). */
-export function splitScreenLayout(n: number): ViewportRect[] {
-  if (n <= 1) return [{ x: 0, y: 0, w: 1, h: 1 }];
-  if (n === 2) return [
-    { x: 0, y: 0, w: 0.5, h: 1 },
-    { x: 0.5, y: 0, w: 0.5, h: 1 }
-  ];
-  if (n === 3) return [
-    { x: 0, y: 0.5, w: 0.5, h: 0.5 },
-    { x: 0.5, y: 0.5, w: 0.5, h: 0.5 },
-    { x: 0, y: 0, w: 1, h: 0.5 }
-  ];
-  if (n === 4) return [
-    { x: 0, y: 0.5, w: 0.5, h: 0.5 },
-    { x: 0.5, y: 0.5, w: 0.5, h: 0.5 },
-    { x: 0, y: 0, w: 0.5, h: 0.5 },
-    { x: 0.5, y: 0, w: 0.5, h: 0.5 }
-  ];
-  return [
-    { x: 0, y: 0.5, w: 1 / 3, h: 0.5 },
-    { x: 1 / 3, y: 0.5, w: 1 / 3, h: 0.5 },
-    { x: 2 / 3, y: 0.5, w: 1 / 3, h: 0.5 },
-    { x: 0, y: 0, w: 0.5, h: 0.5 },
-    { x: 0.5, y: 0, w: 0.5, h: 0.5 }
-  ];
-}
+import { splitScreenLayout } from '../../core/playerViews';
+export { splitScreenLayout } from '../../core/playerViews';
+export type { ViewportRect } from '../../core/playerViews';
 
 // Layer HUD: ogni giocatore ha il proprio GUI (bit 20..24), visibile solo dalla sua camera. Un GUI a schermo intero
 // condiviso verrebbe disegnato in OGNI viewport (pannelli di tutti i giocatori, schiacciati). Le mesh usano la

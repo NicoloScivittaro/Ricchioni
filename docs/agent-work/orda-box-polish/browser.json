@@ -1,0 +1,269 @@
+{
+  "errors": [],
+  "checks": [
+    "Actual mapped Xbox X and DualSense Square purchase/pickup at 950; RB inactive; no simultaneous reload; reload works away",
+    "Five-view host renders 8 original box meshes without the paper material",
+    "Continuous hinge angles during opening and closing; full-open reward and owner-only pickup",
+    "Music-box output sampled nonzero on existing SFX bus; pause cancels source"
+  ],
+  "insufficient": {
+    "box": {
+      "phase": "idle",
+      "owner": null,
+      "weapon": null,
+      "started": 0,
+      "until": 0,
+      "serial": 0
+    },
+    "time": 1.3666666666666676,
+    "points": [
+      949,
+      0,
+      0,
+      0,
+      0
+    ],
+    "reload": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "weapons": [
+      "pistola",
+      "pistola",
+      "pistola",
+      "pistola",
+      "pistola"
+    ],
+    "angle": 0,
+    "views": 5,
+    "prompt": "CASSA · 950 PUNTI\nTI MANCANO 1 PUNTI",
+    "audio": {
+      "ready": true,
+      "active": false
+    },
+    "paper": false,
+    "boxMeshes": 8
+  },
+  "opening": {
+    "box": {
+      "phase": "rolling",
+      "owner": "03647850-a5db-4e09-8b21-b3469b06307a",
+      "weapon": null,
+      "started": 1.7666666666666688,
+      "until": 4.266666666666669,
+      "serial": 1
+    },
+    "time": 2.1666666666666687,
+    "points": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "reload": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "weapons": [
+      "pistola",
+      "pistola",
+      "pistola",
+      "pistola",
+      "pistola"
+    ],
+    "angle": -1.3574783071067005,
+    "views": 5,
+    "prompt": "ESTRAZIONE…\nRAY GUN",
+    "audio": {
+      "ready": true,
+      "active": true,
+      "duration": 2.5,
+      "gain": 0.6358333230018616
+    },
+    "paper": false,
+    "boxMeshes": 8
+  },
+  "audio": {
+    "peak": 0.1102089211344719,
+    "stopped": true
+  },
+  "reward": {
+    "box": {
+      "phase": "ready",
+      "owner": "03647850-a5db-4e09-8b21-b3469b06307a",
+      "weapon": "raffica",
+      "started": 1.7666666666666688,
+      "until": 14.299999999999994,
+      "serial": 1
+    },
+    "time": 4.733333333333326,
+    "points": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "reload": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "weapons": [
+      "pistola",
+      "pistola",
+      "pistola",
+      "pistola",
+      "pistola"
+    ],
+    "angle": -1.8325957145940461,
+    "views": 5,
+    "prompt": "M4A1 · RAFFICA 3X\nQUADRATO / X · RITIRA · 10s",
+    "audio": {
+      "ready": true,
+      "active": true,
+      "duration": 1.1499583333333334,
+      "gain": 0.6358333230018616
+    },
+    "paper": false,
+    "boxMeshes": 8
+  },
+  "closing": {
+    "box": {
+      "phase": "closing",
+      "owner": "03647850-a5db-4e09-8b21-b3469b06307a",
+      "weapon": null,
+      "started": 1.7666666666666688,
+      "until": 5.7666666666666595,
+      "serial": 1
+    },
+    "time": 5.266666666666658,
+    "points": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "reload": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "weapons": [
+      "raffica",
+      "pistola",
+      "pistola",
+      "pistola",
+      "pistola"
+    ],
+    "angle": -0.2477382463515901,
+    "views": 5,
+    "prompt": "CASSA IN CHIUSURA…",
+    "audio": {
+      "ready": true,
+      "active": false
+    },
+    "paper": false,
+    "boxMeshes": 8
+  },
+  "dualSense": {
+    "box": {
+      "phase": "closing",
+      "owner": "4642ad37-92d2-487f-8fbe-47c5ddaefca7",
+      "weapon": null,
+      "started": 6.1666666666666545,
+      "until": 10.43333333333331,
+      "serial": 2
+    },
+    "time": 9.766666666666643,
+    "points": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "reload": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "weapons": [
+      "raffica",
+      "bombarda",
+      "pistola",
+      "pistola",
+      "pistola"
+    ],
+    "angle": -0.8810633554933142,
+    "views": 5,
+    "prompt": "CASSA IN CHIUSURA…",
+    "audio": {
+      "ready": true,
+      "active": true,
+      "duration": 0.42,
+      "gain": 0.6358333230018616
+    },
+    "paper": false,
+    "boxMeshes": 8
+  },
+  "away": {
+    "box": {
+      "phase": "closing",
+      "owner": "4642ad37-92d2-487f-8fbe-47c5ddaefca7",
+      "weapon": null,
+      "started": 6.1666666666666545,
+      "until": 10.43333333333331,
+      "serial": 2
+    },
+    "time": 10.099999999999975,
+    "points": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "reload": [
+      1.4999999999999991,
+      0,
+      0,
+      0,
+      0
+    ],
+    "weapons": [
+      "raffica",
+      "bombarda",
+      "pistola",
+      "pistola",
+      "pistola"
+    ],
+    "angle": 0,
+    "views": 5,
+    "prompt": "",
+    "audio": {
+      "ready": true,
+      "active": false
+    },
+    "paper": false,
+    "boxMeshes": 8
+  },
+  "cleanup": {
+    "sourceReleased": true
+  },
+  "status": "passed"
+}

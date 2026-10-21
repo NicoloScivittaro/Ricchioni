@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import {humanViewPlayers} from '../../core/playerViews';
 import type {MinigameContext} from '../types';
 import type {OrdaInput,OrdaPacket,Survivor} from '../../../shared/orda/types';
 import {OrdaMatch} from '../../../shared/orda/match';
@@ -29,18 +30,18 @@ export class OrdaScene extends Phaser.Scene{
   const participants=this.ctx.players.map(p=>({id:p.id,name:p.displayName||p.name,color:p.color,bot:!!p.bot}));
   this.match=new OrdaMatch(participants,Math.floor(this.ctx.rng.next()*2147483647));
   const c=document.createElement('canvas');c.id='orda-canvas';c.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:10000;touch-action:none';document.body.appendChild(c);this.canvas=c;
-  this.display=new OrdaRenderer(c,participants,participants.map(p=>p.id));await this.display.ready;if(this.cancelled||version!==this.bootVersion)return;
+  this.display=new OrdaRenderer(c,participants,humanViewPlayers(participants).map(p=>p.id));await this.display.ready;if(this.cancelled||version!==this.bootVersion)return;
   this.display.update(this.match.state,0);this.display.render();
   this.hideLoading?.();this.hideLoading=null;gm.minigameLoadFinished();
   await this.ctx.showControls?.();if(this.cancelled||version!==this.bootVersion)return;
   // One packet after the controls gate initializes late-joining phone visualizers too.
-  for(const p of this.match.state.players){const i=this.ctx.input.get(p.id);i.cancelAll();this.cancellations.set(p.id,i.cancellationVersion);p.lastFire=i.pressCount('fire');p.lastJump=i.pressCount('jump');p.lastReload=i.pressCount('reload');p.lastDash=i.pressCount('dash');}
+  for(const p of this.match.state.players){const i=this.ctx.input.get(p.id);i.cancelAll();this.cancellations.set(p.id,i.cancellationVersion);p.lastFire=i.pressCount('fire');p.lastJump=i.pressCount('jump');p.lastReload=i.pressCount('reload');p.lastDash=i.pressCount('dash');p.lastInteract=i.pressCount('interact');}
   this.playing=true;this.last=performance.now();this.display.engine.runRenderLoop(()=>this.frame());
  }
  private read(p:Survivor):OrdaInput{
   const i=this.ctx.input.get(p.id),m=i.axis('move'),s=i.axis('lookStick'),look=i.axis('look'),pad=pads.handles(p.id);
-  if(this.cancellations.get(p.id)!==i.cancellationVersion){this.cancellations.set(p.id,i.cancellationVersion);p.lastFire=i.pressCountAtCancellation('fire');p.lastJump=i.pressCountAtCancellation('jump');p.lastReload=i.pressCountAtCancellation('reload');p.lastDash=i.pressCountAtCancellation('dash');}
-  return{mx:m.x,my:m.y,lx:s.x,ly:s.y,...(!pad&&i.hasAxis('look')?{look:{yaw:look.x,pitch:look.y}}:{}),fire:i.pressed('fire'),press:i.pressCount('fire'),aim:i.pressed('aim'),reload:i.pressCount('reload'),jump:i.pressCount('jump'),crouch:i.pressed('crouch'),dash:i.pressCount('dash'),sensitivity:pad?pads.settingsOf(p.id).sensitivity:1};
+  if(this.cancellations.get(p.id)!==i.cancellationVersion){this.cancellations.set(p.id,i.cancellationVersion);p.lastFire=i.pressCountAtCancellation('fire');p.lastJump=i.pressCountAtCancellation('jump');p.lastReload=i.pressCountAtCancellation('reload');p.lastDash=i.pressCountAtCancellation('dash');p.lastInteract=i.pressCountAtCancellation('interact');}
+  return{mx:m.x,my:m.y,lx:s.x,ly:s.y,...(!pad&&i.hasAxis('look')?{look:{yaw:look.x,pitch:look.y}}:{}),fire:i.pressed('fire'),press:i.pressCount('fire'),aim:i.pressed('aim'),reload:i.pressCount('reload'),jump:i.pressCount('jump'),crouch:i.pressed('crouch'),dash:i.pressCount('dash'),interact:i.pressCount('interact'),sensitivity:pad?pads.settingsOf(p.id).sensitivity:1};
  }
  update():void{if(!this.menu)return;const pause=this.menu.update();if(this.paused!==pause){this.paused=pause;this.display?.setPaused(pause);if(this.canvas)this.canvas.style.visibility=pause?'hidden':'visible';this.display?.show(!pause);}}
  private frame():void{

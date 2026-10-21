@@ -11,6 +11,9 @@ import {
 } from '@babylonjs/core';
 import {attachWeaponModel,FPS_WEAPON_MODELS} from './fpsWeaponModels';
 import { FPS_ADS } from '../../shared/fpsAim';
+import {attachAuthored,AUTHORED_WEAPONS} from './fpsAuthored';
+import type {FpsAnimator,FpsPose} from './fpsAuthored';
+import type {WeaponReload} from '../../shared/fpsReload';
 import type { Scene, UniversalCamera } from '@babylonjs/core';
 
 /**
@@ -58,6 +61,7 @@ export const RECOIL: Record<string, RecoilProfile> = {
 };
 
 RECOIL.pistola={...RECOIL.raffica,back:.34,up:1.8,side:.018,k:440,c:35,buzz:18,flash:.12,sparks:2};
+RECOIL.acr={...RECOIL.mitraglia,camPitch:.003};RECOIL.ak74u={...RECOIL.mitraglia,flash:.12};RECOIL.glock={...RECOIL.pistola};RECOIL.shotgun={...RECOIL.spaccatutto,pump:false,flash:.24,sparks:4,camPitch:.018};RECOIL.wunderwaffe={...RECOIL.bombarda,color:[.25,.65,1],flash:.28,camPitch:.013};
 
 export function recoilOf(weaponId: string): RecoilProfile {
   return RECOIL[weaponId] ?? RECOIL.mitraglia;
@@ -68,6 +72,7 @@ interface WeaponModel {
   ready?:Promise<boolean>;
   sightY?:number;
   imported?:TransformNode;
+  animator?:FpsAnimator;
   muzzle: TransformNode;
   mag?: Mesh;
   magBaseY: number;
@@ -149,6 +154,10 @@ export class FpsViewmodel {
   /** Authoritative ADS blend; sight aperture stays on the camera axis. */
   ads = 0;
   visible=true;
+  reloadInfo?:WeaponReload;
+  private authoredClock=0;private authoredShot=100;private reloadSeen=-1;private reloadElapsed=0;
+  inspect():void{this.current?.animator?.play('Inspect',true);this.authoredClock=0;}
+  holster():void{this.current?.animator?.play('Holster',true);this.authoredClock=0;}
   /** Dimensione dell'arma (1 = telefono). Lo split-screen della TV la rimpicciolisce: le finestre sono quasi quadrate. */
   scale = 1;
 
@@ -392,16 +401,17 @@ export class FpsViewmodel {
       m = this.build(weaponId);
       this.models.set(weaponId, m);
       const model=m,fallback=m.root.getChildMeshes();
-      m.ready=attachWeaponModel(this.scene,weaponId,m.root,this.layerMask).then(v=>{
+      m.ready=(AUTHORED_WEAPONS[weaponId]?attachAuthored(this.scene,weaponId,m.root,this.layerMask).then(v=>{model.animator=v.animator;model.root.scaling.setAll(1);return{...v,sightY:0};}):attachWeaponModel(this.scene,weaponId,m.root,this.layerMask)).then(v=>{
         if(this.disposed||model.root.isDisposed()){v.root.dispose();return false;}
-        model.imported=v.root;model.sightY=v.sightY;for(const mesh of fallback)mesh.setEnabled(false);
-        model.muzzle.position.set(0,.17,FPS_WEAPON_MODELS[weaponId].length*.75);return true;
+        model.imported=v.root;model.sightY=v.sightY;for(const mesh of fallback)mesh.setEnabled(false);if(model.animator&&this.current===model){this.authoredClock=0;model.animator.play('Draw',true);}
+        const pose=AUTHORED_WEAPONS[weaponId];if(pose)model.muzzle.position.set(...pose.muzzle);else model.muzzle.position.set(0,.17,FPS_WEAPON_MODELS[weaponId].length*.75);return true;
       }).catch(e=>{if(!this.disposed&&!this.scene.isDisposed)console.warn('Weapon model unavailable',weaponId,e);return false;});
     }
     if (this.current) this.current.root.setEnabled(false);
     this.current = m;
     m.root.setEnabled(true);
     this.weaponId = weaponId;
+    this.authoredClock=0;this.authoredShot=100;m.animator?.play('Draw',true);
     this.profile = recoilOf(weaponId);
     this.flash.parent = m.muzzle;
     this.flash.position.set(0, 0, 0.04);
@@ -418,12 +428,11 @@ export class FpsViewmodel {
   /** Un colpo: impulso di rinculo, lampo, scintille, fumo, luce. Nessuna allocazione. */
   fire(): void {
     const p = this.profile;this.shotAge=0;
+    const authored=this.current?.animator;if(authored){authored.play('Fire',true);this.authoredShot=0;}
     const recoil = 1 - this.ads * (1 - FPS_ADS.recoil);
     // Immediate model displacement avoids waiting a frame for the spring.
-    this.z=Math.max(-.065,this.z-p.back*.012*recoil);this.rx=Math.min(.16,this.rx+p.up*.009*recoil);
-    this.vz -= p.back * recoil;
-    this.vrx += p.up * recoil;
-    this.vx += (Math.random() - 0.5) * 2 * p.side * recoil;
+    if(!authored){this.z=Math.max(-.065,this.z-p.back*.012*recoil);this.rx=Math.min(.16,this.rx+p.up*.009*recoil);
+    this.vz -= p.back * recoil;this.vrx += p.up * recoil;this.vx += (Math.random() - 0.5) * 2 * p.side * recoil;}
     if (p.wobble) this.vrz += (Math.random() < 0.5 ? -1 : 1) * p.wobble;
     this.vckP += p.camPitch * 60;
     this.vckY += (Math.random() - 0.5) * 2 * p.camYaw * 60;
@@ -627,6 +636,23 @@ export class FpsViewmodel {
     this.holder.rotation.y = (-0.18 - this.x * 0.6) * (1 - this.ads); // la canna punta un filo verso il centro
     this.holder.scaling.setAll(this.scale);
     if (this.scale !== 1) this.holder.position.y -= 0.04 * (1 - this.scale) * (1 - this.ads);
+    if(m.animator){
+      const animator=m.animator,profile=AUTHORED_WEAPONS[this.weaponId];this.authoredClock+=dt;this.authoredShot+=dt;
+      let state:FpsPose='Idle',time=this.authoredClock;
+      if(this.reloadInfo&&reloadP>0){const r=this.reloadInfo,w=getWeapon(this.weaponId);if(r.elapsed!==this.reloadSeen){this.reloadElapsed=this.reloadSeen<0||Math.abs(r.elapsed-this.reloadElapsed)>.12?r.elapsed:Math.max(r.elapsed,this.reloadElapsed);this.reloadSeen=r.elapsed;}this.reloadElapsed=Math.min(r.duration,r.elapsed+.1,this.reloadElapsed+dt);state=r.empty&&animator.has('ReloadEmpty')?'ReloadEmpty':'Reload';time=this.reloadElapsed*(r.playbackRate??1);
+        if(w.shellReload){const c=w.shellReload,at=time-c.start;state=at<0?'ReloadStart':at<r.rounds*c.insert?'Reload':'ReloadEnd';time=at<0?time:at<r.rounds*c.insert?at%c.insert:at-r.rounds*c.insert;}
+      }else if(reloadP>0){state='Reload';time=reloadP*getWeapon(this.weaponId).reload;}
+      else if(animator.state==='Draw'&&this.authoredClock<animator.duration('Draw')){state='Draw';}
+      else if((animator.state==='Inspect'||animator.state==='Holster')&&this.authoredClock<animator.duration(animator.state)){state=animator.state;}
+      else if(this.authoredShot<animator.duration('Fire')){state='Fire';time=this.authoredShot;}
+      else if(dashing&&animator.has('Run'))state='Run';else if(speedFrac>.15&&this.ads<.5&&animator.has('Walk'))state=speedFrac>.85&&animator.has('Run')?'Run':'Walk';
+      if(reloadP===0)this.reloadSeen=-1;
+      if(state==='Idle'||state==='Walk'||state==='Run')time%=Math.max(.001,animator.duration(state));animator.sample(state,time,dt);
+      const a=this.ads;this.holder.position.set(profile.hip[0]*(1-a)+profile.ads[0]*a,profile.hip[1]*(1-a)+profile.ads[1]*a,profile.hip[2]*(1-a)+profile.ads[2]*a);
+      if(reloadP>0){const lift=Math.sin(Math.PI*reloadP);this.holder.position.y+=lift*(this.weaponId==='ak74u'?.10:this.weaponId==='acr'?.08:.035);this.holder.position.z+=lift*.06;}
+      if(!animator.has('Walk')){this.holder.position.x+=bobX*(1-a);this.holder.position.y+=bobY*(1-a);}
+      this.holder.rotation.set(this.swayY*(1-a)+(profile.adsRotation?.[0]??0)*a,this.swayX*(1-a)+(profile.adsRotation?.[1]??0)*a,0);this.holder.scaling.setAll(1);
+    }
 
     for(const shell of this.casings){if(shell.life<=0)continue;shell.life-=dt;shell.m.isVisible=this.visible&&shell.life>0&&this.ads<.65;shell.vy-=2.2*dt;shell.m.position.addInPlaceFromFloats(shell.vx*dt,shell.vy*dt,shell.vz*dt);shell.m.rotation.x+=dt*15;shell.m.rotation.z+=dt*10;}
     // lampo, scintille, fumo, luce

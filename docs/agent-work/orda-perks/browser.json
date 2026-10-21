@@ -1,0 +1,462 @@
+{
+  "errors": [],
+  "checks": [
+    "Four supplied machines plus five original bottle props render in five live viewports",
+    "Mapped Xbox X buys Jugger-Nog and Double Tap, HUD reflects points/perks and drink delay",
+    "Real phone USA buys Speed Cola through socket with independent wallet",
+    "Actual pad deposits Wunderwaffe, no shooting while deposited, retrieves DG-3 JZ with6/30",
+    "Actual lightning chain kills four fixture monsters and awards exactly200 points"
+  ],
+  "juggernog": {
+    "players": [
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": {
+          "id": "juggernog",
+          "started": 2.200000000000002,
+          "until": 4.200000000000002
+        },
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      }
+    ],
+    "pap": {
+      "phase": "idle",
+      "owner": null,
+      "weapon": null,
+      "started": 0,
+      "until": 0
+    },
+    "views": 5,
+    "prompts": [
+      "BEVI JUGGER-NOG…",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "wallet": "0 PUNTI · CASSA 950",
+    "machines": [
+      "perk-machine:juggernog",
+      "perk-machine:pap",
+      "perk-machine:speedcola",
+      "perk-machine:doubletap"
+    ],
+    "bottles": 5
+  },
+  "doubletap": {
+    "players": [
+      {
+        "points": 0,
+        "perks": [
+          "juggernog"
+        ],
+        "drinking": {
+          "id": "doubletap",
+          "started": 5.766666666666656,
+          "until": 7.766666666666656
+        },
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      }
+    ],
+    "pap": {
+      "phase": "idle",
+      "owner": null,
+      "weapon": null,
+      "started": 0,
+      "until": 0
+    },
+    "views": 5,
+    "prompts": [
+      "BEVI DOUBLE TAP 2.0…",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "wallet": "0 PUNTI · JUGGER-NOG",
+    "machines": [
+      "perk-machine:juggernog",
+      "perk-machine:pap",
+      "perk-machine:speedcola",
+      "perk-machine:doubletap"
+    ],
+    "bottles": 5
+  },
+  "scene": {
+    "players": [
+      {
+        "points": 949,
+        "perks": [
+          "juggernog",
+          "doubletap"
+        ],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      }
+    ],
+    "pap": {
+      "phase": "idle",
+      "owner": null,
+      "weapon": null,
+      "started": 0,
+      "until": 0
+    },
+    "views": 5,
+    "prompts": [
+      "CASSA · 950 PUNTI\nTI MANCANO 1 PUNTI",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "wallet": "949 PUNTI · JUGGER-NOG · DOUBLE TAP 2.0",
+    "machines": [
+      "perk-machine:pap",
+      "perk-machine:juggernog",
+      "perk-machine:speedcola",
+      "perk-machine:doubletap"
+    ],
+    "bottles": 5
+  },
+  "phone": {
+    "players": [
+      {
+        "points": 949,
+        "perks": [
+          "juggernog",
+          "doubletap"
+        ],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": {
+          "id": "speedcola",
+          "started": 9.033333333333312,
+          "until": 11.033333333333312
+        },
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      }
+    ],
+    "pap": {
+      "phase": "idle",
+      "owner": null,
+      "weapon": null,
+      "started": 0,
+      "until": 0
+    },
+    "views": 5,
+    "prompts": [
+      "CASSA · 950 PUNTI\nTI MANCANO 1 PUNTI",
+      "BEVI SPEED COLA…",
+      "",
+      "",
+      ""
+    ],
+    "wallet": "949 PUNTI · JUGGER-NOG · DOUBLE TAP 2.0",
+    "machines": [
+      "perk-machine:pap",
+      "perk-machine:juggernog",
+      "perk-machine:speedcola",
+      "perk-machine:doubletap"
+    ],
+    "bottles": 5
+  },
+  "pap": {
+    "players": [
+      {
+        "points": 0,
+        "perks": [
+          "juggernog",
+          "doubletap"
+        ],
+        "drinking": null,
+        "hp": 100,
+        "packed": true,
+        "weapon": "wunderwaffe",
+        "ammo": 6,
+        "reserve": 30,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [
+          "speedcola"
+        ],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      },
+      {
+        "points": 0,
+        "perks": [],
+        "drinking": null,
+        "hp": 100,
+        "packed": false,
+        "weapon": "pistola",
+        "ammo": 12,
+        "reserve": 96,
+        "reload": 0
+      }
+    ],
+    "pap": {
+      "phase": "idle",
+      "owner": null,
+      "weapon": null,
+      "started": 0,
+      "until": 0
+    },
+    "views": 5,
+    "prompts": [
+      "PACK-A-PUNCH · ARMA GIÀ POTENZIATA",
+      "SPEED COLA · GIÀ ATTIVO",
+      "",
+      "",
+      ""
+    ],
+    "wallet": "0 PUNTI · JUGGER-NOG · DOUBLE TAP 2.0 · PACK-A-PUNCH",
+    "machines": [
+      "perk-machine:pap",
+      "perk-machine:juggernog",
+      "perk-machine:speedcola",
+      "perk-machine:doubletap"
+    ],
+    "bottles": 5
+  },
+  "chain": {
+    "points": 200,
+    "ammo": 5,
+    "dead": 4,
+    "fx": 0
+  },
+  "drinkVisual": [
+    {
+      "name": "drink:48dbd108-2490-4dad-aea5-75567a2dff9c:speedcola",
+      "mask": 32768
+    }
+  ],
+  "wunder": {
+    "ready": true,
+    "meshes": 1
+  },
+  "status": "passed"
+}

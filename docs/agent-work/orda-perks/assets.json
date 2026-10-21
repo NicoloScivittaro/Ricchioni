@@ -1,0 +1,128 @@
+[
+  {
+    "id": "doubletap",
+    "source": "double_tap_call_of_duty__black_ops_2_zombies.glb",
+    "sourceSha256": "26d3cc17f8425ee72e48f2d05a4d0b75fb92dcb302baac96cd23e002da075d6c",
+    "sourceBytes": 28135288,
+    "bytes": 12312248,
+    "path": "public/assets/orda/perks/doubletap.glb",
+    "trianglesBefore": 578064,
+    "triangles": 222585,
+    "meshes": 2,
+    "asset": {
+      "extras": {
+        "author": "Oren Faz (https://sketchfab.com/orenfaz)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/double-tap-call-of-duty-black-ops-2-zombies-dfb1d8527925456cb97ad2ba8119236d",
+        "title": "Double Tap (Call of Duty : Black Ops 2 Zombies)"
+      },
+      "generator": "Sketchfab-12.68.0",
+      "version": "2.0"
+    }
+  },
+  {
+    "id": "speedcola",
+    "source": "speed_cola_machine_-_world_at_war.glb",
+    "sourceSha256": "0ac653bc4a626e3653571aaf7a52864d04667d930d7617df19f75a5e53f9aeb4",
+    "sourceBytes": 3726260,
+    "bytes": 3671832,
+    "path": "public/assets/orda/perks/speedcola.glb",
+    "trianglesBefore": 1738,
+    "triangles": 1738,
+    "meshes": 2,
+    "asset": {
+      "extras": {
+        "author": "Harry T (https://sketchfab.com/harryt)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/speed-cola-machine-world-at-war-92b5a195b5354772a41bb3a246487ff8",
+        "title": "Speed Cola Machine - World at War"
+      },
+      "generator": "Sketchfab-12.66.0",
+      "version": "2.0"
+    }
+  },
+  {
+    "id": "juggernog",
+    "source": "minecraft_jugger_nog_perk_machine.glb",
+    "sourceSha256": "a0d426c8179410802c6a76202e0b4f1fca275d65aefe4ddad4c9b24b057ffbc7",
+    "sourceBytes": 43016,
+    "bytes": 42736,
+    "path": "public/assets/orda/perks/juggernog.glb",
+    "trianglesBefore": 168,
+    "triangles": 168,
+    "meshes": 1,
+    "asset": {
+      "extras": {
+        "author": "Federal_Right (https://sketchfab.com/Federal_Right)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/minecraft-jugger-nog-perk-machine-607b4d16554c45698d2b5954f3c2df35",
+        "title": "Minecraft Jugger Nog Perk Machine"
+      },
+      "generator": "Sketchfab-12.68.0",
+      "version": "2.0"
+    }
+  },
+  {
+    "id": "pap",
+    "source": "minecraft_pack_a_punch_machine.glb",
+    "sourceSha256": "f91f36621bed59cc5602d69e9fe510601df7068f34ed589a81e5b1f2a3431323",
+    "sourceBytes": 138336,
+    "bytes": 87576,
+    "path": "public/assets/orda/perks/pap.glb",
+    "trianglesBefore": 648,
+    "triangles": 648,
+    "meshes": 1,
+    "asset": {
+      "extras": {
+        "author": "Federal_Right (https://sketchfab.com/Federal_Right)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/minecraft-pack-a-punch-machine-b779fae06a704dc3868c93d0f984dac5",
+        "title": "Minecraft Pack A Punch Machine"
+      },
+      "generator": "Sketchfab-12.68.0",
+      "version": "2.0"
+    }
+  },
+  {
+    "id": "bottles",
+    "source": "cod_zombies_sodas.glb",
+    "sourceSha256": "ee24053a4746fbdd896cf64f1a805978ee078c2e887885456345c0b8a8ab28fc",
+    "sourceBytes": 16999304,
+    "bytes": 16892276,
+    "path": "public/assets/orda/perks/bottles.glb",
+    "trianglesBefore": 9940,
+    "triangles": 9940,
+    "meshes": 5,
+    "asset": {
+      "extras": {
+        "author": "albertjuli (https://sketchfab.com/albertjuli)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/cod-zombies-sodas-52fe758d6c7e40d8b8a247cbff7fe95f",
+        "title": "CoD Zombies Sodas"
+      },
+      "generator": "Sketchfab-12.66.0",
+      "version": "2.0"
+    }
+  },
+  {
+    "id": "wunderwaffe",
+    "source": "wundderwaffle_dg2.glb",
+    "sourceSha256": "703c1dbb95e1b8e5d23d41171f2b3d32906266af7fa32b0fe96c895e38112af3",
+    "sourceBytes": 4429472,
+    "bytes": 4159892,
+    "path": "public/assets/fps/weapons/wunderwaffe.glb",
+    "trianglesBefore": 21512,
+    "triangles": 21512,
+    "meshes": 1,
+    "asset": {
+      "extras": {
+        "author": "esdalex115 (https://sketchfab.com/esdalex115)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/wundderwaffle-dg2-23473a963cc449e28ae6b1b4dbea5890",
+        "title": "Wundderwaffle DG2"
+      },
+      "generator": "Sketchfab-12.67.0",
+      "version": "2.0"
+    }
+  }
+]

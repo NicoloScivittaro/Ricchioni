@@ -1,0 +1,49 @@
+{
+  "status": "passed",
+  "assets": [
+    {
+      "id": "acr",
+      "clips": 8,
+      "skins": 1,
+      "meshes": 5,
+      "bytes": 14536028,
+      "sourceUnchanged": true,
+      "originalClipDataUnchanged": true,
+      "positionBounds": true,
+      "skinWeights": true
+    },
+    {
+      "id": "glock",
+      "clips": 6,
+      "skins": 2,
+      "meshes": 12,
+      "bytes": 2894640,
+      "sourceUnchanged": true,
+      "originalClipDataUnchanged": true,
+      "positionBounds": true,
+      "skinWeights": true
+    },
+    {
+      "id": "shotgun",
+      "clips": 7,
+      "skins": 1,
+      "meshes": 7,
+      "bytes": 11777420,
+      "sourceUnchanged": true,
+      "originalClipDataUnchanged": true,
+      "positionBounds": true,
+      "skinWeights": true
+    },
+    {
+      "id": "ak74u",
+      "clips": 7,
+      "skins": 1,
+      "meshes": 5,
+      "bytes": 17111668,
+      "sourceUnchanged": true,
+      "originalClipDataUnchanged": true,
+      "positionBounds": true,
+      "skinWeights": true
+    }
+  ]
+}

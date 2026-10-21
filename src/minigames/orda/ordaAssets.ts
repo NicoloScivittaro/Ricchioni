@@ -1,4 +1,4 @@
-import {AssetContainer,LoadAssetContainerAsync,PBRMaterial,Scene,Color3,Mesh} from '@babylonjs/core';
+import {AssetContainer,LoadAssetContainerAsync,PBRMaterial,Scene,Color3,Mesh,StandardMaterial,VertexBuffer} from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
 import {BackActor} from '../backrooms/backroomsAssets';
 import type {EnemyKind} from '../../../shared/orda/types';
@@ -13,10 +13,11 @@ export const ENEMY_ART:Record<EnemyKind,{model:keyof typeof FILES;scale:number;c
 export class OrdaAssets{
  readonly containers=new Map<string,AssetContainer>();
  private variants=new Map<string,PBRMaterial>();
+ private bacteriaMaterial:StandardMaterial|null=null;
  constructor(readonly scene:Scene){}
  async load():Promise<void>{
   await loadMonsterManifest();await Promise.all(Object.entries(FILES).map(async([id,file])=>{const c=await LoadAssetContainerAsync(MONSTER_PROFILES[id]?.model??`/assets/backrooms/${file}.glb`,this.scene);if(this.scene.isDisposed){c.dispose();return;}this.containers.set(id,c);
-   for(const m of c.materials)if(m instanceof PBRMaterial){m.maxSimultaneousLights=2;m.environmentIntensity=.4;m.roughness=Math.max(.6,m.roughness??1);if(id==='bacteria'){m.albedoColor.set(.07,.075,.06);m.emissiveColor.set(.008,.009,.006);m.roughness=.9;}for(const t of m.getActiveTextures())t.anisotropicFilteringLevel=2;}
+   for(const m of c.materials)if(m instanceof PBRMaterial){m.maxSimultaneousLights=2;m.environmentIntensity=.4;m.roughness=Math.max(.6,m.roughness??1);if(id==='bacteria'){m.albedoColor.set(.07,.075,.06);m.emissiveColor.set(.008,.009,.006);m.roughness=.9;}for(const t of m.getActiveTextures())t.anisotropicFilteringLevel=2;m.freeze();}
   }));
  }
  actor(kind:EnemyKind|'player',name:string,color?:string,label?:string):BackActor{
@@ -25,13 +26,18 @@ export class OrdaAssets{
   if(a.model==='bacteria'){
    // These source parts have no skin. Batch the rigid trunk/legs while keeping the authored
    // head/arm pivot subtrees intact, so the existing procedural animations still work.
+   // The old almost-black PBR materials split this same organism into dozens of draws
+   // per camera. Keep every vertex and articulated pivot; one restrained wet material
+   // makes its silhouette clearer while allowing the rigid parts to batch together.
+   if(!this.bacteriaMaterial){const m=this.bacteriaMaterial=new StandardMaterial('orda:bacteria-organic',this.scene);m.diffuseColor=new Color3(.085,.105,.09);m.specularColor=new Color3(.24,.29,.25);m.specularPower=40;m.emissiveColor=new Color3(.006,.009,.007);m.maxSimultaneousLights=2;m.freeze();}
+   for(const mesh of actor.meshes)if(mesh.getTotalVertices()&&!mesh.skeleton){mesh.material=this.bacteriaMaterial;mesh.makeGeometryUnique();for(const kind of mesh.getVerticesDataKinds())if(kind!==VertexBuffer.PositionKind&&kind!==VertexBuffer.NormalKind)mesh.removeVerticesData(kind);}
    const rigid=actor.meshes.filter(mesh=>{if(mesh.skeleton||mesh.getTotalVertices()===0||!mesh.subMeshes?.length)return false;for(let p=mesh.parent;p&&p!==actor.body;p=p.parent)if(p.name.includes(':pivot:'))return false;return true;});
    const groups=new Map<string,Mesh[]>();for(const mesh of rigid){const key=[mesh.material?.uniqueId,mesh.sideOrientation,...mesh.getVerticesDataKinds().sort().map(k=>k+':'+mesh.getVertexBuffer(k)?.getSize())].join('|'),list=groups.get(key)??[];list.push(mesh);groups.set(key,list);}
    // The source mixes UV/tangent layouts; only identical attribute sets and materials can be merged.
    for(const list of groups.values())if(list.length>1){const merged=Mesh.MergeMeshes(list,true,true,undefined,false,false);if(merged){merged.name=name+':rigid-body';merged.setParent(actor.body);merged.isPickable=false;for(let i=actor.meshes.length-1;i>=0;i--)if(actor.meshes[i].isDisposed())actor.meshes.splice(i,1);actor.meshes.push(merged);}}
   }
-  if(kind==='infetto'||kind==='colosso')for(const mesh of actor.meshes)if(mesh.material instanceof PBRMaterial){const source=mesh.material,key=kind+':'+source.uniqueId;let mat=this.variants.get(key);if(!mat){mat=source.clone('orda:'+key)!;mat.albedoColor=source.albedoColor.multiply(Color3.FromHexString(kind==='infetto'?'#809c85':'#b56c4c'));this.variants.set(key,mat);}mesh.material=mat;}
+  if(kind==='infetto'||kind==='colosso')for(const mesh of actor.meshes)if(mesh.material instanceof PBRMaterial){const source=mesh.material,key=kind+':'+source.uniqueId;let mat=this.variants.get(key);if(!mat){mat=source.clone('orda:'+key)!;mat.albedoColor=source.albedoColor.multiply(Color3.FromHexString(kind==='infetto'?'#809c85':'#b56c4c'));mat.freeze();this.variants.set(key,mat);}mesh.material=mat;}
   return actor;
  }
- dispose():void{for(const m of this.variants.values())m.dispose(false,false);this.variants.clear();for(const c of this.containers.values())c.dispose();this.containers.clear();}
+ dispose():void{for(const m of this.variants.values())m.dispose(false,false);this.variants.clear();this.bacteriaMaterial?.dispose();this.bacteriaMaterial=null;for(const c of this.containers.values())c.dispose();this.containers.clear();}
 }

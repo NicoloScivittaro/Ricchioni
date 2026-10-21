@@ -1,0 +1,22 @@
+import{OrdaRenderer}from'../../src/minigames/orda/OrdaRenderer';
+import{OrdaMatch}from'../../shared/orda/match';
+import type{EnemyKind}from'../../shared/orda/types';
+import{SceneInstrumentation}from'@babylonjs/core';
+import{humanViewPlayers}from'../../src/core/playerViews';
+const humanCount=Math.max(1,Math.min(5,Number(new URLSearchParams(location.search).get('humans')??5)));
+// Deliberately interleave bots so a viewport index cannot accidentally become a roster index.
+const humanSlots=[0,2,4,1,3].slice(0,humanCount);
+const people=['Niko','Boschi','Goblin','Carbo','Bona'].map((name,i)=>({id:'fixture'+i,name,bot:!humanSlots.includes(i),color:['#f6c977','#86d4d2','#acb6f2','#ef9aa2','#bce09e'][i]}));
+const match=new OrdaMatch(people,950),s=match.state;s.phase='fighting';s.wave=10;s.pending=0;s.supplies=[];
+const weapons=['acr','ak74u','wunderwaffe','shotgun','glock'];
+s.players.forEach((p,i)=>Object.assign(p,{x:[-6,-3,0,3,6][i],z:-12,y:0,yaw:Math.atan2(-p.x,16),pitch:.015,weapon:weapons[i],ammo:20,points:2500,perks:['juggernog','doubletap','speedcola'],packed:false}));
+for(let i=0;i<22;i++){s.pending=1;(match as any).spawn();const e=s.enemies.at(-1)!;Object.assign(e,{kind:(['infetto','corridore','zombiegirl','yaku','warrok','pumpkinhulk','colosso','assalitore','cacciatore','macellaio']as EnemyKind[])[i%10],x:(i%6-2.5)*2.3,z:-3+Math.floor(i/6)*3,y:0,yaw:Math.PI,hp:1000,deathAt:undefined,action:'walk',windup:0,target:s.players[i%5].id});}s.pending=0;
+const display=new OrdaRenderer(document.querySelector('canvas')!,people,humanViewPlayers(people).map(p=>p.id));
+await display.ready;display.update(s,.016);await Promise.all((display as any).rigs.map((r:any)=>r.vm.whenReady()));await display.scene.whenReadyAsync();
+const instrumentation=new SceneInstrumentation(display.scene);instrumentation.captureActiveMeshesEvaluationTime=true;instrumentation.captureRenderTime=true;
+let stopped=false,base=performance.now(),last=base,frame=0;const costs:{update:number;render:number;draws:number;active:number}[]=[];
+display.engine.runRenderLoop(()=>{if(stopped)return;const now=performance.now(),dt=Math.min(.05,(now-last)/1000);last=now;s.time=(now-base)/1000;for(const[i,e]of s.enemies.entries()){e.x=(i%6-2.5)*2.3+Math.sin(s.time*.7+i)*.4;e.z=-3+Math.floor(i/6)*3+Math.cos(s.time*.7+i)*.4;}s.players.forEach((p,i)=>p.yaw=Math.atan2(-p.x,16)+Math.sin(s.time*.25)*.14);
+ const t=performance.now();display.update(s,dt);const update=performance.now()-t;display.render();costs.push({update,render:performance.now()-t-update,draws:(display.engine as any)._drawCalls.current,active:display.scene.getActiveIndices()});if(costs.length>800)costs.shift();frame++;
+});
+(window as any).fixture={display,match,instrumentation,costs,get frame(){return frame;},reset(){base=performance.now();last=base;costs.length=0;},stop(){stopped=true;display.engine.stopRenderLoop();},dispose(){stopped=true;instrumentation.dispose();display.dispose();}};
+(window as any).ready=true;

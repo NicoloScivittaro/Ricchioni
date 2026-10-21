@@ -1,0 +1,62 @@
+ M dist/index.html
+ M node_modules/.vite/deps/_metadata.json
+ M shared/fpsWeapons.ts
+ M shared/minigames.ts
+ M shared/orda/arena.ts
+ M shared/orda/match.ts
+ M shared/orda/types.ts
+ M src/controller/fpsAudio.ts
+ M src/controller/fpsClient.ts
+ M src/controller/fpsViewmodel.ts
+ M src/controller/fpsWeaponModels.ts
+ M src/controller/ordaController.ts
+ M src/input/profiles.ts
+ M src/minigames/fps/BabylonFpsGame.ts
+ M src/minigames/fps/FpsScene.ts
+ M src/minigames/fps/fpsAbilities.ts
+ M src/minigames/orda/OrdaAudio.ts
+ M src/minigames/orda/OrdaRenderer.ts
+ M src/minigames/orda/OrdaScene.ts
+ M src/minigames/orda/depotWorld.ts
+ M src/minigames/orda/ordaAssets.ts
+?? docs/agent-work/fps-weapon-pack/
+?? docs/agent-work/human-views/
+?? docs/agent-work/orda-box-polish/
+?? docs/agent-work/orda-graphics/
+?? docs/agent-work/orda-perks/
+?? docs/agent-work/orda-zombies/
+?? public/assets/fps/animated/
+?? public/assets/fps/weapons/pack-shotgun.glb
+?? public/assets/fps/weapons/wunderwaffe.glb
+?? public/assets/orda/
+?? scripts/e2e/fps-pack-clips.mjs
+?? scripts/e2e/fps-pack-games.mjs
+?? scripts/e2e/orda-box-polish.mjs
+?? scripts/e2e/orda-graphics.mjs
+?? scripts/e2e/orda-perks.mjs
+?? scripts/e2e/orda-zombies.mjs
+?? scripts/fps-pack-finalize.py
+?? scripts/fps-pack-selftest.ts
+?? scripts/orda-box-polish-finalize.py
+?? scripts/orda-box-polish-selftest.ts
+?? scripts/orda-graphics-finalize.py
+?? scripts/orda-perks-finalize.py
+?? scripts/orda-perks-selftest.ts
+?? scripts/orda-zombies-finalize.py
+?? scripts/orda-zombies-selftest.ts
+?? shared/fpsClips.json
+?? shared/fpsReload.ts
+?? shared/orda/perks.ts
+?? shared/orda/weapons.ts
+?? shared/orda/zombiesRules.ts
+?? src/controller/fpsAuthored.ts
+?? src/minigames/orda/MysteryBoxAudio.ts
+?? src/minigames/orda/MysteryBoxVisual.ts
+?? src/minigames/orda/OrdaContactShadows.ts
+?? src/minigames/orda/PerkVisuals.ts
+?? tools/fps-weapons/audit-pack.py
+?? tools/fps-weapons/pack-preview.html
+?? tools/fps-weapons/pack-preview.ts
+?? tools/fps-weapons/prepare-pack.py
+?? tools/fps-weapons/shotgun-world.py
+?? tools/orda/

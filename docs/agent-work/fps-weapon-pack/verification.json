@@ -1,0 +1,89 @@
+{
+  "status": "passed",
+  "assets": [
+    {
+      "id": "acr",
+      "bytes": 14536028,
+      "sha256": "294c0ca4356ea24aec5994d7e8065714e661762626ef158fb01cdf8cdf7937b4",
+      "clips": 8
+    },
+    {
+      "id": "glock",
+      "bytes": 2894640,
+      "sha256": "9464ab09eba12ff84ed555650270397fa23a0dbb746536ac4c73ff657f0ae9b4",
+      "clips": 6
+    },
+    {
+      "id": "shotgun",
+      "bytes": 11777420,
+      "sha256": "0c78622c189dd3d0b91e524216e2303bf95aec6f6969f55858c1427aaf78ca26",
+      "clips": 7
+    },
+    {
+      "id": "ak74u",
+      "bytes": 17111668,
+      "sha256": "f8dd625c0c03019dd70fb9a300107ff76a920e778318e2a5ecb89006a0d5022d",
+      "clips": 7
+    }
+  ],
+  "clips": 28,
+  "oldWeapons": "Six existing IDs and stats preserved; four added to the same rotation/crates.",
+  "reload": "Host-owned insertion clocks; Glock and AK normal/empty variants; Remington Start → individual shell contacts → End. No interruption before close; existing Goblin perfect-reload ability still applies.",
+  "hands": "Original independent rigs (Glock has two skins), no retargeting between guns; shared material/texture/geometry caches and separate per-camera masks. Hand-free shotgun worldmodel; other new weapons reuse coherent old rifle/pistol opponent models.",
+  "ads": "Four calibrated per-weapon offsets; Remington and AK pitch/yaw derived from front/rear sight points. Existing sniper scope unchanged. Authored fire recoil, cosmetic camera kick only; no double damage event.",
+  "fallbacks": "Glock Idle is an authored constant pose. Shotgun has no Idle/Walk/Run clip: ready pose from Shoot at zero plus procedural movement. Glock/AK locomotion is procedural. Inspect/Holster states available to the shared controller for clips that exist; no new inspect binding added.",
+  "tests": {
+    "logic": [
+      "Six old weapon statistics unchanged; ten unique active IDs",
+      "Magazine insertion markers, empty/normal durations, no duplicated rounds",
+      "Shotgun: exact three individual shell contacts, limited reserve, closing stage",
+      "Actual Orda clock: blocked fire during reload, independent player ammo, authoritative shell transfer",
+      "Actual Orda: one round and one shot event per trigger, including eight shotgun pellets",
+      "Actual hitscan damage: ACR, Glock, AK74U and eight shotgun pellets hit a body target with their configured Orda damage",
+      "Existing Goblin ability uses the actual partial reload duration; early press delays, perfect reload completes explicitly",
+      "Empty shotgun finishes its authored fire/pump cycle before automatic reload begins; manual reload cannot interrupt that cycle"
+    ],
+    "browser": [
+      "Actual Orda: all four weapons, five independent rigs/layers, shared ACR geometry/material, concurrent distinct reload states",
+      "Shotgun progressive count in real renderer, original reload poses photographed in Orda, short five-view combat benchmark",
+      "Actual Sparatoria Cantiere: all four consume one round per real shot; shell contact adds one round while closing remains locked",
+      "Sparatoria empty shotgun: full original pump before automatic reload; no early insertion or manual interruption"
+    ],
+    "clips": "passed",
+    "errors": [],
+    "typecheck": "passed",
+    "build": "passed"
+  },
+  "performance": {
+    "fps": 59.9,
+    "seconds": 6,
+    "views": 5,
+    "game": "Orda Finale",
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "window": [
+      1920,
+      1080
+    ],
+    "internal": [
+      1669,
+      939
+    ],
+    "livingEnemies": [
+      4,
+      7
+    ],
+    "conditions": "6 seconds, Orda wave 2, eight spawned enemies, five cameras, ACR/Glock/Remington/AK74U/ACR, real held-fire input; survivor HP 1000 only in harness to retain all views.",
+    "limit": "One short development sample; not a maximum-horde or Terminal benchmark, and not a long-session guarantee."
+  },
+  "limits": [
+    "Glock17 source/author/license absent from supplied GLB; verify original listing before publication. No publication performed.",
+    "Sparatoria smoke used Cantiere, two local views; five-view benchmark used actual Orda rendering.",
+    "No physical-pad or long endurance session."
+  ],
+  "screenshots": [
+    "acr.png",
+    "glock.png",
+    "shotgun.png",
+    "ak74u.png"
+  ]
+}

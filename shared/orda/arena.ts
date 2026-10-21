@@ -1,9 +1,11 @@
 import {rayVsAabb, resolveCollisions} from '../fpsMap';
 import type {Aabb} from '../fpsMap';
+import {MYSTERY_BOX}from './zombiesRules';
+import {STATIONS}from'./perks';
 
 export interface Point {x:number;z:number}
 export const ARENA_W=44, ARENA_D=36;
-export const COVERS:(Aabb & {kind:'container'|'crate'|'machine'|'wall'})[]=[
+export const COVERS:(Aabb & {kind:'container'|'crate'|'machine'|'wall'|'mystery'|'perk'})[]=[
  {x:0,z:-18,w:45,d:1,h:6,kind:'wall'},{x:0,z:18,w:45,d:1,h:6,kind:'wall'},
  {x:-22,z:0,w:1,d:36,h:6,kind:'wall'},{x:22,z:0,w:1,d:36,h:6,kind:'wall'},
  {x:-11,z:-6,w:4,d:8,h:2.7,kind:'container'}, {x:11,z:5,w:4,d:8,h:2.7,kind:'container'},
@@ -11,12 +13,14 @@ export const COVERS:(Aabb & {kind:'container'|'crate'|'machine'|'wall'})[]=[
  {x:-3,z:1,w:2.8,d:3,h:1.45,kind:'crate'}, {x:4,z:-3,w:3,d:2.5,h:1.45,kind:'crate'},
  {x:3,z:8,w:2.6,d:2.5,h:2,kind:'machine'}, {x:-17,z:0,w:2,d:2,h:1.3,kind:'crate'},
  {x:17,z:-1,w:2,d:2,h:1.3,kind:'crate'},
+ {...MYSTERY_BOX,kind:'mystery'},
+ ...STATIONS.map(t=>({x:t.x,z:t.z,w:Math.abs(Math.cos(t.rotation))*t.w+Math.abs(Math.sin(t.rotation))*t.d,d:Math.abs(Math.cos(t.rotation))*t.d+Math.abs(Math.sin(t.rotation))*t.w,h:t.h,base:t.z>12?1.6:0,kind:'perk' as const})),
  // Raised loading dock: a solid plinth and two broad walkable ramps, no invisible floor.
  {x:0,z:14.7,w:20,d:3.6,h:1.6,kind:'machine'}
 ];
 export const STARTS:Point[]=[{x:-6,z:-12},{x:0,z:-12},{x:6,z:-12},{x:-6,z:-8},{x:5,z:-8}];
 export const GATES:Point[]=[{x:-19,z:-14},{x:19,z:-14},{x:-19,z:14},{x:19,z:14},{x:0,z:-16},{x:-19,z:0},{x:19,z:0},{x:0,z:15}];
-export const SUPPLIES=[{x:-18,z:6,kind:'ammo'},{x:18,z:-7,kind:'ammo'},{x:0,z:14.5,kind:'health'},{x:0,z:3.8,kind:'crate'}] as const;
+export const SUPPLIES=[{x:-18,z:6,kind:'ammo'},{x:18,z:-7,kind:'ammo'},{x:0,z:14.5,kind:'health'}] as const;
 export function floorAt(x:number,z:number):number{
  if(z>=12.9&&z<=16.5){if(Math.abs(x)<=10)return 1.6;if(Math.abs(x)<16)return(16-Math.abs(x))/6*1.6;}
  return 0;
@@ -24,14 +28,14 @@ export function floorAt(x:number,z:number):number{
 export function free(x:number,z:number,r=.55):boolean{
  if(Math.abs(x)>21.2-r||Math.abs(z)>17.2-r)return false;
  const y=floorAt(x,z);
- return !COVERS.some(b=>b.h>y+.15&&Math.abs(x-b.x)<b.w/2+r&&Math.abs(z-b.z)<b.d/2+r);
+ return !COVERS.some(b=>b.h+(b.base??0)>y+.15&&Math.abs(x-b.x)<b.w/2+r&&Math.abs(z-b.z)<b.d/2+r);
 }
 export function move(x:number,z:number,dx:number,dz:number,r=.43,y=floorAt(x,z)):Point{
  const nx=Math.max(-21.1+r,Math.min(21.1-r,x+dx)),nz=Math.max(-17.1+r,Math.min(17.1-r,z+dz));
  const ground=floorAt(nx,nz);
  // Can't walk up the vertical dock edge. Both ramps remain available.
  const rampEntry=ground-y<.28;
- const blocks=COVERS.filter(b=>b.h>y+.23 && !(rampEntry&&ground>0&&Math.abs(nx)>9.8&&b===COVERS[COVERS.length-1]));
+ const blocks=COVERS.filter(b=>b.h+(b.base??0)>y+.23 && !(rampEntry&&ground>0&&Math.abs(nx)>9.8&&b===COVERS[COVERS.length-1]));
  const q=resolveCollisions(nx,nz,r,blocks);
  return q;
 }

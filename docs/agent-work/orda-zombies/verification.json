@@ -1,0 +1,51 @@
+{
+  "status": "passed",
+  "rules": {
+    "killPoints": 50,
+    "boxCost": 950,
+    "startingPoints": 0,
+    "hitsToDie": 3,
+    "contactGraceSeconds": 0.65,
+    "rollSeconds": 2.5,
+    "claimSeconds": 10,
+    "firstAid": "Existing health supply restores one accepted hit; no passive regeneration."
+  },
+  "box": {
+    "sourceSha256": "a2b3f54f2c00900ee3230c0b9b1d7469af0ef8a4c6582b01b9dccd801fca99cf",
+    "sha256": "79c471436e4b12a1fda5cf38f203275e689d60118073854262033ad7d3e348ec",
+    "bytes": 16111368,
+    "originalBytes": 39004756,
+    "variants": "Both original closed/open variants; no authored animation clips.",
+    "reward": "Random existing weapon excluding current, full magazine plus four reserve magazines; owner-only pickup.",
+    "expiry": "Unclaimed reward expires without refund. Owner death releases the box."
+  },
+  "controls": "RB / R1 on pad; CASSA on phone. Explicit proximity interaction, same floor and line of sight.",
+  "tests": {
+    "logic": [
+      "Confirmed monster kill pays exactly 50 once, including duplicate damage callbacks",
+      "949 rejected; 950 accepted only nearby/on same floor; repeated presses and simultaneous contender never double-charge",
+      "Original ten-weapon pool, owned pickup, full magazine, no second debit, cooldown and return to idle",
+      "Expired unclaimed weapon is lost without granting or refunding",
+      "Every enemy strength takes exactly three accepted impacts to kill; same-contact grace, no duplicate death",
+      "Existing first aid restores exactly one hit, keeping hit count and health consistent",
+      "Owner death releases box safely; no posthumous weapon award",
+      "Host input edge triggers purchase; public box packet is a copy, not authority",
+      "Bot buys and retrieves through the same host input/cost/distance state machine"
+    ],
+    "browser": [
+      "Actual five-view Orda, original GLB closed/open, RB purchase at 950, no debit at 949, owned random weapon pickup",
+      "Real phone CASSA button traverses socket input to host authority and debits its own wallet",
+      "Actual kill adds 50; HUD/host three-hit rule, contact grace and elimination"
+    ],
+    "typecheck": "passed",
+    "build": "passed",
+    "visual": "Original open box and floating reward inspected in actual Orda renderer."
+  },
+  "scope": "Existing waves, last-survivor win condition and other games preserved. No fresh performance benchmark requested or claimed.",
+  "limits": [
+    "Pad verification used mapped mock gamepad input; no physical gamepad session."
+  ],
+  "screenshots": [
+    "mystery-box.png"
+  ]
+}

@@ -1,6 +1,6 @@
 import { audio } from '../../core/AudioManager';
 import { lineOfSight, cellAt } from './maze';
-import { splitScreenLayout } from '../kart-race/cameraHud';
+import { humanViewPlayers, splitScreenLayout } from '../../core/playerViews';
 import type { BackroomsMatch, BackEvent, CreatureKind } from './backroomsRules';
 
 const STEP_HZ: Record<CreatureKind, number> = { bacteria:73,partygoer:310,stalker: 105, runner: 145, imitator: 230, hound: 170, watcher: 70, smiler: 200, howler: 120 };
@@ -56,11 +56,11 @@ export class BackroomsAudio {
     source.start(); source.stop(now + duration);
   }
   event(event: BackEvent, match: BackroomsMatch): void {
-    const listeners = match.players.filter(p => p.state === 'exploring' || p.id === event.player);
+    const humans=humanViewPlayers(match.players),listeners = humans.filter(p => p.state === 'exploring' || p.id === event.player);
     const listener = listeners.sort((a, b) => Math.hypot(a.x - event.point.x, a.z - event.point.z) - Math.hypot(b.x - event.point.x, b.z - event.point.z))[0]; if (!listener) return;
-    const distance = Math.hypot(listener.x - event.point.x, listener.z - event.point.z), i = match.players.indexOf(listener);
+    const distance = Math.hypot(listener.x - event.point.x, listener.z - event.point.z), i = humans.indexOf(listener);
     const bearing = Math.atan2(event.point.x - listener.x, event.point.z - listener.z) - listener.yaw;
-    const rect = splitScreenLayout(match.players.length)[i];
+    const rect = splitScreenLayout(humans.length)[i];
     const viewportPan = (rect.x + rect.w / 2 - .5) * .8, pan = viewportPan + Math.sin(bearing) * .45;
     const attenuation = Math.max(0, 1 - distance / 22) * (lineOfSight(match.maze, listener, event.point) ? 1 : .3);
     if(event.type==='lure'){this.voice(523,.24,.035*attenuation,pan,false,659);this.voice(784,.32,.025*attenuation,pan);}
@@ -85,7 +85,7 @@ export class BackroomsAudio {
       if (performance.now() > this.retryAt) { this.retryAt = performance.now() + 2000; audio.unlock(); this.showUnlock(); }
       return;
     }
-    const c = this.ctx, listeners = match.players.filter(p => p.state === 'exploring');
+    const c = this.ctx, listeners = humanViewPlayers(match.players).filter(p => p.state === 'exploring');
     const danger = Math.max(0, ...listeners.flatMap(p => match.monsters.map(m => {
       const d = Math.hypot(m.x - p.x, m.z - p.z), audible = lineOfSight(match.maze, p, m) ? 1 : .35;
       return Math.max(0, 1 - d / 12) * audible * (m.state === 'chase' ? 1 : .45);

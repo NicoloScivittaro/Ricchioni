@@ -1,0 +1,19 @@
+Testing backrooms: 1 humans, 4 bots
+Passed backrooms/1
+Testing backrooms: 3 humans, 2 bots
+Passed backrooms/3
+Testing backrooms: 5 humans, 0 bots
+Passed backrooms/5
+Testing fps: 1 humans, 4 bots
+Passed fps/1
+Testing fps: 3 humans, 2 bots
+Passed fps/3
+Testing fps: 5 humans, 0 bots
+Passed fps/5
+Testing kart: 1 humans, 4 bots
+Passed kart/1
+Testing kart: 3 humans, 2 bots
+Passed kart/3
+Testing kart: 5 humans, 0 bots
+Passed kart/5
+{"status":"passed","cases":9,"errors":[]}

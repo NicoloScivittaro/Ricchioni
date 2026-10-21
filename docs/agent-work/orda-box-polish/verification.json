@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "visual": "Original body and lid, articulated rear hinge: .6s opening, 105 degrees, .65s closing; three shared roulette models and final owned reward. No new dynamic lights.",
+  "removed": [
+    {
+      "material": "blinn12SG",
+      "vertices": 24
+    }
+  ],
+  "assetBytes": 8060316,
+  "sourceUnchanged": true,
+  "controls": "Xbox X / PlayStation Square near box buys or retrieves; away reloads. Same standard left-face binding, no RB. Phone CASSA retained.",
+  "sound": {
+    "origin": "Original procedural music-box arpeggio, mechanism clicks, reward chime and wood impact. No copied CoD recording.",
+    "cues": [
+      {
+        "name": "roll",
+        "seconds": 2.5,
+        "peak": 0.43434796497866945,
+        "rms": 0.05752763378527943
+      },
+      {
+        "name": "ready",
+        "seconds": 1.1499773242630384,
+        "peak": 0.36080479110306385,
+        "rms": 0.05337514145542658
+      },
+      {
+        "name": "close",
+        "seconds": 0.96,
+        "peak": 0.7185281560570383,
+        "rms": 0.04609136335729909
+      }
+    ],
+    "mixer": "Existing SFX bus, one voice shared across local views, distance attenuation, pause/resume and disposal.",
+    "closingImpactSeconds": 0.65
+  },
+  "tests": {
+    "logic": [
+      "Square/X buys and retrieves near box without also reloading",
+      "949 points rejects purchase and does not reload through the box",
+      "Same held press never repeats or triggers on entering the interaction radius",
+      "Square/X reloads away from box",
+      "Shared standard left-face button maps to PlayStation Square and Xbox X; RB removed",
+      "950 cost, owned reward and phone interact path preserved"
+    ],
+    "browser": [
+      "Actual mapped Xbox X and DualSense Square purchase/pickup at 950; RB inactive; no simultaneous reload; reload works away",
+      "Five-view host renders 8 original box meshes without the paper material",
+      "Continuous hinge angles during opening and closing; full-open reward and owner-only pickup",
+      "Music-box output sampled nonzero on existing SFX bus; pause cancels source"
+    ],
+    "audioOutputPeak": 0.1102089211344719,
+    "pauseStopsSource": true,
+    "cleanup": {
+      "sourceReleased": true
+    },
+    "typecheck": "passed",
+    "build": "passed",
+    "visual": "Three actual renderer screenshots inspected."
+  },
+  "limits": "Gamepad input verified with Xbox/DualSense browser mocks through the real mapping; no physical controller session or new FPS benchmark.",
+  "screenshots": [
+    "closed.png",
+    "opening.png",
+    "reward.png"
+  ]
+}

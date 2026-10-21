@@ -1,3 +1,4 @@
+import {humanViewPlayers} from '../../core/playerViews';
 import {PrimoTrack,guidePrimoBots} from './primoTrack';
 import {buildImportedTrackGuides,showImportedTrackDebug} from './importedTrackGuides';
 import {buildPrimoWorld,importPrimo} from './primoWorld';
@@ -127,6 +128,7 @@ export class BabylonKartGame {
     const shadowMap=shadowGen.getShadowMap()!;shadowMap.refreshRate=0;
     this.scene.onBeforeRenderObservable.add(()=>shadowMap.resetRefreshCounter());
     this.scene.skipPointerMovePicking=true;
+    this.scene.skipPointerDownPicking=true;this.scene.skipPointerUpPicking=true;
     if(!this.flightTrack&&!this.primo)buildTrackVisuals(this.scene, this.spline);
     this.setPieces=this.flightTrack||this.primo?{update:()=>{}}:buildTrackSetPieces(this.scene,this.spline);
     if(!this.sydney&&!this.primo)buildTrackGuides(this.scene, this.spline,this.rainbow?.checkpoints); // cartelli e frecce prima delle curve, portali dei checkpoint
@@ -156,7 +158,7 @@ export class BabylonKartGame {
     this.hud.setTrack(this.spline, this.checkpoints); // minimappa (prima di ensure(): ogni viewport ne riceve una)
     this.race = new RaceManager(this.checkpoints, this.spline.totalLength, Math.max(60, ctx.durationSec), this.trackAngleAt, (ev) => this.onRaceEvent(ev),this.primo?16:undefined);
 
-    this.order = ctx.players.filter((p) => !p.bot).map((p) => p.id);
+    this.order = humanViewPlayers(ctx.players).map((p) => p.id);
     // Griglia equa: chi è in testa alla classifica parte dietro, gli ultimi davanti; a parità decide il caso
     // (prima la pole andava sempre a chi era entrato per primo in stanza). L'ordine dei viewport resta invariato.
     const gridSlot = new Map(

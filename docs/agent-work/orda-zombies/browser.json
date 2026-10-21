@@ -1,0 +1,148 @@
+{
+  "errors": [],
+  "checks": [
+    "Actual five-view Orda, original GLB closed/open, RB purchase at 950, no debit at 949, owned random weapon pickup",
+    "Real phone CASSA button traverses socket input to host authority and debits its own wallet",
+    "Actual kill adds 50; HUD/host three-hit rule, contact grace and elimination",
+    "Actual kill adds 50; HUD/host three-hit rule, contact grace and elimination"
+  ],
+  "asset": {
+    "closed": 1,
+    "open": 1,
+    "meshes": [
+      {
+        "name": "MysteryBox_open_1",
+        "enabled": false,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_closed_2",
+        "enabled": true,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_open_3",
+        "enabled": false,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_closed_4",
+        "enabled": true,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_open_5",
+        "enabled": false,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_open_6",
+        "enabled": false,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_open_7",
+        "enabled": false,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_closed_8",
+        "enabled": true,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_open_9",
+        "enabled": false,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_closed_10",
+        "enabled": true,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_closed_11",
+        "enabled": true,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_open_12",
+        "enabled": false,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_open_13",
+        "enabled": false,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_closed_14",
+        "enabled": true,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_closed_15",
+        "enabled": true,
+        "layer": 1
+      },
+      {
+        "name": "MysteryBox_open_16",
+        "enabled": false,
+        "layer": 1
+      }
+    ],
+    "views": 5
+  },
+  "insufficient": {
+    "points": 949,
+    "phase": "idle"
+  },
+  "purchase": {
+    "points": 0,
+    "phase": "rolling",
+    "owner": "c73d8b4d-f863-477d-80e9-b157584d7abe"
+  },
+  "ready": {
+    "box": {
+      "phase": "ready",
+      "owner": "c73d8b4d-f863-477d-80e9-b157584d7abe",
+      "weapon": "bombarda",
+      "started": 1.4333333333333345,
+      "until": 13.966666666666661,
+      "serial": 1
+    },
+    "visible": true,
+    "prompt": "RAY GUN\nR1 / RB · RITIRA · 10s",
+    "wallet": "0 PUNTI · CASSA 950"
+  },
+  "pickup": {
+    "weapon": "bombarda",
+    "points": 0,
+    "box": "closing"
+  },
+  "phone": {
+    "phase": "rolling",
+    "points": 0,
+    "owner": "285e93cd-35d5-4d62-8533-1d0b654f802b",
+    "id": "285e93cd-35d5-4d62-8533-1d0b654f802b"
+  },
+  "health": {
+    "points": 50,
+    "one": {
+      "hp": 66.66666666666667,
+      "hits": 1,
+      "alive": true
+    },
+    "two": {
+      "hp": 33.333333333333336,
+      "hits": 2,
+      "alive": true
+    },
+    "three": {
+      "hp": 0,
+      "hits": 3,
+      "alive": false
+    }
+  },
+  "status": "passed"
+}

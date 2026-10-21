@@ -1,3 +1,6 @@
+import {humanViewPlayers} from '../../core/playerViews';
+import {beginWeaponReload,advanceWeaponReload} from '../../../shared/fpsReload';
+import type{WeaponReload}from '../../../shared/fpsReload';
 import {FpsKillHistory} from '../../../shared/fpsCombat';
 import type {FpsSurface} from '../../../shared/fpsCombat';
 import {FPS_BODY,FPS_KILL_TARGET,stepFpsVertical} from '../../../shared/fpsRules';
@@ -108,6 +111,7 @@ interface FpsPlayer {
   magazine: number;
   reloading: boolean;
   reloadTimer: number;
+  weaponReload?:WeaponReload;
   fireCooldown: number;
   dashTime: number;
   dashCooldown: number;
@@ -306,11 +310,8 @@ export class FpsScene extends Phaser.Scene {
 
     this.pauseMenu = new PauseMenu(this, '🔫 SPARATORIA DEI DISAGIATI', this.ctx.input, () => this.scene.restart({ ctx: this.ctx }));
 
-    // Split-screen (Milestone 6): chi ha il controller ALL'AVVIO del round gioca in prima persona sul PC (viewport
-    // multipli, stessa scena Babylon); chi non ce l'ha continua dal telefono, ESATTAMENTE come prima (nessuna
-    // modifica al percorso telefono). L'ordine e' quello dei giocatori in stanza: stabile, mai per indice del pad.
-    const locals: FpsLocalPlayer[] = this.ctx.players
-      .filter((p) => pads.slotOf(p.id)?.state === 'paired')
+    // One TV view per human, whether they use a pad or phone. Bots stay in the match.
+    const locals: FpsLocalPlayer[] = humanViewPlayers(this.ctx.players)
       .map((p) => ({ id: p.id, name: p.displayName, color: p.color, characterId: p.characterId }));
     if (locals.length > 0) void this.bootSplitScreen(locals);
 
@@ -394,7 +395,7 @@ export class FpsScene extends Phaser.Scene {
       guard: p.guardTime > 0,
       wall: p.wallTime > 0,
       locked: p.lockTime > 0 || p.stunTime > 0,
-      reloadFrac: p.reloading ? Math.max(0, Math.min(1, 1 - p.reloadTimer / getWeapon(p.weaponId).reload)) : 0,
+      reloadFrac: p.reloading ? Math.max(0, Math.min(1, 1 - p.reloadTimer / (p.weaponReload?.duration??getWeapon(p.weaponId).reload))) : 0, weaponReload:p.reloading?p.weaponReload:undefined,
       sweetFrom: p.characterId === 'goblin' ? AB.fps.goblin.p.from : null
     };
   }
@@ -491,14 +492,17 @@ export class FpsScene extends Phaser.Scene {
     if (!p.alive) return; // l'esattore di Ciro puo' averlo appena eliminato
     const stunned = p.stunTime > 0; // IPPON del Judoka: a terra, non muove ne' spara
     const noFire = stunned || p.lockTime > 0; // NO, ASPETTA!: niente spari e niente ricarica
+    // The authored Remington Shoot already contains its full pump cycle.
+    if(weapon.shellReload&&!noFire&&!p.reloading&&p.magazine===0&&p.fireCooldown<=0)this.startReload(p,weapon);
 
     // Reload
     if (p.reloading) {
-      p.reloadTimer -= dt;
-      if (p.reloadTimer <= 0) {
-        p.reloading = false;
-        p.magazine = weapon.magazine;
-      }
+      if(p.weaponReload){
+        const r=p.weaponReload,expected=r.duration-r.elapsed;
+        const hold=Math.max(0,p.reloadTimer-expected),advance=Math.max(0,dt-hold);
+        p.magazine+=advanceWeaponReload(weapon,r,advance);p.reloadTimer=Math.max(0,p.reloadTimer-dt);
+        if(p.reloadTimer<=0){p.reloading=false;p.weaponReload=undefined;}
+      }else{p.reloadTimer-=dt;if(p.reloadTimer<=0){p.reloading=false;p.magazine=weapon.magazine;}}
     }
 
     const input = this.ctx.input.get(p.id);
@@ -654,11 +658,13 @@ export class FpsScene extends Phaser.Scene {
 
   private startReload(p: FpsPlayer, weapon: WeaponConfig): void {
     if (p.reloading || p.lockTime > 0 || p.stunTime > 0) return;
+    if(weapon.shellReload&&p.fireCooldown>0)return;
     p.ads = 0; p.fireBuffer=0;
     p.reloading = true;
-    p.reloadTimer = weapon.reload;
+    p.weaponReload=weapon.reloadInsert!==undefined||weapon.shellReload?beginWeaponReload(weapon,p.magazine):undefined;
+    p.reloadTimer = p.weaponReload?.duration??weapon.reload;
     p.burstLeft = 0;
-    this.ctx.signal(p.id, { type: 'reload', duration: weapon.reload, weaponId: weapon.id });
+    this.ctx.signal(p.id, { type: 'reload', duration: p.reloadTimer, weaponId: weapon.id });
   }
 
   /** Pesca la prossima arma dal sacchetto del giocatore (si rimescola quando e' vuoto, senza ripetere l'ultima). */
@@ -679,7 +685,7 @@ export class FpsScene extends Phaser.Scene {
     p.weaponId = next;
     p.magazine = w.magazine;
     p.reloading = false;
-    p.reloadTimer = 0;
+    p.reloadTimer = 0;p.weaponReload=undefined;
     p.burstLeft = 0;
     p.fireCooldown = 0.35; // breve tempo di estrazione
     this.ctx.signal(p.id, { type: 'equip', weaponId: next });
@@ -760,7 +766,7 @@ export class FpsScene extends Phaser.Scene {
     p.recoilYaw = Math.max(-0.06, Math.min(0.06, p.recoilYaw + kick.yaw));
     p.heat = Math.min(1, p.heat + 0.3);
     this.fpsAb.onShotFired(p); // Goblin: un colpo del bonus in meno
-    if (p.magazine <= 0) this.startReload(p, weapon); // caricatore vuoto: ricarica automatica
+    if (p.magazine <= 0&&!weapon.shellReload) this.startReload(p, weapon); // Remington finishes its authored pump first.
   }
 
   /** Bombarda: il proiettile vola (visibile sui telefoni) e la SUA esplosione fa danno ad area nel punto calcolato allo sparo. */
@@ -977,7 +983,7 @@ export class FpsScene extends Phaser.Scene {
         weaponId: p.weaponId,
         firing: p.firing,
         magazine: p.magazine,
-        reloading: p.reloading, reloadFrac:p.reloading?Math.max(0,Math.min(1,1-p.reloadTimer/getWeapon(p.weaponId).reload)):0,
+        reloading: p.reloading, weaponReload:p.reloading?p.weaponReload:undefined,reloadFrac:p.reloading?Math.max(0,Math.min(1,1-p.reloadTimer/(p.weaponReload?.duration??getWeapon(p.weaponId).reload))):0,
         ads: p.ads, recoilPitch: p.recoilPitch, recoilYaw: p.recoilYaw, heat: p.heat, moving: p.moving,
         dashing: p.dashTime > 0,
         ability: this.fpsAb.status(p, getWeapon(p.weaponId)),

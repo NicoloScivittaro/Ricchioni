@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "checks": [
+    "Confirmed monster kill pays exactly 50 once, including duplicate damage callbacks",
+    "949 rejected; 950 accepted only nearby/on same floor; repeated presses and simultaneous contender never double-charge",
+    "Original ten-weapon pool, owned pickup, full magazine, no second debit, cooldown and return to idle",
+    "Expired unclaimed weapon is lost without granting or refunding",
+    "Every enemy strength takes exactly three accepted impacts to kill; same-contact grace, no duplicate death",
+    "Existing first aid restores exactly one hit, keeping hit count and health consistent",
+    "Owner death releases box safely; no posthumous weapon award",
+    "Host input edge triggers purchase; public box packet is a copy, not authority",
+    "Bot buys and retrieves through the same host input/cost/distance state machine"
+  ]
+}

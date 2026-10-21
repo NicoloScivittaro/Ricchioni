@@ -1,0 +1,53 @@
+{
+  "clips": [
+    {
+      "name": "Arms_FPS_Anim_Draw",
+      "seconds": 0.5672333836555481,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "name": "Arms_FPS_Anim_OneShot",
+      "seconds": 0.23356667160987854,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "name": "Arms_FPS_Anim_Walk",
+      "seconds": 0.8174833655357361,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "name": "Arms_FPS_Anim_Run",
+      "seconds": 0.6506500244140625,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "name": "Arms_FPS_Anim_Reload_Fast",
+      "seconds": 1.651650071144104,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "name": "Arms_FPS_Anim_rifle_inspect",
+      "seconds": 2.6526501178741455,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "name": "Arms_FPS_Anim_Shoot",
+      "seconds": 0.15015000104904175,
+      "finite": true,
+      "moving": true
+    },
+    {
+      "name": "Arms_FPS_Anim_Idle",
+      "seconds": 1.3179833889007568,
+      "finite": true,
+      "moving": true
+    }
+  ],
+  "status": "passed"
+}

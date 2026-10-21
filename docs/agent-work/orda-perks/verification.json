@@ -1,0 +1,132 @@
+{
+  "status": "passed",
+  "rules": {
+    "juggernog": {
+      "price": 2500,
+      "hits": 5,
+      "baseHits": 3
+    },
+    "speedcola": {
+      "price": 3000,
+      "reloadDurationMultiplier": 0.5
+    },
+    "doubletap": {
+      "price": 2000,
+      "fireRateMultiplier": 1.3333333333333333,
+      "ballisticBulletsPerAmmo": 2,
+      "energyChainMultiplier": 1
+    },
+    "pap": {
+      "price": 5000,
+      "processSeconds": 5,
+      "claimSeconds": 10,
+      "damageMultiplier": 2,
+      "magazineMultiplier": 2,
+      "repeatUpgrade": false
+    },
+    "wunderwaffe": {
+      "source": "Mystery Box",
+      "ammo": "3/15",
+      "upgraded": "DG-3 JZ,6/30",
+      "chainLimit": 10,
+      "linkRangeMetres": 5,
+      "bossDamage": 600,
+      "upgradedBossDamage": 1200
+    }
+  },
+  "controls": "Square / X contextual use, reload away from stations; phone USA",
+  "assets": [
+    {
+      "id": "doubletap",
+      "bytes": 12312248,
+      "triangles": 222585,
+      "meshes": 2,
+      "sourceSha256": "26d3cc17f8425ee72e48f2d05a4d0b75fb92dcb302baac96cd23e002da075d6c"
+    },
+    {
+      "id": "speedcola",
+      "bytes": 3671832,
+      "triangles": 1738,
+      "meshes": 2,
+      "sourceSha256": "0ac653bc4a626e3653571aaf7a52864d04667d930d7617df19f75a5e53f9aeb4"
+    },
+    {
+      "id": "juggernog",
+      "bytes": 42736,
+      "triangles": 168,
+      "meshes": 1,
+      "sourceSha256": "a0d426c8179410802c6a76202e0b4f1fca275d65aefe4ddad4c9b24b057ffbc7"
+    },
+    {
+      "id": "pap",
+      "bytes": 87576,
+      "triangles": 648,
+      "meshes": 1,
+      "sourceSha256": "f91f36621bed59cc5602d69e9fe510601df7068f34ed589a81e5b1f2a3431323"
+    },
+    {
+      "id": "bottles",
+      "bytes": 16892276,
+      "triangles": 9940,
+      "meshes": 5,
+      "sourceSha256": "ee24053a4746fbdd896cf64f1a805978ee078c2e887885456345c0b8a8ab28fc"
+    },
+    {
+      "id": "wunderwaffe",
+      "bytes": 4159892,
+      "triangles": 21512,
+      "meshes": 1,
+      "sourceSha256": "703c1dbb95e1b8e5d23d41171f2b3d32906266af7fa32b0fe96c895e38112af3"
+    }
+  ],
+  "tests": {
+    "logic": [
+      "Three real station prices, 1-point shortage, single debit, delayed drink effect, no duplicate perk, cloned packet",
+      "Base third-hit death, Jugger fifth-hit death, damage already taken conserved, first aid restores one hit, death clears perks",
+      "Speed Cola halves ordinary/empty and shell reload durations and insertion timings; animation playback metadata 2x; correct ammo conservation",
+      "Double Tap 2.0 fires two ballistic bullets for one ammo, doubles same target damage and adds 33% cadence",
+      "Pack-a-Punch 5000 debit once; no shooting deposited weapon; exclusive five-second process, owner pickup, DG-3 JZ 6/30; no repeat upgrade",
+      "Unclaimed Pack weapon expires, no refund/upgrade; owner death releases machine",
+      "Wunderwaffe 10 unique targets max, 50 points per kill, one ammo per discharge even with Double Tap, bounded boss damage600/1200, no shooting through cover",
+      "Sparatoria rotation remains ten weapons; Wunderwaffe is exclusively in Orda pool",
+      "All four station approach points reachable through the existing navigation graph, including both raised-dock machines",
+      "Bot uses the same station interaction and2500-point debit, waits for drink and receives Jugger-Nog"
+    ],
+    "browser": [
+      "Four supplied machines plus five original bottle props render in five live viewports",
+      "Mapped Xbox X buys Jugger-Nog and Double Tap, HUD reflects points/perks and drink delay",
+      "Real phone USA buys Speed Cola through socket with independent wallet",
+      "Actual pad deposits Wunderwaffe, no shooting while deposited, retrieves DG-3 JZ with6/30",
+      "Actual lightning chain kills four fixture monsters and awards exactly200 points"
+    ],
+    "typecheck": "passed",
+    "build": "passed",
+    "errors": []
+  },
+  "limits": [
+    "Mixed WaW/BO2/Minecraft supplied models: classic BO2-inspired effects, not an exact port of one Call of Duty release.",
+    "Three usable perk flavours with drinking animations; all five supplied bottles displayed. PHD and Quick Revive bottles are props; no new revive or self-explosion system.",
+    "Three base hits preserved per user instruction; Jugger raises them to five. Custom bosses take bounded electrical damage rather than unconditional instant death.",
+    "Single weapon inventory preserved. Unclaimed Pack reward is lost; fallback USP45. No repeat Pack attachments or power-switch quest.",
+    "Gamepads were browser-mapped simulations; no physical-controller session. No fresh FPS benchmark."
+  ],
+  "sources": [
+    {
+      "title": "Classic Black Ops II perk prices and roles",
+      "url": "https://www.gamerguides.com/call-of-duty-black-ops-ii/guide/zombies-guide/zombies-mode/overview/"
+    },
+    {
+      "title": "Wunderwaffe chain and ammunition references",
+      "url": "https://callofduty.fandom.com/wiki/Wunderwaffe_DG-2"
+    },
+    {
+      "title": "Treyarch: perk effects vary by Zombies release",
+      "url": "https://www.treyarch.com/game-intel/2020/10/Black_Ops_Cold_War_Zombies_Gameplay_Guide"
+    }
+  ],
+  "screenshots": [
+    "speed-cola.png",
+    "drink.png",
+    "wunderwaffe.png"
+  ]
+}

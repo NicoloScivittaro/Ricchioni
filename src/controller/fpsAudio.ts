@@ -1,4 +1,5 @@
 import type {FpsSurface} from '../../shared/fpsCombat';
+import {getWeapon} from '../../shared/fpsWeapons';
 import { audio } from '../core/AudioManager';
 
 /**
@@ -105,9 +106,9 @@ export function shot(weaponId: string, opt?: SfxOpt): void {
   if (!b) return;
   const j = jit();
   switch (weaponId) {
-    case 'pistola':
+    case 'glock':case 'pistola':
       hiss(b,'bandpass',2600,1100,.065,.22,0,1,opt);tone(b,'triangle',210*j,70,.11,.14,0,opt);break;
-    case 'spaccatutto': // BUM secco + pompa "ka-ciak"
+    case 'shotgun':case 'spaccatutto': // BUM secco + pompa "ka-ciak"
       hiss(b, 'lowpass', 1400, 300, 0.2, 0.32, 0, 0.7, opt);
       tone(b, 'sine', 130 * j, 42, 0.24, 0.34, 0, opt);
       tone(b, 'square', 900, 300, 0.05, 0.08, 0, opt);
@@ -146,6 +147,11 @@ export function reload(weaponId: string, dur: number): void {
   if (!b) return;
   const end = Math.max(0.3, dur);
   switch (weaponId) {
+    case 'shotgun': {
+      const c=getWeapon(weaponId).shellReload!,rounds=Math.max(0,Math.round((end-c.start-c.end)/c.insert));
+      for(let i=0;i<rounds;i++)tone(b,'square',490,280,.045,.075,c.start+i*c.insert+c.contact);
+      tone(b,'square',350,190,.065,.09,end-.16);break;
+    }
     case 'laser':
       hiss(b,'highpass',3000,1400,.07,.13,.05,1);
       tone(b,'square',380,190,.06,.1,end*.58);

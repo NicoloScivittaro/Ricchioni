@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "checks": [
+    "Square/X buys and retrieves near box without also reloading",
+    "949 points rejects purchase and does not reload through the box",
+    "Same held press never repeats or triggers on entering the interaction radius",
+    "Square/X reloads away from box",
+    "Shared standard left-face button maps to PlayStation Square and Xbox X; RB removed",
+    "950 cost, owned reward and phone interact path preserved"
+  ]
+}

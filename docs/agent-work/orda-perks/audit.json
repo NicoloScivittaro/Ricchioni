@@ -1,0 +1,312 @@
+{
+  "double_tap_call_of_duty__black_ops_2_zombies": {
+    "sha256": "26d3cc17f8425ee72e48f2d05a4d0b75fb92dcb302baac96cd23e002da075d6c",
+    "bytes": 28135288,
+    "asset": {
+      "extras": {
+        "author": "Oren Faz (https://sketchfab.com/orenfaz)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/double-tap-call-of-duty-black-ops-2-zombies-dfb1d8527925456cb97ad2ba8119236d",
+        "title": "Double Tap (Call of Duty : Black Ops 2 Zombies)"
+      },
+      "generator": "Sketchfab-12.68.0",
+      "version": "2.0"
+    },
+    "materials": [
+      {
+        "doubleSided": true,
+        "name": "uv_1",
+        "normalTexture": {
+          "index": 2,
+          "scale": 0.591526407958263
+        },
+        "occlusionTexture": {
+          "index": 1
+        },
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 0
+          },
+          "metallicRoughnessTexture": {
+            "index": 1
+          }
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "uv_2",
+        "normalTexture": {
+          "index": 5
+        },
+        "occlusionTexture": {
+          "index": 4
+        },
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 3
+          },
+          "metallicRoughnessTexture": {
+            "index": 4
+          }
+        }
+      }
+    ]
+  },
+  "cod_zombies_sodas": {
+    "sha256": "ee24053a4746fbdd896cf64f1a805978ee078c2e887885456345c0b8a8ab28fc",
+    "bytes": 16999304,
+    "asset": {
+      "extras": {
+        "author": "albertjuli (https://sketchfab.com/albertjuli)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/cod-zombies-sodas-52fe758d6c7e40d8b8a247cbff7fe95f",
+        "title": "CoD Zombies Sodas"
+      },
+      "generator": "Sketchfab-12.66.0",
+      "version": "2.0"
+    },
+    "materials": [
+      {
+        "alphaMode": "BLEND",
+        "doubleSided": true,
+        "name": "01_-_Default",
+        "normalTexture": {
+          "index": 2
+        },
+        "occlusionTexture": {
+          "index": 1
+        },
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 0
+          },
+          "metallicRoughnessTexture": {
+            "index": 1
+          }
+        }
+      },
+      {
+        "alphaMode": "BLEND",
+        "doubleSided": true,
+        "name": "03_-_Default",
+        "normalTexture": {
+          "index": 5
+        },
+        "occlusionTexture": {
+          "index": 4
+        },
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 3
+          },
+          "metallicRoughnessTexture": {
+            "index": 4
+          }
+        }
+      },
+      {
+        "alphaMode": "BLEND",
+        "doubleSided": true,
+        "name": "07_-_Default",
+        "normalTexture": {
+          "index": 8
+        },
+        "occlusionTexture": {
+          "index": 7
+        },
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 6
+          },
+          "metallicRoughnessTexture": {
+            "index": 7
+          }
+        }
+      },
+      {
+        "alphaMode": "BLEND",
+        "doubleSided": true,
+        "name": "04_-_Default",
+        "normalTexture": {
+          "index": 11
+        },
+        "occlusionTexture": {
+          "index": 10
+        },
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 9
+          },
+          "metallicRoughnessTexture": {
+            "index": 10
+          }
+        }
+      },
+      {
+        "alphaMode": "BLEND",
+        "doubleSided": true,
+        "name": "05_-_Default",
+        "normalTexture": {
+          "index": 14
+        },
+        "occlusionTexture": {
+          "index": 13
+        },
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 12
+          },
+          "metallicRoughnessTexture": {
+            "index": 13
+          }
+        }
+      }
+    ]
+  },
+  "speed_cola_machine_-_world_at_war": {
+    "sha256": "0ac653bc4a626e3653571aaf7a52864d04667d930d7617df19f75a5e53f9aeb4",
+    "bytes": 3726260,
+    "asset": {
+      "extras": {
+        "author": "Harry T (https://sketchfab.com/harryt)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/speed-cola-machine-world-at-war-92b5a195b5354772a41bb3a246487ff8",
+        "title": "Speed Cola Machine - World at War"
+      },
+      "generator": "Sketchfab-12.66.0",
+      "version": "2.0"
+    },
+    "materials": [
+      {
+        "alphaMode": "BLEND",
+        "doubleSided": true,
+        "name": "Material__39",
+        "pbrMetallicRoughness": {
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            0.27
+          ],
+          "baseColorTexture": {
+            "index": 0
+          },
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      },
+      {
+        "doubleSided": true,
+        "name": "Material__40",
+        "normalTexture": {
+          "index": 2
+        },
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 1
+          },
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      }
+    ]
+  },
+  "minecraft_pack_a_punch_machine": {
+    "sha256": "f91f36621bed59cc5602d69e9fe510601df7068f34ed589a81e5b1f2a3431323",
+    "bytes": 138336,
+    "asset": {
+      "extras": {
+        "author": "Federal_Right (https://sketchfab.com/Federal_Right)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/minecraft-pack-a-punch-machine-b779fae06a704dc3868c93d0f984dac5",
+        "title": "Minecraft Pack A Punch Machine"
+      },
+      "generator": "Sketchfab-12.68.0",
+      "version": "2.0"
+    },
+    "materials": [
+      {
+        "alphaCutoff": 0.05,
+        "alphaMode": "MASK",
+        "doubleSided": true,
+        "name": "packapunch.png",
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 0
+          },
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.38419246180131206
+        }
+      }
+    ]
+  },
+  "wundderwaffle_dg2": {
+    "sha256": "703c1dbb95e1b8e5d23d41171f2b3d32906266af7fa32b0fe96c895e38112af3",
+    "bytes": 4429472,
+    "asset": {
+      "extras": {
+        "author": "esdalex115 (https://sketchfab.com/esdalex115)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/wundderwaffle-dg2-23473a963cc449e28ae6b1b4dbea5890",
+        "title": "Wundderwaffle DG2"
+      },
+      "generator": "Sketchfab-12.67.0",
+      "version": "2.0"
+    },
+    "materials": [
+      {
+        "doubleSided": true,
+        "emissiveFactor": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "emissiveTexture": {
+          "index": 2
+        },
+        "name": "Scene_-_Root",
+        "normalTexture": {
+          "index": 3
+        },
+        "occlusionTexture": {
+          "index": 1
+        },
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 0
+          },
+          "metallicRoughnessTexture": {
+            "index": 1
+          }
+        }
+      }
+    ]
+  },
+  "minecraft_jugger_nog_perk_machine": {
+    "sha256": "a0d426c8179410802c6a76202e0b4f1fca275d65aefe4ddad4c9b24b057ffbc7",
+    "bytes": 43016,
+    "asset": {
+      "extras": {
+        "author": "Federal_Right (https://sketchfab.com/Federal_Right)",
+        "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+        "source": "https://sketchfab.com/3d-models/minecraft-jugger-nog-perk-machine-607b4d16554c45698d2b5954f3c2df35",
+        "title": "Minecraft Jugger Nog Perk Machine"
+      },
+      "generator": "Sketchfab-12.68.0",
+      "version": "2.0"
+    },
+    "materials": [
+      {
+        "doubleSided": true,
+        "name": "material",
+        "pbrMetallicRoughness": {
+          "baseColorTexture": {
+            "index": 0
+          },
+          "metallicFactor": 0.0,
+          "roughnessFactor": 0.6
+        }
+      }
+    ]
+  }
+}

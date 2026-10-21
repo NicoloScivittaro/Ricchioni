@@ -1,0 +1,707 @@
+import {predictGlideLanding} from './glideDynamics';
+import { Scene, UniversalCamera, Vector3, Engine, Viewport } from '@babylonjs/core';
+import { AdvancedDynamicTexture, TextBlock, Rectangle, Control, Ellipse, Image as GuiImage } from '@babylonjs/gui';
+import type { PlayerId } from '../../../shared/types';
+import { characterInitial } from '../../../shared/characters';
+import { popCountdown } from '../../core/countdownFx';
+import type { KartState } from './raceTypes';
+import type { TrackSpline } from './track';
+import { itemLabel } from './items';
+import { activeItemLabel } from './itemCatalog';
+import { MAX_SPEED, DRIFT_THRESHOLDS } from './kartPhysics';
+import { DRIFT_LEVEL_COLORS, driftLevelOf } from './kartEntity';
+import { FONT_DISPLAY, FONT_BODY } from '../../core/uiTokens';
+import {abilityFor} from '../../../shared/abilityCatalog';
+import { stateLabel } from '../../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../../shared/abilityCatalog';
+
+export interface ViewportRect {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+/** Layout split-screen normalizzati (origine in basso a sinistra, convenzione Babylon). */
+export function splitScreenLayout(n: number): ViewportRect[] {
+  if (n <= 1) return [{ x: 0, y: 0, w: 1, h: 1 }];
+  if (n === 2) return [
+    { x: 0, y: 0, w: 0.5, h: 1 },
+    { x: 0.5, y: 0, w: 0.5, h: 1 }
+  ];
+  if (n === 3) return [
+    { x: 0, y: 0.5, w: 0.5, h: 0.5 },
+    { x: 0.5, y: 0.5, w: 0.5, h: 0.5 },
+    { x: 0, y: 0, w: 1, h: 0.5 }
+  ];
+  if (n === 4) return [
+    { x: 0, y: 0.5, w: 0.5, h: 0.5 },
+    { x: 0.5, y: 0.5, w: 0.5, h: 0.5 },
+    { x: 0, y: 0, w: 0.5, h: 0.5 },
+    { x: 0.5, y: 0, w: 0.5, h: 0.5 }
+  ];
+  return [
+    { x: 0, y: 0.5, w: 1 / 3, h: 0.5 },
+    { x: 1 / 3, y: 0.5, w: 1 / 3, h: 0.5 },
+    { x: 2 / 3, y: 0.5, w: 1 / 3, h: 0.5 },
+    { x: 0, y: 0, w: 0.5, h: 0.5 },
+    { x: 0.5, y: 0, w: 0.5, h: 0.5 }
+  ];
+}
+
+// Layer HUD: ogni giocatore ha il proprio GUI (bit 20..24), visibile solo dalla sua camera. Un GUI a schermo intero
+// condiviso verrebbe disegnato in OGNI viewport (pannelli di tutti i giocatori, schiacciati). Le mesh usano la
+// maschera di default 0x0FFFFFFF, che resta visibile a tutte le camere.
+const HUD_LAYER_BIT0 = 20;
+const HUD_LAYER_BITS = 0x1f << HUD_LAYER_BIT0;
+const DEFAULT_LAYER_MASK = 0x0fffffff;
+const hudLayerMask = (index: number): number => 1 << (HUD_LAYER_BIT0 + index);
+
+const CAM_BACK = 6.4;
+const CAM_UP = 2.7;
+const CAM_LOOK_AHEAD = 9;
+const CAM_FOLLOW_SPEED = 7;
+const CAM_BASE_FOV = 0.95;
+
+interface CamRig {
+  camera: UniversalCamera;
+  smoothPos: Vector3;
+  smoothLook: Vector3;
+  smoothFov: number;
+  fovKick: number; // 1 -> 0 dopo la partenza di un boost
+  shakeTimer: number;
+  shakeMag: number;
+  prevStunned: boolean;
+  /** spostamento laterale della camera in derapata (leggerissimo, smussato) */
+  driftOff: number;
+  glide: number;
+}
+
+/** Camera third-person per kart + split-screen via viewport multipli sulla STESSA scena. */
+export class CameraManager {
+  private rigs = new Map<PlayerId, CamRig>();
+
+  constructor(private scene: Scene) {}
+
+  ensure(playerId: PlayerId, startPos: Vector3): UniversalCamera {
+    let rig = this.rigs.get(playerId);
+    if (!rig) {
+      const camera = new UniversalCamera(`cam_${playerId}`, startPos.clone(), this.scene);
+      camera.fov = CAM_BASE_FOV;
+      camera.minZ = 0.3;
+      camera.maxZ = 1200;
+      rig = { camera, smoothPos: startPos.clone(), smoothLook: startPos.clone(), smoothFov: CAM_BASE_FOV, fovKick: 0, shakeTimer: 0, shakeMag: 0.18, prevStunned: false, driftOff: 0, glide: 0 };
+      this.rigs.set(playerId, rig);
+    }
+    return rig.camera;
+  }
+
+  /** Boost appena partito: il campo visivo si apre e la camera si allontana un attimo (sensazione di spinta). */
+  kick(playerId: PlayerId): void {
+    const rig = this.rigs.get(playerId);
+    if (rig) rig.fovKick = 1;
+  }
+
+  /** Scossa breve della camera di UN giocatore (collisione grossa): `mag` 0.1 leggera .. 0.25 forte. */
+  shake(playerId: PlayerId, mag: number): void {
+    const rig = this.rigs.get(playerId);
+    if (!rig || rig.shakeTimer > 0.1) return; // non accumula: ogni urto non deve far tremare tutto
+    rig.shakeTimer = 0.2;
+    rig.shakeMag = mag;
+  }
+
+  applyLayout(order: PlayerId[]): void {
+    const rects = splitScreenLayout(order.length);
+    const active: UniversalCamera[] = [];
+    order.forEach((pid, i) => {
+      const rig = this.rigs.get(pid);
+      if (!rig) return;
+      const r = rects[i];
+      rig.camera.viewport = new Viewport(r.x, r.y, r.w, r.h);
+      rig.camera.layerMask = (DEFAULT_LAYER_MASK & ~HUD_LAYER_BITS) | hudLayerMask(i);
+      active.push(rig.camera);
+    });
+    this.scene.activeCameras = active;
+  }
+
+  update(dt: number, playerId: PlayerId, state: KartState, spline: TrackSpline): void {
+    const rig = this.rigs.get(playerId);
+    if (!rig) return;
+
+    if(spline.suspended)rig.camera.maxZ=16000;
+    const tangent = spline.tangentAt(state.distance);
+    const right = spline.rightAt(state.distance);
+    const cameraHeading=state.heading*(state.flight==='GLIDE'?.6:1);
+    const forward = tangent.scale(Math.cos(cameraHeading)).add(right.scale(Math.sin(cameraHeading))).normalize();
+    // The short gap crosses a nearly vertical part of the imported centreline.
+    // Keep the airborne chase offset horizontal so it cannot collapse into the kart.
+    if(state.flight==='GLIDE')forward.set(Math.sin(spline.tangentAngleAt(state.distance)+cameraHeading),0,Math.cos(spline.tangentAngleAt(state.distance)+cameraHeading));
+    const kartPos = spline.worldPoint(state.distance, state.lateral, 0.1);
+    kartPos.y+=state.jumpHeight;
+
+    const approach=spline.suspended&&state.flight==='DRIVE'&&!spline.hasRoadAt(state.distance+18);
+    rig.glide+=((state.flight==='GLIDE'?1:approach?.22:0)-rig.glide)*(1-Math.exp(-dt*3));
+    const speedFrac = Math.max(0, Math.min(1, state.speed / MAX_SPEED));
+    const boosting = state.boostTimer > 0||state.lightMode;
+
+
+    rig.fovKick = Math.max(0, rig.fovKick - dt * 2.2);
+    const longGlide=state.glideEnd-state.glideStart>100;
+    // The short gap climbs sharply: an elevated, wider shot shows both kart and deck.
+    const desiredPos = kartPos.subtract(forward.scale(CAM_BACK + speedFrac * 1.1 + rig.fovKick * 0.9 + rig.glide*(longGlide?3:5.5))).add(new Vector3(0, CAM_UP + rig.glide*(longGlide?2.3:8.5) + Math.max(0,Math.min(.75,state.jumpHeight*.25)) + Math.max(0,tangent.y)*2, 0));
+    // in derapata la camera scivola appena verso l'esterno della curva: si sente il kart di traverso (sterzo invariato)
+    rig.driftOff += ((state.drifting ? -state.driftDir * 0.45 : 0) - rig.driftOff) * Math.min(1, dt * 4);
+    const anticipate = right.scale(state.heading * 2.2 + rig.driftOff);
+    const futureRoad=spline.worldPoint(state.distance+CAM_LOOK_AHEAD,state.lateral,.8);
+    const desiredLook = kartPos.add(forward.scale(CAM_LOOK_AHEAD)).add(anticipate).add(new Vector3(0, 0.8, 0));
+    desiredLook.y=Math.max(desiredLook.y,futureRoad.y+.8);
+    if(rig.glide>.01&&state.flight==='GLIDE'){
+      const ahead=Math.max(state.distance+8,Math.min(state.distance+58,state.glideEnd));
+      const guide=spline.worldPoint(ahead,state.lateral,1);guide.y+=spline.flightHeightAt(ahead)*.5;
+      desiredLook.copyFrom(Vector3.Lerp(desiredLook,guide,rig.glide*.38));
+      // Keep the player's kart in frame while still showing the raised landing.
+      desiredLook.y=Math.max(kartPos.y-4,Math.min(kartPos.y+(longGlide?2:4),desiredLook.y));
+    }
+    if(state.flight==='FALL')desiredLook.copyFrom(kartPos.add(forward.scale(6)).add(new Vector3(0,.8,0)));
+    if(state.jumpHeight>.15)desiredLook.y-=Math.min(.6,state.jumpHeight*.2);
+
+    if(state.glideLanding>0)desiredPos.y-=Math.sin((1-state.glideLanding/.3)*Math.PI)*.11;
+    const alpha = 1 - Math.exp(-CAM_FOLLOW_SPEED * dt);
+    rig.smoothPos = Vector3.Lerp(rig.smoothPos, desiredPos, alpha);
+    rig.smoothLook = Vector3.Lerp(rig.smoothLook, desiredLook, alpha);
+
+    // Espansione FOV con la velocità ridotta (era 0.22 + 0.18 in boost): l'effetto velocità resta ma non
+    // amplifica più la sensazione di "troppo veloce".
+    const targetFov = CAM_BASE_FOV + speedFrac * 0.14 + (boosting ? 0.1 : 0) + (!longGlide?rig.glide*.18:0);
+    rig.smoothFov = rig.smoothFov + (targetFov - rig.smoothFov) * Math.min(1, dt * 5);
+
+    const stunned = state.stunTimer > 0;
+    if (stunned && !rig.prevStunned) {
+      rig.shakeTimer = 0.28;
+      rig.shakeMag = 0.18;
+    }
+    rig.prevStunned = stunned;
+
+    let shakeOffset = Vector3.Zero();
+    if (rig.shakeTimer > 0) {
+      rig.shakeTimer -= dt;
+      const mag = rig.shakeMag * Math.min(1, rig.shakeTimer / 0.28);
+      shakeOffset = new Vector3((Math.random() - 0.5) * mag, (Math.random() - 0.5) * mag, (Math.random() - 0.5) * mag);
+    }
+
+    const roadBehind=spline.worldPoint(state.distance-CAM_BACK,state.lateral);
+    if(state.flight!=='FALL')rig.smoothPos.y=Math.max(rig.smoothPos.y,roadBehind.y+1.15);
+    rig.camera.position.copyFrom(rig.smoothPos.add(shakeOffset));
+    rig.camera.setTarget(rig.smoothLook);
+    rig.camera.fov = rig.smoothFov + rig.fovKick * 0.2;
+  }
+
+  dispose(): void {
+    for (const rig of this.rigs.values()) rig.camera.dispose();
+    this.rigs.clear();
+  }
+}
+
+interface HudEntry {
+  adt: AdvancedDynamicTexture;
+  countdownText: TextBlock;
+  panel: Rectangle;
+  posText: TextBlock;
+  lapText: TextBlock;
+  sector: TextBlock;
+  itemText: TextBlock;
+  driftBar: Rectangle;
+  driftFill: Rectangle;
+  abilityBar: Rectangle;
+  abilityFill: Rectangle;
+  abilityLabel: TextBlock;
+  /** stato dell'abilita' pubblicato dal gioco (AbilityHub): il disegno legge solo questo */
+  abilityStatus: AbilityStatus | null;
+  abilityButton: string;
+  boostLabel: TextBlock;
+  debtText: TextBlock;
+  flashText: TextBlock;
+  flashTimer: number;
+  /** linee di velocita' ai lati durante il boost (nessun cambio di velocita' massima: solo percezione) */
+  speedLines: Rectangle[];
+  speedT: number;
+  mapBox: Rectangle | null;
+  dots: Map<PlayerId, { dot: Ellipse; arrow: TextBlock | null; tag: TextBlock | null }>;
+}
+
+const MM = 118; // lato della minimappa (unita' ideali)
+const cssOf = (c: [number, number, number]): string => `rgb(${Math.round(c[0] * 255)},${Math.round(c[1] * 255)},${Math.round(c[2] * 255)})`;
+
+const IDEAL_HEIGHT = 720;
+
+/** HUD essenziale: un AdvancedDynamicTexture PER GIOCATORE, disegnato solo nel viewport della sua camera. */
+export class KartHud {
+  private entries = new Map<PlayerId, HudEntry>();
+  private trackWidthAt:(distance:number)=>number=()=>13.2;
+  private mapUrl: string | null = null;
+  private mapView = { minX: 0, maxZ: 0, scale: 1, offX: 0, offY: 0 };
+
+  constructor(private scene: Scene, private engine: Engine) {}
+
+  /**
+   * Disegna UNA volta la minimappa (nord in alto): pista, traguardo (barra rossa) e checkpoint (punti azzurri).
+   * Va chiamato prima di ensure(): ogni viewport ne riceve una copia con i kart che si muovono.
+   */
+  setTrack(spline: TrackSpline, checkpoints: number[]): void {
+    this.trackWidthAt=s=>spline.widthAt(s);
+    const N = 260;
+    const pts: { x: number; z: number }[] = [];
+    let minX = Infinity;
+    let maxX = -Infinity;
+    let minZ = Infinity;
+    let maxZ = -Infinity;
+    for (let i = 0; i < N; i++) {
+      const p = spline.positionAt((i / N) * spline.totalLength);
+      pts.push({ x: p.x, z: p.z });
+      minX = Math.min(minX, p.x);
+      maxX = Math.max(maxX, p.x);
+      minZ = Math.min(minZ, p.z);
+      maxZ = Math.max(maxZ, p.z);
+    }
+    const size = 256;
+    const pad = 26;
+    const span = Math.max(maxX - minX, maxZ - minZ);
+    const scale = (size - pad * 2) / span;
+    const offX = pad + ((span - (maxX - minX)) / 2) * scale;
+    const offY = pad + ((span - (maxZ - minZ)) / 2) * scale;
+    this.mapView = { minX, maxZ, scale, offX, offY };
+    const u = (x: number): number => offX + (x - minX) * scale;
+    const v = (z: number): number => offY + (maxZ - z) * scale;
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = size;
+    const c = canvas.getContext('2d');
+    if (!c) return;
+    c.lineCap = 'round';
+    c.lineJoin = 'round';
+    const road = (): void => {
+      c.beginPath();
+      pts.forEach((p, i) => (i === 0 ? c.moveTo(u(p.x), v(p.z)) : c.lineTo(u(p.x), v(p.z))));
+      c.closePath();
+    };
+    road();
+    c.strokeStyle = '#05070d';
+    c.lineWidth = 17;
+    c.stroke();
+    road();
+    c.strokeStyle = '#cbd5e1';
+    c.lineWidth = 11;
+    c.stroke();
+    if(spline.suspended){
+      c.beginPath();let wasGap=false;
+      for(let i=0;i<N;i++){
+        const gap=!spline.hasRoadAt((i+.5)/N*spline.totalLength),p=pts[i],q=pts[(i+1)%N];
+        if(gap){if(!wasGap)c.moveTo(u(p.x),v(p.z));c.lineTo(u(q.x),v(q.z));}wasGap=gap;
+      }
+      c.strokeStyle='#5af5ef';c.lineWidth=5;c.setLineDash([4,5]);c.stroke();c.setLineDash([]);
+    }
+    for (let i = 1; i < checkpoints.length; i++) {
+      const p = spline.positionAt(checkpoints[i]);
+      c.fillStyle = '#22d3ee';
+      c.beginPath();
+      c.arc(u(p.x), v(p.z), 4, 0, Math.PI * 2);
+      c.fill();
+    }
+    // traguardo: barra rossa attraversa la pista
+    const p0 = spline.positionAt(0);
+    const r0 = spline.rightAt(0);
+    c.strokeStyle = '#ef4444';
+    c.lineWidth = 6;
+    c.beginPath();
+    c.moveTo(u(p0.x - r0.x * 11), v(p0.z - r0.z * 11));
+    c.lineTo(u(p0.x + r0.x * 11), v(p0.z + r0.z * 11));
+    c.stroke();
+    this.mapUrl = canvas.toDataURL();
+  }
+
+  /** Aggiorna i puntini dei kart su ogni minimappa (una volta per frame). Il proprio e' piu' grande e ha la freccia di direzione. */
+  updateMinimap(karts: KartState[], spline: TrackSpline): void {
+    if (!this.mapUrl) return;
+    const { minX, maxZ, scale, offX, offY } = this.mapView;
+    const pos = karts.map((k) => {
+      const p = spline.worldPoint(k.distance, k.lateral);
+      const t = spline.tangentAt(k.distance);
+      const r = spline.rightAt(k.distance);
+      const ch = Math.cos(k.heading);
+      const sh = Math.sin(k.heading);
+      const fx = t.x * ch + r.x * sh;
+      const fz = t.z * ch + r.z * sh;
+      const cx = ((offX + (p.x - minX) * scale) / 256 - 0.5) * MM;
+      const cy = ((offY + (maxZ - p.z) * scale) / 256 - 0.5) * MM;
+      return { id: k.playerId, color: k.colorHex, initial: characterInitial(k.characterId), cx, cy, fx, fz };
+    });
+    for (const [viewer, e] of this.entries) {
+      if (!e.mapBox) continue;
+      for (const q of pos) {
+        let d = e.dots.get(q.id);
+        const self = q.id === viewer;
+        if (!d) {
+          const dot = new Ellipse(`mmDot_${viewer}_${q.id}`);
+          dot.width = dot.height = `${self ? 18 : 11}px`; // il proprio: piu' grande e con contorno pieno
+          dot.background = q.color;
+          dot.color = self ? '#ffffff' : '#0b0b14';
+          dot.thickness = self ? 3.5 : 1.5;
+          e.mapBox.addControl(dot);
+          let arrow: TextBlock | null = null;
+          if (self) {
+            arrow = new TextBlock(`mmArrow_${viewer}`, '▲');
+            arrow.color = '#ffffff';
+            arrow.fontSize = 15;
+            arrow.outlineWidth = 2;
+            arrow.outlineColor = '#000000';
+            e.mapBox.addControl(arrow);
+          }
+          // accessibilita': gli avversari non si distinguono solo per colore: l'INIZIALE del personaggio (G/B/D/J/C) sta dentro il puntino
+          let tag: TextBlock | null = null;
+          if (!self) {
+            tag = new TextBlock(`mmTag_${viewer}_${q.id}`, q.initial);
+            tag.fontSize = 10;
+            tag.fontStyle = 'bold';
+            tag.color = '#ffffff';
+            tag.outlineWidth = 2;
+            tag.outlineColor = '#000000';
+            e.mapBox.addControl(tag);
+          }
+          d = { dot, arrow, tag };
+          e.dots.set(q.id, d);
+        }
+        d.dot.left = `${q.cx}px`;
+        d.dot.top = `${q.cy}px`;
+        if (d.tag) {
+          d.tag.left = `${q.cx}px`;
+          d.tag.top = `${q.cy}px`;
+        }
+        if (d.arrow) {
+          d.arrow.left = `${q.cx + q.fx * 11}px`;
+          d.arrow.top = `${q.cy - q.fz * 11}px`;
+          d.arrow.rotation = Math.atan2(q.fx, q.fz);
+        }
+        // il proprio puntino resta in primo piano
+        if (self && d.dot.zIndex !== 5) {
+          d.dot.zIndex = 5;
+          if (d.arrow) d.arrow.zIndex = 6;
+        }
+      }
+    }
+  }
+
+  /** Countdown 3-2-1-VIA nel viewport di ogni giocatore (il lampo a schermo intero parte una volta sola). */
+  setCountdown(text: string): void {
+    let first = true;
+    for (const e of this.entries.values()) {
+      e.countdownText.text = text;
+      // stesso linguaggio di tutti i giochi: numeri oro, VIA! verde (hud/hudKit.ts)
+      e.countdownText.color = text === 'VIA!' ? '#4ade80' : '#fbbf24';
+      if (text) popCountdown(e.countdownText, this.scene, first && text === 'VIA!');
+      first = false;
+    }
+  }
+
+  ensure(playerId: PlayerId, colorHex: string): HudEntry {
+    let e = this.entries.get(playerId);
+    if (e) return e;
+
+    const adt = AdvancedDynamicTexture.CreateFullscreenUI(`kartHud_${playerId}`, true, this.scene);
+    const countdownText = new TextBlock(`countdown_${playerId}`, '');
+    countdownText.fontFamily = FONT_DISPLAY;
+    countdownText.fontSize = 120;
+    countdownText.color = '#ffffff';
+    countdownText.outlineColor = '#000000';
+    countdownText.outlineWidth = 8;
+    countdownText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
+    countdownText.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
+    adt.addControl(countdownText);
+
+    const sector=new TextBlock('trackSector','');sector.fontFamily=FONT_DISPLAY;sector.fontSize=14;sector.color='#b4fff3';sector.height='42px';sector.width='94%';sector.textWrapping=true;sector.outlineColor='#092334';sector.outlineWidth=3;sector.verticalAlignment=Control.VERTICAL_ALIGNMENT_BOTTOM;sector.top='-8px';adt.addControl(sector);
+    const panel = new Rectangle(`hudPanel_${playerId}`);
+    panel.width = '178px';
+    panel.height = '208px';
+    panel.thickness = 2;
+    panel.color = colorHex;
+    panel.background = 'rgba(9,28,42,0.86)';
+    panel.cornerRadius = 14;
+    panel.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    panel.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+    panel.left = '14px';
+    panel.top = '14px';
+    adt.addControl(panel);
+
+    const posText = new TextBlock('posText', '1°/1');
+    posText.color = colorHex;
+    posText.fontFamily = FONT_DISPLAY;
+    posText.fontSize = 40;
+    posText.outlineColor = '#000000';
+    posText.outlineWidth = 4;
+    posText.top = '-70px';
+    posText.height = '48px';
+    panel.addControl(posText);
+
+    const lapText = new TextBlock('lapText', 'GIRO 1/3');
+    lapText.color = '#e5e7eb';
+    lapText.fontFamily = FONT_DISPLAY;
+    lapText.fontSize = 18;
+    lapText.top = '-34px';
+    lapText.height = '24px';
+    panel.addControl(lapText);
+
+    const itemText = new TextBlock('itemText', '');
+    itemText.color = '#fbbf24';
+    itemText.fontFamily = FONT_DISPLAY;
+    itemText.fontSize = 16;
+    itemText.top = '-8px';
+    itemText.height = '22px';
+    panel.addControl(itemText);
+
+    const driftBar = new Rectangle('driftBar');
+    driftBar.width = '140px';
+    driftBar.height = '10px';
+    driftBar.top = '12px';
+    driftBar.thickness = 1;
+    driftBar.color = '#00000055';
+    driftBar.background = '#1f2430';
+    driftBar.cornerRadius = 4;
+    panel.addControl(driftBar);
+
+    const driftFill = new Rectangle('driftFill');
+    driftFill.width = '0px';
+    driftFill.height = '8px';
+    driftFill.thickness = 0;
+    driftFill.background = '#4ade80';
+    driftFill.cornerRadius = 3;
+    driftFill.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    driftFill.left = '1px';
+    driftBar.addControl(driftFill);
+    // tacche ai livelli 1 e 2 del mini-turbo (il livello 3 e' la fine della barra)
+    for (const th of [DRIFT_THRESHOLDS[0], DRIFT_THRESHOLDS[1]]) {
+      const tick = new Rectangle();
+      tick.width = '2px';
+      tick.height = '10px';
+      tick.thickness = 0;
+      tick.background = 'rgba(255,255,255,0.85)';
+      tick.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+      tick.left = `${Math.round((th / DRIFT_THRESHOLDS[2]) * 138)}px`;
+      driftBar.addControl(tick);
+    }
+
+    const abilityLabel = new TextBlock('abilityLabel', '');
+    abilityLabel.color = '#c4b5fd';
+    abilityLabel.fontFamily = FONT_BODY;
+    abilityLabel.fontWeight = '700';
+    abilityLabel.fontSize = 14;
+    abilityLabel.top = '50px';
+    abilityLabel.width = '158px';
+    // Two lines, including the taller fallback metrics of the lightning icon in small viewports.
+    abilityLabel.height = '52px';
+    abilityLabel.textWrapping = true;
+    panel.addControl(abilityLabel);
+
+    const abilityBar = new Rectangle('abilityBar');
+    abilityBar.width = '140px';
+    abilityBar.height = '9px';
+    abilityBar.top = '86px';
+    abilityBar.thickness = 1;
+    abilityBar.color = '#00000055';
+    abilityBar.background = '#1f2430';
+    abilityBar.cornerRadius = 4;
+    panel.addControl(abilityBar);
+
+    const abilityFill = new Rectangle('abilityFill');
+    abilityFill.width = '0px';
+    abilityFill.height = '7px';
+    abilityFill.thickness = 0;
+    abilityFill.background = '#a78bfa';
+    abilityFill.cornerRadius = 3;
+    abilityFill.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
+    abilityFill.left = '1px';
+    abilityBar.addControl(abilityFill);
+
+    const debtText = new TextBlock('debtText', '');
+    debtText.color = '#f472b6';
+    debtText.fontFamily = FONT_DISPLAY;
+    debtText.fontSize = 13;
+    debtText.top = '89px';
+    debtText.height = '16px';
+    debtText.isVisible = false;
+    panel.addControl(debtText);
+
+    const flashText = new TextBlock(`flash_${playerId}`, '');
+    flashText.fontFamily = FONT_DISPLAY;
+    flashText.fontSize = 36;
+    flashText.color = '#fbbf24';
+    flashText.outlineColor = '#000000';
+    flashText.outlineWidth = 6;
+    flashText.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_CENTER;
+    flashText.verticalAlignment = Control.VERTICAL_ALIGNMENT_CENTER;
+    flashText.textWrapping = true;
+    adt.addControl(flashText);
+
+    let mapBox: Rectangle | null = null;
+    if (this.mapUrl) {
+      mapBox = new Rectangle(`mm_${playerId}`);
+      mapBox.width = `${MM}px`;
+      mapBox.height = `${MM}px`;
+      mapBox.thickness = 2;
+      mapBox.color = 'rgba(255,255,255,0.4)';
+      mapBox.background = 'rgba(8,10,18,0.55)';
+      mapBox.cornerRadius = 10;
+      mapBox.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_RIGHT;
+      mapBox.verticalAlignment = Control.VERTICAL_ALIGNMENT_TOP;
+      mapBox.left = '-10px';
+      mapBox.top = '10px';
+      adt.addControl(mapBox);
+      const img = new GuiImage(`mmImg_${playerId}`, this.mapUrl);
+      img.width = '100%';
+      img.height = '100%';
+      mapBox.addControl(img);
+    }
+    const boostLabel=new TextBlock('boostDuration','');boostLabel.color='#63fff0';boostLabel.fontFamily=FONT_DISPLAY;boostLabel.fontSize=19;boostLabel.height='28px';boostLabel.verticalAlignment=Control.VERTICAL_ALIGNMENT_BOTTOM;boostLabel.top='-52px';boostLabel.outlineWidth=3;boostLabel.outlineColor='#102a3d';adt.addControl(boostLabel);
+    const speedLines: Rectangle[] = [];
+    for (let i = 0; i < 8; i++) {
+      const l = new Rectangle(`speedLine_${playerId}_${i}`);
+      l.width = '150px';
+      l.height = `${2 + (i % 3)}px`;
+      l.thickness = 0;
+      l.background = '#ffffff';
+      l.alpha = 0;
+      l.isHitTestVisible = false;
+      l.horizontalAlignment = i % 2 === 0 ? Control.HORIZONTAL_ALIGNMENT_LEFT : Control.HORIZONTAL_ALIGNMENT_RIGHT;
+      l.top = `${-200 + i * 52}px`;
+      adt.addControl(l);
+      speedLines.push(l);
+    }
+    e = { mapBox, dots: new Map(), adt, countdownText, panel, posText, lapText, sector, itemText, driftBar, driftFill, abilityBar, abilityFill, abilityLabel, abilityStatus: null, abilityButton: '📱 ⚡', boostLabel, debtText, flashText, flashTimer: 0, speedLines, speedT: 0 };
+    this.entries.set(playerId, e);
+    return e;
+  }
+
+  /** Messaggio grande e temporaneo nel viewport del giocatore (es. "EXPLOIT!"). */
+  flash(playerId: PlayerId, text: string, color = '#fbbf24', durationSec = 1.4): void {
+    const e = this.entries.get(playerId);
+    if (!e) return;
+    e.flashText.text = text;
+    e.flashText.color = color;
+    e.flashText.alpha = 1;
+    e.flashTimer = durationSec;
+  }
+
+  /**
+   * Assegna a ogni giocatore il proprio layer e dimensiona la texture del GUI come il suo viewport (stesse proporzioni:
+   * niente schiacciamento). L'HUD e' in unita' 'ideali' (altezza 720) e scala con lo schermo. Idempotente.
+   */
+  layout(order: PlayerId[]): void {
+    const rects = splitScreenLayout(order.length);
+    const rw = this.engine.getRenderWidth();
+    const rh = this.engine.getRenderHeight();
+    order.forEach((pid, i) => {
+      const e = this.entries.get(pid);
+      if (!e) return;
+      const r = rects[i];
+      const vpW = Math.max(2, Math.round(r.w * rw));
+      const vpH = Math.max(2, Math.round(r.h * rh));
+      if (e.adt.layer && e.adt.layer.layerMask !== hudLayerMask(i)) e.adt.layer.layerMask = hudLayerMask(i);
+      const size = e.adt.getSize();
+      const resized=size.width !== vpW || size.height !== vpH;
+      if (resized) e.adt.scaleTo(vpW, vpH); // dopo un resize Babylon rimette lo schermo intero
+      // altezza ideale del viewport: la scala resta uguale per tutti i layout; da 3 giocatori i viewport sono piccoli e il
+      // pannello si riduce un po' (x0.83) per non coprire la pista
+      const idealH = IDEAL_HEIGHT * r.h * (order.length >= 3 ? 1.2 : 1);
+      const changedIdeal=e.adt.idealHeight !== idealH;
+      if (changedIdeal) e.adt.idealHeight = idealH;
+      // scaleTo only dirties the texture; Babylon otherwise retains fonts measured at full-screen size.
+      if(resized||changedIdeal)e.adt.rootContainer._markAllAsDirty();
+      const idealW = idealH * (vpW / vpH);
+      e.flashText.fontSize=order.length>=3?19:28;e.flashText.outlineWidth=order.length>=3?2:3;
+      e.flashText.height=order.length>=3?'64px':'100px';
+      e.flashText.top = `${(0.63 - 0.5) * idealH}px`;
+      e.flashText.width = `${Math.max(120, idealW - 20)}px`;
+    });
+  }
+
+  setAbilityButton(id:PlayerId,label:string):void {const e=this.entries.get(id);if(e)e.abilityButton=label;}
+
+  setSector(id:PlayerId,label:string,time:number):void {const e=this.entries.get(id);if(e)e.sector.text=label?`${label} · ${Math.floor(time/60)}:${String(Math.floor(time)%60).padStart(2,'0')}`:'';}
+
+  /** Il gioco pubblica lo stato dell'abilita' del giocatore (da AbilityHub). */
+  setAbility(playerId: PlayerId, status: AbilityStatus): void {
+    const e = this.entries.get(playerId);
+    if (e) e.abilityStatus = status;
+  }
+
+  update(playerId: PlayerId, state: KartState, total: number, laps: number, driftT: [number, number, number], dt: number): void {
+    const e = this.entries.get(playerId);
+    if (!e) return;
+    const compact=state.flight==='GLIDE';
+    e.panel.height=compact?'180px':'208px';e.posText.top=compact?'-59px':'-70px';e.posText.fontSize=compact?32:40;
+    e.lapText.top=compact?'-27px':'-34px';e.itemText.top=compact?'-4px':'-8px';
+    e.abilityLabel.top=compact?'39px':'50px';e.abilityBar.top=compact?'72px':'86px';e.debtText.top=compact?'74px':'89px';
+    e.posText.text = ordinal(state.placement || 1) + `/${total}`;
+    e.lapText.text = `GIRO ${Math.min(state.lap + 1, laps)}/${laps}`;
+    e.itemText.text = state.heldItem ? itemLabel(state.heldItem) : activeItemLabel(state);
+    e.itemText.fontSize = e.itemText.text.length > 17 ? 12 : 16;
+
+    const maxCharge = driftT[2];
+    const frac = state.drifting ? Math.min(1, state.driftCharge / maxCharge) : 0;
+    e.driftFill.width = `${Math.round(frac * 138)}px`;
+    e.driftFill.background = cssOf(driftLevelOf(state.driftCharge) === 0 ? [0.3, 0.87, 0.5] : DRIFT_LEVEL_COLORS[driftLevelOf(state.driftCharge)]);
+    e.driftBar.isVisible = state.drifting;
+
+    // ABILITA': solo lettura dello stato pubblicato dal gioco (PRONTA / IN CARICA / ATTIVA / ESAURITA). La barra c'e' per chi ha la
+    // barra (Goblin, Dottore, Judoka); Buttafuori e Ciro mostrano solo la riga di stato (con "PREMI ORA!" nella finestra giusta).
+    const st = e.abilityStatus;
+    const hasMeter = state.characterId === 'goblin' || state.characterId === 'dottore' || state.characterId === 'judoka';
+    e.abilityBar.isVisible = hasMeter;
+    e.abilityLabel.isVisible = st !== null;
+    if (st) {
+      const color = st.state === 'READY' ? '#4ade80' : st.state === 'ACTIVE' ? '#facc15' : st.state === 'CHARGING'||st.state==='COOLDOWN' ? '#c4b5fd' : '#6b7280';
+      const name=abilityFor('kart3d',state.characterId)?.name??'ABILITÀ';
+      const label=st.state==='READY'?'PRONTA':stateLabel(st);
+      e.abilityLabel.text = `${name}\n${e.abilityButton} · ${label}${st.charges!==undefined?' · '+st.charges+' usi':''}`;
+      e.abilityLabel.fontSize=name.length>23?11:12;
+      e.abilityLabel.color = color;
+      if (hasMeter) {
+        e.abilityFill.width = `${Math.round((st.state === 'READY' || st.state === 'ACTIVE' ? 1 : Math.min(1, st.meter ?? 0)) * 138)}px`;
+        e.abilityFill.background = st.state === 'ACTIVE' ? '#facc15' : st.state === 'READY' ? '#4ade80' : '#a78bfa';
+      }
+    }
+
+    if (state.debtPending) {
+      e.debtText.isVisible = true;
+      e.debtText.text = `💳 DEBITO: ${Math.max(0, Math.ceil(state.debtTimer))}s`;
+    } else {
+      e.debtText.isVisible = false;
+    }
+
+    if (e.flashTimer > 0) {
+      e.flashTimer -= dt;
+      e.flashText.alpha = Math.min(1, e.flashTimer * 3);
+      if (e.flashTimer <= 0) e.flashText.text = '';
+    }
+
+    // linee di velocita': scorrono dai bordi verso l'esterno finche' dura il boost, poi sfumano
+    const boosting = state.boostTimer > 0;
+    e.boostLabel.color=state.flight==='GLIDE'?(Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'#8affbe':'#ffc078'):'#63fff0';
+    e.boostLabel.text=state.flight==='FALL'?'RECUPERO AL CHECKPOINT':state.flight==='GLIDE'?`${Math.max(0,Math.ceil(state.glideEnd-state.distance))} m · ${Math.abs(predictGlideLanding(state))<=this.trackWidthAt(state.glideEnd)/2-1.15?'IN LINEA':'CORREGGI'}`:boosting?`TURBO  ${state.boostTimer.toFixed(1)} s`:state.jumpHeight>.15?`IN VOLO  ${state.jumpHeight.toFixed(1)} m`:state.drifting?`MINI-TURBO ${driftLevelOf(state.driftCharge)}/3`:"";
+    e.speedT += dt * (boosting ? 3.2 : 0);
+    for (let i = 0; i < e.speedLines.length; i++) {
+      const l = e.speedLines[i];
+      const ph = (e.speedT + i * 0.37) % 1;
+      const target = boosting ? 0.55 * (1 - ph) : 0;
+      l.alpha += (target - l.alpha) * Math.min(1, dt * 12);
+      l.left = `${(i % 2 === 0 ? 1 : -1) * (10 + ph * 70)}px`;
+      l.width = `${90 + (1 - ph) * 120}px`;
+    }
+  }
+
+  dispose(): void {
+    for (const e of this.entries.values()) e.adt.dispose();
+    this.entries.clear();
+  }
+}
+
+function ordinal(n: number): string {
+  return `${n}°`;
+}

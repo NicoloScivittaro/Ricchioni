@@ -1,0 +1,596 @@
+{
+  "errors": [],
+  "cases": [
+    {
+      "kind": "backrooms",
+      "humans": [
+        "view0"
+      ],
+      "participants": 5,
+      "cameras": [
+        {
+          "name": "backCamera:view0",
+          "viewport": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "mask": 236977151
+        }
+      ],
+      "owners": [
+        "view0"
+      ],
+      "panels": 1,
+      "actors": 5,
+      "scares": 1,
+      "mapping": [
+        {
+          "id": "view0",
+          "rosterIndex": 0,
+          "cameraX": 4.800000000000001,
+          "x": 4.800000000000001,
+          "ownExcluded": true,
+          "scareMask": 1048576
+        }
+      ]
+    },
+    {
+      "kind": "backrooms",
+      "humans": [
+        "view0",
+        "view2",
+        "view4"
+      ],
+      "participants": 5,
+      "cameras": [
+        {
+          "name": "backCamera:view0",
+          "viewport": [
+            0,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "mask": 236977151
+        },
+        {
+          "name": "backCamera:view2",
+          "viewport": [
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "mask": 238022655
+        },
+        {
+          "name": "backCamera:view4",
+          "viewport": [
+            0,
+            0,
+            1,
+            0.5
+          ],
+          "mask": 240107519
+        }
+      ],
+      "owners": [
+        "view0",
+        "view2",
+        "view4"
+      ],
+      "panels": 3,
+      "actors": 5,
+      "scares": 3,
+      "mapping": [
+        {
+          "id": "view0",
+          "rosterIndex": 0,
+          "cameraX": 4.800000000000001,
+          "x": 4.800000000000001,
+          "ownExcluded": true,
+          "scareMask": 1048576
+        },
+        {
+          "id": "view2",
+          "rosterIndex": 2,
+          "cameraX": 11.200000000000001,
+          "x": 11.200000000000001,
+          "ownExcluded": true,
+          "scareMask": 2097152
+        },
+        {
+          "id": "view4",
+          "rosterIndex": 4,
+          "cameraX": 8,
+          "x": 8,
+          "ownExcluded": true,
+          "scareMask": 4194304
+        }
+      ],
+      "capture": {
+        "count": 3,
+        "visible": [
+          false,
+          true,
+          false
+        ],
+        "kinds": [
+          "view2",
+          "view1"
+        ]
+      },
+      "spectator": {
+        "cameraX": 8,
+        "subjectX": 8,
+        "subject": "view4"
+      }
+    },
+    {
+      "kind": "backrooms",
+      "humans": [
+        "view0",
+        "view1",
+        "view2",
+        "view3",
+        "view4"
+      ],
+      "participants": 5,
+      "cameras": [
+        {
+          "name": "backCamera:view0",
+          "viewport": [
+            0,
+            0.5,
+            0.3333333333333333,
+            0.5
+          ],
+          "mask": 236977151
+        },
+        {
+          "name": "backCamera:view1",
+          "viewport": [
+            0.3333333333333333,
+            0.5,
+            0.3333333333333333,
+            0.5
+          ],
+          "mask": 238024703
+        },
+        {
+          "name": "backCamera:view2",
+          "viewport": [
+            0.6666666666666666,
+            0.5,
+            0.3333333333333333,
+            0.5
+          ],
+          "mask": 240119807
+        },
+        {
+          "name": "backCamera:view3",
+          "viewport": [
+            0,
+            0,
+            0.5,
+            0.5
+          ],
+          "mask": 244310015
+        },
+        {
+          "name": "backCamera:view4",
+          "viewport": [
+            0.5,
+            0,
+            0.5,
+            0.5
+          ],
+          "mask": 252690431
+        }
+      ],
+      "owners": [
+        "view0",
+        "view1",
+        "view2",
+        "view3",
+        "view4"
+      ],
+      "panels": 5,
+      "actors": 5,
+      "scares": 5,
+      "mapping": [
+        {
+          "id": "view0",
+          "rosterIndex": 0,
+          "cameraX": 4.800000000000001,
+          "x": 4.800000000000001,
+          "ownExcluded": true,
+          "scareMask": 1048576
+        },
+        {
+          "id": "view1",
+          "rosterIndex": 1,
+          "cameraX": 8,
+          "x": 8,
+          "ownExcluded": true,
+          "scareMask": 2097152
+        },
+        {
+          "id": "view2",
+          "rosterIndex": 2,
+          "cameraX": 11.200000000000001,
+          "x": 11.200000000000001,
+          "ownExcluded": true,
+          "scareMask": 4194304
+        },
+        {
+          "id": "view3",
+          "rosterIndex": 3,
+          "cameraX": 4.800000000000001,
+          "x": 4.800000000000001,
+          "ownExcluded": true,
+          "scareMask": 8388608
+        },
+        {
+          "id": "view4",
+          "rosterIndex": 4,
+          "cameraX": 8,
+          "x": 8,
+          "ownExcluded": true,
+          "scareMask": 16777216
+        }
+      ]
+    },
+    {
+      "kind": "fps",
+      "humans": [
+        "view0"
+      ],
+      "participants": 5,
+      "cameras": [
+        {
+          "name": "fpsCam_view0",
+          "viewport": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "mask": 235993151
+        }
+      ],
+      "owners": [
+        "view0"
+      ],
+      "panels": 1,
+      "actors": 5,
+      "masks": [
+        {
+          "id": "view0",
+          "hiddenOwn": true,
+          "vmMask": 32768,
+          "cameraMask": 235993151
+        }
+      ]
+    },
+    {
+      "kind": "fps",
+      "humans": [
+        "view0",
+        "view2",
+        "view4"
+      ],
+      "participants": 5,
+      "cameras": [
+        {
+          "name": "fpsCam_view0",
+          "viewport": [
+            0,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "mask": 235993151
+        },
+        {
+          "name": "fpsCam_view2",
+          "viewport": [
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "mask": 237073503
+        },
+        {
+          "name": "fpsCam_view4",
+          "viewport": [
+            0,
+            0,
+            1,
+            0.5
+          ],
+          "mask": 239234207
+        }
+      ],
+      "owners": [
+        "view0",
+        "view2",
+        "view4"
+      ],
+      "panels": 3,
+      "actors": 5,
+      "masks": [
+        {
+          "id": "view0",
+          "hiddenOwn": true,
+          "vmMask": 32768,
+          "cameraMask": 235993151
+        },
+        {
+          "id": "view2",
+          "hiddenOwn": true,
+          "vmMask": 65536,
+          "cameraMask": 237073503
+        },
+        {
+          "id": "view4",
+          "hiddenOwn": true,
+          "vmMask": 131072,
+          "cameraMask": 239234207
+        }
+      ]
+    },
+    {
+      "kind": "fps",
+      "humans": [
+        "view0",
+        "view1",
+        "view2",
+        "view3",
+        "view4"
+      ],
+      "participants": 5,
+      "cameras": [
+        {
+          "name": "fpsCam_view0",
+          "viewport": [
+            0,
+            0.5,
+            0.3333333333333333,
+            0.5
+          ],
+          "mask": 235993151
+        },
+        {
+          "name": "fpsCam_view1",
+          "viewport": [
+            0.3333333333333333,
+            0.5,
+            0.3333333333333333,
+            0.5
+          ],
+          "mask": 237073503
+        },
+        {
+          "name": "fpsCam_view2",
+          "viewport": [
+            0.6666666666666666,
+            0.5,
+            0.3333333333333333,
+            0.5
+          ],
+          "mask": 239234207
+        },
+        {
+          "name": "fpsCam_view3",
+          "viewport": [
+            0,
+            0,
+            0.5,
+            0.5
+          ],
+          "mask": 243555615
+        },
+        {
+          "name": "fpsCam_view4",
+          "viewport": [
+            0.5,
+            0,
+            0.5,
+            0.5
+          ],
+          "mask": 252198431
+        }
+      ],
+      "owners": [
+        "view0",
+        "view1",
+        "view2",
+        "view3",
+        "view4"
+      ],
+      "panels": 5,
+      "actors": 5,
+      "masks": [
+        {
+          "id": "view0",
+          "hiddenOwn": true,
+          "vmMask": 32768,
+          "cameraMask": 235993151
+        },
+        {
+          "id": "view1",
+          "hiddenOwn": true,
+          "vmMask": 65536,
+          "cameraMask": 237073503
+        },
+        {
+          "id": "view2",
+          "hiddenOwn": true,
+          "vmMask": 131072,
+          "cameraMask": 239234207
+        },
+        {
+          "id": "view3",
+          "hiddenOwn": true,
+          "vmMask": 262144,
+          "cameraMask": 243555615
+        },
+        {
+          "id": "view4",
+          "hiddenOwn": true,
+          "vmMask": 524288,
+          "cameraMask": 252198431
+        }
+      ]
+    },
+    {
+      "kind": "kart",
+      "humans": [
+        "view0"
+      ],
+      "participants": 5,
+      "cameras": [
+        {
+          "name": "cam_view0",
+          "viewport": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "mask": 236978175
+        }
+      ],
+      "owners": [
+        "view0"
+      ],
+      "panels": 1,
+      "actors": 5
+    },
+    {
+      "kind": "kart",
+      "humans": [
+        "view0",
+        "view2",
+        "view4"
+      ],
+      "participants": 5,
+      "cameras": [
+        {
+          "name": "cam_view0",
+          "viewport": [
+            0,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "mask": 236978175
+        },
+        {
+          "name": "cam_view2",
+          "viewport": [
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "mask": 238026751
+        },
+        {
+          "name": "cam_view4",
+          "viewport": [
+            0,
+            0,
+            1,
+            0.5
+          ],
+          "mask": 240123903
+        }
+      ],
+      "owners": [
+        "view0",
+        "view2",
+        "view4"
+      ],
+      "panels": 3,
+      "actors": 5
+    },
+    {
+      "kind": "kart",
+      "humans": [
+        "view0",
+        "view1",
+        "view2",
+        "view3",
+        "view4"
+      ],
+      "participants": 5,
+      "cameras": [
+        {
+          "name": "cam_view0",
+          "viewport": [
+            0,
+            0.5,
+            0.3333333333333333,
+            0.5
+          ],
+          "mask": 236978175
+        },
+        {
+          "name": "cam_view1",
+          "viewport": [
+            0.3333333333333333,
+            0.5,
+            0.3333333333333333,
+            0.5
+          ],
+          "mask": 238026751
+        },
+        {
+          "name": "cam_view2",
+          "viewport": [
+            0.6666666666666666,
+            0.5,
+            0.3333333333333333,
+            0.5
+          ],
+          "mask": 240123903
+        },
+        {
+          "name": "cam_view3",
+          "viewport": [
+            0,
+            0,
+            0.5,
+            0.5
+          ],
+          "mask": 244318207
+        },
+        {
+          "name": "cam_view4",
+          "viewport": [
+            0.5,
+            0,
+            0.5,
+            0.5
+          ],
+          "mask": 252706815
+        }
+      ],
+      "owners": [
+        "view0",
+        "view1",
+        "view2",
+        "view3",
+        "view4"
+      ],
+      "panels": 5,
+      "actors": 5
+    }
+  ],
+  "status": "passed"
+}

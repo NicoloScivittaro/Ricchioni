@@ -1,4 +1,9 @@
-import {WEAPONS} from '../fpsWeapons';
+import {MYSTERY_BOX,ZOMBIES}from './zombiesRules';
+import {beginWeaponReload,advanceWeaponReload}from '../fpsReload';
+import {ORDA_WEAPONS,weaponOf,survivorWeapon}from'./weapons';
+export{ORDA_WEAPONS,weaponOf}from'./weapons';
+import{STATIONS,PERKS,PAP,maxHits,playerHealth,deposited}from'./perks';
+import type{Station}from'./perks';
 import type {WeaponConfig} from '../fpsWeapons';
 import {rayVsAabb} from '../fpsMap';
 import {DepotNavigation,STARTS,GATES,SUPPLIES,floorAt,move,visible,wallDistance} from './arena';
@@ -9,8 +14,6 @@ import {isSpecial,updateMonsterCombat,specialDeath} from './monsterCombat';
 import type {EnemyKind,Enemy,OrdaEvent,OrdaInput,OrdaParticipant,OrdaState,Survivor,Bolt} from './types';
 
 export const MAX_ACTIVE=22;
-export const ORDA_WEAPONS:readonly WeaponConfig[]=WEAPONS.map(w=>({...w,damage:w.damage*(w.id==='sparapiselli'?1.45:w.id==='pistola'?1.15:1.12),splashDamage:w.splashDamage?65:undefined}));
-export const weaponOf=(id:string)=>ORDA_WEAPONS.find(w=>w.id===id)??ORDA_WEAPONS.find(w=>w.id==='pistola')!;
 export const ARCHETYPES:Record<EnemyKind,{hp:number;speed:number;damage:number;radius:number;height:number}>={
  infetto:{hp:94,speed:2.05,damage:16,radius:.43,height:1.8},
  corridore:{hp:78,speed:4,damage:13,radius:.4,height:2.15},
@@ -36,12 +39,12 @@ export class OrdaMatch{
  constructor(participants:OrdaParticipant[],seed=12345){
   if(participants.length<2||participants.length>5)throw Error('Orda Finale richiede 2–5 partecipanti.');
   this.seed=seed||1;this.initialCount=participants.length;
-  this.state={time:0,wave:0,phase:'countdown',countdown:3,pending:0,players:participants.map((p,i)=>({...p,...STARTS[i],y:0,vy:0,yaw:Math.atan2(-STARTS[i].x,-STARTS[i].z),pitch:0,hp:100,alive:true,kills:0,damage:0,deathAt:-1,weapon:'pistola',ammo:12,reserve:96,reload:0,cooldown:0,ads:0,noise:0,moving:0,damageBoost:0,speedBoost:0,shield:0,dash:0,dashCooldown:0,crouch:false,lastFire:0,lastReload:0,lastJump:0,lastDash:0,burst:0,burstTimer:0,botThink:.15+i*.08,botTarget:0,botGoal:null,botPath:[],botNav:0})),enemies:[],bolts:[],supplies:SUPPLIES.map((s,i)=>({...s,id:i,cooldown:s.kind==='crate'?12:0})),winner:null,notice:'IL DEPOSITO INFETTO · L’ULTIMO VIVO VINCE'};
+  this.state={time:0,wave:0,phase:'countdown',countdown:3,pending:0,players:participants.map((p,i)=>({...p,...STARTS[i],y:0,vy:0,yaw:Math.atan2(-STARTS[i].x,-STARTS[i].z),pitch:0,hp:100,alive:true,kills:0,damage:0,deathAt:-1,perks:[],packed:false,drinking:null,points:0,pointsEarned:0,hitsTaken:0,lastDamageAt:-10,lastInteract:0,weapon:'pistola',ammo:12,reserve:96,reload:0,cooldown:0,ads:0,noise:0,moving:0,damageBoost:0,speedBoost:0,shield:0,dash:0,dashCooldown:0,crouch:false,lastFire:0,lastReload:0,lastJump:0,lastDash:0,burst:0,burstTimer:0,botThink:.15+i*.08,botTarget:0,botGoal:null,botPath:[],botNav:0})),enemies:[],bolts:[],supplies:SUPPLIES.map((s,i)=>({...s,id:i,cooldown:0})),box:{phase:'idle',owner:null,weapon:null,started:0,until:0,serial:0},pap:{phase:'idle',owner:null,weapon:null,started:0,until:0},winner:null,notice:'IL DEPOSITO INFETTO · L’ULTIMO VIVO VINCE'};
  }
  private random():number{let t=this.seed+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296;}
  private emit(e:OrdaEvent):void{this.events.push(e);}
  drainEvents():OrdaEvent[]{return this.events.splice(0);}
- packet():OrdaState{return{...this.state,players:this.state.players.map(p=>({...p,botPath:[]})),enemies:this.state.enemies.map(e=>({...e,path:[]})),bolts:this.state.bolts.map(b=>({...b})),supplies:this.state.supplies.map(s=>({...s}))};}
+ packet():OrdaState{return{...this.state,box:{...this.state.box},pap:{...this.state.pap},players:this.state.players.map(p=>({...p,perks:[...p.perks],drinking:p.drinking?{...p.drinking}:null,weaponReload:p.weaponReload?{...p.weaponReload}:undefined,botPath:[]})),enemies:this.state.enemies.map(e=>({...e,path:[]})),bolts:this.state.bolts.map(b=>({...b})),supplies:this.state.supplies.map(s=>({...s}))};}
  /** Keep bounded catch-up, with a fixed 1/30s combat clock independent of visual quality. */
  advance(seconds:number,input:(p:Survivor)=>OrdaInput=()=>EMPTY_INPUT):void{
   this.accumulator+=Math.min(.25,Math.max(0,seconds));while(this.accumulator>=1/30){this.accumulator-=1/30;this.step(1/30,input);}
@@ -49,6 +52,7 @@ export class OrdaMatch{
  step(dt:number,input:(p:Survivor)=>OrdaInput=()=>EMPTY_INPUT):void{
   const s=this.state;if(s.phase==='finished')return;s.time+=dt;
   if(s.phase==='countdown'){s.countdown-=dt;if(s.countdown<=0)this.startWave();return;}
+  this.updateBox();this.updateStations();
   for(const p of s.players)if(p.alive){this.player(p,p.bot?this.botInput(p,dt):input(p),dt);}
   if(s.phase==='fighting'){
    this.spawnClock-=dt;
@@ -82,7 +86,7 @@ export class OrdaMatch{
   s.enemies.push({id,kind,...g,y:floorAt(g.x,g.z),yaw:0,hp,maxHp:hp,speed:a.speed*(1+Math.min(.35,(s.wave-1)*.025)),damage:a.damage*(1+Math.min(.65,s.wave*.035)),radius:a.radius,height:a.height,target:null,memory:null,remember:0,path:[],think:(id%7)*.05,nav:0,attack:.5,windup:0,action:'walk',aim:{...g},stuck:0,last:{...g},rage:false});s.pending--;
  }
  private player(p:Survivor,i:OrdaInput,dt:number):void{
-  const s=this.state,w=weaponOf(p.weapon);p.noise=Math.max(0,p.noise-dt);p.cooldown=Math.max(0,p.cooldown-dt);p.dashCooldown=Math.max(0,p.dashCooldown-dt);
+  const s=this.state,w=survivorWeapon(p);p.noise=Math.max(0,p.noise-dt);p.cooldown=Math.max(0,p.cooldown-dt);p.dashCooldown=Math.max(0,p.dashCooldown-dt);
   for(const k of ['damageBoost','speedBoost','shield','dash'] as const)p[k]=Math.max(0,p[k]-dt);
   p.crouch=i.crouch;p.ads+=((i.aim?1:0)-p.ads)*(1-Math.exp(-dt*14));
   if(i.look){p.yaw=i.look.yaw;p.pitch=clamp(i.look.pitch,-1.3,1.3);}else{p.yaw+=clamp(i.lx*(i.sensitivity??1)*2.6,-5.2,5.2)*dt*(1-p.ads*.56);p.pitch=clamp(p.pitch+i.ly*(i.sensitivity??1)*2*dt*(1-p.ads*.56),-1.3,1.3);}
@@ -95,46 +99,126 @@ export class OrdaMatch{
   const floor=floorAt(p.x,p.z);
   if(i.jump!==p.lastJump){p.lastJump=i.jump;if(p.y<=floor+.05&&!p.crouch)p.vy=5.2;}
   p.vy-=15*dt;p.y+=p.vy*dt;if(p.y<floor){p.y=floor;p.vy=0;}
-  if(p.reload>0){p.reload-=dt;if(p.reload<=0){const n=Math.min(w.magazine-p.ammo,p.reserve);p.ammo+=n;p.reserve-=n;p.reload=0;}}
-  if(i.reload!==p.lastReload){p.lastReload=i.reload;this.reload(p);}
+  if(!p.drinking&&!deposited(s,p)&&w.shellReload&&p.ammo===0&&p.cooldown<=0&&p.reload<=0)this.reload(p);
+  if(p.reload>0){if(p.weaponReload){const r=p.weaponReload,n=advanceWeaponReload(w,r,dt);p.ammo+=n;p.reserve-=n;p.reload=Math.max(0,r.duration-r.elapsed);if(p.reload===0)p.weaponReload=undefined;}else{p.reload-=dt;if(p.reload<=0){const n=Math.min(w.magazine-p.ammo,p.reserve);p.ammo+=n;p.reserve-=n;p.reload=0;}}}
+  const interaction=i.interact??p.lastInteract;if(interaction!==p.lastInteract){p.lastInteract=interaction;this.interact(p);}
+  // Square / X is contextual: use the nearby box OR reload, never both.
+  if(i.reload!==p.lastReload){p.lastReload=i.reload;if(this.interactionTarget(p))this.interact(p);else this.reload(p);}
   const pressed=i.press!==p.lastFire;p.lastFire=i.press;
-  if(w.fireMode==='burst'&&pressed&&p.cooldown<=0&&p.reload<=0&&p.ammo>0){p.burst=3;p.burstTimer=0;p.cooldown=3/w.fireRate;}
+  if(!p.drinking&&!deposited(s,p)&&w.fireMode==='burst'&&pressed&&p.cooldown<=0&&p.reload<=0&&p.ammo>0){p.burst=3;p.burstTimer=0;p.cooldown=3/w.fireRate;}
   if(p.burst>0){p.burstTimer-=dt;if(p.burstTimer<=0){this.fire(p);p.burst--;p.burstTimer=w.burstGap??.075;}}
   else if(p.cooldown<=0&&p.reload<=0&&(w.fireMode==='auto'?i.fire:pressed)){if(p.ammo>0){this.fire(p);p.cooldown=1/w.fireRate;}else this.reload(p);}
   for(const supply of s.supplies)if(supply.cooldown<=0&&distance(p,supply)<1.25&&Math.abs(p.y-floorAt(supply.x,supply.z))<.9){
    if(supply.kind==='ammo'){if(p.reserve>=w.magazine*5)continue;p.reserve=w.magazine*6;supply.cooldown=5;this.emit({type:'supply',player:p.id,text:'MUNIZIONI +',value:p.reserve});}
-   if(supply.kind==='health'){if(p.hp>=100)continue;p.hp=Math.min(100,p.hp+35);supply.cooldown=28;this.emit({type:'supply',player:p.id,text:'+35 SALUTE'});}
-   if(supply.kind==='crate'){supply.cooldown=26;const r=this.random();let text='';if(r<.43){const list=ORDA_WEAPONS.filter(q=>q.id!==p.weapon),next=list[Math.floor(this.random()*list.length)];p.weapon=next.id;p.ammo=next.magazine;p.reserve=next.magazine*4;p.reload=0;p.burst=0;text=next.name;this.emit({type:'equip',player:p.id,weapon:p.weapon});}else if(r<.6){p.hp=Math.min(100,p.hp+40);text='+40 SALUTE';}else if(r<.76){p.damageBoost=12;text='DANNI ×1.5 · 12s';}else if(r<.9){p.speedBoost=10;text='VELOCITÀ · 10s';}else{p.shield=8;text='PROTEZIONE 40% · 8s';}this.emit({type:'supply',player:p.id,text});}
+   if(supply.kind==='health'){if(p.hitsTaken===0)continue;p.hitsTaken=Math.max(0,p.hitsTaken-1);p.hp=playerHealth(p);supply.cooldown=28;this.emit({type:'supply',player:p.id,text:'+1 COLPO DI RESISTENZA'});}
+
   }
  }
- private reload(p:Survivor):void{const w=weaponOf(p.weapon);if(!p.alive||p.reload>0||p.ammo>=w.magazine||p.reserve<=0)return;p.reload=w.reload;p.burst=0;this.emit({type:'reload',player:p.id,weapon:p.weapon,value:w.reload});}
- private fire(p:Survivor):void{
-  if(!p.alive||p.ammo<=0||p.reload>0)return;const w=weaponOf(p.weapon);p.ammo--;p.noise=1.3;
-  const spread=(w.hipSpread??w.spread)*(1-p.ads*.85),yaw=p.yaw+(this.random()-.5)*spread*2,pitch=p.pitch+(this.random()-.5)*spread*2;
-  const dx=Math.sin(yaw)*Math.cos(pitch),dy=-Math.sin(pitch),dz=Math.cos(yaw)*Math.cos(pitch),oy=p.y+(p.crouch?.95:1.55);
-  const dmg=w.damage*(p.damageBoost>0?1.5:1);
-  if(w.projectileSpeed){this.state.bolts.push({id:this.nextId++,owner:p.id,hostile:false,x:p.x,y:oy,z:p.z,dx,dy,dz,speed:w.projectileSpeed,damage:dmg,radius:w.splashRadius,life:w.range/w.projectileSpeed});}
-  let range=wallDistance(p.x,oy,p.z,dx,dy,dz,w.range),hit:Enemy|null=null;
-  if(!w.projectileSpeed){for(const e of this.state.enemies)if(e.hp>0){const d=rayVsAabb(p.x,oy,p.z,dx,dy,dz,{x:e.x,z:e.z,w:e.radius*2,d:e.radius*2,h:e.height,base:e.y});if(d!==null&&d>=0&&d<range){range=d;hit=e;}}
-   if(hit){const head=oy+dy*range>hit.y+hit.height*.78;this.hurtEnemy(hit,dmg*(head?1.6:1),p);}
+ /** Explicit proximity interaction, one owner and one debit, with no client-supplied price/weapon. */
+ interactionTarget(p:Survivor):Station|'box'|null{
+  if(!p.alive)return null;let target:Station|'box'|null=this.canReachBox(p)?'box':null,best=target?distance(p,MYSTERY_BOX):Infinity;
+  for(const t of STATIONS){const d=distance(p,t),y=floorAt(t.x,t.z);if(d<=PAP.range&&d<best&&Math.abs(p.y-y)<.75&&visible(p,{x:t.x+Math.sin(t.rotation)*(t.d/2+.12),z:t.z+Math.cos(t.rotation)*(t.d/2+.12)},p.y+1.2,y+1.2)){target=t;best=d;}}
+  return target;
+ }
+ interact(p:Survivor):void{
+  const s=this.state;if(!p.alive||p.drinking||s.phase==='finished'||s.phase==='countdown')return;
+  const t=this.interactionTarget(p);if(!t)return;if(t==='box'){this.interactBox(p);return;}
+  if(deposited(s,p)&&t.id!=='pap')return;
+  if(t.id!=='pap'){
+   const perk=PERKS[t.id];if(p.perks.includes(t.id)){this.emit({type:'perk',player:p.id,text:perk.name+' · GIÀ ATTIVO'});return;}
+   if(p.points<perk.price){this.emit({type:'perk',player:p.id,text:`SERVONO ${perk.price-p.points} PUNTI`});return;}
+   p.points-=perk.price;p.drinking={id:t.id,started:s.time,until:s.time+2};p.reload=0;p.weaponReload=undefined;p.burst=0;p.ads=0;
+   this.emit({type:'perk',player:p.id,value:-perk.price,text:'BEVI '+perk.name});return;
   }
+  const b=s.pap;
+  if(b.phase==='ready'&&b.owner===p.id&&b.weapon){p.weapon=b.weapon;p.packed=true;const w=survivorWeapon(p);p.ammo=w.magazine;p.reserve=w.magazine*(p.weapon==='wunderwaffe'?5:4);p.cooldown=.45;this.clearPap();this.emit({type:'pap',player:p.id,weapon:p.weapon,text:w.name+' · PRONTA'});return;}
+  if(b.phase!=='idle'){this.emit({type:'pap',player:p.id,text:'PACK-A-PUNCH · OCCUPATO'});return;}
+  if(p.packed){this.emit({type:'pap',player:p.id,text:'ARMA GIÀ POTENZIATA'});return;}
+  if(p.points<PAP.price){this.emit({type:'pap',player:p.id,text:`SERVONO ${PAP.price-p.points} PUNTI`});return;}
+  p.points-=PAP.price;Object.assign(b,{phase:'working',owner:p.id,weapon:p.weapon,started:s.time,until:s.time+PAP.workSeconds});p.reload=0;p.weaponReload=undefined;p.burst=0;p.ads=0;
+  this.emit({type:'pap',player:p.id,value:-PAP.price,text:'PACK-A-PUNCH · ARMA DEPOSITATA'});
+ }
+ private clearPap():void{Object.assign(this.state.pap,{phase:'idle',owner:null,weapon:null,started:0,until:0});}
+ private updateStations():void{
+  const s=this.state;
+  for(const p of s.players)if(p.alive&&p.drinking&&s.time>=p.drinking.until){const id=p.drinking.id;if(!p.perks.includes(id))p.perks.push(id);p.drinking=null;p.hp=playerHealth(p);this.emit({type:'perk',player:p.id,text:PERKS[id].name+' · ATTIVO'});}
+  const b=s.pap;if(b.phase==='idle')return;const p=s.players.find(p=>p.id===b.owner);
+  if(!p?.alive){this.clearPap();return;}if(s.time<b.until)return;
+  if(b.phase==='working'){b.phase='ready';b.until=s.time+PAP.claimSeconds;this.emit({type:'pap',player:p.id,weapon:b.weapon!,text:'PACK-A-PUNCH · RITIRA LA TUA ARMA'});}
+  else{p.weapon='pistola';p.packed=false;p.ammo=12;p.reserve=48;p.cooldown=.4;this.clearPap();this.emit({type:'pap',player:p.id,text:'ARMA NON RITIRATA · PERSA'});}
+ }
+ /** A bounded chain visits each target once and never crosses a solid cover. */
+ private lightning(p:Survivor,w:WeaponConfig):void{
+  const s=this.state,oy=p.y+(p.crouch?.95:1.55),dx=Math.sin(p.yaw)*Math.cos(p.pitch),dy=-Math.sin(p.pitch),dz=Math.cos(p.yaw)*Math.cos(p.pitch);
+  let range=wallDistance(p.x,oy,p.z,dx,dy,dz,w.range),hit:Enemy|null=null;
+  for(const e of s.enemies)if(e.hp>0){const d=rayVsAabb(p.x,oy,p.z,dx,dy,dz,{x:e.x,z:e.z,w:e.radius*2,d:e.radius*2,h:e.height,base:e.y});if(d!==null&&d>=0&&d<range){range=d;hit=e;}}
   this.emit({type:'shot',player:p.id,weapon:p.weapon,x:p.x,y:oy,z:p.z,tx:p.x+dx*range,ty:oy+dy*range,tz:p.z+dz*range});
+  let from={x:p.x,y:oy,z:p.z};const visited=new Set<number>();
+  for(let i=0;hit&&i<10;i++){
+   const e:Enemy=hit;visited.add(e.id);const to={x:e.x,y:e.y+e.height*.55,z:e.z};this.emit({type:'lightning',player:p.id,x:from.x,y:from.y,z:from.z,tx:to.x,ty:to.y,tz:to.z});
+   this.hurtEnemy(e,['warrok','macellaio','pumpkinhulk'].includes(e.kind)?w.damage:Math.max(w.damage,e.hp),p);from=to;
+   hit=s.enemies.filter(n=>n.hp>0&&!visited.has(n.id)&&distance(n,e)<=5&&visible(e,n,to.y,n.y+n.height*.55)).sort((a,b)=>distance(a,e)-distance(b,e))[0]??null;
+  }
+ }
+ canReachBox(p:Survivor):boolean{
+  return p.alive&&Math.hypot(p.x-MYSTERY_BOX.x,p.z-MYSTERY_BOX.z)<=ZOMBIES.interactRange&&Math.abs(p.y-MYSTERY_BOX.y)<.75&&visible(p,{x:MYSTERY_BOX.x,z:MYSTERY_BOX.z-.5},p.y+1.2,.8);
+ }
+ interactBox(p:Survivor):void{
+  const s=this.state,b=s.box;if(s.phase==='finished'||s.phase==='countdown'||p.drinking||deposited(s,p)||!this.canReachBox(p))return;
+  if(b.phase==='ready'&&b.owner===p.id&&b.weapon){
+   const w=weaponOf(b.weapon);p.weapon=w.id;p.packed=false;p.ammo=w.magazine;p.reserve=w.magazine*(w.id==='wunderwaffe'?5:4);p.reload=0;p.weaponReload=undefined;p.burst=0;p.cooldown=.45;p.ads=0;
+   this.emit({type:'equip',player:p.id,weapon:w.id});this.emit({type:'supply',player:p.id,text:w.name});this.closeBox();return;
+  }
+  if(b.phase!=='idle'){this.emit({type:'box',player:p.id,text:b.owner===p.id?'ESTRAZIONE IN CORSO…':'CASSA OCCUPATA'});return;}
+  if(p.points<ZOMBIES.boxCost){this.emit({type:'box',player:p.id,text:`SERVONO ${ZOMBIES.boxCost-p.points} PUNTI`});return;}
+  p.points-=ZOMBIES.boxCost;b.phase='rolling';b.owner=p.id;b.weapon=null;b.started=s.time;b.until=s.time+ZOMBIES.rollSeconds;b.serial++;
+  this.emit({type:'box',player:p.id,value:-ZOMBIES.boxCost,text:'MYSTERY BOX · −950 PUNTI'});
+ }
+ private closeBox():void{const b=this.state.box;if(b.phase==='idle'||b.phase==='closing')return;b.phase='closing';b.weapon=null;b.until=this.state.time+ZOMBIES.closeSeconds;}
+ private updateBox():void{
+  const s=this.state,b=s.box;if(b.phase==='idle')return;
+  if(b.phase!=='closing'&&!s.players.some(p=>p.id===b.owner&&p.alive)){this.closeBox();return;}
+  if(s.time<b.until)return;
+  if(b.phase==='rolling'){
+   const owner=s.players.find(p=>p.id===b.owner)!,pool=ORDA_WEAPONS.filter(w=>w.id!==owner.weapon);b.weapon=pool[Math.floor(this.random()*pool.length)].id;b.phase='ready';b.until=s.time+ZOMBIES.claimSeconds;
+   this.emit({type:'box',player:owner.id,weapon:b.weapon,text:'ARMA PRONTA · RITIRALA ALLA CASSA'});
+  }else if(b.phase==='ready'){this.emit({type:'box',player:b.owner!,text:'ARMA NON RITIRATA · CASSA CHIUSA'});this.closeBox();}
+  else{b.phase='idle';b.owner=null;b.weapon=null;b.started=0;b.until=0;}
+ }
+ private reload(p:Survivor):void{const w=survivorWeapon(p);if(!p.alive||p.drinking||deposited(this.state,p)||p.reload>0||p.ammo>=w.magazine||p.reserve<=0||(w.shellReload&&p.cooldown>0))return;p.weaponReload=beginWeaponReload(w,p.ammo,p.reserve);p.weaponReload.playbackRate=p.perks.includes('speedcola')?2:1;p.reload=p.weaponReload?.duration??w.reload;p.burst=0;this.emit({type:'reload',player:p.id,weapon:p.weapon,value:p.reload});}
+ private fire(p:Survivor):void{
+  if(!p.alive||p.drinking||deposited(this.state,p)||p.ammo<=0||p.reload>0)return;const w=survivorWeapon(p);p.ammo--;p.noise=1.3;
+  if(p.weapon==='wunderwaffe'){this.lightning(p,w);return;}
+  const oy=p.y+(p.crouch?.95:1.55),damageBy=new Map<Enemy,number>();let first:{dx:number;dy:number;dz:number;range:number}|undefined;
+  for(let pellet=0;pellet<(w.pellets??1)*(p.perks.includes('doubletap')&&!w.projectileSpeed?2:1);pellet++){
+   const spread=(w.hipSpread??w.spread)*(1-p.ads*(w.pellets ? .25 : .85)),yaw=p.yaw+(this.random()-.5)*spread*2,pitch=p.pitch+(this.random()-.5)*spread*2;
+   const dx=Math.sin(yaw)*Math.cos(pitch),dy=-Math.sin(pitch),dz=Math.cos(yaw)*Math.cos(pitch),dmg=w.damage*(p.damageBoost>0?1.5:1);
+   if(w.projectileSpeed)this.state.bolts.push({id:this.nextId++,owner:p.id,hostile:false,x:p.x,y:oy,z:p.z,dx,dy,dz,speed:w.projectileSpeed,damage:dmg,radius:w.splashRadius,life:w.range/w.projectileSpeed});
+   let range=wallDistance(p.x,oy,p.z,dx,dy,dz,w.range),hit:Enemy|null=null;
+   if(!w.projectileSpeed){for(const e of this.state.enemies)if(e.hp>0){const d=rayVsAabb(p.x,oy,p.z,dx,dy,dz,{x:e.x,z:e.z,w:e.radius*2,d:e.radius*2,h:e.height,base:e.y});if(d!==null&&d>=0&&d<range){range=d;hit=e;}}
+    if(hit){const head=oy+dy*range>hit.y+hit.height*.78;damageBy.set(hit,(damageBy.get(hit)??0)+dmg*(head?1.6:1));}
+   }
+   first??={dx,dy,dz,range};
+  }
+  for(const[e,damage]of damageBy)this.hurtEnemy(e,damage,p);
+  if(first){const{dx,dy,dz,range}=first;this.emit({type:'shot',player:p.id,weapon:p.weapon,x:p.x,y:oy,z:p.z,tx:p.x+dx*range,ty:oy+dy*range,tz:p.z+dz*range});}
  }
  private hurtEnemy(e:Enemy,dmg:number,p:Survivor):void{
   if(e.hp<=0||!p.alive)return;const actual=Math.min(e.hp,dmg);e.hp-=dmg;p.damage+=actual;e.target=p.id;e.memory={x:p.x,z:p.z};e.remember=4;
   e.hitAt=this.state.time;
-  if(e.hp<=0){p.kills++;e.hp=0;e.y=floorAt(e.x,e.z);e.deathAt=this.state.time;e.action='dead';e.actionAt=this.state.time;e.windup=0;e.path=[];e.target=null;}this.emit({type:'hit',player:p.id,enemy:e.id,value:actual,text:e.hp<=0?'ELIMINATO':''});
+  if(e.hp<=0){p.kills++;p.points+=ZOMBIES.killPoints;p.pointsEarned+=ZOMBIES.killPoints;this.emit({type:'points',player:p.id,value:ZOMBIES.killPoints,text:'+50 PUNTI'});e.hp=0;e.y=floorAt(e.x,e.z);e.deathAt=this.state.time;e.action='dead';e.actionAt=this.state.time;e.windup=0;e.path=[];e.target=null;}this.emit({type:'hit',player:p.id,enemy:e.id,value:actual,text:e.hp<=0?'ELIMINATO':''});
  }
  /** No friendly fire: this is the only player-damage path, owned by monsters/projectiles. */
  damagePlayer(p:Survivor,damage:number,at=this.state.time):void{
-  if(!p.alive||this.state.phase==='finished')return;p.hp=Math.max(0,p.hp-damage*(p.shield>0?.6:1));this.emit({type:'hurt',player:p.id,value:damage});
-  if(p.hp<=0){p.alive=false;p.deathAt=at;p.reload=0;p.burst=0;p.moving=0;this.emit({type:'death',player:p.id,text:`${p.name} È STATO ELIMINATO`});this.state.notice=`${p.name} È STATO ELIMINATO`;}
+  if(!p.alive||this.state.phase==='finished'||!Number.isFinite(damage)||damage<=0||at-p.lastDamageAt<ZOMBIES.hitGrace)return;
+  p.lastDamageAt=at;p.hitsTaken=Math.min(maxHits(p),p.hitsTaken+1);p.hp=playerHealth(p);this.emit({type:'hurt',player:p.id,value:100/maxHits(p)});
+  if(p.hp<=0){if(this.state.box.owner===p.id)this.closeBox();p.alive=false;p.drinking=null;p.perks=[];p.deathAt=at;p.reload=0;p.weaponReload=undefined;p.burst=0;p.moving=0;this.emit({type:'death',player:p.id,text:`${p.name} È STATO ELIMINATO`});this.state.notice=`${p.name} È STATO ELIMINATO`;}
  }
  /** Resolve once after the complete impact batch, never award a dead last survivor midway through a frame. */
  resolveDeaths():void{
   const s=this.state;if(s.phase==='finished')return;const alive=s.players.filter(p=>p.alive);
   if(alive.length>1)return;
-  const rank=this.ranking();s.winner=alive[0]?.id??rank[0].id;s.phase='finished';s.pending=0;s.bolts=[];s.notice=`${s.players.find(p=>p.id===s.winner)!.name} · ULTIMO VIVO`;
+  const rank=this.ranking();s.winner=alive[0]?.id??rank[0].id;this.clearPap();for(const p of s.players)p.drinking=null;this.closeBox();s.phase='finished';s.pending=0;s.bolts=[];s.notice=`${s.players.find(p=>p.id===s.winner)!.name} · ULTIMO VIVO`;
   this.emit({type:'win',player:s.winner,text:s.notice});
  }
  ranking():Survivor[]{
@@ -202,17 +286,22 @@ export class OrdaMatch{
    b.x+=b.dx*d;b.y+=b.dy*d;b.z+=b.dz*d;b.life-=dt;
    if(victim||d<travel-.001||b.y<=floorAt(b.x,b.z)||b.life<=0){
     if(b.hostile){if(victim)this.damagePlayer(victim as Survivor,b.damage,s.time-dt+d/b.speed);}
-    else{const owner=s.players.find(p=>p.id===b.owner);if(owner?.alive){if(victim)this.hurtEnemy(victim as Enemy,b.damage,owner);for(const e of s.enemies)if(e!==victim&&e.hp>0&&distance(b,e)<b.radius&&visible(b,e,b.y,e.y+1))this.hurtEnemy(e,65*(1-distance(b,e)/(b.radius+1)),owner);}}
+    else{const owner=s.players.find(p=>p.id===b.owner);if(owner?.alive){if(victim)this.hurtEnemy(victim as Enemy,b.damage,owner);for(const e of s.enemies)if(e!==victim&&e.hp>0&&distance(b,e)<b.radius&&visible(b,e,b.y,e.y+1))this.hurtEnemy(e,(owner.packed?130:65)*(1-distance(b,e)/(b.radius+1)),owner);}}
     this.emit({type:'blast',x:b.x,y:b.y,z:b.z,value:b.hostile?.45:b.radius});b.life=0;
    }
   }s.bolts=s.bolts.filter(b=>b.life>0);
  }
  private botInput(p:Survivor,dt:number):OrdaInput{
-  const s=this.state,w=weaponOf(p.weapon);p.botThink-=dt;p.botNav-=dt;
+  const s=this.state,w=survivorWeapon(p);p.botThink-=dt;p.botNav-=dt;
   if(p.botThink<=0){const seen=s.enemies.filter(e=>e.hp>0&&distance(e,p)<23&&visible(p,e,p.y+1.5,e.y+e.height*.55)).sort((a,b)=>distance(a,p)-distance(b,p));p.botTarget=seen[0]?.id??0;p.botThink=.18+(this.botSerial++%5)*.025;
    if(p.reserve<w.magazine||p.hp<55){const goal=s.supplies.filter(q=>q.cooldown<=0&&(p.hp<55?q.kind==='health':q.kind==='ammo')).sort((a,b)=>distance(a,p)-distance(b,p))[0];if(goal)p.botGoal=goal;}
-   else if(!p.botGoal||distance(p,p.botGoal)<1.5||this.random()<.045){const crates=s.supplies.filter(q=>q.kind==='crate'&&q.cooldown<=0);p.botGoal=crates[0]??{x:(this.random()-.5)*35,z:(this.random()-.5)*26};}
+   else if(!p.botGoal||distance(p,p.botGoal)<1.5||this.random()<.045){p.botGoal={x:(this.random()-.5)*35,z:(this.random()-.5)*26};}
   }
+  if((p.weapon==='pistola'&&!p.packed&&p.hitsTaken<2&&p.points>=ZOMBIES.boxCost&&s.box.phase==='idle')||(s.box.owner===p.id&&(s.box.phase==='ready'||s.box.phase==='rolling')))p.botGoal={x:MYSTERY_BOX.x,z:MYSTERY_BOX.z-1.15};
+  const perkGoal=STATIONS.find(t=>t.id!=='pap'&&!p.perks.includes(t.id)&&p.points>=PERKS[t.id].price);
+  const papGoal=STATIONS.find(t=>t.id==='pap')!;
+  if(!p.drinking&&p.hitsTaken<2&&perkGoal)p.botGoal={x:perkGoal.x+Math.sin(perkGoal.rotation)*1.5,z:perkGoal.z+Math.cos(perkGoal.rotation)*1.5};
+  if(deposited(s,p)||!p.packed&&p.points>=PAP.price&&s.pap.phase==='idle')p.botGoal={x:papGoal.x,z:papGoal.z-1.5};
   const target=s.enemies.find(e=>e.id===p.botTarget&&e.hp>0&&visible(p,e,p.y+1.5,e.y+e.height*.55));
   let goal=p.botGoal??{x:0,z:0},desired=p.yaw,pitch=p.pitch;
   if(target){desired=Math.atan2(target.x-p.x,target.z-p.z);pitch=-Math.atan2(target.y+target.height*.57-p.y-1.55,distance(target,p));
@@ -223,6 +312,6 @@ export class OrdaMatch{
   const dx=next.x-p.x,dz=next.z-p.z,d=Math.hypot(dx,dz);if(!target&&d>.2)desired=Math.atan2(dx,dz);
   const turn=angle(desired,p.yaw),pitchError=pitch-p.pitch,canFire=!!target&&Math.abs(turn)<.075&&Math.abs(pitchError)<.07&&p.reload<=0;
   const cycle=Math.floor(s.time*5+(p.id.charCodeAt(0)%4));
-  return{...EMPTY_INPUT,mx:d>.1?(dx*Math.cos(p.yaw)-dz*Math.sin(p.yaw))/d:0,my:d>.1?-(dx*Math.sin(p.yaw)+dz*Math.cos(p.yaw))/d:0,lx:clamp(turn*2,-.8,.8),ly:clamp(pitchError*3,-.8,.8),aim:!!target,fire:canFire,press:canFire?cycle:p.lastFire,reload:p.ammo<=Math.max(2,w.magazine*.12)?cycle:p.lastReload,jump:p.lastJump,dash:target&&distance(target,p)<3?cycle:p.lastDash};
+  return{...EMPTY_INPUT,interact:(this.interactionTarget(p)!==null&&this.interactionTarget(p)!=='box'&&(!!perkGoal||deposited(s,p)||!p.packed&&p.points>=PAP.price)||this.canReachBox(p)&&((p.weapon==='pistola'&&!p.packed&&p.points>=ZOMBIES.boxCost&&s.box.phase==='idle')||(s.box.owner===p.id&&s.box.phase==='ready')))?cycle:p.lastInteract,mx:d>.1?(dx*Math.cos(p.yaw)-dz*Math.sin(p.yaw))/d:0,my:d>.1?-(dx*Math.sin(p.yaw)+dz*Math.cos(p.yaw))/d:0,lx:clamp(turn*2,-.8,.8),ly:clamp(pitchError*3,-.8,.8),aim:!!target,fire:canFire,press:canFire?cycle:p.lastFire,reload:!this.interactionTarget(p)&&p.ammo<=Math.max(2,w.magazine*.12)?cycle:p.lastReload,jump:p.lastJump,dash:target&&distance(target,p)<3?cycle:p.lastDash};
  }
 }

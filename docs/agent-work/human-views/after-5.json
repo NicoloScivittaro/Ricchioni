@@ -1,0 +1,24 @@
+{
+  "label": "after",
+  "humans": 5,
+  "errors": [],
+  "hardware": {
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "width": 1669,
+    "height": 939,
+    "scale": 1.15,
+    "views": 5,
+    "enemies": 22,
+    "participants": 5
+  },
+  "sample": {
+    "fps": 35.67846631921207,
+    "seconds": 6.082099999997765,
+    "updateMs": 1.5193548387234113,
+    "renderCpuMs": 25.68110599080401,
+    "drawCalls": 651.6820276497696,
+    "activeIndices": 12456693.290322581,
+    "meshes": 615
+  },
+  "status": "passed"
+}

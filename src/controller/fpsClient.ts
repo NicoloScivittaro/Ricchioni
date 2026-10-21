@@ -1,3 +1,4 @@
+import type{WeaponReload}from '../../shared/fpsReload';
 import {FpsImpactFx} from './fpsImpactFx';
 import type {ShotSegment,SurfaceImpact} from '../../shared/fpsCombat';
 import {fpsLoading} from './fpsLoading';
@@ -62,7 +63,7 @@ export interface FpsPlayerState {
   firing: boolean;
   ads?: number; recoilPitch?: number; recoilYaw?: number; heat?: number; moving?: number;
   magazine?: number;
-  reloading?: boolean;reloadFrac?:number;
+  reloading?: boolean;reloadFrac?:number;weaponReload?:WeaponReload;
   dashing?: boolean;
   crouching?:boolean;grounded?:boolean;eyeHeight?:number;
   /** ABILITA' (stato pubblicato dall'host: il telefono disegna soltanto) */
@@ -631,7 +632,7 @@ export class FpsClient {
 
   private updateHudText(): void {
     const w = getWeapon(this.weaponId);
-    const ammo = this.reloading ? '— / ' + w.magazine : `${this.mag} / ${w.magazine}`;
+    const ammo = this.reloading&&!w.shellReload ? '— / ' + w.magazine : `${this.mag} / ${w.magazine}`;
     if (ammo !== this.ammoShown) {
       this.ammoShown = ammo;
       this.ammoEl.textContent = ammo;
@@ -842,13 +843,14 @@ export class FpsClient {
           this.reloadWrapEl.style.opacity = '0';
           this.weaponEl.textContent = `${getWeapon(ps.weaponId).icon} ${getWeapon(ps.weaponId).name}`;
           this.mag = ps.magazine ?? getWeapon(ps.weaponId).magazine;
-        } else if (ps.magazine !== undefined && (!this.firePressed || ps.magazine < this.mag)) {
+        } else if (ps.magazine !== undefined && (ps.reloading || !this.firePressed || ps.magazine < this.mag)) {
           this.mag = ps.magazine;
         }
         if (this.weaponEl.textContent === '') this.weaponEl.textContent = `${getWeapon(this.weaponId).icon} ${getWeapon(this.weaponId).name}`;
         // sincronizza la ricarica con l'host (utile dopo un calo di rete o un riavvio della vista)
-        if (ps.reloading && !this.reloading && ps.alive) this.startReloadUi(getWeapon(this.weaponId).reload, this.weaponId);
+        if (ps.reloading && !this.reloading && ps.alive) this.startReloadUi(ps.weaponReload?.duration??getWeapon(this.weaponId).reload, this.weaponId);
         else if (ps.reloading === false && this.reloading){this.finishReload();if(ps.magazine!==undefined)this.mag=ps.magazine;}
+        this.vm.reloadInfo=ps.weaponReload;
         if(this.reloading&&ps.reloadFrac!==undefined)this.reloadT=Math.min(.999,Math.max(0,ps.reloadFrac))*this.reloadDur;
         this.setHp(ps.hp);
         // ABILITA': stato, giubbotto, blocco, raggi X (tutto deciso dall'host)

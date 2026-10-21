@@ -1,0 +1,22 @@
+import assert from'node:assert/strict';
+import{writeFileSync}from'node:fs';
+import{OrdaMatch}from'../shared/orda/match';
+import{EMPTY_INPUT}from'../shared/orda/types';
+import{PAD_PROFILES}from'../src/input/profiles';
+import{padLabel,STANDARD_BUTTON_INDEX}from'../src/input/padTypes';
+import{mysteryPrompt}from'../shared/orda/zombiesRules';
+const m=new OrdaMatch(['a','b','c'].map(id=>({id,name:id,color:'#fff'})));m.state.phase='intermission';m.state.countdown=1000;m.state.supplies=[];
+const p=m.state.players[0];Object.assign(p,{x:0,z:2.4,ammo:6,points:949});let press=0;
+const frame=()=>m.step(1/30,q=>q===p?{...EMPTY_INPUT,reload:press}:EMPTY_INPUT);
+press++;frame();assert.equal(p.points,949);assert.equal(p.reload,0);assert.equal(m.state.box.phase,'idle');
+p.points=950;press++;frame();assert.equal(p.points,0);assert.equal(p.reload,0);assert.equal(m.state.box.phase,'rolling');
+for(let i=0;i<80;i++)frame();assert.equal(p.points,0);assert.equal(m.state.box.phase,'ready');assert.ok(mysteryPrompt(m.state,p).includes('QUADRATO / X'));
+const weapon=m.state.box.weapon;press++;frame();assert.equal(p.weapon,weapon);assert.equal(p.reload,0);assert.equal(m.state.box.phase,'closing');
+Object.assign(p,{x:6,z:-9,ammo:1});press++;frame();assert.ok(p.reload>0);assert.equal(p.points,0);
+// Crossing the interaction radius with the same held press never triggers a purchase.
+Object.assign(p,{x:0,z:2.4,points:950});for(let i=0;i<40;i++)frame();assert.equal(p.points,950);assert.equal(m.state.box.phase,'idle');
+assert.ok(PAD_PROFILES.orda.buttons.some(b=>b.from==='LEFT'&&b.control==='reload'));
+assert.ok(!PAD_PROFILES.orda.buttons.some(b=>b.from==='RB'));
+assert.equal(STANDARD_BUTTON_INDEX.LEFT,2);assert.equal(padLabel('LEFT','playstation'),'□');assert.equal(padLabel('LEFT','xbox'),'X');
+const checks=['Square/X buys and retrieves near box without also reloading','949 points rejects purchase and does not reload through the box','Same held press never repeats or triggers on entering the interaction radius','Square/X reloads away from box','Shared standard left-face button maps to PlayStation Square and Xbox X; RB removed','950 cost, owned reward and phone interact path preserved'];
+writeFileSync('docs/agent-work/orda-box-polish/logic.json',JSON.stringify({status:'passed',checks},null,2));console.log(checks.join('\n'));

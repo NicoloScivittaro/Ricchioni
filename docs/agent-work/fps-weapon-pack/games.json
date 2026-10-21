@@ -1,0 +1,275 @@
+{
+  "errors": [],
+  "checks": [
+    "Actual Orda: all four weapons, five independent rigs/layers, shared ACR geometry/material, concurrent distinct reload states",
+    "Shotgun progressive count in real renderer, original reload poses photographed in Orda, short five-view combat benchmark",
+    "Actual Sparatoria Cantiere: all four consume one round per real shot; shell contact adds one round while closing remains locked",
+    "Shotgun progressive count in real renderer, original reload poses photographed in Orda, short five-view combat benchmark",
+    "Actual Sparatoria Cantiere: all four consume one round per real shot; shell contact adds one round while closing remains locked",
+    "Sparatoria empty shotgun: full original pump before automatic reload; no early insertion or manual interruption"
+  ],
+  "assets": [
+    {
+      "id": "acr",
+      "clips": 8,
+      "skeleton": 36888,
+      "geometry": 35936,
+      "material": 35937,
+      "layer": 32768,
+      "camera": 33729
+    },
+    {
+      "id": "glock",
+      "clips": 6,
+      "skeleton": 33078,
+      "geometry": 32384,
+      "material": 32385,
+      "layer": 65536,
+      "camera": 66465
+    },
+    {
+      "id": "shotgun",
+      "clips": 7,
+      "skeleton": 34896,
+      "geometry": 33778,
+      "material": 33779,
+      "layer": 131072,
+      "camera": 131937
+    },
+    {
+      "id": "ak74u",
+      "clips": 7,
+      "skeleton": 39763,
+      "geometry": 38675,
+      "material": 38676,
+      "layer": 262144,
+      "camera": 262881
+    },
+    {
+      "id": "acr",
+      "clips": 8,
+      "skeleton": 37803,
+      "geometry": 35936,
+      "material": 35937,
+      "layer": 524288,
+      "camera": 524769
+    }
+  ],
+  "reload": [
+    {
+      "weapon": "acr",
+      "state": "Reload",
+      "ammo": 5,
+      "empty": false
+    },
+    {
+      "weapon": "glock",
+      "state": "ReloadEmpty",
+      "ammo": 0,
+      "empty": true
+    },
+    {
+      "weapon": "shotgun",
+      "state": "ReloadStart",
+      "ammo": 2,
+      "empty": false
+    },
+    {
+      "weapon": "ak74u",
+      "state": "ReloadEmpty",
+      "ammo": 0,
+      "empty": true
+    },
+    {
+      "weapon": "acr",
+      "state": "Idle",
+      "ammo": 20
+    }
+  ],
+  "shell": {
+    "ammo": 3,
+    "reserve": 99
+  },
+  "samples": [
+    {
+      "fps": 59.98800239934104,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 8,
+      "idleActors": 9,
+      "meshes": 517,
+      "enemies": 7
+    },
+    {
+      "fps": 59.94005994005963,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 8,
+      "idleActors": 9,
+      "meshes": 517,
+      "enemies": 6
+    },
+    {
+      "fps": 59.92808629626556,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 8,
+      "idleActors": 9,
+      "meshes": 517,
+      "enemies": 6
+    },
+    {
+      "fps": 59.91611743567901,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 8,
+      "idleActors": 9,
+      "meshes": 517,
+      "enemies": 6
+    },
+    {
+      "fps": 59.95203836903644,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 8,
+      "idleActors": 9,
+      "meshes": 517,
+      "enemies": 6
+    },
+    {
+      "fps": 59.90415335454313,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 8,
+      "idleActors": 9,
+      "meshes": 517,
+      "enemies": 6
+    },
+    {
+      "fps": 59.880239520957765,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 8,
+      "idleActors": 9,
+      "meshes": 517,
+      "enemies": 5
+    },
+    {
+      "fps": 59.94005994005962,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 7,
+      "idleActors": 9,
+      "meshes": 515,
+      "enemies": 5
+    },
+    {
+      "fps": 59.94005994005962,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 7,
+      "idleActors": 9,
+      "meshes": 515,
+      "enemies": 5
+    },
+    {
+      "fps": 59.94005994005962,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 7,
+      "idleActors": 9,
+      "meshes": 515,
+      "enemies": 4
+    },
+    {
+      "fps": 59.94005994005963,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 6,
+      "idleActors": 9,
+      "meshes": 513,
+      "enemies": 4
+    },
+    {
+      "fps": 59.928086296265576,
+      "width": 1669,
+      "height": 939,
+      "scale": 1.15,
+      "views": 5,
+      "actors": 6,
+      "idleActors": 9,
+      "meshes": 513,
+      "enemies": 4
+    }
+  ],
+  "fps": 59.93308528103222,
+  "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "conditions": "6 seconds, Orda wave 2, eight spawned enemies, five cameras, ACR/Glock/Remington/AK74U/ACR, real held-fire input; survivor HP 1000 only in harness to retain all views.",
+  "fpsGame": {
+    "checks": [
+      {
+        "id": "acr",
+        "before": 5,
+        "after": 4
+      },
+      {
+        "id": "glock",
+        "before": 5,
+        "after": 4
+      },
+      {
+        "id": "shotgun",
+        "before": 5,
+        "after": 4
+      },
+      {
+        "id": "ak74u",
+        "before": 5,
+        "after": 4
+      }
+    ],
+    "reload": {
+      "elapsed": 0,
+      "duration": 2.7499999990000004,
+      "empty": false,
+      "startAmmo": 4,
+      "rounds": 2,
+      "inserted": 0
+    },
+    "views": 2
+  },
+  "fpsShell": {
+    "ammo": 5,
+    "reloading": true
+  },
+  "status": "passed",
+  "pump": {
+    "afterShot": false,
+    "afterManual": false,
+    "half": false,
+    "afterCycle": true,
+    "ammo": 0
+  }
+}
