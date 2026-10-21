@@ -32,8 +32,8 @@ m=make();p=m.state.players[0];Object.assign(p,{x:0,z:-10,y:0,yaw:0,pitch:.06,wea
 m=make();p=m.state.players[0];Object.assign(p,{x:0,z:-10,y:0,yaw:0,pitch:.06,weapon:'wunderwaffe',ammo:3});e=enemy(m,0,-6,3000,'warrok');(m as any).fire(p);assert.equal(e.hp,2400);p.packed=true;(m as any).fire(p);assert.equal(e.hp,1200);
 m=make();p=m.state.players[0];Object.assign(p,{x:-8,z:-6,y:0,yaw:-Math.PI/2,pitch:0,weapon:'wunderwaffe',ammo:3});e=enemy(m,-13,-6,1000);(m as any).fire(p);assert.equal(e.hp,1000);
 checks.push('Wunderwaffe 10 unique targets max, 50 points per kill, one ammo per discharge even with Double Tap, bounded boss damage600/1200, no shooting through cover');
-assert.equal(WEAPONS.length,10);assert.equal(WEAPONS.some(w=>w.id==='wunderwaffe'),false);assert.equal(ORDA_WEAPONS.length,11);
-checks.push('Sparatoria rotation remains ten weapons; Wunderwaffe is exclusively in Orda pool');
+assert.equal(WEAPONS.length,11);assert.equal(WEAPONS.some(w=>w.id==='wunderwaffe'),true);assert.equal(ORDA_WEAPONS.length,11);assert.equal(new Set(ORDA_WEAPONS.map(w=>w.id)).size,11);
+checks.push('Eleven unique weapons in both modes, including Wunderwaffe without duplicate box weighting');
 m=make();for(const t of STATIONS){const goal={x:t.x+Math.sin(t.rotation)*1.5,z:t.z+Math.cos(t.rotation)*1.5};assert.ok(m.nav.path(m.state.players[0],goal).length>0,'reachable station '+t.id);}
 checks.push('All four station approach points reachable through the existing navigation graph, including both raised-dock machines');
 m=make();p=at(m,'juggernog');Object.assign(p,{bot:true,weapon:'acr',points:2500});step(m,.1);assert.equal(p.points,0);assert.equal(p.drinking?.id,'juggernog');step(m,2.1);assert.ok(p.perks.includes('juggernog'));checks.push('Bot uses the same station interaction and2500-point debit, waits for drink and receives Jugger-Nog');

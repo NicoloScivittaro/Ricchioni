@@ -709,6 +709,7 @@ export class FpsScene extends Phaser.Scene {
     const spread = aimSpread(weapon.spread, p.ads, p.moving, p.heat,weapon.hipSpread) * this.fpsAb.spreadFactor(p); // Dottore dopo M'HO SVEJATO: la mira trema
     const dmgMult = this.fpsAb.damageFactor(p); // Goblin dopo la ricarica perfetta: piu' danno
     const damageBy = new Map<FpsPlayer, number>(); // un solo hit/danno per bersaglio per colpo, anche con 8 pallini
+    let electricalTarget:FpsPlayer|null=null;
     for (let i = 0; i < pellets; i++) {
       // Dispersione
       const yaw = p.yaw + p.recoilYaw + (this.ctx.rng.next() - 0.5) * 2 * spread;
@@ -750,9 +751,24 @@ export class FpsScene extends Phaser.Scene {
         this.launchBlast(p, weapon, ox, oy, oz, dx, dy, dz, bestT, dmgMult);
       } else if (hitPlayer) {
         damageBy.set(hitPlayer, (damageBy.get(hitPlayer) ?? 0) + weapon.damage * dmgMult);
+        if(weapon.id==='wunderwaffe'&&hitPlayer.spawnProtection<=0)electricalTarget=hitPlayer;
       }
       if(!hitPlayer&&bestT<weapon.range-.001)this.ctx.signal(null,{type:'surfaceImpact',x:ox+dx*bestT,y:oy+dy*bestT,z:oz+dz*bestT,nx:-dx,ny:-dy,nz:-dz,surface});
       segs.push({ ox, oy, oz, ex: ox + dx * bestT, ey: oy + dy * bestT, ez: oz + dz * bestT });
+    }
+    // Short PvP chain, never through cover, without duplicating the direct hit or spending extra rounds.
+    if(electricalTarget){
+      let from:FpsPlayer=electricalTarget;const visited=new Set([p.id,from.id]);
+      for(let hop=0;hop<2;hop++){
+        const origin={x:from.x,y:from.y+(from.crouching?.5:.9),z:from.z};
+        const candidates=this.players.filter(q=>q.alive&&q.spawnProtection<=0&&!visited.has(q.id)).map(q=>{
+          const y=q.y+(q.crouching?.5:.9),dx=q.x-origin.x,dy=y-origin.y,dz=q.z-origin.z,d=Math.hypot(dx,dy,dz);
+          return{q,y,dx,dy,dz,d};
+        }).filter(q=>q.d>1e-6&&q.d<=5).sort((a,b)=>a.d-b.d||a.q.id.localeCompare(b.q.id));
+        const next=candidates.find(q=>this.nuketown?this.nuketown.ray(origin.x,origin.y,origin.z,q.dx/q.d,q.dy/q.d,q.dz/q.d,q.d)>=q.d-.001:!FPS_MAP.obstacles.some(b=>{const t=rayVsAabb(origin.x,origin.y,origin.z,q.dx/q.d,q.dy/q.d,q.dz/q.d,b);return t!==null&&t<q.d-.001;}));
+        if(!next)break;visited.add(next.q.id);damageBy.set(next.q,65*dmgMult);
+        segs.push({ox:origin.x,oy:origin.y,oz:origin.z,ex:next.q.x,ey:next.y,ez:next.q.z});from=next.q;
+      }
     }
     // solo grafica/suono, nello stesso istante del colpo: rinculo, lampo e traccianti fino al punto colpito VERO
     this.splitScreen?.notifyShot(p.id, weapon.id, segs);

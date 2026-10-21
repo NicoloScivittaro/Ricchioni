@@ -61,7 +61,7 @@ export const RECOIL: Record<string, RecoilProfile> = {
 };
 
 RECOIL.pistola={...RECOIL.raffica,back:.34,up:1.8,side:.018,k:440,c:35,buzz:18,flash:.12,sparks:2};
-RECOIL.acr={...RECOIL.mitraglia,camPitch:.003};RECOIL.ak74u={...RECOIL.mitraglia,flash:.12};RECOIL.glock={...RECOIL.pistola};RECOIL.shotgun={...RECOIL.spaccatutto,pump:false,flash:.24,sparks:4,camPitch:.018};RECOIL.wunderwaffe={...RECOIL.bombarda,color:[.25,.65,1],flash:.28,camPitch:.013};
+RECOIL.acr={...RECOIL.mitraglia,camPitch:.003};RECOIL.ak74u={...RECOIL.mitraglia,flash:.12};RECOIL.glock={...RECOIL.pistola};RECOIL.shotgun={...RECOIL.spaccatutto,pump:false,flash:.24,sparks:4,camPitch:.018};RECOIL.wunderwaffe={...RECOIL.bombarda,color:[.25,.65,1],flash:.28,camPitch:.013,tracer:{color:[.25,.65,1],thick:.045,life:.14}};
 
 export function recoilOf(weaponId: string): RecoilProfile {
   return RECOIL[weaponId] ?? RECOIL.mitraglia;

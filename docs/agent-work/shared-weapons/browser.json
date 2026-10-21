@@ -1,0 +1,140 @@
+{
+  "errors": [],
+  "rotation": {
+    "ids": [
+      "pistola",
+      "laser",
+      "shotgun",
+      "sparapiselli",
+      "ak74u",
+      "raffica",
+      "glock",
+      "bombarda",
+      "mitraglia",
+      "acr",
+      "wunderwaffe"
+    ],
+    "remaining": 0,
+    "views": 1
+  },
+  "chain": {
+    "ammo": 2,
+    "hp": [
+      1000,
+      400,
+      935,
+      935,
+      1000
+    ],
+    "trace": [
+      {
+        "ox": -6,
+        "oy": 1.5,
+        "oz": -12,
+        "ex": -5.9963586031535465,
+        "ey": 1.5040604866361607,
+        "ez": -7.4
+      },
+      {
+        "ox": -6,
+        "oy": 0.9,
+        "oz": -7,
+        "ex": -3,
+        "ey": 0.9,
+        "ez": -7
+      },
+      {
+        "ox": -3,
+        "oy": 0.9,
+        "oz": -7,
+        "ex": -3,
+        "ey": 0.9,
+        "ez": -3
+      }
+    ],
+    "hit": 3,
+    "reloading": false
+  },
+  "model": {
+    "weapon": "wunderwaffe",
+    "vertices": 16786,
+    "blueTracers": 3,
+    "ammo": 2
+  },
+  "cover": {
+    "ammo": 2,
+    "hp": [
+      1000,
+      400,
+      1000,
+      1000,
+      1000
+    ],
+    "trace": [
+      {
+        "ox": -2,
+        "oy": 1.5,
+        "oz": -12,
+        "ex": -1.999679141274735,
+        "ey": 1.50531602795508,
+        "ez": -8.4
+      }
+    ],
+    "hit": 1,
+    "reloading": false
+  },
+  "height": {
+    "ammo": 2,
+    "hp": [
+      1000,
+      400,
+      1000,
+      1000,
+      1000
+    ],
+    "trace": [
+      {
+        "ox": -6,
+        "oy": 1.5,
+        "oz": -12,
+        "ex": -5.997111623628515,
+        "ey": 1.5031578798760923,
+        "ez": -7.4
+      }
+    ],
+    "hit": 1,
+    "reloading": false
+  },
+  "miss": {
+    "ammo": 2,
+    "hp": [
+      1000,
+      1000,
+      1000,
+      1000,
+      1000
+    ],
+    "trace": [
+      {
+        "ox": -6,
+        "oy": 1.5,
+        "oz": -12,
+        "ex": -5.987787695800376,
+        "ey": 1.5197913543926926,
+        "ez": 25
+      }
+    ],
+    "hit": 0,
+    "reloading": false
+  },
+  "reload": {
+    "started": {
+      "ammo": 0,
+      "reloading": true,
+      "timer": 6
+    },
+    "ammo": 3,
+    "reloading": false
+  },
+  "status": "passed"
+}

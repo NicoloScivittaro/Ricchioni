@@ -106,6 +106,11 @@ export function shot(weaponId: string, opt?: SfxOpt): void {
   if (!b) return;
   const j = jit();
   switch (weaponId) {
+    case 'wunderwaffe':
+      tone(b,'sawtooth',1900*j,180,.22,.10,0,opt);
+      tone(b,'sine',95,48,.3,.15,0,opt);
+      hiss(b,'highpass',6200,1100,.18,.12,0,1.5,opt);
+      break;
     case 'glock':case 'pistola':
       hiss(b,'bandpass',2600,1100,.065,.22,0,1,opt);tone(b,'triangle',210*j,70,.11,.14,0,opt);break;
     case 'shotgun':case 'spaccatutto': // BUM secco + pompa "ka-ciak"
@@ -147,6 +152,11 @@ export function reload(weaponId: string, dur: number): void {
   if (!b) return;
   const end = Math.max(0.3, dur);
   switch (weaponId) {
+    case 'wunderwaffe':
+      tone(b,'triangle',180,65,.12,.14,.05);
+      for(let i=0;i<3;i++)tone(b,'square',400+i*90,220,.05,.08,end*(.22+i*.19));
+      tone(b,'sine',280,1450,.28,.08,end-.4);
+      break;
     case 'shotgun': {
       const c=getWeapon(weaponId).shellReload!,rounds=Math.max(0,Math.round((end-c.start-c.end)/c.insert));
       for(let i=0;i<rounds;i++)tone(b,'square',490,280,.045,.075,c.start+i*c.insert+c.contact);

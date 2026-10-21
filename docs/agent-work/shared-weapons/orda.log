@@ -1,0 +1,10 @@
+Three real station prices, 1-point shortage, single debit, delayed drink effect, no duplicate perk, cloned packet
+Base third-hit death, Jugger fifth-hit death, damage already taken conserved, first aid restores one hit, death clears perks
+Speed Cola halves ordinary/empty and shell reload durations and insertion timings; animation playback metadata 2x; correct ammo conservation
+Double Tap 2.0 fires two ballistic bullets for one ammo, doubles same target damage and adds 33% cadence
+Pack-a-Punch 5000 debit once; no shooting deposited weapon; exclusive five-second process, owner pickup, DG-3 JZ 6/30; no repeat upgrade
+Unclaimed Pack weapon expires, no refund/upgrade; owner death releases machine
+Wunderwaffe 10 unique targets max, 50 points per kill, one ammo per discharge even with Double Tap, bounded boss damage600/1200, no shooting through cover
+Eleven unique weapons in both modes, including Wunderwaffe without duplicate box weighting
+All four station approach points reachable through the existing navigation graph, including both raised-dock machines
+Bot uses the same station interaction and2500-point debit, waits for drink and receives Jugger-Nog

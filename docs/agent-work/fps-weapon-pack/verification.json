@@ -34,7 +34,7 @@
   "fallbacks": "Glock Idle is an authored constant pose. Shotgun has no Idle/Walk/Run clip: ready pose from Shoot at zero plus procedural movement. Glock/AK locomotion is procedural. Inspect/Holster states available to the shared controller for clips that exist; no new inspect binding added.",
   "tests": {
     "logic": [
-      "Six old weapon statistics unchanged; ten unique active IDs",
+      "Six old weapon statistics unchanged; eleven unique active IDs",
       "Magazine insertion markers, empty/normal durations, no duplicated rounds",
       "Shotgun: exact three individual shell contacts, limited reserve, closing stage",
       "Actual Orda clock: blocked fire during reload, independent player ammo, authoritative shell transfer",

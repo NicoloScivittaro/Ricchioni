@@ -111,6 +111,7 @@ interface Tracer {
 
 /** Nome e ruolo mostrati all'estrazione: cosa aspettarsi da quest'arma. */
 const ROLE: Record<string, string> = {
+  wunderwaffe:'SCARICA ELETTRICA · FINO A 3 BERSAGLI',
   pistola:'UN COLPO PER PRESSIONE · CADENZA RAPIDA',
   mitraglia: 'TUTTOFARE',
   laser: 'OTTICA 4× · 125 DANNI',

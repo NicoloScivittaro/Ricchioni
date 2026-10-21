@@ -7,7 +7,7 @@ import {EMPTY_INPUT}from'../shared/orda/types';
 import {FpsAbilities}from'../src/minigames/fps/fpsAbilities';
 const checks:string[]=[];
 assert.deepEqual(WEAPONS.slice(0,6).map(w=>[w.id,w.damage,w.magazine,w.reload]),[['mitraglia',16,30,1.7],['laser',125,5,2.4],['raffica',23,30,1.8],['bombarda',80,20,2.5],['sparapiselli',12,100,2.9],['pistola',30,12,1.1]]);
-assert.equal(new Set(WEAPONS.map(w=>w.id)).size,10);checks.push('Six old weapon statistics unchanged; ten unique active IDs');
+assert.equal(new Set(WEAPONS.map(w=>w.id)).size,11);checks.push('Six old weapon statistics unchanged; eleven unique active IDs');
 for(const id of['acr','glock','ak74u'])for(const ammo of[0,3]){
  const w=getWeapon(id),r=beginWeaponReload(w,ammo,100),marker=(ammo===0?w.reloadInsertEmpty:undefined)??w.reloadInsert!;
  assert.equal(r.duration,ammo===0?(w.reloadEmpty??w.reload):w.reload);assert.equal(advanceWeaponReload(w,r,marker-.001),0);assert.equal(advanceWeaponReload(w,r,.001),w.magazine-ammo);assert.equal(advanceWeaponReload(w,r,100),0);

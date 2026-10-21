@@ -1,0 +1,225 @@
+{
+  "status": "passed",
+  "catalog": {
+    "status": "passed",
+    "sparatoria": [
+      {
+        "id": "mitraglia",
+        "name": "AK-47 DEL GOBLIN"
+      },
+      {
+        "id": "laser",
+        "name": "CECCHINO · OTTICA 4×"
+      },
+      {
+        "id": "raffica",
+        "name": "M4A1 · RAFFICA 3X"
+      },
+      {
+        "id": "bombarda",
+        "name": "RAY GUN"
+      },
+      {
+        "id": "sparapiselli",
+        "name": "MINIGUN"
+      },
+      {
+        "id": "pistola",
+        "name": "USP45 · SEMIAUTOMATICA"
+      },
+      {
+        "id": "acr",
+        "name": "ACR · ASSALTO"
+      },
+      {
+        "id": "glock",
+        "name": "GLOCK 17"
+      },
+      {
+        "id": "shotgun",
+        "name": "REMINGTON 870"
+      },
+      {
+        "id": "ak74u",
+        "name": "AK-74U"
+      },
+      {
+        "id": "wunderwaffe",
+        "name": "WUNDERWAFFE DG-2"
+      }
+    ],
+    "orda": [
+      "mitraglia",
+      "laser",
+      "raffica",
+      "bombarda",
+      "sparapiselli",
+      "pistola",
+      "acr",
+      "glock",
+      "shotgun",
+      "ak74u",
+      "wunderwaffe"
+    ],
+    "singleRayGun": true
+  },
+  "browser": {
+    "errors": [],
+    "rotation": {
+      "ids": [
+        "pistola",
+        "laser",
+        "shotgun",
+        "sparapiselli",
+        "ak74u",
+        "raffica",
+        "glock",
+        "bombarda",
+        "mitraglia",
+        "acr",
+        "wunderwaffe"
+      ],
+      "remaining": 0,
+      "views": 1
+    },
+    "chain": {
+      "ammo": 2,
+      "hp": [
+        1000,
+        400,
+        935,
+        935,
+        1000
+      ],
+      "trace": [
+        {
+          "ox": -6,
+          "oy": 1.5,
+          "oz": -12,
+          "ex": -5.9963586031535465,
+          "ey": 1.5040604866361607,
+          "ez": -7.4
+        },
+        {
+          "ox": -6,
+          "oy": 0.9,
+          "oz": -7,
+          "ex": -3,
+          "ey": 0.9,
+          "ez": -7
+        },
+        {
+          "ox": -3,
+          "oy": 0.9,
+          "oz": -7,
+          "ex": -3,
+          "ey": 0.9,
+          "ez": -3
+        }
+      ],
+      "hit": 3,
+      "reloading": false
+    },
+    "model": {
+      "weapon": "wunderwaffe",
+      "vertices": 16786,
+      "blueTracers": 3,
+      "ammo": 2
+    },
+    "cover": {
+      "ammo": 2,
+      "hp": [
+        1000,
+        400,
+        1000,
+        1000,
+        1000
+      ],
+      "trace": [
+        {
+          "ox": -2,
+          "oy": 1.5,
+          "oz": -12,
+          "ex": -1.999679141274735,
+          "ey": 1.50531602795508,
+          "ez": -8.4
+        }
+      ],
+      "hit": 1,
+      "reloading": false
+    },
+    "height": {
+      "ammo": 2,
+      "hp": [
+        1000,
+        400,
+        1000,
+        1000,
+        1000
+      ],
+      "trace": [
+        {
+          "ox": -6,
+          "oy": 1.5,
+          "oz": -12,
+          "ex": -5.997111623628515,
+          "ey": 1.5031578798760923,
+          "ez": -7.4
+        }
+      ],
+      "hit": 1,
+      "reloading": false
+    },
+    "miss": {
+      "ammo": 2,
+      "hp": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "trace": [
+        {
+          "ox": -6,
+          "oy": 1.5,
+          "oz": -12,
+          "ex": -5.987787695800376,
+          "ey": 1.5197913543926926,
+          "ez": 25
+        }
+      ],
+      "hit": 0,
+      "reloading": false
+    },
+    "reload": {
+      "started": {
+        "ammo": 0,
+        "reloading": true,
+        "timer": 6
+      },
+      "ammo": 3,
+      "reloading": false
+    },
+    "status": "passed"
+  },
+  "changes": [
+    "ACR, Glock17, Remington870 and AK74U were already available in both modes.",
+    "Wunderwaffe DG2 added to the Sparatoria shuffle bag, with existing imported model, ADS, blue electrical shot and reload audio.",
+    "Sparatoria:3round magazine,6sreload,600directdamage,at most2secondary65damage targets within5m per link, existing world occlusion and damage authority.",
+    "Orda: same eleven unique weapons, no duplicated box weighting;600/1200 boss damage and ten-enemy chain/Pack rules preserved.",
+    "One red Ray Gun remains in each mode; no other weapon stats changed."
+  ],
+  "validation": [
+    "Catalog: eleven unique matching weapon IDs, one Ray Gun.",
+    "Actual FpsScene/renderer: eleven-weapon shuffle, electrical damage chain, one-ammo debit, cover and elevation blocking, miss, automatic six-second reload, imported model16786vertices, blue pooled tracers, one human viewport.",
+    "Existing animated pack and Orda perk/Pack/chain regression scripts passed.",
+    "Typecheck and final build passed.",
+    "Single screenshot visually inspected."
+  ],
+  "limits": [
+    "Targeted Cantiere gameplay/renderer fixture, not a full network multiplayer session.",
+    "No new FPS benchmark."
+  ],
+  "screenshot": "sparatoria-wunderwaffe.png"
+}

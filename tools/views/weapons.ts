@@ -1,0 +1,10 @@
+import Phaser from 'phaser';
+import {FpsScene} from '../../src/minigames/fps/FpsScene';
+import {Rng} from '../../shared/rng';
+import {InputManager} from '../../src/network/InputManager';
+import type {MinigameContext} from '../../src/minigames/types';
+const players=['Niko','Boschi','Goblin','Carbo','Bona'].map((name,i)=>({id:'weapon'+i,name,displayName:name,bot:i!==0,color:['#f6c977','#86d4d2','#acb6f2','#ef9aa2','#bce09e'][i],characterId:null,roleTitle:'',avatar:'',quote:'',score:0}));
+const signals:{playerId:string|null;data:Record<string,unknown>}[]=[];
+const ctx:MinigameContext={players,playerIds:players.map(p=>p.id),rng:new Rng(8492),input:new InputManager(),durationSec:180,modifier:null,modifiers:new Map(),consume:()=>false,sendPrivate:()=>{},vibrate:()=>{},signal:(playerId,data)=>signals.push({playerId,data}),finish:()=>{},showControls:()=>new Promise(()=>{})};
+const app=new Phaser.Game({type:Phaser.CANVAS,width:1280,height:720,audio:{noAudio:true},scene:{key:'fixture',create(){this.scene.add('fps',FpsScene,false);this.scene.start('fps',{ctx});}}});
+const timer=setInterval(()=>{const game=app.scene.getScene('fps')as any;if(!game?.roundReady||!game?.worldReady||!game?.splitScreen)return;clearInterval(timer);game.scene.pause();(window as any).fixture={game,app,ctx,signals,dispose(){app.destroy(true);}};(window as any).ready=true;},50);

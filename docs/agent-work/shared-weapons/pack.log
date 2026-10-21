@@ -1,0 +1,8 @@
+Six old weapon statistics unchanged; eleven unique active IDs
+Magazine insertion markers, empty/normal durations, no duplicated rounds
+Shotgun: exact three individual shell contacts, limited reserve, closing stage
+Actual Orda clock: blocked fire during reload, independent player ammo, authoritative shell transfer
+Actual Orda: one round and one shot event per trigger, including eight shotgun pellets
+Actual hitscan damage: ACR, Glock, AK74U and eight shotgun pellets hit a body target with their configured Orda damage
+Existing Goblin ability uses the actual partial reload duration; early press delays, perfect reload completes explicitly
+Empty shotgun finishes its authored fire/pump cycle before automatic reload begins; manual reload cannot interrupt that cycle

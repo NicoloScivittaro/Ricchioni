@@ -1,0 +1,1048 @@
+import type{WeaponReload}from '../../shared/fpsReload';
+import {FpsImpactFx} from './fpsImpactFx';
+import type {ShotSegment,SurfaceImpact} from '../../shared/fpsCombat';
+import {fpsLoading} from './fpsLoading';
+import {FpsEnergyFx} from './fpsEnergyFx';
+import type {EnergyLaunch,EnergyImpact} from './fpsEnergyFx';
+import {scopeAlpha,scopeSvg} from './fpsScope';
+import {FPS_BODY,FPS_KILL_TARGET} from '../../shared/fpsRules';
+import {
+  Color3,
+  DirectionalLight,
+  DynamicTexture,
+  Engine,
+  HemisphericLight,
+  Mesh,
+  MeshBuilder,
+  Scene,
+  StandardMaterial,
+  UniversalCamera,
+  TransformNode,
+  Vector3
+} from '@babylonjs/core';
+import { FPS_ADS, aimFov, aimSensitivity, aimSpread, aimGap } from '../../shared/fpsAim';
+import { getWeapon } from '../../shared/fpsWeapons';
+import { audio } from '../core/AudioManager';
+import { applyQuality, engineOptions, getQualityLevel } from '../core/quality';
+import * as sfx from './fpsAudio';
+import {RemoteWeaponModel} from './fpsWeaponModels';
+import { FpsViewmodel, recoilOf } from './fpsViewmodel';
+import { buildFpsWorld, buildFpsLights, makeBlobShadow } from './fpsWorld';
+import { presentationOf } from '../../shared/characterPresentation';
+import { decorateHead, makeCharMaterials } from '../minigames/characters/characterModel';
+import { GoblinVisualInstance, goblinTuning } from '../minigames/characters/goblinVisual';
+import { importedCharacterEnabled, importedCharacterProfile } from '../minigames/characters/importedCharacters';
+import { stateLabel, abilityFor } from '../../shared/abilityCatalog';
+import type { AbilityStatus } from '../../shared/abilityCatalog';
+
+/**
+ * CLIENT DELLA SPARATORIA (telefono): rendering in prima persona.
+ * L'HOST e' l'autorita' (movimento, spari, danni, hit); qui ci sono la visuale, l'arma (fpsViewmodel), i suoni (fpsAudio),
+ * il mondo (fpsWorld) e l'HUD. Regola d'oro del feedback: l'hitmarker, il suono di colpo a segno e il kill compaiono
+ * SOLO quando l'host li conferma; rinculo, lampo, traccianti e suono di sparo sono invece predetti localmente.
+ */
+
+const EYE_HEIGHT = 1.5;
+const SENSITIVITY_X = 0.004;
+const SENSITIVITY_Y = 0.004;
+const LOW_HP_THRESHOLD = 25;
+const BASE_FOV = 0.8;
+
+export interface FpsPlayerState {
+  id: string;
+  name: string;
+  color: string;
+  x: number;
+  z: number;
+  yaw: number;
+  y?:number;spawnProtection?:number;
+  hp: number;
+  alive: boolean;
+  kills?:number;
+  weaponId: string;
+  firing: boolean;
+  ads?: number; recoilPitch?: number; recoilYaw?: number; heat?: number; moving?: number;
+  magazine?: number;
+  reloading?: boolean;reloadFrac?:number;weaponReload?:WeaponReload;
+  dashing?: boolean;
+  crouching?:boolean;grounded?:boolean;eyeHeight?:number;
+  /** ABILITA' (stato pubblicato dall'host: il telefono disegna soltanto) */
+  ability?: AbilityStatus;
+  guard?: boolean;
+  wall?: boolean;
+  locked?: boolean;
+}
+
+export interface FpsStatePayload {
+  matchTime: number;killTarget?:number;
+  players: FpsPlayerState[];
+}
+
+interface RemoteEntity {
+  weapon:RemoteWeaponModel;
+  tripo: GoblinVisualInstance | null;
+  tripoRoot: TransformNode | null;
+  dashing: boolean;
+  crouching?:boolean;grounded?:boolean;
+  y?:number;
+  body: Mesh;
+  head: Mesh;
+  nameTag: Mesh;
+  blob: Mesh;
+  /** fantasma a raggi X (Dottore): acceso solo mentre chi gioca su QUESTO telefono ha M'HO SVEJATO */
+  ghost: Mesh;
+  flash: Mesh;
+  flashT: number;
+  x: number;
+  z: number;
+  yaw: number;
+  hp: number;
+  alive: boolean;
+  flinch: number;
+  weaponId: string;
+  firing: boolean;
+  fireAcc: number;
+}
+
+interface Tracer {
+  m: Mesh;
+  life: number;
+}
+
+/** Nome e ruolo mostrati all'estrazione: cosa aspettarsi da quest'arma. */
+const ROLE: Record<string, string> = {
+  pistola:'UN COLPO PER PRESSIONE · CADENZA RAPIDA',
+  mitraglia: 'TUTTOFARE',
+  laser: 'OTTICA 4× · 125 DANNI',
+  raffica: 'RAFFICHE DA 3',
+  bombarda: 'IMPULSI VERDI · DANNO AD AREA',
+  sparapiselli: 'FUOCO CONTINUO · ARMA PESANTE'
+};
+
+/** Vibrazione con feature detection: se il telefono non la supporta non succede nulla (nessun errore). */
+function buzz(pattern: number | number[]): void {
+  try {
+    if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') navigator.vibrate(pattern);
+  } catch {
+    /* ignora */
+  }
+}
+
+export class FpsClient {
+  readonly ready:Promise<void>;
+  private finishReady!:()=>void;
+  private worldLoaded=false;
+  private poseReceived=false;
+  private presented=false;
+  private loadingEl:HTMLDivElement;
+  private engine: Engine;
+  private scene: Scene;
+  private camera: UniversalCamera;
+  private vm: FpsViewmodel;
+  private tracers: Tracer[] = [];
+  private tracerIdx = 0;
+  private remotes = new Map<string, RemoteEntity>();
+  private lastPos = new Map<string, { x: number; z: number }>();
+  private remoteFlashMat: StandardMaterial;
+  private readonly onResize = (): void => {this.engine.resize();this.scopeSize="";this.updateScope();};
+  private tmpTarget = new Vector3();
+  private tmpStart = new Vector3();
+
+  // proiettili lenti (bombarda) ed esplosioni, a pool
+  private projs: { m: Mesh; t: number; dur: number; ox: number; oy: number; oz: number; tx: number; ty: number; tz: number; on: boolean }[] = [];
+  private booms: { m: Mesh; ring: Mesh; t: number; r: number; on: boolean }[] = [];
+
+  private selfId: string;
+  private selfY=0;
+  private eyeHeight=Number(FPS_BODY.eye);
+  private eyeTarget=Number(FPS_BODY.eye);
+  private selfX = 0;
+  private selfZ = 0;
+  private selfSpeed = 0;
+  private yaw = 0;
+  private pitch = 0;
+  private facingInit = false;
+  private wasDead = false;
+  private alive = true;
+  private dashing = false;
+  private weaponId = 'mitraglia';
+  private mag = 30;
+
+  // fuoco predetto in locale (stessa logica dell'host: cadenza, raffica, ricarica)
+  private firePressed = false;
+  private ads = 0;
+  private adsTarget = 0;
+  private recoilPitch = 0;
+  private recoilYaw = 0;
+  private heat = 0;
+  private moving = 0;
+  private paused = false;
+  private fireCooldown = 0;
+  private burstLeft = 0;
+  private burstTimer = 0;
+  private emptyCd = 0;
+  private reloading = false;
+  private reloadT = 0;
+  private reloadDur = 1.5;
+  private lastLookDx = 0;
+  private lastLookDy = 0;
+  private stepAlt = false;
+
+  // feedback visuali
+  private bloom = 0;
+  private dmgKickP = 0;
+  private dmgKickR = 0;
+  private shake = 0;
+  private lastGap = -1;
+  private hpShown = -1;
+  private ammoShown = '';
+
+  // HUD
+  private crossEl!: HTMLElement;
+  private scopeEl!:HTMLImageElement;
+  private scopeSize="";
+  private fireBuffer=0;
+  private energyFx:FpsEnergyFx;private impactFx:FpsImpactFx;private lastImpactSound=0;
+  private crossBars: HTMLElement[] = [];
+  private hitEl!: HTMLElement;
+  private hpNumEl!: HTMLElement;
+  private hpBarEl!: HTMLElement;
+  private weaponEl!: HTMLElement;
+  private ammoEl!: HTMLElement;
+  private reloadWrapEl!: HTMLElement;
+  private reloadFillEl!: HTMLElement;
+  private abilityEl!: HTMLElement;
+  private guardEl!: HTMLElement;
+  private protectionEl!:HTMLElement;
+  private lockEl!: HTMLElement;
+  private selfWall = false;
+  private abilityName = '';
+  private timerEl!: HTMLElement;
+  private feedEl!: HTMLElement;
+  private deathEl!: HTMLElement;
+  private killEl!: HTMLElement;
+  private bannerEl!: HTMLElement;
+  private vignetteEl!: HTMLElement;
+  private lowHpEl!: HTMLElement;
+  private dmgInds: HTMLElement[] = [];
+  private dmgIndIdx = 0;
+
+  constructor(
+    private container: HTMLElement,
+    selfId: string,
+    private onLook: (yaw: number, pitch: number) => void,
+    /** Character from room state, used only to render other players. */
+    private characterOf: (id: string) => string | null = () => null,
+    private mapId='cantiere'
+  ) {
+    this.selfId = selfId;
+    this.ready=new Promise(resolve=>{this.finishReady=resolve;});
+    this.loadingEl=fpsLoading(container,mapId);
+    this.buildHud();
+    audio.unlock();
+
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;touch-action:none;';
+    container.appendChild(canvas);
+
+    // Telefoni: qualita' automatica (i dispositivi deboli renderizzano a risoluzione ridotta, con risoluzione dinamica)
+    this.engine = new Engine(canvas, engineOptions().antialias, engineOptions());
+    this.scene = new Scene(this.engine);
+    this.energyFx=new FpsEnergyFx(this.scene);this.impactFx=new FpsImpactFx(this.scene);
+
+    buildFpsLights(this.scene); // luci uniformi della Sparatoria (stesse su TV e telefono: fpsWorld)
+
+    this.camera = new UniversalCamera('fpsCam', new Vector3(0, EYE_HEIGHT, 0), this.scene);
+    this.camera.minZ = 0.05;
+    this.camera.maxZ = 500;
+    this.camera.fov = BASE_FOV;
+    this.scene.activeCamera = this.camera;
+
+    const world=mapId==='terminal'?import('./terminalWorld').then(m=>m.buildTerminalWorld(this.scene)):mapId==='nuketown'?import('./nuketownWorld').then(m=>m.buildNuketownWorld(this.scene)):Promise.resolve(buildFpsWorld(this.scene));
+    void world.then(()=>this.scene.whenReadyAsync()).then(()=>{if(this.scene.isDisposed)return;this.worldLoaded=true;this.presentWhenReady();}).catch(e=>{if(this.scene.isDisposed)return;console.error('FPS world loading failed',e);this.loadingEl.textContent='CARICAMENTO FALLITO · RICARICA IL TELEFONO';});
+    this.vm = new FpsViewmodel(this.scene, this.camera, getQualityLevel() === 'high');
+    this.vm.equip(this.weaponId);
+
+    // pool: traccianti, lampi dei nemici, proiettili ed esplosioni
+    const tracerMat = new StandardMaterial('tracerMat', this.scene);
+    tracerMat.emissiveColor = new Color3(1, 0.8, 0.3);
+    tracerMat.diffuseColor = new Color3(0, 0, 0);
+    tracerMat.disableLighting = true;
+    for (let i = 0; i < 8; i++) {
+      const m = MeshBuilder.CreateBox('tracer', { width: 1, height: 1, depth: 1 }, this.scene);
+      m.material = tracerMat.clone(`tracerMat${i}`);
+      m.isVisible = false;
+      m.isPickable = false;
+      this.tracers.push({ m, life: 0 });
+    }
+    this.remoteFlashMat = new StandardMaterial('remoteFlash', this.scene);
+    this.remoteFlashMat.emissiveColor = new Color3(1, 0.85, 0.4);
+    this.remoteFlashMat.diffuseColor = new Color3(0, 0, 0);
+    this.remoteFlashMat.disableLighting = true;
+    this.remoteFlashMat.backFaceCulling = false;
+    const projMat = new StandardMaterial('projMat', this.scene);
+    projMat.emissiveColor = new Color3(1, 0.55, 0.15);
+    projMat.diffuseColor = new Color3(0, 0, 0);
+    projMat.disableLighting = true;
+    for (let i = 0; i < 4; i++) {
+      const m = MeshBuilder.CreateSphere('proj', { diameter: 0.45, segments: 8 }, this.scene);
+      m.material = projMat;
+      m.isVisible = false;
+      m.isPickable = false;
+      this.projs.push({ m, t: 0, dur: 1, ox: 0, oy: 0, oz: 0, tx: 0, ty: 0, tz: 0, on: false });
+    }
+    const boomMat = new StandardMaterial('boomMat', this.scene);
+    boomMat.emissiveColor = new Color3(1, 0.6, 0.2);
+    boomMat.diffuseColor = new Color3(0, 0, 0);
+    boomMat.disableLighting = true;
+    for (let i = 0; i < 3; i++) {
+      const m = MeshBuilder.CreateSphere('boom', { diameter: 2, segments: 10 }, this.scene);
+      m.material = boomMat.clone(`boomMat${i}`);
+      m.isVisible = false;
+      m.isPickable = false;
+      // anello a terra che si allarga: si legge l'AREA dell'esplosione (stesso effetto dello split-screen della TV)
+      const ring = MeshBuilder.CreateTorus('boomRing', { diameter: 2, thickness: 0.18, tessellation: 24 }, this.scene);
+      ring.material = boomMat.clone(`boomRingMat${i}`);
+      ring.isVisible = false;
+      ring.isPickable = false;
+      this.booms.push({ m, ring, t: 0, r: 4, on: false });
+    }
+
+    applyQuality(this.engine, this.scene);
+
+    window.addEventListener('resize', this.onResize);
+
+    this.engine.runRenderLoop(() => {
+      const dt = Math.min(this.engine.getDeltaTime() / 1000, 0.05) || 0.016;
+      this.tick(dt);
+      if(this.presented)this.scene.render();
+    });
+  }
+
+  // ---------------------------------------------------------------- HUD
+
+  private buildHud(): void {
+    const mk = (css: string, html = '', parent: HTMLElement = this.container): HTMLElement => {
+      const el = document.createElement('div');
+      el.style.cssText = css;
+      if (html) el.innerHTML = html;
+      parent.appendChild(el);
+      return el;
+    };
+    const text = 'font-family:Arial,sans-serif;text-shadow:0 1px 3px #000,0 0 6px rgba(0,0,0,.6);pointer-events:none;';
+
+    this.scopeEl=document.createElement('img');this.scopeEl.className='fps-sniper-scope';this.scopeEl.alt='';
+    this.scopeEl.style.cssText='position:absolute;inset:0;width:100%;height:100%;z-index:29;pointer-events:none;opacity:0';
+    this.container.appendChild(this.scopeEl);
+    // mirino: quattro tacche + puntino, SEMPRE al centro (non segue il movimento cosmetico dell'arma)
+    this.crossEl = mk('position:absolute;left:50%;top:50%;width:0;height:0;z-index:30;pointer-events:none;filter:drop-shadow(0 0 2px rgba(0,0,0,.9));transition:filter 90ms;');
+    for (let i = 0; i < 4; i++) {
+      const bar = mk(`position:absolute;left:0;top:0;background:#fff;border-radius:1px;width:${i < 2 ? 2 : 8}px;height:${i < 2 ? 8 : 2}px;`, '', this.crossEl);
+      this.crossBars.push(bar);
+    }
+    mk('position:absolute;left:-1.5px;top:-1.5px;width:3px;height:3px;border-radius:50%;background:#fff;', '', this.crossEl);
+    this.setGap(6);
+
+    // hitmarker (X a quattro tacche)
+    this.hitEl = mk(
+      'position:absolute;left:50%;top:50%;z-index:31;pointer-events:none;opacity:0;transform:translate(-50%,-50%);color:#fff;',
+      '<svg width="46" height="46" viewBox="-23 -23 46 46"><g stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><line x1="-14" y1="-14" x2="-6" y2="-6"/><line x1="14" y1="-14" x2="6" y2="-6"/><line x1="-14" y1="14" x2="-6" y2="6"/><line x1="14" y1="14" x2="6" y2="6"/></g></svg>'
+    );
+
+    // in alto a sinistra: HP e arma/munizioni (i pulsanti stanno a destra e in basso: qui non vengono coperti)
+    const hp = mk(`position:absolute;left:14px;top:calc(10px + var(--fps-hud-inset, 0px));z-index:30;${text}`);
+    this.hpNumEl = mk('color:#fff;font:800 20px Arial;', '❤️ 100', hp);
+    const bar = mk('margin-top:4px;width:118px;height:8px;border-radius:5px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.35);overflow:hidden;', '', hp);
+    this.hpBarEl = mk('height:100%;width:100%;background:#4ade80;transition:width 120ms,background 120ms;', '', bar);
+    const weapon = mk(`position:absolute;left:14px;top:calc(62px + var(--fps-hud-inset, 0px));z-index:30;${text}`);
+    this.weaponEl = mk('color:#fbbf24;font:800 12px Arial;letter-spacing:.04em;', '', weapon);
+    this.ammoEl = mk('color:#fff;font:900 28px "Arial Black",Arial;line-height:1.05;', '', weapon);
+
+    // ABILITA': riga di stato sotto l'arma (nome + PRONTA / ATTIVA 3,2 s / RICARICA), cornice del giubbotto e avviso BLOCCATO
+    this.abilityEl = mk(`position:absolute;left:14px;top:calc(112px + var(--fps-hud-inset, 0px));z-index:30;font:900 13px "Arial Black",Arial;letter-spacing:.03em;color:#e5e7eb;max-width:46vw;${text}`);
+    this.protectionEl=mk('position:absolute;right:14px;top:calc(48px + var(--fps-hud-inset, 0px));z-index:30;font:800 12px Arial;color:#7dd3fc;background:#07121caa;padding:5px 8px;border-radius:6px;pointer-events:none;display:none;', 'PROTETTO');
+    this.guardEl = mk('position:absolute;inset:0;z-index:23;pointer-events:none;opacity:0;border:8px solid #38bdf8;box-sizing:border-box;transition:opacity 120ms;');
+    this.lockEl = mk(`position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);z-index:34;pointer-events:none;opacity:0;color:#fbbf24;font:900 20px "Arial Black",Arial;white-space:nowrap;${text}`, '✋ BLOCCATO!');
+    this.timerEl = mk(`position:absolute;right:12px;top:calc(10px + var(--fps-hud-inset, 0px));color:#fbbf24;font:800 16px Arial;z-index:30;${text}`);
+    this.timerEl.className='fps-score';
+    this.feedEl = mk(`position:absolute;right:12px;top:calc(38px + var(--fps-hud-inset, 0px));color:#fff;font:700 13px Arial;z-index:30;text-align:right;${text}`);
+
+    // ricarica: barra di avanzamento al centro-basso (tra joystick e pulsanti)
+    this.reloadWrapEl = mk('position:absolute;left:50%;bottom:16%;transform:translateX(-50%);z-index:30;pointer-events:none;opacity:0;transition:opacity 100ms;text-align:center;');
+    mk(`color:#fff;font:900 15px "Arial Black",Arial;letter-spacing:.08em;margin-bottom:5px;${text}`, '🔄 RICARICA', this.reloadWrapEl);
+    const rb = mk('width:150px;height:9px;border-radius:6px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.45);overflow:hidden;margin:0 auto;', '', this.reloadWrapEl);
+    this.reloadFillEl = mk('height:100%;width:0%;background:linear-gradient(90deg,#22d3ee,#4ade80);', '', rb);
+
+    this.bannerEl = mk(`position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);z-index:33;pointer-events:none;opacity:0;text-align:center;color:#fbbf24;${text}`);
+    this.killEl = mk(`position:absolute;left:50%;top:32%;transform:translate(-50%,-50%);color:#fbbf24;font:900 clamp(13px,2.6vmin,22px) "Arial Black",Arial;max-width:85%;overflow:hidden;text-overflow:ellipsis;z-index:32;pointer-events:none;opacity:0;white-space:nowrap;${text}`);
+
+    this.vignetteEl = mk('position:absolute;inset:0;z-index:25;pointer-events:none;opacity:0;background:radial-gradient(ellipse at center, transparent 50%, rgba(230,30,30,0.6) 100%);');
+    this.lowHpEl = mk('position:absolute;inset:0;z-index:24;pointer-events:none;opacity:0;transition:opacity 400ms;background:radial-gradient(ellipse at center, transparent 62%, rgba(200,20,20,0.3) 100%);');
+    // indicatori direzionali del danno (3 a rotazione: piu' colpi ravvicinati restano visibili)
+    for (let i = 0; i < 3; i++) {
+      const ind = mk('position:absolute;left:50%;top:50%;width:0;height:0;z-index:26;pointer-events:none;opacity:0;');
+      mk(
+        'position:absolute;left:0;top:0;width:0;height:0;transform:translate(-50%,-38vmin);border-left:17px solid transparent;border-right:17px solid transparent;border-bottom:30px solid rgba(255,50,50,0.95);filter:drop-shadow(0 0 7px rgba(255,0,0,0.85));',
+        '',
+        ind
+      );
+      this.dmgInds.push(ind);
+    }
+    this.deathEl = mk('position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;background:#0b121a;color:#f87171;font:900 clamp(22px,5vw,34px) Arial;z-index:40;');
+  }
+
+  private presentWhenReady():void {
+    if(this.presented||!this.worldLoaded||!this.poseReceived||this.scene.isDisposed)return;
+    this.eyeHeight=this.eyeTarget;this.updateCamera(0);this.scene.render();
+    this.presented=true;this.loadingEl.remove();this.finishReady();
+  }
+
+  private updateScope():void {
+    if(!this.scopeSize){const size=this.container.getBoundingClientRect();this.scopeSize=Math.round(size.width)+"x"+Math.round(size.height);this.scopeEl.src=scopeSvg(size.width,size.height);}
+    const a=scopeAlpha(!!getWeapon(this.weaponId).scopeZoom,this.ads,this.alive&&!this.paused,this.reloading);
+    this.scopeEl.style.opacity=String(a);this.crossEl.style.opacity=String(1-a);
+  }
+  remoteShot(owner:string,weaponId:string):void {
+    if(owner===this.selfId)return;
+    const e=this.remotes.get(owner);if(!e||!e.alive)return;
+    e.flashT=.06;e.flash.isVisible=true;
+    const c=recoilOf(weaponId).color;(e.flash.material as StandardMaterial).emissiveColor.set(...c);
+    const dx=e.x-this.selfX,dz=e.z-this.selfZ,dist=Math.hypot(dx,dz);
+    if(dist<38)sfx.shot(weaponId,{source:owner,gain:Math.pow(1-dist/38,1.6)*.85,pan:Math.sin(Math.atan2(dx,dz)-this.yaw)*.9});
+  }
+  surfaceImpact(p:SurfaceImpact):void{const d=Math.hypot(p.x-this.selfX,p.y-this.selfY,p.z-this.selfZ);if(d>32)return;this.impactFx.emit(p);if(performance.now()-this.lastImpactSound>75){this.lastImpactSound=performance.now();sfx.impact(p.surface,{gain:.28*Math.max(0,1-d/32),pan:Math.sin(Math.atan2(p.x-this.selfX,p.z-this.selfZ)-this.yaw)*.7});}}
+  energyBolt(p:EnergyLaunch):void {this.energyFx.launch(p);}
+  energyImpact(p:EnergyImpact):void {this.energyFx.impact(p);if(p.r>0)sfx.energyImpact({gain:.35});}
+
+  private setGap(g: number): void {
+    if (Math.abs(g - this.lastGap) < 0.4) return;
+    this.lastGap = g;
+    const [t, b, l, r] = this.crossBars;
+    t.style.transform = `translate(-1px,${-(8 + g)}px)`;
+    b.style.transform = `translate(-1px,${g}px)`;
+    l.style.transform = `translate(${-(8 + g)}px,-1px)`;
+    r.style.transform = `translate(${g}px,-1px)`;
+  }
+
+  private pulse(el: HTMLElement, keyframes: Keyframe[], ms: number): void {
+    if (typeof el.animate === 'function') el.animate(keyframes, { duration: ms, easing: 'ease-out' });
+  }
+
+  private flashCross(color: string): void {
+    this.crossEl.style.filter = `drop-shadow(0 0 3px ${color}) drop-shadow(0 0 7px ${color})`;
+    window.setTimeout(() => {
+      this.crossEl.style.filter = 'drop-shadow(0 0 2px rgba(0,0,0,.9))';
+    }, 130);
+  }
+
+  // ---------------------------------------------------------------- frame
+
+  private tick(dt: number): void {
+    if (this.paused) return;
+    this.ads += Math.max(-dt / FPS_ADS.transition, Math.min(dt / FPS_ADS.transition, this.adsTarget - this.ads));
+    const w = getWeapon(this.weaponId);
+    const speedFrac = Math.min(1, this.selfSpeed / 8);
+
+    // fuoco predetto (stessa logica dell'host)
+    this.fireCooldown = Math.max(0, this.fireCooldown - dt);
+    this.emptyCd = Math.max(0, this.emptyCd - dt);
+    if (this.burstLeft > 0) {
+      this.burstTimer -= dt;
+      if (this.burstTimer <= 0) {
+        if (this.mag > 0 && !this.reloading && this.alive) {
+          this.localShot(w);
+          this.burstLeft--;
+          this.burstTimer = w.burstGap ?? 0.07;
+        } else {
+          this.burstLeft = 0;
+        }
+      }
+    }
+    this.fireBuffer=Math.max(0,this.fireBuffer-dt);
+    if(this.reloading||!this.alive)this.fireBuffer=0;
+    if ((w.fireMode==='semi'?this.fireBuffer>0:this.firePressed) && this.alive && !this.reloading && this.fireCooldown <= 0 && this.burstLeft <= 0) {
+      if (this.mag > 0) {
+        this.fireBuffer=0;
+        const burst = w.burst ?? 1;
+        this.fireCooldown = burst / w.fireRate;
+        this.localShot(w);
+        this.burstLeft = burst - 1;
+        this.burstTimer = w.burstGap ?? 0.07;
+      } else if (this.emptyCd <= 0) {
+        sfx.empty();
+        buzz(8);
+        this.emptyCd = 0.4;
+      }
+    }
+
+    // ricarica (avanzamento locale; l'host resta l'autorita' sul caricatore)
+    let reloadP = 0;
+    if (this.reloading) {
+      this.reloadT += dt;
+      reloadP = Math.min(1, this.reloadT / this.reloadDur);
+      this.reloadFillEl.style.width = `${(reloadP * 100).toFixed(0)}%`;
+      this.reloadT=Math.min(this.reloadT,this.reloadDur*.999); // wait for authoritative completion, never invent ammunition
+    }
+
+    this.vm.visible=this.alive;
+    this.vm.ads = this.ads;
+    this.vm.aspect = this.engine.getRenderWidth() / Math.max(1, this.engine.getRenderHeight());
+    this.vm.update(dt, speedFrac, this.lastLookDx, this.lastLookDy, reloadP, this.dashing);
+    this.lastLookDx *= 0.6;
+    this.lastLookDy *= 0.6;
+    if (this.vm.stepEvent && this.alive) {
+      this.stepAlt = !this.stepAlt;
+      sfx.step(this.stepAlt);
+    }
+
+    // mirino: si allarga con la dispersione dell'arma, il movimento e i colpi (mai col rinculo cosmetico)
+    this.bloom = Math.max(0, this.bloom - dt * 5);
+    this.setGap(aimGap(aimSpread(w.spread, this.ads, this.moving, this.heat,w.hipSpread), this.ads));
+    for (const bar of this.crossBars) bar.style.opacity = String(1 - this.ads);
+
+    this.updateScope();
+    this.updateCamera(dt);
+    this.interpolateRemotes(dt);
+    this.updateEffects(dt);
+    this.updateHudText();
+  }
+
+  /** Un colpo predetto in locale: rinculo, lampo, tracciante, suono. Il danno lo decide (e conferma) l'host. */
+  private localShot(w: ReturnType<typeof getWeapon>): void {
+    const p = recoilOf(w.id);
+    this.mag = Math.max(0, this.mag - 1);
+    this.vm.fire();
+    this.bloom = Math.min(1, this.bloom + (w.burst ? 0.5 : 0.35));
+    sfx.shot(w.id,{source:this.selfId});
+    if (p.buzz > 0) buzz(p.buzz);
+    // Traces use confirmed host endpoints; local sound/recoil remain immediate.
+  }
+
+  confirmedTrace(owner:string,weaponId:string,segs:ShotSegment[]):void{
+    const style=recoilOf(weaponId).tracer;if(style.thick<=0)return;
+    for(const sg of segs.slice(0,3)){
+      if(Math.hypot(sg.ox-this.selfX,sg.oz-this.selfZ)>45)continue;
+      const t=this.tracers[this.tracerIdx++%this.tracers.length],dx=sg.ex-sg.ox,dy=sg.ey-sg.oy,dz=sg.ez-sg.oz,len=Math.hypot(dx,dy,dz);if(len<.01)continue;
+      const start=Math.min(1.1,len*.4),sx=sg.ox+dx/len*start,sy=sg.oy+dy/len*start-.06,sz=sg.oz+dz/len*start,L=Math.hypot(sg.ex-sx,sg.ey-sy,sg.ez-sz);
+      t.m.position.set((sx+sg.ex)/2,(sy+sg.ey)/2,(sz+sg.ez)/2);t.m.scaling.set(style.thick*.65,style.thick*.65,L);this.tmpTarget.set(sg.ex,sg.ey,sg.ez);t.m.lookAt(this.tmpTarget);(t.m.material as StandardMaterial).emissiveColor.set(...style.color);t.m.isVisible=true;t.life=style.life;
+    }
+  }
+
+  private updateCamera(dt: number): void {
+    if(!this.alive||!this.poseReceived)return;
+    // Recoil is authoritative and also offsets shot direction; damage shake stays cosmetic.
+    this.dmgKickP *= Math.max(0, 1 - dt * 9);
+    this.dmgKickR *= Math.max(0, 1 - dt * 7);
+    this.shake = Math.max(0, this.shake - dt * 2.5);
+    const yaw = this.yaw + this.recoilYaw;
+    const cosmetic=getWeapon(this.weaponId).scopeZoom?1-this.ads:1;
+    const pitch = Math.max(-1.4, Math.min(1.4, this.pitch + this.recoilPitch + this.dmgKickP*cosmetic));
+    const cp = Math.cos(pitch);
+    const sh = this.shake * 0.12*cosmetic;
+    this.eyeHeight+=(this.eyeTarget-this.eyeHeight)*(1-Math.exp(-20*dt));
+    this.camera.position.set(this.selfX + (Math.random() - 0.5) * sh, this.eyeHeight+this.selfY + (Math.random() - 0.5) * sh, this.selfZ + (Math.random() - 0.5) * sh);
+    this.tmpTarget.set(this.camera.position.x + Math.sin(yaw) * cp, this.camera.position.y + Math.sin(pitch), this.camera.position.z + Math.cos(yaw) * cp);
+    const roll=(this.dmgKickR+this.vm.cameraKickRoll)*cosmetic;this.camera.upVector.set(Math.sin(roll),Math.cos(roll),0);
+    this.camera.setTarget(this.tmpTarget);
+    this.camera.fov = aimFov(BASE_FOV, this.ads,getWeapon(this.weaponId).scopeZoom) + 0.17 * this.vm.fovKick;
+  }
+
+  private interpolateRemotes(dt: number): void {
+    for (const e of this.remotes.values()) {
+      const k = 0.2;
+      const cx = e.body.position.x;
+      const cz = e.body.position.z;
+      e.body.position.set(cx + (e.x - cx) * k, e.body.position.y, cz + (e.z - cz) * k);
+      if(e.alive){const stance=e.crouching?FPS_BODY.crouched/FPS_BODY.standing:1;e.body.scaling.y=stance;e.body.position.y=.7*stance+(e.y??0);e.head.position.y=(e.crouching?.91:1.55)+(e.y??0);}
+      e.nameTag.position.y=2.1+(e.y??0);e.blob.position.y=.03+(e.y??0);
+      e.head.position.x = e.body.position.x;
+      e.head.position.z = e.body.position.z;
+      e.nameTag.position.x = e.body.position.x;
+      e.nameTag.position.z = e.body.position.z;
+      e.blob.position.x = e.body.position.x;
+      e.blob.position.z = e.body.position.z;
+      e.blob.isVisible = e.alive;
+      e.body.rotation.y = e.yaw;
+      e.head.rotation.y = e.yaw;
+      // Flinch
+      if (e.flinch > 0) {
+        e.flinch = Math.max(0,e.flinch-dt*3.5);
+        e.body.rotation.x = Math.sin(e.flinch * 40) * 0.12;
+        e.head.rotation.x = Math.sin(e.flinch * 40) * 0.12;
+      } else {
+        e.body.rotation.x = 0;
+        e.head.rotation.x = 0;
+      }
+      // Morte: caduta stilizzata (ruota e scende)
+      if (!e.alive) {
+        e.body.rotation.x = Math.min(1.4, e.body.rotation.x + dt*4.8);
+        e.body.position.y = Math.max((e.y??0)+0.3, e.body.position.y - dt*3);
+        e.head.position.y = Math.max((e.y??0)+0.3, e.head.position.y - dt*3);
+      }
+      if (e.tripo && e.tripoRoot) {
+        e.tripoRoot.position.set(e.body.position.x, e.y??0, e.body.position.z);
+        e.tripoRoot.rotation.y = e.yaw;
+        e.tripo.update(dt, {
+          speedFrac: Math.min(1, Math.hypot(e.body.position.x - cx, e.body.position.z - cz) / Math.max(dt, .001) / 10),
+          alive: e.alive, falling: e.grounded===false, dashing: e.dashing, stunned: !e.alive, grounded: e.grounded!==false, koDuration: .45
+        });
+      }
+      // Enemy shots arrive as exact authoritative events; only fade their flashes here.
+      if (e.flashT > 0) {
+        e.flashT -= dt;
+        e.flash.isVisible = e.flashT > 0;
+        e.weapon.muzzle.computeWorldMatrix(true);e.flash.position.copyFrom(e.weapon.muzzle.getAbsolutePosition());
+      }
+    }
+  }
+
+  private updateEffects(dt: number): void {
+    this.energyFx.update(dt);this.impactFx.update(dt);
+    for (const t of this.tracers) {
+      if (t.life <= 0) continue;
+      t.life -= dt;
+      if (t.life <= 0) t.m.isVisible = false;
+    }
+    for (const p of this.projs) {
+      if (!p.on) continue;
+      p.t += dt;
+      const k = Math.min(1, p.t / p.dur);
+      p.m.position.set(p.ox + (p.tx - p.ox) * k, p.oy + (p.ty - p.oy) * k - Math.sin(k * Math.PI) * 0.4, p.oz + (p.tz - p.oz) * k);
+      if (k >= 1) {
+        p.on = false;
+        p.m.isVisible = false;
+      }
+    }
+    for (const b of this.booms) {
+      if (!b.on) continue;
+      b.t += dt;
+      const k = Math.min(1, b.t / 0.4);
+      b.m.scaling.setAll(0.3 + k * b.r * 0.55);
+      (b.m.material as StandardMaterial).alpha = 1 - k;
+      const e = 1 - Math.pow(1 - k, 3);
+      b.ring.scaling.set(0.2 + e * b.r * 1.05, 1, 0.2 + e * b.r * 1.05);
+      (b.ring.material as StandardMaterial).alpha = 1 - k * k;
+      if (k >= 1) {
+        b.on = false;
+        b.m.isVisible = false;
+        b.ring.isVisible = false;
+      }
+    }
+  }
+
+  private updateHudText(): void {
+    const w = getWeapon(this.weaponId);
+    const ammo = this.reloading&&!w.shellReload ? '— / ' + w.magazine : `${this.mag} / ${w.magazine}`;
+    if (ammo !== this.ammoShown) {
+      this.ammoShown = ammo;
+      this.ammoEl.textContent = ammo;
+      const low = !this.reloading && this.mag <= Math.ceil(w.magazine * 0.25);
+      this.ammoEl.style.color = this.mag === 0 && !this.reloading ? '#f87171' : low ? '#fb923c' : '#fff';
+    }
+  }
+
+  // ---------------------------------------------------------------- eventi dall'host
+
+  private startReloadUi(duration: number, weaponId: string): void {
+    this.fireBuffer=0;this.ads=this.adsTarget=0;
+    this.reloading = true;
+    this.reloadT = 0;
+    this.reloadDur = Math.max(0.3, duration);
+    this.burstLeft = 0;
+    this.reloadWrapEl.style.opacity = '1';
+    this.reloadFillEl.style.width = '0%';
+    sfx.reload(weaponId, this.reloadDur);
+  }
+
+  private finishReload(): void {
+    if (!this.reloading) return;
+    this.reloading = false;
+    this.reloadWrapEl.style.opacity = '0';
+  }
+
+  /** Ricarica avviata dall'host (manuale o automatica): parte animazione, barra e suono per la durata reale. */
+  reloadStart(duration = 1.5, weaponId?: string): void {
+    if (this.reloading) return;
+    this.startReloadUi(duration, weaponId ?? this.weaponId);
+    buzz(12);
+  }
+
+  /** Arma estratta (nuova vita): banner con nome e ruolo, suono di estrazione. */
+  equipped(weaponId: string): void {
+    const w = getWeapon(weaponId);
+    this.bannerEl.innerHTML = `<div style="font:900 30px 'Arial Black',Arial">${w.icon} ${w.name}</div><div style="font:800 14px Arial;color:#e2e8f0;margin-top:2px">${ROLE[weaponId] ?? ''}</div>`;
+    this.pulse(this.bannerEl, [{ opacity: 0, transform: 'translate(-50%,-50%) scale(1.5)' }, { opacity: 1, transform: 'translate(-50%,-50%) scale(1)', offset: 0.18 }, { opacity: 1, offset: 0.75 }, { opacity: 0 }], 1700);
+    sfx.equip(weaponId);
+  }
+
+  dashed(): void {
+    this.vm.dash();
+    sfx.dash();
+    buzz(20);
+  }
+
+  /** Hit confermato dall'host (danno reale inflitto). Se e' una kill, il feedback completo arriva da killConfirm. */
+  hitMarker(dmg = 10, kill = false): void {
+    const heavy = dmg >= 40;
+    this.hitEl.style.color = kill ? '#ff4d4d' : heavy ? '#fbbf24' : '#ffffff';
+    const s = kill ? 1.6 : heavy ? 1.3 : 1;
+    this.pulse(this.hitEl, [{ opacity: 1, transform: `translate(-50%,-50%) scale(${s * 1.5})` }, { opacity: 1, transform: `translate(-50%,-50%) scale(${s})`, offset: 0.35 }, { opacity: 0, transform: `translate(-50%,-50%) scale(${s})` }], kill ? 420 : heavy ? 260 : 170);
+    this.flashCross(kill ? '#ff4d4d' : '#ffffff');
+    if (!kill) sfx.hitTick(dmg);
+  }
+
+  /** Subito danno: vignetta, freccia dalla parte giusta, calcio di camera, suono. */
+  damageTaken(fromId: string, amount: number, direction?: number): void {
+    sfx.hurt(amount);
+    this.dmgKickP += Math.min(0.09, 0.02 + amount * 0.0012);
+    this.dmgKickR += (Math.random() < 0.5 ? -1 : 1) * Math.min(0.07, 0.02 + amount * 0.001);
+    this.shake = Math.min(1, this.shake + amount / 70);
+    // vignetta: compare subito, resta un attimo e sfuma piano (visibile anche con colpi ravvicinati)
+    this.vignetteEl.style.transition = 'none';
+    this.vignetteEl.style.opacity = String(Math.min(1, 0.6 + amount / 90));
+    window.setTimeout(() => {
+      this.vignetteEl.style.transition = 'opacity 520ms ease-out';
+      this.vignetteEl.style.opacity = '0';
+    }, 90);
+    this.pulse(this.hpNumEl, [{ transform: 'scale(1.35)', color: '#f87171' }, { transform: 'scale(1)', color: '#ffffff' }], 320);
+
+    const from = this.lastPos.get(fromId);
+    if (direction !== undefined || from) {
+      // angolo dell'attaccante rispetto a dove guardi: 0 = davanti (in alto), positivo = a destra
+      const rel = direction ?? (Math.atan2(from!.x - this.selfX, from!.z - this.selfZ) - this.yaw - this.recoilYaw);
+      const ind = this.dmgInds[this.dmgIndIdx++ % this.dmgInds.length];
+      ind.style.transform = `rotate(${rel}rad)`;
+      this.pulse(ind, [{ opacity: 1 }, { opacity: 1, offset: 0.4 }, { opacity: 0 }], 1000);
+      ind.style.opacity = '0';
+    }
+  }
+
+  /** Kill confermata: feedback piu' forte e diverso dal semplice hit. */
+  killConfirm(name: string,badge=''): void {
+    this.killEl.textContent = `ELIMINATO ${name.slice(0,18)}${badge?` · ${badge}`:''}`;
+    this.pulse(this.killEl, [{ opacity: 0, transform: 'translate(-50%,-50%) scale(1.7)' }, { opacity: 1, transform: 'translate(-50%,-50%) scale(1)', offset: 0.2 }, { opacity: 1, offset: 0.75 }, { opacity: 0 }], 1200);
+    this.hitMarker(100, true);
+    sfx.kill();
+  }
+
+  /** Bombarda: proiettile lento in volo (visibile a tutti). */
+  projectile(p: { ox: number; oy: number; oz: number; tx: number; ty: number; tz: number; dur: number }): void {
+    const slot = this.projs.find((q) => !q.on);
+    if (!slot) return;
+    Object.assign(slot, p, { t: 0, on: true });
+    slot.dur = Math.max(0.1, p.dur);
+    slot.m.position.set(p.ox, p.oy, p.oz);
+    slot.m.isVisible = true;
+    if (p.dur > 0.4) sfx.whistle(p.dur);
+  }
+
+  /** Esplosione della bombarda: palla di fuoco, botto attenuato dalla distanza, scossa se sei vicino. */
+  boom(b: { x: number; y: number; z: number; r: number }): void {
+    const slot = this.booms.find((q) => !q.on) ?? this.booms[0];
+    slot.on = true;
+    slot.t = 0;
+    slot.r = b.r;
+    slot.m.position.set(b.x, Math.max(0.6, b.y), b.z);
+    slot.m.isVisible = true;
+    slot.ring.position.set(b.x, 0.12, b.z);
+    slot.ring.isVisible = true;
+    const dist = Math.hypot(b.x - this.selfX, b.z - this.selfZ);
+    const rel = Math.atan2(b.x - this.selfX, b.z - this.selfZ) - this.yaw;
+    sfx.boom({ gain: Math.max(0.15, 1 - dist / 45), pan: Math.max(-0.9, Math.min(0.9, Math.sin(rel))) });
+    if (dist < 12) {
+      this.shake = Math.min(1, this.shake + (1 - dist / 12));
+      buzz(dist < 5 ? 60 : 25);
+    }
+  }
+
+  // ---------------------------------------------------------------- API pubblica
+
+  look(dx: number, dy: number): void {
+    if (this.paused || !this.alive) return;
+    this.yaw += dx * SENSITIVITY_X * aimSensitivity(this.ads,getWeapon(this.weaponId).scopeZoom ? .3 : FPS_ADS.sensitivity);
+    this.pitch -= dy * SENSITIVITY_Y * aimSensitivity(this.ads,getWeapon(this.weaponId).scopeZoom ? .3 : FPS_ADS.sensitivity);
+    this.pitch = Math.max(-1.4, Math.min(1.4, this.pitch));
+    this.lastLookDx = dx;
+    this.lastLookDy = dy;
+    this.onLook(this.yaw, this.pitch);
+  }
+
+  setPaused(paused: boolean): void {
+    this.paused = paused;
+    if (paused) { this.ads = this.adsTarget = this.recoilPitch = this.recoilYaw = 0; this.firePressed = false; this.fireBuffer=0; this.burstLeft = 0; this.vm.ads = 0; this.updateScope(); }
+  }
+
+  setFirePressed(pressed: boolean): void {
+    if(pressed&&!this.firePressed&&!this.paused&&this.alive&&!this.reloading)this.fireBuffer=.12;
+    this.firePressed = pressed;
+  }
+
+  setHp(hp: number): void {
+    const v = Math.max(0, Math.round(hp));
+    if (v === this.hpShown) return;
+    this.hpShown = v;
+    this.hpNumEl.textContent = `❤️ ${v}`;
+    this.hpBarEl.style.width = `${v}%`;
+    this.hpBarEl.style.background = v <= LOW_HP_THRESHOLD ? '#ef4444' : v <= 55 ? '#fbbf24' : '#4ade80';
+    this.lowHpEl.style.opacity = v < LOW_HP_THRESHOLD && v > 0 ? '1' : '0';
+  }
+
+  showDeath(text: string): void {
+    this.deathEl.textContent = text;
+    this.deathEl.style.display = 'flex';
+  }
+
+  hideDeath(): void {
+    this.deathEl.style.display = 'none';
+  }
+
+  feed(text: string): void {
+    this.feedEl.textContent = text;
+    window.setTimeout(() => {
+      if (this.feedEl.textContent === text) this.feedEl.textContent = '';
+    }, 2200);
+  }
+
+  /** Numeri per il pannello di debug dei dispositivi (solo con ?debug=1). */
+  getDebugStats(): { fps: number; scale: number; weapon: string; mag: number; remotes: number } {
+    return { fps: Math.round(this.engine.getFps()), scale: this.engine.getHardwareScalingLevel(), weapon: this.weaponId, mag: this.mag, remotes: this.remotes.size };
+  }
+
+  updateState(state: FpsStatePayload): void {
+    this.timerEl.textContent = `${state.players.find(p=>p.id===this.selfId)?.kills??0}/${state.killTarget??FPS_KILL_TARGET} UCCISIONI`;
+    for (const ps of state.players) {
+      this.lastPos.set(ps.id, { x: ps.x, z: ps.z });
+      if (ps.id === this.selfId) {
+        if(!Number.isFinite(ps.x)||!Number.isFinite(ps.z)||!Number.isFinite(ps.y??0))continue;
+        const fresh=ps.alive&&(!this.poseReceived||this.wasDead);
+        const dx = ps.x - this.selfX;
+        const dz = ps.z - this.selfZ;
+        this.selfSpeed = fresh?0:Math.hypot(dx, dz) / 0.05; // ~velocita' (tick 20Hz)
+        if(ps.alive){this.selfY=ps.y??0;this.eyeTarget=ps.eyeHeight??FPS_BODY.eye;this.selfX=ps.x;this.selfZ=ps.z;this.poseReceived=true;}
+        if(fresh){this.eyeHeight=this.eyeTarget;this.recoilPitch=this.recoilYaw=this.dmgKickP=this.dmgKickR=this.shake=0;}
+        // Spawn equo: la visuale e' comandata dal telefono, quindi al primo stato e a ogni rinascita ci si gira verso il
+        // centro della mappa.
+        if (ps.alive && (!this.facingInit || this.wasDead)) {
+          this.yaw = Math.atan2(-ps.x, -ps.z);
+          this.pitch = 0;
+          this.facingInit = true;
+          this.onLook(this.yaw, this.pitch);
+        }
+        this.wasDead = !ps.alive;
+        this.alive = ps.alive;
+        this.adsTarget = !this.paused && ps.alive ? ps.ads ?? 0 : 0;
+        this.recoilPitch = ps.recoilPitch ?? 0; this.recoilYaw = ps.recoilYaw ?? 0;
+        this.heat = ps.heat ?? 0; this.moving = ps.moving ?? 0;
+        if (!ps.alive || ps.locked) { this.firePressed = false; this.fireBuffer=0; this.burstLeft = 0; }
+        this.dashing = Boolean(ps.dashing);
+        if (ps.weaponId !== this.weaponId) {
+          this.fireBuffer=0;this.fireCooldown=.35;this.burstLeft=0;
+          this.weaponId = ps.weaponId;
+          this.vm.equip(ps.weaponId);
+          this.reloading = false;
+          this.reloadWrapEl.style.opacity = '0';
+          this.weaponEl.textContent = `${getWeapon(ps.weaponId).icon} ${getWeapon(ps.weaponId).name}`;
+          this.mag = ps.magazine ?? getWeapon(ps.weaponId).magazine;
+        } else if (ps.magazine !== undefined && (ps.reloading || !this.firePressed || ps.magazine < this.mag)) {
+          this.mag = ps.magazine;
+        }
+        if (this.weaponEl.textContent === '') this.weaponEl.textContent = `${getWeapon(this.weaponId).icon} ${getWeapon(this.weaponId).name}`;
+        // sincronizza la ricarica con l'host (utile dopo un calo di rete o un riavvio della vista)
+        if (ps.reloading && !this.reloading && ps.alive) this.startReloadUi(ps.weaponReload?.duration??getWeapon(this.weaponId).reload, this.weaponId);
+        else if (ps.reloading === false && this.reloading){this.finishReload();if(ps.magazine!==undefined)this.mag=ps.magazine;}
+        this.vm.reloadInfo=ps.weaponReload;
+        if(this.reloading&&ps.reloadFrac!==undefined)this.reloadT=Math.min(.999,Math.max(0,ps.reloadFrac))*this.reloadDur;
+        this.setHp(ps.hp);
+        // ABILITA': stato, giubbotto, blocco, raggi X (tutto deciso dall'host)
+        this.selfWall = !!ps.wall && ps.alive;
+        if (!this.abilityName) this.abilityName = abilityFor('fps', this.characterOf(this.selfId))?.name ?? '';
+        if (ps.ability) {
+          const a = ps.ability;
+          const col = a.state === 'READY' ? '#4ade80' : a.state === 'ACTIVE' ? '#facc15' : a.state === 'COOLDOWN' ? '#9ca3af' : '#6b7280';
+          const t = `${a.state === 'SPENT' ? '✕' : a.state === 'COOLDOWN' ? '⌛' : '⚡'} ${this.abilityName} · ${stateLabel(a)}`;
+          if (this.abilityEl.textContent !== t) this.abilityEl.textContent = t;
+          this.abilityEl.style.color = col;
+        }
+        const spawn=(this.mapId==='nuketown'||this.mapId==='terminal')&&(ps.spawnProtection??0)>0&&ps.alive;
+        this.guardEl.style.opacity = (ps.guard||spawn) && ps.alive ? '0.6' : '0';
+        this.protectionEl.style.display=spawn?'block':'none';
+        this.lockEl.style.opacity = ps.locked && ps.alive ? '1' : '0';
+        for (const re of this.remotes.values()) re.ghost.isVisible = this.selfWall && re.alive;
+        this.presentWhenReady();
+        if (!ps.alive) this.showDeath('ELIMINATO · RIENTRO TRA POCO');
+        else this.hideDeath();
+        // Held fire belongs to the pointer, not a delayed snapshot of the last shot.
+        continue;
+      }
+      let e = this.remotes.get(ps.id);
+      if (!e) e = this.spawnRemote(ps);
+      if (e) {
+        e.y=ps.y??0;
+        e.x = ps.x;
+        e.z = ps.z;
+        e.yaw = ps.yaw;
+        if (ps.hp < e.hp) {
+          e.flinch = 1;
+          if (ps.alive) e.tripo?.playHitReaction('body', .22);
+        }
+        e.hp = ps.hp;
+        e.weaponId = ps.weaponId;e.weapon.equip(ps.weaponId);e.weapon.setEnabled(ps.alive);
+        e.firing = ps.firing;
+        e.dashing = !!ps.dashing;e.crouching=!!ps.crouching;e.grounded=ps.grounded??true;
+        const wasAlive = e.alive;
+        e.alive = ps.alive;
+        if (wasAlive && !ps.alive) {
+          e.body.position.y = 0.7;
+          e.head.position.y = 1.55;
+        }
+        if (!wasAlive && ps.alive) {
+          // rinasce: rimette il corpo in piedi
+          e.body.rotation.x = 0;
+          e.body.position.y = 0.7;
+          e.head.position.y = 1.55;
+        }
+        e.body.isVisible = !e.tripo?.ready;
+        e.head.isVisible = true;
+        e.head.setEnabled(!e.tripo?.ready);
+        e.nameTag.isVisible = ps.alive;
+        e.ghost.isVisible = this.selfWall && ps.alive;
+      }
+    }
+  }
+
+  private spawnRemote(ps: FpsPlayerState): RemoteEntity {
+    const bodyMat = new StandardMaterial('b', this.scene);
+    bodyMat.diffuseColor = Color3.FromHexString(ps.color);
+    const body = MeshBuilder.CreateBox('body', { width: 0.8, height: 1.4, depth: 0.8 }, this.scene);
+    body.material = bodyMat;
+    body.position.y = 0.7;
+    const head = MeshBuilder.CreateSphere('head', { diameter: 0.55, segments: 8 }, this.scene);
+    const skin = new StandardMaterial('skin', this.scene);
+    const pres = presentationOf(this.characterOf(ps.id));
+    skin.diffuseColor = pres ? Color3.FromHexString(pres.skin) : new Color3(0.9, 0.72, 0.58);
+    head.material = skin;
+    head.position.y = 1.55;
+    // stessi tratti del personaggio che si vedono in TV (orecchie, occhiali, capelli...): figli della testa, la seguono da soli
+    if (pres) decorateHead(this.scene, head, 0.55, pres, makeCharMaterials(this.scene, pres, ps.color));
+
+    const tag = this.makeNameTag(ps);
+    tag.position.y = 2.1;
+    tag.billboardMode = Mesh.BILLBOARDMODE_ALL;
+
+    const flash = MeshBuilder.CreatePlane('rflash', { size: 0.7 }, this.scene);
+    flash.material = this.remoteFlashMat.clone('remoteFlash:'+flash.uniqueId);
+    flash.billboardMode = Mesh.BILLBOARDMODE_ALL;
+    flash.isVisible = false;
+    flash.isPickable = false;
+
+    // fantasma "raggi X": parente del corpo, un filo piu' grande, senza luci e disegnato dopo tutto con la profondita' azzerata
+    const ghostMat = new StandardMaterial('ghostMat', this.scene);
+    ghostMat.emissiveColor = Color3.FromHexString(ps.color);
+    ghostMat.diffuseColor = new Color3(0, 0, 0);
+    ghostMat.disableLighting = true;
+    ghostMat.alpha = 0.55;
+    const ghost = MeshBuilder.CreateBox('ghost', { width: 1.05, height: 2.0, depth: 1.05 }, this.scene);
+    ghost.material = ghostMat;
+    ghost.parent = body;
+    ghost.position.set(0, 0.3, 0);
+    ghost.renderingGroupId = 1;
+    ghost.isPickable = false;
+    ghost.isVisible = false;
+
+    const e: RemoteEntity = {
+      weapon:new RemoteWeaponModel(this.scene,body),
+      tripo: null, tripoRoot: null, dashing: false,
+      body,
+      head,
+      nameTag: tag,
+      blob: makeBlobShadow(this.scene),
+      ghost,
+      flash,
+      flashT: 0,
+      x: ps.x,
+      z: ps.z,
+      yaw: ps.yaw,
+      hp: ps.hp,
+      alive: ps.alive,
+      flinch: 0,
+      weaponId: ps.weaponId,
+      firing: false,
+      fireAcc: 0
+    };
+    e.weapon.equip(ps.weaponId);
+    const character = this.characterOf(ps.id);
+    const profile = importedCharacterProfile(character);
+    if (profile && importedCharacterEnabled(character)) {
+      const root = new TransformNode(`remoteTripo_${ps.id}`, this.scene);
+      root.position.set(ps.x, 0, ps.z);
+      root.rotation.y = ps.yaw;
+      e.tripoRoot = root;
+      const tuning = character === 'goblin' ? goblinTuning() : { yawDeg: 0, scaleMul: 1 };
+      e.tripo = new GoblinVisualInstance(this.scene, root, {
+        profile, height: 1.8, yaw: tuning.yawDeg * Math.PI / 180, scaleMul: tuning.scaleMul,
+        onReady: ok => {
+          if (!ok) return;
+          body.isVisible = false;
+          head.setEnabled(false); // includes the decorated legacy head; X-ray ghost stays independent
+        }
+      });
+    }
+    this.remotes.set(ps.id, e);
+    return e;
+  }
+
+  /** Targhetta col nome E il colore del giocatore (barra), cosi' non ci si affida al solo colore del corpo. */
+  private makeNameTag(ps: FpsPlayerState): Mesh {
+    const dt = new DynamicTexture('tag', { width: 256, height: 64 }, this.scene, false);
+    dt.hasAlpha = true;
+    const c = dt.getContext() as unknown as CanvasRenderingContext2D;
+    c.clearRect(0, 0, 256, 64);
+    c.fillStyle = 'rgba(0,0,0,0.65)';
+    c.beginPath();
+    c.roundRect(4, 4, 248, 56, 14);
+    c.fill();
+    c.fillStyle = ps.color;
+    c.beginPath();
+    c.roundRect(14, 50, 228, 6, 3);
+    c.fill();
+    c.fillStyle = '#fff';
+    c.font = '800 28px Arial';
+    c.textAlign = 'center';
+    c.fillText(ps.name.length > 12 ? ps.name.slice(0, 12) + '…' : ps.name, 128, 40);
+    dt.update();
+    const mat = new StandardMaterial('tagMat', this.scene);
+    mat.diffuseTexture = dt;
+    mat.emissiveColor = new Color3(1, 1, 1);
+    mat.disableLighting = true;
+    mat.backFaceCulling = false;
+    const plane = MeshBuilder.CreatePlane('tagPlane', { width: 1.8, height: 0.45 }, this.scene);
+    plane.material = mat;
+    return plane;
+  }
+
+  /** Ferma SUBITO il ciclo di rendering (leggerissimo): il resto dello smontaggio puo' aspettare. */
+  stop(): void {
+    this.engine.stopRenderLoop();
+  }
+
+  /** Durata (ms) dei pezzi dell'ultimo smontaggio: serve alla diagnostica (?debug=1), non cambia nulla. */
+  static lastDispose: { stop: number; vm: number; scene: number; engine: number } | null = null;
+
+  dispose(): void {
+    this.scopeEl.remove();this.loadingEl.remove();
+    const t0 = performance.now();
+    this.engine.stopRenderLoop();
+    window.removeEventListener('resize', this.onResize);
+    for (const e of this.remotes.values()) { e.tripo?.dispose(); e.tripoRoot?.dispose(); }
+    this.remotes.clear();
+    const t1 = performance.now();
+    this.vm.dispose();sfx.stopCombatAudio();
+    const t2 = performance.now();
+    this.scene.dispose();
+    const t3 = performance.now();
+    this.engine.dispose();
+    const t4 = performance.now();
+    FpsClient.lastDispose = { stop: +(t1 - t0).toFixed(1), vm: +(t2 - t1).toFixed(1), scene: +(t3 - t2).toFixed(1), engine: +(t4 - t3).toFixed(1) };
+  }
+}
+

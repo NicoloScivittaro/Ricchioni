@@ -1,0 +1,63 @@
+{
+  "status": "passed",
+  "sparatoria": [
+    {
+      "id": "mitraglia",
+      "name": "AK-47 DEL GOBLIN"
+    },
+    {
+      "id": "laser",
+      "name": "CECCHINO · OTTICA 4×"
+    },
+    {
+      "id": "raffica",
+      "name": "M4A1 · RAFFICA 3X"
+    },
+    {
+      "id": "bombarda",
+      "name": "RAY GUN"
+    },
+    {
+      "id": "sparapiselli",
+      "name": "MINIGUN"
+    },
+    {
+      "id": "pistola",
+      "name": "USP45 · SEMIAUTOMATICA"
+    },
+    {
+      "id": "acr",
+      "name": "ACR · ASSALTO"
+    },
+    {
+      "id": "glock",
+      "name": "GLOCK 17"
+    },
+    {
+      "id": "shotgun",
+      "name": "REMINGTON 870"
+    },
+    {
+      "id": "ak74u",
+      "name": "AK-74U"
+    },
+    {
+      "id": "wunderwaffe",
+      "name": "WUNDERWAFFE DG-2"
+    }
+  ],
+  "orda": [
+    "mitraglia",
+    "laser",
+    "raffica",
+    "bombarda",
+    "sparapiselli",
+    "pistola",
+    "acr",
+    "glock",
+    "shotgun",
+    "ak74u",
+    "wunderwaffe"
+  ],
+  "singleRayGun": true
+}

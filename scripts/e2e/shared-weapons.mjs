@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+import {launch,sleep} from './lib.mjs';
+process.env.GOBLIN_GPU='1';process.env.VIEWPORT='1600x900';
+const browser=await launch(),out='docs/agent-work/shared-weapons',result={errors:[]};
+try{
+ const page=await browser.newPage();page.on('pageerror',e=>result.errors.push(e.message));
+ await page.goto('http://localhost:5191/tools/views/weapons.html');await page.waitForFunction(()=>window.ready,{timeout:120000});
+ result.rotation=await page.evaluate(async()=>{const g=window.fixture.game,{WEAPONS}=await import('/shared/fpsWeapons.ts'),p=g.players[0];p.bag=[];const ids=[];for(let i=0;i<WEAPONS.length;i++){g.equipNext(p);ids.push(p.weaponId);}return{ids,remaining:p.bag.length,views:g.splitScreen.cams.length};});
+ assert.equal(result.rotation.ids.length,11);assert.equal(new Set(result.rotation.ids).size,11);assert.ok(result.rotation.ids.includes('wunderwaffe'));assert.equal(result.rotation.remaining,0);assert.equal(result.rotation.views,1);
+ const reset=async(positions)=>page.evaluate(async positions=>{const f=window.fixture,g=f.game,{getWeapon}=await import('/shared/fpsWeapons.ts');f.signals.length=0;g.winnerId=null;g.players.forEach((p,i)=>Object.assign(p,{x:positions[i][0],y:positions[i][1],z:positions[i][2],yaw:0,pitch:0,ads:1,recoilPitch:0,recoilYaw:0,heat:0,moving:0,spawnProtection:0,alive:true,hp:1000,maxHp:1000,weaponId:i?'pistola':'wunderwaffe',magazine:i?12:3,reloading:false,weaponReload:undefined,fireCooldown:0,buffShots:0,abCd:0}));g.splitScreen.update(.016,g.players.map(p=>g.toRenderSnapshot(p)));await Promise.all(g.splitScreen.cams.map(r=>r.vm.whenReady()));for(let i=0;i<30;i++)g.splitScreen.update(.025,g.players.map(p=>g.toRenderSnapshot(p)));},positions);
+ const fire=async()=>page.evaluate(async()=>{const f=window.fixture,g=f.game,{getWeapon}=await import('/shared/fpsWeapons.ts'),p=g.players[0];g.fireShot(p,getWeapon(p.weaponId));return{ammo:p.magazine,hp:g.players.map(p=>p.hp),trace:f.signals.find(e=>e.data.type==='shotTrace')?.data.segs,hit:f.signals.filter(e=>e.data.type==='hit').length,reloading:p.reloading};});
+ await reset([[-6,0,-12],[-6,0,-7],[-3,0,-7],[-3,0,-3],[-6,0,-2]]);result.chain=await fire();assert.equal(result.chain.ammo,2);assert.deepEqual(result.chain.hp,[1000,400,935,935,1000]);assert.equal(result.chain.trace.length,3);assert.equal(result.chain.hit,3);
+ result.model=await page.evaluate(async()=>{const g=window.fixture.game,d=g.splitScreen,r=d.cams[0];await r.vm.whenReady();await d.scene.whenReadyAsync();d.scene.render();return{weapon:r.weaponId,vertices:r.vm.current.imported.getChildMeshes().reduce((n,m)=>n+m.getTotalVertices(),0),blueTracers:d.tracers.filter(t=>t.life>0&&t.mat.emissiveColor.b>.9).length,ammo:g.players[0].magazine};});assert.equal(result.model.weapon,'wunderwaffe');assert.ok(result.model.vertices>1000);assert.equal(result.model.blueTracers,3);
+ await page.screenshot({path:out+'/sparatoria-wunderwaffe.png'});
+ await reset([[-2,0,-12],[-2,0,-8],[2,0,-8],[20,0,20],[-20,0,20]]);result.cover=await fire();assert.deepEqual(result.cover.hp,[1000,400,1000,1000,1000]);assert.equal(result.cover.trace.length,1);
+ await reset([[-6,0,-12],[-6,0,-7],[-6,6,-6],[20,0,20],[-20,0,20]]);result.height=await fire();assert.deepEqual(result.height.hp,[1000,400,1000,1000,1000]);
+ await reset([[-6,0,-12],[-4,0,-7],[-3,0,-7],[20,0,20],[-20,0,20]]);result.miss=await fire();assert.deepEqual(result.miss.hp,[1000,1000,1000,1000,1000]);assert.equal(result.miss.trace.length,1);
+ result.reload=await page.evaluate(async()=>{const g=window.fixture.game,p=g.players[0],{getWeapon}=await import('/shared/fpsWeapons.ts');p.magazine=1;g.fireShot(p,getWeapon('wunderwaffe'));const started={ammo:p.magazine,reloading:p.reloading,timer:p.reloadTimer};for(let i=0;i<305;i++)g.stepPlayer(p,.02);return{started,ammo:p.magazine,reloading:p.reloading};});assert.deepEqual(result.reload.started,{ammo:0,reloading:true,timer:6});assert.equal(result.reload.ammo,3);assert.equal(result.reload.reloading,false);
+ assert.deepEqual(result.errors,[]);result.status='passed';await page.evaluate(()=>window.fixture.dispose());console.log(JSON.stringify(result));
+}catch(e){result.failure=String(e);console.error(e);process.exitCode=1;}finally{await browser.close();writeFileSync(out+'/browser.json',JSON.stringify(result,null,2));}

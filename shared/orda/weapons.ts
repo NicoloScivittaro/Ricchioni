@@ -1,7 +1,7 @@
 import {WEAPONS,WUNDERWAFFE}from'../fpsWeapons';
 import type{WeaponConfig}from'../fpsWeapons';
 import type{Survivor}from'./types';
-export const ORDA_WEAPONS:readonly WeaponConfig[]=[...WEAPONS.map(w=>({...w,damage:w.damage*(w.id==='sparapiselli'?1.45:w.id==='pistola'?1.15:1.12),splashDamage:w.splashDamage?65:undefined})),WUNDERWAFFE];
+export const ORDA_WEAPONS:readonly WeaponConfig[]=WEAPONS.map(w=>w.id===WUNDERWAFFE.id?WUNDERWAFFE:({...w,damage:w.damage*(w.id==='sparapiselli'?1.45:w.id==='pistola'?1.15:1.12),splashDamage:w.splashDamage?65:undefined}));
 export const weaponOf=(id:string)=>ORDA_WEAPONS.find(w=>w.id===id)??ORDA_WEAPONS.find(w=>w.id==='pistola')!;
 /** Only Orda derives modifiers; shared gun configs remain unchanged. */
 export function survivorWeapon(p:Survivor):WeaponConfig{

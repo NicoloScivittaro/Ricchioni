@@ -1,7 +1,7 @@
 {
   "status": "passed",
   "checks": [
-    "Six old weapon statistics unchanged; ten unique active IDs",
+    "Six old weapon statistics unchanged; eleven unique active IDs",
     "Magazine insertion markers, empty/normal durations, no duplicated rounds",
     "Shotgun: exact three individual shell contacts, limited reserve, closing stage",
     "Actual Orda clock: blocked fire during reload, independent player ammo, authoritative shell transfer",
