@@ -1,0 +1,5858 @@
+{
+ "errors": [],
+ "runs": {
+  "side": {
+   "events": [
+    {
+     "kind": "attack",
+     "at": 0.475,
+     "player": "ferro-preview0",
+     "weapon": "sword"
+    },
+    {
+     "kind": "block",
+     "at": 1,
+     "player": "ferro-preview1",
+     "target": "ferro-preview0",
+     "dir": "top",
+     "weapon": "sword",
+     "value": 98
+    },
+    {
+     "kind": "hit",
+     "at": 1,
+     "player": "ferro-preview0",
+     "target": "ferro-preview1",
+     "dir": "top",
+     "weapon": "sword",
+     "value": 11
+    },
+    {
+     "kind": "attack",
+     "at": 2.342,
+     "player": "ferro-preview0",
+     "weapon": "sword"
+    },
+    {
+     "kind": "parry",
+     "at": 2.867,
+     "player": "ferro-preview1",
+     "target": "ferro-preview0",
+     "dir": "top",
+     "weapon": "sword",
+     "value": 112
+    },
+    {
+     "kind": "special",
+     "at": 3.108,
+     "player": "ferro-preview1",
+     "weapon": "sword"
+    },
+    {
+     "kind": "hit",
+     "at": 3.258,
+     "player": "ferro-preview1",
+     "target": "ferro-preview0",
+     "dir": "top",
+     "weapon": "sword",
+     "value": 30
+    }
+   ],
+   "log": [
+    {
+     "t": 0.033,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.067,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.1,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.133,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.167,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.2,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.233,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.267,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.3,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.333,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.367,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.4,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.433,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.467,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.5,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.533,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.567,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.6,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.633,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.667,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.7,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.733,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.767,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.8,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.833,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.867,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.9,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 0.933,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 0.967,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 1,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.033,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.067,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.1,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.133,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.167,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.2,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.233,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.267,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.3,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.333,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.367,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.4,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.433,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.467,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.5,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.533,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.567,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.6,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.633,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.667,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.7,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.733,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.767,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.8,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.833,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.867,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.9,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.933,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.967,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.033,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.067,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.1,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.133,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.167,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.2,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.233,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.267,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.3,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.333,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.367,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.4,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.433,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.467,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.5,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.533,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.567,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.6,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.633,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.65,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.667,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.683,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.7,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.717,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.733,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.75,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy window|left:guard|right:"
+    },
+    {
+     "t": 2.767,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy window|left:guard|right:"
+    },
+    {
+     "t": 2.783,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy window|left:guard|right:"
+    },
+    {
+     "t": 2.8,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 2.817,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 2.833,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 2.85,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 2.867,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.27,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 2.9,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.24,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 2.933,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.2,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 2.967,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.17,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.14,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.033,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.1,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.067,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.07,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.1,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.04,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.133,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.167,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.2,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.233,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.267,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0.11,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.3,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0.08,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.333,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0.05,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.367,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0.01,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.4,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.433,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.467,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.5,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.533,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.567,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.6,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.633,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.667,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.7,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.733,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.767,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.8,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.833,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.867,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.9,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.933,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.967,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 4,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 4.033,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 4.067,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 4.1,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    }
+   ]
+  },
+  "views": {
+   "events": [
+    {
+     "kind": "attack",
+     "at": 0.592,
+     "player": "ferro-preview0",
+     "weapon": "sword"
+    },
+    {
+     "kind": "block",
+     "at": 1.117,
+     "player": "ferro-preview1",
+     "target": "ferro-preview0",
+     "dir": "top",
+     "weapon": "sword",
+     "value": 98
+    },
+    {
+     "kind": "hit",
+     "at": 1.117,
+     "player": "ferro-preview0",
+     "target": "ferro-preview1",
+     "dir": "top",
+     "weapon": "sword",
+     "value": 11
+    },
+    {
+     "kind": "attack",
+     "at": 2.458,
+     "player": "ferro-preview0",
+     "weapon": "sword"
+    },
+    {
+     "kind": "parry",
+     "at": 2.983,
+     "player": "ferro-preview1",
+     "target": "ferro-preview0",
+     "dir": "top",
+     "weapon": "sword",
+     "value": 112
+    },
+    {
+     "kind": "special",
+     "at": 3.225,
+     "player": "ferro-preview1",
+     "weapon": "sword"
+    },
+    {
+     "kind": "hit",
+     "at": 3.375,
+     "player": "ferro-preview1",
+     "target": "ferro-preview0",
+     "dir": "top",
+     "weapon": "sword",
+     "value": 30
+    }
+   ],
+   "log": [
+    {
+     "t": 0.15,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.183,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.217,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.25,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.283,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.317,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.35,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.383,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.417,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.45,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.483,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.517,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.55,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.583,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 0.617,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.65,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.683,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.717,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.75,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.783,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.817,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.85,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.883,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.917,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.95,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 0.983,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy|left:|right:"
+    },
+    {
+     "t": 1.017,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 1.05,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 1.083,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 1.117,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.15,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.183,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.217,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.25,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.283,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.317,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.35,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.383,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": "blocked",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.417,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "block",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.45,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.483,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.517,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.55,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.583,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.617,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.65,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.683,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.717,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.75,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.783,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.817,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.85,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.883,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.917,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 1.95,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.983,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.017,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.05,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.083,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.117,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.15,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.183,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.217,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.25,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.283,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.317,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.35,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.383,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.417,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.45,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.483,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.517,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.55,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.583,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.617,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.65,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.683,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.717,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.75,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.767,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.783,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.8,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.817,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.833,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.85,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy|left:guard|right:"
+    },
+    {
+     "t": 2.867,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy window|left:guard|right:"
+    },
+    {
+     "t": 2.883,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy window|left:guard|right:"
+    },
+    {
+     "t": 2.9,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:incoming heavy window|left:guard|right:"
+    },
+    {
+     "t": 2.917,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 2.933,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 2.95,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 2.967,
+     "g": {
+      "action": "heavy",
+      "dir": "top",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard incoming covered heavy window|left:|right:"
+    },
+    {
+     "t": 2.983,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.27,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.017,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.24,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.05,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.2,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.083,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.17,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.117,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.14,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.15,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.1,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.183,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.07,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.217,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0.04,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.25,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": "parry",
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.283,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.317,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.35,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "parried",
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.383,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0.11,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.417,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0.08,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.45,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0.05,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.483,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0.01,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.517,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.55,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.583,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.617,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": "hurt",
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.65,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:attacking|left:|right:"
+    },
+    {
+     "t": 3.683,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.717,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.75,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.783,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.817,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.85,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.883,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.917,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.95,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 3.983,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 4.017,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 4.05,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 4.083,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 4.117,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 4.15,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 4.183,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    },
+    {
+     "t": 4.217,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 70
+     },
+     "v": {
+      "guard": false,
+      "dir": "top",
+      "clash": null,
+      "hp": 89.1
+     },
+     "me": "top:guard|left:|right:"
+    }
+   ]
+  },
+  "wrong": {
+   "events": [
+    {
+     "kind": "attack",
+     "at": 0.433
+    },
+    {
+     "kind": "hit",
+     "at": 0.608,
+     "dir": "right",
+     "value": 19
+    },
+    {
+     "kind": "attack",
+     "at": 1.233
+    }
+   ],
+   "log": [
+    {
+     "t": 0.058,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.092,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.125,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.158,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.192,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.225,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.258,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.292,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.325,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.358,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.392,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.425,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.458,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:incoming"
+    },
+    {
+     "t": 0.492,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:incoming window"
+    },
+    {
+     "t": 0.525,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:incoming window"
+    },
+    {
+     "t": 0.558,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:incoming window"
+    },
+    {
+     "t": 0.592,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 100
+     },
+     "me": "top:|left:guard|right:incoming window"
+    },
+    {
+     "t": 0.625,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": "hurt",
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.658,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": "hurt",
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.692,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": "hurt",
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.725,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": "hurt",
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.758,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": false,
+      "dir": "left",
+      "clash": "hurt",
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.792,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": "hurt",
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.825,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": "hurt",
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.858,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": "hurt",
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.892,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.925,
+     "g": {
+      "action": "light",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.958,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 0.992,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.025,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.058,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.092,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.125,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.158,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.192,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.225,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.258,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.292,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.325,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.358,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.392,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.425,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.458,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.492,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.525,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.558,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.592,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.625,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.658,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.692,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.725,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.758,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.792,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.825,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.858,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.892,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.925,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.958,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 1.992,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.025,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.058,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.092,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.125,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.158,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.192,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.225,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.258,
+     "g": {
+      "action": "heavy",
+      "dir": "left",
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.292,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.325,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.358,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.392,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.425,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.458,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.492,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.525,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    },
+    {
+     "t": 2.558,
+     "g": {
+      "action": null,
+      "dir": null,
+      "clash": null,
+      "stun": 0,
+      "hp": 100
+     },
+     "v": {
+      "guard": true,
+      "dir": "left",
+      "clash": null,
+      "hp": 81
+     },
+     "me": "top:|left:guard|right:"
+    }
+   ]
+  }
+ },
+ "status": "passed"
+}

@@ -19,7 +19,7 @@ export function motionProgress(p:Pick<Warrior,'weapon'|'action'|'bowAge'|'bowPha
 }
 export function motionFrame(p:Warrior,age=p.action?.age??0,time=0):Frame{
  if(!p.alive)return sampleMotion('death',Math.min(1,(time-p.deadAt)/1.1));
- if(p.hurt>0&&!p.action)return sampleMotion('hurt',1-p.hurt/.22);
+ if(p.hurt>0&&!p.action&&p.clash?.kind!=='block')return sampleMotion('hurt',1-p.hurt/.22);
  if(!p.action&&p.weapon!=='bow'&&Math.hypot(p.vx,p.vz)>1){const lateral=p.vx*Math.cos(p.yaw)-p.vz*Math.sin(p.yaw);return sampleMotion(Math.abs(lateral)>1?(lateral>0?'strafeR':'strafeL'):'run',time,true);}
  return sampleMotion(motionKey(p),motionProgress(p,age));
 }

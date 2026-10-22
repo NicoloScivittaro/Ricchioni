@@ -6,6 +6,7 @@ import type{Warrior,WeaponId,V3}from'../../../shared/ferro/types';
 import type{PlayerSnapshot}from'../../../shared/types';
 import{motionFrame,point}from'../../../shared/ferro/motion';
 import{combatPose}from'../../../shared/ferro/pose';
+import{clashPose}from'../../../shared/ferro/clash';
 import{FerroWeapon,alignSegment}from'./FerroWeapons';
 import{FerroSkin}from'./FerroSkin';
 interface Arm{shoulder:TransformNode;upper:TransformNode;fore:TransformNode;hand:Mesh;length:number}
@@ -34,9 +35,9 @@ export class FerroActor{
   for(const[parent,mats]of groups)for(const list of mats.values())if(list.length>1){const merged=Mesh.MergeMeshes(list,true,true,undefined,false,false);if(merged){merged.setParent(parent);merged.isPickable=false;}}
  }
  private grip(arm:Arm,target:V3,side:number):void{
-  const origin=Vector3.TransformCoordinates(arm.shoulder.getAbsolutePosition(),this.inv),end=new Vector3(target.x,target.y,target.z),delta=end.subtract(origin),d=Math.max(.001,delta.length()),length=arm.length/2,reach=Math.min(d,arm.length*.995),dir=delta.scale(1/d),middle=origin.add(dir.scale(reach/2)),bend=Math.sqrt(Math.max(0,length*length-reach*reach/4));
+  const origin=Vector3.TransformCoordinates(arm.shoulder.getAbsolutePosition(),this.inv),end=new Vector3(target.x,target.y,target.z),delta=end.subtract(origin),d=Math.max(.001,delta.length()),span=Math.max(arm.length,Math.min(d/.995,arm.length*1.6)),length=span/2,reach=Math.min(d,span*.995),dir=delta.scale(1/d),middle=origin.add(dir.scale(reach/2)),bend=Math.sqrt(Math.max(0,length*length-reach*reach/4));
   const normal=new Vector3(side*.8,-.65,-.35),projected=normal.subtract(dir.scale(Vector3.Dot(normal,dir))).normalize(),elbow=middle.add(projected.scale(bend));
-  alignSegment(arm.upper,origin,elbow);alignSegment(arm.fore,elbow,end);arm.hand.position.copyFrom(end);
+  alignSegment(arm.upper,origin,elbow);alignSegment(arm.fore,elbow,origin.add(dir.scale(reach)));arm.hand.position.copyFrom(origin.add(dir.scale(reach)));
  }
  setCameraFade(opacity:number):void{if(this.cameraOpacity===opacity)return;this.cameraOpacity=opacity;for(const mesh of this.root.getChildMeshes())mesh.visibility=opacity;}
  update(p:Warrior,time:number,dt:number,victory=false):void{
@@ -44,18 +45,23 @@ export class FerroActor{
   this.root.position.set(p.x,p.y,p.z);this.root.rotation.y=p.action?.yaw??p.yaw;this.root.rotation.z=this.skin?0:-this.death*1.5;
   const speed=Math.hypot(p.vx,p.vz),walk=Math.sin(time*(speed>5?13:9))*Math.min(.65,speed*.12),sampled=combatPose(p),pose=sampled,dodge= p.dodge>0?Math.sin((.36-p.dodge)/.36*Math.PI):0;
   if(!p.action&&!p.feint&&this.lastPose&&dt>0){const t=1-Math.exp(-dt*23);for(const hand of ['right','left']as const)for(const endpoint of ['grip','tip']as const)for(const axis of ['x','y','z']as const)pose[hand][endpoint][axis]=this.lastPose[hand][endpoint][axis]+(pose[hand][endpoint][axis]-this.lastPose[hand][endpoint][axis])*t;}this.lastPose=pose;
-  if(!this.skin){this.rig.legL.rotation.x=walk;this.rig.legR.rotation.x=-walk;this.rig.upper.rotation.x=pose.lean+dodge*.4+(p.hurt>0?Math.sin(p.hurt*40)*.09:0);this.rig.upper.position.y=this.rig.hipY-dodge*.2+Math.sin(time*2)*.012;const frame=motionFrame(p,p.action?.age??0,time),hip=point(frame,'B-hips',{x:0,y:.94,z:0}),chest=point(frame,'B-chest',{x:0,y:1.25,z:0});
+  // Contact reactions decided by the logic (block / parry / hit), layered after smoothing so they stay crisp.
+  const shaped=clashPose(pose,p),shove=shaped.shove??0;if(shove)this.root.position.addInPlaceFromFloats(-Math.sin(this.root.rotation.y)*shove,0,-Math.cos(this.root.rotation.y)*shove);
+  if(!this.skin){this.rig.legL.rotation.x=walk;this.rig.legR.rotation.x=-walk;this.rig.upper.rotation.x=shaped.lean+dodge*.4+(p.hurt>0?Math.sin(p.hurt*40)*.09:0);this.rig.upper.position.y=this.rig.hipY-dodge*.2+Math.sin(time*2)*.012;const frame=motionFrame(p,p.action?.age??0,time),hip=point(frame,'B-hips',{x:0,y:.94,z:0}),chest=point(frame,'B-chest',{x:0,y:1.25,z:0});
   this.rig.upper.rotation.x+=Math.atan2(chest.z-hip.z,Math.max(.15,chest.y-hip.y))*.28;
-  this.rig.upper.rotation.z=(chest.x-hip.x)*.65;this.rig.upper.position.y+=(hip.y-.94)*.25;
+  this.rig.upper.rotation.z=(chest.x-hip.x)*.65-(shaped.tilt??0);this.rig.upper.rotation.y=-(shaped.twist??0);this.rig.upper.position.y+=(hip.y-.94)*.25;
   const thighR=point(frame,'B-thigh.R',{x:0,y:.9,z:0}),shinR=point(frame,'B-shin.R',{x:0,y:.45,z:0}),thighL=point(frame,'B-thigh.L',{x:0,y:.9,z:0}),shinL=point(frame,'B-shin.L',{x:0,y:.45,z:0});
   this.rig.legR.rotation.x=Math.atan2(shinR.z-thighR.z,Math.max(.1,thighR.y-shinR.y));this.rig.legL.rotation.x=Math.atan2(shinL.z-thighL.z,Math.max(.1,thighL.y-shinL.y));
   this.rig.head.rotation.y=(chest.x-hip.x)*.6;}
   if(this.id!==p.weapon||this.variant!==p.variant){this.held?.dispose();this.id=p.weapon;this.variant=p.variant;this.held=new FerroWeapon(this.scene,p.weapon,this.root,p.variant);if(this.cameraOpacity<1)for(const mesh of this.root.getChildMeshes())mesh.visibility=this.cameraOpacity;}
-  const right={...pose.right,grip:{...pose.right.grip},tip:{...pose.right.tip}},left={...pose.left,grip:{...pose.left.grip},tip:{...pose.left.tip}};
+  const right={...shaped.right,grip:{...shaped.right.grip},tip:{...shaped.right.tip}},left={...shaped.left,grip:{...shaped.left.grip},tip:{...shaped.left.tip}};
+  const axis=(b:{grip:V3;tip:V3}):V3=>{const x=b.tip.x-b.grip.x,y=b.tip.y-b.grip.y,z=b.tip.z-b.grip.z,l=Math.hypot(x,y,z)||1;return{x:x/l,y:y/l,z:z/l};},main=axis(right),two=p.weapon==='axe'||p.weapon==='hammer'||p.weapon==='spear';
+  // Two-handed hafts: the second hand rides the same haft above the first one.
+  if(two){const k=p.weapon==='spear'?.55:.42;left.grip={x:right.grip.x+main.x*k,y:right.grip.y+main.y*k,z:right.grip.z+main.z*k};left.tip={x:left.grip.x+main.x*.3,y:left.grip.y+main.y*.3,z:left.grip.z+main.z*.3};}
   if(victory){right.grip.y+=.65;right.tip.y+=.65;this.rig.legL.rotation.x=this.rig.legR.rotation.x=0;}
   if(p.dodge>0){right.grip.y-=dodge*.2;right.tip.y-=dodge*.2;left.grip.y-=dodge*.2;left.tip.y-=dodge*.2;}
   this.root.computeWorldMatrix(true).invertToRef(this.inv);if(!this.skin){this.rig.upper.computeWorldMatrix(true);this.rig.armR.computeWorldMatrix(true);this.rig.armL.computeWorldMatrix(true);}
-  if(this.skin)this.skin.update(p,time,right.grip,left.grip,dodge);else{this.grip(this.arms[0],right.grip,1);this.grip(this.arms[1],left.grip,-1);}this.held!.update(right,left,p.charge,p.pitch);
+  if(this.skin)this.skin.update(p,time,right.grip,left.grip,dodge,{lean:shaped.lean-pose.lean,twist:shaped.twist??0,tilt:shaped.tilt??0},{right:p.weapon==='bow'?null:main,left:two?main:p.weapon==='blades'||p.weapon==='bow'?axis(left):null});else{this.grip(this.arms[0],right.grip,1);this.grip(this.arms[1],left.grip,-1);}this.held!.update(right,left,p.charge,p.pitch);
  }
  skinDebug(){return this.skin?.debug()??{character:'procedural',ready:true};}
  dispose():void{this.skin?.dispose();this.held?.dispose();this.root.dispose();}

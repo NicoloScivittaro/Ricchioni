@@ -14,3 +14,8 @@ export const weapon=(id:WeaponId):WeaponDef=>WEAPONS.find(w=>w.id===id)??WEAPONS
 export const attackSpec=(id:WeaponId,a:Action):AttackSpec=>weapon(id)[a.kind];
 export const attackLength=(s:AttackSpec)=>s.wind+s.active+s.recover;
 export function activeWindow(s:AttackSpec,age:number):number{const t=age-s.wind;if(t<0||t>s.active)return-1;if(s.windows)return s.windows.findIndex(([a,b])=>t>=a&&t<=b);return 0;}
+/** Presentation heft of each weapon family for contact reactions and sounds. Not a stat: damage, timing and defence live above. */
+export const HEFT:Readonly<Record<WeaponId,number>>={blades:.55,bow:.5,sword:.75,shield:.75,spear:.8,axe:1.05,hammer:1.3};
+/** Cosmetic model choices (Y / △ in the weapon selection). Identical statistics within a weapon. */
+export const COSMETIC_VARIANTS:Readonly<Partial<Record<WeaponId,number>>>={sword:4,shield:2,axe:3};
+export const variantCount=(id:WeaponId)=>COSMETIC_VARIANTS[id]??1;

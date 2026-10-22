@@ -146,5 +146,27 @@
     "sourceSha256": "bcd47d323e40419d4dda188d51bd5d91021e6ca42d8dc0c30f1e5053401244f5",
     "modifications": "Local derivative: baked transforms, normalized scale/grip/axes; selected components separated. Runtime material adaptation; original source retained locally. Original supplied HumanAnimations_ColorPalette.png associated with the authored UVs; source FBX has no assigned materials.",
     "bytes": 18256
+  },
+  {
+    "output": "axe.glb",
+    "author": "Yury Misiyuk (https://sketchfab.com/Tim0)",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "source": "https://sketchfab.com/3d-models/axe-5038f07f634345f5ac9bfa74fb821c97",
+    "title": "Axe",
+    "sourceFile": "axe.glb",
+    "sourceSha256": "a89e198967a67fc34d2cb6227ae8945be7be52310fa4ae0612f35d614688e4e7",
+    "modifications": "Local derivative: textures re-encoded 2048->1024 (JPEG). Geometry and materials unchanged; grip/axes calibrated at runtime (FerroAssets GRIPS). Cosmetic variant of ASCIA.",
+    "bytes": 889288
+  },
+  {
+    "output": "volcanic.glb",
+    "author": "Danny Scott (https://sketchfab.com/DannyScott)",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "source": "https://sketchfab.com/3d-models/volcanic-axe-d1e4a823ff534bfe934900e0f03b80d2",
+    "title": "Volcanic Axe",
+    "sourceFile": "volcanic_axe.glb",
+    "sourceSha256": "4d4f82d0c17069497bbd2bc0a493686e85856d22b5f9b7e712eb1ec15ad48dbf",
+    "modifications": "Local derivative: color/ORM/normal textures re-encoded as JPEG at the original 1024 size, emissive lava kept PNG. Geometry and materials unchanged; grip/axes calibrated at runtime (FerroAssets GRIPS). Cosmetic variant of ASCIA, identical stats.",
+    "bytes": 1987472
   }
 ]

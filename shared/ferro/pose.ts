@@ -1,9 +1,11 @@
-import type{Warrior,V3,Action,AttackSpec}from'./types';
+import type{Warrior,V3,Action,AttackSpec,WeaponId,GuardDirection}from'./types';
 import{weapon,attackSpec}from'./weapons';
 import{clamp}from'./arena';
+import{presentationOf}from'../characterPresentation';
 import{sampleMotion,motionKey,motionProgress,point}from'./motion';
 export interface BladePose{grip:V3;tip:V3}
-export interface CombatPose{right:BladePose;left:BladePose;lean:number;draw:number}
+/** lean/twist/tilt/shove are body layers for the renderer only (radians, metres backwards). */
+export interface CombatPose{right:BladePose;left:BladePose;lean:number;draw:number;twist?:number;tilt?:number;shove?:number}
 const lerp=(a:V3,b:V3,t:number):V3=>({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t,z:a.z+(b.z-a.z)*t});
 /** Pure local-space grip/tip sampler. Renderer and authoritative hitboxes use this exact path. */
 function legacyPose(p:Pick<Warrior,'weapon'|'action'|'guard'|'charge'>,age=p.action?.age??0):CombatPose{
@@ -58,7 +60,9 @@ export function combatPose(p:Pick<Warrior,'weapon'|'action'|'guard'|'charge'>&Pa
   }
   if(p.weapon==='spear'){
    const side=direction==='top'?0:direction==='left'?-.3:.3;
-   hand.x+=side;hand.z=p.action.kind==='special'?-.9+u*1.4:hand.z+Math.sin(u*Math.PI)*.45;tip={x:hand.x+side*.3,y:hand.y+(direction==='top'?.25:0),z:hand.z+w.length};
+   hand.x+=side;hand.z=p.action.kind==='special'?-.9+u*1.4:hand.z+Math.sin(u*Math.PI)*.45;// Side thrusts start from that side and converge on the opponent (the right thrust used to run parallel
+   // to the target and could never connect).
+   tip={x:direction==='top'?hand.x:side,y:hand.y+(direction==='top'?.25:0),z:hand.z+w.length};
   }
   const from=p.action.from,t=clamp(age/Math.max(.06,s.wind),0,1),blend=t*t*(3-2*t),idle=legacyPose({...p,action:null});
   const right={grip:lerp(hand,idle.right.grip,recover),tip:lerp(tip,idle.right.tip,recover)},other={grip:lerp(left,idle.left.grip,recover),tip:lerp({...left,y:left.y+.45},idle.left.tip,recover)};
@@ -66,14 +70,38 @@ export function combatPose(p:Pick<Warrior,'weapon'|'action'|'guard'|'charge'>&Pa
   return{right,left:other,lean:Math.sin(u*Math.PI)*.13,draw:0};
  }
  if(p.breakAge&&p.breakAge>0){const reach=Math.sin(Math.min(1,p.breakAge/.58)*Math.PI)*.55;old.left.grip={x:-.22,y:1.38,z:.45+reach};old.left.tip={...old.left.grip,y:1.65};old.right.grip.z+=reach*.3;old.right.tip.z+=reach*.3;return{...old,lean:reach*.3};}
- if(p.guard||p.feint&&p.feint>0){
-  const h:V3=direction==='top'?{x:.18,y:1.65,z:.55}:direction==='left'?{x:-.35,y:1.25,z:.6}:{x:.48,y:1.25,z:.6};
-  const t:V3=direction==='top'?{x:-.35,y:2.15,z:.9}:direction==='left'?{x:-.6,y:2.2,z:.8}:{x:.6,y:2.2,z:.8};
-  if(p.deflect&&p.deflect>0){const d=Math.sin(p.deflect/.18*Math.PI)*.35;t.x+=direction==='left'?-d:d;t.z-=d*.5;h.z+=d*.2;}
-  return{right:{grip:h,tip:t},left:p.weapon==='shield'?{grip:{x:direction==='left'?-.5:.05,y:1.4,z:.85},tip:{x:-.1,y:1.4,z:1.15}}:{grip:left,tip:{...left,y:left.y+.4}},lean:0,draw:0};
- }
+ if(p.guard)return guardPose(p.weapon,direction,left,guardLift(p.characterId));
  // Preserve stance readability between actions; idle source contributes subtle hand and torso movement.
  return{...old,right:{grip:lerp(old.right.grip,hand,.25),tip:old.right.tip}};
+}
+const unit=(x:number,y:number,z:number):V3=>{const l=Math.hypot(x,y,z)||1;return{x:x/l,y:y/l,z:z/l};};
+const along=(grip:V3,dir:V3,length:number):BladePose=>({grip,tip:{x:grip.x+dir.x*length,y:grip.y+dir.y*length,z:grip.z+dir.z*length}});
+/** Readable three-way guard: the weapon really moves to the protected side at full length (never shortened).
+ * TOP: raised above the head. LEFT/RIGHT: held upright on that side of the body, in the defender's own space. */
+/** Bodies are 2.0–2.5 m tall (same proportions as the character rig): a top guard must clear each head. */
+export function guardLift(characterId?:string|null):number{const b=presentationOf(characterId)?.body;return b?Math.max(0,.62*b.height-b.crouch*.5+.95*b.height+.816*b.head-2.12):0;}
+export function guardPose(id:WeaponId,direction:GuardDirection,free:V3={x:-.42,y:1.2,z:.3},lift=0):CombatPose{
+ const pose=shapeGuard(id,direction,free);if(direction!=='top'||!lift)return pose;
+ const up=(b:BladePose):BladePose=>({grip:{...b.grip,y:b.grip.y+lift},tip:{...b.tip,y:b.tip.y+lift}});
+ return{...pose,right:up(pose.right),left:id==='shield'||id==='blades'||id==='axe'||id==='hammer'||id==='spear'?up(pose.left):pose.left};
+}
+function shapeGuard(id:WeaponId,direction:GuardDirection,free:V3):CombatPose{
+ const length=weapon(id).length,top=direction==='top',side=direction==='left'?-1:1,twist=top?0:-side*.2;
+ if(id==='blades'){
+  const r=top?along({x:.22,y:1.92,z:.44},unit(-1,.3,.38),length):along({x:side<0?-.04:.4,y:1.3,z:.5},unit(side*.32,1,.3),length);
+  const l=top?along({x:-.22,y:1.88,z:.46},unit(1,.3,.38),length):along({x:side<0?-.4:.04,y:1.24,z:.46},unit(side*.46,1,.2),length);
+  return{right:r,left:l,lean:top?-.05:0,draw:0,twist};
+ }
+ if(id==='shield'){
+  const n=top?unit(0,.8,1):unit(side*.5,0,1),g=top?{x:-.04,y:1.8,z:.5}:{x:side<0?-.42:.14,y:1.34,z:.6};
+  return{right:along({x:.4,y:1.12,z:.18},unit(.12,.82,.56),length),left:{grip:g,tip:{x:g.x+n.x*.38,y:g.y+n.y*.38,z:g.z+n.z*.38}},lean:top?-.04:0,draw:0,twist:twist*.6};
+ }
+ let grip:V3,dir:V3;
+ if(id==='axe'||id==='hammer'){grip=top?{x:.44,y:1.86,z:.42}:{x:side<0?.06:.42,y:1.0,z:.42};dir=top?unit(-1,.35,.15):unit(side*.52,1,.25);}
+ else if(id==='spear'){grip=top?{x:.36,y:1.68,z:.12}:{x:side<0?.14:.36,y:1.05,z:.32};dir=top?unit(-.55,.35,.75):unit(side*.5,.85,.48);}
+ else{grip=top?{x:.34,y:2.02,z:.4}:{x:side<0?-.12:.4,y:1.21,z:.47};dir=top?unit(-.9,.16,.42):unit(side*.4,1,.17);}
+ const right=along(grip,dir,length),two=id==='axe'||id==='hammer'||id==='spear';
+ return{right,left:two?along({x:grip.x+dir.x*.45,y:grip.y+dir.y*.45,z:grip.z+dir.z*.45},dir,.3):{grip:free,tip:{...free,y:free.y+.4}},lean:top?-.05:.02,draw:0,twist};
 }
 export function worldPoint(p:{x:number;y:number;z:number;yaw:number},v:V3,yaw=p.yaw):V3{return{x:p.x+v.x*Math.cos(yaw)+v.z*Math.sin(yaw),y:p.y+v.y,z:p.z-v.x*Math.sin(yaw)+v.z*Math.cos(yaw)};}
 export function activeBlade(p:Warrior,a:Action,s:AttackSpec,age:number):BladePose{

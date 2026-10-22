@@ -91,7 +91,7 @@ const css = `
 #pad-root td,#pad-root th{padding:4px 6px;text-align:left;border-bottom:1px solid #1e293b;vertical-align:top}
 #pad-badge{position:fixed;left:3.75vw;bottom:4.5vh;z-index:89000;padding:.4em 1em;border-radius:999px;background:rgba(11,11,20,.88);border:2px solid var(--ui-line);color:#e5e7eb;font-family:var(--ui-display);font-size:clamp(14px,2vh,22px);cursor:pointer;display:none}
 #pad-alert{z-index:99000;display:none;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
-#pad-focus{z-index:99000;display:none;top:auto;bottom:4.5vh}
+#pad-focus{z-index:99000;display:none;top:auto;bottom:1.6vh;padding:.25em .8em;border-width:2px;font-size:clamp(11px,1.45vh,15px);opacity:.88;white-space:nowrap;pointer-events:none}
 #pad-toasts{position:fixed;left:50%;transform:translateX(-50%);top:12vh;z-index:99500;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
 `;
 
@@ -275,7 +275,7 @@ export function initPairingPanel(): void {
     const relevant = (c === 'MINIGAME' || c === 'CONTROLS') && pads.pairedCount() > 0;
     const lost = relevant && !document.hasFocus();
     focusBar.style.display = lost ? 'block' : 'none';
-    if (lost) focusBar.textContent = '⚠️ CLICCA SULLA FINESTRA DEL GIOCO — senza focus il browser può ignorare i controller';
+    if (lost) focusBar.textContent = '⚠ CLICCA SULLA FINESTRA DEL GIOCO · i controller funzionano solo con il focus';
   }, 500);
   pads.events.on('change', render);
   pads.events.on('menuDismissPairing',()=>{open=false;dismissed=true;render();});

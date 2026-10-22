@@ -16,6 +16,9 @@ Local supplied assets; no publication or commercial clearance asserted. Sources,
 - **dagger.glb** — Kevin Iglesias. Standard Unity Asset Store EULA, per supplied documentation. Source: https://www.keviniglesias.com/.
 - **warhammer.glb** — Kevin Iglesias. Standard Unity Asset Store EULA, per supplied documentation. Source: https://www.keviniglesias.com/.
 
+- **axe.glb** (Ferro 2.1, ASCIA variant) — Yury Misiyuk (https://sketchfab.com/Tim0). CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/). Source: https://sketchfab.com/3d-models/axe-5038f07f634345f5ac9bfa74fb821c97. Textures re-encoded at 1024 px (tools/ferro/optimize-glb.mjs).
+- **volcanic.glb** (Ferro 2.1, ASCIA variant) — Danny Scott (https://sketchfab.com/DannyScott). CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/). Source: https://sketchfab.com/3d-models/volcanic-axe-d1e4a823ff534bfe934900e0f03b80d2. Original volcanic materials kept; textures re-encoded (tools/ferro/optimize-glb.mjs).
+
 ## Animation data
 Human Melee Animations FREE / Human Archer Animations FREE by Kevin Iglesias. Supplied documentation states the standard Unity Asset Store EULA, commercial use with compliant projects and no standalone resale. Actual supplied FBX curves are sampled at30Hz, normalized (Archer source centimeters), retimed and retargeted onto the existing named cartoon characters. No new anonymous character replaces them.
 

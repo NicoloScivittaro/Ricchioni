@@ -1,0 +1,460 @@
+{
+ "errors": [],
+ "duel": {
+  "seconds": 20,
+  "final": [
+   {
+    "name": "Goblin",
+    "hp": 286,
+    "alive": true
+   },
+   {
+    "name": "BOSCHI",
+    "hp": 277.2,
+    "alive": true
+   }
+  ],
+  "bot": {
+   "attacks": 6,
+   "blocks": 2,
+   "parries": 2,
+   "feints": 1,
+   "hitsLanded": 5,
+   "guardChanges": 22
+  },
+  "player": {
+   "attacks": 14,
+   "blocks": 0,
+   "parries": 0,
+   "feints": 3
+  },
+  "guards": [
+   {
+    "at": 2.12,
+    "dir": "right"
+   },
+   {
+    "at": 2.57,
+    "dir": "left"
+   },
+   {
+    "at": 2.6,
+    "dir": "right"
+   },
+   {
+    "at": 3.5,
+    "dir": "left"
+   },
+   {
+    "at": 3.72,
+    "dir": "right"
+   },
+   {
+    "at": 4.22,
+    "dir": "left"
+   },
+   {
+    "at": 5.03,
+    "dir": "top"
+   },
+   {
+    "at": 5.32,
+    "dir": "left"
+   },
+   {
+    "at": 6.24,
+    "dir": "right"
+   },
+   {
+    "at": 6.36,
+    "dir": "left"
+   },
+   {
+    "at": 7.51,
+    "dir": "right"
+   },
+   {
+    "at": 7.76,
+    "dir": "left"
+   },
+   {
+    "at": 8.83,
+    "dir": "top"
+   },
+   {
+    "at": 9.08,
+    "dir": "right"
+   },
+   {
+    "at": 15.61,
+    "dir": "top"
+   },
+   {
+    "at": 15.62,
+    "dir": "right"
+   },
+   {
+    "at": 16.13,
+    "dir": "left"
+   },
+   {
+    "at": 16.27,
+    "dir": "top"
+   },
+   {
+    "at": 16.27,
+    "dir": "left"
+   },
+   {
+    "at": 16.97,
+    "dir": "right"
+   },
+   {
+    "at": 16.98,
+    "dir": "left"
+   },
+   {
+    "at": 17.03,
+    "dir": "right"
+   }
+  ],
+  "events": [
+   {
+    "kind": "attack",
+    "at": 0.43,
+    "player": "bot"
+   },
+   {
+    "kind": "attack",
+    "at": 0.82,
+    "player": "player"
+   },
+   {
+    "kind": "hit",
+    "at": 0.96,
+    "player": "player",
+    "target": "bot",
+    "dir": "left",
+    "value": 19
+   },
+   {
+    "kind": "attack",
+    "at": 2.12,
+    "player": "bot"
+   },
+   {
+    "kind": "feint",
+    "at": 2.31,
+    "player": "bot"
+   },
+   {
+    "kind": "attack",
+    "at": 2.46,
+    "player": "player"
+   },
+   {
+    "kind": "attack",
+    "at": 2.57,
+    "player": "bot"
+   },
+   {
+    "kind": "feint",
+    "at": 2.58,
+    "player": "player"
+   },
+   {
+    "kind": "hit",
+    "at": 2.77,
+    "player": "bot",
+    "target": "player",
+    "dir": "right",
+    "value": 21
+   },
+   {
+    "kind": "attack",
+    "at": 3.42,
+    "player": "player"
+   },
+   {
+    "kind": "block",
+    "at": 3.94,
+    "player": "bot",
+    "target": "player",
+    "dir": "right",
+    "value": 98
+   },
+   {
+    "kind": "hit",
+    "at": 3.94,
+    "player": "player",
+    "target": "bot",
+    "dir": "right",
+    "value": 11
+   },
+   {
+    "kind": "attack",
+    "at": 4.81,
+    "player": "player"
+   },
+   {
+    "kind": "hit",
+    "at": 4.95,
+    "player": "player",
+    "target": "bot",
+    "dir": "left",
+    "value": 21
+   },
+   {
+    "kind": "attack",
+    "at": 6.05,
+    "player": "player"
+   },
+   {
+    "kind": "parry",
+    "at": 6.27,
+    "player": "bot",
+    "target": "player",
+    "dir": "right",
+    "value": 86
+   },
+   {
+    "kind": "hit",
+    "at": 6.33,
+    "player": "bot",
+    "target": "player",
+    "dir": "left",
+    "value": 30
+   },
+   {
+    "kind": "attack",
+    "at": 7.24,
+    "player": "player"
+   },
+   {
+    "kind": "attack",
+    "at": 8.82,
+    "player": "player"
+   },
+   {
+    "kind": "block",
+    "at": 9.33,
+    "player": "bot",
+    "target": "player",
+    "dir": "right",
+    "value": 98
+   },
+   {
+    "kind": "hit",
+    "at": 9.33,
+    "player": "player",
+    "target": "bot",
+    "dir": "right",
+    "value": 11
+   },
+   {
+    "kind": "attack",
+    "at": 9.88,
+    "player": "player"
+   },
+   {
+    "kind": "feint",
+    "at": 10.01,
+    "player": "player"
+   },
+   {
+    "kind": "attack",
+    "at": 10.88,
+    "player": "player"
+   },
+   {
+    "kind": "parry",
+    "at": 11.09,
+    "player": "bot",
+    "target": "player",
+    "dir": "right",
+    "value": 86
+   },
+   {
+    "kind": "attack",
+    "at": 11.85,
+    "player": "player"
+   },
+   {
+    "kind": "hit",
+    "at": 12.07,
+    "player": "player",
+    "target": "bot",
+    "dir": "right",
+    "value": 23
+   },
+   {
+    "kind": "attack",
+    "at": 12.97,
+    "player": "player"
+   },
+   {
+    "kind": "attack",
+    "at": 15.61,
+    "player": "bot"
+   },
+   {
+    "kind": "hit",
+    "at": 15.86,
+    "player": "bot",
+    "target": "player",
+    "dir": "top",
+    "value": 19
+   },
+   {
+    "kind": "attack",
+    "at": 15.99,
+    "player": "player"
+   },
+   {
+    "kind": "feint",
+    "at": 16.12,
+    "player": "player"
+   },
+   {
+    "kind": "attack",
+    "at": 16.27,
+    "player": "bot"
+   },
+   {
+    "kind": "hit",
+    "at": 16.52,
+    "player": "bot",
+    "target": "player",
+    "dir": "top",
+    "value": 21
+   },
+   {
+    "kind": "attack",
+    "at": 16.97,
+    "player": "bot"
+   },
+   {
+    "kind": "hit",
+    "at": 17.12,
+    "player": "bot",
+    "target": "player",
+    "dir": "left",
+    "value": 23
+   },
+   {
+    "kind": "attack",
+    "at": 18.01,
+    "player": "player"
+   },
+   {
+    "kind": "hit",
+    "at": 18.15,
+    "player": "player",
+    "target": "bot",
+    "dir": "left",
+    "value": 19
+   },
+   {
+    "kind": "attack",
+    "at": 19.02,
+    "player": "player"
+   },
+   {
+    "kind": "hit",
+    "at": 19.24,
+    "player": "player",
+    "target": "bot",
+    "dir": "right",
+    "value": 19
+   }
+  ]
+ },
+ "five": [
+  {
+   "id": "ferro-preview0",
+   "view": [
+    426,
+    360
+   ],
+   "me": {
+    "shown": true,
+    "inside": true,
+    "size": 84
+   },
+   "foe": {
+    "shown": true,
+    "inside": true
+   },
+   "state": "top:|left:|right:guard"
+  },
+  {
+   "id": "ferro-preview1",
+   "view": [
+    426,
+    360
+   ],
+   "me": {
+    "shown": true,
+    "inside": true,
+    "size": 84
+   },
+   "foe": {
+    "shown": true,
+    "inside": true
+   },
+   "state": "top:|left:attacking|right:"
+  },
+  {
+   "id": "ferro-preview2",
+   "view": [
+    426,
+    360
+   ],
+   "me": {
+    "shown": true,
+    "inside": true,
+    "size": 84
+   },
+   "foe": {
+    "shown": true,
+    "inside": true
+   },
+   "state": "top:attacking|left:|right:incoming"
+  },
+  {
+   "id": "ferro-preview3",
+   "view": [
+    640,
+    360
+   ],
+   "me": {
+    "shown": true,
+    "inside": true,
+    "size": 84
+   },
+   "foe": {
+    "shown": true,
+    "inside": true
+   },
+   "state": "top:|left:guard|right:incoming window"
+  },
+  {
+   "id": "ferro-preview4",
+   "view": [
+    640,
+    360
+   ],
+   "me": {
+    "shown": true,
+    "inside": true,
+    "size": 84
+   },
+   "foe": {
+    "shown": false,
+    "inside": true
+   },
+   "state": "top:guard|left:|right:"
+  }
+ ],
+ "status": "passed"
+}

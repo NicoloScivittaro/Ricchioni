@@ -3,7 +3,7 @@ import{FerroBots}from'../../shared/ferro/bots';
 import{emptyCommand}from'../../shared/ferro/types';
 import{FerroRenderer}from'../../src/minigames/ferro/FerroRenderer';
 import{CHARACTERS,CHARACTER_ORDER}from'../../shared/characters';
-const query=new URLSearchParams(location.search),humanCount=Number(query.get('humans')??5),mode=query.get('mode')??'selection',ids=CHARACTER_ORDER.slice(0,5),names=ids.map(id=>id==='goblin'?'Goblin':CHARACTERS[id].name);
+const query=new URLSearchParams(location.search),humanCount=Number(query.get('humans')??5),mode=query.get('mode')??'selection',ids=(query.get('cast')?.split(',').filter(id=>CHARACTER_ORDER.includes(id))??CHARACTER_ORDER).slice(0,5),names=ids.map(id=>id==='goblin'?'Goblin':CHARACTERS[id].name);
 const participants=ids.map((id,i)=>{const c=CHARACTERS[id];return{id:'ferro-preview'+i,name:c.name,displayName:names[i],bot:i>=humanCount,characterId:id,color:c.color,roleTitle:c.roleTitle,quote:c.quote,avatar:c.avatar,score:0};});
 const mapId=query.get('map')??'colosseum';const match=new FerroMatch(participants.map(p=>({...p,name:p.displayName})),{mapId}),bots=new FerroBots(),commands=participants.map(emptyCommand);
 const display=new FerroRenderer(document.querySelector('canvas')!,participants,(id,i)=>{commands[participants.findIndex(p=>p.id===id)].edges.choices[i]++;},id=>{commands[participants.findIndex(p=>p.id===id)].edges.dodge++;},match.state.mapId,id=>{commands[participants.findIndex(p=>p.id===id)].edges.cosmetic++;});

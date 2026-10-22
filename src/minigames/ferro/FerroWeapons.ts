@@ -1,7 +1,7 @@
 import{Scene,StandardMaterial,Color3,Mesh,MeshBuilder,TransformNode,Vector3,VertexData,Quaternion}from'@babylonjs/core';
 import type{LinesMesh}from'@babylonjs/core';
 import type{WeaponId,V3}from'../../../shared/ferro/types';
-import{cloneImported}from'./FerroAssets';
+import{cloneImported,calibrate}from'./FerroAssets';
 import{weapon}from'../../../shared/ferro/weapons';
 import type{BladePose}from'../../../shared/ferro/pose';
 const materials=new WeakMap<Scene,Map<string,StandardMaterial>>(),models=new WeakMap<Scene,Map<string,Mesh[]>>();
@@ -38,15 +38,17 @@ function forge(scene:Scene,id:WeaponId|'shieldFace'|'arrow'):Mesh[]{
   for(let i=0;i<3;i++){const ring=MeshBuilder.CreateTorus('grip-binding',{diameter:id==='spear'?.068:.103,thickness:.012,tessellation:10},scene);put(ring,gold,0,-.14+i*.07);}
  }
  const grouped=new Map<StandardMaterial,Mesh[]>();for(const p of parts){const m=p.material as StandardMaterial;const group=grouped.get(m)??[];group.push(p);grouped.set(m,group);}const merged:Mesh[]=[];
- for(const group of grouped.values()){const mesh=group.length===1?group[0]:Mesh.MergeMeshes(group,true,true,undefined,false,false)!;mesh.name='ferro-template:'+id;mesh.isPickable=false;mesh.setEnabled(false);merged.push(mesh);}cache.set(id,merged);return merged;
+ for(const group of grouped.values()){const mesh=group.length===1?group[0]:Mesh.MergeMeshes(group,true,true,undefined,false,false)!;mesh.name='ferro-template:'+id;mesh.isPickable=false;mesh.setEnabled(false);merged.push(mesh);}if(id==='axe')calibrate(merged,'forged');cache.set(id,merged);return merged;
 }
 export function cloneFerroModel(scene:Scene,id:WeaponId|'shieldFace'|'arrow',parent:TransformNode,variant=0):Mesh[]{return cloneImported(scene,id,parent,variant)??forge(scene,id).map((m,i)=>{const n=m.clone('ferro-model:'+id+':'+i,parent)!;n.setEnabled(true);return n;});}
 export function alignSegment(node:TransformNode,a:V3,b:V3,length=1):void{
  const dx=b.x-a.x,dy=b.y-a.y,dz=b.z-a.z,d=Math.hypot(dx,dy,dz)||.001;node.position.set(a.x,a.y,a.z);node.scaling.y=d/length;
  const dir=new Vector3(dx/d,dy/d,dz/d),dot=Vector3.Dot(Vector3.Up(),dir),axis=Vector3.Cross(Vector3.Up(),dir);node.rotationQuaternion=axis.lengthSquared()<1e-8?(dot<0?Quaternion.RotationAxis(Vector3.Right(),Math.PI):Quaternion.Identity()):Quaternion.RotationAxis(axis.normalize(),Math.acos(Math.max(-1,Math.min(1,dot))));
 }
+const REST=new Vector3(0,.35,1).normalize();
 export class FerroWeapon{
  readonly right:TransformNode;readonly left:TransformNode;private string:LinesMesh|null=null;private drawn:TransformNode|null=null;
+ private edge={right:REST.clone(),left:REST.clone()};private previous:{right:V3|null;left:V3|null}={right:null,left:null};
  constructor(private scene:Scene,readonly id:WeaponId,parent:TransformNode,variant=0){
   this.right=new TransformNode('ferro-right:'+id,scene);this.left=new TransformNode('ferro-left:'+id,scene);this.right.parent=this.left.parent=parent;
   cloneFerroModel(scene,id,this.right,variant);if(id==='shield')cloneFerroModel(scene,'shieldFace',this.left,variant);else if(id==='blades')cloneFerroModel(scene,id,this.left);
@@ -60,7 +62,23 @@ export class FerroWeapon{
    const dy=right.grip.y-left.grip.y,dz=right.grip.z-left.grip.z;
    if(this.string)MeshBuilder.CreateLines('bow-string',{points:[new Vector3(0,-.775,.1),new Vector3(right.grip.x-left.grip.x,dy*Math.cos(pitch)-dz*Math.sin(pitch),dy*Math.sin(pitch)+dz*Math.cos(pitch)),new Vector3(0,.775,.1)],instance:this.string});
    if(this.drawn){this.drawn.setEnabled(charge>.03);alignSegment(this.drawn,right.grip,{x:right.grip.x,y:right.grip.y+Math.sin(pitch),z:right.grip.z+Math.cos(pitch)});}
-  }else{alignSegment(this.right,right.grip,right.tip,weapon(this.id).length);if(this.id==='blades')alignSegment(this.left,left.grip,left.tip,weapon(this.id).length);else if(this.id==='shield'){this.left.position.set(left.grip.x,left.grip.y,left.grip.z);this.left.scaling.setAll(1);}}
+  }else{this.orient(this.right,right,'right');if(this.id==='blades')this.orient(this.left,left,'left');else if(this.id==='shield')this.face(this.left,left);}
+ }
+ /** Calibrated model (handle at the origin, tip +Y, edge +Z) placed on the pose without stretching.
+  * The edge follows the swing so axes and hammers strike with the head, and faces the opponent at rest. */
+ private orient(node:TransformNode,pose:BladePose,hand:'right'|'left'):void{
+  const dir=new Vector3(pose.tip.x-pose.grip.x,pose.tip.y-pose.grip.y,pose.tip.z-pose.grip.z);if(dir.lengthSquared()<1e-8)return;dir.normalize();
+  const edge=this.edge[hand],prev=this.previous[hand];
+  if(prev){const v=new Vector3(pose.tip.x-prev.x,pose.tip.y-prev.y,pose.tip.z-prev.z),speed=v.length();Vector3.LerpToRef(edge,speed>.025?v.scaleInPlace(1/speed):REST,speed>.025?.5:.2,edge);}
+  this.previous[hand]={...pose.tip};
+  const z=edge.subtract(dir.scale(Vector3.Dot(edge,dir)));if(z.lengthSquared()<1e-6)z.copyFrom(Math.abs(dir.y)<.9?Vector3.Up():Vector3.Forward());z.normalize();
+  node.position.set(pose.grip.x,pose.grip.y,pose.grip.z);node.scaling.setAll(1);node.rotationQuaternion=Quaternion.RotationQuaternionFromAxis(Vector3.Cross(dir,z),dir,z);
+ }
+ /** Shield face (+Z) turned towards grip→tip, kept upright: it follows the three guards and the block push. */
+ private face(node:TransformNode,pose:BladePose):void{
+  const z=new Vector3(pose.tip.x-pose.grip.x,pose.tip.y-pose.grip.y,pose.tip.z-pose.grip.z);if(z.lengthSquared()<1e-8)z.set(0,0,1);z.normalize();
+  const y=Vector3.Up().subtract(z.scale(z.y));if(y.lengthSquared()<1e-6)y.set(0,0,-1);y.normalize();
+  node.position.set(pose.grip.x,pose.grip.y,pose.grip.z);node.scaling.setAll(1);node.rotationQuaternion=Quaternion.RotationQuaternionFromAxis(Vector3.Cross(y,z),y,z);
  }
  dispose():void{this.right.dispose();this.left.dispose();this.drawn?.dispose();}
 }

@@ -58,7 +58,38 @@ export class FerroSkin{
   const desired=Vector3.TransformCoordinates(Vector3.TransformCoordinates(target,this.root.getWorldMatrix()),inv).subtract(origin).normalize();
   Quaternion.FromUnitVectorsToRef(current,desired,this.delta);node.rotationQuaternion=this.delta.multiply(node.rotationQuaternion??Quaternion.FromEulerVector(node.rotation));node.computeWorldMatrix(true);
  }
- private hand(side:'Right'|'Left',target:V3):void{
+ private world(node:TransformNode):Vector3{return node.computeWorldMatrix(true).getTranslation();}
+ /** Rotates a joint by a world-space rotation about its own pivot (additive layer over the sampled clip). */
+ private turn(node:TransformNode,rotation:Matrix):void{
+  const pivot=this.world(node),world=node.computeWorldMatrix(true).multiply(Matrix.Translation(-pivot.x,-pivot.y,-pivot.z)).multiply(rotation).multiply(Matrix.Translation(pivot.x,pivot.y,pivot.z));
+  world.multiply(Matrix.Invert((node.parent as TransformNode).computeWorldMatrix(true))).decompose(undefined,node.rotationQuaternion!);node.computeWorldMatrix(true);
+ }
+ /** Wrist IK onto the weapon: the fist (knuckle line) is turned onto the handle axis and the palm, not the
+  * wrist, is placed on the calibrated grip point. The weapon never moves; only the arm adapts. */
+ private hand(side:'Right'|'Left',target:V3,axis?:V3|null):void{
+  this.reach(side,target);if(!axis)return;
+  const hand=this.joint(side+'Hand'),index=this.joint(side+'HandIndex1'),pinky=this.joint(side+'HandPinky1');
+  const across=this.world(index).subtract(this.world(pinky)),want=Vector3.TransformNormal(new Vector3(axis.x,axis.y,axis.z),this.root.getWorldMatrix());
+  if(across.lengthSquared()<1e-10||want.lengthSquared()<1e-10)return;Quaternion.FromUnitVectorsToRef(across.normalize(),want.normalize(),this.delta);
+  const rotation=Matrix.Identity();this.delta.toRotationMatrix(rotation);this.turn(hand,rotation);
+  const wrist=this.world(hand),knuckles=this.world(index).add(this.world(pinky)).scale(.5),palm=wrist.add(knuckles.subtract(wrist).scale(1.12));
+  const offset=Vector3.TransformNormal(palm.subtract(wrist),this.rootInverse);
+  for(const name of [side+'ForeArm',side+'Hand']){const joint=this.joints.get('mixamorig:'+name)!;joint.node.position.copyFrom(joint.position);}
+  this.reach(side,{x:target.x-offset.x,y:target.y-offset.y,z:target.z-offset.z});
+  this.wrap(side,Vector3.TransformCoordinates(new Vector3(target.x,target.y,target.z),this.root.getWorldMatrix()));
+ }
+ /** Closes the fingers around the handle: each phalanx turns about the knuckle line (now the handle axis) in the
+  * direction that brings the fingertips onto the handle. Additive on the clip's own finger pose. */
+ private wrap(side:'Right'|'Left',grip:Vector3):void{
+  const index=this.joint(side+'HandIndex1'),pinky=this.joint(side+'HandPinky1'),axis=this.world(index).subtract(this.world(pinky));if(axis.lengthSquared()<1e-10)return;axis.normalize();
+  const tip=this.joints.get('mixamorig:'+side+'HandMiddle3')?.node,base=this.joints.get('mixamorig:'+side+'HandMiddle1')?.node;if(!tip||!base)return;
+  const gap=()=>{const v=this.world(tip).subtract(grip);return v.subtract(axis.scale(Vector3.Dot(v,axis))).length();};
+  const rest=base.rotationQuaternion!.clone(),before=gap();this.turn(base,Matrix.RotationAxis(axis,.35));const plus=gap();base.rotationQuaternion!.copyFrom(rest);base.computeWorldMatrix(true);
+  const sign=plus<before?1:-1;
+  for(const finger of ['Index','Middle','Ring','Pinky'])[.75,.95,.7].forEach((angle,i)=>{const node=this.joints.get('mixamorig:'+side+'Hand'+finger+(i+1))?.node;if(node)this.turn(node,Matrix.RotationAxis(axis,sign*angle));});
+  for(const[i,angle]of[[2,.45],[3,.5]]as const){const node=this.joints.get('mixamorig:'+side+'HandThumb'+i)?.node;if(node)this.turn(node,Matrix.RotationAxis(axis,sign*angle));}
+ }
+ private reach(side:'Right'|'Left',target:V3):void{
   const upper=this.joint(side+'Arm'),fore=this.joint(side+'ForeArm'),hand=this.joint(side+'Hand'),a=this.local(upper);
   // The common arcade grips were authored for long-armed cartoon rigs. A bounded
   // translation correction closes short-arm gaps without moving the blade/hitbox.
@@ -75,14 +106,14 @@ export class FerroSkin{
   const parent=hand.parent as TransformNode,wrist=wristWorld.multiply(Matrix.Invert(parent.computeWorldMatrix(true)));
   wrist.decompose(undefined,hand.rotationQuaternion!);hand.computeWorldMatrix(true);
  }
- update(p:Warrior,time:number,right:V3,left:V3,dodge:number):void{
+ update(p:Warrior,time:number,right:V3,left:V3,dodge:number,body:{lean?:number;twist?:number;tilt?:number}={},axes:{right?:V3|null;left?:V3|null}={}):void{
   if(!this.entries||this.disposed)return;
   // All animated rotations are overwritten below. Restore only the translations
   // modified by hips/hand IK instead of dirtying every one of the 65 joints twice.
   for(const name of ['Hips','LeftForeArm','RightForeArm','LeftHand','RightHand']){const joint=this.joints.get('mixamorig:'+name)!;joint.node.position.copyFrom(joint.position);}
   let key=motionKey(p),progress=motionProgress(p),loop=false;
   if(!p.alive){key='death';progress=Math.min(1,(time-p.deadAt)/1.1);}
-  else if(p.hurt>0&&!p.action){key='hurt';progress=1-p.hurt/.22;}
+  else if(p.hurt>0&&!p.action&&p.clash?.kind!=='block'){key='hurt';progress=1-p.hurt/.22;} // a blocked blow shows the guard reaction, not a flinch
   else if(!p.action&&Math.hypot(p.vx,p.vz)>1&&p.weapon!=='bow'){const lateral=p.vx*Math.cos(p.yaw)-p.vz*Math.sin(p.yaw);key=Math.abs(lateral)>1?lateral>0?'strafeR':'strafeL':'run';loop=true;}
   const clip=this.clips[key]??this.clips.idle;if(!clip)return;
   if(loop)progress=(time%clip.duration)/clip.duration;
@@ -97,7 +128,12 @@ export class FerroSkin{
   // Crouch is a render layer; the authoritative dodge trajectory remains unchanged.
   if(dodge>0){const scale=this.pivot.scaling.y;hips.node.position.y-=dodge*.12/Math.max(.001,scale);}
   this.root.computeWorldMatrix(true).invertToRef(this.rootInverse);
-  if(p.alive){this.hand('Right',right);this.hand('Left',left);}
+  // Contact reactions: additive lean / twist / side tilt of the torso around the root axes.
+  const lean=body.lean??0,twist=body.twist??0,tilt=body.tilt??0;
+  if(p.alive&&Math.abs(lean)+Math.abs(twist)+Math.abs(tilt)>1e-3){const m=this.root.getWorldMatrix(),rightAxis=Vector3.TransformNormal(Vector3.Right(),m).normalize(),forward=Vector3.TransformNormal(Vector3.Forward(),m).normalize();
+   const spine=this.joints.get('mixamorig:Spine')?.node;if(spine)this.turn(spine,Matrix.RotationAxis(rightAxis,lean*.6).multiply(Matrix.RotationAxis(Vector3.Up(),twist*.6)).multiply(Matrix.RotationAxis(forward,tilt*.6)));
+   const chest=this.joints.get('mixamorig:Spine2')?.node;if(chest)this.turn(chest,Matrix.RotationAxis(rightAxis,lean*.4).multiply(Matrix.RotationAxis(Vector3.Up(),twist*.4)).multiply(Matrix.RotationAxis(forward,tilt*.4)));}
+  if(p.alive){this.hand('Right',right,axes.right);this.hand('Left',left,axes.left);}
   this.skeleton!.prepare();
  }
  debug(){return{character:this.character,ready:!!this.entries,bones:this.skeleton?.bones.length??0,meshes:this.pivot.getChildMeshes().length,clips:Object.keys(this.clips),hands:this.entries?{right:this.local(this.joint('RightHand')).asArray(),left:this.local(this.joint('LeftHand')).asArray()}:null};}
