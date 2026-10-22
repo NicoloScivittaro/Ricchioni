@@ -23,3 +23,8 @@
 10:19:47 [vite] (client) page reload docs/agent-work/narrator-voice/index.html
 10:19:48 [vite] (client) page reload docs/agent-work/minigolf-surfaces/index.html
 10:19:48 [vite] (client) page reload docs/agent-work/terminal-lag/index.html
+11:04:32 [vite] (client) page reload src/core/GameManager.ts
+11:04:32 [vite] (client) page reload src/minigames/ferro/FerroScene.ts
+11:04:32 [vite] (client) page reload src/minigames/ferro/FerroSkin.ts
+11:04:32 [vite] (client) page reload src/minigames/ferro/FerroRenderer.ts
+11:14:43 [vite] (client) page reload docs/agent-work/ferro-2/index.html

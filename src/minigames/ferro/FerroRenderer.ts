@@ -14,6 +14,7 @@ import{distance,visible,angle}from'../../../shared/ferro/arena';
 import{FerroWorld}from'./FerroWorld';
 import{FerroAudio}from'./FerroAudio';
 import{cloneFerroModel,alignSegment,ferroMaterial}from'./FerroWeapons';
+import{prepareVisuals}from'../../core/visualAssets';
 import'./FerroRenderer.css';
 interface Rig{id:string;subject?:string;camera:UniversalCamera;position:Vector3;look:Vector3;initialized:boolean;panel:HTMLDivElement;hp:HTMLElement;stamina:HTMLElement;numbers:HTMLElement;meta:HTMLElement;clock:HTMLElement;special:HTMLElement;message:HTMLElement;reticle:HTMLElement;charge:HTMLElement;chargeBar:HTMLElement;flash:HTMLElement;hit:HTMLElement;hitTime:number;note:string;noteTime:number;guide:Mesh;targetMark?:Mesh;}
 interface SelectPanel{root:HTMLDivElement;name:HTMLElement;ready:HTMLElement;art:HTMLElement;title:HTMLElement;role:HTMLElement;description:HTMLElement;special:HTMLElement;stats:HTMLElement;buttons:HTMLButtonElement[];confirm:HTMLButtonElement;weapon:string;}
@@ -38,7 +39,7 @@ export class FerroRenderer{
    const menu=this.selectPanel(p);menu.root.querySelector('.ferro-cosmetic')?.addEventListener('click',()=>this.cosmetic?.(p.id));menu.root.style.cssText=`left:calc(${r.x*100}% + 5px);top:calc(${(1-r.y-r.h)*100}% + 5px);width:calc(${r.w*100}% - 10px);height:calc(${r.h*100}% - 10px);--player:${p.color}`;menu.buttons.forEach((b,index)=>b.addEventListener('click',()=>choose(p.id,index)));menu.confirm.addEventListener('click',()=>confirm(p.id));this.selection.set(p.id,menu);this.selectRoot.appendChild(menu.root);
   });
   this.scene.onBeforeCameraRenderObservable.add(camera=>{const rig=this.rigs.find(r=>r.camera===camera);for(const[id,actor]of this.actors){const p=actor.root.position,d=Math.hypot(camera.position.x-p.x,camera.position.y-p.y-1.5,camera.position.z-p.z);actor.setCameraFade(rig?.subject===id&&d<3.8?.16:1);}for(const[id,label]of this.labels)label.isVisible=rig?.subject!==id;});
-  window.addEventListener('resize',this.resizeFn);this.engine.resize();this.scene.activeCameras=[this.overview];this.ready=Promise.all([loadFerroAssets(this.scene,mapId),...[...this.actors.values()].map(actor=>actor.ready)]).then(async()=>{if(this.disposed)return;this.pools();await this.scene.whenReadyAsync();});
+  window.addEventListener('resize',this.resizeFn);this.engine.resize();this.scene.activeCameras=[this.overview];this.ready=Promise.all([loadFerroAssets(this.scene,mapId),...[...this.actors.values()].map(actor=>actor.ready)]).then(async()=>{if(this.disposed)return;this.pools();await prepareVisuals(this.scene);});
  }
  private label(p:PlayerSnapshot,actor:FerroActor):Mesh{
   const texture=new DynamicTexture('ferro-name:'+p.id,{width:256,height:48},this.scene,false),c=texture.getContext()as CanvasRenderingContext2D;c.fillStyle='#10212bd9';c.fillRect(0,0,256,48);c.fillStyle=p.color;c.fillRect(0,0,4,48);c.fillStyle='#e6e7d9';c.textAlign='center';c.font='bold 23px Arial';c.fillText(p.displayName.slice(0,18),128,32);texture.hasAlpha=true;texture.update();const material=new StandardMaterial('ferro-name:'+p.id,this.scene);material.diffuseTexture=texture;material.useAlphaFromDiffuseTexture=true;material.disableLighting=true;material.emissiveColor=Color3.White();material.freeze();const plane=MeshBuilder.CreatePlane('ferro-name:'+p.id,{width:1.9,height:.36},this.scene);plane.material=material;plane.parent=actor.root;plane.position.y=actor.rig.topY+.35;plane.billboardMode=Mesh.BILLBOARDMODE_ALL;plane.layerMask=1;plane.isPickable=false;return plane;
@@ -55,7 +56,7 @@ export class FerroRenderer{
  setPaused(value:boolean):void{this.paused=value;this.audio.setPaused(value);}
  /** Covered warm draw of every viewport. No simulation time or inputs advance here. */
  async warm(state:FerroState):Promise<void>{
-  if(this.disposed)return;const preview={...state,phase:'fight' as const};this.update(preview,0);await this.scene.whenReadyAsync();this.render();
+  if(this.disposed)return;const preview={...state,phase:'fight' as const};this.update(preview,0);await prepareVisuals(this.scene);if(this.disposed)return;this.render();
   // Complete the first GPU submission before revealing play (once per scene, never per frame).
   const gl=this.canvas.getContext('webgl2')??this.canvas.getContext('webgl');gl?.finish();
   this.update(state,0);this.render();

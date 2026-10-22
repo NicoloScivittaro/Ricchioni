@@ -1,0 +1,110 @@
+{
+  "base": "http://localhost:3012",
+  "map": "colosseum",
+  "errors": [
+    "[minigioco] Il caricamento sta impiegando troppo tempo"
+  ],
+  "requests": [
+    {
+      "url": "http://localhost:3012/assets/ferro2/skin-goblin.json",
+      "status": 200,
+      "at": 1792659962804
+    },
+    {
+      "url": "http://localhost:3012/models/detailed-tripo/detailed_character_casacarbo.glb",
+      "status": 200,
+      "at": 1792659962806
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/skin-buttafuori.json",
+      "status": 200,
+      "at": 1792659962806
+    },
+    {
+      "url": "http://localhost:3012/models/judoka-tripo/judo_figure_casacarbo.glb",
+      "status": 200,
+      "at": 1792659962807
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/skin-judoka.json",
+      "status": 200,
+      "at": 1792659962807
+    },
+    {
+      "url": "http://localhost:3012/models/man-tripo/man_animated.glb",
+      "status": 200,
+      "at": 1792659962807
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/skin-ciro.json",
+      "status": 200,
+      "at": 1792659962904
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/crystal.glb",
+      "status": 200,
+      "at": 1792659962904
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/steampunk.glb",
+      "status": 200,
+      "at": 1792659962904
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/autumn.glb",
+      "status": 200,
+      "at": 1792659962963
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/victory.glb",
+      "status": 200,
+      "at": 1792659962963
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/medieval.glb",
+      "status": 200,
+      "at": 1792659963061
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/scutum.glb",
+      "status": 200,
+      "at": 1792659963155
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/longinus.glb",
+      "status": 200,
+      "at": 1792659963157
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/bow.glb",
+      "status": 200,
+      "at": 1792659963291
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/arrow.glb",
+      "status": 200,
+      "at": 1792659963347
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/dagger.glb",
+      "status": 200,
+      "at": 1792659963418
+    },
+    {
+      "url": "http://localhost:3012/assets/ferro2/warhammer.glb",
+      "status": 200,
+      "at": 1792659963424
+    }
+  ],
+  "last": {
+    "loading": true,
+    "controls": false,
+    "ferro": true,
+    "error": "😵IL GIOCO NON È PARTITOSuccede. Riprova, oppure salta questo gioco: la serata continua.🔄 RIPROVA⏭ SALTA GIOCOIl caricamento sta impiegando troppo tempo",
+    "text": "E · B: FINTA · X: PRESA\nLOAD 2\n×\n▲\n◀\n▶\nLT: AGGANCIA · RS: GUARDIA · R3: BERSAGLIO\nRB: LEGGERO · RT: PESANTE · B: FINTA · X: PRESA\nLOAD 3\n×\n▲\n◀\n▶\nLT: AGGANCIA · RS: GUARDIA · R3: BERSAGLIO\nRB: LEGGERO · RT: PESANTE · B: FINTA · X: PRESA\nLOAD 4\n×\n▲\n◀\n▶\nLT: AGGANCIA · RS: GUARDIA · R3: BERSAGLIO\nRB: LEGGERO · RT: PESANTE · B: FINTA · X: PRESA\n😵\nIL GIOCO NON È PARTITO\nSuccede. Riprova, oppure salta questo gioco: la serata continua.\n🔄 RIPROVA\n⏭ SALTA GIOCO\nIl caricamento sta impiegando troppo tempo"
+  },
+  "elapsedSeconds": 42.858,
+  "delayedAsset": true,
+  "delayMs": 28000,
+  "failure": "AssertionError [ERR_ASSERTION]: {\"loading\":true,\"controls\":false,\"ferro\":true,\"error\":\"😵IL GIOCO NON È PARTITOSuccede. Riprova, oppure salta questo gioco: la serata continua.🔄 RIPROVA⏭ SALTA GIOCOIl caricamento sta impiegando troppo tempo\",\"text\":\"E · B: FINTA · X: PRESA\\nLOAD 2\\n×\\n▲\\n◀\\n▶\\nLT: AGGANCIA · RS: GUARDIA · R3: BERSAGLIO\\nRB: LEGGERO · RT: PESANTE · B: FINTA · X: PRESA\\nLOAD 3\\n×\\n▲\\n◀\\n▶\\nLT: AGGANCIA · RS: GUARDIA · R3: BERSAGLIO\\nRB: LEGGERO · RT: PESANTE · B: FINTA · X: PRESA\\nLOAD 4\\n×\\n▲\\n◀\\n▶\\nLT: AGGANCIA · RS: GUARDIA · R3: BERSAGLIO\\nRB: LEGGERO · RT: PESANTE · B: FINTA · X: PRESA\\n😵\\nIL GIOCO NON È PARTITO\\nSuccede. Riprova, oppure salta questo gioco: la serata continua.\\n🔄 RIPROVA\\n⏭ SALTA GIOCO\\nIl caricamento sta impiegando troppo tempo\"}"
+}

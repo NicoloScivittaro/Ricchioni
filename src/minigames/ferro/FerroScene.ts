@@ -16,7 +16,7 @@ export class FerroScene extends Phaser.Scene{
  create(data:{ctx:MinigameContext}):void{
   this.ctx=data.ctx;this.cancelled=false;this.playing=false;this.paused=false;this.sent=0;this.end=0;this.finished=false;this.cancellations.clear();this.bots=new FerroBots();
   audio.unlock();this.cameras.main.setBackgroundColor('#151b24');this.menu=new PauseMenu(this,'FERRO E FURIA',this.ctx.input,()=>this.scene.restart({ctx:this.ctx}));
-  this.hide=showLoading(this,'⚔️','FERRO E FURIA · HONOR & STEEL');this.events.once(Phaser.Scenes.Events.SHUTDOWN,()=>this.cleanup());gm.minigameLoadStarted();const version=++this.version;
+  this.hide=showLoading(this,'⚔️','FERRO E FURIA · HONOR & STEEL');this.events.once(Phaser.Scenes.Events.SHUTDOWN,()=>this.cleanup());gm.minigameLoadStarted(120000);const version=++this.version;
   void this.boot(version).catch(e=>{if(!this.cancelled&&version===this.version)gm.reportMinigameError(e);});
  }
  private async boot(version:number):Promise<void>{

@@ -5,7 +5,7 @@ import type {Warrior,V3} from '../../../shared/ferro/types';
 import {motionKey,motionProgress} from '../../../shared/ferro/motion';
 
 // Same original skins as the rest of Party Game. This loader/pose adapter belongs only to Ferro.
-const MODELS:Readonly<Record<string,string>>={goblin:'/models/goblin-tripo/green_goblin_casacarbo.glb',buttafuori:'/models/detailed-tripo/detailed_character_casacarbo.glb',judoka:'/models/judoka-tripo/judo_figure_casacarbo.glb',ciro:'/models/man-tripo/man_animated.glb'};
+const MODELS:Readonly<Record<string,string>>={goblin:'/assets/ferro2/skin-goblin.glb',buttafuori:'/assets/ferro2/skin-buttafuori.glb',judoka:'/assets/ferro2/skin-judoka.glb',ciro:'/assets/ferro2/skin-ciro.glb'};
 type Frame=Record<string,number[]>;
 type Clips=Record<string,{duration:number;frames:Frame[]}>;
 type Joint={node:TransformNode;rotation:Quaternion;position:Vector3};

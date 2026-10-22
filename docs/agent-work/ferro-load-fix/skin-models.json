@@ -1,0 +1,38 @@
+{
+  "goblin": {
+    "source": "public\\models\\goblin-tripo\\green_goblin_casacarbo.glb",
+    "sourceSha256": "0e6ce217ccca7ef90423584a5700d6ef0064f7a43d5ee32a976cb147c5059fa7",
+    "sourceBytes": 10754744,
+    "outputBytes": 6049584,
+    "removedClips": 52,
+    "retainedBufferViews": 8,
+    "allRetainedBytesVerified": true
+  },
+  "buttafuori": {
+    "source": "public\\models\\detailed-tripo\\detailed_character_casacarbo.glb",
+    "sourceSha256": "763ebedbd024b214b36f98ec93f282c9155f85b6e865580f006142ad74067e7e",
+    "sourceBytes": 20169284,
+    "outputBytes": 15831596,
+    "removedClips": 54,
+    "retainedBufferViews": 10,
+    "allRetainedBytesVerified": true
+  },
+  "judoka": {
+    "source": "public\\models\\judoka-tripo\\judo_figure_casacarbo.glb",
+    "sourceSha256": "6ef81e531783afca7f882ae56b28de0fbf4b685b4c47aceb12813913353f8490",
+    "sourceBytes": 17324312,
+    "outputBytes": 13323716,
+    "removedClips": 49,
+    "retainedBufferViews": 10,
+    "allRetainedBytesVerified": true
+  },
+  "ciro": {
+    "source": "public\\models\\man-tripo\\man_animated.glb",
+    "sourceSha256": "4a00b680701e36e25507305d53332837337101a850095e5e6e026fb0f0e76743",
+    "sourceBytes": 18829088,
+    "outputBytes": 13904764,
+    "removedClips": 59,
+    "retainedBufferViews": 10,
+    "allRetainedBytesVerified": true
+  }
+}

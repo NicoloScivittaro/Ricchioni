@@ -219,13 +219,13 @@ export class GameManager {
     );
   }
 
-  /** Le scene con caricamento asincrono (3D) segnalano inizio/fine: oltre 25s → recovery. */
-  minigameLoadStarted(): void {
+  /** Async scenes signal readiness; heavier scenes can allow their full cold asset load. */
+  minigameLoadStarted(timeoutMs = 25000): void {
     this.clearLoadWatchdog();
     this.loadWatchdog = setTimeout(() => {
       this.loadWatchdog = null;
       this.reportMinigameError('Il caricamento sta impiegando troppo tempo');
-    }, 25000);
+    }, timeoutMs);
   }
 
   minigameLoadFinished(): void {

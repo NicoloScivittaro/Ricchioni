@@ -1,0 +1,9 @@
+AssertionError [ERR_ASSERTION]: {"loading":true,"controls":false,"ferro":true,"error":"😵IL GIOCO NON È PARTITOSuccede. Riprova, oppure salta questo gioco: la serata continua.🔄 RIPROVA⏭ SALTA GIOCOIl caricamento sta impiegando troppo tempo","text":"E · B: FINTA · X: PRESA\nLOAD 2\n×\n▲\n◀\n▶\nLT: AGGANCIA · RS: GUARDIA · R3: BERSAGLIO\nRB: LEGGERO · RT: PESANTE · B: FINTA · X: PRESA\nLOAD 3\n×\n▲\n◀\n▶\nLT: AGGANCIA · RS: GUARDIA · R3: BERSAGLIO\nRB: LEGGERO · RT: PESANTE · B: FINTA · X: PRESA\nLOAD 4\n×\n▲\n◀\n▶\nLT: AGGANCIA · RS: GUARDIA · R3: BERSAGLIO\nRB: LEGGERO · RT: PESANTE · B: FINTA · X: PRESA\n😵\nIL GIOCO NON È PARTITO\nSuccede. Riprova, oppure salta questo gioco: la serata continua.\n🔄 RIPROVA\n⏭ SALTA GIOCO\nIl caricamento sta impiegando troppo tempo"}
+    at file:///C:/Users/niluf.PC-NIKO/Desktop/Ricchioni/scripts/e2e/ferro-load-fix.mjs:30:173 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
