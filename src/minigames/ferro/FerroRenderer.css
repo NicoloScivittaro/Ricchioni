@@ -47,3 +47,4 @@
 .ferro-small .ferro-guard.me{top:62%;width:84px}
 .ferro-small .ferro-guard.foe{width:52px}
 .ferro-small .ferro-guard small{font-size:8px}
+.ferro-bar.stamina.spent{background:#c9473a55;animation:fg-flicker .5s steps(2) infinite}.ferro-bar.stamina.spent i{background:#e0604f}

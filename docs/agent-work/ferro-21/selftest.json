@@ -7,7 +7,9 @@
     "Missed attack: no hit/block/parry events and no reaction on either warrior; the attack just recovers",
     "Blocked attack keeps its original cooldown and length: no longer lock, no shorter recovery",
     "Three guards move the actual weapon (top raised, left/right on that side) at full weapon length for all six melee weapons; axe has three cosmetic models",
-    "BOT BOSCHI: guards the seen side after 0.17–0.34 s, sometimes wrong, occasional imperfect parry, adapts to repeated top attacks and can be fooled by a feint"
+    "BOT BOSCHI: guards the seen side after 0.17–0.34 s, sometimes wrong, occasional imperfect parry, adapts to repeated top attacks and can be fooled by a feint",
+    "Exhaustion: 0 stamina -> slower walking, delayed guard-side change, attacks still allowed (slower swing) until stamina recovers to 40",
+    "Running: faster than walking at a stamina cost, per-weapon speed/drain (blades best, hammer worst), late attack and guard right after a run, never while guarding"
   ],
   "report": {
     "deflection": {

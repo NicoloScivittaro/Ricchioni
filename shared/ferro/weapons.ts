@@ -1,6 +1,6 @@
 import type{AttackSpec,WeaponDef,WeaponId,Action}from'./types';
 const strike=(style:AttackSpec['style'],damage:number,wind:number,active:number,recover:number,cost:number,reach:number,width=.15):AttackSpec=>({style,damage,wind,active,recover,cost,reach,width});
-export const FERRO_RULES={rounds:3,roundSeconds:90,selectionSeconds:18,countdownSeconds:3,health:100,stamina:100,regen:24,parryWindow:.13,dodgeCost:22,dodgeSeconds:.36,placementPoints:12,winPoints:12,killPoints:2,arrowGravity:9.8,arenaRadius:16}as const;
+export const FERRO_RULES={rounds:3,roundSeconds:90,selectionSeconds:18,countdownSeconds:3,health:100,stamina:100,regen:24,parryWindow:.13,spentBelow:40,spentSpeed:.55,spentSwing:.72,spentGuardShift:.5,dodgeCost:22,dodgeSeconds:.36,placementPoints:12,winPoints:12,killPoints:2,arrowGravity:9.8,arenaRadius:16}as const;
 export const WEAPONS:readonly WeaponDef[]=[
  {id:'sword',name:'SPADA',title:'IL DUELLANTE',color:'#a9d8ef',description:'Equilibrio, combo a tre colpi e contrattacco dopo un parry.',speed:4,defence:.68,mobility:1,length:1.62,specialName:'CONTRATTACCO',specialHint:'Dopo una parata perfetta: affondo rapido.',cooldown:7,light:strike('slash',19,.15,.15,.21,7,2.25),heavy:strike('overhead',34,.40,.18,.48,23,2.4),special:strike('thrust',30,.06,.13,.27,14,2.65)},
  {id:'spear',name:'LANCIA',title:'IL PREDATORE',color:'#d8bc83',description:'Affondi lunghi e stretti. Sotto la punta il danno cala.',speed:3,defence:.48,mobility:.97,length:2.6,specialName:'CARICA',specialHint:'Affondo in corsa: preparazione visibile e recupero.',cooldown:8,light:strike('thrust',24,.22,.15,.28,8,3.35,.12),heavy:strike('thrust',39,.44,.18,.57,24,3.8,.16),special:{...strike('thrust',30,.32,.23,.64,27,3.6,.17),dash:7}},
@@ -31,4 +31,17 @@ export const TRAITS:Readonly<Record<WeaponId,WeaponTraits>>={
  hammer:{guardCost:1.3,pressure:1.5,parry:.8,parried:1.2,strength:'Spacca le guardie: ogni colpo parato costa caro',weakness:'Lentissimo e punito dal parry; fianco scoperto se manca'},
  blades:{guardCost:1.4,pressure:.65,parry:1.1,parried:.8,strength:'Velocità e pressione continua, si riprende subito da un parry',weakness:'Danno basso, poca portata, guardia che finisce presto'},
  shield:{guardCost:.55,pressure:.9,parry:.8,parried:.8,strength:'Guardia quasi inesauribile, il miglior bastione',weakness:'Poco danno, lento e senza protezione alle spalle'}
+};
+/** Running (hold sprint while moving). speed: × walking speed. drain: stamina/s. delay: extra wind-up (s) when a swing
+ * starts straight out of a run. settle: seconds before the guard can be raised after stopping. Running never works
+ * while guarding, attacking, drawing the bow or exhausted. */
+export interface RunTraits{speed:number;drain:number;delay:number;settle:number;note:string}
+export const RUN:Readonly<Record<WeaponId,RunTraits>>={
+ blades:{speed:1.7,drain:6.5,delay:.04,settle:.12,note:'Il corridore: veloce, economico, si ferma subito'},
+ sword:{speed:1.5,drain:9,delay:.1,settle:.18,note:'Buona corsa, piccolo ritardo per riprendere la guardia'},
+ spear:{speed:1.5,drain:9,delay:0,settle:.25,note:'Carica in corsa: colpisce subito, ma frenare è lento'},
+ bow:{speed:1.55,drain:8,delay:.1,settle:.2,note:'Corre bene per tenere la distanza'},
+ axe:{speed:1.38,drain:11,delay:.2,settle:.3,note:'Corsa pesante: l’attacco da fermo parte tardi'},
+ shield:{speed:1.3,drain:14,delay:.15,settle:.3,note:'Corre male e si stanca presto'},
+ hammer:{speed:1.28,drain:13,delay:.32,settle:.38,note:'Il più lento a fermarsi e ad attaccare dopo uno scatto'}
 };

@@ -100,5 +100,25 @@ checks.push('Three guards move the actual weapon (top raised, left/right on that
 }
 checks.push('BOT BOSCHI: guards the seen side after 0.17–0.34 s, sometimes wrong, occasional imperfect parry, adapts to repeated top attacks and can be fooled by a feint');
 
+// 8. Exhaustion: at 0 stamina everything is slower, yet attacks still go out; recovers above the threshold.
+{
+ const{m,p,q,c}=duel();p.stamina=0;run(m,c,.05);assert.ok(p.spent);
+ const fresh=duel(),f=fresh.p;fresh.c[0].my=-1;c[0].my=-1;run(m,c,.5);run(fresh.m,fresh.c,.5);const slow=Math.abs(p.z+2),fast=Math.abs(f.z+2);assert.ok(slow<fast*.7,'exhausted moves much slower');
+ const t=duel();t.p.stamina=0;t.p.spent=true;t.p.guardDirection='top';t.c[0].guardDirection='left';run(t.m,t.c,.2);assert.equal(t.p.guardDirection,'top','guard side change is delayed');run(t.m,t.c,.5);assert.equal(t.p.guardDirection,'left');
+ const a=duel();a.p.stamina=0;a.c[0].edges.light++;run(a.m,a.c,1.2);assert.ok(a.q.hp<100,'exhausted attack still hits');assert.ok(a.p.spent);
+ const r=duel();r.p.stamina=0;run(r.m,r.c,.05);for(let i=0;i<600&&r.p.spent;i++)run(r.m,r.c,1/120);assert.ok(!r.p.spent&&r.p.stamina>=40);
+}
+checks.push('Exhaustion: 0 stamina -> slower walking, delayed guard-side change, attacks still allowed (slower swing) until stamina recovers to 40');
+// 9. Running: faster, costs stamina, differs per weapon, delays an attack and the guard afterwards.
+{
+ const dist=(w:WeaponId,sprint:boolean)=>{const t=duel(w,'sword');t.p.z=-6;t.q.x=7;t.q.z=7;t.c[0].my=-1;t.c[0].sprint=sprint;run(t.m,t.c,1);return{d:Math.abs(t.p.z+6),stamina:t.p.stamina,running:t.p.running};};
+ const walk=dist('sword',false),sword=dist('sword',true),blades=dist('blades',true),hammer=dist('hammer',true);
+ assert.ok(sword.running&&sword.d>walk.d*1.35&&sword.stamina<walk.stamina-6,'run is faster and costs stamina');
+ assert.ok(blades.d>sword.d&&sword.d>hammer.d,'blades run faster than sword, hammer slowest');assert.ok(100-blades.stamina<100-hammer.stamina,'blades tire less than the hammer');
+ const a=duel('hammer','sword');a.p.z=-6;a.q.x=7;a.q.z=7;a.c[0].my=-1;a.c[0].sprint=true;run(a.m,a.c,.5);a.c[0].edges.light++;run(a.m,a.c,.03);assert.ok(a.p.action&&a.p.action.age<0,'attack out of a run starts late');
+ const g=duel('hammer','sword');g.p.z=-6;g.q.x=7;g.q.z=7;g.c[0].my=-1;g.c[0].sprint=true;run(g.m,g.c,.5);g.c[0].my=0;g.c[0].sprint=false;g.c[0].guard=true;run(g.m,g.c,.1);assert.ok(!g.p.guard,'cannot guard right after a run');run(g.m,g.c,.5);assert.ok(g.p.guard,'guard comes up after the settle time');
+ const x=duel('sword','sword');x.c[0].my=-1;x.c[0].sprint=true;x.c[0].guard=true;run(x.m,x.c,.3);assert.ok(!x.p.running,'no running while guarding');
+}
+checks.push('Running: faster than walking at a stamina cost, per-weapon speed/drain (blades best, hammer worst), late attack and guard right after a run, never while guarding');
 mkdirSync('docs/agent-work/ferro-21',{recursive:true});writeFileSync('docs/agent-work/ferro-21/selftest.json',JSON.stringify({status:'passed',checks,report},null,2));
 console.log(checks.join('\n'));console.log(JSON.stringify(report));

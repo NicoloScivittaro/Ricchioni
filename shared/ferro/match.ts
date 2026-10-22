@@ -1,6 +1,6 @@
 import type{Command,Warrior,FerroState,FerroEvent,WeaponId,Arrow,V3,Action,ArenaId,GuardDirection}from'./types';
 import{emptyCommand,emptyEdges}from'./types';
-import{FERRO_RULES as RULES,WEAPONS,weapon,attackSpec,attackLength,activeWindow,variantCount,TRAITS}from'./weapons';
+import{FERRO_RULES as RULES,WEAPONS,weapon,attackSpec,attackLength,activeWindow,variantCount,TRAITS,RUN}from'./weapons';
 import{SOLIDS,VENTS,RADIUS,clamp,angle,distance,move,visible,segmentDistance,rayBox,wallDistance}from'./arena';
 import{activeBlade,combatPose}from'./pose';
 import{incomingDirection,targets,closestTarget}from'./directions';
@@ -12,7 +12,7 @@ export class FerroMatch{
  readonly state:FerroState;private accumulator=0;private serial=1;private events:FerroEvent[]=[];private roundDuel=false;
  constructor(roster:readonly Participant[],options:{roundSeconds?:number;mapId?:string}={}){
   if(roster.length<2||roster.length>5||new Set(roster.map(p=>p.id)).size!==roster.length)throw Error('Ferro e Furia richiede 2–5 partecipanti distinti');
-  const warriors:Warrior[]=roster.map((p,i)=>({...p,characterId:p.characterId??null,bot:!!p.bot,x:0,y:0,z:0,vx:0,vz:0,vy:0,yaw:0,pitch:0,hp:100,stamina:100,alive:true,weapon:WEAPONS[i%7].id,ready:false,eligible:true,points:0,kills:0,roundKills:0,roundPlace:0,damage:0,action:null,combo:-1,comboUntil:0,cooldown:0,specialCd:0,riposte:0,guard:false,guardAt:-99,guardReadyAt:0,guardFatigue:0,stun:0,lastStun:-99,hurt:0,dodge:0,dodgeX:0,dodgeZ:0,dodgeCd:0,charge:0,piercing:false,arrows:10,arrowRegen:0,deadAt:0,lastSource:null,lastHit:-99,last:emptyEdges(),wasLight:false,navTime:0,navRepeat:0,guardDirection:'top',clash:null,target:null,variant:i%4,deflect:0,regenAt:0,wasGuard:false,feintAction:null,feint:0,breakAge:0,breakTarget:null,counterUntil:0,resistance:0,pressure:0,attackers:[],bowPhase:'idle',bowAge:0,bowStrength:0,bowFired:false}));
+  const warriors:Warrior[]=roster.map((p,i)=>({...p,characterId:p.characterId??null,bot:!!p.bot,x:0,y:0,z:0,vx:0,vz:0,vy:0,yaw:0,pitch:0,hp:100,stamina:100,alive:true,weapon:WEAPONS[i%7].id,ready:false,eligible:true,points:0,kills:0,roundKills:0,roundPlace:0,damage:0,action:null,combo:-1,comboUntil:0,cooldown:0,specialCd:0,riposte:0,guard:false,guardAt:-99,guardReadyAt:0,guardFatigue:0,stun:0,lastStun:-99,hurt:0,dodge:0,dodgeX:0,dodgeZ:0,dodgeCd:0,charge:0,piercing:false,arrows:10,arrowRegen:0,deadAt:0,lastSource:null,lastHit:-99,last:emptyEdges(),wasLight:false,navTime:0,navRepeat:0,guardDirection:'top',clash:null,spent:false,running:false,pendingDir:null,dirAt:0,target:null,variant:i%4,deflect:0,regenAt:0,wasGuard:false,feintAction:null,feint:0,breakAge:0,breakTarget:null,counterUntil:0,resistance:0,pressure:0,attackers:[],bowPhase:'idle',bowAge:0,bowStrength:0,bowFired:false}));
   this.state={mapId:options.mapId==='hell'||options.mapId==='geonosis'?options.mapId:'colosseum',phase:'selection',time:0,phaseLeft:RULES.selectionSeconds,round:1,fightTime:0,roundSeconds:clamp(options.roundSeconds??90,10,180),warriors,arrows:[],history:[],winner:null,roundWinner:null,duel:'none',contenders:[],ringRadius:arenaRadius(options.mapId as ArenaId),flame:'off',flameAge:0,notice:'SCEGLI IL TUO FERRO',selectionToken:1};this.spawn(warriors);
  }
  drainEvents():FerroEvent[]{return this.events.splice(0);}
@@ -66,12 +66,16 @@ export class FerroMatch{
   const s=this.state,w=weapon(p.weapon);if(c.cancel){if(p.breakAge>0)this.abortBreak(p);p.charge=0;p.bowPhase='idle';p.guard=false;p.target=null;this.remember(p,c);}
   const edge=(key:keyof Omit<Command['edges'],'choices'>)=>!c.cancel&&c.edges[key]!==p.last[key];
   for(const key of ['cooldown','specialCd','riposte','stun','hurt','dodgeCd','dodge','feint','resistance','deflect'] as const)p[key]=Math.max(0,p[key]-dt);
+  if(p.stamina<=.001)p.spent=true;else if(p.spent&&p.stamina>=RULES.spentBelow)p.spent=false;
   p.attackers=p.attackers.filter(a=>s.time-a.time<2.4);p.pressure=Math.max(0,p.pressure-dt*7);
-  if(c.guardDirection)p.guardDirection=c.guardDirection;
+  // Out of breath: switching guard side takes a visible beat instead of being instant.
+  const side=(dir:GuardDirection)=>{if(!p.spent||dir===p.guardDirection){p.guardDirection=dir;p.pendingDir=null;return;}if(p.pendingDir!==dir){p.pendingDir=dir;p.dirAt=s.time+RULES.spentGuardShift;}};
+  if(p.pendingDir&&s.time>=p.dirAt){p.guardDirection=p.pendingDir;p.pendingDir=null;}
+  if(c.guardDirection)side(c.guardDirection);
   if(c.guard&&p.weapon!=='bow'&&!c.cancel){
    const list=targets(p,s);if(!list.some(q=>q.id===p.target))p.target=closestTarget(p,list)?.id??null;
    if(edge('target')&&list.length)p.target=list[(list.findIndex(q=>q.id===p.target)+1)%list.length].id;
-   if(Math.hypot(c.lx,c.ly)>.5)p.guardDirection=c.ly<-.45&&Math.abs(c.ly)>Math.abs(c.lx)*.8?'top':c.lx<0?'left':'right';
+   if(Math.hypot(c.lx,c.ly)>.5)side(c.ly<-.45&&Math.abs(c.ly)>Math.abs(c.lx)*.8?'top':c.lx<0?'left':'right');
    const q=list.find(q=>q.id===p.target);if(q){const desired=Math.atan2(q.x-p.x,q.z-p.z);p.yaw=angle(p.yaw+clamp(angle(desired-p.yaw),-dt*6,dt*6));p.pitch+=(0-p.pitch)*Math.min(1,dt*6);}
   }else{
    p.target=null;
@@ -82,37 +86,40 @@ export class FerroMatch{
    if(p.counterUntil>s.time&&p.breakTarget){const source=s.warriors.find(q=>q.id===p.breakTarget);if(source){source.stun=Math.max(source.stun,.2);source.breakAge=0;source.breakTarget=null;}p.counterUntil=0;p.breakTarget=null;p.stun=0;p.guardReadyAt=0;this.emit({kind:'counter',player:p.id});}
    else if(!p.action&&p.stun<=0&&p.dodge<=0&&p.cooldown<=0&&p.stamina>=18&&p.weapon!=='bow'){p.breakAge=.001;p.breakTarget=null;p.stamina-=18;p.regenAt=s.time+.65;p.cooldown=.68;p.guard=false;this.emit({kind:'guardBreak',player:p.id});}
   }
+  // Running: only while moving freely. Stopping (or raising the guard) costs a short settle time per weapon.
+  const wasRunning=p.running;p.running=!c.cancel&&c.sprint&&Math.hypot(c.mx,c.my)>.3&&p.stamina>4&&!c.guard&&!p.action&&p.stun<=0&&!p.spent&&p.charge<=0&&p.dodge<=0&&p.breakAge<=0&&p.feint<=0&&p.bowPhase==='idle'&&p.counterUntil<=s.time;
+  if(wasRunning&&!p.running&&!p.action)p.guardReadyAt=Math.max(p.guardReadyAt,s.time+RUN[p.weapon].settle);
   const desired=c.guard&&!p.action&&p.breakAge<=0&&p.feint<=0&&p.dodge<=0&&p.stun<=0&&p.stamina>1&&s.time>=p.guardReadyAt;
   if(desired&&!p.guard){p.guardAt=!p.wasGuard&&s.time>=p.guardReadyAt?s.time:-99;p.stamina=Math.max(0,p.stamina-3);}
   if(!desired&&p.guard)p.guardReadyAt=s.time+.16;p.guard=desired;
   if(edge('dodge')&&p.stun<=0&&p.dodgeCd<=0&&!p.action&&p.breakAge<=0&&p.counterUntil<=s.time&&p.stamina>=22){const v=this.direction(p,c),l=Math.hypot(v.x,v.z);p.dodgeX=l>.1?v.x/l:-Math.sin(p.yaw);p.dodgeZ=l>.1?v.z/l:-Math.cos(p.yaw);p.dodge=.36;p.dodgeCd=.8;p.stamina-=22;p.regenAt=s.time+.65;p.charge=0;p.bowPhase='idle';p.guard=false;}
   if(edge('jump')&&p.y<=floorAt(s.mapId,p.x,p.z)+.001&&p.stun<=0&&!p.action&&p.breakAge<=0&&p.counterUntil<=s.time&&p.stamina>=8){p.vy=5.4;p.stamina-=8;}
   if(p.stun<=0&&p.dodge<=0&&!p.action&&p.breakAge<=0&&p.feint<=0&&p.counterUntil<=s.time&&p.cooldown<=0){
-   if(edge('special')&&p.specialCd<=0&&p.stamina>=w.special.cost&&(p.weapon!=='sword'||p.riposte>0)){
-    p.stamina-=w.special.cost;p.specialCd=w.cooldown;p.guard=false;
+   if(edge('special')&&p.specialCd<=0&&(p.weapon!=='sword'||p.riposte>0)){
+    p.stamina=Math.max(0,p.stamina-w.special.cost);p.specialCd=w.cooldown;p.guard=false;
     if(p.weapon==='bow'){p.piercing=true;this.emit({kind:'special',player:p.id,weapon:p.weapon,text:'FRECCIA PERFORANTE PRONTA'});}else{this.start(p,'special');p.riposte=0;}
    }else if(p.weapon==='bow'){
     if(!c.cancel&&c.light&&p.arrows>0&&p.stamina>=8){p.charge=Math.min(1.2,p.charge+dt);p.bowPhase=p.charge<.28?'load':'hold';p.stamina=Math.max(0,p.stamina-dt*4);p.regenAt=s.time+.55;}
     if(!c.cancel&&!c.light&&p.wasLight&&p.charge>.06){p.bowStrength=p.charge;p.bowAge=0;p.bowFired=false;p.bowPhase='release';p.cooldown=.8;}
-    if(edge('heavy')&&p.stamina>=w.heavy.cost){p.charge=0;p.guard=false;p.stamina-=w.heavy.cost;this.start(p,'heavy');}
-   }else{const kind=edge('heavy')?'heavy':edge('light')?'light':null;if(kind&&p.stamina>=w[kind].cost){p.stamina-=w[kind].cost;this.start(p,kind);}}
+    if(edge('heavy')){p.charge=0;p.guard=false;p.stamina=Math.max(0,p.stamina-w.heavy.cost);this.start(p,'heavy');}
+   }else{const kind=edge('heavy')?'heavy':edge('light')?'light':null;if(kind){p.stamina=Math.max(0,p.stamina-w[kind].cost);this.start(p,kind);}}
   }
   if(p.bowPhase==='release'||p.bowPhase==='recovery'){p.bowAge+=dt;if(p.bowAge>=.10&&!p.bowFired){p.charge=p.bowStrength;this.shoot(p);p.charge=0;p.bowFired=true;p.bowPhase='recovery';}if(p.bowAge>=.8){p.bowPhase='idle';p.bowAge=0;}}
   if(p.stun>0||p.dodge>0){p.charge=0;p.bowPhase='idle';}
   if(p.guard){p.stamina=Math.max(0,p.stamina-dt*7);if(p.stamina<=0){p.guard=false;p.guardReadyAt=s.time+.6;}}
-  else if(!c.sprint&&p.charge<=0&&p.bowPhase==='idle'&&!p.action&&p.dodge<=0&&p.stun<=0&&s.time>=p.regenAt)p.stamina=Math.min(100,p.stamina+dt*24);
+  else if(!p.running&&p.charge<=0&&p.bowPhase==='idle'&&!p.action&&p.dodge<=0&&p.stun<=0&&s.time>=p.regenAt)p.stamina=Math.min(100,p.stamina+dt*24);
   p.arrowRegen+=dt;if(p.arrowRegen>=2.6){p.arrowRegen%=2.6;p.arrows=Math.min(10,p.arrows+1);}
-  const d=this.direction(p,c),l=Math.max(1,Math.hypot(d.x,d.z));let speed=4.6*w.mobility*(c.sprint&&p.stamina>4?1.34:1)*(p.guard?.62:1)*(p.charge>0?.63:1)*(p.action?.57:1)*(p.stun>0?.15:1)*(p.counterUntil>s.time?.25:p.breakAge>0?.5:1);
-  if(c.sprint&&Math.hypot(c.mx,c.my)>.3&&p.stamina>4&&!p.guard){p.stamina=Math.max(0,p.stamina-dt*9);p.regenAt=s.time+.5;}
+  const d=this.direction(p,c),l=Math.max(1,Math.hypot(d.x,d.z));let speed=(p.spent?RULES.spentSpeed:1)*4.6*w.mobility*(p.running?RUN[p.weapon].speed:1)*(p.guard?.62:1)*(p.charge>0?.63:1)*(p.action?.57:1)*(p.stun>0?.15:1)*(p.counterUntil>s.time?.25:p.breakAge>0?.5:1);
+  if(p.running){p.stamina=Math.max(0,p.stamina-dt*RUN[p.weapon].drain);p.regenAt=s.time+.5;}
   p.vx=d.x/l*speed;p.vz=d.z/l*speed;
   if(p.dodge>0){p.vx=p.dodgeX*9;p.vz=p.dodgeZ*9;}
-  if(p.action){const spec=attackSpec(p.weapon,p.action);p.action.age+=dt;const t=p.action.age-spec.wind;if(spec.dash&&t>=-.07&&t<spec.active){p.vx=Math.sin(p.action.yaw)*spec.dash;p.vz=Math.cos(p.action.yaw)*spec.dash;}}
+  if(p.action){const spec=attackSpec(p.weapon,p.action);p.action.age+=dt*(p.spent?RULES.spentSwing:1);const t=p.action.age-spec.wind;if(spec.dash&&t>=-.07&&t<spec.active){p.vx=Math.sin(p.action.yaw)*spec.dash;p.vz=Math.cos(p.action.yaw)*spec.dash;}}
   const q=move(p.x,p.z,p.vx*dt,p.vz*dt,.43,s.mapId);p.x=q.x;p.z=q.z;p.vy-=20*dt;const ground=floorAt(s.mapId,p.x,p.z);p.y=Math.max(ground,p.y+p.vy*dt);if(p.y===ground)p.vy=0;
  }
  private direction(p:Warrior,c:Command):{x:number;z:number}{return{x:c.mx*Math.cos(p.yaw)-c.my*Math.sin(p.yaw),z:-c.mx*Math.sin(p.yaw)-c.my*Math.cos(p.yaw)};}
  private start(p:Warrior,kind:'light'|'heavy'|'special'):void{
   const s=this.state;p.combo=kind==='light'&&s.time<p.comboUntil?(p.combo+1)%3:0;
-  const from=combatPose(p);p.guard=false;p.regenAt=s.time+.7;p.action={kind,from:{right:from.right,left:from.left},direction:p.guardDirection,age:0,combo:p.combo,yaw:p.yaw,hits:[],serial:this.serial++};p.cooldown=attackLength(attackSpec(p.weapon,p.action));p.comboUntil=s.time+p.cooldown+.5;
+  const from=combatPose(p);p.guard=false;p.regenAt=s.time+.7;p.action={kind,from:{right:from.right,left:from.left},direction:p.guardDirection,age:0,combo:p.combo,yaw:p.yaw,hits:[],serial:this.serial++};if(p.running){p.action.age=-RUN[p.weapon].delay;p.running=false;}p.cooldown=attackLength(attackSpec(p.weapon,p.action));p.comboUntil=s.time+p.cooldown+.5;
   this.emit({kind:kind==='special'?'special':'attack',player:p.id,weapon:p.weapon,x:p.x,y:p.y+1,z:p.z});
  }
  private separate():void{
@@ -137,7 +144,7 @@ export class FerroMatch{
  private shoot(p:Warrior):void{
   if(p.arrows<=0||p.stamina<4)return;p.stamina-=4;p.regenAt=this.state.time+.6;const strength=clamp(p.charge/1.2,0,1),speed=17+strength*17,dx=Math.sin(p.yaw)*Math.cos(p.pitch),dy=Math.sin(p.pitch),dz=Math.cos(p.yaw)*Math.cos(p.pitch);
   const start={x:p.x,y:p.y+1.45,z:p.z},safe=wallDistance(start,{x:dx,y:dy,z:dz},.85,0,this.state.mapId);
-  p.arrows--;this.state.arrows.push({id:this.serial++,owner:p.id,x:start.x+dx*safe,y:start.y+dy*safe,z:start.z+dz*safe,vx:dx*speed,vy:dy*speed+1.0,vz:dz*speed,damage:(18+strength*27)*.72,life:3,stuck:false,piercing:p.piercing,hit:[]});p.piercing=false;
+  p.arrows--;this.state.arrows.push({id:this.serial++,owner:p.id,x:start.x+dx*safe,y:start.y+dy*safe,z:start.z+dz*safe,vx:dx*speed,vy:dy*speed+1.0,vz:dz*speed,damage:(18+strength*27)*.9,life:3,stuck:false,piercing:p.piercing,hit:[]});p.piercing=false;
   this.emit({kind:'arrow',player:p.id,weapon:'bow',x:p.x,y:p.y+1.4,z:p.z});
  }
  private arrows(dt:number,impacts:Impact[]):void{
@@ -203,7 +210,7 @@ export class FerroMatch{
  }
  private front(q:Warrior,p:Warrior):boolean{return Math.abs(angle(Math.atan2(p.x-q.x,p.z-q.z)-q.yaw))<(q.weapon==='shield'?1.1:.9);}
  private spawn(ps:Warrior[]):void{
-  ps.forEach((p,i)=>{const a=i/ps.length*Math.PI*2+Math.PI/6,r=this.state.duel==='none'?Math.min(12,arenaRadius(this.state.mapId)*.6):3,spot=spawnPoint(this.state.mapId,a,r);Object.assign(p,{...spot,vy:0,vx:0,vz:0,yaw:angle(a+Math.PI),pitch:0,hp:100,stamina:100,alive:true,action:null,cooldown:0,specialCd:0,guard:false,guardAt:-99,guardReadyAt:0,stun:0,lastStun:-99,dodge:0,dodgeCd:0,charge:0,piercing:false,arrows:10,arrowRegen:0,riposte:0,roundPlace:0,target:null,guardDirection:'top',clash:null,deflect:0,regenAt:0,wasGuard:false,feintAction:null,feint:0,breakAge:0,breakTarget:null,counterUntil:0,resistance:0,pressure:0,attackers:[],bowPhase:'idle',bowAge:0,bowStrength:0,bowFired:false});});this.state.arrows=[];
+  ps.forEach((p,i)=>{const a=i/ps.length*Math.PI*2+Math.PI/6,r=this.state.duel==='none'?Math.min(12,arenaRadius(this.state.mapId)*.6):3,spot=spawnPoint(this.state.mapId,a,r);Object.assign(p,{...spot,vy:0,vx:0,vz:0,yaw:angle(a+Math.PI),pitch:0,hp:100,stamina:100,alive:true,action:null,cooldown:0,specialCd:0,guard:false,guardAt:-99,guardReadyAt:0,stun:0,lastStun:-99,dodge:0,dodgeCd:0,charge:0,piercing:false,arrows:10,arrowRegen:0,riposte:0,roundPlace:0,target:null,guardDirection:'top',clash:null,spent:false,running:false,pendingDir:null,deflect:0,regenAt:0,wasGuard:false,feintAction:null,feint:0,breakAge:0,breakTarget:null,counterUntil:0,resistance:0,pressure:0,attackers:[],bowPhase:'idle',bowAge:0,bowStrength:0,bowFired:false});});this.state.arrows=[];
  }
  private checkRound():void{
   const s=this.state,eligible=s.warriors.filter(p=>p.eligible),live=eligible.filter(p=>p.alive);if(live.length>1)return;
