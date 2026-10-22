@@ -1,7 +1,7 @@
 import{Engine,Scene,UniversalCamera,ArcRotateCamera,Vector3,Color3,Color4,HemisphericLight,DirectionalLight,Viewport,Mesh,MeshBuilder,TransformNode,DynamicTexture,StandardMaterial,Matrix}from'@babylonjs/core';
 import type{PlayerSnapshot}from'../../../shared/types';
 import type{FerroState,FerroEvent,Warrior,V3,ArenaId,GuardDirection}from'../../../shared/ferro/types';
-import{WEAPONS,weapon,activeWindow,attackSpec}from'../../../shared/ferro/weapons';
+import{WEAPONS,weapon,activeWindow,attackSpec,TRAITS,FERRO_RULES}from'../../../shared/ferro/weapons';
 import{weaponArt}from'../../../shared/ferro/art';
 import{RADIUS,wallDistance,clamp}from'../../../shared/ferro/arena';
 import{worldPoint,activeBlade}from'../../../shared/ferro/pose';
@@ -103,7 +103,7 @@ export class FerroRenderer{
   for(const r of this.rigs){const p=s.warriors.find(p=>p.id===r.id)!,w=weapon(p.weapon),menu=this.selection.get(p.id)!;
    if(s.phase==='selection'){
     menu.ready.textContent=!p.eligible?'OSSERVI LO SPAREGGIO':p.ready?'PRONTO':`${Math.ceil(Math.max(0,s.phaseLeft))}s · ${p.points} PT`;
-    if(menu.weapon!==p.weapon){menu.weapon=p.weapon;menu.art.innerHTML=weaponArt(p.weapon);menu.title.textContent=w.name;menu.title.style.color=w.color;menu.role.textContent=w.title;menu.description.textContent=w.description;menu.special.replaceChildren();const b=document.createElement('b');b.textContent=w.specialName;const span=document.createElement('span');span.textContent=w.specialHint;menu.special.append(b,span);
+    if(menu.weapon!==p.weapon){menu.weapon=p.weapon;menu.art.innerHTML=weaponArt(p.weapon);menu.title.textContent=w.name;menu.title.style.color=w.color;menu.role.textContent=w.title;menu.description.textContent=w.description;menu.special.replaceChildren();const b=document.createElement('b');b.textContent=w.specialName;const span=document.createElement('span');span.textContent=w.specialHint;menu.special.append(b,span);for(const[mark,text,color]of[['+',TRAITS[p.weapon].strength,'#9fd6a4'],['−',TRAITS[p.weapon].weakness,'#e49a8a']]){const line=document.createElement('span');line.style.color=color;line.textContent=mark+' '+text;menu.special.appendChild(line);}
      const stats=[['DANNO',w.id==='bow'?45:w.heavy.damage,55],['VELOCITÀ',w.speed,5],['PORTATA',w.id==='bow'?35:w.light.reach, w.id==='bow'?35:4],['DIFESA',Math.round(w.defence*100),100]];menu.stats.innerHTML=stats.map(([name,value,max])=>`<label>${name}<span>${value}${name==='DIFESA'?'%':''}</span><div><i style="width:${Number(value)/Number(max)*100}%"></i></div></label>`).join('');
     }
     const skin=menu.root.querySelector<HTMLElement>('.ferro-cosmetic')!;skin.style.display=p.weapon==='sword'||p.weapon==='shield'||p.weapon==='axe'?'':'none';skin.textContent='Y / △ · '+(p.weapon==='shield'?SHIELD_MODELS[p.variant%2]:p.weapon==='axe'?AXE_NAMES[p.variant%3]:SWORD_MODELS[p.variant%4]).toUpperCase();
@@ -137,7 +137,7 @@ export class FerroRenderer{
    for(const q of s.warriors){const a=q.action;if(q===p||!q.alive||!a||a.blocked||a.hits.some(k=>k.startsWith(p.id+':')))continue;const spec=attackSpec(q.weapon,a);if(distance(p,q)>spec.reach+1.3||Math.abs(angle(Math.atan2(p.x-q.x,p.z-q.z)-a.yaw))>1.15)continue;
     // Only blows that would actually reach me; the parry window is the last 130 ms before the predicted contact.
     const contact=contactAge(q,p);if(contact===null)continue;const left=contact-a.age;if(left< -.02||left>=soonest)continue;
-    soonest=left;incoming={dir:incomingDirection(q,p,a),progress:Math.min(1,a.age/Math.max(.01,contact)),heavy:a.kind!=='light',window:left<=.13};}
+    soonest=left;incoming={dir:incomingDirection(q,p,a),progress:Math.min(1,a.age/Math.max(.01,contact)),heavy:a.kind!=='light',window:left<=FERRO_RULES.parryWindow*TRAITS[p.weapon].parry};}
    r.me.set({guard:p.action?null:p.guardDirection,incoming,attacking:p.action?.direction??null});r.me.root.classList.toggle('idle',!p.guard&&!p.action&&!incoming);
    const foe=s.warriors.find(q=>q.id===p.target&&q.alive)??s.warriors.filter(q=>q!==p&&q.alive&&q.eligible&&distance(p,q)<7&&Math.abs(angle(Math.atan2(q.x-p.x,q.z-p.z)-p.yaw))<.8).sort((a,b)=>distance(p,a)-distance(p,b))[0];
    if(!foe||foe.weapon==='bow'){r.foe.place(0,0,false);continue;}

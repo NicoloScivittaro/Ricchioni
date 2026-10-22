@@ -1,6 +1,6 @@
 import type{Command,Warrior,FerroState,FerroEvent,WeaponId,Arrow,V3,Action,ArenaId,GuardDirection}from'./types';
 import{emptyCommand,emptyEdges}from'./types';
-import{FERRO_RULES as RULES,WEAPONS,weapon,attackSpec,attackLength,activeWindow,variantCount}from'./weapons';
+import{FERRO_RULES as RULES,WEAPONS,weapon,attackSpec,attackLength,activeWindow,variantCount,TRAITS}from'./weapons';
 import{SOLIDS,VENTS,RADIUS,clamp,angle,distance,move,visible,segmentDistance,rayBox,wallDistance}from'./arena';
 import{activeBlade,combatPose}from'./pose';
 import{incomingDirection,targets,closestTarget}from'./directions';
@@ -137,7 +137,7 @@ export class FerroMatch{
  private shoot(p:Warrior):void{
   if(p.arrows<=0||p.stamina<4)return;p.stamina-=4;p.regenAt=this.state.time+.6;const strength=clamp(p.charge/1.2,0,1),speed=17+strength*17,dx=Math.sin(p.yaw)*Math.cos(p.pitch),dy=Math.sin(p.pitch),dz=Math.cos(p.yaw)*Math.cos(p.pitch);
   const start={x:p.x,y:p.y+1.45,z:p.z},safe=wallDistance(start,{x:dx,y:dy,z:dz},.85,0,this.state.mapId);
-  p.arrows--;this.state.arrows.push({id:this.serial++,owner:p.id,x:start.x+dx*safe,y:start.y+dy*safe,z:start.z+dz*safe,vx:dx*speed,vy:dy*speed+1.0,vz:dz*speed,damage:18+strength*27,life:3,stuck:false,piercing:p.piercing,hit:[]});p.piercing=false;
+  p.arrows--;this.state.arrows.push({id:this.serial++,owner:p.id,x:start.x+dx*safe,y:start.y+dy*safe,z:start.z+dz*safe,vx:dx*speed,vy:dy*speed+1.0,vz:dz*speed,damage:(18+strength*27)*.72,life:3,stuck:false,piercing:p.piercing,hit:[]});p.piercing=false;
   this.emit({kind:'arrow',player:p.id,weapon:'bow',x:p.x,y:p.y+1.4,z:p.z});
  }
  private arrows(dt:number,impacts:Impact[]):void{
@@ -152,16 +152,16 @@ export class FerroMatch{
  private resolve(impacts:Impact[]):void{
   const s=this.state,damage=new Map<Warrior,{total:number;source:Warrior|null;stun:number}>(),invalid=new Set<number>(),deflected=new Set<number>();
   // A fresh frontal parry cancels that swing before any of its damage is applied.
-  for(const hit of impacts){const q=hit.target,p=hit.source;if(!p||!q.guard||q.weapon==='bow'||q.stamina<6||q.stun>0||s.time-q.guardAt>RULES.parryWindow||!this.front(q,p)||!this.matches(q,p,hit.action))continue;
+  for(const hit of impacts){const q=hit.target,p=hit.source;if(!p||!q.guard||q.weapon==='bow'||q.stamina<6||q.stun>0||s.time-q.guardAt>RULES.parryWindow*TRAITS[q.weapon].parry||!this.front(q,p)||!this.matches(q,p,hit.action))continue;
    const contact=this.contact(hit),dir=this.incoming(q,p,hit),heavy=this.heavy(hit);
-   q.deflect=.18;q.riposte=1.1;q.regenAt=s.time+.5;q.stamina=Math.max(0,q.stamina-6);p.stun=Math.max(p.stun,.27);p.charge=0;q.clash=makeClash('parry',q.weapon,p.weapon,dir,heavy,contact.defender);
+   q.deflect=.18;q.riposte=1.1;q.regenAt=s.time+.5;q.stamina=Math.max(0,q.stamina-6);p.stun=Math.max(p.stun,.27*TRAITS[p.weapon].parried);p.charge=0;q.clash=makeClash('parry',q.weapon,p.weapon,dir,heavy,contact.defender);
    if(hit.action){p.clash=makeClash('parried',p.weapon,q.weapon,hit.action.direction??'top',heavy,contact.attacker);invalid.add(hit.action.serial);p.action=null;}if(hit.arrow){deflected.add(hit.arrow.id);hit.arrow.stuck=true;hit.arrow.life=.1;}
    this.emit({kind:'parry',player:q.id,target:p.id,weapon:hit.arrow?'bow':p.weapon,dir,heavy,value:Math.round(q.clash.power*100),x:contact.point.x,y:contact.point.y,z:contact.point.z});hit.damage=0;
   }
   for(const hit of impacts){const q=hit.target,p=hit.source;if(hit.damage<=0||hit.action&&invalid.has(hit.action.serial)||hit.arrow&&deflected.has(hit.arrow.id))continue;
    const dodgeAge=RULES.dodgeSeconds-q.dodge;if(q.dodge>0&&dodgeAge>=.06&&dodgeAge<=.22)continue;let amount=hit.damage;
    let guarded=false;const dir=p?this.incoming(q,p,hit):'top',heavy=this.heavy(hit);
-   if(p&&q.guard&&q.weapon!=='bow'&&this.front(q,p)&&q.stun<=0&&this.matches(q,p,hit.action)){const cost=amount*.65+4,contact=this.contact(hit);
+   if(p&&q.guard&&q.weapon!=='bow'&&this.front(q,p)&&q.stun<=0&&this.matches(q,p,hit.action)){const cost=(amount*.65+4)*TRAITS[q.weapon].guardCost*TRAITS[p.weapon].pressure,contact=this.contact(hit);
     if(q.stamina>=cost){q.stamina-=cost;q.regenAt=s.time+.7;amount*=1-weapon(q.weapon).defence*(hit.piercing?.45:1);guarded=true;q.clash=makeClash('block',q.weapon,p.weapon,dir,heavy,contact.defender);
      if(hit.action){const spec=attackSpec(p.weapon,hit.action);if(spec.style!=='wave'){p.clash=makeClash('blocked',p.weapon,q.weapon,hit.action.direction??'top',heavy,contact.attacker);if(spec.style!=='spin'&&!hit.action.blocked)hit.action.blocked={age:hit.action.age,window:spec.windows?activeWindow(spec,hit.action.age):-1};}}
      this.emit({kind:'block',player:q.id,target:p.id,weapon:hit.arrow?'bow':p.weapon,dir,heavy,value:Math.round(q.clash.power*100),x:contact.point.x,y:contact.point.y,z:contact.point.z});}
