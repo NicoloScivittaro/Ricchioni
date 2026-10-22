@@ -1,0 +1,98 @@
+{
+  "goblin": {
+    "model": "/models/goblin-tripo/green_goblin_casacarbo.glb",
+    "sourceSha256": "0e6ce217ccca7ef90423584a5700d6ef0064f7a43d5ee32a976cb147c5059fa7",
+    "mappedBones": 51,
+    "clips": [
+      "idle",
+      "attackL",
+      "attackR",
+      "attack2H",
+      "polearm",
+      "shield",
+      "hurt",
+      "death",
+      "run",
+      "strafeL",
+      "strafeR",
+      "bowIdle",
+      "bowLoad",
+      "bowHold",
+      "bowRelease"
+    ],
+    "animationBytes": 1276673,
+    "method": "global rest-space rotation deltas; original target bone lengths; vertical hips only"
+  },
+  "buttafuori": {
+    "model": "/models/detailed-tripo/detailed_character_casacarbo.glb",
+    "sourceSha256": "763ebedbd024b214b36f98ec93f282c9155f85b6e865580f006142ad74067e7e",
+    "mappedBones": 51,
+    "clips": [
+      "idle",
+      "attackL",
+      "attackR",
+      "attack2H",
+      "polearm",
+      "shield",
+      "hurt",
+      "death",
+      "run",
+      "strafeL",
+      "strafeR",
+      "bowIdle",
+      "bowLoad",
+      "bowHold",
+      "bowRelease"
+    ],
+    "animationBytes": 1268611,
+    "method": "global rest-space rotation deltas; original target bone lengths; vertical hips only"
+  },
+  "judoka": {
+    "model": "/models/judoka-tripo/judo_figure_casacarbo.glb",
+    "sourceSha256": "6ef81e531783afca7f882ae56b28de0fbf4b685b4c47aceb12813913353f8490",
+    "mappedBones": 51,
+    "clips": [
+      "idle",
+      "attackL",
+      "attackR",
+      "attack2H",
+      "polearm",
+      "shield",
+      "hurt",
+      "death",
+      "run",
+      "strafeL",
+      "strafeR",
+      "bowIdle",
+      "bowLoad",
+      "bowHold",
+      "bowRelease"
+    ],
+    "animationBytes": 1278257,
+    "method": "global rest-space rotation deltas; original target bone lengths; vertical hips only"
+  },
+  "ciro": {
+    "model": "/models/man-tripo/man_animated.glb",
+    "sourceSha256": "4a00b680701e36e25507305d53332837337101a850095e5e6e026fb0f0e76743",
+    "mappedBones": 51,
+    "clips": [
+      "idle",
+      "attackL",
+      "attackR",
+      "attack2H",
+      "polearm",
+      "shield",
+      "hurt",
+      "death",
+      "run",
+      "strafeL",
+      "strafeR",
+      "bowIdle",
+      "bowLoad",
+      "bowHold",
+      "bowRelease"
+    ],
+    "animationBytes": 1276910,
+    "method": "global rest-space rotation deltas; original target bone lengths; vertical hips only"
+  }
+}

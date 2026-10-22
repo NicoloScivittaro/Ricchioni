@@ -83,43 +83,1244 @@
       "frames": 25
     }
   },
-  "adaptation": "Actual authored FBX hand/body motion sampled and retargeted to registered cartoon rigs. Additive directional strikes/guards, two-link hand IK, feint blend, parry deflection, break/counter push and dodge layers are original; no dedicated pack clips falsely claimed.",
+  "adaptation": "Original Goblin, Buttafuori, Judoka and Ciro GLB skins with unchanged geometry, weights and PBR textures.15 supplied FBX clips rest-space retargeted at24Hz to51 joints including fingers; Archer root unit/axis conversion corrected. Runtime hand IK and bounded limb reach match the existing shared weapon grips. Dottore keeps its procedural identity: user confirmed no rigged model is available. Guard/parry/feint/grab/dodge remain original layers; dedicated source clips are not claimed.",
+  "skinValidation": {
+    "errors": [],
+    "skins": [
+      {
+        "character": "goblin",
+        "ready": true,
+        "bones": 65,
+        "meshes": 2,
+        "clips": [
+          "idle",
+          "attackL",
+          "attackR",
+          "attack2H",
+          "polearm",
+          "shield",
+          "hurt",
+          "death",
+          "run",
+          "strafeL",
+          "strafeR",
+          "bowIdle",
+          "bowLoad",
+          "bowHold",
+          "bowRelease"
+        ],
+        "hands": {
+          "right": [
+            0.4517498016357422,
+            1.1978750228881836,
+            0.1503005176782608
+          ],
+          "left": [
+            -0.5,
+            1.2499998807907104,
+            0.3599999248981476
+          ]
+        }
+      },
+      {
+        "character": "buttafuori",
+        "ready": true,
+        "bones": 65,
+        "meshes": 2,
+        "clips": [
+          "idle",
+          "attackL",
+          "attackR",
+          "attack2H",
+          "polearm",
+          "shield",
+          "hurt",
+          "death",
+          "run",
+          "strafeL",
+          "strafeR",
+          "bowIdle",
+          "bowLoad",
+          "bowHold",
+          "bowRelease"
+        ],
+        "hands": {
+          "right": [
+            0.4517500400543213,
+            1.197874903678894,
+            0.15029959380626678
+          ],
+          "left": [
+            -0.4999997615814209,
+            1.2499998807907104,
+            0.36000022292137146
+          ]
+        }
+      },
+      {
+        "character": "procedural",
+        "ready": true
+      },
+      {
+        "character": "judoka",
+        "ready": true,
+        "bones": 65,
+        "meshes": 2,
+        "clips": [
+          "idle",
+          "attackL",
+          "attackR",
+          "attack2H",
+          "polearm",
+          "shield",
+          "hurt",
+          "death",
+          "run",
+          "strafeL",
+          "strafeR",
+          "bowIdle",
+          "bowLoad",
+          "bowHold",
+          "bowRelease"
+        ],
+        "hands": {
+          "right": [
+            0.4517500400543213,
+            1.1978750228881836,
+            0.15029995143413544
+          ],
+          "left": [
+            -0.49999988079071045,
+            1.25,
+            0.35999995470046997
+          ]
+        }
+      },
+      {
+        "character": "ciro",
+        "ready": true,
+        "bones": 65,
+        "meshes": 2,
+        "clips": [
+          "idle",
+          "attackL",
+          "attackR",
+          "attack2H",
+          "polearm",
+          "shield",
+          "hurt",
+          "death",
+          "run",
+          "strafeL",
+          "strafeR",
+          "bowIdle",
+          "bowLoad",
+          "bowHold",
+          "bowRelease"
+        ],
+        "hands": {
+          "right": [
+            0.4517498016357422,
+            1.1978751420974731,
+            0.15029987692832947
+          ],
+          "left": [
+            -0.5,
+            1.250000238418579,
+            0.35999995470046997
+          ]
+        }
+      }
+    ],
+    "models": [
+      {
+        "character": "goblin",
+        "variant": 0,
+        "models": [
+          {
+            "name": "ferro-model:sword:0",
+            "enabled": true,
+            "visible": true,
+            "visibility": 1,
+            "alpha": 1,
+            "cull": false,
+            "vertices": 3121,
+            "min": [
+              -4.351559212933012,
+              0.6501067161308249,
+              -0.2470231597141912
+            ],
+            "max": [
+              -3.7814227921558543,
+              2.9151464891632153,
+              0.823019743704323
+            ]
+          },
+          {
+            "name": "ferro-model:sword:1",
+            "enabled": true,
+            "visible": true,
+            "visibility": 1,
+            "alpha": 0.04114298149943352,
+            "cull": false,
+            "vertices": 168,
+            "min": [
+              -4.291634232411475,
+              1.0605248850338813,
+              -0.2306641996170422
+            ],
+            "max": [
+              -3.792135415584959,
+              2.896897404031573,
+              0.8649762883559904
+            ]
+          }
+        ]
+      },
+      {
+        "character": "buttafuori",
+        "variant": 1,
+        "models": [
+          {
+            "name": "ferro-model:sword:0",
+            "enabled": true,
+            "visible": true,
+            "visibility": 1,
+            "alpha": 1,
+            "cull": false,
+            "vertices": 34961,
+            "min": [
+              -2.0559859091841073,
+              0.7951698530870461,
+              -0.048843405044058874
+            ],
+            "max": [
+              -1.468825343087593,
+              2.8807453609953075,
+              0.6116724293590362
+            ]
+          }
+        ]
+      },
+      {
+        "character": "procedural",
+        "variant": 2,
+        "models": [
+          {
+            "name": "ferro-model:bow:0",
+            "enabled": false,
+            "visible": true,
+            "visibility": 1,
+            "alpha": 1,
+            "cull": false,
+            "vertices": 8373,
+            "min": [
+              -0.16486114263534546,
+              -0.7715060710906982,
+              -0.04021475836634636
+            ],
+            "max": [
+              0.038093358278274536,
+              0.7784940004348755,
+              0.040214892476797104
+            ]
+          },
+          {
+            "name": "ferro-model:bow:1",
+            "enabled": false,
+            "visible": true,
+            "visibility": 1,
+            "alpha": 1,
+            "cull": false,
+            "vertices": 4417,
+            "min": [
+              -0.1421288549900055,
+              -0.6213337182998657,
+              -0.05629641190171242
+            ],
+            "max": [
+              0.06561974436044693,
+              0.628321647644043,
+              0.05629662051796913
+            ]
+          }
+        ]
+      },
+      {
+        "character": "judoka",
+        "variant": 3,
+        "models": [
+          {
+            "name": "ferro-model:sword:0",
+            "enabled": true,
+            "visible": true,
+            "visibility": 1,
+            "alpha": 1,
+            "cull": true,
+            "vertices": 52846,
+            "min": [
+              2.4778621405087446,
+              0.7005218481960939,
+              0.01387565573899896
+            ],
+            "max": [
+              3.189509632343039,
+              2.869881976627819,
+              0.5377909792259101
+            ]
+          }
+        ]
+      },
+      {
+        "character": "ciro",
+        "variant": 0,
+        "models": [
+          {
+            "name": "ferro-model:sword:0",
+            "enabled": true,
+            "visible": true,
+            "visibility": 1,
+            "alpha": 1,
+            "cull": false,
+            "vertices": 3121,
+            "min": [
+              4.848440596332125,
+              0.6501067161308249,
+              -0.2470231597141912
+            ],
+            "max": [
+              5.418577017109282,
+              2.9151464891632153,
+              0.823019743704323
+            ]
+          },
+          {
+            "name": "ferro-model:sword:1",
+            "enabled": true,
+            "visible": true,
+            "visibility": 1,
+            "alpha": 0.04114298149943352,
+            "cull": false,
+            "vertices": 168,
+            "min": [
+              4.908365576853662,
+              1.0605248850338813,
+              -0.2306641996170422
+            ],
+            "max": [
+              5.407864393680177,
+              2.896897404031573,
+              0.8649762883559904
+            ]
+          }
+        ]
+      }
+    ],
+    "poses": [
+      {
+        "character": "goblin",
+        "weapon": "sword",
+        "direction": "top",
+        "error": 1.77461781935129e-07,
+        "leftError": 4.478589298807025e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "sword",
+        "direction": "top",
+        "error": 2.956741409026167e-07,
+        "leftError": 8.047349865366267e-08,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "sword",
+        "direction": "top",
+        "error": 1.0530577992060605e-07,
+        "leftError": 8.239402919770005e-08,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "sword",
+        "direction": "top",
+        "error": 1.9577710182645874e-07,
+        "leftError": 1.29540751126885e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "sword",
+        "direction": "left",
+        "error": 3.444009434216258e-07,
+        "leftError": 4.478589298807025e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "sword",
+        "direction": "left",
+        "error": 4.386684516480976e-07,
+        "leftError": 8.047349865366267e-08,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "sword",
+        "direction": "left",
+        "error": 1.2353316362548312e-07,
+        "leftError": 8.239402919770005e-08,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "sword",
+        "direction": "left",
+        "error": 4.2053040166947255e-07,
+        "leftError": 1.29540751126885e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "sword",
+        "direction": "right",
+        "error": 6.152695345407816e-07,
+        "leftError": 3.0036152150677736e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "sword",
+        "direction": "right",
+        "error": 1.6430104526305541e-07,
+        "leftError": 1.3316803863178657e-07,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "sword",
+        "direction": "right",
+        "error": 1.5135038477644223e-07,
+        "leftError": 9.89695641553742e-08,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "sword",
+        "direction": "right",
+        "error": 5.499993208107045e-07,
+        "leftError": 2.3122546446975618e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "spear",
+        "direction": "top",
+        "error": 5.274268236725791e-07,
+        "leftError": 4.615397565160761e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "spear",
+        "direction": "top",
+        "error": 1.3995162177716682e-07,
+        "leftError": 5.509286265291075e-08,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "spear",
+        "direction": "top",
+        "error": 1.5497298422822402e-07,
+        "leftError": 1.1010185816296747e-07,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "spear",
+        "direction": "top",
+        "error": 1.584094384818182e-07,
+        "leftError": 1.6040318993761394e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "spear",
+        "direction": "left",
+        "error": 4.032497853558417e-07,
+        "leftError": 4.615397565160761e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "spear",
+        "direction": "left",
+        "error": 8.765938636269889e-08,
+        "leftError": 5.509286265291075e-08,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "spear",
+        "direction": "left",
+        "error": 2.2855303423275715e-07,
+        "leftError": 1.1010185816296747e-07,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "spear",
+        "direction": "left",
+        "error": 2.7041041964340203e-07,
+        "leftError": 1.6040318993761394e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "spear",
+        "direction": "right",
+        "error": 0.004328224164017285,
+        "leftError": 4.615397565160761e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "spear",
+        "direction": "right",
+        "error": 5.018193113825272e-07,
+        "leftError": 5.509286265291075e-08,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "spear",
+        "direction": "right",
+        "error": 2.5293334215191316e-07,
+        "leftError": 1.1010185816296747e-07,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "spear",
+        "direction": "right",
+        "error": 1.5601087487724455e-07,
+        "leftError": 1.6040318993761394e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "bow",
+        "direction": "top",
+        "error": 2.379978361667831e-07,
+        "leftError": 1.9961645569571852e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "bow",
+        "direction": "top",
+        "error": 2.1200105274890558e-07,
+        "leftError": 2.1718143479843219e-07,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "bow",
+        "direction": "top",
+        "error": 4.980894757403984e-07,
+        "leftError": 1.0501971800790661e-07,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "bow",
+        "direction": "top",
+        "error": 1.0957215924030447e-06,
+        "leftError": 4.004484104289528e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "bow",
+        "direction": "left",
+        "error": 2.00686401541124e-07,
+        "leftError": 4.669445774809124e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "bow",
+        "direction": "left",
+        "error": 2.7068127611676747e-07,
+        "leftError": 3.013233394641048e-08,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "bow",
+        "direction": "left",
+        "error": 3.617617191434672e-07,
+        "leftError": 2.7049931846884725e-07,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "bow",
+        "direction": "left",
+        "error": 1.1110314732032821e-06,
+        "leftError": 3.7534867504516707e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "bow",
+        "direction": "right",
+        "error": 2.6045373159878084e-07,
+        "leftError": 1.808031621677273e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "bow",
+        "direction": "right",
+        "error": 2.6045050772629535e-07,
+        "leftError": 9.367950137389634e-08,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "bow",
+        "direction": "right",
+        "error": 1.1331157069925081e-07,
+        "leftError": 6.296811774943524e-08,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "bow",
+        "direction": "right",
+        "error": 7.069342955897478e-07,
+        "leftError": 4.100778078021536e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "shield",
+        "direction": "top",
+        "error": 4.0331933004508e-07,
+        "leftError": 2.509788645259086e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "shield",
+        "direction": "top",
+        "error": 2.7389617038588895e-07,
+        "leftError": 1.1053576093233932e-07,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "shield",
+        "direction": "top",
+        "error": 6.338629123292136e-08,
+        "leftError": 3.777282906851122e-08,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "shield",
+        "direction": "top",
+        "error": 3.082988725833293e-07,
+        "leftError": 3.331147717218285e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "shield",
+        "direction": "left",
+        "error": 2.201692195323912e-07,
+        "leftError": 2.509788645259086e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "shield",
+        "direction": "left",
+        "error": 0.000826893777155905,
+        "leftError": 1.1053576093233932e-07,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "shield",
+        "direction": "left",
+        "error": 7.340187151031267e-08,
+        "leftError": 3.777282906851122e-08,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "shield",
+        "direction": "left",
+        "error": 1.643375825624579e-07,
+        "leftError": 3.331147717218285e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "shield",
+        "direction": "right",
+        "error": 2.0611404039691257e-07,
+        "leftError": 3.519463630334429e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "shield",
+        "direction": "right",
+        "error": 1.603270726203542e-07,
+        "leftError": 1.8928411795040166e-07,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "shield",
+        "direction": "right",
+        "error": 8.616988245233258e-08,
+        "leftError": 7.404671228256131e-08,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "shield",
+        "direction": "right",
+        "error": 2.2530308809267093e-07,
+        "leftError": 1.5514749962785215e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "blades",
+        "direction": "top",
+        "error": 2.011033223658543e-07,
+        "leftError": 2.4996741206659436e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "blades",
+        "direction": "top",
+        "error": 1.0354908772884697e-06,
+        "leftError": 2.986638812415424e-07,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "blades",
+        "direction": "top",
+        "error": 2.2128953684456425e-07,
+        "leftError": 1.200645285814344e-07,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "blades",
+        "direction": "top",
+        "error": 4.1861567316462175e-07,
+        "leftError": 1.5800965366679925e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "blades",
+        "direction": "left",
+        "error": 2.011033223658543e-07,
+        "leftError": 2.4996741206659436e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "blades",
+        "direction": "left",
+        "error": 1.0354908772884697e-06,
+        "leftError": 2.986638812415424e-07,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "blades",
+        "direction": "left",
+        "error": 2.2128953684456425e-07,
+        "leftError": 1.200645285814344e-07,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "blades",
+        "direction": "left",
+        "error": 4.1861567316462175e-07,
+        "leftError": 1.5800965366679925e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "blades",
+        "direction": "right",
+        "error": 5.629859799656241e-07,
+        "leftError": 2.538458185880563e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "blades",
+        "direction": "right",
+        "error": 4.445408692105357e-08,
+        "leftError": 3.0774473213433317e-07,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "blades",
+        "direction": "right",
+        "error": 1.7866790759318146e-07,
+        "leftError": 4.410743714711174e-08,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "blades",
+        "direction": "right",
+        "error": 3.616417646002741e-07,
+        "leftError": 3.6343000434172404e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "hammer",
+        "direction": "top",
+        "error": 1.4040758663205133e-07,
+        "leftError": 3.5149793435328163e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "hammer",
+        "direction": "top",
+        "error": 8.854462976710442e-08,
+        "leftError": 1.8247498978558985e-07,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "hammer",
+        "direction": "top",
+        "error": 1.1874861352310603e-07,
+        "leftError": 9.979714698820686e-08,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "hammer",
+        "direction": "top",
+        "error": 4.493586671067305e-07,
+        "leftError": 3.1069549434037453e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "hammer",
+        "direction": "left",
+        "error": 1.5137573310487494e-07,
+        "leftError": 3.5149793435328163e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "hammer",
+        "direction": "left",
+        "error": 2.3844168106081037e-07,
+        "leftError": 1.8247498978558985e-07,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "hammer",
+        "direction": "left",
+        "error": 1.1980554900320296e-07,
+        "leftError": 9.979714698820686e-08,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "hammer",
+        "direction": "left",
+        "error": 4.0366036718508407e-07,
+        "leftError": 3.1069549434037453e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "hammer",
+        "direction": "right",
+        "error": 1.5137573310487494e-07,
+        "leftError": 3.5149793435328163e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "hammer",
+        "direction": "right",
+        "error": 2.3844168106081037e-07,
+        "leftError": 1.8247498978558985e-07,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "hammer",
+        "direction": "right",
+        "error": 1.1980554900320296e-07,
+        "leftError": 9.979714698820686e-08,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "hammer",
+        "direction": "right",
+        "error": 4.0366036718508407e-07,
+        "leftError": 3.1069549434037453e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "axe",
+        "direction": "top",
+        "error": 2.3069367825976943e-07,
+        "leftError": 2.983243482157351e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "axe",
+        "direction": "top",
+        "error": 1.0586441040479184e-07,
+        "leftError": 6.615701520554934e-08,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "axe",
+        "direction": "top",
+        "error": 1.1569950515464154e-07,
+        "leftError": 1.7241626541881344e-07,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "axe",
+        "direction": "top",
+        "error": 2.2692306281549033e-07,
+        "leftError": 2.5479302276725994e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "axe",
+        "direction": "left",
+        "error": 1.0117904288400565e-07,
+        "leftError": 2.983243482157351e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "axe",
+        "direction": "left",
+        "error": 1.6325506487202834e-07,
+        "leftError": 6.615701520554934e-08,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "axe",
+        "direction": "left",
+        "error": 8.228279432017572e-08,
+        "leftError": 1.7241626541881344e-07,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "axe",
+        "direction": "left",
+        "error": 9.448570031655722e-08,
+        "leftError": 2.5479302276725994e-07,
+        "finite": true
+      },
+      {
+        "character": "goblin",
+        "weapon": "axe",
+        "direction": "right",
+        "error": 1.0117904288400565e-07,
+        "leftError": 2.983243482157351e-07,
+        "finite": true
+      },
+      {
+        "character": "buttafuori",
+        "weapon": "axe",
+        "direction": "right",
+        "error": 1.6325506487202834e-07,
+        "leftError": 6.615701520554934e-08,
+        "finite": true
+      },
+      {
+        "character": "judoka",
+        "weapon": "axe",
+        "direction": "right",
+        "error": 8.228279432017572e-08,
+        "leftError": 1.7241626541881344e-07,
+        "finite": true
+      },
+      {
+        "character": "ciro",
+        "weapon": "axe",
+        "direction": "right",
+        "error": 9.448570031655722e-08,
+        "leftError": 2.5479302276725994e-07,
+        "finite": true
+      }
+    ],
+    "status": "passed"
+  },
+  "skinRetarget": {
+    "goblin": {
+      "model": "/models/goblin-tripo/green_goblin_casacarbo.glb",
+      "sourceSha256": "0e6ce217ccca7ef90423584a5700d6ef0064f7a43d5ee32a976cb147c5059fa7",
+      "mappedBones": 51,
+      "clips": [
+        "idle",
+        "attackL",
+        "attackR",
+        "attack2H",
+        "polearm",
+        "shield",
+        "hurt",
+        "death",
+        "run",
+        "strafeL",
+        "strafeR",
+        "bowIdle",
+        "bowLoad",
+        "bowHold",
+        "bowRelease"
+      ],
+      "animationBytes": 1276673,
+      "method": "global rest-space rotation deltas; original target bone lengths; vertical hips only"
+    },
+    "buttafuori": {
+      "model": "/models/detailed-tripo/detailed_character_casacarbo.glb",
+      "sourceSha256": "763ebedbd024b214b36f98ec93f282c9155f85b6e865580f006142ad74067e7e",
+      "mappedBones": 51,
+      "clips": [
+        "idle",
+        "attackL",
+        "attackR",
+        "attack2H",
+        "polearm",
+        "shield",
+        "hurt",
+        "death",
+        "run",
+        "strafeL",
+        "strafeR",
+        "bowIdle",
+        "bowLoad",
+        "bowHold",
+        "bowRelease"
+      ],
+      "animationBytes": 1268611,
+      "method": "global rest-space rotation deltas; original target bone lengths; vertical hips only"
+    },
+    "judoka": {
+      "model": "/models/judoka-tripo/judo_figure_casacarbo.glb",
+      "sourceSha256": "6ef81e531783afca7f882ae56b28de0fbf4b685b4c47aceb12813913353f8490",
+      "mappedBones": 51,
+      "clips": [
+        "idle",
+        "attackL",
+        "attackR",
+        "attack2H",
+        "polearm",
+        "shield",
+        "hurt",
+        "death",
+        "run",
+        "strafeL",
+        "strafeR",
+        "bowIdle",
+        "bowLoad",
+        "bowHold",
+        "bowRelease"
+      ],
+      "animationBytes": 1278257,
+      "method": "global rest-space rotation deltas; original target bone lengths; vertical hips only"
+    },
+    "ciro": {
+      "model": "/models/man-tripo/man_animated.glb",
+      "sourceSha256": "4a00b680701e36e25507305d53332837337101a850095e5e6e026fb0f0e76743",
+      "mappedBones": 51,
+      "clips": [
+        "idle",
+        "attackL",
+        "attackR",
+        "attack2H",
+        "polearm",
+        "shield",
+        "hurt",
+        "death",
+        "run",
+        "strafeL",
+        "strafeR",
+        "bowIdle",
+        "bowLoad",
+        "bowHold",
+        "bowRelease"
+      ],
+      "animationBytes": 1276910,
+      "method": "global rest-space rotation deltas; original target bone lengths; vertical hips only"
+    }
+  },
+  "skinLobbyAndCleanup": {
+    "errors": [],
+    "mapOptions": [
+      "colosseum",
+      "hell",
+      "geonosis"
+    ],
+    "mapPadVote": {
+      "26d56119-05ac-4bf0-a9f1-3f11eb16fd15": "colosseum"
+    },
+    "start": {
+      "phase": "selection",
+      "views": 2,
+      "players": 2,
+      "loading": false
+    },
+    "skins": [
+      {
+        "character": "goblin",
+        "ready": true,
+        "bones": 65,
+        "meshes": 2,
+        "clips": [
+          "idle",
+          "attackL",
+          "attackR",
+          "attack2H",
+          "polearm",
+          "shield",
+          "hurt",
+          "death",
+          "run",
+          "strafeL",
+          "strafeR",
+          "bowIdle",
+          "bowLoad",
+          "bowHold",
+          "bowRelease"
+        ],
+        "hands": {
+          "right": [
+            0.4517499233838862,
+            1.197874903678894,
+            0.15030123047387178
+          ],
+          "left": [
+            -0.5000005403415173,
+            1.2499994039535522,
+            0.3600006143146288
+          ]
+        }
+      },
+      {
+        "character": "buttafuori",
+        "ready": true,
+        "bones": 65,
+        "meshes": 2,
+        "clips": [
+          "idle",
+          "attackL",
+          "attackR",
+          "attack2H",
+          "polearm",
+          "shield",
+          "hurt",
+          "death",
+          "run",
+          "strafeL",
+          "strafeR",
+          "bowIdle",
+          "bowLoad",
+          "bowHold",
+          "bowRelease"
+        ],
+        "hands": {
+          "right": [
+            0.45174998726795934,
+            1.1978752613067627,
+            0.15030016614912256
+          ],
+          "left": [
+            -0.4999994760167681,
+            1.25,
+            0.36000067819870196
+          ]
+        }
+      }
+    ],
+    "cleanup": {
+      "canvases": 0,
+      "hud": 0,
+      "loading": 0
+    },
+    "status": "passed"
+  },
   "bow": "Load/hold/release/recovery source clips; projectile at0.10s of release, synchronized ammo/charge/stamina; held arrow and bow follow aim pitch. Cancel/blur never releases a shot.",
   "fivePlayers": "Five characters remain active; only human participants receive viewports. Tenacity charges only from distinct recent attackers and briefly reduces stagger, with no automatic damage or invulnerability.",
   "optimization": "Shared geometry/materials, exact equivalent-material merging, removal of unused imported texture channels, pooled effects/projectiles and covered GPU warm draw. Geonosis uses1600x900 internal rendering with3–5 views on a1920x1080 canvas; HUD remains native resolution.",
   "benchmark": [
     {
       "map": "hell",
-      "sampledFps": 59.15783176571763,
-      "seconds": 6.0178000000044705,
+      "sampledFps": 59.837441616937866,
+      "seconds": 6.016300000000279,
       "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-      "fps": 59.952038369483134,
+      "fps": 59.95203836925994,
       "views": 5,
       "width": 1920,
       "height": 1080,
-      "meshes": 314,
+      "meshes": 322,
       "actors": 5,
       "arrows": 1,
-      "simulationMs": 0.48174157284535046,
-      "presentationMs": 0.9235955057770349,
-      "renderMs": 7.541292134902618,
+      "simulationMs": 0.4844444444480663,
+      "presentationMs": 2.9249999999935326,
+      "renderMs": 7.461944444449101,
       "alive": 5
     },
     {
       "map": "geonosis",
-      "sampledFps": 60.05356578446908,
-      "seconds": 6.01129999999702,
+      "sampledFps": 59.4042976852236,
+      "seconds": 6.0265,
       "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3050 (0x00002584) Direct3D11 vs_5_0 ps_5_0, D3D11)",
-      "fps": 59.94005994005986,
+      "fps": 58.00464037120894,
       "views": 5,
       "width": 1600,
       "height": 900,
-      "meshes": 361,
+      "meshes": 369,
       "actors": 5,
-      "arrows": 1,
-      "simulationMs": 0.5011080331543146,
-      "presentationMs": 0.8495844875428815,
-      "renderMs": 7.280332410063109,
+      "arrows": 0,
+      "simulationMs": 0.4798882681533028,
+      "presentationMs": 2.9167597765342315,
+      "renderMs": 10.856145251395347,
       "alive": 5
     }
   ],
@@ -152,32 +1353,40 @@
     "Performance is measured locally and is not guaranteed on other devices."
   ],
   "production": {
-    "status": "passed",
-    "gallery": 200,
-    "compiledHome": true,
+    "errors": [],
     "assets": [
       {
-        "name": "dagger",
-        "status": 200,
-        "bytes": 14292
+        "character": "goblin",
+        "bytes": 1276673,
+        "clips": 15,
+        "status": 200
       },
       {
-        "name": "warhammer",
-        "status": 200,
-        "bytes": 18256
+        "character": "buttafuori",
+        "bytes": 1268611,
+        "clips": 15,
+        "status": 200
       },
       {
-        "name": "geonosis",
-        "status": 200,
-        "bytes": 21638096
+        "character": "judoka",
+        "bytes": 1278257,
+        "clips": 15,
+        "status": 200
+      },
+      {
+        "character": "ciro",
+        "bytes": 1276910,
+        "clips": 15,
+        "status": 200
       }
     ],
-    "errors": []
+    "compiledHome": true,
+    "status": "passed"
   },
-  "git": "No commit, push or deploy",
+  "git": "No commit, push or deploy performed by this implementation",
   "screenshots": [
+    "skins-lineup.png",
     "guard-duel.png",
-    "hell-arena.png",
     "geonosis-five.png"
   ]
 }

@@ -1,0 +1,38 @@
+BlenderMCP: cannot start server in background mode (blender -b) - commands would never execute
+BlenderMCP: run Blender with a GUI, or use a virtual display: xvfb-run -a blender
+BlenderMCP addon registered
+BlenderMCP server stopped
+BlenderMCP addon unregistered
+FBX version: 7700
+SKIN SOURCE idle 56 33
+FBX version: 7700
+SKIN SOURCE attackL 56 28
+FBX version: 7700
+SKIN SOURCE attackR 56 28
+FBX version: 7700
+SKIN SOURCE attack2H 56 40
+FBX version: 7700
+SKIN SOURCE polearm 56 34
+FBX version: 7700
+SKIN SOURCE shield 56 23
+FBX version: 7700
+SKIN SOURCE hurt 56 25
+FBX version: 7700
+SKIN SOURCE death 56 19
+FBX version: 7700
+SKIN SOURCE run 56 16
+FBX version: 7700
+SKIN SOURCE strafeL 56 16
+FBX version: 7700
+SKIN SOURCE strafeR 56 16
+FBX version: 7300
+SKIN SOURCE bowIdle 56 33
+FBX version: 7300
+SKIN SOURCE bowLoad 56 22
+FBX version: 7300
+SKIN SOURCE bowHold 56 33
+FBX version: 7300
+SKIN SOURCE bowRelease 56 21
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

@@ -37,6 +37,10 @@ Exact sampled source files:
 - `bowRelease`: `archer\Animations\Male\Combat\Bow\HumanM@BowShot01 - Release.fbx` (25 samples, 0.800s source).
 
 ## Authored adaptation
+Ferro now uses the existing original Goblin, Buttafuori, Judoka and Ciro GLB skins from `public/models`, with their original mesh, skin weights and PBR textures. Their files are unchanged. The Dottore retains the existing procedural identity because the user confirmed no rigged Dottore asset is available.
+
+The supplied fifteen FBX clips are additionally baked at24Hz against each skin's original rest matrices, with51 mapped joints including fingers. Per-character local quaternion tracks live in `public/assets/ferro2/skin-*.json`; source hashes and mapping details are recorded in `docs/agent-work/ferro-2/skins-retarget.json`. Archer's animated root centimetre/axis conversion is applied to both bind and sampled transforms. Runtime interpolation and hand IK match the existing shared arcade grips; bounded forearm/hand translation correction (maximum1.65× limb reach) handles the shorter character arms without changing weapon sweeps, damage or collision. Lower-body run/strafe curves remain active while the bow upper body aims. The full skin/clip load and warm draw finish before play is revealed.
+
 Three guard stances, directional strike correction, two-link hand IK, heavy-feint blend, parry deflection/feedback, guard-break/counter push and dodge layers are original procedural/additive work. The packs have no dedicated parry, guard-break, feint or dodge clips. Source hips/chest/legs/hurt/death are also used; these are sampled motion curves, not runtime imported FBX skeletons.
 
 Bow load, hold and release use the authored source clips. The projectile event occurs0.10s into the release and is governed by the same shared state machine as the hand animation.

@@ -1,0 +1,95 @@
+{
+  "errors": [],
+  "mapOptions": [
+    "colosseum",
+    "hell",
+    "geonosis"
+  ],
+  "mapPadVote": {
+    "26d56119-05ac-4bf0-a9f1-3f11eb16fd15": "colosseum"
+  },
+  "start": {
+    "phase": "selection",
+    "views": 2,
+    "players": 2,
+    "loading": false
+  },
+  "skins": [
+    {
+      "character": "goblin",
+      "ready": true,
+      "bones": 65,
+      "meshes": 2,
+      "clips": [
+        "idle",
+        "attackL",
+        "attackR",
+        "attack2H",
+        "polearm",
+        "shield",
+        "hurt",
+        "death",
+        "run",
+        "strafeL",
+        "strafeR",
+        "bowIdle",
+        "bowLoad",
+        "bowHold",
+        "bowRelease"
+      ],
+      "hands": {
+        "right": [
+          0.4517499233838862,
+          1.197874903678894,
+          0.15030123047387178
+        ],
+        "left": [
+          -0.5000005403415173,
+          1.2499994039535522,
+          0.3600006143146288
+        ]
+      }
+    },
+    {
+      "character": "buttafuori",
+      "ready": true,
+      "bones": 65,
+      "meshes": 2,
+      "clips": [
+        "idle",
+        "attackL",
+        "attackR",
+        "attack2H",
+        "polearm",
+        "shield",
+        "hurt",
+        "death",
+        "run",
+        "strafeL",
+        "strafeR",
+        "bowIdle",
+        "bowLoad",
+        "bowHold",
+        "bowRelease"
+      ],
+      "hands": {
+        "right": [
+          0.45174998726795934,
+          1.1978752613067627,
+          0.15030016614912256
+        ],
+        "left": [
+          -0.4999994760167681,
+          1.25,
+          0.36000067819870196
+        ]
+      }
+    }
+  ],
+  "cleanup": {
+    "canvases": 0,
+    "hud": 0,
+    "loading": 0
+  },
+  "status": "passed"
+}
