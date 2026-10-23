@@ -439,8 +439,10 @@ export class FpsScene extends Phaser.Scene {
     if (this.pauseMenu.update()) {
       for (const p of this.players) { this.resetAim(p); this.ctx.input.get(p.id).setUp('aim'); this.ctx.input.get(p.id).setUp('fire'); p.firing = false; p.burstLeft = 0; }
       this.splitScreen?.setPaused(true);
+      if(this.splitScreenCanvas)this.splitScreenCanvas.style.visibility='hidden';
       return;
     }
+    if(this.splitScreenCanvas)this.splitScreenCanvas.style.visibility='visible';
     this.splitScreen?.setPaused(false);
     if (this.finished) return;
     const waiting=this.ctx.mapId==='terminal'?this.ctx.players.filter(p=>!p.bot&&pads.slotOf(p.id)?.state!=='paired'&&this.ctx.input.get(p.id).text('fpsWorldReady')!==String(this.ctx.roundId??0)):[];
@@ -601,7 +603,8 @@ export class FpsScene extends Phaser.Scene {
         if(supportFloor!==null)p.groundY=supportFloor;
       }else {
         const moved=this.nuketown.move({...previous,y:p.groundY},p,height);
-        p.x=moved.x;p.z=moved.z;p.groundY=moved.y??0;supportFloor=p.groundY;
+        p.x=moved.x;p.z=moved.z;supportFloor=this.nuketown.floorAt(p.x,p.z,moved.y??p.groundY);
+        if(supportFloor!==null){if(supportFloor<p.y-.53)p.grounded=false;p.groundY=supportFloor;}else p.grounded=false;
       }
     }
     else {
@@ -616,12 +619,13 @@ export class FpsScene extends Phaser.Scene {
 
     // Only anomalous loss of support triggers recovery; normal jumps/drops keep
     // using the same physical floor and walls as bots and human players.
-    if(this.ctx.mapId==='terminal'&&(!Number.isFinite(p.y)||p.y<(supportFloor===null?p.groundY-.7:-5))){
-      const safe=p.lastSafe??this.pickSpawn(this.players.filter(q=>q.id!==p.id));
+    if(![p.x,p.y,p.z].every(Number.isFinite)||p.y<(supportFloor===null?p.groundY-.7:-5)){
+      const saved=p.lastSafe,valid=saved&&(!this.nuketown||(this.nuketown.isClear(saved.x,saved.z,undefined,saved.y)&&this.nuketown.floorAt(saved.x,saved.z,saved.y)!==null));
+      const safe=valid?saved!:this.pickSpawn(this.players.filter(q=>q.id!==p.id));
       p.x=safe.x;p.z=safe.z;p.y=safe.y??0;p.groundY=p.y;p.verticalSpeed=0;p.grounded=true;
       this.resetAim(p);p.firing=false;p.burstLeft=0;this.ctx.signal(p.id,{type:'recovered'});
     }
-    if(p.grounded&&supportFloor!==null)p.lastSafe={x:p.x,y:p.y,z:p.z};
+    if(p.grounded&&supportFloor!==null&&(!this.nuketown||this.nuketown.isClear(p.x,p.z,undefined,p.y)))p.lastSafe={x:p.x,y:p.y,z:p.z};
     if(p.y < -6){this.collectDebt(p,'CADUTA');return;}
 
     // Ricarica manuale (pulsante): serve per non restare a secco nel momento sbagliato

@@ -1,0 +1,25 @@
+{
+  "doubleSidedFps": true,
+  "fpsWalkAndJumpBothSides": true,
+  "golfSidesAndUnderside": true,
+  "ramp": [
+    {
+      "hz": 30,
+      "peak": 2.2281801321630583,
+      "air": 1.5000000000000013
+    },
+    {
+      "hz": 60,
+      "peak": 2.224039328440017,
+      "air": 1.483333333333333
+    },
+    {
+      "hz": 120,
+      "peak": 2.2241332013725392,
+      "air": 1.4833333333333305
+    }
+  ],
+  "cups": 12,
+  "terminalPropTriangles": 180522,
+  "status": "passed"
+}

@@ -2,6 +2,7 @@ import {FPS_SURFACES} from '../../../shared/fpsCombat';
 import type {FpsSurface} from '../../../shared/fpsCombat';
 import type {Aabb} from '../../../shared/fpsMap';
 import {rayVsAabb} from '../../../shared/fpsMap';
+import {FpsBodyGeometry}from './FpsBodyGeometry';
 import type {FpsArenaPoint as ArenaPoint} from './importedFpsArena';
 interface TerminalData {cell:number;radius:number;bounds:number[];triangles:number[][];nodes:number[][];edges:number[][];spawns:number[];barriers:Aabb[];headroom?:number[]}
 const SIZE=4;
@@ -12,9 +13,11 @@ export class TerminalArena {
   readonly spawns:ArenaPoint[];readonly nav:ArenaPoint[];
   raySurface:FpsSurface='unknown';private surfaceKinds=new Uint8Array();
   private support=new Map<number,boolean>();
+  private bodyProps:FpsBodyGeometry;
   private cells=new Map<string,number[]>();private walk=new Map<string,number[]>();private fields=new Map<number,Int32Array>();
-  static async load():Promise<TerminalArena>{const r=await fetch('/assets/fps/terminal/arena.json');if(!r.ok)throw new Error('Terminal collision HTTP '+r.status);const arena=new TerminalArena(await r.json());try{const s=await fetch('/assets/fps/terminal/surfaces.bin');if(s.ok){const kinds=new Uint8Array(await s.arrayBuffer());if(kinds.length===arena.data.triangles.length)arena.surfaceKinds=kinds;}}catch{/* Cosmetic metadata must not prevent play. */}return arena;}
-  constructor(private data:TerminalData){
+  static async load():Promise<TerminalArena>{const r=await fetch('/assets/fps/terminal/arena.json');if(!r.ok)throw new Error('Terminal collision HTTP '+r.status);const props=await fetch('/assets/fps/terminal/body-props.bin');if(!props.ok)throw new Error('Terminal oggetti solidi HTTP '+props.status);const arena=new TerminalArena(await r.json(),new Float32Array(await props.arrayBuffer()));try{const s=await fetch('/assets/fps/terminal/surfaces.bin');if(s.ok){const kinds=new Uint8Array(await s.arrayBuffer());if(kinds.length===arena.data.triangles.length)arena.surfaceKinds=kinds;}}catch{/* Cosmetic metadata must not prevent play. */}return arena;}
+  constructor(private data:TerminalData,props=new Float32Array()){
+    this.bodyProps=new FpsBodyGeometry(props);
     this.obstacles=data.barriers;this.nav=data.nodes.map(([x,y,z])=>({x,y,z}));this.spawns=data.spawns.map(i=>this.nav[i]);
     if(this.spawns.length<5||!this.nav.length)throw new Error('Terminal: arena incompleta');
     data.triangles.forEach((t,i)=>{for(let x=Math.floor(Math.min(t[0],t[3],t[6])/SIZE);x<=Math.floor(Math.max(t[0],t[3],t[6])/SIZE);x++)for(let z=Math.floor(Math.min(t[2],t[5],t[8])/SIZE);z<=Math.floor(Math.max(t[2],t[5],t[8])/SIZE);z++){const k=x+':'+z,list=this.cells.get(k);if(list)list.push(i);else this.cells.set(k,[i]);}});
@@ -37,16 +40,30 @@ export class TerminalArena {
     for(const i of list){if((this.data.headroom?.[i]??12)<height||!this.supported(i))continue;const n=this.nav[i],s=y===undefined?-(n.y??0):Math.abs((n.y??0)-y);if(s<score){score=s;best=i;}}
     return best;
   }
-  floorAt(x:number,z:number,y?:number):number|null{const i=this.at(x,z,y);return i<0?null:this.nav[i].y??0;}
+  floorAt(x:number,z:number,y?:number):number|null{
+    const i=this.at(x,z,y);let prop:number|null=null;
+    if(y!==undefined){const d=this.propRay(x,y+.54,z,0,-1,0,1.08);if(d<1.08)prop=y+.54-d;}
+    if(i<0)return prop;const floor=this.nav[i].y??0;
+    // A graph cell is only a navigation hint: support must exist under the actual feet.
+    const hit=(xx:number,zz:number)=>this.ray(xx,floor+.54,zz,0,-1,0,1.08)<1.08;
+    const r=this.data.radius;
+    const ground=hit(x,z)||(hit(x-r,z)&&hit(x+r,z))||(hit(x,z-r)&&hit(x,z+r))?floor:null;
+    return prop!==null&&(ground===null||prop>ground)?prop:ground;
+  }
   isClear(x:number,z:number,_radius=this.data.radius,y?:number):boolean{return this.at(x,z,y)>=0;}
   private closest(p:ArenaPoint):number{
     const exact=this.at(p.x,p.z,p.y);if(exact>=0)return exact;
     let best=0,score=Infinity;this.nav.forEach((q,i)=>{const d=(q.x-p.x)**2+(q.z-p.z)**2+((q.y??0)-(p.y??0))**2*4;if(d<score){score=d;best=i;}});return best;
   }
-  headroomAt(x:number,z:number,y:number):number{const i=this.at(x,z,y);return i<0?0:this.data.headroom?.[i]??12;}
+  headroomAt(x:number,z:number,y:number):number{const i=this.at(x,z,y);if(i<0)return 0;const room=this.data.headroom?.[i]??12;return Math.max(0,room-Math.max(0,y-(this.nav[i].y??0)));}
   floorBelow(x:number,z:number,y:number):number|null{
-    let floor:number|null=null;for(const i of this.walk.get(this.key(x,z))??[]){const h=this.nav[i].y??0;if(h<=y&&(floor===null||h>floor)&&this.supported(i))floor=h;}return floor;
+    // Includes the tops of real cover/props, not just pre-sampled walk layers.
+    let floor:number|null=null;for(const i of this.walk.get(this.key(x,z))??[]){const h=this.nav[i].y??0;if(h<=y&&(floor===null||h>floor)&&this.supported(i))floor=h;}
+    const distance=this.propRay(x,y+.005,z,0,-1,0,24);
+    if(distance<24){const prop=y+.005-distance;if(floor===null||prop>floor)floor=prop;}
+    return floor;
   }
+  private propRay(ox:number,oy:number,oz:number,dx:number,dy:number,dz:number,max:number):number{return this.bodyProps.ray(ox,oy,oz,dx,dy,dz,max);}
   /** Air movement uses real supported layers and their body clearance, without
    * requiring a ground-walking edge across a low cover or a stair lip. */
   moveAir(from:ArenaPoint,to:ArenaPoint,height:number):ArenaPoint{
@@ -59,7 +76,7 @@ export class TerminalArena {
       // Swept body samples, only while airborne: missing floor below is a real
       // gap to jump, while walls and cover still stop the body at every step.
       for(const h of [.08,height*.5,height-.03])for(const side of[-r,0,r]){
-        const hit=this.ray(p.x-uz*side,(p.y??0)+h,p.z+ux*side,ux,0,uz,length+r);
+        const hit=Math.min(this.ray(p.x-uz*side,(p.y??0)+h,p.z+ux*side,ux,0,uz,length+r),this.propRay(p.x-uz*side,(p.y??0)+h,p.z+ux*side,ux,0,uz,length+r));
         if(hit<length+r-.008)return false;
       }
       p={x,z,y:p.y};return true;
@@ -67,6 +84,8 @@ export class TerminalArena {
     for(let n=0;n<steps;n++)if(!attempt(p.x+dx,p.z+dz)){attempt(p.x+dx,p.z);attempt(p.x,p.z+dz);}return p;
   }
   move(from:ArenaPoint,to:ArenaPoint,height=1.8):ArenaPoint{
+    const layer=this.at(from.x,from.z,from.y);
+    if(layer>=0&&(from.y??0)-(this.nav[layer].y??0)>.54){const air=this.moveAir(from,to,height);return{...air,y:this.floorBelow(air.x,air.z,(from.y??0)+.01)??from.y};}
     let p={...from};const distance=Math.hypot(to.x-from.x,to.z-from.z),steps=Math.max(1,Math.ceil(distance/.12));const dx=(to.x-from.x)/steps,dz=(to.z-from.z)/steps;
     const attempt=(x:number,z:number):boolean=>{
       const a=this.at(p.x,p.z,p.y);let b=this.at(x,z,p.y);
@@ -77,7 +96,18 @@ export class TerminalArena {
       if(b>=0&&(this.data.headroom?.[b]??12)<Math.min(height,1.05))b=-1;
       if(a<0||b<0||Math.abs((this.nav[b].y??0)-(p.y??0))>.53)return false;
       if(a!==b&&!this.data.edges[a].includes(b))return false;
-      p={x,z,y:this.nav[b].y};return true;
+      // The graph's paired support samples deliberately bridge narrow stair seams.
+      // Final support is checked at the actual feet by the authoritative scene.
+      const ground=this.nav[b].y??0;
+      const length=Math.hypot(x-p.x,z-p.z),ux=(x-p.x)/(length||1),uz=(z-p.z)/(length||1),r=this.data.radius;
+      // The graph was sampled at cell centres. Sweep real body clearance too,
+      // from either direction, so thin cover between centres cannot be crossed.
+      const bottom=Math.max(p.y??0,ground);
+      // Existing graph edges already encode architecture clearance (including
+      // stair risers). Exact sweeps below cover detail props absent from that graph.
+      for(const h of [.55,Math.max(.56,height*.55),height-.03])for(const side of [-r,0,r])
+        if(this.propRay(p.x-uz*side,bottom+h,p.z+ux*side,ux,0,uz,length+r)<length+r-.008)return false;
+      p={x,z,y:ground};return true;
     };
     for(let i=0;i<steps;i++)if(!attempt(p.x+dx,p.z+dz)){attempt(p.x+dx,p.z);attempt(p.x,p.z+dz);}
     return p;

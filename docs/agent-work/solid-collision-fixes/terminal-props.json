@@ -1,0 +1,30 @@
+{
+  "source": "terminal.glb",
+  "triangleCount": 180522,
+  "bytes": 6498792,
+  "objects": {
+    "model/com_potted_plant_large": 2700,
+    "model/com_restaurantkitchentable_5": 1440,
+    "model/ma_industrial_fridge_1": 1304,
+    "model/furniture_bench_plastic": 95804,
+    "model/furniture_chair_airport": 21180,
+    "model/ma_longseat_left_1": 912,
+    "model/ma_longseat_right_1": 912,
+    "model/machinery_railing_single_long01": 2296,
+    "model/machinery_metal_detector": 488,
+    "model/bank_divider_pole": 3124,
+    "model/vehicle_cart_airport": 36504,
+    "model/ma_garbage_bin_1": 728,
+    "model/ma_rectangular_table_1": 1800,
+    "model/ma_square_table_1": 1120,
+    "model/ma_stacking_chair_1": 1740,
+    "model/bank_side_table": 1560,
+    "model/machinery_railing_single_short01": 656,
+    "model/ma_restaurant_chair": 58,
+    "model/cargo_cage_64x96x48": 1704,
+    "model/727_cross_section01": 2992,
+    "model/727_lower_frame": 1260,
+    "model/727_lower_frame2": 240
+  },
+  "geometry": "Exact original transformed triangles; body collision only, shot rules unchanged"
+}

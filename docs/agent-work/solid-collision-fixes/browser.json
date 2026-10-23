@@ -1,0 +1,46 @@
+{
+  "errors": [],
+  "pause": {
+    "mode": "main",
+    "canvas": "hidden",
+    "paused": true,
+    "menuObjects": 12
+  },
+  "recovery": {
+    "before": {
+      "x": -39,
+      "y": 1.02,
+      "z": -70.2,
+      "deaths": 0
+    },
+    "after": {
+      "x": -39,
+      "y": 1.02,
+      "z": -70.2,
+      "deaths": 0
+    },
+    "propsLoaded": 180522
+  },
+  "axes": [
+    {
+      "variant": 1,
+      "meshes": [
+        {
+          "vertices": 780,
+          "material": "ferro2:axe:Material__16"
+        }
+      ],
+      "cosmetic": "Y / △ · CRYSTAL"
+    },
+    {
+      "variant": 2,
+      "meshes": [
+        {
+          "vertices": 10761,
+          "material": "ferro2:volcanic:M_LavaAxe"
+        }
+      ]
+    }
+  ],
+  "status": "passed"
+}

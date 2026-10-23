@@ -1,13 +1,14 @@
 import {GOLF} from './minigolfTypes';
 import type {GolfBall,Course,GolfEvent,Bumper,Point} from './minigolfTypes';
 import {supportAt,heightAt,wallAt,floorAt,nearbyImportedWalls} from './minigolfCourses';
+import {resolveGolfSolids} from './minigolfSolids';
 export const speed=(b:GolfBall):number=>Math.hypot(b.vx,b.vz);
 export function createBall(id:string,p:Point,y=0):GolfBall {
  return {id,x:p.x,z:p.z,y:y+GOLF.radius,vx:0,vy:0,vz:0,grounded:true,done:false,safe:{x:p.x,z:p.z},safeY:y,tee:{x:p.x,z:p.z},teeY:y,readyFor:1,stuckFor:0,
   bounceBoost:1,bounceCount:0,lastContact:null,contacts:new Set(),lastMotion:{x:p.x,z:p.z},travel:0};
 }
 export function restoreBall(b:GolfBall):void {
- Object.assign(b,{...b.safe,y:b.safeY+GOLF.radius,vx:0,vy:0,vz:0,grounded:true,readyFor:0,stuckFor:0,bounceBoost:1});
+ Object.assign(b,{...b.safe,y:b.safeY+GOLF.radius,vx:0,vy:0,vz:0,grounded:true,readyFor:0,stuckFor:0,bounceBoost:1,launchCharge:0});
  b.contacts.clear();b.lastMotion={x:b.x,z:b.z};
 }
 /** Falls restart this hole at the original personal tee; technical unsticks still use safe. */
@@ -22,6 +23,7 @@ export function impulse(b:GolfBall,aim:Point,power:number,mult=1):void {
  const hop=b.grounded?GOLF.maxHopVelocity*Math.pow(Math.max(0,(charge-GOLF.hopThreshold)/(1-GOLF.hopThreshold)),1.5):0;
  const horizontal=Math.sqrt(Math.max(0,v*v-hop*hop));
  b.vx=aim.x/len*horizontal;b.vz=aim.z/len*horizontal;
+ b.launchCharge=charge;
  if(hop>0){b.vy=hop;b.grounded=false;}
  b.readyFor=0;b.bounceCount=0;b.contacts.clear();b.travel=0;
 }
@@ -46,9 +48,15 @@ export function physicsStep(balls:GolfBall[],course:Course,time:number,dt:number
     if(current.motion){const base=course.floors.find(f=>f.motion===current.motion)!;
      const next=floorAt(base,t+h);b.x+=next.x-current.x;b.z+=next.z-current.z;}
    }else {b.grounded=false;b.vy-=GOLF.gravity*h;}
-   const ox=b.x,oz=b.z,oldBottom=b.y-GOLF.radius;b.x+=b.vx*h;b.z+=b.vz*h;b.y+=b.vy*h;b.travel+=Math.hypot(b.x-ox,b.z-oz);
+   const ox=b.x,oz=b.z,oldY=b.y,oldBottom=b.y-GOLF.radius;b.x+=b.vx*h;b.z+=b.vz*h;b.y+=b.vy*h;b.travel+=Math.hypot(b.x-ox,b.z-oz);
    const landing=below(course,b,t+h,Math.max(oldBottom,b.y-GOLF.radius)+GOLF.surfaceSnap);
-   if(landing){const y=heightAt(landing,b)+GOLF.radius;
+   // Carry uphill velocity over the crest; strong shots get a bounded arcade lift.
+   // Flat putts retain the existing shallow hop and every flight still obeys gravity.
+   const uphill=current?(current.slopeX??0)*b.vx+(current.slopeZ??0)*b.vz:0;
+   const nextUphill=landing?(landing.slopeX??0)*b.vx+(landing.slopeZ??0)*b.vz:0;
+   const launch=b.grounded&&uphill>.6&&(!landing||nextUphill<uphill*.65)&&(b.launchCharge??0)>.6;
+   if(launch){b.grounded=false;b.vy=Math.min(8,uphill*1.35+2.6*Math.pow(b.launchCharge??0,2));b.y=Math.max(b.y,oldY)+.002;b.launchCharge=0;}
+   if(landing&&!launch){const y=heightAt(landing,b)+GOLF.radius;
     const follows=b.grounded&&Math.abs(b.y-y)<=GOLF.surfaceSnap;
     const crosses=b.vy<=0&&oldBottom>=y-GOLF.radius-.006&&b.y<=y+.006;
     if(follows||crosses){b.y=y;
@@ -56,6 +64,7 @@ export function physicsStep(balls:GolfBall[],course:Course,time:number,dt:number
      else{b.grounded=true;b.vy=0;}
     }else b.grounded=false;
    }else b.grounded=false;
+   resolveGolfSolids(b,course,t+h,{x:ox,y:oldY,z:oz});
    const contacts=new Set<string>();
    for(const [i,w] of (course.imported?nearbyImportedWalls(course,b):walls.entries())){
     const q=nearest(b,w.a,w.b),dx=b.x-q.x,dz=b.z-q.z,d=Math.hypot(dx,dz),radius=GOLF.radius+w.radius;

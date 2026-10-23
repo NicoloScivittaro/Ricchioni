@@ -1,0 +1,52 @@
+{
+  "errors": [],
+  "damage": {
+    "bot": [
+      0,
+      0
+    ],
+    "human": [
+      0.975385,
+      0
+    ],
+    "background": "radial-gradient(rgba(178, 14, 18, 0) 22%, rgba(178, 14, 18, 0.22) 62%, rgba(160, 6, 11, 0.85) 100%)",
+    "views": [
+      "fixture0",
+      "fixture2"
+    ]
+  },
+  "fade": {
+    "middle": [
+      0.475385,
+      0
+    ],
+    "clear": [
+      0,
+      0
+    ],
+    "snapshot": [
+      0,
+      0.975385
+    ],
+    "repeated": [
+      0,
+      0.538462
+    ],
+    "dead": [
+      0,
+      0
+    ]
+  },
+  "phoneAxe": {
+    "war": "ASCIA DA GUERRA · CAMBIA MODELLO",
+    "volcanic": "ASCIA VULCANICA · CAMBIA MODELLO",
+    "bowHidden": true,
+    "cosmeticEvents": [
+      {
+        "kind": "action",
+        "controlId": "cosmetic"
+      }
+    ]
+  },
+  "status": "passed"
+}

@@ -1,6 +1,6 @@
 import type{InputEvent}from'../../shared/types';
 import type{FerroPacket,FerroState,Warrior}from'../../shared/ferro/types';
-import{WEAPONS,weapon}from'../../shared/ferro/weapons';
+import{WEAPONS,weapon,variantCount}from'../../shared/ferro/weapons';
 import{weaponArt}from'../../shared/ferro/art';
 import{createVirtualJoystick}from'./joystick';
 import type{VirtualJoystick}from'./joystick';
@@ -46,6 +46,8 @@ export function mountFerro(app:HTMLElement,id:string,send:(event:InputEvent)=>vo
    if(state.phase==='selection'){
     root.querySelectorAll<HTMLButtonElement>('[data-weapon]').forEach((button,i)=>{button.classList.toggle('selected',WEAPONS[i].id===own!.weapon);button.setAttribute('aria-pressed',String(WEAPONS[i].id===own!.weapon));button.disabled=!own!.eligible||paused;});
     const detail=root.querySelector('.ferro-phone-detail')!;detail.replaceChildren();const title=document.createElement('b');title.textContent=w.specialName;const desc=document.createElement('p');desc.textContent=w.description+' '+w.specialHint;detail.append(title,desc);
+    const cosmetic=root.querySelector<HTMLButtonElement>('.ferro-phone-cosmetic')!;cosmetic.hidden=variantCount(own.weapon)<2;cosmetic.disabled=!own.eligible||paused;
+    cosmetic.textContent=own.weapon==='axe'?['ASCIA FORGIATA','ASCIA DA GUERRA','ASCIA VULCANICA'][own.variant%3]+' · CAMBIA MODELLO':'CAMBIA MODELLO';
     const confirm=root.querySelector<HTMLButtonElement>('.ferro-phone-confirm')!;confirm.textContent=!own.eligible?'OSSERVI LO SPAREGGIO':own.ready?'PRONTO · ATTENDI GLI ALTRI':'CONFERMA '+w.name;confirm.disabled=own.ready||!own.eligible||paused;
    }else{
     for(const button of root.querySelectorAll<HTMLElement>('[data-dir]')){button.classList.toggle('selected',button.dataset.dir===own.guardDirection);button.setAttribute('aria-pressed',String(button.dataset.dir===own.guardDirection));}

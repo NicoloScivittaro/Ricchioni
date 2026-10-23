@@ -8,7 +8,7 @@ export interface Floor extends Point {w:number;d:number;y:number;slopeX?:number;
 export interface Wall {a:Point;b:Point;y:number;radius:number;height?:number;rotation?:{center:Point;speed:number;phase:number}}
 export interface Bumper extends Point {radius:number;y:number;power:number;expires?:number;owner?:string}
 export interface Course {id:string;name:string;difficulty:'easy'|'medium'|'hard';par:number;maxStrokes:number;tip:string;floors:Floor[];walls:Wall[];bumpers:Bumper[];spawn:Point;hole:Point;holeY:number;waypoints:Point[];color:string;imported?:'dune'|'palme'}
-export interface GolfBall extends Point {id:string;y:number;vx:number;vy:number;vz:number;grounded:boolean;done:boolean;safe:Point;safeY:number;tee:Point;teeY:number;
+export interface GolfBall extends Point {id:string;y:number;vx:number;vy:number;vz:number;grounded:boolean;done:boolean;safe:Point;safeY:number;tee:Point;teeY:number;launchCharge?:number;
   readyFor:number;stuckFor:number;bounceBoost:number;bounceCount:number;lastContact:string|null;contacts:Set<string>;lastMotion:Point;travel:number}
 export interface GolfPlayer {id:string;characterId:string|null;name:string;color:string;bot:boolean;ball:GolfBall;
   aim:Point;charge:number;charging:boolean;blocked:boolean;cancelVersion:number;strokes:number;penalties:number;total:number;totalPenalties:number;

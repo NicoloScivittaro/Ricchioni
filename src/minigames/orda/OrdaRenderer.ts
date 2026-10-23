@@ -23,7 +23,7 @@ import{STATIONS,PERKS,PAP,maxHits,stationPrompt,deposited}from'../../../shared/o
 import{survivorWeapon}from'../../../shared/orda/weapons';
 import{visible,floorAt}from'../../../shared/orda/arena';
 
-interface Rig{id:string;cam:UniversalCamera;vm:FpsViewmodel;panel:HTMLDivElement;identity:HTMLElement;stats:HTMLElement;ammo:HTMLElement;bar:HTMLElement;wallet:HTMLElement;boxPrompt:HTMLElement;boss:HTMLElement;bossFill:HTMLElement;center:HTMLElement;scope:HTMLImageElement;flash:HTMLElement;hit:HTMLElement;weapon:string;hurt:number;hitTime:number;message:string;messageTime:number}
+interface Rig{id:string;cam:UniversalCamera;vm:FpsViewmodel;panel:HTMLDivElement;identity:HTMLElement;stats:HTMLElement;ammo:HTMLElement;bar:HTMLElement;wallet:HTMLElement;boxPrompt:HTMLElement;boss:HTMLElement;bossFill:HTMLElement;center:HTMLElement;scope:HTMLImageElement;flash:HTMLElement;hit:HTMLElement;weapon:string;hurt:number;lastHp?:number;hitTime:number;message:string;messageTime:number}
 interface Visual{kind:EnemyKind;actor:BackActor;lastX:number;lastZ:number;lastAt:number;speed?:number}
 /** One shared scene and actual viewport cameras. Dead viewports become cheap opaque cards. */
 export class OrdaRenderer{
@@ -73,7 +73,8 @@ export class OrdaRenderer{
   .orda-cross{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:25px monospace;color:#f1f2e5cc;text-shadow:0 0 3px #000}
   .orda-ammo{position:absolute;right:13px;bottom:13px;white-space:pre-line;text-align:right;background:#102126cf;border-right:3px solid #c4a064;padding:8px 12px;line-height:1.5;font-weight:bold;text-shadow:0 1px 3px #000}
   .orda-center{position:absolute;left:8%;right:8%;top:31%;text-align:center;white-space:pre-line;font-weight:900;color:#ead5a6;font-size:1.15em;text-shadow:0 2px 8px #000}
-  .orda-scope{position:absolute;inset:0;width:100%;height:100%;opacity:0}.orda-hurt{position:absolute;inset:0;opacity:0;box-shadow:inset 0 0 90px #e84235}
+  .orda-scope{position:absolute;inset:0;width:100%;height:100%;opacity:0}.orda-hurt{position:absolute;inset:0;opacity:0;pointer-events:none;background:radial-gradient(ellipse at center,#b20e1200 22%,#b20e1238 62%,#a0060bd9 100%);box-shadow:inset 0 0 45px #f02b3470,inset 0 0 0 3px #ff655a99}
+  .orda-hurt::after{content:'COLPITO';position:absolute;left:50%;bottom:17%;transform:translateX(-50%);font-size:clamp(11px,1.1vw,18px);font-weight:900;letter-spacing:.15em;color:#ffc4b9;text-shadow:0 1px 5px #630000}
   .orda-hit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:30px Arial;color:#f8e0bd;opacity:0}
   .orda-view.dead{background:linear-gradient(145deg,#0f181e,#1e302f)}.orda-view.dead .orda-cross,.orda-view.dead .orda-ammo,.orda-view.dead .orda-health{display:none}
   .orda-view.dead .orda-center{top:35%;font-size:1.4em}.orda-view.dead .orda-top{background:none}
@@ -138,7 +139,9 @@ export class OrdaRenderer{
    if(p.alive){active.push(r.cam);r.cam.position.set(p.x,p.y+(p.crouch?.95:1.55),p.z);r.cam.rotation.set(p.pitch+r.vm.cameraKickPitch,p.yaw+r.vm.cameraKickYaw,r.vm.cameraKickRoll);r.cam.fov=aimFov(1.05,p.ads,weaponOf(p.weapon).scopeZoom??1.35);
     if(r.weapon!==p.weapon){r.weapon=p.weapon;r.vm.equip(p.weapon);void r.vm.whenReady().then(()=>{if(!this.disposed)this.lightWeapons();});}r.vm.visible=!p.drinking&&!deposited(s,p);this.perks.drink(p,r.cam,1<<(15+this.rigs.indexOf(r)),s.time);r.vm.ads=p.reload>0?0:p.ads;r.vm.reloadInfo=p.weaponReload;r.vm.update(this.paused?0:dt,Math.min(1,p.moving/5.5),0,0,p.reload>0?Math.max(.001,1-p.reload/(p.weaponReload?.duration??survivorWeapon(p).reload)):0,p.dash>0);
    }
-   r.hurt=Math.max(0,r.hurt-dt*2.5);r.hitTime=Math.max(0,r.hitTime-dt);r.messageTime=Math.max(0,r.messageTime-dt);r.flash.style.opacity=String(r.hurt);r.hit.style.opacity=r.hitTime>0?'1':'0';r.scope.style.opacity=String(scopeAlpha(p.weapon==='laser',p.ads,p.alive,p.reload>0));
+   // HP snapshots also cover a missed cosmetic event on a phone connection.
+   if(!this.paused&&r.lastHp!==undefined&&p.hp<r.lastHp)r.hurt=1;
+   r.lastHp=p.hp;r.hurt=Math.max(0,r.hurt-(this.paused?0:dt)/.65);r.hitTime=Math.max(0,r.hitTime-dt);r.messageTime=Math.max(0,r.messageTime-dt);r.flash.style.opacity=String(p.alive?r.hurt:0);r.hit.style.opacity=r.hitTime>0?'1':'0';r.scope.style.opacity=String(scopeAlpha(p.weapon==='laser',p.ads,p.alive,p.reload>0));
   }
   this.scene.activeCameras=active;
   if(now-this.hudAt>1/15){this.hudAt=now;this.hud(s);}
@@ -171,7 +174,7 @@ export class OrdaRenderer{
   if(e.text==='punch-impact'||e.text==='monster-impact')monsterSfx('impact',0,true);
   if(e.type==='shot'){r?.vm.fire();if(e.weapon!=='bombarda'&&e.weapon!=='wunderwaffe'){const f=this.fx.find(f=>f.kind==='trace'&&f.life<=0);if(f&&e.x!==undefined&&e.tx!==undefined){const from=new Vector3(e.x,e.y!,e.z!),to=new Vector3(e.tx,e.ty!,e.tz!);f.mesh.position.copyFrom(Vector3.Center(from,to));f.mesh.lookAt(to);f.mesh.scaling.z=Vector3.Distance(from,to);f.life=f.max=.055;f.mesh.setEnabled(true);}}}
   if(e.type==='hit'&&r){r.hitTime=.12;if(e.text){r.message='+50 PUNTI · ELIMINATO';r.messageTime=.6;}}
-  if(e.type==='hurt'&&r)r.hurt=.75;
+  if(e.type==='hurt'&&r)r.hurt=1;
   if((e.type==='supply'||e.type==='box'||e.type==='perk'||e.type==='pap')&&r){r.message=e.text??'';r.messageTime=2;}
   if(e.type==='wave'||e.type==='boss'||e.type==='death')for(const rig of this.rigs){rig.message=e.text??(e.type==='boss'?'IL MACELLAIO È ARRIVATO':`ONDATA ${e.value}`);rig.messageTime=2;}
   if(e.type==='lightning'&&e.x!==undefined&&e.tx!==undefined){const f=this.lightningFx.find(f=>f.life<=0);if(f){const from=new Vector3(e.x,e.y!,e.z!),to=new Vector3(e.tx,e.ty!,e.tz!);f.mesh.position.copyFrom(Vector3.Center(from,to));f.mesh.lookAt(to);f.mesh.scaling.z=Vector3.Distance(from,to);f.mesh.rotation.z=Math.random()*6;f.life=.22;f.mesh.setEnabled(true);}}
